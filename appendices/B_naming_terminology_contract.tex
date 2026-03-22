@@ -1,0 +1,84 @@
+\section{Naming and terminology contract}
+
+This appendix records the public naming and terminology layer used by the addendum. It states the naming and serialization contract carried by the same native ledgers.
+
+\subsection{Primary body terms}
+Primary body terms are: active cut, frame, window, present identity, predecessor trace, successor horizon, AO field, wavelet, step flux, window current, chirality, push/pull, effective charge proxy, torsional tension, torsional loss, cadence, dominant return class, radiating/export window, and emitted/exported packet witness.
+
+\subsection{AO field and reported family naming}
+The public field name in this addendum is \emph{AO field}. When a field instance is reported together with its wavelet class, the field name remains AO field and the class name is attached separately through the naming rules below.
+
+\subsection{Traverser / closure naming rule}
+The suffix \texttt{-on} denotes a traverser class. The suffix \texttt{-ad} denotes a closure or seat class. Traverser precedes closure in composed names.
+
+This yields the public family/subclass pattern:
+\begin{itemize}[leftmargin=1.5em]
+  \item \emph{duon} / \emph{duad}
+  \item \emph{tetron} / \emph{tetrad}
+\end{itemize}
+
+\subsection{Public family inventory}
+The public families admitted in this addendum are:
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{duon}: public two-seat traverser family.
+  \item \textbf{duad}: canonical closed-seat duon subclass.
+  \item \textbf{tetron}: public four-seat traverser family.
+  \item \textbf{tetrad}: canonical locked tetron subclass.
+\end{itemize}
+
+\subsection{WaveletSpec structural key}
+When an explicit serialization string is required, the canonical ASCII structural key is
+\[
+[O\!-]\langle \texttt{type}\rangle:\langle \texttt{loop}\rangle:\langle \texttt{occ}\rangle:\langle \texttt{Lout}\rangle
+\]
+with optional named properties appended after a property separator. In prose:
+\begin{itemize}[leftmargin=1.5em]
+  \item \texttt{type} is one of \texttt{duon}, \texttt{duad}, \texttt{tetron}, \texttt{tetrad};
+  \item \texttt{loop} is the loop index on the declared chart;
+  \item \texttt{occ} is the seat occupancy on the cited readout;
+  \item \texttt{Lout} is the outer reported length as a decimal integer.
+\end{itemize}
+
+\subsection{Chirality prefix rule}
+The unprefixed structural key denotes an $\alpha$-field instance. The prefixed form
+\texttt{O-}\emph{type}\texttt{:...}
+denotes an $\Omega$-field instance. Dwell/traffic is never serialized as a third chirality value.
+
+\subsection{Properties namespace}
+Named properties may be appended after the structural key as a report namespace. Typical properties include reported values such as $q_{\mathrm{eff}}$, push/pull polarity, chirality tag, polyphase or cadence summaries, radiation/export qualifiers, shell indices, and attenuation support.
+
+\subsection{Public examples}
+Examples of public tags admitted by this addendum are:
+\begin{itemize}[leftmargin=1.5em]
+  \item \texttt{duon:2:1:7}
+  \item \texttt{O-duon:2:1:7}
+  \item \texttt{duad:2:2:7}
+  \item \texttt{O-duad:2:2:7}
+  \item \texttt{tetron:1:2:6}
+  \item \texttt{tetron:1:2:8}
+  \item \texttt{tetron:1:2:10}
+  \item \texttt{tetron:3:3:6}
+  \item \texttt{tetrad:3:4:6}
+  \item \texttt{O-tetron:3:3:6}
+  \item \texttt{O-tetrad:3:4:6}
+\end{itemize}
+If named properties are attached, they remain attached to the cited native report row under the same naming contract.
+
+\subsection{AO field families and structural subclasses}
+\paragraph{Two-seat family.} The two-seat traverser family is recorded by the public names \emph{duon} and \emph{duad}. The open-seat member is written \texttt{duon:2:1:<Lout>[::props]}; the closed-seat member is written \texttt{duad:2:2:<Lout>[::props]}. Effective-charge, push/pull, polyphase, cadence, and radiation/export properties attach only through the named property namespace.
+
+\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. The compact addendum preserves the following structural variants in the naming contract: \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6}. These structural variants are recorded in the public naming contract and are used by the cited native rows and operators below.
+
+\paragraph{Confinement and isotope labels.} Confinement names the native short-window persistence class defined on the cited tetron/tetrad ledgers. Isotope labels, when reported later, name stability subclasses on those same cited ledgers.
+
+\subsection{Push / pull, chirality, and polyphase property namespace}
+When properties are attached to a structural key, the recommended namespace includes reported quantities such as \texttt{qeff}, push/pull polarity, chirality tag, polyphase summaries, cadence witnesses, and radiation/export qualifiers. O-prefixed field tags (for example \texttt{O-duon}, \texttt{O-tetron}, \texttt{O-tetrad}) are part of this public report contract.
+
+\subsection{Shell, ladder, and index syntax}
+Only the shell and ladder syntax needed by the examples and the native operator reports is admitted here. This includes shell indices, rung support mass, and attenuation exponents where cited. The larger manual lineage may record further serialization layers on the same reported families.
+
+\subsection{Optional overlays}
+\emph{Dion} and \emph{tetraon} are optional overlay aliases available under the same naming contract.
+
+\subsection{Local AOD report objects}
+In this addendum, \emph{frame} and \emph{window} are declared local AOD report objects. \emph{Step flux} is a one-frame quantity and \emph{window current} is the derived window-level trace term used in the cited native rows.
