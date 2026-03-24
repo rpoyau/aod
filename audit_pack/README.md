@@ -19,4 +19,4 @@ Scope
 - trit/put primitive
 - putz derived
 - no SI/application mappings
-- downstream Example E10 remains in application_artifacts/ because it is part of Supplement B rather than Supplement A
+- downstream Example E10 remains in supplement-b-artifacts/ because it is part of Supplement B rather than Supplement A

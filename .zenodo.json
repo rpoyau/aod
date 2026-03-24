@@ -1,0 +1,33 @@
+{
+  "title": "Alpha↔Omega Temporal Dynamics (AOD): The Hidden Temporal Dynamics of Stokes",
+  "description": "Addendum to Axiomatic Fundamentalism Calculus (AFC): native cut calculus, compact native derivation shell, native supplements, and machine-readable audit pack. Release bundle built from the tagged repository state.",
+  "upload_type": "publication",
+  "publication_type": "report",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "language": "eng",
+  "version": "${TAG}",
+  "keywords": [
+    "axiomatic fundamentalism",
+    "AFC",
+    "AOD",
+    "Stokes",
+    "native cut calculus",
+    "temporal dynamics"
+  ],
+  "creators": [
+    {
+      "name": "Reginald, P.",
+      "orcid": "0009-0007-8303-8627"
+    }
+  ],
+  "notes": "Source repository: ${REPO_URL}",
+  "related_identifiers": [
+    {
+      "identifier": "${REPO_URL}",
+      "relation": "isSupplementTo",
+      "scheme": "url",
+      "resource_type": "software"
+    }
+  ]
+}
