@@ -34,7 +34,13 @@ This repository contains the release package for the AOD addendum in AFC/AF form
 
 ## Collabs
 
-See `collabs/README.md` for the notebook index.
+[![Collab E1–E3](https://img.shields.io/badge/collab-E1--E3-blue)](collabs/E1-E3.ipynb)
+[![Collab E4–E6](https://img.shields.io/badge/collab-E4--E6-blue)](collabs/E4-E6.ipynb)
+[![Collab E7–E9](https://img.shields.io/badge/collab-E7--E9-blue)](collabs/E7-E9-bindings.ipynb)
+[![Collab E10–E11D](https://img.shields.io/badge/collab-E10--E11D-blue)](collabs/E10-E11D.ipynb)
+
+See `collabs/README.md` for the full notebook index and routing notes.
+
 
 ## Build and release
 
