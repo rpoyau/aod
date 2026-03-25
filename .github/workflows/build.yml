@@ -1,0 +1,149 @@
+name: Build PDFs and release bundle
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '**/*.tex'
+      - '**/*.bib'
+      - 'sections/**'
+      - 'consequences/**'
+      - 'examples/**'
+      - 'appendices/**'
+      - 'collabs/**'
+      - 'audit_pack/**'
+      - 'supplement-b-artifacts/**'
+      - 'scripts/**'
+      - '.zenodo.json'
+      - '.zenodo_doi'
+      - 'README.md'
+      - '.github/workflows/build.yml'
+  pull_request:
+    paths:
+      - '**/*.tex'
+      - '**/*.bib'
+      - 'sections/**'
+      - 'consequences/**'
+      - 'examples/**'
+      - 'appendices/**'
+      - 'collabs/**'
+      - 'audit_pack/**'
+      - 'supplement-b-artifacts/**'
+      - 'scripts/**'
+      - '.zenodo.json'
+      - '.zenodo_doi'
+      - 'README.md'
+      - '.github/workflows/build.yml'
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      BUNDLE_PREFIX: axiomatic-fundamentalism
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install TinyTeX and TeX packages
+        shell: bash
+        run: |
+          set -euxo pipefail
+          wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/bin:$PATH"
+          tlmgr update --self --all
+          for pkg in latexmk xetex geometry amsmath amsfonts mathtools microtype enumitem siunitx booktabs pgf hyperref cleveref placeins xcolor fontspec; do
+            tlmgr install "$pkg"
+          done
+
+      - name: Compile PDFs
+        shell: bash
+        run: |
+          set -euxo pipefail
+          export PATH="$HOME/bin:$PATH"
+          latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+          latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-a.tex
+          latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-b.tex
+
+      - name: Build curated release bundle
+        shell: bash
+        env:
+          TAG: ${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
+          BUNDLE_PREFIX: ${{ github.event.repository.name }}
+        run: |
+          set -euxo pipefail
+          python scripts/build_release_bundle.py --tag "$TAG" --outdir dist --bundle-prefix "$BUNDLE_PREFIX"
+          cd audit_pack && zip -qr ../dist/native-audit-pack.zip .
+          echo "BUNDLE_PATH=$(ls -1 dist/*.zip | grep -v 'native-audit-pack.zip' | head -n 1)" >> "$GITHUB_ENV"
+
+      - name: Upload compiled PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdfs
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            main.pdf
+            supplement-a.pdf
+            supplement-b.pdf
+
+      - name: Upload release bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-bundle
+          if-no-files-found: error
+          retention-days: 30
+          path: ${{ env.BUNDLE_PATH }}
+
+      - name: Upload native audit pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-audit-pack
+          if-no-files-found: error
+          retention-days: 30
+          path: dist/native-audit-pack.zip
+
+      - name: Attach PDFs and bundles to GitHub release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euxo pipefail
+          gh release upload "${{ github.ref_name }}"             main.pdf             supplement-a.pdf             supplement-b.pdf             "$BUNDLE_PATH"             dist/native-audit-pack.zip             --clobber
+
+      - name: Comment on pull request with artifact names
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const issue_number = context.issue.number;
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number,
+              body: [
+                '📄 **Build artifacts ready**',
+                '',
+                '- Artifact: `pdfs` (contains `main.pdf`, `supplement-a.pdf`, `supplement-b.pdf`)',
+                '- Artifact: `release-bundle` (repo-root ZIP for GitHub release / Zenodo GitHub integration)',
+                '- Artifact: `native-audit-pack` (zipped native audit CSVs and verifier files)',
+                '',
+                'Open the workflow run and download the artifacts from the **Artifacts** section.'
+              ].join('\n')
+            });
