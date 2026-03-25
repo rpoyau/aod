@@ -1,13 +1,12 @@
-# Alpha↔Omega Dynamics (AOD): The Hidden Temporal Dynamics of Stokes
+# Alpha↔Omega Temporal Dynamics (AOD): The Hidden Temporal Dynamics of Stokes
 ## Addendum to AFC Stokes
 
 [![Build PDFs and release bundle](https://github.com/OWNER/REPO/actions/workflows/build.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/build.yml)
-[![Zenodo release bundle deposit](https://github.com/OWNER/REPO/actions/workflows/release-zenodo.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/release-zenodo.yml)
 [![Zenodo DOI](https://zenodo.org/badge/DOI/DOI_PLACEHOLDER.svg)](https://doi.org/DOI_PLACEHOLDER)
 
-Replace `OWNER/REPO` and `DOI_PLACEHOLDER` after first release.
+Replace `OWNER/REPO` and `DOI_PLACEHOLDER` after the first Zenodo archive.
 
-This repository contains the release package for the AOD addendum in AFC/AF form.
+This repository contains the release package for the AOD addendum in AFC/AF form. Enable the repository in Zenodo’s GitHub integration, publish a GitHub release, and Zenodo will archive that release using the metadata in `.zenodo.json`.
 
 ## Entry points
 
@@ -27,10 +26,10 @@ This repository contains the release package for the AOD addendum in AFC/AF form
 - `collabs/` — executable notebooks for review and reproducibility
 - `audit_pack/` — native machine-readable audit rows and verifier files
 - `supplement-b-artifacts/` — downstream example data for Supplement B
-- `.github/workflows/` — GitHub Actions build and Zenodo deposit workflows
-- `scripts/` — release-bundle and Zenodo helper scripts
-- `.zenodo.json` — Zenodo metadata template
-- `.zenodo_doi` — concept DOI file (filled after first successful publish)
+- `.github/workflows/` — GitHub Actions build workflow
+- `scripts/` — release-bundle helper script
+- `.zenodo.json` — Zenodo metadata file used by GitHub/Zenodo archiving
+- `.zenodo_doi` — concept DOI reference file
 
 ## Collabs
 
@@ -41,30 +40,16 @@ This repository contains the release package for the AOD addendum in AFC/AF form
 
 See `collabs/README.md` for the full notebook index and routing notes.
 
-
 ## Build and release
 
-### Build workflow
+The single workflow `.github/workflows/build.yml`:
+- compiles `main.tex`, `supplement-a.tex`, and `supplement-b.tex`
+- uploads the compiled PDFs as workflow artifacts
+- builds a curated repo-root release bundle ZIP
+- uploads a zipped native audit pack
+- on published GitHub releases, attaches the PDFs and ZIP assets to the release
 
-`build.yml` compiles the PDFs on push/PR/manual dispatch and uploads:
-- compiled PDFs
-- native audit pack
-- repo-root release bundle ZIP
-
-### Zenodo workflow
-
-`release-zenodo.yml` rebuilds from the tagged state, creates the release bundle, uploads it to the GitHub Release, and deposits the same bundle to Zenodo (sandbox or production).
-
-## Zenodo metadata files
-
-- `.zenodo.json` — metadata template used by the release workflow
-- `.zenodo_doi` — concept DOI file; populated after first successful publish
-
-## Secrets
-
-Set these repository secrets before using the release workflow:
-- `ZENODO_TOKEN`
-- `ZENODO_SANDBOX_TOKEN`
+Zenodo GitHub integration then archives the published GitHub release automatically for repositories enabled in Zenodo.
 
 ## Notes
 
