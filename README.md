@@ -1,12 +1,12 @@
-# Alpha↔Omega Temporal Dynamics (AOD): The Hidden Temporal Dynamics of Stokes
-## Addendum to AFC Stokes
+# Alpha↔Omega Dynamics (AOD)
+## The Hidden Temporal Dynamics of Stokes
 
 [![Build PDFs and release bundle](https://github.com/OWNER/REPO/actions/workflows/build.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/build.yml)
 [![Zenodo DOI](https://zenodo.org/badge/DOI/DOI_PLACEHOLDER.svg)](https://doi.org/DOI_PLACEHOLDER)
 
 Replace `OWNER/REPO` and `DOI_PLACEHOLDER` after the first Zenodo archive.
 
-This repository contains the release package for the AOD addendum in AFC/AF form. Enable the repository in Zenodo’s GitHub integration, publish a GitHub release, and Zenodo will archive that release using the metadata in `.zenodo.json`. The GitHub workflow builds the PDFs, the curated release bundle, and the native audit pack, then attaches them to the GitHub Release.
+This repository contains the release package for the AOD note in AFC/AF form. Enable the repository in Zenodo’s GitHub integration, publish a GitHub release, and Zenodo will archive that release using the metadata in `.zenodo.json`. The GitHub workflow builds the PDFs, the curated release bundle, and the native audit pack, then attaches them to the GitHub Release.
 
 ## Entry points
 

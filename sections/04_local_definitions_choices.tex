@@ -1,9 +1,9 @@
 \section{Local definitions and addendum choices}
 
 \subsection{Memory State, active cut, and present identity}
-\begin{definition}[Memory State, inherited]
+\begin{definition}[Memory State]
 \label{def:memory-state}
-The inherited Memory State is the AFC object
+The Memory State is the AFC object
 \[
 p:V\to[0,1], \qquad \sum_{i\in V} p(i)=1.
 \]
@@ -106,7 +106,7 @@ The successor horizon is the admissible family of next continuations generated f
 
 \begin{choice}[Isotropic ignorance]
 \label{choice:isotropic-ignorance}
-The inherited AFC isotropic-ignorance posture is used unless an explicit local refinement is declared.
+The AFC isotropic-ignorance posture is used unless an explicit local refinement is declared.
 \end{choice}
 
 \begin{choice}[Anisotropic knowledge]
@@ -114,15 +114,15 @@ The inherited AFC isotropic-ignorance posture is used unless an explicit local r
 Anisotropic knowledge is a declared local refinement of distinctions or support on the active cut.
 \end{choice}
 
-\subsection{Inherited support and canonical Q4 chart}
-\begin{choice}[Inherited support]
+\subsection{Support and canonical Q4 chart}
+\begin{choice}[Support law]
 \label{choice:inherited-support}
-The support law used below is the inherited AFC support law on the declared readout family.
+The support law used below is the AFC support law on the declared readout family.
 \end{choice}
 
 \begin{choice}[Canonical Q4 chart]
 \label{choice:q4-chart}
-At the chosen local resolution, the inherited induced support is read on a canonical Q4 chart.
+At the chosen local resolution, the induced support is read on a canonical Q4 chart.
 \end{choice}
 
 \begin{choice}[Axis-lift chart policy]
@@ -131,7 +131,7 @@ A declared axis-lift map associates each active ternary step with a signed toggl
 \[
 \pi_{\mathrm{axis}}:(X_t,X_{t+1})\mapsto \Delta x_t\in\{\pm e_1,\pm e_2,\pm e_3,\pm e_4\},
 \]
-producing a Q4 chart representation of the inherited support. The chart is the declared report form used below.
+producing a Q4 chart representation of the support law used below. The chart is the declared report form used below.
 \end{choice}
 
 \begin{definition}[Q4 cell basis]
@@ -142,7 +142,7 @@ On the canonical chart the basic cell types are the Q4 vertices, Hamming-1 edges
 \subsection{Loop-witness discipline and even-cycle typing}
 \begin{definition}[Loop witness]
 \label{def:loop-witness}
-A loop witness is a closure witness on the inherited support.
+A loop witness is a closure witness on the induced support.
 \end{definition}
 
 \begin{definition}[Two-cycle return, four-cycle enclosure, and repeating closure signature]
