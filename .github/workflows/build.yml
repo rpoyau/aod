@@ -78,7 +78,8 @@ jobs:
           echo "$HOME/bin" >> "$GITHUB_PATH"
           export PATH="$HOME/bin:$PATH"
           tlmgr update --self --all
-          for pkg in latexmk xetex geometry amsmath amsfonts amssymb mathtools microtype enumitem siunitx booktabs pgf hyperref cleveref placeins xcolor fontspec tools; do
+          # amssymb.sty is provided by the amsfonts package in TeX Live; do not install a non-existent amssymb package.
+          for pkg in latexmk xetex geometry amsmath amsfonts mathtools microtype enumitem siunitx booktabs pgf hyperref cleveref placeins xcolor fontspec tools; do
             tlmgr install "$pkg"
           done
 
