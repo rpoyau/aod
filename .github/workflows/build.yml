@@ -1,4 +1,4 @@
-name: Build PDFs and release bundle
+name: Build PDFs and release assets
 
 on:
   workflow_dispatch:
@@ -44,6 +44,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -65,8 +66,9 @@ jobs:
           else
             TAG="${GITHUB_SHA}"
           fi
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
-          echo "bundle_prefix=${GITHUB_REPOSITORY#*/}" >> "$GITHUB_OUTPUT"
+          echo "bundle_prefix=${REPO_NAME}" >> "$GITHUB_OUTPUT"
 
       - name: Install TinyTeX and TeX packages
         shell: bash
@@ -76,7 +78,7 @@ jobs:
           echo "$HOME/bin" >> "$GITHUB_PATH"
           export PATH="$HOME/bin:$PATH"
           tlmgr update --self --all
-          for pkg in latexmk xetex geometry amsmath amsfonts mathtools microtype enumitem siunitx booktabs pgf hyperref cleveref placeins xcolor fontspec; do
+          for pkg in latexmk xetex geometry amsmath amsfonts amssymb mathtools microtype enumitem siunitx booktabs pgf hyperref cleveref placeins xcolor fontspec tools; do
             tlmgr install "$pkg"
           done
 
@@ -89,15 +91,18 @@ jobs:
           latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-a.tex
           latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-b.tex
 
-      - name: Build curated release bundle
+      - name: Build curated release bundle and audit pack
         id: bundle
         shell: bash
         run: |
           set -euxo pipefail
           mkdir -p dist
-          BUNDLE_PATH="$(python scripts/build_release_bundle.py --tag '${{ steps.vars.outputs.tag }}' --outdir dist --bundle-prefix '${{ steps.vars.outputs.bundle_prefix }}')"
-          (cd audit_pack && zip -qr ../dist/native-audit-pack.zip .)
+          BUNDLE_PATH="$(python scripts/build_release_bundle.py --tag "${{ steps.vars.outputs.tag }}" --outdir dist --bundle-prefix "${{ steps.vars.outputs.bundle_prefix }}")"
           test -f "$BUNDLE_PATH"
+          (
+            cd audit_pack
+            zip -qr ../dist/native-audit-pack.zip .
+          )
           test -f dist/native-audit-pack.zip
           echo "bundle_path=$BUNDLE_PATH" >> "$GITHUB_OUTPUT"
           echo "audit_pack_path=dist/native-audit-pack.zip" >> "$GITHUB_OUTPUT"
