@@ -44,8 +44,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    env:
-      BUNDLE_PREFIX: axiomatic-fundamentalism
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -56,6 +54,19 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Resolve release variables
+        id: vars
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
+            TAG="${GITHUB_REF_NAME}"
+          else
+            TAG="${GITHUB_SHA}"
+          fi
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "bundle_prefix=${GITHUB_REPOSITORY#*/}" >> "$GITHUB_OUTPUT"
 
       - name: Install TinyTeX and TeX packages
         shell: bash
@@ -79,15 +90,17 @@ jobs:
           latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-b.tex
 
       - name: Build curated release bundle
+        id: bundle
         shell: bash
-        env:
-          TAG: ${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
-          BUNDLE_PREFIX: ${{ github.event.repository.name }}
         run: |
           set -euxo pipefail
-          python scripts/build_release_bundle.py --tag "$TAG" --outdir dist --bundle-prefix "$BUNDLE_PREFIX"
-          cd audit_pack && zip -qr ../dist/native-audit-pack.zip .
-          echo "BUNDLE_PATH=$(ls -1 dist/*.zip | grep -v 'native-audit-pack.zip' | head -n 1)" >> "$GITHUB_ENV"
+          mkdir -p dist
+          BUNDLE_PATH="$(python scripts/build_release_bundle.py --tag '${{ steps.vars.outputs.tag }}' --outdir dist --bundle-prefix '${{ steps.vars.outputs.bundle_prefix }}')"
+          (cd audit_pack && zip -qr ../dist/native-audit-pack.zip .)
+          test -f "$BUNDLE_PATH"
+          test -f dist/native-audit-pack.zip
+          echo "bundle_path=$BUNDLE_PATH" >> "$GITHUB_OUTPUT"
+          echo "audit_pack_path=dist/native-audit-pack.zip" >> "$GITHUB_OUTPUT"
 
       - name: Upload compiled PDFs
         uses: actions/upload-artifact@v4
@@ -106,7 +119,7 @@ jobs:
           name: release-bundle
           if-no-files-found: error
           retention-days: 30
-          path: ${{ env.BUNDLE_PATH }}
+          path: ${{ steps.bundle.outputs.bundle_path }}
 
       - name: Upload native audit pack
         uses: actions/upload-artifact@v4
@@ -114,7 +127,7 @@ jobs:
           name: native-audit-pack
           if-no-files-found: error
           retention-days: 30
-          path: dist/native-audit-pack.zip
+          path: ${{ steps.bundle.outputs.audit_pack_path }}
 
       - name: Attach PDFs and bundles to GitHub release
         if: github.event_name == 'release'
@@ -123,7 +136,13 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-          gh release upload "${{ github.ref_name }}"             main.pdf             supplement-a.pdf             supplement-b.pdf             "$BUNDLE_PATH"             dist/native-audit-pack.zip             --clobber
+          gh release upload "${{ github.ref_name }}" \
+            main.pdf \
+            supplement-a.pdf \
+            supplement-b.pdf \
+            "${{ steps.bundle.outputs.bundle_path }}" \
+            "${{ steps.bundle.outputs.audit_pack_path }}" \
+            --clobber
 
       - name: Comment on pull request with artifact names
         if: github.event_name == 'pull_request'
