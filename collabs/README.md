@@ -1,19 +1,11 @@
 # collabs
 
-Executable collaboration notebooks for review, reproducibility, and native operator checks for the AOD addendum package.
+Executable collaboration notebooks for native AOD operator checks and worked examples in the release package.
 
-[![Status](https://img.shields.io/badge/status-review-blue)](#)
+[![Status](https://img.shields.io/badge/status-release-green)](#)
 [![Protocol](https://img.shields.io/badge/protocol-AFC%20%2F%20AF-black)](#)
 [![Gauge](https://img.shields.io/badge/gauge-trit%2Fput%20primitive%20%E2%86%92%20putz%20derived-purple)](#)
 [![Notebooks](https://img.shields.io/badge/notebooks-4-green)](#)
-
-## Zenodo / DOI
-
-- **AF protocol:** `TBD`
-- **AFC Stokes:** `TBD`
-- **AOD addendum (main note):** `TBD`
-- **Native supplement A:** `TBD`
-- **Application / SI supplement B:** `TBD`
 
 ## Notebook index
 
@@ -34,15 +26,31 @@ Scope: field-property schema, short-window confinement row (**E8**), duon/duad f
 ### 4. `E10-E11D.ipynb`
 Scope: recurrent ring / “neural net” rendering (**E10**) and downstream decimal / optics-style rendering (**E11D**).
 
+
+## Visual outputs
+
+- `E1-E3.ipynb` — Q4 / active-cut / closure visuals
+- `E4-E6.ipynb` — native rest-channel tables, $B^*$ ladder figure, collision/export diagram
+- `E7-E9-bindings.ipynb` — confinement / family-row / shell-signature visuals
+- `E10-E11D.ipynb` — recurrent-ring rendering and downstream optics/diagrammatic visuals
+
+## Verification map
+
+| Regime | Native examples | Notebook |
+|---|---|---|
+| theorem-line sanity | E1–E3 | `E1-E3.ipynb` |
+| native rest / $B^*$ / collision | E4–E6 | `E4-E6.ipynb` |
+| confinement / nucleus-facing / family audit | E7–E9 | `E7-E9-bindings.ipynb` |
+| recurrent-ring / downstream rendering | E10–E11D | `E10-E11D.ipynb` |
+
 ## Routing
 
 - **Main note:** compact native derivation shell
 - **Supplement A:** native worked examples and figure witnesses
 - **Supplement B:** downstream verification / SI / application companion
-- **collabs/**: executable notebook layer for review and reproducibility
+- **collabs/**: executable notebook layer for native AOD tests
 
 ## Notes
 
 - Native rows remain **trit/put primitive** and **putz derived**.
 - Downstream labels, SI parity, and decimal renderings are attached only after the native row is fixed.
-- Replace the `TBD` DOI fields above with the final Zenodo links at release.

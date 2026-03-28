@@ -1,7 +1,6 @@
-# Application artifacts
+# Supplement B artifacts
 
-These CSV files support downstream Supplement B renderings only.
-They are not theorem-space premises.
+These CSV files support the downstream renderings in Supplement B.
 
 Included:
 - E10 recurrent ring / recurrent-network rendering

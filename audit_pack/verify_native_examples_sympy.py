@@ -29,7 +29,6 @@ with open(base/'E4_native_rest_channel.csv', newline='') as f:
 with open(base/'E5_bstar_ladder.csv', newline='') as f:
     for row in csv.DictReader(f):
         samples=[int(x) for x in row['samples'].split(';')]
-        cnt=sp.multiset_permutations if False else None
         from collections import Counter
         c=Counter(samples)
         bstar=max(c.items(), key=lambda kv:(kv[1], -samples.index(kv[0])))[0]
@@ -56,13 +55,30 @@ for name in ['E8_short_window_confinement.csv','E9_duon_duad_family.csv']:
     assert (base/name).exists()
     lines.append(f"{name}: present")
 
-# E11 existence and q_eff consistency
+# E11 existence and q_eff_hat consistency
 with open(base/'E11_open_seat_wavelet_summary.csv', newline='') as f:
     rows=list(csv.DictReader(f))
 assert len(rows) > 0
+q=[]
+qh=[]
 for row in rows:
-    assert sp.simplify(sp.sympify(row['q_eff'])-sp.sympify(row['q_eff_hat']))==0 or True
-lines.append('E11: native open-seat wavelet rows present')
+    q_val=sp.simplify(sp.sympify(row['q_eff']))
+    qh_val=sp.simplify(sp.sympify(row['q_eff_hat']))
+    q.append(q_val); qh.append(qh_val)
+    # q_eff_hat is a normalized proxy: bounded, sign-consistent, and endpoint-anchored.
+    assert qh_val >= -1 and qh_val <= 1
+    if q_val > 0:
+        assert qh_val > 0
+    elif q_val < 0:
+        assert qh_val < 0
+    else:
+        assert qh_val > -1 and qh_val < 1
+# monotone increase with q_eff ordering
+assert all(qh[i] < qh[i+1] for i in range(len(qh)-1))
+# exact endpoint anchoring
+assert sp.simplify(qh[0] + 1) == 0
+assert sp.simplify(qh[-1] - 1) == 0
+lines.append('E11: native open-seat wavelet rows present; q_eff_hat bounds/sign/monotonicity/endpoints verified')
 
 report='\n'.join(lines)
 print(report)
