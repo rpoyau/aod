@@ -1,0 +1,2 @@
+row_id,topology,u_loss_avg_trit_per_put,B_star_mode_put,B_star_support,Lambda_hat_ticks,E_rest_putz_derived,ck_mismatch_frob,stokes_residual,T_total,seed
+E10.N1,3-node ring,0.48877777777777776,2,0.5439034540158135,3,0.08885345920654222,0.06385258232192592,0.0,9000,20260227

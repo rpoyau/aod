@@ -1,0 +1,64 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue,pdfauthor={Reginald Poyau},pdftitle={Alpha↔Omega Dynamics: The Hidden Temporal Dynamics of Stokes}}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+
+\newtheorem{choice}{Choice}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{consequence}{Consequence}[section]
+\newtheorem{corollaryx}{Corollary}[section]
+\newtheorem{hook}{Hook}[section]
+\newtheorem{remarkx}{Remark}[section]
+
+\crefname{choice}{choice}{choices}
+\Crefname{choice}{Choice}{Choices}
+\crefname{definition}{definition}{definitions}
+\Crefname{definition}{Definition}{Definitions}
+\crefname{consequence}{consequence}{consequences}
+\Crefname{consequence}{Consequence}{Consequences}
+\crefname{corollaryx}{corollary}{corollaries}
+\Crefname{corollaryx}{Corollary}{Corollaries}
+\crefname{hook}{hook}{hooks}
+\Crefname{hook}{Hook}{Hooks}
+\crefname{remarkx}{remark}{remarks}
+\Crefname{remarkx}{Remark}{Remarks}
+\crefname{equation}{equation}{equations}
+\Crefname{equation}{Equation}{Equations}
+
+\newcommand{\Nstate}{N \equiv \infty \equiv \chi}
+
+\title{Alpha$\leftrightarrow$Omega Dynamics\\\large The Hidden Temporal Dynamics of Stokes\\[0.5ex]\normalsize 43$^\circ$C}
+\author{Reginald Poyau}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+\input{sections/01_abstract}
+\tableofcontents
+\setcounter{section}{-1}
+\input{sections/02_introduction}
+\input{sections/03_imported_relational_basis}
+\input{sections/04_local_definitions_choices}
+\input{sections/05_consequences}
+\input{sections/06_native_operators}
+\input{sections/07_corollary_hooks}
+\input{sections/08_examples}
+\appendix
+\input{appendices/A_stochastic_bookkeeping_notes}
+\input{appendices/B_naming_terminology_contract}
+\input{sections/99_references}
+\end{document}

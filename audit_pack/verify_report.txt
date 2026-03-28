@@ -1,0 +1,11 @@
+E4.A: E4 chain verified
+E4.B: E4 chain verified
+E5.A: B* mode verified
+E5.B: B* mode verified
+E5.C: B* mode verified
+E6.A: ternary gate and q_eff verified
+E6.B: ternary gate and q_eff verified
+E6.C: ternary gate and q_eff verified
+E7: schema row matches native rest-channel family row
+E8_short_window_confinement.csv: present
+E9_duon_duad_family.csv: present

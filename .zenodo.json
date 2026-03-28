@@ -1,0 +1,22 @@
+{
+  "title": "Alpha↔Omega Dynamics: The Hidden Temporal Dynamics of Stokes",
+  "description": "Release package for the AOD note in AFC/AF form: main native note, native supplement, application and SI parity supplement, collab notebooks, and native audit materials.",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "language": "eng",
+  "keywords": [
+    "axiomatic fundamentalism",
+    "AFC",
+    "AOD",
+    "Stokes",
+    "native cut calculus",
+    "temporal dynamics"
+  ],
+  "creators": [
+    {
+      "name": "Reginald, P.",
+      "orcid": "0009-0007-8303-8627"
+    }
+  ]
+}
