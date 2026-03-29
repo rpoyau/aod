@@ -9,30 +9,32 @@ Executable collaboration notebooks for native AOD operator checks and worked exa
 
 ## Notebook index
 
-[![Collab E1–E3](https://img.shields.io/badge/collab-E1--E3-blue)](E1-E3.ipynb)
-[![Collab E4–E6](https://img.shields.io/badge/collab-E4--E6-blue)](E4-E6.ipynb)
-[![Collab E7–E9](https://img.shields.io/badge/collab-E7--E9-blue)](E7-E9-bindings.ipynb)
-[![Collab E10–E11D](https://img.shields.io/badge/collab-E10--E11D-blue)](E10-E11D.ipynb)
-
 ### 1. `E1-E3.ipynb`
-Scope: active cut / present identity, symmetry-asymmetry, two-cycle / four-cycle closure, backlog, cadence, torsional residual.
+Scope: active cut / present identity, symmetry–asymmetry, two-cycle / four-cycle closure, backlog, cadence, torsional residual.  
+Local: [`E1-E3.ipynb`](E1-E3.ipynb)  
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E1-E3.ipynb)
 
 ### 2. `E4-E6.ipynb`
-Scope: native rest-channel rows, B* ladder, collision/export-window calculus, figure witnesses.
+Scope: native rest-channel rows, B* ladder, collision/export-window calculus, figure witnesses.  
+Local: [`E4-E6.ipynb`](E4-E6.ipynb)  
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E4-E6.ipynb)
 
 ### 3. `E7-E9-bindings.ipynb`
-Scope: field-property schema, short-window confinement row (**E8**), duon/duad family row (**E9**), and downstream verification bindings.
+Scope: field-property schema, short-window confinement row (**E8**), duon/duad family row (**E9**), and downstream verification bindings.  
+Local: [`E7-E9-bindings.ipynb`](E7-E9-bindings.ipynb)  
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E7-E9-bindings.ipynb)
 
 ### 4. `E10-E11D.ipynb`
-Scope: recurrent ring / “neural net” rendering (**E10**) and downstream decimal / optics-style rendering (**E11D**).
-
+Scope: recurrent ring / “neural net” rendering (**E10**) and downstream decimal / optics-style rendering (**E11D**).  
+Local: [`E10-E11D.ipynb`](E10-E11D.ipynb)  
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E10-E11D.ipynb)
 
 ## Visual outputs
 
-- `E1-E3.ipynb` — Q4 / active-cut / closure visuals
-- `E4-E6.ipynb` — native rest-channel tables, $B^*$ ladder figure, collision/export diagram
-- `E7-E9-bindings.ipynb` — confinement / family-row / shell-signature visuals
-- `E10-E11D.ipynb` — recurrent-ring rendering and downstream optics/diagrammatic visuals
+- `E1-E3.ipynb` — active-cut / predecessor–present–successor schematic, Q4 closure figure, push/pull–torsion–cadence schematic
+- `E4-E6.ipynb` — native rest-channel tables, $B^*$ ladder figure, collision/export-window diagram
+- `E7-E9-bindings.ipynb` — shell-signature / confinement figure, family-row / transmutation figure, native→verification binding map
+- `E10-E11D.ipynb` — recurrent-ring rendering and downstream optics/diagrammatic tables
 
 ## Verification map
 
