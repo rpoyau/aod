@@ -17,7 +17,7 @@ lines=[]
 # E4
 with open(base/'E4_native_rest_channel.csv', newline='') as f:
     for row in csv.DictReader(f):
-        n1=int(row['n1']); n2=int(row['n2']); Teval=int(row['Teval_put']); B=int(row['Bstar']); L=int(row['Lambda_b'])
+        n1=int(row['n1']); n2=int(row['n2']); Teval=int(row['Teval_bip']); B=int(row['Bstar']); L=int(row['Lambda_b'])
         rrest_expected=sp.simplify((n1+n2*l2)/Teval)
         rrest_given=sp.simplify(sp.sympify(row['Rrest_expr']))
         assert sp.simplify(rrest_expected-rrest_given)==0

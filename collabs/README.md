@@ -4,7 +4,7 @@ Executable collaboration notebooks for native AOD operator checks and worked exa
 
 [![Status](https://img.shields.io/badge/status-release-green)](#)
 [![Protocol](https://img.shields.io/badge/protocol-AFC%20%2F%20AF-black)](#)
-[![Gauge](https://img.shields.io/badge/gauge-trit%2Fput%20primitive%20%E2%86%92%20biz%20derived-purple)](#)
+[![Gauge](https://img.shields.io/badge/gauge-trit%2Fbip%20primitive%20%E2%86%92%20biz%20derived-purple)](#)
 [![Notebooks](https://img.shields.io/badge/notebooks-4-green)](#)
 
 ## Notebook index
