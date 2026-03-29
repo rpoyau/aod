@@ -38,15 +38,13 @@ used to build and archive the release package.
 
 ## Collabs
 
-Replace `OWNER/REPO` in the badge URLs below once the repository path is final.
-
-- `E1–E3.ipynb` — active-cut / closure / backlog checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/OWNER/REPO/blob/main/collabs/E1-E3.ipynb)  
+- `E1–E3.ipynb` — active-cut / closure / backlog checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E1-E3.ipynb)  
   Local file: [`collabs/E1-E3.ipynb`](collabs/E1-E3.ipynb)
-- `E4–E6.ipynb` — native rest-channel / B* / collision-export checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/OWNER/REPO/blob/main/collabs/E4-E6.ipynb)  
+- `E4–E6.ipynb` — native rest-channel / B* / collision-export checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E4-E6.ipynb)  
   Local file: [`collabs/E4-E6.ipynb`](collabs/E4-E6.ipynb)
-- `E7–E9-bindings.ipynb` — field / confinement / family / binding checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/OWNER/REPO/blob/main/collabs/E7-E9-bindings.ipynb)  
+- `E7–E9-bindings.ipynb` — field / confinement / family / binding checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E7-E9-bindings.ipynb)  
   Local file: [`collabs/E7-E9-bindings.ipynb`](collabs/E7-E9-bindings.ipynb)
-- `E10–E11D.ipynb` — recurrent-ring and downstream rendering checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/OWNER/REPO/blob/main/collabs/E10-E11D.ipynb)  
+- `E10–E11D.ipynb` — recurrent-ring and downstream rendering checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E10-E11D.ipynb)  
   Local file: [`collabs/E10-E11D.ipynb`](collabs/E10-E11D.ipynb)
 
 See `collabs/README.md` for the notebook index, visual outputs, and verification map.

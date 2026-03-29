@@ -7,29 +7,27 @@ Executable collaboration notebooks for native AOD operator checks and worked exa
 [![Gauge](https://img.shields.io/badge/gauge-trit%2Fput%20primitive%20%E2%86%92%20putz%20derived-purple)](#)
 [![Notebooks](https://img.shields.io/badge/notebooks-4-green)](#)
 
-Replace `OWNER/REPO` in the Colab badge URLs below once the repository path is final.
-
 ## Notebook index
 
 ### 1. `E1-E3.ipynb`
 Scope: active cut / present identity, symmetry–asymmetry, two-cycle / four-cycle closure, backlog, cadence, torsional residual.  
 Local: [`E1-E3.ipynb`](E1-E3.ipynb)  
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/OWNER/REPO/blob/main/collabs/E1-E3.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E1-E3.ipynb)
 
 ### 2. `E4-E6.ipynb`
 Scope: native rest-channel rows, B* ladder, collision/export-window calculus, figure witnesses.  
 Local: [`E4-E6.ipynb`](E4-E6.ipynb)  
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/OWNER/REPO/blob/main/collabs/E4-E6.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E4-E6.ipynb)
 
 ### 3. `E7-E9-bindings.ipynb`
 Scope: field-property schema, short-window confinement row (**E8**), duon/duad family row (**E9**), and downstream verification bindings.  
 Local: [`E7-E9-bindings.ipynb`](E7-E9-bindings.ipynb)  
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/OWNER/REPO/blob/main/collabs/E7-E9-bindings.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E7-E9-bindings.ipynb)
 
 ### 4. `E10-E11D.ipynb`
 Scope: recurrent ring / “neural net” rendering (**E10**) and downstream decimal / optics-style rendering (**E11D**).  
 Local: [`E10-E11D.ipynb`](E10-E11D.ipynb)  
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/OWNER/REPO/blob/main/collabs/E10-E11D.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E10-E11D.ipynb)
 
 ## Visual outputs
 

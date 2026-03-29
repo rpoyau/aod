@@ -1,23 +1,19 @@
 \section{Introduction}
 
 \subsection{Aim and stance}
-This AFC extension develops the local AOD layer latent in the imported Stokes consequence on declared cuts.
-
-\subsection{Upstream basis}
-The note depends on AFC Stokes and the AF protocol~\cite{AFCStokes2025,AF2025}.
+This AFC extension develops the local AOD layer latent in the derived Stokes consequence on declared cuts.
 
 \subsection{Relational units and notation}
 The public line uses \emph{active cut}, \emph{frame}, \emph{window}, \emph{present identity}, \emph{predecessor trace}, \emph{successor horizon}, \emph{net flux}, \emph{boundary flux}, \emph{step flux}, \emph{window current}, \emph{Memory path}, and \emph{trit}. Where a unit of update is needed, the upstream notation \emph{put} / \emph{putz} or neutral tick / rate wording is retained. The term \emph{cut} is reserved for the inherited relational localization object and is not reused as a unit alias.
 
 \subsection{Temporal localization (AOD reading)}
-On a declared readout family, the predecessor trace records the already-cut interior carried along a Memory path. The present is the active cut together with the present identity on that cut. The successor horizon is the admissible exterior continuation generated from the current Memory State, the Markov Kernel, and the declared local constraints. AOD continues AFC by reading the imported Stokes identity temporally: the cut localizes it, and successive cuts generate ordered $\alpha\leftrightarrow\omega$ reconciliation on the same identity.
-
+On a declared readout family, the predecessor trace records what has been cut and carried along a Memory path. The present is the active cut together with the present identity on that cut. The successor horizon records what could be cut next under the current Memory State, the Markov Kernel, and the declared local constraints. In this sense, temporal order is read across successive active cuts as the ordered relation between what has been cut, the boundary on which the identity is read now, and what could be cut next.
 
 \subsection{Native cut calculus}
-On a declared Region $R\subseteq V$ with boundary $\partial R$, the cut localizes the same imported relational continuity into an interior sum and a boundary sum. A declared temporal readout assigns ternary symbols $\tau_t\in\{-1,0,+1\}$ on cited frames and windows in the native put/putz units and notation.
+On a declared Region $R\subseteq V$ with boundary $\partial R$, the cut localizes the same relational continuity into an interior sum and a boundary sum. A declared temporal readout assigns ternary symbols $\tau_t\in\{-1,0,+1\}$ on cited frames and windows in the native put/putz units and notation.
 
 \subsection{Global addendum choices}
 Construction order, field/readout separation, step flux versus window current, and rate normalization are fixed globally for the addendum.
 
 \subsection{Organization}
-After the imported relational basis and the local addendum choices, the note proceeds through local consequences, the native operator layer, a short corollary-and-hooks section, examples, and two appendices.
+After the AFC relational basis and the local addendum choices, the note proceeds through local consequences, the native operator layer, a short corollary-and-hooks section, examples, and two appendices.
