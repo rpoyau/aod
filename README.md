@@ -4,7 +4,7 @@
 
 This repository is the **source package** for the AOD note in AFC/AF form.
 It contains the TeX source for the main native note, the two companion supplements,
-the collab notebooks, the native audit materials, and the GitHub/Zenodo metadata
+the executable notebooks, the native audit materials, and the GitHub/Zenodo metadata
 used to build and archive the release package.
 
 ## Source entry points
@@ -36,7 +36,7 @@ used to build and archive the release package.
 4. `notebooks/` — executable notebook layer for AOD-native tests
 5. `audit_pack/` — machine-readable native audit rows and verifier files
 
-## Collabs
+## Notebooks
 
 - `E1–E3.ipynb` — active-cut / closure / backlog checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E1-E3.ipynb)  
   Local file: [`notebooks/E1-E3.ipynb`](notebooks/E1-E3.ipynb)
