@@ -4,7 +4,7 @@ Executable collaboration notebooks for native AOD operator checks and worked exa
 
 [![Status](https://img.shields.io/badge/status-release-green)](#)
 [![Protocol](https://img.shields.io/badge/protocol-AFC%20%2F%20AF-black)](#)
-[![Gauge](https://img.shields.io/badge/gauge-trit%2Fput%20primitive%20%E2%86%92%20putz%20derived-purple)](#)
+[![Gauge](https://img.shields.io/badge/gauge-trit%2Fbip%20primitive%20%E2%86%92%20biz%20derived-purple)](#)
 [![Notebooks](https://img.shields.io/badge/notebooks-4-green)](#)
 
 ## Notebook index
@@ -54,5 +54,5 @@ Local: [`E10-E11D.ipynb`](E10-E11D.ipynb)
 
 ## Notes
 
-- Native rows remain **trit/put primitive** and **putz derived**.
+- Native rows remain **trit/bip primitive** and **biz derived**.
 - Downstream labels, SI parity, and decimal renderings are attached only after the native row is fixed.

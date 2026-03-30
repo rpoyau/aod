@@ -1,4 +1,4 @@
-t,node,tau_alpha,tau_omega,delay_put,mode_hidden,backlog
+t,node,tau_alpha,tau_omega,delay_bip,mode_hidden,backlog
 0,A,1,0,3,0,1
 1,B,1,0,2,0,2
 2,-,0,0,0,0,2

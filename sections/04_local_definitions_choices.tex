@@ -27,7 +27,7 @@ A declared readout map assigns a ternary symbol $\tau_t\in\{-1,0,+1\}$ to each u
 
 \begin{definition}[Frame]
 \label{def:frame}
-A frame $f_t$ is the one-put readout slice on a declared active cut.
+A frame $f_t$ is the one-bip readout slice on a declared active cut.
 \end{definition}
 
 \begin{definition}[Window]
@@ -75,7 +75,7 @@ U^{(\mathrm{loss})}(\omega):=\sum_{t\in\omega\cap\mathrm{act}} u_t^{(\mathrm{los
 \[
 R_{\mathrm{rest}}(\omega):=u^{(\mathrm{loss})}(\omega):=\frac{1}{T_{\mathrm{eval}}}U^{(\mathrm{loss})}(\omega)
 =\log_3\!\bigl(\Gamma_{\mathrm{loss}}(\omega)\bigr)
-\quad[\mathrm{trit/put}],
+\quad[\mathrm{trit/bip}],
 \]
 with
 \[
@@ -85,7 +85,7 @@ with
 \qquad
 T_\Gamma(\omega):=\Gamma_{\mathrm{loss}}(\omega)-1.
 \]
-The native primitive is $R_{\mathrm{rest}}=u^{(\mathrm{loss})}$ in trit/put. A derived internal rate in putz may be reported later only after the declared attenuation/backlog step has been applied.
+The native primitive is $R_{\mathrm{rest}}=u^{(\mathrm{loss})}$ in trit/bip. A derived internal rate in biz may be reported later only after the declared attenuation/backlog step has been applied.
 \end{definition}
 
 \begin{definition}[Active-only versus total normalization]
@@ -389,7 +389,7 @@ Cadence is the declared local recurrence-rate report quantity on the cited reado
 \label{def:ttl-hazard}
 For a declared motif id $M$, detector policy, and rupture predicate $H$, the lifetime observable is the birth--death duration
 \[
-\mathrm{TTL}_{\mathrm{put}}(M;\omega):=t_{\mathrm{death}}-t_{\mathrm{birth}}\in\mathbb N,
+\mathrm{TTL}_{\mathrm{bip}}(M;\omega):=t_{\mathrm{death}}-t_{\mathrm{birth}}\in\mathbb N,
 \]
 with right-censoring declared when the cited window ends before rupture. TTL weighting or filtering may be used only under an explicit policy id.
 \end{definition}

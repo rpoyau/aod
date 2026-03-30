@@ -17,13 +17,13 @@ lines=[]
 # E4
 with open(base/'E4_native_rest_channel.csv', newline='') as f:
     for row in csv.DictReader(f):
-        n1=int(row['n1']); n2=int(row['n2']); Teval=int(row['Teval_put']); B=int(row['Bstar']); L=int(row['Lambda_b'])
+        n1=int(row['n1']); n2=int(row['n2']); Teval=int(row['Teval_bip']); B=int(row['Bstar']); L=int(row['Lambda_b'])
         rrest_expected=sp.simplify((n1+n2*l2)/Teval)
         rrest_given=sp.simplify(sp.sympify(row['Rrest_expr']))
         assert sp.simplify(rrest_expected-rrest_given)==0
-        rputz_expected=sp.simplify((sp.Integer(3)**rrest_expected-1)*sp.Integer(B)**(-L))
-        rputz_given=sp.simplify(sp.sympify(row['Rrest_putz_expr']))
-        assert sp.simplify(rputz_expected-rputz_given)==0
+        rbiz_expected=sp.simplify((sp.Integer(3)**rrest_expected-1)*sp.Integer(B)**(-L))
+        rbiz_given=sp.simplify(sp.sympify(row['Rrest_biz_expr']))
+        assert sp.simplify(rbiz_expected-rbiz_given)==0
         lines.append(f"{row['row']}: E4 chain verified")
 # E5
 with open(base/'E5_bstar_ladder.csv', newline='') as f:
@@ -48,7 +48,7 @@ with open(base/'E7_field_property_schema.csv', newline='') as f:
 vals={r['field_property']:r['reported_native_value'] for r in rows}
 assert vals['AO field key']=='O-tetrad:3:4:6'
 assert '(1 + 8*log(3/2,3))/24' in vals['Rrest']
-assert '137**(-6)' in vals['Rrest_putz']
+assert '137**(-6)' in vals['Rrest_biz']
 lines.append('E7: schema row matches native rest-channel family row')
 # E8 / E9 existence
 for name in ['E8_short_window_confinement.csv','E9_duon_duad_family.csv']:
