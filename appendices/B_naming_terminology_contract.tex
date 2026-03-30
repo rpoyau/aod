@@ -1,12 +1,12 @@
 \section{Naming and terminology contract}
 
-This appendix records the public naming and terminology layer used by the addendum. It states the naming and serialization contract carried by the same native ledgers.
+This appendix records the public naming and terminology layer used below. It states the naming and serialization contract carried by the same ledgers.
 
 \subsection{Primary body terms}
 Primary body terms are: active cut, frame, window, present identity, predecessor trace, successor horizon, AO field, wavelet, step flux, window current, chirality, push/pull, effective charge proxy, torsional tension, torsional loss, cadence, dominant residual-duration class, radiating/export window, and emitted/exported packet witness.
 
 \subsection{AO field and reported family naming}
-The public field name in this addendum is \emph{AO field}. When a field instance is reported together with its wavelet class, the field name remains AO field and the class name is attached separately through the naming rules below.
+The public field name is \emph{AO field}. When a field instance is reported together with its wavelet class, the field name remains AO field and the class name is attached separately through the naming rules below.
 
 \subsection{Traverser / closure naming rule}
 The suffix \texttt{-on} denotes a traverser class. The suffix \texttt{-ad} denotes a closure or seat class. Traverser precedes closure in composed names.
@@ -18,7 +18,7 @@ This yields the public family/subclass pattern:
 \end{itemize}
 
 \subsection{Public family inventory}
-The public families admitted in this addendum are:
+The public families used below are:
 \begin{itemize}[leftmargin=1.5em]
   \item \textbf{duon}: public two-seat traverser family.
   \item \textbf{duad}: canonical closed-seat duon subclass.
@@ -48,7 +48,7 @@ denotes an $\Omega$-field instance. Dwell/traffic is never serialized as a third
 Named properties may be appended after the structural key as a report namespace. Typical properties include reported values such as $q_{\mathrm{eff}}$, push/pull polarity, chirality tag, polyphase or cadence summaries, radiation/export qualifiers, shell indices, and attenuation support.
 
 \subsection{Public examples}
-Examples of public tags admitted by this addendum are:
+Examples of public tags used below are:
 \begin{itemize}[leftmargin=1.5em]
   \item \texttt{duon:2:1:7}
   \item \texttt{O-duon:2:1:7}
@@ -67,7 +67,7 @@ If named properties are attached, they remain attached to the cited native repor
 \subsection{AO field families and structural subclasses}
 \paragraph{Two-seat family.} The two-seat traverser family is recorded by the public names \emph{duon} and \emph{duad}. The open-seat member is written \texttt{duon:2:1:<Lout>[::props]}; the closed-seat member is written \texttt{duad:2:2:<Lout>[::props]}. Effective-charge, push/pull, polyphase, cadence, and radiation/export properties attach only through the named property namespace.
 
-\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. The compact addendum preserves the following structural variants in the naming contract: \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6}. These structural variants are recorded in the public naming contract and are used by the cited native rows and operators below.
+\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. The following structural variants are preserved in the naming contract: \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6}. These structural variants are recorded in the public naming contract and are used by the cited native rows and operators below.
 
 \paragraph{Confinement and isotope labels.} Confinement names the native short-window persistence class defined on the cited tetron/tetrad ledgers. Isotope labels, when reported later, name stability subclasses on those same cited ledgers.
 
@@ -81,4 +81,4 @@ Only the shell and ladder syntax needed by the examples and the native operator 
 \emph{Dion} and \emph{tetraon} are optional overlay aliases available under the same naming contract.
 
 \subsection{Local AOD report objects}
-In this addendum, \emph{frame} and \emph{window} are declared local AOD report objects. \emph{Step flux} is a one-frame quantity and \emph{window current} is the derived window-level trace term used in the cited native rows.
+Here, \emph{frame} and \emph{window} are declared local AOD report objects. \emph{Step flux} is a one-frame quantity and \emph{window current} is the derived window-level trace term used in the cited native rows.

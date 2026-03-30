@@ -15,7 +15,7 @@ used to build and archive the release package.
 
 ## Source contents
 
-- `main.tex` — main native addendum
+- `main.tex` — main native note
 - `supplement-a.tex` — Supplement A: native worked examples and figure witnesses
 - `supplement-b.tex` — Supplement B: application and SI parity examples
 - `sections/`, `consequences/`, `examples/`, `appendices/` — TeX source tree
