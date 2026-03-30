@@ -32,7 +32,7 @@ INCLUDE_DIRS = [
     "consequences",
     "examples",
     "appendices",
-    "collabs",
+    "notebooks",
     "audit_pack",
     "supplement-b-artifacts",
     "scripts",
@@ -127,7 +127,7 @@ def write_stats(stage: Path, files: list[Path], tag: str, bundle_name: str) -> N
         fh.write(f"tag={tag}\n")
         fh.write(f"built_at_utc={built_at}\n")
         fh.write(f"file_count={len(rows)}\n")
-        fh.write("notes=repo-root release bundle with PDFs, collabs, stats, audit_pack, and companion artifacts\n")
+        fh.write("notes=repo-root release bundle with PDFs, notebooks, stats, audit_pack, and companion artifacts\n")
 
 
 def zip_stage(stage: Path, zip_path: Path) -> None:
