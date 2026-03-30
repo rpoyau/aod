@@ -1,0 +1,58 @@
+% ===================== AOD — preamble (root-flattened AFC-style) =====================
+
+% Core math and layout
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+% Hyperref setup (entrypoints may refine pdftitle later)
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=blue,
+  pdfauthor={Reginald Poyau},
+  pdftitle={Alpha↔Omega Dynamics: The Hidden Temporal Dynamics of Stokes}
+}
+
+% Spacing and numbering
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+
+% Theorem-like environments
+\newtheorem{choice}{Choice}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{consequence}{Consequence}[section]
+\newtheorem{corollaryx}{Corollary}[section]
+\newtheorem{hook}{Hook}[section]
+\newtheorem{remarkx}{Remark}[section]
+
+% Cleveref names
+\crefname{choice}{choice}{choices}
+\Crefname{choice}{Choice}{Choices}
+\crefname{definition}{definition}{definitions}
+\Crefname{definition}{Definition}{Definitions}
+\crefname{consequence}{consequence}{consequences}
+\Crefname{consequence}{Consequence}{Consequences}
+\crefname{corollaryx}{corollary}{corollaries}
+\Crefname{corollaryx}{Corollary}{Corollaries}
+\crefname{hook}{hook}{hooks}
+\Crefname{hook}{Hook}{Hooks}
+\crefname{remarkx}{remark}{remarks}
+\Crefname{remarkx}{Remark}{Remarks}
+\crefname{equation}{equation}{equations}
+\Crefname{equation}{Equation}{Equations}
+
+% Project convenience symbols
+\newcommand{\Nstate}{N \equiv \infty \equiv \chi}
