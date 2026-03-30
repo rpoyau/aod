@@ -165,10 +165,10 @@ so the reported cadence spectrum is $\mathcal N(M;\omega)=\{\nu_1(\omega),\ldots
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:polyrotor,def:cadence-extractor,def:drift,def:cadence-bstar,def:shell-cadence-interface}.
-\paragraph{Local substructure.} Cadence extractor; phase/rotor accumulators; drift witnesses; cadence spectrum; dominant return class.
+\paragraph{Local substructure.} Cadence extractor; phase/rotor accumulators; drift witnesses; cadence spectrum; dominant residual-duration class.
 \paragraph{Derivation sketch.} From the declared shell-band extraction and phase/rotor ledgers on the same cited readout family.
 \begin{remarkx}
-On shell-qualified windows, recurrent closure and phase-locking may be read as standing wavelet configurations on the cited support. Their unresolved phase disagreement is reported through backlog, torsional residual, cadence shift, and the native rest-channel on that same window. The dominant return class $B^*$ records the leading return-population class of the cited window under the declared extraction policy.
+On shell-qualified windows, recurrent closure and phase-locking may be read as standing wavelet configurations on the cited support. Their unresolved phase disagreement is reported through backlog, torsional residual, cadence shift, and the native rest-channel on that same window. The cut-to-cut identity is unchanged; the effective window-level progress rate need not match branch-specific traversal duration, because part of the cited window is spent servicing $\alpha/\Omega$ mismatch through bridge and dwell burden. The dominant residual-duration class $B^*$ records the leading support class of that burden on the cited window under the declared extraction policy.
 \end{remarkx}
 
 \subsection{\texorpdfstring{$B^*$}{B*} ladder and histogram operators}\label{subsec:bstar-ladder-operators}
@@ -178,20 +178,20 @@ Given the return-duration extraction of \Cref{def:b-extraction}, the weighted hi
 \[
 H_B(b;M,\omega):=\sum_{\kappa\in\mathrm{Occ}(M;\omega)} w(\kappa)\,\mathbf 1\{b(\kappa)=b\}
 \]
-induces the support mass
+induces the dominant residual-duration class
 \[
-\Lambda_b(M;\omega):=H_B(b;M;\omega)
+B^*(M;\omega):=\arg\max_b H_B(b;M,\omega)
 \]
-and the dominant rung
+and the support mass on that class
 \[
-B^*(M;\omega):=\arg\max_b H_B(b;M;\omega).
+\Lambda_b(M;\omega):=H_B(B^*(M;\omega);M,\omega).
 \]
-The hard-freeze identity
+Under the declared minimal-pivot identity,
 \[
 b=2e+f,
 \qquad f\in\mathbb Z_{\ge1},
 \]
-exposes the integer spine of the ladder. Under the minimal-pivot idealization $f=1$, the canonical one-way excess $e=68$ yields the dominant burden rung $b=137$.
+the ladder records the integer residual-duration burden on the cited window.
 \end{definition}
 
 \begin{definition}[Jensen discipline for the ladder]
@@ -220,7 +220,7 @@ by expressions built from averaged $b(\kappa)$ unless the aggregation policy exp
 
 \begin{definition}[Dominant-rung attenuation]
 \label{def:attenuation-operator}
-Using the same stack ledger $S(M;\omega)$ and burden samples $b(\kappa)$ already required to compute $B^*(M;\omega)$, define the exact return attenuation accumulator
+Using the same stack ledger $S(M;\omega)$ and residual-duration samples $b(\kappa)$ already required to compute $B^*(M;\omega)$, define the exact return attenuation accumulator
 \[
 A_B^{\mathrm{exact}}(M;\omega):=
 \prod_{\kappa\in S(M;\omega)}\left(\frac{b(\kappa)}{B_0}\right)^{-L_{\pm}(\kappa)}\left(\frac{B^*(M;\omega)}{B_0}\right)^{-\delta_{\mathrm{core}}(M;\omega)}.
@@ -233,12 +233,12 @@ Under the declared dominant-rung approximation $b(\kappa)\approx B^*(M;\omega)$ 
 \[
 A_B(M;\omega)=\left(\frac{B^*(M;\omega)}{B_0}\right)^{-\widehat\Lambda(M;\omega)}.
 \]
-Thus $\Lambda_b$ remains the histogram support mass, while $\widehat\Lambda$ is the stack-load exponent used in attenuation.
+Thus $\Lambda_b$ remains the support mass on the dominant class, while $\widehat\Lambda$ is the stack-load exponent used in attenuation.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:b-extraction,def:bstar-histogram,choice:hard-freeze,rem:jensen,def:cycle-typing}.
-\paragraph{Local substructure.} Return-duration extraction; histogram; support mass; dominant rung; shell-signature class; Jensen discipline; hard-freeze 137 spine; attenuation accumulator.
-\paragraph{Derivation sketch.} From the declared return-duration samples $b(\kappa)$ and the cited weighting/filter policy, then by algebra on the stack ledger.
+\paragraph{Local substructure.} Outbound traversal burden; return/closure burden; bridge/dwell service; residual-duration histogram; dominant class; support mass; shell-signature class; Jensen discipline; attenuation accumulator.
+\paragraph{Derivation sketch.} From the declared traversal, closure, and bridge/dwell burdens one forms $b(\kappa)$, then $H_B$, $B^*$, and $\Lambda_b$ on the cited window; attenuation follows by algebra on the stack ledger.
 
 \subsection{Finite path sums, least reconciliation, ternary interaction gate, and diagrammatic renderings}\label{subsec:pathsum-diagram-operators}
 \begin{definition}[Finite path sum]

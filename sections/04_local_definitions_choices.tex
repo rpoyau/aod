@@ -272,30 +272,34 @@ b(\kappa):=e_\alpha(\kappa)+e_\Omega(\kappa)+f(\kappa),\qquad f(\kappa)\in\mathb
 where $e_\alpha,e_\Omega$ are the one-way outbound/return durations and $f$ is the measured bridge/reflection count under the cited policy.
 \end{definition}
 
-\begin{definition}[Histogram, support mass, and dominant return class]
+\begin{definition}[Histogram, support mass, and dominant residual-duration class]
 \label{def:bstar-histogram}
-Let $\mathrm{Occ}(M;\omega)$ denote the cited set of motif occurrences. With declared weights $w(\kappa)\ge 0$ (TTL weighting allowed but not required), define the return-duration histogram
+Let $\mathrm{Occ}(M;\omega)$ denote the cited set of motif occurrences. With declared weights $w(\kappa)\ge 0$ (TTL weighting allowed but not required), define the residual-duration histogram
 \[
 H_B(b;M,\omega):=\sum_{\kappa\in\mathrm{Occ}(M;\omega)} w(\kappa)\,\mathbf 1\{b(\kappa)=b\},
 \]
-and the support mass on rung $b$
-\[
-\Lambda_b(M;\omega):=H_B(b;M,\omega).
-\]
-The dominant return class is
+the dominant residual-duration class
 \[
 B^*(M;\omega):=\arg\max_b H_B(b;M,\omega),
 \]
-with the estimator functional explicitly declared whenever ties or trimming rules are present.
+and the support mass on that class
+\[
+\Lambda_b(M;\omega):=H_B(B^*(M;\omega);M,\omega).
+\]
+The estimator functional must be declared whenever ties or trimming rules are present.
 \end{definition}
 
-\begin{choice}[Hard-freeze pivot identity bookkeeping]
+\begin{remarkx}
+\label{rem:bstar-class}
+The $\alpha/\Omega$ branch mismatch generates the residual-duration burden on the cited window. $B^*(M;\omega)$ is the dominant class of that burden; $\Lambda_b(M;\omega)$ is the support mass on that class.
+\end{remarkx}
+
+\begin{choice}[Minimal-pivot identity bookkeeping]
 \label{choice:hard-freeze}
-Hard-freeze is a declared limiting case used to expose the integer accounting spine. Under the minimal-pivot idealization one sets
+A declared minimal-pivot identity may be used to expose the integer accounting spine. Under that idealization one sets
 \[
-b=2e+f,\qquad f\in\mathbb Z_{\ge1},
+b=2e+f,\qquad f\in\mathbb Z_{\ge1}.
 \]
-so that the canonical minimal case $e=68, f=1$ yields the dominant burden rung $b=137$.
 \end{choice}
 
 \begin{remarkx}[Jensen discipline]
@@ -333,7 +337,7 @@ On a cited motif-conditioned window $\omega$, the shell signature is the coarse 
 \[
 \mathrm{Sig}(M;\omega):=(\lambda\text{-band}, B^*\text{-class}, \rho\text{-winding class}, V\text{-class}).
 \]
-It is assembled from the level index, dominant return class, winding report, and support signature on the same declared shell-band extraction policy.
+It is assembled from the level index, dominant residual-duration class, winding report, and support signature on the same declared shell-band extraction policy.
 \end{definition}
 
 \begin{definition}[Confinement predicate and proximity criterion]
@@ -380,7 +384,7 @@ Torsional tension is the accumulated unresolved phase disagreement or reconcilia
 
 \begin{definition}[Cadence]
 \label{def:cadence-bstar}
-Cadence is the declared local recurrence-rate report quantity on the cited readout class. The dominant return class $B^*$ is defined earlier by the declared return-duration histogram and is reused here only by reference.
+Cadence is the declared local recurrence-rate report quantity on the cited readout class. The dominant residual-duration class $B^*$ is defined earlier by the declared return-duration histogram and is reused here only by reference.
 \end{definition}
 
 
