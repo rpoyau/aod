@@ -1,4 +1,4 @@
 row,samples,HB_support,Bstar,note
 E5.A,2;2;2;4,HB(2)=3;HB(4)=1,2,minimal two-cycle ladder
 E5.B,5;5;5;7;7,HB(5)=3;HB(7)=2,5,four-cycle enclosure ladder
-E5.C,137;137;139,HB(137)=2;HB(139)=1,137,hard-freeze attractor witness
+E5.C,137;137;139,HB(137)=2;HB(139)=1,137,high-rung attractor witness
