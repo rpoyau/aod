@@ -19,7 +19,7 @@ used to build and archive the release package.
 - `supplement-a.tex` — Supplement A: native worked examples and figure witnesses
 - `supplement-b.tex` — Supplement B: application and SI parity examples
 - `sections/`, `consequences/`, `examples/`, `appendices/` — TeX source tree
-- `collabs/` — executable notebooks for native AOD tests
+- `notebooks/` — executable notebooks for native AOD tests
 - `audit_pack/` — native machine-readable audit rows and verifier files
 - `supplement-b-artifacts/` — downstream example data for Supplement B
 - `.github/workflows/` — GitHub Actions build workflow
@@ -33,21 +33,21 @@ used to build and archive the release package.
 1. `main.pdf` — compact native derivation shell
 2. `supplement-a.pdf` — native worked examples and figure witnesses
 3. `supplement-b.pdf` — downstream verification / SI / application companion
-4. `collabs/` — executable notebook layer for AOD-native tests
+4. `notebooks/` — executable notebook layer for AOD-native tests
 5. `audit_pack/` — machine-readable native audit rows and verifier files
 
 ## Collabs
 
-- `E1–E3.ipynb` — active-cut / closure / backlog checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E1-E3.ipynb)  
-  Local file: [`collabs/E1-E3.ipynb`](collabs/E1-E3.ipynb)
-- `E4–E6.ipynb` — native rest-channel / B* / collision-export checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E4-E6.ipynb)  
-  Local file: [`collabs/E4-E6.ipynb`](collabs/E4-E6.ipynb)
-- `E7–E9-bindings.ipynb` — field / confinement / family / binding checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E7-E9-bindings.ipynb)  
-  Local file: [`collabs/E7-E9-bindings.ipynb`](collabs/E7-E9-bindings.ipynb)
-- `E10–E11D.ipynb` — recurrent-ring and downstream rendering checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/oad/blob/main/collabs/E10-E11D.ipynb)  
-  Local file: [`collabs/E10-E11D.ipynb`](collabs/E10-E11D.ipynb)
+- `E1–E3.ipynb` — active-cut / closure / backlog checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E1-E3.ipynb)  
+  Local file: [`notebooks/E1-E3.ipynb`](notebooks/E1-E3.ipynb)
+- `E4–E6.ipynb` — native rest-channel / B* / collision-export checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E4-E6.ipynb)  
+  Local file: [`notebooks/E4-E6.ipynb`](notebooks/E4-E6.ipynb)
+- `E7–E9-bindings.ipynb` — field / confinement / family / binding checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E7-E9-bindings.ipynb)  
+  Local file: [`notebooks/E7-E9-bindings.ipynb`](notebooks/E7-E9-bindings.ipynb)
+- `E10–E11D.ipynb` — recurrent-ring and downstream rendering checks  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E10-E11D.ipynb)  
+  Local file: [`notebooks/E10-E11D.ipynb`](notebooks/E10-E11D.ipynb)
 
-See `collabs/README.md` for the notebook index, visual outputs, and verification map.
+See `notebooks/README.md` for the notebook index, visual outputs, and verification map.
 
 ## Notes
 
