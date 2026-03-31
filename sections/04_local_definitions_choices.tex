@@ -222,7 +222,7 @@ A wavelet is a finite closure-carrying Memory-path segment equipped with ordered
 
 \begin{definition}[Shell-band extraction and cadence extractor interface]
 \label{def:shell-cadence-interface}\label{def:cadence-extractor}
-A shell-band extractor packages the cited closure/return/phase ledger into an ordered family of reported shell bands. A cadence extractor acts on those bands to produce cycle counts, phase accumulators, rotor accumulators, and drift witnesses. No continuum frequency law is assumed.
+A shell-band extractor packages the cited closure/return/cycle ledger into an ordered family of reported shell bands. A cadence extractor acts on those bands to produce completed-cycle counts, completion periods, phase indices, cycle-ratio phase reports, and drift witnesses. No continuum frequency law is assumed.
 \end{definition}
 
 \begin{definition}[Saturation]
@@ -252,9 +252,9 @@ q_{\mathrm{eff}}(M;\omega):=\mathcal N\!\bigl(J_\alpha(M;\omega)-J_\Omega(M;\ome
 with normalization $\mathcal N$ declared by the cited operator.
 \end{definition}
 
-\begin{definition}[$\Omega$-phase lag]
+\begin{definition}[$\Omega$-cycle lag]
 \label{def:phase-lag}
-The chirality-resolved phase-lag statistic is the declared difference between paired $\Omega$ and $\alpha$ phase histories on the cited readout family. Its pairing policy must be explicit.
+The chirality-resolved cycle-lag statistic is the declared difference between paired $\Omega$ and $\alpha$ cycle-ratio histories on the cited readout family. Its pairing policy must be explicit.
 \end{definition}
 
 \begin{definition}[Radiating/export window and emitted packet witness]
@@ -374,7 +374,16 @@ Chirality is the persistent handedness of asymmetry under unspooling.
 
 \begin{definition}[Polyrotor phase family]
 \label{def:polyrotor}
-A polyrotor phase family is a finite indexed family of rotor-phase readouts on the same active-cut family.
+A polyrotor phase family is a finite indexed family of rotor-completion readouts on the same active-cut family.
+\end{definition}
+
+\begin{definition}[Rotor-completion period, phase index, cycle-ratio phase, and completed-cycle count]
+\label{def:rotor-completion}
+On the cited shell/window, let $P_\rho(M;\omega)\in \mathbb N_{>0}$ be the native rotor-completion period, let $\rho_t(M;\omega)\in\{0,1,\dots,P_\rho(M;\omega)-1\}$ be the native phase index, let
+\[
+\varphi_t(M;\omega):=\frac{\rho_t(M;\omega)}{P_\rho(M;\omega)}\in[0,1)\cap\mathbb Q
+\]
+be the native cycle-ratio phase, and let $N_\rho(M;\omega)\in\mathbb Z_{\ge 0}$ be the cumulative completed-cycle count. A complete native cycle increments $N_\rho$ by one.
 \end{definition}
 
 \begin{definition}[Torsional tension and torsional loss]
