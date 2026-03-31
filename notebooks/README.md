@@ -1,6 +1,6 @@
 # notebooks
 
-Executable collaboration notebooks for native AOD operator checks and worked examples in the release package.
+Executable collaboration notebooks for native AOD operator checks and worked examples in the canonical source tree.
 
 [![Status](https://img.shields.io/badge/status-release-green)](#)
 [![Protocol](https://img.shields.io/badge/protocol-AFC%20%2F%20AF-black)](#)
