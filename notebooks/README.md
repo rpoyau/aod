@@ -25,7 +25,7 @@ Local: [`E7-E9-bindings.ipynb`](E7-E9-bindings.ipynb)
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E7-E9-bindings.ipynb)
 
 ### 4. `E10-E11D.ipynb`
-Scope: recurrent ring / “neural net” rendering (**E10**) and downstream decimal / decimal rendering (**E11D**).  
+Scope: recurrent ring / “neural net” rendering (**E10**) and downstream decimal / optics-style rendering (**E11D**).  
 Local: [`E10-E11D.ipynb`](E10-E11D.ipynb)  
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E10-E11D.ipynb)
 
