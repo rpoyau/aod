@@ -1,6 +1,6 @@
 {
   "title": "Alpha↔Omega Dynamics: The Hidden Temporal Dynamics of Stokes",
-  "description": "Canonical source tree for the AOD note in AFC/AF form: main native note, Supplement A, Supplement B, notebooks, native audit materials, and release metadata.",
+  "description": "Release package for the AOD note in AFC/AF form: main native note, native supplement, application and SI parity supplement, collab notebooks, and native audit materials.",
   "upload_type": "software",
   "access_right": "open",
   "license": "cc-by-4.0",

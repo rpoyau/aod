@@ -12,7 +12,7 @@ Files
 - csv/E11_open_seat_wavelet_summary.csv
 - csv/E11_open_seat_wavelet_trace.csv
 - verify_native_examples_sympy.py
-- verify_report.txt
+- verify_report.txt (generated when the verifier is run locally or in CI)
 
 Scope
 - native gauge only
