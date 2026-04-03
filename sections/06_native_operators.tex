@@ -194,7 +194,7 @@ the ladder records the integer residual-duration burden on the cited window.
 
 \begin{definition}[Jensen discipline for the ladder]
 \label{def:jensen-discipline}
-Histogram and attenuation summaries must be formed on the declared sample set before downstream compression. If $T_{\mathrm{eval}}=n_1+n_2+n_3$ and
+Histogram and attenuation summaries must be formed on the declared sample set before later compression. If $T_{\mathrm{eval}}=n_1+n_2+n_3$ and
 \[
 \bar m:=\frac{n_1+2n_2+3n_3}{T_{\mathrm{eval}}},
 \]
@@ -234,7 +234,7 @@ A_B(M;\omega)=\left(\frac{B^*(M;\omega)}{B_0}\right)^{-\widehat\Lambda(M;\omega)
 Thus $\Lambda_b$ remains the support mass on the dominant class, while $\widehat\Lambda$ is the stack-load exponent used in attenuation.
 \end{definition}
 
-\paragraph{Depends on.} \Cref{def:b-extraction,def:bstar-histogram,choice:hard-freeze,rem:jensen,def:cycle-typing}.
+\paragraph{Depends on.} \Cref{def:b-extraction,def:bstar-histogram,choice:high-rung-pivot,rem:jensen,def:cycle-typing}.
 \paragraph{Local substructure.} Outbound traversal burden; return/closure burden; bridge/dwell service; residual-duration histogram; dominant class; support mass; shell-signature class; Jensen discipline; attenuation accumulator.
 \paragraph{Derivation sketch.} From the declared traversal, closure, and bridge/dwell burdens one forms $b(\kappa)$, then $H_B$, $B^*$, and $\Lambda_b$ on the cited window; attenuation follows by algebra on the stack ledger.
 
@@ -339,7 +339,7 @@ R_{\mathrm{rest}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_
 \]
 \end{definition}
 
-\paragraph{Depends on.} \Cref{def:mt,def:loss-channel,def:b-extraction,def:bstar-histogram,def:attenuation-operator,choice:hard-freeze,rem:jensen}.
+\paragraph{Depends on.} \Cref{def:mt,def:loss-channel,def:b-extraction,def:bstar-histogram,def:attenuation-operator,choice:high-rung-pivot,rem:jensen}.
 \paragraph{Local substructure.} Admissibility count; native loss channel; return-duration ledger; dominant rung; stack load; attenuation accumulator; primitive trit/bip channel; derived biz rate.
 \paragraph{Derivation sketch.} Direct algebra on the cited admissibility and return ledgers. The zero-lag/unconstrained limit $m_t=3$ yields $R_{\mathrm{rest}}=0$ and $T_\Gamma=0$.
 

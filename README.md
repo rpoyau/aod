@@ -2,23 +2,26 @@
 ## The Hidden Temporal Dynamics of Stokes
 ### 43°C
 
-This repository is the **canonical source tree** for the AOD note in AFC/AF form. It contains the TeX source for the main native note, the two supplements, the executable notebooks, the native audit materials, and the metadata/helper files used for release deposition.
+This repository is the **canonical source tree** for the AOD note in AFC/AF form. It contains the TeX source for the main native note, the three supplements, the executable notebooks, the native audit materials, and the metadata/helper files used for release deposition.
 
 ## Source entry points
 
 - `main.tex` → `main.pdf`
 - `supplement-a.tex` → `supplement-a.pdf`
 - `supplement-b.tex` → `supplement-b.pdf`
+- `supplement-c.tex` → `supplement-c.pdf`
 
 ## Canonical source tree
 
 - `main.tex` — main native note
 - `supplement-a.tex` — Supplement A: native worked examples and figure witnesses
-- `supplement-b.tex` — Supplement B: downstream verification and application examples
+- `supplement-b.tex` — Supplement B: verification bindings and derived temporal-unit conversions
+- `supplement-c.tex` — Supplement C: additional native regime tests
 - `sections/`, `consequences/`, `examples/`, `appendices/` — TeX source tree
 - `notebooks/` — executable notebooks for native AOD tests
+- `notebooks/STYLE_GUIDE.md` — official notebook style guide
 - `audit_pack/` — native machine-readable audit rows and verifier files
-- `supplement-b-artifacts/` — downstream support data for Supplement B
+- `supplement-b-artifacts/` — support data for Supplement B temporal-conversion rows
 - `.github/workflows/` — GitHub Actions build workflow
 - `scripts/` — source-archive helper scripts
 - `.zenodo.json` — Zenodo metadata
@@ -29,23 +32,21 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 
 1. `main.pdf` — compact native derivation shell
 2. `supplement-a.pdf` — native worked examples and figure witnesses
-3. `supplement-b.pdf` — downstream verification and application companion
-4. `notebooks/` — executable notebook layer for AOD-native tests
-5. `audit_pack/` — native audit rows and verifier files
+3. `supplement-b.pdf` — verification bindings and derived temporal-unit conversions
+4. `supplement-c.pdf` — additional native regime tests
+5. `notebooks/` — executable notebook layer for AOD-native tests
+6. `audit_pack/` — native audit rows and verifier files
 
 ## Notebooks
 
 - `E1-E3.ipynb` — active-cut / closure / backlog checks  
-  Local: [`notebooks/E1-E3.ipynb`](notebooks/E1-E3.ipynb)  
-  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E1-E3.ipynb)
 - `E4-E6.ipynb` — native rest-channel / B* / collision-export checks  
-  Local: [`notebooks/E4-E6.ipynb`](notebooks/E4-E6.ipynb)  
-  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E4-E6.ipynb)
-- `E7-E9-bindings.ipynb` — field / confinement / family / binding checks  
-  Local: [`notebooks/E7-E9-bindings.ipynb`](notebooks/E7-E9-bindings.ipynb)  
-  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E7-E9-bindings.ipynb)
-- `E10-E11D.ipynb` — recurrent-ring and downstream rendering checks  
-  Local: [`notebooks/E10-E11D.ipynb`](notebooks/E10-E11D.ipynb)  
-  [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rpoyau/aod/blob/main/notebooks/E10-E11D.ipynb)
+- `E7-E9-bindings.ipynb` — field / confinement / family / routing checks  
+- `E10-E11D.ipynb` — recurrent-ring and temporal-conversion rendering checks  
+- `C1-C3_solar_redshift_lensing.ipynb` — solar perihelion / lensing / redshift native regime tests  
+- `C4_hydrogen_shells.ipynb` — hydrogen shell native regime test  
+- `C5_nucleus_confinement.ipynb` — nucleus confinement / neutron stability native regime test  
+- `C6_galactic_window_sparc5.ipynb` — galactic orbital native window  
+- `C7_brownian_jitter.ipynb` — Brownian bacteria motion / recurrent jitter native test  
 
 See `notebooks/README.md` for the notebook index, visual outputs, and verification map.

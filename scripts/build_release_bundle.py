@@ -21,10 +21,10 @@ INCLUDE_TOP_LEVEL = [
     'main.tex',
     'supplement-a.tex',
     'supplement-b.tex',
+    'supplement-c.tex',
     'preamble.tex',
     'refs.bib',
     'LICENSE',
-    'CHANGELOG.txt',
 ]
 
 INCLUDE_DIRS = [
@@ -40,7 +40,7 @@ INCLUDE_DIRS = [
 ]
 
 EXCLUDE_DIR_NAMES = {
-    '.git', '__pycache__', '.DS_Store', 'collabs', 'release'
+    '.git', '__pycache__', '.DS_Store', 'release'
 }
 
 EXCLUDE_FILE_NAMES = {
@@ -115,8 +115,8 @@ def build_stage(stage: Path) -> list[Path]:
     return sorted(set(copied))
 
 
-def write_stats(stage: Path, files: list[Path], tag: str, archive_name: str) -> None:
-    stats = stage / 'stats'
+def write_stats(outdir: Path, stage: Path, files: list[Path], tag: str, archive_name: str) -> None:
+    stats = outdir / 'stats'
     stats.mkdir(parents=True, exist_ok=True)
     manifest_csv = stats / 'source_archive_manifest.csv'
     sha_csv = stats / 'source_archive_sha256.csv'
@@ -170,7 +170,7 @@ def main() -> int:
         stage = Path(tmp) / 'source'
         stage.mkdir(parents=True, exist_ok=True)
         files = build_stage(stage)
-        write_stats(stage, files, args.tag, archive_name)
+        write_stats(outdir, stage, files, args.tag, archive_name)
         files = [p for p in stage.rglob('*') if p.is_file()]
         zip_stage(stage, archive_path)
 

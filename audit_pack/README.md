@@ -12,11 +12,11 @@ Files
 - csv/E11_open_seat_wavelet_summary.csv
 - csv/E11_open_seat_wavelet_trace.csv
 - verify_native_examples_sympy.py
-- verify_report.txt
+- verify_report.txt (generated when the verifier is run locally or in CI)
 
 Scope
 - native gauge only
 - trit/bip primitive
 - biz derived
 - no SI/application mappings
-- downstream Example E10 remains in supplement-b-artifacts/ because it is part of Supplement B rather than Supplement A
+- Supplement B Example E10 remains in supplement-b-artifacts/ because it belongs to Supplement B rather than Supplement A

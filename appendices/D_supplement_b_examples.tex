@@ -1,9 +1,9 @@
-\section{Supplement B parity examples}\label{app:application-si}
+\section{Supplement B: verification bindings and derived temporal-unit conversions}\label{app:application-si}
 
-This companion records downstream verification and application rows from the cited native ledgers. Every row begins from the native side of the ledger; familiar labels, SI quantities, decimal compressions, or sector-comparative renderings are attached after the cited native row has been fixed.
+This companion records verification bindings and temporal-unit conversion rows from cited native ledgers. Every row begins from the native side of the ledger; familiar labels, SI quantities, and decimal renderings are attached after the cited native row has been fixed.
 
-\subsection{Familiar-label verification bindings}\label{app:familiar-bindings}
-\paragraph{Application binding table.} Each row begins from the cited native row and then records the attached downstream report binding.
+\subsection{Verification bindings}\label{app:familiar-bindings}
+\paragraph{Verification binding table.} Each row begins from the cited native row and then records the attached verification binding.
 
 \begin{center}
 \begin{tabularx}{\linewidth}{@{}lXXl@{}}
@@ -21,39 +21,39 @@ Native structural key & Native rows to verify & Familiar verification label & St
 \end{center}
 
 \subsection{Derived temporal-unit conversions}\label{app:si-routing}
-\paragraph{Temporal conversion rule.} Native rows are authoritative. When conversion is required, convert only native duration bip to second, native rate biz to hertz, and the effective speed proxy to $\beta\in[0,1]$ with $c:=1$. No angular or radian-based phase variables are used in the public conversion layer.
+\paragraph{Temporal Conversion Block.} Native rows are authoritative. When conversion is required, convert only from native bip/biz quantities into derived temporal SI forms. Duration converts to \textbf{seconds}. Rate converts to \textbf{hertz}. Effective speed is reported only as $\beta=\frac{v}{c},\;c=1,\;0\le\beta\le1$.
 
 \begin{center}
 \begin{tabularx}{\linewidth}{@{}lXl@{}}
 \toprule
-Native source row & Downstream rendering target & Notes \\
+Native source row & Conversion or rendering target & Notes \\
 \midrule
-E4 native rest-channel row & bip-to-seconds, hertz, J, kg, MeV/$c^2$ dictionaries & downstream dictionary rendering \\
+E4 native rest-channel row & bip-to-seconds, hertz, J, kg, MeV/$c^2$ dictionaries & derived temporal-unit conversion \\
 E5 $B^*$ ladder row & decimal ladder summaries / attractor plots & non-premise compression \\
-E6 collision/export row & downstream sector/event illustrations & downstream application rendering \\
-E7 field-property row & real-world comparison dashboards / parity tables & native row followed by application rendering \\
+E6 collision/export row & sector/event illustrations & diagrammatic temporal conversion rendering \\
+E7 field-property row & temporal-conversion dashboards / comparison tables & native row followed by converted rendering \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
-\subsection{Real-world application rows}\label{app:realworld-routing}
-\paragraph{Application rows.} Real-world application rows begin from the native key, cited window, shell signature, $B^*$, cadence, torsional residual, and rest-channel data, and then record the attached application-side labels or unit conversions.
+\subsection{Converted rows}\label{app:realworld-routing}
+\paragraph{Converted rows.} These rows begin from the native key, cited window, shell signature, $B^*$, cadence, torsional residual, and rest-channel data, and then record the attached labels or unit conversions.
 
 \begin{center}
 \begin{tabularx}{\linewidth}{@{}lX@{}}
 \toprule
-Application class & Required native starting columns \\
+Conversion class & Required native starting columns \\
 \midrule
-Familiar field/particle parity & key, cited window, $\lambda$-band, shell signature, $B^*$, $R_{\mathrm{rest}}$, $R^{(\mathrm{biz})}_{\mathrm{rest}}$, cadence, torsional residual \\
-Laboratory / engineering parity & key, cited window, shell predicate, export witness, native rates, declared dictionary map id \\
-Scale-comparative demonstrations & key, shell signature, cadence spectrum, confinement witness, support signature, native rates \\
+Verification binding & key, cited window, $\lambda$-band, shell signature, $B^*$, $R_{\mathrm{rest}}$, $R^{(\mathrm{biz})}_{\mathrm{rest}}$, cadence, torsional residual \\
+Temporal-unit conversion & key, cited window, shell predicate, export witness, native rates, declared dictionary map id \\
+Diagrammatic temporal conversion rendering & key, shell signature, cadence spectrum, confinement witness, support signature, native rates \\
 \bottomrule
 \end{tabularx}
 \end{center}
 
 
-\subsection{Feynman-style dictionary rendering}\label{app:feynman-dict}
-\paragraph{Dictionary rendering.} The collision/export rows may also be rendered in a Feynman-style dictionary view after the cited native row has been fixed. The rendering below is a downstream compression of the same integer ledgers recorded for Example~E6 in the native supplement; it adds no premise to the native theorem space.
+\subsection{Diagrammatic temporal conversion rendering}\label{app:feynman-dict}
+\paragraph{Diagrammatic rendering.} The collision/export rows may also be rendered in a diagrammatic dictionary view after the cited native row has been fixed. The rendering below is a later compression of the same integer ledgers recorded for Example~E6 in the native supplement.
 
 \begin{center}
 \begin{tikzpicture}[x=1cm,y=1cm, line cap=round, line join=round, every node/.style={font=\small}]
@@ -103,7 +103,7 @@ $t$ & node & $\tau_\alpha$ & $\tau_\omega$ & delay [bip] & hidden mode & backlog
 \bottomrule
 \end{tabular}
 \end{center}}
-\paragraph{Dictionary rendering.} The same native row may be rendered as a three-node recurrent network with node activations and signed transport on the ring $A\to B\to C\to A$. This rendering is downstream and follows the cited native row.
+\paragraph{Diagrammatic rendering.} The same native row may be rendered as a three-node recurrent network with node activations and signed transport on the ring $A\to B\to C\to A$. This rendering follows the cited native row.
 \begin{center}
 \begin{tikzpicture}[x=1cm,y=1cm, every node/.style={font=\small}]
   \coordinate (A) at (0,1.6);
@@ -120,8 +120,8 @@ $t$ & node & $\tau_\alpha$ & $\tau_\omega$ & delay [bip] & hidden mode & backlog
 \end{center}
 \paragraph{Audit cues.} Use the CK residual $\|P^{(2)}-P^{(1)}P^{(1)}\|_F$, backlog/dwell columns, and cut residual to distinguish hidden-state projection effects from kernel bias.
 
-\subsection{Example E11D: downstream decimal rendering}\label{app:e11-dict}
-\paragraph{Dictionary rendering.} After the cited native E11 row is fixed, one may record decimal renderings of the same ratios. These renderings are downstream only.
+\subsection{Example E11D: decimal rendering}\label{app:e11-dict}
+\paragraph{Decimal rendering.} After the cited native E11 row is fixed, one may record decimal renderings of the same ratios.
 {\footnotesize
 \begin{center}
 \begin{tabular}{@{}lllllllll@{}}
@@ -136,4 +136,4 @@ E11.q$1$ & $1$ & $1.000000$ & $0.750535$ & $0.742188$ & $0.748741$ & $0.368562$ 
 \bottomrule
 \end{tabular}
 \end{center}}
-\paragraph{Native anchor.} These decimals are convenience renderings of the cited native E11 ledger and must not be used as operator premises. Here $R_{\mathrm{rest}}$ is the primitive rest-facing channel on the cited row, carrying the same value as the native loss channel on that row. No angular or radian-based phase variables enter this public conversion layer.
+\paragraph{Native anchor.} These decimals record convenience renderings of the cited native E11 ledger. Here $R_{\mathrm{rest}}$ is the primitive rest-facing channel on the cited row, carrying the same value as the native loss channel on that row. The public conversion layer records completion periods, cycle counts, and bip/biz-to-SI conversions only.
