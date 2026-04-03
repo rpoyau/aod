@@ -19,4 +19,4 @@ Scope
 - trit/bip primitive
 - biz derived
 - no SI/application mappings
-- downstream Example E10 remains in supplement-b-artifacts/ because it is part of Supplement B rather than Supplement A
+- Supplement B Example E10 remains in supplement-b-artifacts/ because it belongs to Supplement B rather than Supplement A

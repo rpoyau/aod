@@ -90,7 +90,7 @@ The same readout supports the effective-charge proxy
 \[
 q_{\mathrm{eff}}(M;\omega):=\mathcal N\!\bigl(J_\alpha(M;\omega)-J_\Omega(M;\omega)\bigr)
 \]
-and the phase-lag witness $\Delta\Phi_{\Omega|\alpha}(M;\omega)$ under the declared pairing policy.
+and the cycle-lag witness $\Delta\varphi_{\Omega|\alpha}(M;\omega)$ under the declared pairing policy.
 \end{definition}
 
 \begin{definition}[Radiating/export window and emitted packet]
@@ -143,32 +143,30 @@ This is the native Stokes-style witness for unresolved torsional imbalance on th
 \end{remarkx}
 
 \subsection{Cadence and polyrotor extractors}\label{subsec:cadence-polyrotor-operators}
-\begin{definition}[Cadence extractor and shell-resolved accumulators]
+\begin{definition}[Cadence extractor and shell-resolved completion reports]
 \label{def:cadence-operator}
-For a declared shell band or active-cut family, the cadence extractor returns cycle counts $N_k^{\mathrm{cyc}}(\omega)$ together with the shell-signature class and shell-resolved phase and rotor accumulators
+For a declared shell band or active-cut family, the cadence extractor returns completed-cycle counts $N_{\rho,k}^{\mathrm{cyc}}(\omega)$ together with the shell-signature class, shell-resolved completion periods $P_{\rho,k}(\omega)$, shell-resolved phase indices $\rho_k(\omega)$, native cycle-ratio phases
 \[
-\Phi_k(\omega):=\sum_{t\in\omega}\Delta\Phi_k(t),
-\qquad
-R_k(\omega):=\sum_{t\in\omega}\Delta R_k(t),
+\varphi_k(\omega):=\frac{\rho_k(\omega)}{P_{\rho,k}(\omega)},
 \]
 and drift witnesses
 \[
-\delta\Phi_{ij}(\omega):=\Phi_i(\omega)-\Phi_j(\omega),
+\delta\varphi_{ij}(\omega):=\varphi_i(\omega)-\varphi_j(\omega),
 \qquad
-\delta R_{ij}(\omega):=R_i(\omega)-R_j(\omega).
+\delta N_{\rho,ij}(\omega):=N_{\rho,i}^{\mathrm{cyc}}(\omega)-N_{\rho,j}^{\mathrm{cyc}}(\omega).
 \]
 The corresponding cadence witness is
 \[
-\nu_k(\omega):=\frac{N_k^{\mathrm{cyc}}(\omega)}{|\omega|},
+\nu_k(\omega):=\frac{N_{\rho,k}^{\mathrm{cyc}}(\omega)}{|\omega|},
 \]
 so the reported cadence spectrum is $\mathcal N(M;\omega)=\{\nu_1(\omega),\ldots,\nu_K(\omega)\}$.
 \end{definition}
 
-\paragraph{Depends on.} \Cref{def:polyrotor,def:cadence-extractor,def:drift,def:cadence-bstar,def:shell-cadence-interface}.
-\paragraph{Local substructure.} Cadence extractor; phase/rotor accumulators; drift witnesses; cadence spectrum; dominant residual-duration class.
-\paragraph{Derivation sketch.} From the declared shell-band extraction and phase/rotor ledgers on the same cited readout family.
+\paragraph{Depends on.} \Cref{def:polyrotor,def:rotor-completion,def:cadence-extractor,def:drift,def:cadence-bstar,def:shell-cadence-interface}.
+\paragraph{Local substructure.} Cadence extractor; completion periods; phase indices; cycle-ratio phases; drift witnesses; cadence spectrum; dominant residual-duration class.
+\paragraph{Derivation sketch.} From the declared shell-band extraction and completion ledgers on the same cited readout family.
 \begin{remarkx}
-On shell-qualified windows, recurrent closure and phase-locking may be read as standing wavelet configurations on the cited support. Their unresolved phase disagreement is reported through backlog, torsional residual, cadence shift, and the native rest-channel on that same window. The cut-to-cut identity is unchanged; the effective window-level progress rate need not match branch-specific traversal duration, because part of the cited window is spent servicing $\alpha/\Omega$ mismatch through bridge and dwell burden. The dominant residual-duration class $B^*$ records the leading support class of that burden on the cited window under the declared extraction policy.
+On shell-qualified windows, recurrent closure and phase-locking may be read as standing wavelet configurations on the cited support. Their unresolved disagreement is reported through backlog, torsional residual, cadence shift, and the rest-channel on that same window. The cut-to-cut identity is unchanged; the effective window-level progress rate need not match branch-specific traversal duration, because part of the cited window is spent servicing $\alpha/\Omega$ mismatch through bridge and dwell burden. The dominant residual-duration class $B^*$ records the leading support class of that burden on the cited window under the declared extraction policy.
 \end{remarkx}
 
 \subsection{\texorpdfstring{$B^*$}{B*} ladder and histogram operators}\label{subsec:bstar-ladder-operators}
@@ -196,7 +194,7 @@ the ladder records the integer residual-duration burden on the cited window.
 
 \begin{definition}[Jensen discipline for the ladder]
 \label{def:jensen-discipline}
-Histogram and attenuation summaries must be formed on the declared sample set before downstream compression. If $T_{\mathrm{eval}}=n_1+n_2+n_3$ and
+Histogram and attenuation summaries must be formed on the declared sample set before later compression. If $T_{\mathrm{eval}}=n_1+n_2+n_3$ and
 \[
 \bar m:=\frac{n_1+2n_2+3n_3}{T_{\mathrm{eval}}},
 \]
@@ -236,14 +234,14 @@ A_B(M;\omega)=\left(\frac{B^*(M;\omega)}{B_0}\right)^{-\widehat\Lambda(M;\omega)
 Thus $\Lambda_b$ remains the support mass on the dominant class, while $\widehat\Lambda$ is the stack-load exponent used in attenuation.
 \end{definition}
 
-\paragraph{Depends on.} \Cref{def:b-extraction,def:bstar-histogram,choice:hard-freeze,rem:jensen,def:cycle-typing}.
+\paragraph{Depends on.} \Cref{def:b-extraction,def:bstar-histogram,choice:high-rung-pivot,rem:jensen,def:cycle-typing}.
 \paragraph{Local substructure.} Outbound traversal burden; return/closure burden; bridge/dwell service; residual-duration histogram; dominant class; support mass; shell-signature class; Jensen discipline; attenuation accumulator.
 \paragraph{Derivation sketch.} From the declared traversal, closure, and bridge/dwell burdens one forms $b(\kappa)$, then $H_B$, $B^*$, and $\Lambda_b$ on the cited window; attenuation follows by algebra on the stack ledger.
 
 \subsection{Finite path sums, least reconciliation, ternary interaction gate, and diagrammatic renderings}\label{subsec:pathsum-diagram-operators}
 \begin{definition}[Finite path sum]
 \label{def:path-sum}
-A finite path sum is a finite sum over declared Memory paths, with each term given by a finite product of ledger-derived factors such as admissibility counts, chirality tags, phase factors, coupling factors, and attenuation weights.
+A finite path sum is a finite sum over declared Memory paths, with each term given by a finite product of ledger-derived factors such as admissibility counts, chirality tags, cycle-ratio factors, coupling factors, and attenuation weights.
 \end{definition}
 
 \begin{definition}[Least reconciliation]
@@ -341,7 +339,7 @@ R_{\mathrm{rest}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_
 \]
 \end{definition}
 
-\paragraph{Depends on.} \Cref{def:mt,def:loss-channel,def:b-extraction,def:bstar-histogram,def:attenuation-operator,choice:hard-freeze,rem:jensen}.
+\paragraph{Depends on.} \Cref{def:mt,def:loss-channel,def:b-extraction,def:bstar-histogram,def:attenuation-operator,choice:high-rung-pivot,rem:jensen}.
 \paragraph{Local substructure.} Admissibility count; native loss channel; return-duration ledger; dominant rung; stack load; attenuation accumulator; primitive trit/bip channel; derived biz rate.
 \paragraph{Derivation sketch.} Direct algebra on the cited admissibility and return ledgers. The zero-lag/unconstrained limit $m_t=3$ yields $R_{\mathrm{rest}}=0$ and $T_\Gamma=0$.
 

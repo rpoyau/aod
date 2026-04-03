@@ -4,177 +4,71 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
-    paths:
-      - '**/*.tex'
-      - '**/*.bib'
-      - 'sections/**'
-      - 'consequences/**'
-      - 'examples/**'
-      - 'appendices/**'
-      - 'notebooks/**'
-      - 'audit_pack/**'
-      - 'supplement-b-artifacts/**'
-      - 'scripts/**'
-      - '.zenodo.json'
-      - '.zenodo_doi'
-      - 'README.md'
-      - '.github/workflows/build.yml'
   pull_request:
-    paths:
-      - '**/*.tex'
-      - '**/*.bib'
-      - 'sections/**'
-      - 'consequences/**'
-      - 'examples/**'
-      - 'appendices/**'
-      - 'notebooks/**'
-      - 'audit_pack/**'
-      - 'supplement-b-artifacts/**'
-      - 'scripts/**'
-      - '.zenodo.json'
-      - '.zenodo_doi'
-      - 'README.md'
-      - '.github/workflows/build.yml'
-  release:
-    types: [published]
 
 jobs:
-  build:
+  latex:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       pull-requests: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Resolve release variables
-        id: vars
+      - name: Install TinyTeX
         shell: bash
         run: |
-          set -euo pipefail
-          if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
-            TAG="${GITHUB_REF_NAME}"
-          else
-            TAG="${GITHUB_SHA}"
-          fi
-          REPO_NAME="${GITHUB_REPOSITORY#*/}"
-          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
-          echo "bundle_prefix=${REPO_NAME}" >> "$GITHUB_OUTPUT"
-
-      - name: Install TinyTeX and TeX packages
-        shell: bash
-        run: |
-          set -euxo pipefail
+          set -e
           wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
-          echo "$HOME/bin" >> "$GITHUB_PATH"
+          echo "$HOME/bin" >> $GITHUB_PATH
           export PATH="$HOME/bin:$PATH"
-          tlmgr update --self --all
-          # amssymb.sty is provided by the amsfonts package in TeX Live; do not install a non-existent amssymb package.
+          ~/bin/tlmgr update --self --all
           for pkg in latexmk xetex geometry amsmath amsfonts mathtools microtype enumitem siunitx booktabs pgf hyperref cleveref placeins xcolor fontspec tools; do
-            tlmgr install "$pkg"
+            ~/bin/tlmgr install "$pkg"
           done
 
-      - name: Compile PDFs
+      - name: Build PDFs
         shell: bash
         run: |
-          set -euxo pipefail
           export PATH="$HOME/bin:$PATH"
           latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
           latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-a.tex
           latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-b.tex
+          latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-c.tex
 
       - name: Run native verifier
-        shell: bash
-        run: |
-          set -euxo pipefail
-          python3 audit_pack/verify_native_examples_sympy.py
+        run: python3 audit_pack/verify_native_examples_sympy.py
 
-      - name: Build curated release bundle and audit pack
-        id: bundle
-        shell: bash
+      - name: Build source archive
+        id: sourcezip
         run: |
-          set -euxo pipefail
-          mkdir -p dist
-          BUNDLE_PATH="$(python scripts/build_release_bundle.py --tag "${{ steps.vars.outputs.tag }}" --outdir dist --bundle-prefix "${{ steps.vars.outputs.bundle_prefix }}")"
-          test -f "$BUNDLE_PATH"
-          (
-            cd audit_pack
-            zip -qr ../dist/native-audit-pack.zip .
-          )
-          test -f dist/native-audit-pack.zip
-          echo "bundle_path=$BUNDLE_PATH" >> "$GITHUB_OUTPUT"
-          echo "audit_pack_path=dist/native-audit-pack.zip" >> "$GITHUB_OUTPUT"
+          python3 scripts/build_release_bundle.py --tag release --outdir dist --archive-prefix aod-source > /tmp/sourcezip_path.txt
+          echo "path=$(cat /tmp/sourcezip_path.txt)" >> $GITHUB_OUTPUT
 
-      - name: Upload compiled PDFs
+      - name: Zip native audit pack
+        run: |
+          cd audit_pack && zip -r ../dist/native-audit-pack.zip .
+
+      - name: Upload PDFs
         uses: actions/upload-artifact@v4
         with:
           name: pdfs
-          if-no-files-found: error
-          retention-days: 30
           path: |
             main.pdf
             supplement-a.pdf
             supplement-b.pdf
+            supplement-c.pdf
 
-      - name: Upload release bundle
+      - name: Upload source zip
         uses: actions/upload-artifact@v4
         with:
-          name: release-bundle
-          if-no-files-found: error
-          retention-days: 30
-          path: ${{ steps.bundle.outputs.bundle_path }}
+          name: source-zip
+          path: ${{ steps.sourcezip.outputs.path }}
 
       - name: Upload native audit pack
         uses: actions/upload-artifact@v4
         with:
           name: native-audit-pack
-          if-no-files-found: error
-          retention-days: 30
-          path: ${{ steps.bundle.outputs.audit_pack_path }}
-
-      - name: Attach PDFs and bundles to GitHub release
-        if: github.event_name == 'release'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
-        run: |
-          set -euxo pipefail
-          gh release upload "${{ github.ref_name }}" \
-            main.pdf \
-            supplement-a.pdf \
-            supplement-b.pdf \
-            "${{ steps.bundle.outputs.bundle_path }}" \
-            "${{ steps.bundle.outputs.audit_pack_path }}" \
-            --clobber
-
-      - name: Comment on pull request with artifact names
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const issue_number = context.issue.number;
-            await github.rest.issues.createComment({
-              owner,
-              repo,
-              issue_number,
-              body: [
-                '📄 **Build artifacts ready**',
-                '',
-                '- Artifact: `pdfs` (contains `main.pdf`, `supplement-a.pdf`, `supplement-b.pdf`)',
-                '- Artifact: `release-bundle` (repo-root ZIP for GitHub release / Zenodo GitHub integration)',
-                '- Artifact: `native-audit-pack` (zipped native audit CSVs and verifier files)',
-                '',
-                'Open the workflow run and download the artifacts from the **Artifacts** section.'
-              ].join('\n')
-            });
+          path: dist/native-audit-pack.zip

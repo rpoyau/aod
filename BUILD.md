@@ -12,12 +12,14 @@ This file records the operational steps for building the PDFs, running the nativ
 - `main.tex`
 - `supplement-a.tex`
 - `supplement-b.tex`
+- `supplement-c.tex`
 
 ## Local PDF build
 ```bash
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
 latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-a.tex
 latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-b.tex
+latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-c.tex
 ```
 
 ## Native audit
@@ -33,6 +35,7 @@ The GitHub workflow attaches these release assets on a published GitHub release:
 - `main.pdf`
 - `supplement-a.pdf`
 - `supplement-b.pdf`
+- `supplement-c.pdf`
 - canonical source archive (`source-zip`)
 - optional `native-audit-pack.zip`
 
