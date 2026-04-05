@@ -36,7 +36,8 @@ jobs:
           latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
           latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-a.tex
           latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-b.tex
-          latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-c.tex
+          latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error supplement-c/main.tex
+          cp supplement-c/main.pdf supplement-c.pdf
 
       - name: Run native verifier
         run: python3 audit_pack/verify_native_examples_sympy.py

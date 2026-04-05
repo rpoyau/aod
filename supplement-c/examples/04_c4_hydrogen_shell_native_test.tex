@@ -1,0 +1,48 @@
+\subsection{C4 -- Hydrogen shell native test}\label{app:c4}
+\paragraph{Native question.} Does the cited shell window realize the predicted shell band, dominant residual-duration class, support mass, attenuation, and native rest-facing channel?
+\paragraph{Native readout.}
+\begin{itemize}
+\item cited shell window $\omega_{\mathrm{H}}$
+\item structural key \texttt{tetron:*}
+\item frame count / $T_{\mathrm{eval}}=24$ bip
+\item weighting policy $w(\kappa)\equiv 1$
+\item shell band
+\end{itemize}
+\paragraph{Native operator chain.}
+\[
+b(\kappa)\to H_B\to B^*\to \Lambda_b\to A_B\to R_{\mathrm{rest}}\to R_{\mathrm{rest}}^{(\mathrm{biz})}.
+\]
+\paragraph{Native output row.}
+\begin{center}
+\small
+\begin{tabular}{lccccc}
+\toprule
+Row & Shell band & $B^*$ & $\Lambda_b$ & $R_{\mathrm{rest}}$ [trit/bip] & Cadence witness \\
+\midrule
+C4.A & 3 & 137 & 6 & $(1+8\ell_2)/24$ & $5/12$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\paragraph{Temporal Conversion Block.} Temporal conversion is a normal chain-rule expansion on the cited native row. The current witness values are
+\[
+f_e = 1.2355899446144601\times 10^{20}\ \text{Hz},
+\]
+and shell-radius witnesses
+\[
+n=1:\ 5.291772191461861\times 10^{-11}\ \text{m},\qquad
+n=2:\ 2.1167088765847444\times 10^{-10}\ \text{m},
+\]
+\[
+n=3:\ 4.762594972315675\times 10^{-10}\ \text{m},\qquad
+n=4:\ 8.466835506338978\times 10^{-10}\ \text{m}.
+\]
+\paragraph{Native figure witness.}
+\begin{center}
+\begin{tikzpicture}[x=1.2cm,y=1cm,>=stealth,thick]
+\draw[->] (0,0) -- (5,0) node[right] {$n$};
+\draw[->] (0,0) -- (0,9) node[above] {radius};
+\foreach \x/\y in {1/0.529,2/2.117,3/4.763,4/8.467}{\fill (\x,\y) circle (2pt);}
+\draw (1,0.529)--(2,2.117)--(3,4.763)--(4,8.467);
+\end{tikzpicture}
+\end{center}
+\paragraph{Hook / Evidence.} Use the cited shell-band and attenuation hooks.

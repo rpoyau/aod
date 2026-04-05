@@ -12,14 +12,15 @@ This file records the operational steps for building the PDFs, running the nativ
 - `main.tex`
 - `supplement-a.tex`
 - `supplement-b.tex`
-- `supplement-c.tex`
+- `supplement-c/main.tex`
 
 ## Local PDF build
 ```bash
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
 latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-a.tex
 latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-b.tex
-latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-c.tex
+latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error supplement-c/main.tex
+cp supplement-c/main.pdf supplement-c.pdf
 ```
 
 ## Native audit

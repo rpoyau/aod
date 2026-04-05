@@ -1,0 +1,40 @@
+\subsection{C3 -- Solar redshift native window}\label{app:c3}
+\paragraph{Native question.} Do the cited source and receiver windows close with the predicted cadence-transfer and residual-load difference?
+\paragraph{Native readout.}
+\begin{itemize}
+\item source window $\omega_{\mathrm{src}}$
+\item receiver window $\omega_{\mathrm{rcv}}$
+\item structural keys \texttt{tetron:4:4:8}
+\item frame counts / $T_{\mathrm{eval}}=768$ bip on each window
+\item weighting policy $w(\kappa)\equiv 1$
+\end{itemize}
+\paragraph{Native operator chain.}
+\[
+b(\kappa)\to H_B\to B^*\to \Lambda_b\to R_{\mathrm{rest}}\to \text{cadence-transfer witness}.
+\]
+\paragraph{Native output row.}
+\begin{center}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+Row & $B^*_{\mathrm{src}}$ & $B^*_{\mathrm{rcv}}$ & $\Lambda_{b,\mathrm{src}}$ & $\Lambda_{b,\mathrm{rcv}}$ & $R_{\mathrm{rest}}$ diff & Cadence ratio \\
+\midrule
+C3.A & 5 & 7 & 3 & 2 & 0.0012 & 1.0002 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\paragraph{Temporal Conversion Block.} Temporal conversion is a normal chain-rule expansion on the cited native row. On these windows, the redshift witness is
+\[
+2.122566754396204\times 10^{-6}.
+\]
+\paragraph{Native figure witness.}
+\begin{center}
+\begin{tikzpicture}[x=1.0cm,y=1.2cm,>=stealth,thick]
+\draw[->] (0,0) -- (3.5,0) node[right] {window};
+\draw[->] (0,0) -- (0,1.8) node[above] {cadence};
+\fill (1,1.0) circle (2pt) node[above] {source};
+\fill (2.2,1.2) circle (2pt) node[above] {receiver};
+\draw (1,1.0)--(2.2,1.2);
+\end{tikzpicture}
+\end{center}
+\paragraph{Hook / Evidence.} Use the cited cadence-transfer and two-window comparison hooks.
