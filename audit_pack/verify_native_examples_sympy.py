@@ -46,10 +46,10 @@ with open(base / 'E4_native_rest_channel.csv', newline='') as f:
         bstar = int(row['Bstar'])
         lam = int(row['Lambda_b'])
         rrest_expected = sp.simplify((n1 + n2 * l2) / teval)
-        rrest_given = parse_native_expr(row['Rrest_expr'])
+        rrest_given = parse_native_expr(row['Rloss_expr'])
         assert sp.simplify(rrest_expected - rrest_given) == 0
         rbiz_expected = sp.simplify((sp.Integer(3) ** rrest_expected - 1) * sp.Integer(bstar) ** (-lam))
-        rbiz_given = parse_native_expr(row['Rrest_biz_expr'])
+        rbiz_given = parse_native_expr(row['Rloss_biz_expr'])
         assert sp.simplify(rbiz_expected - rbiz_given) == 0
         lines.append(f"{row['row']}: E4 chain verified")
 
@@ -79,9 +79,9 @@ with open(base / 'E7_field_property_schema.csv', newline='') as f:
     rows = list(csv.DictReader(f))
 vals = {r['field_property']: r['reported_native_value'] for r in rows}
 assert vals['AO field key'] == 'O-tetrad:3:4:6'
-assert '(1 + 8*log(3/2,3))/24' in vals['Rrest']
-assert '137**(-6)' in vals['Rrest_biz']
-lines.append('E7: schema row matches native rest-channel family row')
+assert '(1 + 8*log(3/2,3))/24' in vals['Rloss']
+assert '137**(-6)' in vals['Rloss_biz']
+lines.append('E7: schema row matches native loss-channel family row')
 
 # E8 / E9 existence
 for name in ['E8_short_window_confinement.csv', 'E9_duon_duad_family.csv']:

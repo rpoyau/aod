@@ -12,7 +12,7 @@ Given the axis-lift chart policy of \Cref{choice:axis-lift}, the Q4 chart operat
 \paragraph{Local substructure.} Axis-lift chart policy; Q4 cell basis; beat-knot / cage-knot typing; minimal cage-band $(4{:}6)$; minimal four-cycle enclosure.
 \paragraph{Derivation sketch.} From the declared chart policy and the inherited support law, active ternary steps map to single-axis toggles on Q4. The closure predicate yields beat-knot versus cage-knot classes on the same chart, the minimal two-knot cage report is typed by $(4{:}6)$, and the first nondegenerate enclosure in this cubical basis is a four-cycle.
 
-\subsection{Kernel-clock reconciliation, native loss channel, and rest channel}\label{subsec:kernel-clock-rest}
+\subsection{Kernel-clock reconciliation, native loss channel, and loss channel}\label{subsec:kernel-clock-rest}
 \begin{definition}[Kernel-clock reconciliation operator]
 \label{def:kernel-clock-reconciliation}
 Let $S_t$ be the declared local wavefront state, $A_t(S_t)$ the admissible successor set, and $P_t(\cdot\mid S_t)$ the declared local choice kernel on that set. Let $\beta_t$ be the backlog witness and let $F_t$ be the forced-dwell predicate. The realized update law is the reconciliation operator
@@ -27,19 +27,19 @@ Let $S_t$ be the declared local wavefront state, $A_t(S_t)$ the admissible succe
 The kernel expresses local choice; backlog and forced dwell express clock-side debt service. The latter do not reparameterize the former.
 \end{definition}
 
-\begin{definition}[Derived biz rest rate]
+\begin{definition}[Derived biz loss rate]
 \label{def:rest-biz}
-With a declared attenuation accumulator $A_B(M;\omega)$ and burden reference $B_0:=1\,\mathrm{bip}$, define the derived internal rest rate by
+With a declared attenuation accumulator $A_B(M;\omega)$ and burden reference $B_0:=1\,\mathrm{bip}$, define the derived internal loss rate by
 \[
-R_{\mathrm{rest}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_B(M;\omega)
+R_{\mathrm{loss}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_B(M;\omega)
 \qquad [\mathrm{biz}].
 \]
-The primitive remains $R_{\mathrm{rest}}=u^{(\mathrm{loss})}$ in trit/bip.
+The primitive remains $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in trit/bip and records average clock-side service burden on the cited window.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{choice:tau-readout,def:active-dwell,def:mt,def:loss-channel,def:backlog-reconciliation}.
 \paragraph{Local substructure.} Admissibility count $m_t$; forced dwell; $\Gamma_{\mathrm{loss,raw}}$; $\Gamma_{\mathrm{loss}}$; $T_\Gamma$; primitive trit/bip channel; derived biz channel.
-\paragraph{Derivation sketch.} From the declared gating rule and the active/dwell split, admissibility restriction yields $m_t<3$ and therefore positive loss on constrained ticks. Averaging on the cited active-cut family gives the native rest channel; the biz rate is the corresponding internal rate on the same ledger.
+\paragraph{Derivation sketch.} From the declared gating rule and the active/dwell split, admissibility restriction yields $m_t<3$ and therefore positive loss on constrained ticks. Averaging on the cited active-cut family gives the native loss channel; the biz rate is the corresponding internal rate on the same ledger.
 
 \subsection{Wavelet transport, trit carriage, and saturation}\label{subsec:wavelet-transport-saturation}
 \begin{definition}[Wavelet transport operator]
@@ -166,7 +166,7 @@ so the reported cadence spectrum is $\mathcal N(M;\omega)=\{\nu_1(\omega),\ldots
 \paragraph{Local substructure.} Cadence extractor; completion periods; phase indices; cycle-ratio phases; drift witnesses; cadence spectrum; dominant residual-duration class.
 \paragraph{Derivation sketch.} From the declared shell-band extraction and completion ledgers on the same cited readout family.
 \begin{remarkx}
-On shell-qualified windows, recurrent closure and phase-locking may be read as standing wavelet configurations on the cited support. Their unresolved disagreement is reported through backlog, torsional residual, cadence shift, and the rest-channel on that same window. The cut-to-cut identity is unchanged; the effective window-level progress rate need not match branch-specific traversal duration, because part of the cited window is spent servicing $\alpha/\Omega$ mismatch through bridge and dwell burden. The dominant residual-duration class $B^*$ records the leading support class of that burden on the cited window under the declared extraction policy.
+On shell-qualified windows, recurrent closure and phase-locking may be read as standing wavelet configurations on the cited support. Their unresolved disagreement is reported through backlog, torsional residual, cadence shift, and the loss-channel on that same window. The cut-to-cut identity is unchanged; the effective window-level progress rate need not match branch-specific traversal duration, because part of the cited window is spent servicing $\alpha/\Omega$ mismatch through bridge and dwell burden. The dominant residual-duration class $B^*$ records the leading support class of that burden on the cited window under the declared extraction policy.
 \end{remarkx}
 
 \subsection{\texorpdfstring{$B^*$}{B*} ladder and histogram operators}\label{subsec:bstar-ladder-operators}
@@ -295,16 +295,16 @@ Freezing is the reported sustained admissibility restriction on a cited motif-co
 \paragraph{Local substructure.} Cross-shell drift; backlog witness; forced dwell; shell-signature class; $B^*$-anchored persistence; confinement witness; failure criterion; transmutation / recruitment of outer closure range.
 \paragraph{Derivation sketch.} On the cited readout family,
 \[
-\text{cross-shell drift}\Rightarrow \beta_t>0\Rightarrow \text{forced dwell}\Rightarrow m_t<3\Rightarrow R_{\mathrm{rest}}>0.
+\text{cross-shell drift}\Rightarrow \beta_t>0\Rightarrow \text{forced dwell}\Rightarrow m_t<3\Rightarrow R_{\mathrm{loss}}>0.
 \]
 When the same shell-qualified window also satisfies the declared proximity and $B^*$-dominance condition, the window is reported as confined. Failure of that witness triggers the declared transmutation event operator and, if sustained, dynamic recruitment of the outer closure range.
 
-\subsection{Rest-channel derivation}\label{subsec:native-rest-derivation}
-\begin{definition}[Rest-channel derivation]
+\subsection{Loss-channel derivation}\label{subsec:native-rest-derivation}
+\begin{definition}[Loss-channel derivation]
 \label{def:native-rest-derivation}
-The rest-facing chain is the declared operator composition
+The loss-facing chain is the declared operator composition
 \[
-m_t\rightarrow u_t^{(\mathrm{loss})}\rightarrow \Gamma_{\mathrm{loss}}\rightarrow B^*\rightarrow \widehat\Lambda\rightarrow A_B\rightarrow R_{\mathrm{rest}}\rightarrow R_{\mathrm{rest}}^{(\mathrm{biz})}.
+m_t\rightarrow u_t^{(\mathrm{loss})}\rightarrow \Gamma_{\mathrm{loss}}\rightarrow B^*\rightarrow \widehat\Lambda\rightarrow A_B\rightarrow R_{\mathrm{loss}}\rightarrow R_{\mathrm{loss}}^{(\mathrm{biz})}.
 \]
 Here
 \[
@@ -313,7 +313,7 @@ u_t^{(\mathrm{loss})}:=\log_3\!\left(\frac{3}{m_t}\right),
 U^{(\mathrm{loss})}(M;\omega):=\sum_{t\in(\omega\cap M)_{\mathrm{act}}} u_t^{(\mathrm{loss})},
 \]
 \[
-R_{\mathrm{rest}}(M;\omega)=u^{(\mathrm{loss})}(M;\omega):=\frac{1}{T_{\mathrm{eval}}(M;\omega)}U^{(\mathrm{loss})}(M;\omega)
+R_{\mathrm{loss}}(M;\omega)=u^{(\mathrm{loss})}(M;\omega):=\frac{1}{T_{\mathrm{eval}}(M;\omega)}U^{(\mathrm{loss})}(M;\omega)
 =\log_3\!\bigl(\Gamma_{\mathrm{loss}}(M;\omega)\bigr)\quad[\mathrm{trit/bip}],
 \]
 with
@@ -334,14 +334,14 @@ A_B(M;\omega)=\left(\frac{B^*(M;\omega)}{B_0}\right)^{-\widehat\Lambda(M;\omega)
 \]
 and the derived internal rate is
 \[
-R_{\mathrm{rest}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_B(M;\omega)
+R_{\mathrm{loss}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_B(M;\omega)
 \quad[\mathrm{biz}].
 \]
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:mt,def:loss-channel,def:b-extraction,def:bstar-histogram,def:attenuation-operator,choice:high-rung-pivot,rem:jensen}.
 \paragraph{Local substructure.} Admissibility count; native loss channel; return-duration ledger; dominant rung; stack load; attenuation accumulator; primitive trit/bip channel; derived biz rate.
-\paragraph{Derivation sketch.} Direct algebra on the cited admissibility and return ledgers. The zero-lag/unconstrained limit $m_t=3$ yields $R_{\mathrm{rest}}=0$ and $T_\Gamma=0$.
+\paragraph{Derivation sketch.} Direct algebra on the cited admissibility and return ledgers. The zero-lag/unconstrained limit $m_t=3$ yields $R_{\mathrm{loss}}=0$ and $T_\Gamma=0$.
 
 \subsection{Momentum-like native proxy and rest-frame windows}\label{subsec:momentum-proxy}
 \begin{definition}[Momentum-like native proxy]
@@ -350,7 +350,7 @@ Using the normalized speed $v(\omega)$ on a cited window, define the momentum-li
 \[
 p_{\mathrm{prox}}(M;\omega):=E_{\mathrm{tot}}(M;\omega)\,v(\omega),
 \]
-where $E_{\mathrm{tot}}$ is the declared total biz-valued rate assembled from the native rest-facing channel and any declared additional native totals on the same ledger. This is the native proxy channel assembled on the cited ledger.
+where $E_{\mathrm{tot}}$ is the declared total biz-valued rate assembled from the native loss-facing channel and any declared additional native totals on the same ledger. This is the native proxy channel assembled on the cited ledger.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:rest-frame-window,def:native-rest-derivation}.
@@ -374,6 +374,7 @@ The emission/export packet witness is the wavelet packet whose boundary crossing
 \paragraph{Depends on.} \Cref{def:radiating-window,def:push-pull-operator,def:wavelet,def:coupling-exposure}.
 \paragraph{Local substructure.} Motif$\to$Region extractor; boundary MI export; shell-qualified window; radiating/export window; packet witness; shell falsifier.
 \paragraph{Derivation sketch.} From the same native boundary ledgers used for shell and export classification on the cited window.
+\paragraph{Remark.} Long-range radiation/export windows may be reported on the duon/duad family. The duon family is the minimal native open-seat export carrier on such windows; emitted wavelet packets on the cited boundary are later physical renderings of that native export bookkeeping.
 
 \subsection{Family dynamics and subclass rules}\label{subsec:family-dynamics-subclass}
 \begin{definition}[Family dynamics and subclass rules]

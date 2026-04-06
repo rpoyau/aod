@@ -64,7 +64,7 @@ m_t:=|A_t|\in\{1,2,3\}.
 When $m_t=1$, the realized update is fully constrained on that tick.
 \end{definition}
 
-\begin{definition}[Native loss channel and rest channel]
+\begin{definition}[Native loss channel and loss channel]
 \label{def:loss-channel}
 The per-tick loss burden, its accumulated total, and its windowed average are
 \[
@@ -73,7 +73,7 @@ u_t^{(\mathrm{loss})}:=\log_3\!\left(\frac{3}{m_t}\right),
 U^{(\mathrm{loss})}(\omega):=\sum_{t\in\omega\cap\mathrm{act}} u_t^{(\mathrm{loss})},
 \]
 \[
-R_{\mathrm{rest}}(\omega):=u^{(\mathrm{loss})}(\omega):=\frac{1}{T_{\mathrm{eval}}}U^{(\mathrm{loss})}(\omega)
+R_{\mathrm{loss}}(\omega):=u^{(\mathrm{loss})}(\omega):=\frac{1}{T_{\mathrm{eval}}}U^{(\mathrm{loss})}(\omega)
 =\log_3\!\bigl(\Gamma_{\mathrm{loss}}(\omega)\bigr)
 \quad[\mathrm{trit/bip}],
 \]
@@ -85,7 +85,7 @@ with
 \qquad
 T_\Gamma(\omega):=\Gamma_{\mathrm{loss}}(\omega)-1.
 \]
-The native primitive is $R_{\mathrm{rest}}=u^{(\mathrm{loss})}$ in trit/bip. A derived internal rate in biz may be reported later only after the declared attenuation/backlog step has been applied.
+The native primitive is $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in trit/bip. A derived internal rate in biz may be reported later only after the declared attenuation/backlog step has been applied.
 \end{definition}
 
 \begin{definition}[Active-only versus total normalization]
@@ -222,7 +222,7 @@ A wavelet is a finite closure-carrying Memory-path segment equipped with ordered
 
 \begin{definition}[Shell-band extraction and cadence extractor interface]
 \label{def:shell-cadence-interface}\label{def:cadence-extractor}
-A shell-band extractor packages the cited closure/return/cycle ledger into an ordered family of reported shell bands. A cadence extractor acts on those bands to produce completed-cycle counts, completion periods, phase indices, cycle-ratio phase reports, and drift witnesses. No continuum frequency law is assumed.
+A shell-band extractor packages the cited closure/return/cycle ledger into an ordered family of reported shell bands. A cadence extractor acts on those bands to produce completed-cycle counts, completion periods, phase indices, cycle-ratio phase reports, and drift witnesses on the same cited window.
 \end{definition}
 
 \begin{definition}[Saturation]
@@ -310,7 +310,7 @@ Histogram and loss aggregation must preserve the native order of operations. If 
 \]
 then the exact loss-average on the declared window is
 \[
-R_{\mathrm{rest}}(\omega)=\frac{n_1+n_2\log_3\!\left(\frac{3}{2}\right)}{T_{\mathrm{eval}}},
+R_{\mathrm{loss}}(\omega)=\frac{n_1+n_2\log_3\!\left(\frac{3}{2}\right)}{T_{\mathrm{eval}}},
 \]
 whereas the post-averaged surrogate would be
 \[
@@ -359,6 +359,16 @@ The public AO field families used below are the two-seat family \emph{duon}/\emp
 \begin{definition}[Structural constraints]
 \label{def:structural-constraints}
 Seat / traversal constraints, closure-lock constraints, and saturation policy are declared on the cited family key before any subclass persistence or transmutation claim is made.
+\end{definition}
+
+\begin{definition}[Ominion]
+\label{def:ominion}
+An ominion is a declared clustered effective-body state on a cited window, carrying effective report properties such as mass/rate, charge proxy, linear momentum, angular momentum, phase state, and native loss/tension witnesses.
+\end{definition}
+
+\begin{definition}[n-soma system]
+\label{def:n-soma}
+An n-soma is a finite family of ominions together with a shared relational ledger on the cited window.
 \end{definition}
 
 \subsection{Observer families, coupling, chirality, polyrotor phases, torsional tension, and cadence}

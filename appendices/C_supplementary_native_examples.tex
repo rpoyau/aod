@@ -2,7 +2,7 @@
 
 This appendix collects the heavier native worked tables that support audit and reproduction while keeping the main examples compact. All rows remain native-first: trit/bip is primitive, biz is derived, and the cited ledgers are recorded in exact native form. Integer counts and exact rational/logarithmic forms are authoritative; decimal compression is excluded from this package.
 
-\subsection{Example E4: Native rest-channel worked table}\label{ex:e4}
+\subsection{Example E4: Native loss-channel worked table}\label{ex:e4}
 \paragraph{Depends on.} \Cref{def:native-rest-derivation,def:attenuation-operator,hook:h7}.
 \paragraph{Local readout.} A shell-qualified motif window with declared admissibility counts, return-duration histogram, and attenuation policy.
 \paragraph{Native output.} Let $\ell_2:=\log_3(3/2)$.
@@ -10,7 +10,7 @@ This appendix collects the heavier native worked tables that support audit and r
 \begin{center}
 \begin{tabular}{@{}lllllll@{}}
 \toprule
-Row & $T_{\mathrm{eval}}$ [bip] & $N_m=(n_1,n_2,n_3)$ & $B^*$ & $\Lambda_b$ & $R_{\mathrm{rest}}$ [trit/bip] & $R_{\mathrm{rest}}^{(\mathrm{biz})}$ [biz] \\
+Row & $T_{\mathrm{eval}}$ [bip] & $N_m=(n_1,n_2,n_3)$ & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [trit/bip] & $R_{\mathrm{loss}}^{(\mathrm{biz})}$ [biz] \\
 \midrule
 E4.A & $12$ & $(2,4,6)$ & $5$ & $4$ & $(2+4\ell_2)/12$ & $\bigl(3^{(2+4\ell_2)/12}-1\bigr)5^{-4}$ \\
 E4.B & $24$ & $(1,8,15)$ & $137$ & $6$ & $(1+8\ell_2)/24$ & $\bigl(3^{(1+8\ell_2)/24}-1\bigr)137^{-6}$ \\
@@ -78,8 +78,8 @@ AO field key & $\mathrm{O\text{-}tetrad{:}3{:}4{:}6}$ \\
 TTL & $24\ \mathrm{bip}$ \\
 Cadence spectrum & $\{1/4,3/8,5/12\}$ [cyc/bip] \\
 $B^*$ / $\Lambda_b$ & $137 / 6$ \\
-$R_{\mathrm{rest}}$ & $(1+8\ell_2)/24$ [trit/bip] \\
-$R_{\mathrm{rest}}^{(\mathrm{biz})}$ & $\bigl(3^{(1+8\ell_2)/24}-1\bigr)137^{-6}$ [biz] \\
+$R_{\mathrm{loss}}$ & $(1+8\ell_2)/24$ [trit/bip] \\
+$R_{\mathrm{loss}}^{(\mathrm{biz})}$ & $\bigl(3^{(1+8\ell_2)/24}-1\bigr)137^{-6}$ [biz] \\
 $q_{\mathrm{eff}}$ & $+1/2$ \\
 $T_{\mathrm{tors}}$ & $3$ \\
 \bottomrule
@@ -132,7 +132,7 @@ E9.B & \texttt{duad:2:2:7} & balanced & $0$ & none & $1/4$ \\
 \begin{center}
 \begin{tabular}{@{}llllllllll@{}}
 \toprule
-Row & $q_{\mathrm{eff}}$ & $\widehat q_{\mathrm{eff}}$ & $\eta_{\mathrm{out}}$ & $\eta_{\mathrm{mid}}$ & $\eta_{\mathrm{tot}}$ & $f_0$ & $B^*$ & $R_{\mathrm{rest}}$ [trit/bip] & $n_{\mathrm{ref}}$ \\
+Row & $q_{\mathrm{eff}}$ & $\widehat q_{\mathrm{eff}}$ & $\eta_{\mathrm{out}}$ & $\eta_{\mathrm{mid}}$ & $\eta_{\mathrm{tot}}$ & $f_0$ & $B^*$ & $R_{\mathrm{loss}}$ [trit/bip] & $n_{\mathrm{ref}}$ \\
 \midrule
 E11.q$-1$ & $-1$ & $-1$ & $\frac{1063}{1418}$ & $\frac{265}{352}$ & $\frac{664}{885}$ & $\frac{139}{1024}$ & $(1,\frac{190}{233})$ & $\frac{278+1328\ell_2}{2048}$ & $\frac{1024}{873}$ \\
 E11.q$-\frac12$ & $-\frac12$ & $-\frac{817}{1657}$ & $\frac{431}{896}$ & $\frac{476}{761}$ & $\frac{907}{1657}$ & $\frac{391}{2048}$ & $(1,\frac{256}{313})$ & $\frac{391+907\ell_2}{2048}$ & $\frac{2048}{1541}$ \\

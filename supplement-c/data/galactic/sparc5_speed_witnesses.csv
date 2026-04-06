@@ -1,0 +1,6 @@
+galaxy,slice_key,plateau_type,v_orb_out_km_s,tail_radius_min_kpc,tail_radius_max_kpc,tail_samples,tail_aggregation,rendered_note
+NGC2403,"tetron:*:[NGC2403,star]:6",rising-to-flat,134.4,18.88,20.87,5,mean of final five Vobs samples from SPARC mass-model table,compact spiral shell family
+NGC3198,"tetron:*:[NGC3198,star]:6",flat,149.2,36.12,44.08,5,mean of final five Vobs samples from SPARC mass-model table,classic long outer-shell plateau
+NGC6503,"tetron:*:[NGC6503,star]:6",flat,115.6,20.45,23.5,5,mean of final five Vobs samples from SPARC mass-model table,tight shell packing
+NGC2841,"tetron:*:[NGC2841,star]:6",flat,288.2,55.3,63.64,5,mean of final five Vobs samples from SPARC mass-model table,heavy outer-shell support
+DDO154,"tetron:*:[DDO154,star]:6",slowly rising / flat tail,47.0,3.95,5.92,5,mean of final five Vobs samples from SPARC mass-model table,sparse outer-shell family

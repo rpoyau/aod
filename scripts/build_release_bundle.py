@@ -32,11 +32,11 @@ INCLUDE_DIRS = [
     'consequences',
     'examples',
     'appendices',
-    'supplement-c',
     'notebooks',
     'audit_pack',
     'supplement-b-artifacts',
     'scripts',
+    'supplement-c',
 ]
 
 EXCLUDE_DIR_NAMES = {

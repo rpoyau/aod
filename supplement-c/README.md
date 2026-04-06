@@ -1,14 +1,16 @@
-# Supplement C
-    ## Additional native regime tests
+# Supplement C source package
 
-    This subfolder contains the standalone source for Supplement C in the same LaTeX organization used by the main note: a local `main.tex`, `sections/`, `examples/`, `appendices/`, and the C-series support notebooks.
+This subpackage contains the source for Supplement C.
 
-    ## Source entry point
-    - `supplement-c/main.tex` → `supplement-c.pdf`
+Source entry point:
+- `supplement-c/main.tex`
 
-    ## Local notebooks
-    - `notebooks/C1-C3_solar_redshift_lensing.ipynb`
-    - `notebooks/C4_hydrogen_shells.ipynb`
-    - `notebooks/C5_nucleus_confinement.ipynb`
-    - `notebooks/C6_galactic_window_sparc5.ipynb`
-    - `notebooks/C7_brownian_jitter.ipynb`
+Structure:
+- `sections/` — title, introduction, regime-test driver, references
+- `examples/` — one file per C-regime test
+- `appendices/` — notebook/data manifest
+- `notebooks/` — grouped C-series companion notebooks
+- `figures/` — shipped figure assets
+- `data/` — cited support data used by the C notebooks and figures
+- `refs.bib` — local bibliography source
+- `BUILD.md` — local build instructions
