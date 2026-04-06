@@ -1,6 +1,6 @@
-galaxy,slice_key,plateau_type,v_orb_out_km_s,tail_radius_min_kpc,tail_radius_max_kpc,tail_samples,tail_aggregation,rendered_note,v_calc_km_s,abs_error_km_s,rel_error_pct
-NGC2403,"tetron:*:[NGC2403,star]:6",rising-to-flat,134.4,18.88,20.87,5,mean of final five Vobs samples from SPARC mass-model table,compact spiral shell family,220.0,85.6,63.69047619047619
-NGC3198,"tetron:*:[NGC3198,star]:6",flat,149.2,36.12,44.08,5,mean of final five Vobs samples from SPARC mass-model table,classic long outer-shell plateau,220.0,70.80000000000001,47.45308310991958
-NGC6503,"tetron:*:[NGC6503,star]:6",flat,115.6,20.45,23.5,5,mean of final five Vobs samples from SPARC mass-model table,tight shell packing,220.0,104.4,90.31141868512111
-NGC2841,"tetron:*:[NGC2841,star]:6",flat,288.2,55.3,63.64,5,mean of final five Vobs samples from SPARC mass-model table,heavy outer-shell support,220.0,-68.19999999999999,-23.66412213740458
-DDO154,"tetron:*:[DDO154,star]:6",slowly rising / flat tail,47.0,3.95,5.92,5,mean of final five Vobs samples from SPARC mass-model table,sparse outer-shell family,220.0,173.0,368.0851063829787
+galaxy,slice_key,plateau_type,v_orb_out_km_s,tail_radius_min_kpc,tail_radius_max_kpc,tail_samples,tail_aggregation,rendered_note
+NGC2403,"tetron:*:[NGC2403,star]:6",rising-to-flat,134.4,18.88,20.87,5,mean of final five Vobs samples from SPARC mass-model table,compact spiral shell family
+NGC3198,"tetron:*:[NGC3198,star]:6",flat,149.2,36.12,44.08,5,mean of final five Vobs samples from SPARC mass-model table,classic long outer-shell plateau
+NGC6503,"tetron:*:[NGC6503,star]:6",flat,115.6,20.45,23.5,5,mean of final five Vobs samples from SPARC mass-model table,tight shell packing
+NGC2841,"tetron:*:[NGC2841,star]:6",flat,288.2,55.3,63.64,5,mean of final five Vobs samples from SPARC mass-model table,heavy outer-shell support
+DDO154,"tetron:*:[DDO154,star]:6",slowly rising / flat tail,47.0,3.95,5.92,5,mean of final five Vobs samples from SPARC mass-model table,sparse outer-shell family
