@@ -6,6 +6,7 @@ This file records the operational steps for building the PDFs, running the nativ
 ## Prerequisites
 - TeX Live / TinyTeX with XeLaTeX and `latexmk`
 - Python 3
+- `sympy`
 - `zip`
 
 ## Source entry points
@@ -23,7 +24,9 @@ latexmk -xelatex -interaction=nonstopmode -halt-on-error supplement-c/main.tex
 ```
 
 ## Native audit
+Install the audit dependency first:
 ```bash
+python3 -m pip install -r requirements-ci.txt
 python3 audit_pack/verify_native_examples_sympy.py
 ```
 
