@@ -7,21 +7,20 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 ## Source entry points
 
 - `main.tex` → `main.pdf`
-- `supplement-a.tex` → `supplement-a.pdf`
-- `supplement-b.tex` → `supplement-b.pdf`
+- `supplement-a/main.tex` → `supplement-a.pdf`
+- `supplement-b/main.tex` → `supplement-b.pdf`
 - `supplement-c/main.tex` → `supplement-c.pdf`
 
 ## Canonical source tree
 
 - `main.tex` — main native note
-- `supplement-a.tex` — Supplement A: native worked examples and figure witnesses
-- `supplement-b.tex` — Supplement B: verification bindings and derived temporal-unit conversions
-- `supplement-c/main.tex` — Supplement C: additional native regime tests
-- `sections/`, `consequences/`, `examples/`, `appendices/` — TeX source tree
-- `notebooks/` — executable notebooks for native AOD tests
-- `notebooks/STYLE_GUIDE.md` — official notebook style guide
+- `supplement-a/` — Supplement A subpackage (source entry point: `supplement-a/main.tex`)
+- `supplement-b/` — Supplement B subpackage (source entry point: `supplement-b/main.tex`)
+- `supplement-c/` — Supplement C subpackage (source entry point: `supplement-c/main.tex`)
+- `sections/`, `consequences/`, `examples/`, `appendices/` — main-note TeX source tree
+- `notebooks/` — root executable notebooks for main-note support
+- `notebooks/STYLE_GUIDE.md` — shared notebook style guide
 - `audit_pack/` — native machine-readable audit rows and verifier files
-- `supplement-b-artifacts/` — support data for Supplement B temporal-conversion rows
 - `.github/workflows/` — GitHub Actions build workflow
 - `scripts/` — source-archive helper scripts
 - `.zenodo.json` — Zenodo metadata
@@ -34,17 +33,24 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 2. `supplement-a.pdf` — native worked examples and figure witnesses
 3. `supplement-b.pdf` — verification bindings and derived temporal-unit conversions
 4. `supplement-c.pdf` — additional native regime tests
-5. `notebooks/` — executable notebook layer for AOD-native tests
-6. `audit_pack/` — native audit rows and verifier files
+5. `notebooks/` — root notebook layer for main-note support
+6. `supplement-a/notebooks/`, `supplement-b/notebooks/`, `supplement-c/notebooks/` — supplement-owned notebook layers
+7. `audit_pack/` — native audit rows and verifier files
 
 ## Notebooks
 
-- `E1-E3.ipynb` — active-cut / closure / backlog checks  
-- `E4-E6.ipynb` — native loss-channel / B* / collision-export checks  
-- `E7-E9-bindings.ipynb` — field / confinement / family / routing checks  
-- `E10-E11D.ipynb` — recurrent-ring and temporal-conversion rendering checks  
+- `notebooks/E1-E3.ipynb` — active-cut / closure / backlog checks
+- `supplement-a/notebooks/E4-E6.ipynb` — native loss-channel / B* / collision-export checks
+- `supplement-a/notebooks/E7-E9-bindings.ipynb` — field / confinement / family / routing checks
+- `supplement-b/notebooks/E10-E11D.ipynb` — recurrent-ring and temporal-conversion rendering checks
 
-See `notebooks/README.md` for the root notebook index.
+See `notebooks/README.md` for the notebook routing map.
+
+## Supplement subpackages
+
+Supplement A is maintained in `supplement-a/`.
+Supplement B is maintained in `supplement-b/`.
+Supplement C is maintained in `supplement-c/`, with grouped regime notebooks under `supplement-c/notebooks/`.
 
 ## Supplement C subpackage
 

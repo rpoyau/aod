@@ -19,14 +19,14 @@ INCLUDE_TOP_LEVEL = [
     '.zenodo.json',
     '.zenodo_doi',
     'main.tex',
-    'supplement-a.tex',
-    'supplement-b.tex',
     'preamble.tex',
     'refs.bib',
     'LICENSE',
 ]
 
 INCLUDE_DIRS = [
+    'supplement-a',
+    'supplement-b',
     '.github',
     'sections',
     'consequences',
@@ -34,7 +34,6 @@ INCLUDE_DIRS = [
     'appendices',
     'notebooks',
     'audit_pack',
-    'supplement-b-artifacts',
     'scripts',
     'supplement-c',
 ]
