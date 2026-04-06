@@ -9,7 +9,7 @@ Structure:
 - `sections/` — title, introduction, regime-test driver, references
 - `examples/` — one file per C-regime test
 - `appendices/` — notebook/data manifest
-- `notebooks/` — grouped C-series companion notebooks
+- `notebooks/` — grouped regime notebooks (solar, hydrogen, nucleus, galactic, bacteria, saturn)
 - `figures/` — shipped figure assets
 - `data/` — cited support data used by the C notebooks and figures
 - `refs.bib` — local bibliography source
