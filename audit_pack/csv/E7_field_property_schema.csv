@@ -3,7 +3,7 @@ AO field key,O-tetrad:3:4:6
 TTL,24 bip
 Cadence spectrum,"{1/4,3/8,5/12} cyc/bip"
 Bstar / Lambda_b,137 / 6
-Rrest,"(1 + 8*log(3/2,3))/24 [trit/bip]"
-Rrest_biz,"(3**((1 + 8*log(3/2,3))/24) - 1)*137**(-6) [biz]"
+Rloss,"(1 + 8*log(3/2,3))/24 [trit/bip]"
+Rloss_biz,"(3**((1 + 8*log(3/2,3))/24) - 1)*137**(-6) [biz]"
 qeff,+1/2
 T_tors,3

@@ -6,6 +6,7 @@ E5.C: B* mode verified
 E6.A: ternary gate and q_eff verified
 E6.B: ternary gate and q_eff verified
 E6.C: ternary gate and q_eff verified
-E7: schema row matches native rest-channel family row
+E7: schema row matches native loss-channel family row
 E8_short_window_confinement.csv: present
 E9_duon_duad_family.csv: present
+E11: native open-seat wavelet rows present; q_eff_hat bounds/sign/monotonicity/endpoints verified

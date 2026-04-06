@@ -8,7 +8,7 @@ Let $\ell_2:=\log_3\!\left(\frac{3}{2}\right)$.
 \begin{center}
 \begin{tabularx}{0.96\linewidth}{@{}l>{\raggedright\arraybackslash}p{0.15\linewidth}>{\centering\arraybackslash}p{0.10\linewidth}>{\centering\arraybackslash}p{0.13\linewidth}>{\raggedright\arraybackslash}X>{\centering\arraybackslash}p{0.10\linewidth}>{\centering\arraybackslash}p{0.12\linewidth}@{}}
 \toprule
-Row & witness & $T_{\mathrm{eval}}$ & $N_m$ & $b(\kappa)$ samples & $B^*/\Lambda_b$ & $R_{\mathrm{rest}}$ \\
+Row & witness & $T_{\mathrm{eval}}$ & $N_m$ & $b(\kappa)$ samples & $B^*/\Lambda_b$ & $R_{\mathrm{loss}}$ \\
  &  & [bip] &  &  &  & [trit/bip] \\
 \midrule
 E2.A & two-cycle return & $6$ & $(0,0,6)$ & $(2,2,2)$ & $2/3$ & $0$ \\
@@ -22,7 +22,7 @@ E2.C & minimal-pivot witness & $137$ & $(1,0,136)$ & $(137)$; $e_\alpha=e_\Omega
 \begin{center}
 \begin{tabular}{@{}lll@{}}
 \toprule
-Row & Derived internal rate $R_{\mathrm{rest}}^{(\mathrm{biz})}$ [biz] & Note \\
+Row & Derived internal rate $R_{\mathrm{loss}}^{(\mathrm{biz})}$ [biz] & Note \\
 \midrule
 E2.A & $0$ & unconstrained baseline \\
 E2.B & $\bigl(3^{(2+2\ell_2)/8}-1\bigr)\,5^{-4}$ & dominant-rung attenuation by $B^*=5$ \\
@@ -41,4 +41,4 @@ H_B(137)=1\quad\text{for E2.C}.
 \]
 Any later compression must preserve the declared sample-set order; aggregating after averaging violates the Jensen discipline of \Cref{rem:jensen}.
 
-\paragraph{Hook/evidence.} \Cref{hook:h3,hook:h4,hook:h7}. Topology, reconciliation, and ladder hooks must be satisfied on the same trace family. The cited row family records closure witness, backlog, dominant rung, attenuation, and the native rest channel on one declared readout.
+\paragraph{Hook/evidence.} \Cref{hook:h3,hook:h4,hook:h7}. Topology, reconciliation, and ladder hooks must be satisfied on the same trace family. The cited row family records closure witness, backlog, dominant rung, attenuation, and the native loss channel on one declared readout.

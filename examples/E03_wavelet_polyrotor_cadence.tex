@@ -8,7 +8,7 @@ Let $\ell_2:=\log_3(3/2)$.
 \begin{center}
 \begin{tabularx}{0.94\linewidth}{@{}l>{\raggedright\arraybackslash}p{0.14\linewidth}>{\raggedright\arraybackslash}p{0.16\linewidth}>{\centering\arraybackslash}p{0.10\linewidth}>{\centering\arraybackslash}p{0.09\linewidth}>{\centering\arraybackslash}p{0.11\linewidth}>{\centering\arraybackslash}p{0.12\linewidth}@{}}
 \toprule
-Row & field key & push/pull / $q_{\mathrm{eff}}$ & $N^{\mathrm{cyc}}/|\omega|$ & $T_{\mathrm{tors}}$ & $B^*$ / export & $R_{\mathrm{rest}}$ \\
+Row & field key & push/pull / $q_{\mathrm{eff}}$ & $N^{\mathrm{cyc}}/|\omega|$ & $T_{\mathrm{tors}}$ & $B^*$ / export & $R_{\mathrm{loss}}$ \\
  &  &  & [cyc/bip] &  &  & [trit/bip] \\
 \midrule
 E3.A & O-duon:2:1:7 & balanced, $q_{\mathrm{eff}}=0$ & $1/4$ & $0$ & $2$ / non-export & $0$ \\
@@ -22,7 +22,7 @@ E3.C & O-tetrad:3:4:6 & push-biased, $q_{\mathrm{eff}}=+1/2$ & $5/12$ & $3$ & $1
 \begin{center}
 \begin{tabular}{@{}lll@{}}
 \toprule
-Row & Derived internal rate $R_{\mathrm{rest}}^{(\mathrm{biz})}$ [biz] & Note \\
+Row & Derived internal rate $R_{\mathrm{loss}}^{(\mathrm{biz})}$ [biz] & Note \\
 \midrule
 E3.A & $0$ & zero-torsion baseline \\
 E3.B & $\bigl(3^{(1+2\ell_2)/8}-1\bigr)5^{-4}$ & nonzero push/pull export row \\
@@ -31,5 +31,5 @@ E3.C & $\bigl(3^{(2+2\ell_2)/12}-1\bigr)137^{-6}$ & tetrad 137-rung witness \\
 \end{tabular}
 \end{center}}
 
-This row set makes the native chain explicit: field family, push/pull polarization, effective-charge proxy, cadence witness, torsional residual, dominant rung, export witness, primitive trit/bip rest channel, and derived biz rate.
+This row set makes the native chain explicit: field family, push/pull polarization, effective-charge proxy, cadence witness, torsional residual, dominant rung, export witness, primitive trit/bip loss channel, and derived biz rate.
 \paragraph{Hook/evidence.} \Cref{hook:h5,hook:h6,hook:h7}. The same readout family must support the wavelet, push/pull, torsional, cadence, and ladder claims. Radiation/export is witnessed on the same readout family by the declared export window and packet ledger.

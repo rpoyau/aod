@@ -21,7 +21,6 @@ INCLUDE_TOP_LEVEL = [
     'main.tex',
     'supplement-a.tex',
     'supplement-b.tex',
-    'supplement-c.tex',
     'preamble.tex',
     'refs.bib',
     'LICENSE',
@@ -37,6 +36,7 @@ INCLUDE_DIRS = [
     'audit_pack',
     'supplement-b-artifacts',
     'scripts',
+    'supplement-c',
 ]
 
 EXCLUDE_DIR_NAMES = {

@@ -3,7 +3,7 @@
 This appendix records the public naming and terminology layer used below. It states the naming and serialization contract carried by the same ledgers.
 
 \subsection{Primary body terms}
-Primary body terms are: active cut, frame, window, present identity, predecessor trace, successor horizon, AO field, wavelet, step flux, window current, chirality, push/pull, effective charge proxy, torsional tension, torsional loss, cadence, dominant residual-duration class, radiating/export window, and emitted/exported packet witness.
+Primary body terms are: active cut, frame, window, present identity, predecessor trace, successor horizon, AO field, wavelet, step flux, window current, chirality, push/pull, effective charge proxy, torsional tension, torsional loss, cadence, dominant residual-duration class, radiating/export window, emitted/exported packet witness, ominion, and n-soma system.
 
 \subsection{AO field and reported family naming}
 The public field name is \emph{AO field}. When a field instance is reported together with its wavelet class, the field name remains AO field and the class name is attached separately through the naming rules below.
@@ -45,7 +45,7 @@ The unprefixed structural key denotes an $\alpha$-field instance. The prefixed f
 denotes an $\Omega$-field instance. Dwell/traffic is never serialized as a third chirality value.
 
 \subsection{Properties namespace}
-Named properties may be appended after the structural key as a report namespace. Typical properties include reported values such as $q_{\mathrm{eff}}$, push/pull polarity, chirality tag, polyphase or cadence summaries, radiation/export qualifiers, shell indices, and attenuation support.
+Named properties may be appended after the structural key as a report namespace. Typical properties include reported values such as mass/rate, $q_{\mathrm{eff}}$, linear momentum, angular momentum, phase state, push/pull polarity, chirality tag, polyphase or cadence summaries, radiation/export qualifiers, shell indices, attenuation support, and native loss/tension witnesses.
 
 \subsection{Public examples}
 Examples of public tags used below are:
@@ -64,6 +64,13 @@ Examples of public tags used below are:
 \end{itemize}
 If named properties are attached, they remain attached to the cited native report row under the same naming contract.
 
+\subsection{Nested subledger notation}
+Bracketed sublists denote clustered or satellite subledgers inside a larger cited system; for example,
+\[
+[\mathrm{sun},\mathrm{mercury},\mathrm{venus},[\mathrm{earth},\mathrm{moon}],\mathrm{mars},\dots]
+\]
+denotes a local clustered orbital subfamily inside a larger n-soma window.
+
 \subsection{AO field families and structural subclasses}
 \paragraph{Two-seat family.} The two-seat traverser family is recorded by the public names \emph{duon} and \emph{duad}. The open-seat member is written \texttt{duon:2:1:<Lout>[::props]}; the closed-seat member is written \texttt{duad:2:2:<Lout>[::props]}. Effective-charge, push/pull, polyphase, cadence, and radiation/export properties attach only through the named property namespace.
 
@@ -76,6 +83,13 @@ When properties are attached to a structural key, the recommended namespace incl
 
 \subsection{Shell, ladder, and index syntax}
 Only the shell and ladder syntax needed by the examples and the native operator reports is admitted here. This includes shell indices, rung support mass, and attenuation exponents where cited. The larger manual lineage may record further serialization layers on the same reported families.
+
+\paragraph{Shell-rendering convention.}
+When shell-facing quantities are rendered algebraically, prefer squared forms over square-root forms so that attenuation/support enters without root notation. Use relations of the form
+\[
+E_n^2=\frac{v_n^2}{B_n}
+\]
+rather than equivalent square-root renderings when the cited shell ledger is being reported.
 
 \subsection{Optional overlays}
 \emph{Dion} and \emph{tetraon} are optional overlay aliases available under the same naming contract.

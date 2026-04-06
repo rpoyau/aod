@@ -9,14 +9,14 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 - `main.tex` → `main.pdf`
 - `supplement-a.tex` → `supplement-a.pdf`
 - `supplement-b.tex` → `supplement-b.pdf`
-- `supplement-c.tex` → `supplement-c.pdf`
+- `supplement-c/main.tex` → `supplement-c.pdf`
 
 ## Canonical source tree
 
 - `main.tex` — main native note
 - `supplement-a.tex` — Supplement A: native worked examples and figure witnesses
 - `supplement-b.tex` — Supplement B: verification bindings and derived temporal-unit conversions
-- `supplement-c.tex` — Supplement C: additional native regime tests
+- `supplement-c/main.tex` — Supplement C: additional native regime tests
 - `sections/`, `consequences/`, `examples/`, `appendices/` — TeX source tree
 - `notebooks/` — executable notebooks for native AOD tests
 - `notebooks/STYLE_GUIDE.md` — official notebook style guide
@@ -40,13 +40,19 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 ## Notebooks
 
 - `E1-E3.ipynb` — active-cut / closure / backlog checks  
-- `E4-E6.ipynb` — native rest-channel / B* / collision-export checks  
+- `E4-E6.ipynb` — native loss-channel / B* / collision-export checks  
 - `E7-E9-bindings.ipynb` — field / confinement / family / routing checks  
 - `E10-E11D.ipynb` — recurrent-ring and temporal-conversion rendering checks  
-- `C1-C3_solar_redshift_lensing.ipynb` — solar perihelion / lensing / redshift native regime tests  
-- `C4_hydrogen_shells.ipynb` — hydrogen shell native regime test  
-- `C5_nucleus_confinement.ipynb` — nucleus confinement / neutron stability native regime test  
-- `C6_galactic_window_sparc5.ipynb` — galactic orbital native window  
-- `C7_brownian_jitter.ipynb` — Brownian bacteria motion / recurrent jitter native test  
 
-See `notebooks/README.md` for the notebook index, visual outputs, and verification map.
+See `notebooks/README.md` for the root notebook index.
+
+## Supplement C subpackage
+
+Supplement C is maintained as a self-contained subpackage under `supplement-c/`.
+Its regime notebooks live under `supplement-c/notebooks/`, with grouped notebooks for:
+- solar windows
+- hydrogen shell tests
+- nucleus confinement
+- galactic orbital windows
+- bacteria / jitter windows
+- saturn shell witnesses
