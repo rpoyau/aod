@@ -33,6 +33,20 @@ Temporal conversion is allowed only when explicitly needed, and only after the c
 
 ---
 
+
+
+## 2.5 Notebook provenance block
+The first markdown cell of every notebook should carry a package-owned provenance block containing:
+- title
+- author
+- protocol
+- package role
+- notebook routing
+- source-of-truth note/supplement reference
+- repo provenance path
+
+This block states the notebook's role in the canonical source tree before any worked content begins.
+
 ## 3. Uniform structure for every test
 Every test uses this exact structure:
 
@@ -68,6 +82,7 @@ Every test uses this exact structure:
 ## 4. Native-first rule
 - The native row is always recorded first.
 - Verification labels, decimal renderings, and temporal-unit conversions are attached only after the cited native row.
+- Root notebooks support the main note; supplement-owned notebooks live inside their supplement subpackages.
 
 ---
 
