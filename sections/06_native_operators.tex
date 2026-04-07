@@ -1,4 +1,4 @@
-\section{Native operators}
+\section{Operators}
 
 This section records the compact operator layer required for the calculus. All operators below are discrete bookkeeping on declared traces, active cuts, frames/windows, and inherited support.
 
@@ -12,7 +12,7 @@ Given the axis-lift chart policy of \Cref{choice:axis-lift}, the Q4 chart operat
 \paragraph{Local substructure.} Axis-lift chart policy; Q4 cell basis; beat-knot / cage-knot typing; minimal cage-band $(4{:}6)$; minimal four-cycle enclosure.
 \paragraph{Derivation sketch.} From the declared chart policy and the inherited support law, active ternary steps map to single-axis toggles on Q4. The closure predicate yields beat-knot versus cage-knot classes on the same chart, the minimal two-knot cage report is typed by $(4{:}6)$, and the first nondegenerate enclosure in this cubical basis is a four-cycle.
 
-\subsection{Kernel-clock reconciliation, native loss channel, and loss channel}\label{subsec:kernel-clock-rest}
+\subsection{Kernel-clock reconciliation and loss channel}\label{subsec:kernel-clock-rest}
 \begin{definition}[Kernel-clock reconciliation operator]
 \label{def:kernel-clock-reconciliation}
 Let $S_t$ be the declared local wavefront state, $A_t(S_t)$ the admissible successor set, and $P_t(\cdot\mid S_t)$ the declared local choice kernel on that set. Let $\beta_t$ be the backlog witness and let $F_t$ be the forced-dwell predicate. The realized update law is the reconciliation operator
@@ -39,7 +39,7 @@ The primitive remains $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in trit/bip and re
 
 \paragraph{Depends on.} \Cref{choice:tau-readout,def:active-dwell,def:mt,def:loss-channel,def:backlog-reconciliation}.
 \paragraph{Local substructure.} Admissibility count $m_t$; forced dwell; $\Gamma_{\mathrm{loss,raw}}$; $\Gamma_{\mathrm{loss}}$; $T_\Gamma$; primitive trit/bip channel; derived biz channel.
-\paragraph{Derivation sketch.} From the declared gating rule and the active/dwell split, admissibility restriction yields $m_t<3$ and therefore positive loss on constrained ticks. Averaging on the cited active-cut family gives the native loss channel; the biz rate is the corresponding internal rate on the same ledger.
+\paragraph{Derivation sketch.} From the declared gating rule and the active/dwell split, admissibility restriction yields $m_t<3$ and therefore positive loss on constrained ticks. Averaging on the cited active-cut family gives the loss channel; the biz rate is the corresponding internal rate on the same ledger.
 
 \subsection{Wavelet transport, trit carriage, and saturation}\label{subsec:wavelet-transport-saturation}
 \begin{definition}[Wavelet transport operator]
@@ -340,7 +340,7 @@ R_{\mathrm{loss}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:mt,def:loss-channel,def:b-extraction,def:bstar-histogram,def:attenuation-operator,choice:high-rung-pivot,rem:jensen}.
-\paragraph{Local substructure.} Admissibility count; native loss channel; return-duration ledger; dominant rung; stack load; attenuation accumulator; primitive trit/bip channel; derived biz rate.
+\paragraph{Local substructure.} Admissibility count; loss channel; return-duration ledger; dominant rung; stack load; attenuation accumulator; primitive trit/bip channel; derived biz rate.
 \paragraph{Derivation sketch.} Direct algebra on the cited admissibility and return ledgers. The zero-lag/unconstrained limit $m_t=3$ yields $R_{\mathrm{loss}}=0$ and $T_\Gamma=0$.
 
 \subsection{Momentum-like native proxy and rest-frame windows}\label{subsec:momentum-proxy}
