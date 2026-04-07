@@ -6,7 +6,7 @@ The notebook layer mirrors the package structure:
 - Main note = compact native theorem line (`notebooks/`)
 - Supplement A = native worked examples and figure witnesses (`supplement-a/notebooks/`)
 - Supplement B = verification bindings and derived temporal-unit conversions (`supplement-b/notebooks/`)
-- Supplement C = grouped native regime notebooks (`supplement-c/notebooks/`)
+- Supplement C = grouped native regime notebooks (`supplement-c/notebooks/solar/`, `hydrogen/`, `nucleus/`, `galactic/`, `bacteria/`, `saturn/`)
 
 All notebooks are native-first. When derived temporal-unit conversion is needed, it follows the cited native row and is limited to seconds / hertz / `\beta` with `c=1`.
 

@@ -22,6 +22,7 @@ INCLUDE_TOP_LEVEL = [
     'preamble.tex',
     'refs.bib',
     'LICENSE',
+    'requirements-ci.txt',
 ]
 
 INCLUDE_DIRS = [

@@ -34,8 +34,10 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 3. `supplement-b.pdf` — verification bindings and derived temporal-unit conversions attached after the cited native row
 4. `supplement-c.pdf` — native regime tests, with converted witnesses attached only after the cited native row where needed
 5. `notebooks/` — root notebook layer for main-note support
-6. `supplement-a/notebooks/`, `supplement-b/notebooks/`, `supplement-c/notebooks/` — supplement-owned notebook layers
-7. `audit_pack/` — native audit rows and verifier files
+6. `supplement-a/notebooks/` — Supplement A notebook layer
+7. `supplement-b/notebooks/` — Supplement B notebook layer
+8. `supplement-c/notebooks/` — grouped Supplement C notebook layer
+9. `audit_pack/` — native audit rows and verifier files
 
 ## Notebooks
 
@@ -55,10 +57,4 @@ Supplement C is maintained in `supplement-c/`, with grouped regime notebooks und
 ## Supplement C subpackage
 
 Supplement C is maintained as a self-contained subpackage under `supplement-c/`.
-Its regime notebooks live under `supplement-c/notebooks/`, with grouped notebooks for:
-- solar windows
-- hydrogen shell tests
-- nucleus confinement
-- galactic orbital windows
-- bacteria / jitter windows
-- saturn shell witnesses
+Its grouped regime notebooks live under `supplement-c/notebooks/solar/`, `hydrogen/`, `nucleus/`, `galactic/`, `bacteria/`, and `saturn/`.
