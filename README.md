@@ -2,7 +2,7 @@
 ## The Hidden Temporal Dynamics of Stokes
 ### 43°C
 
-This repository is the **canonical source tree** for the AOD note in AFC/AF form. It contains the TeX source for the main native note, the three supplements, the executable notebooks, the native audit materials, and the metadata/helper files used for release deposition. Native rows remain authoritative throughout; where converted witnesses are used, they are attached after the cited native row.
+This repository is the **canonical source tree** for the AOD note in AFC/AF form. It contains the TeX source for the main note, the three supplements, the executable notebooks, the audit materials, and the metadata/helper files used for release deposition. Exact/default-form rows remain authoritative throughout; where converted witnesses are used, they are attached after the cited row.
 
 ## Source entry points
 
@@ -13,14 +13,14 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 
 ## Canonical source tree
 
-- `main.tex` — main native note
+- `main.tex` — main note
 - `supplement-a/` — Supplement A subpackage (source entry point: `supplement-a/main.tex`)
 - `supplement-b/` — Supplement B subpackage (source entry point: `supplement-b/main.tex`)
 - `supplement-c/` — Supplement C subpackage (source entry point: `supplement-c/main.tex`)
 - `sections/`, `consequences/`, `examples/`, `appendices/` — main-note TeX source tree
 - `notebooks/` — root executable notebooks for main-note support
 - `notebooks/STYLE_GUIDE.md` — shared notebook style guide
-- `audit_pack/` — native machine-readable audit rows and verifier files
+- `audit_pack/` — machine-readable audit rows and verifier files
 - `.github/workflows/` — GitHub Actions build workflow
 - `scripts/` — source-archive helper scripts
 - `.zenodo.json` — Zenodo metadata
@@ -30,9 +30,9 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 ## Package order
 
 1. `main.pdf` — compact native derivation shell
-2. `supplement-a.pdf` — native worked examples and figure witnesses
-3. `supplement-b.pdf` — verification bindings and derived temporal-unit conversions attached after the cited native row
-4. `supplement-c.pdf` — native regime tests, with converted witnesses attached only after the cited native row where needed
+2. `supplement-a.pdf` — worked examples and figure witnesses
+3. `supplement-b.pdf` — verification bindings and derived temporal-unit conversions attached after the cited row
+4. `supplement-c.pdf` — regime tests, with converted witnesses attached only after the cited row where needed
 5. `notebooks/` — root notebook layer for main-note support
 6. `supplement-a/notebooks/` — Supplement A notebook layer
 7. `supplement-b/notebooks/` — Supplement B notebook layer

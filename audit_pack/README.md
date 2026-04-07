@@ -1,6 +1,6 @@
 # Native audit pack
 
-This pack provides machine-readable CSV exports for the native worked examples in Supplement A and a small SymPy verification script.
+This pack provides machine-readable CSV exports for the worked examples in Supplement A and a small SymPy verification script.
 
 Files
 - csv/E4_native_rest_channel.csv

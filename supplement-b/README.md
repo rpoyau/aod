@@ -1,6 +1,6 @@
 # Supplement B source package
 
-This subpackage contains the source for Supplement B. It records verification bindings and derived temporal-unit conversions attached after the cited native row.
+This subpackage contains the source for Supplement B. It records verification bindings and derived temporal-unit conversions attached after the cited row.
 
 Source entry point:
 - `supplement-b/main.tex`

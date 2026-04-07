@@ -1,6 +1,6 @@
 # Supplement A source package
 
-This subpackage contains the source for Supplement A. Native rows remain authoritative and exact-form reporting is preferred.
+This subpackage contains the source for Supplement A. Exact/default-form rows remain authoritative and exact-form reporting is preferred.
 
 Source entry point:
 - `supplement-a/main.tex`
