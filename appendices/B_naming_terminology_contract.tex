@@ -45,7 +45,7 @@ The unprefixed structural key denotes an $\alpha$-field instance. The prefixed f
 denotes an $\Omega$-field instance. Dwell/traffic is never serialized as a third chirality value.
 
 \subsection{Properties namespace}
-Named properties may be appended after the structural key as a report namespace. Typical properties include reported values such as mass/rate, $q_{\mathrm{eff}}$, linear momentum, angular momentum, phase state, push/pull polarity, chirality tag, polyphase or cadence summaries, radiation/export qualifiers, shell indices, attenuation support, and native loss/tension witnesses.
+Named properties may be appended after the structural key as a report namespace. Typical properties include reported values such as mass/rate, $q_{\mathrm{eff}}$, linear momentum, angular momentum, phase state, push/pull polarity, chirality tag, polyphase or cadence summaries, radiation/export qualifiers, shell indices, attenuation support, and loss/tension witnesses.
 
 \subsection{Public examples}
 Examples of public tags used below are:
@@ -62,7 +62,7 @@ Examples of public tags used below are:
   \item \texttt{O-tetron:3:3:6}
   \item \texttt{O-tetrad:3:4:6}
 \end{itemize}
-If named properties are attached, they remain attached to the cited native report row under the same naming contract.
+If named properties are attached, they remain attached to the cited report row under the same naming contract.
 
 \subsection{Nested subledger notation}
 Bracketed sublists denote clustered or satellite subledgers inside a larger cited system; for example,
@@ -74,25 +74,21 @@ denotes a local clustered orbital subfamily inside a larger n-soma window.
 \subsection{AO field families and structural subclasses}
 \paragraph{Two-seat family.} The two-seat traverser family is recorded by the public names \emph{duon} and \emph{duad}. The open-seat member is written \texttt{duon:2:1:<Lout>[::props]}; the closed-seat member is written \texttt{duad:2:2:<Lout>[::props]}. Effective-charge, push/pull, polyphase, cadence, and radiation/export properties attach only through the named property namespace.
 
-\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. The following structural variants are preserved in the naming contract: \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6}. These structural variants are recorded in the public naming contract and are used by the cited native rows and operators below.
+\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. The following structural variants are preserved in the naming contract: \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6}. These structural variants are recorded in the public naming contract and are used by the cited rows and operators below.
 
-\paragraph{Confinement and isotope labels.} Confinement names the native short-window persistence class defined on the cited tetron/tetrad ledgers. Isotope labels, when reported later, name stability subclasses on those same cited ledgers.
+\paragraph{Confinement and isotope labels.} Confinement names the short-window persistence class defined on the cited tetron/tetrad ledgers. Isotope labels, when reported later, name stability subclasses on those same cited ledgers.
 
 \subsection{Push / pull, chirality, and polyphase property namespace}
 When properties are attached to a structural key, the recommended namespace includes reported quantities such as \texttt{qeff}, push/pull polarity, chirality tag, polyphase summaries, cadence witnesses, and radiation/export qualifiers. O-prefixed field tags (for example \texttt{O-duon}, \texttt{O-tetron}, \texttt{O-tetrad}) are part of this public report contract.
 
 \subsection{Shell, ladder, and index syntax}
-Only the shell and ladder syntax needed by the examples and the native operator reports is admitted here. This includes shell indices, rung support mass, and attenuation exponents where cited. The larger manual lineage may record further serialization layers on the same reported families.
+Only the shell and ladder syntax needed by the examples and the operator reports is admitted here. This includes shell indices, rung support mass, and attenuation exponents where cited. The larger manual lineage may record further serialization layers on the same reported families.
 
-\paragraph{Shell-rendering convention.}
-When shell-facing quantities are rendered algebraically, prefer squared forms over square-root forms so that attenuation/support enters without root notation. Use relations of the form
-\[
-E_n^2=\frac{v_n^2}{B_n}
-\]
-rather than equivalent square-root renderings when the cited shell ledger is being reported.
+\paragraph{Shell, ladder, and index syntax.}
+Shell, ladder, and index syntax record only the identifiers, support witnesses, and ladder quantities used by cited rows and operator reports. No shell-facing algebraic rendering is fixed at the naming-contract level.
 
 \subsection{Optional overlays}
 \emph{Dion} and \emph{tetraon} are optional overlay aliases available under the same naming contract.
 
 \subsection{Local AOD report objects}
-Here, \emph{frame} and \emph{window} are declared local AOD report objects. \emph{Step flux} is a one-frame quantity and \emph{window current} is the derived window-level trace term used in the cited native rows.
+Here, \emph{frame} and \emph{window} are declared local AOD report objects. \emph{Step flux} is a one-frame quantity and \emph{window current} is the derived window-level trace term used in the cited rows.

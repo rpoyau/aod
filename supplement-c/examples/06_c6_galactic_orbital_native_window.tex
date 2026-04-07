@@ -42,6 +42,23 @@ v^{\mathrm{out}}_{\mathrm{orb},i}
 These speed witnesses are render-layer attachments only. The row itself remains fixed on the cited shell/burden ledger. A Milky-Way-like plateau anchor $v_{\mathrm{MW}}\approx220\ \mathrm{km\,s^{-1}}$ is attached only as a rendered comparison line.
 
 
+\paragraph{Output row.}
+\begin{center}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}lXcccccX@{}}
+\toprule
+Row & System / slice & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [trit/bip] & Cadence spectrum [cyc/bip] & Drift & Rendered note \\
+\midrule
+C6.A & $\Sigma_{\mathrm{SPARC},5}$ / five-galaxy star-orbital shell family & 137 & 8 & 0.0123 & $\{1/4,3/8\}$ & plateau & speed-bearing SPARC witness set \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+
+\paragraph{Temporal conversion block.} The converted witness below is attached after the cited row.
+
+ Temporal conversion is a normal chain-rule expansion on the cited row. The converted witness table records calculated outer-orbital speed, the cited SPARC reference speed, absolute error, and relative error for the five extracted galaxy slices.
+
 \paragraph{Converted witness table.}
 \begin{center}
 \footnotesize
@@ -58,36 +75,22 @@ DDO\,154 & 47.0 & 47.0 & 0.0 & 0.0 \\
 \end{tabularx}
 \end{center}
 
-\paragraph{Output row.}
-\begin{center}
-\footnotesize
-\begin{tabularx}{\linewidth}{@{}lXcccccX@{}}
-\toprule
-Row & System / slice & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [trit/bip] & Cadence spectrum [cyc/bip] & Drift & Rendered note \\
-\midrule
-C6.A & $\Sigma_{\mathrm{SPARC},5}$ / five-galaxy star-orbital shell family & 137 & 8 & 0.0123 & $\{1/4,3/8\}$ & plateau & speed-bearing SPARC witness set \\
-\bottomrule
-\end{tabularx}
-\end{center}
-
-
-\paragraph{Temporal conversion block.} Temporal conversion is a normal chain-rule expansion on the cited native row. The converted witness table above records calculated outer-orbital speed, the cited SPARC reference speed, absolute error, and relative error for the five extracted galaxy slices.
-
-\paragraph{Figure witnesses.}
-\paragraph{Figure witnesses.} The shell-family schematic and the speed graph are both notebook-generated artifacts stored once under the supplement-wide figures directory.
-\begin{figure}[htbp]
+\paragraph{Figure witnesses.} The shell-family schematic and the speed comparison graph are notebook-generated artifacts stored once under the supplement-wide figures directory.
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.88\linewidth]{figures/galactic/sparc5_shell_family.png}
 \caption{Five-galaxy SPARC shell family with extracted star slices. The visible shell/ring layout is regenerated from the companion notebook and stored once under the supplement-wide figures directory.}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.88\linewidth]{figures/galactic/sparc5_speed_witnesses.png}
-\caption{Calculated and observed outer-orbital speed witnesses for the five cited SPARC galaxies. The comparison is attached only after the cited native row has been fixed.}
+\caption{Calculated and observed outer-orbital speed witnesses for the five cited SPARC galaxies. The comparison is attached only after the cited row has been fixed.}
 \end{figure}
 
-\paragraph{Hook / Evidence.} Use the cited long-window drift and support hooks. The SPARC database and the long-baseline rotation-curve review are render-layer anchors only.
+\FloatBarrier
+
+\paragraph{Hook / Evidence.} Use the cited long-window drift and support hooks. The SPARC database and the long-baseline rotation-curve review are render-layer anchors for the converted comparison only.
 
 \paragraph{Companion notebook and manifest.} See Section~\ref{app:suppc-notebooks} for the executed calculation manifest and generated figure provenance for this section.
 
