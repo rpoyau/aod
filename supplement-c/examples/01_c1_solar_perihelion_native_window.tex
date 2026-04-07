@@ -127,9 +127,9 @@ This source beat is therefore calculated from the cited loss/support ledger rath
 \footnotesize
 \begin{tabularx}{\linewidth}{@{}lcccX@{}}
 \toprule
-Subledger / slice & Period / monon witness & Cycles in 100 y & Role & Note \\
+Subledger / slice & Monon-period witness [y] & Cycle count in 100 y & Role & Note \\
 \midrule
-Sun & $33.14$ y & $3.02$ & source ominion & source monon-period witness calculated from the same quarter-level and loss/support ledger \\
+Source subledger & 33.14 & 3.02 & source ominion & source beat calculated from the same quarter-level and loss/support ledger \\
 Mercury & $0.2408467$ y & $415.20$ & extracted perihelion slice & fast inner-planet recurrence and extracted perihelion witness slice \\
 Venus & $0.61519726$ y & $162.55$ & support cadence & inner-system support cadence \\
 Earth & $1.0000174$ y & $100.00$ & host cadence & host orbit for the nested satellite subledger \\
@@ -155,9 +155,9 @@ C1.A & \texttt{tetron:*:[sun,mercury]:6} & 36525 & 137 & 6 & $\frac{1+8\ell_2}{2
 \end{tabularx}
 \end{center}
 
-The point of the row is not only the rendered perihelion value but the fact that the Mercury slice is carried by one shared long-window ledger with an explicit nested satellite insertion $[\mathrm{earth},\mathrm{moon}]$ on the same cited system.
+The converted witness below is attached after the cited native row on the same shared long-window ledger with an explicit nested Earth--Moon subledger.
 
-\paragraph{SI rendering block.} The cited row is fixed first. Familiar SI renderings are then attached afterward on the same 100-year window.
+\paragraph{Temporal conversion block.} The cited row is fixed first. Familiar SI renderings are then attached afterward on the same 100-year window.
 
 \textit{Rendered witnesses.} On the current rendering,
 \[
@@ -170,7 +170,7 @@ N_{\mathrm{Mercury}}^{(100y)} \approx 415.20,\quad N_{\mathrm{Earth}}^{(100y)} \
 \[
 N_{\mathrm{Jupiter}}^{(100y)} \approx 8.430,\qquad N_{\mathrm{Saturn}}^{(100y)} \approx 3.396.
 \]
-\textit{Float policy.} These are render-layer conveniences only. Exact/default-form rows remain authoritative, and displayed SI values are rounded rather than printed at notebook precision.
+Displayed values below are rounded report values. The cited native row remains authoritative.
 
 
 \paragraph{Converted witness table.}
@@ -180,7 +180,7 @@ N_{\mathrm{Jupiter}}^{(100y)} \approx 8.430,\qquad N_{\mathrm{Saturn}}^{(100y)} 
 \toprule
 Subledger & Calculated [arcsec/cy] & Reference [arcsec/cy] & Abs. error [arcsec/cy] & Rel. error [\%] \\
 \midrule
-Mercury perihelion slice & 42.981975497467126 & 42.98 & 0.001975497467126 & 0.00459631797843 \\
+Mercury slice & 42.981975497467126 & 42.98 & 0.001975497467128662 & 0.004596317978428716 \\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -188,19 +188,21 @@ Mercury perihelion slice & 42.981975497467126 & 42.98 & 0.001975497467126 & 0.00
 \paragraph{Figure witness and hooks.}
 
 \paragraph{Figure witness.} Prefer shell/ring-style figures over node-and-arrow sketches.
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.72\linewidth]{figures/solar/solar_shell_ledger.png}
 \caption{100-year solar shell/ring ledger (schematic). The system is read as one shared long-window ledger rather than as disconnected orbit laws.}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth]{figures/solar/earth_moon_nested_shell.png}
 \caption{Left: extracted Mercury perihelion slice. Right: nested Earth--Moon subledger retained inside the shared system ledger.}
 \end{figure}
 
-\paragraph{Hook / Evidence.} Use the orbital-closure, cadence-support, and residual-support hooks from the main note. The point of this section is not only the rendered perihelion witness but also the fact that the perihelion slice is carried by one shared 100-year system ledger with an explicit satellite insertion $[\mathrm{earth},\mathrm{moon}]$.
+\FloatBarrier
+
+\paragraph{Hook / Evidence.} Use the orbital-closure, cadence-support, and residual-support hooks from the main note. Use the orbital-closure, cadence-support, and residual-support hooks from the main note on the cited shared 100-year system ledger with nested Earth--Moon subledger.
 
 \paragraph{Companion notebook and manifest.} See Section~\ref{app:suppc-notebooks} for the executed calculation manifest and generated figure provenance for this section.
 
