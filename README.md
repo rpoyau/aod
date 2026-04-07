@@ -2,7 +2,7 @@
 ## The Hidden Temporal Dynamics of Stokes
 ### 43°C
 
-This repository is the **canonical source tree** for the AOD note in AFC/AF form. It contains the TeX source for the main native note, the three supplements, the executable notebooks, the native audit materials, and the metadata/helper files used for release deposition.
+This repository is the **canonical source tree** for the AOD note in AFC/AF form. It contains the TeX source for the main native note, the three supplements, the executable notebooks, the native audit materials, and the metadata/helper files used for release deposition. Native rows remain authoritative throughout; where converted witnesses are used, they are attached after the cited native row.
 
 ## Source entry points
 
@@ -31,8 +31,8 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 
 1. `main.pdf` — compact native derivation shell
 2. `supplement-a.pdf` — native worked examples and figure witnesses
-3. `supplement-b.pdf` — verification bindings and derived temporal-unit conversions
-4. `supplement-c.pdf` — additional native regime tests
+3. `supplement-b.pdf` — verification bindings and derived temporal-unit conversions attached after the cited native row
+4. `supplement-c.pdf` — native regime tests, with converted witnesses attached only after the cited native row where needed
 5. `notebooks/` — root notebook layer for main-note support
 6. `supplement-a/notebooks/`, `supplement-b/notebooks/`, `supplement-c/notebooks/` — supplement-owned notebook layers
 7. `audit_pack/` — native audit rows and verifier files

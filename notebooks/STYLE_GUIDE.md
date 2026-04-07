@@ -9,7 +9,7 @@ All primary derivation content remains 100% native AOD/AFC:
 - integer ledgers authoritative
 - exact rational/logarithmic forms preferred
 
-Notebook language remains on the AOD/AFC line.
+Notebook language remains on the AOD/AFC line. Native rows remain authoritative; converted witnesses follow the cited native row when needed.
 
 Temporal conversion is allowed only when explicitly needed, and only after the cited native row. Conversion is restricted to:
 - duration in **seconds**
@@ -29,7 +29,7 @@ Temporal conversion is allowed only when explicitly needed, and only after the c
 - Main note = compact native theorem line
 - Supplement A — Native worked examples and figure witnesses
 - Supplement B — Verification bindings and derived temporal-unit conversions
-- Supplement C — Additional native regime tests
+- Supplement C — Native regime tests
 
 ---
 

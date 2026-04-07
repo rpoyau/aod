@@ -1,6 +1,6 @@
 # Supplement C source package
 
-This subpackage contains the source for Supplement C.
+This subpackage contains the source for Supplement C. It records native AOD regime tests in native units and native operator form; where converted witnesses are shown, they are attached after the cited native row.
 
 Source entry point:
 - `supplement-c/main.tex`
