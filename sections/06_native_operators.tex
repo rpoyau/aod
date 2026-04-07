@@ -56,7 +56,7 @@ A(e;\omega):=N_+(e;\omega)+N_-(e;\omega),\quad Z(e;\omega):=N_0(e;\omega),\quad 
 \[
 E(e;\omega):=A(e;\omega)+Z(e;\omega)=|\omega\cap e|.
 \]
-The native ledgers are $(A,Z,S,E)$. Derived reporting witnesses are
+The ledgers are $(A,Z,S,E)$. Derived reporting witnesses are
 \[
 \kappa_{\mathrm{prog}}:=\frac{A}{E},\qquad c_{\mathrm{seat}}:=\frac{Z}{E}=1-\kappa_{\mathrm{prog}},\qquad \xi:=\frac{S}{E}.
 \]
@@ -69,7 +69,7 @@ For a declared wavelet class $s$ on a cited readout family $\omega$, let $N_{\ma
 \[
 p_{\mathrm{cpl}}(s;\omega):=\frac{N_{\mathrm{cpl}}(s;\omega)}{\max(1,N_{\mathrm{exp}}(s;\omega))}.
 \]
-This is the native counting contract used on the cited ledger.
+This is the counting contract used on the cited ledger.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:ao-field,def:wavelet,def:saturation,def:traverser-closure-rule,def:loss-channel}.
@@ -139,13 +139,13 @@ J^{\alpha}=J^{\Omega}\Longrightarrow T_{\mathrm{tors}}(M;\omega)=0.
 \paragraph{Local substructure.} Chirality-resolved boundary currents; torsional curl; boundary-side residual; region-side equivalent; zero-lag limit.
 \paragraph{Derivation sketch.} From the chirality-resolved boundary histories on the same active-cut family and the AFC Stokes pairing between boundary and region accounting.
 \begin{remarkx}
-This is the native Stokes-style witness for unresolved torsional imbalance on the cited readout family.
+This is the Stokes-style witness for unresolved torsional imbalance on the cited readout family.
 \end{remarkx}
 
 \subsection{Cadence and polyrotor extractors}\label{subsec:cadence-polyrotor-operators}
 \begin{definition}[Cadence extractor and shell-resolved completion reports]
 \label{def:cadence-operator}
-For a declared shell band or active-cut family, the cadence extractor returns completed-cycle counts $N_{\rho,k}^{\mathrm{cyc}}(\omega)$ together with the shell-signature class, shell-resolved completion periods $P_{\rho,k}(\omega)$, shell-resolved phase indices $\rho_k(\omega)$, native cycle-ratio phases
+For a declared shell band or active-cut family, the cadence extractor returns completed-cycle counts $N_{\rho,k}^{\mathrm{cyc}}(\omega)$ together with the shell-signature class, shell-resolved completion periods $P_{\rho,k}(\omega)$, shell-resolved phase indices $\rho_k(\omega)$, cycle-ratio phases
 \[
 \varphi_k(\omega):=\frac{\rho_k(\omega)}{P_{\rho,k}(\omega)},
 \]
@@ -198,7 +198,7 @@ Histogram and attenuation summaries must be formed on the declared sample set be
 \[
 \bar m:=\frac{n_1+2n_2+3n_3}{T_{\mathrm{eval}}},
 \]
-then the exact native loss-average is
+then the exact loss-average is
 \[
 \frac{n_1+n_2\log_3\!\left(\frac{3}{2}\right)}{T_{\mathrm{eval}}},
 \]
@@ -260,14 +260,14 @@ This implements cancellation/cascade bookkeeping such as $+1\oplus_3(-1)=0$ and 
 
 \begin{definition}[Collision couplings and diagrammatic renderings]
 \label{def:collision-diagram}
-Push/pull collision couplings of duon/duad and tetron/tetrad classes are represented as native bookkeeping on declared traces. Cut diagrams, closure diagrams, path-family diagrams, and finite diagrammatic renderings package the same ledgers in compact report form.
+Push/pull collision couplings of duon/duad and tetron/tetrad classes are represented as bookkeeping on declared traces. Cut diagrams, closure diagrams, path-family diagrams, and finite diagrammatic renderings package the same ledgers in compact report form.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:wavelet,def:field-families,def:observer-coupling,def:push-pull-operator,def:attenuation-operator}.
 \paragraph{Local substructure.} Finite path sums; least reconciliation; ternary interaction gate; collision couplings; diagrammatic renderings; export packets.
 \paragraph{Derivation sketch.} From finite sums and products over declared traces on the same AO field and wavelet ledgers. Diagrammatic language packages those same ledgers in a compact report form.
 \begin{remarkx}
-Finite path sums and diagrammatic renderings record the same cut bookkeeping on the cited window; they are report forms of the native line. They package already-declared AO field, wavelet, boundary-current, torsional, cadence, and return-ladder ledgers.
+Finite path sums and diagrammatic renderings record the same cut bookkeeping on the cited window; they are report forms of the same line. They package already-declared AO field, wavelet, boundary-current, torsional, cadence, and return-ladder ledgers.
 \end{remarkx}
 
 
@@ -343,19 +343,19 @@ R_{\mathrm{loss}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_
 \paragraph{Local substructure.} Admissibility count; loss channel; return-duration ledger; dominant rung; stack load; attenuation accumulator; primitive trit/bip channel; derived biz rate.
 \paragraph{Derivation sketch.} Direct algebra on the cited admissibility and return ledgers. The zero-lag/unconstrained limit $m_t=3$ yields $R_{\mathrm{loss}}=0$ and $T_\Gamma=0$.
 
-\subsection{Momentum-like native proxy and rest-frame windows}\label{subsec:momentum-proxy}
-\begin{definition}[Momentum-like native proxy]
+\subsection{Momentum-like proxy and rest-frame windows}\label{subsec:momentum-proxy}
+\begin{definition}[Momentum-like proxy]
 \label{def:momentum-proxy-operator}
-Using the normalized speed $v(\omega)$ on a cited window, define the momentum-like native proxy by
+Using the normalized speed $v(\omega)$ on a cited window, define the momentum-like proxy by
 \[
 p_{\mathrm{prox}}(M;\omega):=E_{\mathrm{tot}}(M;\omega)\,v(\omega),
 \]
-where $E_{\mathrm{tot}}$ is the declared total biz-valued rate assembled from the native loss-facing channel and any declared additional native totals on the same ledger. This is the native proxy channel assembled on the cited ledger.
+where $E_{\mathrm{tot}}$ is the declared total biz-valued rate assembled from the loss-facing channel and any declared additional totals on the same ledger. This is the proxy channel assembled on the cited ledger.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:rest-frame-window,def:native-rest-derivation}.
-\paragraph{Local substructure.} Normalized speed; rest-frame window class; native proxy channel.
-\paragraph{Derivation sketch.} From axis-traversal speed on the cited window and the already-declared native rate channels.
+\paragraph{Local substructure.} Normalized speed; rest-frame window class; proxy channel.
+\paragraph{Derivation sketch.} From axis-traversal speed on the cited window and the already-declared rate channels.
 
 \subsection{Radiation and export dynamics}\label{subsec:radiation-export-dynamics}
 \begin{definition}[Radiation and export dynamics]
@@ -373,8 +373,8 @@ The emission/export packet witness is the wavelet packet whose boundary crossing
 
 \paragraph{Depends on.} \Cref{def:radiating-window,def:push-pull-operator,def:wavelet,def:coupling-exposure}.
 \paragraph{Local substructure.} Motif$\to$Region extractor; boundary MI export; shell-qualified window; radiating/export window; packet witness; shell falsifier.
-\paragraph{Derivation sketch.} From the same native boundary ledgers used for shell and export classification on the cited window.
-\paragraph{Remark.} Long-range radiation/export windows may be reported on the duon/duad family. The duon family is the minimal native open-seat export carrier on such windows; emitted wavelet packets on the cited boundary are later physical renderings of that native export bookkeeping.
+\paragraph{Derivation sketch.} From the same boundary ledgers used for shell and export classification on the cited window.
+\paragraph{Remark.} Long-range radiation/export windows may be reported on the duon/duad family. The duon family is the minimal open-seat export carrier on such windows; emitted wavelet packets on the cited boundary are later physical renderings of that export bookkeeping.
 
 \subsection{Family dynamics and subclass rules}\label{subsec:family-dynamics-subclass}
 \begin{definition}[Family dynamics and subclass rules]
@@ -384,12 +384,12 @@ The public field families carry declared dynamic constraints in addition to thei
 
 \paragraph{Depends on.} \Cref{def:field-families,def:traverser-closure-rule,def:saturation,def:field-lifecycle-operator}.
 \paragraph{Local substructure.} Family persistence behavior; structural key; seat/traversal constraints; closure-lock conditions; subclass saturation behavior; admissible transition rules.
-\paragraph{Derivation sketch.} Port of the native naming/lifecycle constraints into a compact operator-facing contract.
+\paragraph{Derivation sketch.} Port of the naming/lifecycle constraints into a compact operator-facing contract.
 
 \subsection{Collision and export-window calculus}\label{subsec:collision-export-calculus}
 \begin{definition}[Collision and export-window calculus]
 \label{def:collision-export-operator}
-A collision window is a declared export window on which incoming wavelet ledgers, the ternary interaction gate, and any production/export tick are all recorded on the same cited trace family. On a cited short export window, the same enclosure and shell-signature classes used for confinement and transmutation also type the collision bookkeeping, so the packet witness and residual check are read on the same family-conditioned ledgers. The native residual check is
+A collision window is a declared export window on which incoming wavelet ledgers, the ternary interaction gate, and any production/export tick are all recorded on the same cited trace family. On a cited short export window, the same enclosure and shell-signature classes used for confinement and transmutation also type the collision bookkeeping, so the packet witness and residual check are read on the same family-conditioned ledgers. The residual check is
 \[
 \mathcal R_{\mathrm{cut}}:=S_{\mathrm{out}}-\bigl(S_{\mathrm{in}}+S_{\mathrm{prod}}\bigr),
 \]
@@ -398,4 +398,4 @@ which must vanish within tolerance on the same cut ledger. Exchange rules are im
 
 \paragraph{Depends on.} \Cref{def:ternary-gate,def:collision-diagram,def:radiation-dynamics-operator}.
 \paragraph{Local substructure.} Collision window as export window; XOR exchange; production/export tick; packet witness; residual check.
-\paragraph{Derivation sketch.} From native tick ledgers and boundary bookkeeping on the declared collision/export window. Class-pair interaction tables, when recorded, follow the same native ledger and the same declared collision/export-window contract.
+\paragraph{Derivation sketch.} From tick ledgers and boundary bookkeeping on the declared collision/export window. Class-pair interaction tables, when recorded, follow the same ledger and the same declared collision/export-window contract.

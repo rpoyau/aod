@@ -52,7 +52,7 @@ Step flux is the one-frame boundary-crossing quantity on a declared frame. Windo
 \subsection{\texorpdfstring{$\tau$}{tau}-side readout, admissibility, and loss channel}
 \begin{definition}[$\tau$ readout ledger]
 \label{def:tau-readout-ledger}
-The declared $\tau$-ledger records, on the cited frame/window family, the ternary symbols $\tau_t\in\{-1,0,+1\}$, the active/dwell partition, and any declared symbol counts $(N_+,N_0,N_-)$. These are authoritative native ledgers.
+The declared $\tau$-ledger records, on the cited frame/window family, the ternary symbols $\tau_t\in\{-1,0,+1\}$, the active/dwell partition, and any declared symbol counts $(N_+,N_0,N_-)$. These are authoritative ledgers.
 \end{definition}
 
 \begin{definition}[Admissibility count and active set]
@@ -85,7 +85,7 @@ with
 \qquad
 T_\Gamma(\omega):=\Gamma_{\mathrm{loss}}(\omega)-1.
 \]
-The native primitive is $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in trit/bip. A derived internal rate in biz may be reported later only after the declared attenuation/backlog step has been applied.
+The primitive is $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in trit/bip. A derived internal rate in biz may be reported later only after the declared attenuation/backlog step has been applied.
 \end{definition}
 
 \begin{definition}[Active-only versus total normalization]
@@ -304,7 +304,7 @@ b=2e+f,\qquad f\in\mathbb Z_{\ge1}.
 
 \begin{remarkx}[Jensen discipline]
 \label{rem:jensen}
-Histogram and loss aggregation must preserve the native order of operations. If $T_{\mathrm{eval}}=n_1+n_2+n_3$ and
+Histogram and loss aggregation must preserve the order of operations. If $T_{\mathrm{eval}}=n_1+n_2+n_3$ and
 \[
 \bar m:=\frac{n_1+2n_2+3n_3}{T_{\mathrm{eval}}},
 \]
@@ -353,7 +353,7 @@ The suffix \texttt{-on} denotes a traverser class. The suffix \texttt{-ad} denot
 
 \begin{definition}[Public AO field families and structural key]
 \label{def:field-families}
-The public AO field families used below are the two-seat family \emph{duon}/\emph{duad} and the four-seat family \emph{tetron}/\emph{tetrad}, together with declared structural subclasses and O-prefixed chirality tags on the same field report. Structural examples such as \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6} are public native identifiers on cited windows.
+The public AO field families used below are the two-seat family \emph{duon}/\emph{duad} and the four-seat family \emph{tetron}/\emph{tetrad}, together with declared structural subclasses and O-prefixed chirality tags on the same field report. Structural examples such as \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6} are public identifiers on cited windows.
 \end{definition}
 
 \begin{definition}[Structural constraints]
@@ -363,7 +363,7 @@ Seat / traversal constraints, closure-lock constraints, and saturation policy ar
 
 \begin{definition}[Ominion]
 \label{def:ominion}
-An ominion is a declared clustered effective-body state on a cited window, carrying effective report properties such as mass/rate, charge proxy, linear momentum, angular momentum, phase state, and native loss/tension witnesses.
+An ominion is a declared clustered effective-body state on a cited window, carrying effective report properties such as mass/rate, charge proxy, linear momentum, angular momentum, phase state, and loss/tension witnesses.
 \end{definition}
 
 \begin{definition}[n-soma system]
@@ -389,11 +389,11 @@ A polyrotor phase family is a finite indexed family of rotor-completion readouts
 
 \begin{definition}[Rotor-completion period, phase index, cycle-ratio phase, and completed-cycle count]
 \label{def:rotor-completion}
-On the cited shell/window, let $P_\rho(M;\omega)\in \mathbb N_{>0}$ be the native rotor-completion period, let $\rho_t(M;\omega)\in\{0,1,\dots,P_\rho(M;\omega)-1\}$ be the native phase index, let
+On the cited shell/window, let $P_\rho(M;\omega)\in \mathbb N_{>0}$ be the rotor-completion period, let $\rho_t(M;\omega)\in\{0,1,\dots,P_\rho(M;\omega)-1\}$ be the phase index, let
 \[
 \varphi_t(M;\omega):=\frac{\rho_t(M;\omega)}{P_\rho(M;\omega)}\in[0,1)\cap\mathbb Q
 \]
-be the native cycle-ratio phase, and let $N_\rho(M;\omega)\in\mathbb Z_{\ge 0}$ be the cumulative completed-cycle count. A complete native cycle increments $N_\rho$ by one.
+be the cycle-ratio phase, and let $N_\rho(M;\omega)\in\mathbb Z_{\ge 0}$ be the cumulative completed-cycle count. A complete cycle increments $N_\rho$ by one.
 \end{definition}
 
 \begin{definition}[Torsional tension and torsional loss]
