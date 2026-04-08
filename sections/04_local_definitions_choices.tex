@@ -1,6 +1,6 @@
 \section{Local definitions and choices}
 
-\subsection{Memory State, active cut, and present identity}
+\subsection{Memory State, cut, and present identity}
 \begin{definition}[Memory State, inherited]
 \label{def:memory-state}
 The inherited Memory State is the AFC object
@@ -9,25 +9,25 @@ p:V\to[0,1], \qquad \sum_{i\in V} p(i)=1.
 \]
 \end{definition}
 
-\begin{definition}[Active cut]
+\begin{definition}[Cut]
 \label{def:active-cut}
-An active cut is the declared localized cut on which the derived AFC identity is read.
+For a cited Region $R\subseteq V$ with boundary $\partial R$, a cut is the declared inside/boundary/outside split $(R,\partial R,V\setminus R)$ on which the imported AFC identity is read.
 \end{definition}
 
 \begin{definition}[Present identity]
 \label{def:present-identity}
-The present identity is the AFC Stokes identity evaluated on the active cut.
+The present identity is the AFC Stokes identity evaluated on the boundary of the cited cut.
 \end{definition}
 
 \subsection{\texorpdfstring{$\tau$}{tau} readout, frame/window, and active/dwell split}
 \begin{choice}[$\tau$ readout]
 \label{choice:tau-readout}
-A declared readout map assigns a ternary symbol $\tau_t\in\{-1,0,+1\}$ to each update on the active cut. The ternary readout is attached to the cited cut through the declared frames and windows; it does not redefine the inherited cut itself.
+A declared readout map assigns a ternary symbol $\tau_t\in\{-1,0,+1\}$ to each update on the cited cut. The ternary readout is attached to that cut through the declared frames and windows; it does not redefine the cut itself.
 \end{choice}
 
 \begin{definition}[Frame]
 \label{def:frame}
-A frame $f_t$ is the one-bip readout slice on a declared active cut.
+A frame $f_t$ is the one-bip readout slice on a declared cut.
 \end{definition}
 
 \begin{definition}[Window]
@@ -85,7 +85,7 @@ with
 \qquad
 T_\Gamma(\omega):=\Gamma_{\mathrm{loss}}(\omega)-1.
 \]
-The primitive is $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in trit/bip. A derived internal rate in biz may be reported later only after the declared attenuation/backlog step has been applied.
+The primitive is $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in trit/bip. A derived internal rate in biz may be reported later only after the declared attenuation/backlog step has been applied. This local loss channel records readout-side admissibility restriction on the cited cut family; by itself it does not identify the imported AFC Markov-kernel capacity.
 \end{definition}
 
 \begin{definition}[Active-only versus total normalization]
@@ -96,7 +96,7 @@ Unless a row explicitly declares otherwise, reported rates are normalized by tot
 \subsection{Predecessor trace, successor horizon, and knowledge profile}
 \begin{definition}[Predecessor trace]
 \label{def:predecessor-trace}
-The predecessor trace is the ordered family of prior active cuts and their local readouts along a Memory path.
+The predecessor trace is the ordered family of prior cuts and their local readouts along a Memory path.
 \end{definition}
 
 \begin{definition}[Successor horizon]
@@ -106,12 +106,12 @@ The successor horizon is the admissible family of next continuations generated f
 
 \begin{choice}[Isotropic ignorance]
 \label{choice:isotropic-ignorance}
-The AFC isotropic-ignorance posture is used unless an explicit local refinement is declared.
+The AFC isotropic-ignorance posture is used on the cited cut unless an explicit local refinement is declared.
 \end{choice}
 
 \begin{choice}[Anisotropic knowledge]
 \label{choice:anisotropic-knowledge}
-Anisotropic knowledge is a declared local refinement of distinctions or support on the active cut.
+Anisotropic knowledge is a declared local refinement of distinctions or support on the cited cut. It narrows the admissible successor family on that cut and need not, by itself, introduce dwell.
 \end{choice}
 
 \subsection{Inherited support and canonical Q4 chart}
@@ -191,7 +191,7 @@ The outer enclosure token $\eta_{\mathrm{out}}$ records the reported outer enclo
 \subsection{\texorpdfstring{$\alpha\leftrightarrow\omega$}{alpha-omega} bookkeeping, backlog, and crowning}
 \begin{definition}[$\alpha$ tally and $\omega$ obligation]
 \label{def:alpha-omega}
-$\alpha$ denotes the local interior tally. $\omega$ denotes the closure or return obligation on the same active cut.
+$\alpha$ denotes the local interior tally. $\omega$ denotes the closure or return obligation on the same cut.
 \end{definition}
 
 \begin{definition}[Backlog and reconciliation]
@@ -206,13 +206,13 @@ Crowning is the reported directional closure distinction that first stabilizes a
 
 \begin{definition}[Drift]
 \label{def:drift}
-Drift is the reported phase or transport bias that persists across the declared active-cut family on a cited readout class.
+Drift is the reported phase or transport bias that persists across the declared cut family on a cited readout class.
 \end{definition}
 
 \subsection{AO field, wavelet, shell/cadence interface, and saturation}
 \begin{definition}[AO field]
 \label{def:ao-field}
-The AO field is the ordered bundle of local AOD quantities attached to an active cut and its unspooling.
+The AO field is the ordered bundle of local AOD quantities attached to a cut and its unspooling.
 \end{definition}
 
 \begin{definition}[Wavelet]
@@ -220,9 +220,14 @@ The AO field is the ordered bundle of local AOD quantities attached to an active
 A wavelet is a finite closure-carrying Memory-path segment equipped with ordered cutwise field quantities.
 \end{definition}
 
-\begin{definition}[Shell-band extraction and cadence extractor interface]
-\label{def:shell-cadence-interface}\label{def:cadence-extractor}
-A shell-band extractor packages the cited closure/return/cycle ledger into an ordered family of reported shell bands. A cadence extractor acts on those bands to produce completed-cycle counts, completion periods, phase indices, cycle-ratio phase reports, and drift witnesses on the same cited window.
+\begin{definition}[Shell-band extraction interface]
+\label{def:shell-cadence-interface}
+A shell-band extractor packages the cited closure/return/cycle ledger into an ordered family of reported shell bands on the same cited window.
+\end{definition}
+
+\begin{definition}[Cadence extractor]
+\label{def:cadence-extractor}
+A cadence extractor acts on the cited shell bands to produce completed-cycle counts, completion periods, phase indices, cycle-ratio phase reports, and drift witnesses on the same cited window.
 \end{definition}
 
 \begin{definition}[Saturation]
@@ -345,7 +350,7 @@ It is assembled from the level index, dominant residual-duration class, winding 
 A motif-conditioned window is declared confined when it is shell-qualified, carries the cited $B^*$-dominance on the same shell-signature class, and satisfies the declared proximity criterion for the relevant traverser/closure family together with the corresponding cage-band / outer-enclosure requirement on the same cited window. The transmutation trigger is the declared failure of that confinement predicate on the same cited window.
 \end{definition}
 
-\subsection{Traverser / closure naming rule, field inventory, and structural constraints}
+\subsection{Traverser / closure naming rule, field aliases, and structural constraints}
 \begin{definition}[Traverser / closure rule]
 \label{def:traverser-closure-rule}
 The suffix \texttt{-on} denotes a traverser class. The suffix \texttt{-ad} denotes a closure or seat class. Traverser precedes closure in composed names.
@@ -353,7 +358,7 @@ The suffix \texttt{-on} denotes a traverser class. The suffix \texttt{-ad} denot
 
 \begin{definition}[Public AO field families and structural key]
 \label{def:field-families}
-The public AO field families used below are the two-seat family \emph{duon}/\emph{duad} and the four-seat family \emph{tetron}/\emph{tetrad}, together with declared structural subclasses and O-prefixed chirality tags on the same field report. Structural examples such as \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6} are public identifiers on cited windows.
+The public AO field families used below are the two-seat family \emph{duon} and the four-seat family \emph{tetron}, together with their cited closure aliases \emph{duad} and \emph{tetrad} on the same family keys, declared structural subclasses, and O-prefixed chirality tags on the same field report. Here \emph{duad} is the closed/full duon alias and \emph{tetrad} is the locked/full tetron alias on the cited window. Structural examples such as \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6} are public identifiers on cited windows.
 \end{definition}
 
 \begin{definition}[Structural constraints]
@@ -384,7 +389,7 @@ Chirality is the persistent handedness of asymmetry under unspooling.
 
 \begin{definition}[Polyrotor phase family]
 \label{def:polyrotor}
-A polyrotor phase family is a finite indexed family of rotor-completion readouts on the same active-cut family.
+A polyrotor phase family is a finite indexed family of rotor-completion readouts on the same cited cut family.
 \end{definition}
 
 \begin{definition}[Rotor-completion period, phase index, cycle-ratio phase, and completed-cycle count]
@@ -398,7 +403,17 @@ be the cycle-ratio phase, and let $N_\rho(M;\omega)\in\mathbb Z_{\ge 0}$ be the 
 
 \begin{definition}[Torsional tension and torsional loss]
 \label{def:torsional}
-Torsional tension is the accumulated unresolved phase disagreement or reconciliation debt. Torsional loss is the admissibility lost because that tension remains unresolved.
+On a declared coupled polyrotor phase family, torsional tension is the accumulated unresolved phase disagreement carried on that family. Torsional loss is the admissibility lost because that disagreement remains unresolved.
+\end{definition}
+
+\begin{definition}[Recursive phase debt service]
+\label{def:recursive-phase-debt-service}
+On a declared coupled polyrotor phase family, recursive phase debt service is the internal servicing of unresolved phase disagreement under the recursive update. It need not require external reflection or external collision. On the cited readout family it is reported through torsional tension, torsional loss, the torsional residual witness, and any forced dwell where present.
+\end{definition}
+
+\begin{definition}[Torsional residual witness]
+\label{def:torsional-residual-witness}
+The torsional residual witness is the noncancelling remainder of the chirality-resolved boundary-current histories on the cited readout family. Its explicit operator realization is recorded later in the operator section.
 \end{definition}
 
 \begin{definition}[Cadence]
@@ -424,7 +439,7 @@ Decay is the typed end of persistence under the declared rupture predicate. Prod
 
 \begin{definition}[Freezing, rebalance dwell, transmutation, and dynamic recruitment]
 \label{def:freeze-recruit}
-A cited window is \emph{freezing} when sustained admissibility restriction and/or sustained CK mismatch indicates that the current representation is saturating its capacity. Rebalance events are explicit operator-logged events with nonzero dwell cost. Transmutation is a change of motif signature class across windows with explicit dwell cost. Dynamic volume recruitment is the growth of effective closure range or outer enclosure used to preserve admissibility and shell qualification under continued load.
+A cited window is \emph{freezing} when sustained admissibility restriction and/or sustained CK mismatch indicates that the current representation is saturating the imported AFC Markov-kernel capacity $C(P)$ on that representation. Rebalance events are explicit operator-logged events with nonzero dwell cost. Transmutation is a change of motif signature class across windows with explicit dwell cost. Dynamic volume recruitment is the growth of effective closure range or outer enclosure used to preserve admissibility and shell qualification under continued load.
 \end{definition}
 
 \begin{definition}[Normalized speed and rest-frame window]
