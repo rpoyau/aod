@@ -1,10 +1,10 @@
 \section{Introduction}
 
 \subsection{Relational units and notation}
-The note uses \emph{bip} / \emph{biz} for duration and rate reporting, and \emph{trit} for the ternary readout. The term \emph{cut} remains reserved for the relational localization object. Other local terms are defined only where they first enter the derivation.
+The note uses \emph{bip} / \emph{biz} for duration and rate reporting, and \emph{trit} for the ternary readout. A cut declares an inside, a boundary, and an outside on the cited Region/boundary ledger. Other local terms are defined only where they first enter the derivation.
 
-\subsection{Temporal order on active cuts}
-The note does not introduce time as an additional primitive. On a declared readout family, temporal order is read on successive active cuts. The predecessor trace records what has been cut and carried along a Memory path. The present is the active cut together with the AFC identity evaluated on that cut. The successor horizon records what could be cut next under the current Memory State, the Markov Kernel, and the declared local constraints.
+\subsection{Temporal order on cited cuts}
+The note does not introduce time as an additional primitive. On a declared readout family, temporal order is read on successive cited cuts. The predecessor trace records what has been cut and carried along a Memory path. The present is the cited cut together with the AFC identity evaluated on its declared boundary. The successor horizon records what could be cut next under the current Memory State, the Markov Kernel, and the declared local constraints.
 
 \subsection{Cut localization}
 On a declared Region $R\subseteq V$ with boundary $\partial R$, the cut localizes the inherited continuity relation into an interior sum and a boundary sum. A declared readout assigns ternary symbols $\tau_t\in\{-1,0,+1\}$ on cited frames and windows in the native bip/biz notation.
