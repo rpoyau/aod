@@ -41,7 +41,7 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 
 ## Notebooks
 
-- `notebooks/E1-E3.ipynb` — active-cut / closure / backlog checks
+- `notebooks/examples-01-03.ipynb` — cut / closure / backlog checks
 - `supplement-a/notebooks/E4-E6.ipynb` — native loss-channel / B* / collision-export checks
 - `supplement-a/notebooks/E7-E9-bindings.ipynb` — field / confinement / family / routing checks
 - `supplement-b/notebooks/E10-E11D.ipynb` — recurrent-ring and temporal-conversion rendering checks

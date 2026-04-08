@@ -16,7 +16,7 @@ All notebooks are cited-row-first. Where SI reporting is needed, it follows the 
 
 | Regime | Notebook location | Package role | Visual outputs |
 |---|---|---|---|
-| Theorem-line sanity | `notebooks/E1-E3.ipynb` | main-note support | Q4 cut / closure visuals |
+| Theorem-line sanity | `notebooks/examples-01-03.ipynb` | main-note support | Q4 cut / closure visuals |
 | Native loss / B* / collision | `supplement-a/notebooks/E4-E6.ipynb` | Supplement A | loss-channel, B* ladder, collision/export diagrams |
 | Confinement / family rows | `supplement-a/notebooks/E7-E9-bindings.ipynb` | Supplement A | confinement / family / shell-signature visuals |
 | Recurrent ring / derived temporal-unit conversion | `supplement-b/notebooks/E10-E11D.ipynb` | Supplement B | recurrent-ring and converted-rendering figures |
