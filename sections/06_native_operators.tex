@@ -1,6 +1,6 @@
 \section{Operators}
 
-This section records the compact operator layer required for the calculus. All operators below are discrete bookkeeping on declared traces, active cuts, frames/windows, and inherited support.
+This section records the compact operator layer required for the calculus. All operators below are discrete bookkeeping on declared traces, cited cuts, frames/windows, and inherited support.
 
 \subsection{Q4 chart and closure operators}\label{subsec:q4-closure-operators}
 \begin{definition}[Q4 chart and closure operators]
@@ -39,12 +39,12 @@ The primitive remains $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in trit/bip and re
 
 \paragraph{Depends on.} \Cref{choice:tau-readout,def:active-dwell,def:mt,def:loss-channel,def:backlog-reconciliation}.
 \paragraph{Local substructure.} Admissibility count $m_t$; forced dwell; $\Gamma_{\mathrm{loss,raw}}$; $\Gamma_{\mathrm{loss}}$; $T_\Gamma$; primitive trit/bip channel; derived biz channel.
-\paragraph{Derivation sketch.} From the declared gating rule and the active/dwell split, admissibility restriction yields $m_t<3$ and therefore positive loss on constrained ticks. Averaging on the cited active-cut family gives the loss channel; the biz rate is the corresponding internal rate on the same ledger.
+\paragraph{Derivation sketch.} From the declared gating rule and the active/dwell split, admissibility restriction yields $m_t<3$ and therefore positive loss on constrained ticks. Averaging on the cited cut family gives the loss channel; the biz rate is the corresponding internal rate on the same ledger.
 
 \subsection{Wavelet transport, trit carriage, and saturation}\label{subsec:wavelet-transport-saturation}
 \begin{definition}[Wavelet transport operator]
 \label{def:wavelet-transport-operator}
-A wavelet transport operator packages a finite closure-carrying Memory-path segment together with its ordered cutwise field quantities, traverser/closure saturation, and chained trit carriage on the same active-cut family.
+A wavelet transport operator packages a finite closure-carrying Memory-path segment together with its ordered cutwise field quantities, traverser/closure saturation, and chained trit carriage on the same cited cut family.
 \end{definition}
 
 \begin{definition}[Wavelet mode and transport witnesses]
@@ -102,10 +102,10 @@ A window $\omega$ is radiating/exporting for motif $M$ when net boundary export 
 \paragraph{Local substructure.} Push/pull sign convention; chirality-resolved boundary totals; effective-charge proxy; export witness; emitted packet.
 \paragraph{Derivation sketch.} From the same oriented boundary-current histories used for lag, torsion, and shell/export classification. No external electrodynamic or thermodynamic law is invoked.
 
-\subsection{Torsional curl and torsional residual}\label{subsec:torsional-operators}
-\begin{definition}[Torsional curl and residual]
+\subsection{Torsional curl and torsional residual operator}\label{subsec:torsional-operators}
+\begin{definition}[Torsional curl and residual operator]
 \label{def:torsional-operator}
-Let $R(M;\omega)$ be the declared Region extractor for motif $M$ on the cited active-cut family. With a fixed boundary orientation, define the chirality-resolved boundary circulation
+Let $R(M;\omega)$ be the declared Region extractor for motif $M$ on the cited cut family. With a fixed boundary orientation, define the chirality-resolved boundary circulation
 \[
 \mathrm{Curl}_{\chi}(M;\omega):=
 \sum_{t\in\omega}\sum_{(i,j)\in\partial R(M;\omega)}
@@ -135,17 +135,17 @@ J^{\alpha}=J^{\Omega}\Longrightarrow T_{\mathrm{tors}}(M;\omega)=0.
 \]
 \end{definition}
 
-\paragraph{Depends on.} \Cref{def:chirality,def:torsional,def:phase-lag,def:backlog-reconciliation}.
-\paragraph{Local substructure.} Chirality-resolved boundary currents; torsional curl; boundary-side residual; region-side equivalent; zero-lag limit.
-\paragraph{Derivation sketch.} From the chirality-resolved boundary histories on the same active-cut family and the AFC Stokes pairing between boundary and region accounting.
+\paragraph{Depends on.} \Cref{def:chirality,def:torsional,def:recursive-phase-debt-service,def:torsional-residual-witness,def:phase-lag,def:backlog-reconciliation}.
+\paragraph{Local substructure.} Chirality-resolved boundary currents; torsional curl; recursive phase debt service; boundary-side residual; region-side equivalent; zero-lag limit.
+\paragraph{Derivation sketch.} From the chirality-resolved boundary histories on the same cited cut family and the AFC Stokes pairing between boundary and region accounting. Recursive phase debt service is internal to the cited coupled phase family and need not require external reflection or external collision.
 \begin{remarkx}
-This is the Stokes-style witness for unresolved torsional imbalance on the cited readout family.
+This operator realizes the torsional residual witness declared earlier. It is the native Stokes-style witness for recursive phase debt service on the cited coupled polyrotor phase family.
 \end{remarkx}
 
 \subsection{Cadence and polyrotor extractors}\label{subsec:cadence-polyrotor-operators}
 \begin{definition}[Cadence extractor and shell-resolved completion reports]
 \label{def:cadence-operator}
-For a declared shell band or active-cut family, the cadence extractor returns completed-cycle counts $N_{\rho,k}^{\mathrm{cyc}}(\omega)$ together with the shell-signature class, shell-resolved completion periods $P_{\rho,k}(\omega)$, shell-resolved phase indices $\rho_k(\omega)$, cycle-ratio phases
+For a declared shell band or cited cut family, the cadence extractor returns completed-cycle counts $N_{\rho,k}^{\mathrm{cyc}}(\omega)$ together with the shell-signature class, shell-resolved completion periods $P_{\rho,k}(\omega)$, shell-resolved phase indices $\rho_k(\omega)$, cycle-ratio phases
 \[
 \varphi_k(\omega):=\frac{\rho_k(\omega)}{P_{\rho,k}(\omega)},
 \]
@@ -166,7 +166,7 @@ so the reported cadence spectrum is $\mathcal N(M;\omega)=\{\nu_1(\omega),\ldots
 \paragraph{Local substructure.} Cadence extractor; completion periods; phase indices; cycle-ratio phases; drift witnesses; cadence spectrum; dominant residual-duration class.
 \paragraph{Derivation sketch.} From the declared shell-band extraction and completion ledgers on the same cited readout family.
 \begin{remarkx}
-On shell-qualified windows, recurrent closure and phase-locking may be read as standing wavelet configurations on the cited support. Their unresolved disagreement is reported through backlog, torsional residual, cadence shift, and the loss-channel on that same window. The cut-to-cut identity is unchanged; the effective window-level progress rate need not match branch-specific traversal duration, because part of the cited window is spent servicing $\alpha/\Omega$ mismatch through bridge and dwell burden. The dominant residual-duration class $B^*$ records the leading support class of that burden on the cited window under the declared extraction policy.
+On shell-qualified windows, recurrent closure and phase-locking may be read as standing wavelet configurations on the cited support. Their unresolved disagreement is reported through backlog, torsional residual, cadence shift, and the loss-channel on that same window. The cut-to-cut identity is unchanged; the effective window-level progress rate need not match branch-specific traversal duration, because part of the cited window is spent in recursive phase debt service through bridge and dwell burden. The dominant residual-duration class $B^*$ records the leading support class of that burden on the cited window under the declared extraction policy.
 \end{remarkx}
 
 \subsection{\texorpdfstring{$B^*$}{B*} ladder and histogram operators}\label{subsec:bstar-ladder-operators}
@@ -246,7 +246,7 @@ A finite path sum is a finite sum over declared Memory paths, with each term giv
 
 \begin{definition}[Least reconciliation]
 \label{def:least-reconciliation}
-Least reconciliation is the discrete minimization of a declared cost functional over admissible trace families. The cost may include loss burden, dwell cost, boundary residual, and return-debt service on the same active-cut family.
+Least reconciliation is the discrete minimization of a declared cost functional over admissible trace families. The cost may include loss burden, dwell cost, boundary residual, and return-debt service on the same cited cut family.
 \end{definition}
 
 \begin{definition}[Ternary interaction gate]
