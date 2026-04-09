@@ -1,16 +1,16 @@
 \section{Introduction}
 
 \subsection{Relational units and notation}
-The note uses \emph{bip} / \emph{biz} for duration and rate reporting, and \emph{trit} for the ternary readout. A cut declares an inside, a boundary, and an outside on the cited Region/boundary ledger. Other local terms are defined only where they first enter the derivation.
+The note uses \emph{bip} for duration, \emph{biz} for rate, and \emph{trit} for the ternary readout. A cut declares an inside, a boundary, and an outside on the cited Region/boundary ledger. Other local terms are defined only where they first enter the derivation.
 
-\subsection{Temporal order on cited cuts}
-The note does not introduce time as an additional primitive. On a declared readout family, temporal order is read on successive cited cuts. The predecessor trace records what has been cut and carried along a Memory path. The present is the cited cut together with the AFC identity evaluated on its declared boundary. The successor horizon records what could be cut next under the current Memory State, the Markov Kernel, and the declared local constraints.
+\subsection{Temporal localization on cited cuts}
+Temporal order is read on successive cited cuts. The predecessor trace records what has been cut and carried on a Memory path. The present is the cited cut together with the identity evaluated on its boundary. The successor horizon records what could be cut next under the current Memory State, the Markov Kernel, and the declared local constraints.
 
 \subsection{Cut localization}
-On a declared Region $R\subseteq V$ with boundary $\partial R$, the cut localizes the inherited continuity relation into an interior sum and a boundary sum. A declared readout assigns ternary symbols $\tau_t\in\{-1,0,+1\}$ on cited frames and windows in the native bip/biz notation.
+On a declared Region $R\subseteq V$ with boundary $\partial R$, the cut localizes the inherited continuity relation into an interior sum and a boundary sum. A declared readout assigns ternary symbols $\tau_t\in\{-1,0,+1\}$ on cited frames and windows in bip/biz notation.
 
 \subsection{Global choices}
-Construction order, field/readout separation, step flux versus window current, and rate normalization are fixed globally and used uniformly below.
+Construction order, field/readout separation, step flux versus window current, and rate normalization are fixed once and used uniformly below.
 
 \subsection{Organization}
-After the imported AFC basis and the local definitions and choices, the note records the local consequences, the operator layer, a short corollary-and-hooks section, the examples, and two appendices.
+After the AFC basis and the local definitions and choices, the note records the local consequences, the operator layer, a short corollary-and-hooks section, the examples, and two appendices.
