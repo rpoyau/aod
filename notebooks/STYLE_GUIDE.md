@@ -3,7 +3,7 @@
 **Maintainer:** P. Reginald  
 **Status:** Official style for public notebooks in `notebooks/`
 
-All primary derivation content remains in bip / biz / trit units, with exact/default-form rows authoritative:
+All primary derivation content remains in bip / biz / trit units with exact/default-form rows authoritative:
 - trit/bip primitive
 - biz derived
 - integer ledgers authoritative
@@ -75,7 +75,7 @@ Every test uses this exact structure:
 [Or “Temporal Conversion Witness” if conversion-only.]
 
 **Hook / Evidence**  
-[Reference only to note hooks or cited-row checks.]
+[Reference only to note hooks or checks.]
 
 ---
 
@@ -89,7 +89,7 @@ Every test uses this exact structure:
 ## 5. Temporal conversion rule (verbatim)
 **Temporal Conversion Block**  
 Cited rows are authoritative.  
-When conversion is required, convert only from cited bip/biz quantities into derived temporal SI forms.  
+When conversion is required, convert only from bip/biz quantities into derived temporal SI forms.  
 Duration converts to **seconds**.  
 Rate converts to **hertz**.  
 Effective speed is reported only as
