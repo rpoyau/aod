@@ -1,9 +1,9 @@
 # AOD Notebook Style Guide
-## Version 2.3 — Native-first / temporal-conversion only
+## Version 2.3 — Cited-row-first / temporal-conversion only
 **Maintainer:** P. Reginald  
 **Status:** Official style for public notebooks in `notebooks/`
 
-All primary derivation content remains in bip / biz / trit units with exact/default-form rows authoritative:
+All primary derivation content remains in bip / biz / trit units, with exact/default-form rows authoritative:
 - trit/bip primitive
 - biz derived
 - integer ledgers authoritative
@@ -21,15 +21,15 @@ Where SI reporting is needed, it follows the cited row. Conversion is restricted
 ## 1. Purpose
 - Every notebook is executable documentation of the AOD calculus.
 - All tests follow the same structure and methodology.
-- Native rows are authoritative.
+- Cited rows are authoritative.
 
 ---
 
 ## 2. Package structure
-- Main note = compact native theorem line
-- Supplement A — Native worked examples and figure witnesses
+- Main note = compact theorem line
+- Supplement A — Worked examples and figure witnesses
 - Supplement B — Verification bindings and derived temporal-unit conversions
-- Supplement C — Native regime tests
+- Supplement C — Regime tests
 
 ---
 
@@ -60,13 +60,13 @@ Every test uses this exact structure:
 - structural key (tetron:* where applicable)
 - frame count / \(T_{\mathrm{eval}}\)
 - weighting policy
-- shell signature / native inputs as needed
+- shell signature / inputs as needed
 
 **Operator Chain**  
-[Short native operator chain.]
+[Short operator chain.]
 
 **Output Row**  
-[DataFrame with native quantities only.]
+[DataFrame with exact/default-form quantities only.]
 
 **Temporal Conversion Block**  
 [Only if needed; convert from cited row into seconds / hertz / \(\beta\) only.]
@@ -75,11 +75,11 @@ Every test uses this exact structure:
 [Or “Temporal Conversion Witness” if conversion-only.]
 
 **Hook / Evidence**  
-[Reference only to note hooks or native checks.]
+[Reference only to note hooks or cited-row checks.]
 
 ---
 
-## 4. Native-first rule
+## 4. Cited-row-first rule
 - The cited row is always recorded first.
 - Verification labels, decimal renderings, and temporal-unit conversions are attached only after the cited row.
 - Root notebooks support the main note; supplement-owned notebooks live inside their supplement subpackages.
@@ -88,8 +88,8 @@ Every test uses this exact structure:
 
 ## 5. Temporal conversion rule (verbatim)
 **Temporal Conversion Block**  
-Native rows are authoritative.  
-When conversion is required, convert only from native bip/biz quantities into derived temporal SI forms.  
+Cited rows are authoritative.  
+When conversion is required, convert only from cited bip/biz quantities into derived temporal SI forms.  
 Duration converts to **seconds**.  
 Rate converts to **hertz**.  
 Effective speed is reported only as

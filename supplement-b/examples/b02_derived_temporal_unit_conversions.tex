@@ -1,12 +1,12 @@
 \subsection{Derived temporal-unit conversions}\label{app:si-routing}
-\paragraph{Temporal Conversion Block.} Native rows are authoritative. When conversion is required, convert only from native bip/biz quantities into derived temporal SI forms. Duration converts to \textbf{seconds}. Rate converts to \textbf{hertz}. Effective speed is reported only as $\beta=\frac{v}{c},\;c=1,\;0\le\beta\le1$.
+\paragraph{Temporal Conversion Block.} Cited rows are authoritative. When conversion is required, convert only from cited bip/biz quantities into derived temporal SI forms. Duration converts to \textbf{seconds}. Rate converts to \textbf{hertz}. Effective speed is reported only as $\beta=\frac{v}{c},\;c=1,\;0\le\beta\le1$.
 
 \begin{center}
 \begin{tabularx}{\linewidth}{@{}lXl@{}}
 \toprule
-Native source row & Conversion or rendering target & Notes \\
+Cited source row & Conversion or rendering target & Notes \\
 \midrule
-E4 native loss-channel row & bip-to-seconds, hertz, J, kg, MeV/$c^2$ dictionaries & derived temporal-unit conversion \\
+E4 loss-channel row & bip-to-seconds, hertz, J, kg, MeV/$c^2$ dictionaries & derived temporal-unit conversion \\
 E5 $B^*$ ladder row & decimal ladder summaries / attractor plots & non-premise compression \\
 E6 collision/export row & diagrammatic temporal conversion illustrations & diagrammatic temporal conversion rendering \\
 E7 field-property row & temporal-conversion dashboards / converted tables & cited row followed by converted rendering \\

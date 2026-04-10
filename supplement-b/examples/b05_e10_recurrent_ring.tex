@@ -1,8 +1,8 @@
 \subsection{Example E10: 3-node recurrent ring / recurrent-network rendering}\label{app:e10-neural}
 \paragraph{Purpose.} Demonstrate that a small recurrent network is representable as a motif / closure + wavelet-propagation ledger in which projected non-Markov behavior is a representation adequacy issue and lag/backlog is a clock channel rather than kernel bias.
-\paragraph{Depends on.} Native collision/export bookkeeping, backlog / forced-dwell bookkeeping, and the CK-mismatch witness on the cited projected stream.
-\paragraph{Native loss-channel convention.} The primitive loss-facing channel is reported here as $R_{\mathrm{loss}}$ [trit/bip], with the same values as the native loss channel on the cited row.
-\paragraph{Native row(s).}
+\paragraph{Depends on.} Collision/export bookkeeping, backlog / forced-dwell bookkeeping, and the CK-mismatch witness on the cited projected stream.
+\paragraph{Loss-channel convention.} The primitive loss-facing channel is reported here as $R_{\mathrm{loss}}$ [trit/bip], with the same values as the loss channel on the cited row.
+\paragraph{Cited row(s).}
 {\footnotesize
 \begin{center}
 \begin{tabular}{@{}llllllll@{}}
@@ -40,7 +40,7 @@ $t$ & node & $\tau_\alpha$ & $\tau_\omega$ & delay [bip] & hidden mode & backlog
   \fill (A) circle (2pt) node[above] {A};
   \fill (B) circle (2pt) node[left] {B};
   \fill (C) circle (2pt) node[right] {C};
-  \node at (0,-1.7) {projected recurrent ring on the cited native ledger};
+  \node at (0,-1.7) {projected recurrent ring on the cited ledger};
 \end{tikzpicture}
 \end{center}
 \paragraph{Audit cues.} Use the CK residual $\|P^{(2)}-P^{(1)}P^{(1)}\|_F$, backlog/dwell columns, and cut residual to distinguish hidden-state projection effects from kernel bias.

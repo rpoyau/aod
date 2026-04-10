@@ -29,7 +29,7 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 
 ## Package order
 
-1. `main.pdf` — compact native derivation shell
+1. `main.pdf` — compact derivation shell
 2. `supplement-a.pdf` — worked examples and figure witnesses
 3. `supplement-b.pdf` — verification bindings and derived temporal-unit conversions attached after the cited row
 4. `supplement-c.pdf` — regime tests, with converted witnesses attached only after the cited row where needed
@@ -37,12 +37,12 @@ This repository is the **canonical source tree** for the AOD note in AFC/AF form
 6. `supplement-a/notebooks/` — Supplement A notebook layer
 7. `supplement-b/notebooks/` — Supplement B notebook layer
 8. `supplement-c/notebooks/` — grouped Supplement C notebook layer
-9. `audit_pack/` — native audit rows and verifier files
+9. `audit_pack/` — audit rows and verifier files
 
 ## Notebooks
 
 - `notebooks/examples-01-03.ipynb` — cut / closure / backlog checks
-- `supplement-a/notebooks/E4-E6.ipynb` — native loss-channel / B* / collision-export checks
+- `supplement-a/notebooks/E4-E6.ipynb` — loss-channel / B* / collision-export checks
 - `supplement-a/notebooks/E7-E9-bindings.ipynb` — field / confinement / family / routing checks
 - `supplement-b/notebooks/E10-E11D.ipynb` — recurrent-ring and temporal-conversion rendering checks
 

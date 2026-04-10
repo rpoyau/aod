@@ -1,7 +1,7 @@
 # Build and deposit notes
 
 ## Scope
-This file records the operational steps for building the PDFs, running the native audit checks, assembling the canonical source archive, and preparing release assets.
+This file records the operational steps for building the PDFs, running the audit checks, assembling the canonical source archive, and preparing release assets.
 
 ## Prerequisites
 - TeX Live / TinyTeX with XeLaTeX and `latexmk`
@@ -26,7 +26,7 @@ latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error supplement-c/main.t
 cp supplement-c/main.pdf supplement-c.pdf
 ```
 
-## Native audit
+## Audit
 Install the audit dependency first:
 ```bash
 python3 -m pip install -r requirements-ci.txt
@@ -43,7 +43,7 @@ The GitHub workflow attaches these release assets on a published GitHub release:
 - `supplement-b.pdf`
 - `supplement-c.pdf`
 - canonical source archive (`source-zip`)
-- optional `native-audit-pack.zip`
+- optional audit pack zip (`native-audit-pack.zip`)
 
 ## Zenodo
 Zenodo metadata is defined by `.zenodo.json`. The repository-side DOI reference is stored in `.zenodo_doi` after archival.
