@@ -53,7 +53,7 @@ jobs:
           latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error supplement-c/main.tex
           cp supplement-c/main.pdf supplement-c.pdf
 
-      - name: Run native verifier
+      - name: Run verifier
         run: python3 audit_pack/verify_native_examples_sympy.py
 
       - name: Build source archive
@@ -62,9 +62,9 @@ jobs:
           python3 scripts/build_release_bundle.py --tag release --outdir dist --archive-prefix aod-source > /tmp/sourcezip_path.txt
           echo "path=$(cat /tmp/sourcezip_path.txt)" >> $GITHUB_OUTPUT
 
-      - name: Zip native audit pack
+      - name: Zip audit pack
         run: |
-          cd audit_pack && zip -r ../dist/native-audit-pack.zip .
+          cd audit_pack && zip -r ../dist/audit-pack.zip .
 
       - name: Upload PDFs
         uses: actions/upload-artifact@v4
@@ -82,11 +82,11 @@ jobs:
           name: source-zip
           path: ${{ steps.sourcezip.outputs.path }}
 
-      - name: Upload native audit pack
+      - name: Upload audit pack
         uses: actions/upload-artifact@v4
         with:
-          name: native-audit-pack
-          path: dist/native-audit-pack.zip
+          name: audit-pack
+          path: dist/audit-pack.zip
 
       - name: Upload release assets
         if: github.event_name == 'release'
@@ -99,5 +99,5 @@ jobs:
             supplement-b.pdf \
             supplement-c.pdf \
             "${{ steps.sourcezip.outputs.path }}" \
-            dist/native-audit-pack.zip \
+            dist/audit-pack.zip \
             --clobber
