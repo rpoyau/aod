@@ -43,7 +43,7 @@ The GitHub workflow attaches these release assets on a published GitHub release:
 - `supplement-b.pdf`
 - `supplement-c.pdf`
 - canonical source archive (`source-zip`)
-- optional audit zip (`native-audit-pack.zip`)
+- optional audit zip (`audit-pack.zip`)
 
 ## Zenodo
 Zenodo metadata is defined by `.zenodo.json`. The repository-side DOI reference is stored in `.zenodo_doi` after archival.

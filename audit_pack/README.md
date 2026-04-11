@@ -1,4 +1,4 @@
-# Native audit pack
+# Audit pack
 
 This pack provides machine-readable CSV exports for the worked examples in Supplement A and a small SymPy verification script.
 
@@ -15,7 +15,7 @@ Files
 - verify_report.txt (generated when the verifier is run locally or in CI)
 
 Scope
-- native gauge only
+- bip / biz / trit gauge only
 - trit/bip primitive
 - biz derived
 - no SI/application mappings

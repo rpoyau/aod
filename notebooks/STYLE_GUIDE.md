@@ -109,4 +109,4 @@ Temporal-conversion figures titled: **Temporal Conversion Witness — [descripti
 - Parameterized reusable functions
 - Assertions after every major result
 - All tables via `pandas.DataFrame`
-- Final cell: `print("ALL AOD NATIVE TESTS PASSED ✓")`
+- Final cell: `print("ALL AOD TESTS PASSED ✓")`
