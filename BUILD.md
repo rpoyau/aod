@@ -30,7 +30,7 @@ cp supplement-c/main.pdf supplement-c.pdf
 Install the audit dependency first:
 ```bash
 python3 -m pip install -r requirements-ci.txt
-python3 audit_pack/verify_native_examples_sympy.py
+python3 audit_pack/verify_examples_sympy.py
 ```
 
 ## Source archive
