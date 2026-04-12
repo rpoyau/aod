@@ -1,23 +1,309 @@
-% Traceability: derived from Supplement A worked rows and figure witnesses
-\section{Worked tables}
+% Traceability: derived from Supplement A worked rows and shared figure witnesses.
+\section{Worked tables and figure witnesses}
 
+% Traceability: derived from supplement-a/examples/04_loss_channel.tex
 \subsection{Loss-channel worked table}
-This section gathers the compact worked rows for the loss-channel line used throughout the downstream manual. The cited rows remain authoritative and later converted witnesses, where used elsewhere, are attached only after those rows are fixed.
+\label{man:loss-channel-worked-table}
 
-\subsection{B* ladder worked table}
-This section gathers the dominant residual-duration class rows, support-mass rows, and ladder witnesses used as recurring downstream reference points.
+\paragraph{Question.}
+What loss-channel values are obtained on shell-qualified motif windows once admissibility counts, dominant residual-duration class, support mass, and attenuation are read on the cited ledger?
 
+\paragraph{Readout.}
+A shell-qualified motif window with declared admissibility counts, residual-duration histogram, and attenuation policy.
+
+\paragraph{Operator Chain.}
+\[
+m_t \to u_t^{(\mathrm{loss})} \to \Gamma_{\mathrm{loss}}(\omega)
+\to B^* \to \Lambda_b \to A_B
+\to R_{\mathrm{loss}}(\omega) \to R_{\mathrm{loss}}^{(\mathrm{biz})}(\omega).
+\]
+
+\paragraph{Output Row.}
+Let $\ell_2:=\log_3(3/2)$.
+{\footnotesize
+\begin{center}
+\begin{tabular}{@{}lllllll@{}}
+\toprule
+Row & $T_{\mathrm{eval}}$ [bip] & $N_m=(n_1,n_2,n_3)$ & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [trit/bip] & $R_{\mathrm{loss}}^{(\mathrm{biz})}$ [biz] \\
+\midrule
+L1 & $12$ & $(2,4,6)$ & $5$ & $4$ & $(2+4\ell_2)/12$ & $\bigl(3^{(2+4\ell_2)/12}-1\bigr)5^{-4}$ \\
+L2 & $24$ & $(1,8,15)$ & $137$ & $6$ & $(1+8\ell_2)/24$ & $\bigl(3^{(1+8\ell_2)/24}-1\bigr)137^{-6}$ \\
+\bottomrule
+\end{tabular}
+\end{center}}
+
+\paragraph{Hook / Evidence.}
+Use \Cref{hook:h7} together with \Cref{def:loss-channel-derivation,def:attenuation-operator}. The same cited readout family must support admissibility counts, residual-duration histogram, support mass, and attenuation exponent on one ledger.
+
+% Traceability: derived from supplement-a/examples/05_bstar_ladder.tex
+\subsection{\texorpdfstring{$B^*$}{B*} ladder worked table}
+\label{man:bstar-ladder-worked-table}
+
+\paragraph{Question.}
+How does the dominant residual-duration class emerge on cited sample ladders, and how is the Jensen-gap witness preserved when averaging is delayed until after histogram formation?
+
+\paragraph{Readout.}
+The same motif-conditioned closure stack under three declared residual-duration ladders.
+
+\paragraph{Operator Chain.}
+\[
+b(\kappa) \to H_B \to B^* \to A_B,
+\qquad
+J_{\mathrm{gap}}(\omega) := \frac{n_1+n_2\log_3(3/2)}{T_{\mathrm{eval}}}-\log_3\!\left(\frac{3}{\bar m}\right).
+\]
+
+\paragraph{Output Row.}
+{\footnotesize
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Row & $b(\kappa)$ samples & $H_B$ support & $B^*$ & Note \\
+\midrule
+B1 & $(2,2,2,4)$ & $H_B(2)=3,\ H_B(4)=1$ & $2$ & minimal two-cycle ladder \\
+B2 & $(5,5,5,7,7)$ & $H_B(5)=3,\ H_B(7)=2$ & $5$ & four-cycle enclosure ladder \\
+B3 & $(137,137,139)$ & $H_B(137)=2,\ H_B(139)=1$ & $137$ & high-rung attractor witness \\
+\bottomrule
+\end{tabular}
+\end{center}}
+
+\paragraph{Hook / Evidence.}
+Use \Cref{def:b-extraction,def:bstar-histogram,choice:high-rung-pivot,rem:jensen,def:attenuation-operator,hook:h7}. Histogram weighting and attenuation are formed on the cited sample set before any averaging.
+
+% Traceability: derived from supplement-a/examples/06_collision_export.tex
 \subsection{Collision / export worked table}
-This section collects the compact collision/export rows and the associated row-local figure witnesses.
+\label{man:collision-export-worked-table}
 
+\paragraph{Question.}
+What cut residual, push/pull sign, effective-charge proxy, and packet witness are certified on a cited collision/export ledger?
+
+\paragraph{Readout.}
+A declared export window with two incoming wavelet legs, one production/export tick, and one packet witness on the same cut ledger.
+
+\paragraph{Operator Chain.}
+\[
+(a,b) \to a\oplus_3 b \to \text{push/pull} \to q_{\mathrm{eff}} \to \text{export witness} \to \mathcal R_{\mathrm{cut}}.
+\]
+
+\paragraph{Output Row.}
+{\footnotesize
+\begin{center}
+\begin{tabular}{@{}lllllll@{}}
+\toprule
+Row & Inputs $(a,b)$ & $a\oplus_3 b$ & push/pull & $q_{\mathrm{eff}}$ & export witness & $\mathcal R_{\mathrm{cut}}$ \\
+\midrule
+X1 & $(+1,-1)$ & $0$ & balanced & $0$ & none & $0$ \\
+X2 & $(+1,+1)$ & $-1$ & push & $+1/2$ & emitted packet & $0$ \\
+X3 & $(-1,-1)$ & $+1$ & pull & $-1/2$ & emitted packet & $0$ \\
+\bottomrule
+\end{tabular}
+\end{center}}
+
+\paragraph{Figure Witness.}
+See the shared collision/export diagram in \Cref{man:shared-figure-witnesses}.
+
+\paragraph{Hook / Evidence.}
+Use \Cref{hook:h5,hook:h6} together with \Cref{def:ternary-gate,def:collision-export-operator,def:push-pull-operator,def:qeff,def:radiation-dynamics-operator}. Collision/export claims are valid only if the same window certifies the packet witness and the cut residual vanishes within tolerance.
+
+% Traceability: derived from supplement-a/examples/07_field_property_schema.tex
 \subsection{Field-property schema row}
-This section records the field-property schema row in manual form, with the visible row preserved as the authoritative downstream witness.
+\label{man:field-property-schema-row}
 
+\paragraph{Question.}
+What field-property schema is reported for one shell-qualified AO field instance on a fixed cited ledger?
+
+\paragraph{Readout.}
+One shell-qualified AO field instance reported on a fixed ledger contract.
+
+\paragraph{Operator Chain.}
+\[
+\text{field key} \to \text{cadence spectrum} \to (B^*,\Lambda_b) \to R_{\mathrm{loss}} \to R_{\mathrm{loss}}^{(\mathrm{biz})} \to q_{\mathrm{eff}} \to T_{\mathrm{tors}}.
+\]
+
+\paragraph{Output Row.}
+Let $\ell_2:=\log_3(3/2)$.
+{\footnotesize
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Field property & Reported value \\
+\midrule
+AO field key & $\mathrm{O\text{-}tetrad{:}3{:}4{:}6}$ \\
+TTL & $24\ \mathrm{bip}$ \\
+Cadence spectrum & $\{1/4,3/8,5/12\}$ [cyc/bip] \\
+$B^*$ / $\Lambda_b$ & $137 / 6$ \\
+$R_{\mathrm{loss}}$ & $(1+8\ell_2)/24$ [trit/bip] \\
+$R_{\mathrm{loss}}^{(\mathrm{biz})}$ & $\bigl(3^{(1+8\ell_2)/24}-1\bigr)137^{-6}$ [biz] \\
+$q_{\mathrm{eff}}$ & $+1/2$ \\
+$T_{\mathrm{tors}}$ & $3$ \\
+\bottomrule
+\end{tabular}
+\end{center}}
+
+\paragraph{Hook / Evidence.}
+Use \Cref{def:ao-field,def:field-lifecycle-operator,def:loss-channel-derivation,def:momentum-proxy-operator,def:cadence-operator,def:push-pull-operator,def:torsional-operator}. This schema row remains in exact/default-form gauge on the cited ledger.
+
+% Traceability: derived from supplement-a/examples/08_short_window_confinement.tex
 \subsection{Short-window confinement row}
-This section records the short-window confinement row and its local figure witness.
+\label{man:short-window-confinement-row}
 
+\paragraph{Question.}
+How do shell signature, dominant rung, proximity, confinement, and transmutation status cohere on a cited short shell-qualified ledger?
+
+\paragraph{Readout.}
+A cited short shell-qualified tetron window with declared proximity policy, shell signature, dominant residual-duration class, and confinement detector on the same ledger family.
+
+\paragraph{Operator Chain.}
+\[
+\text{shell signature} \to B^* \to \text{proximity status} \to \text{confinement witness} \to \text{transmutation flag}.
+\]
+
+\paragraph{Output Row.}
+{\footnotesize
+\begin{center}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Row & Key & shell signature & $B^*$ & proximity / confinement & transmutation flag \\
+\midrule
+C1 & \texttt{tetron:3:3:6} & $(\lambda\!=\!3/2,\,137,\,\rho_2,\,V_4)$ & $137$ & close / confined & $0$ \\
+C2 & \texttt{tetron:3:3:6} & $(\lambda\!=\!3/2,\,139,\,\rho_3,\,V_4)$ & $139$ & failed / unconfined & $1$ \\
+\bottomrule
+\end{tabular}
+\end{center}}
+
+\paragraph{Figure Witness.}
+See the shared shell-band / cadence / torsion schematic in \Cref{man:shared-figure-witnesses}.
+
+\paragraph{Hook / Evidence.}
+Use \Cref{def:shell-signature,def:confinement-predicate,cons:c8,def:field-families,def:torsional-operator}. The same cited short ledger must resolve shell signature, dominant rung, proximity status, confinement witness, and transmutation flag.
+
+% Traceability: derived from supplement-a/examples/09_duon_duad_family.tex
 \subsection{Duon / duad family row}
-This section records the duon/duad family row in the manual grammar while preserving the cited row order inherited from the theorem-facing note.
+\label{man:duon-duad-family-row}
 
+\paragraph{Question.}
+What family key, push/pull sign, effective-charge proxy, export witness, and cadence witness are certified on the cited two-seat family ledger?
+
+\paragraph{Readout.}
+A cited two-seat family window with declared exposure, push/pull sign convention, export witness, and cadence extractor.
+
+\paragraph{Operator Chain.}
+\[
+\text{family key} \to \text{push/pull sign} \to q_{\mathrm{eff}} \to \text{export witness} \to \text{cadence witness}.
+\]
+
+\paragraph{Output Row.}
+{\footnotesize
+\begin{center}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Row & Key & push/pull & $q_{\mathrm{eff}}$ & export witness & cadence \\
+\midrule
+F1 & \texttt{duon:2:1:7} & push & $+1/2$ & emitted packet & $1/3$ \\
+F2 & \texttt{duad:2:2:7} & balanced & $0$ & none & $1/4$ \\
+\bottomrule
+\end{tabular}
+\end{center}}
+
+\paragraph{Hook / Evidence.}
+Use \Cref{def:field-families,def:wavelet-mode-witness,def:push-pull-operator,def:radiation-operator,def:cadence-operator}. The same cited ledger must support the family key, push/pull sign, effective-charge proxy, export witness, and cadence witness.
+
+% Traceability: derived from supplement-a/examples/11_open_seat_wavelet.tex
 \subsection{Open-seat wavelet row}
-This section records the open-seat wavelet row together with its local figure witness.
+\label{man:open-seat-wavelet-row}
+
+\paragraph{Question.}
+How do coupling partition, dwell fraction, backlog witness, loss counts, and delay witness cohere on an open-seat two-seat family ledger?
+
+\paragraph{Readout.}
+A declared open-seat two-seat family window with coupling partition, dwell fraction, backlog witness, loss counts, and delay witness on the same cited ledger.
+
+\paragraph{Operator Chain.}
+\[
+(\eta_{\mathrm{out}},\eta_{\mathrm{mid}}) \to f_0 \to B^* \to R_{\mathrm{loss}} \to n_{\mathrm{ref}}.
+\]
+
+\paragraph{Output Row.}
+Let $\ell_2:=\log_3(3/2)$.
+{\scriptsize
+\begin{center}
+\begin{tabular}{@{}llllllllll@{}}
+\toprule
+Row & $q_{\mathrm{eff}}$ & $\widehat q_{\mathrm{eff}}$ & $\eta_{\mathrm{out}}$ & $\eta_{\mathrm{mid}}$ & $\eta_{\mathrm{tot}}$ & $f_0$ & $B^*$ & $R_{\mathrm{loss}}$ [trit/bip] & $n_{\mathrm{ref}}$ \\
+\midrule
+O1 & $-1$ & $-1$ & $\frac{1063}{1418}$ & $\frac{265}{352}$ & $\frac{664}{885}$ & $\frac{139}{1024}$ & $(1,\frac{190}{233})$ & $\frac{278+1328\ell_2}{2048}$ & $\frac{1024}{873}$ \\
+O2 & $-\frac12$ & $-\frac{817}{1657}$ & $\frac{431}{896}$ & $\frac{476}{761}$ & $\frac{907}{1657}$ & $\frac{391}{2048}$ & $(1,\frac{256}{313})$ & $\frac{391+907\ell_2}{2048}$ & $\frac{2048}{1541}$ \\
+O3 & $0$ & $\frac{41}{1543}$ & $\frac{127}{475}$ & $\frac{277}{534}$ & $\frac{681}{1543}$ & $\frac{505}{2048}$ & $(1,\frac{284}{375})$ & $\frac{505+681\ell_2}{2048}$ & $\frac{512}{331}$ \\
+O4 & $\frac12$ & $\frac{419}{819}$ & $\frac{158}{301}$ & $\frac{457}{735}$ & $\frac{133}{234}$ & $\frac{205}{1024}$ & $(1,\frac{279}{338})$ & $\frac{410+931\ell_2}{2048}$ & $\frac{1024}{767}$ \\
+O5 & $1$ & $1$ & $\frac{1053}{1403}$ & $\frac{95}{128}$ & $\frac{1338}{1787}$ & $\frac{261}{2048}$ & $(1,\frac{203}{229})$ & $\frac{261+1338\ell_2}{2048}$ & $\frac{1024}{871}$ \\
+\bottomrule
+\end{tabular}
+\end{center}}
+
+\paragraph{Hook / Evidence.}
+Use \Cref{def:field-families,def:wavelet-mode-witness,def:qeff,def:loss-channel-derivation,def:momentum-proxy-operator,hook:h5,hook:h6,hook:h7}. Optional converted witnesses are attached in the temporal-conversion chapter only.
+
+% Traceability: derived from supplement-a/examples/12_figure_witnesses.tex
+\subsection{Shared figure witnesses}
+\label{man:shared-figure-witnesses}
+These diagrams are retained because they are reused across multiple worked rows in this chapter.
+
+\paragraph{Figure F1: Q4 / two-cycle / four-cycle closure.}
+\begin{center}
+\begin{tikzpicture}[scale=0.9, every node/.style={font=\small}]
+\coordinate (A) at (0,0); \coordinate (B) at (2,0); \coordinate (C) at (2,2); \coordinate (D) at (0,2);
+\draw[thick] (A)--(B)--(C)--(D)--cycle;
+\draw[very thick,blue,->] (0.2,0.2)--(1.8,0.2);
+\draw[very thick,blue,->] (1.8,0.2)--(0.2,0.2);
+\node at (1,-0.5) {two-cycle return};
+\draw[very thick,red,->] (0.2,0.4)--(1.8,0.4)--(1.8,1.8)--(0.2,1.8)--cycle;
+\node at (1,2.5) {four-cycle enclosure on Q4 face};
+\fill (A) circle (2pt) (B) circle (2pt) (C) circle (2pt) (D) circle (2pt);
+\end{tikzpicture}
+\end{center}
+
+\paragraph{Figure F2: $B^*$ ladder and attenuation.}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=0.6cm, every node/.style={font=\small}]
+\draw[->] (0,0) -- (6.5,0) node[right] {$b$ rung};
+\draw[->] (0,0) -- (0,4.5) node[above] {$H_B$};
+\draw[fill=gray!30] (1,0) rectangle +(0.5,2.5);
+\draw[fill=gray!30] (2.2,0) rectangle +(0.5,0.8);
+\draw[fill=gray!30] (3.0,0) rectangle +(0.5,1.7);
+\draw[fill=gray!30] (4.2,0) rectangle +(0.5,0.8);
+\draw[fill=gray!30] (5.4,0) rectangle +(0.5,1.7);
+\draw[red,thick,->] (5.65,2) -- (5.65,0.2);
+\node[red,right] at (5.65,2) {$B^*=137$};
+\node at (3,-0.7) {dominant rung then attenuation exponent $\widehat\Lambda$};
+\end{tikzpicture}
+\end{center}
+
+\paragraph{Figure F3: Collision / export-window diagram.}
+\begin{center}
+\begin{tikzpicture}[scale=0.9, every node/.style={font=\small}]
+\draw[thick,rounded corners] (0,0) rectangle (6,3);
+\node at (3,3.3) {declared export window};
+\draw[->,very thick] (-0.5,2.2)--(2.2,1.8);
+\draw[->,very thick] (-0.5,0.8)--(2.2,1.2);
+\draw[fill=gray!20] (2.2,0.8) rectangle (3.8,2.2);
+\node at (3,1.5) {$\oplus_3$};
+\draw[->,very thick] (3.8,1.5)--(6.5,1.5);
+\node at (1,2.5) {incoming legs};
+\node at (5,2.5) {emitted packet witness};
+\node at (3,-0.4) {$\mathcal R_{\mathrm{cut}}=0$ on the same ledger};
+\end{tikzpicture}
+\end{center}
+
+\paragraph{Figure F4: Shell-band / cadence / torsion schematic.}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=0.8cm, every node/.style={font=\small}]
+\draw[thick,rounded corners] (0,0) rectangle (6,0.8);
+\draw[thick,rounded corners] (0.5,1.2) rectangle (5.5,2);
+\draw[thick,rounded corners] (1,2.4) rectangle (5,3.2);
+\node at (3,0.4) {$\lambda$-band 1};
+\node at (3,1.6) {$\lambda$-band 2};
+\node at (3,2.8) {$\lambda$-band 3};
+\draw[red,very thick,->] (5.8,0.4)--(6.8,2.8);
+\node[red,right] at (6.8,2.8) {drift / torsional load};
+\node at (3,-0.6) {cadence spectrum and shell-signature read on one ledger};
+\end{tikzpicture}
+\end{center}
