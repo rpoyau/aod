@@ -1,17 +1,155 @@
-% Traceability: derived from Supplement B conversion and rendering sections
+% Traceability: derived from supplement-b/examples/02_derived_temporal_unit_conversions.tex,
+% supplement-b/examples/03_converted_rows.tex,
+% supplement-b/examples/04_diagrammatic_temporal_conversion_rendering.tex,
+% supplement-b/examples/05_e10_recurrent_ring.tex,
+% supplement-b/examples/06_e11d_temporal_conversion_rendering.tex.
 \section{Temporal conversions}
 
 \subsection{Conversion rules}
-This section collects the conversion rules used by the manual. Cited rows are fixed first; converted witnesses are attached afterward where declared.
+\label{man:temporal-conversion-rules}
+
+\paragraph{Question.}
+How are cited rows carried into converted witness form without changing the authority of the cited ledger?
+
+\paragraph{Readout.}
+Cited rows remain authoritative. Conversion is attached only after the cited row has been fixed.
+
+\paragraph{Temporal Conversion Block.}
+Duration converts to \textbf{seconds}. Rate converts to \textbf{hertz}. Effective speed is reported only as
+\[
+\beta=\frac{v}{c},\qquad c=1,\qquad 0\le \beta\le 1.
+\]
+
+\paragraph{Converted Witness Table.}
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+Cited row & Conversion or rendering target & Note \\
+\midrule
+Loss-channel worked row & bip-to-seconds, hertz, joule, kilogram, MeV/$c^2$ dictionaries & derived temporal-unit conversion \\
+$B^*$ ladder row & decimal ladder summaries / attractor plots & non-premise compression \\
+Collision / export row & diagrammatic temporal conversion illustrations & diagrammatic rendering \\
+Field-property row & temporal-conversion dashboards / converted tables & cited row followed by converted witness \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Hook / Evidence.}
+Use the cited row first. Attach converted witnesses afterward only on the same cited ledger.
 
 \subsection{Converted rows}
-This section gathers the converted rows used for report-side comparison after the cited rows have been fixed.
+\label{man:converted-rows}
+
+\paragraph{Question.}
+What cited-row quantities must be present before converted witnesses are reported?
+
+\paragraph{Readout.}
+Converted rows begin from the cited key, cited window, shell signature, cadence, torsional witness, and loss-channel data.
+
+\paragraph{Converted Witness Table.}
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Conversion class & Required cited-row starting columns \\
+\midrule
+Binding / comparison row & key, cited window, $\lambda$-band, shell signature, $B^*$, $R_{\mathrm{loss}}$, $R^{(\mathrm{biz})}_{\mathrm{loss}}$, cadence, torsional witness \\
+Temporal-unit conversion & key, cited window, shell predicate, export witness, loss/report rates, declared dictionary-map id \\
+Diagrammatic temporal conversion rendering & key, shell signature, cadence spectrum, confinement witness, support signature, loss/report rates \\
+\bottomrule
+\end{tabularx}
+\end{center}
 
 \subsection{Diagrammatic temporal conversion rendering}
-This section collects the diagrammatic renderings attached to converted rows.
+\label{man:diagrammatic-temporal-rendering}
+
+\paragraph{Question.}
+How may cited collision / export rows be rendered diagrammatically after the cited row is fixed?
+
+\paragraph{Readout.}
+The diagram below is a later compression of the same integer ledger recorded for the cited collision / export row. It is not a premise of the row.
+
+\paragraph{Figure Witness.}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm, line cap=round, line join=round, every node/.style={font=\small}]
+  \filldraw[black] (0,0) circle (1.6pt);
+  \draw[thick,->] (-2,1.2) -- (0,0);
+  \draw[thick,->] (-2,-1.2) -- (0,0);
+  \draw[thick,->] (0,0) -- (2.2,0);
+  \node[left] at (-2,1.2) {$a$};
+  \node[left] at (-2,-1.2) {$b$};
+  \node[right] at (2.2,0) {packet witness};
+  \node[below] at (0,-1.8) {$a\oplus_3 b$ on the cited export window};
+\end{tikzpicture}
+\end{center}
+
+\paragraph{Hook / Evidence.}
+Use this figure only with an explicit citation to the corresponding cited collision / export row and its cut residual check.
 
 \subsection{Recurrent-ring rendering}
-This section records the recurrent-ring rendering in manual form.
+\label{man:recurrent-ring-rendering}
+
+\paragraph{Question.}
+How is a small recurrent network recorded as a cited ledger and then attached to a converted witness row?
+
+\paragraph{Readout.}
+A three-node recurrent ring represented as motif / closure plus wavelet-propagation bookkeeping on the cited ledger.
+
+\paragraph{Output Row.}
+\pgfplotstabletypeset[
+  columns={row_id,topology,Rloss_trit_per_bip,B_star_mode_bip,Lambda_hat_ticks,Rloss_biz_derived,ck_mismatch_frob,stokes_residual},
+  columns/row_id/.style={column name=Row,string type},
+  columns/topology/.style={column name=Topology,string type,column type=l},
+  columns/Rloss_trit_per_bip/.style={column name={$R_{\mathrm{loss}}$ [trit/bip]},fixed,precision=6},
+  columns/B_star_mode_bip/.style={column name={$B^*$ [bip]},fixed,precision=0},
+  columns/Lambda_hat_ticks/.style={column name={$\widehat\Lambda$ [ticks]},fixed,precision=0},
+  columns/Rloss_biz_derived/.style={column name={$R^{(\mathrm{biz})}_{\mathrm{loss}}$ [biz]},fixed,precision=6},
+  columns/ck_mismatch_frob/.style={column name={CK mismatch},fixed,precision=6},
+  columns/stokes_residual/.style={column name={$\mathcal R_{\mathrm{cut}}$},fixed,precision=0},
+]{data/temporal/01_recurrent_ring_summary.csv}
+
+\paragraph{Figure Witness.}
+The cited row may be rendered as a three-node recurrent ring with projected transport on the same ledger.
+
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm, every node/.style={font=\small}]
+  \coordinate (A) at (0,1.6);
+  \coordinate (B) at (-1.4,-0.8);
+  \coordinate (C) at (1.4,-0.8);
+  \draw[thick,->] (A) -- (B);
+  \draw[thick,->] (B) -- (C);
+  \draw[thick,->] (C) -- (A);
+  \fill (A) circle (2pt) node[above] {A};
+  \fill (B) circle (2pt) node[left] {B};
+  \fill (C) circle (2pt) node[right] {C};
+  \node at (0,-1.7) {projected recurrent ring on the cited ledger};
+\end{tikzpicture}
+\end{center}
+
+\paragraph{Hook / Evidence.}
+Use the CK residual, backlog/dwell columns, and cut residual to distinguish hidden-state projection effects from kernel bias.
 
 \subsection{Decimal rendering}
-This section records the decimal rendering layer as a report-side attachment only.
+\label{man:decimal-rendering}
+
+\paragraph{Question.}
+How are convenience decimal values attached after the cited open-seat wavelet ledger is fixed?
+
+\paragraph{Readout.}
+The cited row remains authoritative. The decimal table below records convenience values only.
+
+\paragraph{Converted Witness Table.}
+\pgfplotstabletypeset[
+  columns={row_id,q_eff,q_eff_hat_float,eta_out_float,eta_mid_float,eta_tot_float,u_loss_float,speed_float,n_ref_float},
+  columns/row_id/.style={column name=Row,string type,column type=l},
+  columns/q_eff/.style={column name={$q_{\mathrm{eff}}$},string type},
+  columns/q_eff_hat_float/.style={column name={$\widehat q_{\mathrm{eff}}$},fixed,precision=6},
+  columns/eta_out_float/.style={column name={$\eta_{\mathrm{out}}$},fixed,precision=6},
+  columns/eta_mid_float/.style={column name={$\eta_{\mathrm{mid}}$},fixed,precision=6},
+  columns/eta_tot_float/.style={column name={$\eta_{\mathrm{tot}}$},fixed,precision=6},
+  columns/u_loss_float/.style={column name={$R_{\mathrm{loss}}$},fixed,precision=6},
+  columns/speed_float/.style={column name={$v$},fixed,precision=6},
+  columns/n_ref_float/.style={column name={$n_{\mathrm{ref}}$},fixed,precision=6},
+]{data/temporal/02_decimal_rendering_table.csv}
+
+\paragraph{Hook / Evidence.}
+These decimal values are attached after the cited ledger is fixed and do not replace the exact/default-form row.
