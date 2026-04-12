@@ -2,10 +2,44 @@
 \section{Manifest}
 
 \subsection{Notebook map}
-This appendix maps each manual section to its companion notebooks.
+Companion notebooks remain subordinate to the manual. Where a manual-local notebook has not yet been created, the current companion path is recorded here without elevating that notebook to theorem-source status.
+
+{\footnotesize
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Manual section & Companion notebook(s) \\
+\midrule
+Worked tables and figure witnesses & \path{supplement-a/notebooks/E4-E6.ipynb}; \path{supplement-a/notebooks/E7-E9-bindings.ipynb}; \path{supplement-b/notebooks/E10-E11D.ipynb} (open-seat wavelet support) \\
+Temporal conversions & \path{supplement-b/notebooks/E10-E11D.ipynb} \\
+Rest-mass witnesses and external comparisons & no dedicated notebook in the current tree; visible rows remain manual-authoritative \\
+Hydrogen shells & \path{supplement-c/notebooks/hydrogen/01_shell.ipynb} \\
+Solar and radiation & \path{supplement-c/notebooks/solar/c1_solar_100y_worked.ipynb}; \path{supplement-c/notebooks/solar/c2_c3_solar_radiation_worked.ipynb} \\
+Confinement & \path{supplement-c/notebooks/nucleus/c5_nucleus_confinement_worked.ipynb} \\
+Galactic, biological, and planetary & \path{supplement-c/notebooks/galactic/c6_sparc5_shells_worked.ipynb}; \path{supplement-c/notebooks/bacteria/c7_bacteria_ominion_worked.ipynb}; \path{supplement-c/notebooks/saturn/c8_saturn_shells_worked.ipynb} \\
+\bottomrule
+\end{tabularx}
+\end{center}}
 
 \subsection{CSV and figure artifact map}
-This appendix maps each manual section to the curated CSV and figure artifacts used to support the visible manual rows.
+Curated CSV files and figure assets are companion materials only. Inline manual tables remain the authoritative visible rows.
+
+{\footnotesize
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Manual section & Current CSV / figure artifact(s) \\
+\midrule
+Worked tables and figure witnesses & manual-local tables; shared schematic figures remain embedded in the section body \\
+Temporal conversions & \path{manual/data/temporal/01_recurrent_ring_summary.csv}; \path{manual/data/temporal/02_decimal_rendering_table.csv} \\
+Rest-mass witnesses and external comparisons & comparison tables remain manual-local in the current source \\
+Hydrogen shells & \path{supplement-c/figures/hydrogen/hydrogen_shell_radii.png} \\
+Solar and radiation & \path{supplement-c/figures/solar/solar_shell_ledger.png}; \path{supplement-c/figures/solar/mercury_slice_shell.png}; \path{supplement-c/figures/solar/lensing_duon_export.png}; \path{supplement-c/figures/solar/redshift_duon_transfer.png}; \path{supplement-c/figures/solar/earth_moon_nested_shell.png} \\
+Confinement & \path{supplement-c/figures/nucleus/nucleus_confinement_witness.png} \\
+Galactic, biological, and planetary & \path{supplement-c/data/galactic/sparc5_speed_witnesses.csv}; \path{supplement-c/figures/galactic/sparc5_speed_witnesses.png}; \path{supplement-c/figures/galactic/sparc5_shell_family.png}; \path{supplement-c/figures/bacteria/bacteria_ominion_jitter.png}; \path{supplement-c/figures/saturn/saturn_shell_family.png} \\
+\bottomrule
+\end{tabularx}
+\end{center}}
 
 \subsection{Traceability source map}
-This appendix records the source-fragment lineage for each manual chapter together with the source-only traceability map.
+The manual suppresses supplement-era draft numbering in the public PDF. Source-only lineage is preserved in the top-of-file comments for each manual section and in \path{manual/traceability-map.md}.

@@ -2,7 +2,13 @@
 \section{Build notes}
 
 \subsection{Authority and build policy}
-The root \texttt{refs.bib} file is authoritative for the document family; the manual copy is a managed mirror used for local compilation. The public release set consists of \texttt{main.pdf} and \texttt{manual.pdf}, with optional source and audit archives.
+The root \path{refs.bib} file is authoritative for the document family; the manual copy is a managed mirror used for local compilation. The public release set consists of \path{main.pdf} and \path{manual.pdf}, with optional source and audit archives.
 
 \subsection{Table source policy}
 Visible manual tables are authoritative. Curated CSV files feed numeric report-side tables where declared; notebook outputs remain companion materials only.
+
+\subsection{Notebook and artifact policy}
+Manual sections map to companion notebooks, CSV files, and figures through Appendix~A. Those companion materials support inspection and recomputation, but they do not supersede the visible rows in the manual.
+
+\subsection{Current migration note}
+The present source tree still retains supplement-era notebook paths as companion materials until manual-local notebooks are created. This does not change the authority rule: the main note remains the theorem source and the manual remains the downstream public document.
