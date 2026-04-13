@@ -1,45 +1,31 @@
-% Traceability: manual-local manifest appendix
-\section{Manifest}
+% Traceability: manual-local notebook map appendix
+\section{Notebook map}
 
-\subsection{Notebook map}
-Companion notebooks remain subordinate to the manual. Where a manual-local notebook has not yet been created, the current companion path is recorded here without elevating that notebook to theorem-source status.
+Companion notebooks remain subordinate to the manual. The links below point to the current GitHub source and to the same notebook opened through Google Colab on the \texttt{main} branch.
 
-{\footnotesize
-\begin{center}
-\begin{tabularx}{\linewidth}{@{}lX@{}}
-\toprule
-Manual section & Companion notebook(s) \\
-\midrule
-Worked tables and figure witnesses & \path{supplement-a/notebooks/E4-E6.ipynb}; \path{supplement-a/notebooks/E7-E9-bindings.ipynb}; \path{supplement-b/notebooks/E10-E11D.ipynb} (open-seat wavelet support) \\
-Temporal conversions & \path{supplement-b/notebooks/E10-E11D.ipynb} \\
-Rest-mass witnesses and external comparisons & no dedicated notebook in the current tree; visible rows remain manual-authoritative \\
-Hydrogen shells & \path{supplement-c/notebooks/hydrogen/01_shell.ipynb} \\
-Solar and radiation & \path{supplement-c/notebooks/solar/c1_solar_100y_worked.ipynb}; \path{supplement-c/notebooks/solar/c2_c3_solar_radiation_worked.ipynb} \\
-Confinement & \path{supplement-c/notebooks/nucleus/c5_nucleus_confinement_worked.ipynb} \\
-Galactic, biological, and planetary & \path{supplement-c/notebooks/galactic/c6_sparc5_shells_worked.ipynb}; \path{supplement-c/notebooks/bacteria/c7_bacteria_ominion_worked.ipynb}; \path{supplement-c/notebooks/saturn/c8_saturn_shells_worked.ipynb} \\
-\bottomrule
-\end{tabularx}
-\end{center}}
-
-\subsection{CSV and figure artifact map}
-Curated CSV files and figure assets are companion materials only. Inline manual tables remain the authoritative visible rows.
+% Update this repository slug if the public repository moves.
+\newcommand{\manualgithubrepo}{rpoyau/aod}
+\newcommand{\githubnb}[1]{\href{https://github.com/\manualgithubrepo/blob/main/#1}{GitHub}}
+\newcommand{\colabnb}[1]{\href{https://colab.research.google.com/github/\manualgithubrepo/blob/main/#1}{Colab}}
 
 {\footnotesize
 \begin{center}
-\begin{tabularx}{\linewidth}{@{}lX@{}}
+\begin{tabularx}{\linewidth}{@{}lXll@{}}
 \toprule
-Manual section & Current CSV / figure artifact(s) \\
+Manual section & Companion notebook & GitHub & Open in Colab \\
 \midrule
-Worked tables and figure witnesses & manual-local tables; shared schematic figures remain embedded in the section body \\
-Temporal conversions & \path{manual/data/temporal/01_recurrent_ring_summary.csv}; \path{manual/data/temporal/02_decimal_rendering_table.csv} \\
-Rest-mass witnesses and external comparisons & \path{manual/data/rest-mass/01_rest_mass_witnesses.csv} \\
-Hydrogen shells & \path{manual/figures/hydrogen/01_shell_radii.png} \\
-Solar and radiation & \path{manual/figures/solar/01_system_ledger.png}; \path{manual/figures/solar/02_mercury_earth_moon.png}; \path{manual/figures/solar/03_lensing_export.png}; \path{manual/figures/solar/04_redshift_transfer.png} \\
-Confinement & \path{manual/figures/confinement/01_nucleus_confinement.png} \\
-Galactic, biological, and planetary & \path{manual/data/galactic/01_five_galaxy_comparison.csv}; \path{manual/figures/galactic/01_five_galaxy_comparison.png}; \path{manual/figures/galactic/02_shell_family.png}; \path{manual/figures/bacteria/01_bacteria_ominion.png}; \path{manual/figures/saturn/01_saturn_shell_family.png} \\
+Worked tables & \path{notebooks/examples-01-03.ipynb} & \githubnb{notebooks/examples-01-03.ipynb} & \colabnb{notebooks/examples-01-03.ipynb} \\
+Worked tables & \path{supplement-a/notebooks/E4-E6.ipynb} & \githubnb{supplement-a/notebooks/E4-E6.ipynb} & \colabnb{supplement-a/notebooks/E4-E6.ipynb} \\
+Worked tables & \path{supplement-a/notebooks/E7-E9-bindings.ipynb} & \githubnb{supplement-a/notebooks/E7-E9-bindings.ipynb} & \colabnb{supplement-a/notebooks/E7-E9-bindings.ipynb} \\
+Worked tables & \path{supplement-b/notebooks/E10-E11D.ipynb} & \githubnb{supplement-b/notebooks/E10-E11D.ipynb} & \colabnb{supplement-b/notebooks/E10-E11D.ipynb} \\
+Temporal conversions & \path{supplement-b/notebooks/E10-E11D.ipynb} & \githubnb{supplement-b/notebooks/E10-E11D.ipynb} & \colabnb{supplement-b/notebooks/E10-E11D.ipynb} \\
+Hydrogen shells & \path{supplement-c/notebooks/hydrogen/01_shell.ipynb} & \githubnb{supplement-c/notebooks/hydrogen/01_shell.ipynb} & \colabnb{supplement-c/notebooks/hydrogen/01_shell.ipynb} \\
+Solar and radiation & \path{supplement-c/notebooks/solar/c1_solar_100y_worked.ipynb} & \githubnb{supplement-c/notebooks/solar/c1_solar_100y_worked.ipynb} & \colabnb{supplement-c/notebooks/solar/c1_solar_100y_worked.ipynb} \\
+Solar and radiation & \path{supplement-c/notebooks/solar/c2_c3_solar_radiation_worked.ipynb} & \githubnb{supplement-c/notebooks/solar/c2_c3_solar_radiation_worked.ipynb} & \colabnb{supplement-c/notebooks/solar/c2_c3_solar_radiation_worked.ipynb} \\
+Confinement & \path{supplement-c/notebooks/nucleus/c5_nucleus_confinement_worked.ipynb} & \githubnb{supplement-c/notebooks/nucleus/c5_nucleus_confinement_worked.ipynb} & \colabnb{supplement-c/notebooks/nucleus/c5_nucleus_confinement_worked.ipynb} \\
+Galactic / biological / planetary & \path{supplement-c/notebooks/galactic/c6_sparc5_shells_worked.ipynb} & \githubnb{supplement-c/notebooks/galactic/c6_sparc5_shells_worked.ipynb} & \colabnb{supplement-c/notebooks/galactic/c6_sparc5_shells_worked.ipynb} \\
+Galactic / biological / planetary & \path{supplement-c/notebooks/bacteria/c7_bacteria_ominion_worked.ipynb} & \githubnb{supplement-c/notebooks/bacteria/c7_bacteria_ominion_worked.ipynb} & \colabnb{supplement-c/notebooks/bacteria/c7_bacteria_ominion_worked.ipynb} \\
+Galactic / biological / planetary & \path{supplement-c/notebooks/saturn/c8_saturn_shells_worked.ipynb} & \githubnb{supplement-c/notebooks/saturn/c8_saturn_shells_worked.ipynb} & \colabnb{supplement-c/notebooks/saturn/c8_saturn_shells_worked.ipynb} \\
 \bottomrule
 \end{tabularx}
 \end{center}}
-
-\subsection{Traceability source map}
-The manual suppresses supplement-era draft numbering in the public PDF. Source-only lineage is preserved in the top-of-file comments for each manual section and in \path{manual/traceability-map.md}.
