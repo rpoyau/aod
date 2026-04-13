@@ -1,11 +1,175 @@
-% Traceability: derived from Supplement C galactic, biological, and planetary witnesses
+% Traceability: derived from supplement-c/examples/06_c6_galactic_orbital_native_window.tex,
+% supplement-c/examples/07_c7_brownian_bacteria_motion.tex,
+% supplement-c/examples/08_c8_saturn_ring_and_moon_shell_witness.tex
 \section{Galactic, biological, and planetary witnesses}
 
-\subsection{Five-galaxy SPARC shell witness}
-This section records the five-galaxy comparison as the canonical public presentation of the galactic witness layer, with one visible comparison table and one local comparison figure.
+\subsection{Five-galaxy SPARC witness}
+\label{man:five-galaxy-sparc-witness}
+
+\paragraph{Question.}
+Does the cited five-galaxy set carry the predicted shell-family bookkeeping, cadence/drift witness, and outer-orbital comparison on the same rendered comparison ledger?
+
+\paragraph{Readout.}
+\begin{itemize}
+\item cited galaxy family $\Sigma_{\mathrm{SPARC5}}$
+\item structural class \texttt{tetron:*:[galaxy,star]:6}
+\item five-galaxy comparison carried on one public comparison table
+\item shell-family and outer-orbital figures attached afterward
+\end{itemize}
+
+\paragraph{Operator Chain.}
+\[
+b(\kappa)\to H_B\to B^*\to \Lambda_b\to R_{\mathrm{loss}}\to \text{cadence support / drift support}\to \text{converted comparison witnesses}.
+\]
+
+\paragraph{Output Row.}
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}lXccX@{}}
+\toprule
+Row & Structural class & $B^*$ & $\Lambda_b$ & Note \\
+\midrule
+G1 & \texttt{tetron:*:[galaxy,star]:6} & 137 & 8 & shell-family / outer-orbital comparison ledger \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Temporal Conversion Block.}
+The cited row is fixed first. The five-galaxy outer-orbital comparison is attached afterward as the canonical public presentation of this witness layer.
+
+\paragraph{Converted Witness Table.}
+\pgfplotstabletypeset[
+  columns={galaxy,v_calc_km_s,v_obs_km_s,abs_error_km_s,rel_error_pct},
+  columns/galaxy/.style={column name=Galaxy,string type,column type=l},
+  columns/v_calc_km_s/.style={column name={Calculated [km/s]},fixed,precision=1},
+  columns/v_obs_km_s/.style={column name={Observed [km/s]},fixed,precision=1},
+  columns/abs_error_km_s/.style={column name={Abs. error [km/s]},fixed,precision=1},
+  columns/rel_error_pct/.style={column name={Rel. error [\%]},fixed,precision=1}
+]{data/galactic/01_five_galaxy_comparison.csv}
+
+\paragraph{Figure Witness.}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/galactic/01_five_galaxy_comparison.png}
+\caption{Five-galaxy outer-orbital comparison witness. The comparison is attached only after the cited row is fixed.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/galactic/02_shell_family.png}
+\caption{Five-galaxy shell-family schematic. The visible shell/ring layout is a report-layer witness of the same ledger.}
+\end{figure}
+
+\FloatBarrier
+
+\paragraph{Hook / Evidence.}
+Use the cited long-window drift and support hooks. The five-galaxy comparison is the canonical visible public presentation for this witness layer.
 
 \subsection{Brownian bacteria ominion witness}
-This section records the Brownian bacteria ominion witness.
+\label{man:brownian-bacteria-witness}
+
+\paragraph{Question.}
+Does a cited bacteria ominion window show the predicted mass-scaled loss/tension burden, dominant residual-duration support, cadence-noise band, and recurrent drift profile when compared against familiar Brownian and motility observations?
+
+\paragraph{Readout.}
+\begin{itemize}
+\item cited object $O_{\mathrm{bacteria}}$
+\item cited window $\omega_{\mathrm{jit,bac}}$
+\item structural key \texttt{tetron:*:[bacteria]:6}
+\item frame count / $T_{\mathrm{eval}}=1024$ bip
+\item weighting policy $w(\kappa)\equiv 1$
+\item jitter / dwell samples on the same cited window
+\end{itemize}
+
+\paragraph{Operator Chain.}
+\[
+m_{\mathrm{eff}}\to m_z\to R_{\mathrm{loss}}\to b(\kappa)\to H_B\to B^*\to \Lambda_b\to \text{cadence-noise witness},\ \text{drift witness}.
+\]
+
+\paragraph{Output Row.}
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}lXcccll@{}}
+\toprule
+Row & Structural key & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [trit/bip] & Cadence-noise & Drift \\
+\midrule
+B1 & \texttt{tetron:*:[bacteria]:6} & 2 & 11 & mass-scaled service burden & jitter band & recurrent \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Figure Witness.}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.66\linewidth]{figures/bacteria/01_bacteria_ominion.png}
+\caption{Bacteria ominion jitter path with shell-like dwell bands. The figure is a witness of the same cited ledger.}
+\end{figure}
+
+\FloatBarrier
+
+\paragraph{Hook / Evidence.}
+Use the cited recurrent-jitter and dwell-distribution hooks, now read on the bacteria ominion ledger.
 
 \subsection{Saturn ring and moon shell witness}
-This section records the Saturn ring and moon shell witness.
+\label{man:saturn-shell-witness}
+
+\paragraph{Question.}
+Does the cited Saturn ring family, together with a selected moon witness set, provide a direct multi-shell orbital rendering showing ordered bands and satellite insertion on the same shell ledger?
+
+\paragraph{Readout.}
+\begin{itemize}
+\item cited system $\Sigma_{\mathrm{sat}}$
+\item structural key \texttt{tetron:*:[saturn,rings]:6}
+\item shell family read on the same ordered orbital ledger
+\item ring extent, Cassini Division, and selected moon orbits attached afterward
+\end{itemize}
+
+\paragraph{Operator Chain.}
+\[
+\text{shell-band extractor}\to \text{cadence extractor}\to \text{ring-shell witness / moon-shell witness}.
+\]
+
+\paragraph{Output Row.}
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}lXcX@{}}
+\toprule
+Row & Structural key & Gap witness & Shell note \\
+\midrule
+S1 & \texttt{tetron:*:[saturn,rings]:6} & Cassini Division & ring family with retained outer moon shells \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Temporal Conversion Block.}
+The cited row is fixed first. Familiar ring-system and moon-orbit values are attached afterward as a report-layer shell family.
+
+\paragraph{Converted Witness Table.}
+\begin{center}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}lcccX@{}}
+\toprule
+Band / moon & Radius witness & Period witness & Role & Note \\
+\midrule
+D--E ring family & ordered inner shell set & shell family & ring witness & visible shell bands with Cassini Division gap \\
+Mimas & $185{,}539$ km & $0.942$ d & outer shell witness & first selected moon shell beyond the main rings \\
+Enceladus & $237{,}948$ km & $1.370$ d & outer shell witness & compact icy moon shell \\
+Tethys & $294{,}619$ km & $1.888$ d & outer shell witness & mid-shell witness \\
+Dione & $377{,}396$ km & $2.737$ d & outer shell witness & mid-outer shell witness \\
+Rhea & $527{,}069$ km & $4.518$ d & broad outer shell witness & broad outer shell witness \\
+Titan & $1{,}221{,}870$ km & $15.945$ d & slow outer shell & large far-shell witness \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Figure Witness.}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.74\linewidth]{figures/saturn/01_saturn_shell_family.png}
+\caption{Saturn rings and selected moons as an explicit multi-shell witness. The rendered shell family is a report-layer witness of the same cited ledger.}
+\end{figure}
+
+\FloatBarrier
+
+\paragraph{Hook / Evidence.}
+Use the shell-band and cadence hooks. The point of this section is that Saturn's rings and selected moons display an immediately readable multi-shell family, making shell insertion explicit rather than implicit.

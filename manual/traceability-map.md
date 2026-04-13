@@ -30,37 +30,38 @@ This source-only file preserves lineage from the supplement fragments into the m
 
 ## Section 04 — Rest-mass witnesses and external comparisons
 - witness comparison table <- `supplement-b/examples/01_verification_bindings.tex`
+  - csv: `manual/data/rest-mass/01_rest_mass_witnesses.csv`
   - manual-local table: `manual/sections/04_rest_mass_witnesses.tex`
 
 ## Section 05 — Hydrogen shells
-- hydrogen shell row / shell radii witness <- `supplement-c/examples/04_c4_hydrogen_shell_native_test.tex`
+- hydrogen shell scale witness <- `supplement-c/examples/04_c4_hydrogen_shell_native_test.tex`
   - notebook: `supplement-c/notebooks/hydrogen/01_shell.ipynb`
-  - figure: `supplement-c/figures/hydrogen/hydrogen_shell_radii.png`
+  - figure: `manual/figures/hydrogen/01_shell_radii.png`
 
 ## Section 06 — Solar and radiation
 - solar perihelion witness <- `supplement-c/examples/01_c1_solar_perihelion_native_window.tex`
   - notebook: `supplement-c/notebooks/solar/c1_solar_100y_worked.ipynb`
-  - figures: `supplement-c/figures/solar/solar_shell_ledger.png`, `supplement-c/figures/solar/mercury_slice_shell.png`, `supplement-c/figures/solar/earth_moon_nested_shell.png`
+  - figures: `manual/figures/solar/01_system_ledger.png`, `manual/figures/solar/02_mercury_earth_moon.png`
 - solar lensing witness <- `supplement-c/examples/02_c2_solar_lensing_native_window.tex`
   - notebook: `supplement-c/notebooks/solar/c2_c3_solar_radiation_worked.ipynb`
-  - figure: `supplement-c/figures/solar/lensing_duon_export.png`
+  - figure: `manual/figures/solar/03_lensing_export.png`
 - solar redshift witness <- `supplement-c/examples/03_c3_solar_redshift_native_window.tex`
   - notebook: `supplement-c/notebooks/solar/c2_c3_solar_radiation_worked.ipynb`
-  - figure: `supplement-c/figures/solar/redshift_duon_transfer.png`
+  - figure: `manual/figures/solar/04_redshift_transfer.png`
 
 ## Section 07 — Confinement
 - nucleus confinement / neutron stability <- `supplement-c/examples/05_c5_nucleus_confinement_neutron_stability.tex`
   - notebook: `supplement-c/notebooks/nucleus/c5_nucleus_confinement_worked.ipynb`
-  - figure: `supplement-c/figures/nucleus/nucleus_confinement_witness.png`
+  - figure: `manual/figures/confinement/01_nucleus_confinement.png`
 
 ## Section 08 — Galactic, biological, and planetary
-- five-galaxy SPARC shell witness <- `supplement-c/examples/06_c6_galactic_orbital_native_window.tex`
+- five-galaxy SPARC witness <- `supplement-c/examples/06_c6_galactic_orbital_native_window.tex`
   - notebook: `supplement-c/notebooks/galactic/c6_sparc5_shells_worked.ipynb`
-  - csv: `supplement-c/data/galactic/sparc5_speed_witnesses.csv`
-  - figures: `supplement-c/figures/galactic/sparc5_speed_witnesses.png`, `supplement-c/figures/galactic/sparc5_shell_family.png`
+  - csv: `manual/data/galactic/01_five_galaxy_comparison.csv`
+  - figures: `manual/figures/galactic/01_five_galaxy_comparison.png`, `manual/figures/galactic/02_shell_family.png`
 - Brownian bacteria ominion witness <- `supplement-c/examples/07_c7_brownian_bacteria_motion.tex`
   - notebook: `supplement-c/notebooks/bacteria/c7_bacteria_ominion_worked.ipynb`
-  - figure: `supplement-c/figures/bacteria/bacteria_ominion_jitter.png`
+  - figure: `manual/figures/bacteria/01_bacteria_ominion.png`
 - Saturn ring and moon shell witness <- `supplement-c/examples/08_c8_saturn_ring_and_moon_shell_witness.tex`
   - notebook: `supplement-c/notebooks/saturn/c8_saturn_shells_worked.ipynb`
-  - figure: `supplement-c/figures/saturn/saturn_shell_family.png`
+  - figure: `manual/figures/saturn/01_saturn_shell_family.png`

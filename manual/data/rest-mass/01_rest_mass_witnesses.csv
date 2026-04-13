@@ -1,0 +1,6 @@
+structural_key,cited_row_quantities,witness_mev,external_target,claim_level
+\texttt{tetron:1:2:6},$\lambda$-band; $B^*$; $R_{\mathrm{loss}}$; cadence,0.51099895069,electron (CODATA 2022),mass comparison only
+\texttt{tetron:1:2:8},$\lambda$-band; $B^*$; $R_{\mathrm{loss}}$; cadence,105.6583755,muon (CODATA 2022),mass comparison only
+\texttt{tetron:1:2:10},$\lambda$-band; $B^*$; $R_{\mathrm{loss}}$; cadence,1776.86,tau (CODATA 2022),mass comparison only
+\texttt{tetron:3:3:6},shell signature; $B^*$; confinement; $R_{\mathrm{loss}}$,938.27208943,proton (CODATA 2022),mass comparison only
+\texttt{tetrad:3:4:6},shell signature; $B^*$; confinement; $R_{\mathrm{loss}}$,939.56542194,neutron (CODATA 2022),mass comparison only
