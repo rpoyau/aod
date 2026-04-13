@@ -29,7 +29,8 @@ This source-only file preserves lineage from the supplement fragments into the m
   - notebooks: `supplement-b/notebooks/E10-E11D.ipynb`
 
 ## Section 04 — Rest-mass witnesses and external comparisons
-- witness/comparison rows <- `supplement-b/examples/01_verification_bindings.tex`
+- witness comparison table <- `supplement-b/examples/01_verification_bindings.tex`
+  - manual-local table: `manual/sections/04_rest_mass_witnesses.tex`
 
 ## Section 05 — Hydrogen shells
 - hydrogen shell row / shell radii witness <- `supplement-c/examples/04_c4_hydrogen_shell_native_test.tex`

@@ -1,20 +1,54 @@
-% Traceability: derived from Supplement B mass/comparison material
+% Traceability: derived from supplement-b/examples/01_verification_bindings.tex
 \section{Rest-mass witnesses and external comparisons}
 
-\subsection{Electron witness}
-This section records the electron witness together with its downstream comparison target and claim-level notes.
+\subsection{Witness comparison table}
+\label{man:rest-mass-witness-comparison}
 
-\subsection{Muon witness}
-This section records the muon witness together with its downstream comparison target and claim-level notes.
+\paragraph{Question.}
+How are cited-row quantities carried into downstream rest-mass/rate witness comparisons without elevating those comparisons into theorem content?
 
-\subsection{Tau witness}
-This section records the tau witness together with its downstream comparison target and claim-level notes.
+\paragraph{Readout.}
+The cited rows remain authoritative. The table below records downstream witness/comparison targets attached to those cited rows.
 
-\subsection{Proton witness}
-This section records the proton witness together with its downstream comparison target and claim-level notes.
+\paragraph{Operator Chain.}
+\[
+\text{structural key} \to \text{cited-row quantities used} \to \text{report-layer mass/rate witness} \to \text{external comparison target} \to \text{claim level}.
+\]
 
-\subsection{Neutron witness}
-This section records the neutron witness together with its downstream comparison target and claim-level notes.
+\paragraph{Converted Witness Table.}
+{\footnotesize
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lXlXl@{}}
+\toprule
+Structural key & Cited-row quantities used & Predicted rest-mass/rate witness & External comparison target & Claim level \\
+\midrule
+\texttt{tetron:1:2:6} & $\lambda$-band, $B^*$, $R_{\mathrm{loss}}$, cadence & attached report-layer rest-mass/rate witness & electron & mass comparison only \\
+\texttt{tetron:1:2:8} & $\lambda$-band, $B^*$, $R_{\mathrm{loss}}$, cadence & attached report-layer rest-mass/rate witness & muon & mass comparison only \\
+\texttt{tetron:1:2:10} & $\lambda$-band, $B^*$, $R_{\mathrm{loss}}$, cadence & attached report-layer rest-mass/rate witness & tau & mass comparison only \\
+\texttt{tetron:3:3:6} & shell signature, $B^*$, confinement, $R_{\mathrm{loss}}$ & attached report-layer rest-mass/rate witness & proton & mass comparison only \\
+\texttt{tetrad:3:4:6} & shell signature, $B^*$, confinement, $R_{\mathrm{loss}}$ & attached report-layer rest-mass/rate witness & neutron & mass comparison only \\
+\bottomrule
+\end{tabularx}
+\end{center}}
+
+\paragraph{Hook / Evidence.}
+Use the cited rows named above together with the conversion and comparison rules recorded in \Cref{man:temporal-conversion-rules,man:converted-rows}. The present table records downstream witness/comparison targets only.
 
 \subsection{Claim-level notes}
-The claim-level column distinguishes a mass comparison from a candidate identity claim and from any stronger identity assertion. The manual remains downstream and does not use this section to create new theorem content.
+\label{man:rest-mass-claim-levels}
+
+\paragraph{Question.}
+How should the claim-level column be read in this manual?
+
+\paragraph{Readout.}
+The claim-level column separates a downstream comparison target from any stronger identity assertion.
+
+\paragraph{Output Row.}
+\begin{itemize}
+  \item \textbf{mass comparison only}: the cited row supports a downstream comparison target but does not itself assert identity;
+  \item \textbf{candidate identity}: reserved for later use if a row is explicitly promoted beyond comparison status;
+  \item \textbf{full identity claim}: reserved for an even stronger downstream claim and not used in the present table.
+\end{itemize}
+
+\paragraph{Hook / Evidence.}
+The manual remains downstream of the main note and does not use this section to introduce new theorem content or new identity premises.
