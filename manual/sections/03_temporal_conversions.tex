@@ -8,8 +8,8 @@
 This chapter records how cited rows are carried into converted witness form. Duration is reported in seconds, rates in hertz, and effective speed only through $\beta=v/c$ with $c=1$.
 
 \subsection{Conversion rules}
-\colabbadge{supplement-b/notebooks/E10-E11D.ipynb}
 \label{man:temporal-conversion-rules}
+\colabbadge{supplement-b/notebooks/E10-E11D.ipynb}
 
 \begin{table}[H]
 \centering
@@ -26,15 +26,38 @@ Temporal-unit conversion & cited key, cited window, loss/report rates, shell/exp
 Diagrammatic rendering & cited key, shell signature, cadence spectrum, confinement/support witnesses, and loss/report rates \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The cited row is fixed first. Converted witnesses are attached afterward on the same cited ledger.}
+\ManualTableNote{Converted witnesses are attached only after the cited row is fixed on the same ledger.}
+\end{threeparttable}
+\end{table}
+
+\subsection{Converted rows}
+\label{man:converted-rows}
+\colabbadge{supplement-b/notebooks/E10-E11D.ipynb}
+
+\begin{table}[H]
+\centering
+\caption{Converted-row starting columns used by the public rendering layer.}
+\label{tab:converted-row-starting-columns}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Converted row class & Required cited-row starting columns \\
+\midrule
+Comparison row & key, cited window, $\lambda$-band, shell signature, $B^*$, $R_{\mathrm{loss}}$, $R^{(\mathrm{biz})}_{\mathrm{loss}}$, cadence, torsional witness \\
+Temporal-unit row & key, cited window, shell/export predicate, loss/report rates, declared dictionary-map id \\
+Diagrammatic row & key, shell signature, cadence spectrum, confinement witness, support signature, and loss/report rates \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The converted-row layer records only quantities already present on the cited ledger.}
 \end{threeparttable}
 \end{table}
 
 \subsection{Diagrammatic temporal conversion rendering}
 \label{man:diagrammatic-temporal-rendering}
-
-The collision / export row may be rendered diagrammatically after the cited ledger is fixed.\par\smallskip
 \colabbadge{supplement-b/notebooks/E10-E11D.ipynb}
+
+A cited collision / export row may be displayed diagrammatically after that ledger is fixed.
 
 \begin{figure}[H]
 \centering
@@ -52,11 +75,13 @@ The collision / export row may be rendered diagrammatically after the cited ledg
 \label{fig:manual-collision-export-rendering}
 \end{figure}
 
+The diagram is a later display of the same cited collision / export ledger.
+
 \subsection{Recurrent-ring rendering}
 \label{man:recurrent-ring-rendering}
-
-The recurrent-ring row is recorded first and then attached to a projected network rendering.\par\smallskip
 \colabbadge{supplement-b/notebooks/E10-E11D.ipynb}
+
+A cited recurrent-ring row may be displayed as a projected three-node recurrent system.
 
 \begin{table}[H]
 \centering
@@ -65,17 +90,15 @@ The recurrent-ring row is recorded first and then attached to a projected networ
 \begin{threeparttable}
 \small
 \pgfplotstabletypeset[
-  columns={row_id,topology,Rloss_trit_per_bip,B_star_mode_bip,Lambda_hat_ticks,Rloss_biz_derived,ck_mismatch_frob,stokes_residual},
+  columns={row_id,topology,Rloss_trit_per_bip,B_star_mode_bip,Lambda_hat_ticks,Rloss_biz_derived},
   columns/row_id/.style={column name=Row,string type,column type=l},
   columns/topology/.style={column name=Topology,string type,column type=l},
   columns/Rloss_trit_per_bip/.style={column name={$R_{\mathrm{loss}}$ [trit/bip]},fixed,precision=6},
   columns/B_star_mode_bip/.style={column name={$B^*$ [bip]},fixed,precision=0},
   columns/Lambda_hat_ticks/.style={column name={$\widehat\Lambda$ [ticks]},fixed,precision=0},
-  columns/Rloss_biz_derived/.style={column name={$R^{(\mathrm{biz})}_{\mathrm{loss}}$ [biz]},fixed,precision=6},
-  columns/ck_mismatch_frob/.style={column name={CK mismatch},fixed,precision=6},
-  columns/stokes_residual/.style={column name={$\mathcal R_{\mathrm{cut}}$},fixed,precision=0}
+  columns/Rloss_biz_derived/.style={column name={$R^{(\mathrm{biz})}_{\mathrm{loss}}$ [biz]},fixed,precision=6}
 ]{data/temporal/01_recurrent_ring_summary.csv}
-\ManualTableNote{This row remains authoritative. The network figure below is a later rendering of the same cited ledger.}
+\ManualTableNote{CK mismatch and cut-residual diagnostics remain companion checks on the same cited recurrent-ring ledger.}
 \end{threeparttable}
 \end{table}
 
@@ -97,11 +120,13 @@ The recurrent-ring row is recorded first and then attached to a projected networ
 \label{fig:manual-recurrent-ring-rendering}
 \end{figure}
 
+The projected ring remains a display of the cited recurrent ledger rather than a replacement for it.
+
 \subsection{Decimal rendering}
 \label{man:decimal-rendering}
-
-The decimal table records convenience values only and does not replace the exact/default-form cited row.\par\smallskip
 \colabbadge{supplement-b/notebooks/E10-E11D.ipynb}
+
+The decimal table records convenience values only and does not replace the exact/default-form cited row.
 
 \begin{table}[H]
 \centering
@@ -110,17 +135,14 @@ The decimal table records convenience values only and does not replace the exact
 \begin{threeparttable}
 \small
 \pgfplotstabletypeset[
-  columns={row_id,q_eff,q_eff_hat_float,eta_out_float,eta_mid_float,eta_tot_float,u_loss_float,speed_float,n_ref_float},
+  columns={row_id,q_eff,q_eff_hat_float,eta_out_float,eta_mid_float,eta_tot_float},
   columns/row_id/.style={column name=Row,string type,column type=l},
   columns/q_eff/.style={column name={$q_{\mathrm{eff}}$},string type},
-  columns/q_eff_hat_float/.style={column name={$\widehat q_{\mathrm{eff}}$},fixed,precision=6},
-  columns/eta_out_float/.style={column name={$\eta_{\mathrm{out}}$},fixed,precision=6},
-  columns/eta_mid_float/.style={column name={$\eta_{\mathrm{mid}}$},fixed,precision=6},
-  columns/eta_tot_float/.style={column name={$\eta_{\mathrm{tot}}$},fixed,precision=6},
-  columns/u_loss_float/.style={column name={$R_{\mathrm{loss}}$},fixed,precision=6},
-  columns/speed_float/.style={column name={$v$},fixed,precision=6},
-  columns/n_ref_float/.style={column name={$n_{\mathrm{ref}}$},fixed,precision=6}
+  columns/q_eff_hat_float/.style={column name={$\widehat q_{\mathrm{eff}}$},fixed,precision=4},
+  columns/eta_out_float/.style={column name={$\eta_{\mathrm{out}}$},fixed,precision=4},
+  columns/eta_mid_float/.style={column name={$\eta_{\mathrm{mid}}$},fixed,precision=4},
+  columns/eta_tot_float/.style={column name={$\eta_{\mathrm{tot}}$},fixed,precision=4}
 ]{data/temporal/02_decimal_rendering_table.csv}
-\ManualTableNote{The decimal values are attached after the cited open-seat wavelet row is fixed and remain comparison-layer conveniences only.}
+\ManualTableNote{Additional decimal companions such as $R_{\mathrm{loss}}$, $v$, and $n_{\mathrm{ref}}$ remain in the companion source CSV and notebook.}
 \end{threeparttable}
 \end{table}

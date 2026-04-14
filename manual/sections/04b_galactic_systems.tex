@@ -1,0 +1,59 @@
+% Traceability: derived from supplement-c/examples/06_c6_galactic_orbital_native_window.tex
+\subsection{Galactic systems}
+
+\subsubsection{Five-galaxy SPARC shell witness}
+\label{man:five-galaxy-sparc-witness}
+\colabbadge{supplement-c/notebooks/galactic/c6_sparc5_shells_worked.ipynb}
+
+The cited five-galaxy set is fixed first. The outer-orbital comparison is the canonical public presentation of this witness layer.
+
+\begin{table}[H]
+\centering
+\caption{Five-galaxy SPARC cited row.}
+\label{tab:five-galaxy-row}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lXcc@{}}
+\toprule
+Row & Structural class & $B^*$ & $\Lambda_b$ \\
+\midrule
+G1 & \texttt{tetron:*:[galaxy,star]:6} & 137 & 8 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The shell-family and outer-orbital comparison are read on the same cited five-galaxy ledger.}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Five-galaxy outer-orbital comparison.}
+\label{tab:five-galaxy-comparison}
+\begin{threeparttable}
+\small
+\pgfplotstabletypeset[
+  columns={galaxy,v_calc_km_s,v_obs_km_s,abs_error_km_s,rel_error_pct},
+  columns/galaxy/.style={column name=Galaxy,string type,column type=l},
+  columns/v_calc_km_s/.style={column name={Calculated [km/s]},fixed,precision=1},
+  columns/v_obs_km_s/.style={column name={Observed [km/s]},fixed,precision=1},
+  columns/abs_error_km_s/.style={column name={Abs. error [km/s]},fixed,precision=1},
+  columns/rel_error_pct/.style={column name={Rel. error [\%]},fixed,precision=1}
+]{data/galactic/01_five_galaxy_comparison.csv}
+\ManualTableNote{The comparison is attached only after the cited row is fixed.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/galactic/01_five_galaxy_comparison.png}
+\caption{Five-galaxy outer-orbital comparison witness.}
+\label{fig:five-galaxy-comparison}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/galactic/02_shell_family.png}
+\caption{Five-galaxy shell-family schematic.}
+\label{fig:five-galaxy-shell-family}
+\end{figure}
+
+The cited long-window ledger carries the shell-family witness together with the reported five-galaxy comparison.

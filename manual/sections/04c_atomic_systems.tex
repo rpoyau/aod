@@ -1,0 +1,87 @@
+% Traceability: derived from supplement-c/examples/04_c4_hydrogen_shell_native_test.tex and supplement-c/examples/05_c5_nucleus_confinement_neutron_stability.tex
+\subsection{Atomic systems}
+
+\subsubsection{Hydrogen shell scale witness}
+\label{man:hydrogen-shell-scale-witness}
+\colabbadge{supplement-c/notebooks/hydrogen/01_shell.ipynb}
+
+A cited hydrogen shell row is fixed first. Familiar hydrogen radii are attached afterward as a local shell report on the same shell ledger \cite{aod43_main_2026}.
+
+\begin{table}[H]
+\centering
+\caption{Hydrogen shell cited row.}
+\label{tab:hydrogen-shell-row}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lccccc@{}}
+\toprule
+Row & Shell band & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [trit/bip] & Cadence witness \\
+\midrule
+H1 & 3 & 137 & 6 & $(1+8\ell_2)/24$ & $5/12$ \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The shell report remains local to this chapter. The cited row follows the shell-band, support, attenuation, and loss-channel machinery of the main note.}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Hydrogen shell radii comparison attached after the cited shell row.}
+\label{tab:hydrogen-shell-radii}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lcccc@{}}
+\toprule
+Subledger & Calculated radius [m] & Reference radius [m] & Abs. error [m] & Rel. error [\%] \\
+\midrule
+$n=1$ & $5.291772191461861\times10^{-11}$ & $5.291772109\times10^{-11}$ & $8.2461861\times10^{-19}$ & $1.5583\times10^{-6}$ \\
+$n=2$ & $2.1167088765847444\times10^{-10}$ & $2.1167088436\times10^{-10}$ & $3.29847444\times10^{-18}$ & $1.5583\times10^{-6}$ \\
+$n=3$ & $4.762594972315675\times10^{-10}$ & $4.7625948981\times10^{-10}$ & $7.4215675\times10^{-18}$ & $1.5583\times10^{-6}$ \\
+$n=4$ & $8.466835506338978\times10^{-10}$ & $8.4668353744\times10^{-10}$ & $1.31938978\times10^{-17}$ & $1.5583\times10^{-6}$ \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The calculated and reference radii are shown only after the cited shell row is fixed.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.74\linewidth]{figures/hydrogen/01_shell_radii.png}
+\caption{Hydrogen shell radii witness.}
+\label{fig:hydrogen-shell-radii}
+\end{figure}
+
+The cited hydrogen shell row carries the shell-band and attenuation witnesses of the main note, and the radii report is attached afterward as a local shell report.
+
+\subsubsection{Nucleus confinement and neutron stability}
+\label{man:nucleus-confinement-witness}
+\colabbadge{supplement-c/notebooks/nucleus/c5_nucleus_confinement_worked.ipynb}
+
+A short-window confinement class is fixed first and the same cited ledger reports proximity, confinement, and transmutation status.
+
+\begin{table}[H]
+\centering
+\caption{Nucleus confinement cited rows.}
+\label{tab:nucleus-confinement-row}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lXcclll@{}}
+\toprule
+Row & Structural key & $B^*$ & $\Lambda_b$ & Proximity & Confinement & Transmutation \\
+\midrule
+N1 & \texttt{tetron:3:3:6}, $(\lambda=3/2,137,\rho_2,V_4)$ & 137 & 6 & close & confined & 0 \\
+N2 & \texttt{tetron:3:3:6}, $(\lambda=3/2,139,\rho_3,V_4)$ & 139 & 3 & failed & unconfined & 1 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The same cited short ledger resolves shell signature, dominant rung, proximity, confinement, and transmutation status.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/confinement/01_nucleus_confinement.png}
+\caption{Short-window confinement witness.}
+\label{fig:nucleus-confinement}
+\end{figure}
+
+The cited short ledger carries the proximity, confinement, and transmutation witnesses on one row.
