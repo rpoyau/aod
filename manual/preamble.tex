@@ -3,6 +3,9 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{pgfplotstable}
+\usepackage{threeparttable}
+\usepackage{siunitx}
+\usepackage{caption}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{placeins}
@@ -13,3 +16,8 @@
   every last row/.style={after row=\bottomrule}
 }
 \hypersetup{pdftitle={Alpha$\leftrightarrow$Omega Dynamics (AOD): Manual 43$^\circ$C},pdfauthor={Reginald Poyau}}
+
+\renewcommand{\arraystretch}{1.08}
+\setlength{\tabcolsep}{4pt}
+\sisetup{detect-all,group-separator={,},group-minimum-digits=4,table-number-alignment=center}
+\newcommand{\ManualTableNote}[1]{\begin{tablenotes}[flushleft]\footnotesize\item #1\end{tablenotes}}

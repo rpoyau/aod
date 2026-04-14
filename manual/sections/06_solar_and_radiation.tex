@@ -1,31 +1,20 @@
 % Traceability: derived from supplement-c/examples/01_c1_solar_perihelion_native_window.tex,
 % supplement-c/examples/02_c2_solar_lensing_native_window.tex,
 % supplement-c/examples/03_c3_solar_redshift_native_window.tex
-\section{Solar and radiation}
+\section{Somatic mechanics across scales}
+\subsection{Solar system}
 
-\subsection{Solar perihelion witness}
+\subsubsection{Anomalous perihelion precession of Mercury}
 \label{man:solar-perihelion-witness}
 
-\paragraph{Question.}
-Does the cited 100-year solar-system ledger carry the Mercury perihelion witness while preserving shell/ring support, dominant residual-duration class, torsional witness, cadence support, and effective progress bookkeeping?
+The cited 100-year solar-system ledger is fixed first. The perihelion witness is then reported as an extracted Mercury slice on the same long-window ledger.
 
-\paragraph{Readout.}
-\begin{itemize}
-\item cited system $\Sigma_{\mathrm{sol},100y}$
-\item nested Earth--Moon subledger retained on the same ledger
-\item structural key \texttt{tetron:*:[sun,mercury]:6}
-\item frame count / $T_{\mathrm{eval}}=36525$ bip on a daily report grid
-\item weighting policy $w(\kappa)\equiv 1$
-\end{itemize}
-
-\paragraph{Operator Chain.}
-\[
-b(\kappa)\to H_B\to B^*\to \Lambda_b\to A_B\to R_{\mathrm{loss}}\to T_{\mathrm{tors}}\to \text{cadence support}\to \text{converted witnesses}.
-\]
-
-\paragraph{Output Row.}
-\begin{center}
-\footnotesize
+\begin{table}[H]
+\centering
+\caption{Solar perihelion cited row.}
+\label{tab:solar-perihelion-row}
+\begin{threeparttable}
+\small
 \begin{tabularx}{\linewidth}{@{}lXccccc@{}}
 \toprule
 Row & Slice key & $T_{\mathrm{eval}}$ [bip] & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [trit/bip] & $T_{\mathrm{tors}}$ \\
@@ -33,67 +22,72 @@ Row & Slice key & $T_{\mathrm{eval}}$ [bip] & $B^*$ & $\Lambda_b$ & $R_{\mathrm{
 S1 & \texttt{tetron:*:[sun,mercury]:6} & 36525 & 137 & 6 & $\frac{1+8\ell_2}{24}$ & 3 \\
 \bottomrule
 \end{tabularx}
-\end{center}
+\ManualTableNote{The cited row fixes the shared long-window ledger, including the nested Earth--Moon subledger retained inside the same system ledger.}
+\end{threeparttable}
+\end{table}
 
-\paragraph{Temporal Conversion Block.}
-The cited row is fixed first. Familiar perihelion and cycle-count values are attached afterward on the same 100-year ledger.
-
-\paragraph{Converted Witness Table.}
-\begin{center}
+\begin{table}[H]
+\centering
+\caption{Solar-system manifest on the cited 100-year ledger.}
+\label{tab:solar-system-manifest}
+\begin{threeparttable}
 \small
-\begin{tabularx}{\linewidth}{@{}lcccX@{}}
+\begin{tabularx}{\linewidth}{@{}lccc@{}}
 \toprule
-Subledger / slice & Monon-period witness [y] & Cycle count in 100 y & Perihelion witness [arcsec/cy] & Note \\
+Subledger / slice & Monon-period witness & Unit & Cycle count in 100 y \\
 \midrule
-Mercury & $0.2408467$ & $415.20$ & $42.981975497467126$ & extracted perihelion slice \\
-Earth & $1.0000174$ & $100.00$ & --- & host cadence \\
-Moon & $27.321661$ d & $1336.85$ & --- & nested satellite cadence \\
-Jupiter & $11.862615$ & $8.430$ & --- & long-window modulator \\
-Saturn & $29.447498$ & $3.396$ & --- & long-window modulator \\
+Mercury & 0.2408467 & y & 415.20 \\
+Earth   & 1.0000174 & y & 100.00 \\
+Moon    & 27.321661 & d & 1336.85 \\
+Jupiter & 11.862615 & y & 8.430 \\
+Saturn  & 29.447498 & y & 3.396 \\
 \bottomrule
 \end{tabularx}
-\end{center}
+\ManualTableNote{Mercury is the extracted perihelion slice. Earth/Moon provide the nested cadence context. Jupiter and Saturn provide the longer-window modulation context.}
+\end{threeparttable}
+\end{table}
 
-\paragraph{Figure Witness.}
+\begin{table}[H]
+\centering
+\caption{Solar perihelion comparison attached after the cited row.}
+\label{tab:solar-perihelion-comparison}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lcccc@{}}
+\toprule
+Subledger & Calculated [arcsec/cy] & Reference [arcsec/cy] & Abs. error [arcsec/cy] & Rel. error [\%] \\
+\midrule
+Mercury & 42.981975497467126 & 42.98 & 0.001975497467126 & 0.0046 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The cited row is fixed first. The perihelion comparison is attached afterward on the same 100-year ledger.}
+\end{threeparttable}
+\end{table}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.72\linewidth]{figures/solar/01_system_ledger.png}
-\caption{100-year solar system ledger schematic. The shared long-window ledger is fixed first; perihelion is read as an extracted slice.}
+\caption{100-year solar-system ledger schematic.}
+\label{fig:solar-system-ledger}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.88\linewidth]{figures/solar/02_mercury_earth_moon.png}
-\caption{Left: Mercury slice. Right: nested Earth--Moon subledger retained inside the same system ledger.}
+\caption{Mercury perihelion slice and nested Earth--Moon subledger.}
+\label{fig:mercury-earth-moon}
 \end{figure}
 
-\FloatBarrier
-
-\paragraph{Hook / Evidence.}
 Use the orbital-closure, cadence-support, and residual-support hooks from the main note on the cited shared long-window ledger.
 
-\subsection{Solar lensing witness}
+\subsubsection{Solar lensing witness}
 \label{man:solar-lensing-witness}
 
-\paragraph{Question.}
-Does the cited solar boundary/export window support the shell qualification, push/pull split, torsional residual, emitted packet witness, and grazing-incidence lensing comparison on the same export ledger?
-
-\paragraph{Readout.}
-\begin{itemize}
-\item cited window $\omega_{\mathrm{sol,lens}}$
-\item family tag \texttt{duon:2:1:7}
-\item frame count / $T_{\mathrm{eval}}=512$ bip
-\item weighting policy $w(\kappa)\equiv 1$
-\item packet witness and shell qualification on the same boundary ledger
-\end{itemize}
-
-\paragraph{Operator Chain.}
-\[
-e_\alpha,e_\Omega,f \to q_{\mathrm{eff}}\to T_{\mathrm{tors}}\to \text{packet witness}\to \text{shell qualification}\to \text{converted witness}.
-\]
-
-\paragraph{Output Row.}
-\begin{center}
+\begin{table}[H]
+\centering
+\caption{Solar lensing cited row.}
+\label{tab:solar-lensing-row}
+\begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lXcccc@{}}
 \toprule
@@ -102,57 +96,44 @@ Row & Family / window & $q_{\mathrm{eff}}$ & $T_{\mathrm{tors}}$ & Packet witnes
 S2 & \texttt{duon:2:1:7} / solar export slice & $+\frac{1}{2}$ & 2 & emitted duon packet & qualified \\
 \bottomrule
 \end{tabularx}
-\end{center}
+\ManualTableNote{The packet witness and shell qualification are read first on the same boundary ledger.}
+\end{threeparttable}
+\end{table}
 
-\paragraph{Temporal Conversion Block.}
-The cited row is fixed first. The familiar grazing deflection value is attached afterward as a rounded converted witness.
-
-\paragraph{Converted Witness Table.}
-\begin{center}
+\begin{table}[H]
+\centering
+\caption{Solar lensing comparison attached after the cited row.}
+\label{tab:solar-lensing-comparison}
+\begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lcccc@{}}
 \toprule
 Subledger & Calculated [arcsec] & Reference [arcsec] & Abs. error [arcsec] & Rel. error [\%] \\
 \midrule
-Solar export slice & 1.7512432813682448 & 1.75 & 0.0012432813682448085 & 0.07104464961398906 \\
+Solar export slice & 1.7512432813682448 & 1.75 & 0.0012432813682448 & 0.0710 \\
 \bottomrule
 \end{tabularx}
-\end{center}
+\ManualTableNote{The grazing-incidence benchmark is attached after the cited export row is fixed.}
+\end{threeparttable}
+\end{table}
 
-\paragraph{Figure Witness.}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.78\linewidth]{figures/solar/03_lensing_export.png}
-\caption{Solar export window schematic. The packet witness is read first; the grazing deflection benchmark is attached afterward.}
+\caption{Solar export window schematic for the lensing witness.}
+\label{fig:solar-lensing}
 \end{figure}
 
-\FloatBarrier
-
-\paragraph{Hook / Evidence.}
 Use the shell/export and boundary-deflection hooks together with the duon-radiation bridge in the main note.
 
-\subsection{Solar redshift witness}
+\subsubsection{Solar redshift witness}
 \label{man:solar-redshift-witness}
 
-\paragraph{Question.}
-Do the cited source and receiver windows close with the cadence-transfer witness, residual-loss difference, and rendered solar redshift value on the same transfer class?
-
-\paragraph{Readout.}
-\begin{itemize}
-\item source window $\omega_{\mathrm{src}}$
-\item receiver window $\omega_{\mathrm{rcv}}$
-\item family tag \texttt{duon:2:1:7} on the transfer class
-\item frame count / $T_{\mathrm{eval}}=768$ bip on each window
-\item weighting policy $w(\kappa)\equiv 1$
-\end{itemize}
-
-\paragraph{Operator Chain.}
-\[
-b(\kappa)\to H_B\to B^*\to \Lambda_b\to R_{\mathrm{loss}}\to \text{cadence-transfer witness}\to \text{converted witness}.
-\]
-
-\paragraph{Output Row.}
-\begin{center}
+\begin{table}[H]
+\centering
+\caption{Solar redshift cited row.}
+\label{tab:solar-redshift-row}
+\begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lXcccccc@{}}
 \toprule
@@ -161,31 +142,32 @@ Row & Class / windows & $B^*_{\mathrm{src}}$ & $B^*_{\mathrm{rcv}}$ & $\Lambda_{
 S3 & \texttt{duon:2:1:7} / source--receiver & 5 & 7 & 3 & 2 & 0.0012 & 1.0002 \\
 \bottomrule
 \end{tabularx}
-\end{center}
+\ManualTableNote{The source and receiver windows are fixed first. The converted redshift is attached afterward.}
+\end{threeparttable}
+\end{table}
 
-\paragraph{Temporal Conversion Block.}
-The cited source/receiver row is fixed first. The familiar solar redshift is attached afterward as a rounded converted witness.
-
-\paragraph{Converted Witness Table.}
-\begin{center}
+\begin{table}[H]
+\centering
+\caption{Solar redshift comparison attached after the cited source/receiver row.}
+\label{tab:solar-redshift-comparison}
+\begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lcccc@{}}
 \toprule
 Subledger & Calculated & Reference & Abs. error & Rel. error [\%] \\
 \midrule
-Source--receiver transfer & $2.122566754396204\times10^{-6}$ & $2.12\times10^{-6}$ & $2.5667543962039824\times10^{-9}$ & 0.12107332057565955 \\
+Source--receiver transfer & $2.122566754396204\times10^{-6}$ & $2.12\times10^{-6}$ & $2.5667543962039824\times10^{-9}$ & 0.1211 \\
 \bottomrule
 \end{tabularx}
-\end{center}
+\ManualTableNote{The converted solar redshift remains a report-layer witness attached after the cited row is fixed.}
+\end{threeparttable}
+\end{table}
 
-\paragraph{Figure Witness.}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.78\linewidth]{figures/solar/04_redshift_transfer.png}
-\caption{Two-window cadence-transfer schematic. The source/receiver row is fixed first; the rendered solar redshift is attached afterward.}
+\caption{Two-window cadence-transfer schematic for the solar redshift witness.}
+\label{fig:solar-redshift}
 \end{figure}
 
-\FloatBarrier
-
-\paragraph{Hook / Evidence.}
 Use the cadence-transfer and two-window comparison hooks together with the duon-radiation bridge in the main note.

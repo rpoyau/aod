@@ -1,28 +1,14 @@
 % Traceability: derived from supplement-c/examples/05_c5_nucleus_confinement_neutron_stability.tex
-\section{Confinement}
-
-\subsection{Nucleus confinement and neutron stability witness}
+\subsubsection{Nucleus confinement and neutron stability}
 \label{man:nucleus-confinement-witness}
 
-\paragraph{Question.}
-Does the cited short-window confinement class satisfy the shell-signature, proximity, and $B^*$-dominance conditions required for persistence, or does it cross the transmutation threshold?
+A short-window confinement class is fixed first. The same cited ledger then reports proximity, confinement, and transmutation status.
 
-\paragraph{Readout.}
-\begin{itemize}
-\item cited window $\omega_{\mathrm{nuc}}$
-\item structural key \texttt{tetron:3:3:6}
-\item frame count / $T_{\mathrm{eval}}=256$ bip
-\item weighting policy $w(\kappa)\equiv 1$
-\item shell signature and proximity criterion on the same short window
-\end{itemize}
-
-\paragraph{Operator Chain.}
-\[
-e_\alpha,e_\Omega,f \to b(\kappa)\to H_B\to B^*\to \Lambda_b\to \text{confinement predicate}\to \text{transmutation flag}.
-\]
-
-\paragraph{Output Row.}
-\begin{center}
+\begin{table}[H]
+\centering
+\caption{Nucleus confinement cited rows.}
+\label{tab:nucleus-confinement-row}
+\begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lXcclll@{}}
 \toprule
@@ -32,16 +18,15 @@ N1 & \texttt{tetron:3:3:6}, $(\lambda=3/2,137,\rho_2,V_4)$ & 137 & 6 & close & c
 N2 & \texttt{tetron:3:3:6}, $(\lambda=3/2,139,\rho_3,V_4)$ & 139 & 3 & failed & unconfined & 1 \\
 \bottomrule
 \end{tabularx}
-\end{center}
+\ManualTableNote{The same cited short ledger resolves shell signature, dominant rung, proximity, confinement, and transmutation status.}
+\end{threeparttable}
+\end{table}
 
-\paragraph{Figure Witness.}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.72\linewidth]{figures/confinement/01_nucleus_confinement.png}
-\caption{Short-window confinement witness. The figure is a report-layer witness of the cited row anchors and does not replace the default-form confinement table.}
+\caption{Short-window confinement witness.}
+\label{fig:nucleus-confinement}
 \end{figure}
 
-\FloatBarrier
-
-\paragraph{Hook / Evidence.}
 Use the cited confinement, proximity, and transmutation hooks. Familiar proton/neutron labels remain comparison-layer labels only and do not alter the row.
