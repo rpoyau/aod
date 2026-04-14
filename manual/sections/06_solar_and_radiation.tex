@@ -1,13 +1,15 @@
 % Traceability: derived from supplement-c/examples/01_c1_solar_perihelion_native_window.tex,
 % supplement-c/examples/02_c2_solar_lensing_native_window.tex,
-% supplement-c/examples/03_c3_solar_redshift_native_window.tex
+% supplement-c/examples/03_c3_solar_redshift_native_window.tex,
+% supplement-c/examples/08_c8_saturn_ring_and_moon_shell_witness.tex
 \section{Somatic mechanics across scales}
 \subsection{Solar system}
 
 \subsubsection{Anomalous perihelion precession of Mercury}
 \label{man:solar-perihelion-witness}
 
-The cited 100-year solar-system ledger is fixed first. The perihelion witness is then reported as an extracted Mercury slice on the same long-window ledger.
+The cited 100-year solar-system ledger is fixed first. The perihelion witness is then reported as an extracted Mercury slice on the same long-window ledger.\par\smallskip
+\colabbadge{supplement-c/notebooks/solar/c1_solar_100y_worked.ipynb}
 
 \begin{table}[H]
 \centering
@@ -60,7 +62,7 @@ Subledger & Calculated [arcsec/cy] & Reference [arcsec/cy] & Abs. error [arcsec/
 Mercury & 42.981975497467126 & 42.98 & 0.001975497467126 & 0.0046 \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The cited row is fixed first. The perihelion comparison is attached afterward on the same 100-year ledger.}
+\ManualTableNote{The perihelion comparison is attached only after the cited 100-year row is fixed.}
 \end{threeparttable}
 \end{table}
 
@@ -82,6 +84,9 @@ Use the orbital-closure, cadence-support, and residual-support hooks from the ma
 
 \subsubsection{Solar lensing witness}
 \label{man:solar-lensing-witness}
+
+The cited solar export slice is fixed first; the grazing-incidence comparison is attached afterward.\par\smallskip
+\colabbadge{supplement-c/notebooks/solar/c2_c3_solar_radiation_worked.ipynb}
 
 \begin{table}[H]
 \centering
@@ -119,15 +124,18 @@ Solar export slice & 1.7512432813682448 & 1.75 & 0.0012432813682448 & 0.0710 \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\linewidth]{figures/solar/03_lensing_export.png}
-\caption{Solar export window schematic for the lensing witness.}
-\label{fig:solar-lensing}
+\includegraphics[width=0.72\linewidth]{figures/solar/03_lensing_export.png}
+\caption{Solar lensing export witness.}
+\label{fig:solar-lensing-export}
 \end{figure}
 
-Use the shell/export and boundary-deflection hooks together with the duon-radiation bridge in the main note.
+Use the shell/export and boundary-deflection hooks from the main note on the cited solar export ledger.
 
 \subsubsection{Solar redshift witness}
 \label{man:solar-redshift-witness}
+
+The cited source and receiver windows are fixed first. The redshift comparison is attached afterward as a two-window transfer witness.\par\smallskip
+\colabbadge{supplement-c/notebooks/solar/c2_c3_solar_radiation_worked.ipynb}
 
 \begin{table}[H]
 \centering
@@ -135,20 +143,20 @@ Use the shell/export and boundary-deflection hooks together with the duon-radiat
 \label{tab:solar-redshift-row}
 \begin{threeparttable}
 \small
-\begin{tabularx}{\linewidth}{@{}lXcccccc@{}}
+\begin{tabularx}{\linewidth}{@{}lXccc@{}}
 \toprule
-Row & Class / windows & $B^*_{\mathrm{src}}$ & $B^*_{\mathrm{rcv}}$ & $\Lambda_{b,\mathrm{src}}$ & $\Lambda_{b,\mathrm{rcv}}$ & $R_{\mathrm{loss}}$ diff & Cadence ratio \\
+Row & Transfer class & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ comparison \\
 \midrule
-S3 & \texttt{duon:2:1:7} / source--receiver & 5 & 7 & 3 & 2 & 0.0012 & 1.0002 \\
+S3 & \texttt{duon:2:1:7} on the transfer class & 137 & 6 & source / receiver burden difference \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The source and receiver windows are fixed first. The converted redshift is attached afterward.}
+\ManualTableNote{The source and receiver rows are fixed first. The cadence-transfer comparison is attached afterward across the same two-window ledger.}
 \end{threeparttable}
 \end{table}
 
 \begin{table}[H]
 \centering
-\caption{Solar redshift comparison attached after the cited source/receiver row.}
+\caption{Solar redshift comparison attached after the cited rows.}
 \label{tab:solar-redshift-comparison}
 \begin{threeparttable}
 \small
@@ -156,18 +164,73 @@ S3 & \texttt{duon:2:1:7} / source--receiver & 5 & 7 & 3 & 2 & 0.0012 & 1.0002 \\
 \toprule
 Subledger & Calculated & Reference & Abs. error & Rel. error [\%] \\
 \midrule
-Source--receiver transfer & $2.122566754396204\times10^{-6}$ & $2.12\times10^{-6}$ & $2.5667543962039824\times10^{-9}$ & 0.1211 \\
+Source / receiver pair & $2.122566754396204\times10^{-6}$ & $2.12\times10^{-6}$ & $2.5667543962039824\times10^{-9}$ & 0.1211 \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The converted solar redshift remains a report-layer witness attached after the cited row is fixed.}
+\ManualTableNote{The redshift witness is attached after the source and receiver rows are fixed on the same two-window ledger.}
 \end{threeparttable}
 \end{table}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.78\linewidth]{figures/solar/04_redshift_transfer.png}
-\caption{Two-window cadence-transfer schematic for the solar redshift witness.}
-\label{fig:solar-redshift}
+\includegraphics[width=0.72\linewidth]{figures/solar/04_redshift_transfer.png}
+\caption{Solar redshift transfer witness.}
+\label{fig:solar-redshift-transfer}
 \end{figure}
 
-Use the cadence-transfer and two-window comparison hooks together with the duon-radiation bridge in the main note.
+Use the cadence-transfer and two-window comparison hooks from the main note.
+
+\subsubsection{Saturn rings and moon shells}
+\label{man:saturn-shell-witness}
+
+The cited Saturn ring family and selected moon shells are fixed first. Familiar radii and periods are attached afterward as a shell-family report.\par\smallskip
+\colabbadge{supplement-c/notebooks/saturn/c8_saturn_shells_worked.ipynb}
+
+\begin{table}[H]
+\centering
+\caption{Saturn ring-and-moon cited row.}
+\label{tab:saturn-shell-row}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lXc@{}}
+\toprule
+Row & Structural key & Gap witness \\
+\midrule
+S1 & \texttt{tetron:*:[saturn,rings]:6} & Cassini Division \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The cited row records the shell family and the Cassini Division gap on the same ordered orbital ledger.}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Saturn rings and selected moons as a shell-family report.}
+\label{tab:saturn-shell-family}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lccc@{}}
+\toprule
+Band / moon & Radius witness [km] & Period witness [d] & Role \\
+\midrule
+D--E ring family & ordered inner shell set & --- & ring witness \\
+Mimas & 185{,}539 & 0.942 & outer shell witness \\
+Enceladus & 237{,}948 & 1.370 & outer shell witness \\
+Tethys & 294{,}619 & 1.888 & outer shell witness \\
+Dione & 377{,}396 & 2.737 & outer shell witness \\
+Rhea & 527{,}069 & 4.518 & broad outer shell witness \\
+Titan & 1{,}221{,}870 & 15.945 & slow outer shell \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The ring family and selected moons display an explicit multi-shell witness. Cassini Division remains the dominant gap witness in the cited row.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.74\linewidth]{figures/saturn/01_saturn_shell_family.png}
+\caption{Saturn rings and selected moons as an explicit multi-shell witness.}
+\label{fig:saturn-shell-family}
+\end{figure}
+
+Use the shell-band and cadence hooks. The ring family and selected moons display an immediately readable multi-shell witness.

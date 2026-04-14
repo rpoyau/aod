@@ -21,3 +21,9 @@
 \setlength{\tabcolsep}{4pt}
 \sisetup{detect-all,group-separator={,},group-minimum-digits=4,table-number-alignment=center}
 \newcommand{\ManualTableNote}[1]{\begin{tablenotes}[flushleft]\footnotesize\item #1\end{tablenotes}}
+\newcommand{\manualrepo}{rpoyau/aod}
+\newcommand{\colabbadge}[1]{%
+  \href{https://colab.research.google.com/github/\manualrepo/blob/main/#1}{%
+    \fcolorbox{black}{yellow!15}{\raisebox{0pt}[1.8em][0.8em]{\hspace{0.8em}\textsf{\footnotesize Open in Colab}\hspace{0.8em}}}%
+  }%
+}

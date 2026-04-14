@@ -1,11 +1,12 @@
 % Traceability: derived from supplement-c/examples/06_c6_galactic_orbital_native_window.tex,
 % supplement-c/examples/07_c7_brownian_bacteria_motion.tex,
-% supplement-c/examples/08_c8_saturn_ring_and_moon_shell_witness.tex
+% supplement-b/examples/05_e10_recurrent_ring.tex
 \subsection{Galactic systems}
 \subsubsection{Five-galaxy SPARC shell witness}
 \label{man:five-galaxy-sparc-witness}
 
-The cited five-galaxy set is fixed first. The outer-orbital comparison is the canonical public presentation of this witness layer.
+The cited five-galaxy set is fixed first. The outer-orbital comparison is the canonical public presentation of this witness layer.\par\smallskip
+\colabbadge{supplement-c/notebooks/galactic/c6_sparc5_shells_worked.ipynb}
 
 \begin{table}[H]
 \centering
@@ -62,6 +63,9 @@ Use the cited long-window drift and support hooks. The five-galaxy comparison is
 \subsubsection{Brownian bacteria ominion witness}
 \label{man:brownian-bacteria-witness}
 
+A cited bacteria window is fixed first and then carried into the mass-scaled loss/tension, cadence-noise, and drift witnesses.\par\smallskip
+\colabbadge{supplement-c/notebooks/bacteria/c7_bacteria_ominion_worked.ipynb}
+
 \begin{table}[H]
 \centering
 \caption{Bacteria ominion cited row.}
@@ -86,57 +90,50 @@ B1 & \texttt{tetron:*:[bacteria]:6} & 2 & 11 & mass-scaled service burden & jitt
 \label{fig:bacteria-ominion}
 \end{figure}
 
-Use the cited recurrent-jitter and dwell-distribution hooks on the bacteria ominion ledger.
+Use the cited recurrent-jitter and dwell-distribution hooks on the bacteria ledger.
 
-\subsection{Planetary systems}
-\subsubsection{Saturn rings and moon shells}
-\label{man:saturn-shell-witness}
+\subsection{Recurrent systems}
+\subsubsection{Recurrent ring witness}
+\label{man:recurrent-ring-witness}
 
-\begin{table}[H]
-\centering
-\caption{Saturn ring-and-moon cited row.}
-\label{tab:saturn-shell-row}
-\begin{threeparttable}
-\small
-\begin{tabularx}{\linewidth}{@{}lXc@{}}
-\toprule
-Row & Structural key & Gap witness \\
-\midrule
-S1 & \texttt{tetron:*:[saturn,rings]:6} & Cassini Division \\
-\bottomrule
-\end{tabularx}
-\ManualTableNote{The cited row records the shell family and the Cassini Division gap on the same ordered orbital ledger.}
-\end{threeparttable}
-\end{table}
+A cited recurrent-ring row is fixed first and then displayed as a compact recurrent-system witness.\par\smallskip
+\colabbadge{supplement-b/notebooks/E10-E11D.ipynb}
 
 \begin{table}[H]
 \centering
-\caption{Saturn rings and selected moons as a shell-family report.}
-\label{tab:saturn-shell-family}
+\caption{Recurrent ring witness row.}
+\label{tab:recurrent-ring-witness-row}
 \begin{threeparttable}
 \small
-\begin{tabularx}{\linewidth}{@{}lccc@{}}
-\toprule
-Band / moon & Radius witness [km] & Period witness [d] & Role \\
-\midrule
-D--E ring family & ordered inner shell set & --- & ring witness \\
-Mimas & 185{,}539 & 0.942 & outer shell witness \\
-Enceladus & 237{,}948 & 1.370 & outer shell witness \\
-Tethys & 294{,}619 & 1.888 & outer shell witness \\
-Dione & 377{,}396 & 2.737 & outer shell witness \\
-Rhea & 527{,}069 & 4.518 & broad outer shell witness \\
-Titan & 1{,}221{,}870 & 15.945 & slow outer shell \\
-\bottomrule
-\end{tabularx}
-\ManualTableNote{The ring family and selected moons display an explicit multi-shell witness. Cassini Division remains the dominant gap witness in the cited row.}
+\pgfplotstabletypeset[
+  columns={row_id,topology,Rloss_trit_per_bip,B_star_mode_bip,Lambda_hat_ticks,Rloss_biz_derived},
+  columns/row_id/.style={column name=Row,string type,column type=l},
+  columns/topology/.style={column name=Topology,string type,column type=l},
+  columns/Rloss_trit_per_bip/.style={column name={$R_{\mathrm{loss}}$ [trit/bip]},fixed,precision=6},
+  columns/B_star_mode_bip/.style={column name={$B^*$ [bip]},fixed,precision=0},
+  columns/Lambda_hat_ticks/.style={column name={$\widehat\Lambda$ [ticks]},fixed,precision=0},
+  columns/Rloss_biz_derived/.style={column name={$R^{(\mathrm{biz})}_{\mathrm{loss}}$ [biz]},fixed,precision=6}
+]{data/temporal/01_recurrent_ring_summary.csv}
+\ManualTableNote{This compact display reuses the cited recurrent-ring ledger as a recurrent-system witness across scales.}
 \end{threeparttable}
 \end{table}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.74\linewidth]{figures/saturn/01_saturn_shell_family.png}
-\caption{Saturn rings and selected moons as an explicit multi-shell witness.}
-\label{fig:saturn-shell-family}
+\begin{tikzpicture}[x=1cm,y=1cm, every node/.style={font=\small}]
+  \coordinate (A) at (0,1.6);
+  \coordinate (B) at (-1.4,-0.8);
+  \coordinate (C) at (1.4,-0.8);
+  \draw[thick,->] (A) -- (B);
+  \draw[thick,->] (B) -- (C);
+  \draw[thick,->] (C) -- (A);
+  \fill (A) circle (2pt) node[above] {A};
+  \fill (B) circle (2pt) node[left] {B};
+  \fill (C) circle (2pt) node[right] {C};
+  \node at (0,-1.7) {projected recurrent ring on the cited ledger};
+\end{tikzpicture}
+\caption{Recurrent ring witness.}
+\label{fig:recurrent-ring-witness}
 \end{figure}
 
-Use the shell-band and cadence hooks. The point of this section is that Saturn's rings and selected moons display an immediately readable multi-shell family.
+Use the cited CK mismatch and cut residual columns to distinguish recurrent projection effects from kernel bias.
