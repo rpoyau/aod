@@ -1,15 +1,15 @@
 \section{Naming and terminology contract}
 
-This appendix records the public naming and terminology layer used below. It states the naming and serialization contract carried by the same ledgers.
+This appendix records only the public naming and serialization layer used below. It introduces no new predicates, no new operators, and no new family ontology beyond the main body.
 
 \subsection{Primary body terms}
-Primary body terms are: active cut, frame, window, present identity, predecessor trace, successor horizon, AO field, wavelet, step flux, window current, chirality, push/pull, effective charge proxy, torsional tension, torsional loss, cadence, dominant residual-duration class, radiating/export window, emitted/exported packet witness, ominion, and n-soma system.
+Primary body terms are: cut, frame, window, present identity, predecessor trace, successor horizon, AO field, wavelet, step flux, window current, chirality, push/pull, effective charge proxy, torsional tension, torsional loss, torsional residual witness, recursive phase debt service, cadence, dominant residual-duration class, radiating/export window, emitted/exported packet witness, ominion, and n-soma system.
 
 \subsection{AO field and reported family naming}
 The public field name is \emph{AO field}. When a field instance is reported together with its wavelet class, the field name remains AO field and the class name is attached separately through the naming rules below.
 
 \subsection{Traverser / closure naming rule}
-The suffix \texttt{-on} denotes a traverser class. The suffix \texttt{-ad} denotes a closure or seat class. Traverser precedes closure in composed names.
+The suffix \texttt{-on} denotes a traverser class. The suffix \texttt{-ad} denotes a closure or seat class. Traverser precedes closure in composed names. In this naming contract, \emph{duad} is the closed/full alias of \emph{duon}, and \emph{tetrad} is the locked/full alias of \emph{tetron}.
 
 This yields the public family/subclass pattern:
 \begin{itemize}[leftmargin=1.5em]
@@ -21,9 +21,9 @@ This yields the public family/subclass pattern:
 The public families used below are:
 \begin{itemize}[leftmargin=1.5em]
   \item \textbf{duon}: public two-seat traverser family.
-  \item \textbf{duad}: canonical closed-seat duon subclass.
+  \item \textbf{duad}: canonical closed/full duon alias on the cited report row.
   \item \textbf{tetron}: public four-seat traverser family.
-  \item \textbf{tetrad}: canonical locked tetron subclass.
+  \item \textbf{tetrad}: canonical locked/full tetron alias on the cited report row.
 \end{itemize}
 
 \subsection{WaveletSpec structural key}
@@ -72,11 +72,11 @@ Bracketed sublists denote clustered or satellite subledgers inside a larger cite
 denotes a local clustered orbital subfamily inside a larger n-soma window.
 
 \subsection{AO field families and structural subclasses}
-\paragraph{Two-seat family.} The two-seat traverser family is recorded by the public names \emph{duon} and \emph{duad}. The open-seat member is written \texttt{duon:2:1:<Lout>[::props]}; the closed-seat member is written \texttt{duad:2:2:<Lout>[::props]}. Effective-charge, push/pull, polyphase, cadence, and radiation/export properties attach only through the named property namespace.
+\paragraph{Two-seat family.} The two-seat traverser family is recorded by the public names \emph{duon} and \emph{duad}. Within this naming contract, \emph{duad} is the closed/full alias used when the cited report row is serialized in the closed-seat form \texttt{duad:2:2:<Lout>[::props]}; the corresponding open-seat form is \texttt{duon:2:1:<Lout>[::props]}. Effective-charge, push/pull, polyphase, cadence, and radiation/export properties attach only through the named property namespace.
 
-\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. The following structural variants are preserved in the naming contract: \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6}. These structural variants are recorded in the public naming contract and are used by the cited rows and operators below.
+\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. Within this naming contract, \emph{tetrad} is the locked/full alias used when the cited report row is serialized in the locked form \texttt{tetrad:3:4:6}. Other preserved structural variants include \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, and \texttt{tetron:3:3:6}. These strings are recorded as report keys only; this appendix does not assign them additional theorem content.
 
-\paragraph{Confinement and isotope labels.} Confinement names the short-window persistence class defined on the cited tetron/tetrad ledgers. Isotope labels, when reported later, name stability subclasses on those same cited ledgers.
+\paragraph{Confinement and isotope labels.} Confinement and isotope labels are report labels reused from the main body. Their predicates, witnesses, and stability criteria are defined there, not in this appendix.
 
 \subsection{Push / pull, chirality, and polyphase property namespace}
 When properties are attached to a structural key, the recommended namespace includes reported quantities such as \texttt{qeff}, push/pull polarity, chirality tag, polyphase summaries, cadence witnesses, and radiation/export qualifiers. O-prefixed field tags (for example \texttt{O-duon}, \texttt{O-tetron}, \texttt{O-tetrad}) are part of this public report contract.

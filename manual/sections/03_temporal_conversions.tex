@@ -1,0 +1,132 @@
+% Traceability: derived from supplement-b/examples/02_derived_temporal_unit_conversions.tex,
+% supplement-b/examples/03_converted_rows.tex,
+% supplement-b/examples/04_diagrammatic_temporal_conversion_rendering.tex,
+% supplement-b/examples/05_e10_recurrent_ring.tex,
+% supplement-b/examples/06_e11d_temporal_conversion_rendering.tex.
+\section{Temporal conversions and mass witnesses}
+
+This chapter records converted witness forms attached to cited rows formed under the main note \cite{aod43_main_2026}. Duration is reported in seconds, rates in hertz, and effective speed only through $\beta=v/c$ with $c=1$.
+
+
+\subsection{Conversion rules}
+\label{man:temporal-conversion-rules}
+\colabbadge{manual/notebooks/03_temporal_conversions_and_04_rest_mass.ipynb}
+
+\begin{table}[H]
+\centering
+\caption{Conversion classes and required cited-row quantities.}
+\label{tab:conversion-classes}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Conversion class & Required cited-row quantities \\
+\midrule
+Worked-row comparison & cited key, cited window, shell signature, $B^*$, $R_{\mathrm{loss}}$, cadence, and any declared witness columns \\
+Temporal-unit conversion & cited key, cited window, loss/report rates, shell/export predicates, and declared dictionary-map id \\
+Diagrammatic rendering & cited key, shell signature, cadence spectrum, confinement/support witnesses, and loss/report rates \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{Converted witnesses are attached only after the cited row is fixed on the same ledger.}
+\end{threeparttable}
+\end{table}
+
+\subsection{Converted rows}
+\label{man:converted-rows}
+\colabbadge{manual/notebooks/03_temporal_conversions_and_04_rest_mass.ipynb}
+
+Public converted rows begin from the cited key, cited window, shell signature, support witness, loss-channel witness, cadence witness, and any additional row-level quantities declared on the same ledger. Comparison values, temporal SI renderings, and diagrammatic displays are attached only after those cited quantities are fixed.
+
+\subsection{Diagrammatic temporal conversion rendering}
+\label{man:diagrammatic-temporal-rendering}
+\colabbadge{manual/notebooks/03_temporal_conversions_and_04_rest_mass.ipynb}
+
+A cited collision / export row may be displayed diagrammatically after that ledger is fixed.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm, line cap=round, line join=round, every node/.style={font=\small}]
+  \filldraw[black] (0,0) circle (1.6pt);
+  \draw[thick,->] (-2,1.2) -- (0,0);
+  \draw[thick,->] (-2,-1.2) -- (0,0);
+  \draw[thick,->] (0,0) -- (2.2,0);
+  \node[left] at (-2,1.2) {$a$};
+  \node[left] at (-2,-1.2) {$b$};
+  \node[right] at (2.2,0) {packet witness};
+  \node[below] at (0,-1.8) {$a\oplus_3 b$ on the cited export window};
+\end{tikzpicture}
+\caption{Diagrammatic rendering of the cited collision / export row.}
+\label{fig:manual-collision-export-rendering}
+\end{figure}
+
+The diagram is a later display of the same cited collision / export ledger.
+
+\subsection{Recurrent-ring rendering}
+\label{man:recurrent-ring-rendering}
+\colabbadge{manual/notebooks/03_temporal_conversions_and_04_rest_mass.ipynb}
+
+A cited recurrent-ring row may be displayed as a projected three-node recurrent system.
+
+\begin{table}[H]
+\centering
+\caption{Recurrent-ring cited row.}
+\label{tab:recurrent-ring-row}
+\begin{threeparttable}
+\small
+\pgfplotstabletypeset[
+  columns={row_id,topology,Rloss_trit_per_bip,B_star_mode_bip,Lambda_hat_ticks,Rloss_biz_derived},
+  columns/row_id/.style={column name=Row,string type,column type=l},
+  columns/topology/.style={column name=Topology,string type,column type=l},
+  columns/Rloss_trit_per_bip/.style={column name={$R_{\mathrm{loss}}$ [trit/bip]},fixed,precision=6},
+  columns/B_star_mode_bip/.style={column name={$B^*$ [bip]},fixed,precision=0},
+  columns/Lambda_hat_ticks/.style={column name={$\widehat\Lambda$ [ticks]},fixed,precision=0},
+  columns/Rloss_biz_derived/.style={column name={$R^{(\mathrm{biz})}_{\mathrm{loss}}$ [biz]},fixed,precision=6}
+]{data/temporal/01_recurrent_ring_summary.csv}
+\ManualTableNote{CK mismatch and cut-residual diagnostics remain companion checks on the same cited recurrent-ring ledger.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm, every node/.style={font=\small}]
+  \coordinate (A) at (0,1.6);
+  \coordinate (B) at (-1.4,-0.8);
+  \coordinate (C) at (1.4,-0.8);
+  \draw[thick,->] (A) -- (B);
+  \draw[thick,->] (B) -- (C);
+  \draw[thick,->] (C) -- (A);
+  \fill (A) circle (2pt) node[above] {A};
+  \fill (B) circle (2pt) node[left] {B};
+  \fill (C) circle (2pt) node[right] {C};
+  \node at (0,-1.7) {projected recurrent ring on the cited ledger};
+\end{tikzpicture}
+\caption{Recurrent-ring rendering attached after the cited row is fixed.}
+\label{fig:manual-recurrent-ring-rendering}
+\end{figure}
+
+The projected ring remains a display of the cited recurrent ledger rather than a replacement for it.
+
+\subsection{Decimal rendering}
+\label{man:decimal-rendering}
+\colabbadge{manual/notebooks/03_temporal_conversions_and_04_rest_mass.ipynb}
+
+The decimal table records convenience values only and does not replace the exact/default-form cited row.
+
+\begin{table}[H]
+\centering
+\caption{Decimal rendering values for the cited open-seat wavelet ledger.}
+\label{tab:decimal-rendering-values}
+\begin{threeparttable}
+\small
+\pgfplotstabletypeset[
+  columns={row_id,q_eff,q_eff_hat_float,eta_out_float,eta_mid_float,eta_tot_float},
+  columns/row_id/.style={column name=Row,string type,column type=l},
+  columns/q_eff/.style={column name={$q_{\mathrm{eff}}$},string type},
+  columns/q_eff_hat_float/.style={column name={$\widehat q_{\mathrm{eff}}$},fixed,precision=4},
+  columns/eta_out_float/.style={column name={$\eta_{\mathrm{out}}$},fixed,precision=4},
+  columns/eta_mid_float/.style={column name={$\eta_{\mathrm{mid}}$},fixed,precision=4},
+  columns/eta_tot_float/.style={column name={$\eta_{\mathrm{tot}}$},fixed,precision=4}
+]{data/temporal/02_decimal_rendering_table.csv}
+\ManualTableNote{Additional decimal companions such as $R_{\mathrm{loss}}$, $v$, and $n_{\mathrm{ref}}$ remain in the companion source CSV and notebook.}
+\end{threeparttable}
+\end{table}

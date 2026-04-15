@@ -13,21 +13,11 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 
-INCLUDE_TOP_LEVEL = [
-    'README.md',
-    'BUILD.md',
-    '.zenodo.json',
-    '.zenodo_doi',
-    'main.tex',
-    'preamble.tex',
-    'refs.bib',
-    'LICENSE',
-    'requirements-ci.txt',
-]
+INCLUDE_TOP_LEVEL = ['.github', '.zenodo.json', '.zenodo_doi', 'BUILD.md', 'LICENSE', 'README.md', 'appendices', 'archive', 'audit_pack', 'consequences', 'examples', 'main.tex', 'manual', 'notebooks', 'preamble.tex', 'refs.bib', 'requirements-ci.txt', 'scripts', 'sections']
 
 INCLUDE_DIRS = [
-    'supplement-a',
-    'supplement-b',
+    'archive/supplement-a',
+    'archive/supplement-b',
     '.github',
     'sections',
     'consequences',
@@ -36,7 +26,7 @@ INCLUDE_DIRS = [
     'notebooks',
     'audit_pack',
     'scripts',
-    'supplement-c',
+    'archive/supplement-c',
 ]
 
 EXCLUDE_DIR_NAMES = {

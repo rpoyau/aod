@@ -1,0 +1,235 @@
+% Traceability: derived from supplement-c/examples/01_c1_solar_perihelion_native_window.tex,
+% supplement-c/examples/02_c2_solar_lensing_native_window.tex,
+% supplement-c/examples/03_c3_solar_redshift_native_window.tex,
+% supplement-c/examples/08_c8_saturn_ring_and_moon_shell_witness.tex
+\subsection{Solar system}
+
+\subsubsection{Anomalous perihelion precession of Mercury}
+\label{man:solar-perihelion-witness}
+\colabbadge{manual/notebooks/04a_solar_system_mercury_perihelion.ipynb}
+
+The cited 100-year solar-system ledger is fixed first and the perihelion witness is read as an extracted Mercury slice on that same long-window ledger.
+
+\begin{table}[H]
+\centering
+\caption{Solar perihelion cited row.}
+\label{tab:solar-perihelion-row}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lXccccc@{}}
+\toprule
+Row & Slice key & $T_{\mathrm{eval}}$ [bip] & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [trit/bip] & $T_{\mathrm{tors}}$ \\
+\midrule
+S1 & \texttt{tetron:*:[sun,mercury]:6} & 36525 & 137 & 6 & $\frac{1+8\ell_2}{24}$ & 3 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The cited row fixes the shared long-window ledger, including the nested Earth--Moon subledger retained inside the same system ledger.}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Solar-system manifest on the cited 100-year ledger.}
+\label{tab:solar-system-manifest}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lccc@{}}
+\toprule
+Subledger / slice & Monon-period witness & Unit & Cycle count in 100 y \\
+\midrule
+Mercury & 0.2408467 & y & 415.20 \\
+Earth   & 1.0000174 & y & 100.00 \\
+Moon    & 27.321661 & d & 1336.85 \\
+Jupiter & 11.862615 & y & 8.430 \\
+Saturn  & 29.447498 & y & 3.396 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{Mercury is the extracted perihelion slice. Earth/Moon supply the nested cadence context. Jupiter and Saturn supply the longer-window modulation context.}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Solar perihelion comparison attached after the cited row.}
+\label{tab:solar-perihelion-comparison}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lcccc@{}}
+\toprule
+Subledger & Calculated [arcsec/cy] & Reference [arcsec/cy] & Abs. error [arcsec/cy] & Rel. error [\%] \\
+\midrule
+Mercury & 42.981975497467126 & 42.98 & 0.001975497467126 & 0.0046 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The perihelion comparison is attached only after the cited 100-year row is fixed.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/solar/01_system_ledger.png}
+\caption{100-year solar-system ledger schematic.}
+\label{fig:solar-system-ledger}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/solar/02_mercury_earth_moon.png}
+\caption{Mercury perihelion slice and nested Earth--Moon subledger.}
+\label{fig:mercury-earth-moon}
+\end{figure}
+
+The long-window ledger carries the Mercury slice together with the cadence-support and residual-support witnesses of the main note.
+
+\subsubsection{Light bending by the Sun}
+\label{man:solar-lensing-witness}
+\colabbadge{manual/notebooks/04a_solar_system_radiation.ipynb}
+
+The cited solar export slice is fixed first and the grazing-incidence comparison is attached afterward.
+
+\begin{table}[H]
+\centering
+\caption{Solar lensing cited row.}
+\label{tab:solar-lensing-row}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lXcccc@{}}
+\toprule
+Row & Family / window & $q_{\mathrm{eff}}$ & $T_{\mathrm{tors}}$ & Packet witness & Shell qualification \\
+\midrule
+S2 & \texttt{duon:2:1:7} / solar export slice & $+\frac{1}{2}$ & 2 & emitted duon packet & qualified \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The packet witness and shell qualification are read first on the same boundary ledger.}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Solar lensing comparison attached after the cited row.}
+\label{tab:solar-lensing-comparison}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lcccc@{}}
+\toprule
+Subledger & Calculated [arcsec] & Reference [arcsec] & Abs. error [arcsec] & Rel. error [\%] \\
+\midrule
+Solar export slice & 1.7512432813682448 & 1.75 & 0.0012432813682448 & 0.0710 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The grazing-incidence benchmark is attached after the cited export row is fixed.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/solar/03_lensing_export.png}
+\caption{Solar lensing export witness.}
+\label{fig:solar-lensing-export}
+\end{figure}
+
+The cited export ledger carries the shell/export and boundary-deflection witnesses used for the reported grazing-incidence comparison.
+
+\subsubsection{Solar redshift}
+\label{man:solar-redshift-witness}
+\colabbadge{manual/notebooks/04a_solar_system_radiation.ipynb}
+
+The cited source and receiver windows are fixed first and the redshift comparison is attached afterward as a two-window transfer witness.
+
+\begin{table}[H]
+\centering
+\caption{Solar redshift cited row.}
+\label{tab:solar-redshift-row}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lXcc@{}}
+\toprule
+Row & Transfer class & $B^*$ & $\Lambda_b$ \\
+\midrule
+S3 & \texttt{duon:2:1:7} on the transfer class & 137 & 6 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The source and receiver rows are fixed first. The burden difference and cadence-transfer comparison are attached afterward across the same two-window ledger.}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Solar redshift comparison attached after the cited rows.}
+\label{tab:solar-redshift-comparison}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lcccc@{}}
+\toprule
+Subledger & Calculated & Reference & Abs. error & Rel. error [\%] \\
+\midrule
+Source / receiver pair & $2.122566754396204\times10^{-6}$ & $2.12\times10^{-6}$ & $2.5667543962039824\times10^{-9}$ & 0.1211 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The redshift witness is attached after the source and receiver rows are fixed on the same two-window ledger.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/solar/04_redshift_transfer.png}
+\caption{Solar redshift transfer witness.}
+\label{fig:solar-redshift-transfer}
+\end{figure}
+
+The two-window ledger carries the cadence-transfer witness used for the reported redshift comparison.
+
+\subsubsection{Saturn rings and moon shells}
+\label{man:saturn-shell-witness}
+\colabbadge{manual/notebooks/04a_solar_system_saturn.ipynb}
+
+The cited Saturn ring family and selected moon shells are fixed first and then reported as one shell-family witness.
+
+\begin{table}[H]
+\centering
+\caption{Saturn ring-and-moon cited row.}
+\label{tab:saturn-shell-row}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lXc@{}}
+\toprule
+Row & Structural key & Gap witness \\
+\midrule
+S4 & \texttt{tetron:*:[saturn,rings]:6} & Cassini Division \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The cited row records the shell family and the Cassini Division gap on the same ordered orbital ledger.}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Saturn ring family and selected moons.}
+\label{tab:saturn-shell-family}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lcc@{}}
+\toprule
+Band / moon & Radius witness [km] & Period witness [d] \\
+\midrule
+D--E ring family & --- & --- \\
+Mimas & 185{,}539 & 0.942 \\
+Enceladus & 237{,}948 & 1.370 \\
+Tethys & 294{,}619 & 1.888 \\
+Dione & 377{,}396 & 2.737 \\
+Rhea & 527{,}069 & 4.518 \\
+Titan & 1{,}221{,}870 & 15.945 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The D--E ring family is the inner ring witness. The selected moons supply the outer shell cadence, with Titan as the slow outer shell witness.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.74\linewidth]{figures/saturn/01_saturn_shell_family.png}
+\caption{Saturn rings and selected moons as a multi-shell witness.}
+\label{fig:saturn-shell-family}
+\end{figure}
+
+The ring family and selected moons display a readable multi-shell witness on the same orbital ledger.

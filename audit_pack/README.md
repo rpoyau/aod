@@ -1,9 +1,9 @@
-# Native audit pack
+# Audit pack
 
 This pack provides machine-readable CSV exports for the worked examples in Supplement A and a small SymPy verification script.
 
 Files
-- csv/E4_native_rest_channel.csv
+- csv/E4_loss_channel.csv
 - csv/E5_bstar_ladder.csv
 - csv/E6_collision_export.csv
 - csv/E7_field_property_schema.csv
@@ -11,12 +11,12 @@ Files
 - csv/E9_duon_duad_family.csv
 - csv/E11_open_seat_wavelet_summary.csv
 - csv/E11_open_seat_wavelet_trace.csv
-- verify_native_examples_sympy.py
+- verify_examples_sympy.py
 - verify_report.txt (generated when the verifier is run locally or in CI)
 
 Scope
-- native gauge only
+- bip / biz / trit gauge only
 - trit/bip primitive
 - biz derived
 - no SI/application mappings
-- Supplement B Example E10 remains in supplement-b-artifacts/ because it belongs to Supplement B rather than Supplement A
+- Supplement B Example E10 remains in supplement-b/artifacts/ because it belongs to Supplement B rather than Supplement A

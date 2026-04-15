@@ -1,0 +1,22 @@
+\section{Notebook manifest and artifact map}\label{app:suppc-notebooks}
+This appendix records the executed notebooks currently shipped with the normalized \texttt{supplement-c/} subfolder. The visible supplement remains the readable worked presentation; notebooks provide runnable examples, figure generation, and full-precision manifests for the sections that have companion runs.
+
+\paragraph{Notebook map.}
+\begin{center}
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}llllX@{}}
+\toprule
+ID & Section(s) & Notebook & Status & Primary artifacts \\
+\midrule
+Nsol.C1 & C1 & \path{notebooks/solar/c1_solar_100y_worked.ipynb} & present & solar shell ledger, Mercury slice, Earth--Moon nested slice, source monon-period witness \\
+Nsol.C23 & C2--C3 & \path{notebooks/solar/c2_c3_solar_radiation_worked.ipynb} & present & duon export schematic, two-window redshift transfer schematic \\
+NH.C4 & C4 & \path{notebooks/hydrogen/01_shell.ipynb} & present & hydrogen shell radii rendering, shell-row anchors \\
+Nnuc.C5 & C5 & \path{notebooks/nucleus/c5_nucleus_confinement_worked.ipynb} & present & short-window confinement witness chart, row anchor table \\
+Ngal.C6 & C6 & \path{notebooks/galactic/c6_sparc5_shells_worked.ipynb} & present & five-galaxy shell family schematic, speed-comparison graph, local SPARC5 speed table, row anchor table \\
+Nbac.C7 & C7 & \path{notebooks/bacteria/c7_bacteria_ominion_worked.ipynb} & present & jitter-path schematic, bacteria ominion row anchors \\
+Nsat.C8 & C8 & \path{notebooks/saturn/c8_saturn_shells_worked.ipynb} & present & Saturn ring/moon shell family schematic, rounded rendered manifest \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Manifest rule.} Each salient calculation step is represented either in the visible supplement or in a shipped notebook, with the cited row remaining authoritative in the visible text. The visible supplement carries the cited input block, declared reduction, compact calculation block, formal row, and rounded rendering. The notebooks carry executable code, figure generation, and any full-precision manifests that would be distracting in the visible section text. Each shipped notebook is intended to be runnable on its own local dictionary and should expose exact/default-form ratios alongside any rounded render-layer values. Notebook-generated figure artifacts are stored canonically once under the supplement-wide \path{figures/} tree; the PDF and the notebooks both point to that same artifact location.

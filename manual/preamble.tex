@@ -1,0 +1,32 @@
+% Manual local preamble wrapper (aligned with root main note style)
+\input{../preamble}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{pgfplotstable}
+\usepackage{threeparttable}
+\usepackage{siunitx}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{placeins}
+\pgfplotstableset{
+  col sep=comma,
+  string type,
+  every head row/.style={before row=\toprule, after row=\midrule},
+  every last row/.style={after row=\bottomrule}
+}
+\hypersetup{pdftitle={Alpha$\leftrightarrow$Omega Dynamics (AOD): Manual 43$^\circ$C},pdfauthor={Reginald Poyau}}
+
+\renewcommand{\arraystretch}{1.08}
+\setlength{\tabcolsep}{4pt}
+\sisetup{detect-all,group-separator={,},group-minimum-digits=4,table-number-alignment=center}
+\newcommand{\ManualTableNote}[1]{\begin{tablenotes}[flushleft]\footnotesize\item #1\end{tablenotes}}
+\newcommand{\manualrepo}{rpoyau/aod}
+\newcommand{\colabbadge}[1]{%
+  \href{https://colab.research.google.com/github/\manualrepo/blob/main/#1}{%
+    \fcolorbox{black}{yellow!15}{\raisebox{0pt}[1.8em][0.8em]{\hspace{0.8em}\textsf{\footnotesize Open in Colab}\hspace{0.8em}}}%
+  }%
+}
+
+\captionsetup[table]{skip=4pt,labelfont=bf}
+\captionsetup[figure]{skip=4pt,labelfont=bf}
