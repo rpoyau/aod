@@ -26,6 +26,7 @@ INCLUDE_TOP_LEVEL = [
 ]
 
 INCLUDE_DIRS = [
+    'manual',
     'supplement-a',
     'supplement-b',
     '.github',
@@ -144,7 +145,7 @@ def write_stats(outdir: Path, stage: Path, files: list[Path], tag: str, archive_
         fh.write(f'tag={tag}\n')
         fh.write(f'built_at_utc={built_at}\n')
         fh.write(f'file_count={len(rows)}\n')
-        fh.write('notes=canonical source archive containing TeX, notebooks, audit material, companion artifacts, workflow, and metadata\n')
+        fh.write('notes=canonical source archive containing the main note, downstream manual, retained source fragments, notebooks, audit material, workflow, and metadata\n')
 
 
 def zip_stage(stage: Path, zip_path: Path) -> None:

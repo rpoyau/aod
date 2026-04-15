@@ -1,15 +1,11 @@
-# Supplement A source package
+# Supplement A source fragment
 
-This subpackage contains the source for Supplement A. Exact/default-form rows remain authoritative and exact-form reporting is preferred.
+This package is retained as a source fragment and internal support layer for the AOD family. It is no longer a primary public downstream document once the manual is live.
 
 Source entry point:
 - `supplement-a/main.tex`
 
-Structure:
-- `sections/` --- title, introduction, examples driver, references
-- `examples/` --- one file per Supplement A worked example
-- `appendices/` --- notebook manifest
-- `notebooks/` --- companion E4--E9 notebooks; Example E11 optional converted rendering is routed through `../supplement-b/notebooks/E10-E11D.ipynb`
-- `figures/`, `data/` --- support assets when needed
-- `refs.bib` --- local bibliography source
-- `BUILD.md` --- local build instructions
+Role in the family:
+- worked rows and figure witnesses retained in source
+- companion notebooks for those rows retained in source
+- manual-local chapters are the public downstream presentation

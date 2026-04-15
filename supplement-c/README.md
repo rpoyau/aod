@@ -1,16 +1,11 @@
-# Supplement C source package
+# Supplement C source fragment
 
-This subpackage contains the source for Supplement C. It records AOD regime tests in bip / biz / trit units and operator form; where converted witnesses are shown, they are attached after the cited row.
+This package is retained as a source fragment and internal support layer for the AOD family. It is no longer a primary public downstream document once the manual is live.
 
 Source entry point:
 - `supplement-c/main.tex`
 
-Structure:
-- `sections/` — title, introduction, regime-test driver, references
-- `examples/` — one file per C-regime test
-- `appendices/` — notebook/data manifest
-- `notebooks/` — grouped regime notebooks (solar, hydrogen, nucleus, galactic, bacteria, saturn)
-- `figures/` — shipped figure assets
-- `data/` — cited support data used by the C notebooks and figures
-- `refs.bib` — local bibliography source
-- `BUILD.md` — local build instructions
+Role in the family:
+- regime witnesses and grouped notebooks retained in source
+- figures and data retained in source
+- manual-local chapters are the public downstream presentation

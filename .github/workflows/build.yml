@@ -37,7 +37,7 @@ jobs:
           echo "$HOME/bin" >> $GITHUB_PATH
           export PATH="$HOME/bin:$PATH"
           ~/bin/tlmgr update --self --all
-          for pkg in latexmk xetex geometry amsmath amsfonts mathtools microtype enumitem siunitx booktabs pgf hyperref cleveref placeins xcolor fontspec tools; do
+          for pkg in latexmk xetex geometry amsmath amsfonts mathtools microtype enumitem siunitx booktabs tabularx threeparttable caption pgf pgfplots hyperref cleveref placeins xcolor fontspec tools float; do
             ~/bin/tlmgr install "$pkg"
           done
 
@@ -46,12 +46,8 @@ jobs:
         run: |
           export PATH="$HOME/bin:$PATH"
           latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
-          latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error supplement-a/main.tex
-          cp supplement-a/main.pdf supplement-a.pdf
-          latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error supplement-b/main.tex
-          cp supplement-b/main.pdf supplement-b.pdf
-          latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error supplement-c/main.tex
-          cp supplement-c/main.pdf supplement-c.pdf
+          latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
+          cp manual/main.pdf manual.pdf
 
       - name: Run verifier
         run: python3 audit_pack/verify_examples_sympy.py
@@ -72,9 +68,7 @@ jobs:
           name: pdfs
           path: |
             main.pdf
-            supplement-a.pdf
-            supplement-b.pdf
-            supplement-c.pdf
+            manual.pdf
 
       - name: Upload source zip
         uses: actions/upload-artifact@v4
@@ -93,11 +87,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release upload "${{ github.event.release.tag_name }}" \
-            main.pdf \
-            supplement-a.pdf \
-            supplement-b.pdf \
-            supplement-c.pdf \
-            "${{ steps.sourcezip.outputs.path }}" \
-            dist/audit-pack.zip \
-            --clobber
+          gh release upload "${{ github.event.release.tag_name }}"             main.pdf             manual.pdf             "${{ steps.sourcezip.outputs.path }}"             dist/audit-pack.zip             --clobber
