@@ -5,7 +5,8 @@
 % supplement-b/examples/06_e11d_temporal_conversion_rendering.tex.
 \section{Temporal conversions and mass witnesses}
 
-This chapter records how cited rows are carried into converted witness form. Duration is reported in seconds, rates in hertz, and effective speed only through $\beta=v/c$ with $c=1$.
+This chapter records converted witness forms attached to cited rows formed under the main note \cite{aod43_main_2026}. Duration is reported in seconds, rates in hertz, and effective speed only through $\beta=v/c$ with $c=1$.
+
 
 \subsection{Conversion rules}
 \label{man:temporal-conversion-rules}
@@ -34,24 +35,7 @@ Diagrammatic rendering & cited key, shell signature, cadence spectrum, confineme
 \label{man:converted-rows}
 \colabbadge{manual/notebooks/03_temporal_conversions_and_04_rest_mass.ipynb}
 
-\begin{table}[H]
-\centering
-\caption{Converted-row starting columns used by the public rendering layer.}
-\label{tab:converted-row-starting-columns}
-\begin{threeparttable}
-\small
-\begin{tabularx}{\linewidth}{@{}lX@{}}
-\toprule
-Converted row class & Required cited-row starting columns \\
-\midrule
-Comparison row & key, cited window, $\lambda$-band, shell signature, $B^*$, $R_{\mathrm{loss}}$, $R^{(\mathrm{biz})}_{\mathrm{loss}}$, cadence, torsional witness \\
-Temporal-unit row & key, cited window, shell/export predicate, loss/report rates, declared dictionary-map id \\
-Diagrammatic row & key, shell signature, cadence spectrum, confinement witness, support signature, and loss/report rates \\
-\bottomrule
-\end{tabularx}
-\ManualTableNote{The converted-row layer records only quantities already present on the cited ledger.}
-\end{threeparttable}
-\end{table}
+Public converted rows begin from the cited key, cited window, shell signature, support witness, loss-channel witness, cadence witness, and any additional row-level quantities declared on the same ledger. Comparison values, temporal SI renderings, and diagrammatic displays are attached only after those cited quantities are fixed.
 
 \subsection{Diagrammatic temporal conversion rendering}
 \label{man:diagrammatic-temporal-rendering}

@@ -1,6 +1,8 @@
 % Traceability: manual-local chapter derived from Supplement A worked rows.
 \section{Core worked rows}
 
+The cited rows in this chapter use the shell, support, attenuation, cadence, and loss-channel machinery of the main note \cite{aod43_main_2026}.
+
 \subsection{Loss-channel worked table}
 \label{man:loss-channel-worked-table}
 A shell-qualified motif window is fixed first, then read through the loss-channel, dominant residual-duration class, support mass, and attenuation machinery of the main note.\par\smallskip
@@ -24,7 +26,7 @@ L2 & 24 & $(1,8,15)$ & 137 & 6 & $(1+8\ell_2)/24$ & $\bigl(3^{(1+8\ell_2)/24}-1\
 \end{threeparttable}
 \end{table}
 
-Use the loss-channel and attenuation machinery of the main note on the same cited ledger.
+The cited ledger carries the loss-channel, support-mass, and attenuation witnesses on one row.
 
 \subsection{\texorpdfstring{$B^*$}{B*} ladder worked table}
 \label{man:bstar-ladder-worked-table}
@@ -90,7 +92,7 @@ X3 & $(-1,-1)$ & $+1$ & pull & $-1/2$ & emitted packet & $0$ \\
 \label{fig:manual-shared-collision-export}
 \end{figure}
 
-Use the collision / export, push/pull, effective-charge, and cut-residual machinery of the main note.
+The cited export ledger carries the push/pull, packet, and cut-residual witnesses on one row.
 
 \subsection{Field-property schema row}
 \label{man:field-property-schema-row}
@@ -170,25 +172,47 @@ F2 & \texttt{duad:2:2:7} & balanced & $0$ & none & $1/4$ \\
 \subsection{Open-seat wavelet row}
 \label{man:open-seat-wavelet-row}
 A declared open-seat two-seat family ledger is fixed first and then carried into the loss-channel, delay, and reference-count witnesses.\par\smallskip
-\colabbadge{manual/notebooks/03_temporal_conversions_and_04_rest_mass.ipynb}
+\colabbadge{manual/notebooks/02_open_seat_wavelet.ipynb}
 
 \begin{table}[H]
 \centering
-\caption{Open-seat wavelet cited rows.}
-\label{tab:manual-open-seat-wavelet}
+\caption{Open-seat wavelet core witness rows.}
+\label{tab:manual-open-seat-wavelet-core}
 \begin{threeparttable}
-\scriptsize
-\begin{tabular}{@{}llllllllll@{}}
+\small
+\begin{tabular}{@{}lcccccc@{}}
 \toprule
-Row & $q_{\mathrm{eff}}$ & $\widehat q_{\mathrm{eff}}$ & $\eta_{\mathrm{out}}$ & $\eta_{\mathrm{mid}}$ & $\eta_{\mathrm{tot}}$ & $f_0$ & $B^*$ & $R_{\mathrm{loss}}$ [trit/bip] & $n_{\mathrm{ref}}$ \\
+Row & $q_{\mathrm{eff}}$ & $\widehat q_{\mathrm{eff}}$ & $\eta_{\mathrm{tot}}$ & $B^*$ & $R_{\mathrm{loss}}$ [trit/bip] & $n_{\mathrm{ref}}$ \\
 \midrule
-O1 & $-1$ & $-1$ & $\frac{1063}{1418}$ & $\frac{265}{352}$ & $\frac{664}{885}$ & $\frac{139}{1024}$ & $(1,\frac{190}{233})$ & $\frac{278+1328\ell_2}{2048}$ & $\frac{1024}{873}$ \\
-O2 & $-\frac12$ & $-\frac{817}{1657}$ & $\frac{431}{896}$ & $\frac{476}{761}$ & $\frac{907}{1657}$ & $\frac{391}{2048}$ & $(1,\frac{256}{313})$ & $\frac{391+907\ell_2}{2048}$ & $\frac{2048}{1541}$ \\
-O3 & $0$ & $\frac{41}{1543}$ & $\frac{127}{475}$ & $\frac{277}{534}$ & $\frac{681}{1543}$ & $\frac{505}{2048}$ & $(1,\frac{284}{375})$ & $\frac{505+681\ell_2}{2048}$ & $\frac{512}{331}$ \\
-O4 & $\frac12$ & $\frac{419}{819}$ & $\frac{158}{301}$ & $\frac{457}{735}$ & $\frac{133}{234}$ & $\frac{205}{1024}$ & $(1,\frac{279}{338})$ & $\frac{410+931\ell_2}{2048}$ & $\frac{1024}{767}$ \\
-O5 & $1$ & $1$ & $\frac{1053}{1403}$ & $\frac{95}{128}$ & $\frac{1338}{1787}$ & $\frac{261}{2048}$ & $(1,\frac{203}{229})$ & $\frac{261+1338\ell_2}{2048}$ & $\frac{1024}{871}$ \\
+O1 & $-1$ & $-1$ & $\frac{664}{885}$ & $(1,\frac{190}{233})$ & $\frac{278+1328\ell_2}{2048}$ & $\frac{1024}{873}$ \\
+O2 & $-\frac12$ & $-\frac{817}{1657}$ & $\frac{907}{1657}$ & $(1,\frac{256}{313})$ & $\frac{391+907\ell_2}{2048}$ & $\frac{2048}{1541}$ \\
+O3 & $0$ & $\frac{41}{1543}$ & $\frac{681}{1543}$ & $(1,\frac{284}{375})$ & $\frac{505+681\ell_2}{2048}$ & $\frac{512}{331}$ \\
+O4 & $\frac12$ & $\frac{419}{819}$ & $\frac{133}{234}$ & $(1,\frac{279}{338})$ & $\frac{410+931\ell_2}{2048}$ & $\frac{1024}{767}$ \\
+O5 & $1$ & $1$ & $\frac{1338}{1787}$ & $(1,\frac{203}{229})$ & $\frac{261+1338\ell_2}{2048}$ & $\frac{1024}{871}$ \\
 \bottomrule
 \end{tabular}
-\ManualTableNote{Optional converted witnesses are carried only in the temporal-conversion chapter. The cited open-seat wavelet row remains authoritative.}
+\ManualTableNote{The cited open-seat wavelet row remains authoritative. These columns carry the core effective-charge, delay, support, loss-channel, and reference-count witnesses.}
 \end{threeparttable}
 \end{table}
+
+\begin{table}[H]
+\centering
+\caption{Open-seat wavelet companion witnesses.}
+\label{tab:manual-open-seat-wavelet-companion}
+\begin{threeparttable}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Row & $\eta_{\mathrm{out}}$ & $\eta_{\mathrm{mid}}$ & $f_0$ \\
+\midrule
+O1 & $\frac{1063}{1418}$ & $\frac{265}{352}$ & $\frac{139}{1024}$ \\
+O2 & $\frac{431}{896}$ & $\frac{476}{761}$ & $\frac{391}{2048}$ \\
+O3 & $\frac{127}{475}$ & $\frac{277}{534}$ & $\frac{505}{2048}$ \\
+O4 & $\frac{158}{301}$ & $\frac{457}{735}$ & $\frac{205}{1024}$ \\
+O5 & $\frac{1053}{1403}$ & $\frac{95}{128}$ & $\frac{261}{2048}$ \\
+\bottomrule
+\end{tabular}
+\ManualTableNote{These companion delay-partition and carrier-frequency values remain attached to the same cited row and are kept separate from the core witness table for readability.}
+\end{threeparttable}
+\end{table}
+

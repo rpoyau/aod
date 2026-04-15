@@ -27,9 +27,8 @@ Where SI reporting is needed, it follows the cited row. Conversion is restricted
 
 ## 2. Package structure
 - Main note = compact theorem line
-- Supplement A — Worked examples and figure witnesses
-- Supplement B — Verification bindings and derived temporal-unit conversions
-- Supplement C — Regime tests
+- Manual notebooks = active downstream/public notebook layer
+- Archived supplement notebooks = source fragments and support material
 
 ---
 
@@ -48,16 +47,16 @@ The first markdown cell of every notebook should carry a package-owned provenanc
 This block states the notebook's role in the canonical source tree before any worked content begins.
 
 ## 3. Uniform structure for every test
-Every test uses this exact structure:
+Every manual-owned notebook uses this exact structure:
 
-## [Test ID] [Test Title]
+## [Notebook Title]
 
 **Question**  
 [One sentence only.]
 
 **Readout**  
 - cited window \(\omega\)
-- structural key (tetron:* where applicable)
+- structural key (where applicable)
 - frame count / \(T_{\mathrm{eval}}\)
 - weighting policy
 - shell signature / inputs as needed
@@ -82,7 +81,7 @@ Every test uses this exact structure:
 ## 4. Cited-row-first rule
 - The cited row is always recorded first.
 - Verification labels, decimal renderings, and temporal-unit conversions are attached only after the cited row.
-- Root notebooks support the main note; supplement-owned notebooks live inside their supplement subpackages.
+- Root notebooks support the main note; manual notebooks are the active downstream notebook layer; archived supplement notebooks remain source fragments only.
 
 ---
 
@@ -110,3 +109,5 @@ Temporal-conversion figures titled: **Temporal Conversion Witness — [descripti
 - Assertions after every major result
 - All tables via `pandas.DataFrame`
 - Final cell: `print("ALL AOD TESTS PASSED ✓")`
+
+Manual-owned notebooks should use paths under `manual/notebooks/` and cite the matching manual section as their source-of-truth.
