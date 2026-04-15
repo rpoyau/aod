@@ -13,22 +13,11 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 
-INCLUDE_TOP_LEVEL = [
-    'README.md',
-    'BUILD.md',
-    '.zenodo.json',
-    '.zenodo_doi',
-    'main.tex',
-    'preamble.tex',
-    'refs.bib',
-    'LICENSE',
-    'requirements-ci.txt',
-]
+INCLUDE_TOP_LEVEL = ['.github', '.zenodo.json', '.zenodo_doi', 'BUILD.md', 'LICENSE', 'README.md', 'appendices', 'archive', 'audit_pack', 'consequences', 'examples', 'main.tex', 'manual', 'notebooks', 'preamble.tex', 'refs.bib', 'requirements-ci.txt', 'scripts', 'sections']
 
 INCLUDE_DIRS = [
-    'manual',
-    'supplement-a',
-    'supplement-b',
+    'archive/supplement-a',
+    'archive/supplement-b',
     '.github',
     'sections',
     'consequences',
@@ -37,7 +26,7 @@ INCLUDE_DIRS = [
     'notebooks',
     'audit_pack',
     'scripts',
-    'supplement-c',
+    'archive/supplement-c',
 ]
 
 EXCLUDE_DIR_NAMES = {
@@ -145,7 +134,7 @@ def write_stats(outdir: Path, stage: Path, files: list[Path], tag: str, archive_
         fh.write(f'tag={tag}\n')
         fh.write(f'built_at_utc={built_at}\n')
         fh.write(f'file_count={len(rows)}\n')
-        fh.write('notes=canonical source archive containing the main note, downstream manual, retained source fragments, notebooks, audit material, workflow, and metadata\n')
+        fh.write('notes=canonical source archive containing TeX, notebooks, audit material, companion artifacts, workflow, and metadata\n')
 
 
 def zip_stage(stage: Path, zip_path: Path) -> None:

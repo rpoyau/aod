@@ -1,7 +1,5 @@
-name: Build PDFs and source archive
-
+name: build
 on:
-  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
@@ -13,78 +11,39 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install Python dependencies
+      - uses: actions/checkout@v4
+      - name: Install TeX and Python deps
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements-ci.txt
-
-      - name: Install TinyTeX
-        shell: bash
+          sudo apt-get update
+          sudo apt-get install -y latexmk texlive-xetex texlive-bibtex-extra texlive-latex-extra python3 python3-pip zip
+          pip3 install sympy
+      - name: Build theorem note
+        run: latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+      - name: Build manual
         run: |
-          set -e
-          wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
-          echo "$HOME/bin" >> $GITHUB_PATH
-          export PATH="$HOME/bin:$PATH"
-          ~/bin/tlmgr update --self --all
-          for pkg in latexmk xetex geometry amsmath amsfonts mathtools microtype enumitem siunitx booktabs tabularx threeparttable caption pgf pgfplots hyperref cleveref placeins xcolor fontspec tools float; do
-            ~/bin/tlmgr install "$pkg"
-          done
-
-      - name: Build PDFs
-        shell: bash
-        run: |
-          export PATH="$HOME/bin:$PATH"
-          latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
           latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
           cp manual/main.pdf manual.pdf
-
       - name: Run verifier
-        run: python3 audit_pack/verify_examples_sympy.py
-
-      - name: Build source archive
-        id: sourcezip
-        run: |
-          python3 scripts/build_release_bundle.py --tag release --outdir dist --archive-prefix aod-source > /tmp/sourcezip_path.txt
-          echo "path=$(cat /tmp/sourcezip_path.txt)" >> $GITHUB_OUTPUT
-
+        run: python3 audit_pack/verify_examples_sympy.py > verifier.log
+      - name: Build source zip
+        run: python3 scripts/build_release_bundle.py
       - name: Zip audit pack
         run: |
+          mkdir -p dist
           cd audit_pack && zip -r ../dist/audit-pack.zip .
-
-      - name: Upload PDFs
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: pdfs
+          name: docs
           path: |
             main.pdf
             manual.pdf
-
-      - name: Upload source zip
-        uses: actions/upload-artifact@v4
-        with:
-          name: source-zip
-          path: ${{ steps.sourcezip.outputs.path }}
-
-      - name: Upload audit pack
-        uses: actions/upload-artifact@v4
-        with:
-          name: audit-pack
-          path: dist/audit-pack.zip
-
+            dist/source-clean.zip
+            dist/audit-pack.zip
       - name: Upload release assets
         if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release upload "${{ github.event.release.tag_name }}"             main.pdf             manual.pdf             "${{ steps.sourcezip.outputs.path }}"             dist/audit-pack.zip             --clobber
+          gh release upload "${{ github.event.release.tag_name }}"             main.pdf             manual.pdf             dist/source-clean.zip             dist/audit-pack.zip             --clobber
