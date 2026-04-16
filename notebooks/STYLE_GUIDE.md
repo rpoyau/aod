@@ -1,7 +1,7 @@
 # AOD Notebook Style Guide
 ## Version 2.3 — Cited-row-first / temporal-conversion only
 **Maintainer:** P. Reginald  
-**Status:** Official style for public notebooks in `notebooks/`
+**Status:** Official style for root and manual-owned notebooks
 
 All primary derivation content remains in bip / biz / trit units with exact/default-form rows authoritative:
 - trit/bip primitive
@@ -35,48 +35,18 @@ Where SI reporting is needed, it follows the cited row. Conversion is restricted
 
 
 ## 2.5 Notebook provenance block
-The first markdown cell of every notebook should carry a package-owned provenance block containing:
-- title
-- author
-- protocol
+The first markdown cell of every notebook should identify:
+- notebook title
 - package role
-- notebook routing
-- source-of-truth note/supplement reference
+- source of truth = the relevant manual section
 - repo provenance path
+- historical lineage only if needed for source traceability
 
-This block states the notebook's role in the canonical source tree before any worked content begins.
-
-## 3. Uniform structure for every test
-Every manual-owned notebook uses this exact structure:
-
-## [Notebook Title]
-
-**Question**  
-[One sentence only.]
-
-**Readout**  
-- cited window \(\omega\)
-- structural key (where applicable)
-- frame count / \(T_{\mathrm{eval}}\)
-- weighting policy
-- shell signature / inputs as needed
-
-**Operator Chain**  
-[Short operator chain.]
-
-**Output Row**  
-[DataFrame with exact/default-form quantities only.]
-
-**Temporal Conversion Block**  
-[Only if needed; convert from cited row into seconds / hertz / \(\beta\) only.]
-
-**Figure Witness**  
-[Or “Temporal Conversion Witness” if conversion-only.]
-
-**Hook / Evidence**  
-[Reference only to note hooks or checks.]
-
----
+## 3. Notebook alignment rules
+- The source of truth is the matching manual section, not the notebook file.
+- Manual notebook titles and headings should use semantic section names.
+- Do not use supplement-era numbering such as E4, C1, E10, or E11D in notebook titles or headings.
+- Tables and figures in the notebook should match the corresponding manual section names.
 
 ## 4. Cited-row-first rule
 - The cited row is always recorded first.
@@ -110,4 +80,4 @@ Temporal-conversion figures titled: **Temporal Conversion Witness — [descripti
 - All tables via `pandas.DataFrame`
 - Final cell: `print("ALL AOD TESTS PASSED ✓")`
 
-Manual-owned notebooks should use paths under `manual/notebooks/` and cite the matching manual section as their source-of-truth.
+Manual-owned notebooks should use paths under `manual/notebooks/` and cite the matching manual section as their source of truth. Avoid supplement-era numbering in notebook titles and headings.
