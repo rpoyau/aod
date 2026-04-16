@@ -1,4 +1,5 @@
 name: build
+
 on:
   push:
     branches: [ main ]
@@ -11,27 +12,47 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Install TeX and Python deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y latexmk texlive-xetex texlive-bibtex-extra texlive-latex-extra python3 python3-pip zip
-          pip3 install sympy
+          sudo apt-get install -y \
+            latexmk \
+            texlive-xetex \
+            texlive-bibtex-extra \
+            texlive-latex-extra \
+            python3 \
+            python3-pip \
+            zip
+          python3 -m pip install sympy
+
       - name: Build theorem note
         run: latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+
       - name: Build manual
         run: |
           latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
           cp manual/main.pdf manual.pdf
+
       - name: Run verifier
         run: python3 audit_pack/verify_examples_sympy.py > verifier.log
+
       - name: Build source zip
-        run: python3 scripts/build_release_bundle.py
+        id: sourcezip
+        run: |
+          mkdir -p dist
+          ZIP_PATH="$(python3 scripts/build_release_bundle.py --tag release --outdir dist --archive-prefix aod-source | tail -n1)"
+          cp "$ZIP_PATH" dist/source-clean.zip
+          echo "path=dist/source-clean.zip" >> "$GITHUB_OUTPUT"
+
       - name: Zip audit pack
         run: |
           mkdir -p dist
           cd audit_pack && zip -r ../dist/audit-pack.zip .
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -39,11 +60,18 @@ jobs:
           path: |
             main.pdf
             manual.pdf
-            dist/source-clean.zip
+            ${{ steps.sourcezip.outputs.path }}
             dist/audit-pack.zip
+            verifier.log
+
       - name: Upload release assets
         if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release upload "${{ github.event.release.tag_name }}"             main.pdf             manual.pdf             dist/source-clean.zip             dist/audit-pack.zip             --clobber
+          gh release upload "${{ github.event.release.tag_name }}" \
+            main.pdf \
+            manual.pdf \
+            "${{ steps.sourcezip.outputs.path }}" \
+            dist/audit-pack.zip \
+            --clobber
