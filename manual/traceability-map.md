@@ -36,3 +36,4 @@
 
 ### Recurrent systems
 - Recurrent ring witness <- `supplement-b/examples/05_e10_recurrent_ring.tex`
+- Driven chirality-flip toy model <- `manual/notebooks/04e_driven_chirality_flip_toy.ipynb`

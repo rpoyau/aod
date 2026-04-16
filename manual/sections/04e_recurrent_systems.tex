@@ -45,3 +45,37 @@ A cited recurrent-ring row is fixed first and then displayed as a compact recurr
 \end{figure}
 
 The cited recurrent ledger carries the CK-mismatch and cut-residual diagnostics used to distinguish recurrent projection effects from kernel bias.
+
+
+\subsubsection{Driven chirality-flip toy model}
+\label{man:driven-chirality-flip-toy}
+\colabbadge{manual/notebooks/04e_driven_chirality_flip_toy.ipynb}
+
+This companion notebook tracks chirality flips, push/pull response, and mean chirality polarization in a toy recurrent collision model under unbiased and driven reclosure schedules.
+
+\begin{table}[H]
+\centering
+\caption{Driven chirality-flip toy model summary.}
+\label{tab:driven-chirality-flip-toy}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lrrrrr@{}}
+\toprule
+Scenario & Collisions & Flips & Flips / collision & Peak $|\chi|$ & Mean push/pull \\
+\midrule
+No external bias & 106051 & 808 & 0.00762 & 0.24 & 0.0550 \\
+Driven bias & 130014 & 1173 & 0.00902 & 0.36 & -0.0001 \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The driven run increases both total collisions and flip probability per collision relative to the unbiased run. The companion notebook also displays the push/pull and flip-event diagnostics.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\linewidth]{figures/recurrent/01_duon_chirality_polarization.png}
+\caption{Driven chirality polarization in the recurrent collision toy model.}
+\label{fig:driven-chirality-polarization}
+\end{figure}
+
+The driven schedule produces larger chirality excursions and a higher flip rate per collision than the unbiased run.

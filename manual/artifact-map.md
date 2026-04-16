@@ -30,3 +30,8 @@ This source-only file records CSV and figure companion assets used by the manual
 - manual/figures/galactic/02_shell_family.png
 - manual/figures/bacteria/01_bacteria_ominion.png
 - manual/figures/saturn/01_saturn_shell_family.png
+
+## Section 04 — Recurrent systems
+- manual/figures/recurrent/01_duon_chirality_polarization.png
+- manual/figures/recurrent/02_push_pull_response.png
+- manual/figures/recurrent/03_flip_events.png
