@@ -27,7 +27,7 @@ A declared readout map assigns a ternary symbol $\tau_t\in\{-1,0,+1\}$ to each u
 
 \begin{definition}[Frame]
 \label{def:frame}
-A frame $f_t$ is the one-bip readout slice on a declared cut.
+A frame $f_t$ is the one-\(\mathrm{bip}_0\) readout slice on a declared cut unless a different working cut level is declared.
 \end{definition}
 
 \begin{definition}[Window]
@@ -75,7 +75,7 @@ U^{(\mathrm{loss})}(\omega):=\sum_{t\in\omega\cap\mathrm{act}} u_t^{(\mathrm{los
 \[
 R_{\mathrm{loss}}(\omega):=u^{(\mathrm{loss})}(\omega):=\frac{1}{T_{\mathrm{eval}}}U^{(\mathrm{loss})}(\omega)
 =\log_3\!\bigl(\Gamma_{\mathrm{loss}}(\omega)\bigr)
-\quad[\mathrm{trit/bip}],
+\quad[\mathrm{trit}/\mathrm{bip}_0],
 \]
 with
 \[
@@ -85,7 +85,7 @@ with
 \qquad
 T_\Gamma(\omega):=\Gamma_{\mathrm{loss}}(\omega)-1.
 \]
-The primitive is $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in trit/bip. A derived internal rate in biz may be reported later only after the declared attenuation/backlog step has been applied. This local loss channel records readout-side admissibility restriction on the cited cut family; by itself it does not identify the imported AFC Markov-kernel capacity.
+The primitive is $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in \(\mathrm{trit}/\mathrm{bip}_0\). A derived internal rate in \(\mathrm{biz}_0\) may be reported later only after the declared attenuation/backlog step has been applied. This local loss channel records readout-side admissibility restriction on the cited cut family; by itself it does not identify the imported AFC Markov-kernel capacity.
 \end{definition}
 
 \begin{definition}[Active-only versus total normalization]
@@ -292,6 +292,8 @@ and the support mass on that class
 \Lambda_b(M;\omega):=H_B(B^*(M;\omega);M,\omega).
 \]
 The estimator functional must be declared whenever ties or trimming rules are present.
+
+The value \(B^*(M;\omega)\) is a support-count quantity recorded in \(\mathrm{bip}_0\) at the declared working cut level. Its reciprocal \(1/B^*(M;\omega)\), when used as a rate quantity on the same cited ledger, is recorded in \(\mathrm{biz}_0\). The subscript \(0\) marks the declared reference level, not a lowest cut; see Appendix~\ref{app:level-relative-bip-biz}.
 \end{definition}
 
 \begin{remarkx}
@@ -427,7 +429,7 @@ Cadence is the declared local recurrence-rate report quantity on the cited reado
 \label{def:ttl-hazard}
 For a declared motif id $M$, detector policy, and rupture predicate $H$, the lifetime observable is the birth--death duration
 \[
-\mathrm{TTL}_{\mathrm{bip}}(M;\omega):=t_{\mathrm{death}}-t_{\mathrm{birth}}\in\mathbb N,
+\mathrm{TTL}_{\mathrm{bip}_0}(M;\omega):=t_{\mathrm{death}}-t_{\mathrm{birth}}\in\mathbb N,
 \]
 with right-censoring declared when the cited window ends before rupture. TTL weighting or filtering may be used only under an explicit policy id.
 \end{definition}

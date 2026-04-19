@@ -27,7 +27,7 @@ Where SI reporting is needed, it follows the cited row. Conversion is restricted
 
 ## 2. Package structure
 - Main note = compact theorem line
-- Manual notebooks = active downstream/public notebook layer
+- Manual notebooks = companion public notebook layer
 - Archived supplement notebooks = source fragments and support material
 
 ---
@@ -51,7 +51,7 @@ The first markdown cell of every notebook should identify:
 ## 4. Cited-row-first rule
 - The cited row is always recorded first.
 - Verification labels, decimal renderings, and temporal-unit conversions are attached only after the cited row.
-- Root notebooks support the main note; manual notebooks are the active downstream notebook layer; archived supplement notebooks remain source fragments only.
+- Root notebooks support the main note; manual notebooks are the companion public notebook layer; archived supplement notebooks remain source fragments only.
 
 ---
 

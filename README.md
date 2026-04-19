@@ -1,15 +1,15 @@
 # Alpha↔Omega Dynamics
 
-This repository is the canonical source tree for the AOD theorem note and downstream manual in AFC/AF form.
+This repository is the canonical source tree for the AOD theorem note and companion manual in AFC/AF form.
 
 ## Public document family
 
 - `main.tex` → `main.pdf` — theorem/calculus source
-- `manual/main.tex` → `manual.pdf` — downstream/public manual
+- `manual/main.tex` → `manual.pdf` — companion public manual
 
 ## Source tree
 
-- `manual/` — downstream manual source package
+- `manual/` — companion manual source package
 - `archive/supplement-a/` — retained source fragments and support material
 - `archive/supplement-b/` — retained source fragments and support material
 - `archive/supplement-c/` — retained source fragments and support material

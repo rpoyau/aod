@@ -29,17 +29,17 @@ The kernel expresses local choice; backlog and forced dwell express clock-side d
 
 \begin{definition}[Derived biz loss rate]
 \label{def:rest-biz}
-With a declared attenuation accumulator $A_B(M;\omega)$ and burden reference $B_0:=1\,\mathrm{bip}$, define the derived internal loss rate by
+With a declared attenuation accumulator $A_B(M;\omega)$ and burden reference $B_0:=1\,\mathrm{bip}_0$, define the derived internal loss rate by
 \[
 R_{\mathrm{loss}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_B(M;\omega)
-\qquad [\mathrm{biz}].
+\qquad [\mathrm{biz}_0].
 \]
-The primitive remains $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in trit/bip and records average clock-side service burden on the cited window.
+The primitive remains $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in \(\mathrm{trit}/\mathrm{bip}_0\) and records average clock-side service burden on the cited window.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{choice:tau-readout,def:active-dwell,def:mt,def:loss-channel,def:backlog-reconciliation}.
-\paragraph{Local substructure.} Admissibility count $m_t$; forced dwell; $\Gamma_{\mathrm{loss,raw}}$; $\Gamma_{\mathrm{loss}}$; $T_\Gamma$; primitive trit/bip channel; derived biz channel.
-\paragraph{Derivation sketch.} From the declared gating rule and the active/dwell split, admissibility restriction yields $m_t<3$ and therefore positive loss on constrained ticks. Averaging on the cited cut family gives the loss channel; the biz rate is the corresponding internal rate on the same ledger.
+\paragraph{Local substructure.} Admissibility count $m_t$; forced dwell; $\Gamma_{\mathrm{loss,raw}}$; $\Gamma_{\mathrm{loss}}$; $T_\Gamma$; primitive \(\mathrm{trit}/\mathrm{bip}_0\) channel; derived \(\mathrm{biz}_0\) channel.
+\paragraph{Derivation sketch.} From the declared gating rule and the active/dwell split, admissibility restriction yields $m_t<3$ and therefore positive loss on constrained ticks. Averaging on the cited cut family gives the loss channel; the \(\mathrm{biz}_0\) rate is the corresponding internal rate on the same ledger.
 
 \subsection{Wavelet transport, trit carriage, and saturation}\label{subsec:wavelet-transport-saturation}
 \begin{definition}[Wavelet transport operator]
@@ -184,6 +184,8 @@ and the support mass on that class
 \[
 \Lambda_b(M;\omega):=H_B(B^*(M;\omega);M,\omega).
 \]
+The dominant class \(B^*(M;\omega)\) is recorded in \(\mathrm{bip}_0\) at the declared working cut level. The associated reciprocal support rate is \(B^*(M;\omega)^{-1}\) in \(\mathrm{biz}_0\) when that rate is used on the same ledger. This notation fixes the reference level for the cited calculation and does not assert a bottom cut; see Appendix~\ref{app:level-relative-bip-biz}.
+
 Under the declared minimal-pivot identity,
 \[
 b=2e+f,
@@ -209,11 +211,11 @@ J_{\mathrm{gap}}(\omega):=
 -
 \log_3\!\left(\frac{3}{\bar m}\right)\ge 0
 \]
-must be respected on the cited admissibility ledger. Likewise, one must not replace histogram- or attenuation-level quantities such as
+is evaluated on the cited admissibility ledger. Histogram- or attenuation-level quantities such as
 \[
 \sum_b H_B(b;M;\omega)\,b^{-\widehat\Lambda(M;\omega)}
 \]
-by expressions built from averaged $b(\kappa)$ unless the aggregation policy explicitly licenses that reduction.
+are reduced by expressions built from averaged $b(\kappa)$ only when the aggregation policy explicitly licenses that reduction.
 \end{definition}
 
 \begin{definition}[Dominant-rung attenuation]
@@ -274,9 +276,9 @@ Finite path sums and diagrammatic renderings record the same cut bookkeeping on 
 \subsection{Field persistence and lifecycle}\label{subsec:field-persistence-lifecycle}
 \begin{definition}[Field persistence and lifecycle]
 \label{def:field-lifecycle-operator}
-For a declared motif id $M$ and cited window family $\omega$, the persistence operator records the birth tick, death tick, TTL hazard, censoring status, rupture type, and any product/by-product census reported after rupture. In bip / biz / trit units,
+For a declared motif id $M$ and cited window family $\omega$, the persistence operator records the birth tick, death tick, TTL hazard, censoring status, rupture type, and any product/by-product census reported after rupture. In \(\mathrm{bip}_0/\mathrm{biz}_0/\mathrm{trit}\) units,
 \[
-\mathrm{TTL}_{\mathrm{bip}}(M;\omega)=t_{\mathrm{death}}-t_{\mathrm{birth}}.
+\mathrm{TTL}_{\mathrm{bip}_0}(M;\omega)=t_{\mathrm{death}}-t_{\mathrm{birth}}.
 \]
 When TTL is used in histograms or ladder weighting, the weighting rule must be declared on the same manifest.
 \end{definition}
@@ -314,7 +316,7 @@ U^{(\mathrm{loss})}(M;\omega):=\sum_{t\in(\omega\cap M)_{\mathrm{act}}} u_t^{(\m
 \]
 \[
 R_{\mathrm{loss}}(M;\omega)=u^{(\mathrm{loss})}(M;\omega):=\frac{1}{T_{\mathrm{eval}}(M;\omega)}U^{(\mathrm{loss})}(M;\omega)
-=\log_3\!\bigl(\Gamma_{\mathrm{loss}}(M;\omega)\bigr)\quad[\mathrm{trit/bip}],
+=\log_3\!\bigl(\Gamma_{\mathrm{loss}}(M;\omega)\bigr)\quad[\mathrm{trit}/\mathrm{bip}_0],
 \]
 with
 \[
@@ -335,12 +337,12 @@ A_B(M;\omega)=\left(\frac{B^*(M;\omega)}{B_0}\right)^{-\widehat\Lambda(M;\omega)
 and the derived internal rate is
 \[
 R_{\mathrm{loss}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_B(M;\omega)
-\quad[\mathrm{biz}].
+\quad[\mathrm{biz}_0].
 \]
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:mt,def:loss-channel,def:b-extraction,def:bstar-histogram,def:attenuation-operator,choice:high-rung-pivot,rem:jensen}.
-\paragraph{Local substructure.} Admissibility count; loss channel; return-duration ledger; dominant rung; stack load; attenuation accumulator; primitive trit/bip channel; derived biz rate.
+\paragraph{Local substructure.} Admissibility count; loss channel; return-duration ledger; dominant rung; stack load; attenuation accumulator; primitive \(\mathrm{trit}/\mathrm{bip}_0\) channel; derived \(\mathrm{biz}_0\) rate.
 \paragraph{Derivation sketch.} Direct algebra on the cited admissibility and return ledgers. The zero-lag/unconstrained limit $m_t=3$ yields $R_{\mathrm{loss}}=0$ and $T_\Gamma=0$.
 
 \subsection{Momentum-like proxy and rest-frame windows}\label{subsec:momentum-proxy}
@@ -350,7 +352,7 @@ Using the normalized speed $v(\omega)$ on a cited window, define the momentum-li
 \[
 p_{\mathrm{prox}}(M;\omega):=E_{\mathrm{tot}}(M;\omega)\,v(\omega),
 \]
-where $E_{\mathrm{tot}}$ is the declared total biz-valued rate assembled from the loss-facing channel and any declared additional totals on the same ledger. This is the proxy channel assembled on the cited ledger.
+where $E_{\mathrm{tot}}$ is the declared total \(\mathrm{biz}_0\)-valued rate assembled from the loss-facing channel and any declared additional totals on the same ledger. This is the proxy channel assembled on the cited ledger.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:rest-frame-window,def:loss-channel-derivation}.
