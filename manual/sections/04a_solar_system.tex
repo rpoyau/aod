@@ -8,6 +8,27 @@
 \label{man:solar-perihelion-witness}
 \colabbadge{manual/notebooks/04a_solar_system_mercury_perihelion.ipynb}
 
+\begin{table}[H]
+\centering
+\caption{Mercury retained-extraction declaration.}
+\label{tab:mercury-retention}
+\begin{threeparttable}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Item & Declaration \\
+\midrule
+Parent field & \(\mathcal N_{\mathrm{solar}}(t_0)\) \\
+Retained extraction & \(\mathcal D_{\odot,\mathrm{mercury}}\subset\mathcal N_{\mathrm{solar}}\) \\
+Omitted context & remaining solar \(n\)-soma context unless declared \\
+First refinement & Sun--Jupiter disoma \\
+Validity window & \(100\) years, daily grid \\
+Residual witness & pending until the refinement row is computed \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{Mercury is blocked until the explicit \(\Phi_{\varpi}\) map is written.}
+\end{threeparttable}
+\end{table}
+
 The cited 100-year solar-system ledger is fixed first and the perihelion witness is read as an extracted Mercury slice on that same long-window ledger.
 
 \begin{table}[H]
@@ -18,7 +39,7 @@ The cited 100-year solar-system ledger is fixed first and the perihelion witness
 \small
 \begin{tabularx}{\linewidth}{@{}lXccccc@{}}
 \toprule
-Row & Slice key & $T_{\mathrm{eval}}$ [bip] & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [trit/bip] & $T_{\mathrm{tors}}$ \\
+Row & Slice key & $T_{\mathrm{eval}}$ [\(\mathrm{bip}_0\)] & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [\(\mathrm{trit}/\mathrm{bip}_0\)] & $T_{\mathrm{tors}}$ \\
 \midrule
 S1 & \texttt{tetron:*:[sun,mercury]:6} & 36525 & 137 & 6 & $\frac{1+8\ell_2}{24}$ & 3 \\
 \bottomrule
@@ -56,9 +77,9 @@ Saturn  & 29.447498 & y & 3.396 \\
 \small
 \begin{tabularx}{\linewidth}{@{}lcccc@{}}
 \toprule
-Subledger & Calculated [arcsec/cy] & Reference [arcsec/cy] & Abs. error [arcsec/cy] & Rel. error [\%] \\
+Map & Calculated [arcsec/cy] & Cited benchmark [arcsec/cy] & Abs. error [arcsec/cy] & Rel. error [\%] \\
 \midrule
-Mercury & 42.981975497467126 & 42.98 & 0.001975497467126 & 0.0046 \\
+\(\Phi_{\varpi}\) & pending & 42.98 & pending & pending \\
 \bottomrule
 \end{tabularx}
 \ManualTableNote{The perihelion comparison is attached only after the cited 100-year row is fixed.}
@@ -84,6 +105,26 @@ The long-window ledger carries the Mercury slice together with the cadence-suppo
 \subsubsection{Light bending by the Sun}
 \label{man:solar-lensing-witness}
 \colabbadge{manual/notebooks/04a_solar_system_radiation.ipynb}
+
+\begin{table}[H]
+\centering
+\caption{Solar lensing retained-extraction declaration.}
+\label{tab:lensing-retention}
+\begin{threeparttable}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Item & Declaration \\
+\midrule
+Parent field & solar export AO field \\
+Retained extraction & grazing solar export slice \\
+Omitted context & non-grazing solar context and external receiver details \\
+First refinement & full source--receiver transfer ledger \\
+Validity window & cited solar export window \\
+Residual witness & pending until refinement row is computed \\
+\bottomrule
+\end{tabularx}
+\end{threeparttable}
+\end{table}
 
 The cited solar export slice is fixed first and the grazing-incidence comparison is attached afterward.
 
@@ -112,9 +153,9 @@ S2 & \texttt{duon:2:1:7} / solar export slice & $+\frac{1}{2}$ & 2 & emitted duo
 \small
 \begin{tabularx}{\linewidth}{@{}lcccc@{}}
 \toprule
-Subledger & Calculated [arcsec] & Reference [arcsec] & Abs. error [arcsec] & Rel. error [\%] \\
+Map & Calculated [arcsec] & Cited benchmark [arcsec] & Abs. error [arcsec] & Rel. error [\%] \\
 \midrule
-Solar export slice & 1.7512432813682448 & 1.75 & 0.0012432813682448 & 0.0710 \\
+\(\Phi_{\mathrm{lens}}\) & pending & 1.75 & pending & pending \\
 \bottomrule
 \end{tabularx}
 \ManualTableNote{The grazing-incidence benchmark is attached after the cited export row is fixed.}
@@ -133,6 +174,26 @@ The cited export ledger carries the shell/export and boundary-deflection witness
 \subsubsection{Solar redshift}
 \label{man:solar-redshift-witness}
 \colabbadge{manual/notebooks/04a_solar_system_radiation.ipynb}
+
+\begin{table}[H]
+\centering
+\caption{Solar redshift retained-extraction declaration.}
+\label{tab:redshift-retention}
+\begin{threeparttable}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Item & Declaration \\
+\midrule
+Parent field & solar transfer AO field \\
+Retained extraction & source--receiver transfer pair \\
+Omitted context & external transfer windows not declared in the pair \\
+First refinement & multi-window transfer ledger \\
+Validity window & cited source/receiver windows \\
+Residual witness & pending until refinement row is computed \\
+\bottomrule
+\end{tabularx}
+\end{threeparttable}
+\end{table}
 
 The cited source and receiver windows are fixed first and the redshift comparison is attached afterward as a two-window transfer witness.
 
@@ -161,9 +222,9 @@ S3 & \texttt{duon:2:1:7} on the transfer class & 137 & 6 \\
 \small
 \begin{tabularx}{\linewidth}{@{}lcccc@{}}
 \toprule
-Subledger & Calculated & Reference & Abs. error & Rel. error [\%] \\
+Map & Calculated & Cited benchmark & Abs. error & Rel. error [\%] \\
 \midrule
-Source / receiver pair & $2.122566754396204\times10^{-6}$ & $2.12\times10^{-6}$ & $2.5667543962039824\times10^{-9}$ & 0.1211 \\
+\(\Phi_z\) & pending & $2.12\times10^{-6}$ & pending & pending \\
 \bottomrule
 \end{tabularx}
 \ManualTableNote{The redshift witness is attached after the source and receiver rows are fixed on the same two-window ledger.}
@@ -182,6 +243,26 @@ The two-window ledger carries the cadence-transfer witness used for the reported
 \subsubsection{Saturn rings and moon shells}
 \label{man:saturn-shell-witness}
 \colabbadge{manual/notebooks/04a_solar_system_saturn.ipynb}
+
+\begin{table}[H]
+\centering
+\caption{Saturn retained-extraction declaration.}
+\label{tab:saturn-retention}
+\begin{threeparttable}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Item & Declaration \\
+\midrule
+Parent field & solar \(n\)-soma orbital ledger \\
+Retained extraction & Saturn ring--moon shell family \\
+Omitted context & non-Saturn solar context \\
+First refinement & outer solar shell-family ledger \\
+Validity window & cited Saturn orbital shell window \\
+Residual witness & qualitative until refinement row is computed \\
+\bottomrule
+\end{tabularx}
+\end{threeparttable}
+\end{table}
 
 The cited Saturn ring family and selected moon shells are fixed first and then reported as one shell-family witness.
 

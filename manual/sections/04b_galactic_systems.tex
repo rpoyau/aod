@@ -5,6 +5,26 @@
 \label{man:five-galaxy-sparc-witness}
 \colabbadge{manual/notebooks/04b_galactic_systems_sparc.ipynb}
 
+\begin{table}[H]
+\centering
+\caption{Galactic retained-extraction declaration.}
+\label{tab:galactic-retention}
+\begin{threeparttable}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Item & Declaration \\
+\midrule
+Parent field & cited five-galaxy AO field family \\
+Retained extraction & outer-orbital shell witness set \\
+Omitted context & galaxy-internal contexts outside the reported shell row \\
+First refinement & galaxy-specific full rotation ledger \\
+Validity window & cited SPARC comparison window \\
+Residual witness & pending until refinement rows are computed \\
+\bottomrule
+\end{tabularx}
+\end{threeparttable}
+\end{table}
+
 The cited five-galaxy set is fixed first. The outer-orbital comparison is the canonical public presentation of this witness layer.
 
 \begin{table}[H]
@@ -30,15 +50,18 @@ G1 & \texttt{tetron:*:[galaxy,star]:6} & 137 & 8 \\
 \label{tab:five-galaxy-comparison}
 \begin{threeparttable}
 \small
-\pgfplotstabletypeset[
-  columns={galaxy,v_calc_km_s,v_obs_km_s,abs_error_km_s,rel_error_pct},
-  columns/galaxy/.style={column name=Galaxy,string type,column type=l},
-  columns/v_calc_km_s/.style={column name={Calculated [km/s]},fixed,precision=1},
-  columns/v_obs_km_s/.style={column name={Observed [km/s]},fixed,precision=1},
-  columns/abs_error_km_s/.style={column name={Abs. error [km/s]},fixed,precision=1},
-  columns/rel_error_pct/.style={column name={Rel. error [\%]},fixed,precision=1}
-]{data/galactic/01_five_galaxy_comparison.csv}
-\ManualTableNote{The comparison is attached only after the cited row is fixed.}
+\begin{tabularx}{\linewidth}{@{}lXcccc@{}}
+\toprule
+Map & Galaxy & Calculated [km/s] & Cited benchmark [km/s] & Abs. error [km/s] & Rel. error [\%] \\
+\midrule
+\(\Phi_{\mathrm{SPARC}}\) & NGC 2403 & pending & 134.4 & pending & pending \\
+\(\Phi_{\mathrm{SPARC}}\) & NGC 3198 & pending & 149.2 & pending & pending \\
+\(\Phi_{\mathrm{SPARC}}\) & NGC 6503 & pending & 115.6 & pending & pending \\
+\(\Phi_{\mathrm{SPARC}}\) & NGC 2841 & pending & 288.2 & pending & pending \\
+\(\Phi_{\mathrm{SPARC}}\) & DDO 154 & pending & 47.0 & pending & pending \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The SPARC report map must be explicit before the calculated column is complete.}
 \end{threeparttable}
 \end{table}
 

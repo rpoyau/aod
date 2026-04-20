@@ -1,0 +1,24 @@
+\section{Temporal calibration and SI report maps}
+\label{app:manual-temporal-calibration}
+
+Counts at a declared cut level \(\ell\) are recorded in \(\mathrm{bip}_{\ell}\), and reciprocal rates at that level are recorded in \(\mathrm{biz}_{\ell}\). The manual may use the reference convention \(\ell=0\), written \(\mathrm{monon}_0\), \(\mathrm{bip}_0\), and \(\mathrm{biz}_0\). The hierarchy has no bottom cut, and \(\mathrm{bip}_0\) is not Planck time.
+
+SI values are calibration or report targets. They do not generate the AO field relation. Distance, mass, charge, velocity, and phase appear only after a declared report map or temporal normalization.
+
+A mass-rate anchor may be recorded as
+\[
+m \mapsto m_z := \frac{mc^2}{h},
+\qquad
+n := \log_3(m_z),
+\qquad
+\lambda := \frac{n}{4}.
+\]
+By default this is a report-layer anchor. A chapter may admit it as an exact working quantity only by declaring that status explicitly. Momentum-like quantities must be named by their AOD role, such as \(p_{\mathrm{AOD}}\), \(p_{\mathrm{loss}}\), or \(p_{\mathrm{prox}}\), and must be defined before use.
+
+The generic report map has type
+\[
+\Psi_R:
+\mathrm{ExactRow}_{\ell}(\mathcal F_K,\omega)
+\longrightarrow
+\mathrm{ReportQuantity}.
+\]

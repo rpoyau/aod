@@ -5,6 +5,26 @@
 \label{man:hydrogen-shell-scale-witness}
 \colabbadge{manual/notebooks/04c_atomic_hydrogen_shells.ipynb}
 
+\begin{table}[H]
+\centering
+\caption{Hydrogen retained-extraction declaration.}
+\label{tab:hydrogen-retention}
+\begin{threeparttable}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Item & Declaration \\
+\midrule
+Parent field & cited atomic AO field \\
+Retained extraction & hydrogen shell field \\
+Omitted context & non-hydrogen atomic contexts \\
+First refinement & higher shell / local shell-report refinement \\
+Validity window & cited shell ledger \\
+Residual witness & pending until refinement row is computed \\
+\bottomrule
+\end{tabularx}
+\end{threeparttable}
+\end{table}
+
 A cited hydrogen shell row is fixed first. Familiar hydrogen radii are attached afterward as a local shell report on the same shell ledger \cite{aod43_main_2026}.
 
 \begin{table}[H]
@@ -15,7 +35,7 @@ A cited hydrogen shell row is fixed first. Familiar hydrogen radii are attached 
 \small
 \begin{tabularx}{\linewidth}{@{}lccccc@{}}
 \toprule
-Row & Shell band & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [trit/bip] & Cadence witness \\
+Row & Shell band & $B^*$ & $\Lambda_b$ & $R_{\mathrm{loss}}$ [\(\mathrm{trit}/\mathrm{bip}_0\)] & Cadence witness \\
 \midrule
 H1 & 3 & 137 & 6 & $(1+8\ell_2)/24$ & $5/12$ \\
 \bottomrule
@@ -30,14 +50,14 @@ H1 & 3 & 137 & 6 & $(1+8\ell_2)/24$ & $5/12$ \\
 \label{tab:hydrogen-shell-radii}
 \begin{threeparttable}
 \small
-\begin{tabularx}{\linewidth}{@{}lcccc@{}}
+\begin{tabularx}{\linewidth}{@{}llcccc@{}}
 \toprule
-Subledger & Calculated radius [m] & Reference radius [m] & Abs. error [m] & Rel. error [\%] \\
+Map & Subledger & Calculated radius [m] & Cited benchmark [m] & Abs. error [m] & Rel. error [\%] \\
 \midrule
-$n=1$ & $5.291772191461861\times10^{-11}$ & $5.291772109\times10^{-11}$ & $8.2461861\times10^{-19}$ & $1.5583\times10^{-6}$ \\
-$n=2$ & $2.1167088765847444\times10^{-10}$ & $2.1167088436\times10^{-10}$ & $3.29847444\times10^{-18}$ & $1.5583\times10^{-6}$ \\
-$n=3$ & $4.762594972315675\times10^{-10}$ & $4.7625948981\times10^{-10}$ & $7.4215675\times10^{-18}$ & $1.5583\times10^{-6}$ \\
-$n=4$ & $8.466835506338978\times10^{-10}$ & $8.4668353744\times10^{-10}$ & $1.31938978\times10^{-17}$ & $1.5583\times10^{-6}$ \\
+\(\Phi_{\mathrm{shell}}\) & $n=1$ & $5.291772191461861\times10^{-11}$ & $5.291772109\times10^{-11}$ & $8.2461861\times10^{-19}$ & $1.5583\times10^{-6}$ \\
+\(\Phi_{\mathrm{shell}}\) & $n=2$ & $2.1167088765847444\times10^{-10}$ & $2.1167088436\times10^{-10}$ & $3.29847444\times10^{-18}$ & $1.5583\times10^{-6}$ \\
+\(\Phi_{\mathrm{shell}}\) & $n=3$ & $4.762594972315675\times10^{-10}$ & $4.7625948981\times10^{-10}$ & $7.4215675\times10^{-18}$ & $1.5583\times10^{-6}$ \\
+\(\Phi_{\mathrm{shell}}\) & $n=4$ & $8.466835506338978\times10^{-10}$ & $8.4668353744\times10^{-10}$ & $1.31938978\times10^{-17}$ & $1.5583\times10^{-6}$ \\
 \bottomrule
 \end{tabularx}
 \ManualTableNote{The calculated and reference radii are shown only after the cited shell row is fixed.}
@@ -56,6 +76,26 @@ The cited hydrogen shell row carries the shell-band and attenuation witnesses of
 \subsubsection{Nucleus confinement and neutron stability}
 \label{man:nucleus-confinement-witness}
 \colabbadge{manual/notebooks/04c_atomic_confinement.ipynb}
+
+\begin{table}[H]
+\centering
+\caption{Confinement retained-extraction declaration.}
+\label{tab:confinement-retention}
+\begin{threeparttable}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Item & Declaration \\
+\midrule
+Parent field & cited atomic/nuclear AO field \\
+Retained extraction & short-window confinement field \\
+Omitted context & non-local nuclear contexts \\
+First refinement & next shell/proximity refinement \\
+Validity window & cited short window \\
+Residual witness & qualitative until refinement row is computed \\
+\bottomrule
+\end{tabularx}
+\end{threeparttable}
+\end{table}
 
 A short-window confinement class is fixed first and the same cited ledger reports proximity, confinement, and transmutation status.
 

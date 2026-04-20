@@ -1,43 +1,52 @@
-% Traceability: derived from supplement-b/examples/02_derived_temporal_unit_conversions.tex,
-% supplement-b/examples/03_converted_rows.tex,
-% supplement-b/examples/04_diagrammatic_temporal_conversion_rendering.tex,
-% supplement-b/examples/05_e10_recurrent_ring.tex,
-% supplement-b/examples/06_e11d_temporal_conversion_rendering.tex.
-\section{Temporal conversions}
+% Traceability: derived from supplement-b conversion/render material; recurrent worked material belongs to the recurrent chapter.
+\section{Exact-to-report maps and temporal calibration}
+\label{man:exact-to-report-maps}
 
-This chapter records converted witness forms attached to cited rows formed under the main note \cite{aod43_main_2026}. Duration is reported in seconds, rates in hertz, and effective speed only through $\beta=v/c$ with $c=1$.
+Report quantities are attached only after an exact row has been fixed under the main note \cite{aod43_main_2026}. SI values are calibration or report targets; they do not generate the AO field relation.
 
+The generic exact-to-report map has type
+\[
+\Psi_R:
+\mathrm{ExactRow}_{\ell}(\mathcal F_K,\omega)
+\longrightarrow
+\mathrm{ReportQuantity}.
+\]
+Specific worked examples instantiate this type with maps such as \(\Phi_{\varpi}\), \(\Phi_{\mathrm{lens}}\), \(\Phi_z\), \(\Phi_{\mathrm{shell}}\), and \(\Phi_{\mathrm{SPARC}}\). A comparison row is not complete until its map is explicit.
 
-\subsection{Conversion rules}
-\label{man:temporal-conversion-rules}
+\subsection{Allowed report forms}
+\label{man:allowed-report-forms}
 \colabbadge{manual/notebooks/03_temporal_conversions.ipynb}
 
 \begin{table}[H]
 \centering
-\caption{Conversion classes and required cited-row quantities.}
+\caption{Report classes and required exact-row quantities.}
 \label{tab:conversion-classes}
 \begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lX@{}}
 \toprule
-Conversion class & Required cited-row quantities \\
+Report class & Required exact-row quantities \\
 \midrule
-Worked-row comparison & cited key, cited window, shell signature, $B^*$, $R_{\mathrm{loss}}$, cadence, and any declared witness columns \\
-Temporal-unit conversion & cited key, cited window, loss/report rates, shell/export predicates, and declared dictionary-map id \\
-Diagrammatic rendering & cited key, shell signature, cadence spectrum, confinement/support witnesses, and loss/report rates \\
+Worked-row comparison & cited key, cited window, retained extraction, shell signature, \(B^*\), \(R_{\mathrm{loss}}\), cadence, and declared witness columns \\
+Temporal-unit report & cited key, cited window, loss/report rates, shell/export predicates, declared working level \(\ell\), and declared report-map id \\
+Diagrammatic report & cited key, shell signature, cadence spectrum, confinement/support witnesses, and loss/report rates \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{Converted witnesses are attached only after the cited row is fixed on the same ledger.}
+\ManualTableNote{Report quantities are attached only after the cited exact row is fixed on the same retained field.}
 \end{threeparttable}
 \end{table}
 
-\subsection{Converted rows}
-\label{man:converted-rows}
-\colabbadge{manual/notebooks/03_temporal_conversions.ipynb}
+\subsection{Level-relative units}
+\label{man:level-relative-units}
 
-Public converted rows begin from the cited key, cited window, shell signature, support witness, loss-channel witness, cadence witness, and any additional row-level quantities declared on the same ledger. Comparison values, temporal SI renderings, and diagrams are attached afterward on that same row.
+Exact rows are recorded at a declared working level \(\ell\), using \(\mathrm{bip}_{\ell}\) for counts and \(\mathrm{biz}_{\ell}\) for reciprocal rates. When \(\ell=0\) is declared, the manual writes \(\mathrm{monon}_0\), \(\mathrm{bip}_0\), and \(\mathrm{biz}_0\). This is not a lowest-cut or Planck-time convention; it is a declared report level.
 
-\subsection{Diagrammatic temporal conversion rendering}
+\subsection{Comparison discipline}
+\label{man:comparison-discipline}
+
+Every comparison table names its report map. If the report map has not yet been written, the calculated field is recorded as pending rather than complete.
+
+\subsection{Diagrammatic rendering}
 \label{man:diagrammatic-temporal-rendering}
 \colabbadge{manual/notebooks/03_temporal_conversions.ipynb}
 
@@ -59,58 +68,11 @@ A cited collision / export row may be displayed diagrammatically after that ledg
 \label{fig:manual-collision-export-rendering}
 \end{figure}
 
-The diagram displays the same cited collision / export ledger.
-
-\subsection{Recurrent-ring rendering}
-\label{man:recurrent-ring-rendering}
-\colabbadge{manual/notebooks/03_temporal_conversions.ipynb}
-
-A cited recurrent-ring row may be displayed as a projected three-node recurrent system.
-
-\begin{table}[H]
-\centering
-\caption{Recurrent-ring cited row.}
-\label{tab:recurrent-ring-row}
-\begin{threeparttable}
-\small
-\pgfplotstabletypeset[
-  columns={row_id,topology,Rloss_trit_per_bip,B_star_mode_bip,Lambda_hat_ticks,Rloss_biz_derived},
-  columns/row_id/.style={column name=Row,string type,column type=l},
-  columns/topology/.style={column name=Topology,string type,column type=l},
-  columns/Rloss_trit_per_bip/.style={column name={$R_{\mathrm{loss}}$ [trit/bip]},fixed,precision=6},
-  columns/B_star_mode_bip/.style={column name={$B^*$ [bip]},fixed,precision=0},
-  columns/Lambda_hat_ticks/.style={column name={$\widehat\Lambda$ [ticks]},fixed,precision=0},
-  columns/Rloss_biz_derived/.style={column name={$R^{(\mathrm{biz})}_{\mathrm{loss}}$ [biz]},fixed,precision=6}
-]{data/temporal/01_recurrent_ring_summary.csv}
-\ManualTableNote{CK mismatch and cut-residual diagnostics remain companion checks on the same cited recurrent-ring ledger.}
-\end{threeparttable}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[x=1cm,y=1cm, every node/.style={font=\small}]
-  \coordinate (A) at (0,1.6);
-  \coordinate (B) at (-1.4,-0.8);
-  \coordinate (C) at (1.4,-0.8);
-  \draw[thick,->] (A) -- (B);
-  \draw[thick,->] (B) -- (C);
-  \draw[thick,->] (C) -- (A);
-  \fill (A) circle (2pt) node[above] {A};
-  \fill (B) circle (2pt) node[left] {B};
-  \fill (C) circle (2pt) node[right] {C};
-  \node at (0,-1.7) {projected recurrent ring on the cited ledger};
-\end{tikzpicture}
-\caption{Recurrent-ring rendering attached after the cited row is fixed.}
-\label{fig:manual-recurrent-ring-rendering}
-\end{figure}
-
-The projected ring displays the cited recurrent ledger rather than replacing it.
-
 \subsection{Decimal rendering}
 \label{man:decimal-rendering}
 \colabbadge{manual/notebooks/03_temporal_conversions.ipynb}
 
-The decimal table records convenience values only and does not replace the exact/default-form cited row.
+Decimal renderings are convenience values only and do not replace the exact/default-form cited row.
 
 \begin{table}[H]
 \centering
@@ -127,6 +89,6 @@ The decimal table records convenience values only and does not replace the exact
   columns/eta_mid_float/.style={column name={$\eta_{\mathrm{mid}}$},fixed,precision=4},
   columns/eta_tot_float/.style={column name={$\eta_{\mathrm{tot}}$},fixed,precision=4}
 ]{data/temporal/02_decimal_rendering_table.csv}
-\ManualTableNote{Additional decimal companions such as $R_{\mathrm{loss}}$, $v$, and $n_{\mathrm{ref}}$ remain in the companion source CSV and notebook.}
+\ManualTableNote{Additional decimal companions remain in the companion source CSV and notebook.}
 \end{threeparttable}
 \end{table}

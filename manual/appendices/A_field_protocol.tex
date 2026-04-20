@@ -1,0 +1,21 @@
+\section{AO field identification and simulation protocol}
+\label{app:manual-ao-field-protocol}
+
+An AO field is a coalesced relational structure carrying local phase state, burden/support, loss, torsion, cycle/beat state, and field lifetime on a cited window. It is not merely a list of bodies or reported SI properties.
+
+\subsection{Retained extraction}
+A worked simulation declares a parent field \(\mathcal F\) and a retained extraction \(\mathcal F_K\subset\mathcal F\). Nested subfields, omitted context, and the first refinement are recorded before the exact row is computed.
+
+\subsection{TTL and window}
+A retained field is read on a declared window \(\omega\). The TTL or validity horizon records the window on which the retained field is claimed. Longer windows may require a refinement of the retained context.
+
+\subsection{Truncation residual}
+The residual witness for a first refinement is
+\[
+\widehat\epsilon_{K\to K+1}(\omega)
+=
+\left|
+Q(\mathcal F_{K+1},\omega)-Q(\mathcal F_K,\omega)
+\right|.
+\]
+This residual is the manual's explicit record of the simplification used by the simulation.

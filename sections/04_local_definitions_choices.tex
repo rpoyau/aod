@@ -215,6 +215,30 @@ Drift is the reported phase or transport bias that persists across the declared 
 The AO field is the ordered bundle of local AOD quantities attached to a cut and its unspooling.
 \end{definition}
 
+\begin{definition}[Retained AO-field specification]
+\label{def:retained-field-specification}
+For an AO field \(\mathcal F\) on a cited window \(\omega\), a retained field specification is a declared tuple
+\[
+\mathfrak S
+=
+(\mathcal F,\mathcal F_K,\omega,\ell,\mathcal C_{\mathrm{omit}},\mathcal F_{K+1},\pi),
+\]
+where \(\mathcal F_K\subset\mathcal F\) is the retained extraction, \(\ell\) is the working cut level, \(\mathcal C_{\mathrm{omit}}\) records omitted context, \(\mathcal F_{K+1}\) is the first refinement when declared, and \(\pi\) is the local extraction/readout policy. This is bookkeeping on the cited AO field; it does not alter the imported AFC basis.
+\end{definition}
+
+\begin{definition}[Refinement residual]
+\label{def:refinement-residual}
+For a retained extraction \(\mathcal F_K\subset\mathcal F\) and first refinement \(\mathcal F_{K+1}\), the refinement residual for a row functional \(Q\) on \(\omega\) is
+\[
+\widehat\epsilon_{K\to K+1}(\omega)
+=
+\left|
+Q(\mathcal F_{K+1},\omega)-Q(\mathcal F_K,\omega)
+\right|.
+\]
+A qualitative residual is a placeholder until the refinement row is computed.
+\end{definition}
+
 \begin{definition}[Wavelet]
 \label{def:wavelet}
 A wavelet is a finite closure-carrying Memory-path segment equipped with ordered cutwise field quantities.

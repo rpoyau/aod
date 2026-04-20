@@ -1,0 +1,67 @@
+\section{AOD simulation workflow}
+\label{man:aod-simulation-workflow}
+
+AOD simulations are local field extractions on declared windows. The calculus is invariant across scale; the retained field, working level, temporal calibration, and truncation residual are what change.
+
+\subsection{Operational sequence}
+\label{man:workflow-operational-sequence}
+
+A worked simulation proceeds in this order.
+\begin{enumerate}[label=\arabic*.]
+  \item Identify the parent AO field \(\mathcal F\).
+  \item Identify the coalesced subfields carried by \(\mathcal F\).
+  \item Declare the retained extraction \(\mathcal F_K\subset\mathcal F\).
+  \item Declare omitted context \(\mathcal C_{\mathrm{omit}}\).
+  \item Declare the first refinement \(\mathcal F_{K+1}\) when it is used.
+  \item Declare the working cut level \(\ell\) and the units \(\mathrm{bip}_{\ell}/\mathrm{biz}_{\ell}\).
+  \item Declare the window \(\omega\) and the TTL or validity horizon.
+  \item Run the AOD operator chain on the retained field.
+  \item Produce the exact row.
+  \item State the truncation residual.
+  \item Apply the exact-to-report map.
+  \item Compare with the cited benchmark.
+  \item State the falsification condition.
+\end{enumerate}
+
+\subsection{Retention and refinement block}
+\label{man:workflow-retention-block}
+
+Every worked example contains a retention/refinement block.
+\begin{table}[H]
+\centering
+\caption{Required retention/refinement declarations for a worked AOD simulation.}
+\label{tab:retention-refinement-template}
+\begin{threeparttable}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Item & Declaration \\
+\midrule
+Parent field & \(\mathcal F\) \\
+Retained extraction & \(\mathcal F_K\subset\mathcal F\) \\
+Omitted context & declared list or class \(\mathcal C_{\mathrm{omit}}\) \\
+First refinement & \(\mathcal F_{K+1}\), when declared \\
+Validity window & \(\omega\) \\
+Residual witness & \(\widehat\epsilon_{K\to K+1}(\omega)\) \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{A qualitative residual is only a placeholder until the refinement row is computed.}
+\end{threeparttable}
+\end{table}
+
+The refinement residual for a row functional \(Q\) is
+\[
+\widehat\epsilon_{K\to K+1}(\omega)
+=
+\left|
+Q(\mathcal F_{K+1},\omega)-Q(\mathcal F_K,\omega)
+\right|.
+\]
+
+\subsection{Prototype retained extraction}
+\label{man:workflow-mercury-prototype}
+
+For the Mercury prototype, the cited parent field is the solar \(n\)-soma \(\mathcal N_{\mathrm{solar}}(t_0)\). The retained extraction is the Sun--Mercury disoma
+\[
+\mathcal D_{\odot,\mathrm{mercury}}\subset\mathcal N_{\mathrm{solar}}.
+\]
+The working level is declared as \(\ell=0\), with exact rows recorded in \(\mathrm{bip}_0\) and \(\mathrm{biz}_0\). Earth--Moon may be retained as nested cadence context; Jupiter is the first large outer-field refinement. Mercury remains blocked until the exact map \(\Phi_{\varpi}\) is written.
