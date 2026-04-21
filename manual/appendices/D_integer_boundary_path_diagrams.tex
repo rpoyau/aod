@@ -1,0 +1,151 @@
+\section{Integer boundary-path diagrams and duon collision protocol}
+\label{app:integer-boundary-path-diagrams}
+
+This appendix records the diagram grammar used by the manual for retained boundary paths. It is a manual presentation of the exact row objects defined in the main note; the row entries remain integer, rational-pair, cycle, residue, sign, and topology data.
+
+\subsection{Boundary-link row}
+\label{appD:boundary-link-row}
+
+A retained boundary link on level \(\ell\) and window \(\omega\) is recorded as
+\[
+D_e^{(\ell,\omega)}=
+\left(
+ c_e,k_e,N_e,
+ \chi_e,
+ Q_e,S_e,
+ R_e,R_{0,e},
+ T_e,T_{0,e},
+ B_e^*,\widehat\Lambda_e,
+ P_e,P_{0,e},
+ \Sigma_e
+\right).
+\]
+The entries record cycle data, chirality, effective-charge counts, loss counts, torsion pair, support-count witness, attenuation exponent, AOD momentum proxy, and topology signature.
+
+\subsection{Topology signature and incidence}
+\label{appD:topology-incidence}
+
+The topology signature is
+\[
+\Sigma_e=(\tau_e,\sigma_e,\mathbf a_e,\partial_e,\mathcal I_e),
+\]
+where \(\tau_e\) is a cell or face type index, \(\sigma_e\in\{-1,0,+1\}\) is an orientation sign, \(\mathbf a_e\in\mathbb Z^m\) is a fractal or scale address, \(\partial_e\) is a boundary incidence list, and \(\mathcal I_e\) is an integer incidence matrix or tensor. Incidence signs are read as
+\[
+\epsilon_{ej}=\epsilon(\Sigma_e,\Sigma_j)\in\{-1,0,+1\}.
+\]
+
+\subsection{Transport flux and windowed current-flux}
+\label{appD:transport-current-flux}
+
+With \(r_e\) the centered phase representative, define
+\[
+\Delta\Phi_e=(r_e,N_e),
+\qquad
+q_e=(Q_e,S_e),
+\qquad
+G_{T,e}=(T_{0,e}+T_e,T_{0,e}).
+\]
+Let \(A_{B,e}=(A_{B,e}^{+},A_{B,e}^{-})\) and \(A_{R,e}=(A_{R,e}^{+},A_{R,e}^{-})\). The exact retained transport flux is
+\[
+u_e^{(\mathrm{tr})}
+=
+\operatorname{Rat}
+\left[
+ r_e Q_e A_{B,e}^{+} A_{R,e}^{+}(T_{0,e}+T_e),
+ N_e S_e A_{B,e}^{-} A_{R,e}^{-}T_{0,e}
+\right].
+\]
+The longitudinal accumulated transport is
+\[
+U_K^{(\ell)}(\omega)=
+\sum_{e\in E_K(\omega)}\epsilon_e^{\parallel}u_e^{(\mathrm{tr})}.
+\]
+For \(|\omega|_{\mathrm{bip}_{\ell}}\in\mathbb Z_{>0}\), the current-flux rate is
+\[
+\mathcal J_K^{(\ell)}(\omega)=
+\operatorname{Rat}
+\left[
+U_{K,\mathrm{num}}^{(\ell)}(\omega),
+U_{K,\mathrm{den}}^{(\ell)}(\omega)|\omega|_{\mathrm{bip}_{\ell}}
+\right].
+\]
+
+\subsection{Carrier-family partition}
+\label{appD:carrier-partition}
+
+The first retained transport examples use the disjoint partition
+\[
+E_K(\omega)=E_{K,\mathrm{duon}}(\omega)\cup E_{K,\mathrm{tetron}}(\omega)\cup E_{K,\mathrm{other}}(\omega),
+\]
+\[
+E_{K,a}\cap E_{K,b}=\varnothing\qquad(a\neq b).
+\]
+Then \(U_K\) and \(\mathcal J_K\) split exactly into duon, tetron, and other carrier contributions.
+
+\subsection{Transverse witness}
+\label{appD:transverse-witness}
+
+The exact transverse witness is
+\[
+w_{\perp,j}^{\mathrm{exact}}=
+\sum_e \epsilon_{ej}^{\perp}\chi_eu_e^{(\mathrm{tr})}.
+\]
+For the two-sided wire witness,
+\[
+\epsilon_{e,+}^{\perp}=+1,
+\qquad
+\epsilon_{e,-}^{\perp}=-1,
+\]
+so
+\[
+w_{\perp}^{+}=\sum_e\chi_eu_e^{(\mathrm{tr})},
+\qquad
+w_{\perp}^{-}=-\sum_e\chi_eu_e^{(\mathrm{tr})}.
+\]
+The notation guard is
+\[
+\boxed{B^*\neq \mathcal J_K\neq w_\perp}.
+\]
+
+\subsection{Retained-boundary diagram value}
+\label{appD:retained-boundary-diagram-value}
+
+A retained-boundary or retained-path diagram value is
+\[
+\mathcal A_{\mathbb Z}(\mathcal G)=
+(W_{\mathcal G},K_{\mathcal G},N_{\mathcal G},\chi_{\mathcal G},\Sigma_{\mathcal G}),
+\]
+where \(W_{\mathcal G}\) is a rational weight pair, \(K_{\mathcal G}\) is an accumulated phase residue, \(N_{\mathcal G}\) is the accumulated phase modulus, \(\chi_{\mathcal G}\) is an accumulated chirality sign, and \(\Sigma_{\mathcal G}\) is an accumulated topology signature. For a path \(\gamma\),
+\[
+K_\gamma=\sum_{e\in\gamma}k_e\pmod{N_\gamma}.
+\]
+The retained-path accumulation is
+\[
+\mathcal Z_{\partial\mathcal O}^{(\ell,\omega)}=
+\bigoplus_{\gamma\in\Gamma_{\partial\mathcal O}(\omega)}
+(W_\gamma,K_\gamma,N_\gamma,\chi_\gamma,\Sigma_\gamma).
+\]
+
+\subsection{Integer collision vertex}
+\label{appD:integer-collision-vertex}
+
+For incoming boundary signs \(a,b\in\{-1,0,+1\}\), the balanced ternary update is \(c=a\oplus_3b\). The retained collision vertex is
+\[
+\mathcal K_{\mathrm{coll}}^{\mathbb Z}:
+D_a\times D_b\times\Sigma_{ab}
+\longrightarrow
+D'\oplus\Pi_{\mathrm{export}}\oplus\mathcal R_{\mathrm{cut}}.
+\]
+The update predicates are
+\[
+a\oplus_3 b,
+\qquad
+Q_a+Q_b,
+\qquad
+K_a+K_b\pmod N,
+\qquad
+\chi_a\chi_b,
+\qquad
+\epsilon(\Sigma_a,\Sigma_b).
+\]
+The outcome class is one of balanced, push, pull, reclosure, export, or rupture/refinement.

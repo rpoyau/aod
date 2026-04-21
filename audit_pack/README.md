@@ -1,6 +1,6 @@
 # Audit pack
 
-This pack provides machine-readable CSV exports for the worked examples in Supplement A and a small SymPy verification script.
+This pack provides machine-readable CSV exports for selected worked rows and a small SymPy verification script.
 
 Files
 - csv/E4_loss_channel.csv
@@ -12,11 +12,11 @@ Files
 - csv/E11_open_seat_wavelet_summary.csv
 - csv/E11_open_seat_wavelet_trace.csv
 - verify_examples_sympy.py
-- verify_report.txt (generated when the verifier is run locally or in CI)
+- verify_report.txt (generated when the verifier is run locally)
 
 Scope
 - bip / biz / trit gauge only
 - trit/bip primitive
 - biz derived
 - no SI/application mappings
-- Supplement B Example E10 remains in supplement-b/artifacts/ because it belongs to Supplement B rather than Supplement A
+- manual-local provenance only

@@ -30,3 +30,25 @@
 
 \captionsetup[table]{skip=4pt,labelfont=bf}
 \captionsetup[figure]{skip=4pt,labelfont=bf}
+
+% Reusable retained-extraction declaration block.
+\newcommand{\RetentionBlock}[6]{%
+\begin{table}[H]
+\centering
+\caption{Retained-extraction declaration.}
+\begin{threeparttable}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Item & Declaration \\
+\midrule
+Parent field & #1 \\
+Retained extraction & #2 \\
+Omitted context & #3 \\
+First refinement & #4 \\
+Validity window & #5 \\
+Residual witness & #6 \\
+\bottomrule
+\end{tabularx}
+\end{threeparttable}
+\end{table}%
+}

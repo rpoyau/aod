@@ -1,6 +1,6 @@
 # Manual artifact map
 
-This source-only file records CSV and figure companion assets used by the manual.
+This source-only file records CSV and figure companion assets used by the manual. Manual provenance is manual-local: source section, raw setup when present, script when present, derived CSV when present, figure artifact when present, notebook when present, and audit file when present.
 
 ## Section 02 — Worked tables
 - figures remain embedded or local to section bodies as migrated

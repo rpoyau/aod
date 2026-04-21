@@ -17,11 +17,7 @@ cp manual/main.pdf manual.pdf
 
 - `main.pdf`
 - `manual.pdf`
-- optional source zip
-- optional `audit-pack.zip`
 
-## Archived source fragments
+## Source archive rule
 
-- `archive/supplement-a/`
-- `archive/supplement-b/`
-- `archive/supplement-c/`
+Source archives are built from the active theorem-note and manual tree. Manual provenance is manual-local: source section, raw setup when present, script when present, derived CSV when present, figure artifact when present, and audit file when present.

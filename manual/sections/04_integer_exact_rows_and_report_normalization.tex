@@ -1,0 +1,86 @@
+\section{Integer exact rows and report normalization}
+\label{man:integer-exact-rows-report-normalization}
+
+This chapter fixes the manual contract for exact rows and report maps. The AOD row is formed first from declared cut, window, carrier, phase, incidence, topology, and rational-pair data. Report maps are then attached by name. Source-facing or SI-facing comparisons are admitted only through the cited normalization layer described in Appendix~\ref{app:normalization-protocol}; SI conventions and numerical constants are cited from BIPM and NIST when such comparisons are rendered~\cite{bipm_si_brochure_2025,nist_codata_2022,nist_constants_complete}.
+
+\subsection{Exact-row rule}
+\label{man:exact-row-rule}
+
+The governing manual rule is
+\[
+\boxed{\text{AOD exact rows and default AOD report maps stay integer/rational/cycle/topology based.}}
+\]
+The exact layer admits
+\[
+\mathbb Z,\qquad
+\mathbb Z_{\ge 0},\qquad
+\{-1,0,+1\},\qquad
+\mathbb Z/3\mathbb Z,\qquad
+(a,b)\in\mathbb Z\times\mathbb Z_{\ne0}.
+\]
+Allowed row entries include integer counts, signed integer differences, balanced ternary updates, modular residues, phase-cycle pairs, rational pairs, graph or topology incidence signs, fractal/tesseract addresses, and integer adjacency or incidence tensors.
+
+\subsection{Normalization path}
+\label{man:integer-normalization-path}
+
+The manual separates source normalization, exact AOD simulation, and comparison rendering:
+\[
+\begin{aligned}
+\text{source snapshot}
+&\xrightarrow{\ \mathcal N_{\mathrm{src}\to\mathrm{AOD}}\ }
+\text{AOD exact input row}\\
+&\xrightarrow{\ \mathcal S_{\mathrm{AOD}}\ }
+\text{AOD simulation/prediction}\\
+&\xrightarrow{\ \mathcal N_{\mathrm{AOD}\to\mathrm{src/SI}}\ }
+\text{comparison output}.
+\end{aligned}
+\]
+A source snapshot records the source citation, source units, access date or dataset version, raw-file path, checksum when available, the source-to-AOD normalization map, and the AOD-to-source/SI comparison map. SPARC-facing rows cite the SPARC source and paper and remain pending until the local snapshot and \(\Phi_{\mathrm{SPARC}}\) map are declared~\cite{sparc_paper,sparc_site}.
+
+\subsection{Default exact objects and reports}
+\label{man:exact-report-table}
+
+\begin{table}[H]
+\centering
+\caption{Integer exact rows and default AOD report forms.}
+\label{tab:integer-exact-rows-report-normalization}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lXX@{}}
+\toprule
+Concept & Exact AOD object & Default AOD report \\
+\midrule
+retained field & \((\mathcal F,\mathcal F_K,\omega,\ell)\) & retained-extraction declaration \\
+time & \((n,\ell)\) in \(\mathrm{bip}_{\ell}\) & count ratio; cited SI comparison only through Appendix~\ref{app:normalization-protocol} \\
+rate & \((a,b)\) in \(\mathrm{biz}_{\ell}\) & rational rate \\
+phase & \((c,k,N)\) & \(c+k/N\) cycle \\
+speed & \((\Delta s,\Delta n)\) & path-count ratio \\
+direction & \(\epsilon\), incidence tensor, topology address & oriented adjacency or diagram arrow \\
+effective charge & \((Q,S)\) & \(Q/S\) \\
+support attenuation & \((A_B^+,A_B^-)\) & rational support attenuation \\
+loss attenuation & \((A_R^+,A_R^-)\) & rational loss attenuation \\
+topology & \(\Sigma=(\tau,\sigma,\mathbf a,\partial,\mathcal I)\) & fractal/tesseract diagram \\
+windowed current-flux & \(\mathcal J_K^{(\ell)}\) & rational retained-flow rate \\
+transverse witness & \(w_\perp^{\mathrm{exact}}\) & rational \(w_\perp\) row or plot \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{Decimal, SI-facing, continuum-style, and benchmark outputs are comparison renderings. They are attached through named maps after the exact row is fixed and cite the relevant source convention when used~\cite{bipm_si_brochure_2025,nist_constants_complete}.}
+\end{threeparttable}
+\end{table}
+
+\subsection{Boundary-path witness names}
+\label{man:boundary-path-witness-names}
+
+The retained transport/current layer keeps the following witness names distinct:
+\[
+\begin{aligned}
+B^* &= \text{support/count witness},\\
+\mathcal J_K &= \text{windowed retained current-flux rate},\\
+w_\perp &= \text{transverse boundary witness}.
+\end{aligned}
+\]
+Thus
+\[
+\boxed{B^*\neq \mathcal J_K\neq w_\perp}.
+\]
+The longitudinal incidence sign \(\epsilon_e^{\parallel}\) records retained-path transport direction. The transverse incidence sign \(\epsilon_{ej}^{\perp}\) records the probe-side boundary incidence used by \(w_\perp\).

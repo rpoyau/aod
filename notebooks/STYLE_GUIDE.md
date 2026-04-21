@@ -28,7 +28,7 @@ Where SI reporting is needed, it follows the cited row. Conversion is restricted
 ## 2. Package structure
 - Main note = compact theorem line
 - Manual notebooks = companion public notebook layer
-- Archived supplement notebooks = source fragments and support material
+- Manual notebooks = companion public notebook layer
 
 ---
 
@@ -45,13 +45,13 @@ The first markdown cell of every notebook should identify:
 ## 3. Notebook alignment rules
 - The source of truth is the matching manual section, not the notebook file.
 - Manual notebook titles and headings should use semantic section names.
-- Do not use supplement-era numbering such as E4, C1, E10, or E11D in notebook titles or headings.
+- Do not use retired lineage numbering such as E4, C1, E10, or E11D in notebook titles or headings.
 - Tables and figures in the notebook should match the corresponding manual section names.
 
 ## 4. Cited-row-first rule
 - The cited row is always recorded first.
 - Verification labels, decimal renderings, and temporal-unit conversions are attached only after the cited row.
-- Root notebooks support the main note; manual notebooks are the companion public notebook layer; archived supplement notebooks remain source fragments only.
+- Root notebooks support the main note; manual notebooks are the companion public notebook layer.
 
 ---
 
@@ -80,4 +80,4 @@ Temporal-conversion figures titled: **Temporal Conversion Witness — [descripti
 - All tables via `pandas.DataFrame`
 - Final cell: `print("ALL AOD TESTS PASSED ✓")`
 
-Manual-owned notebooks should use paths under `manual/notebooks/` and cite the matching manual section as their source of truth. Avoid supplement-era numbering in notebook titles and headings.
+Manual-owned notebooks should use paths under `manual/notebooks/` and cite the matching manual section as their source of truth. Avoid retired lineage numbering in notebook titles and headings.

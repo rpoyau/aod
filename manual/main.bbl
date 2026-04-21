@@ -1,0 +1,36 @@
+\begin{thebibliography}{1}
+
+\bibitem{bipm_si_brochure_2025}
+{Bureau International des Poids et Mesures}.
+\newblock Le syst\`eme international d'unit\'es / the international system of
+  units: Si brochure, 9th edition, 2025.
+\newblock Published 2019; revised August 2025; accessed 2026-04-21.
+
+\bibitem{sparc_paper}
+Federico Lelli, Stacy~S. McGaugh, and James~M. Schombert.
+\newblock The sparc database.
+\newblock {\em The Astronomical Journal}, 152:157, 2016.
+
+\bibitem{nist_codata_2022}
+{NIST}.
+\newblock 2022 codata recommended values of the fundamental constants of
+  physics and chemistry, 2024.
+\newblock NIST SP 961, May 2024; accessed 2026-04-21.
+
+\bibitem{nist_constants_complete}
+{NIST}.
+\newblock Fundamental physical constants --- complete listing, 2026.
+\newblock 2022 CODATA adjustment; accessed 2026-04-21.
+
+\bibitem{aod43_main_2026}
+Reginald Poyau.
+\newblock Alpha$\leftrightarrow$omega dynamics: The hidden temporal dynamics of
+  stokes (43\textdegree c), March 2026.
+\newblock Main AOD note, working project manuscript.
+
+\bibitem{sparc_site}
+{SPARC}.
+\newblock Spitzer photometry and accurate rotation curves, 2026.
+\newblock Accessed 2026-04-21.
+
+\end{thebibliography}

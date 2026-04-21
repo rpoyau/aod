@@ -1,6 +1,6 @@
 {
-  "title": "Alpha\u2194Omega Dynamics: The Hidden Temporal Dynamics of Stokes",
-  "description": "Canonical source tree for the AOD theorem note and downstream manual in AFC/AF form. The public document family is main.pdf (theorem source) and manual.pdf (downstream manual). Archived supplement source fragments are retained under archive/ for provenance and support.",
+  "title": "Alpha↔Omega Dynamics: The Hidden Temporal Dynamics of Stokes",
+  "description": "Canonical source tree for the AOD theorem note and companion manual in AFC/AF form. The public document family is main.pdf (theorem source) and manual.pdf (downstream manual). Manual provenance is manual-local and source-normalized.",
   "upload_type": "software",
   "access_right": "open",
   "license": "MIT",

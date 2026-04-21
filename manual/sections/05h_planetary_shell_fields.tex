@@ -1,0 +1,47 @@
+\subsection{Planetary-shell fields}
+\label{man:planetary-shell-fields}
+
+This scaffold records the retained-shell form for later planetary examples. It is not a validated application until script and test support exists.
+
+\subsubsection{Earth water--atmosphere--Moon shell witness}
+\label{man:earth-water-atmosphere-moon-shell-witness}
+
+The parent field is
+\[
+\mathcal O_{\oplus\text{-Moon}}=
+\mathcal O_{\mathrm{solid\ Earth}}
+\cup
+\mathcal O_{\mathrm{water}}
+\cup
+\mathcal O_{\mathrm{atmosphere}}
+\cup
+\mathcal O_{\mathrm{Moon}}
+\cup
+\mathcal O_{\mathrm{near\ space}}.
+\]
+The retained extraction is
+\[
+\mathcal F_K=
+\mathcal O_{\mathrm{water}}
+\cup
+\mathcal O_{\mathrm{atmosphere}}
+\cup
+\partial\mathcal O_{\mathrm{Moon}}.
+\]
+The first refinement is
+\[
+\mathcal F_{K+1}=\mathcal F_K+
+\text{basin geometry}+
+\text{solar boundary}+
+\text{atmospheric circulation shell}.
+\]
+A planetary-shell row has the form
+\[
+Q_{\oplus\text{-Moon}}^{(\ell,\omega)}=
+(\Phi_{\mathrm{water}},\Phi_{\mathrm{atm}},\chi_{\oplus},
+Q_{\mathrm{water}},S_{\mathrm{water}},
+Q_{\mathrm{atm}},S_{\mathrm{atm}},
+R,R_0,T,T_0,B^*,\widehat\Lambda,
+P_{\mathrm{shell}},P_{0,\mathrm{shell}},\Sigma_{\mathrm{shell}}).
+\]
+The pair \((Q,S)\) in this scaffold is the chirality-weighted boundary-polarization count pair of the retained shell extraction.
