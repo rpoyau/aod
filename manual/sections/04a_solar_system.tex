@@ -29,7 +29,7 @@ Residual witness & pending until the refinement row is computed \\
 \end{threeparttable}
 \end{table}
 
-The cited 100-year solar-system ledger is fixed first and the perihelion witness is read as an extracted Mercury slice on that same long-window ledger.
+The cited 100-year solar-system record is fixed first and the perihelion witness is read as an extracted Mercury slice on that same long-window record.
 
 \begin{table}[H]
 \centering
@@ -44,19 +44,19 @@ Row & Slice key & $T_{\mathrm{eval}}$ [\(\mathrm{bip}_0\)] & $B^*$ & $\Lambda_b$
 S1 & \texttt{tetron:*:[sun,mercury]:6} & 36525 & 137 & 6 & $\frac{1+8\ell_2}{24}$ & 3 \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The cited row fixes the shared long-window ledger, including the nested Earth--Moon subledger retained inside the same system ledger.}
+\ManualTableNote{The cited row fixes the shared long-window record, including the nested Earth--Moon subfamily retained inside the same system record.}
 \end{threeparttable}
 \end{table}
 
 \begin{table}[H]
 \centering
-\caption{Solar-system manifest on the cited 100-year ledger.}
+\caption{Solar-system manifest on the cited 100-year row.}
 \label{tab:solar-system-manifest}
 \begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lccc@{}}
 \toprule
-Subledger / slice & Monon-period witness & Unit & Cycle count in 100 y \\
+Subfamily / slice & Monon-period witness & Unit & Cycle count in 100 y \\
 \midrule
 Mercury & 0.2408467 & y & 415.20 \\
 Earth   & 1.0000174 & y & 100.00 \\
@@ -88,19 +88,19 @@ Map & Calculated [arcsec/cy] & Cited benchmark [arcsec/cy] & Abs. error [arcsec/
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.72\linewidth]{figures/solar/01_system_ledger.png}
-\caption{100-year solar-system ledger schematic.}
-\label{fig:solar-system-ledger}
+\includegraphics[width=0.72\linewidth]{figures/solar/01_system_row.png}
+\caption{100-year solar-system record schematic.}
+\label{fig:solar-system-record}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.88\linewidth]{figures/solar/02_mercury_earth_moon.png}
-\caption{Mercury perihelion slice and nested Earth--Moon subledger.}
+\caption{Mercury perihelion slice and nested Earth--Moon subfamily.}
 \label{fig:mercury-earth-moon}
 \end{figure}
 
-The long-window ledger carries the Mercury slice together with the cadence-support and residual-support witnesses of the main note.
+The long-window record carries the Mercury slice together with the cadence-support and residual-support witnesses of the main note.
 
 \subsubsection{Light bending by the Sun}
 \label{man:solar-lensing-witness}
@@ -118,7 +118,7 @@ Item & Declaration \\
 Parent field & solar export AO field \\
 Retained extraction & grazing solar export slice \\
 Omitted context & non-grazing solar context and external receiver details \\
-First refinement & full source--receiver transfer ledger \\
+First refinement & full source--receiver transfer row \\
 Validity window & cited solar export window \\
 Residual witness & pending until refinement row is computed \\
 \bottomrule
@@ -141,7 +141,7 @@ Row & Family / window & $q_{\mathrm{eff}}$ & $T_{\mathrm{tors}}$ & Packet witnes
 S2 & \texttt{duon:2:1:7} / solar export slice & $+\frac{1}{2}$ & 2 & emitted duon packet & qualified \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The packet witness and shell qualification are read first on the same boundary ledger.}
+\ManualTableNote{The packet witness and shell qualification are read first on the same boundary row.}
 \end{threeparttable}
 \end{table}
 
@@ -169,7 +169,7 @@ Map & Calculated [arcsec] & Cited benchmark [arcsec] & Abs. error [arcsec] & Rel
 \label{fig:solar-lensing-export}
 \end{figure}
 
-The cited export ledger carries the shell/export and boundary-deflection witnesses used for the reported grazing-incidence comparison.
+The cited export row carries the shell/export and boundary-deflection witnesses used for the reported grazing-incidence comparison.
 
 \subsubsection{Solar redshift}
 \label{man:solar-redshift-witness}
@@ -187,7 +187,7 @@ Item & Declaration \\
 Parent field & solar transfer AO field \\
 Retained extraction & source--receiver transfer pair \\
 Omitted context & external transfer windows not declared in the pair \\
-First refinement & multi-window transfer ledger \\
+First refinement & multi-window transfer row \\
 Validity window & cited source/receiver windows \\
 Residual witness & pending until refinement row is computed \\
 \bottomrule
@@ -210,7 +210,7 @@ Row & Transfer class & $B^*$ & $\Lambda_b$ \\
 S3 & \texttt{duon:2:1:7} on the transfer class & 137 & 6 \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The source and receiver rows are fixed first. The burden difference and cadence-transfer comparison are attached afterward across the same two-window ledger.}
+\ManualTableNote{The source and receiver rows are fixed first. The burden difference and cadence-transfer comparison are attached afterward across the same two-window record.}
 \end{threeparttable}
 \end{table}
 
@@ -227,7 +227,7 @@ Map & Calculated & Cited benchmark & Abs. error & Rel. error [\%] \\
 \(\Phi_z\) & pending & $2.12\times10^{-6}$ & pending & pending \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The redshift witness is attached after the source and receiver rows are fixed on the same two-window ledger.}
+\ManualTableNote{The redshift witness is attached after the source and receiver rows are fixed on the same two-window record.}
 \end{threeparttable}
 \end{table}
 
@@ -238,7 +238,7 @@ Map & Calculated & Cited benchmark & Abs. error & Rel. error [\%] \\
 \label{fig:solar-redshift-transfer}
 \end{figure}
 
-The two-window ledger carries the cadence-transfer witness used for the reported redshift comparison.
+The two-window record carries the cadence-transfer witness used for the reported redshift comparison.
 
 \subsubsection{Saturn rings and moon shells}
 \label{man:saturn-shell-witness}
@@ -253,10 +253,10 @@ The two-window ledger carries the cadence-transfer witness used for the reported
 \toprule
 Item & Declaration \\
 \midrule
-Parent field & solar \(n\)-soma orbital ledger \\
+Parent field & solar \(n\)-soma orbital record \\
 Retained extraction & Saturn ring--moon shell family \\
 Omitted context & non-Saturn solar context \\
-First refinement & outer solar shell-family ledger \\
+First refinement & outer solar shell-family row \\
 Validity window & cited Saturn orbital shell window \\
 Residual witness & qualitative until refinement row is computed \\
 \bottomrule
@@ -279,7 +279,7 @@ Row & Structural key & Gap witness \\
 S4 & \texttt{tetron:*:[saturn,rings]:6} & Cassini Division \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The cited row records the shell family and the Cassini Division gap on the same ordered orbital ledger.}
+\ManualTableNote{The cited row records the shell family and the Cassini Division gap on the same ordered orbital record.}
 \end{threeparttable}
 \end{table}
 
@@ -313,4 +313,4 @@ Titan & 1{,}221{,}870 & 15.945 \\
 \label{fig:saturn-shell-family}
 \end{figure}
 
-The ring family and selected moons display a readable multi-shell witness on the same orbital ledger.
+The ring family and selected moons display a readable multi-shell witness on the same orbital record.

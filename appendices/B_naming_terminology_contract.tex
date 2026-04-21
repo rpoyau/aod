@@ -5,8 +5,8 @@ This appendix records only the public naming and serialization layer used below.
 \subsection{Primary body terms}
 Primary body terms are: cut, frame, window, present identity, predecessor trace, successor horizon, AO field, wavelet, step flux, window current, chirality, push/pull, effective charge proxy, torsional tension, torsional loss, torsional residual witness, recursive phase debt service, cadence, dominant residual-duration class, radiating/export window, emitted/exported packet witness, ominion, and n-soma system.
 
-\subsection{AO field and reported family naming}
-The public field name is \emph{AO field}. When a field instance is reported together with its wavelet class, the field name remains AO field and the class name is attached separately through the naming rules below.
+\subsection{AO field and family naming}
+The public field name is \emph{AO field}. When a field instance is recorded together with its wavelet class, the field name remains AO field and the class name is attached separately through the naming rules below.
 
 \subsection{Traverser / closure naming rule}
 The suffix \texttt{-on} denotes a traverser class. The suffix \texttt{-ad} denotes a closure or seat class. Traverser precedes closure in composed names. In this naming contract, \emph{duad} is the closed/full alias of \emph{duon}, and \emph{tetrad} is the locked/full alias of \emph{tetron}.
@@ -21,9 +21,9 @@ This yields the public family/subclass pattern:
 The public families used below are:
 \begin{itemize}[leftmargin=1.5em]
   \item \textbf{duon}: public two-seat traverser family.
-  \item \textbf{duad}: canonical closed/full duon alias on the cited report row.
+  \item \textbf{duad}: canonical closed/full duon alias on the cited row.
   \item \textbf{tetron}: public four-seat traverser family.
-  \item \textbf{tetrad}: canonical locked/full tetron alias on the cited report row.
+  \item \textbf{tetrad}: canonical locked/full tetron alias on the cited row.
 \end{itemize}
 
 \subsection{WaveletSpec structural key}
@@ -36,7 +36,7 @@ with optional named properties appended after a property separator. In prose:
   \item \texttt{type} is one of \texttt{duon}, \texttt{duad}, \texttt{tetron}, \texttt{tetrad};
   \item \texttt{loop} is the loop index on the declared chart;
   \item \texttt{occ} is the seat occupancy on the cited readout;
-  \item \texttt{Lout} is the outer reported length as a decimal integer.
+  \item \texttt{Lout} is the outer length count in the serialized key.
 \end{itemize}
 
 \subsection{Chirality prefix rule}
@@ -45,7 +45,7 @@ The unprefixed structural key denotes an $\alpha$-field instance. The prefixed f
 denotes an $\Omega$-field instance. Dwell/traffic is never serialized as a third chirality value.
 
 \subsection{Properties namespace}
-Named properties may be appended after the structural key as a report namespace. Typical properties include reported values such as mass/rate, $q_{\mathrm{eff}}$, linear momentum, angular momentum, phase state, push/pull polarity, chirality tag, polyphase or cadence summaries, radiation/export qualifiers, shell indices, attenuation support, and loss/tension witnesses.
+Named properties may be appended after the structural key as a property namespace. Typical properties include mass/rate, $q_{\mathrm{eff}}$, linear momentum, angular momentum, phase state, push/pull polarity, chirality tag, polyphase or cadence summaries, radiation/export qualifiers, shell indices, attenuation support, and loss/tension witnesses.
 
 \subsection{Public examples}
 Examples of public tags used below are:
@@ -62,36 +62,36 @@ Examples of public tags used below are:
   \item \texttt{O-tetron:3:3:6}
   \item \texttt{O-tetrad:3:4:6}
 \end{itemize}
-If named properties are attached, they remain attached to the cited report row under the same naming contract.
+If named properties are attached, they remain attached to the cited row under the same naming contract.
 
-\subsection{Nested subledger notation}
-Bracketed sublists denote clustered or satellite subledgers inside a larger cited system; for example,
+\subsection{Nested subfamily notation}
+Bracketed sublists denote clustered or satellite subfamilies inside a larger cited system; for example,
 \[
 [\mathrm{sun},\mathrm{mercury},\mathrm{venus},[\mathrm{earth},\mathrm{moon}],\mathrm{mars},\dots]
 \]
 denotes a local clustered orbital subfamily inside a larger n-soma window.
 
 \subsection{AO field families and structural subclasses}
-\paragraph{Two-seat family.} The two-seat traverser family is recorded by the public names \emph{duon} and \emph{duad}. Within this naming contract, \emph{duad} is the closed/full alias used when the cited report row is serialized in the closed-seat form \texttt{duad:2:2:<Lout>[::props]}; the corresponding open-seat form is \texttt{duon:2:1:<Lout>[::props]}. Effective-charge, push/pull, polyphase, cadence, and radiation/export properties attach only through the named property namespace.
+\paragraph{Two-seat family.} The two-seat traverser family is recorded by the public names \emph{duon} and \emph{duad}. Within this naming contract, \emph{duad} is the closed/full alias used when the cited row is serialized in the closed-seat form \texttt{duad:2:2:<Lout>[::props]}; the corresponding open-seat form is \texttt{duon:2:1:<Lout>[::props]}. Effective-charge, push/pull, polyphase, cadence, and radiation/export properties attach only through the named property namespace.
 
-\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. Within this naming contract, \emph{tetrad} is the locked/full alias used when the cited report row is serialized in the locked form \texttt{tetrad:3:4:6}. Other preserved structural variants include \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, and \texttt{tetron:3:3:6}. These strings are recorded as report keys only; this appendix does not assign them additional theorem content.
+\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. Within this naming contract, \emph{tetrad} is the locked/full alias used when the cited row is serialized in the locked form \texttt{tetrad:3:4:6}. Other preserved structural variants include \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, and \texttt{tetron:3:3:6}. These strings are recorded as keys under this naming contract.
 
-\paragraph{Confinement and isotope labels.} Confinement and isotope labels are report labels reused from the main body. Their predicates, witnesses, and stability criteria are defined there, not in this appendix.
+\paragraph{Confinement and isotope labels.} Confinement and isotope labels are row labels reused from the main body. Their predicates, witnesses, and stability criteria are defined there, not in this appendix.
 
 \subsection{Push / pull, chirality, and polyphase property namespace}
-When properties are attached to a structural key, the recommended namespace includes reported quantities such as \texttt{qeff}, push/pull polarity, chirality tag, polyphase summaries, cadence witnesses, and radiation/export qualifiers. O-prefixed field tags (for example \texttt{O-duon}, \texttt{O-tetron}, \texttt{O-tetrad}) are part of this public report contract.
+When properties are attached to a structural key, the recommended namespace includes row quantities such as \texttt{qeff}, push/pull polarity, chirality tag, polyphase summaries, cadence witnesses, and radiation/export qualifiers. O-prefixed field tags (for example \texttt{O-duon}, \texttt{O-tetron}, \texttt{O-tetrad}) are part of this public naming contract.
 
 \subsection{Shell, ladder, and index syntax}
-Only the shell and ladder syntax needed by the examples and the operator reports is admitted here. This includes shell indices, rung support mass, and attenuation exponents where cited. The larger manual lineage may record further serialization layers on the same reported families.
+Only the shell and ladder syntax needed by the examples and the operator rows is admitted here. This includes shell indices, rung support mass, and attenuation exponents where cited. The larger manual lineage may record further serialization layers on the same row families.
 
 \paragraph{Shell, ladder, and index syntax.}
-Shell, ladder, and index syntax record only the identifiers, support witnesses, and ladder quantities used by cited rows and operator reports. No shell-facing algebraic rendering is fixed at the naming-contract level.
+Shell, ladder, and index syntax record only the identifiers, support witnesses, and ladder quantities used by cited rows and operator rows. Shell-facing algebra is fixed in the row where that algebra is declared.
 
 \subsection{Optional overlays}
 \emph{Dion} and \emph{tetraon} are optional overlay aliases available under the same naming contract.
 
-\subsection{Local AOD report objects}
-Here, \emph{frame} and \emph{window} are declared local AOD report objects. \emph{Step flux} is a one-frame quantity and \emph{window current} is the derived window-level trace term used in the cited rows.
+\subsection{Local AOD row objects}
+Here, \emph{frame} and \emph{window} are declared local AOD row objects. \emph{Step flux} is a one-frame quantity and \emph{window current} is the derived window-level trace term used in the cited rows.
 
 \subsection{Level-relative bip/biz names}
-The symbols \(\mathrm{bip}_0\) and \(\mathrm{biz}_0\) name the count/rate units at the declared working cut level. The unsuffixed forms bip and biz may be used generically for the unit family when no level comparison is active. The level-relative convention is stated in Appendix~\ref{app:level-relative-bip-biz}.
+The symbols \(\mathrm{bip}_0\) and \(\mathrm{biz}_0\) name the count/rate units at the declared working cut level. The unsuffixed forms bip and biz may be used generically for the unit family when no cross-level declaration is active. The level-relative convention is stated in Appendix~\ref{app:level-relative-bip-biz}.

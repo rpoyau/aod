@@ -16,7 +16,7 @@ This source-only file records CSV and figure companion assets used by the manual
 - manual/figures/hydrogen/01_shell_radii.png
 
 ## Section 06 — Solar and radiation
-- manual/figures/solar/01_system_ledger.png
+- manual/figures/solar/01_system_row.png
 - manual/figures/solar/02_mercury_earth_moon.png
 - manual/figures/solar/03_lensing_export.png
 - manual/figures/solar/04_redshift_transfer.png

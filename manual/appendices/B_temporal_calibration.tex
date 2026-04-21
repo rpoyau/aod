@@ -1,9 +1,9 @@
-\section{Temporal calibration and SI report maps}
+\section{Temporal calibration, source normalization, and SI report maps}
 \label{app:manual-temporal-calibration}
 
-Counts at a declared cut level \(\ell\) are recorded in \(\mathrm{bip}_{\ell}\), and reciprocal rates at that level are recorded in \(\mathrm{biz}_{\ell}\). The manual may use the reference convention \(\ell=0\), written \(\mathrm{monon}_0\), \(\mathrm{bip}_0\), and \(\mathrm{biz}_0\). The hierarchy has no bottom cut, and \(\mathrm{bip}_0\) is not Planck time.
+Counts at a declared cut level \(\ell\) are recorded in \(\mathrm{bip}_{\ell}\), and reciprocal rates at that level are recorded in \(\mathrm{biz}_{\ell}\). The manual may use the reference convention \(\ell=0\), written \(\mathrm{monon}_0\), \(\mathrm{bip}_0\), and \(\mathrm{biz}_0\). The hierarchy is level-relative; the declared level fixes the row for the cited calculation.
 
-SI values are calibration or report targets. They do not generate the AO field relation. Distance, mass, charge, velocity, and phase appear only after a declared report map or temporal normalization.
+Report calibration from \(\mathrm{bip}_{\ell}/\mathrm{biz}_{\ell}\) to seconds, hertz, mass-rate anchors, distance reports, or other benchmark quantities is declared after the exact row is fixed. The AO field relation is read on the exact row; the report quantities belong to the comparison layer. SI-facing reports use the BIPM SI reference convention and cited numerical constants/conversion factors~\cite{bipm_si_brochure_2025,nist_constants_complete}.
 
 A mass-rate anchor may be recorded as
 \[
@@ -13,7 +13,21 @@ n := \log_3(m_z),
 \qquad
 \lambda := \frac{n}{4}.
 \]
-By default this is a report-layer anchor. A chapter may admit it as an exact working quantity only by declaring that status explicitly. Momentum-like quantities must be named by their AOD role, such as \(p_{\mathrm{AOD}}\), \(p_{\mathrm{loss}}\), or \(p_{\mathrm{prox}}\), and must be defined before use.
+By default this is a report-layer anchor. A chapter admits it as an exact working quantity by declaring that status explicitly. Momentum-like quantities are named by their AOD role, such as \(p_{\mathrm{AOD}}\), \(p_{\mathrm{loss}}\), or \(p_{\mathrm{prox}}\), with the defining map stated before use.
+
+The normalization pipeline is
+\[
+\begin{aligned}
+X_{\mathrm{src}}
+&\xrightarrow{\ \mathcal N_{\mathrm{src}\to\mathrm{AOD}}\ }
+X_{\mathrm{AOD}}\\
+&\xrightarrow{\ \mathcal S_{\mathrm{AOD}}\ }
+Y_{\mathrm{AOD}}\\
+&\xrightarrow{\ \mathcal N_{\mathrm{AOD}\to\mathrm{src/SI}}\ }
+Y_{\mathrm{rep}}.
+\end{aligned}
+\]
+Here \(X_{\mathrm{src}}\) is a cited source snapshot, \(X_{\mathrm{AOD}}\) is the exact AOD input row, \(\mathcal S_{\mathrm{AOD}}\) is the AFC/AOD simulation or prediction, and \(Y_{\mathrm{rep}}\) is the measurement-facing comparison output. The source snapshot declaration records the data source, source units, access date or version, raw-file path or checksum when available, and the chosen map \(\mathcal N_{\mathrm{src}\to\mathrm{AOD}}\).
 
 The generic report map has type
 \[
@@ -22,3 +36,8 @@ The generic report map has type
 \longrightarrow
 \mathrm{ReportQuantity}.
 \]
+
+\subsection{External source snapshot rule}
+\label{app:manual-source-snapshot-rule}
+
+A benchmark-facing example is complete only when its source-normalization row is present. For a source such as SPARC, the map \(\Phi_{\mathrm{SPARC}}\) cites the SPARC database/paper, records the source quantities and units, converts the source snapshot into the exact AOD row, runs the AOD simulation, and only then renders the comparison quantity back into the source/SI-facing units~\cite{sparc_paper,sparc_site}. If the raw snapshot, version, or normalization map is absent, the calculated comparison field remains pending.

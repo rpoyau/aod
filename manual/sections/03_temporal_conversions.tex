@@ -2,7 +2,7 @@
 \section{Exact-to-report maps and temporal calibration}
 \label{man:exact-to-report-maps}
 
-Report quantities are attached only after an exact row has been fixed under the main note \cite{aod43_main_2026}. SI values are calibration or report targets; they do not generate the AO field relation.
+Report quantities are attached only after an exact row has been fixed under the main note \cite{aod43_main_2026}. SI-facing values are calibration or report targets governed by the SI reference convention and cited constant tables~\cite{bipm_si_brochure_2025,nist_constants_complete}; they do not generate the AO field relation.
 
 The generic exact-to-report map has type
 \[
@@ -11,7 +11,7 @@ The generic exact-to-report map has type
 \longrightarrow
 \mathrm{ReportQuantity}.
 \]
-Specific worked examples instantiate this type with maps such as \(\Phi_{\varpi}\), \(\Phi_{\mathrm{lens}}\), \(\Phi_z\), \(\Phi_{\mathrm{shell}}\), and \(\Phi_{\mathrm{SPARC}}\). A comparison row is not complete until its map is explicit.
+Specific worked examples instantiate this type with maps such as \(\Phi_{\varpi}\), \(\Phi_{\mathrm{lens}}\), \(\Phi_z\), \(\Phi_{\mathrm{shell}}\), and \(\Phi_{\mathrm{SPARC}}\). A comparison row is not complete until its map is explicit. Dataset-facing maps such as \(\Phi_{\mathrm{SPARC}}\) also cite the source snapshot and its source units before the row is accepted~\cite{sparc_paper,sparc_site}.
 
 \subsection{Allowed report forms}
 \label{man:allowed-report-forms}
@@ -50,7 +50,7 @@ Every comparison table names its report map. If the report map has not yet been 
 \label{man:diagrammatic-temporal-rendering}
 \colabbadge{manual/notebooks/03_temporal_conversions.ipynb}
 
-A cited collision / export row may be displayed diagrammatically after that ledger is fixed.
+A cited collision / export row may be displayed diagrammatically after that row is fixed.
 
 \begin{figure}[H]
 \centering
@@ -76,7 +76,7 @@ Decimal renderings are convenience values only and do not replace the exact/defa
 
 \begin{table}[H]
 \centering
-\caption{Decimal rendering values for the cited open-seat wavelet ledger.}
+\caption{Decimal rendering values for the cited open-seat wavelet row.}
 \label{tab:decimal-rendering-values}
 \begin{threeparttable}
 \small

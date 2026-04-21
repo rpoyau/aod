@@ -22,7 +22,7 @@ The present identity is the AFC Stokes identity evaluated on the boundary of the
 \subsection{\texorpdfstring{$\tau$}{tau} readout, frame/window, and active/dwell split}
 \begin{choice}[$\tau$ readout]
 \label{choice:tau-readout}
-A declared readout map assigns a ternary symbol $\tau_t\in\{-1,0,+1\}$ to each update on the cited cut. The ternary readout is attached to that cut through the declared frames and windows; it does not redefine the cut itself.
+A declared readout map assigns a ternary symbol $\tau_t\in\{-1,0,+1\}$ to each update on the cited cut. The ternary readout is attached to that cut through the declared frames and windows while the cited cut remains fixed.
 \end{choice}
 
 \begin{definition}[Frame]
@@ -46,13 +46,13 @@ Active length counts the ticks with $\chi_t=1$ and dwell length counts the compl
 
 \begin{definition}[Step flux and window current]
 \label{def:step-window-current}
-Step flux is the one-frame boundary-crossing quantity on a declared frame. Window current is the derived window-level accumulation of step flux over the ordered family of frames in $\omega$.
+Step flux is the one-frame boundary-crossing quantity on a declared frame. Window current is the derived window-level accumulation of step flux over the ordered family of frames in $\omega$. When the retained transport layer is used, the windowed current-flux rate is namespaced as $\mathcal J_K$ and is kept distinct from the chirality-count rows $J_\alpha,J_\Omega,J_0$ and from the transverse witness $w_\perp$.
 \end{definition}
 
 \subsection{\texorpdfstring{$\tau$}{tau}-side readout, admissibility, and loss channel}
-\begin{definition}[$\tau$ readout ledger]
-\label{def:tau-readout-ledger}
-The declared $\tau$-ledger records, on the cited frame/window family, the ternary symbols $\tau_t\in\{-1,0,+1\}$, the active/dwell partition, and any declared symbol counts $(N_+,N_0,N_-)$. These are authoritative ledgers.
+\begin{definition}[$\tau$ readout row]
+\label{def:tau-readout-record}
+The declared $\tau$-row records, on the cited frame/window family, the ternary symbols $\tau_t\in\{-1,0,+1\}$, the active/dwell partition, and any declared symbol counts $(N_+,N_0,N_-)$. These are row entries.
 \end{definition}
 
 \begin{definition}[Admissibility count and active set]
@@ -66,18 +66,29 @@ When $m_t=1$, the realized update is fully constrained on that tick.
 
 \begin{definition}[Loss channel]
 \label{def:loss-channel}
-The per-tick loss burden, its accumulated total, and its windowed average are
+The admissibility-loss support on a cited window is the integer row
+\[
+L_{\mathrm{loss}}^{\mathbb Z}(\omega):=(n_1,n_2,n_3,T_{\mathrm{eval}}),
+\qquad
+n_m:=|\{t\in\omega\cap\mathrm{act}:m_t=m\}|,
+\]
+with
+\[
+T_{\mathrm{eval}}\in\mathbb Z_{>0},
+\qquad
+n_1+n_2+n_3\le T_{\mathrm{eval}}.
+\]
+The per-tick loss burden, accumulated burden, and cited window loss readout are
 \[
 u_t^{(\mathrm{loss})}:=\log_3\!\left(\frac{3}{m_t}\right),
 \qquad
-U^{(\mathrm{loss})}(\omega):=\sum_{t\in\omega\cap\mathrm{act}} u_t^{(\mathrm{loss})},
+U^{(\mathrm{loss})}(\omega):=\sum_{t\in\omega\cap\mathrm{act}}u_t^{(\mathrm{loss})},
 \]
 \[
 R_{\mathrm{loss}}(\omega):=u^{(\mathrm{loss})}(\omega):=\frac{1}{T_{\mathrm{eval}}}U^{(\mathrm{loss})}(\omega)
-=\log_3\!\bigl(\Gamma_{\mathrm{loss}}(\omega)\bigr)
-\quad[\mathrm{trit}/\mathrm{bip}_0],
+\quad[\mathrm{trit}/\mathrm{bip}_0].
 \]
-with
+The equivalent multiplicative loss witness is
 \[
 \Gamma_{\mathrm{loss,raw}}(\omega):=\prod_{t\in\omega\cap\mathrm{act}}\frac{3}{m_t},
 \qquad
@@ -85,12 +96,12 @@ with
 \qquad
 T_\Gamma(\omega):=\Gamma_{\mathrm{loss}}(\omega)-1.
 \]
-The primitive is $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ in \(\mathrm{trit}/\mathrm{bip}_0\). A derived internal rate in \(\mathrm{biz}_0\) may be reported later only after the declared attenuation/backlog step has been applied. This local loss channel records readout-side admissibility restriction on the cited cut family; by itself it does not identify the imported AFC Markov-kernel capacity.
+Together, \(L_{\mathrm{loss}}^{\mathbb Z}\) and \(R_{\mathrm{loss}}\) name the loss channel on the cited window: the integer row records the admissibility support, and \(R_{\mathrm{loss}}\) is the retained trit-per-\(\mathrm{bip}_0\) loss readout assembled by the declared loss map.
 \end{definition}
 
-\begin{definition}[Active-only versus total normalization]
-\label{def:rate-normalization}
-Unless a row explicitly declares otherwise, reported rates are normalized by total ticks on the cited window. Active-only normalization is permitted only if $T_{\mathrm{act}}$ is reported alongside $T_{\mathrm{eval}}$.
+\begin{definition}[Active-only versus total duration count]
+\label{def:rate-duration-count}
+A rate row uses total ticks on the cited window unless the row declares an active-only duration count and records $T_{\mathrm{act}}$ alongside $T_{\mathrm{eval}}$.
 \end{definition}
 
 \subsection{Predecessor trace, successor horizon, and knowledge profile}
@@ -131,7 +142,7 @@ A declared axis-lift map associates each active ternary step with a signed toggl
 \[
 \pi_{\mathrm{axis}}:(X_t,X_{t+1})\mapsto \Delta x_t\in\{\pm e_1,\pm e_2,\pm e_3,\pm e_4\},
 \]
-producing a Q4 chart representation of the inherited support. The chart is the declared report form used below.
+producing a Q4 chart representation of the inherited support. The chart is the declared row form used below.
 \end{choice}
 
 \begin{definition}[Q4 cell basis]
@@ -152,7 +163,7 @@ A two-cycle return is the minimal return closure. A four-cycle enclosure is the 
 
 \begin{definition}[Level index and beat closure]
 \label{def:level-beat}
-For any cited closure witness $\kappa$ with active half-length ledger $L_{\pm}(\kappa)$, define the level index
+For any cited closure witness $\kappa$ with active half-length count $L_{\pm}(\kappa)$, define the level index
 \[
 \lambda(\kappa):=\frac{L_{\pm}(\kappa)}{4}.
 \]
@@ -176,16 +187,16 @@ A knot is a closure occurrence treated as a localized curl on the wavelet stream
 
 \begin{definition}[Cage as a two-knot object and minimal cage-band]
 \label{def:cage-band}
-A cage report is a two-knot object
+A cage row is a two-knot object
 \[
 \mathrm{Cage}(M;\omega):=(\kappa_{\mathrm{in}},\kappa_{\mathrm{out}}),
 \]
-where $\kappa_{\mathrm{out}}$ is a cage-knot and $\kappa_{\mathrm{in}}$ is a knot nested inside $\kappa_{\mathrm{out}}$ under the canonical Q4 chart and the declared motif-to-region extractor. The minimal cage-band length signature is reported as $(L_{\mathrm{in}}:L_{\mathrm{out}})=(4{:}6)$.
+where $\kappa_{\mathrm{out}}$ is a cage-knot and $\kappa_{\mathrm{in}}$ is a knot nested inside $\kappa_{\mathrm{out}}$ under the canonical Q4 chart and the declared motif-to-region extractor. The minimal cage-band length signature is recorded as $(L_{\mathrm{in}}:L_{\mathrm{out}})=(4{:}6)$.
 \end{definition}
 
 \begin{definition}[Outer enclosure token and motif id]
 \label{def:outer-enclosure-token}
-The outer enclosure token $\eta_{\mathrm{out}}$ records the reported outer enclosure class on the cited window. A motif id $M$ is a stable label for a detected class of occurrences under declared detector settings and perturbation tolerances.
+The outer enclosure token $\eta_{\mathrm{out}}$ records the outer enclosure class on the cited window. A motif id $M$ is a stable label for a detected class of occurrences under declared detector settings and perturbation tolerances.
 \end{definition}
 
 \subsection{\texorpdfstring{$\alpha\leftrightarrow\omega$}{alpha-omega} bookkeeping, backlog, and crowning}
@@ -201,12 +212,12 @@ Backlog is the unresolved mismatch between the local tally and the closure oblig
 
 \begin{definition}[Crowning]
 \label{def:crowning}
-Crowning is the reported directional closure distinction that first stabilizes a local asymmetry under the declared crown predicate.
+Crowning is the directional closure distinction that first stabilizes a local asymmetry under the declared crown predicate.
 \end{definition}
 
 \begin{definition}[Drift]
 \label{def:drift}
-Drift is the reported phase or transport bias that persists across the declared cut family on a cited readout class.
+Drift is the phase or transport bias that persists across the declared cut family on a cited readout class.
 \end{definition}
 
 \subsection{AO field, wavelet, shell/cadence interface, and saturation}
@@ -223,7 +234,7 @@ For an AO field \(\mathcal F\) on a cited window \(\omega\), a retained field sp
 =
 (\mathcal F,\mathcal F_K,\omega,\ell,\mathcal C_{\mathrm{omit}},\mathcal F_{K+1},\pi),
 \]
-where \(\mathcal F_K\subset\mathcal F\) is the retained extraction, \(\ell\) is the working cut level, \(\mathcal C_{\mathrm{omit}}\) records omitted context, \(\mathcal F_{K+1}\) is the first refinement when declared, and \(\pi\) is the local extraction/readout policy. This is bookkeeping on the cited AO field; it does not alter the imported AFC basis.
+where \(\mathcal F_K\subset\mathcal F\) is the retained extraction, \(\ell\) is the working cut level, \(\mathcal C_{\mathrm{omit}}\) records omitted context, \(\mathcal F_{K+1}\) is the first refinement when declared, and \(\pi\) is the local extraction/readout policy. This is bookkeeping on the cited AO field under the imported AFC basis.
 \end{definition}
 
 \begin{definition}[Refinement residual]
@@ -239,6 +250,283 @@ Q(\mathcal F_{K+1},\omega)-Q(\mathcal F_K,\omega)
 A qualitative residual is a placeholder until the refinement row is computed.
 \end{definition}
 
+\subsection{Integer boundary-path row layer}
+
+
+\begin{definition}[Exact row form]
+\label{def:exact-row-form}
+An AOD row records declared cut data as exact count, sign, residue, rational-pair, cycle-pair, and incidence data on a cited window. Its entries may include integer counts, signed differences, ternary signs, modular residues, support classes, phase-cycle pairs, path-count pairs, orientation signs, boundary incidences, and topology signatures.
+
+The row is read at the declared working level \(\ell\) and window \(\omega\). A full phase closure is one cycle. Directional state is recorded by signed residue, orientation, and incidence data attached to the retained boundary relation.
+\end{definition}
+
+\begin{definition}[Cycle phase row]
+\label{def:cycle-phase-row}
+A retained boundary link may carry cycle data
+\[
+\Phi_e=(c_e,k_e,N_e),
+\qquad
+c_e\in\mathbb Z,
+\quad
+k_e\in\mathbb Z/N_e\mathbb Z,
+\quad
+N_e\in\mathbb Z_{>0}.
+\]
+Here \(c_e\) is the retained completed-cycle count when declared, \(k_e\) is the residual phase count, and \(N_e\) is the cycle modulus.
+
+For adjacent endpoint residues define
+\[
+\Delta k_e:=\operatorname{wrap}_{N_e}(k_{e,+}-k_{e,-}),
+\qquad
+r_e:=\operatorname{cent}_{N_e}(\Delta k_e),
+\]
+and the direction sign
+\[
+d_e:=\operatorname{sgn}(r_e)\in\{-1,0,+1\}.
+\]
+The centered representative \(r_e\) is the phase-step count used by the retained transport row.
+\end{definition}
+
+\begin{definition}[Exact path-count ratio]
+\label{def:exact-path-count-ratio}
+A retained transport row records step motion as an integer pair
+\[
+v_e^{\mathrm{exact}}=(\Delta s_e,\Delta n_e),
+\qquad
+\Delta s_e,\Delta n_e\in\mathbb Z,
+\qquad
+\Delta n_e>0,
+\]
+where \(\Delta s_e\) is a path-step, shell-step, boundary-hop, or topology-step count, and \(\Delta n_e\) is a duration count in \(\mathrm{bip}_{\ell}\). Orientation is recorded separately by an incidence sign.
+\end{definition}
+
+\begin{definition}[Effective-charge exact pair]
+\label{def:qeff-exact-pair}
+For a retained boundary link or face \(e\), let
+\[
+Q_e:=J_{\alpha}(e;\omega)-J_{\Omega}(e;\omega)\in\mathbb Z,
+\]
+\[
+S_e:=J_{\alpha}(e;\omega)+J_{\Omega}(e;\omega)+J_0(e;\omega)\in\mathbb Z_{>0}.
+\]
+The exact effective-charge row is
+\[
+q_{\mathrm{eff},e}^{\mathrm{exact}}=(Q_e,S_e).
+\]
+The pair records chirality-weighted boundary polarization counts on the declared cut.
+\end{definition}
+
+\begin{definition}[Rational-pair arithmetic]
+\label{def:rational-pair-arithmetic}
+For integer pairs with positive denominators, multiplication and addition are
+\[
+(a,b)\cdot(c,d):=(ac,bd),
+\qquad
+(a,b)+(c,d):=(ad+bc,bd),
+\qquad b,d>0.
+\]
+The notation \(\operatorname{Rat}[a,b]\) denotes the reduced integer pair with positive denominator. If \(a=0\), its canonical form is \((0,1)\).
+\end{definition}
+
+\begin{definition}[Integer attenuation pairs]
+\label{def:integer-attenuation-pairs}
+For a retained boundary link \(e\), the support attenuation pair is
+\[
+A_{B,e}^{\mathrm{exact}}
+=(A_{B,e}^{+},A_{B,e}^{-})
+=(B_0^{\widehat\Lambda_e},(B_e^*)^{\widehat\Lambda_e}).
+\]
+When \(B_0=1\), this is \((1,(B_e^*)^{\widehat\Lambda_e})\). The loss attenuation pair is
+\[
+A_{R,e}^{\mathrm{exact}}
+=(A_{R,e}^{+},A_{R,e}^{-})
+=(R_{0,e},R_{0,e}+R_e),
+\qquad
+R_{0,e}\in\mathbb Z_{>0}.
+\]
+The total attenuation gate is
+\[
+A_e^{\mathrm{exact}}=A_{B,e}^{\mathrm{exact}}\cdot A_{R,e}^{\mathrm{exact}}.
+\]
+Here \(B^*\), \(\Lambda_b\), and \(\widehat\Lambda\) name distinct quantities: \(B^*\) records the dominant support count, \(\Lambda_b\) records support mass on the dominant class, and \(\widehat\Lambda\) records the attenuation exponent used by this boundary row.
+\end{definition}
+
+\begin{definition}[Torsion and AOD momentum proxy pairs]
+\label{def:torsion-momentum-proxy-pairs}
+The torsion gain pair on a retained boundary link is
+\[
+G_{T,e}^{\mathrm{exact}}=(T_{0,e}+T_e,T_{0,e}),
+\qquad
+T_{0,e}>0.
+\]
+The positive numerator branch uses \(T_{0,e}+T_e>0\); signed numerator pairs are declared when the row requires them. A momentum-like row is recorded as a named AOD proxy,
+\[
+p_e^{\mathrm{AOD}}=(P_e,P_{0,e}),
+\qquad
+P_e,P_{0,e}\in\mathbb Z,
+\qquad
+P_{0,e}>0.
+\]
+The map that produces \(p_e^{\mathrm{AOD}}\) is declared before the proxy is used.
+\end{definition}
+
+\begin{definition}[Retained boundary-link row]
+\label{def:retained-boundary-link-row}
+A retained boundary link on level \(\ell\) and window \(\omega\) may be recorded as
+\[
+D_e^{(\ell,\omega)}=
+\left(
+ c_e,k_e,N_e,
+ \chi_e,
+ Q_e,S_e,
+ R_e,R_{0,e},
+ T_e,T_{0,e},
+ B_e^*,\widehat\Lambda_e,
+ P_e,P_{0,e},
+ \Sigma_e
+\right).
+\]
+The entries record, in order, cycle data, chirality, effective-charge counts, loss counts, torsion pair, support-count witness, attenuation exponent, AOD momentum proxy, and topology signature. This is a retained boundary-link row on a cited AO field.
+\end{definition}
+
+\begin{definition}[Topology signature]
+\label{def:topology-signature}
+The topology signature of a retained boundary relation is the discrete object
+\[
+\Sigma_e=(\tau_e,\sigma_e,\mathbf a_e,\partial_e,\mathcal I_e),
+\]
+where \(\tau_e\) is a cell or face type index, \(\sigma_e\in\{-1,0,+1\}\) is an orientation sign, \(\mathbf a_e\in\mathbb Z^m\) is a fractal or scale address, \(\partial_e\) is a boundary incidence list, and \(\mathcal I_e\) is an integer incidence matrix or tensor. Incidence signs are read as
+\[
+\epsilon_{ej}=\epsilon(\Sigma_e,\Sigma_j)\in\{-1,0,+1\}.
+\]
+The topology signature supplies the incidence signs used by retained boundary relations.
+\end{definition}
+
+\begin{definition}[Exact transport flux]
+\label{def:exact-transport-flux}
+For a retained boundary link \(e\), set
+\[
+\Delta\Phi_e=(r_e,N_e),
+\qquad
+q_e=(Q_e,S_e),
+\]
+with attenuation pairs \(A_{B,e}\), \(A_{R,e}\), and torsion pair \(G_{T,e}=(T_{0,e}+T_e,T_{0,e})\). The retained transport flux is
+\[
+u_e^{(\mathrm{tr})}
+=
+\operatorname{Rat}
+\left[
+ r_e Q_e A_{B,e}^{+}A_{R,e}^{+}(T_{0,e}+T_e),
+ N_e S_e A_{B,e}^{-}A_{R,e}^{-}T_{0,e}
+\right].
+\]
+Its sign is \(\operatorname{sgn}(u_e^{(\mathrm{tr})})=\operatorname{sgn}(r_eQ_e)\). Chirality is applied in the transverse incidence readout.
+\end{definition}
+
+\begin{definition}[Windowed current-flux rate]
+\label{def:windowed-current-flux-rate}
+Let \(\epsilon_e^{\parallel}\) be the retained-path current-flux direction. Let \(\epsilon_{ej}^{\perp}\) be the transverse probe/readout incidence sign. These signs occupy separate longitudinal and transverse incidence slots. The accumulated retained transport is
+\[
+U_K^{(\ell)}(\omega)
+=
+\sum_{e\in E_K(\omega)}\epsilon_e^{\parallel}u_e^{(\mathrm{tr})}.
+\]
+For \(|\omega|_{\mathrm{bip}_{\ell}}\in\mathbb Z_{>0}\), the windowed current-flux rate is
+\[
+\mathcal J_K^{(\ell)}(\omega)
+=
+\operatorname{Rat}
+\left[
+U_{K,\mathrm{num}}^{(\ell)}(\omega),
+U_{K,\mathrm{den}}^{(\ell)}(\omega)|\omega|_{\mathrm{bip}_{\ell}}
+\right].
+\]
+The symbol \(\mathcal J_K\) names the windowed retained current-flux rate and is separate from the chirality-count rows \(J_{\alpha}\), \(J_{\Omega}\), and \(J_0\).
+\end{definition}
+
+\begin{definition}[Carrier-family partition]
+\label{def:carrier-family-partition}
+For the first retained transport implementation, carrier families are declared as a disjoint partition
+\[
+E_K(\omega)=E_{K,\mathrm{duon}}(\omega)\cup E_{K,\mathrm{tetron}}(\omega)\cup E_{K,\mathrm{other}}(\omega),
+\]
+\[
+E_{K,a}\cap E_{K,b}=\varnothing\qquad(a\neq b).
+\]
+Thus \(U_K\) and \(\mathcal J_K\) split exactly into duon, tetron, and other carrier contributions.
+\end{definition}
+
+\begin{definition}[Transverse boundary witness]
+\label{def:transverse-boundary-witness}
+Let \(\epsilon_{ej}^{\perp}\in\{-1,0,+1\}\) be the transverse incidence sign from retained link \(e\) to probe side \(j\). The exact transverse witness is
+\[
+w_{\perp,j}^{\mathrm{exact}}
+=
+\sum_e \epsilon_{ej}^{\perp}\chi_e u_e^{(\mathrm{tr})}.
+\]
+For the two-sided wire witness,
+\[
+\epsilon_{e,+}^{\perp}=+1,
+\qquad
+\epsilon_{e,-}^{\perp}=-1,
+\]
+so
+\[
+w_{\perp}^{+}=\sum_e\chi_eu_e^{(\mathrm{tr})},
+\qquad
+w_{\perp}^{-}=-\sum_e\chi_eu_e^{(\mathrm{tr})}.
+\]
+The transverse boundary witness is denoted \(w_{\perp}\), and the support witness \(B^*\), current-flux rate \(\mathcal J_K\), and transverse witness \(w_{\perp}\) are pairwise distinct:
+\[
+\boxed{B^*\neq\mathcal J_K\neq w_{\perp}}.
+\]
+\end{definition}
+
+\begin{definition}[Integer retained-boundary diagram]
+\label{def:integer-retained-boundary-diagram}
+A retained-boundary or retained-path diagram value is
+\[
+\mathcal A_{\mathbb Z}(\mathcal G)
+=(W_{\mathcal G},K_{\mathcal G},N_{\mathcal G},\chi_{\mathcal G},\Sigma_{\mathcal G}),
+\]
+where \(W_{\mathcal G}\) is a rational weight pair, \(K_{\mathcal G}\) is an accumulated phase residue, \(N_{\mathcal G}\) is the accumulated modulus, \(\chi_{\mathcal G}\) is an accumulated chirality sign, and \(\Sigma_{\mathcal G}\) is the accumulated topology signature. For a path \(\gamma\),
+\[
+K_{\gamma}=\sum_{e\in\gamma}k_e\pmod{N_{\gamma}}.
+\]
+The retained-path accumulation is
+\[
+\mathcal Z_{\partial\mathcal O}^{(\ell,\omega)}
+=
+\bigoplus_{\gamma\in\Gamma_{\partial\mathcal O}(\omega)}
+(W_{\gamma},K_{\gamma},N_{\gamma},\chi_{\gamma},\Sigma_{\gamma}).
+\]
+The retained-path accumulation is taken over the admissible retained path family.
+\end{definition}
+
+\begin{definition}[Integer collision vertex]
+\label{def:integer-collision-vertex}
+For incoming boundary signs \(a,b\in\{-1,0,+1\}\), the balanced ternary collision update is \(c=a\oplus_3b\). A retained collision vertex is
+\[
+\mathcal K_{\mathrm{coll}}^{\mathbb Z}:
+D_a\times D_b\times\Sigma_{ab}
+\longrightarrow
+D'\oplus\Pi_{\mathrm{export}}\oplus\mathcal R_{\mathrm{cut}}.
+\]
+The update is controlled by integer predicates
+\[
+a\oplus_3 b,
+\qquad
+Q_a+Q_b,
+\qquad
+K_a+K_b\pmod N,
+\qquad
+\chi_a\chi_b,
+\qquad
+\epsilon(\Sigma_a,\Sigma_b).
+\]
+The outcome class is one of balanced, push, pull, reclosure, export, or rupture/refinement.
+\end{definition}
+
 \begin{definition}[Wavelet]
 \label{def:wavelet}
 A wavelet is a finite closure-carrying Memory-path segment equipped with ordered cutwise field quantities.
@@ -246,12 +534,12 @@ A wavelet is a finite closure-carrying Memory-path segment equipped with ordered
 
 \begin{definition}[Shell-band extraction interface]
 \label{def:shell-cadence-interface}
-A shell-band extractor packages the cited closure/return/cycle ledger into an ordered family of reported shell bands on the same cited window.
+A shell-band extractor packages the cited closure/return/cycle data into an ordered family of shell-band rows on the same cited window.
 \end{definition}
 
 \begin{definition}[Cadence extractor]
 \label{def:cadence-extractor}
-A cadence extractor acts on the cited shell bands to produce completed-cycle counts, completion periods, phase indices, cycle-ratio phase reports, and drift witnesses on the same cited window.
+A cadence extractor acts on the cited shell bands to produce completed-cycle counts, completion periods, phase indices, cycle-ratio phase rows, and drift witnesses on the same cited window.
 \end{definition}
 
 \begin{definition}[Saturation]
@@ -274,11 +562,18 @@ J_\alpha(M;\omega):=\sum_{t\in\omega}\sum_{(i,j)\in\partial R(M;\omega)} \phi_{i
 \[
 J_\Omega(M;\omega):=\sum_{t\in\omega}\sum_{(i,j)\in\partial R(M;\omega)} \phi_{ij}(t)\,\mathbf 1\{\chi(t)=\Omega\},
 \]
-we define the effective-charge proxy by
+and neutral or uncommitted count \(J_0(M;\omega)\) when the row declares it, define
 \[
-q_{\mathrm{eff}}(M;\omega):=\mathcal N\!\bigl(J_\alpha(M;\omega)-J_\Omega(M;\omega)\bigr),
+Q(M;\omega):=J_\alpha(M;\omega)-J_\Omega(M;\omega)\in\mathbb Z,
 \]
-with normalization $\mathcal N$ declared by the cited operator.
+\[
+S(M;\omega):=J_\alpha(M;\omega)+J_\Omega(M;\omega)+J_0(M;\omega)\in\mathbb Z_{>0}.
+\]
+The exact effective-charge proxy is
+\[
+q_{\mathrm{eff}}^{\mathrm{exact}}(M;\omega):=(Q(M;\omega),S(M;\omega)).
+\]
+A declared scalar readout is obtained by the cited scalar readout map \(\mathcal N(Q,S)\).
 \end{definition}
 
 \begin{definition}[$\Omega$-cycle lag]
@@ -288,7 +583,7 @@ The chirality-resolved cycle-lag statistic is the declared difference between pa
 
 \begin{definition}[Radiating/export window and emitted packet witness]
 \label{def:radiating-window}
-A window is radiating/exporting for motif $M$ if the declared shell predicate fails by nonzero net export and/or elevated boundary mutual information on the same readout family. The emitted/exported packet witness is the wavelet packet crossing the declared cut on that window.
+A window is radiating/exporting for motif $M$ when the declared shell predicate records nonzero net export and/or elevated boundary mutual information on the same readout family. The emitted/exported packet witness is the wavelet packet crossing the declared cut on that window.
 \end{definition}
 
 \subsection{\texorpdfstring{$B^*$}{B*} extraction, histogram support, and Jensen discipline}
@@ -317,7 +612,7 @@ and the support mass on that class
 \]
 The estimator functional must be declared whenever ties or trimming rules are present.
 
-The value \(B^*(M;\omega)\) is a support-count quantity recorded in \(\mathrm{bip}_0\) at the declared working cut level. Its reciprocal \(1/B^*(M;\omega)\), when used as a rate quantity on the same cited ledger, is recorded in \(\mathrm{biz}_0\). The subscript \(0\) marks the declared reference level, not a lowest cut; see Appendix~\ref{app:level-relative-bip-biz}.
+The value \(B^*(M;\omega)\) is a support-count quantity recorded in \(\mathrm{bip}_0\) at the declared working cut level. Its reciprocal \(1/B^*(M;\omega)\), when used as a rate quantity on the same cited row, is recorded in \(\mathrm{biz}_0\). The subscript \(0\) marks the declared reference level; see Appendix~\ref{app:level-relative-bip-biz}.
 \end{definition}
 
 \begin{remarkx}
@@ -347,14 +642,14 @@ whereas the post-averaged surrogate would be
 \[
 \log_3\!\left(\frac{3}{\bar m}\right).
 \]
-These are not equal in general; equivalently,
+They differ in general; equivalently,
 \[
 J_{\mathrm{gap}}(\omega):=
 \frac{n_1+n_2\log_3\!\left(\frac{3}{2}\right)}{T_{\mathrm{eval}}}
 -
 \log_3\!\left(\frac{3}{\bar m}\right)\ge 0,
 \]
-with equality only on the degenerate uniform-admissibility cases. Any rung or attenuation summary built from $b(\kappa)$ is therefore aggregated on the declared sample set before any later summary or rendering.
+with equality only on the degenerate uniform-admissibility cases. Any rung or attenuation summary built from $b(\kappa)$ is therefore aggregated on the declared sample set before any later compression.
 \end{remarkx}
 
 \begin{choice}[Shell-band extractor]
@@ -368,7 +663,7 @@ On a cited motif-conditioned window $\omega$, the shell signature is the coarse 
 \[
 \mathrm{Sig}(M;\omega):=(\lambda\text{-band}, B^*\text{-class}, \rho\text{-winding class}, V\text{-class}).
 \]
-It is assembled from the level index, dominant residual-duration class, winding report, and support signature on the same declared shell-band extraction policy.
+It is assembled from the level index, dominant residual-duration class, winding row, and support signature on the same declared shell-band extraction policy.
 \end{definition}
 
 \begin{definition}[Confinement predicate and proximity criterion]
@@ -384,7 +679,7 @@ The suffix \texttt{-on} denotes a traverser class. The suffix \texttt{-ad} denot
 
 \begin{definition}[Public AO field families and structural key]
 \label{def:field-families}
-The public AO field families used below are the two-seat family \emph{duon} and the four-seat family \emph{tetron}, together with their cited closure aliases \emph{duad} and \emph{tetrad} on the same family keys, declared structural subclasses, and O-prefixed chirality tags on the same field report. Here \emph{duad} is the closed/full duon alias and \emph{tetrad} is the locked/full tetron alias on the cited window. Structural examples such as \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6} are public identifiers on cited windows.
+The public AO field families used below are the two-seat family \emph{duon} and the four-seat family \emph{tetron}, together with their cited closure aliases \emph{duad} and \emph{tetrad} on the same family keys, declared structural subclasses, and O-prefixed chirality tags on the same field row. Here \emph{duad} is the closed/full duon alias and \emph{tetrad} is the locked/full tetron alias on the cited window. Structural examples such as \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, \texttt{tetron:3:3:6}, and \texttt{tetrad:3:4:6} are public identifiers on cited windows.
 \end{definition}
 
 \begin{definition}[Structural constraints]
@@ -394,12 +689,12 @@ Seat / traversal constraints, closure-lock constraints, and saturation policy ar
 
 \begin{definition}[Ominion]
 \label{def:ominion}
-An ominion is a declared clustered effective-body state on a cited window, carrying effective report properties such as mass/rate, charge proxy, linear momentum, angular momentum, phase state, and loss/tension witnesses.
+An ominion is a declared clustered effective-body state on a cited window, carrying effective row properties such as mass/rate, charge proxy, linear momentum, angular momentum, phase state, and loss/tension witnesses.
 \end{definition}
 
 \begin{definition}[n-soma system]
 \label{def:n-soma}
-An n-soma is a finite family of ominions together with a shared relational ledger on the cited window.
+An n-soma is a finite family of ominions together with a shared relational record on the cited window.
 \end{definition}
 
 \subsection{Observer families, coupling, chirality, polyrotor phases, torsional tension, and cadence}
@@ -432,9 +727,9 @@ be the cycle-ratio phase, and let $N_\rho(M;\omega)\in\mathbb Z_{\ge 0}$ be the 
 On a declared coupled polyrotor phase family, torsional tension is the accumulated unresolved phase disagreement carried on that family. Torsional loss is the admissibility lost because that disagreement remains unresolved.
 \end{definition}
 
-\begin{definition}[Recursive phase debt service]
+\begin{definition}[Recursive phase burden]
 \label{def:recursive-phase-debt-service}
-On a declared coupled polyrotor phase family, recursive phase debt service is the internal servicing of unresolved phase disagreement under the recursive update. It need not require external reflection or external collision. On the cited readout family it is reported through torsional tension, torsional loss, the torsional residual witness, and any forced dwell where present.
+On a declared coupled polyrotor phase family, recursive phase debt service is the internal servicing of unresolved phase disagreement under the recursive update. On the cited readout family it is recorded through torsional tension, torsional loss, the torsional residual witness, and any forced dwell where present.
 \end{definition}
 
 \begin{definition}[Torsional residual witness]
@@ -444,7 +739,7 @@ The torsional residual witness is the noncancelling remainder of the chirality-r
 
 \begin{definition}[Cadence]
 \label{def:cadence-bstar}
-Cadence is the declared local recurrence-rate report quantity on the cited readout class. The dominant residual-duration class $B^*$ is defined earlier by the declared return-duration histogram and is reused here only by reference.
+Cadence is the declared local recurrence-rate quantity on the cited readout class. The dominant residual-duration class $B^*$ is defined earlier by the declared return-duration histogram and is reused here only by reference.
 \end{definition}
 
 
@@ -460,7 +755,7 @@ with right-censoring declared when the cited window ends before rupture. TTL wei
 
 \begin{definition}[Decay, by-product census, and rupture predicate]
 \label{def:decay-census}
-Decay is the typed end of persistence under the declared rupture predicate. Product and by-product census are the typed post-death motif counts on declared post-death windows. None of these alters the underlying AO field; they are report objects on the same ledgers.
+Decay is the typed end of persistence under the declared rupture predicate. Product and by-product census are the typed post-death motif counts on declared post-death windows. These are row objects on the same underlying AO field.
 \end{definition}
 
 \begin{definition}[Freezing, rebalance dwell, transmutation, and dynamic recruitment]
@@ -470,7 +765,7 @@ A cited window is \emph{freezing} when sustained admissibility restriction and/o
 
 \begin{definition}[Normalized speed and rest-frame window]
 \label{def:rest-frame-window}
-Using the declared axis-traversal ledgers, define the normalized speed
+Using the declared axis-traversal rows, define the normalized speed
 \[
 v(\omega):=\frac{\|\Delta R(\omega)\|_2}{T_{\mathrm{act}}(\omega)}\in[0,1].
 \]

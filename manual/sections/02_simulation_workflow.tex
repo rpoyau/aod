@@ -18,10 +18,28 @@ A worked simulation proceeds in this order.
   \item Run the AOD operator chain on the retained field.
   \item Produce the exact row.
   \item State the truncation residual.
-  \item Apply the exact-to-report map.
+  \item Apply the named exact-to-report map.
   \item Compare with the cited benchmark.
   \item State the falsification condition.
+
 \end{enumerate}
+
+\subsection{Source-normalization boundary}
+\label{man:source-normalization-boundary}
+
+External inputs are admitted through a named source-normalization map before the AOD row is formed. The required direction is
+\[
+\begin{aligned}
+\text{source snapshot}
+&\xrightarrow{\ \mathcal N_{\mathrm{src}\to\mathrm{AOD}}\ }
+\text{AOD exact input row}\\
+&\xrightarrow{\ \mathcal S_{\mathrm{AOD}}\ }
+\text{AOD simulation/prediction}\\
+&\xrightarrow{\ \mathcal N_{\mathrm{AOD}\to\mathrm{src/SI}}\ }
+\text{comparison output}.
+\end{aligned}
+\]
+The source snapshot records the source citation, source units, access date or version, raw-file location, and normalization map. SI-facing comparison outputs cite the SI convention and any constants used in the normalization layer~\cite{bipm_si_brochure_2025,nist_constants_complete}. The AOD simulation step remains in the exact row calculus.
 
 \subsection{Retention and refinement block}
 \label{man:workflow-retention-block}
