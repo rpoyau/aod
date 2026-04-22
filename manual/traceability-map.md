@@ -18,7 +18,7 @@ Historical lineage is retired. Active provenance is manual-local: section source
 - Atomic fields -> `manual/sections/05c_atomic_fields.tex`, `manual/figures/hydrogen/`, `manual/figures/confinement/`
 - Biological fields -> `manual/sections/05d_biological_fields.tex`, `manual/figures/bacteria/`
 - Recurrent fields -> `manual/sections/05e_recurrent_fields.tex`, `manual/data/temporal/`, `manual/figures/recurrent/`
-- Transport/current scaffold -> `manual/sections/05f_transport_current_fields.tex`, `manual/figures/transport/`
+- Transport/current worked row -> `manual/sections/05f_transport_current_fields.tex`, `manual/data/raw/05f_wire_current_setup.json`, `manual/code/05f_wire_current_boundary_transport.py`, `manual/data/derived/05f_wire_current_exact.csv`, `manual/data/derived/05f_wire_current_report.csv`, `manual/data/derived/05f_wire_current_trace.csv`, `manual/figures/transport/`, `manual/notebooks/05f_wire_current_boundary_transport.ipynb`, `manual/tests/test_05f_wire_current_boundary_transport.py`, `manual/audits/phaseIII_wire_current_audit.md`
 - Matter-regime scaffold -> `manual/sections/05g_matter_regime_fields.tex`
 - Planetary-shell scaffold -> `manual/sections/05h_planetary_shell_fields.tex`
 

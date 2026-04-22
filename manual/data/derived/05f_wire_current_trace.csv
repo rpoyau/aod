@@ -1,0 +1,6 @@
+scenario,identity,J_flux_num,J_flux_den,w_perp_plus_num,w_perp_plus_den,w_perp_minus_num,w_perp_minus_den,J_flux_display,w_perp_plus_display,w_perp_minus_display,audit,relative_to_base
+base,passed,2501,453600,3151,37800,-3151,37800,2501/453600,3151/37800,-3151/37800,two-sided witness antisymmetry,
+zero_transport,passed,0,1,0,1,0,1,0,0,0,r=0 implies u_tr=0 and w_perp=0,
+current_reversal,passed,-2501,453600,-3151,37800,3151,37800,-2501/453600,-3151/37800,3151/37800,r sign reversal flips J_flux and w_perp,passed
+chirality_reversal,passed,2501,453600,-3151,37800,3151,37800,2501/453600,-3151/37800,3151/37800,chi sign reversal flips w_perp,passed
+active_probe_plus,declared,3151,37800,3151,37800,0,1,3151/37800,3151/37800,0,"plus-side probe retained, minus-side probe omitted",

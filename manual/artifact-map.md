@@ -35,3 +35,17 @@ This source-only file records CSV and figure companion assets used by the manual
 - manual/figures/recurrent/01_duon_chirality_polarization.png
 - manual/figures/recurrent/02_push_pull_response.png
 - manual/figures/recurrent/03_flip_events.png
+
+## Section 05f — Transport/current fields
+- manual/data/raw/05f_wire_current_setup.json
+- manual/code/05f_wire_current_boundary_transport.py
+- manual/data/derived/05f_wire_current_exact.csv
+- manual/data/derived/05f_wire_current_report.csv
+- manual/data/derived/05f_wire_current_trace.csv
+- manual/figures/transport/01_wire_transverse_witness.png
+- manual/figures/transport/02_current_reversal.png
+- manual/figures/transport/03_chirality_reversal.png
+- manual/figures/transport/04_active_probe_response.png
+- manual/notebooks/05f_wire_current_boundary_transport.ipynb
+- manual/tests/test_05f_wire_current_boundary_transport.py
+- manual/audits/phaseIII_wire_current_audit.md

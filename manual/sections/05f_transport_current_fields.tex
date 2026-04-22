@@ -1,8 +1,138 @@
 \subsection{Transport/current fields}
 \label{man:transport-current-fields}
 
-This section is reserved for the Stage III wire-current worked example. The Phase II manual fixes the route and the notation contract for
+This worked example instantiates the integer boundary-path calculus from Appendix~\ref{app:integer-boundary-path-diagrams}.  The retained chain is
 \[
-D_e\to u_e^{(\mathrm{tr})}\to U_K\to \mathcal J_K\to w_\perp.
+D_e\to u_e^{(\mathrm{tr})}\to U_K\to \mathcal J_K\to w_\perp,
 \]
-The script, raw setup, exact CSVs, notebook, figures, and tests are Stage III artifacts.
+with all displayed rows computed from the manual-local setup file and exact rational arithmetic.
+
+\subsubsection{Wire current and transverse boundary witness}
+\label{man:wire-current-transverse-boundary-witness}
+
+\RetentionBlock
+{\(\mathcal O_{\mathrm{wire}}=\mathcal O_{\mathrm{conductor}}\cup\mathcal O_{\mathrm{sheath}}\cup\mathcal O_{\mathrm{ambient}}\)}
+{\(\mathcal F_K=\mathcal C_{\mathrm{wire}}\cup\mathcal P_{\mathrm{probe}}\)}
+{bulk thermal, external sector, and material benchmark layers}
+{split probe side; add retained sheath boundary addresses; add carrier-family rows}
+{\(\omega_{\mathrm{wire},0}\) with \(|\omega|_{\mathrm{bip}_0}=12\)}
+{\(w_\perp^+ + w_\perp^- = 0\) on the two-sided probe cut}
+
+The cell row used by the script is
+\[
+C_i=(c_i,k_i,N_i,\chi_i,Q_i,S_i,R_i,R_{0,i},T_i,T_{0,i},B_i^*,\widehat\Lambda_i,P_i,P_{0,i},\Sigma_i).
+\]
+The row data are stored in \path{manual/data/raw/05f_wire_current_setup.json}.  The authoritative calculation is \path{manual/code/05f_wire_current_boundary_transport.py}.  The exact output rows are in \path{manual/data/derived/05f_wire_current_exact.csv}, the compact report table is in \path{manual/data/derived/05f_wire_current_report.csv}, and the audit trace is in \path{manual/data/derived/05f_wire_current_trace.csv}.
+
+\begin{table}[H]
+\centering
+\caption{Compact exact report for the wire-current retained boundary rows.}
+\label{tab:wire-current-compact-report}
+\begin{threeparttable}
+\scriptsize
+\pgfplotstabletypeset[
+columns={row_id,family,r_over_N,chi,Q_over_S,u_tr,J_flux,w_perp_plus,w_perp_minus},
+columns/row_id/.style={string type,column name=Row},
+columns/family/.style={string type,column name=Family},
+columns/r_over_N/.style={string type,column name=\(r/N\)},
+columns/chi/.style={string type,column name=\(\chi\)},
+columns/Q_over_S/.style={string type,column name=\(Q/S\)},
+columns/u_tr/.style={string type,column name=\(u^{(\mathrm{tr})}\)},
+columns/J_flux/.style={string type,column name=\(\mathcal J_K\)},
+columns/w_perp_plus/.style={string type,column name=\(w_\perp^+\)},
+columns/w_perp_minus/.style={string type,column name=\(w_\perp^-\)}
+]{data/derived/05f_wire_current_report.csv}
+\ManualTableNote{The repeated \(\mathcal J_K\) and \(w_\perp^\pm\) entries are window-level values attached to each retained row for CSV auditability.}
+\end{threeparttable}
+\end{table}
+
+The carrier-family partition is disjoint in the setup file:
+\[
+E_K(\omega)=E_{K,\mathrm{duon}}(\omega)\cup E_{K,\mathrm{tetron}}(\omega)\cup E_{K,\mathrm{other}}(\omega),
+\qquad
+E_{K,a}\cap E_{K,b}=\varnothing\quad(a\neq b).
+\]
+For the displayed rows, the exact family current-flux reports add to the windowed current-flux:
+\[
+\mathcal J_{K,\mathrm{duon}}+\mathcal J_{K,\mathrm{tetron}}+\mathcal J_{K,\mathrm{other}}
+=\mathcal J_K.
+\]
+
+\subsubsection{Transverse witness audit}
+\label{man:wire-current-transverse-witness-audit}
+
+The two-sided probe convention is
+\[
+\epsilon_{e,+}^{\perp}=+1,
+\qquad
+\epsilon_{e,-}^{\perp}=-1.
+\]
+Thus the exact transverse witness is
+\[
+w_\perp^+=\sum_e\chi_eu_e^{(\mathrm{tr})},
+\qquad
+w_\perp^-=-\sum_e\chi_eu_e^{(\mathrm{tr})}.
+\]
+The row values in Table~\ref{tab:wire-current-compact-report} give
+\[
+w_\perp^+=\frac{3151}{37800},
+\qquad
+w_\perp^-=-\frac{3151}{37800},
+\qquad
+w_\perp^+ + w_\perp^- = 0.
+\]
+The witness namespace remains
+\[
+\boxed{B^*\neq \mathcal J_K\neq w_\perp}.
+\]
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.58\linewidth]{figures/transport/01_wire_transverse_witness.png}
+\caption{Two-sided transverse witness rendered from exact rational rows. The paired bars are \(w_\perp^+\) and \(w_\perp^-\).}
+\label{fig:wire-transverse-witness}
+\end{figure}
+
+\subsubsection{Phase, chirality, and probe-side audits}
+\label{man:wire-current-phase-chirality-audits}
+
+The exact audit trace checks the following row identities:
+\[
+r_e=0\Rightarrow u_e^{(\mathrm{tr})}=0\Rightarrow w_\perp=0,
+\]
+\[
+r_e\mapsto -r_e\Rightarrow \mathcal J_K\mapsto -\mathcal J_K,
+\qquad
+w_\perp\mapsto -w_\perp,
+\]
+\[
+\chi_e\mapsto -\chi_e\Rightarrow w_\perp\mapsto -w_\perp,
+\qquad
+\epsilon_{e,+}^{\perp}=-\epsilon_{e,-}^{\perp}\Rightarrow w_\perp^+=-w_\perp^-.
+\]
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.58\linewidth]{figures/transport/02_current_reversal.png}
+\caption{Current-flux reversal audit: the centered phase representative is reversed and \(\mathcal J_K\) changes sign.}
+\label{fig:wire-current-reversal}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.58\linewidth]{figures/transport/03_chirality_reversal.png}
+\caption{Chirality reversal audit: the transverse witness changes sign while the retained transport row is unchanged.}
+\label{fig:wire-chirality-reversal}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.58\linewidth]{figures/transport/04_active_probe_response.png}
+\caption{Active probe-side response: the plus-side witness is retained while the omitted side is recorded as zero in the trace row.}
+\label{fig:wire-active-probe-response}
+\end{figure}
+
+\subsubsection{Executable artifacts}
+\label{man:wire-current-executable-artifacts}
+
+The notebook \path{manual/notebooks/05f_wire_current_boundary_transport.ipynb} mirrors the script in nine blocks: declaration, source-chain setup, exact transport flux, windowed \(\mathcal J_K\), transverse witnesses, falsification checks, rational report table, figures, and CSV export.  The test file \path{manual/tests/test_05f_wire_current_boundary_transport.py} checks zero transport, orientation reversal, chirality reversal, top/bottom antisymmetry, exact carrier decomposition, window-rate normalization, namespace separation for \(B^*\), trace declaration, and numerator/denominator CSV columns.

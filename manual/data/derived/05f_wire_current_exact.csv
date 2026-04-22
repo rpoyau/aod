@@ -1,0 +1,7 @@
+row_id,omega,working_level,window_bip_0,carrier_family,B_star,widehat_Lambda,phase_step_num,phase_step_den,centered_phase_step,chi,epsilon_parallel,q_eff_num,q_eff_den,atten_b_num,atten_b_den,atten_loss_num,atten_loss_den,tors_num,tors_den,u_tr_num,u_tr_den,U_window_num,U_window_den,J_flux_num,J_flux_den,J_duon_num,J_duon_den,J_tetron_num,J_tetron_den,J_other_num,J_other_den,w_perp_plus_num,w_perp_plus_den,w_perp_minus_num,w_perp_minus_den
+e01,omega_wire_0,0,12,duon,2,1,3,12,1/4,1,1,2,5,1,2,4,5,4,3,4,75,2501,37800,2501,453600,101,12600,-13,18144,-1,560,3151,37800,-3151,37800
+e02,omega_wire_0,0,12,duon,3,1,2,10,1/5,1,1,3,7,1,3,1,1,3,2,3,70,2501,37800,2501,453600,101,12600,-13,18144,-1,560,3151,37800,-3151,37800
+e03,omega_wire_0,0,12,tetron,2,2,1,9,1/9,-1,1,4,9,1,4,3,4,1,1,1,108,2501,37800,2501,453600,101,12600,-13,18144,-1,560,3151,37800,-3151,37800
+e04,omega_wire_0,0,12,tetron,2,1,-2,8,-1/4,-1,1,1,6,1,2,5,7,6,5,-1,56,2501,37800,2501,453600,101,12600,-13,18144,-1,560,3151,37800,-3151,37800
+e05,omega_wire_0,0,12,other,4,0,0,12,0,1,1,5,11,1,1,1,1,4,3,0,1,2501,37800,2501,453600,101,12600,-13,18144,-1,560,3151,37800,-3151,37800
+e06,omega_wire_0,0,12,other,3,1,3,15,1/5,1,1,-1,4,1,3,6,7,3,2,-3,140,2501,37800,2501,453600,101,12600,-13,18144,-1,560,3151,37800,-3151,37800
