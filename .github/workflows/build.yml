@@ -30,6 +30,9 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install -r requirements-ci.txt
 
+      - name: Run audit verifier
+        run: python3 audit_pack/verify_examples_sympy.py
+
       - name: Run manual exact-row tests
         run: |
           python3 manual/tests/test_05f_wire_current_boundary_transport.py
@@ -60,23 +63,37 @@ jobs:
               '.bbl', '.blg', '.pdf', '.aux', '.log', '.toc',
               '.out', '.xdv', '.fls', '.fdb_latexmk', '.synctex.gz', '.pyc'
           )
+          required = {
+              'manual/main.tex',
+              'manual/sections/05f_transport_current_fields.tex',
+              'manual/tests/test_05f_wire_current_boundary_transport.py',
+              'manual/tests/test_05g_05h_application_scaffolds.py',
+              'manual/tests/test_05i_integer_collision_vertex.py',
+              'audit_pack/verify_examples_sympy.py',
+              'requirements-ci.txt',
+          }
           with ZipFile(zips[0]) as zf:
+              names = set(zf.namelist())
               bad = [
-                  name for name in zf.namelist()
+                  name for name in names
                   if not name.startswith('archive/') and name.endswith(bad_suffixes)
               ]
+              missing = sorted(required - names)
           assert not bad, bad
+          assert not missing, missing
           print(f'source bundle hygiene passed: {zips[0]}')
           PY
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: docs
+          name: docs-and-source
           path: |
             main.pdf
             manual.pdf
             dist/*.zip
+            dist/stats/*
+            audit_pack/verify_report.txt
 
       - name: Upload release assets
         if: github.event_name == 'release'
@@ -86,4 +103,7 @@ jobs:
           gh release upload "${{ github.event.release.tag_name }}" \
             main.pdf \
             manual.pdf \
+            dist/*.zip \
+            dist/stats/* \
+            audit_pack/verify_report.txt \
             --clobber
