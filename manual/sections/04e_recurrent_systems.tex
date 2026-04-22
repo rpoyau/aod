@@ -14,18 +14,18 @@
 \toprule
 Item & Declaration \\
 \midrule
-Parent field & cited recurrent AO field \\
+Parent field & declared recurrent AO field \\
 Retained extraction & three-node recurrent ring \\
 Omitted context & non-ring recurrent context \\
 First refinement & extended recurrent network \\
-Validity window & cited recurrent row \\
+Validity window & declared recurrent row \\
 Residual witness & pending until refinement row is computed \\
 \bottomrule
 \end{tabularx}
 \end{threeparttable}
 \end{table}
 
-A cited recurrent-ring row is fixed first and then displayed as a compact recurrent-system witness.
+A declared recurrent-ring row is fixed first and then displayed as a compact recurrent-system witness.
 
 \begin{table}[H]
 \centering
@@ -42,7 +42,7 @@ A cited recurrent-ring row is fixed first and then displayed as a compact recurr
   columns/Lambda_hat_ticks/.style={column name={$\widehat\Lambda$ [ticks]},fixed,precision=0},
   columns/Rloss_biz_derived/.style={column name={$R^{(\mathrm{biz}_0)}_{\mathrm{loss}}$ [\(\mathrm{biz}_0\)]},fixed,precision=6}
 ]{data/temporal/01_recurrent_ring_summary.csv}
-\ManualTableNote{This compact display reuses the cited recurrent-ring row as a recurrent-system witness across scales.}
+\ManualTableNote{This compact display reuses the declared recurrent-ring row as a recurrent-system witness across scales.}
 \end{threeparttable}
 \end{table}
 
@@ -58,13 +58,13 @@ A cited recurrent-ring row is fixed first and then displayed as a compact recurr
   \fill (A) circle (2pt) node[above] {A};
   \fill (B) circle (2pt) node[left] {B};
   \fill (C) circle (2pt) node[right] {C};
-  \node at (0,-1.7) {projected recurrent ring on the cited row};
+  \node at (0,-1.7) {projected recurrent ring on the declared row};
 \end{tikzpicture}
 \caption{Recurrent ring witness.}
 \label{fig:recurrent-ring-witness}
 \end{figure}
 
-The cited recurrent row carries the CK-mismatch and cut-residual diagnostics used to distinguish recurrent projection effects from kernel bias.
+The declared recurrent row carries the CK-mismatch and cut-residual diagnostics used to distinguish recurrent projection effects from kernel bias.
 
 
 \subsubsection{Driven chirality-flip toy model}
@@ -88,11 +88,11 @@ Validity window & simulation window only \\
 Residual witness & qualitative; support-only until exact refinement exists \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{This toy is support-only; it is not theorem evidence and not a cross-scale benchmark witness.}
+\ManualTableNote{This toy is a support row for recurrent-field diagnostics. Theorem evidence and cross-scale benchmark witnesses require their own exact rows and report maps.}
 \end{threeparttable}
 \end{table}
 
-This is a support-only toy model. It is not theorem evidence and not a cross-scale benchmark witness. The companion notebook tracks chirality flips, push/pull response, and mean chirality polarization under unbiased and driven reclosure schedules.
+This support-row toy tracks recurrent-field diagnostics. The companion notebook tracks chirality flips, push/pull response, and mean chirality polarization under unbiased and driven reclosure schedules.
 
 \begin{table}[H]
 \centering
@@ -104,7 +104,7 @@ This is a support-only toy model. It is not theorem evidence and not a cross-sca
 \toprule
 Scenario & Collisions & Flips & Flips / collision & Peak $|\chi|$ & Mean push/pull \\
 \midrule
-No external bias & 106051 & 808 & 0.00762 & 0.24 & 0.0550 \\
+Neutral external bias & 106051 & 808 & 0.00762 & 0.24 & 0.0550 \\
 Driven bias & 130014 & 1173 & 0.00902 & 0.36 & -0.0001 \\
 \bottomrule
 \end{tabularx}

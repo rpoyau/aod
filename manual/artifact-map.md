@@ -77,3 +77,5 @@ This source-only file records CSV and figure companion assets used by the manual
 - manual/audits/application_scaffolds_audit.md
 
 - CI/release hardening audit -> `manual/audits/ci_release_hardening_audit.md`
+
+- AF/AFC protocol alignment -> `manual/audits/af_afc_protocol_alignment_audit.md`

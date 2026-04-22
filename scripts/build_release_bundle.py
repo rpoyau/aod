@@ -40,7 +40,7 @@ EXCLUDE_FILE_NAMES = {
 }
 
 EXCLUDE_SUFFIXES = {
-    '.pdf', '.aux', '.log', '.out', '.toc', '.fls', '.fdb_latexmk', '.xdv', '.synctex.gz', '.bbl', '.blg'
+    '.pdf', '.aux', '.log', '.out', '.toc', '.fls', '.fdb_latexmk', '.xdv', '.synctex.gz', '.bbl', '.blg', '.pyc'
 }
 
 def should_exclude(path: Path) -> bool:

@@ -14,7 +14,11 @@ This repository is the canonical source tree for the AOD theorem note and compan
 - `notebooks/` - main-note support notebooks
 - `appendices/`, `sections/`, `consequences/`, `examples/` - theorem-note source material
 
-The cited row remains the exact/default-form authority. Converted or comparison witnesses are attached afterward where declared.
+The declared exact row remains the source object for each calculation. Converted or comparison witnesses are attached afterward through named report maps.
+
+## AF/AFC protocol alignment
+
+The active note follows the AF/AFC order: inherited AFC basis, local definitions and choices, mathematical consequences, operator readouts, audit hooks, and examples. The manual keeps source normalization, SI-facing rendering, and benchmark comparison outside the exact AFC/AOD row.
 
 ## Public release assets
 

@@ -1,7 +1,7 @@
 % Traceability: manual-local worked-row chapter.
 \section{Core AOD calculus primitives}
 
-The cited rows in this chapter use the shell, support, attenuation, cadence, and loss-channel machinery of the main note \cite{aod43_main_2026}.
+The declared rows in this chapter use the shell, support, attenuation, cadence, and loss-channel machinery of the main note \cite{aod43_main_2026}.
 
 \subsection{Loss-channel worked table}
 \label{man:loss-channel-worked-table}
@@ -30,13 +30,13 @@ L1 & 12 & $(2,4,6)$ & 5 & 4 & $(2+4\ell_2)/12$ & $\bigl(3^{(2+4\ell_2)/12}-1\big
 L2 & 24 & $(1,8,15)$ & 137 & 6 & $(1+8\ell_2)/24$ & $\bigl(3^{(1+8\ell_2)/24}-1\bigr)137^{-6}$ \\
 \bottomrule
 \end{tabular}
-\ManualTableNote{$\ell_2:=\log_3(3/2)$. The cited row resolves admissibility counts, dominant residual-duration class, support mass, attenuation, and the loss-channel witness on one row.}
+\ManualTableNote{$\ell_2:=\log_3(3/2)$. The declared row resolves admissibility counts, dominant residual-duration class, support mass, attenuation, and the loss-channel witness on one row.}
 \end{threeparttable}
 \end{table}
 
 \subsection{\texorpdfstring{$B^*$}{B*} ladder worked table}
 \label{man:bstar-ladder-worked-table}
-The dominant residual-duration class is read after the cited sample ladders are fixed; the Jensen-gap witness is preserved by delaying averaging until after histogram formation.\par\smallskip
+The dominant residual-duration class is read after the declared sample ladders are fixed; the Jensen-gap witness is preserved by delaying averaging until after histogram formation.\par\smallskip
 \colabbadge{manual/notebooks/02_worked_rows_a.ipynb}
 
 The support ladder is read through the histogram
@@ -61,16 +61,16 @@ B2 & $(5,5,5,7,7)$ & $H_B(5)=3,\ H_B(7)=2$ & 5 \\
 B3 & $(137,137,139)$ & $H_B(137)=2,\ H_B(139)=1$ & 137 \\
 \bottomrule
 \end{tabular}
-\ManualTableNote{The three rows display a minimal two-cycle ladder, a four-cycle enclosure ladder, and a high-rung attractor witness. Histogram weighting and attenuation are formed on the cited sample set before any averaging.}
+\ManualTableNote{The three rows display a minimal two-cycle ladder, a four-cycle enclosure ladder, and a high-rung attractor witness. Histogram weighting and attenuation are formed on the declared sample set before any averaging.}
 \end{threeparttable}
 \end{table}
 
 \subsection{Collision / export worked table}
 \label{man:collision-export-worked-table}
-The cited export window is fixed first and the push/pull sign, effective-charge proxy, packet witness, and cut residual are reported on that same row.\par\smallskip
+The declared export window is fixed first and the push/pull sign, effective-charge proxy, packet witness, and cut residual are reported on that same row.\par\smallskip
 \colabbadge{manual/notebooks/02_worked_rows_a.ipynb}
 
-The cited export rows use the ternary operation
+The declared export rows use the ternary operation
 \[
 a\oplus_3 b\in\{-1,0,+1\},
 \qquad
@@ -107,9 +107,9 @@ X3 & $(-1,-1)$ & $+1$ & pull & $-1/2$ & emitted packet & $0$ \\
   \node[left] at (-2,1.2) {$a$};
   \node[left] at (-2,-1.2) {$b$};
   \node[right] at (2.2,0) {packet witness};
-  \node[below] at (0,-1.8) {$a\oplus_3 b$ on the cited export window};
+  \node[below] at (0,-1.8) {$a\oplus_3 b$ on the declared export window};
 \end{tikzpicture}
-\caption{Diagrammatic rendering of the cited collision / export row.}
+\caption{Diagrammatic rendering of the declared collision / export row.}
 \label{fig:manual-shared-collision-export}
 \end{figure}
 
@@ -144,13 +144,13 @@ $q_{\mathrm{eff}}$ & $+1/2$ \\
 $T_{\mathrm{tors}}$ & $3$ \\
 \bottomrule
 \end{tabular}
-\ManualTableNote{The schema row remains in exact/default-form gauge on the cited row.}
+\ManualTableNote{The schema row remains in exact/default-form gauge on the declared row.}
 \end{threeparttable}
 \end{table}
 
 \subsection{Short-window confinement row}
 \label{man:short-window-confinement-row}
-A cited short shell-qualified row is fixed first and then read through shell signature, dominant rung, proximity, confinement witness, and transmutation flag.\par\smallskip
+A declared short shell-qualified row is fixed first and then read through shell signature, dominant rung, proximity, confinement witness, and transmutation flag.\par\smallskip
 \colabbadge{manual/notebooks/02_worked_rows_b.ipynb}
 
 The confinement readout is recorded as
@@ -173,20 +173,20 @@ C1 & \texttt{tetron:3:3:6} & $(\lambda\!=\!3/2,\,137,\,\rho_2,\,V_4)$ & 137 & cl
 C2 & \texttt{tetron:3:3:6} & $(\lambda\!=\!3/2,\,139,\,\rho_3,\,V_4)$ & 139 & failed / unconfined & 1 \\
 \bottomrule
 \end{tabular}
-\ManualTableNote{The same cited short row resolves shell signature, dominant rung, proximity status, confinement witness, and transmutation flag.}
+\ManualTableNote{The same declared short row resolves shell signature, dominant rung, proximity status, confinement witness, and transmutation flag.}
 \end{threeparttable}
 \end{table}
 
 \subsection{Duon / duad family row}
 \label{man:duon-duad-family-row}
-A cited two-seat family row is fixed first and then reported through family key, push/pull sign, effective-charge proxy, export witness, and cadence witness.\par\smallskip
+A declared two-seat family row is fixed first and then reported through family key, push/pull sign, effective-charge proxy, export witness, and cadence witness.\par\smallskip
 \colabbadge{manual/notebooks/02_worked_rows_b.ipynb}
 
 The family transition is recorded as
 \[
 \mathrm{duon}	o\mathrm{duad}
 \]
-when the cited window closes the traverser relation into its corresponding seat class.
+when the declared window closes the traverser relation into its corresponding seat class.
 
 \begin{table}[H]
 \centering
@@ -202,7 +202,7 @@ F1 & \texttt{duon:2:1:7} & push & $+1/2$ & emitted packet & $1/3$ \\
 F2 & \texttt{duad:2:2:7} & balanced & $0$ & none & $1/4$ \\
 \bottomrule
 \end{tabular}
-\ManualTableNote{The same cited row supports the family key, push/pull sign, effective-charge proxy, packet witness, and cadence witness.}
+\ManualTableNote{The same declared row supports the family key, push/pull sign, effective-charge proxy, packet witness, and cadence witness.}
 \end{threeparttable}
 \end{table}
 
@@ -234,7 +234,7 @@ O4 & $\frac12$ & $\frac{419}{819}$ & $\frac{133}{234}$ & $(1,\frac{279}{338})$ &
 O5 & $1$ & $1$ & $\frac{1338}{1787}$ & $(1,\frac{203}{229})$ & $\frac{261+1338\ell_2}{2048}$ & $\frac{1024}{871}$ \\
 \bottomrule
 \end{tabular}
-\ManualTableNote{The cited open-seat wavelet row entries remain authoritative. These columns carry the core effective-charge, delay, support, loss-channel, and reference-count witnesses.}
+\ManualTableNote{The declared open-seat wavelet row entries remain authoritative. These columns carry the core effective-charge, delay, support, loss-channel, and reference-count witnesses.}
 \end{threeparttable}
 \end{table}
 

@@ -21,9 +21,9 @@ This yields the public family/subclass pattern:
 The public families used below are:
 \begin{itemize}[leftmargin=1.5em]
   \item \textbf{duon}: public two-seat traverser family.
-  \item \textbf{duad}: canonical closed/full duon alias on the cited row.
+  \item \textbf{duad}: canonical closed/full duon alias on the declared row.
   \item \textbf{tetron}: public four-seat traverser family.
-  \item \textbf{tetrad}: canonical locked/full tetron alias on the cited row.
+  \item \textbf{tetrad}: canonical locked/full tetron alias on the declared row.
 \end{itemize}
 
 \subsection{WaveletSpec structural key}
@@ -35,7 +35,7 @@ with optional named properties appended after a property separator. In prose:
 \begin{itemize}[leftmargin=1.5em]
   \item \texttt{type} is one of \texttt{duon}, \texttt{duad}, \texttt{tetron}, \texttt{tetrad};
   \item \texttt{loop} is the loop index on the declared chart;
-  \item \texttt{occ} is the seat occupancy on the cited readout;
+  \item \texttt{occ} is the seat occupancy on the declared readout;
   \item \texttt{Lout} is the outer length count in the serialized key.
 \end{itemize}
 
@@ -62,19 +62,19 @@ Examples of public tags used below are:
   \item \texttt{O-tetron:3:3:6}
   \item \texttt{O-tetrad:3:4:6}
 \end{itemize}
-If named properties are attached, they remain attached to the cited row under the same naming contract.
+If named properties are attached, they remain attached to the declared row under the same naming contract.
 
 \subsection{Nested subfamily notation}
-Bracketed sublists denote clustered or satellite subfamilies inside a larger cited system; for example,
+Bracketed sublists denote clustered or satellite subfamilies inside a larger declared system; for example,
 \[
 [\mathrm{sun},\mathrm{mercury},\mathrm{venus},[\mathrm{earth},\mathrm{moon}],\mathrm{mars},\dots]
 \]
 denotes a local clustered orbital subfamily inside a larger n-soma window.
 
 \subsection{AO field families and structural subclasses}
-\paragraph{Two-seat family.} The two-seat traverser family is recorded by the public names \emph{duon} and \emph{duad}. Within this naming contract, \emph{duad} is the closed/full alias used when the cited row is serialized in the closed-seat form \texttt{duad:2:2:<Lout>[::props]}; the corresponding open-seat form is \texttt{duon:2:1:<Lout>[::props]}. Effective-charge, push/pull, polyphase, cadence, and radiation/export properties attach only through the named property namespace.
+\paragraph{Two-seat family.} The two-seat traverser family is recorded by the public names \emph{duon} and \emph{duad}. Within this naming contract, \emph{duad} is the closed/full alias used when the declared row is serialized in the closed-seat form \texttt{duad:2:2:<Lout>[::props]}; the corresponding open-seat form is \texttt{duon:2:1:<Lout>[::props]}. Effective-charge, push/pull, polyphase, cadence, and radiation/export properties attach only through the named property namespace.
 
-\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. Within this naming contract, \emph{tetrad} is the locked/full alias used when the cited row is serialized in the locked form \texttt{tetrad:3:4:6}. Other preserved structural variants include \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, and \texttt{tetron:3:3:6}. These strings are recorded as keys under this naming contract.
+\paragraph{Four-seat family.} The four-seat traverser family is recorded by the public names \emph{tetron} and \emph{tetrad}. Within this naming contract, \emph{tetrad} is the locked/full alias used when the declared row is serialized in the locked form \texttt{tetrad:3:4:6}. Other preserved structural variants include \texttt{tetron:1:2:6}, \texttt{tetron:1:2:8}, \texttt{tetron:1:2:10}, and \texttt{tetron:3:3:6}. These strings are recorded as keys under this naming contract.
 
 \paragraph{Confinement and isotope labels.} Confinement and isotope labels are row labels reused from the main body. Their predicates, witnesses, and stability criteria are defined there, not in this appendix.
 
@@ -82,16 +82,16 @@ denotes a local clustered orbital subfamily inside a larger n-soma window.
 When properties are attached to a structural key, the recommended namespace includes row quantities such as \texttt{qeff}, push/pull polarity, chirality tag, polyphase summaries, cadence witnesses, and radiation/export qualifiers. O-prefixed field tags (for example \texttt{O-duon}, \texttt{O-tetron}, \texttt{O-tetrad}) are part of this public naming contract.
 
 \subsection{Shell, ladder, and index syntax}
-Only the shell and ladder syntax needed by the examples and the operator rows is admitted here. This includes shell indices, rung support mass, and attenuation exponents where cited. The larger manual lineage may record further serialization layers on the same row families.
+Only the shell and ladder syntax needed by the examples and the operator rows is admitted here. This includes shell indices, rung support mass, and attenuation exponents where declared. The larger manual lineage may record further serialization layers on the same row families.
 
 \paragraph{Shell, ladder, and index syntax.}
-Shell, ladder, and index syntax record only the identifiers, support witnesses, and ladder quantities used by cited rows and operator rows. Shell-facing algebra is fixed in the row where that algebra is declared.
+Shell, ladder, and index syntax record only the identifiers, support witnesses, and ladder quantities used by declared rows and operator rows. Shell-facing algebra is fixed in the row where that algebra is declared.
 
 \subsection{Optional overlays}
 \emph{Dion} and \emph{tetraon} are optional overlay aliases available under the same naming contract.
 
 \subsection{Local AOD row objects}
-Here, \emph{frame} and \emph{window} are declared local AOD row objects. \emph{Step flux} is a one-frame quantity and \emph{window current} is the derived window-level trace term used in the cited rows.
+Here, \emph{frame} and \emph{window} are declared local AOD row objects. \emph{Step flux} is a one-frame quantity and \emph{window current} is the derived window-level trace term used in the declared rows.
 
 \subsection{Level-relative bip/biz names}
 The symbols \(\mathrm{bip}_0\) and \(\mathrm{biz}_0\) name the count/rate units at the declared working cut level. The unsuffixed forms bip and biz may be used generically for the unit family when no cross-level declaration is active. The level-relative convention is stated in Appendix~\ref{app:level-relative-bip-biz}.

@@ -26,11 +26,11 @@ Residual witness & pending until the refinement row is computed \\
 \end{threeparttable}
 \end{table}
 
-The cited 100-year solar-system record is fixed first and the perihelion witness is read as an extracted Mercury slice on that same long-window record.
+The declared 100-year solar-system record is fixed first and the perihelion witness is read as an extracted Mercury slice on that same long-window record.
 
 \begin{table}[H]
 \centering
-\caption{Solar perihelion cited row.}
+\caption{Solar perihelion declared row.}
 \label{tab:solar-perihelion-row}
 \begin{threeparttable}
 \small
@@ -41,13 +41,13 @@ Row & Slice key & $T_{\mathrm{eval}}$ [\(\mathrm{bip}_0\)] & $B^*$ & $\Lambda_b$
 S1 & \texttt{tetron:*:[sun,mercury]:6} & 36525 & 137 & 6 & $\frac{1+8\ell_2}{24}$ & 3 \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The cited row fixes the shared long-window record, including the nested Earth--Moon subfamily retained inside the same system record.}
+\ManualTableNote{The declared row fixes the shared long-window record, including the nested Earth--Moon subfamily retained inside the same system record.}
 \end{threeparttable}
 \end{table}
 
 \begin{table}[H]
 \centering
-\caption{Solar-system manifest on the cited 100-year row.}
+\caption{Solar-system manifest on the declared 100-year row.}
 \label{tab:solar-system-manifest}
 \begin{threeparttable}
 \small
@@ -68,18 +68,18 @@ Saturn  & 29.447498 & y & 3.396 \\
 
 \begin{table}[H]
 \centering
-\caption{Solar perihelion comparison attached after the cited row.}
+\caption{Solar perihelion comparison attached after the declared row.}
 \label{tab:solar-perihelion-comparison}
 \begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lcccc@{}}
 \toprule
-Map & Calculated [arcsec/cy] & Cited benchmark [arcsec/cy] & Abs. error [arcsec/cy] & Rel. error [\%] \\
+Map & Calculated [arcsec/cy] & Declared benchmark [arcsec/cy] & Abs. error [arcsec/cy] & Rel. error [\%] \\
 \midrule
 \(\Phi_{\varpi}\) & pending & 42.98 & pending & pending \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The perihelion comparison is attached only after the cited 100-year row is fixed.}
+\ManualTableNote{The perihelion comparison is attached only after the declared 100-year row is fixed.}
 \end{threeparttable}
 \end{table}
 
@@ -116,18 +116,18 @@ Parent field & solar export AO field \\
 Retained extraction & grazing solar export slice \\
 Omitted context & non-grazing solar context and external receiver details \\
 First refinement & full source--receiver transfer row \\
-Validity window & cited solar export window \\
+Validity window & declared solar export window \\
 Residual witness & pending until refinement row is computed \\
 \bottomrule
 \end{tabularx}
 \end{threeparttable}
 \end{table}
 
-The cited solar export slice is fixed first and the grazing-incidence comparison is attached afterward.
+The declared solar export slice is fixed first and the grazing-incidence comparison is attached afterward.
 
 \begin{table}[H]
 \centering
-\caption{Solar lensing cited row.}
+\caption{Solar lensing declared row.}
 \label{tab:solar-lensing-row}
 \begin{threeparttable}
 \small
@@ -144,18 +144,18 @@ S2 & \texttt{duon:2:1:7} / solar export slice & $+\frac{1}{2}$ & 2 & emitted duo
 
 \begin{table}[H]
 \centering
-\caption{Solar lensing comparison attached after the cited row.}
+\caption{Solar lensing comparison attached after the declared row.}
 \label{tab:solar-lensing-comparison}
 \begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lcccc@{}}
 \toprule
-Map & Calculated [arcsec] & Cited benchmark [arcsec] & Abs. error [arcsec] & Rel. error [\%] \\
+Map & Calculated [arcsec] & Declared benchmark [arcsec] & Abs. error [arcsec] & Rel. error [\%] \\
 \midrule
 \(\Phi_{\mathrm{lens}}\) & pending & 1.75 & pending & pending \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The grazing-incidence benchmark is attached after the cited export row is fixed.}
+\ManualTableNote{The grazing-incidence benchmark is attached after the declared export row is fixed.}
 \end{threeparttable}
 \end{table}
 
@@ -166,7 +166,7 @@ Map & Calculated [arcsec] & Cited benchmark [arcsec] & Abs. error [arcsec] & Rel
 \label{fig:solar-lensing-export}
 \end{figure}
 
-The cited export row carries the shell/export and boundary-deflection witnesses used for the reported grazing-incidence comparison.
+The declared export row carries the shell/export and boundary-deflection witnesses used for the reported grazing-incidence comparison.
 
 \subsubsection{Solar redshift}
 \label{man:solar-redshift-witness}
@@ -185,18 +185,18 @@ Parent field & solar transfer AO field \\
 Retained extraction & source--receiver transfer pair \\
 Omitted context & external transfer windows not declared in the pair \\
 First refinement & multi-window transfer row \\
-Validity window & cited source/receiver windows \\
+Validity window & declared source/receiver windows \\
 Residual witness & pending until refinement row is computed \\
 \bottomrule
 \end{tabularx}
 \end{threeparttable}
 \end{table}
 
-The cited source and receiver windows are fixed first and the redshift comparison is attached afterward as a two-window transfer witness.
+The declared source and receiver windows are fixed first and the redshift comparison is attached afterward as a two-window transfer witness.
 
 \begin{table}[H]
 \centering
-\caption{Solar redshift cited row.}
+\caption{Solar redshift declared row.}
 \label{tab:solar-redshift-row}
 \begin{threeparttable}
 \small
@@ -213,13 +213,13 @@ S3 & \texttt{duon:2:1:7} on the transfer class & 137 & 6 \\
 
 \begin{table}[H]
 \centering
-\caption{Solar redshift comparison attached after the cited rows.}
+\caption{Solar redshift comparison attached after the declared rows.}
 \label{tab:solar-redshift-comparison}
 \begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lcccc@{}}
 \toprule
-Map & Calculated & Cited benchmark & Abs. error & Rel. error [\%] \\
+Map & Calculated & Declared benchmark & Abs. error & Rel. error [\%] \\
 \midrule
 \(\Phi_z\) & pending & $2.12\times10^{-6}$ & pending & pending \\
 \bottomrule
@@ -254,18 +254,18 @@ Parent field & solar \(n\)-soma orbital record \\
 Retained extraction & Saturn ring--moon shell family \\
 Omitted context & non-Saturn solar context \\
 First refinement & outer solar shell-family row \\
-Validity window & cited Saturn orbital shell window \\
+Validity window & declared Saturn orbital shell window \\
 Residual witness & qualitative until refinement row is computed \\
 \bottomrule
 \end{tabularx}
 \end{threeparttable}
 \end{table}
 
-The cited Saturn ring family and selected moon shells are fixed first and then reported as one shell-family witness.
+The declared Saturn ring family and selected moon shells are fixed first and then reported as one shell-family witness.
 
 \begin{table}[H]
 \centering
-\caption{Saturn ring-and-moon cited row.}
+\caption{Saturn ring-and-moon declared row.}
 \label{tab:saturn-shell-row}
 \begin{threeparttable}
 \small
@@ -276,7 +276,7 @@ Row & Structural key & Gap witness \\
 S4 & \texttt{tetron:*:[saturn,rings]:6} & Cassini Division \\
 \bottomrule
 \end{tabularx}
-\ManualTableNote{The cited row records the shell family and the Cassini Division gap on the same ordered orbital record.}
+\ManualTableNote{The declared row records the shell family and the Cassini Division gap on the same ordered orbital record.}
 \end{threeparttable}
 \end{table}
 

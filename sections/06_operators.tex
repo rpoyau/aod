@@ -1,6 +1,6 @@
 \section{Operators}
 
-This section records the compact operator layer required for the calculus. The operators act on declared traces, cited cuts, frames/windows, and inherited support.
+This section records the compact operator layer required for the calculus. The operators act on declared traces, declared cuts, frames/windows, and inherited support.
 
 \subsection{Q4 chart and closure operators}\label{subsec:q4-closure-operators}
 \begin{definition}[Q4 chart and closure operators]
@@ -34,22 +34,22 @@ With a declared attenuation accumulator $A_B(M;\omega)$ read from the exact atte
 R_{\mathrm{loss}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_B(M;\omega)
 \qquad [\mathrm{biz}_0].
 \]
-The loss readout $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ remains the cited \(\mathrm{trit}/\mathrm{bip}_0\) channel, and $R_{\mathrm{loss}}^{(\mathrm{biz})}$ is the derived internal rate assembled after the declared attenuation step.
+The loss readout $R_{\mathrm{loss}}=u^{(\mathrm{loss})}$ remains the declared \(\mathrm{trit}/\mathrm{bip}_0\) channel, and $R_{\mathrm{loss}}^{(\mathrm{biz})}$ is the derived internal rate assembled after the declared attenuation step.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{choice:tau-readout,def:active-dwell,def:mt,def:loss-channel,def:backlog-reconciliation}.
 \paragraph{Local substructure.} Admissibility count $m_t$; forced dwell; $\Gamma_{\mathrm{loss,raw}}$; $\Gamma_{\mathrm{loss}}$; $T_\Gamma$; primitive \(\mathrm{trit}/\mathrm{bip}_0\) channel; derived \(\mathrm{biz}_0\) channel.
-\paragraph{Derivation sketch.} From the declared gating rule and the active/dwell split, admissibility restriction yields $m_t<3$ and therefore positive loss on constrained ticks. Averaging on the cited cut family gives the loss channel; the \(\mathrm{biz}_0\) rate is the corresponding internal rate on the same cited window.
+\paragraph{Derivation sketch.} From the declared gating rule and the active/dwell split, admissibility restriction yields $m_t<3$ and therefore positive loss on constrained ticks. Averaging on the declared cut family gives the loss channel; the \(\mathrm{biz}_0\) rate is the corresponding internal rate on the same declared window.
 
 \subsection{Wavelet transport, trit carriage, and saturation}\label{subsec:wavelet-transport-saturation}
 \begin{definition}[Wavelet transport operator]
 \label{def:wavelet-transport-operator}
-A wavelet transport operator packages a finite closure-carrying Memory-path segment together with its ordered cutwise field quantities, traverser/closure saturation, and chained trit carriage on the same cited cut family.
+A wavelet transport operator packages a finite closure-carrying Memory-path segment together with its ordered cutwise field quantities, traverser/closure saturation, and chained trit carriage on the same declared cut family.
 \end{definition}
 
 \begin{definition}[Wavelet mode and transport witnesses]
 \label{def:wavelet-mode-witness}
-For a wavelet segment $e$ on a cited window $\omega$, let
+For a wavelet segment $e$ on a declared window $\omega$, let
 \[
 A(e;\omega):=N_+(e;\omega)+N_-(e;\omega),\quad Z(e;\omega):=N_0(e;\omega),\quad S(e;\omega):=N_+(e;\omega)-N_-(e;\omega),
 \]
@@ -65,11 +65,11 @@ These are dictionary compressions of the integer entries.
 
 \begin{definition}[Coupling exposure and propensity]
 \label{def:coupling-exposure}
-For a declared wavelet class $s$ on a cited readout family $\omega$, let $N_{\mathrm{exp}}(s;\omega)$ be the exposure count and $N_{\mathrm{cpl}}(s;\omega)$ the counted couplings attributed to those exposures. The empirical coupling propensity is
+For a declared wavelet class $s$ on a declared readout family $\omega$, let $N_{\mathrm{exp}}(s;\omega)$ be the exposure count and $N_{\mathrm{cpl}}(s;\omega)$ the counted couplings attributed to those exposures. The empirical coupling propensity is
 \[
 p_{\mathrm{cpl}}(s;\omega):=\frac{N_{\mathrm{cpl}}(s;\omega)}{\max(1,N_{\mathrm{exp}}(s;\omega))}.
 \]
-This is the counting contract for the cited readout family.
+This is the counting contract for the declared readout family.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:ao-field,def:wavelet,def:saturation,def:traverser-closure-rule,def:loss-channel}.
@@ -79,7 +79,7 @@ This is the counting contract for the cited readout family.
 \subsection{Push/pull, effective charge, and export/radiation operators}\label{subsec:pushpull-export-operators}
 \begin{definition}[Push/pull boundary bookkeeping]
 \label{def:push-pull-operator}
-Push/pull records chirality-resolved boundary-current rows on the cited readout family. With a fixed sign convention,
+Push/pull records chirality-resolved boundary-current rows on the declared readout family. With a fixed sign convention,
 \[
 J_\alpha(M;\omega):=\sum_{t\in\omega}\sum_{(i,j)\in\partial R(M;\omega)} \phi_{ij}(t)\,\mathbf 1\{\chi(t)=\alpha\},
 \]
@@ -95,7 +95,7 @@ S(M;\omega):=J_\alpha(M;\omega)+J_\Omega(M;\omega)+J_0(M;\omega),
 \[
 q_{\mathrm{eff}}^{\mathrm{exact}}(M;\omega):=(Q(M;\omega),S(M;\omega)).
 \]
-A declared scalar readout is obtained by the cited scalar readout map applied to $(Q,S)$. The same readout also supports the cycle-lag witness $\Delta\varphi_{\Omega|\alpha}(M;\omega)$ under the declared pairing policy.
+A declared scalar readout is obtained by the declared scalar readout map applied to $(Q,S)$. The same readout also supports the cycle-lag witness $\Delta\varphi_{\Omega|\alpha}(M;\omega)$ under the declared pairing policy.
 \end{definition}
 
 \begin{definition}[Radiating/export window and emitted packet]
@@ -110,7 +110,7 @@ A window $\omega$ is radiating/exporting for motif $M$ when net boundary export 
 \subsection{Torsional curl and torsional residual operator}\label{subsec:torsional-operators}
 \begin{definition}[Torsional curl and residual operator]
 \label{def:torsional-operator}
-Let $R(M;\omega)$ be the declared Region extractor for motif $M$ on the cited cut family. With a fixed boundary orientation, define the chirality-resolved boundary circulation
+Let $R(M;\omega)$ be the declared Region extractor for motif $M$ on the declared cut family. With a fixed boundary orientation, define the chirality-resolved boundary circulation
 \[
 \mathrm{Curl}_{\chi}(M;\omega):=
 \sum_{t\in\omega}\sum_{(i,j)\in\partial R(M;\omega)}
@@ -142,15 +142,15 @@ J^{\alpha}=J^{\Omega}\Longrightarrow T_{\mathrm{tors}}(M;\omega)=0.
 
 \paragraph{Depends on.} \Cref{def:chirality,def:torsional,def:recursive-phase-debt-service,def:torsional-residual-witness,def:phase-lag,def:backlog-reconciliation}.
 \paragraph{Local substructure.} Chirality-resolved boundary currents; torsional curl; recursive phase debt service; boundary-side residual; region-side equivalent; zero-lag limit.
-\paragraph{Derivation sketch.} From the chirality-resolved boundary histories on the same cited cut family and the AFC Stokes pairing between boundary and region accounting. Recursive phase burden is internal to the cited coupled phase family.
+\paragraph{Derivation sketch.} From the chirality-resolved boundary histories on the same declared cut family and the AFC Stokes pairing between boundary and region accounting. Recursive phase burden is internal to the declared coupled phase family.
 \begin{remarkx}
-This operator realizes the torsional residual witness declared earlier. It is the Stokes-style witness for recursive phase debt service on the cited coupled polyrotor phase family.
+This operator realizes the torsional residual witness declared earlier. It is the Stokes-style witness for recursive phase debt service on the declared coupled polyrotor phase family.
 \end{remarkx}
 
 \subsection{Cadence and polyrotor extractors}\label{subsec:cadence-polyrotor-operators}
 \begin{definition}[Cadence extractor and shell-resolved completion rows]
 \label{def:cadence-operator}
-For a declared shell band or cited cut family, the cadence extractor returns completed-cycle counts $N_{\rho,k}^{\mathrm{cyc}}(\omega)$ together with the shell-signature class, shell-resolved completion periods $P_{\rho,k}(\omega)$, shell-resolved phase indices $\rho_k(\omega)$, cycle-ratio phases
+For a declared shell band or declared cut family, the cadence extractor returns completed-cycle counts $N_{\rho,k}^{\mathrm{cyc}}(\omega)$ together with the shell-signature class, shell-resolved completion periods $P_{\rho,k}(\omega)$, shell-resolved phase indices $\rho_k(\omega)$, cycle-ratio phases
 \[
 \varphi_k(\omega):=\frac{\rho_k(\omega)}{P_{\rho,k}(\omega)},
 \]
@@ -169,9 +169,9 @@ so the cadence spectrum is $\mathcal N(M;\omega)=\{\nu_1(\omega),\ldots,\nu_K(\o
 
 \paragraph{Depends on.} \Cref{def:polyrotor,def:rotor-completion,def:cadence-extractor,def:drift,def:cadence-bstar,def:shell-cadence-interface}.
 \paragraph{Local substructure.} Cadence extractor; completion periods; phase indices; cycle-ratio phases; drift witnesses; cadence spectrum; dominant residual-duration class.
-\paragraph{Derivation sketch.} From the declared shell-band extraction and completion rows on the same cited readout family.
+\paragraph{Derivation sketch.} From the declared shell-band extraction and completion rows on the same declared readout family.
 \begin{remarkx}
-On shell-qualified windows, recurrent closure and phase-locking may be read as standing wavelet configurations on the cited support. Their unresolved disagreement is recorded through backlog, torsional residual, cadence shift, and the loss-channel on that same window. The cut-to-cut identity is unchanged; the effective window-level progress rate need not match branch-specific traversal duration, because part of the cited window is spent in recursive phase debt service through bridge and dwell burden. The dominant residual-duration class $B^*$ records the leading support class of that burden on the cited window under the declared extraction policy.
+On shell-qualified windows, recurrent closure and phase-locking may be read as standing wavelet configurations on the declared support. Their unresolved disagreement is recorded through backlog, torsional residual, cadence shift, and the loss-channel on that same window. The cut-to-cut identity is unchanged; the effective window-level progress rate may differ from branch-specific traversal duration when part of the declared window is spent in recursive phase service through bridge and dwell burden. The dominant residual-duration class $B^*$ records the leading support class of that burden on the declared window under the declared extraction policy.
 \end{remarkx}
 
 \subsection{\texorpdfstring{$B^*$}{B*} ladder and histogram operators}\label{subsec:bstar-ladder-operators}
@@ -189,14 +189,14 @@ and the support mass on that class
 \[
 \Lambda_b(M;\omega):=H_B(B^*(M;\omega);M,\omega).
 \]
-The dominant class \(B^*(M;\omega)\) is recorded in \(\mathrm{bip}_0\) at the declared working cut level. The associated reciprocal support rate is \(B^*(M;\omega)^{-1}\) in \(\mathrm{biz}_0\) when that rate is used on the same cited window. This notation fixes the reference level for the cited calculation; see Appendix~\ref{app:level-relative-bip-biz}.
+The dominant class \(B^*(M;\omega)\) is recorded in \(\mathrm{bip}_0\) at the declared working cut level. The associated reciprocal support rate is \(B^*(M;\omega)^{-1}\) in \(\mathrm{biz}_0\) when that rate is used on the same declared window. This notation fixes the reference level for the declared calculation; see Appendix~\ref{app:level-relative-bip-biz}.
 
 Under the declared minimal-pivot identity,
 \[
 b=2e+f,
 \qquad f\in\mathbb Z_{\ge1},
 \]
-the ladder records the integer residual-duration burden on the cited window.
+the ladder records the integer residual-duration burden on the declared window.
 \end{definition}
 
 \begin{definition}[Jensen discipline for the ladder]
@@ -216,7 +216,7 @@ J_{\mathrm{gap}}(\omega):=
 -
 \log_3\!\left(\frac{3}{\bar m}\right)\ge 0
 \]
-is evaluated on the cited admissibility counts. Histogram- or attenuation-level quantities such as
+is evaluated on the declared admissibility counts. Histogram- or attenuation-level quantities such as
 \[
 \sum_b H_B(b;M;\omega)\,b^{-\widehat\Lambda(M;\omega)}
 \]
@@ -243,7 +243,7 @@ is associated with the exact pair. Thus $\Lambda_b$ remains the support mass on 
 
 \paragraph{Depends on.} \Cref{def:b-extraction,def:bstar-histogram,choice:high-rung-pivot,rem:jensen,def:cycle-typing}.
 \paragraph{Local substructure.} Outbound traversal burden; return/closure burden; bridge/dwell service; residual-duration histogram; dominant class; support mass; shell-signature class; Jensen discipline; attenuation accumulator.
-\paragraph{Derivation sketch.} From the declared traversal, closure, and bridge/dwell burdens one forms $b(\kappa)$, then $H_B$, $B^*$, and $\Lambda_b$ on the cited window; attenuation follows by algebra on the stack record.
+\paragraph{Derivation sketch.} From the declared traversal, closure, and bridge/dwell burdens one forms $b(\kappa)$, then $H_B$, $B^*$, and $\Lambda_b$ on the declared window; attenuation follows by algebra on the stack record.
 
 \subsection{Finite path sums, least reconciliation, ternary interaction gate, and diagrammatic rows}\label{subsec:pathsum-diagram-operators}
 \begin{definition}[Finite path sum]
@@ -253,7 +253,7 @@ A finite path sum is a finite sum over declared Memory paths, with each term giv
 
 \begin{definition}[Least reconciliation]
 \label{def:least-reconciliation}
-Least reconciliation is the discrete minimization of a declared cost functional over admissible trace families. The cost may include loss burden, dwell cost, boundary residual, and return-debt service on the same cited cut family.
+Least reconciliation is the discrete minimization of a declared cost functional over admissible trace families. The cost may include loss burden, dwell cost, boundary residual, and return-debt service on the same declared cut family.
 \end{definition}
 
 \begin{definition}[Ternary interaction gate]
@@ -274,14 +274,14 @@ Push/pull collision couplings of duon/duad and tetron/tetrad classes are represe
 \paragraph{Local substructure.} Finite path sums; least reconciliation; ternary interaction gate; collision couplings; diagrammatic rows; export packets.
 \paragraph{Derivation sketch.} From finite sums and products over declared traces on the same AO field and wavelet rows. Diagrammatic language packages those same rows in a compact row form.
 \begin{remarkx}
-Finite path sums and diagrammatic rows record the same cut bookkeeping on the cited window; they are compact forms of the same line. They package already-declared AO field, wavelet, boundary-current, torsional, cadence, and return-ladder rows.
+Finite path sums and diagrammatic rows record the same cut bookkeeping on the declared window; they are compact forms of the same line. They package already-declared AO field, wavelet, boundary-current, torsional, cadence, and return-ladder rows.
 \end{remarkx}
 
 
 \subsection{Field persistence and lifecycle}\label{subsec:field-persistence-lifecycle}
 \begin{definition}[Field persistence and lifecycle]
 \label{def:field-lifecycle-operator}
-For a declared motif id $M$ and cited window family $\omega$, the persistence operator records the birth tick, death tick, TTL hazard, censoring status, rupture type, and any product/by-product census recorded after rupture. In \(\mathrm{bip}_0/\mathrm{biz}_0/\mathrm{trit}\) units,
+For a declared motif id $M$ and declared window family $\omega$, the persistence operator records the birth tick, death tick, TTL hazard, censoring status, rupture type, and any product/by-product census recorded after rupture. In \(\mathrm{bip}_0/\mathrm{biz}_0/\mathrm{trit}\) units,
 \[
 \mathrm{TTL}_{\mathrm{bip}_0}(M;\omega)=t_{\mathrm{death}}-t_{\mathrm{birth}}.
 \]
@@ -295,12 +295,12 @@ When TTL is used in histograms or ladder weighting, the weighting rule must be d
 \subsection{Freezing, rebalance, transmutation, and dynamic recruitment}\label{subsec:freeze-rebalance-recruitment}
 \begin{definition}[Freezing, confinement witness, and rebalance operators]
 \label{def:freezing-operator}
-Freezing is the sustained admissibility restriction on a cited motif-conditioned stream. The confinement witness is the operator-side realization of the declared confinement predicate on the same shell-qualified window and shell-signature class. Rebalance dwell is the explicit debt-service dwell attached to emission, absorption, transmutation, or recruitment events. Dynamic volume recruitment is the growth of the effective closure range when freezing persists.
+Freezing is the sustained admissibility restriction on a declared motif-conditioned stream. The confinement witness is the operator-side realization of the declared confinement predicate on the same shell-qualified window and shell-signature class. Rebalance dwell is the explicit debt-service dwell attached to emission, absorption, transmutation, or recruitment events. Dynamic volume recruitment is the growth of the effective closure range when freezing persists.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:freeze-recruit,def:mt,def:backlog-reconciliation,def:drift,def:shell-signature,def:confinement-predicate}.
-\paragraph{Local substructure.} Cross-shell drift; backlog witness; forced dwell; shell-signature class; $B^*$-anchored persistence; confinement witness; failure criterion; transmutation / recruitment of outer closure range.
-\paragraph{Derivation sketch.} On the cited readout family,
+\paragraph{Local substructure.} Cross-shell drift; backlog witness; forced dwell; shell-signature class; $B^*$-anchored persistence; confinement witness; transition criterion; transmutation / recruitment of outer closure range.
+\paragraph{Derivation sketch.} On the declared readout family,
 \[
 \text{cross-shell drift}\Rightarrow \beta_t>0\Rightarrow \text{forced dwell}\Rightarrow m_t<3\Rightarrow R_{\mathrm{loss}}>0.
 \]
@@ -327,7 +327,7 @@ The admissibility support row is
 \[
 L_{\mathrm{loss}}^{\mathbb Z}(M;\omega)=(n_1,n_2,n_3,T_{\mathrm{eval}}),
 \]
-and the cited loss readout is
+and the declared loss readout is
 \[
 u_t^{(\mathrm{loss})}:=\log_3\!\left(\frac{3}{m_t}\right),
 \qquad
@@ -368,7 +368,7 @@ R_{\mathrm{loss}}^{(\mathrm{biz})}(M;\omega):=\frac{T_\Gamma(M;\omega)}{B_0}\,A_
 
 \paragraph{Depends on.} \Cref{def:mt,def:loss-channel,def:b-extraction,def:bstar-histogram,def:attenuation-operator,choice:high-rung-pivot,rem:jensen}.
 \paragraph{Local substructure.} Admissibility count; loss channel; return-duration row; dominant rung; stack load; attenuation accumulator; primitive \(\mathrm{trit}/\mathrm{bip}_0\) channel; derived \(\mathrm{biz}_0\) rate.
-\paragraph{Derivation sketch.} Direct algebra on the cited admissibility and return rows. The zero-lag/unconstrained limit $m_t=3$ yields $R_{\mathrm{loss}}=0$ and $T_\Gamma=0$.
+\paragraph{Derivation sketch.} Direct algebra on the declared admissibility and return rows. The zero-lag/unconstrained limit $m_t=3$ yields $R_{\mathrm{loss}}=0$ and $T_\Gamma=0$.
 
 \subsection{Momentum-like proxy and rest-frame windows}\label{subsec:momentum-proxy}
 \begin{definition}[Momentum-like proxy]
@@ -377,12 +377,12 @@ Using the declared relative temporal-duration transport row $v^{\mathrm{exact}}(
 \[
 p_{\mathrm{prox}}(M;\omega):=E_{\mathrm{tot}}(M;\omega)\,v(\omega),
 \]
-where $E_{\mathrm{tot}}$ is the declared total \(\mathrm{biz}_0\)-valued rate assembled from the loss-facing channel and any declared additional totals on the same cited window. This is the proxy channel assembled on the cited window.
+where $E_{\mathrm{tot}}$ is the declared total \(\mathrm{biz}_0\)-valued rate assembled from the loss-facing channel and any declared additional totals on the same declared window. This is the proxy channel assembled on the declared window.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:rest-frame-window,def:loss-channel-derivation}.
 \paragraph{Local substructure.} Relative temporal-duration row; rest-frame window class; proxy channel.
-\paragraph{Derivation sketch.} From the axis-traversal temporal-duration change on the cited window and the already-declared rate channels.
+\paragraph{Derivation sketch.} From the axis-traversal temporal-duration change on the declared window and the already-declared rate channels.
 
 \subsection{Radiation and export dynamics}\label{subsec:radiation-export-dynamics}
 \begin{definition}[Radiation and export dynamics]
@@ -395,13 +395,13 @@ and define the radiating/export class by
 \[
 \mathrm{rad}(M;\omega)\iff \mathrm{net\_export}(M;\omega)\neq 0\ \vee\ MI_{\partial}(M;\omega)>\varepsilon_I.
 \]
-The emission/export packet witness is the wavelet packet whose boundary crossing certifies the export on the same cited rows.
+The emission/export packet witness is the wavelet packet whose boundary crossing certifies the export on the same declared rows.
 \end{definition}
 
 \paragraph{Depends on.} \Cref{def:radiating-window,def:push-pull-operator,def:wavelet,def:coupling-exposure}.
 \paragraph{Local substructure.} Motif$\to$Region extractor; boundary MI export; shell-qualified window; radiating/export window; packet witness; shell falsifier.
-\paragraph{Derivation sketch.} From the same boundary rows used for shell and export classification on the cited window.
-\paragraph{Remark.} Long-range radiation/export windows may be recorded on the duon/duad family. The duon family is the minimal open-seat export carrier on such windows; emitted wavelet packets on the cited boundary are the export bookkeeping for that family.
+\paragraph{Derivation sketch.} From the same boundary rows used for shell and export classification on the declared window.
+\paragraph{Remark.} Long-range radiation/export windows may be recorded on the duon/duad family. The duon family is the minimal open-seat export carrier on such windows; emitted wavelet packets on the declared boundary are the export bookkeeping for that family.
 
 \subsection{Family dynamics and subclass rules}\label{subsec:family-dynamics-subclass}
 \begin{definition}[Family dynamics and subclass rules]
@@ -416,7 +416,7 @@ The public field families carry declared dynamic constraints in addition to thei
 \subsection{Collision and export-window bookkeeping}\label{subsec:collision-export-calculus}
 \begin{definition}[Collision and export-window bookkeeping]
 \label{def:collision-export-operator}
-A collision window is a declared export window on which incoming wavelet rows, the ternary interaction gate, and any production/export tick are all recorded on the same cited trace family. On a cited short export window, the same enclosure and shell-signature classes used for confinement and transmutation also type the collision bookkeeping, so the packet witness and residual check are read on the same family-conditioned rows. The residual check is
+A collision window is a declared export window on which incoming wavelet rows, the ternary interaction gate, and any production/export tick are all recorded on the same declared trace family. On a declared short export window, the same enclosure and shell-signature classes used for confinement and transmutation also type the collision bookkeeping, so the packet witness and residual check are read on the same family-conditioned rows. The residual check is
 \[
 \mathcal R_{\mathrm{cut}}:=S_{\mathrm{out}}-\bigl(S_{\mathrm{in}}+S_{\mathrm{prod}}\bigr),
 \]

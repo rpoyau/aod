@@ -1,5 +1,5 @@
 # AOD Notebook Style Guide
-## Version 2.3 — Cited-row-first / temporal-conversion only
+## Version 2.3 — Declared-row-first / temporal-conversion only
 **Maintainer:** P. Reginald  
 **Status:** Official style for root and manual-owned notebooks
 
@@ -9,9 +9,9 @@ All primary derivation content remains in bip / biz / trit units with exact/defa
 - integer ledgers authoritative
 - exact rational/logarithmic forms preferred
 
-Notebook language remains on the AOD/AFC line. Exact/default-form rows remain authoritative; converted witnesses follow the cited row when needed.
+Notebook language remains on the AOD/AFC line. Exact/default-form rows remain authoritative; converted witnesses follow the declared row when needed.
 
-Where SI reporting is needed, it follows the cited row. Conversion is restricted to:
+Where SI reporting is needed, it follows the declared row. Conversion is restricted to:
 - duration in **seconds**
 - rate in **hertz**
 - effective speed as the dimensionless ratio \(\beta\in[0,1]\) with \(c=1\)
@@ -21,7 +21,7 @@ Where SI reporting is needed, it follows the cited row. Conversion is restricted
 ## 1. Purpose
 - Every notebook is executable documentation of the AOD calculus.
 - All tests follow the same structure and methodology.
-- Cited rows are authoritative.
+- Declared rows are authoritative.
 
 ---
 
@@ -48,16 +48,16 @@ The first markdown cell of every notebook should identify:
 - Do not use retired lineage numbering such as E4, C1, E10, or E11D in notebook titles or headings.
 - Tables and figures in the notebook should match the corresponding manual section names.
 
-## 4. Cited-row-first rule
-- The cited row is always recorded first.
-- Verification labels, decimal renderings, and temporal-unit conversions are attached only after the cited row.
+## 4. Declared-row-first rule
+- The declared row is always recorded first.
+- Verification labels, decimal renderings, and temporal-unit conversions are attached only after the declared row.
 - Root notebooks support the main note; manual notebooks are the companion public notebook layer.
 
 ---
 
 ## 5. Temporal conversion rule (verbatim)
 **Temporal Conversion Block**  
-Cited rows are authoritative.  
+Declared rows are authoritative.  
 When conversion is required, convert only from bip/biz quantities into derived temporal SI forms.  
 Duration converts to **seconds**.  
 Rate converts to **hertz**.  
@@ -80,4 +80,4 @@ Temporal-conversion figures titled: **Temporal Conversion Witness — [descripti
 - All tables via `pandas.DataFrame`
 - Final cell: `print("ALL AOD TESTS PASSED ✓")`
 
-Manual-owned notebooks should use paths under `manual/notebooks/` and cite the matching manual section as their source of truth. Avoid retired lineage numbering in notebook titles and headings.
+Manual-owned notebooks should use paths under `manual/notebooks/` and reference the matching manual section as their source of truth. Avoid retired lineage numbering in notebook titles and headings.

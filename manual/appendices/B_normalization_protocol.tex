@@ -2,9 +2,9 @@
 \label{app:manual-temporal-calibration}
 \label{app:normalization-protocol}
 
-Counts at a declared cut level \(\ell\) are recorded in \(\mathrm{bip}_{\ell}\), and reciprocal rates at that level are recorded in \(\mathrm{biz}_{\ell}\). The manual may use the reference convention \(\ell=0\), written \(\mathrm{monon}_0\), \(\mathrm{bip}_0\), and \(\mathrm{biz}_0\). The hierarchy is level-relative; the declared level fixes the row for the cited calculation.
+Counts at a declared cut level \(\ell\) are recorded in \(\mathrm{bip}_{\ell}\), and reciprocal rates at that level are recorded in \(\mathrm{biz}_{\ell}\). The manual may use the reference convention \(\ell=0\), written \(\mathrm{monon}_0\), \(\mathrm{bip}_0\), and \(\mathrm{biz}_0\). The hierarchy is level-relative; the declared level fixes the row for the declared calculation.
 
-Report calibration from \(\mathrm{bip}_{\ell}/\mathrm{biz}_{\ell}\) to seconds, hertz, mass-rate anchors, distance reports, or other benchmark quantities is declared after the exact row is fixed. The AO field relation is read on the exact row; the report quantities belong to the comparison layer. SI-facing reports use the BIPM SI reference convention and cited numerical constants/conversion factors~\cite{bipm_si_brochure_2025,nist_constants_complete}.
+Report calibration from \(\mathrm{bip}_{\ell}/\mathrm{biz}_{\ell}\) to seconds, hertz, mass-rate anchors, distance reports, or other benchmark quantities is declared after the exact row is fixed. The AO field relation is read on the exact row; the report quantities belong to the comparison layer. SI-facing reports use the BIPM SI reference convention and declared numerical constants/conversion factors~\cite{bipm_si_brochure_2025,nist_constants_complete}.
 
 A mass-rate anchor may be recorded as
 \[
@@ -28,7 +28,7 @@ Y_{\mathrm{AOD}}\\
 Y_{\mathrm{rep}}.
 \end{aligned}
 \]
-Here \(X_{\mathrm{src}}\) is a cited source snapshot, \(X_{\mathrm{AOD}}\) is the exact AOD input row, \(\mathcal S_{\mathrm{AOD}}\) is the AFC/AOD simulation or prediction, and \(Y_{\mathrm{rep}}\) is the measurement-facing comparison output. The source snapshot declaration records the data source, source units, access date or version, raw-file path or checksum when available, and the chosen map \(\mathcal N_{\mathrm{src}\to\mathrm{AOD}}\).
+Here \(X_{\mathrm{src}}\) is a declared source snapshot, \(X_{\mathrm{AOD}}\) is the exact AOD input row, \(\mathcal S_{\mathrm{AOD}}\) is the AFC/AOD simulation or prediction, and \(Y_{\mathrm{rep}}\) is the measurement-facing comparison output. The source snapshot declaration records the data source, source units, access date or version, raw-file path or checksum when available, and the chosen map \(\mathcal N_{\mathrm{src}\to\mathrm{AOD}}\).
 
 The generic report map has type
 \[

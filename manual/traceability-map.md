@@ -27,3 +27,5 @@ Historical lineage is retired. Active provenance is manual-local: section source
 - Integer collision examples -> `manual/data/raw/05i_duon_collision_setup.json`, `manual/code/05i_integer_collision_vertex.py`, `manual/data/derived/05i_duon_collision_exact.csv`, `manual/data/derived/05i_duon_collision_trace.csv`, `manual/figures/collision/`, `manual/tests/test_05i_integer_collision_vertex.py`
 
 - CI/release hardening -> `.github/workflows/build.yml`, `requirements-ci.txt`, `scripts/build_release_bundle.py`, `manual/audits/ci_release_hardening_audit.md`
+
+- AF/AFC protocol alignment -> `manual/audits/af_afc_protocol_alignment_audit.md`

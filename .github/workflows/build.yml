@@ -75,6 +75,7 @@ jobs:
               'manual/tests/test_05f_wire_current_boundary_transport.py',
               'manual/tests/test_05g_05h_application_scaffolds.py',
               'manual/tests/test_05i_integer_collision_vertex.py',
+              'manual/audits/af_afc_protocol_alignment_audit.md',
               'audit_pack/verify_examples_sympy.py',
               'requirements-ci.txt',
           }

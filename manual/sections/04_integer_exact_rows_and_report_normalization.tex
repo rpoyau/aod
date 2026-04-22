@@ -1,7 +1,7 @@
 \section{Integer exact rows and report normalization}
 \label{man:integer-exact-rows-report-normalization}
 
-This chapter fixes the manual contract for exact rows and report maps. The AOD row is formed first from declared cut, window, carrier, phase, incidence, topology, and rational-pair data. Report maps are then attached by name. Source-facing or SI-facing comparisons are admitted only through the cited normalization layer described in Appendix~\ref{app:normalization-protocol}; SI conventions and numerical constants are cited from BIPM and NIST when such comparisons are rendered~\cite{bipm_si_brochure_2025,nist_codata_2022,nist_constants_complete}.
+This chapter fixes the manual contract for exact rows and report maps. The AOD row is formed first from declared cut, window, carrier, phase, incidence, topology, and rational-pair data. Report maps are then attached by name. Source-facing or SI-facing comparisons pass through the normalization layer described in Appendix~\ref{app:normalization-protocol}; SI conventions and numerical constants are sourced from BIPM and NIST when such comparisons are rendered~\cite{bipm_si_brochure_2025,nist_codata_2022,nist_constants_complete}.
 
 \subsection{Exact-row rule}
 \label{man:exact-row-rule}
@@ -51,7 +51,7 @@ A source snapshot records the source citation, source units, access date or data
 Concept & Exact AOD object & Default AOD report \\
 \midrule
 retained field & \((\mathcal F,\mathcal F_K,\omega,\ell)\) & retained-extraction declaration \\
-time & \((n,\ell)\) in \(\mathrm{bip}_{\ell}\) & count ratio; cited SI comparison only through Appendix~\ref{app:normalization-protocol} \\
+time & \((n,\ell)\) in \(\mathrm{bip}_{\ell}\) & count ratio; SI comparison through Appendix~\ref{app:normalization-protocol} \\
 rate & \((a,b)\) in \(\mathrm{biz}_{\ell}\) & rational rate \\
 phase & \((c,k,N)\) & \(c+k/N\) cycle \\
 relative temporal-duration change & \((\Delta s,\Delta n)\) & oriented path-count ratio \\
