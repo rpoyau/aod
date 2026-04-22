@@ -1,6 +1,6 @@
 {
-  "status": "application-scaffold",
-  "status": "classification_scaffold",
+  "application_status": "scaffold",
+  "row_status": "classification_scaffold",
   "omega": "omega_matter_transport_scaffold",
   "working_level": 0,
   "window_bip_0": 144,

@@ -1,6 +1,6 @@
 # Application scaffold audit
 
-The application scaffold pass adds manual-local scaffold rows and exact toy collision examples after the wire/current implementation. The main note calculus is not changed.
+The application scaffold pass adds manual-local scaffold rows and integer collision audit examples after the wire/current implementation. The main note calculus is not changed.
 
 ## Active artifacts
 

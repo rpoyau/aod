@@ -16,6 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Install TeX
         run: |
           sudo apt-get update
@@ -65,6 +69,7 @@ jobs:
               '.out', '.xdv', '.fls', '.fdb_latexmk', '.synctex.gz', '.pyc'
           )
           required = {
+              '.gitignore',
               'manual/main.tex',
               'manual/sections/05f_transport_current_fields.tex',
               'manual/tests/test_05f_wire_current_boundary_transport.py',

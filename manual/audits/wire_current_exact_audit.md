@@ -1,6 +1,6 @@
 # Wire/current exact audit
 
-Manual-local source package for the Stage III wire/current worked row.
+Manual-local source package for the wire/current worked row.
 
 ## Source path
 
