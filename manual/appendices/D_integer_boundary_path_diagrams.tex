@@ -150,15 +150,15 @@ K_a+K_b\pmod N,
 \]
 The outcome class is one of balanced, push, pull, reclosure, export, or rupture/refinement.
 
-\subsection{Phase IV integer collision examples}
-\label{appD:phaseiv-integer-collision-examples}
+\subsection{Integer collision examples}
+\label{appD:integer-collision-examples}
 
-The Phase IV collision examples instantiate the vertex grammar with exact integer predicates. They are toy retained-boundary rows for auditing the vertex update, not an external-sector collision model.
+The integer collision examples instantiate the vertex grammar with exact integer predicates. These rows instantiate the retained-boundary audit grammar for integer collision updates.
 
 \begin{table}[H]
 \centering
 \caption{Integer collision-vertex example rows.}
-\label{tab:phaseiv-collision-examples}
+\label{tab:integer-collision-examples}
 \begin{threeparttable}
 \small
 \begin{tabularx}{\linewidth}{@{}lccccX@{}}
@@ -180,9 +180,9 @@ C\_rupture & \(-1\) & \(+1\) & \(0\) & \(0\) & rupture/refinement \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.84\linewidth]{figures/collision/01_integer_collision_outcomes.png}
-\caption{Outcome counts for the Phase IV integer collision-vertex examples.}
-\label{fig:phaseiv-integer-collision-outcomes}
+\caption{Outcome counts for the integer collision-vertex examples.}
+\label{fig:integer-collision-outcomes}
 \end{figure}
 
 \paragraph{Reproducibility.}
-The raw setup, script, exact CSV, trace CSV, figure, and tests are manual-local. They are listed in the manual artifact map and audited by the Phase IV application-scaffold audit.
+The raw setup, script, exact CSV, trace CSV, figure, and tests are manual-local. They are listed in the manual artifact map and audited by the manual-local application-scaffold audit.
