@@ -35,9 +35,10 @@ jobs:
 
       - name: Run manual exact-row tests
         run: |
-          python3 manual/tests/test_05f_wire_current_boundary_transport.py
-          python3 manual/tests/test_05g_05h_application_scaffolds.py
-          python3 manual/tests/test_05i_integer_collision_vertex.py
+          for test_file in manual/tests/test_*.py; do
+            echo "running ${test_file}"
+            python3 "${test_file}"
+          done
 
       - name: Build theorem note
         run: latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex

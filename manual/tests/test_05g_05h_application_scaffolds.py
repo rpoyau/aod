@@ -51,13 +51,13 @@ def test_planetary_shell_rows_have_exact_pairs():
         Fraction(int(row["P_shell_num"]), int(row["P_shell_den"]))
 
 
-def test_ring_refinements_are_not_validated_benchmarks():
+def test_ring_refinements_have_scaffold_or_pending_status():
     rows = planetary.ring_rows()
     assert rows
     assert all(row["status"] in {"scaffold", "source_normalized_pending"} for row in rows)
 
 
-def test_scripts_write_phaseiv_outputs():
+def test_scripts_write_application_outputs():
     matter.main()
     planetary.main()
     expected = [

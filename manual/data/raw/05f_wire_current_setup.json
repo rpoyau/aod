@@ -1,5 +1,5 @@
 {
-  "schema": "AOD.phaseIII.wire_current_boundary_transport.v1",
+  "schema": "AOD.wire_current_boundary_transport.v1",
   "parent_field": "O_wire = O_conductor union O_sheath union O_ambient",
   "retained_extraction": "F_K = C_wire union P_probe",
   "omitted_context": "bulk thermal, external sector, and material benchmark layers",

@@ -48,7 +48,7 @@ This source-only file records CSV and figure companion assets used by the manual
 - manual/figures/transport/04_active_probe_response.png
 - manual/notebooks/05f_wire_current_boundary_transport.ipynb
 - manual/tests/test_05f_wire_current_boundary_transport.py
-- manual/audits/phaseIII_wire_current_audit.md
+- manual/audits/wire_current_exact_audit.md
 
 ## Section 05g — Matter-regime fields
 - manual/data/raw/05g_matter_regime_setup.json
