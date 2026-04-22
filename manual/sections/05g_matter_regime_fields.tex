@@ -1,7 +1,15 @@
 \subsection{Matter-regime fields as retained transport behavior}
 \label{man:matter-regime-fields}
 
-This scaffold classifies matter-regime rows as windowed behavior of retained ominion transport. It is a classification layer until specific exact rows, scripts, and tests are supplied.
+Matter-regime rows are recorded here as windowed behavior of retained ominion transport. Phase~IV keeps this layer as a classification scaffold: the rows below are exact integer/rational signatures for regimes, while regime-specific predictions require their own declared source chains, scripts, and tests.
+
+\RetentionBlock
+{matter-regime retained transport field family}
+{duon/tetron transport behavior by regime class}
+{external sector and material benchmark layers}
+{regime-specific exact row with declared source chain and tests}
+{classification window only}
+{pending until regime-specific script/test support exists}
 
 \begin{table}[H]
 \centering
@@ -24,3 +32,35 @@ Ring fields & shell-selected transport field & occupancy bands, gaps, long-windo
 \ManualTableNote{This table is a scaffold. Validated applications require exact rows and tests.}
 \end{threeparttable}
 \end{table}
+
+\begin{table}[H]
+\centering
+\caption{Phase IV matter-regime exact scaffold signatures.}
+\label{tab:matter-regime-phaseiv-signatures}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lccccX@{}}
+\toprule
+Regime & \(Q/S\) & Torsion & Persistence & Balance & Status \\
+\midrule
+Gas & \(1/9\) & \(1/1\) & \(1/5\) & \(11/144\) & scaffold \\
+Plasma & \(5/12\) & \(3/2\) & \(2/7\) & \(4/36\) & scaffold \\
+Liquid & \(0\) & \(5/4\) & \(3/4\) & \(-1/144\) & scaffold \\
+Solid & \(0\) & \(7/4\) & \(6/7\) & \(-11/144\) & scaffold \\
+Wire current & \(3/11\) & \(2/1\) & \(5/6\) & \(1/144\) & worked in Section~\ref{man:transport-current-fields} \\
+Ring fields & \(2/13\) & \(4/3\) & \(8/9\) & \(-1/24\) & scaffold \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{The balance column is the exact row \((\mathrm{mobility}-\mathrm{reclosure})/|\omega|_{\mathrm{bip}_0}\) from the manual-local scaffold setup.}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.86\linewidth]{figures/matter/01_matter_transport_scaffold.png}
+\caption{Matter-regime scaffold counts generated from the Phase IV exact rows.}
+\label{fig:matter-transport-scaffold}
+\end{figure}
+
+\paragraph{Reproducibility.}
+The raw setup, script, derived CSV, figure, and tests are manual-local. They are listed in the manual artifact map and audited by the Phase IV application-scaffold audit.

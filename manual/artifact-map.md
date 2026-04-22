@@ -49,3 +49,29 @@ This source-only file records CSV and figure companion assets used by the manual
 - manual/notebooks/05f_wire_current_boundary_transport.ipynb
 - manual/tests/test_05f_wire_current_boundary_transport.py
 - manual/audits/phaseIII_wire_current_audit.md
+
+## Section 05g — Matter-regime fields
+- manual/data/raw/05g_matter_regime_setup.json
+- manual/code/05g_matter_regime_scaffold.py
+- manual/data/derived/05g_matter_regime_scaffold.csv
+- manual/figures/matter/01_matter_transport_scaffold.png
+- manual/tests/test_05g_05h_phaseIV_scaffolds.py
+
+## Section 05h — Planetary-shell and ring-refinement fields
+- manual/data/raw/05h_planetary_shell_setup.json
+- manual/code/05h_planetary_shell_scaffold.py
+- manual/data/derived/05h_planetary_shell_scaffold.csv
+- manual/data/derived/05h_saturn_galactic_ring_refinements.csv
+- manual/figures/planetary/01_earth_moon_shell_scaffold.png
+- manual/figures/planetary/02_saturn_galactic_ring_refinements.png
+- manual/tests/test_05g_05h_phaseIV_scaffolds.py
+- manual/audits/phaseIV_later_application_scaffolds_audit.md
+
+## Appendix D — Integer collision examples
+- manual/data/raw/05i_duon_collision_setup.json
+- manual/code/05i_integer_collision_vertex.py
+- manual/data/derived/05i_duon_collision_exact.csv
+- manual/data/derived/05i_duon_collision_trace.csv
+- manual/figures/collision/01_integer_collision_outcomes.png
+- manual/tests/test_05i_integer_collision_vertex.py
+- manual/audits/phaseIV_later_application_scaffolds_audit.md

@@ -1,0 +1,7 @@
+row_id,ternary_identity,integer_predicates,outcome
+C_balanced,1 oplus_3 -1 = 0,Q_sum=0; K_sum_mod_N=0; chi_product=-1; incidence=1,balanced
+C_push,1 oplus_3 0 = 1,Q_sum=4; K_sum_mod_N=4; chi_product=1; incidence=1,push
+C_pull,-1 oplus_3 0 = -1,Q_sum=-4; K_sum_mod_N=5; chi_product=-1; incidence=-1,pull
+C_reclosure,1 oplus_3 1 = -1,Q_sum=0; K_sum_mod_N=0; chi_product=-1; incidence=1,reclosure
+C_export,0 oplus_3 0 = 0,Q_sum=0; K_sum_mod_N=5; chi_product=1; incidence=1,export
+C_rupture,-1 oplus_3 1 = 0,Q_sum=0; K_sum_mod_N=0; chi_product=-1; incidence=0,rupture/refinement

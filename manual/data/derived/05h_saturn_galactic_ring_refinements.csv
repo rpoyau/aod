@@ -1,0 +1,3 @@
+row_id,family,retained_extraction,gap_or_band_witness,phase_lock_num,phase_lock_den,B_star,widehat_Lambda,status
+R_saturn,Saturn ring-moon shell,D-E ring family + selected moons,Cassini Division,3,7,144,2,scaffold
+R_galactic,Galactic outer-shell family,outer-orbital shell witness set,outer-shell band,5,9,137,2,source_normalized_pending

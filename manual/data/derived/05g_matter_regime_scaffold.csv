@@ -1,0 +1,7 @@
+row_id,regime,retained_field,dominant_variables,carrier_family,mobility_count,reclosure_count,q_eff_num,q_eff_den,torsion_num,torsion_den,persistence_num,persistence_den,transport_balance_num,transport_balance_den,status
+M_gas,Gas,sparse mobile duon/tetron faces,collision window; integer step ratios; weak shell persistence,duon/tetron,13,2,1,9,1,1,1,5,11,144,scaffold
+M_plasma,Plasma,polarized mobile boundary field,"(Q,S); chi; phase-cycle residues; export/reclosure",duon,21,5,5,12,3,2,2,7,1,9,scaffold
+M_liquid,Liquid,dense near-neutral reclosure field,burden flow; torsion ratios; phase lag,tetron,8,9,0,1,5,4,3,4,-1,144,scaffold
+M_solid,Solid,constrained ominion / lattice-like chain,fixed adjacency; stress channels; transport ratios,tetron,3,14,0,1,7,4,6,7,-11,144,scaffold
+M_wire,Wire current,conductive transport subfield inside solid host,"u_tr; (Q,S); w_perp; sheath boundary",duon/tetron,11,12,3,11,2,1,5,6,-1,144,worked_in_05f
+M_ring,Ring fields,shell-selected transport field,occupancy bands; gaps; long-window phase locking,tetron,5,11,2,13,4,3,8,9,-1,24,scaffold

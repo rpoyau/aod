@@ -1,0 +1,7 @@
+row_id,a,b,c,Q_sum,K_sum_mod_N,K_sum_centered,N,chi_product,incidence,outcome
+C_balanced,1,-1,0,0,0,0,9,-1,1,balanced
+C_push,1,0,1,4,4,4,9,1,1,push
+C_pull,-1,0,-1,-4,5,-4,9,-1,-1,pull
+C_reclosure,1,1,-1,0,0,0,9,-1,1,reclosure
+C_export,0,0,0,0,5,-4,9,1,1,export
+C_rupture,-1,1,0,0,0,0,9,-1,0,rupture/refinement

@@ -19,8 +19,9 @@ Historical lineage is retired. Active provenance is manual-local: section source
 - Biological fields -> `manual/sections/05d_biological_fields.tex`, `manual/figures/bacteria/`
 - Recurrent fields -> `manual/sections/05e_recurrent_fields.tex`, `manual/data/temporal/`, `manual/figures/recurrent/`
 - Transport/current worked row -> `manual/sections/05f_transport_current_fields.tex`, `manual/data/raw/05f_wire_current_setup.json`, `manual/code/05f_wire_current_boundary_transport.py`, `manual/data/derived/05f_wire_current_exact.csv`, `manual/data/derived/05f_wire_current_report.csv`, `manual/data/derived/05f_wire_current_trace.csv`, `manual/figures/transport/`, `manual/notebooks/05f_wire_current_boundary_transport.ipynb`, `manual/tests/test_05f_wire_current_boundary_transport.py`, `manual/audits/phaseIII_wire_current_audit.md`
-- Matter-regime scaffold -> `manual/sections/05g_matter_regime_fields.tex`
-- Planetary-shell scaffold -> `manual/sections/05h_planetary_shell_fields.tex`
+- Matter-regime scaffold -> `manual/sections/05g_matter_regime_fields.tex`, `manual/data/raw/05g_matter_regime_setup.json`, `manual/code/05g_matter_regime_scaffold.py`, `manual/data/derived/05g_matter_regime_scaffold.csv`, `manual/figures/matter/`, `manual/tests/test_05g_05h_phaseIV_scaffolds.py`
+- Planetary-shell scaffold -> `manual/sections/05h_planetary_shell_fields.tex`, `manual/data/raw/05h_planetary_shell_setup.json`, `manual/code/05h_planetary_shell_scaffold.py`, `manual/data/derived/05h_planetary_shell_scaffold.csv`, `manual/data/derived/05h_saturn_galactic_ring_refinements.csv`, `manual/figures/planetary/`, `manual/tests/test_05g_05h_phaseIV_scaffolds.py`
 
 ## Appendix D
 - Integer boundary-path diagrams -> `manual/appendices/D_integer_boundary_path_diagrams.tex`
+- Integer collision examples -> `manual/data/raw/05i_duon_collision_setup.json`, `manual/code/05i_integer_collision_vertex.py`, `manual/data/derived/05i_duon_collision_exact.csv`, `manual/data/derived/05i_duon_collision_trace.csv`, `manual/figures/collision/`, `manual/tests/test_05i_integer_collision_vertex.py`

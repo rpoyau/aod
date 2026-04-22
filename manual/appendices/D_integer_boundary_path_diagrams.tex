@@ -149,3 +149,40 @@ K_a+K_b\pmod N,
 \epsilon(\Sigma_a,\Sigma_b).
 \]
 The outcome class is one of balanced, push, pull, reclosure, export, or rupture/refinement.
+
+\subsection{Phase IV integer collision examples}
+\label{appD:phaseiv-integer-collision-examples}
+
+The Phase IV collision examples instantiate the vertex grammar with exact integer predicates. They are toy retained-boundary rows for auditing the vertex update, not an external-sector collision model.
+
+\begin{table}[H]
+\centering
+\caption{Integer collision-vertex example rows.}
+\label{tab:phaseiv-collision-examples}
+\begin{threeparttable}
+\small
+\begin{tabularx}{\linewidth}{@{}lccccX@{}}
+\toprule
+Row & \(a\) & \(b\) & \(c=a\oplus_3 b\) & \(Q_a+Q_b\) & Outcome \\
+\midrule
+C\_balanced & \(+1\) & \(-1\) & \(0\) & \(0\) & balanced \\
+C\_push & \(+1\) & \(0\) & \(+1\) & \(4\) & push \\
+C\_pull & \(-1\) & \(0\) & \(-1\) & \(-4\) & pull \\
+C\_reclosure & \(+1\) & \(+1\) & \(-1\) & \(0\) & reclosure \\
+C\_export & \(0\) & \(0\) & \(0\) & \(0\) & export \\
+C\_rupture & \(-1\) & \(+1\) & \(0\) & \(0\) & rupture/refinement \\
+\bottomrule
+\end{tabularx}
+\ManualTableNote{Each outcome is selected by the integer predicates \(a\oplus_3 b\), \(Q_a+Q_b\), \(K_a+K_b \pmod N\), \(\chi_a\chi_b\), and \(\epsilon(\Sigma_a,\Sigma_b)\).}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.84\linewidth]{figures/collision/01_integer_collision_outcomes.png}
+\caption{Outcome counts for the Phase IV integer collision-vertex examples.}
+\label{fig:phaseiv-integer-collision-outcomes}
+\end{figure}
+
+\paragraph{Reproducibility.}
+The raw setup, script, exact CSV, trace CSV, figure, and tests are manual-local. They are listed in the manual artifact map and audited by the Phase IV application-scaffold audit.
