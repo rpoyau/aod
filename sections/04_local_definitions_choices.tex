@@ -287,9 +287,9 @@ d_e:=\operatorname{sgn}(r_e)\in\{-1,0,+1\}.
 The centered representative \(r_e\) is the phase-step count used by the retained transport row.
 \end{definition}
 
-\begin{definition}[Exact path-count ratio]
+\begin{definition}[Relative temporal-duration transport row]
 \label{def:exact-path-count-ratio}
-A retained transport row records step motion as an integer pair
+A retained transport row records relative temporal-duration change as the integer pair
 \[
 v_e^{\mathrm{exact}}=(\Delta s_e,\Delta n_e),
 \qquad
@@ -297,7 +297,7 @@ v_e^{\mathrm{exact}}=(\Delta s_e,\Delta n_e),
 \qquad
 \Delta n_e>0,
 \]
-where \(\Delta s_e\) is a path-step, shell-step, boundary-hop, or topology-step count, and \(\Delta n_e\) is a duration count in \(\mathrm{bip}_{\ell}\). Orientation is recorded separately by an incidence sign.
+where \(\Delta s_e\) is a path-step, shell-step, boundary-hop, or topology-step count, and \(\Delta n_e\) is a duration count in \(\mathrm{bip}_{\ell}\). Direction is carried by the incidence sign on the same retained relation.
 \end{definition}
 
 \begin{definition}[Effective-charge exact pair]
@@ -763,11 +763,11 @@ Decay is the typed end of persistence under the declared rupture predicate. Prod
 A cited window is \emph{freezing} when sustained admissibility restriction and/or sustained CK mismatch indicates that the current representation is saturating the imported AFC Markov-kernel capacity $C(P)$ on that representation. Rebalance events are explicit operator-logged events with nonzero dwell cost. Transmutation is a change of motif signature class across windows with explicit dwell cost. Dynamic volume recruitment is the growth of effective closure range or outer enclosure used to preserve admissibility and shell qualification under continued load.
 \end{definition}
 
-\begin{definition}[Normalized speed and rest-frame window]
+\begin{definition}[Relative temporal-duration change and rest-frame window]
 \label{def:rest-frame-window}
-Using the declared axis-traversal rows, define the normalized speed
+Using the declared axis-traversal rows, define the relative temporal-duration change
 \[
 v(\omega):=\frac{\|\Delta R(\omega)\|_2}{T_{\mathrm{act}}(\omega)}\in[0,1].
 \]
-A window is rest-frame qualified when it is shell-qualified and $v(\omega)\le \varepsilon_v$ under the declared tolerance.
+The traversal direction is carried by the declared orientation/incidence data on the same row. A window is rest-frame qualified when it is shell-qualified and $v(\omega)\le \varepsilon_v$ under the declared tolerance.
 \end{definition}

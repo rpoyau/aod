@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Phase IV planetary-shell and ring-refinement scaffold rows."""
+"""Planetary-shell and ring-refinement scaffold rows."""
 from __future__ import annotations
 
 import csv

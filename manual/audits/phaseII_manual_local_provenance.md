@@ -10,4 +10,4 @@ Historical lineage directories are retired. Active provenance is manual-local:
 6. notebook when present;
 7. audit file when present.
 
-The public manual does not use retired lineage directories as provenance targets.
+The public manual uses manual-local provenance targets for active rows and artifacts.

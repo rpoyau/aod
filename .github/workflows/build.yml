@@ -25,6 +25,17 @@ jobs:
             texlive-bibtex-extra \
             texlive-latex-extra
 
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements-ci.txt
+
+      - name: Run manual exact-row tests
+        run: |
+          python3 manual/tests/test_05f_wire_current_boundary_transport.py
+          python3 manual/tests/test_05g_05h_application_scaffolds.py
+          python3 manual/tests/test_05i_integer_collision_vertex.py
+
       - name: Build theorem note
         run: latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
 
@@ -33,6 +44,31 @@ jobs:
           latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
           cp manual/main.pdf manual.pdf
 
+      - name: Build source bundle
+        run: |
+          python3 scripts/build_release_bundle.py --tag ci-test --outdir dist
+
+      - name: Check source bundle hygiene
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          zips = sorted(Path('dist').glob('*.zip'))
+          assert zips, 'expected source bundle output'
+          bad_suffixes = (
+              '.bbl', '.blg', '.pdf', '.aux', '.log', '.toc',
+              '.out', '.xdv', '.fls', '.fdb_latexmk', '.synctex.gz', '.pyc'
+          )
+          with ZipFile(zips[0]) as zf:
+              bad = [
+                  name for name in zf.namelist()
+                  if not name.startswith('archive/') and name.endswith(bad_suffixes)
+              ]
+          assert not bad, bad
+          print(f'source bundle hygiene passed: {zips[0]}')
+          PY
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -40,6 +76,7 @@ jobs:
           path: |
             main.pdf
             manual.pdf
+            dist/*.zip
 
       - name: Upload release assets
         if: github.event_name == 'release'

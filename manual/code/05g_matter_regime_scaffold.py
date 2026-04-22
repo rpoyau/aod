@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Phase IV matter-regime scaffold rows.
+"""Matter-regime scaffold rows.
 
-The rows remain integer/rational/cycle/topology-facing classification data.  They
-are not external-sector benchmarks and do not validate a material model.
+The rows provide integer/rational/cycle/topology-facing classification data
+with manual-local raw setup, derived rows, figures, and tests.
 """
 from __future__ import annotations
 
