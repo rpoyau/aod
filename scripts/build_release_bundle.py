@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 
-INCLUDE_TOP_LEVEL = ['.github', '.zenodo.json', '.zenodo_doi', 'BUILD.md', 'LICENSE', 'README.md', 'appendices', 'audit_pack', 'consequences', 'examples', 'main.tex', 'manual', 'notebooks', 'preamble.tex', 'refs.bib', 'requirements-ci.txt', 'scripts', 'sections']
+INCLUDE_TOP_LEVEL = ['.github', '.zenodo.json', '.zenodo_doi', 'BUILD.md', 'LICENSE', 'README.md', 'appendices', 'audit_pack', 'consequences', 'examples', 'main.tex', 'notebooks', 'preamble.tex', 'refs.bib', 'requirements-ci.txt', 'scripts', 'sections']
 
 INCLUDE_DIRS = [
     'manual',
@@ -40,7 +40,7 @@ EXCLUDE_FILE_NAMES = {
 }
 
 EXCLUDE_SUFFIXES = {
-    '.pdf', '.aux', '.log', '.out', '.toc', '.fls', '.fdb_latexmk', '.xdv', '.synctex.gz'
+    '.pdf', '.aux', '.log', '.out', '.toc', '.fls', '.fdb_latexmk', '.xdv', '.synctex.gz', '.bbl', '.blg'
 }
 
 def should_exclude(path: Path) -> bool:

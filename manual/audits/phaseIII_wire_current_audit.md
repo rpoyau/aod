@@ -31,3 +31,6 @@ The script and test file evaluate these with `fractions.Fraction`.
 - `w_perp_minus = -3151/37800`
 
 The PNG figures are visual renderings of the rational rows and are not source inputs.
+## Source hygiene
+
+Generated bibliography files (`manual/main.bbl`, `manual/main.blg`) are not source artifacts. The release bundle excludes `.bbl` and `.blg` suffixes.

@@ -132,7 +132,14 @@ w_\perp\mapsto -w_\perp,
 \label{fig:wire-active-probe-response}
 \end{figure}
 
-\subsubsection{Executable artifacts}
-\label{man:wire-current-executable-artifacts}
+\subsubsection{Reproducibility}
+\label{man:wire-current-reproducibility}
 
-The notebook \path{manual/notebooks/05f_wire_current_boundary_transport.ipynb} mirrors the script in nine blocks: declaration, source-chain setup, exact transport flux, windowed \(\mathcal J_K\), transverse witnesses, falsification checks, rational report table, figures, and CSV export.  The test file \path{manual/tests/test_05f_wire_current_boundary_transport.py} checks zero transport, orientation reversal, chirality reversal, top/bottom antisymmetry, exact carrier decomposition, window-rate normalization, namespace separation for \(B^*\), trace declaration, and numerator/denominator CSV columns.
+Raw setup: \path{manual/data/raw/05f_wire_current_setup.json}.\par
+Script: \path{manual/code/05f_wire_current_boundary_transport.py}.\par
+Exact CSV: \path{manual/data/derived/05f_wire_current_exact.csv}.\par
+Report CSV: \path{manual/data/derived/05f_wire_current_report.csv}.\par
+Trace CSV: \path{manual/data/derived/05f_wire_current_trace.csv}.\par
+Tests: \path{manual/tests/test_05f_wire_current_boundary_transport.py}.\par
+Notebook viewer: \path{manual/notebooks/05f_wire_current_boundary_transport.ipynb}.\par
+The tests check zero transport, orientation reversal, chirality reversal, top/bottom antisymmetry, exact carrier decomposition, window-rate normalization, namespace separation for \(B^*\), trace declaration, and numerator/denominator CSV columns.
