@@ -1,29 +1,67 @@
 \documentclass[11pt]{article}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs,longtable,array}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{microtype}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+\graphicspath{{./}}
 
-\input{preamble}
+\newcommand{\Null}{\mathcal{N}}
+\newcommand{\infD}{\infty_{\mathcal{D}}}
+\newcommand{\Qfour}{Q_4}
+\newcommand{\RCD}{\mathrm{RCD}}
+\newcommand{\PADAR}{\mathrm{PADAR}}
+\newcommand{\ADAR}{\mathrm{ADAR}}
+\newcommand{\apref}[1]{App.~\ref{#1}}
+
+\newtheorem{definition}{Definition}
+\newtheorem{consequence}{Consequence}
+\newtheorem{remark}{Remark}
 
 \begin{document}
-
-\input{sections/00_title}
-\input{sections/01_abstract}
-
+\input{sections/00_title.tex}
+\input{sections/01_abstract.tex}
 \tableofcontents
 \clearpage
-
-\setcounter{section}{-1}
-\input{sections/02_introduction}
-\input{sections/03_imported_relational_basis}
-\input{sections/04_local_definitions_choices}
-\input{sections/05_consequences}
-\input{sections/06_operators}
-\input{sections/07_corollary_hooks}
-\input{sections/08_examples}
+\input{sections/02_purpose_af_posture.tex}
+\input{sections/03_afc_boundary_foundation.tex}
+\input{sections/04_null_cut_branch_hinge.tex}
+\input{sections/05_fractal_tesseract_jittering.tex}
+\input{sections/06_curl_closure_ontology.tex}
+\input{sections/07_duon_current.tex}
+\input{sections/08_field_observer_shells.tex}
+\input{sections/08a_cageon_confinement.tex}
+\input{sections/09_wavelet_group_shedding.tex}
+\input{sections/10_boundary_accounting.tex}
+\input{sections/10a_field_count_padar_scope.tex}
+\input{sections/11_rcd_pending_return.tex}
+\input{sections/12_duonic_pressure_inertia.tex}
+\input{sections/13_entropic_duon_current.tex}
+\input{sections/14_attention_padar.tex}
+\input{sections/15_composite_fields_examples.tex}
+\input{sections/16_audit_hooks.tex}
 
 \appendix
-\input{appendices/A_stochastic_bookkeeping_notes}
-\input{appendices/B_naming_terminology_contract}
+\input{appendices/A_fractal_address_bip_biz.tex}
+\input{appendices/B_curling_curls.tex}
+\input{appendices/C_stochastic_crowning.tex}
+\input{appendices/B_wavelet_disturbance_demonstration.tex}
+\input{appendices/C_glossary.tex}
+\input{appendices/D_wave_handoff.tex}
 
-\bibliographystyle{plain}
-\bibliography{refs}
+\begin{thebibliography}{9}
+\bibitem{afc} Reginald Poyau. \emph{AFC Stokes / Axiomatic Fundamentalism basis}, 2025.
+\bibitem{reginald2025af} Reginald Poyau. \emph{Axiomatic Fundamentalism protocol guide}, 2025.
+\bibitem{poyau2026aodmanual} Reginald Poyau. \emph{AFC Alpha--Omega Dynamics Manual 43C}, 2026.
+\end{thebibliography}
 
 \end{document}

@@ -1,0 +1,270 @@
+\section{Curling-curls}
+\label{app:curling-curls}
+
+\apref{app:curling-curls} fixes names and compact count forms. Cageon confinement is developed in Section~\ref{sec:cageon-confinement}.
+
+\subsection{Naming conventions}
+\label{app:cc-naming-conventions}
+
+\subsubsection{Hinge triad}
+\label{app:cc-hinge-triad}
+\[
+\mathsf H_3=(x^-,\mu,x^+).
+\]
+Here \(x^-\) is the reflected branch, \(\mu\) is the hinge / dwell / pivot, and \(x^+\) is the successor branch. The local ternary support is
+\[
+\{-1,0,+1\}.
+\]
+
+\subsubsection{Curl}
+\label{app:cc-curl}
+Curl is returned closure through a hinge; in the main text it is typed as Stokes-aligned curl motif / closure witness.
+
+\subsubsection{Nested curl}
+\label{app:cc-nested-curl}
+A nested curl is a curl carried inside another curl.
+
+\subsubsection{Pin-curl}
+\label{app:cc-pin-curl}
+A pin-curl is a returned curl whose residue seats, delays, or fixes a hinge.
+
+\subsubsection{Curling curls}
+\label{app:cc-curling-curls}
+Curling curls are recursive returns that become active path structure inside the fractal tesseract topology.
+
+\subsubsection{Monon}
+\label{app:cc-monon}
+\[
+\mathrm{monon}(x)=\operatorname{cycle}(x\succ x=x).
+\]
+
+\subsubsection{Dion}
+\label{app:cc-dion}
+\[
+D_\alpha=(+1,-1),
+\qquad
+D_\Omega=(-1,+1).
+\]
+
+\subsubsection{Duon, duad, wavelet}
+\label{app:cc-duon-duad-wavelet}
+\[
+\mathrm{duon}=D_i\mu D_j,
+\qquad
+D_i,D_j\in\{D_\alpha,D_\Omega\},
+\qquad
+\mu\in\{-1,0,+1\}.
+\]
+The resolved family has
+\[
+2\times3\times2=12
+\]
+variants. The open-seat duon is \(E_2^0\), and the seat-closed duon is the duad \(E_2^{\pm}\).
+\[
+\mathrm{wavelet}=W_\omega[\mathrm{duon}],
+\qquad
+W_\omega^\Delta[\mathrm{duon}],
+\qquad
+\Delta=\Delta^{\chi\mathrm{lag}}.
+\]
+
+\subsubsection{Odd core primitives}
+\label{app:cc-odd-core-primitives}
+The odd core primitives are monon and trion. They are complete cycle/knot primitives and cageable cores.
+
+\subsubsection{Tetrion, tetron, tetratrion}
+\label{app:cc-tetrion-tetron-tetratrion}
+\[
+\mathrm{tetrion}=\text{bare four-cycle / four-pivot return closure}.
+\]
+\[
+\mathrm{tetron}=E_4=\text{default inner cage with four seats}.
+\]
+\[
+\mathrm{tetratrion}=4\times\mathrm{trion}=3:4.
+\]
+
+\subsubsection{Core families}
+\label{app:cc-core-families}
+\[
+1:2=\mathrm{Dimonon}=2\times\mathrm{monon},
+\qquad
+\operatorname{stem}(1:2)=\mathrm{Dimon}.
+\]
+\[
+3:1=\mathrm{Trio}=1\times\mathrm{trion},
+\qquad
+3:2=\mathrm{Ditrion}=2\times\mathrm{trion}.
+\]
+\[
+3:3=\mathrm{Tritrion}=3\times\mathrm{trion},
+\qquad
+\operatorname{stem}(3:3)=\mathrm{Tritrio}.
+\]
+\[
+3:4=\mathrm{Tetratrion}=4\times\mathrm{trion},
+\qquad
+\operatorname{stem}(3:4)=\mathrm{Tetratrio}.
+\]
+
+\subsubsection{Outer cage names}
+\label{app:cc-even-cages}
+\[
+\mathsf C_6=\mathrm{hexon},
+\qquad
+\mathsf C_8=\mathrm{octon},
+\qquad
+\mathsf C_{10}=\mathrm{decon}.
+\]
+
+\subsubsection{Standalone caged names}
+\label{app:cc-standalone-caged-names}
+Standalone caged names combine the inner family stem with the outer cage name.
+\[
+1:2:6=\mathrm{Dimonhexon},
+\qquad
+3:1:6=\mathrm{Triohexon},
+\qquad
+3:2:6=\mathrm{Ditriohexon}.
+\]
+\[
+3:3:6=\mathrm{Tritriohexon},
+\qquad
+3:4:6=\mathrm{Tetratriohexon}.
+\]
+\[
+1:2:8=\mathrm{Dimonocton},
+\qquad
+1:2:10=\mathrm{Dimondecon}.
+\]
+
+\subsection{Count compression}
+\label{app:cc-count-compression}
+
+\subsubsection{Count basis}
+\label{app:cc-count-basis}
+\[
+\mathcal B_{\mathrm{curl}}=(3:3,
+3:4,
+1:2)=(\mathrm{Tritrio},
+\mathrm{Tetratrio},
+\mathrm{Dimon}).
+\]
+The compact count form is
+\[
+a:b:c::L,
+\]
+where \(a=\#(3:3)\), \(b=\#(3:4)\), \(c=\#(1:2)\), and \(L\) is outer cage order.
+
+\subsubsection{Basic shared hexon}
+\label{app:cc-basic-shared-hexon}
+\[
+1:1:0::6
+=
+\mathrm{Tritrio}::\mathrm{Tetratrio}::\mathrm{hexon}.
+\]
+Expanded:
+\[
+(3:3)^1::(3:4)^1::(1:2)^0::6.
+\]
+
+\subsubsection{Filled shared cages}
+\label{app:cc-filled-shared-cages}
+\[
+3:3:0::6
+=
+\mathrm{Tritrio}^{3}::\mathrm{Tetratrio}^{3}::\mathrm{hexon}.
+\]
+\[
+4:4:0::8
+=
+\mathrm{Tritrio}^{4}::\mathrm{Tetratrio}^{4}::\mathrm{octon}.
+\]
+\[
+5:5:0::10
+=
+\mathrm{Tritrio}^{5}::\mathrm{Tetratrio}^{5}::\mathrm{decon}.
+\]
+General filled shared cage:
+\[
+n:n:0::2n
+=
+\mathrm{Tritrio}^{n}::\mathrm{Tetratrio}^{n}::\operatorname{out}(2n),
+\qquad
+n=3,4,5,\ldots .
+\]
+
+\subsubsection{Tetrad facilitation}
+\label{app:cc-tetrad-facilitation}
+Tetratrio may function as the full tetrad seat for Tritrio:
+\[
+1:1:0::6
+=
+\mathrm{Tritrio}::\mathrm{Tetratrio}::\mathrm{hexon}.
+\]
+
+\subsection{Active naming set}
+\label{app:cc-active-naming-set}
+
+\subsubsection{Primitives}
+\label{app:cc-active-primitives}
+\[
+\mathsf H_3=\text{hinge triad}.
+\]
+\[
+\mathrm{monon},
+\quad
+\mathrm{dion},
+\quad
+\mathrm{duon},
+\quad
+\mathrm{duad}.
+\]
+\[
+\mathrm{tetrion}=4\text{-cycle},
+\qquad
+\mathrm{tetron}=E_4=\text{default inner }4\text{-cage}.
+\]
+
+\subsubsection{Core families}
+\label{app:cc-active-core-families}
+\[
+1:2=\mathrm{Dimonon},
+\qquad
+3:1=\mathrm{Trio},
+\qquad
+3:2=\mathrm{Ditrion},
+\]
+\[
+3:3=\mathrm{Tritrion},
+\qquad
+3:4=\mathrm{Tetratrion}.
+\]
+
+\subsubsection{Caged names}
+\label{app:cc-active-caged-names}
+\[
+1:2:6=\mathrm{Dimonhexon},
+\qquad
+3:3:6=\mathrm{Tritriohexon},
+\qquad
+3:4:6=\mathrm{Tetratriohexon}.
+\]
+\[
+1:2:8=\mathrm{Dimonocton},
+\qquad
+1:2:10=\mathrm{Dimondecon}.
+\]
+
+\subsubsection{Shared cage names}
+\label{app:cc-active-shared-cage-names}
+\[
+1:1:0::6
+=
+\mathrm{Tritrio}::\mathrm{Tetratrio}::\mathrm{hexon}.
+\]
+\[
+3:3:0::6
+=
+\mathrm{Tritrio}^{3}::\mathrm{Tetratrio}^{3}::\mathrm{hexon}.
+\]

@@ -1,0 +1,116 @@
+\section{Stochastic crowning and alpha advantage}
+\label{app:stochastic-crowning}
+
+AOD stochastic accounting is count-normalized boundary accounting over a declared field, boundary, window, and fractal address. The field holds past, present, and future. Crowning gives the present its retained selection count. Alpha advantage is the normalized excess of crowned alpha selections over Omega closures.
+
+\subsection{History family}
+\label{app:stoch-history-family}
+Declare a finite history family on the field and window:
+\[
+\mathcal H_{\mathcal F}(\omega).
+\]
+Each history has the form
+\[
+h=(h_{\mathrm{past}},h_{\mathrm{present}},h_{\mathrm{future}}).
+\]
+The crowning map selects the present:
+\[
+\operatorname{Crown}(h)=h_{\mathrm{present}}.
+\]
+
+\subsection{Crowning counts}
+\label{app:stoch-crowning-counts}
+Define
+\[
+N_\alpha=
+\#\{h:\ h_{\mathrm{present}}\text{ selects }\alpha\},
+\]
+\[
+N_\Omega=
+\#\{h:\ h_{\mathrm{future}}\text{ closes through }\Omega\},
+\]
+\[
+N_0=
+\#\{h:\ h\text{ remains unresolved}\}.
+\]
+The total count is
+\[
+N_{\mathrm{tot}}=N_\alpha+N_\Omega+N_0.
+\]
+The normalized count is used only when
+\[
+N_{\mathrm{tot}}>0.
+\]
+The alpha advantage is
+\[
+\Delta_\alpha(\omega)=
+\frac{N_\alpha-N_\Omega}{N_{\mathrm{tot}}}.
+\]
+
+\subsection{TTL restriction}
+\label{app:stoch-ttl-restriction}
+For channel \(e\), the retained-window indicator is
+\[
+\mathbf 1_{\mathrm{ret}}(e,\omega)=
+\begin{cases}
+1, & \mathrm{TTL}_e(\omega)\ge |\omega|_e,\\
+0, & \mathrm{TTL}_e(\omega)< |\omega|_e.
+\end{cases}
+\]
+TTL filtering changes the retained support before PADAR burden is averaged.
+
+\subsection{Retained-history family}
+\label{app:stoch-retained-history-family}
+The retained-history family is
+\[
+\mathcal H_{\mathcal F}^{\mathrm{ret}}(\omega)
+=
+\{h\in\mathcal H_{\mathcal F}(\omega):
+\mathbf 1_{\mathrm{ret}}(h,\omega)=1\}.
+\]
+The retained alpha and Omega counts are
+\[
+N_{\alpha}^{\mathrm{ret}}
+=
+\#\{h\in\mathcal H_{\mathcal F}^{\mathrm{ret}}(\omega):
+h_{\mathrm{present}}\text{ selects }\alpha\},
+\]
+\[
+N_{\Omega}^{\mathrm{ret}}
+=
+\#\{h\in\mathcal H_{\mathcal F}^{\mathrm{ret}}(\omega):
+h_{\mathrm{future}}\text{ closes through }\Omega\},
+\]
+\[
+N_{\mathrm{tot}}^{\mathrm{ret}}
+=
+|\mathcal H_{\mathcal F}^{\mathrm{ret}}(\omega)|.
+\]
+When \(N_{\mathrm{tot}}^{\mathrm{ret}}>0\), the retained alpha advantage is
+\[
+\Delta_{\alpha}^{\mathrm{ret}}(\omega)
+=
+\frac{N_{\alpha}^{\mathrm{ret}}-N_{\Omega}^{\mathrm{ret}}}{N_{\mathrm{tot}}^{\mathrm{ret}}}.
+\]
+
+
+\subsection{PADAR burden expectation}
+\label{app:stoch-padar-expectation}
+For a wavelet group \(W\), use the duration coordinate \(D_e\) inside the PADAR burden:
+\[
+P_W^{\PADAR}(\partial F,\omega)
+=
+\sum_{e\in W}
+C_{3,e}
+\min\!\left(D_e(\partial F,\omega),|\omega|_e\right)
+|\Delta^{\chi\mathrm{lag}}_e|.
+\]
+The notation \(\mathbb E_{\mathcal H}\) denotes the finite arithmetic average over the declared history family \(\mathcal H_{\mathcal F}(\omega)\). The count-normalized expectation over the declared history family is
+\[
+\mathbb E_{\mathcal H}[P_W^{\PADAR}]
+=
+\frac{1}{N_{\mathrm{tot}}}
+\sum_{h\in\mathcal H_{\mathcal F}(\omega)}
+P_W^{\PADAR}(h).
+\]
+The probability terms are normalized counts on the declared history family.

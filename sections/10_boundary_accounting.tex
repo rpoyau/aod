@@ -1,0 +1,140 @@
+\section{Boundary accounting for duon current}\label{sec:boundary-accounting}
+
+Boundary accounting records current and closure across declared structures. It acts on fields, regions, boundaries, shells, windows, and fractal addresses while preserving the ontology of those structures.
+
+\paragraph{Regional boundary template.}
+A reusable regional statement has the form
+\[
+\mathbf a\vdash(\mathcal F,\mathcal R,\partial R,\omega),
+\]
+where \(\mathcal F\) is the observer-field, \(\mathcal R\) is the declared retained region, \(\partial R\) is the region boundary, and \(\omega\) is the window. Slice flux, window current, and moving-boundary flux use the same objects in every example below.
+
+\begin{definition}[Duon slice flux]
+For a declared boundary \(\partial R\), define the duon-current slice flux by
+\begin{equation}
+\Phi^D_{\partial R}(t)
+=
+\sum_{e\in\partial R(t)}
+\epsilon_e C_{3,e}.
+\label{eq:slice-flux}
+\end{equation}
+Here \(e\) is a duon segment crossing or returning at the boundary, \(\epsilon_e\) is signed orientation, and \(C_{3,e}\) is retained trit-capacity carried by the segment. When a fractal address must be shown, write \(\mathbf a\vdash \Phi^D_{\partial R}(t)\).
+\end{definition}
+
+\begin{definition}[Window duon current]
+The window current is
+\begin{equation}
+J^D_{\partial R}(\omega)
+=
+\sum_{t\in\omega}
+\Phi^D_{\partial R}(t).
+\label{eq:window-current}
+\end{equation}
+\end{definition}
+
+\paragraph{Flux/current distinction.}
+A slice flux is one declared cut-frame crossing of duon/trit current through the boundary. A window current is the retained many-frame continuation of such crossings across the declared window:
+\[
+\Phi^D_{\partial R}(t)=\text{one cut-frame crossing},
+\]
+\[
+J^D_{\partial R}(\omega)
+=
+\sum_{t\in\omega}\Phi^D_{\partial R}(t)
+=\text{retained many-frame continuation}.
+\]
+
+\paragraph{Throughput fractions.}
+Let \(J^D_{\mathrm{abs}}\) be the absolute throughput of duon/trit current on the boundary. Then
+\[
+\eta_{\mathrm{in}}
+=
+\frac{J^D_{\mathrm{in}}}{J^D_{\mathrm{abs}}},
+\qquad
+\eta_{\mathrm{out}}
+=
+\frac{J^D_{\mathrm{out}}}{J^D_{\mathrm{abs}}},
+\qquad
+\eta_{\mathrm{pending}}
+=
+\frac{J^D_{\mathrm{pending}}}{J^D_{\mathrm{abs}}}.
+\]
+
+\paragraph{Moving boundary.}
+For a moving retained boundary, the window may record crossing, sweep, and shedding terms as
+\[
+\Phi^D_{\partial R,\mathrm{mov}}(t)
+=
+\Phi^D_{\mathrm{cross}}(t)
+-
+\Phi^D_{\mathrm{sweep}}(t)
++
+\Phi^D_{\mathrm{shed}}(t).
+\]
+Here crossing is duon current crossing the retained boundary, sweep is support swept by boundary motion, and shedding is disturbance that breaks from the retained boundary.
+
+\begin{figure}[H]
+\centering
+\fbox{\begin{minipage}{0.92\linewidth}
+\centering
+\textbf{Duon-current boundary accounting}\\[0.4em]
+\begin{tabular}{c c c c}
+\textbf{Internal retained} & \textbf{Outward shedding} & \textbf{Reflected return} & \textbf{Pending return}\\
+recurring knot/core & crosses \(\partial R\) & returns through shell/target & remains unclosed over \(\omega\)\\
+scalar burden & shell crossing & updates next emission & duration-window overlap\\
+\end{tabular}\\[0.8em]
+\(\Phi^D_{\partial R}(t)=\sum_{e\in\partial R(t)}\epsilon_e C_{3,e}\),\quad
+\(J^D_{\partial R}(\omega)=\sum_{t\in\omega}\Phi^D_{\partial R}(t)\)\\[0.4em]
+Scalar side: \(P^D\) = duonic pressure.\qquad Vector side: \(A^{(q)}\) = field attention vector.
+\end{minipage}}
+\caption{Duon-current boundary accounting. A declared boundary \(\partial R\) separates internal retained current, outward shedding, reflected return, and pending return current.}
+\label{fig:v39-duon-current-boundary-accounting}
+\end{figure}
+
+\subsection{Boundary-accounting examples}\label{subsec:boundary-accounting-examples}
+The same boundary/current form applies across familiar region choices. Declare a region, declare \(\partial R\), and account for current crossing, returning, and remaining pending.
+
+\begin{figure}[H]
+\centering
+\fbox{\begin{minipage}{0.90\linewidth}
+\centering
+\textbf{Water--atmosphere boundary accounting}\\[0.4em]
+\begin{tabular}{c c c}
+Water region & \(\partial R\) interface & Atmosphere\\
+inner vortex/core current & in/out/reflected current counted & outward shedding\\
+retained pressure & interface duration & returned coupling\\
+\end{tabular}
+\end{minipage}}
+\caption{Water--atmosphere boundary accounting. The interface \(\partial R\) separates lower-region retained current, outward shedding into the upper region, reflected return, and pending duration.}
+\label{fig:v39-water-atmosphere-example}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\fbox{\begin{minipage}{0.90\linewidth}
+\centering
+\textbf{Wire current and field interaction}\\[0.4em]
+\begin{tabular}{c c c}
+Conductor core & \(\partial R\) cylindrical shell & Field shell\\
+axial retained current & boundary accounting & surrounding return paths\\
+core pressure & pending duration shell & reflected coupling\\
+\end{tabular}
+\end{minipage}}
+\caption{Wire-current and field interaction. A conductor region carries core current while the surrounding shell carries reflected return and pending return burden.}
+\label{fig:v39-wire-current-example}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\fbox{\begin{minipage}{0.90\linewidth}
+\centering
+\textbf{Plasma and magnetic-field coupling}\\[0.4em]
+\begin{tabular}{c c c}
+Plasma core & \(\partial R\) magnetic shell & Coupled field shell\\
+circulating retained current & shell crossing counted & delayed return paths\\
+plasma pressure & pending duration & field attention vector\\
+\end{tabular}
+\end{minipage}}
+\caption{Plasma and magnetic-field coupling. A plasma core carries internal duon current; the magnetic shell carries reflected and pending-duration duon-current components across \(\partial R\).}
+\label{fig:v39-plasma-example}
+\end{figure}

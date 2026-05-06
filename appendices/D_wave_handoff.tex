@@ -1,0 +1,136 @@
+\section{Wave}
+\label{app:wave}
+
+\subsection{Scope}
+\label{app:wave:scope}
+This App records wave as an AOD consequence of cut-running, duon current, lead--lag burden, shedding, entropic duon current, and PADAR.
+
+\subsection{Setup}
+\label{app:wave:setup}
+Fix a declared field \(\mathcal F\), retained boundary \(\partial F\), window \(\omega\), and cut-frame index \(f\). Let
+\[
+D_i,D_j\in\{D_\alpha,D_\Omega\},
+\qquad
+\mu\in\{-1,0,+1\}.
+\]
+The duration coordinate used below is \(D_e\), the duration component of
+\[
+\ADAR_e=(A_e,D_e,R_e^{\mathrm{asym}}).
+\]
+Support is relation-continuation capacity: the declared capacity to receive, retain, modify, and hand off motif form.
+
+\subsection{Statement(s)}
+\label{app:wave:statements}
+
+\subsubsection{Duon entropic wavelet}
+\label{app:wave:statements:duon-entropic-wavelet}
+A wave is an entropic continuity of distinction-information through a recurring motif. In AOD, the local form is the duon entropic wavelet
+\begin{equation}
+W[D_i\mu D_j].
+\label{app:wave:eq:duon-wavelet}
+\end{equation}
+
+\subsubsection{Wave state}
+\label{app:wave:statements:state}
+A wave state is
+\begin{equation}
+Z_f=(\mathfrak m_f,I^c_f,B^e_f),
+\label{app:wave:eq:state}
+\end{equation}
+where \(\mathfrak m_f\) is the carried motif, \(I^c_f\) is coherent distinction-information, and \(B^e_f\) is unresolved entropic burden.
+
+\subsubsection{Continuity}
+\label{app:wave:statements:continuity}
+A Markovian continuity has the form
+\begin{equation}
+Z_{f+1}=H_f(Z_f).
+\label{app:wave:eq:markovian}
+\end{equation}
+A retained-history continuity has the form
+\begin{equation}
+Z_{f+1}=H_f(Z_f,\mathcal R_{\le f}),
+\label{app:wave:eq:retained-history}
+\end{equation}
+where \(\mathcal R_{\le f}\) records retained return, residue, lag, reflection, and pending burden.
+
+\subsection{Flux and current}
+\label{app:wave:flux-current}
+A slice flux is one cut-frame crossing:
+\begin{equation}
+\Phi^D_{\partial R}(t)
+=
+\sum_{e\in\partial R(t)}
+\epsilon_e C_{3,e}.
+\label{app:wave:eq:slice-flux}
+\end{equation}
+A window current is retained many-frame continuation:
+\begin{equation}
+J^D_{\partial R}(\omega)
+=
+\sum_{t\in\omega}
+\Phi^D_{\partial R}(t).
+\label{app:wave:eq:window-current}
+\end{equation}
+
+\subsection{Derivation}
+\label{app:wave:derivation}
+The AOD wave form follows from
+\[
+x\mapsto x\succ x=x
+\to
+\operatorname{monon}(x)
+\to
+D_i\mu D_j
+\to
+W[D_i\mu D_j].
+\]
+Motif-compatible continuity preserves coherent distinction-information. Changed motif compatibility contributes unresolved burden to shedding, reclosure, pending return, or entropic duon current.
+
+The entropic duon-current contribution is
+\begin{equation}
+J^D_{\mathrm{ent}}(\partial F,\omega)
+=
+\sum_e
+C_{3,e}
+\min(D_e,|\omega|_e)
+|\Delta^{\chi\mathrm{lag}}_e|.
+\label{app:wave:eq:entropic-current}
+\end{equation}
+
+\subsection{Falsification}
+\label{app:wave:falsification}
+This App fails on a declared cut-frame if the motif state cannot be followed through the declared continuity
+\[
+Z_f=(\mathfrak m_f,I^c_f,B^e_f)
+\to
+Z_{f+1}=(\mathfrak m_{f+1},I^c_{f+1},B^e_{f+1}),
+\]
+or if the window current differs from retained many-frame continuation
+\[
+J^D_{\partial R}(\omega)
+=
+\sum_{t\in\omega}
+\Phi^D_{\partial R}(t).
+\]
+
+\subsection{Provenance}
+\label{app:wave:provenance}
+\[
+\eqref{eq:cut-running-form},
+\quad
+\eqref{eq:monon-cycle},
+\quad
+\eqref{eq:duon-current},
+\quad
+\eqref{eq:slice-flux},
+\quad
+\eqref{eq:window-current},
+\quad
+\eqref{eq:entropic-duon-current};
+\qquad
+\apref{app:stochastic-crowning}.
+\]
+
+\subsection{Remark}
+\label{app:wave:remark}
+The duon entropic wavelet is the local AOD form of wave.
