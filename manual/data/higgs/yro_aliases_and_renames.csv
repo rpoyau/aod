@@ -1,0 +1,4 @@
+row,alias,status,notes
+1:2:7_yro,Dimonseptyro,optional odd-window yro alias,Only declare if the seven-window Dimon route is retained as an unstable route-status row.
+1:2:9_yro,Dimonnanyro,required alias update,"Nine-window Dimon surplus/yro status; valid even when QD=0 because yro is odd-window instability, not strict pending-overhang."
+3:3:7_yro,Tritrioseptyro,Higgs-support trace candidate,"Tritrio support, seventh odd window, unstable route/saddle signature."

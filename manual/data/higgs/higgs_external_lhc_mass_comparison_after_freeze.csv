@@ -1,0 +1,5 @@
+target_name,mass_GeV,sigma_GeV,source_note,prediction_GeV,delta_GeV,abs_percent_error,z_score
+ATLAS_CMS_Run1_combined,125.09,0.24,ATLAS+CMS Run-1 combined,124.928,-0.162,0.129507,-0.675
+CMS_H_to_4l_Run2_on_shell,125.04,0.12,CMS HIG-21-019 four-lepton mass,124.928,-0.112,0.089571,-0.933333
+ATLAS_Run1_Run2_combined,125.11,0.11,ATLAS combined gamma-gamma and ZZ* to 4l,124.928,-0.182,0.145472,-1.654545
+ATLAS_H_to_gammagamma,125.22,0.14,ATLAS diphoton channel,124.928,-0.292,0.23319,-2.085714

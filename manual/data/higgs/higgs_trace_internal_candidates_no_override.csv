@@ -1,0 +1,9 @@
+candidate_K,p,q,L_window,Pi_qp_plus_q,RD_accessor,C3_H_scoped,rhoD_omega,PD_window_pressure,QD_pending_overhang,lower_closure,delta_lower,upper_closure,delta_upper,is_yro_odd_window,is_saddle_plus3_minus3,q_band_ok_100_250,seat_tick,leave_tick,pending_overhang_fraction_display,S_H_trace_no_override,rank
+3:3:7,3,3,7,30,61,3,7,21,162,C6,3,C8,-3,1,1,1,6,7,0.885246,0.0,1
+3:2:7,3,2,7,10,21,3,7,21,42,C6,3,C8,-3,1,1,0,6,,0.666667,1.58,2
+3:3:9,3,3,9,30,61,3,9,27,156,C8,3,C10,0,1,0,1,8,,0.852459,2.25,3
+3:4:7,3,4,7,68,137,3,7,21,390,C6,3,C8,-3,1,1,0,6,,0.948905,2.4,4
+3:2:9,3,2,9,10,21,3,9,27,36,C8,3,C10,0,1,0,0,8,,0.571429,2.89,5
+3:1:7,3,1,7,2,5,3,5,15,0,C6,-3,C8,-9,1,0,0,,,0.0,3.0,6
+3:4:9,3,4,9,68,137,3,9,27,384,C8,3,C10,0,1,0,0,8,,0.934307,3.59,7
+3:1:9,3,1,9,2,5,3,5,15,0,C8,-9,C10,-12,1,0,0,,,0.0,4.75,8

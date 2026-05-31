@@ -1,0 +1,52 @@
+\section{Cycle-shedding demonstration}
+\label{app:cycle-shedding-demonstration}
+
+\subsection{Scope}
+\label{app:cycle-shedding-demo-scope}
+This demonstration run illustrates boundary accounting after the ontology has been declared. It uses one temporal cycle group on one retained field and records lead--lag span, temporal SADAR burden, sheddic excess, outward remainder, local reclosure, and sheddic path triggers.
+
+\subsection{Setup}
+\label{app:cycle-shedding-demo-setup}
+For tick \(t\), let \(L_t\) be the lead component, \(G_t\) the lag component, \(S_t\) the disturbance span, \(P_t\) the burden, \(C_t\) local closure compatibility, \(X_t\) sheddic excess, \(O_t\) outward remainder, and \(R_t\) local reclosure.
+
+\subsection{Statement(s)}
+\label{app:cycle-shedding-demo-statements}
+\[
+S_t=|L_t-G_t|,
+\qquad
+\widetilde P_t=\eta_{\mathrm{ret}} P_{t-1}+\gamma_{\mathrm{span}} S_t,
+\]
+\[
+X_t=\max(0,\widetilde P_t-C_t),
+\qquad
+P_t=\widetilde P_t-X_t,
+\]
+\[
+O_t=(1-\lambda_{\mathrm{reclose}})X_t,
+\qquad
+R_t=\lambda_{\mathrm{reclose}}X_t.
+\]
+Here \(O_t\) is the non-reclosed outward remainder; route placement may later split it into exoshedding, redirected support routing, and open loss.
+
+\subsection{Demonstration}
+\label{app:cycle-shedding-demo-demonstration}
+The displayed run uses \(90\) ticks, retention coefficient \(\eta_{\mathrm{ret}}=41/50\), span gain \(\gamma_{\mathrm{span}}=11/20\), and reclosure fraction \(\lambda_{\mathrm{reclose}}=19/50\). The lead and lag components are declared deterministic test streams with two local disturbance pulses.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\linewidth]{figures_jpg/cycle_disturbance_shedding_simulation.png}
+\caption{Demonstration run: temporal-cycle disturbance shedding.}
+\label{fig:v39-cycle-shedding-simulation}
+\end{figure}
+
+\begin{center}
+\input{cycle_shedding_summary.tex}
+\end{center}
+
+\subsection{Falsification}
+\label{app:cycle-shedding-demo-falsification}
+If the computed values violate the stated recurrences on the declared ticks, the demonstration fails on that run.
+
+\aodprovenance{\secref{subsec:temporal-sadar-burden},
+\secref{subsec:shedding},
+\secref{subsec:sheddic-path}.}

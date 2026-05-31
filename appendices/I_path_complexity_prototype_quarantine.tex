@@ -1,0 +1,52 @@
+
+\section{Path Complexity and 4-Step Closure}\label{app:path-complexity-quarantine}
+
+\subsection{Scope}\label{app:proto:scope}
+This appendix records integer path-complexity reductions and 4-step closure controls used by the A\(\Omega\)-internal pressure and attention tests.
+
+\subsection{Statement(s)}\label{app:proto:statements}
+Write an outer index as
+\[
+L=4c_L+r_L,
+\qquad
+r_L\in\{0,1,2,3\}.
+\]
+Then
+\[
+6=4(1)+2,
+\qquad
+7=4(1)+3,
+\qquad
+8=4(2)+0,
+\]
+\[
+9=4(2)+1,
+\qquad
+10=4(2)+2.
+\]
+For a path history \(h\), the 4-step closure load is
+\[
+\Lambda_4(h;B)=c_h(B).
+\]
+For a field family,
+\begin{equation}
+\Lambda_4(F;B)=
+\sum_{h\in\mathcal H_F(B)}C_{3,h}c_h(B).
+\label{app:proto:eq:four-step-load}
+\end{equation}
+
+\subsection{Path-growth reference}\label{app:proto:path-growth}
+The raw ternary assignment space is
+\[
+3^n.
+\]
+The AFC path-growth bound is recorded as
+\[
+O(n\log n).
+\]
+These statements are used as accounting controls for finite path histories and compression policies.
+
+\subsection{Falsification}\label{app:proto:falsification}
+Falsification. A declared 4-step closure reduction is contradicted on a scope when its \(L=4c_L+r_L\) decomposition is not integer-valued, its history weights are undeclared, or its compressed value is not traceable to \(\Lambda_4(F;B)\).
+
+\aodprovenance{\appref{app:combinatorics-rd-tests}, \eqnref{eq:path-history-pressure}, \eqnref{eq:path-history-compression}.}

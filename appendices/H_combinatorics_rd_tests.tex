@@ -1,0 +1,157 @@
+
+\section{Reflection Duration on \(Q_4\)}\label{app:combinatorics-rd-tests}
+
+\subsection{Scope}\label{app:rd-tests:scope}
+This App records graph support, ternary fibre, Markov kernel, path histories, RD/RCD calculation, and integer support reductions used by the A\(\Omega\)-internal SADAR pressure and attention tests.
+
+\subsection{Setup}\label{app:rd-tests:setup}
+The finite graph support is
+\[
+V(Q_4)=\{0,1\}^4,
+\qquad
+E(Q_4)=\{(x,y):d_H(x,y)=1\},
+\]
+with
+\[
+d_H(x,y)=\#\{k:x_k\ne y_k\}.
+\]
+A local edge state carries the ternary fibre
+\[
+\sigma_t(e)\in\{-1,0,+1\},
+\]
+where \(+1\) is out-bound, \(0\) is hinge / dwell, and \(-1\) is return-bound.
+
+\subsection{Choice: Markov kernel}\label{app:rd-tests:markov-kernel}
+A max-capacity-3 Markov kernel on the declared scope is
+\[
+P_B((e',\sigma')\mid(e,\sigma))\ge0,
+\qquad
+\sum_{(e',\sigma')}P_B((e',\sigma')\mid(e,\sigma))=1,
+\]
+with
+\[
+P_B((e',\sigma')\mid(e,\sigma))=0
+\quad\text{outside admissible Hamming--1 continuations},
+\qquad
+\sigma'\in\{-1,0,+1\}.
+\]
+The isotropic choice is
+\[
+P_B^{\mathrm{iso}}((e',\sigma')\mid(e,\sigma))=
+\frac{1}{N_B(e,\sigma)}
+\]
+over admissible successors. The anisotropic choice is
+\[
+P_B^{\mathrm{ani}}((e',\sigma')\mid(e,\sigma))=
+\frac{w_B(e',\sigma')}
+{\sum_{(a,\vartheta)\in\operatorname{Adm}_B(e,\sigma)}w_B(a,\vartheta)},
+\]
+where the weights may depend on \(\Delta\chi^{\mathrm{lag}}_{e'}(B)\), \(i_{e'}(B)\), and \(R^{\mathrm{asym}}_{e'}(B)\).
+
+\subsection{Statement(s)}\label{app:rd-tests:statements}
+A path history is
+\[
+h=((e_0,\sigma_0),\ldots,(e_m,\sigma_m)).
+\]
+Reflection duration is first typed as branch/hinge/branch support:
+\begin{equation}
+RD_h(B)
+=
+\Pi^-_h(B)
++
+H_{\mu,h}(B)
++
+\Pi^+_h(B).
+\label{app:rd:eq:branch-hinge-rd}
+\end{equation}
+Here \(\Pi^-_h\) is first-branch support, \(H_{\mu,h}\) is the hinge recurrence contribution, and \(\Pi^+_h\) is reflected return-branch support. The equivalent retained-history count is
+\[
+RD_h(B)=
+\sum_{t\in\omega}
+\mathbf 1[h\text{ retained, pending, or returning at }t].
+\]
+The coupling object is
+\[
+\operatorname{RCD}_h(B)=RD_h(B)\bowtie_B R^{\mathrm{asym}}_h(B),
+\qquad
+\rho^D_h(B)=\operatorname{dur}(\operatorname{RCD}_h(B)).
+\]
+The window-clipped duration participation and pending overhang are
+\[
+\rho^D_{\omega,h}(B)=\min(\rho^D_h(B),|\omega|_h),
+\]
+\[
+Q^{D,\mathrm{dur}}_h(B)=\max(0,\rho^D_h(B)-|\omega|_h),
+\qquad
+Q^D_h(B)=C_{3,h}Q^{D,\mathrm{dur}}_h(B).
+\]
+
+\subsection{Walk support corollaries}\label{app:rd-tests:corollaries}
+A\(\Omega\)D records local family support by
+\begin{equation}
+\Pi(p{:}q)=q^p+q.
+\label{app:rd:eq:path-support}
+\end{equation}
+Here \(q^p\) is the memoryless \(q\)-direction walk count and \(q\) is the retained Hamming--1 edge-shell term. The branch/hinge/branch reflected-return support is
+\begin{equation}
+RD(p{:}q;B)=2\Pi(p{:}q)+H_\mu(B)
+\label{app:rd:eq:reflected-return}
+\end{equation}
+when the branch supports are symmetric. The single-hinge reduction is
+\begin{equation}
+H_\mu(B)=1
+\quad\Longrightarrow\quad
+RD(p{:}q)=2\Pi(p{:}q)+1.
+\label{app:rd:eq:single-hinge-return}
+\end{equation}
+For \(3{:}4\), under the single-hinge reduction,
+\begin{equation}
+\Pi(3{:}4)=4^3+4=68,
+\qquad
+RD(3{:}4)=2\cdot68+1=137.
+\label{app:rd:eq:three-four-rd}
+\end{equation}
+The transition from \(4^3\) to \(4^3+4\) is A\(\Omega\)D's retained edge-shell accounting. The transition from \(\Pi\) to \(2\Pi+H_\mu\) is A\(\Omega\)D's branch/hinge/branch reflected-return closure. The single-hinge form \(2\Pi+1\) is a reduction, not the general rule.
+
+\subsection{Integer support reductions}\label{app:rd-tests:support-reductions}
+The declared integer reductions are
+\[
+1{:}2{:}6,
+\quad
+1{:}2{:}7,
+\quad
+1{:}2{:}8,
+\quad
+1{:}2{:}9,
+\quad
+1{:}2{:}10,
+\quad
+3{:}3{:}6,
+\quad
+3{:}4{:}6.
+\]
+The \(1{:}2{:}7\) reduction is closure-dependent:
+\[
+P^D(1{:}2{:}7)=3\min(7,9)=21.
+\]
+If closure is \(1{:}2{:}8\), then \(21-24=-3\). If closure is \(1{:}2{:}6\), then \(21-18=3\).
+The \(1{:}2{:}9\) reduction is the nine-window surplus reduction:
+\[
+P^D=27,
+\qquad
+C^{\mathrm{close}}=24,
+\qquad
+X_{\mathrm{shedding}}=3.
+\]
+
+
+\aodliteraturenote{Dyck/Catalan path combinatorics: Stanley~\cite{stanleyCatalan}, Flajolet--Sedgewick~\cite{flajoletSedgewick}.}
+
+\aodliteraturenote{Markov kernels and random walks: Norris~\cite{norrisMarkov}, Levin--Peres--Wilmer~\cite{levinPeresWilmer}, Lawler--Limic~\cite{lawlerLimic}.}
+
+\aodremark{The cited combinatorics is introduced at the first \(Q_4\) / Hamming--1 derivation in \secref{subsec:q4-hamming-ternary-kernel}. This App uses that support to state A\(\Omega\)D's retained edge-shell term \(+q\) and branch/hinge/branch reflected-return closure \(\Pi^-+H_\mu+\Pi^+\). The ternary hinge fibre is carried on the finite tesseract witness; it is not identical with the tesseract support.}
+
+\subsection{Walk-support audit}\label{app:rd-tests:audit}
+A walk-support reduction records declared first-branch support, hinge recurrence, reflected return-branch support, the retained edge-shell term, and the A\(\Omega\)D branch/hinge/branch closure. The single-hinge accessor \(2\Pi+1\) is used when the single-hinge symmetric reduction is declared. A kernel reduction records a normalized probability family over admissible Hamming--1 continuations.
+
+\aodprovenance{\secref{subsec:q4-hamming-ternary-kernel}, \eqnref{eq:branch-hinge-rd}, \eqnref{eq:branch-hinge-rd-symmetric}, \secref{app:rd-tests:corollaries}.}

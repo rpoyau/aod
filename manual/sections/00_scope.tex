@@ -1,0 +1,169 @@
+
+\section{Scope}\label{manual:scope}
+This manual carries application and prediction-test material downstream from the main A\(\Omega\)D note. The main note carries the AF/AFC/A\(\Omega\)D calculus. This manual carries calculation records, setup diagrams, comparison targets, external-comparison records, error audits, and audit tables.
+
+\subsection{Use of this manual}\label{manual:scope:use}
+The manual uses the same section / subsection / subsubsection structure as the main note. Rest-energy calculation records are organized under \secref{manual:rest-energy-prediction}. External comparison material remains downstream and quarantined from the A\(\Omega\)-internal scoped-flux calculation.
+
+
+\subsection{Simulation reading route}\label{manual:simulation-reading-route}
+For a compact release reading order, use the following route: main note \S\S1--3 for the AFC seed, Null/cut, branch/hinge/branch, and Q4/tesseract support; main note \S\S4--5.8 for curl, duon current, boundary, RD/RCD, pressure, and SADAR; main note \S\S5.13--5.14 for Fractal Field Ring Gate and field dynamics; manual \S\S1--2 for the calculation spine and D.E.C. ledger; manual \S\S8.1--8.3 for data-support classes and scoped errors; manual \S\S8.6--8.7 for the SPARC G0 radial shell scoring lane; manual App.~C for the 3D coordinate phase-cycle fixture; and manual \S\S9--10 for lensing data gates, registry records, and completion tables.
+
+
+
+
+
+\subsection{Calculation spine}\label{manual:calculation-spine}
+The manual uses one active calculation language. A calculation declares
+\[
+B=(\partial_TF,\omega).
+\]
+It forms retained cycle provenance, evaluates branch/hinge/branch, and computes a SADAR value:
+\[
+C_f[\Sigma]_{\AO},
+\qquad
+\mathsf{AO}_{\mu}(C)=\langle\Pi_\alpha,H_\mu,\Pi_\Omega\rangle,
+\qquad
+\SADARop_B(C)=p^D_{C,\AO}A_{C,\AO}.
+\]
+The boundary value is stored by
+\[
+\Phi^D_{\partial_T R}=\sum_{e\in\partial_T R}\SADARop_B(C_e).
+\]
+Tables store evaluated values. Tables are not the calculus.
+
+\subsection{Worked-calculation release}\label{manual:worked-calculation-release}
+A manual worked record carries a complete row: setup, declared A\(\Omega\) calculation, comparator or target, residual/error coordinate, and audit.
+
+For an exact A\(\Omega\)-internal fixture, form
+\[
+\text{setup}
+\to
+A\leftrightarrow_{\mu}\Omega\text{ calculation}
+\to
+\text{fixture comparator}
+\to
+\Delta^{\mathbb Z},\delta_3
+\to
+\text{audit}.
+\]
+
+For an external comparison calculation, form
+\[
+\text{setup}
+\to
+A\leftrightarrow_{\mu}\Omega\text{ calculation}
+\to
+\text{observable / target record}
+\to
+\Delta,\epsilon,z,\sigma
+\to
+\text{error audit}.
+\]
+The symbols \(\Delta\), \(\epsilon\), \(z\), and \(\sigma\) belong to the external comparison layer. A \(z\)-score is formed only when target uncertainty is declared.
+
+For a benchmark-dataset calculation, record
+\[
+\mathbf a\vdash(F,R,\partial_T R,\omega),\quad
+\mathcal D_{\mathrm{bench}},\quad
+\mathcal Q_{\mathrm{required}},\quad
+\mathcal S=\text{benchmark manifest}.
+\]
+Registry rows carry benchmark calculations until the declared dataset, required coordinate, report map, and audit fields are supplied.
+
+\aodnoteblock{Placement rule}{A worked record carries a complete simulation or comparison row. Registry rows carry declared setup, target, comparator, residual, uncertainty, and audit fields as they are supplied.}
+\aodnoteblock{Specification discipline}{A rest or prediction record may use a compact curling-curl specification only after \(HT(K;B)\) is declared or inherited.}
+
+\subsection{Table discipline}\label{manual:table-discipline}
+Tables in this manual store calculated values, target values, residuals, and audit status. Manual rows, ledgers, tables, records, registries, and fixtures are document containers. They record declared values. The calculation is the declared boundary computation
+\[
+\mathbf a\vdash(F,R,\partial_T R,\omega),
+\qquad
+B=(\partial_TF,\omega),
+\]
+followed by the A\(\Omega\) and SADAR calculation on that boundary.
+
+
+\subsection{Provenance-label policy}\label{manual:provenance-label-policy}
+Tokens of the form \texttt{main:<anchor>} and \texttt{manual:<anchor>} are cross-document provenance anchors. They refer to the corresponding source label \texttt{<anchor>} in the named document unless an explicit alias label is declared. Provenance records remain internal-reference lists; external sources belong in Literature note records.
+
+\subsection{Exact arithmetic and presentation decimals}\label{manual:exact-arithmetic-presentation}
+A\(\Omega\)-internal calculations use integer counts and exact rational ratios. Decimal values appear only as external comparison coordinates, presentation values, or plot labels.
+\[
+\text{A\(\Omega\) side: integers / fractions},
+\qquad
+\text{external side: value }\pm\text{ declared uncertainty}.
+\]
+If an external measured decimal is used as a comparison target, the comparison record declares its uncertainty \(\sigma\) when a \(z\)-score is formed. Percent errors may be shown as presentation comparisons when the target value is declared.
+
+\aodnoteblock{\(\delta_3\) exact-fixture package}{For an exact internal integer fixture, define
+\[
+\Delta_k^{\mathbb Z}=T_k^\times-O_k,
+\qquad
+s_k^{(3)}=\operatorname{sgn}(\Delta_k^{\mathbb Z}),
+\qquad
+m_k=|\Delta_k^{\mathbb Z}|,
+\qquad
+\delta_{3,k}(T^\times,O)=(s_k^{(3)},m_k).
+\]
+Then
+\[
+\delta_3(T^\times,O)=\left(\delta_{3,k}(T^\times,O)\right)_{k\in K}.
+\]
+The symbol \(\delta_3\) records the exact ternary signed residual for an internal integer fixture.}
+
+\aodnoteblock{Decimal precision record}{A released decimal presentation value carries
+\[
+(x_{\mathrm{disp}},u_x,\mathrm{unit}(x),\mathrm{src}(x),\mathrm{round}(x),\mathrm{scope}(x)).
+\]
+Here \(\mathrm{scope}(x)\in\{\text{internal},\text{external},\text{measured},\text{derived external},\text{value map},\text{demonstration}\}\). If \(u_x\) is absent, the status is precision pending.}
+
+
+\subsection{External-comparison quarantine}\label{manual:external-comparison-quarantine}
+External constants, measured-sector units, and external comparison symbols are quarantined. They can compare against A\(\Omega\) outputs in a comparison record, but they do not enter the A\(\Omega\) calculation and do not set A\(\Omega\) notation. In this manual, an external comparison is written
+\[
+\Qext(\nu_{x,\AO};\mathcal T_x),
+\]
+where \(\mathcal T_x\) is a declared measured-sector target record.
+
+
+\subsection{Scoped errors by data-support class}\label{manual:scoped-errors-data-support}
+A simulation or comparison is classified by the declared data support it instantiates. Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals only in its declared coordinate. Unresolved distinctions are outside the declared distinction layer or are represented by a declared projection or marginalization map with uncertainty.
+
+The scoped-error chain is
+\[
+D\rightarrow R(D)\rightarrow \mathcal M(D,R)
+\rightarrow \Pi_{\mathrm{report}}
+\rightarrow \epsilon_{\mathrm{report}}.
+\]
+Here \(D\) is the declared data-support distinction layer, \(R(D)\) is the induced relation family, \(\mathcal M(D,R)\) is the AFC/A\(\Omega\)D model evaluated on that cut, \(\Pi_{\mathrm{report}}\) is the report or projection map, and \(\epsilon_{\mathrm{report}}\) is the residual relative to the declared output target. Every manual comparison must declare its data-support class before residuals are interpreted.
+
+\paragraph{Simulation data card.}
+Each simulation or comparison row records
+\[
+(D,\ C_{\mathrm{support}},\ M_{\AO},\ \Pi_{\mathrm{report}},\sigma_{\mathrm{input}},\ \epsilon_{\mathrm{report}},\ \mathrm{src}).
+\]
+Here \(D\) is the declared input data, \(C_{\mathrm{support}}\) is the data-support class, \(M_{\AO}\) is the AFC/A\(\Omega\)D calculation or map, \(\Pi_{\mathrm{report}}\) is the reported coordinate, \(\sigma_{\mathrm{input}}\) is the declared input uncertainty when present, \(\epsilon_{\mathrm{report}}\) is the residual/error coordinate, and \(\mathrm{src}\) records the data source or source artifact.
+
+
+
+\subsection{Manual record forms}\label{manual:record-forms}
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Manual record forms.}
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+Record form & Active fields\\
+\midrule
+A\(\Omega\) field record & support, carried cycle, pressure/accessor values, and retained A\(\Omega\) value\\
+Measured target record & target value, declared uncertainty, measured-sector coordinate, and citation\\
+External comparison record & map value, target, residual/error coordinate, uncertainty source, and audit hook\\
+Observable-map record & observable-map value, target, residual, percent error, citation, and audit hook\\
+Exact fixture & comparator bins, \(\Delta^{\mathbb Z}\), \(\delta_3\), closure residual, and sheddic-route audit\\
+Benchmark manifest & dataset table, required report coordinate, input data sources, and audit hook\\
+Calibration anchor & convention value and convention-audit residual\\
+\bottomrule
+\end{tabularx}
+\label{tab:manual-record-forms}
+\end{table}

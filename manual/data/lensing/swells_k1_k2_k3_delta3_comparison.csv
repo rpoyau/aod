@@ -1,0 +1,4 @@
+run,input_basis,thetaE_delta3_total_m,thetaE_system_match_rate_percent,sigma_delta3_total_m,decision,reason
+K1,sigma_SDSS + Halpha + axis ratio,8,40.0,4,retained baseline,lowest retained δ3 residual
+K2,K1 + redshift geometry context,18,40.0,4,audit diagnostic record,over-amplified high theta_E class
+K3,Paper I Table-2 bulge/disk medium fields,10,33.3333,12,audit diagnostic record,under-resolved observable map with current medium data

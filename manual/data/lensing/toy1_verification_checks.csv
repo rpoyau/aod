@@ -1,0 +1,12 @@
+check,passed,detail
+gate_count_declared,True,16 gates
+role_class_derivation,True,numeric class rule matches declared role
+all_return_pairs_adjacent,True,all E_return pairs adjacent
+field_ring_identity_all_bins,True,T× - T^0 = C^× for all bins
+T×_nonnegative,True,no negative recurrent bin count
+caustic_bins_match_declaration,True,"caustic bins = 0,2"
+route_values_nonnegative,True,all route values nonnegative
+shedding_conserved,True,X_shedding split sums exactly
+flux_antisymmetry,True,forward plus reverse Φ_mov sums to zero
+window_current_sum,True,J_window equals forward slice-flux sum
+δ3_zero,True,Σm = 0

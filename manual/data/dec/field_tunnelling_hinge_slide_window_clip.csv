@@ -1,0 +1,4 @@
+scope_B,direct_hinge,direct_adm,slide_branch,slide_weight_num,slide_weight_den,Z_num,Z_den,P_num,P_den,RD,omega,rhoD_omega,C3,pD,is_tunnel_branch,tunnel_contribution_num,tunnel_contribution_den
+B|t,e0,0,e1:-1,3,1,7,1,3,7,,,,,,0,,
+B|t,e0,0,e2:-1,3,1,7,1,3,7,,,,,,0,,
+B|t,e0,0,e3:+1,1,1,7,1,1,7,5,2,2,3,6,1,6,7

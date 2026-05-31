@@ -1,0 +1,188 @@
+\section{Curling-curls}
+\label{app:curling-curls}
+
+\subsection{Curl-closure names}
+\label{app:cc-naming-conventions}
+
+\subsubsection{Hinge triad}
+\label{app:cc-hinge-triad}
+\[
+\mathsf H_3=(x^-,\mu,x^+).
+\]
+Here \(x^-\) is the reflected branch, \(\mu\) is the hinge / dwell / pivot, and \(x^+\) is the successor branch. The local ternary support is \(\{-1,0,+1\}\).
+
+\subsubsection{Curl}
+\label{app:cc-curl}
+Curl is returned closure through a hinge.
+
+\subsubsection{Nested curl}
+\label{app:cc-nested-curl}
+A nested curl is a curl carried inside another curl.
+
+\subsubsection{Pin-curl}
+\label{app:cc-pin-curl}
+A pin-curl is a returned curl whose residue seats, delays, or fixes a hinge.
+
+\subsubsection{Curling curls}
+\label{app:cc-curling-curls}
+Curling curls are recursive returns that become active path structure inside the fractal tesseract topology.
+
+\subsubsection{Monon}
+\label{app:cc-monon}
+The monon is the primitive branch/hinge/branch cycle:
+\[
+\mathrm{monon}(x)=\operatorname{cycle}_{\mathsf H_3}(x\succ x=x).
+\]
+
+\subsubsection{Dion}
+\label{app:cc-dion}
+\[
+D_\alpha=(+1,-1),
+\qquad
+D_\Omega=(-1,+1).
+\]
+
+\subsubsection{Duon}
+\label{app:cc-duon-duad-cycle}
+The duon is Dion--hinge--Dion returned-current support:
+\[
+\mathrm{duon}=D_i\mu D_j,
+\qquad
+D_i,D_j\in\{D_\alpha,D_\Omega\},
+\qquad
+\mu\in\{-1,0,+1\}.
+\]
+The resolved family has \(2\times3\times2=12\) variants.
+
+\subsubsection{Duad}
+\label{app:cc-duad}
+The open-seat duon is \(E_2^0\), and the seat-closed duon is the duad \(E_2^{\pm}\).
+
+\subsubsection{Trion / tetrion / tetron / tetratrion / tetrad}
+\label{app:cc-tetrion-tetron-tetratrion}
+\[
+\mathrm{tetrion}=\text{bare four-cycle / four-pivot return closure},
+\]
+\[
+\mathrm{tetron}=E_4=\text{default inner enclosure with four seats},
+\]
+\[
+\mathrm{tetratrion}=4\times\mathrm{trion}=3:4.
+\]
+A tetrad is the seated tetron closure.
+
+\subsection{Curling curls}
+\label{app:cc-families}
+
+\begin{table}[H]
+\centering
+\caption{Curling-curl family names.}
+\label{tab:cc-families}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.16\linewidth}
+                >{\raggedright\arraybackslash}p{0.23\linewidth}
+                >{\raggedright\arraybackslash}p{0.18\linewidth}
+                >{\raggedright\arraybackslash}p{0.25\linewidth}@{}}
+\toprule
+Numeric form & Family name & Stem & Meaning \\
+\midrule
+\(1:2\) & \(\mathrm{Dimonon}\) & \(\mathrm{Dimon}\) & \(2\times\mathrm{monon}\) \\
+\(3:1\) & \(\mathrm{Trio}\) & \(\mathrm{Trio}\) & \(1\times\mathrm{trion}\) \\
+\(3:2\) & \(\mathrm{Ditrion}\) & \(\mathrm{Ditrio}\) & \(2\times\mathrm{trion}\) \\
+\(3:3\) & \(\mathrm{Tritrion}\) & \(\mathrm{Tritrio}\) & \(3\times\mathrm{trion}\) \\
+\(3:4\) & \(\mathrm{Tetratrion}\) & \(\mathrm{Tetratrio}\) & \(4\times\mathrm{trion}\) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\subsection{Support-enclosure names}
+\label{app:cc-support-enclosure-names}
+
+\begin{table}[H]
+\centering
+\caption{Outer enclosure names.}
+\label{tab:cc-support-enclosure-names}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Order & Name & Role \\
+\midrule
+\(\mathsf C_6\) & hexon & first outer enclosure \\
+\(\mathsf C_8\) & octon & lifted outer enclosure \\
+\(\mathsf C_{10}\) & decon & higher lifted outer enclosure \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Count compression}
+\label{app:cc-count-compression}
+
+\subsubsection{Count basis}
+\label{app:cc-count-basis}
+\[
+\mathcal B_{\mathrm{curl}}
+=(3:3,\ 3:4,\ 1:2)
+=(\mathrm{Tritrio},\ \mathrm{Tetratrio},\ \mathrm{Dimon}).
+\]
+A count form \(a:b:c::L\) means
+\[
+\mathrm{Tritrio}^{a}::\mathrm{Tetratrio}^{b}::\mathrm{Dimon}^{c}::\operatorname{out}(L).
+\]
+
+\subsubsection{Basic shared hexon}
+\label{app:cc-basic-shared-hexon}
+\[
+1:1:0::6
+=
+\mathrm{Tritrio}::\mathrm{Tetratrio}::\mathrm{hexon}.
+\]
+Equivalent expanded numeric form:
+\[
+(3:3)^1::(3:4)^1::(1:2)^0::6.
+\]
+
+
+\subsubsection{Filled shared enclosures}
+\label{app:cc-filled-shared-enclosures}
+
+\begin{table}[H]
+\centering
+\caption{Filled shared enclosure forms.}
+\label{tab:cc-filled-shared-enclosures}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Compact form & Name & Outer enclosure \\
+\midrule
+\(3:3:0::6\) & \(\mathrm{Tritrio}^{3}::\mathrm{Tetratrio}^{3}::\mathrm{hexon}\) & hexon \\
+\(4:4:0::8\) & \(\mathrm{Tritrio}^{4}::\mathrm{Tetratrio}^{4}::\mathrm{octon}\) & octon \\
+\(5:5:0::10\) & \(\mathrm{Tritrio}^{5}::\mathrm{Tetratrio}^{5}::\mathrm{decon}\) & decon \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\subsection{Active naming set}
+\label{app:cc-active-naming-set}
+\label{app:cc-standalone-enclosed-names}
+
+\begin{table}[H]
+\centering
+\caption{Active naming index.}
+\label{tab:cc-active-naming-index}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.22\linewidth}
+                >{\raggedright\arraybackslash}p{0.48\linewidth}
+                >{\raggedright\arraybackslash}p{0.20\linewidth}@{}}
+\toprule
+Category & Entries & Anchor \\
+\midrule
+Primitives & \(\mathsf H_3\), monon, dion, duon, duad & \appref{app:cc-naming-conventions} \\
+Four-cycle / four-enclosure terms & tetrion, tetron \(E_4\), tetratrion \(3:4\), tetrad & \appref{app:cc-tetrion-tetron-tetratrion} \\
+Curling curls & Dimonon, Trio, Ditrion, Tritrion, Tetratrion & \appref{app:cc-families} \\
+Outer enclosures & hexon, octon, decon & \appref{app:cc-support-enclosure-names} \\
+Count forms & \(1:1:0::6\), filled shared enclosures & \appref{app:cc-count-compression} \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,171 +1,230 @@
 #!/usr/bin/env python3
+"""Build AOD release source and bundle artifacts from the current tree.
+
+This script deliberately keeps source-internal paths generic. Versioned names are
+created only as release artifacts from CANONICAL_VERSION.txt or --version.
+"""
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
+import os
 from pathlib import Path
+import re
 import shutil
 import sys
 import tempfile
 import zipfile
-from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 
-INCLUDE_TOP_LEVEL = ['.github', '.zenodo.json', '.zenodo_doi', 'BUILD.md', 'LICENSE', 'README.md', 'appendices', 'archive', 'audit_pack', 'consequences', 'examples', 'main.tex', 'manual', 'notebooks', 'preamble.tex', 'refs.bib', 'requirements-ci.txt', 'scripts', 'sections']
-
-INCLUDE_DIRS = [
-    'archive/supplement-a',
-    'archive/supplement-b',
-    '.github',
-    'sections',
-    'consequences',
-    'examples',
-    'appendices',
-    'notebooks',
-    'audit_pack',
-    'scripts',
-    'archive/supplement-c',
-]
-
 EXCLUDE_DIR_NAMES = {
-    '.git', '__pycache__', '.DS_Store', 'release'
-}
-
-EXCLUDE_FILE_NAMES = {
-    'release_bundle_manifest.csv',
-    'release_bundle_sha256.csv',
-    'release_build_report.txt',
-    'RELEASE_SOURCE_VERIFICATION.txt',
-    'verify_report.txt',
+    ".git", ".pytest_cache", "__pycache__", ".mypy_cache", ".ruff_cache",
+    ".DS_Store", "dist", "build", "release", "_render", "_renders"
 }
 
 EXCLUDE_SUFFIXES = {
-    '.pdf', '.aux', '.log', '.out', '.toc', '.fls', '.fdb_latexmk', '.xdv', '.synctex.gz'
+    ".pdf", ".aux", ".log", ".out", ".toc", ".fls", ".fdb_latexmk",
+    ".xdv", ".synctex.gz", ".pyc", ".pyo", ".bbl", ".blg", ".run.xml"
 }
 
-def should_exclude(path: Path) -> bool:
-    name = path.name
-    if name in EXCLUDE_FILE_NAMES:
-        return True
-    if any(part in EXCLUDE_DIR_NAMES for part in path.parts):
-        return True
-    for suf in EXCLUDE_SUFFIXES:
-        if name.endswith(suf):
-            return True
-    return False
+EXCLUDE_FILE_PATTERNS = [
+    re.compile(r"AOD_Temporal_Dynamics_v.*_PATCH_SUMMARY\.txt$"),
+    re.compile(r"AOD_Temporal_Dynamics_v.*_SHA256\.txt$"),
+    re.compile(r"AOD_Temporal_Dynamics_v.*_BUNDLE_CONTENTS_SHA256\.txt$"),
+    re.compile(r"AOD_Temporal_Dynamics_v.*_tests\.txt$"),
+]
+
+INCLUDE_TOP_LEVEL = [
+    ".github", "appendices", "figures_jpg", "manual", "scripts", "sections", "tests",
+    "CANONICAL_VERSION.txt", "RELEASE_READINESS.txt", "main.tex", "preamble.tex",
+    "refs.bib", "cycle_shedding_summary.tex", "README.md", "LICENSE", "CITATION.cff",
+    "requirements-ci.txt", ".zenodo.json", "BUILD.md",
+]
+
+
+def read_version(explicit: str | None) -> str:
+    if explicit:
+        return explicit
+    p = ROOT / "CANONICAL_VERSION.txt"
+    if not p.exists():
+        return "release"
+    m = re.search(r"Canonical version:\s*(\S+)", p.read_text(encoding="utf-8"))
+    return m.group(1) if m else "release"
+
+
+def version_slug(version: str) -> str:
+    return version.strip().lstrip("v").replace(".", "_").replace("-", "_")
 
 
 def sha256_file(path: Path) -> str:
     h = hashlib.sha256()
-    with path.open('rb') as f:
-        for chunk in iter(lambda: f.read(1024 * 1024), b''):
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
             h.update(chunk)
     return h.hexdigest()
 
 
-def copy_if_exists(src: Path, dst: Path) -> None:
-    if src.is_file() and not should_exclude(src):
+def excluded(path: Path) -> bool:
+    parts = set(path.parts)
+    if parts & EXCLUDE_DIR_NAMES:
+        return True
+    name = path.name
+    if any(rx.match(name) for rx in EXCLUDE_FILE_PATTERNS):
+        return True
+    return any(name.endswith(suf) for suf in EXCLUDE_SUFFIXES)
+
+
+def copy_item(src: Path, dst: Path) -> None:
+    if not src.exists() or excluded(src):
+        return
+    if src.is_file():
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
+    elif src.is_dir():
+        for p in src.rglob("*"):
+            if excluded(p):
+                continue
+            rel = p.relative_to(src)
+            target = dst / rel
+            if p.is_dir():
+                target.mkdir(parents=True, exist_ok=True)
+            else:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(p, target)
 
 
-def copy_tree(src: Path, dst: Path) -> None:
-    if not src.exists():
-        return
-    for p in src.rglob('*'):
-        rel = p.relative_to(src)
-        if should_exclude(p):
-            continue
-        target = dst / rel
-        if p.is_dir():
-            target.mkdir(parents=True, exist_ok=True)
-        else:
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(p, target)
-
-
-def build_stage(stage: Path) -> list[Path]:
-    copied: list[Path] = []
+def build_source_tree(stage_root: Path) -> list[Path]:
+    source_root = stage_root / "AOD_Temporal_Dynamics_source"
+    source_root.mkdir(parents=True, exist_ok=True)
     for name in INCLUDE_TOP_LEVEL:
         src = ROOT / name
         if src.exists():
-            dst = stage / name
-            copy_if_exists(src, dst)
-            if dst.exists():
-                copied.append(dst)
-    for name in INCLUDE_DIRS:
-        src = ROOT / name
-        if src.exists():
-            copy_tree(src, stage / name)
-    for p in stage.rglob('*'):
-        if p.is_file():
-            copied.append(p)
-    return sorted(set(copied))
+            copy_item(src, source_root / name)
+    return sorted([p for p in source_root.rglob("*") if p.is_file()])
 
 
-def write_stats(outdir: Path, stage: Path, files: list[Path], tag: str, archive_name: str) -> None:
-    stats = outdir / 'stats'
-    stats.mkdir(parents=True, exist_ok=True)
-    manifest_csv = stats / 'source_archive_manifest.csv'
-    sha_csv = stats / 'source_archive_sha256.csv'
-    report_txt = stats / 'source_archive_report.txt'
-
-    rows = []
-    for f in sorted(files):
-        rel = f.relative_to(stage).as_posix()
-        rows.append((rel, f.stat().st_size, sha256_file(f)))
-
-    with manifest_csv.open('w', newline='', encoding='utf-8') as fh:
-        writer = csv.writer(fh)
-        writer.writerow(['relative_path', 'size_bytes', 'sha256'])
-        writer.writerows(rows)
-
-    with sha_csv.open('w', newline='', encoding='utf-8') as fh:
-        writer = csv.writer(fh)
-        writer.writerow(['relative_path', 'sha256'])
-        for rel, _size, digest in rows:
-            writer.writerow([rel, digest])
-
-    built_at = datetime.now(timezone.utc).isoformat()
-    with report_txt.open('w', encoding='utf-8') as fh:
-        fh.write(f'archive_name={archive_name}\n')
-        fh.write(f'tag={tag}\n')
-        fh.write(f'built_at_utc={built_at}\n')
-        fh.write(f'file_count={len(rows)}\n')
-        fh.write('notes=canonical source archive containing TeX, notebooks, audit material, companion artifacts, workflow, and metadata\n')
 
 
-def zip_stage(stage: Path, zip_path: Path) -> None:
-    with zipfile.ZipFile(zip_path, 'w', compression=zipfile.ZIP_DEFLATED) as zf:
-        for path in sorted(stage.rglob('*')):
-            if path.is_file():
-                zf.write(path, path.relative_to(stage).as_posix())
+def resolve_required_artifact(primary: Path, fallback_names: list[str], label: str) -> Path | None:
+    """Return primary when present, or the first fallback artifact available.
+
+    CI workflows may run a verifier that writes verifier.log instead of tests.txt.
+    The release bundle still needs a versioned tests artifact, so the builder can
+    consume verifier.log as the source for that artifact when tests.txt is absent.
+    """
+    if primary.exists():
+        return primary
+    for name in fallback_names:
+        candidate = (ROOT / name).resolve()
+        if candidate.exists():
+            print(f"{label} artifact {primary} missing; using fallback {candidate}", file=sys.stderr)
+            return candidate
+    print(f"required artifact missing: {primary}", file=sys.stderr)
+    if fallback_names:
+        print("checked fallbacks: " + ", ".join(str((ROOT / n).resolve()) for n in fallback_names), file=sys.stderr)
+    return None
+
+def zip_dir(src_dir: Path, zip_path: Path) -> None:
+    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        for p in sorted(src_dir.rglob("*")):
+            if p.is_file():
+                zf.write(p, p.relative_to(src_dir.parent).as_posix())
+
+
+def write_sha_manifest(path: Path, files: list[Path], base: Path | None = None) -> None:
+    lines = []
+    for f in files:
+        rel = f.relative_to(base).as_posix() if base else f.name
+        lines.append(f"{sha256_file(f)}  {rel}")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--tag', default='release')
-    parser.add_argument('--outdir', default='dist')
-    parser.add_argument('--archive-prefix', default='aod-source')
-    args = parser.parse_args()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--version")
+    ap.add_argument("--outdir", default="dist")
+    ap.add_argument("--main", default="main.pdf")
+    ap.add_argument("--manual", default="manual.pdf")
+    ap.add_argument("--tests", default="tests.txt")
+    ap.add_argument("--patch-summary", default="PATCH_SUMMARY.txt")
+    args = ap.parse_args()
 
+    version = read_version(args.version)
+    slug = version_slug(version)
+    prefix = f"AOD_Temporal_Dynamics_v{slug}"
     outdir = (ROOT / args.outdir).resolve()
+    if outdir.exists():
+        shutil.rmtree(outdir)
     outdir.mkdir(parents=True, exist_ok=True)
-    archive_name = f"{args.archive_prefix}-{args.tag}.zip"
-    archive_path = outdir / archive_name
+
+    main_pdf = (ROOT / args.main).resolve()
+    manual_pdf = (ROOT / args.manual).resolve()
+    tests_txt = resolve_required_artifact((ROOT / args.tests).resolve(), ["verifier.log", "audit_pack/verifier.log", "pytest.log", "test_output.txt"], "tests")
+    for required in [main_pdf, manual_pdf]:
+        if not required.exists():
+            print(f"required artifact missing: {required}", file=sys.stderr)
+            return 2
+    if tests_txt is None:
+        return 2
+
+    patch_summary_src = (ROOT / args.patch_summary).resolve()
+    patch_summary = outdir / f"{prefix}_PATCH_SUMMARY.txt"
+    if patch_summary_src.exists():
+        shutil.copy2(patch_summary_src, patch_summary)
+    else:
+        patch_summary.write_text(
+            f"{version} release bundle generated by scripts/build_release_bundle.py.\n",
+            encoding="utf-8",
+        )
+
+    main_out = outdir / f"{prefix}_main.pdf"
+    manual_out = outdir / f"{prefix}_manual.pdf"
+    tests_out = outdir / f"{prefix}_tests.txt"
+    shutil.copy2(main_pdf, main_out)
+    shutil.copy2(manual_pdf, manual_out)
+    shutil.copy2(tests_txt, tests_out)
 
     with tempfile.TemporaryDirectory() as tmp:
-        stage = Path(tmp) / 'source'
-        stage.mkdir(parents=True, exist_ok=True)
-        files = build_stage(stage)
-        write_stats(outdir, stage, files, args.tag, archive_name)
-        files = [p for p in stage.rglob('*') if p.is_file()]
-        zip_stage(stage, archive_path)
+        stage = Path(tmp)
+        source_files = build_source_tree(stage)
+        source_zip = outdir / f"{prefix}_source.zip"
+        zip_dir(stage / "AOD_Temporal_Dynamics_source", source_zip)
 
-    print(archive_path)
+
+    # Backward-compatible alias for older CI workflows that upload dist/source-clean.zip.
+    source_clean_alias = outdir / "source-clean.zip"
+    shutil.copy2(source_zip, source_clean_alias)
+
+    # Bundle uses stable internal names so downstream tools do not depend on the version.
+    bundle_tmp = outdir / "_bundle"
+    bundle_tmp.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(main_out, bundle_tmp / "main.pdf")
+    shutil.copy2(manual_out, bundle_tmp / "manual.pdf")
+    shutil.copy2(source_zip, bundle_tmp / "source.zip")
+    shutil.copy2(tests_out, bundle_tmp / "tests.txt")
+    shutil.copy2(patch_summary, bundle_tmp / "patch_summary.txt")
+    bundle_contents = bundle_tmp / "BUNDLE_CONTENTS_SHA256.txt"
+    bundle_members = [p for p in bundle_tmp.iterdir() if p.is_file() and p.name != "BUNDLE_CONTENTS_SHA256.txt"]
+    write_sha_manifest(bundle_contents, sorted(bundle_members), bundle_tmp)
+
+    bundle_zip = outdir / f"{prefix}_bundle.zip"
+    with zipfile.ZipFile(bundle_zip, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        for p in sorted(bundle_tmp.iterdir()):
+            if p.is_file():
+                zf.write(p, p.name)
+
+    bundle_contents_out = outdir / f"{prefix}_BUNDLE_CONTENTS_SHA256.txt"
+    shutil.copy2(bundle_contents, bundle_contents_out)
+
+    sha_out = outdir / f"{prefix}_SHA256.txt"
+    top_files = [main_out, manual_out, source_zip, tests_out, patch_summary, bundle_contents_out, bundle_zip]
+    write_sha_manifest(sha_out, top_files)
+    shutil.rmtree(bundle_tmp)
+
+    print(f"built release artifacts for {version} in {outdir}")
     return 0
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     raise SystemExit(main())

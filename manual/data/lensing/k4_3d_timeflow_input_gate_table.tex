@@ -1,0 +1,23 @@
+\scriptsize
+\begin{longtable}{p{0.18\textwidth}p{0.35\textwidth}p{0.22\textwidth}p{0.16\textwidth}}
+\caption{K4 independent 3D + time-flow input gate.}\label{tab:manual-lensing-k4-gate}\\
+\toprule
+Input group & Required field & Source status & Gate\\
+\midrule
+\endfirsthead
+\toprule
+Input group & Required field & Source status & Gate\\
+\midrule
+\endhead
+3D density fields & stellar density \(\rho_\star(R,z,\theta)\) & external / 3D proxy & required\\
+3D density fields & gas density \(\rho_{\mathrm{gas}}(R,z,\theta)\) & external / 3D proxy & required\\
+velocity and flow fields & gas and stellar velocity vector field & IFU / H I / H\(\alpha\) & required\\
+velocity and flow fields & line-of-sight flow and bobbing/slosh phase & time / kinematic proxy & required\\
+momentum fields & angular momentum and radial/linear momentum & independent kinematics & required\\
+time-window state & duration/cadence windows for flow transfer & declared pre-score & required\\
+lensing target side & image-position bins & quarantined target & required\\
+lensing target side & Einstein-radius bins and image count classes & quarantined target & required\\
+audit controls & null / permutation controls & declared pre-score & required\\
+\bottomrule
+\end{longtable}
+\normalsize

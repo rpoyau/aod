@@ -1,0 +1,377 @@
+
+\section{Pen-and-Paper AFC Raw Execution and D.E.C. Ledger}\label{manual:dec-ledger}
+\aodnoteblock{Scope}{This section gives a hand-calculation path from one declared AFC edge computation into the A\(\Omega\)D motif names used later in the manual. It is a manual ledger section: it records exact edge weights, kernel fractions, route status, and boundary values.}
+\aodprovenance{main:sec:afc-stokes-seed; main:subsec:q4-four-edge-implementation; main:subsec:hinge-slide; main:subsec:sadar; manual \secref{manual:exact-arithmetic-presentation}; manual \secref{manual:cross-return-short-window}.}
+
+AFC runs raw. The trace records the run. A\(\Omega\)D names detected motifs. A simulation fixture first declares the AFC scope \(B\), boundary/region data, admissible channels, and update rule. The AFC run produces trace rows. A\(\Omega\)D detectors read the trace and classify motifs such as cross-return, yro route, duration-clipping, sheddic route, terminal split, Tau-ring support, orbital retention, and collision-support trace status.
+
+D.E.C. means Declared Edge Computation ledger. In this manual section, D.E.C. is the manual ledger format used to expose one declared AFC edge computation. Use the dotted form D.E.C.; the ledger is a manual value container for declared edge data.
+
+\[
+\begin{aligned}
+\text{AFC raw node}
+&\to \text{D.E.C. ledger}
+\to \text{exact kernel}
+\to \text{blocked hinge}
+\to \text{hinge slide},\\
+&\to \text{oriented ADAR component}
+\to \text{SADAR value}
+\to \text{boundary audit}.
+\end{aligned}
+\]
+An exact \(\delta_3\) tally is formed only when a fixture comparator is declared.
+
+\subsection{D.E.C. row format}\label{manual:dec-ledger:row-format}
+Each D.E.C. row records
+\[
+B,
+\quad
+v,
+\quad
+e,
+\quad
+v_e,
+\quad
+\sigma(e),
+\quad
+\operatorname{adm}(e;B),
+\quad
+w(e;B),
+\quad
+P(e;B),
+\quad
+\operatorname{route}(e;B).
+\]
+Here \(B\) is the declared boundary/window, \(v\) is the active node, \(e\) is an admissible edge slot, \(v_e\) is the Hamming--1 neighbor reached by that slot, \(\sigma(e)\in\{-1,0,+1\}\) is the local ternary state, \(\operatorname{adm}(e;B)\) records admissibility on the declared scope, \(w(e;B)\) is the declared integer weight, \(P(e;B)\) is the exact normalized kernel fraction, and \(\operatorname{route}(e;B)\) records returned, outgoing, blocked, slide, hinge, or pending route status.
+
+\subsection{One-node D.E.C. ledger}\label{manual:dec-ledger:one-node}
+Declare one \(Q_4\) node and four Hamming--1 edge slots:
+\[
+v=(0,0,0,0),
+\qquad
+\{e_1,e_2,e_3,e_4\}.
+\]
+Declare ternary edge states \(\sigma(e_i)\in\{-1,0,+1\}\). The following ledger records one declared anisotropic kernel.
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{One-node D.E.C. ledger.}
+\begin{tabular}{l c c c r c c}
+\toprule
+edge & neighbor & $\sigma(e)$ & admissible & weight & probability & route\\
+\midrule
+$e_1$ & $(1,0,0,0)$ & $+1$ & 1 & 1 & $1/8$ & outgoing\\
+$e_2$ & $(0,1,0,0)$ & $-1$ & 1 & 1 & $1/8$ & returned\\
+$e_3$ & $(0,0,1,0)$ & $0$ & 1 & 4 & $1/2$ & hinge\\
+$e_4$ & $(0,0,0,1)$ & $+1$ & 1 & 2 & $1/4$ & outgoing\\
+\bottomrule
+\end{tabular}
+\label{tab:manual-dec-one-node-ledger}
+\end{table}
+
+\subsection{Exact kernel normalization}\label{manual:dec-ledger:kernel}
+For isotropic admissible branching over four successors,
+\[
+P^{\mathrm{iso}}(e_i;B)=\frac14.
+\]
+For the declared anisotropic weights,
+\[
+w=(1,1,4,2),
+\qquad
+Z=1+1+4+2=8.
+\]
+The anisotropic kernel is
+\[
+P^{\mathrm{ani}}=(1/8,1/8,1/2,1/4).
+\]
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Exact anisotropic kernel fractions.}
+\begin{tabular}{l r c}
+\toprule
+edge & weight & probability\\
+\midrule
+$e_1$ & 1 & $1/8$\\
+$e_2$ & 1 & $1/8$\\
+$e_3$ & 4 & $1/2$\\
+$e_4$ & 2 & $1/4$\\
+\bottomrule
+\end{tabular}
+\label{tab:manual-dec-kernel-fractions}
+\end{table}
+
+\subsection{Blocking rule}\label{manual:dec-ledger:blocking-rule}
+Blocking is zero admissibility, not low probability. Once same-resolution hinge dwell is blocked on the declared scope, the hinge-state row is removed from the successor pool and the kernel is renormalized over branch-oriented continuations.
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{D.E.C. blocking and slide rules.}
+\begin{tabular}{l l}
+\toprule
+rule & meaning\\
+\midrule
+isotropic & equal probability over admissible successors\\
+anisotropic & unequal declared weights over admissible successors\\
+blocked & zero admissibility on the declared scope\\
+hinge slide & renormalization after same-resolution dwell is removed\\
+wave trace & repeated node updates after hinge slide\\
+\bottomrule
+\end{tabular}
+\label{tab:manual-dec-blocking-rules}
+\end{table}
+
+\subsection{Blocked hinge and hinge slide}\label{manual:dec-ledger:hinge-slide}
+In the following block event, the prior hinge-state row \((e_3,0)\) attempts same-resolution dwell, but the declared scope sets \(\operatorname{adm}(e_3,0;B)=0\). The hinge-state row \((e_3,0)\), not the edge slot \(e_3\) itself, is removed before renormalization; the \(e_3\) slot may re-enter only as an admitted branch state. Declare the post-block slide pool
+\[
+\{(e_1,-1),(e_2,-1),(e_3,+1)\}
+\]
+with weights
+\[
+w'((e_1,-1),(e_2,-1),(e_3,+1))=(3,3,1),
+\qquad
+Z'=3+3+1=7.
+\]
+Then
+\[
+P(e_1,-1)=3/7,
+\qquad
+P(e_2,-1)=3/7,
+\qquad
+P(e_3,+1)=1/7.
+\]
+The returned and outgoing slide fractions are
+\[
+P_{\mathrm{returned}}=3/7+3/7=6/7,
+\qquad
+P_{\mathrm{outgoing}}=1/7.
+\]
+
+
+\subsection{Field tunnelling: hinge-slide window clip}\label{manual:dec-ledger:field-tunnelling}
+\aodnoteblock{Data-support class}{Field tunnelling is a D0 exact internal fixture. It uses declared hinge-slide admissibility, exact slide-kernel fractions, window-clipped duration participation, and scalar tunnel contribution. It carries no external measured-sector target in this fixture row.}
+
+Field tunnelling is the retained passage of a field route through a blocked hinge by slide-compatible successor support inside the declared window. The manual spine is
+\[
+\begin{aligned}
+\text{blocked direct hinge}
+&\to \text{declared slide pool}
+\to \text{exact slide kernel}
+\to \text{window clip},\\
+&\to \text{tunnel contribution}
+\to \text{boundary audit}.
+\end{aligned}
+\]
+Fix the declared boundary/window
+\[
+B=(\partial F,\omega).
+\]
+At cut-frame \(B|t\), declare a direct hinge route \(e_0\) with
+\[
+\operatorname{adm}(e_0;B|t)=0.
+\]
+Declare the slide pool
+\[
+\operatorname{Slide}_{\mu}(B|t)=\{s_1,\ldots,s_n\}.
+\]
+Normalize only after the slide pool is declared:
+\[
+Z_{\mathrm{slide}}(B|t)
+=
+\sum_{s_i\in\operatorname{Slide}_{\mu}(B|t)}w(s_i;B|t),
+\qquad
+P_{\mathrm{slide}}(s_i;B|t)
+=
+\frac{w(s_i;B|t)}{Z_{\mathrm{slide}}(B|t)}.
+\]
+For each slide-compatible successor,
+\[
+\rho^D_{\omega,s_i}(B)=\min(RD_{s_i}(B),|\omega|_{s_i}),
+\qquad
+p^D_{s_i}(B)=C_{3,s_i}\rho^D_{\omega,s_i}(B).
+\]
+The scalar tunnel contribution is
+\[
+T^D_{\mathrm{tunnel}}(B|t)
+=
+\sum_{s_i\in\operatorname{Slide}_{\mu}(B|t)}
+P_{\mathrm{slide}}(s_i;B|t)\,p^D_{s_i}(B).
+\]
+When oriented attention is declared, the oriented tunnel flux is
+\[
+\Phi^D_{\mathrm{tunnel}}(B|t)
+=
+\sum_{s_i\in\operatorname{Slide}_{\mu}(B|t)}
+P_{\mathrm{slide}}(s_i;B|t)\,p^D_{s_i}(B)\,A_{s_i}(B).
+\]
+Using the hinge-slide pool from \secref{manual:dec-ledger:hinge-slide}, declare the tunnel branch
+\[
+s_{\mathrm{tunnel}}=(e_3,+1),
+\qquad
+P_{\mathrm{tunnel}}=1/7.
+\]
+Declare
+\[
+RD_{s_{\mathrm{tunnel}}}=5,
+\qquad
+|\omega|_{s_{\mathrm{tunnel}}}=2,
+\qquad
+C_{3,s}=3.
+\]
+Then
+\[
+\rho^D_{\omega,s_{\mathrm{tunnel}}}=\min(5,2)=2,
+\qquad
+p^D_{s_{\mathrm{tunnel}}}=3\cdot2=6,
+\]
+and
+\[
+T^D_{\mathrm{tunnel}}=(1/7)\cdot6=6/7.
+\]
+The tunnel contribution is the window-clipped pressure carried by the slide-compatible outgoing successor.
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Field tunnelling hinge-slide window-clip fixture.}
+\begin{tabular}{l l}
+\toprule
+row & value\\
+\midrule
+direct hinge admissibility & $\operatorname{adm}(e_0;B|t)=0$\\
+slide pool & $\{(e_1,-1),(e_2,-1),(e_3,+1)\}$\\
+slide weights & $(3,3,1)$\\
+slide probabilities & $(3/7,3/7,1/7)$\\
+tunnel branch & $(e_3,+1)$\\
+$P_{\mathrm{tunnel}}$ & $1/7$\\
+$RD_s$ & $5$\\
+$|\omega|_s$ & $2$\\
+$\rho^D_{\omega,s}$ & $2$\\
+$C_{3,s}$ & $3$\\
+$p^D_s$ & $6$\\
+$T^D_{\mathrm{tunnel}}$ & $6/7$\\
+\bottomrule
+\end{tabular}
+\label{tab:manual-field-tunnelling-fixture}
+\end{table}
+
+\subsection{D.E.C. row-pair to ADAR and SADAR}\label{manual:dec-ledger:adar-sadar}
+A routed D.E.C. row-pair supplies the declared returned-current pair. That pair is promoted to an oriented ADAR component on the declared boundary/window. Declare
+\[
+A_{12}=1/3,
+\qquad
+\rho^D_\omega=4,
+\qquad
+C_3=3.
+\]
+Then
+\[
+p^D=C_3\rho^D_\omega=12,
+\qquad
+\SADARop_B=p^D A_{12}=12(1/3)=4.
+\]
+Reverse orientation gives
+\[
+A_{21}=-1/3,
+\qquad
+\SADARop_B=-4.
+\]
+
+\subsection{Boundary closure and sheddic route audit}\label{manual:dec-ledger:boundary-audit}
+Declare
+\[
+P^D=27,
+\qquad
+C_{\mathrm{close}}=24.
+\]
+Then
+\[
+\Delta_{\mathrm{close}}=P^D-C_{\mathrm{close}}=3,
+\qquad
+X_{\mathrm{shedding}}=\max(0,\Delta_{\mathrm{close}})=3.
+\]
+This is the positive surplus route audit used in the Dimonnanyro row:
+\[
+1{:}2{:}9_{\mathrm{yro}}=\mathrm{Dimonnanyro}.
+\]
+If a fixture comparator is declared, the exact residual is recorded by \(\delta_3\). Without a comparator, this section records boundary values and route audits, not an exact residual tally.
+
+
+\subsection{D.E.C. audit invariants}\label{manual:dec-ledger:audit-hooks}
+A D.E.C. row records
+\[
+B,
+\quad
+v,
+\quad
+e,
+\quad
+v_e,
+\quad
+\sigma(e),
+\quad
+\operatorname{adm}(e;B),
+\quad
+w(e;B),
+\quad
+P(e;B),
+\quad
+\operatorname{route}(e;B).
+\]
+The normalized kernel satisfies
+\[
+\sum_e P(e;B)=1.
+\]
+Zero admissibility gives zero probability:
+\[
+\operatorname{adm}(e;B)=0\Rightarrow P(e;B)=0.
+\]
+A hinge-slide row records
+\[
+\mathrm{Adm}^0_B(e,\sigma)=\varnothing
+\]
+and the renormalized branch-continuation kernel. Blocking is zero admissibility, not low probability.
+
+A SADAR row records an oriented ADAR pair and satisfies
+\[
+\SADARop_B(C_{\bar e})=-\SADARop_B(C_e).
+\]
+
+An exact \(\delta_3\) tally is formed only after a fixture comparator is declared. A Tau missing-burden row carries integer provenance
+\[
+\mathrm{miss}_\tau(K)=M_{\mathrm{miss}}(K)/M_{\mathrm{ref}}(K),
+\]
+with any decimal shown only as a display coordinate.
+
+\subsection{Tau missing-burden exact ratio}\label{manual:dec-ledger:tau-ratio}
+The Tau missing-burden diagnostic is recorded with exact provenance:
+\[
+\mathrm{miss}_\tau(K)=\frac{M_{\mathrm{miss}}(K)}{M_{\mathrm{ref}}(K)}.
+\]
+For the displayed Dimonnanyro row,
+\[
+M_{\mathrm{miss}}=31,
+\qquad
+M_{\mathrm{ref}}=50,
+\qquad
+\mathrm{miss}_\tau(1{:}2{:}9_{\mathrm{yro}})=\frac{31}{50}.
+\]
+The decimal presentation field is
+\[
+\mathrm{missing\_fraction\_display}=0.62.
+\]
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Tau missing-burden exact-ratio fields.}
+\begin{tabular}{l l}
+\toprule
+field & meaning\\
+\midrule
+missing\_num & numerator $M_{\mathrm{miss}}$\\
+missing\_den & denominator $M_{\mathrm{ref}}$\\
+missing\_frac\_exact & exact ratio\\
+missing\_fraction\_display & decimal presentation field\\
+\bottomrule
+\end{tabular}
+\label{tab:manual-dec-tau-missing-ratio-fields}
+\end{table}

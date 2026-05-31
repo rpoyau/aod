@@ -1,0 +1,10 @@
+target_family,class_k,O_observed_tally
+modelled_strong_lens_presence,modelled_lens,20
+grade,A,19
+grade,B,1
+Einstein_radius_bin,theta_low_<0.75,3
+Einstein_radius_bin,theta_mid_0.75_1.00,9
+Einstein_radius_bin,theta_high_>=1.00,8
+sigmaSIE_bin,sigma_low_<200,8
+sigmaSIE_bin,sigma_mid_200_230,7
+sigmaSIE_bin,sigma_high_>=230,5

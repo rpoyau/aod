@@ -1,0 +1,10 @@
+input_group,required_field,source_status,release_gate
+3D density fields,"stellar density rho_star(R,z,theta)",external or declared 3D proxy,required before K4 release
+3D density fields,"gas density rho_gas(R,z,theta)",external or declared 3D proxy,required before K4 release
+velocity and flow fields,gas and stellar velocity vector field,external IFU/HI/Halpha data,required before K4 release
+velocity and flow fields,line-of-sight flow and bobbing/slosh phase,external time/kinematic proxy,required before K4 release
+momentum fields,angular momentum and radial/linear momentum,derived from independent kinematics,required before K4 release
+time-window state,duration/cadence windows for flow transfer,declared before scoring,required before K4 release
+lensing target side,image-position bins,quarantined target side,required before K4 release
+lensing target side,Einstein-radius bins and image count classes,quarantined target side,required before K4 release
+audit controls,null/permutation controls,declared before scoring,required before K4 release
