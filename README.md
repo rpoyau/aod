@@ -1,6 +1,6 @@
 # Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes
 
-**Version:** v39.99r66
+**Version:** v39.99r67
 
 ## Title and subtitle
 
@@ -28,7 +28,7 @@ See `CANONICAL_VERSION.txt`.
 
 ## Build and release
 
-Use `scripts/build_release_bundle.py` to generate versioned release artifacts from the version-neutral source tree. The release version is read from `CANONICAL_VERSION.txt` or passed explicitly to the build script. Versioned names are generated only as release artifacts; source-internal paths remain version-neutral. The canonical release artifact prefix is `AOD_Temporal_Dynamics_v39_99r66`.
+Use `scripts/build_release_bundle.py` to generate versioned release artifacts from the version-neutral source tree. The release version is read from `CANONICAL_VERSION.txt` or passed explicitly to the build script. Versioned names are generated only as release artifacts; source-internal paths remain version-neutral. The canonical release artifact prefix is `AOD_Temporal_Dynamics_v39_99r67`.
 
 ## Release checks
 
