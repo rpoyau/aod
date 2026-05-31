@@ -1,67 +1,6 @@
 
 \documentclass[11pt]{article}
-\usepackage[margin=0.85in]{geometry}
-\usepackage{amsmath,amssymb,amsthm}
-\usepackage{graphicx}
-\usepackage{booktabs,longtable,array}
-\usepackage{tabularx}
-\usepackage{float}
-\usepackage{xcolor}
-\usepackage[hidelinks]{hyperref}
-
-\hypersetup{
-  pdftitle={Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes},
-  pdfauthor={Reginald Poyau},
-  pdfsubject={AFC/AOD temporal dynamics, relational motifs, finite simulation fixtures},
-  pdfkeywords={Axiomatic Fundamentalism, AFC, AOD, Stokes, SADAR, relational motifs, simulation}
-}
-\usepackage{enumitem}
-\usepackage{caption}
-\usepackage{microtype}
-\setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{3}
-\setlength{\parskip}{0.55em}
-\setlength{\parindent}{0pt}
-\graphicspath{{./}}
-
-% --- Table of contents spacing for deep section numbers
-\makeatletter
-\renewcommand*\l@section{\@dottedtocline{1}{0em}{2.6em}}
-\renewcommand*\l@subsection{\@dottedtocline{2}{1.6em}{3.9em}}
-\renewcommand*\l@subsubsection{\@dottedtocline{3}{4.0em}{5.0em}}
-\makeatother
-
-
-\newcommand{\Null}{\mathcal{N}}
-\newcommand{\infD}{\infty_{\mathcal{D}}}
-\newcommand{\Qfour}{Q_4}
-\newcommand{\RCD}{\mathrm{RCD}}
-\newcommand{\SADAR}{\mathrm{SADAR}}
-\newcommand{\ADAR}{\mathrm{ADAR}}
-\newcommand{\AO}{A{\leftrightarrow}\Omega}
-\newcommand{\AOpkg}{\operatorname{A\leftrightarrow_{\mu}\Omega}}
-\newcommand{\OAop}{\operatorname{\Omega\leftrightarrow_{\mu}A}}
-\newcommand{\AOh}{\mathsf{AO}_{\mu}}
-\newcommand{\OAh}{\mathsf{OA}_{\mu}}
-\newcommand{\AOcycle}{A{\leftrightarrow_{\mu}}\Omega\;\longleftrightarrow\;\Omega{\leftrightarrow_{\mu}}A}
-\newcommand{\SADARop}{\mathfrak S}
-\newcommand{\Qext}{\mathsf{Q}_{\mathrm{ext}}}
-\newcommand{\secref}[1]{\S\ref{#1}}
-\newcommand{\appref}[1]{App.~\ref{#1}}
-\newcommand{\eqnref}[1]{\eqref{#1}}
-\newcommand{\figref}[1]{Fig.~\ref{#1}}
-\newcommand{\tabref}[1]{Table~\ref{#1}}
-
-% --- Compact note blocks
-\newcommand{\aodnoteblock}[2]{\medskip\begingroup\emergencystretch=3em\sloppy\noindent\emph{#1.}\ #2\par\endgroup}
-\newcommand{\aodprovenance}[1]{\aodnoteblock{Provenance}{#1}}
-\newcommand{\aodliteraturenote}[1]{\aodnoteblock{Literature note}{#1}}
-\newcommand{\aodremark}[1]{\aodnoteblock{Remark}{#1}}
-
-\newtheorem{definition}{Definition}
-\newtheorem{consequence}{Consequence}
-\newtheorem{remark}{Remark}
-
+\input{preamble.tex}
 \begin{document}
 \input{sections/00_title.tex}
 \input{sections/01_abstract.tex}
@@ -85,20 +24,9 @@
 \input{appendices/I_path_complexity_prototype_quarantine.tex}
 \input{appendices/J_ao_field_fractal_properties.tex}
 
-\begin{thebibliography}{9}
-\bibitem{afc} Reginald Poyau. \emph{AFC Stokes / Axiomatic Fundamentalism basis}, 2025.
-\bibitem{reginald2025af} Reginald Poyau. \emph{Axiomatic Fundamentalism protocol guide}, 2025.
-\bibitem{poyau2026aodmanual} Reginald Poyau. \emph{AFC Alpha--Omega Dynamics Manual 43C}, 2026.
-\bibitem{weissteinHypercubeGraph} Eric W. Weisstein. \emph{Hypercube Graph}. Wolfram MathWorld.
-\bibitem{mitAdjacencyWalks} MIT OpenCourseWare. \emph{Mathematics for Computer Science: Graph Theory / adjacency matrix walks}. 6.042J course materials.
-\bibitem{duncanAdjacencyWalks} A. Duncan. \emph{Powers of the adjacency matrix and the walk matrix}. 2004.
-\bibitem{wisconsinRandomWalks} University of Wisconsin. \emph{Random Walks and Markov Chains}. Course lecture notes.
-\bibitem{stanleyCatalan} Richard P. Stanley. \emph{Catalan Numbers}. Cambridge University Press, 2015.
-\bibitem{flajoletSedgewick} Philippe Flajolet and Robert Sedgewick. \emph{Analytic Combinatorics}. Cambridge University Press, 2009.
-\bibitem{norrisMarkov} J. R. Norris. \emph{Markov Chains}. Cambridge University Press, 1997.
-\bibitem{levinPeresWilmer} David A. Levin, Yuval Peres, and Elizabeth L. Wilmer. \emph{Markov Chains and Mixing Times}. American Mathematical Society, 2009.
-\bibitem{lawlerLimic} Gregory F. Lawler and Vlada Limic. \emph{Random Walk: A Modern Introduction}. Cambridge University Press, 2010.
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{refs}
 
-\end{thebibliography}
 
 \end{document}

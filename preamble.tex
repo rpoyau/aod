@@ -1,59 +1,61 @@
-% ===================== AOD — preamble (root-flattened AFC-style) =====================
-
-% Core math and layout
-\usepackage[margin=1in]{geometry}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{microtype}
+\usepackage[margin=0.85in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
-\usepackage{enumitem}
-\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{booktabs,longtable,array}
 \usepackage{tabularx}
+\usepackage{float}
 \usepackage{xcolor}
-\usepackage{hyperref}
-\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage[hidelinks]{hyperref}
 
-% Hyperref setup (entrypoints may refine pdftitle later)
 \hypersetup{
-  colorlinks=true,
-  linkcolor=black,
-  citecolor=black,
-  urlcolor=blue,
+  pdftitle={Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes},
   pdfauthor={Reginald Poyau},
-  pdftitle={Alpha↔Omega Dynamics: The Hidden Temporal Dynamics of Stokes}
+  pdfsubject={The Hidden Temporal Dynamics of Stokes; AFC/AOD temporal dynamics, boundary accounting, finite simulation fixtures, data-support classes, scoped error},
+  pdfkeywords={Axiomatic Fundamentalism, AFC, AOD, AΩD, Stokes, SADAR, boundary accounting, data-support classes, scoped error, finite simulation fixtures}
 }
-
-% Spacing and numbering
-\setlength{\parskip}{0.45em}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{microtype}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\setlength{\parskip}{0.55em}
 \setlength{\parindent}{0pt}
-\setcounter{tocdepth}{2}
-\setcounter{secnumdepth}{2}
+\graphicspath{{./}}
 
-% Theorem-like environments (AFC-style global numbering)
-\theoremstyle{definition}
-\newtheorem{choice}{Choice}
+% --- Table of contents spacing for deep section numbers
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{0em}{2.6em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.6em}{3.9em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{4.0em}{5.0em}}
+\makeatother
+
+
+\newcommand{\Null}{\mathcal{N}}
+\newcommand{\infD}{\infty_{\mathcal{D}}}
+\newcommand{\Qfour}{Q_4}
+\newcommand{\RCD}{\mathrm{RCD}}
+\newcommand{\SADAR}{\mathrm{SADAR}}
+\newcommand{\ADAR}{\mathrm{ADAR}}
+\newcommand{\AO}{A{\leftrightarrow}\Omega}
+\newcommand{\AOpkg}{\operatorname{A\leftrightarrow_{\mu}\Omega}}
+\newcommand{\OAop}{\operatorname{\Omega\leftrightarrow_{\mu}A}}
+\newcommand{\AOh}{\mathsf{AO}_{\mu}}
+\newcommand{\OAh}{\mathsf{OA}_{\mu}}
+\newcommand{\AOcycle}{A{\leftrightarrow_{\mu}}\Omega\;\longleftrightarrow\;\Omega{\leftrightarrow_{\mu}}A}
+\newcommand{\SADARop}{\mathfrak S}
+\newcommand{\Qext}{\mathsf{Q}_{\mathrm{ext}}}
+\newcommand{\secref}[1]{\S\ref{#1}}
+\newcommand{\appref}[1]{App.~\ref{#1}}
+\newcommand{\eqnref}[1]{\eqref{#1}}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+
+% --- Compact note blocks
+\newcommand{\aodnoteblock}[2]{\medskip\begingroup\emergencystretch=3em\sloppy\noindent\emph{#1.}\ #2\par\endgroup}
+\newcommand{\aodprovenance}[1]{\aodnoteblock{Provenance}{#1}}
+\newcommand{\aodliteraturenote}[1]{\aodnoteblock{Literature note}{#1}}
+\newcommand{\aodremark}[1]{\aodnoteblock{Remark}{#1}}
+
 \newtheorem{definition}{Definition}
 \newtheorem{consequence}{Consequence}
-\newtheorem{corollaryx}{Corollary}
-\newtheorem{hook}{Hook}
-\newtheorem{remarkx}{Remark}
-
-% Cleveref names
-\crefname{choice}{choice}{choices}
-\Crefname{choice}{Choice}{Choices}
-\crefname{definition}{definition}{definitions}
-\Crefname{definition}{Definition}{Definitions}
-\crefname{consequence}{consequence}{consequences}
-\Crefname{consequence}{Consequence}{Consequences}
-\crefname{corollaryx}{corollary}{corollaries}
-\Crefname{corollaryx}{Corollary}{Corollaries}
-\crefname{hook}{hook}{hooks}
-\Crefname{hook}{Hook}{Hooks}
-\crefname{remarkx}{remark}{remarks}
-\Crefname{remarkx}{Remark}{Remarks}
-\crefname{equation}{equation}{equations}
-\Crefname{equation}{Equation}{Equations}
-
-% Project convenience symbols
-\newcommand{\Nstate}{N \equiv \infty \equiv \chi}
+\newtheorem{remark}{Remark}
