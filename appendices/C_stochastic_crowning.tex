@@ -1,10 +1,15 @@
-\section{Stochastic crowning and alpha advantage}
+\section{Stochastic crowning}
 \label{app:stochastic-crowning}
 
-AOD stochastic accounting is count-normalized boundary accounting over a declared field, boundary, window, and fractal address. The field holds past, present, and future. Crowning gives the present its retained selection count. Alpha advantage is the normalized excess of crowned alpha selections over Omega closures.
+\subsection{Scope}
+\label{app:stoch-scope}
+A\(\Omega\)D stochastic accounting is count-normalized boundary accounting over a declared field, boundary, window, and fractal address.
 
-\subsection{History family}
-\label{app:stoch-history-family}
+
+\aodliteraturenote{Finite Markov kernels: Norris~\cite{norrisMarkov}, Levin--Peres--Wilmer~\cite{levinPeresWilmer}.}
+
+\subsection{Setup}
+\label{app:stoch-setup}
 Declare a finite history family on the field and window:
 \[
 \mathcal H_{\mathcal F}(\omega).
@@ -13,13 +18,23 @@ Each history has the form
 \[
 h=(h_{\mathrm{past}},h_{\mathrm{present}},h_{\mathrm{future}}).
 \]
+
+\subsection{Statement(s)}
+\label{app:stoch-statements}
+
+\subsubsection{History family}
+\label{app:stoch-history-family}
+The family \(\mathcal H_{\mathcal F}(\omega)\) is the declared finite support for stochastic crowning on the window.
+
+\subsubsection{Crowning}
+\label{app:stoch-crowning}
 The crowning map selects the present:
 \[
 \operatorname{Crown}(h)=h_{\mathrm{present}}.
 \]
 
-\subsection{Crowning counts}
-\label{app:stoch-crowning-counts}
+\subsubsection{Alpha advantage}
+\label{app:stoch-alpha-advantage}
 Define
 \[
 N_\alpha=
@@ -35,20 +50,19 @@ N_0=
 \]
 The total count is
 \[
-N_{\mathrm{tot}}=N_\alpha+N_\Omega+N_0.
-\]
-The normalized count is used only when
-\[
+N_{\mathrm{tot}}=N_\alpha+N_\Omega+N_0,
+\qquad
 N_{\mathrm{tot}}>0.
 \]
 The alpha advantage is
-\[
+\begin{equation}
 \Delta_\alpha(\omega)=
 \frac{N_\alpha-N_\Omega}{N_{\mathrm{tot}}}.
-\]
+\label{app:stochastic:eq:alpha-advantage}
+\end{equation}
 
-\subsection{TTL restriction}
-\label{app:stoch-ttl-restriction}
+\subsubsection{Retained-history family}
+\label{app:stoch-retained-history-family}
 For channel \(e\), the retained-window indicator is
 \[
 \mathbf 1_{\mathrm{ret}}(e,\omega)=
@@ -57,18 +71,18 @@ For channel \(e\), the retained-window indicator is
 0, & \mathrm{TTL}_e(\omega)< |\omega|_e.
 \end{cases}
 \]
-TTL filtering changes the retained support before PADAR burden is averaged.
-
-\subsection{Retained-history family}
-\label{app:stoch-retained-history-family}
-The retained-history family is
+The history retention indicator is
+\[
+\mathbf 1_{\mathrm{ret}}(h,\omega)=1
+\]
+when every retained channel required by \(h\) satisfies the declared TTL policy on \(\omega\). The retained-history family is
 \[
 \mathcal H_{\mathcal F}^{\mathrm{ret}}(\omega)
 =
 \{h\in\mathcal H_{\mathcal F}(\omega):
 \mathbf 1_{\mathrm{ret}}(h,\omega)=1\}.
 \]
-The retained alpha and Omega counts are
+Define
 \[
 N_{\alpha}^{\mathrm{ret}}
 =
@@ -86,31 +100,41 @@ N_{\mathrm{tot}}^{\mathrm{ret}}
 =
 |\mathcal H_{\mathcal F}^{\mathrm{ret}}(\omega)|.
 \]
-When \(N_{\mathrm{tot}}^{\mathrm{ret}}>0\), the retained alpha advantage is
-\[
+The retained alpha advantage is defined when \(N_{\mathrm{tot}}^{\mathrm{ret}}>0\):
+\begin{equation}
 \Delta_{\alpha}^{\mathrm{ret}}(\omega)
 =
 \frac{N_{\alpha}^{\mathrm{ret}}-N_{\Omega}^{\mathrm{ret}}}{N_{\mathrm{tot}}^{\mathrm{ret}}}.
-\]
+\label{app:stochastic:eq:ret-alpha-advantage}
+\end{equation}
 
-
-\subsection{PADAR burden expectation}
-\label{app:stoch-padar-expectation}
-For a wavelet group \(W\), use the duration coordinate \(D_e\) inside the PADAR burden:
+\subsection{Derivation}
+\label{app:stoch-derivation}
+For a temporal cycle group \(W\), use the window-clipped duration participation \(\rho^D_{\omega,e}\) inside the temporal SADAR burden:
 \[
-P_W^{\PADAR}(\partial F,\omega)
+P_W(\partial F,\omega)
 =
 \sum_{e\in W}
 C_{3,e}
-\min\!\left(D_e(\partial F,\omega),|\omega|_e\right)
+\rho^D_{\omega,e}(\partial F,\omega)
 |\Delta^{\chi\mathrm{lag}}_e|.
 \]
-The notation \(\mathbb E_{\mathcal H}\) denotes the finite arithmetic average over the declared history family \(\mathcal H_{\mathcal F}(\omega)\). The count-normalized expectation over the declared history family is
+The notation \(\mathbb E_{\mathcal H}\) denotes finite arithmetic average over the declared history family \(\mathcal H_{\mathcal F}(\omega)\):
 \[
-\mathbb E_{\mathcal H}[P_W^{\PADAR}]
+\mathbb E_{\mathcal H}[P_W]
 =
 \frac{1}{N_{\mathrm{tot}}}
 \sum_{h\in\mathcal H_{\mathcal F}(\omega)}
-P_W^{\PADAR}(h).
+P_W(h).
 \]
-The probability terms are normalized counts on the declared history family.
+
+\subsection{Falsification}
+\label{app:stoch-falsification}
+If a declared history family has \(N_{\mathrm{tot}}=0\), the alpha-advantage expression is undefined on that scope. If TTL filtering changes the retained support, retained counts must be recomputed before using \(\Delta_{\alpha}^{\mathrm{ret}}\).
+
+\aodprovenance{\secref{subsec:crown},
+\eqnref{app:stochastic:eq:alpha-advantage},
+\eqnref{app:stochastic:eq:ret-alpha-advantage},
+\secref{subsec:support-enclosure-retention-condition}.}
+
+\aodremark{The probability terms are normalized counts on the declared history family.}

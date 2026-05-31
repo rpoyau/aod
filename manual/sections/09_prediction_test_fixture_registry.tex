@@ -1,0 +1,110 @@
+\section{Prediction-Test Fixture Registry}\label{manual:prediction-test-registry}
+\aodnoteblock{Scope}{This registry records completion fields for manual fixtures and comparisons. Rows carry their data-support class, active fields, required A\(\Omega\) calculation, and audit artifact.}
+
+
+
+\scriptsize
+\begin{longtable}{p{0.18\textwidth}p{0.09\textwidth}p{0.18\textwidth}p{0.27\textwidth}p{0.20\textwidth}}
+\caption{Prediction-test fixture registry.}\label{tab:manual-prediction-test-registry}\\
+\toprule
+Record & Class & Active fields & Required A\(\Omega\) calculation & Artifact\\
+\midrule
+\endfirsthead
+\toprule
+Record & Class & Active fields & Required A\(\Omega\) calculation & Artifact\\
+\midrule
+\endhead
+Hydrogen shell radii & O0 & target rows & shell-ratio record for $S_n$ & radius-ratio table\\
+Hydrogen shell energies & O0 & target rows & $\Delta\widehat P^D$, ratio, target & Lyman / Balmer / Paschen tables\\
+Short-window $1{:}2{:}7$ & D0 & integer fixture fields & $P^D,\Delta^{\mathrm{close}},X_{\mathrm{shedding}}$ & closure table\\
+Short-window $1{:}2{:}9$ & D0 & integer fixture fields & $P^D,C^{\mathrm{close}},X_{\mathrm{shedding}}$ & surplus table\\
+Toy 1 field-ring fixture & D0 & integer comparator bins & $T^0,C^\times,T^\times,O,\Delta^{\mathbb Z},\delta_3$ & \(\delta_3\) fixture table\\
+Neuronal-ring benchmark acquisition & L2 & acquisition fields & $\mathcal S_{\mathrm{neuro}},O_k$ & acquisition declaration\\
+Electron & O0 & measured target rows & $\nu_{\AO},E_{\mathrm{ext}}$ for $1{:}2{:}6$ & external target declared\\
+Muon & O0 & measured target rows & $\nu_{\AO},E_{\mathrm{ext}}$ for $1{:}2{:}8$ & external target declared\\
+Tau & O0/D0 & measured target rows & $\nu_{\AO},E_{\mathrm{ext}}$ for $1{:}2{:}9_{\mathrm{yro}}$ / Dimonnanyro & surplus fixture + external target declared\\
+Proton & O0 & measured target rows & $\nu_{\AO},E_{\mathrm{ext}}$ for $3{:}3{:}6$ & closed fixture + external target declared\\
+Neutron & O0 & measured target rows & $\nu_{\AO},E_{\mathrm{ext}}$ for $3{:}4{:}6$ & closed fixture + external target declared\\
+B / $B_s$ / $B_c$ & O0 & measured target rows & $\nu_{\AO},E_{\mathrm{ext}}$ for Ditrion records & debris fixture + external target declared\\
+Boundary current & D0 & declared boundary/current fields & $\Phi,J,P^D,\mathbf A_F$ & substitution table\\
+Field tunnelling hinge-slide fixture & D0 & integer fixture fields & $\operatorname{adm}(e_0;B|t)=0$, slide kernel, $\rho^D_\omega$, $T^D_{\mathrm{tunnel}}$ & D.E.C. ledger table\\
+3D Brownian phase-cycle fixture & G3/D0 & 3D coordinate track fields & $z_i\in\mathbb Z^3$, $\Delta z_i^{(n)}$, $Q_i^{(n)}$, phase counts, octant counts, $\delta_3$ & 3D coordinate phase-cycle CSVs (Brownian application aliases), integer-ratio audit, and App.~\ref{manual:app:coordinate-phase-cycle-delta3}\\
+Mercury perihelion & O0 & observable-map target rows & observable-map value, target, error & solar table\\
+Solar light bending & O0 & observable-map target rows & observable-map value, target, error & solar table\\
+Solar redshift & O0 & observable-map target rows & observable-map value, target, error & solar table\\
+Earth--Moon orbital shell & O0 & target data manifest & Moon distance, speed, period records require numeric A\(\Omega\) values & NASA target record~\cite{nasa-moon-by-numbers}\\
+Saturn ring-shell & O0 & target data manifest & ring-boundary and Cassini-division records require numeric A\(\Omega\) values & NASA / ring-boundary target record~\cite{nasa-cassini-division}\\
+SPARC five-galaxy square-speed diagnostic & G0 & SPARC radial rows & $U_{\AO}(r)$, $\Delta U$, $z^U$, $\chi^2_U$, $MAE_U$, $MSE_U$, $MAPE_U$ & per-bin CSV, per-galaxy CSV, score table, and figures~\cite{sparc-database,lelli-sparc-2016}\\
+SPARC full-sample / extended benchmark & G0/G1 & target data manifest & full-sample $U_{\AO}(r)$, $\Delta U$, $z^U$, $\chi^2_U$, $MAE_U$, $MSE_U$, $MAPE_U$ & extended benchmark package\\
+Orbital-retention field-dynamics fixture & G2/G3 & G2/G3 input package & medium setup, input-provenance gate, flip/fizz classifier, range SADAR, capacity seating, retention class, \(\delta_3\) tallies & workbook spine and provenance tables\\
+Toy 1 lensing field-ring fixture & L0 & integer comparator bins & \(T^0,C^\times,T^\times,O,\Delta^{\mathbb Z},\delta_3\) & manual galactic lensing plan\\
+SPARC5 lens-medium diagnostic & L1 & radial lens-medium fields & radial field-medium class tallies & plan data and figures\\
+SWELLS K0 target acquisition & L2 & target acquisition fields & target tallies before prediction join & target-side quarantine table\\
+SWELLS K1 retained baseline & L1/L2 & baseline target fields & \(\delta_3\) comparison tallies & K1 diagnostic table\\
+SWELLS K2/K3 & L1/L2 & audit diagnostics & \(\delta_3\) comparison tallies & K2/K3 audit table\\
+K4 galactic lensing gate & L3 & higher-resolution input manifest & independent medium data and target quarantine & K4 input-gate table\\
+L3 lensing input package & L3 & L3 input manifest & independent 3D medium fields, time-flow inputs, radiation-current gates, target-side quarantine, null controls & lens residuals after A\(\Omega\) values freeze\\
+Tritrioseptyro Higgs-support fixture & D0/O0 & AFC trace rows + route detector & candidate: $3{:}3{:}7_{\mathrm{yro}}$; frozen map: $RD\,2^{L+4}$; mapped mass: $124.928$ GeV; comparison layer: declared Higgs mass targets & next layer: production-channel and decay-channel residual tables\\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\aodnoteblock{Data-support registry note}{Registry rows are read together with data-support class. A row carries active fields, an A\(\Omega\) calculation or report map, and an artifact. Residuals are scoped to the declared class.}
+
+\subsection{Neuronal-ring benchmark acquisition}\label{manual:registry:neuronal-benchmark-acquisition}
+This registry subsection supplies a measured acquisition declaration for a field-ring benchmark record. For a biological benchmark acquisition, declare
+\[
+\mathcal S_{\mathrm{neuro}}
+=
+(\mathcal M,\Delta t,\mathcal B_{\mathrm{spike}},\kappa_k,\Theta_{\mathrm{stim}},\Omega_{\mathrm{meas}}).
+\]
+Here
+\[
+\mathcal M\in
+\{\text{spike counts},\ \text{calcium bins},\ \text{voltage bins},\ \text{LFP bins}\}
+\]
+is the measurement mode, \(\Delta t\) is the bin width, \(\mathcal B_{\mathrm{spike}}\) is the bin extraction rule, \(\Theta_{\mathrm{stim}}\) is the gate-stimulus declaration, and \(\Omega_{\mathrm{meas}}\) is the measurement window.
+The fixture comparator is
+\[
+O_k=\mathcal S_{\mathrm{neuro}}(k;\Omega_{\mathrm{meas}}).
+\]
+
+\aodnoteblock{Artifact}{\(\mathcal S_{\mathrm{neuro}}, T_k^0, C_{ab,k}^{\times}(B), T_k^\times, O_k, \Delta_k^{\mathbb Z}, \delta_{3,k}\). If \(O_k\) is continuous or averaged, write \(O_k=x_k\pm\sigma_k\) and treat the comparison as a measured acquisition value map with a decimal precision record.}
+\aodnoteblock{Completion rule}{The neuronal-ring benchmark record is complete when benchmark acquisition is declared before bin comparison, the independent gate-sum value is computed as $T^0_k=S^{(a)}_k+S^{(b)}_k$, and the cross-return row records a declared $C_{ab,k}^{\times}(B)$.}
+\aodremark{This subsection is a benchmark-acquisition record. The A\(\Omega\) calculation is the recurrent ring value; the measured acquisition declaration is supplied before comparison.}
+
+
+
+\subsection{SPARC benchmark declaration}\label{manual:registry:sparc}
+The SPARC five-galaxy diagnostic is carried as a current field-dynamics square-speed diagnostic lane. The full protocol and scored records are given in \secref{manual:field-dynamics-applications}.
+\[
+\mathcal D_{\mathrm{SPARC}}
+=
+\{G_i,r_{ij},V^{\mathrm{obs}}_{ij},\sigma_{V,ij},V^{\mathrm{gas}}_{ij},V^{\mathrm{disk}}_{ij},V^{\mathrm{bulge}}_{ij},L_{3.6,i},\ldots\}.
+\]
+The active comparison coordinate is square speed:
+\[
+U^{\mathrm{obs}}_{ij}=(V^{\mathrm{obs}}_{ij})^2,
+\qquad
+U_{ij,\AO}=\SADARop^U_{B_i}(C_{i,j}).
+\]
+For each radial bin, the completed record carries
+\[
+U_{ij,\AO},\qquad
+\Delta U_{ij}=U_{ij,\AO}-U^{\mathrm{obs}}_{ij},\qquad
+z^U_{ij}=\Delta U_{ij}/\sigma_{U,ij}.
+\]
+For each galaxy, the completed record carries
+\[
+\chi^2_U,\qquad
+\overline{\Delta U},\qquad
+MAE_U,\qquad
+MSE_U,\qquad
+MAPE_U.
+\]
+\aodliteraturenote{SPARC benchmark: SPARC database~\cite{sparc-database}, Lelli et al.~\cite{lelli-sparc-2016}.}
+
+\aodnoteblock{Completion rule}{External-comparison rows record numeric map value, target, residual, percent error, and audit hook. Observable-map fixture rows record map value, target, residual, percent error, citation, fixture status, and audit hook. Benchmark-dataset rows record benchmark data table, A\(\Omega\) calculation row, report coordinate, residual, and audit hook. Cross-return rows record declared \(C^\times_{ab,k}(B)\).}
+
+
+\aodnoteblock{Registry note}{Decimal precision records accompany manual artifacts that use decimal target/value-map values.}

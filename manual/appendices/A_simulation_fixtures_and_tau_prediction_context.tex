@@ -1,0 +1,92 @@
+
+\section{Simulation and Prediction-Test Fixtures}\label{manual:simulation-prediction-test-fixtures}
+
+\subsection{Scope}\label{manual:simfix:scope}
+This manual appendix preserves simulation fixtures and prediction-test placement context downstream from the main note.
+
+\subsection{Statement(s)}\label{manual:simfix:statements}
+Required outputs are
+\[
+RD,
+\qquad
+\rho^D,
+\qquad
+\rho^D_\omega,
+\qquad
+Q^D,
+\qquad
+p^D,
+\qquad
+\phi,
+\qquad
+P^D_F(B),
+\qquad
+\mathbf A_F(B),
+\qquad
+\mathcal E(R,B).
+\]
+Fixtures include
+\[
+1{:}2{:}6,
+\quad
+1{:}2{:}7,
+\quad
+1{:}2{:}8,
+\quad
+1{:}2{:}9,
+\quad
+1{:}2{:}10,
+\quad
+3{:}3{:}6,
+\quad
+3{:}4{:}6,
+\]
+\[
+3{:}4_\alpha,
+\qquad
+2\times3{:}4_\alpha,
+\qquad
+3{:}4_\alpha+3{:}4_\omega.
+\]
+Separate-scope fixtures include \(3{:}4_\alpha\) and \(3{:}4_\omega\). The fixture set also includes short-window duration-clipping fixture, pending overhang, current split, and AFC Stokes residual.
+
+
+The nine-window surplus assertion is
+\[
+1{:}2{:}9:
+\qquad
+P^D=27,
+\qquad
+C^{\mathrm{close}}=24,
+\qquad
+X_{\mathrm{shedding}}=3.
+\]
+The \(1{:}2{:}7\) fixture has \(P^D=21\) and closure-dependent sign.
+
+
+
+\subsection{Data-support class reference}\label{manual:app:data-support-class-reference}
+Manual fixtures and comparisons are read together with their declared data-support class. The compact class list is:
+\[
+\begin{array}{c|l}
+D0 & \text{exact internal fixture},\\
+O0 & \text{observable-map fixture},\\
+G0 & \text{radial shell projection},\\
+G1 & \text{radial-medium projection},\\
+G2 & \text{three-dimensional field-dynamics retention},\\
+G3 & \text{time-resolved tracer-current simulation},\\
+L0 & \text{exact lensing toy fixture},\\
+L1 & \text{radial lens-medium diagnostic},\\
+L2 & \text{target-acquisition lane},\\
+L3 & \text{full lensing release class}.
+\end{array}
+\]
+Errors and residuals are scoped to the class: \(\delta_3\) for exact internal comparators, observable-map residuals for O0, radial square-speed residuals for G0/G1, retention and field residuals for G2/G3, and target-side residuals for L2/L3 after prediction values freeze.
+
+\subsection{Audit}\label{manual:simfix:falsification}
+Fixture audit records signed direction, scalar pressure, scope cancellation inside its declared boundary/window, and \(\mathcal E(R,B)\) for a declared Stokes-valid scope.
+
+\aodprovenance{main:eq:b-scoped-flux; main:eq:sadar-attention-vector; main:eq:stokes-audit-residual; main:app:symbolic-cancellation-check; main:app:combinatorics-rd-tests.}
+
+\subsection{Prediction-test placement}
+Prediction tests and any collision-window comparison context belong in this manual scaffold. Application labels and external comparison records are carried by this manual scaffold. The main A\(\Omega\)D note supplies the AF/AFC/A\(\Omega\)D calculus and internal form names.

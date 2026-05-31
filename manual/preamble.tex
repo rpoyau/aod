@@ -1,30 +1,42 @@
-% Manual local preamble wrapper (aligned with root main note style)
-\input{../preamble}
-\usepackage{booktabs}
-\usepackage{tabularx}
-\usepackage{pgfplotstable}
-\usepackage{threeparttable}
-\usepackage{caption}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,longtable,array,tabularx}
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage{placeins}
-\pgfplotstableset{
-  col sep=comma,
-  string type,
-  every head row/.style={before row=\toprule, after row=\midrule},
-  every last row/.style={after row=\bottomrule}
-}
-\hypersetup{pdftitle={Alpha$\leftrightarrow$Omega Dynamics (AOD): Manual 43$^\circ$C},pdfauthor={Reginald Poyau}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[hidelinks]{hyperref}
 
-\renewcommand{\arraystretch}{1.08}
-\setlength{\tabcolsep}{4pt}
-\newcommand{\ManualTableNote}[1]{\begin{tablenotes}[flushleft]\footnotesize\item #1\end{tablenotes}}
-\newcommand{\manualrepo}{rpoyau/aod}
-\newcommand{\colabbadge}[1]{%
-  \href{https://colab.research.google.com/github/\manualrepo/blob/main/#1}{%
-    \fcolorbox{black}{yellow!15}{\raisebox{0pt}[1.8em][0.8em]{\hspace{0.8em}\textsf{\footnotesize Open in Colab}\hspace{0.8em}}}%
-  }%
+\hypersetup{
+  pdftitle={Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes - Manual},
+  pdfauthor={Reginald Poyau},
+  pdfsubject={The Hidden Temporal Dynamics of Stokes Manual; AFC/AOD finite simulation fixtures, boundary accounting, data-support classes, scoped error},
+  pdfkeywords={Axiomatic Fundamentalism, AFC, AOD, AΩD, Stokes, SADAR, manual, boundary accounting, data-support classes, scoped error, finite simulation fixtures}
 }
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\newcommand{\SADAR}{\mathrm{SADAR}}
+\newcommand{\AO}{A{\leftrightarrow}\Omega}
+\newcommand{\AOpkg}{\operatorname{A\leftrightarrow_{\mu}\Omega}}
+\newcommand{\OAop}{\operatorname{\Omega\leftrightarrow_{\mu}A}}
+\newcommand{\AOh}{\mathsf{AO}_{\mu}}
+\newcommand{\OAh}{\mathsf{OA}_{\mu}}
+\newcommand{\AOcycle}{A{\leftrightarrow_{\mu}}\Omega\;\longleftrightarrow\;\Omega{\leftrightarrow_{\mu}}A}
+\newcommand{\SADARop}{\mathfrak S}
+\newcommand{\Qext}{\mathsf{Q}_{\mathrm{ext}}}
+\newcommand{\appref}[1]{App.~\ref{#1}}
+\newcommand{\secref}[1]{\S\ref{#1}}
+\newcommand{\eqnref}[1]{\eqref{#1}}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+\newcommand{\aodnoteblock}[2]{\medskip\begingroup\emergencystretch=3em\sloppy\noindent\emph{#1.}\ #2\par\endgroup}
+\newcommand{\aodprovenance}[1]{\aodnoteblock{Provenance}{#1}}
+\newcommand{\aodliteraturenote}[1]{\aodnoteblock{Literature note}{#1}}
+\newcommand{\aodremark}[1]{\aodnoteblock{Remark}{#1}}
 
-\captionsetup[table]{skip=4pt,labelfont=bf}
-\captionsetup[figure]{skip=4pt,labelfont=bf}
+% --- Table of contents spacing for deep section numbers
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{0em}{2.6em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.6em}{3.9em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{4.0em}{5.0em}}
+\makeatother

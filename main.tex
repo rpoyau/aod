@@ -1,11 +1,20 @@
+
 \documentclass[11pt]{article}
 \usepackage[margin=0.85in]{geometry}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{booktabs,longtable,array}
+\usepackage{tabularx}
 \usepackage{float}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes},
+  pdfauthor={Reginald Poyau},
+  pdfsubject={AFC/AOD temporal dynamics, relational motifs, finite simulation fixtures},
+  pdfkeywords={Axiomatic Fundamentalism, AFC, AOD, Stokes, SADAR, relational motifs, simulation}
+}
 \usepackage{enumitem}
 \usepackage{caption}
 \usepackage{microtype}
@@ -15,13 +24,39 @@
 \setlength{\parindent}{0pt}
 \graphicspath{{./}}
 
+% --- Table of contents spacing for deep section numbers
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{0em}{2.6em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.6em}{3.9em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{4.0em}{5.0em}}
+\makeatother
+
+
 \newcommand{\Null}{\mathcal{N}}
 \newcommand{\infD}{\infty_{\mathcal{D}}}
 \newcommand{\Qfour}{Q_4}
 \newcommand{\RCD}{\mathrm{RCD}}
-\newcommand{\PADAR}{\mathrm{PADAR}}
+\newcommand{\SADAR}{\mathrm{SADAR}}
 \newcommand{\ADAR}{\mathrm{ADAR}}
-\newcommand{\apref}[1]{App.~\ref{#1}}
+\newcommand{\AO}{A{\leftrightarrow}\Omega}
+\newcommand{\AOpkg}{\operatorname{A\leftrightarrow_{\mu}\Omega}}
+\newcommand{\OAop}{\operatorname{\Omega\leftrightarrow_{\mu}A}}
+\newcommand{\AOh}{\mathsf{AO}_{\mu}}
+\newcommand{\OAh}{\mathsf{OA}_{\mu}}
+\newcommand{\AOcycle}{A{\leftrightarrow_{\mu}}\Omega\;\longleftrightarrow\;\Omega{\leftrightarrow_{\mu}}A}
+\newcommand{\SADARop}{\mathfrak S}
+\newcommand{\Qext}{\mathsf{Q}_{\mathrm{ext}}}
+\newcommand{\secref}[1]{\S\ref{#1}}
+\newcommand{\appref}[1]{App.~\ref{#1}}
+\newcommand{\eqnref}[1]{\eqref{#1}}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+
+% --- Compact note blocks
+\newcommand{\aodnoteblock}[2]{\medskip\begingroup\emergencystretch=3em\sloppy\noindent\emph{#1.}\ #2\par\endgroup}
+\newcommand{\aodprovenance}[1]{\aodnoteblock{Provenance}{#1}}
+\newcommand{\aodliteraturenote}[1]{\aodnoteblock{Literature note}{#1}}
+\newcommand{\aodremark}[1]{\aodnoteblock{Remark}{#1}}
 
 \newtheorem{definition}{Definition}
 \newtheorem{consequence}{Consequence}
@@ -32,36 +67,38 @@
 \input{sections/01_abstract.tex}
 \tableofcontents
 \clearpage
-\input{sections/02_purpose_af_posture.tex}
-\input{sections/03_afc_boundary_foundation.tex}
-\input{sections/04_null_cut_branch_hinge.tex}
-\input{sections/05_fractal_tesseract_jittering.tex}
-\input{sections/06_curl_closure_ontology.tex}
-\input{sections/07_duon_current.tex}
-\input{sections/08_field_observer_shells.tex}
-\input{sections/08a_cageon_confinement.tex}
-\input{sections/09_wavelet_group_shedding.tex}
-\input{sections/10_boundary_accounting.tex}
-\input{sections/10a_field_count_padar_scope.tex}
-\input{sections/11_rcd_pending_return.tex}
-\input{sections/12_duonic_pressure_inertia.tex}
-\input{sections/13_entropic_duon_current.tex}
-\input{sections/14_attention_padar.tex}
-\input{sections/15_composite_fields_examples.tex}
-\input{sections/16_audit_hooks.tex}
+\input{sections/02_introduction.tex}
+\input{sections/03_afc_basis.tex}
+\input{sections/04_cut_running_fractal_tesseract.tex}
+\input{sections/05_curl_closure_duon_current.tex}
+\input{sections/06_field.tex}
 
 \appendix
 \input{appendices/A_fractal_address_bip_biz.tex}
 \input{appendices/B_curling_curls.tex}
 \input{appendices/C_stochastic_crowning.tex}
-\input{appendices/B_wavelet_disturbance_demonstration.tex}
-\input{appendices/C_glossary.tex}
-\input{appendices/D_wave_handoff.tex}
+\input{appendices/D_cycle_shedding_demonstration.tex}
+\input{appendices/E_glossary.tex}
+\input{appendices/F_wave.tex}
+\input{appendices/G_symbolic_cancellation_check.tex}
+\input{appendices/H_combinatorics_rd_tests.tex}
+\input{appendices/I_path_complexity_prototype_quarantine.tex}
+\input{appendices/J_ao_field_fractal_properties.tex}
 
 \begin{thebibliography}{9}
 \bibitem{afc} Reginald Poyau. \emph{AFC Stokes / Axiomatic Fundamentalism basis}, 2025.
 \bibitem{reginald2025af} Reginald Poyau. \emph{Axiomatic Fundamentalism protocol guide}, 2025.
 \bibitem{poyau2026aodmanual} Reginald Poyau. \emph{AFC Alpha--Omega Dynamics Manual 43C}, 2026.
+\bibitem{weissteinHypercubeGraph} Eric W. Weisstein. \emph{Hypercube Graph}. Wolfram MathWorld.
+\bibitem{mitAdjacencyWalks} MIT OpenCourseWare. \emph{Mathematics for Computer Science: Graph Theory / adjacency matrix walks}. 6.042J course materials.
+\bibitem{duncanAdjacencyWalks} A. Duncan. \emph{Powers of the adjacency matrix and the walk matrix}. 2004.
+\bibitem{wisconsinRandomWalks} University of Wisconsin. \emph{Random Walks and Markov Chains}. Course lecture notes.
+\bibitem{stanleyCatalan} Richard P. Stanley. \emph{Catalan Numbers}. Cambridge University Press, 2015.
+\bibitem{flajoletSedgewick} Philippe Flajolet and Robert Sedgewick. \emph{Analytic Combinatorics}. Cambridge University Press, 2009.
+\bibitem{norrisMarkov} J. R. Norris. \emph{Markov Chains}. Cambridge University Press, 1997.
+\bibitem{levinPeresWilmer} David A. Levin, Yuval Peres, and Elizabeth L. Wilmer. \emph{Markov Chains and Mixing Times}. American Mathematical Society, 2009.
+\bibitem{lawlerLimic} Gregory F. Lawler and Vlada Limic. \emph{Random Walk: A Modern Introduction}. Cambridge University Press, 2010.
+
 \end{thebibliography}
 
 \end{document}

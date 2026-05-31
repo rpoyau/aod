@@ -1,0 +1,5 @@
+exercise,edge,neighbor,state,admissible,weight,probability_exact,route
+one_node_ledger,e1,"(1,0,0,0)",+1,1,1,1/8,outgoing
+one_node_ledger,e2,"(0,1,0,0)",-1,1,1,1/8,returned
+one_node_ledger,e3,"(0,0,1,0)",0,1,4,1/2,hinge
+one_node_ledger,e4,"(0,0,0,1)",+1,1,2,1/4,outgoing

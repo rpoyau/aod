@@ -1,0 +1,7 @@
+lag_n,ratio,numerator,denominator,description
+1,R_Q,20,8,total squared displacement per displacement count
+1,R_x,8,20,x-axis squared share
+1,R_y,7,20,y-axis squared share
+1,R_z,5,20,z-axis squared share
+1,R_theta,0:0:4:4:0,8,phase-cycle count ratio
+1,R_oct,6:0:1:0:1:0:0:0,8,octant count ratio

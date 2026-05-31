@@ -1,0 +1,6 @@
+galaxy,SPARC_bins_total,gates,events,caustic_bins_count,median_abs_ΔAγ,max_abs_ΔAγ,dominant_class,verification,status
+NGC2403,73,32,44,12,1.1667,1.9,exoshedding_deflection,10/10,lens-medium diagnostic
+NGC3198,43,32,44,12,1.2721,2.0,exoshedding_deflection,10/10,lens-medium diagnostic
+NGC6503,31,32,44,12,1.3801,2.4706,exoshedding_deflection,10/10,lens-medium diagnostic
+NGC2841,50,32,41,9,1.2416,1.7647,exoshedding_deflection,10/10,lens-medium diagnostic
+DDO154,12,32,46,14,1.2941,2.625,exoshedding_deflection,10/10,lens-medium diagnostic

@@ -1,0 +1,5 @@
+quantity,value,unit,status
+K_H_star,3:3:7_yro,none,frozen internal candidate
+E_H_0,124928,MeV,frozen external map value
+E_H_0,124.928,GeV,frozen external map value
+map,E_H = RD_H * 2^(L+4),MeV,external map frozen before target join

@@ -1,0 +1,69 @@
+\section{Wave presentation and audit}
+\label{app:wave}
+
+\subsection{Scope}
+\label{app:wave:scope}
+This appendix records wave as the temporal SADAR presentation of a retained A\(\Omega\) cycle and gives its audit conditions.
+
+\subsection{Cycle / wave identity}
+\label{app:wave:cycle-wave-identity}
+A cycle is the retained branch/hinge/branch package. For a retained cycle \(C\) on a declared boundary/window \(B=(\partial_TF,\omega)\), its wave presentation is
+\begin{equation}
+\operatorname{wave}_B(C)
+=
+\{(t,\SADARop_{B|t}(C)):t\in\omega\}.
+\label{app:wave:eq:wave-sadar-presentation}
+\end{equation}
+Thus the wave is the SADAR-valued temporal presentation of \(C\). The hinge \(\mu\) implicitly supports chirality through the handed return presentation \(A\leftrightarrow_{\mu}\Omega\rightarrow\Omega\leftrightarrow_{\mu}A\rightarrow A\leftrightarrow_{\mu}\Omega\).
+
+
+
+\subsection{Fractal growth and temporal direction}
+\label{app:wave:fractal-growth-temporal-direction}
+A branch/hinge/branch package repeats because the declared kernel continues until the current hinge is saturated on the declared support. When the isotropic or anisotropic max-capacity-3 kernel has no admissible continuation through the current hinge, the hinge is closed into the current Alpha/Omega order and the next retained presentation requires a new hinge:
+\[
+\operatorname{sat}_{\mu}(C;B)=1
+\quad\Rightarrow\quad
+\Pi_{\Omega}(C)=\operatorname{Close}_{B}(\Pi_{\alpha}(C),H_{\mu}(C)).
+\]
+The successor presentation is then carried by a new hinge \(\mu'\):
+\[
+C\xrightarrow{\text{closed hinge }\mu}
+\operatorname{wave}_{B}(C)
+\xrightarrow{\text{new hinge }\mu'}
+C'.
+\]
+Thus the future direction is the retained successor branch after the locked hinge closes; it is not an added external time container. Every retained cycle, whether seat-retained or free-routed, has a wave presentation whenever \(\SADARop_{B|t}(C)\) is declared over \(\omega\).
+
+\subsection{Flux and window current}
+\label{app:wave:flux-current}
+For a cut-frame \(t\), write
+\[
+B|_t=(\partial_TF,\{t\}).
+\]
+The SADAR slice value is
+\begin{equation}
+\Phi^D_{\partial_T R}(t;B|_t)
+=
+\sum_{e\in\partial_T R(t)}\SADARop_{B|_t}(C_e).
+\label{app:wave:eq:slice-flux}
+\end{equation}
+The retained many-frame continuation is
+\begin{equation}
+J^D_{\partial_T R}(\omega;B)
+=
+\sum_{t\in\omega}\Phi^D_{\partial_T R}(t;B|_t).
+\label{app:wave:eq:window-current}
+\end{equation}
+
+\subsection{Falsification}
+\label{app:wave:falsification}
+The wave audit fails on a declared scope if \(\operatorname{wave}_B(C)\) is used without a retained cycle \(C\), without a declared boundary/window \(B\), or without the SADAR values \(\SADARop_{B|t}(C)\) over the declared window.
+
+\aodprovenance{\eqnref{eq:cut-running-form},
+\eqnref{eq:monon-cycle},
+\eqnref{eq:cycle-valued-field-compression},
+\eqnref{eq:wave-sadar-presentation},
+\eqnref{eq:sadar-operator-cycle}.}
+
+\aodremark{Wave terms are SADAR-valued temporal presentations of retained cycles.}

@@ -1,0 +1,4 @@
+class_k,T_cross_predicted_tally,O_observed_tally,deltaZ,s3,m
+theta_low_<0.75,2,2,0,0,0
+theta_mid_0.75_1.00,12,8,4,1,4
+theta_high_>=1.00,1,5,-4,-1,4

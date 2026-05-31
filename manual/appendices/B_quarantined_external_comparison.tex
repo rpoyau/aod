@@ -1,0 +1,196 @@
+\section{Quarantined External Comparison}\label{manual:external-comparison}
+
+\subsection{Scope}\label{manual:external-comparison:scope}
+This appendix compares A\(\Omega\) outputs against external comparison coordinates. It does not import external units, constants, or symbols into the A\(\Omega\) calculation. The active calculation produces a candidate such as
+\[
+\nu_{x,\AO}.
+\]
+Only after that value is declared may an external comparison record use it:
+\[
+\Qext(\nu_{x,\AO};\mathcal T_x).
+\]
+
+
+
+\subsection{Presentation-numeric policy}\label{manual:external-comparison:presentation-numeric-policy}
+A\(\Omega\)-internal arithmetic remains integer/rational. The decimals in this appendix are external comparison presentation values. Measured external values are carried with a declared uncertainty; exact defining constants are marked as exact. The external normalizer \(\eta_{\mathrm{ext}}\) is measured, so uncertainty propagation for normalized rates may include both the target-energy uncertainty and the uncertainty of \(\eta_{\mathrm{ext}}\).
+
+\subsection{External comparison symbols}\label{manual:external-comparison-symbols}
+External constants and measured-sector units are named only inside this quarantine. The active A\(\Omega\) notation is unaffected by them.
+
+\subsubsection{Distance comparison}
+If a bip duration \(\Delta t_{\mathrm{bip}}\) is declared, an external distance coordinate may be recorded as
+\[
+d_{\mathrm{ext}}=c\,n\,\Delta t_{\mathrm{bip}},
+\qquad n\in\mathbb Z_{\ge0}.
+\]
+Here \(c\) is an external defining constant in the comparison coordinate system.
+
+\subsubsection{Speed comparison}
+The active calculation may carry the exact integer pair
+\[
+(\Delta q,\Delta n),
+\qquad
+0\le \Delta q\le \Delta n,
+\qquad
+\Delta n>0.
+\]
+The external speed coordinate is allowed only after the integer pair is declared:
+\[
+\beta_{\mathrm{ext}}=\frac{\Delta q}{\Delta n},
+\qquad
+v_{\mathrm{ext}}=\beta_{\mathrm{ext}}c.
+\]
+
+\subsubsection{Direction comparison}
+A direction comparison may record cycle count
+\[
+N_\theta=\frac{\Theta}{2\pi},
+\qquad
+2\pi\mapsto1\ \mathrm{cycle},
+\qquad
+4\pi\mapsto2\ \mathrm{cycles},
+\]
+with an orientation sign
+\[
+s_\theta\in\{-1,+1\}.
+\]
+
+\subsubsection{Charge comparison}
+The active calculation carries integer orientation. The external charge coordinate may be recorded as
+\[
+Q_{\mathrm{ext}}=ze,
+\qquad z\in\mathbb Z,
+\]
+where \(e\) is an external defining constant in the comparison coordinate system.
+
+\subsection{Choice: external rate normalizer}\label{manual:external-comparison:action-normalization}
+Define the quarantined external rate normalizer
+\[
+\eta_{\mathrm{ext}}:=\alpha_{\mathrm{fs}}^{-1}.
+\]
+Use
+\[
+\alpha_{\mathrm{fs}}^{-1}=137.035999177(21)
+\]
+inside this appendix only. This symbol is external and does not set active A\(\Omega\) notation.
+
+Define the external comparison coefficient
+\[
+K_{\mathrm{ext}}
+=
+\frac{h_{\mathrm{ext}}\eta_{\mathrm{ext}}}{10^6e}
+=
+5.6673535511200\times10^{-19}\ \mathrm{MeV\,s}.
+\]
+The uncertainty inherited from \(\eta_{\mathrm{ext}}\) is
+\[
+\sigma_{K,\eta}
+=
+8.68490216354\times10^{-29}\ \mathrm{MeV\,s}.
+\]
+Here \(h_{\mathrm{ext}}\) and \(e\) are external exact defining constants, while \(\eta_{\mathrm{ext}}\) is measured. The active A\(\Omega\) calculation does not use them.
+
+Given a numeric A\(\Omega\) candidate \(\nu_{x,\AO}\), the external energy-coordinate comparison is
+\[
+E_{x,\mathrm{ext}}[\mathrm{MeV}]
+=
+K_{\mathrm{ext}}\nu_{x,\AO}.
+\]
+
+\subsection{Tau target record}\label{manual:external-comparison:tau-target-normalization}
+The Tau Rest Energy section uses the measured target record
+\[
+E_\tau^{\mathrm{tar}}=1776.86\ \mathrm{MeV},
+\qquad
+\sigma_E=0.12\ \mathrm{MeV}.
+\]
+The target in the external joule coordinate is
+\[
+E_{\tau,J}^{\mathrm{tar}}
+=
+1776.86\times10^6 e
+=
+2.84684357388924\times10^{-10}\ \mathrm J.
+\]
+The external frequency coordinate is
+\[
+f_\tau
+=
+\frac{E_{\tau,J}^{\mathrm{tar}}}{h_{\mathrm{ext}}}
+=
+4.2964283646910\times10^{23}\ \mathrm{s}^{-1}.
+\]
+The quarantined external target rate is
+\[
+\nu_{\tau,\mathrm{tar}}
+=
+\frac{f_\tau}{\eta_{\mathrm{ext}}}
+=
+3.1352552544544\times10^{21}\ \mathrm{s}^{-1}.
+\]
+The target-energy contribution to the external target-rate uncertainty is
+\[
+\sigma_{\nu,E}
+=
+\frac{0.12\times10^6e}{h_{\mathrm{ext}}\eta_{\mathrm{ext}}}
+=
+2.11739039955\times10^{17}\ \mathrm{s}^{-1}.
+\]
+The contribution from the measured external normalizer is
+\[
+\sigma_{\nu,\eta}
+=
+\nu_{\tau,\mathrm{tar}}
+\frac{0.000000021}{137.035999177}
+=
+4.80460322389\times10^{11}\ \mathrm{s}^{-1}.
+\]
+The combined external target-rate uncertainty is
+\[
+\sigma_{\nu,\mathrm{comb}}
+=
+\sqrt{\sigma_{\nu,E}^2+\sigma_{\nu,\eta}^2}
+=
+2.11739039956\times10^{17}\ \mathrm{s}^{-1}.
+\]
+
+\begin{table}[h]
+\centering
+\scriptsize
+\caption{Tau target record in the quarantined external-comparison coordinate.}
+\begin{tabularx}{\textwidth}{>{$}c<{$} >{\raggedright\arraybackslash}X >{$}c<{$} >{$}c<{$}}
+\toprule
+x & \(\operatorname{def}(x)\) & \operatorname{val}(x) & u(x) \\
+\midrule
+E_\tau^{\mathrm{tar}} & declared measured target & 1776.86 & \mathrm{MeV} \\
+\sigma_E & declared uncertainty & 0.12 & \mathrm{MeV} \\
+E_{\tau,J}^{\mathrm{tar}} & \(1776.86\times10^6e\) & 2.84684357388924\times10^{-10} & \mathrm J \\
+f_\tau & \(E_{\tau,J}^{\mathrm{tar}}/h_{\mathrm{ext}}\) & 4.2964283646910\times10^{23} & \mathrm{s}^{-1} \\
+\eta_{\mathrm{ext}} & \(\alpha_{\mathrm{fs}}^{-1}\) & 137.035999177(21) & 1 \\
+\nu_{\tau,\mathrm{tar}} & \(f_\tau/\eta_{\mathrm{ext}}\) & 3.1352552544544\times10^{21} & \mathrm{s}^{-1} \\
+\sigma_{\nu,E} & energy uncertainty contribution & 2.11739039955\times10^{17} & \mathrm{s}^{-1} \\
+\sigma_{\nu,\eta} & normalizer uncertainty contribution & 4.80460322389\times10^{11} & \mathrm{s}^{-1} \\
+\sigma_{\nu,\mathrm{comb}} & combined uncertainty & 2.11739039956\times10^{17} & \mathrm{s}^{-1} \\
+K_{\mathrm{ext}} & \(h_{\mathrm{ext}}\eta_{\mathrm{ext}}/(10^6e)\) & 5.6673535511200\times10^{-19} & \mathrm{MeV\,s} \\
+\sigma_{K,\eta} & normalizer contribution to \(K_{\mathrm{ext}}\) & 8.68490216354\times10^{-29} & \mathrm{MeV\,s} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Audit}\label{manual:external-comparison:falsification}
+F1. External-comparison audit records the active \(\nu_{x,\AO}\) candidate before the external comparison.
+
+F2. Speed-comparison audit records integer \(\Delta q\), integer positive \(\Delta n\), and \(\Delta q\le\Delta n\).
+
+F3. Direction-cycle audit records direction relative to \(2\pi=1\) cycle.
+
+F4. Charge-comparison audit records integer orientation before the external charge comparison.
+
+F5. Quarantine audit records external constants, units, and measured-sector symbols only after the active A\(\Omega\) calculation.
+
+\aodprovenance{main:eq:b-scoped-flux; main:eq:sadar-attention-vector; manual \secref{manual:exact-arithmetic-presentation}; manual \secref{manual:external-comparison-quarantine}.}
+
+\aodliteraturenote{SI defining constants: BIPM~\cite{bipm-si-defining-constants}, inverse fine-structure constant: NIST CODATA~\cite{nist-alpha-inverse}, tau target: Zhang/PDG~\cite{zhang-tau-pdg}, DESY/Belle~\cite{desy-belle-tau}.}
+
+\aodremark{The quarantined external-comparison appendix compares against A\(\Omega\) outputs. It does not import external constants or symbols into the A\(\Omega\) calculation.}

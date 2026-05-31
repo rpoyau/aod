@@ -1,0 +1,39 @@
+\section{Scoped flux cancellation}\label{app:scoped-flux-cancellation}
+
+\subsection{Scope}\label{app:scoped-flux:scope}
+This App records symbolic support for AFC Stokes with \(B\)-scoped flux values. The scope is a finite declared region \(R\) and boundary/window \(B=(\partial F,\omega)\).
+
+\subsection{Statement(s)}\label{app:scoped-flux:statements}
+
+\[
+\phi_{ij}\mapsto \phi_{ij}(B),
+\qquad
+\phi_{ij,\AO}(B)=p^D_{ij,\AO}(B)A_{ij,\AO}(B).
+\]
+The scoped boundary pairing is retained through the AFC Stokes identity:
+\begin{equation}
+\sum_{i\in R}\operatorname{div}(i;B)
+=
+\sum_{\substack{i\in R\\j\notin R}}\phi_{ij}(B).
+\label{app:scoped-flux:eq:afc-pairing}
+\end{equation}
+The Stokes residual is
+\begin{equation}
+\mathcal E(R,B)
+=
+\sum_{i\in R}\operatorname{div}(i;B)
+-
+\sum_{\substack{i\in R\\j\notin R}}\phi_{ij}(B).
+\label{app:scoped-flux:eq:residual}
+\end{equation}
+A valid declared scope has \(\mathcal E(R,B)=0\).
+
+\subsection{Falsification}\label{app:scoped-flux:falsification}
+If the symbolic residual is nonzero, the declared scope has a missing channel, sign error, incomplete boundary, or undeclared sheddic path.
+
+\aodprovenance{\eqnref{eq:b-scoped-flux},
+\eqnref{eq:b-scoped-flux-antisymmetry},
+\eqnref{eq:b-scoped-divergence},
+\eqnref{eq:b-scoped-stokes},
+\eqnref{eq:stokes-audit-residual},
+AFC \S4.2.}
