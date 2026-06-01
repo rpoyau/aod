@@ -66,9 +66,10 @@ def test_dec_section_exact_arithmetic_statements():
 
 def test_dec_delta3_requires_comparator_language():
     sec = read('manual/sections/00_dec_ledger.tex')
-    assert 'An exact \\(\\delta_3\\) tally is formed only when a fixture comparator is declared.' in sec
-    assert 'If a fixture comparator is declared, the exact residual is recorded by \\(\\delta_3\\).' in sec
-    assert 'Without a comparator, this section records boundary values and route audits, not an exact residual tally.' in sec
+    assert 'Fixture-comparator rows form exact \\(\\delta_3\\) tallies.' in sec
+    assert 'Fixture-comparator rows record exact \\(\\delta_3\\) residuals. Boundary-route rows record boundary values and route audits.' in sec
+    assert 'Without a comparator' not in sec
+    assert 'not an exact residual tally' not in sec
 
 
 def test_tau_missing_burden_exact_ratio_csv_and_manual():
@@ -88,7 +89,8 @@ def test_tau_missing_burden_exact_ratio_csv_and_manual():
 def test_dec_blocking_rule_and_bridge_sentence():
     sec = read('manual/sections/00_dec_ledger.tex')
     assert r'\subsection{Blocking rule}' in sec
-    assert 'Blocking is zero admissibility, not low probability.' in sec
+    assert 'Blocking is zero admissibility.' in sec
+    assert 'not low probability' not in sec
     assert 'renormalized over branch-oriented continuations' in sec
     assert 'prior hinge-state row \\((e_3,0)\\) attempts same-resolution dwell' in sec
     assert r'\operatorname{adm}(e_3,0;B)=0' in sec

@@ -157,7 +157,23 @@ The generic coordinate script target is
 \[
 \texttt{aod\_3d\_coordinate\_phase\_delta3.py}.
 \]
-Inputs are \texttt{track\_id,t,x,y,z}. Optional fields include \texttt{ux,uy,uz,mass,size,beta}. The output files are \texttt{displacement\_q\_counts.csv}, \texttt{phase\_cycle\_delta3.csv}, \texttt{octant\_delta3.csv}, and \texttt{integer\_motion\_ratios.csv}.
+Inputs are
+\[
+\texttt{track\_id},\quad \texttt{t},\quad \texttt{x},\quad \texttt{y},\quad \texttt{z}.
+\]
+Optional fields are
+\[
+\texttt{ux},\quad \texttt{uy},\quad \texttt{uz},\quad \texttt{mass},\quad \texttt{size},\quad \texttt{beta}.
+\]
+Output files are
+\[
+\begin{gathered}
+\texttt{displacement\_q\_counts.csv},\\
+\texttt{phase\_cycle\_delta3.csv},\\
+\texttt{octant\_delta3.csv},\\
+\texttt{integer\_motion\_ratios.csv}.
+\end{gathered}
+\]
 
 \subsection{Final lock}
 The 3D coordinate phase-cycle fixture uses integer phase-cycle ratios. It uses \(Q=a^2+b^2+c^2\), phase residues \(Q\bmod\beta_a\), octant counts for three-dimensional direction, and \(\delta_3\) on integer counts. External continuous-motion summaries live after the exact fixture.

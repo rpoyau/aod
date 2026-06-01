@@ -1,11 +1,13 @@
 \usepackage[margin=0.85in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning}
 \usepackage[hidelinks]{hyperref}
+\setlength{\tabcolsep}{3pt}
 
 \hypersetup{
   pdftitle={Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes - Manual},
@@ -34,6 +36,10 @@
 \newcommand{\aodliteraturenote}[1]{\aodnoteblock{Literature note}{#1}}
 \newcommand{\aodremark}[1]{\aodnoteblock{Remark}{#1}}
 
+
+% --- Document identity used by title pages
+\newcommand{\AODDocumentAuthor}{Reginald Poyau}
+\newcommand{\AODDocumentDate}{June 1, 2026}
 % --- Table of contents spacing for deep section numbers
 \makeatletter
 \renewcommand*\l@section{\@dottedtocline{1}{0em}{2.6em}}

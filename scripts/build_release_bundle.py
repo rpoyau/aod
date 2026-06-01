@@ -39,7 +39,7 @@ INCLUDE_TOP_LEVEL = [
     ".github", "appendices", "figures_jpg", "manual", "scripts", "sections", "tests",
     "CANONICAL_VERSION.txt", "RELEASE_READINESS.txt", "main.tex", "preamble.tex",
     "refs.bib", "cycle_shedding_summary.tex", "README.md", "LICENSE", "CITATION.cff",
-    "requirements-ci.txt", ".zenodo.json", "BUILD.md",
+    "requirements-ci.txt", ".zenodo.json", "BUILD.md", "build.yml",
 ]
 
 
@@ -106,25 +106,6 @@ def build_source_tree(stage_root: Path) -> list[Path]:
 
 
 
-def resolve_required_artifact(primary: Path, fallback_names: list[str], label: str) -> Path | None:
-    """Return primary when present, or the first fallback artifact available.
-
-    CI workflows may run a verifier that writes verifier.log instead of tests.txt.
-    The release bundle still needs a versioned tests artifact, so the builder can
-    consume verifier.log as the source for that artifact when tests.txt is absent.
-    """
-    if primary.exists():
-        return primary
-    for name in fallback_names:
-        candidate = (ROOT / name).resolve()
-        if candidate.exists():
-            print(f"{label} artifact {primary} missing; using fallback {candidate}", file=sys.stderr)
-            return candidate
-    print(f"required artifact missing: {primary}", file=sys.stderr)
-    if fallback_names:
-        print("checked fallbacks: " + ", ".join(str((ROOT / n).resolve()) for n in fallback_names), file=sys.stderr)
-    return None
-
 def zip_dir(src_dir: Path, zip_path: Path) -> None:
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for p in sorted(src_dir.rglob("*")):
@@ -140,6 +121,41 @@ def write_sha_manifest(path: Path, files: list[Path], base: Path | None = None) 
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+
+def require_tests_artifact(tests_txt: Path) -> bool:
+    """Require the canonical pytest output artifact.
+
+    The release bundle consumes tests.txt directly. CI and local release builds
+    must create this artifact before invoking this builder. SymPy
+    exact-arithmetic checks live inside the pytest suite. The builder does not
+    run tests and does not consume verifier/audit-pack logs.
+    """
+    if not tests_txt.exists() or tests_txt.stat().st_size == 0:
+        print(f"required test artifact missing or empty: {tests_txt}", file=sys.stderr)
+        print("create tests.txt from the pytest suite before invoking this builder", file=sys.stderr)
+        return False
+    return True
+
+def build_source_only(outdir: Path) -> Path:
+    """Build only the generic source-clean archive for legacy workflow calls.
+
+    This mode is used only when the script is invoked with no command-line
+    arguments. It keeps older CI calls from failing while preserving the
+    release-bundle rule: full release bundles still require an explicit
+    pytest-produced tests.txt artifact.
+    """
+    if outdir.exists():
+        shutil.rmtree(outdir)
+    outdir.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp:
+        stage = Path(tmp)
+        build_source_tree(stage)
+        source_clean = outdir / "source-clean.zip"
+        zip_dir(stage / "AOD_Temporal_Dynamics_source", source_clean)
+    print(f"built generic source archive: {source_clean}")
+    return source_clean
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--version")
@@ -149,6 +165,14 @@ def main() -> int:
     ap.add_argument("--tests", default="tests.txt")
     ap.add_argument("--patch-summary", default="PATCH_SUMMARY.txt")
     args = ap.parse_args()
+
+    # Compatibility path for stale/legacy workflows that invoke the builder as
+    # `python3 scripts/build_release_bundle.py` only to create a source archive.
+    # Full release bundle generation still requires explicit artifact arguments
+    # and a pytest-produced tests.txt.
+    if len(sys.argv) == 1:
+        build_source_only((ROOT / args.outdir).resolve())
+        return 0
 
     version = read_version(args.version)
     slug = version_slug(version)
@@ -160,12 +184,12 @@ def main() -> int:
 
     main_pdf = (ROOT / args.main).resolve()
     manual_pdf = (ROOT / args.manual).resolve()
-    tests_txt = resolve_required_artifact((ROOT / args.tests).resolve(), ["verifier.log", "audit_pack/verifier.log", "pytest.log", "test_output.txt"], "tests")
+    tests_txt = (ROOT / args.tests).resolve()
     for required in [main_pdf, manual_pdf]:
         if not required.exists():
             print(f"required artifact missing: {required}", file=sys.stderr)
             return 2
-    if tests_txt is None:
+    if not require_tests_artifact(tests_txt):
         return 2
 
     patch_summary_src = (ROOT / args.patch_summary).resolve()
@@ -191,10 +215,6 @@ def main() -> int:
         source_zip = outdir / f"{prefix}_source.zip"
         zip_dir(stage / "AOD_Temporal_Dynamics_source", source_zip)
 
-
-    # Backward-compatible alias for older CI workflows that upload dist/source-clean.zip.
-    source_clean_alias = outdir / "source-clean.zip"
-    shutil.copy2(source_zip, source_clean_alias)
 
     # Bundle uses stable internal names so downstream tools do not depend on the version.
     bundle_tmp = outdir / "_bundle"

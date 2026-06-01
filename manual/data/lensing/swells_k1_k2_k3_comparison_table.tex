@@ -1,17 +1,21 @@
 \scriptsize
-\begin{longtable}{p{0.05\textwidth}p{0.24\textwidth}p{0.09\textwidth}p{0.10\textwidth}p{0.09\textwidth}p{0.15\textwidth}p{0.22\textwidth}}
+\begin{longtable}{@{}l p{0.28\textwidth} c c c l@{}}
 \caption{SWELLS K1/K2/K3 diagnostic comparison.}\label{tab:manual-lensing-swells-k123}\\
 \toprule
-Run & Input basis & $\theta_E$ $\delta_3$ $m_{\rm tot}$ & $\theta_E$ match [\%] & $\sigma$ $\delta_3$ $m_{\rm tot}$ & Decision & Reason\\
+Run & Input basis & $\theta_E$ $\delta_3$ $m_{\rm tot}$ & $\theta_E$ match [\%] & $\sigma$ $\delta_3$ $m_{\rm tot}$ & Decision\\
 \midrule
 \endfirsthead
 \toprule
-Run & Input basis & $\theta_E$ $\delta_3$ $m_{\rm tot}$ & $\theta_E$ match [\%] & $\sigma$ $\delta_3$ $m_{\rm tot}$ & Decision & Reason\\
+Run & Input basis & $\theta_E$ $\delta_3$ $m_{\rm tot}$ & $\theta_E$ match [\%] & $\sigma$ $\delta_3$ $m_{\rm tot}$ & Decision\\
 \midrule
 \endhead
-K1 & \(\sigma_{\mathrm{SDSS}}\) + H\(\alpha\) + axis ratio & 8 & 40.0 & 4 & retained baseline & lowest retained $\delta_3$ residual\\
-K2 & K1 + redshift geometry context & 18 & 40.0 & 4 & audit diagnostic record & over-amplified high \(\theta_E\) class\\
-K3 & Paper I Table 2 bulge/disk medium fields & 10 & 33.3333 & 12 & audit diagnostic record & under-resolved observable map with current medium data\\
+K1 & $\sigma_{\mathrm{SDSS}}$ + H$\alpha$ + axis ratio & 8 & 40.0 & 4 & retained baseline\\
+K2 & K1 + redshift geometry context & 18 & 40.0 & 4 & audit diagnostic\\
+K3 & Paper I Table 2 bulge/disk medium fields & 10 & 33.3333 & 12 & audit diagnostic\\
 \bottomrule
 \end{longtable}
 \normalsize
+\smallskip
+\noindent\emph{K1 reason.}\ Lowest retained $\delta_3$ residual.\\
+\emph{K2 reason.}\ Over-amplified high-$\theta_E$ class.\\
+\emph{K3 reason.}\ Under-resolved observable map with current medium data.

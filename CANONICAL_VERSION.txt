@@ -1,0 +1,3 @@
+Canonical version: v39.99r77
+AOD_Temporal_Dynamics_v39_99r77 is the canonical package.
+Older AOD Temporal Dynamics artifacts are historical comparison artifacts only.

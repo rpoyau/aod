@@ -3,7 +3,7 @@
 \section{Field Dynamics Applications}\label{manual:field-dynamics-applications}
 \aodnoteblock{Scope}{This section uses the main-note field dynamics calculus as an application layer. SPARC uses the square-speed coordinate \(U=V^2\). The Tau ring fixture uses \(S_\tau\) and missing-burden diagnostics. Each score coordinate is declared inside its own support class.}
 
-\aodremark{Field-dynamics simulations are finite compressions of the A\(\Omega\)D ontology. A macroscopic field is simulated by declared clustering, finite boundary windows, support families, and value maps. Output residuals are read against the declared data support: boundary placement, density resolution, unresolved time-flow distinctions, angular/radial momentum inputs, slosh windows, capacity seating, and sheddic-route declarations.}
+\aodremark{Field-dynamics simulations are finite compressions of the A\(\Omega\)D ontology. A macroscopic field is simulated by declared clustering, finite boundary windows, support families, and value maps. Output residuals are read against the declared data support: boundary placement, density resolution, time-flow data, angular/radial momentum inputs, slosh windows, capacity seating, and sheddic-route declarations.}
 
 A large field-dynamics system is handled by declared clustering. A cluster records a retained family of distinctions and relations over a boundary/window. The cluster records its support expression, construction trace or inherited trace, capacity rule, coupling family, and route status. The cluster is a finite calculation container recording a declared A\(\Omega\)D form.
 
@@ -13,7 +13,7 @@ A large field-dynamics system is handled by declared clustering. A cluster recor
 Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals only in its declared coordinate. The table below records the manual classes used by this release.
 
 \scriptsize
-\begin{longtable}{p{0.08\textwidth}p{0.22\textwidth}p{0.30\textwidth}p{0.24\textwidth}p{0.12\textwidth}}
+\begin{longtable}{@{}p{0.07\textwidth}p{0.17\textwidth}p{0.27\textwidth}p{0.22\textwidth}p{0.12\textwidth}@{}}
 \caption{Data-support classes for manual simulations and comparisons.}\label{tab:manual-data-support-classes}\\
 \toprule
 Class & Name & Declared distinctions & Relations induced & Residual\\
@@ -37,39 +37,60 @@ L3 & full lensing input package & declared medium fields, radiation-current gate
 \end{longtable}
 \normalsize
 
-\aodremark{This table records which distinctions are instantiated by a manual calculation. Unresolved distinctions are outside the declared data-support class unless a projection or marginalization map is declared.}
+\aodremark{This table records which distinctions are instantiated by a manual calculation. Projection and marginalization maps record comparison coordinates and uncertainty.}
+
 
 \subsection{Data-support and uncertainty budget}\label{manual:field-dynamics-data-support-budget}
 A field-dynamics diagnostic records its data-support and uncertainty budget before residuals are interpreted. The budget records the declared distinction family, support class, uncertainty component, and report target.
 
 \scriptsize
-\begin{longtable}{p{0.18\textwidth}p{0.11\textwidth}p{0.24\textwidth}p{0.17\textwidth}p{0.15\textwidth}p{0.13\textwidth}}
-\caption{Field dynamics data-support and uncertainty budget.}\label{tab:field-dynamics-data-support-budget}\\
+\begin{longtable}{@{}p{0.16\textwidth}p{0.08\textwidth}p{0.42\textwidth}p{0.26\textwidth}@{}}
+\caption{Field dynamics data-support classes.}\label{tab:field-dynamics-data-support-budget-a}\\
 \toprule
-Distinction family & Symbol & Declared data support & Support class & Uncertainty & Report target\\
+Distinction family & Symbol & Declared data support & Support class\\
 \midrule
 \endfirsthead
 \toprule
-Distinction family & Symbol & Declared data support & Support class & Uncertainty & Report target\\
+Distinction family & Symbol & Declared data support & Support class\\
 \midrule
 \endhead
-Density & \(\epsilon_\rho\) & \(\rho(R,z,\theta,t)\) or radial proxy & 3D / 2D / radial / proxy / unresolved & \(\sigma_\rho\) when declared & field or \(U\)\\
-Velocity & \(\epsilon_v\) & \(v(R,z,\theta,t)\) or radial speed & vector / radial / proxy / unresolved & \(\sigma_v\) & current, path, or \(U\)\\
-Time window & \(\epsilon_\omega\) & cadence and duration & measured / declared / proxy & \(\sigma_\omega\) & slosh / retention / path\\
-Boundary & \(\epsilon_{\partial}\) & \(\partial_T R_c(t)\) & 3D / radial / proxy & \(\sigma_{\partial}\) & boundary audits\\
-Capacity & \(\epsilon_C\) & \(C^{\mathrm{cap}}\) & typed / scalar / inherited / proxy & \(\sigma_C\) & retention / seating\\
-Coupling & \(\epsilon_E\) & \(E^{\mathfrak S}(B)\) & full / radial / proxy / ablation cut & \(\sigma_E\) & retention / projection\\
-Sheddic route & \(\epsilon_X\) & \(\operatorname{SheddicPath}\) & declared / inferred / unresolved & \(\sigma_X\) & route / slosh / pending\\
-External map & \(\epsilon_K\) & \(K_{\mathrm{ext}}\) or \(\lambda\) & frozen / calibrated / undeclared & \(\sigma_{\mathrm{map}}\) & external comparison\\
+Density & \(\epsilon_\rho\) & \(\rho(R,z,\theta,t)\) or radial proxy & 3D / 2D / radial / proxy\\
+Velocity & \(\epsilon_v\) & \(v(R,z,\theta,t)\) or radial speed & vector / radial / proxy\\
+Time window & \(\epsilon_\omega\) & cadence and duration & measured / declared / proxy\\
+Boundary & \(\epsilon_{\partial}\) & \(\partial_T R_c(t)\) & 3D / radial / proxy\\
+Capacity & \(\epsilon_C\) & \(C^{\mathrm{cap}}\) & typed / scalar / inherited / proxy\\
+Coupling & \(\epsilon_E\) & \(E^{\mathfrak S}(B)\) & full / radial / proxy / ablation cut\\
+Sheddic route & \(\epsilon_X\) & \(\operatorname{SheddicPath}\) & declared / inferred\\
+External map & \(\epsilon_K\) & \(K_{\mathrm{ext}}\) or \(\lambda\) & frozen / calibrated\\
+\bottomrule
+\end{longtable}
+
+\begin{longtable}{@{}p{0.16\textwidth}p{0.08\textwidth}p{0.32\textwidth}p{0.36\textwidth}@{}}
+\caption{Field dynamics uncertainty and report targets.}\label{tab:field-dynamics-data-support-budget-b}\\
+\toprule
+Distinction family & Symbol & Uncertainty & Report target\\
+\midrule
+\endfirsthead
+\toprule
+Distinction family & Symbol & Uncertainty & Report target\\
+\midrule
+\endhead
+Density & \(\epsilon_\rho\) & \(\sigma_\rho\) when declared & field or \(U\)\\
+Velocity & \(\epsilon_v\) & \(\sigma_v\) & current, path, or \(U\)\\
+Time window & \(\epsilon_\omega\) & \(\sigma_\omega\) & slosh / retention / path\\
+Boundary & \(\epsilon_{\partial}\) & \(\sigma_{\partial}\) & boundary audits\\
+Capacity & \(\epsilon_C\) & \(\sigma_C\) & retention / seating\\
+Coupling & \(\epsilon_E\) & \(\sigma_E\) & retention / projection\\
+Sheddic route & \(\epsilon_X\) & \(\sigma_X\) & route / slosh\\
+External map & \(\epsilon_K\) & \(\sigma_{\mathrm{map}}\) & external comparison\\
 \bottomrule
 \end{longtable}
 \normalsize
 
-\aodremark{A scored diagnostic is interpreted only within its declared support class. Differences against a higher-resolution comparison are reported as projection or marginalization uncertainty for unresolved distinctions.}
+\aodremark{A scored diagnostic is interpreted within its declared support class. Projection and marginalization comparisons report their uncertainty records.}
 
 \paragraph{Ablation cut.}
 An ablation cut is a declared data-support cut with one distinction family intentionally omitted or marginalized. It records projection or marginalization residuals against a comparison support class. The evaluated A\(\Omega\)D form remains the declared form for that record.
-
 
 \subsection{Scoped error forms by data-support class}\label{manual:field-dynamics-scoped-error-forms}
 For a G0 radial shell projection, the score coordinate remains square speed:
@@ -139,7 +160,7 @@ For exact internal bins, the same comparison may be recorded by
 \]
 
 \small
-\begin{longtable}{p{0.19\textwidth}p{0.23\textwidth}p{0.25\textwidth}p{0.22\textwidth}}
+\begin{longtable}{@{}p{0.18\textwidth}p{0.22\textwidth}p{0.24\textwidth}p{0.20\textwidth}@{}}
 \caption{Toy data-support cases.}\label{tab:toy-data-support-cases}\\
 \toprule
 Case & Boundary / data & Diagnostic & Interpretation\\
@@ -161,7 +182,7 @@ Improper boundary & \(B_{\mathrm{bad}}\), wrong boundary/capacity/route & \(\Del
 
 
 \subsection{3D Brownian phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture}\label{manual:brownian-phase-delta3-fixture}
-\aodnoteblock{Data-support class}{This Brownian / tracer-motion fixture is a G3 time-resolved tracer-current fixture when the track declares time-ordered three-dimensional positions. A two-dimensional microscopy slice is a projected tracer-current support class or ablation cut; the unresolved axis is outside the declared support class unless a projection map declares a proxy.}
+\aodnoteblock{Data-support class}{This Brownian / tracer-motion fixture is a G3 time-resolved tracer-current fixture when the track declares time-ordered three-dimensional positions. A two-dimensional microscopy slice records its projection map or ablation cut.}
 
 This fixture uses integerized three-dimensional trajectory data. A bacterium or tracer track is binned into \(\mathbb Z^3\); lagged displacements produce the active integer squared displacement
 \[
@@ -181,7 +202,17 @@ The retained trace path is
 
 Continuous summaries belong after the exact fixture as presentation or external maps.
 
-\aodnoteblock{Source artifacts}{The source package includes \texttt{manual/scripts/aod\_brownian\_3d\_phase\_delta3.py}, \texttt{manual/data/brownian/displacement\_q\_counts.csv}, \texttt{manual/data/brownian/phase\_cycle\_delta3.csv}, \texttt{manual/data/brownian/octant\_delta3.csv}, and \texttt{manual/data/brownian/integer\_motion\_ratios.csv}. These Brownian application artifacts are aliases of the generic 3D coordinate phase-cycle fixture specified in \appref{manual:app:coordinate-phase-cycle-delta3}.}
+\aodnoteblock{Source artifacts}{The source package includes the Brownian application script under \texttt{manual/scripts} and the Brownian CSV rows under \texttt{manual/data/brownian}:
+\[
+\begin{gathered}
+\texttt{aod\_brownian\_3d\_phase\_delta3.py},\quad
+\texttt{displacement\_q\_counts.csv},\quad
+\texttt{phase\_cycle\_delta3.csv},\\
+\texttt{octant\_delta3.csv},\quad
+\texttt{integer\_motion\_ratios.csv}.
+\end{gathered}
+\]
+These Brownian application artifacts are aliases of the generic 3D coordinate phase-cycle fixture specified in \appref{manual:app:coordinate-phase-cycle-delta3}.}
 \aodremark{Active coordinate: integerized three-dimensional displacement and phase-cycle count data,
 \[
 z_i\in\mathbb Z^3
@@ -413,7 +444,7 @@ C^{\theta}_{e,c,t}\,
 Z^{\mathrm{imp}}_{e,c,t}\,
 \mathbf 1[\Delta A_{e,c,t}\ne0].
 \]
-When \(G^{\mathrm{early}}_{e,c,t}>0\), the fixture records early coupling. Fizz is unresolved successor motion / background-continuation jitter. Pending records retained return that is not seated over the current window. The class \(\mathrm{sheddic\_route}\) records a flip carried through a declared sheddic path.
+When \(G^{\mathrm{early}}_{e,c,t}>0\), the fixture records early coupling. Fizz records successor motion / background-continuation jitter. Pending records retained return carried over the current window. The class \(\mathrm{sheddic\_route}\) records a flip carried through a declared sheddic path.
 
 
 \paragraph{Orbital-retention input provenance gate.}
@@ -444,7 +475,7 @@ external value map & quarantined map & declared proxy & frozen before scoring & 
 \aodremark{A scored orbital-retention run records source, support status, uncertainty status, and whether each component is used for scoring before residuals are interpreted.}
 
 \small
-\begin{longtable}{p{0.08\textwidth}p{0.36\textwidth}p{0.46\textwidth}}
+\begin{longtable}{@{}p{0.08\textwidth}p{0.34\textwidth}p{0.42\textwidth}@{}}
 \caption{Orbital-retention field-dynamics fixture spine.}\label{tab:orbital-retention-fixture-spine}\\
 \toprule
 No. & Sheet & Purpose\\
@@ -454,21 +485,21 @@ No. & Sheet & Purpose\\
 No. & Sheet & Purpose\\
 \midrule
 \endhead
-00 & \texttt{00\_Declarations} & Freeze declarations before scoring.\\
-01 & \texttt{01\_Cell\_Grid\_3D} & Declare the retained 3D cell grid.\\
-02 & \texttt{02\_Input\_Density\_Fields} & Declare star/gas/core/background/current density inputs and source/status records.\\
-03 & \texttt{03\_Fractal\_Range\_Max\_Field\_Support} & Compute fractal range and maximum supported field count.\\
-04 & \texttt{04\_Field\_Regime} & Declare gas/fluid/fizz regime.\\
-05 & \texttt{05\_ChiralFlip\_EarlyCoupling\_vs\_Fizz} & Classify flips as early coupling, fizz, pending, or sheddic route.\\
-06 & \texttt{06\_Range\_Edge\_Sets} & Build range-prioritized coupling families.\\
-07 & \texttt{07\_SADAR\_Coupling\_Pressure\_Velocity} & Compute SADAR coupling, pressure, and motion quantities.\\
-08 & \texttt{08\_Capacity\_Seating} & Seat capacity by range and closure state.\\
-09 & \texttt{09\_HingeShift\_PartialCoupling} & Record hinge shift and partial coupling.\\
-10 & \texttt{10\_Slosh\_Sheddic\_Pending} & Record slosh, sheddic routing, and pending return.\\
-11 & \texttt{11\_Orbital\_Retention\_Class} & Classify orbital retention before projection.\\
-12 & \texttt{12\_Delta3\_Retention\_Tallies} & Record exact \(\delta_3\) retention tallies.\\
-13 & \texttt{13\_U\_Projection\_Diagnostic} & Optional square-speed diagnostic after retention scoring.\\
-14 & \texttt{14\_Audit} & Check declaration, retention, projection, and error layers.\\
+00 & Declarations & Freeze declarations before scoring.\\
+01 & Cell grid 3D & Declare the retained 3D cell grid.\\
+02 & Input density fields & Declare star/gas/core/background/current density inputs and source/status records.\\
+03 & Fractal range / max field support & Compute fractal range and maximum supported field count.\\
+04 & Field regime & Declare gas/fluid/fizz regime.\\
+05 & Chiral flip: early coupling vs fizz & Classify flips as early coupling, fizz, pending, or sheddic route.\\
+06 & Range edge sets & Build range-prioritized coupling families.\\
+07 & SADAR coupling / pressure / velocity & Compute SADAR coupling, pressure, and motion quantities.\\
+08 & Capacity seating & Seat capacity by range and closure state.\\
+09 & Hinge shift / partial coupling & Record hinge shift and partial coupling.\\
+10 & Slosh / sheddic / pending & Record slosh, sheddic routing, and pending return.\\
+11 & Orbital retention class & Classify orbital retention before projection.\\
+12 & Delta3 retention tallies & Record exact \(\delta_3\) retention tallies.\\
+13 & U projection diagnostic & Optional square-speed diagnostic after retention scoring.\\
+14 & Audit & Check declaration, retention, projection, and error layers.\\
 \bottomrule
 \end{longtable}
 \normalsize

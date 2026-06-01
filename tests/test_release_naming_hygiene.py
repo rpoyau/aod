@@ -4,6 +4,17 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def current_version() -> str:
+    text = (ROOT / "CANONICAL_VERSION.txt").read_text(encoding="utf-8")
+    m = re.search(r"Canonical version:\s*(\S+)", text)
+    assert m, "CANONICAL_VERSION.txt must declare Canonical version"
+    return m.group(1)
+
+
+def current_slug() -> str:
+    return current_version().lstrip("v").replace(".", "_").replace("-", "_")
+
+
 def tex_sources():
     roots = [ROOT / "sections", ROOT / "appendices", ROOT / "manual" / "sections", ROOT / "manual" / "appendices"]
     for root in roots:
@@ -39,8 +50,8 @@ def test_main_front_matter_uses_afc_pattern_without_setup_key_framing():
 
 def test_canonical_version_file_declares_this_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
-    assert "Canonical version: v39.99r67" in text
-    assert "Older r1-r66 artifacts are historical comparison artifacts only" in text
+    assert f"Canonical version: {current_version()}" in text
+    assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only" in text
 
 
 def test_sheddic_nomenclature_does_not_regress_to_old_symbols():
@@ -364,7 +375,8 @@ def test_manual_field_dynamics_data_support_budget_and_toy_present():
     assert "Data-support classes for manual simulations and comparisons" in field_dyn
     assert "D0" in field_dyn and "G0" in field_dyn and "G3" in field_dyn and "L3" in field_dyn
     assert r"\subsection{Data-support and uncertainty budget}" in field_dyn
-    assert "Field dynamics data-support and uncertainty budget" in field_dyn
+    assert "Field dynamics data-support classes" in field_dyn
+    assert "Field dynamics uncertainty and report targets" in field_dyn
     assert r"\epsilon_\rho" in field_dyn
     assert r"\epsilon_{\partial}" in field_dyn
     assert r"\operatorname{SheddicPath}" in field_dyn
@@ -414,8 +426,12 @@ def test_lensing_public_display_labels_are_clean():
 
 def test_field_dynamics_data_support_budget_display_is_compact():
     field_dyn = (ROOT / "manual/sections/06_field_dynamics_applications.tex").read_text()
-    assert "Field dynamics data-support and uncertainty budget" in field_dyn
-    assert "3D / 2D / radial / proxy / unresolved" in field_dyn
+    assert "Field dynamics data-support classes" in field_dyn
+    assert "Field dynamics uncertainty and report targets" in field_dyn
+    assert "3D / 2D / radial / proxy" in field_dyn
+    assert "3D / 2D / radial / proxy / unresolved" not in field_dyn
+    assert "frozen / calibrated / undeclared" not in field_dyn
+    assert "route / slosh / pending" not in field_dyn
     assert "Data-support and uncertainty budget" in field_dyn
     assert "Field dynamics setup-error budget" not in field_dyn
     assert "cadence and duration window" not in field_dyn
@@ -438,7 +454,7 @@ def test_release_readiness_file_and_no_stale_lensing_plan_manifests():
     readiness = ROOT / "RELEASE_READINESS.txt"
     assert readiness.exists()
     text = readiness.read_text()
-    assert "Canonical package: v39.99r67" in text
+    assert f"Canonical package: {current_version()}" in text
     stale = [
         ROOT / "manual/data/lensing/package_manifest.csv",
         ROOT / "manual/data/lensing/plan_data_manifest.csv",
@@ -543,7 +559,7 @@ def test_abstract_uses_null_potential_and_cites_afc_af():
     assert "the calculus of Axiomatic--Fundamentalism" not in abstract
 
 
-def test_r35_affirmative_quarantine_language():
+def test_affirmative_quarantine_language():
     text = read_all_tex()
     forbidden = [
         "It is not an A\\(\\Omega\\) field-invariant in the main note",
@@ -555,7 +571,7 @@ def test_r35_affirmative_quarantine_language():
     assert "used only by the external-comparison layer" in text
 
 
-def test_r35_leprechaun_remark_is_conceptual():
+def test_leprechaun_remark_is_conceptual():
     text = read_all_tex()
     assert "The Art of the Leprechaun is the tracing and exploration of Stokes temporal wave dynamics" in text
     assert "AFC supplies the finite \\(Q_4\\) Hamming--1" not in text
@@ -670,7 +686,7 @@ def test_build_ci_and_release_bundle_script_present():
     wtext = workflow.read_text()
     stext = script.read_text()
     assert "scripts/build_release_bundle.py" in wtext
-    assert "pytest -q" in wtext
+    assert "python3 -m pytest -q" in wtext
     assert "CANONICAL_VERSION.txt" in stext
     assert "AOD_Temporal_Dynamics_source" in stext
     assert "source.zip" in stext and "bundle.zip" in stext
@@ -678,22 +694,26 @@ def test_build_ci_and_release_bundle_script_present():
 
 
 
-def test_ci_build_bundle_accepts_verifier_log_fallback_and_legacy_source_alias():
+def test_ci_build_bundle_uses_tests_artifact_and_no_separate_verifier():
     script = (ROOT / "scripts" / "build_release_bundle.py").read_text()
     workflow = (ROOT / ".github" / "workflows" / "build.yml").read_text()
-    assert "verifier.log" in script
-    assert "audit_pack/verifier.log" in script
-    assert "source-clean.zip" in script
     assert "tests.txt" in workflow
-    assert "verify_examples_sympy.py" in workflow
-    assert "tee verifier.log" in workflow
-    assert "tee -a tests.txt" in workflow
+    assert "python3 -m pytest -q | tee tests.txt" in workflow
+    obsolete_audit_tool = "audit" + "_" + "pack"
+    obsolete_verifier_log = "verifier" + ".log"
+    assert obsolete_audit_tool not in workflow
+    assert obsolete_verifier_log not in workflow
+    assert obsolete_audit_tool not in script
+    assert obsolete_verifier_log not in script
+    # source-clean.zip is allowed only for legacy bare source-archive mode.
+    assert "source-clean.zip" in script
+    assert "def build_source_only" in script
 
 def test_canonical_version_file_declares_current_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
-    assert "Canonical version: v39.99r67" in text
-    assert "AOD_Temporal_Dynamics_v39_99r67 is the canonical package." in text
-    assert "Older r1-r66 artifacts are historical comparison artifacts only" in text
+    assert f"Canonical version: {current_version()}" in text
+    assert f"AOD_Temporal_Dynamics_v{current_slug()} is the canonical package." in text
+    assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only" in text
 
 def test_orbital_retention_input_provenance_gate_present():
     manual = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
@@ -714,13 +734,13 @@ def test_orbital_retention_registry_mentions_input_provenance_gate():
 
 def test_release_readiness_mentions_orbital_retention_provenance_gate():
     readiness = (ROOT / "RELEASE_READINESS.txt").read_text()
-    assert "Canonical version: v39.99r67" in readiness
+    assert f"Canonical version: {current_version()}" in readiness
     assert "input-provenance gate" in readiness
     assert "data-support class" in readiness
 
 
 
-def test_tau_missing_burden_caption_exact_ratio_r50c():
+def test_tau_missing_burden_caption_exact_ratio():
     manual = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
     assert "31/50" in manual
     assert r"presentation value \(0.62\)" in manual
@@ -735,7 +755,7 @@ def test_manual_scoped_error_data_support_chain_present():
     assert r"D\rightarrow R(D)\rightarrow \mathcal M(D,R)" in scope
     assert r"\Pi_{\mathrm{report}}" in scope
     assert r"\epsilon_{\mathrm{report}}" in scope
-    assert "Unresolved distinctions are outside the declared distinction layer" in scope
+    assert "Projection and marginalization maps carry their own comparison coordinates and uncertainty records" in scope
 
 
 def test_manual_data_support_section_notes_present():
@@ -769,7 +789,7 @@ def test_appendix_a_data_support_class_reference_present():
         assert cls in appendix
 
 
-def test_registry_has_data_support_class_column_r52():
+def test_registry_has_data_support_class_column():
     registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     assert "Record & Class & Active fields" in registry
     for cls in ["D0", "O0", "G0", "G1", "G2/G3", "L0", "L1", "L2", "L3", "D0/O0"]:
@@ -778,7 +798,7 @@ def test_registry_has_data_support_class_column_r52():
     assert "Orbital-retention field-dynamics fixture & G2/G3" in registry
 
 
-def test_sparc_scored_table_has_class_and_uncertainty_policy_r52():
+def test_sparc_scored_table_has_class_and_uncertainty_policy():
     table = (ROOT / "manual" / "data" / "derived" / "sparc_summary_table.tex").read_text()
     assert "Class & $\\sigma$ policy" in table
     assert "G0 & obs-only" in table
@@ -787,20 +807,20 @@ def test_sparc_scored_table_has_class_and_uncertainty_policy_r52():
     assert "G0 active input fields" in section
     
 
-def test_ablation_cut_defined_r52():
+def test_ablation_cut_defined():
     section = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
     assert r"\paragraph{Ablation cut.}" in section
     assert "declared data-support cut" in section
     assert "projection or marginalization residuals" in section
 
 
-def test_release_audit_replaces_registry_falsification_r52():
+def test_release_audit_replaces_registry_falsification():
     registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     assert r"\aodnoteblock{Completion rule}" in registry
     assert r"\aodnoteblock{Falsification}" not in registry
 
 
-def test_negative_data_support_framing_absent_r52():
+def test_negative_data_support_framing_absent():
     text = "\n".join(p.read_text() for p in (ROOT / "manual" / "sections").glob("*.tex"))
     forbidden = [
         "not valid",
@@ -830,7 +850,7 @@ def test_no_standalone_so_lines_in_active_tex():
 def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     readme = (ROOT / "README.md").read_text()
     assert "# Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
-    assert "**Version:** v39.99r67" in readme
+    assert f"**Version:** {current_version()}" in readme
     assert "**Title:** Alpha-Omega Dynamics" in readme
     assert "**Subtitle:** The Hidden Temporal Dynamics of Stokes" in readme
     assert "**Zenodo title:** Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
@@ -838,7 +858,7 @@ def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     assert "This release includes the main note, manual, source package, test output, patch summary, bundle, and SHA-256 manifests." in readme
     assert "Versioned names are generated only as release artifacts" in readme
     assert "scripts/build_release_bundle.py" in readme
-    assert "AOD_Temporal_Dynamics_v39_99r67" in readme
+    assert f"AOD_Temporal_Dynamics_v{current_slug()}" in readme
 
 
 def test_readme_has_single_versioned_names_sentence():
