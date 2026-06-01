@@ -204,5 +204,6 @@ def main() -> int:
     print(f"built release artifacts for {version} in {outdir}")
     return 0
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     raise SystemExit(main())
