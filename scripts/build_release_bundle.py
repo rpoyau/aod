@@ -39,7 +39,7 @@ INCLUDE_TOP_LEVEL = [
     ".github", "appendices", "figures_jpg", "manual", "scripts", "sections", "tests",
     "CANONICAL_VERSION.txt", "RELEASE_READINESS.txt", "main.tex", "preamble.tex",
     "refs.bib", "cycle_shedding_summary.tex", "README.md", "LICENSE", "CITATION.cff",
-    "requirements-ci.txt", ".zenodo.json", "BUILD.md", "build.yml",
+    "requirements-ci.txt", ".zenodo.json", "BUILD.md",
 ]
 
 
@@ -121,41 +121,6 @@ def write_sha_manifest(path: Path, files: list[Path], base: Path | None = None) 
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-
-def require_tests_artifact(tests_txt: Path) -> bool:
-    """Require the canonical pytest output artifact.
-
-    The release bundle consumes tests.txt directly. CI and local release builds
-    must create this artifact before invoking this builder. SymPy
-    exact-arithmetic checks live inside the pytest suite. The builder does not
-    run tests and does not consume verifier/audit-pack logs.
-    """
-    if not tests_txt.exists() or tests_txt.stat().st_size == 0:
-        print(f"required test artifact missing or empty: {tests_txt}", file=sys.stderr)
-        print("create tests.txt from the pytest suite before invoking this builder", file=sys.stderr)
-        return False
-    return True
-
-def build_source_only(outdir: Path) -> Path:
-    """Build only the generic source-clean archive for legacy workflow calls.
-
-    This mode is used only when the script is invoked with no command-line
-    arguments. It keeps older CI calls from failing while preserving the
-    release-bundle rule: full release bundles still require an explicit
-    pytest-produced tests.txt artifact.
-    """
-    if outdir.exists():
-        shutil.rmtree(outdir)
-    outdir.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory() as tmp:
-        stage = Path(tmp)
-        build_source_tree(stage)
-        source_clean = outdir / "source-clean.zip"
-        zip_dir(stage / "AOD_Temporal_Dynamics_source", source_clean)
-    print(f"built generic source archive: {source_clean}")
-    return source_clean
-
-
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--version")
@@ -165,14 +130,6 @@ def main() -> int:
     ap.add_argument("--tests", default="tests.txt")
     ap.add_argument("--patch-summary", default="PATCH_SUMMARY.txt")
     args = ap.parse_args()
-
-    # Compatibility path for stale/legacy workflows that invoke the builder as
-    # `python3 scripts/build_release_bundle.py` only to create a source archive.
-    # Full release bundle generation still requires explicit artifact arguments
-    # and a pytest-produced tests.txt.
-    if len(sys.argv) == 1:
-        build_source_only((ROOT / args.outdir).resolve())
-        return 0
 
     version = read_version(args.version)
     slug = version_slug(version)
@@ -185,12 +142,10 @@ def main() -> int:
     main_pdf = (ROOT / args.main).resolve()
     manual_pdf = (ROOT / args.manual).resolve()
     tests_txt = (ROOT / args.tests).resolve()
-    for required in [main_pdf, manual_pdf]:
+    for required in [main_pdf, manual_pdf, tests_txt]:
         if not required.exists():
             print(f"required artifact missing: {required}", file=sys.stderr)
             return 2
-    if not require_tests_artifact(tests_txt):
-        return 2
 
     patch_summary_src = (ROOT / args.patch_summary).resolve()
     patch_summary = outdir / f"{prefix}_PATCH_SUMMARY.txt"
@@ -216,6 +171,10 @@ def main() -> int:
         zip_dir(stage / "AOD_Temporal_Dynamics_source", source_zip)
 
 
+    # Backward-compatible alias for older CI workflows that upload dist/source-clean.zip.
+    source_clean_alias = outdir / "source-clean.zip"
+    shutil.copy2(source_zip, source_clean_alias)
+
     # Bundle uses stable internal names so downstream tools do not depend on the version.
     bundle_tmp = outdir / "_bundle"
     bundle_tmp.mkdir(parents=True, exist_ok=True)
@@ -229,8 +188,17 @@ def main() -> int:
     write_sha_manifest(bundle_contents, sorted(bundle_members), bundle_tmp)
 
     bundle_zip = outdir / f"{prefix}_bundle.zip"
+    bundle_order = [
+        "main.pdf",
+        "manual.pdf",
+        "source.zip",
+        "tests.txt",
+        "patch_summary.txt",
+        "BUNDLE_CONTENTS_SHA256.txt",
+    ]
     with zipfile.ZipFile(bundle_zip, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-        for p in sorted(bundle_tmp.iterdir()):
+        for name in bundle_order:
+            p = bundle_tmp / name
             if p.is_file():
                 zf.write(p, p.name)
 

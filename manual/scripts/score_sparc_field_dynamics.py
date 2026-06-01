@@ -24,7 +24,7 @@ UPSILON_D = 0.5
 UPSILON_B = 0.7
 K_EXT_U = 8.0
 J_NORM = 1.0
-# Frozen primary-lane declarations for the current release lane.
+# Frozen primary-lane declarations for v39.99r1.
 LAMBDA_RET = 1.0
 DENSITY = 0.0
 GAS_STAR = 0.0
@@ -84,7 +84,7 @@ def compute() -> tuple[pd.DataFrame, pd.DataFrame]:
 def write_outputs(per_bin: pd.DataFrame, per_gal: pd.DataFrame) -> None:
     per_bin.to_csv(DER / "sparc_five_galaxy_per_bin.csv", index=False)
     per_gal.to_csv(DER / "sparc_five_galaxy_per_galaxy.csv", index=False)
-    # Controls are declared comparison variants from the current diagnostic run.
+    # Controls are declared comparison variants from the v39.99 diagnostic run.
     controls = pd.DataFrame([
         {"declaration": "radial only", "MAPE_U_percent": 38.67004681721992},
         {"declaration": "z-layer slow", "MAPE_U_percent": 33.267659551663},

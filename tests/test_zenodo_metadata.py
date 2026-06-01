@@ -1,19 +1,23 @@
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def current_version() -> str:
+def current_version():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text(encoding="utf-8")
-    for line in text.splitlines():
-        if line.startswith("Canonical version:"):
-            return line.split(":", 1)[1].strip()
-    raise AssertionError("CANONICAL_VERSION.txt must declare Canonical version")
+    m = re.search(r"Canonical version:\s*(\S+)", text)
+    assert m
+    return m.group(1)
 
 
-def current_slug() -> str:
+def current_slug():
     return current_version().lstrip("v").replace(".", "_").replace("-", "_")
+
+
+def current_prefix():
+    return f"AOD_Temporal_Dynamics_v{current_slug()}"
 
 
 def test_zenodo_metadata_present_and_title_has_no_revision():
@@ -37,11 +41,11 @@ def test_source_builder_includes_zenodo_metadata_and_build_md():
     assert '"BUILD.md"' in builder
 
 
-def test_readme_version_matches_canonical_version():
+def test_readme_version_matches_canonical_version_r69():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     canon = (ROOT / "CANONICAL_VERSION.txt").read_text(encoding="utf-8")
     assert f"**Version:** {current_version()}" in readme
     assert f"Canonical version: {current_version()}" in canon
-    assert f"AOD_Temporal_Dynamics_v{current_slug()}" in readme
+    assert current_prefix() in readme
     assert "**Title:** Alpha-Omega Dynamics" in readme
     assert "**Subtitle:** The Hidden Temporal Dynamics of Stokes" in readme

@@ -1,7 +1,7 @@
-AOD Temporal Dynamics v39.99r77 release readiness
+AOD Temporal Dynamics v39.99r75 release readiness
 
-Canonical package: v39.99r77.
-Canonical version: v39.99r77.
+Canonical package: v39.99r75.
+Canonical version: v39.99r75.
 
 Status locks:
 - Main note: ontology and calculus of AFC/AΩD retained Stokes waves.
@@ -36,5 +36,5 @@ Manual Appendix C carries the full 3D coordinate phase-cycle delta_3 fixture spe
 Simulation data card: manual rows record input data, support class, report map, input uncertainty, residual coordinate, and source artifact.
 Manual wording uses input/support/report/residual language in place of claim-status or defensive release wording.
 
-AOD_Temporal_Dynamics_39_99r76 is the canonical package.
+AOD_Temporal_Dynamics_v39_99r75 is the canonical package.
 Older AOD Temporal Dynamics artifacts are historical comparison artifacts only.
