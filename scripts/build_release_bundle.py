@@ -39,7 +39,7 @@ INCLUDE_TOP_LEVEL = [
     ".github", "appendices", "figures_jpg", "manual", "scripts", "sections", "tests",
     "CANONICAL_VERSION.txt", "RELEASE_READINESS.txt", "main.tex", "preamble.tex",
     "refs.bib", "cycle_shedding_summary.tex", "README.md", "LICENSE", "CITATION.cff",
-    "requirements-ci.txt", ".zenodo.json", "BUILD.md",
+    "requirements-ci.txt", ".zenodo.json", "BUILD.md", "build.yml",
 ]
 
 

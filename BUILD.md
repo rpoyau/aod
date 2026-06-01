@@ -17,3 +17,5 @@ The generated release files carry the version string; source-internal paths do n
 
 
 The release tests artifact is `tests.txt`. It is produced by the pytest suite; SymPy exact-arithmetic checks are part of that suite. The release builder consumes `tests.txt` directly and does not run tests. Run `python -m pytest -q | tee tests.txt` before invoking `scripts/build_release_bundle.py`; no separate verifier output is used.
+
+The GitHub Actions workflow writes `tests.txt` before invoking the release builder. The builder requires this artifact and does not consume verifier/audit-pack logs.
