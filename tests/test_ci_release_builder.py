@@ -57,3 +57,20 @@ def test_root_build_yml_mirrors_ci_workflow_when_present():
 def test_release_builder_includes_root_workflow_mirror():
     builder = (ROOT / "scripts" / "build_release_bundle.py").read_text()
     assert "\"build.yml\"" in builder
+
+def test_release_builder_legacy_bare_call_builds_source_clean_only():
+    script = (ROOT / "scripts" / "build_release_bundle.py").read_text()
+    assert "def build_source_only" in script
+    assert "source-clean.zip" in script
+    assert "if len(sys.argv) == 1" in script
+    assert "full release bundles still require" in script
+
+
+def test_workflows_do_not_use_legacy_bare_builder_call():
+    for rel in [Path(".github/workflows/build.yml"), Path("build.yml")]:
+        text = (ROOT / rel).read_text()
+        assert "python3 scripts/build_release_bundle.py\n" not in text
+        assert "Run verifier" not in text
+        assert "audit_pack" not in text
+        assert "verify_examples_sympy" not in text
+        assert "python3 -m pytest -q | tee tests.txt" in text

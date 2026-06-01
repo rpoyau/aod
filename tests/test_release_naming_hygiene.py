@@ -705,7 +705,9 @@ def test_ci_build_bundle_uses_tests_artifact_and_no_separate_verifier():
     assert obsolete_verifier_log not in workflow
     assert obsolete_audit_tool not in script
     assert obsolete_verifier_log not in script
-    assert "source-clean.zip" not in script
+    # source-clean.zip is allowed only for legacy bare source-archive mode.
+    assert "source-clean.zip" in script
+    assert "def build_source_only" in script
 
 def test_canonical_version_file_declares_current_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()

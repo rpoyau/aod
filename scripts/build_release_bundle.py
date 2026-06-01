@@ -136,6 +136,26 @@ def require_tests_artifact(tests_txt: Path) -> bool:
         return False
     return True
 
+def build_source_only(outdir: Path) -> Path:
+    """Build only the generic source-clean archive for legacy workflow calls.
+
+    This mode is used only when the script is invoked with no command-line
+    arguments. It keeps older CI calls from failing while preserving the
+    release-bundle rule: full release bundles still require an explicit
+    pytest-produced tests.txt artifact.
+    """
+    if outdir.exists():
+        shutil.rmtree(outdir)
+    outdir.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp:
+        stage = Path(tmp)
+        build_source_tree(stage)
+        source_clean = outdir / "source-clean.zip"
+        zip_dir(stage / "AOD_Temporal_Dynamics_source", source_clean)
+    print(f"built generic source archive: {source_clean}")
+    return source_clean
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--version")
@@ -145,6 +165,14 @@ def main() -> int:
     ap.add_argument("--tests", default="tests.txt")
     ap.add_argument("--patch-summary", default="PATCH_SUMMARY.txt")
     args = ap.parse_args()
+
+    # Compatibility path for stale/legacy workflows that invoke the builder as
+    # `python3 scripts/build_release_bundle.py` only to create a source archive.
+    # Full release bundle generation still requires explicit artifact arguments
+    # and a pytest-produced tests.txt.
+    if len(sys.argv) == 1:
+        build_source_only((ROOT / args.outdir).resolve())
+        return 0
 
     version = read_version(args.version)
     slug = version_slug(version)
