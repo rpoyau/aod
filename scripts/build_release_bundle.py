@@ -12,7 +12,6 @@ import os
 from pathlib import Path
 import re
 import shutil
-import subprocess
 import sys
 import tempfile
 import zipfile
@@ -122,36 +121,20 @@ def write_sha_manifest(path: Path, files: list[Path], base: Path | None = None) 
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def ensure_tests_artifact(tests_txt: Path) -> bool:
-    """Ensure the canonical pytest output artifact exists.
 
-    The release bundle uses tests.txt as the only test-output artifact. In CI the
-    workflow writes this file explicitly. For direct local or legacy workflow
-    calls that reach the builder without tests.txt, run the repository pytest
-    suite here and write its output to tests.txt. SymPy exact-arithmetic checks
-    live inside the pytest suite, so no separate verifier output is used.
+def require_tests_artifact(tests_txt: Path) -> bool:
+    """Require the canonical pytest output artifact.
+
+    The release bundle consumes tests.txt directly. CI and local release builds
+    must create this artifact before invoking this builder. SymPy
+    exact-arithmetic checks live inside the pytest suite. The builder does not
+    run tests and does not consume verifier/audit-pack logs.
     """
-    if tests_txt.exists():
-        return True
-    tests_dir = ROOT / "tests"
-    if not tests_dir.exists():
-        print(f"required artifact missing and tests directory absent: {tests_txt}", file=sys.stderr)
-        return False
-    print(f"tests artifact missing; running pytest to create {tests_txt}", file=sys.stderr)
-    proc = subprocess.run(
-        [sys.executable, "-m", "pytest", "-q"],
-        cwd=ROOT,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
-    tests_txt.write_text(proc.stdout, encoding="utf-8")
-    if proc.returncode != 0:
-        print(proc.stdout, file=sys.stderr)
-        print(f"pytest failed while creating tests artifact: {tests_txt}", file=sys.stderr)
+    if not tests_txt.exists() or tests_txt.stat().st_size == 0:
+        print(f"required test artifact missing or empty: {tests_txt}", file=sys.stderr)
+        print("create tests.txt from the pytest suite before invoking this builder", file=sys.stderr)
         return False
     return True
-
 
 def main() -> int:
     ap = argparse.ArgumentParser()
@@ -178,7 +161,7 @@ def main() -> int:
         if not required.exists():
             print(f"required artifact missing: {required}", file=sys.stderr)
             return 2
-    if not ensure_tests_artifact(tests_txt):
+    if not require_tests_artifact(tests_txt):
         return 2
 
     patch_summary_src = (ROOT / args.patch_summary).resolve()

@@ -39,7 +39,7 @@ def test_main_front_matter_uses_afc_pattern_without_setup_key_framing():
 
 def test_canonical_version_file_declares_this_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
-    assert "Canonical version: v39.99r73" in text
+    assert "Canonical version: v39.99r74" in text
     assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only" in text
 
 
@@ -443,7 +443,7 @@ def test_release_readiness_file_and_no_stale_lensing_plan_manifests():
     readiness = ROOT / "RELEASE_READINESS.txt"
     assert readiness.exists()
     text = readiness.read_text()
-    assert "Canonical package: v39.99r73" in text
+    assert "Canonical package: v39.99r74" in text
     stale = [
         ROOT / "manual/data/lensing/package_manifest.csv",
         ROOT / "manual/data/lensing/plan_data_manifest.csv",
@@ -675,7 +675,7 @@ def test_build_ci_and_release_bundle_script_present():
     wtext = workflow.read_text()
     stext = script.read_text()
     assert "scripts/build_release_bundle.py" in wtext
-    assert "pytest -q" in wtext
+    assert "python3 -m pytest -q" in wtext
     assert "CANONICAL_VERSION.txt" in stext
     assert "AOD_Temporal_Dynamics_source" in stext
     assert "source.zip" in stext and "bundle.zip" in stext
@@ -687,7 +687,7 @@ def test_ci_build_bundle_uses_tests_artifact_and_no_separate_verifier():
     script = (ROOT / "scripts" / "build_release_bundle.py").read_text()
     workflow = (ROOT / ".github" / "workflows" / "build.yml").read_text()
     assert "tests.txt" in workflow
-    assert "pytest -q | tee tests.txt" in workflow
+    assert "python3 -m pytest -q | tee tests.txt" in workflow
     obsolete_audit_tool = "audit" + "_" + "pack"
     obsolete_verifier_log = "verifier" + ".log"
     assert obsolete_audit_tool not in workflow
@@ -698,8 +698,8 @@ def test_ci_build_bundle_uses_tests_artifact_and_no_separate_verifier():
 
 def test_canonical_version_file_declares_current_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
-    assert "Canonical version: v39.99r73" in text
-    assert "AOD_Temporal_Dynamics_v39_99r73 is the canonical package." in text
+    assert "Canonical version: v39.99r74" in text
+    assert "AOD_Temporal_Dynamics_v39_99r74 is the canonical package." in text
     assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only" in text
 
 def test_orbital_retention_input_provenance_gate_present():
@@ -721,7 +721,7 @@ def test_orbital_retention_registry_mentions_input_provenance_gate():
 
 def test_release_readiness_mentions_orbital_retention_provenance_gate():
     readiness = (ROOT / "RELEASE_READINESS.txt").read_text()
-    assert "Canonical version: v39.99r73" in readiness
+    assert "Canonical version: v39.99r74" in readiness
     assert "input-provenance gate" in readiness
     assert "data-support class" in readiness
 
@@ -837,7 +837,7 @@ def test_no_standalone_so_lines_in_active_tex():
 def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     readme = (ROOT / "README.md").read_text()
     assert "# Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
-    assert "**Version:** v39.99r73" in readme
+    assert "**Version:** v39.99r74" in readme
     assert "**Title:** Alpha-Omega Dynamics" in readme
     assert "**Subtitle:** The Hidden Temporal Dynamics of Stokes" in readme
     assert "**Zenodo title:** Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
@@ -845,7 +845,7 @@ def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     assert "This release includes the main note, manual, source package, test output, patch summary, bundle, and SHA-256 manifests." in readme
     assert "Versioned names are generated only as release artifacts" in readme
     assert "scripts/build_release_bundle.py" in readme
-    assert "AOD_Temporal_Dynamics_v39_99r73" in readme
+    assert "AOD_Temporal_Dynamics_v39_99r74" in readme
 
 
 def test_readme_has_single_versioned_names_sentence():

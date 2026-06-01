@@ -9,11 +9,11 @@ Typical local build:
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
 latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
 cp manual/main.pdf manual.pdf
-pytest -q | tee tests.txt
+python -m pytest -q | tee tests.txt
 python scripts/build_release_bundle.py --outdir dist --main main.pdf --manual manual.pdf --tests tests.txt
 ```
 
 The generated release files carry the version string; source-internal paths do not.
 
 
-The release tests artifact is `tests.txt`. It is produced by the pytest suite; SymPy exact-arithmetic checks are part of that suite. The release builder consumes `tests.txt` directly. If a direct local or legacy CI call reaches `scripts/build_release_bundle.py` without `tests.txt`, the builder runs `python -m pytest -q` itself and writes `tests.txt`; no separate verifier output is used.
+The release tests artifact is `tests.txt`. It is produced by the pytest suite; SymPy exact-arithmetic checks are part of that suite. The release builder consumes `tests.txt` directly and does not run tests. Run `python -m pytest -q | tee tests.txt` before invoking `scripts/build_release_bundle.py`; no separate verifier output is used.
