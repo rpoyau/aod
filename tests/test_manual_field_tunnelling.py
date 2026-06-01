@@ -15,7 +15,8 @@ def test_field_tunnelling_placement_and_scope():
     assert r'\subsection{Field tunnelling: hinge-slide window clip}' in sec
     assert sec.index(r'\subsection{Blocked hinge and hinge slide}') < sec.index(r'\subsection{Field tunnelling: hinge-slide window clip}') < sec.index(r'\subsection{D.E.C. row-pair to ADAR and SADAR}')
     assert 'Field tunnelling is a D0 exact internal fixture' in sec
-    assert 'It carries no external measured-sector target in this fixture row' in sec
+    assert 'scalar tunnel contribution' in sec
+    assert 'It carries no external measured-sector target in this fixture row' not in sec
 
 
 def test_field_tunnelling_exact_arithmetic_in_manual():
@@ -58,7 +59,7 @@ def test_field_tunnelling_no_external_target_language():
     chunk = sec[start:end]
     for term in ['GeV', 'LHC', 'ATLAS', 'CMS', 'measured-sector target']:
         if term == 'measured-sector target':
-            assert 'no external measured-sector target' in chunk
+            assert 'no external measured-sector target' not in chunk
         else:
             assert term not in chunk
 

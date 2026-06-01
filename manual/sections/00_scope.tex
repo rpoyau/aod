@@ -75,7 +75,7 @@ Registry rows carry benchmark calculations until the declared dataset, required 
 \aodnoteblock{Specification discipline}{A rest or prediction record may use a compact curling-curl specification only after \(HT(K;B)\) is declared or inherited.}
 
 \subsection{Table discipline}\label{manual:table-discipline}
-Tables in this manual store calculated values, target values, residuals, and audit status. Manual rows, ledgers, tables, records, registries, and fixtures are document containers. They record declared values. The calculation is the declared boundary computation
+Tables in this manual store calculated values, target values, residuals, and audit records. Manual rows, ledgers, tables, records, registries, and fixtures are document containers. They record declared values. The calculation is the declared boundary computation
 \[
 \mathbf a\vdash(F,R,\partial_T R,\omega),
 \qquad
@@ -85,7 +85,7 @@ followed by the A\(\Omega\) and SADAR calculation on that boundary.
 
 
 \subsection{Provenance-label policy}\label{manual:provenance-label-policy}
-Tokens of the form \texttt{main:<anchor>} and \texttt{manual:<anchor>} are cross-document provenance anchors. They refer to the corresponding source label \texttt{<anchor>} in the named document unless an explicit alias label is declared. Provenance records remain internal-reference lists; external sources belong in Literature note records.
+Tokens of the form \texttt{main:<anchor>} and \texttt{manual:<anchor>} are cross-document provenance anchors. They refer to the corresponding source label \texttt{<anchor>} in the named document. Explicit alias labels declare alternate anchors. Provenance records remain internal-reference lists; external sources belong in Literature note records.
 
 \subsection{Exact arithmetic and presentation decimals}\label{manual:exact-arithmetic-presentation}
 A\(\Omega\)-internal calculations use integer counts and exact rational ratios. Decimal values appear only as external comparison coordinates, presentation values, or plot labels.
@@ -116,7 +116,7 @@ The symbol \(\delta_3\) records the exact ternary signed residual for an interna
 \[
 (x_{\mathrm{disp}},u_x,\mathrm{unit}(x),\mathrm{src}(x),\mathrm{round}(x),\mathrm{scope}(x)).
 \]
-Here \(\mathrm{scope}(x)\in\{\text{internal},\text{external},\text{measured},\text{derived external},\text{value map},\text{demonstration}\}\). If \(u_x\) is absent, the status is precision pending.}
+Here \(\mathrm{scope}(x)\in\{\text{internal},\text{external},\text{measured},\text{derived external},\text{value map},\text{demonstration}\}\). The precision field \(u_x\) records declared display uncertainty.}
 
 
 \subsection{External-comparison quarantine}\label{manual:external-comparison-quarantine}
@@ -128,7 +128,7 @@ where \(\mathcal T_x\) is a declared measured-sector target record.
 
 
 \subsection{Scoped errors by data-support class}\label{manual:scoped-errors-data-support}
-A simulation or comparison is classified by the declared data support it instantiates. Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals only in its declared coordinate. Unresolved distinctions are outside the declared distinction layer or are represented by a declared projection or marginalization map with uncertainty.
+A simulation or comparison is classified by the declared data support it instantiates. Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals in its declared coordinate. Projection and marginalization maps carry their own comparison coordinates and uncertainty records.
 
 The scoped-error chain is
 \[
@@ -136,7 +136,7 @@ D\rightarrow R(D)\rightarrow \mathcal M(D,R)
 \rightarrow \Pi_{\mathrm{report}}
 \rightarrow \epsilon_{\mathrm{report}}.
 \]
-Here \(D\) is the declared data-support distinction layer, \(R(D)\) is the induced relation family, \(\mathcal M(D,R)\) is the AFC/A\(\Omega\)D model evaluated on that cut, \(\Pi_{\mathrm{report}}\) is the report or projection map, and \(\epsilon_{\mathrm{report}}\) is the residual relative to the declared output target. Every manual comparison must declare its data-support class before residuals are interpreted.
+Here \(D\) is the declared data-support distinction layer, \(R(D)\) is the induced relation family, \(\mathcal M(D,R)\) is the AFC/A\(\Omega\)D model evaluated on that cut, \(\Pi_{\mathrm{report}}\) is the report or projection map, and \(\epsilon_{\mathrm{report}}\) is the residual relative to the declared output target. Every manual comparison declares its data-support class before residuals are interpreted.
 
 \paragraph{Simulation data card.}
 Each simulation or comparison row records

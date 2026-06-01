@@ -22,7 +22,7 @@ def test_brownian_section_present_and_manual_only():
     assert 'Brownian' not in app
     assert 'brownian' not in app
     assert 'G3 time-resolved tracer-current fixture' in sec
-    assert 'A two-dimensional microscopy slice is a projected tracer-current support class or ablation cut' in sec
+    assert 'A two-dimensional microscopy slice records its projection map or ablation cut' in sec
     main = read('main.tex') + ''.join(p.read_text() for p in (ROOT/'sections').glob('*.tex'))
     assert 'Brownian' not in main
 

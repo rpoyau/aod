@@ -117,3 +117,23 @@ def test_sparc_caption_records_not_entries_r61():
     table = read('manual/data/derived/sparc_summary_table.tex')
     assert 'SPARC five-galaxy scored records' in table
     assert 'SPARC five-galaxy scored entries' not in table
+
+
+def test_r71_final_af_lexical_table_pass():
+    scope = read('manual/sections/00_scope.tex')
+    field = read('manual/sections/06_field_dynamics_applications.tex')
+    rest = read('manual/sections/01_rest_energy_prediction.tex')
+    solar = read('manual/sections/05_solar_system_field_tests.tex')
+    dec = read('manual/sections/00_dec_ledger.tex')
+    assert 'Projection and marginalization maps carry their own comparison coordinates and uncertainty records' in scope
+    assert 'unresolved' not in field.lower()
+    assert 'undeclared' not in field.lower()
+    assert 'route / slosh / pending' not in field
+    assert 'no-override internal selection rule' not in rest
+    assert 'candidate-identity override' not in rest
+    assert 'Field-support properties are listed in the main note, App.~J' in rest
+    assert 'Field-support properties are not repeated here' not in rest
+    assert 'read-only unless' not in rest
+    assert 'Status' not in solar.split('\\subsection{Observable-map comparison table}', 1)[1].split('\\end{table}', 1)[0]
+    assert 'It carries no external measured-sector target' not in dec
+    assert 'not low probability' not in dec

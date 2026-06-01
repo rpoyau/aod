@@ -14,9 +14,9 @@ def test_title_pages_include_author_and_date():
     assert "\\AODDocumentAuthor" in manual_main
     assert "\\AODDocumentDate" in manual_main
     assert "\\newcommand{\\AODDocumentAuthor}{Reginald Poyau}" in preamble
-    assert "\\newcommand{\\AODDocumentDate}{December 2, 2025}" in preamble
+    assert "\\newcommand{\\AODDocumentDate}{June 1, 2026}" in preamble
     assert "\\newcommand{\\AODDocumentAuthor}{Reginald Poyau}" in manual_preamble
-    assert "\\newcommand{\\AODDocumentDate}{December 2, 2025}" in manual_preamble
+    assert "\\newcommand{\\AODDocumentDate}{June 1, 2026}" in manual_preamble
 
 
 def test_wide_manual_tables_use_compact_widths():
