@@ -188,10 +188,6 @@ def main() -> int:
         zip_dir(stage / "AOD_Temporal_Dynamics_source", source_zip)
 
 
-    # Backward-compatible alias for older CI workflows that upload dist/source-clean.zip.
-    source_clean_alias = outdir / "source-clean.zip"
-    shutil.copy2(source_zip, source_clean_alias)
-
     # Bundle uses stable internal names so downstream tools do not depend on the version.
     bundle_tmp = outdir / "_bundle"
     bundle_tmp.mkdir(parents=True, exist_ok=True)

@@ -37,7 +37,7 @@ def test_source_builder_includes_zenodo_metadata_and_build_md():
     assert '"BUILD.md"' in builder
 
 
-def test_readme_version_matches_canonical_version_r69():
+def test_readme_version_matches_canonical_version():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     canon = (ROOT / "CANONICAL_VERSION.txt").read_text(encoding="utf-8")
     assert f"**Version:** {current_version()}" in readme

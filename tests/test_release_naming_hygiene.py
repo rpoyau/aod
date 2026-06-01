@@ -559,7 +559,7 @@ def test_abstract_uses_null_potential_and_cites_afc_af():
     assert "the calculus of Axiomatic--Fundamentalism" not in abstract
 
 
-def test_r35_affirmative_quarantine_language():
+def test_affirmative_quarantine_language():
     text = read_all_tex()
     forbidden = [
         "It is not an A\\(\\Omega\\) field-invariant in the main note",
@@ -571,7 +571,7 @@ def test_r35_affirmative_quarantine_language():
     assert "used only by the external-comparison layer" in text
 
 
-def test_r35_leprechaun_remark_is_conceptual():
+def test_leprechaun_remark_is_conceptual():
     text = read_all_tex()
     assert "The Art of the Leprechaun is the tracing and exploration of Stokes temporal wave dynamics" in text
     assert "AFC supplies the finite \\(Q_4\\) Hamming--1" not in text
@@ -705,7 +705,7 @@ def test_ci_build_bundle_uses_tests_artifact_and_no_separate_verifier():
     assert obsolete_verifier_log not in workflow
     assert obsolete_audit_tool not in script
     assert obsolete_verifier_log not in script
-    assert "source-clean.zip" in script
+    assert "source-clean.zip" not in script
 
 def test_canonical_version_file_declares_current_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
@@ -738,7 +738,7 @@ def test_release_readiness_mentions_orbital_retention_provenance_gate():
 
 
 
-def test_tau_missing_burden_caption_exact_ratio_r50c():
+def test_tau_missing_burden_caption_exact_ratio():
     manual = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
     assert "31/50" in manual
     assert r"presentation value \(0.62\)" in manual
@@ -787,7 +787,7 @@ def test_appendix_a_data_support_class_reference_present():
         assert cls in appendix
 
 
-def test_registry_has_data_support_class_column_r52():
+def test_registry_has_data_support_class_column():
     registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     assert "Record & Class & Active fields" in registry
     for cls in ["D0", "O0", "G0", "G1", "G2/G3", "L0", "L1", "L2", "L3", "D0/O0"]:
@@ -796,7 +796,7 @@ def test_registry_has_data_support_class_column_r52():
     assert "Orbital-retention field-dynamics fixture & G2/G3" in registry
 
 
-def test_sparc_scored_table_has_class_and_uncertainty_policy_r52():
+def test_sparc_scored_table_has_class_and_uncertainty_policy():
     table = (ROOT / "manual" / "data" / "derived" / "sparc_summary_table.tex").read_text()
     assert "Class & $\\sigma$ policy" in table
     assert "G0 & obs-only" in table
@@ -805,20 +805,20 @@ def test_sparc_scored_table_has_class_and_uncertainty_policy_r52():
     assert "G0 active input fields" in section
     
 
-def test_ablation_cut_defined_r52():
+def test_ablation_cut_defined():
     section = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
     assert r"\paragraph{Ablation cut.}" in section
     assert "declared data-support cut" in section
     assert "projection or marginalization residuals" in section
 
 
-def test_release_audit_replaces_registry_falsification_r52():
+def test_release_audit_replaces_registry_falsification():
     registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     assert r"\aodnoteblock{Completion rule}" in registry
     assert r"\aodnoteblock{Falsification}" not in registry
 
 
-def test_negative_data_support_framing_absent_r52():
+def test_negative_data_support_framing_absent():
     text = "\n".join(p.read_text() for p in (ROOT / "manual" / "sections").glob("*.tex"))
     forbidden = [
         "not valid",
