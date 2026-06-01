@@ -14,3 +14,6 @@ python scripts/build_release_bundle.py --outdir dist --main main.pdf --manual ma
 ```
 
 The generated release files carry the version string; source-internal paths do not.
+
+
+The release tests artifact is `tests.txt`. It is produced by the pytest suite; SymPy exact-arithmetic checks are part of that suite. The release builder consumes `tests.txt` directly.

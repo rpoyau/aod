@@ -39,8 +39,8 @@ def test_main_front_matter_uses_afc_pattern_without_setup_key_framing():
 
 def test_canonical_version_file_declares_this_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
-    assert "Canonical version: v39.99r67" in text
-    assert "Older r1-r66 artifacts are historical comparison artifacts only" in text
+    assert "Canonical version: v39.99r71" in text
+    assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only" in text
 
 
 def test_sheddic_nomenclature_does_not_regress_to_old_symbols():
@@ -364,7 +364,8 @@ def test_manual_field_dynamics_data_support_budget_and_toy_present():
     assert "Data-support classes for manual simulations and comparisons" in field_dyn
     assert "D0" in field_dyn and "G0" in field_dyn and "G3" in field_dyn and "L3" in field_dyn
     assert r"\subsection{Data-support and uncertainty budget}" in field_dyn
-    assert "Field dynamics data-support and uncertainty budget" in field_dyn
+    assert "Field dynamics data-support classes" in field_dyn
+    assert "Field dynamics uncertainty and report targets" in field_dyn
     assert r"\epsilon_\rho" in field_dyn
     assert r"\epsilon_{\partial}" in field_dyn
     assert r"\operatorname{SheddicPath}" in field_dyn
@@ -414,7 +415,8 @@ def test_lensing_public_display_labels_are_clean():
 
 def test_field_dynamics_data_support_budget_display_is_compact():
     field_dyn = (ROOT / "manual/sections/06_field_dynamics_applications.tex").read_text()
-    assert "Field dynamics data-support and uncertainty budget" in field_dyn
+    assert "Field dynamics data-support classes" in field_dyn
+    assert "Field dynamics uncertainty and report targets" in field_dyn
     assert "3D / 2D / radial / proxy / unresolved" in field_dyn
     assert "Data-support and uncertainty budget" in field_dyn
     assert "Field dynamics setup-error budget" not in field_dyn
@@ -438,7 +440,7 @@ def test_release_readiness_file_and_no_stale_lensing_plan_manifests():
     readiness = ROOT / "RELEASE_READINESS.txt"
     assert readiness.exists()
     text = readiness.read_text()
-    assert "Canonical package: v39.99r67" in text
+    assert "Canonical package: v39.99r71" in text
     stale = [
         ROOT / "manual/data/lensing/package_manifest.csv",
         ROOT / "manual/data/lensing/plan_data_manifest.csv",
@@ -678,22 +680,22 @@ def test_build_ci_and_release_bundle_script_present():
 
 
 
-def test_ci_build_bundle_accepts_verifier_log_fallback_and_legacy_source_alias():
+def test_ci_build_bundle_uses_tests_artifact_and_no_audit_pack_fallback():
     script = (ROOT / "scripts" / "build_release_bundle.py").read_text()
     workflow = (ROOT / ".github" / "workflows" / "build.yml").read_text()
-    assert "verifier.log" in script
-    assert "audit_pack/verifier.log" in script
-    assert "source-clean.zip" in script
     assert "tests.txt" in workflow
-    assert "verify_examples_sympy.py" in workflow
-    assert "tee verifier.log" in workflow
-    assert "tee -a tests.txt" in workflow
+    assert "pytest -q | tee tests.txt" in workflow
+    assert "audit_pack" not in workflow
+    assert "verifier.log" not in workflow
+    assert "audit_pack" not in script
+    assert "verifier.log" not in script
+    assert "source-clean.zip" in script
 
 def test_canonical_version_file_declares_current_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
-    assert "Canonical version: v39.99r67" in text
-    assert "AOD_Temporal_Dynamics_v39_99r67 is the canonical package." in text
-    assert "Older r1-r66 artifacts are historical comparison artifacts only" in text
+    assert "Canonical version: v39.99r71" in text
+    assert "AOD_Temporal_Dynamics_v39_99r71 is the canonical package." in text
+    assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only" in text
 
 def test_orbital_retention_input_provenance_gate_present():
     manual = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
@@ -714,7 +716,7 @@ def test_orbital_retention_registry_mentions_input_provenance_gate():
 
 def test_release_readiness_mentions_orbital_retention_provenance_gate():
     readiness = (ROOT / "RELEASE_READINESS.txt").read_text()
-    assert "Canonical version: v39.99r67" in readiness
+    assert "Canonical version: v39.99r71" in readiness
     assert "input-provenance gate" in readiness
     assert "data-support class" in readiness
 
@@ -830,7 +832,7 @@ def test_no_standalone_so_lines_in_active_tex():
 def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     readme = (ROOT / "README.md").read_text()
     assert "# Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
-    assert "**Version:** v39.99r67" in readme
+    assert "**Version:** v39.99r71" in readme
     assert "**Title:** Alpha-Omega Dynamics" in readme
     assert "**Subtitle:** The Hidden Temporal Dynamics of Stokes" in readme
     assert "**Zenodo title:** Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
@@ -838,9 +840,18 @@ def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     assert "This release includes the main note, manual, source package, test output, patch summary, bundle, and SHA-256 manifests." in readme
     assert "Versioned names are generated only as release artifacts" in readme
     assert "scripts/build_release_bundle.py" in readme
-    assert "AOD_Temporal_Dynamics_v39_99r67" in readme
+    assert "AOD_Temporal_Dynamics_v39_99r71" in readme
 
 
 def test_readme_has_single_versioned_names_sentence():
     readme = (ROOT / "README.md").read_text()
     assert readme.count("Versioned names are generated only as release artifacts") == 1
+
+def test_historical_artifact_wording_is_version_neutral():
+    canon = (ROOT / "CANONICAL_VERSION.txt").read_text(encoding="utf-8")
+    readiness = (ROOT / "RELEASE_READINESS.txt").read_text(encoding="utf-8")
+    expected = "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only."
+    assert expected in canon
+    assert expected in readiness
+    assert "Older r1-r" not in canon
+    assert "Older r1-r" not in readiness

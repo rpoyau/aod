@@ -5,19 +5,19 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_workflow_writes_tests_artifact_before_release_builder():
     workflow = (ROOT / ".github" / "workflows" / "build.yml").read_text()
-    assert ": > tests.txt" in workflow
-    assert "pytest -q | tee -a tests.txt" in workflow
-    assert "verify_examples_sympy.py" in workflow
-    assert "tee verifier.log | tee -a tests.txt" in workflow
+    assert "pytest -q | tee tests.txt" in workflow
+    assert "audit_pack" not in workflow
+    assert "verifier.log" not in workflow
     assert "scripts/build_release_bundle.py --outdir dist --tests tests.txt --main main.pdf --manual manual.pdf" in workflow
 
 
-def test_release_builder_accepts_verifier_log_as_tests_fallback():
+def test_release_builder_requires_tests_txt_artifact():
     script = (ROOT / "scripts" / "build_release_bundle.py").read_text()
-    assert "def resolve_required_artifact" in script
-    assert '"verifier.log"' in script
-    assert '"audit_pack/verifier.log"' in script
-    assert "tests_txt = resolve_required_artifact" in script
+    assert "def resolve_required_artifact" not in script
+    assert "verifier.log" not in script
+    assert "audit_pack" not in script
+    assert "tests_txt = (ROOT / args.tests).resolve()" in script
+    assert "required artifact missing" in script
 
 
 def test_ci_build_file_names_are_version_free():

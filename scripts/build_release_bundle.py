@@ -106,25 +106,6 @@ def build_source_tree(stage_root: Path) -> list[Path]:
 
 
 
-def resolve_required_artifact(primary: Path, fallback_names: list[str], label: str) -> Path | None:
-    """Return primary when present, or the first fallback artifact available.
-
-    CI workflows may run a verifier that writes verifier.log instead of tests.txt.
-    The release bundle still needs a versioned tests artifact, so the builder can
-    consume verifier.log as the source for that artifact when tests.txt is absent.
-    """
-    if primary.exists():
-        return primary
-    for name in fallback_names:
-        candidate = (ROOT / name).resolve()
-        if candidate.exists():
-            print(f"{label} artifact {primary} missing; using fallback {candidate}", file=sys.stderr)
-            return candidate
-    print(f"required artifact missing: {primary}", file=sys.stderr)
-    if fallback_names:
-        print("checked fallbacks: " + ", ".join(str((ROOT / n).resolve()) for n in fallback_names), file=sys.stderr)
-    return None
-
 def zip_dir(src_dir: Path, zip_path: Path) -> None:
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for p in sorted(src_dir.rglob("*")):
@@ -160,13 +141,11 @@ def main() -> int:
 
     main_pdf = (ROOT / args.main).resolve()
     manual_pdf = (ROOT / args.manual).resolve()
-    tests_txt = resolve_required_artifact((ROOT / args.tests).resolve(), ["verifier.log", "audit_pack/verifier.log", "pytest.log", "test_output.txt"], "tests")
-    for required in [main_pdf, manual_pdf]:
+    tests_txt = (ROOT / args.tests).resolve()
+    for required in [main_pdf, manual_pdf, tests_txt]:
         if not required.exists():
             print(f"required artifact missing: {required}", file=sys.stderr)
             return 2
-    if tests_txt is None:
-        return 2
 
     patch_summary_src = (ROOT / args.patch_summary).resolve()
     patch_summary = outdir / f"{prefix}_PATCH_SUMMARY.txt"
