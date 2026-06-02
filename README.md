@@ -1,12 +1,6 @@
 # Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes
 
-<<<<<<< Updated upstream
 **Version:** v39.99r77
-||||||| Stash base
-**Version:** v39.99r75
-=======
-**Version:** v39.99r76
->>>>>>> Stashed changes
 
 ## Title and subtitle
 
@@ -16,30 +10,16 @@
 
 **Zenodo title:** Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes
 
-<<<<<<< Updated upstream
-||||||| Stash base
 ## Primary display artifact
 
 The default artifact to open or preview is the main note PDF:
 
 ```text
-AOD_Temporal_Dynamics_v39_99r75_main.pdf
+AOD_Temporal_Dynamics_v39_99r77_main.pdf
 ```
 
 The manual PDF, source ZIP, bundle ZIP, tests, patch summary, and SHA-256 manifests accompany that primary artifact.
 
-=======
-## Primary display artifact
-
-The default artifact to open or preview is the main note PDF:
-
-```text
-AOD_Temporal_Dynamics_v39_99r76_main.pdf
-```
-
-The manual PDF, source ZIP, bundle ZIP, tests, patch summary, and SHA-256 manifests accompany that primary artifact.
-
->>>>>>> Stashed changes
 ## Description
 
 $\mathcal{N}\equiv\infty$
@@ -103,13 +83,7 @@ See `CANONICAL_VERSION.txt`.
 
 ## Build and release
 
-<<<<<<< Updated upstream
 Use `scripts/build_release_bundle.py` to generate versioned release artifacts from the version-neutral source tree. The release version is read from `CANONICAL_VERSION.txt` or passed explicitly to the build script. Versioned names are generated only as release artifacts; source-internal paths remain version-neutral. The canonical release artifact prefix is `AOD_Temporal_Dynamics_v39_99r77`.
-||||||| Stash base
-Use `scripts/build_release_bundle.py` to generate versioned release artifacts from the version-neutral source tree. The release version is read from `CANONICAL_VERSION.txt` or passed explicitly to the build script. Versioned names are generated only as release artifacts; source-internal paths remain version-neutral. The canonical release artifact prefix is `AOD_Temporal_Dynamics_v39_99r75`.
-=======
-Use `scripts/build_release_bundle.py` to generate versioned release artifacts from the version-neutral source tree. The release version is read from `CANONICAL_VERSION.txt` or passed explicitly to the build script. Versioned names are generated only as release artifacts; source-internal paths remain version-neutral. The canonical release artifact prefix is `AOD_Temporal_Dynamics_v39_99r76`.
->>>>>>> Stashed changes
 
 ## Release checks
 

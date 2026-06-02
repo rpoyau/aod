@@ -1,11 +1,3 @@
-<<<<<<< Updated upstream
 Canonical version: v39.99r77
 AOD_Temporal_Dynamics_v39_99r77 is the canonical package.
-||||||| Stash base
-Canonical version: v39.99r75
-AOD_Temporal_Dynamics_v39_99r75 is the canonical package.
-=======
-Canonical version: v39.99r76
-AOD_Temporal_Dynamics_v39_99r76 is the canonical package.
->>>>>>> Stashed changes
 Older AOD Temporal Dynamics artifacts are historical comparison artifacts only.
