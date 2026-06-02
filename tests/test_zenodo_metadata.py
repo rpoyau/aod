@@ -24,11 +24,17 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert data["version"] == current_version()
     assert data["publication_date"] == "2026-06-01"
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form" in data["description"]
-    assert "This release includes the main note, manual, source package, test output, patch summary, bundle, and SHA-256 manifests." in data["description"]
+    assert "## Abstract and Scope" in data["description"]
+    assert "## Execution Pipeline (The Calculation Spine)" in data["description"]
+    assert "Axiomatic-Fundamentalism calculus (AFC)" in data["description"]
+    assert "Alpha↔Omega Dynamics (AΩD)" in data["description"]
     assert data["upload_type"] == "software"
     assert data["access_right"] == "open"
     assert data["license"] == "MIT"
     assert any(c.get("name") == "Poyau, Reginald" for c in data["creators"])
+    assert "references" in data
+    assert any("Axiomatic-Fundamentalism calculus" in r for r in data["references"])
+    assert any("Axiomatic-Fundamentalism (AF)" in r for r in data["references"])
 
 
 def test_source_builder_includes_zenodo_metadata_and_build_md():

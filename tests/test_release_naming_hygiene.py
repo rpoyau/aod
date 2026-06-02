@@ -855,7 +855,9 @@ def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     assert "**Subtitle:** The Hidden Temporal Dynamics of Stokes" in readme
     assert "**Zenodo title:** Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut" in readme
-    assert "This release includes the main note, manual, source package, test output, patch summary, bundle, and SHA-256 manifests." in readme
+    assert "## Abstract and Scope" in readme
+    assert "## Execution Pipeline (The Calculation Spine)" in readme
+    assert "## References" in readme
     assert "Versioned names are generated only as release artifacts" in readme
     assert "scripts/build_release_bundle.py" in readme
     assert f"AOD_Temporal_Dynamics_v{current_slug()}" in readme
