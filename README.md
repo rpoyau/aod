@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1012484945.svg)](https://doi.org/10.5281/zenodo.20486270)
 
-**Version:** v40.00r02
+**Version:** v40.01
 
 ## Title and subtitle
 
