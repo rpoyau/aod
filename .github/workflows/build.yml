@@ -57,12 +57,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release upload "${{ github.event.release.tag_name }}" \
-            dist/*_main.pdf \
-            dist/*_manual.pdf \
-            dist/*_source.zip \
-            dist/*_bundle.zip \
-            dist/*_tests.txt \
-            dist/*_PATCH_SUMMARY.txt \
-            dist/*_BUNDLE_CONTENTS_SHA256.txt \
-            dist/*_SHA256.txt \
+            dist/main.pdf \
+            dist/manual.pdf \
+            dist/source.zip \
+            dist/bundle.zip \
+            dist/tests.txt \
+            dist/patch_summary.txt \
+            dist/BUNDLE_CONTENTS_SHA256.txt \
+            dist/SHA256.txt \
             --clobber

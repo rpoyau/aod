@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Build AOD release source and bundle artifacts from the current tree.
 
-This script deliberately keeps source-internal paths generic. Versioned names are
-created only as release artifacts from CANONICAL_VERSION.txt or --version.
+Source-internal paths are generic. Generated release artifact names are stable
+so Zenodo latest-file links keep working across revisions; the release version is
+recorded in metadata and manifests.
 """
 from __future__ import annotations
 
@@ -133,7 +134,7 @@ def main() -> int:
 
     version = read_version(args.version)
     slug = version_slug(version)
-    prefix = f"AOD_Temporal_Dynamics_v{slug}"
+    prefix = "AOD_Temporal_Dynamics"
     outdir = (ROOT / args.outdir).resolve()
     if outdir.exists():
         shutil.rmtree(outdir)
@@ -148,7 +149,7 @@ def main() -> int:
             return 2
 
     patch_summary_src = (ROOT / args.patch_summary).resolve()
-    patch_summary = outdir / f"{prefix}_PATCH_SUMMARY.txt"
+    patch_summary = outdir / "patch_summary.txt"
     if patch_summary_src.exists():
         shutil.copy2(patch_summary_src, patch_summary)
     else:
@@ -157,9 +158,9 @@ def main() -> int:
             encoding="utf-8",
         )
 
-    main_out = outdir / f"{prefix}_main.pdf"
-    manual_out = outdir / f"{prefix}_manual.pdf"
-    tests_out = outdir / f"{prefix}_tests.txt"
+    main_out = outdir / "main.pdf"
+    manual_out = outdir / "manual.pdf"
+    tests_out = outdir / "tests.txt"
     shutil.copy2(main_pdf, main_out)
     shutil.copy2(manual_pdf, manual_out)
     shutil.copy2(tests_txt, tests_out)
@@ -167,13 +168,9 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         stage = Path(tmp)
         source_files = build_source_tree(stage)
-        source_zip = outdir / f"{prefix}_source.zip"
+        source_zip = outdir / "source.zip"
         zip_dir(stage / "AOD_Temporal_Dynamics_source", source_zip)
 
-
-    # Backward-compatible alias for older CI workflows that upload dist/source-clean.zip.
-    source_clean_alias = outdir / "source-clean.zip"
-    shutil.copy2(source_zip, source_clean_alias)
 
     # Bundle uses stable internal names so downstream tools do not depend on the version.
     bundle_tmp = outdir / "_bundle"
@@ -187,7 +184,7 @@ def main() -> int:
     bundle_members = [p for p in bundle_tmp.iterdir() if p.is_file() and p.name != "BUNDLE_CONTENTS_SHA256.txt"]
     write_sha_manifest(bundle_contents, sorted(bundle_members), bundle_tmp)
 
-    bundle_zip = outdir / f"{prefix}_bundle.zip"
+    bundle_zip = outdir / "bundle.zip"
     bundle_order = [
         "main.pdf",
         "manual.pdf",
@@ -202,10 +199,10 @@ def main() -> int:
             if p.is_file():
                 zf.write(p, p.name)
 
-    bundle_contents_out = outdir / f"{prefix}_BUNDLE_CONTENTS_SHA256.txt"
+    bundle_contents_out = outdir / "BUNDLE_CONTENTS_SHA256.txt"
     shutil.copy2(bundle_contents, bundle_contents_out)
 
-    sha_out = outdir / f"{prefix}_SHA256.txt"
+    sha_out = outdir / "SHA256.txt"
     top_files = [main_out, manual_out, source_zip, tests_out, patch_summary, bundle_contents_out, bundle_zip]
     write_sha_manifest(sha_out, top_files)
     shutil.rmtree(bundle_tmp)

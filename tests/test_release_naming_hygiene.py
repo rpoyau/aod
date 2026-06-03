@@ -717,12 +717,12 @@ def test_ci_build_bundle_uses_tests_artifact_and_no_audit_pack_fallback():
     assert "verifier.log" not in workflow
     assert "audit_pack" not in script
     assert "verifier.log" not in script
-    assert "source-clean.zip" in script
+    assert "source-clean.zip" not in script
 
 def test_canonical_version_file_declares_current_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
     assert f"Canonical version: {current_version()}" in text
-    assert f"{current_prefix()} is the canonical package." in text
+    assert "AOD_Temporal_Dynamics is the canonical package." in text
     assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only" in text
 
 def test_orbital_retention_input_provenance_gate_present():
@@ -868,13 +868,16 @@ def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     assert "**Zenodo title:** Alpha↔Omega Dynamics (AΩD)" in readme
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut" in readme
     assert "## Abstract and Scope" in readme
-    assert "## Execution Pipeline (The Calculation Spine)" in readme
+    assert "## Simulation and Fixture Coverage" in readme
+    assert "## Data-Support Scope" in readme
     assert "## References" in readme
-    assert "Versioned names are generated only as release artifacts" in readme
+    assert "Generated release artifact names are stable" in readme
     assert "scripts/build_release_bundle.py" in readme
-    assert current_prefix() in readme
+    assert "main.pdf" in readme
+    assert "manual.pdf" in readme
+    assert "AOD_Temporal_Dynamics_v" not in readme
 
 
 def test_readme_has_single_versioned_names_sentence():
     readme = (ROOT / "README.md").read_text()
-    assert readme.count("Versioned names are generated only as release artifacts") == 1
+    assert readme.count("Generated release artifact names are stable") == 1

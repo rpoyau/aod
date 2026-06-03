@@ -1,7 +1,6 @@
 # Build and release
 
-This source tree is version-neutral. Release artifact filenames are generated from
-`CANONICAL_VERSION.txt` by `scripts/build_release_bundle.py`.
+This source tree is version-neutral. Release artifact filenames are stable (`main.pdf`, `manual.pdf`, `source.zip`, `bundle.zip`, `tests.txt`) so Zenodo latest-file links keep working across revisions. The release version is read from `CANONICAL_VERSION.txt` and recorded in metadata and manifests.
 
 Typical local build:
 
@@ -13,8 +12,7 @@ pytest -q | tee tests.txt
 python scripts/build_release_bundle.py --outdir dist --main main.pdf --manual manual.pdf --tests tests.txt
 ```
 
-The generated release files carry the version string; source-internal paths do not.
-
+The generated release files use stable names; source-internal paths also remain version-neutral.
 
 The release tests artifact is `tests.txt`. It is produced by the pytest suite; SymPy exact-arithmetic checks are part of that suite. The release builder consumes `tests.txt` directly.
 
@@ -23,7 +21,7 @@ The release tests artifact is `tests.txt`. It is produced by the pytest suite; S
 For Zenodo or other repositories with a default preview/display file, use the main note PDF as the primary artifact and upload/place it first:
 
 ```text
-AOD_Temporal_Dynamics_<version>_main.pdf
+main.pdf
 ```
 
 The manual PDF, source ZIP, bundle ZIP, tests, patch summary, and SHA-256 manifests accompany the main PDF. The bundle itself uses stable internal filenames and preserves `main.pdf` as the first member.

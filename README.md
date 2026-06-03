@@ -1,6 +1,8 @@
 # Alpha↔Omega Dynamics (AΩD)
 
-**Version:** v39.99r79
+[![DOI](https://zenodo.org/badge/1012484945.svg)](https://doi.org/10.5281/zenodo.20486270)
+
+**Version:** v39.99r80
 
 ## Title and subtitle
 
@@ -15,18 +17,30 @@
 **Zenodo title:** Alpha↔Omega Dynamics (AΩD)
 
 ## Primary display artifact
-Manual reference implementation artifact: `AOD_Temporal_Dynamics_v39_99r79_manual.pdf`.
-
-The manual carries the reference implementation layer: pen-and-paper AFC raw execution, D.E.C. ledger, isotropic/anisotropic kernel examples, exact fixtures, data-support classes, scoped-error accounting, and simulation lanes.
-
 
 The default artifact to open or preview is the main note PDF:
 
 ```text
-AOD_Temporal_Dynamics_v39_99r79_main.pdf
+main.pdf
 ```
 
-The manual PDF, source ZIP, bundle ZIP, tests, patch summary, and SHA-256 manifests accompany that primary artifact.
+The manual reference implementation artifact is:
+
+```text
+manual.pdf
+```
+
+Latest manual link:
+
+```text
+https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1
+```
+
+Latest main note link:
+
+```text
+https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1
+```
 
 ## Description
 
@@ -61,23 +75,45 @@ AΩD formally names the retained forms used by the calculation:
 
 Because the ontology is fractal, the exact same boundary accounting repeats across retained addresses and scales. The live calculus keeps the construction trace, Markov choice, hinge slide, jitter, boundary capacity, and admission status entirely visible without invoking unstated parameters.
 
-## 2. The Application Manual (Quarantined External Comparisons)
+## 2. The Application Manual (Reference Implementation Layer)
 
 Under AF protocol scope discipline, external empirical postulates and physical laws are disallowed as premises of the core calculus. The manual operationalizes the core calculus to build finite scaled simulations where empirical targets and external units are quarantined. Output residuals are read only against declared boundary choices, clustering, resolution, time-flow data, and explicit value maps.
 
-The manual applies the calculus across explicit data-support classes:
+The manual contains the reference implementations: pen-and-paper AFC raw execution through the D.E.C. ledger, isotropic and anisotropic Markov-kernel examples, blocked-hinge and hinge-slide examples, field-tunnelling and ADAR/SADAR promotion, exact internal fixtures, observable-map records, data-support classes, scoped-error accounting, and simulation/reference-implementation lanes.
 
-- Exact and observable-map fixtures: hydrogen-facing shell tests (Balmer/Lyman/Paschen ratios), Tritrioseptyro Higgs-support mapping, exact mass-energy comparisons (e, μ, τ, p, n), and solar-system records (Mercury perihelion, light bending, redshift).
-- Radial and 3D field dynamics: SPARC five-galaxy radial shell field-dynamics scoring, 3D coordinate phase-cycle fixtures, Brownian/tracer-current applications, and galactic lensing medium diagnostics.
+For example, a declared anisotropic D.E.C. row uses weights
 
-## Execution Pipeline (The Calculation Spine)
+$w=(1,1,4,2)$, $Z=8$,
 
-Any derived calculation or finite simulation executes via a strict derivation spine:
+so the normalized kernel is
 
-1. Declare the AFC Stokes seed and the boundary/window scope.
-2. Declare the retained fractal address, support expression, construction trace, and admitted curling-curl support form.
-3. Declare the field boundary, reflection-duration coupling, scalar duration participation, pressure, and SADAR value.
-4. Route closure residuals through sheddic paths, then pass evaluated values to the manual for fixtures, registries, score lanes, and external target comparisons.
+$P=(1/8,1/8,1/2,1/4)$.
+
+A blocked hinge removes the zero-admissibility hinge-state row and renormalizes the slide pool
+
+$w'=(3,3,1)$, $Z'=7$,
+
+so
+
+$P_{\mathrm{slide}}=(3/7,3/7,1/7)$.
+
+The manual also gives a 3D coordinate phase-cycle reference implementation:
+
+$z_i\in\mathbb{Z}^3 \rightarrow \Delta z_i^{(n)} \rightarrow Q_i^{(n)} \rightarrow Q_i^{(n)}\bmod\beta_a \rightarrow \text{octants} \rightarrow \delta_3$.
+
+Continuous Brownian or diffusion-style summaries are downstream presentation maps, not the active exact fixture.
+
+## Simulation and Fixture Coverage
+
+The manual includes D.E.C. raw AFC execution, isotropic and anisotropic Markov-kernel examples, blocked-hinge and hinge-slide examples, field-tunnelling hinge-slide window-clip fixture, ADAR/SADAR promotion examples, exact internal $\delta_3$ fixtures, short-window duration-clipping and sheddic-route audits, Tau-ring support and exact missing-burden ratio records, rest-energy target records and external comparison maps, Tritrioseptyro Higgs-support diagnostic fixture with frozen external mass map, hydrogen-facing shell-ratio and observable-map records, solar observable-map records, SPARC five-galaxy G0 radial shell square-speed diagnostic, orbital-retention field-dynamics fixture spine and input-provenance gate, galactic lensing data-support lanes and K4 higher-resolution input manifest, and the 3D coordinate phase-cycle $\delta_3$ fixture with Brownian/tracer-current application alias.
+
+## Data-Support Scope
+
+Every simulation or comparison is interpreted inside its declared data-support class. A radial shell data set instantiates a radial projection class. A 3D density/velocity data package instantiates a higher-resolution field-dynamics retention class. A time-ordered tracer path instantiates a tracer-current class. Unresolved distinctions are not set to zero; they are outside the declared support class unless a projection, proxy, or marginalization map is declared.
+
+The manual records each simulation by the data-card form
+
+$(D, C_{\mathrm{support}}, M_{A\leftrightarrow\Omega}, \Pi_{\mathrm{report}}, \sigma_{\mathrm{input}}, \epsilon_{\mathrm{report}}, \mathrm{src})$.
 
 
 ## References
@@ -91,7 +127,20 @@ See `CANONICAL_VERSION.txt`.
 
 ## Build and release
 
-Use `scripts/build_release_bundle.py` to generate versioned release artifacts from the version-neutral source tree. The release version is read from `CANONICAL_VERSION.txt` or passed explicitly to the build script. Versioned names are generated only as release artifacts; source-internal paths remain version-neutral. The canonical release artifact prefix is `AOD_Temporal_Dynamics_v39_99r79`.
+Use `scripts/build_release_bundle.py` to generate release artifacts from the version-neutral source tree. The release version is read from `CANONICAL_VERSION.txt` or passed explicitly to the build script. Source-internal paths remain version-neutral.
+
+Generated release artifact names are stable for Zenodo latest-file links:
+
+```text
+main.pdf
+manual.pdf
+source.zip
+bundle.zip
+tests.txt
+patch_summary.txt
+BUNDLE_CONTENTS_SHA256.txt
+SHA256.txt
+```
 
 ## Release checks
 
