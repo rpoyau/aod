@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import zipfile
@@ -105,6 +106,12 @@ def build_source_tree(stage_root: Path) -> list[Path]:
     return sorted([p for p in source_root.rglob("*") if p.is_file()])
 
 
+
+
+def check_zenodo_references() -> None:
+    sync_script = ROOT / "scripts" / "sync_zenodo_references.py"
+    if sync_script.exists():
+        subprocess.run([sys.executable, str(sync_script), "--check"], check=True)
 
 
 def zip_dir(src_dir: Path, zip_path: Path) -> None:
