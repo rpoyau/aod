@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1012484945.svg)](https://doi.org/10.5281/zenodo.20486270)
 
-**Version:** v39.99r80
+**Version:** v39.99r81
 
 ## Title and subtitle
 
@@ -118,8 +118,51 @@ $(D, C_{\mathrm{support}}, M_{A\leftrightarrow\Omega}, \Pi_{\mathrm{report}}, \s
 
 ## References
 
-- Poyau, Reginald. Axiomatic-Fundamentalism calculus (AFC). 2025.
-- Poyau, Reginald. Axiomatic-Fundamentalism (AF). 2025.
+References are synchronized from `refs.bib` and `manual/refs.bib`.
+
+- Reginald Poyau. Axiomatic-Fundamentalism calculus (AFC), 2025.
+- Reginald Poyau. Axiomatic-Fundamentalism (AF), 2025.
+- Reginald Poyau. AFC Alpha–Omega Dynamics Manual 43C, 2026.
+- Eric W. Weisstein. Hypercube Graph. Wolfram MathWorld.
+- MIT OpenCourseWare. Mathematics for Computer Science: Graph Theory / adjacency matrix walks. 6.042J course materials.
+- A. Duncan. Powers of the adjacency matrix and the walk matrix. 2004.
+- University of Wisconsin. Random Walks and Markov Chains. Course lecture notes.
+- Richard P. Stanley. Catalan Numbers. Cambridge University Press, 2015.
+- Philippe Flajolet and Robert Sedgewick. Analytic Combinatorics. Cambridge University Press, 2009.
+- J. R. Norris. Markov Chains. Cambridge University Press, 1997.
+- David A. Levin, Yuval Peres, and Elizabeth L. Wilmer. Markov Chains and Mixing Times. American Mathematical Society, 2009.
+- Gregory F. Lawler and Vlada Limic. Random Walk: A Modern Introduction. Cambridge University Press, 2010.
+- Bureau International des Poids et Mesures, The International System of Units: external defining constants. https://www.bipm.org/en/measurement-units/si-defining-constants.
+- National Institute of Standards and Technology, CODATA Value: inverse fine-structure constant. https://physics.nist.gov/cgi-bin/cuu/Value?alphinv=.
+- National Institute of Standards and Technology, CODATA Value: proton mass energy equivalent in MeV. https://physics.nist.gov/cgi-bin/cuu/Value?mpc2mev=.
+- F. Heiße et al., High-precision measurement of the proton's atomic mass, arXiv:1706.06780 (2017). https://arxiv.org/abs/1706.06780.
+- M. J. Borchert et al., A 16-parts-per-trillion measurement of the antiproton-to-proton charge-mass ratio, arXiv:2311.16006 (2023). https://cds.cern.ch/record/2882434/files/2311.16006.pdf.
+- National Institute of Standards and Technology, CODATA Value: neutron mass energy equivalent in MeV. https://physics.nist.gov/cgi-bin/cuu/Value?mnc2mev=.
+- National Institute of Standards and Technology, CODATA Value: electron mass energy equivalent in MeV. https://physics.nist.gov/cgi-bin/cuu/Value?mec2mev=.
+- National Institute of Standards and Technology, CODATA Value: muon mass energy equivalent in MeV. https://physics.nist.gov/cgi-bin/cuu/Value?mmuc2mev=.
+- G. Greene, Fundamental Properties of the Neutron, NIST Center for Neutron Research Summer School notes (2009). https://www.ncnr.nist.gov/summerschool/ss09/pdf/Greene_FP09.pdf.
+- S. Sturm et al., High-precision measurement of the atomic mass of the electron, Nature 506, 467–470 (2014).
+- Paul Scherrer Institut, The Mu-MASS Experiment. https://www.psi.ch/en/ltp/mu-mass.
+- V. Meyer et al., Measurement of the 1s–2s energy interval in muonium, Phys. Rev. Lett. 84, 1136 (2000); arXiv:hep-ex/9907013. https://arxiv.org/abs/hep-ex/9907013.
+- Particle Data Group, Review of Particle Physics: meson summary tables, 2025 update. Gives m_B^±=5279.41±0.07 MeV, m_B^0=5279.72±0.08 MeV, m_B_s^0=5366.93±0.10 MeV, and m_B_c^±=6274.47±0.32 MeV, with corresponding lifetime rows. https://pdgweb.lbl.gov/2025/tables/rpp2025-sum-mesons.pdf.
+- R. Aaij et al. (LHCb Collaboration), Measurement of B meson production cross-sections in proton-proton collisions at 7 TeV, arXiv:1306.3663. Uses exclusive channels B^+→ J/psi K^+, B^0→ J/psi K^*0, and B_s^0→ J/psiφ with J/psi→μ^+μ^-. https://arxiv.org/abs/1306.3663.
+- National Institute of Standards and Technology, Atomic Spectra Database (ASD). Hydrogen Balmer-line wavelengths used as comparison targets. https://physics.nist.gov/PhysRefData/ASD/lines_form.html.
+- National Institute of Standards and Technology, CODATA Value: tau mass energy equivalent in MeV. https://physics.nist.gov/cgi-bin/cuu/Value?mtauc2mev=.
+- DESY, Tau lepton mass is measured at Belle II with the highest precision to date. https://www.desy.de/news/news_search/index_eng.html?openDirectAnchor=2781.
+- J. Zhang, Tau lepton mass measurement at BESIII, SciPost Phys. Proc. 1, 004 (2019). Reports the PDG world average m_τ=1776.86±0.12 MeV.
+- C. M. Will, A new general relativistic contribution to Mercury's perihelion advance, Phys. Rev. Lett. 120, 191101 (2018); arXiv:1802.05304. Leading precession target cited as 42.98 arcseconds per century. https://arxiv.org/abs/1802.05304.
+- NASA Goddard / Imagine the Universe, Sun's Gravity Bends Starlight. Educational 1919 light-bending summary stating the solar-limb deflection target 1.75 seconds of arc. https://asd.gsfc.nasa.gov/Karen.Smale/darkenergy/1919.pdf.
+- Zentrum fuer Astronomie der Universitaet Heidelberg, Gravitational redshift detected in the solar spectrum, summary of Gonzalez Hernandez et al. HARPS-LFC Moon-spectrum result; gives predicted 633.1 m/s and measured 638±6 m/s. https://zah.uni-heidelberg.de/news/detail/gravitational-redshift-detected-in-the-solar-spectrum.
+- SPARC, Spitzer Photometry and Accurate Rotation Curves database. Describes 175 late-type galaxies with Spitzer 3.6 micron photometry and high-quality H I+Hα rotation curves. https://astroweb.case.edu/SPARC/.
+- F. Lelli, S. S. McGaugh, and J. M. Schombert, SPARC: Mass Models for 175 Disk Galaxies with Spitzer Photometry and Accurate Rotation Curves, Astron. J. 152, 157 (2016). https://ui.adsabs.harvard.edu/abs/2016AJ....152..157L/abstract.
+- T. Treu et al., The SWELLS Survey. I. A large spectroscopically selected sample of edge-on late-type lens galaxies, MNRAS 417, 1601–1616 (2011); arXiv:1104.5663. https://arxiv.org/abs/1104.5663.
+- B. J. Brewer et al., The SWELLS survey. III. Disfavouring heavy initial mass functions for spiral lens galaxies, MNRAS 422, 3574–3590 (2012); arXiv:1201.1677. https://arxiv.org/abs/1201.1677.
+- NASA, Compare Earth and the Moon. Gives Moon average orbit distance 384,400 km and mean orbit velocity 3,680.5 km/h. https://science.nasa.gov/moon/by-the-numbers/.
+- NASA, The Great Divide. Gives the Cassini Division width as 4,800 km. https://science.nasa.gov/resource/the-great-divide/.
+- ATLAS and CMS Collaborations, Combined measurement of the Higgs boson mass in pp collisions at sqrts=7 and 8 TeV, and CERN/ATLAS summary, https://atlas.cern/updates/press-statement/ATLAS-CMS-Higgs-mass.
+- CMS Collaboration, Measurement of the Higgs boson mass and width using the four-lepton final state, CMS-HIG-21-019, https://cms-results.web.cern.ch/cms-results/public-results/publications/HIG-21-019/index.html.
+- ATLAS Collaboration, Combined measurement of the Higgs boson mass from the H→γγ and H→ ZZ^*→4ℓ channels, arXiv:2308.04775, https://arxiv.org/abs/2308.04775.
+- ATLAS Collaboration, Run-1+Run-2 diphoton Higgs mass measurement, ATLAS/CERN briefing, https://atlas.cern/Updates/Briefing/Run2-Higgs-Mass.
 
 ## Version
 

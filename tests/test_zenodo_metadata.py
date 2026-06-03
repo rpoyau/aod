@@ -70,3 +70,17 @@ def test_readme_version_matches_canonical_version_r69():
     assert "AOD_Temporal_Dynamics_v" not in readme
     assert "**Title:** Alpha↔Omega Dynamics (AΩD)" in readme
     assert "**Subtitle:** The Hidden Temporal Dynamics of Stokes" in readme
+
+
+def test_zenodo_references_are_synchronized_with_bib_files():
+    import subprocess, sys
+    result = subprocess.run([sys.executable, str(ROOT / "scripts" / "sync_zenodo_references.py"), "--check"], cwd=ROOT, capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+
+
+def test_readme_references_are_synchronized_with_zenodo_references():
+    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "References are synchronized from `refs.bib` and `manual/refs.bib`." in readme
+    for ref in data["references"]:
+        assert f"- {ref}" in readme

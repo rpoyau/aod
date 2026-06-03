@@ -25,3 +25,18 @@ main.pdf
 ```
 
 The manual PDF, source ZIP, bundle ZIP, tests, patch summary, and SHA-256 manifests accompany the main PDF. The bundle itself uses stable internal filenames and preserves `main.pdf` as the first member.
+
+## Zenodo reference synchronization
+
+Zenodo metadata references are generated from `refs.bib` and `manual/refs.bib`.
+Check synchronization before building release artifacts:
+
+```bash
+python3 scripts/sync_zenodo_references.py --check
+```
+
+To refresh `.zenodo.json` after editing bibliography files, run:
+
+```bash
+python3 scripts/sync_zenodo_references.py
+```
