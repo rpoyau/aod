@@ -8,6 +8,7 @@ recorded in metadata and manifests.
 from __future__ import annotations
 
 import argparse
+import json
 import hashlib
 import os
 from pathlib import Path
@@ -114,6 +115,20 @@ def check_zenodo_references() -> None:
         subprocess.run([sys.executable, str(sync_script), "--check"], check=True)
 
 
+def validate_zenodo_metadata(version: str) -> None:
+    """Validate repository-root .zenodo.json used by GitHub-Zenodo sync."""
+    meta_path = ROOT / ".zenodo.json"
+    if not meta_path.exists():
+        raise FileNotFoundError("repository-root .zenodo.json is required for GitHub-Zenodo sync")
+    data = json.loads(meta_path.read_text(encoding="utf-8"))
+    if data.get("version") != version:
+        raise ValueError(f".zenodo.json version {data.get('version')!r} does not match {version!r}")
+    if not data.get("title"):
+        raise ValueError(".zenodo.json title is required")
+    if "references" not in data or not data["references"]:
+        raise ValueError(".zenodo.json references must be synchronized from refs.bib and manual/refs.bib")
+
+
 def zip_dir(src_dir: Path, zip_path: Path) -> None:
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for p in sorted(src_dir.rglob("*")):
@@ -140,6 +155,8 @@ def main() -> int:
     args = ap.parse_args()
 
     version = read_version(args.version)
+    check_zenodo_references()
+    validate_zenodo_metadata(version)
     slug = version_slug(version)
     prefix = "AOD_Temporal_Dynamics"
     outdir = (ROOT / args.outdir).resolve()

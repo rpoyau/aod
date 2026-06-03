@@ -84,3 +84,17 @@ def test_readme_references_are_synchronized_with_zenodo_references():
     assert "References are synchronized from `refs.bib` and `manual/refs.bib`." in readme
     for ref in data["references"]:
         assert f"- {ref}" in readme
+
+
+def test_root_zenodo_json_is_source_metadata_for_github_sync():
+    assert (ROOT / ".zenodo.json").exists()
+    build = (ROOT / "BUILD.md").read_text(encoding="utf-8")
+    assert "repository root" in build
+    assert "GitHub-Zenodo synchronization" in build
+    builder = (ROOT / "scripts" / "build_release_bundle.py").read_text(encoding="utf-8")
+    assert "def validate_zenodo_metadata" in builder
+    assert "repository-root .zenodo.json is required" in builder
+    assert '".zenodo.json"' in builder
+    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
+    assert data["version"] == current_version()
+    assert "references" in data and data["references"]
