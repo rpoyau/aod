@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1012484945.svg)](https://doi.org/10.5281/zenodo.20486270)
 
-**Version:** v39.99r81
+**Version:** v40.00r02
 
 ## Title and subtitle
 
@@ -115,6 +115,12 @@ The manual records each simulation by the data-card form
 
 $(D, C_{\mathrm{support}}, M_{A\leftrightarrow\Omega}, \Pi_{\mathrm{report}}, \sigma_{\mathrm{input}}, \epsilon_{\mathrm{report}}, \mathrm{src})$.
 
+
+## Zenodo metadata source
+
+The repository-root `.zenodo.json` is source metadata for GitHub-Zenodo synchronization. It is committed at the source root, validated during the release build, and included in `source.zip` for archival reproducibility. It is not generated as a hidden build artifact.
+
+References in `.zenodo.json` are synchronized from `refs.bib` and `manual/refs.bib` by `scripts/sync_zenodo_references.py`.
 
 ## References
 
