@@ -1,7 +1,6 @@
 # Build and release
 
-This source tree is version-neutral. Release artifact filenames are generated from
-`CANONICAL_VERSION.txt` by `scripts/build_release_bundle.py`.
+This source tree is version-neutral. Release artifact filenames are stable (`main.pdf`, `manual.pdf`, `source.zip`, `bundle.zip`, `tests.txt`) so Zenodo latest-file links keep working across revisions. The release version is read from `CANONICAL_VERSION.txt` and recorded in metadata and manifests.
 
 Typical local build:
 
@@ -9,31 +8,20 @@ Typical local build:
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
 latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
 cp manual/main.pdf manual.pdf
-python -m pytest -q | tee tests.txt
+pytest -q | tee tests.txt
 python scripts/build_release_bundle.py --outdir dist --main main.pdf --manual manual.pdf --tests tests.txt
 ```
 
-The generated release files carry the version string; source-internal paths do not.
+The generated release files use stable names; source-internal paths also remain version-neutral.
 
+The release tests artifact is `tests.txt`. It is produced by the pytest suite; SymPy exact-arithmetic checks are part of that suite. The release builder consumes `tests.txt` directly.
 
-The release tests artifact is `tests.txt`. It is produced by the pytest suite; SymPy exact-arithmetic checks are part of that suite. The release builder consumes `tests.txt` directly and does not run tests. Run `python -m pytest -q | tee tests.txt` before invoking `scripts/build_release_bundle.py`; no separate verifier output is used.
+## Artifact order
 
-The GitHub Actions workflow writes `tests.txt` before invoking the release builder. The builder requires this artifact and does not consume verifier/audit-pack logs.
+For Zenodo or other repositories with a default preview/display file, use the main note PDF as the primary artifact and upload/place it first:
 
-## Legacy source-only invocation
-
-A bare invocation:
-
-```bash
-python scripts/build_release_bundle.py
+```text
+main.pdf
 ```
 
-creates only `dist/source-clean.zip` for compatibility with older workflows.
-It does not create a release bundle and does not replace the pytest artifact
-rule. Full release bundle generation uses explicit artifact arguments and a
-pytest-produced `tests.txt`:
-
-```bash
-python -m pytest -q | tee tests.txt
-python scripts/build_release_bundle.py --outdir dist --tests tests.txt --main main.pdf --manual manual.pdf
-```
+The manual PDF, source ZIP, bundle ZIP, tests, patch summary, and SHA-256 manifests accompany the main PDF. The bundle itself uses stable internal filenames and preserves `main.pdf` as the first member.

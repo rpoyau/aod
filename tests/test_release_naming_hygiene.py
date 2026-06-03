@@ -4,17 +4,6 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def current_version() -> str:
-    text = (ROOT / "CANONICAL_VERSION.txt").read_text(encoding="utf-8")
-    m = re.search(r"Canonical version:\s*(\S+)", text)
-    assert m, "CANONICAL_VERSION.txt must declare Canonical version"
-    return m.group(1)
-
-
-def current_slug() -> str:
-    return current_version().lstrip("v").replace(".", "_").replace("-", "_")
-
-
 def tex_sources():
     roots = [ROOT / "sections", ROOT / "appendices", ROOT / "manual" / "sections", ROOT / "manual" / "appendices"]
     for root in roots:
@@ -24,6 +13,21 @@ def tex_sources():
 
 def read_all_tex():
     return "\n".join(path.read_text() for path in tex_sources())
+
+
+def current_version():
+    text = (ROOT / "CANONICAL_VERSION.txt").read_text()
+    m = re.search(r"Canonical version:\s*(\S+)", text)
+    assert m
+    return m.group(1)
+
+
+def current_slug():
+    return current_version().lstrip("v").replace(".", "_").replace("-", "_")
+
+
+def current_prefix():
+    return f"AOD_Temporal_Dynamics_v{current_slug()}"
 
 
 
@@ -559,7 +563,7 @@ def test_abstract_uses_null_potential_and_cites_afc_af():
     assert "the calculus of Axiomatic--Fundamentalism" not in abstract
 
 
-def test_affirmative_quarantine_language():
+def test_r35_affirmative_quarantine_language():
     text = read_all_tex()
     forbidden = [
         "It is not an A\\(\\Omega\\) field-invariant in the main note",
@@ -571,7 +575,7 @@ def test_affirmative_quarantine_language():
     assert "used only by the external-comparison layer" in text
 
 
-def test_leprechaun_remark_is_conceptual():
+def test_r35_leprechaun_remark_is_conceptual():
     text = read_all_tex()
     assert "The Art of the Leprechaun is the tracing and exploration of Stokes temporal wave dynamics" in text
     assert "AFC supplies the finite \\(Q_4\\) Hamming--1" not in text
@@ -581,12 +585,22 @@ def test_manual_title_page_matches_main_title_with_manual_marker():
     text = (ROOT / "manual" / "main.tex").read_text()
     assert r"Alpha$\leftrightarrow$Omega Dynamics (A$\Omega$D)" in text
     assert "The Hidden Temporal Dynamics of Stokes" in text
+    assert "The Art Of The Leprechaun: Fractal Calculus" in text
     assert r"43 $^\circ\mathrm{c}$" in text
     assert r"{\Large Manual}" in text
-    assert "The Art of the Leprechaun: Fractal Calculus" in text
     assert r"A\leftrightarrow_{\mu}\Omega" in text
     assert "Epitaph" in text
     assert "Nuff said" in text
+
+
+def test_title_pages_use_leprechaun_as_title_page_subtitle_and_body_remark():
+    main_title = (ROOT / "sections" / "00_title.tex").read_text()
+    manual_title = (ROOT / "manual" / "main.tex").read_text()
+    for text in [main_title, manual_title]:
+        assert "The Art Of The Leprechaun: Fractal Calculus" in text
+        assert r"\SADARop" in text
+    all_text = read_all_tex()
+    assert "The Art of the Leprechaun is the tracing and exploration of Stokes temporal wave dynamics" in all_text
 
 
 def test_afc_citation_only_in_literature_note():
@@ -686,7 +700,7 @@ def test_build_ci_and_release_bundle_script_present():
     wtext = workflow.read_text()
     stext = script.read_text()
     assert "scripts/build_release_bundle.py" in wtext
-    assert "python3 -m pytest -q" in wtext
+    assert "pytest -q" in wtext
     assert "CANONICAL_VERSION.txt" in stext
     assert "AOD_Temporal_Dynamics_source" in stext
     assert "source.zip" in stext and "bundle.zip" in stext
@@ -694,25 +708,21 @@ def test_build_ci_and_release_bundle_script_present():
 
 
 
-def test_ci_build_bundle_uses_tests_artifact_and_no_separate_verifier():
+def test_ci_build_bundle_uses_tests_artifact_and_no_audit_pack_fallback():
     script = (ROOT / "scripts" / "build_release_bundle.py").read_text()
     workflow = (ROOT / ".github" / "workflows" / "build.yml").read_text()
     assert "tests.txt" in workflow
-    assert "python3 -m pytest -q | tee tests.txt" in workflow
-    obsolete_audit_tool = "audit" + "_" + "pack"
-    obsolete_verifier_log = "verifier" + ".log"
-    assert obsolete_audit_tool not in workflow
-    assert obsolete_verifier_log not in workflow
-    assert obsolete_audit_tool not in script
-    assert obsolete_verifier_log not in script
-    # source-clean.zip is allowed only for legacy bare source-archive mode.
-    assert "source-clean.zip" in script
-    assert "def build_source_only" in script
+    assert "pytest -q | tee tests.txt" in workflow
+    assert "audit_pack" not in workflow
+    assert "verifier.log" not in workflow
+    assert "audit_pack" not in script
+    assert "verifier.log" not in script
+    assert "source-clean.zip" not in script
 
 def test_canonical_version_file_declares_current_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
     assert f"Canonical version: {current_version()}" in text
-    assert f"AOD_Temporal_Dynamics_v{current_slug()} is the canonical package." in text
+    assert "AOD_Temporal_Dynamics is the canonical package." in text
     assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only" in text
 
 def test_orbital_retention_input_provenance_gate_present():
@@ -740,7 +750,7 @@ def test_release_readiness_mentions_orbital_retention_provenance_gate():
 
 
 
-def test_tau_missing_burden_caption_exact_ratio():
+def test_tau_missing_burden_caption_exact_ratio_r50c():
     manual = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
     assert "31/50" in manual
     assert r"presentation value \(0.62\)" in manual
@@ -789,7 +799,7 @@ def test_appendix_a_data_support_class_reference_present():
         assert cls in appendix
 
 
-def test_registry_has_data_support_class_column():
+def test_registry_has_data_support_class_column_r52():
     registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     assert "Record & Class & Active fields" in registry
     for cls in ["D0", "O0", "G0", "G1", "G2/G3", "L0", "L1", "L2", "L3", "D0/O0"]:
@@ -798,7 +808,7 @@ def test_registry_has_data_support_class_column():
     assert "Orbital-retention field-dynamics fixture & G2/G3" in registry
 
 
-def test_sparc_scored_table_has_class_and_uncertainty_policy():
+def test_sparc_scored_table_has_class_and_uncertainty_policy_r52():
     table = (ROOT / "manual" / "data" / "derived" / "sparc_summary_table.tex").read_text()
     assert "Class & $\\sigma$ policy" in table
     assert "G0 & obs-only" in table
@@ -807,20 +817,20 @@ def test_sparc_scored_table_has_class_and_uncertainty_policy():
     assert "G0 active input fields" in section
     
 
-def test_ablation_cut_defined():
+def test_ablation_cut_defined_r52():
     section = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
     assert r"\paragraph{Ablation cut.}" in section
     assert "declared data-support cut" in section
     assert "projection or marginalization residuals" in section
 
 
-def test_release_audit_replaces_registry_falsification():
+def test_release_audit_replaces_registry_falsification_r52():
     registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     assert r"\aodnoteblock{Completion rule}" in registry
     assert r"\aodnoteblock{Falsification}" not in registry
 
 
-def test_negative_data_support_framing_absent():
+def test_negative_data_support_framing_absent_r52():
     text = "\n".join(p.read_text() for p in (ROOT / "manual" / "sections").glob("*.tex"))
     forbidden = [
         "not valid",
@@ -849,18 +859,25 @@ def test_no_standalone_so_lines_in_active_tex():
 
 def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     readme = (ROOT / "README.md").read_text()
-    assert "# Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
+    assert "# Alpha↔Omega Dynamics (AΩD)" in readme
     assert f"**Version:** {current_version()}" in readme
-    assert "**Title:** Alpha-Omega Dynamics" in readme
+    assert "**Title:** Alpha↔Omega Dynamics (AΩD)" in readme
     assert "**Subtitle:** The Hidden Temporal Dynamics of Stokes" in readme
-    assert "**Zenodo title:** Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
+    assert "**Alternative title:** The Art Of The Leprechaun: Fractal Calculus" in readme
+    assert "**Other title:** 43 °c" in readme
+    assert "**Zenodo title:** Alpha↔Omega Dynamics (AΩD)" in readme
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut" in readme
-    assert "This release includes the main note, manual, source package, test output, patch summary, bundle, and SHA-256 manifests." in readme
-    assert "Versioned names are generated only as release artifacts" in readme
+    assert "## Abstract and Scope" in readme
+    assert "## Simulation and Fixture Coverage" in readme
+    assert "## Data-Support Scope" in readme
+    assert "## References" in readme
+    assert "Generated release artifact names are stable" in readme
     assert "scripts/build_release_bundle.py" in readme
-    assert f"AOD_Temporal_Dynamics_v{current_slug()}" in readme
+    assert "main.pdf" in readme
+    assert "manual.pdf" in readme
+    assert "AOD_Temporal_Dynamics_v" not in readme
 
 
 def test_readme_has_single_versioned_names_sentence():
     readme = (ROOT / "README.md").read_text()
-    assert readme.count("Versioned names are generated only as release artifacts") == 1
+    assert readme.count("Generated release artifact names are stable") == 1

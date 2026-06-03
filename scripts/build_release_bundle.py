@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Build AOD release source and bundle artifacts from the current tree.
 
-This script deliberately keeps source-internal paths generic. Versioned names are
-created only as release artifacts from CANONICAL_VERSION.txt or --version.
+Source-internal paths are generic. Generated release artifact names are stable
+so Zenodo latest-file links keep working across revisions; the release version is
+recorded in metadata and manifests.
 """
 from __future__ import annotations
 
@@ -39,7 +40,7 @@ INCLUDE_TOP_LEVEL = [
     ".github", "appendices", "figures_jpg", "manual", "scripts", "sections", "tests",
     "CANONICAL_VERSION.txt", "RELEASE_READINESS.txt", "main.tex", "preamble.tex",
     "refs.bib", "cycle_shedding_summary.tex", "README.md", "LICENSE", "CITATION.cff",
-    "requirements-ci.txt", ".zenodo.json", "BUILD.md", "build.yml",
+    "requirements-ci.txt", ".zenodo.json", "BUILD.md",
 ]
 
 
@@ -121,41 +122,6 @@ def write_sha_manifest(path: Path, files: list[Path], base: Path | None = None) 
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-
-def require_tests_artifact(tests_txt: Path) -> bool:
-    """Require the canonical pytest output artifact.
-
-    The release bundle consumes tests.txt directly. CI and local release builds
-    must create this artifact before invoking this builder. SymPy
-    exact-arithmetic checks live inside the pytest suite. The builder does not
-    run tests and does not consume verifier/audit-pack logs.
-    """
-    if not tests_txt.exists() or tests_txt.stat().st_size == 0:
-        print(f"required test artifact missing or empty: {tests_txt}", file=sys.stderr)
-        print("create tests.txt from the pytest suite before invoking this builder", file=sys.stderr)
-        return False
-    return True
-
-def build_source_only(outdir: Path) -> Path:
-    """Build only the generic source-clean archive for legacy workflow calls.
-
-    This mode is used only when the script is invoked with no command-line
-    arguments. It keeps older CI calls from failing while preserving the
-    release-bundle rule: full release bundles still require an explicit
-    pytest-produced tests.txt artifact.
-    """
-    if outdir.exists():
-        shutil.rmtree(outdir)
-    outdir.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory() as tmp:
-        stage = Path(tmp)
-        build_source_tree(stage)
-        source_clean = outdir / "source-clean.zip"
-        zip_dir(stage / "AOD_Temporal_Dynamics_source", source_clean)
-    print(f"built generic source archive: {source_clean}")
-    return source_clean
-
-
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--version")
@@ -166,17 +132,9 @@ def main() -> int:
     ap.add_argument("--patch-summary", default="PATCH_SUMMARY.txt")
     args = ap.parse_args()
 
-    # Compatibility path for stale/legacy workflows that invoke the builder as
-    # `python3 scripts/build_release_bundle.py` only to create a source archive.
-    # Full release bundle generation still requires explicit artifact arguments
-    # and a pytest-produced tests.txt.
-    if len(sys.argv) == 1:
-        build_source_only((ROOT / args.outdir).resolve())
-        return 0
-
     version = read_version(args.version)
     slug = version_slug(version)
-    prefix = f"AOD_Temporal_Dynamics_v{slug}"
+    prefix = "AOD_Temporal_Dynamics"
     outdir = (ROOT / args.outdir).resolve()
     if outdir.exists():
         shutil.rmtree(outdir)
@@ -185,15 +143,13 @@ def main() -> int:
     main_pdf = (ROOT / args.main).resolve()
     manual_pdf = (ROOT / args.manual).resolve()
     tests_txt = (ROOT / args.tests).resolve()
-    for required in [main_pdf, manual_pdf]:
+    for required in [main_pdf, manual_pdf, tests_txt]:
         if not required.exists():
             print(f"required artifact missing: {required}", file=sys.stderr)
             return 2
-    if not require_tests_artifact(tests_txt):
-        return 2
 
     patch_summary_src = (ROOT / args.patch_summary).resolve()
-    patch_summary = outdir / f"{prefix}_PATCH_SUMMARY.txt"
+    patch_summary = outdir / "patch_summary.txt"
     if patch_summary_src.exists():
         shutil.copy2(patch_summary_src, patch_summary)
     else:
@@ -202,9 +158,9 @@ def main() -> int:
             encoding="utf-8",
         )
 
-    main_out = outdir / f"{prefix}_main.pdf"
-    manual_out = outdir / f"{prefix}_manual.pdf"
-    tests_out = outdir / f"{prefix}_tests.txt"
+    main_out = outdir / "main.pdf"
+    manual_out = outdir / "manual.pdf"
+    tests_out = outdir / "tests.txt"
     shutil.copy2(main_pdf, main_out)
     shutil.copy2(manual_pdf, manual_out)
     shutil.copy2(tests_txt, tests_out)
@@ -212,7 +168,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         stage = Path(tmp)
         source_files = build_source_tree(stage)
-        source_zip = outdir / f"{prefix}_source.zip"
+        source_zip = outdir / "source.zip"
         zip_dir(stage / "AOD_Temporal_Dynamics_source", source_zip)
 
 
@@ -228,16 +184,25 @@ def main() -> int:
     bundle_members = [p for p in bundle_tmp.iterdir() if p.is_file() and p.name != "BUNDLE_CONTENTS_SHA256.txt"]
     write_sha_manifest(bundle_contents, sorted(bundle_members), bundle_tmp)
 
-    bundle_zip = outdir / f"{prefix}_bundle.zip"
+    bundle_zip = outdir / "bundle.zip"
+    bundle_order = [
+        "main.pdf",
+        "manual.pdf",
+        "source.zip",
+        "tests.txt",
+        "patch_summary.txt",
+        "BUNDLE_CONTENTS_SHA256.txt",
+    ]
     with zipfile.ZipFile(bundle_zip, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-        for p in sorted(bundle_tmp.iterdir()):
+        for name in bundle_order:
+            p = bundle_tmp / name
             if p.is_file():
                 zf.write(p, p.name)
 
-    bundle_contents_out = outdir / f"{prefix}_BUNDLE_CONTENTS_SHA256.txt"
+    bundle_contents_out = outdir / "BUNDLE_CONTENTS_SHA256.txt"
     shutil.copy2(bundle_contents, bundle_contents_out)
 
-    sha_out = outdir / f"{prefix}_SHA256.txt"
+    sha_out = outdir / "SHA256.txt"
     top_files = [main_out, manual_out, source_zip, tests_out, patch_summary, bundle_contents_out, bundle_zip]
     write_sha_manifest(sha_out, top_files)
     shutil.rmtree(bundle_tmp)

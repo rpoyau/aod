@@ -47,14 +47,14 @@ def test_simulation_reading_route_and_provenance_policy_present():
 
 def test_pdf_metadata_declared_in_main_and_manual():
     assert r'\hypersetup{' in read('preamble.tex')
-    assert 'pdftitle={Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes}' in read('preamble.tex')
-    assert 'The Hidden Temporal Dynamics of Stokes; AFC/AOD temporal dynamics' in read('preamble.tex')
-    assert 'pdftitle={Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes - Manual}' in read('manual/preamble.tex')
-    assert 'The Hidden Temporal Dynamics of Stokes Manual; AFC/AOD finite simulation fixtures' in read('manual/preamble.tex')
+    assert 'pdftitle={Alpha↔Omega Dynamics (AΩD)}' in read('preamble.tex')
+    assert 'The Hidden Temporal Dynamics of Stokes; The Art Of The Leprechaun: Fractal Calculus; AFC/AOD temporal dynamics' in read('preamble.tex')
+    assert 'pdftitle={Alpha↔Omega Dynamics (AΩD) - Manual}' in read('manual/preamble.tex')
+    assert 'The Hidden Temporal Dynamics of Stokes Manual; The Art Of The Leprechaun: Fractal Calculus; AFC/AOD finite simulation fixtures' in read('manual/preamble.tex')
 
 
 
-def test_manual_no_claim_data_scope_wording():
+def test_manual_no_claim_data_scope_wording_r59():
     manual_text = "\n".join(p.read_text() for p in (ROOT / "manual" / "sections").glob("*.tex"))
     manual_text += "\n" + "\n".join(p.read_text() for p in (ROOT / "manual" / "appendices").glob("*.tex"))
     forbidden = [
@@ -76,7 +76,7 @@ def test_manual_no_claim_data_scope_wording():
         assert term not in manual_text
 
 
-def test_simulation_data_card_present():
+def test_simulation_data_card_present_r59():
     scope = read('manual/sections/00_scope.tex')
     assert r'\paragraph{Simulation data card.}' in scope
     assert r'C_{\mathrm{support}}' in scope
@@ -85,7 +85,7 @@ def test_simulation_data_card_present():
     assert r'\mathrm{src}' in scope
 
 
-def test_registry_completion_rules_are_affirmative():
+def test_registry_completion_rules_are_affirmative_r59():
     registry = read('manual/sections/09_prediction_test_fixture_registry.tex')
     assert 'Completion rule' in registry
     assert 'External-comparison rows record' in registry
@@ -95,7 +95,7 @@ def test_registry_completion_rules_are_affirmative():
 
 
 
-def test_swells_k0_target_acquisition_fields_only():
+def test_swells_k0_target_acquisition_fields_only_r61():
     table = read('manual/data/lensing/swells_k0_target_tallies_table.tex')
     csv = read('manual/data/lensing/swells_k0_target_tallies_delta3_acquisition.csv')
     assert 'SWELLS K0 target-side acquisition fields' in table
@@ -105,7 +105,7 @@ def test_swells_k0_target_acquisition_fields_only():
     assert 'Target family & Class $k$ & $O$ tally' in table
 
 
-def test_main_walk_support_audit_affirmative():
+def test_main_walk_support_audit_affirmative_r61():
     app = read('appendices/H_combinatorics_rd_tests.tex')
     assert r'\subsection{Walk-support audit}' in app
     assert 'A walk-support reduction records declared first-branch support' in app
@@ -113,13 +113,13 @@ def test_main_walk_support_audit_affirmative():
         assert forbidden not in app
 
 
-def test_sparc_caption_records_not_entries():
+def test_sparc_caption_records_not_entries_r61():
     table = read('manual/data/derived/sparc_summary_table.tex')
     assert 'SPARC five-galaxy scored records' in table
     assert 'SPARC five-galaxy scored entries' not in table
 
 
-def test_final_af_lexical_table_pass():
+def test_r71_final_af_lexical_table_pass():
     scope = read('manual/sections/00_scope.tex')
     field = read('manual/sections/06_field_dynamics_applications.tex')
     rest = read('manual/sections/01_rest_energy_prediction.tex')
