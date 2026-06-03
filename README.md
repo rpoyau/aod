@@ -1,21 +1,25 @@
-# Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes
+# Alpha↔Omega Dynamics (AΩD)
 
-**Version:** v39.99r77
+**Version:** v39.99r78
 
 ## Title and subtitle
 
-**Title:** Alpha-Omega Dynamics
+**Title:** Alpha↔Omega Dynamics (AΩD)
 
 **Subtitle:** The Hidden Temporal Dynamics of Stokes
 
-**Zenodo title:** Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes
+**Alternative title:** The Art Of The Leprechaun: Fractal Calculus – 𝔖
+
+**Other title:** 43 °c
+
+**Zenodo title:** Alpha↔Omega Dynamics (AΩD)
 
 ## Primary display artifact
 
 The default artifact to open or preview is the main note PDF:
 
 ```text
-AOD_Temporal_Dynamics_v39_99r77_main.pdf
+AOD_Temporal_Dynamics_v39_99r78_main.pdf
 ```
 
 The manual PDF, source ZIP, bundle ZIP, tests, patch summary, and SHA-256 manifests accompany that primary artifact.
@@ -83,7 +87,7 @@ See `CANONICAL_VERSION.txt`.
 
 ## Build and release
 
-Use `scripts/build_release_bundle.py` to generate versioned release artifacts from the version-neutral source tree. The release version is read from `CANONICAL_VERSION.txt` or passed explicitly to the build script. Versioned names are generated only as release artifacts; source-internal paths remain version-neutral. The canonical release artifact prefix is `AOD_Temporal_Dynamics_v39_99r77`.
+Use `scripts/build_release_bundle.py` to generate versioned release artifacts from the version-neutral source tree. The release version is read from `CANONICAL_VERSION.txt` or passed explicitly to the build script. Versioned names are generated only as release artifacts; source-internal paths remain version-neutral. The canonical release artifact prefix is `AOD_Temporal_Dynamics_v39_99r78`.
 
 ## Release checks
 

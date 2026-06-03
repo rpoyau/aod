@@ -1,24 +1,70 @@
 {
-  "title": "Alpha\u2194Omega Dynamics: The Hidden Temporal Dynamics of Stokes",
-  "description": "Canonical source tree for the AOD theorem note and downstream manual in AFC/AF form. The public document family is main.pdf (theorem source) and manual.pdf (downstream manual). Archived supplement source fragments are retained under archive/ for provenance and support.",
-  "upload_type": "software",
+  "title": "Alpha↔Omega Dynamics (AΩD)",
+  "version": "v39.99r78",
+  "publication_date": "2026-06-01",
+  "description": "$\\mathcal{N}\\equiv\\infty$\n\n$\\mathcal{N}\\rightarrow\\mathcal{N}\\rightarrow\\mathcal{N}\\equiv\\mathcal{N}$\n\n$A\\leftrightarrow_{\\mu}\\Omega\\leftrightarrow\\Omega\\leftrightarrow_{\\mu}A$\n\nComprehension, cooperation, and presence are not prerequisites of AFC.\n\nNuff said.\n\n## Abstract and Scope\n\nAlpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut of the Axiomatic-Fundamentalism calculus (AFC). The discrete Stokes identity is a relational tautology that is a temporal wave dynamics.\n\nThe starting point is the AFC Stokes seed: Null potential, declared distinction, relation, region, boundary, and the Stokes accounting induced by a declared cut. AΩD continues from that exact AFC Stokes cut by uncovering its hidden relational temporal motifs. This is the Art of the Leprechaun: tracing the cut closely enough to learn how a larger relational system may be set up as a declared finite scale, with its boundary, window, and accounting choices made explicit.\n\nThis release contains both the core-dynamics note and the application manual. To adhere strictly to the Axiomatic Fundamentalism (AF) protocol, derivations proceed by mathematics only, specializations occur by explicit modelling choice, and all demonstrations or measured-sector comparisons remain tightly quarantined from the core calculus.\n\n## 1. The Core Note (Ontology and Calculus)\n\nThe core note supplies the pure ontology of retained AFC/AΩD Stokes-wave forms. The AFC execution layer provides the finite mathematical grammar at each retained node: $Q_4$ Hamming-1 adjacency, ternary branch/hinge/branch state, isotropic or anisotropic Markov transition, and antisymmetric Stokes flux.\n\nAΩD formally names the retained forms used by the calculation:\n\n- Carriers and motifs: curl, duon current, curling-curl support forms, construction traces, and admitted cycles.\n- Canonical support enclosures: Dimonhexon, Ditrion, Tritrion, and Tetratrion.\n- Boundary accounting: reflection duration, reflection-duration coupling, window-clipped duration participation, and duonic pressure.\n- Dynamics: SADAR (Symmetric Attention-Duration-Asymmetric Reflection), closure residuals, and sheddic routing.\n\nBecause the ontology is fractal, the exact same boundary accounting repeats across retained addresses and scales. The live calculus keeps the construction trace, Markov choice, hinge slide, jitter, boundary capacity, and admission status entirely visible without invoking unstated parameters.\n\n## 2. The Application Manual (Quarantined External Comparisons)\n\nUnder AF protocol scope discipline, external empirical postulates and physical laws are disallowed as premises of the core calculus. The manual operationalizes the core calculus to build finite scaled simulations where empirical targets and external units are quarantined. Output residuals are read only against declared boundary choices, clustering, resolution, time-flow data, and explicit value maps.\n\nThe manual applies the calculus across explicit data-support classes:\n\n- Exact and observable-map fixtures: hydrogen-facing shell tests (Balmer/Lyman/Paschen ratios), Tritrioseptyro Higgs-support mapping, exact mass-energy comparisons (e, μ, τ, p, n), and solar-system records (Mercury perihelion, light bending, redshift).\n- Radial and 3D field dynamics: SPARC five-galaxy radial shell field-dynamics scoring, 3D coordinate phase-cycle fixtures, Brownian/tracer-current applications, and galactic lensing medium diagnostics.\n\n## Execution Pipeline (The Calculation Spine)\n\nAny derived calculation or finite simulation executes via a strict derivation spine:\n\n1. Declare the AFC Stokes seed and the boundary/window scope.\n2. Declare the retained fractal address, support expression, construction trace, and admitted curling-curl support form.\n3. Declare the field boundary, reflection-duration coupling, scalar duration participation, pressure, and SADAR value.\n4. Route closure residuals through sheddic paths, then pass evaluated values to the manual for fixtures, registries, score lanes, and external target comparisons.\n",
+  "upload_type": "publication",
   "access_right": "open",
   "license": "MIT",
   "language": "eng",
   "keywords": [
     "axiomatic fundamentalism",
+    "Axiomatic-Fundamentalism calculus",
     "AFC",
+    "Alpha-Omega Dynamics",
     "AOD",
+    "AΩD",
     "Stokes",
     "cut calculus",
     "temporal dynamics",
-    "manual",
-    "aod"
+    "SADAR",
+    "boundary accounting",
+    "finite simulation fixtures",
+    "data-support classes",
+    "scoped error",
+    "relational motifs",
+    "math-ph",
+    "math-lo"
   ],
   "creators": [
     {
-      "name": "Reginald, P.",
+      "name": "Poyau, Reginald",
       "orcid": "0009-0007-8303-8627"
     }
-  ]
+  ],
+  "notes": "Primary display artifact: AOD_Temporal_Dynamics_v39_99r78_main.pdf. Upload or place the main PDF first when selecting a default preview/display file; the manual, source package, bundle, tests, patch summary, and SHA-256 manifests accompany it.",
+  "references": [
+    "Poyau, Reginald. Axiomatic-Fundamentalism calculus (AFC). 2025.",
+    "Poyau, Reginald. Axiomatic-Fundamentalism (AF). 2025."
+  ],
+  "additional_titles": [
+    {
+      "title": "The Hidden Temporal Dynamics of Stokes",
+      "type": {
+        "id": "subtitle"
+      },
+      "lang": {
+        "id": "eng"
+      }
+    },
+    {
+      "title": "The Art Of The Leprechaun: Fractal Calculus – 𝔖",
+      "type": {
+        "id": "alternative-title"
+      },
+      "lang": {
+        "id": "eng"
+      }
+    },
+    {
+      "title": "43 °c",
+      "type": {
+        "id": "other"
+      },
+      "lang": {
+        "id": "eng"
+      }
+    }
+  ],
+  "publication_type": "preprint"
 }

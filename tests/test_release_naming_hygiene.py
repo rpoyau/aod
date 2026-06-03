@@ -859,11 +859,13 @@ def test_no_standalone_so_lines_in_active_tex():
 
 def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     readme = (ROOT / "README.md").read_text()
-    assert "# Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
+    assert "# Alpha↔Omega Dynamics (AΩD)" in readme
     assert f"**Version:** {current_version()}" in readme
-    assert "**Title:** Alpha-Omega Dynamics" in readme
+    assert "**Title:** Alpha↔Omega Dynamics (AΩD)" in readme
     assert "**Subtitle:** The Hidden Temporal Dynamics of Stokes" in readme
-    assert "**Zenodo title:** Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes" in readme
+    assert "**Alternative title:** The Art Of The Leprechaun: Fractal Calculus" in readme
+    assert "**Other title:** 43 °c" in readme
+    assert "**Zenodo title:** Alpha↔Omega Dynamics (AΩD)" in readme
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut" in readme
     assert "## Abstract and Scope" in readme
     assert "## Execution Pipeline (The Calculation Spine)" in readme

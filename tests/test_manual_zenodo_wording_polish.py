@@ -47,10 +47,10 @@ def test_simulation_reading_route_and_provenance_policy_present():
 
 def test_pdf_metadata_declared_in_main_and_manual():
     assert r'\hypersetup{' in read('preamble.tex')
-    assert 'pdftitle={Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes}' in read('preamble.tex')
-    assert 'The Hidden Temporal Dynamics of Stokes; AFC/AOD temporal dynamics' in read('preamble.tex')
-    assert 'pdftitle={Alpha-Omega Dynamics: The Hidden Temporal Dynamics of Stokes - Manual}' in read('manual/preamble.tex')
-    assert 'The Hidden Temporal Dynamics of Stokes Manual; AFC/AOD finite simulation fixtures' in read('manual/preamble.tex')
+    assert 'pdftitle={Alpha↔Omega Dynamics (AΩD)}' in read('preamble.tex')
+    assert 'The Hidden Temporal Dynamics of Stokes; The Art Of The Leprechaun: Fractal Calculus; AFC/AOD temporal dynamics' in read('preamble.tex')
+    assert 'pdftitle={Alpha↔Omega Dynamics (AΩD) - Manual}' in read('manual/preamble.tex')
+    assert 'The Hidden Temporal Dynamics of Stokes Manual; The Art Of The Leprechaun: Fractal Calculus; AFC/AOD finite simulation fixtures' in read('manual/preamble.tex')
 
 
 
