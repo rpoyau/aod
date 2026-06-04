@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1012484945.svg)](https://doi.org/10.5281/zenodo.20486270)
 
-**Version:** v40.01r03
+**Version:** v40.01r04
 
 ## Zenodo file assets
 
@@ -138,6 +138,10 @@ The manual records each simulation by the data-card form
 
 $(D, C_{\mathrm{support}}, M_{A\leftrightarrow\Omega}, \Pi_{\mathrm{report}}, \sigma_{\mathrm{input}}, \epsilon_{\mathrm{report}}, \mathrm{src})$.
 
+
+## Zenodo metadata description
+
+The Zenodo description in `.zenodo.json` is HTML-formatted so the deposit page renders headings, paragraphs, lists, and links correctly. The README remains Markdown for repository reading.
 
 ## Zenodo metadata source
 
