@@ -702,7 +702,8 @@ def test_build_ci_and_release_bundle_script_present():
     assert "scripts/build_release_bundle.py" in wtext
     assert "pytest -q" in wtext
     assert "CANONICAL_VERSION.txt" in stext
-    assert "AOD_Temporal_Dynamics_source" in stext
+    assert "AOD_Temporal_Dynamics_source" not in stext
+    assert "source_root" in stext
     assert "source.zip" in stext and "bundle.zip" in stext
 
 
@@ -881,3 +882,10 @@ def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
 def test_readme_has_single_versioned_names_sentence():
     readme = (ROOT / "README.md").read_text()
     assert readme.count("Generated release artifact names are stable") == 1
+
+
+def test_build_source_zip_is_flat_repo_root_archive():
+    script = (ROOT / "scripts" / "build_release_bundle.py").read_text()
+    assert "repository checkout" in script
+    assert "p.relative_to(src_dir).as_posix()" in script
+    assert "AOD_Temporal_Dynamics_source" not in script

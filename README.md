@@ -2,7 +2,30 @@
 
 [![DOI](https://zenodo.org/badge/1012484945.svg)](https://doi.org/10.5281/zenodo.20486270)
 
-**Version:** v40.01
+**Version:** v40.01r03
+
+## Zenodo file assets
+
+The visible Zenodo files use stable names. The primary display artifact is `main.pdf`; it is also the default display artifact. The manual/reference implementation is `manual.pdf`.
+
+Stable release file names:
+
+```text
+main.pdf
+manual.pdf
+source.zip
+bundle.zip
+tests.txt
+patch_summary.txt
+BUNDLE_CONTENTS_SHA256.txt
+SHA256.txt
+```
+
+Latest DOI links:
+
+- Main note: https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1
+- Manual: https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1
+
 
 ## Title and subtitle
 
@@ -117,6 +140,8 @@ $(D, C_{\mathrm{support}}, M_{A\leftrightarrow\Omega}, \Pi_{\mathrm{report}}, \s
 
 
 ## Zenodo metadata source
+
+The source archive is flat: unzipping `source.zip` into a repository checkout writes files directly into that checkout.
 
 The repository-root `.zenodo.json` is source metadata for GitHub-Zenodo synchronization. It is committed at the source root, validated during the release build, and included in `source.zip` for archival reproducibility. It is not generated as a hidden build artifact.
 

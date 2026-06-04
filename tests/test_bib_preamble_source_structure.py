@@ -58,3 +58,12 @@ def test_no_inline_bibliography_in_main_tex_files():
     assert r"\begin{thebibliography}" not in read("manual/main.tex")
     assert r"\bibitem" not in read("main.tex")
     assert r"\bibitem" not in read("manual/main.tex")
+
+
+def test_h6_literature_note_is_single_block():
+    text = read("appendices/H_combinatorics_rd_tests.tex")
+    assert text.count(r"\aodliteraturenote{Dyck/Catalan path combinatorics") == 1
+    assert "Dyck/Catalan path combinatorics" in text
+    assert "Markov kernels and random walks" in text
+    segment = text.split(r"\aodliteraturenote{Dyck/Catalan path combinatorics", 1)[1].split(r"\aodremark", 1)[0]
+    assert r"\aodliteraturenote{Markov kernels and random walks" not in segment

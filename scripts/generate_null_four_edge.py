@@ -46,26 +46,27 @@ ax.text(5.9,5.25,'2  Four-edge $x$ witness',ha='center',va='center',fontsize=12,
 ax.text(5.9,4.72,r'$\epsilon\in\{0,1\}^4$',ha='center',va='center',fontsize=15)
 center = np.array([5.9,2.85])
 # neighbors: directions
+# Keep labels outside the topology lanes so no text crosses edges or nodes.
 neighbors = {
-    r'$\epsilon\oplus e_1$': np.array([5.9,4.10]),
-    r'$\epsilon\oplus e_2$': np.array([7.05,2.85]),
-    r'$\epsilon\oplus e_3$': np.array([5.9,1.60]),
-    r'$\epsilon\oplus e_4$': np.array([4.75,2.85]),
+    r'$\epsilon\oplus e_1$': (np.array([5.9,3.92]), (0.00, 0.58), 'center'),
+    r'$\epsilon\oplus e_2$': (np.array([7.03,2.85]), (0.47, 0.02), 'left'),
+    r'$\epsilon\oplus e_3$': (np.array([5.9,1.78]), (0.00,-0.55), 'center'),
+    r'$\epsilon\oplus e_4$': (np.array([4.77,2.85]), (-0.47,0.02), 'right'),
 }
-for label, pos in neighbors.items():
+for label, (pos, offset, align) in neighbors.items():
     ax.add_patch(FancyArrowPatch(center, pos, arrowstyle='<->', mutation_scale=13, lw=1.4, color='#2d6a8e'))
-    c = Circle(pos,0.22,fc='#fff7e6',ec='#c78f2b',lw=1.2)
+    c = Circle(pos,0.21,fc='#fff7e6',ec='#c78f2b',lw=1.2)
     ax.add_patch(c)
-    ax.text(pos[0], pos[1]+0.42, label, ha='center', va='center', fontsize=9)
+    ax.text(pos[0]+offset[0], pos[1]+offset[1], label, ha=align, va='center', fontsize=8.3)
 # center vertex
 c0 = Circle(center,0.34,fc='#eaf8ef',ec='#2f7d4f',lw=1.6)
 ax.add_patch(c0)
 ax.text(center[0],center[1],r'$x_\epsilon$',ha='center',va='center',fontsize=14)
 # Edge labels
-ax.text(5.55,3.53,r'$a_1$',fontsize=9,color='#2d6a8e')
-ax.text(6.55,3.02,r'$a_2$',fontsize=9,color='#2d6a8e')
-ax.text(5.55,2.10,r'$a_3$',fontsize=9,color='#2d6a8e')
-ax.text(5.08,3.02,r'$a_4$',fontsize=9,color='#2d6a8e')
+ax.text(5.55,3.39,r'$a_1$',fontsize=9,color='#2d6a8e')
+ax.text(6.45,3.06,r'$a_2$',fontsize=9,color='#2d6a8e')
+ax.text(5.55,2.23,r'$a_3$',fontsize=9,color='#2d6a8e')
+ax.text(5.18,3.06,r'$a_4$',fontsize=9,color='#2d6a8e')
 ax.text(5.9,0.98,r'$\deg_{Q_4}(x_\epsilon)=4$',ha='center',va='center',fontsize=14)
 
 # Arrow to panel 3
