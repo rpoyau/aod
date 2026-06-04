@@ -57,24 +57,24 @@ ax.text(2.50, 5.90, r'$\omega$', ha='center', fontsize=12, color=grey)
 box(4.70, 6.10, 3.40, 2.60, '2. Retained field family',
     [r'$F_B=\{F_1,\ldots,F_{n_F}\}$', r'$n_F(B)=|F_B|$'],
     blue, light_blue)
-ax.add_patch(FancyBboxPatch((5.16, 6.20), 2.55, 0.98,
+ax.add_patch(FancyBboxPatch((5.12, 6.24), 2.50, 0.88,
                             boxstyle='round,pad=0.02,rounding_size=0.18',
                             linewidth=1.4, edgecolor='#769bc4', facecolor='none'))
-for (x, y, label) in [(5.48, 6.55, '$F_1$'), (6.20, 6.95, '$F_2$'), (7.18, 6.42, '$F_3$'), (7.63, 6.91, '$F_4$')]:
-    ax.add_patch(Circle((x, y), 0.33, edgecolor=blue, facecolor='#edf3ff', linewidth=1.5))
+for (x, y, label) in [(5.45, 6.60, '$F_1$'), (6.18, 6.94, '$F_2$'), (6.98, 6.60, '$F_3$'), (7.48, 6.96, '$F_4$')]:
+    ax.add_patch(Circle((x, y), 0.26, edgecolor=blue, facecolor='#edf3ff', linewidth=1.45))
     ax.text(x, y, label, ha='center', va='center', fontsize=12, color=dark)
 
 box(9.15, 6.10, 3.85, 2.60, '3. Returned-current channels',
     [r'$ADAR_{i\leftarrow j}$', r'self terms: $i=j$', r'cross terms: $i\ne j$'],
     blue, light_blue)
-ax.add_patch(Circle((10.25, 6.52), 0.36, edgecolor=blue, facecolor='#edf3ff', linewidth=1.6))
-ax.text(10.25, 6.98, '$F_1$', ha='center', va='center', fontsize=12, color=dark)
-ax.add_patch(Circle((11.88, 6.52), 0.36, edgecolor=blue, facecolor='#edf3ff', linewidth=1.6))
-ax.text(11.88, 6.98, '$F_2$', ha='center', va='center', fontsize=12, color=dark)
-ax.add_patch(FancyArrowPatch((10.58, 6.66), (11.54, 6.66), arrowstyle='->', mutation_scale=12, linewidth=1.5, color=grey))
-ax.add_patch(FancyArrowPatch((11.54, 6.35), (10.58, 6.35), arrowstyle='->', mutation_scale=12, linewidth=1.5, color=grey))
-ax.add_patch(Arc((10.25, 6.52), 1.05, 1.05, theta1=120, theta2=320, color=grey, lw=1.3))
-ax.add_patch(Arc((11.88, 6.52), 1.05, 1.05, theta1=-60, theta2=140, color=grey, lw=1.3))
+ax.add_patch(Circle((10.25, 6.58), 0.30, edgecolor=blue, facecolor='#edf3ff', linewidth=1.6))
+ax.text(10.25, 7.00, '$F_1$', ha='center', va='center', fontsize=12, color=dark)
+ax.add_patch(Circle((11.88, 6.58), 0.30, edgecolor=blue, facecolor='#edf3ff', linewidth=1.6))
+ax.text(11.88, 7.00, '$F_2$', ha='center', va='center', fontsize=12, color=dark)
+ax.add_patch(FancyArrowPatch((10.53, 6.73), (11.58, 6.73), arrowstyle='->', mutation_scale=12, linewidth=1.5, color=grey))
+ax.add_patch(FancyArrowPatch((11.58, 6.43), (10.53, 6.43), arrowstyle='->', mutation_scale=12, linewidth=1.5, color=grey))
+ax.add_patch(Arc((10.25, 6.58), 0.86, 0.86, theta1=120, theta2=320, color=grey, lw=1.3))
+ax.add_patch(Arc((11.88, 6.58), 0.86, 0.86, theta1=-60, theta2=140, color=grey, lw=1.3))
 
 # --- Lower-row boxes.  Text is held in the upper half; drawings stay below. --
 box(0.55, 1.45, 5.35, 3.25, '4. Field-count contribution',

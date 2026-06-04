@@ -97,14 +97,15 @@ def copy_item(src: Path, dst: Path) -> None:
                 shutil.copy2(p, target)
 
 
-def build_source_tree(stage_root: Path) -> list[Path]:
-    source_root = stage_root / "AOD_Temporal_Dynamics_source"
+def build_source_tree(stage_root: Path) -> Path:
+    """Build a flat source tree whose contents unzip directly into a repo root."""
+    source_root = stage_root / "source_root"
     source_root.mkdir(parents=True, exist_ok=True)
     for name in INCLUDE_TOP_LEVEL:
         src = ROOT / name
         if src.exists():
             copy_item(src, source_root / name)
-    return sorted([p for p in source_root.rglob("*") if p.is_file()])
+    return source_root
 
 
 
@@ -130,10 +131,16 @@ def validate_zenodo_metadata(version: str) -> None:
 
 
 def zip_dir(src_dir: Path, zip_path: Path) -> None:
+    """Zip the *contents* of src_dir, not src_dir itself.
+
+    The source archive is intentionally flat: unzipping source.zip into a
+    repository checkout writes files directly into that checkout instead of
+    creating an extra wrapper directory.
+    """
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for p in sorted(src_dir.rglob("*")):
             if p.is_file():
-                zf.write(p, p.relative_to(src_dir.parent).as_posix())
+                zf.write(p, p.relative_to(src_dir).as_posix())
 
 
 def write_sha_manifest(path: Path, files: list[Path], base: Path | None = None) -> None:
@@ -191,9 +198,9 @@ def main() -> int:
 
     with tempfile.TemporaryDirectory() as tmp:
         stage = Path(tmp)
-        source_files = build_source_tree(stage)
+        source_root = build_source_tree(stage)
         source_zip = outdir / "source.zip"
-        zip_dir(stage / "AOD_Temporal_Dynamics_source", source_zip)
+        zip_dir(source_root, source_zip)
 
 
     # Bundle uses stable internal names so downstream tools do not depend on the version.

@@ -134,3 +134,9 @@ def test_main_note_unchanged_by_run_tumble():
     text = main_text().lower()
     assert "run-tumble" not in text
     assert "run tumble" not in text
+
+
+def test_run_tumble_registry_class_exact():
+    reg = read("manual/sections/09_prediction_test_fixture_registry.tex")
+    assert "Run-tumble tracer-current fixture & G3/D0 &" in reg
+    assert "G3/D0 audit" not in reg
