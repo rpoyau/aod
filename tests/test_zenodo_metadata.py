@@ -31,10 +31,11 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert data["version"] == current_version()
     assert data["publication_date"] == "2026-06-01"
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form" in data["description"]
-    assert "## Abstract and Scope" in data["description"]
-    assert "## 2. The Application Manual (Reference Implementation Layer)" in data["description"]
+    assert "<h2>Abstract and Scope</h2>" in data["description"]
+    assert "## Abstract and Scope" not in data["description"]
+    assert "<h2>The Application Manual: Reference Implementation Layer</h2>" in data["description"]
     assert "w=(1,1,4,2)" in data["description"] or "w=(1, 1, 4, 2)" in data["description"]
-    assert "P_{\\mathrm{slide}}" in data["description"]
+    assert "P<sub>slide</sub>" in data["description"]
     assert "manual.pdf" in data.get("notes", "")
     assert "main.pdf" in data.get("notes", "")
     assert "Axiomatic-Fundamentalism calculus (AFC)" in data["description"]
