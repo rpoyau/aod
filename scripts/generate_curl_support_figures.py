@@ -156,11 +156,11 @@ for idx,(label,n,radius) in enumerate(path_specs):
         ax.add_patch(Circle((cx+radius*np.cos(ang), cy+radius*np.sin(ang)),0.07,fill=True,edgecolor='#d09000',facecolor='#fff4d6',lw=0.8))
     # ttl arrow path
     arrow(ax,cx-radius-0.7,cy-1.05,cx+radius+0.7,cy-1.05,'#d55e00',1.3,12)
-    ax.text(cx,cy-1.33,'lifted retention path' if n>6 else 'default closure',ha='center',fontsize=8,color='#444')
+    ax.text(cx,cy-0.88,'lifted retention path' if n>6 else 'default closure',ha='center',fontsize=8,color='#444', bbox=dict(facecolor='white', edgecolor='none', pad=0.4, alpha=0.9))
 # legend strip
-strip=FancyBboxPatch((0.7,0.55),14.0,0.95,boxstyle='round,pad=0.08',linewidth=1.1,edgecolor='#335c99',facecolor='#f7f9ff')
+strip=FancyBboxPatch((0.7,0.25),14.0,0.78,boxstyle='round,pad=0.08',linewidth=1.1,edgecolor='#335c99',facecolor='#f7f9ff')
 ax.add_patch(strip)
-ax.text(7.75,1.08,'alpha outward dressing  |  Omega return dressing  |  polychiral return clocks  |  field outer dressing  |  retention-conditioned shell path',ha='center',fontsize=10)
+ax.text(7.75,0.70,'alpha outward dressing  |  Omega return dressing  |  polychiral return clocks  |  field outer dressing  |  retention-conditioned shell path',ha='center',fontsize=10)
 fig.tight_layout()
 fig.savefig(FIG_DIR / 'curling_curl_layers.png', dpi=220)
 plt.close(fig)
