@@ -1,0 +1,35 @@
+\scriptsize
+\begin{longtable}{@{}rllrllrrrr@{}}
+\caption{Run-tumble tracer-current 20-tick exact trace.}\label{tab:run-tumble-tracer-current-20tick}\\
+\toprule
+$t$ & mode & edge & $\sigma$ & $h_t$ & $\pi_3(h_t)$ & $Q^2_{3D}$ & $Q^2_4$ & $\theta$ & oct.\\
+\midrule
+\endfirsthead
+\toprule
+$t$ & mode & edge & $\sigma$ & $h_t$ & $\pi_3(h_t)$ & $Q^2_{3D}$ & $Q^2_4$ & $\theta$ & oct.\\
+\midrule
+\endhead
+0 & init & - & -- & \texttt{(0,0,0,0)} & \texttt{(0,0,0)} & 0 & 0 & 0 & 0\\
+1 & run & e1 & +1 & \texttt{(1,0,0,0)} & \texttt{(1,0,0)} & 1 & 1 & 1 & 0\\
+2 & run & e1 & +1 & \texttt{(2,0,0,0)} & \texttt{(2,0,0)} & 4 & 4 & 4 & 0\\
+3 & tumble & e2 & +1 & \texttt{(2,1,0,0)} & \texttt{(2,1,0)} & 5 & 5 & 0 & 0\\
+4 & run & e2 & +1 & \texttt{(2,2,0,0)} & \texttt{(2,2,0)} & 8 & 8 & 3 & 0\\
+5 & tumble & e3 & -1 & \texttt{(2,2,-1,0)} & \texttt{(2,2,-1)} & 9 & 9 & 4 & 4\\
+6 & run & e3 & -1 & \texttt{(2,2,-2,0)} & \texttt{(2,2,-2)} & 12 & 12 & 2 & 4\\
+7 & tumble & e4 & +1 & \texttt{(2,2,-2,1)} & \texttt{(2,2,-2)} & 12 & 13 & 2 & 4\\
+8 & run & e4 & +1 & \texttt{(2,2,-2,2)} & \texttt{(2,2,-2)} & 12 & 16 & 2 & 4\\
+9 & tumble & e1 & -1 & \texttt{(1,2,-2,2)} & \texttt{(1,2,-2)} & 9 & 13 & 4 & 4\\
+10 & run & e1 & -1 & \texttt{(0,2,-2,2)} & \texttt{(0,2,-2)} & 8 & 12 & 3 & 4\\
+11 & tumble & e2 & -1 & \texttt{(0,1,-2,2)} & \texttt{(0,1,-2)} & 5 & 9 & 0 & 4\\
+12 & run & e2 & -1 & \texttt{(0,0,-2,2)} & \texttt{(0,0,-2)} & 4 & 8 & 4 & 4\\
+13 & tumble & e3 & +1 & \texttt{(0,0,-1,2)} & \texttt{(0,0,-1)} & 1 & 5 & 1 & 4\\
+14 & run & e3 & +1 & \texttt{(0,0,0,2)} & \texttt{(0,0,0)} & 0 & 4 & 0 & 0\\
+15 & tumble & e4 & -1 & \texttt{(0,0,0,1)} & \texttt{(0,0,0)} & 0 & 1 & 0 & 0\\
+16 & run & e4 & -1 & \texttt{(0,0,0,0)} & \texttt{(0,0,0)} & 0 & 0 & 0 & 0\\
+17 & tumble & e1 & +1 & \texttt{(1,0,0,0)} & \texttt{(1,0,0)} & 1 & 1 & 1 & 0\\
+18 & run & e1 & +1 & \texttt{(2,0,0,0)} & \texttt{(2,0,0)} & 4 & 4 & 4 & 0\\
+19 & tumble & e2 & +1 & \texttt{(2,1,0,0)} & \texttt{(2,1,0)} & 5 & 5 & 0 & 0\\
+20 & run & e2 & +1 & \texttt{(2,2,0,0)} & \texttt{(2,2,0)} & 8 & 8 & 3 & 0\\
+\bottomrule
+\end{longtable}
+\normalsize

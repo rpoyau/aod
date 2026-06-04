@@ -225,6 +225,92 @@ z_i\in\mathbb Z^3
 Continuous Brownian and diffusion-coefficient summaries are downstream presentation maps.}
 
 
+\subsubsection{Run-tumble tracer-current fixture}\label{manual:run-tumble-tracer-current-fixture}
+\aodnoteblock{Data-support class}{This run-tumble record is a G3 time-resolved tracer-current fixture. Its exact integer tallies are recorded as D0-style internal fixture audit coordinates when a comparator is declared.}
+
+This fixture records a finite D.E.C. trace over four declared Hamming--1 edge slots, stores the selected signed edge steps as a four-channel accumulated trace, and projects that retained trace into a declared three-dimensional coordinate map before phase-cycle, octant, and \(\delta_3\) summaries are formed. Declare
+\[
+B_{\mathrm{RT}}=(\partial_TF_{\mathrm{RT}},\omega_{20}),
+\qquad
+\omega_{20}=\{0,1,\ldots,20\},
+\qquad
+E_4=\{e_1,e_2,e_3,e_4\}.
+\]
+The accumulated trace is
+\[
+h_t\in\mathbb Z^4,
+\qquad
+h_0=(0,0,0,0),
+\]
+with update
+\[
+h_t=h_{t-1}+\sigma_t\mathbf e_{j_t},
+\qquad
+j_t\in\{1,2,3,4\},
+\qquad
+\sigma_t\in\{-1,+1\}.
+\]
+The run/tumble mode is
+\[
+m_t\in\{\mathrm{run},\mathrm{tumble}\}.
+\]
+Run retains the active channel over the declared short window. Tumble reseats the active channel by the declared isotropic successor rule. The generated trace includes the initial row \(t=0\) with \(h_0=(0,0,0,0)\); run/tumble mode is assigned for the update rows \(t\ge1\). The projection map is declared before any three-dimensional quantity is reported:
+\[
+\pi_3:\mathbb Z^4\to\mathbb Z^3,
+\qquad
+z_t=\pi_3(h_t).
+\]
+For the released fixture,
+\[
+\pi_3(h_1,h_2,h_3,h_4)=(h_1,h_2,h_3).
+\]
+The fourth trace channel remains part of the \(Q^2_4\) audit even when it is not carried by the released \(\pi_3\) projection. The active three-dimensional squared-displacement audit quantity is
+\[
+Q^2_{3D}(t)=x_t^2+y_t^2+z_t^2,
+\qquad
+\pi_3(h_t)=(x_t,y_t,z_t).
+\]
+The four-channel audit displacement is
+\[
+Q^2_4(t)=h_{1,t}^2+h_{2,t}^2+h_{3,t}^2+h_{4,t}^2.
+\]
+Here \(Q^2_{3D}\) and \(Q^2_4\) are local squared-displacement audit quantities, not \(Q^D\) pending-overhang notation. The fixture records \(Q^2_{3D}\), \(Q^2_4\), phase residues \(Q^2_{3D}\bmod \beta_a\), octant counts, integer ratios, and exact \(\delta_3\) residuals. Continuous Brownian, diffusion, and stochastic-calculus summaries are downstream presentation maps.
+
+\begin{table}[H]
+\centering
+\caption{Run-tumble tracer-current declaration.}
+\label{tab:run-tumble-tracer-declaration}
+\small
+\begin{tabularx}{\textwidth}{@{}p{0.24\textwidth}X@{}}
+\toprule
+Item & Declaration \\
+\midrule
+support & four Hamming--1 edge slots \(E_4=\{e_1,e_2,e_3,e_4\}\) \\
+accumulated trace & \(h_t\in\mathbb Z^4\) \\
+projection & \(\pi_3:\mathbb Z^4\to\mathbb Z^3\) \\
+projected coordinate & \(z_t=\pi_3(h_t)\in\mathbb Z^3\) \\
+mode & \(m_t\in\{\mathrm{run},\mathrm{tumble}\}\) \\
+run rule & retain selected channel over declared short window \\
+tumble rule & reseat selected channel by isotropic successor rule \\
+3D displacement & \(Q^2_{3D}(t)=x_t^2+y_t^2+z_t^2\) \\
+four-channel audit & \(Q^2_4(t)=\sum_{r=1}^4h_{r,t}^2\) \\
+reports & phase counts, octant counts, integer ratios, \(\delta_3\) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\input{data/run_tumble/run_tumble_trace_table.tex}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/run_tumble_trace_3d_projection.png}
+\caption{Run-tumble tracer-current projection. The plotted path is the declared \(\mathbb Z^3\) projection of the retained \(\mathbb Z^4\) accumulated trace. The finite \(Q_4\) support remains the Hamming--1 edge-slot support.}
+\label{fig:run-tumble-tracer-current-projection}
+\end{figure}
+
+\aodnoteblock{Source artifacts}{The source package includes the deterministic run-tumble generator \texttt{manual/scripts/aod\_run\_tumble\_3d\_trace.py}, the generated trace table, the run-tumble CSV outputs under \texttt{manual/data/run\_tumble}, and the projection figure under \texttt{manual/figures}.}
+
+
 \subsection{SPARC square-speed diagnostic}\label{manual:sparc-square-speed-diagnostic}
 The SPARC five-galaxy square-speed score is the current G0 radial shell field-dynamics diagnostic lane. This record uses SPARC radial rotation-curve rows, scores the coordinate \(U=V^2\), forms \(\sigma_U=2V^{\mathrm{obs}}\sigma_V\) from the declared data uncertainty, and records \(\Delta U=U_{\AO}-U^{\mathrm{obs}}\) inside the G0 support class.
 The SPARC benchmark supplies declared galaxy records
