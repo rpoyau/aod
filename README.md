@@ -2,30 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1012484945.svg)](https://doi.org/10.5281/zenodo.20486270)
 
-**Version:** v40.01r01
-
-## Zenodo file assets
-
-The visible Zenodo files use stable names. The primary display artifact is `main.pdf`; it is also the default display artifact. The manual/reference implementation is `manual.pdf`.
-
-Stable release file names:
-
-```text
-main.pdf
-manual.pdf
-source.zip
-bundle.zip
-tests.txt
-patch_summary.txt
-BUNDLE_CONTENTS_SHA256.txt
-SHA256.txt
-```
-
-Latest DOI links:
-
-- Main note: https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1
-- Manual: https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1
-
+**Version:** v40.01
 
 ## Title and subtitle
 

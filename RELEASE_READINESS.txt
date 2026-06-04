@@ -1,7 +1,7 @@
-AOD Temporal Dynamics v40.01r01 release readiness
+AOD Temporal Dynamics v40.01 release readiness
 
-Canonical package: v40.01r01.
-Canonical version: v40.01r01
+Canonical package: v40.01.
+Canonical version: v40.01
 
 Status locks:
 - Main note: ontology and calculus of AFC/AΩD retained Stokes waves.
