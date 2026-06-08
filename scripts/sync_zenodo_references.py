@@ -134,6 +134,39 @@ def latex_to_text(value: str) -> str:
     return s
 
 
+def reference_from_fields(fields: dict[str, str]) -> str | None:
+    """Create a Zenodo-friendly reference string from BibTeX fields.
+
+    Full structured entries use author/title/version/publisher/year/doi or url.
+    Older entries may keep a complete reference in note; those fall back to note.
+    """
+    author = fields.get("author")
+    title = fields.get("title")
+    year = fields.get("year")
+    if author and title and year:
+        parts: list[str] = []
+        parts.append(latex_to_text(author).rstrip("."))
+        title_text = latex_to_text(title).rstrip(".")
+        version = fields.get("version")
+        publisher = fields.get("publisher") or fields.get("howpublished")
+        doi = fields.get("doi")
+        url = fields.get("url")
+        rest = title_text
+        if version:
+            rest += f", Version {latex_to_text(version).rstrip('.')}"
+        if publisher:
+            rest += f". {latex_to_text(publisher).rstrip('.')}"
+        rest += f", {latex_to_text(year).rstrip('.')}"
+        if doi:
+            rest += f". https://doi.org/{latex_to_text(doi).rstrip('.')}"
+        elif url:
+            rest += f". {latex_to_text(url).rstrip('.')}"
+        parts.append(rest)
+        return ". ".join(parts) + "."
+    note = fields.get("note")
+    return latex_to_text(note) if note else None
+
+
 def generated_references() -> list[str]:
     seen: set[str] = set()
     refs: list[str] = []
@@ -144,11 +177,11 @@ def generated_references() -> list[str]:
             if key in seen:
                 continue
             fields = parse_fields(body)
-            note = fields.get("note")
-            if not note:
+            ref = reference_from_fields(fields)
+            if not ref:
                 continue
             seen.add(key)
-            refs.append(latex_to_text(note))
+            refs.append(ref)
     return refs
 
 
