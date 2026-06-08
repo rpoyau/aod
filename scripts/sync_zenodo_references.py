@@ -140,6 +140,9 @@ def reference_from_fields(fields: dict[str, str]) -> str | None:
     Full structured entries use author/title/version/publisher/year/doi or url.
     Older entries may keep a complete reference in note; those fall back to note.
     """
+    explicit = fields.get("zenodo_reference")
+    if explicit:
+        return latex_to_text(explicit).rstrip(".") + "."
     author = fields.get("author")
     title = fields.get("title")
     year = fields.get("year")

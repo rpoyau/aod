@@ -46,8 +46,9 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert data["license"] == "MIT"
     assert any(c.get("name") == "Poyau, Reginald" for c in data["creators"])
     assert "references" in data
-    assert any("Axiomatic Fundamentalism Calculus (AFC)" in r and "10.5281/zenodo.17795590" in r for r in data["references"])
-    assert any("Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research" in r and "10.5281/zenodo.17561186" in r for r in data["references"])
+    assert "Poyau, R. (2025). Axiomatic Fundamentalism Calculus (AFC) (all versions). Zenodo. https://doi.org/10.5281/zenodo.17795590." in data["references"]
+    assert "Poyau, R. (2025). Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research (all versions). Zenodo. https://doi.org/10.5281/zenodo.17561186." in data["references"]
+    assert not any("Alpha–Omega Dynamics Manual" in r or "Alpha--Omega Dynamics Manual" in r for r in data["references"])
 
     assert data["keywords"] == [
         "axiomatic fundamentalism", "AFC", "AOD", "Stokes", "cut calculus",
@@ -59,14 +60,19 @@ def test_afc_af_bib_entries_include_zenodo_dois():
     for rel in ["refs.bib", "manual/refs.bib"]:
         bib = (ROOT / rel).read_text(encoding="utf-8")
         assert "author = {{Poyau, Reginald}}" in bib
-        assert "title = {{Axiomatic Fundamentalism Calculus (AFC)}}" in bib
-        assert "version = {5.0}" in bib
+        assert "title = {{Axiomatic Fundamentalism Calculus (AFC) (all versions)}}" in bib
+        assert "Version 5.0" not in bib
+        assert "version = {5.0}" not in bib
         assert "doi = {10.5281/zenodo.17795590}" in bib
-        assert "title = {{Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research}}" in bib
-        assert "version = {1.4.0.0}" in bib
+        assert "zenodo_reference = {Poyau, R. (2025). Axiomatic Fundamentalism Calculus (AFC) (all versions). Zenodo. https://doi.org/10.5281/zenodo.17795590}" in bib
+        assert "title = {{Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research (all versions)}}" in bib
+        assert "version = {1.4.0.0}" not in bib
         assert "doi = {10.5281/zenodo.17561186}" in bib
+        assert "zenodo_reference = {Poyau, R. (2025). Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research (all versions). Zenodo. https://doi.org/10.5281/zenodo.17561186}" in bib
         assert "Axiomatic-Fundamentalism calculus (AFC)" not in bib
         assert "Axiomatic-Fundamentalism (AF)}, 2025" not in bib
+        assert "poyau2026aodmanual" not in bib
+        assert "AFC Alpha--Omega Dynamics Manual" not in bib
 
 
 def test_source_builder_includes_zenodo_metadata_and_build_md():
