@@ -4,7 +4,8 @@ from matplotlib.lines import Line2D
 import numpy as np
 from pathlib import Path
 
-OUT = Path('/mnt/data/work_v3976/manual/figures')
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / 'manual' / 'figures'
 OUT.mkdir(parents=True, exist_ok=True)
 
 # ---------- Tau sensor-wall setup and boundary stack ----------

@@ -47,13 +47,13 @@ def test_tritrioseptyro_arithmetic_and_saddle():
 
 
 def test_higgs_internal_table_has_no_gev_and_external_map_is_after_freeze():
-    path=ROOT/'manual/data/higgs/higgs_trace_internal_candidates_no_override.csv'
+    path=ROOT/'manual/data/higgs/higgs_trace_internal_candidates_selection.csv'
     assert path.exists()
     header=path.read_text().splitlines()[0]
     assert 'GeV' not in header and 'mass' not in header.lower() and 'prediction' not in header.lower()
     rows=list(csv.DictReader(path.open()))
     assert rows[0]['candidate_K']=='3:3:7'
-    assert rows[0]['S_H_trace_no_override']=='0.0'
+    assert rows[0]['S_H_trace_internal_selection']=='0.0'
     assert rows[0]['rank']=='1'
     ext=ROOT/'manual/data/higgs/higgs_external_map_after_candidate_freeze.csv'
     assert ext.exists()
