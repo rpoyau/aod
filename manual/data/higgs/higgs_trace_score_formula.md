@@ -1,4 +1,4 @@
-# Higgs Trace Score Formula — No Candidate Override
+# Higgs Trace Internal Selection Formula
 
 This score is a trace-detector score. It must not branch on candidate identity.
 
@@ -61,13 +61,13 @@ S_H(K)=
 d_{\rm route}.
 \]
 
-The score contains no branch of the form
+The internal selection rule contains no candidate-identity branch of the form
 
 \[
 (p,q,L)=(3,3,7).
 \]
 
-Regression requirement:
+Selection regression requirement:
 
 \[
 \arg\min_K S_H(K)=3{:}3{:}7_{\rm yro}.
