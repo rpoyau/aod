@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1012484945.svg)](https://doi.org/10.5281/zenodo.20486270)
 
-**Version:** v40.01r05
+**Version:** v40.01r06
 
 ## Zenodo file assets
 
@@ -155,9 +155,8 @@ References in `.zenodo.json` are synchronized from `refs.bib` and `manual/refs.b
 
 References are synchronized from `refs.bib` and `manual/refs.bib`.
 
-- Poyau, Reginald. Axiomatic Fundamentalism Calculus (AFC), Version 5.0. Zenodo, 2025. https://doi.org/10.5281/zenodo.17795590.
-- Poyau, Reginald. Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research, Version 1.4.0.0. Zenodo, 2025. https://doi.org/10.5281/zenodo.17561186.
-- Reginald Poyau. AFC Alpha–Omega Dynamics Manual 43C, 2026.
+- Poyau, R. (2025). Axiomatic Fundamentalism Calculus (AFC) (all versions). Zenodo. https://doi.org/10.5281/zenodo.17795590.
+- Poyau, R. (2025). Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research (all versions). Zenodo. https://doi.org/10.5281/zenodo.17561186.
 - Eric W. Weisstein. Hypercube Graph. Wolfram MathWorld.
 - MIT OpenCourseWare. Mathematics for Computer Science: Graph Theory / adjacency matrix walks. 6.042J course materials.
 - A. Duncan. Powers of the adjacency matrix and the walk matrix. 2004.
