@@ -3,19 +3,30 @@ import json
 
 ROOT = Path(__file__).resolve().parents[1]
 
-def test_zenodo_notes_name_stable_assets_and_default_main():
+
+def test_zenodo_notes_use_latest_doi_links_only():
     z = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
     notes = z.get("notes", "")
-    assert "Primary display artifact: main.pdf" in notes
-    assert "Manual reference implementation artifact: manual.pdf" in notes
-    for name in ["main.pdf", "manual.pdf", "source.zip", "bundle.zip", "tests.txt", "patch_summary.txt", "BUNDLE_CONTENTS_SHA256.txt", "SHA256.txt"]:
-        assert name in notes
+    assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in notes
+    assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in notes
+    assert "Primary display artifact" not in notes
+    assert "Default display artifact" not in notes
+    assert "Stable release assets" not in notes
+    assert "source.zip" not in notes
+    assert "bundle.zip" not in notes
+    assert "tests.txt" not in notes
+    assert "patch_summary.txt" not in notes
+    assert "BUNDLE_CONTENTS_SHA256.txt" not in notes
+    assert "SHA256.txt" not in notes
     assert "AOD_Temporal_Dynamics_v" not in notes
 
-def test_readme_names_stable_assets_and_latest_links():
+
+def test_readme_uses_latest_links_not_asset_block():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "## Zenodo file assets" in readme
-    assert "primary display artifact is `main.pdf`" in readme
-    assert "manual.pdf" in readme
+    assert "## Latest DOI links" in readme
+    assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in readme
     assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in readme
-    assert "AOD_Temporal_Dynamics_v" not in readme.split("## Zenodo file assets", 1)[1].split("##",1)[0]
+    assert "## Zenodo file assets" not in readme
+    assert "## Primary display artifact" not in readme
+    latest = readme.split("## Latest DOI links", 1)[1].split("##", 1)[0]
+    assert "AOD_Temporal_Dynamics_v" not in latest

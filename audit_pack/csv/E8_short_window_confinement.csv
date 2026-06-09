@@ -1,3 +1,0 @@
-row,native_key,shell_signature,Bstar,proximity_confinement,transmutation_flag
-E8.A,tetron:3:3:6,"(lambda=3/2,137,rho_2,V_4)",137,close / confined,0
-E8.B,tetron:3:3:6,"(lambda=3/2,139,rho_3,V_4)",139,failed / unconfined,1

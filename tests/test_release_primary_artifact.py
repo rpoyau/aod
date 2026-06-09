@@ -21,21 +21,22 @@ def current_prefix():
     return f"AOD_Temporal_Dynamics_v{current_slug()}"
 
 
-def test_readme_names_main_pdf_as_primary_display_artifact():
+def test_readme_names_latest_doi_links():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "## Primary display artifact" in readme
-    assert "main.pdf" in readme
-    assert "manual.pdf" in readme
-    assert "AOD_Temporal_Dynamics_v" not in readme
-    assert "The default artifact to open or preview is the main note PDF" in readme
+    assert "## Latest DOI links" in readme
+    assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in readme
+    assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in readme
+    assert "## Primary display artifact" not in readme
+    assert "## Zenodo file assets" not in readme
 
 
-def test_zenodo_notes_name_main_pdf_as_primary_display_artifact():
+def test_zenodo_notes_name_latest_pdf_links():
     data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
     notes = data.get("notes", "")
-    assert "Primary display artifact" in notes
-    assert "Primary display artifact: main.pdf" in notes
-    assert "Manual reference implementation artifact: manual.pdf" in notes
+    assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in notes
+    assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in notes
+    assert "Primary display artifact" not in notes
+    assert "Stable release assets" not in notes
     assert "AOD_Temporal_Dynamics_v" not in notes
     assert data["title"] == "Alpha↔Omega Dynamics (AΩD)"
     assert any(t.get("title") == "The Hidden Temporal Dynamics of Stokes" for t in data.get("additional_titles", []))
