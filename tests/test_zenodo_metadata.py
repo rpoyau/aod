@@ -43,7 +43,7 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert data["upload_type"] == "publication"
     assert data["publication_type"] == "preprint"
     assert data["access_right"] == "open"
-    assert data["license"] == "MIT"
+    assert data["license"] == "mit"
     assert any(c.get("name") == "Poyau, Reginald" for c in data["creators"])
     assert "references" in data
     assert "Poyau, R. (2025). Axiomatic Fundamentalism Calculus (AFC) (all versions). Zenodo. https://doi.org/10.5281/zenodo.17795590." in data["references"]
@@ -59,7 +59,7 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
 def test_afc_af_bib_entries_include_zenodo_dois():
     for rel in ["refs.bib", "manual/refs.bib"]:
         bib = (ROOT / rel).read_text(encoding="utf-8")
-        assert "author = {{Poyau, Reginald}}" in bib
+        assert "author = {Poyau, Reginald}" in bib
         assert "title = {{Axiomatic Fundamentalism Calculus (AFC) (all versions)}}" in bib
         assert "Version 5.0" not in bib
         assert "version = {5.0}" not in bib
@@ -119,3 +119,65 @@ def test_root_zenodo_json_is_source_metadata_for_github_sync():
     data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
     assert data["version"] == current_version()
     assert "references" in data and data["references"]
+
+
+def test_core_bib_entries_are_structured():
+    main_bib = (ROOT / "refs.bib").read_text(encoding="utf-8")
+    manual_bib = (ROOT / "manual/refs.bib").read_text(encoding="utf-8")
+    for bib in [main_bib, manual_bib]:
+        assert "@book{norrisMarkov" in bib
+        assert "@book{levinPeresWilmer" in bib
+        assert "@book{lawlerLimic" in bib
+        assert "key = {norrisMarkov}" not in bib
+        assert "key = {levinPeresWilmer}" not in bib
+        assert "key = {lawlerLimic}" not in bib
+        assert "author = {{Poyau, Reginald}}" not in bib
+        assert "author = {Poyau, Reginald}" in bib
+    assert "@book{stanleyCatalan" in main_bib
+    assert "@book{flajoletSedgewick" in main_bib
+    assert "key = {stanleyCatalan}" not in main_bib
+    assert "key = {flajoletSedgewick}" not in main_bib
+
+
+
+def test_zenodo_related_identifiers_include_parent_dois():
+    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
+    related = data.get("related_identifiers", [])
+    pairs = {(r.get("identifier"), r.get("relation"), r.get("scheme")) for r in related}
+    assert ("10.5281/zenodo.17795590", "references", "doi") in pairs
+    assert ("10.5281/zenodo.17561186", "references", "doi") in pairs
+
+
+def test_manual_references_are_structured_for_key_scientific_sources():
+    bib = (ROOT / "manual" / "refs.bib").read_text(encoding="utf-8")
+    required = [
+        "@article{heisse-proton-mass",
+        "doi = {10.1103/PhysRevLett.119.033001}",
+        "@article{sturm-electron-mass",
+        "doi = {10.1038/nature13026}",
+        "@article{meyer-muonium-1s2s",
+        "doi = {10.1103/PhysRevLett.84.1136}",
+        "@article{lelli-sparc-2016",
+        "doi = {10.3847/0004-6256/152/6/157}",
+        "@article{atlas-cms-higgs-run1",
+        "doi = {10.1103/PhysRevLett.114.191803}",
+        "@article{atlas-higgs-mass-combined-2023",
+        "doi = {10.1103/PhysRevLett.131.251802}",
+        "@article{will-mercury-2018",
+        "doi = {10.1103/PhysRevLett.120.191101}",
+        "@article{dyson-eddington-davidson-1920",
+        "doi = {10.1098/rsta.1920.0009}",
+    ]
+    for token in required:
+        assert token in bib
+
+
+def test_web_sources_carry_access_dates():
+    combined = (ROOT / "refs.bib").read_text(encoding="utf-8") + "\n" + (ROOT / "manual" / "refs.bib").read_text(encoding="utf-8")
+    for key in [
+        "weissteinHypercubeGraph", "nist-alpha-inverse", "bipm-si-defining-constants",
+        "sparc-database", "nasa-moon-by-numbers", "nasa-cassini-division",
+    ]:
+        m = re.search(r"@\w+\s*\{\s*" + re.escape(key) + r"\s*,(?P<body>.*?)\n\}", combined, re.S)
+        assert m, key
+        assert "urldate = {2026-06-09}" in m.group("body")

@@ -1,4 +1,0 @@
-row,a,b,a_xor3_b,push_pull,qeff,export_witness,Rcut
-E6.A,1,-1,0,balanced,0,none,0
-E6.B,1,1,-1,push,1/2,emitted packet,0
-E6.C,-1,-1,1,pull,-1/2,emitted packet,0

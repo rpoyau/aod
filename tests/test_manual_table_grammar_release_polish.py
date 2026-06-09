@@ -34,4 +34,4 @@ def test_license_file_present_for_mit_zenodo_metadata():
     license_text = (ROOT / "LICENSE").read_text()
     zenodo = (ROOT / ".zenodo.json").read_text()
     assert "MIT License" in license_text
-    assert '"license": "MIT"' in zenodo
+    assert '"license": "mit"' in zenodo
