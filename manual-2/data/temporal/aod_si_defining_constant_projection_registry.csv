@@ -1,0 +1,10 @@
+registry_row_id,row_type,symbol,exact_value_expression,exact_numerator,exact_denominator,si_unit,projection_rule_id,projection_rule,domain_requirement,operator_state,source_id
+si_const_delta_nu_Cs,defining_constant,Delta_nu_Cs,9192631770,9192631770,1,Hz,,,SI defining constant,exact_reference_active,BIPM_defining_constants
+si_const_c,defining_constant,c,299792458,299792458,1,m s^-1,,,SI defining constant,exact_reference_active,BIPM_defining_constants
+si_const_h,defining_constant,h,6.62607015e-34,662607015,1000000000000000000000000000000000000000000,J s,,,SI defining constant,exact_reference_active,BIPM_defining_constants
+si_const_N_A,defining_constant,N_A,6.02214076e23,602214076000000000000000,1,mol^-1,,,SI defining constant,exact_reference_active,BIPM_defining_constants
+si_map_time_from_cesium_periods,projection_rule,t_SI,N_Cs/9192631770,,,s,time_from_cesium_periods,t_SI=N_Cs/Delta_nu_Cs,frozen N_Cs period-count map and clock/frame policy,contract_declared_not_instantiated,BIPM_defining_constants
+si_map_light_path,projection_rule,d_SI,c*t_SI,,,m,light_path_from_time,d_SI=c*t_SI,declared null or light propagation path,contract_declared_not_instantiated,BIPM_defining_constants
+si_map_frequency,projection_rule,nu_SI,n_cycle/t_SI,,,Hz,frequency_from_cycles,nu_SI=n_cycle/t_SI,declared recurring cycle and nonzero time,contract_declared_not_instantiated,BIPM_defining_constants
+si_map_photon_energy,projection_rule,E_SI,h*nu_SI,,,J,photon_energy_from_frequency,E_SI=h*nu_SI,declared photon-frequency lane,contract_declared_not_instantiated,BIPM_defining_constants
+si_map_amount,projection_rule,n_mol,N/N_A,,,mol,amount_from_entity_count,n_mol=N/N_A,specified exact entity count and entity type,contract_declared_not_instantiated,BIPM_defining_constants

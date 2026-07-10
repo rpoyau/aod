@@ -1,0 +1,15 @@
+milestone_id,sequence,target_release,manual_appendix,data_root,script_root,test_root,shared_status,manual2_status,status,file_change_row_sha256
+R0,0,v40.03r05.2,E/G,manual/data/temporal_relational,manual/scripts,tests,frozen,frozen_until_R13,carried_forward_complete,189a877fc7da3746b627ae8352543f88cf02054134e69cf74a932488a6510fcb
+R1,1,v40.03r06.3.1,H,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,carried_forward_complete,d4821a608185de7fdbbad4aa120efff79f653bea6bed6ac595de1a03b59feee4
+R2,2,v40.03r07,I,manual/data/hydrogen,manual/scripts,tests,frozen,frozen_until_R13,current_complete,da019f206e717148b1079b17782e3c55a08b5b5999b020d78b42a08d9cd926d8
+R3,3,v40.03r08,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,next,4dd8f0baf6351078925e9884d1ae616b4424fec19ccff7b086d5edb5dccdf78a
+R4,4,v40.03r09,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,planned,2897629bd5e977810dc3f7e33603bd07175a089dc56b30e44980650c0e5ea260
+R5,5,v40.03r10,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,planned,8e007f7051eb428aba6849e055b4e22a01132d22b07e30d0dcbc2ecbefcc0131
+R6,6,v40.03r11,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,planned,51ed6d671fbed101892a714b05bef31e0512b51d04bb3ffc456a6d006a687d88
+R7,7,v40.03r12,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,planned,11c770310150fb28de5e0154288aa55ac5e747d9e9782e8fd6b11c3c89f14856
+R8,8,v40.03r13,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,planned,2d1fc73dc6ed0babaa897382c0fcdc160f04522b7713e5ed163944c7fc44e965
+R9,9,v40.03r14,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,planned,07884acc0d25d8adfc87e2d5d5624e9cabd3ca9af0f443be23c0dd440da91998
+R10,10,v40.03r15,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,planned,823fca0b5db45143abcec6b41907f7b947b0c45e5367e75b41bd4ce18168610b
+R11,11,v40.03r16,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,planned,772b698f18c341764887a05d16ac8d7c5f233cba1e7cabbfe1b8e68be94a9d8f
+R12,12,v40.03r17,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,planned,9f5d1c4f6e596c133f14d64c40efe8248f4aadb1cfea0a3efa4e51fd5983bda3
+R13,13,v40.03r18,E,manual/data/c6,manual/scripts,tests,frozen,frozen_until_R13,deferred,3a90e32f4fa708945fa27c0c4ea995ffac39ee76cf1f6ec11fbee8c9c6b7d605

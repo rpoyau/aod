@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_class": {
+      "enum": [
+        "project_owner",
+        "designated_reviewer"
+      ]
+    },
+    "authority_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "candidate_payload_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "candidate_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "checks": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "check_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "evidence": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "const": "passed"
+          }
+        },
+        "required": [
+          "check_id",
+          "status",
+          "evidence"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "decision": {
+      "const": "GO"
+    },
+    "decision_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "feedback_ledger_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "rationale": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_scope": {
+      "enum": [
+        "source_template",
+        "bundle_instance"
+      ]
+    },
+    "review_record_path": {
+      "type": "string"
+    },
+    "review_record_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_scope",
+    "decision_id",
+    "candidate_version",
+    "authority_class",
+    "authority_id",
+    "decision",
+    "rationale",
+    "checks"
+  ],
+  "title": "AOD GO Decision",
+  "type": "object"
+}

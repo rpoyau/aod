@@ -1,0 +1,1 @@
+{"canonical_path":"governance/GLOBAL_INSTRUCTIONS.json","canonical_sha256":"f156f5b4d57971a030779b2e1314b963b85218bc331cbc24822786a77624460f","instruction":"Load and enforce the canonical bundle governance before any cycle transition.","release_source_registry_path":"governance/REPOSITORY_RELEASE_SOURCES.json","schema_version":"3.1"}

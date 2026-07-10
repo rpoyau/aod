@@ -1,0 +1,86 @@
+{
+  "active_protocol_status": "inactive_historical_only",
+  "current_gate_state": {
+    "M1H": "complete_v40.03r03.2",
+    "M2_native_recurrence": "complete_v40.03r04",
+    "M3_atom_field_operator": "complete_v40.03r05_frozen_not_executed",
+    "SI_anchor": "inactive_historical_adapter",
+    "arithmetic_domain": "exact_rational_finite_state_operator",
+    "bips_per_aod_second": "not_materialized",
+    "candidate_universe_gate": "carried_forward_pending_manual2_lane",
+    "dependency_graph_role": "authoritative_execution_order",
+    "drive_phase_domain": "Q_mod_Z_with_canonical_half_open_representatives",
+    "duration_semantics_registry": "realized_integer_bip_count|expected_rational_duration|octave_refined_sub_bip_duration",
+    "fractal_coordinate_serialized_field": "fractal_octave_coordinate",
+    "manual_ii_reassessment": "superseded_use_v40.03r18_in_active_roadmap",
+    "milestone_order_role": "release_planning_order",
+    "native_resonance_certificate": "not_materialized",
+    "native_resonance_search": "historical_not_active",
+    "next_scientific_gate": "superseded_use_relational_hydrogen_first_roadmap",
+    "physical_clock_state_interpretation": "pending_M6_correspondence_mode",
+    "primitive_recurrence_bip_count": "6",
+    "target_frequency_input": "absent"
+  },
+  "files": [
+    {
+      "bytes": 5430,
+      "path": "manual/data/roadmap/manual1_si_anchor_milestone_plan.csv",
+      "sha256": "175ea1442bf538c7e3bab6eee273eac94ed576ca2a6162a363a0f685f626c349"
+    },
+    {
+      "bytes": 1997,
+      "path": "manual/data/roadmap/manual1_si_anchor_gate_dependencies.csv",
+      "sha256": "805c37c09825d9397fdd03e594b48bf96ba27dc0886d351a663b078804a80b34"
+    },
+    {
+      "bytes": 902,
+      "path": "manual/data/roadmap/manual1_manual2_reassessment_criteria.csv",
+      "sha256": "9e36de6e81d558f9501af7f436cf153c157f1efaaa661be19d9076bea2022eae"
+    },
+    {
+      "bytes": 2931,
+      "path": "manual/data/roadmap/manual1_integrated_native_simulation_change_plan.md",
+      "sha256": "d3bf467e0ba718dc26ebc67f302cf36c7839b49571047903cf4450449e5d8fd2"
+    },
+    {
+      "bytes": 1626,
+      "path": "manual/data/roadmap/manual1_integrated_file_change_matrix.csv",
+      "sha256": "d4eaae4bbbe8d6f4c6bc2cd9af7ae763ac01191806f0b108e2639a1b4e3333f0"
+    },
+    {
+      "bytes": 6481,
+      "path": "manual/appendices/E_native_si_anchor_iteration_plan.tex",
+      "sha256": "cc660ae7ade2114c0758137aa6ab909b6bf64d997b1a72d9f1927ae19988bd91"
+    },
+    {
+      "bytes": 5976,
+      "path": "manual/data/cs133/cs133_structural_occurrence_manifest.json",
+      "sha256": "1dc4cde22eb86c92f32ad6ffcb30992d08d54494f20f191bbf1892a5fba49ed7"
+    },
+    {
+      "bytes": 3416,
+      "path": "manual/data/cs133/cs133_native_recurrence_manifest.json",
+      "sha256": "6a01e16d2fea358d047cc0cadfa6a59fc2eae0001d4ea92efe948c14806b9916"
+    },
+    {
+      "bytes": 3513,
+      "path": "manual/data/cs133/cs133_atom_field_operator_manifest.json",
+      "sha256": "5794bdb2b287ed2b1b45807e8e15326a4fba9ab02bea848ab7ded9316e8563be"
+    },
+    {
+      "bytes": 21631,
+      "path": "manual/scripts/build_integrated_manual1_roadmap.py",
+      "sha256": "e683a1bad54896b235efec6763b7bc1f6d1ad799ce82f5ad40e511bbb406dbe9"
+    }
+  ],
+  "main_note_status": "frozen",
+  "manifest_id": "manual1_si_anchor_iteration_plan",
+  "manual_i_status": "historical_plan_carried_for_provenance",
+  "manual_ii_status": "frozen_carried_forward_pending_M14_reassessment",
+  "plan_status": "superseded_historical_adapter",
+  "release_role": "historical_cs_centered_atom_field_adapter_plan",
+  "shared_protocol_status": "frozen_through_M12_shared_v2_proposal_at_M13",
+  "superseded_by_manifest": "manual/data/roadmap/manual1_c6_hydrogen_first_plan_manifest.json",
+  "superseded_by_release": "v40.03r05.2",
+  "version_scope": "v40.03r05"
+}

@@ -1,0 +1,86 @@
+{
+  "description": "Required carried source-facing scaffold anchors for AOD bundle surface synchronization.",
+  "files": {
+    "BUNDLE_WORKFLOW.md": [
+      "<!-- AOD_STATE_BEGIN -->",
+      "<!-- AOD_STATE_END -->"
+    ],
+    "CANONICAL_VERSION.txt": [
+      "Canonical version:",
+      "Canonical version: v40.04r01",
+      "Manual-II source-tree hash: 345842a20f4ee5c9928ad1b3d648e41d0a2bb53a6b8f679fff2b71be158fdacd",
+      "AOD_Temporal_Dynamics is the canonical package.",
+      "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only."
+    ],
+    "MANUAL_II_ROADMAP.md": [
+      "Manual II is a compact worked-row rendering",
+      "Manual-II baseline milestone: v40.03r01",
+      "Manual-II-specific worked D.E.C. application rows",
+      "Package release: **v40.03r12",
+      "active Manual-II lane = Hydrogen Transition and SADAR-Lock Atlas",
+      "carried source baseline",
+      "Hydrogen r10 native packet lane carried forward.",
+      "lambda_fold     = deferred_not_attached",
+      "source.zip contains the v40.03r01 carried baseline plus the active r08.1 authoring overlay",
+      "Molecular chain-D.E.C. rows from v40.02r03 are carried forward unchanged",
+      "Protein target-normalization rows from v40.02r04",
+      "v40.02r05 AOD contact/reclosure prediction packets",
+      "v40.02r06 contact-map residual rows remain",
+      "v40.02r07 PDBx/mmCIF coordinate-payload derivation rows remain target-only and not scored",
+      "v40.02r08 scope rows are carried forward",
+      "Scoped PDB Contact-Map Residual Pilot",
+      "Multi-pair Scoped Contact Residual Pilot",
+      "v40.02r09 -- Scoped PDB Contact-Map Residual Pilot",
+      "PDB/mmCIF Experimental Coordinate Payload Ingest and Contact-Map Derivation Gate",
+      "v40.02r11 -- External PDB Accession Scope Gate",
+      "coordinate_payload_status = deferred_not_ingested_in_this_gate",
+      "External PDB Residue Coordinate Table Derivation Gate",
+      "coordinate_payload_sha256 = 23787562c427d7c1abe5420e86d5f1d0a6c7007dec1e8ce85645a6d69c32e8ba",
+      "External PDB Coordinate Payload Byte-Hash Lock",
+      "v40.02r14 -- External PDB Residue Coordinate Table Derivation Gate",
+      "v40.02r15 -- External PDB Contact Map Derivation Gate",
+      "External PDB Contact Map Derivation Gate",
+      "v40.02r17 -- AOD Contact-Prediction Packet Projection Gate",
+      "External PDB Evaluation-Pair Boundary Gate",
+      "AOD Contact-Prediction Packet Projection Gate",
+      "External PDB Projection Alignment / Coverage Declaration Gate",
+      "External PDB Alignment Rule Candidate Gate",
+      "External PDB Alignment Rule Freeze",
+      "v40.02r20 -- External PDB Alignment Rule Freeze / No-Alignment Carry-Forward Gate",
+      "External PDB Alignment Rule Declaration",
+      "v40.02r22",
+      "target",
+      "residual",
+      "score",
+      "Conversion error is not empirical residual",
+      "Projection/report error is not target agreement score",
+      "SPARC is used as a 2D observable-data fixture under declared projection/readout policy"
+    ],
+    "MANUAL_I_ROADMAP.md": [
+      "SPARC = 2D observable-data fixture under declared projection/readout policy",
+      "tau_cycle = native phase-cycle coordinate",
+      "pi = tau_cycle / 2 display coordinate"
+    ],
+    "README.md": [
+      "AOD_Temporal_Dynamics is the canonical package.",
+      "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only.",
+      "Manual II / Fractal Fusion Scales",
+      "References are synchronized from `refs.bib`, `manual/refs.bib`, and `manual-2/refs.bib`.",
+      "This package opens the v40.04r01 AUTHORING lane",
+      "v40.03r25.2 is carried forward unchanged",
+      "v40.03r25.1 is carried forward unchanged"
+    ],
+    "RELEASE_READINESS.txt": [
+      "Canonical package:",
+      "Canonical version:",
+      "Shared-source freeze:",
+      "shared Section 1--2 source is carried forward unchanged",
+      "Manual II Section 1--2 shared opening content is not modified",
+      "Input-provenance gate and data-support class remain governed by the active bundle scope.",
+      "Foundation doctrine: Manual I/Main define tick measurement",
+      "Manual-II overlay: D.E.C. report-coordinate and error-budget ledgers"
+    ]
+  },
+  "lock_id": "AOD_CARRIED_SCAFFOLD_LOCK_v1",
+  "schema_version": "1.1"
+}

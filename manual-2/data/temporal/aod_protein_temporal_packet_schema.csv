@@ -1,0 +1,20 @@
+field_name,exact_type,required,role,current_state
+protein_temporal_packet_id,identifier,yes,stable protein temporal packet row,schema_declared
+motif_family,identifier,yes,recurring motif family,schema_declared
+scoped_occurrence_id,identifier,yes,protein scoped occurrence,schema_declared
+fractal_coord,identifier,yes,fractal coordinate,schema_declared
+boundary_id,identifier,yes,boundary package,schema_declared
+window_id,identifier,yes,temporal window,schema_declared
+dec_trace_id,identifier,yes,read-only trace pointer,carried_forward
+event_order_sha256,sha256_hex,yes,native event-order hash,not_materialized
+curl_incidence_id,identifier,conditional,curl incidence pointer,not_materialized
+curling_curls_incidence_id,identifier,conditional,curling-curls incidence pointer,not_materialized
+reclosure_relation_id,identifier,yes,frozen reclosure relation,carried_forward_fixture
+Q4_address_packet_id,identifier,conditional,relational tesseract support packet,not_materialized
+cell_count_packet_id,identifier,conditional,exact cell counts,not_materialized
+native_bip_num,integer_nonnegative,yes,native bip numerator,not_materialized
+native_bip_den,integer_positive,yes,native bip denominator,not_materialized
+native_biz_num,integer,conditional,native biz numerator,not_materialized
+native_biz_den,integer_positive,conditional,native biz denominator,not_materialized
+native_residual_packet_id,identifier,yes,native residual packet,schema_declared
+native_packet_sha256,sha256_hex,yes,native temporal packet hash,not_materialized

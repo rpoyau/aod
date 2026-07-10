@@ -1,0 +1,40 @@
+
+\section{External PDB evaluation-pair boundary gate}
+
+This gate freezes the external 1CRN evaluation-pair boundary from the already derived target contact map and then stops.  It does not join an AOD prediction packet and it does not compute an external residual score.
+
+\paragraph{Declared boundary.}
+The boundary reads the target-only 1CRN contact map from the previous gate.  The evaluation-pair rule is
+\[
+  \text{evaluation pairs} = \text{all eligible external contact-map pairs}.
+\]
+The contact-map rule carried into this boundary is
+\[
+  |\mathrm{label\_seq}_j-\mathrm{label\_seq}_i|\geq 3,
+  \qquad
+  d_{ij}^{C\alpha}\leq 8.0\,\text{\AA}.
+\]
+The target contact value is computed from the full-precision coordinate distance before the displayed distance is rounded to $0.001$ \AA.
+
+\paragraph{Boundary counts.}
+The boundary admits all 946 eligible target rows:
+\[
+  N_{\mathrm{eval}}=946,
+  \qquad
+  N_{\mathrm{contact}}=114,
+  \qquad
+  N_{\mathrm{noncontact}}=832.
+\]
+These rows are target-boundary rows.  The downstream score gate has not yet been opened.
+
+\paragraph{Ledger order.}
+The boundary reads only the target contact-map ledger and its manifest hash:
+\[
+\texttt{pdb\_external\_contact\_map\_derived.csv}
+\longrightarrow
+\texttt{pdb\_external\_evaluation\_pair\_boundary.csv}.
+\]
+The AOD motif / curling-curls specification and SADAR context remain upstream of any future target join.  A later score gate may join the frozen AOD contact packet only after this evaluation boundary is fixed.
+
+\paragraph{Current gate status.}
+This gate records target evaluation-pair membership and the contact-value precision policy.  External residual rows, score audit, coordinate-level metrics, AlphaFold comparison, coordinate-level AOD prediction, and any released folding value map belong to later declared gates.

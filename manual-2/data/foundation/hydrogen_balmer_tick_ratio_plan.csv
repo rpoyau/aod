@@ -1,0 +1,3 @@
+row_id,native_ratio,report_ratio,semantics,report_status,native_status
+hydrogen_balmer_native_tick_interval_ratio,1512:1120:1000:945,,native_tick_interval_ratio_first,frequency_ratio_is_downstream_inverted_report,
+hydrogen_balmer_inverted_frequency_report,,500:675:756:800,downstream_inverted_frequency_ratio_report,,not_native_premise

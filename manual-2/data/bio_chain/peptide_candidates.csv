@@ -1,0 +1,5 @@
+chain_id,sequence,residue_count,declared_components,water_shedding_count,formula,residual_CHONPS,status
+pep_GA,GA,2,glycine+alanine,1,C5H10N2O3,C:0;H:0;N:0;O:0;P:0;S:0,closed
+pep_GG,GG,2,glycine+glycine,1,C4H8N2O3,C:0;H:0;N:0;O:0;P:0;S:0,closed
+pep_GAS,GAS,3,glycine+alanine+serine,2,C8H15N3O5,C:0;H:0;N:0;O:0;P:0;S:0,closed
+pep_MAG,MAG,3,methionine+alanine+glycine,2,C10H19N3O4S,C:0;H:0;N:0;O:0;P:0;S:0,closed

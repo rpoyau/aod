@@ -1,0 +1,14 @@
+field_name,exact_type,required,role,freeze_order
+projection_operator_id,identifier,yes,stable projection operator identifier,before_target
+native_domain_id,identifier,yes,frozen native packet domain,before_target
+codomain_id,identifier,yes,declared report coordinate,before_target
+basis_origin_orientation_policy,identifier,conditional,metric basis and orientation policy,before_target
+scale_num,integer,conditional,exact scale numerator,before_target
+scale_den,integer_positive,conditional,exact scale denominator,before_target
+alignment_policy_id,identifier,conditional,frozen alignment rule,before_target
+clipping_policy_id,identifier,conditional,frozen clipping rule,before_target
+denominator_policy_id,identifier,yes,exact denominator policy,before_target
+missing_value_policy_id,identifier,yes,missing value policy,before_target
+canonical_serialization_profile_id,identifier,yes,canonical projection serialization,before_target
+projection_information_loss_id,identifier,yes,separate noninjectivity information-loss card,before_target
+projection_operator_sha256,sha256_hex,yes,hash of frozen projection contract,before_target

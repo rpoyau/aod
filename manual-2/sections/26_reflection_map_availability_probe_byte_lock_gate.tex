@@ -1,0 +1,82 @@
+\section{Reflection and map availability probe / byte-lock gate}
+
+This gate probes the external 1CRN reflection and map lineage before any measurement-space operator is frozen. It records the canonical payload locators, the evidence used to classify availability, and the byte-lock state. A payload advances only when its actual bytes have been retrieved and hashed.
+
+\subsection{Validation-field normalization policy}
+
+The prior validation equivalence audit covers 41 parsed fields. Each field now carries a machine-readable normalization card:
+\[
+(\texttt{snapshot field},\ \texttt{source payload},\ \texttt{source locator},\ \texttt{normalization operation},\ \texttt{normalized type}).
+\]
+The policy is frozen independently of the reflection/map probe. It records timestamp normalization, native-token preservation, numeric conversion, unavailable-token mapping, and canonical nested-value serialization. The prior equivalence result remains
+\[
+N_{\rm audited}=41,
+\qquad
+N_{\rm equivalent}=41,
+\qquad
+N_{\rm mismatch}=0.
+\]
+
+\subsection{Probe evidence}
+
+The canonical candidate lanes are structure factors, processed reflections, validation map coefficients, the X-ray map service, and an optional raw-image registry. The completed probe records official entry/download-panel evidence, the official structure-factor archive listing, the locked validation-pipeline state, and the documented map-service contract.
+
+Target-specific HTTP response fields are not invented. Where direct response bytes were not obtained, the ledger records
+\[
+\texttt{http\_status=not\_directly\_observed},
+\qquad
+\texttt{content\_type=not\_observed},
+\]
+and stores the official evidence locator separately.
+
+The resulting state is:
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+payload lane & probe state & byte-lock state \\
+\midrule
+structure factors & \texttt{probed\_unavailable} & \texttt{not\_locked} \\
+processed reflections & \texttt{probed\_unavailable} & \texttt{not\_locked} \\
+$2F_o-F_c$ map coefficients & \texttt{probed\_unavailable} & \texttt{not\_locked} \\
+$F_o-F_c$ map coefficients & \texttt{probed\_unavailable} & \texttt{not\_locked} \\
+X-ray map service & \texttt{probed\_unavailable} & \texttt{not\_locked} \\
+raw-image registry & \texttt{not\_probed} & \texttt{not\_locked} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For 1CRN, the official entry/archive evidence does not list a structure-factor payload; the locked validation report records EDS as not executed, and no validation map-coefficient payload is listed. Therefore the measurement-space lane is unavailable for this accession in the present payload state.
+
+\subsection{Comparison-space status}
+
+The coordinate-model branch remains an active reconstruction-space fixture. The derived-contact branch remains available as a representation, but its target mask still contains zero quality-supported pairs. The current AOD representation is a contact-pair set and cannot generate X-ray structure factors, density, or map coefficients.
+
+Thus
+\[
+\begin{aligned}
+\text{measurement-space lane} &= \texttt{unavailable\_for\_current\_accession},\\
+\text{coordinate-model lane} &= \texttt{active\_reconstruction\_space\_fixture},\\
+\text{derived-observable lane} &= \texttt{active\_with\_quality\_mask\_but\_zero\_supported\_pairs}.
+\end{aligned}
+\]
+No target value joins the frozen AOD branch in this gate.
+
+\subsection{Candidate-universe guard}
+
+The first quality-supported scored accession remains unselected. Before selection, a future gate must materialize and hash the candidate-universe snapshot, apply the already frozen eligibility filter, and then select the lexicographically first eligible accession. AOD agreement values remain unread during universe construction and selection.
+
+\subsection{Ledger pointers}
+
+The gate is recorded by:
+\begin{itemize}
+\item \texttt{pdb\_external\_validation\_snapshot\_normalization\_policy.csv},
+\item \texttt{pdb\_external\_reflection\_map\_probe\_evidence.csv},
+\item \texttt{pdb\_external\_reflection\_map\_availability\_summary.csv},
+\item \texttt{pdb\_external\_reflection\_map\_byte\_lock.csv},
+\item \texttt{pdb\_external\_reflection\_map\_access\_control.csv},
+\item \texttt{pdb\_external\_reflection\_map\_leakage\_checks.csv},
+\item \texttt{pdb\_external\_scored\_accession\_candidate\_universe\_policy.csv},
+\item \texttt{pdb\_external\_reflection\_map\_probe\_manifest.json}.
+\end{itemize}
+
+The next gate may freeze a comparison-space capability and observation operator only where both the target lineage and the frozen AOD representation support the same observable coordinate. Residuals, score audits, coordinate metrics, AlphaFold comparison, coordinate-level AOD prediction, and an active $\lambda_{\rm fold}$ remain downstream.

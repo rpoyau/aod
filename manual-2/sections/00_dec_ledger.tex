@@ -1,0 +1,17 @@
+% Shared source wrapper: Manual II D.E.C. ledger branch.
+% The shared source is frozen because Manual I also uses it. Manual II
+% locally normalizes the rendered status note so release versions do not
+% appear in the PDF body; the shared source file itself is not edited.
+\begingroup
+\let\AODManualIIOrigNoteBlock\aodnoteblock
+\def\AODManualIIRenderingStatusTitle{Rendering status}
+\renewcommand{\aodnoteblock}[2]{%
+  \def\AODManualIINoteTitle{#1}%
+  \ifx\AODManualIINoteTitle\AODManualIIRenderingStatusTitle
+    \AODManualIIOrigNoteBlock{Rendering status}{Manual II is the compact worked-row rendering of the fusion-scale manual. The broader octave and target-lane source sections remain in the source tree and are tracked by the roadmap and data manifests.}%
+  \else
+    \AODManualIIOrigNoteBlock{#1}{#2}%
+  \fi
+}%
+\input{../shared/manual_intro_dec_ledger.tex}
+\endgroup

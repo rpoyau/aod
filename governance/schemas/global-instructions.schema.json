@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_domains": {
+      "additionalProperties": false,
+      "properties": {
+        "AF": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "AFC": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "AOD_governance": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "GM": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "AF",
+        "AFC",
+        "AOD_governance",
+        "GM"
+      ],
+      "type": "object"
+    },
+    "conflict_policy": {
+      "const": "cross_domain_conflicts_fail_closed"
+    },
+    "instruction_set_id": {
+      "const": "AOD_GLOBAL_BUNDLE_GOVERNANCE"
+    },
+    "instructions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "pattern": "^GI-[0-9]{3}$",
+            "type": "string"
+          },
+          "rule": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "rule"
+        ],
+        "type": "object"
+      },
+      "minItems": 19,
+      "type": "array"
+    },
+    "platform_precedence": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "release_import_policy_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "release_source_registry_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "release_source_scope": {
+      "const": "governance_and_project_baseline_dependencies"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "status": {
+      "const": "binding_inside_validated_bundle_candidate"
+    }
+  },
+  "required": [
+    "schema_version",
+    "instruction_set_id",
+    "status",
+    "platform_precedence",
+    "authority_domains",
+    "conflict_policy",
+    "release_source_scope",
+    "release_source_registry_path",
+    "release_import_policy_path",
+    "instructions"
+  ],
+  "title": "AOD Global Bundle Governance",
+  "type": "object"
+}

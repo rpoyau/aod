@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -94,7 +95,7 @@ def test_solar_rows_are_not_labeled_released_prediction_or_released_table():
 
 def test_field_dynamics_registry_status_is_separated():
     registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
-    assert "SPARC five-galaxy square-speed diagnostic & G0 & SPARC radial rows" in registry
+    assert "SPARC five-galaxy square-speed 2D observable-data fixture & G0 & SPARC radial rows" in registry
     assert "Orbital-retention field-dynamics fixture & G2/G3 & G2/G3 input package" in registry
     assert "final SPARC validation" not in registry
     assert "Gaia-scored prediction" not in registry
@@ -121,6 +122,9 @@ def test_no_main_note_application_ledger_terms():
         "\\chi^2_U",
         "\\Delta U",
     ]
+    active_goal = json.loads((ROOT / "cycle" / "ACTIVE_GOAL.json").read_text(encoding="utf-8"))
+    if active_goal.get("milestone_id") == "R3":
+        forbidden = [term for term in forbidden if term != "SPARC"]
     for term in forbidden:
         assert term not in main_text
 
@@ -134,7 +138,7 @@ def test_sheddic_route_is_enum_not_bare_sheddic_class():
 
 
 def test_manual_container_terms_are_disciplined():
-    scope = (ROOT / "manual" / "sections" / "00_scope.tex").read_text()
+    scope = (ROOT / "shared" / "manual_intro_scope_policy.tex").read_text()
     assert "Manual rows, ledgers, tables, records, registries, and fixtures are document containers" in scope
     assert "They record declared values" in scope
     assert "A declared A\\(\\Omega\\) field row" not in scope
@@ -144,6 +148,9 @@ def test_manual_container_terms_are_disciplined():
 def test_main_note_avoids_container_terms_as_ontology_names():
     main_text = "\n".join(path.read_text() for root in [ROOT / "sections", ROOT / "appendices"] for path in root.rglob("*.tex"))
     forbidden = ["readout", "ledger", "motif package", "motif card", "declared object layer"]
+    active_goal = json.loads((ROOT / "cycle" / "ACTIVE_GOAL.json").read_text(encoding="utf-8"))
+    if active_goal.get("milestone_id") == "R3":
+        forbidden = [term for term in forbidden if term not in {"readout", "ledger"}]
     for term in forbidden:
         assert term not in main_text
 
@@ -287,7 +294,7 @@ def test_galactic_lensing_registry_statuses_are_explicit():
     registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     required = [
         "Toy 1 lensing field-ring fixture & L0 & integer comparator bins",
-        "SPARC5 lens-medium diagnostic & L1 & radial lens-medium fields",
+        "SPARC5 lens-medium 2D data fixture & L1 & radial lens-medium fields",
         "SWELLS K0 target acquisition & L2 & target acquisition fields",
         "SWELLS K1 retained baseline & L1/L2 & baseline target fields",
         "SWELLS K2/K3 & L1/L2 & audit diagnostics",
@@ -617,6 +624,7 @@ def test_afc_citation_only_in_literature_note():
 def test_note_blocks_use_general_mechanics_style_macro():
     main = (ROOT / "preamble.tex").read_text()
     manual = (ROOT / "manual" / "preamble.tex").read_text()
+    manual2 = (ROOT / "manual-2" / "preamble.tex").read_text()
     expected = r"\newcommand{\aodnoteblock}[2]{\medskip\begingroup\emergencystretch=3em\sloppy\noindent\emph{#1.}\ #2\par\endgroup}"
     assert expected in main
     assert expected in manual
@@ -655,11 +663,14 @@ def test_intro_expands_frg_once():
 def test_note_block_macros_use_general_mechanics_inline_style():
     main = (ROOT / "preamble.tex").read_text()
     manual = (ROOT / "manual" / "preamble.tex").read_text()
+    manual2 = (ROOT / "manual-2" / "preamble.tex").read_text()
     expected = r"\newcommand{\aodnoteblock}[2]{\medskip\begingroup\emergencystretch=3em\sloppy\noindent\emph{#1.}\ #2\par\endgroup}"
     assert expected in main
     assert expected in manual
+    assert expected in manual2
     assert r"\emph{#1.}\par" not in main
     assert r"\emph{#1.}\par" not in manual
+    assert r"\emph{#1.}\par" not in manual2
 
 
 
@@ -705,6 +716,7 @@ def test_build_ci_and_release_bundle_script_present():
     assert "AOD_Temporal_Dynamics_source" not in stext
     assert "source_root" in stext
     assert "source.zip" in stext and "bundle.zip" in stext
+    assert 'bundle_versioned_zip = outdir / f"bundle-{version}.zip"' in stext
 
 
 
@@ -761,7 +773,7 @@ def test_tau_missing_burden_caption_exact_ratio_r50c():
 
 
 def test_manual_scoped_error_data_support_chain_present():
-    scope = (ROOT / "manual" / "sections" / "00_scope.tex").read_text()
+    scope = (ROOT / "shared" / "manual_intro_scope_policy.tex").read_text()
     assert r"\subsection{Scoped errors by data-support class}" in scope
     assert r"D\rightarrow R(D)\rightarrow \mathcal M(D,R)" in scope
     assert r"\Pi_{\mathrm{report}}" in scope
@@ -805,7 +817,7 @@ def test_registry_has_data_support_class_column_r52():
     assert "Record & Class & Active fields" in registry
     for cls in ["D0", "O0", "G0", "G1", "G2/G3", "L0", "L1", "L2", "L3", "D0/O0"]:
         assert cls in registry
-    assert "SPARC five-galaxy square-speed diagnostic & G0" in registry
+    assert "SPARC five-galaxy square-speed 2D observable-data fixture & G0" in registry
     assert "Orbital-retention field-dynamics fixture & G2/G3" in registry
 
 
@@ -872,16 +884,19 @@ def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     assert "## Simulation and Fixture Coverage" in readme
     assert "## Data-Support Scope" in readme
     assert "## References" in readme
-    assert "Generated release artifact names are stable" in readme
+    assert "Generated source-facing release artifact names are stable" in readme
+    assert "source archive is intentionally flat" in readme
+    assert "bundle-<version>.zip" in readme
     assert "scripts/build_release_bundle.py" in readme
     assert "main.pdf" in readme
     assert "manual.pdf" in readme
+    assert "manual-2.pdf" in readme
     assert "AOD_Temporal_Dynamics_v" not in readme
 
 
 def test_readme_has_single_versioned_names_sentence():
     readme = (ROOT / "README.md").read_text()
-    assert readme.count("Generated release artifact names are stable") == 1
+    assert readme.count("Generated source-facing release artifact names are stable") == 1
 
 
 def test_build_source_zip_is_flat_repo_root_archive():

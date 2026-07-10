@@ -1,0 +1,79 @@
+\section{Circle Finite-Trace and Rational Tau/Pi Error Audit}
+
+\paragraph{Scope.}
+This section materializes finite symbolic circle-audit rows downstream of the Circle Relational Geometry Audit Records.  It remains a native/report-audit preparation lane only.  It does not admit a metric radius, an empirical target, a residual, or a score.
+
+\[
+\boxed{\text{finite trace audit}=\text{frozen circumference row}\bowtie\text{frozen area row}}
+\]
+
+\paragraph{Finite symbolic trace candidate.}
+The first finite audit row uses one shared circle occurrence, one symbolic radius packet $r$, and independent circumference and area trace identifiers.  Both trace rows may carry the same finite full-turn display value
+\[
+\Tau_{\mathrm{cycle}}=\frac{710}{113}.
+\]
+The circumference and area report forms are
+\[
+C=\Tau_{\mathrm{cycle}}r,
+\qquad
+A=\frac{\Tau_{\mathrm{cycle}}r^2}{2}.
+\]
+For independently frozen circumference and area trace rows with the same finite $\Tau_{\mathrm{cycle}}$, the relational closure audit is
+\[
+\boxed{Cr-2A=0.}
+\]
+This zero is a finite symbolic consistency row.  It is not a metric measurement and not an empirical score.
+
+\paragraph{Rational tau/pi enclosure.}
+The display notation $\pi$ is still quarantined by
+\[
+\pi=\frac{\Tau_{\mathrm{cycle}}}{2}.
+\]
+The audit uses the exact rational enclosure
+\[
+\frac{103993}{33102}<\pi<\frac{104348}{33215}.
+\]
+Therefore the full-turn enclosure is
+\[
+\frac{103993}{16551}<\Tau_{\mathrm{cycle}}<\frac{208696}{33215}.
+\]
+The finite display row records
+\[
+\Tau_{\mathrm{cycle}}=\frac{710}{113},
+\qquad
+\pi_{\mathrm{display}}=\frac{355}{113}.
+\]
+All errors are stored as exact rational intervals of the form estimate minus the enclosed symbolic constant.  Decimal approximations are not canonical scientific rows.
+
+\paragraph{Current materialized files.}
+\begin{center}
+\small
+\begin{tabular}{ll}
+\toprule
+File & Role\\
+\midrule
+\texttt{circle\_finite\_trace\_audit\_records.csv} & Finite symbolic $C/A$ trace pair\\
+\texttt{circle\_rational\_tau\_pi\_error\_audit.csv} & Exact rational $\Tau/\pi$ error intervals\\
+\texttt{circle\_finite\_trace\_counterfactual\_audit.csv} & Fail-closed finite-audit checks\\
+\texttt{circle\_finite\_trace\_tau\_pi\_error\_manifest.json} & Hash manifest\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Closed lanes.}
+\[
+\boxed{
+\begin{array}{c}
+\mathrm{metric\ report}=\mathrm{closed},\quad
+\mathrm{target\ read}=\mathrm{not\ read},\quad
+\mathrm{residual}=\mathrm{not\ computed},\quad
+\mathrm{score}=\mathrm{no\ score}
+\end{array}
+}
+\]
+
+\paragraph{Trace-identity contract.}
+The circumference and area records share the same circle occurrence, symbolic radius, and finite $\Tau_{\mathrm{cycle}}$ candidate.  They do not share the same trace identifier.  Reusing one trace identifier for both boundary circumference and interior area rows is a fail-closed counterfactual because it collapses the independent boundary/interior audit.
+
+\paragraph{Counterfactual audit.}
+The finite-audit counterfactuals reject decimal $\pi$ error rows as canonical values, one-metre radius as native trace input, reuse of an identical circumference/area trace identifier, and rational-bound target reads before finite trace freeze.  The unchanged control passes.  The shared object is the circle occurrence; the circumference and area trace identifiers remain distinct.

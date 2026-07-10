@@ -1,0 +1,69 @@
+
+\section{External PDB accession scope gate}
+
+The next contact-map step is not another score. It is an accession gate: the external PDB target is named, the boundary policy is fixed, and the coordinate payload remains deferred until a later ingest gate. This keeps the AOD packet upstream of the target lane.
+
+\subsection{Declared accession packet}
+
+Declare the external target locator
+\[
+  \mathrm{source}=\mathrm{RCSB\ PDB},\qquad
+  \mathrm{accession}=\texttt{1CRN},\qquad
+  \mathrm{chain}=A.
+\]
+The gate records the already committed locator rows \texttt{pdb\_1crn\_A\_locator} and \texttt{pdb\_1crn\_A\_mmcif\_target}. The coordinate payload is not committed in this gate:
+\[
+  \mathrm{coordinate\_payload\_status}=\texttt{deferred\_not\_ingested}.
+\]
+A payload hash is required before any later accession-derived contact score:
+\[
+  \mathrm{coordinate\_payload\_sha256}=\texttt{required\_before\_score}.
+\]
+
+\subsection{Boundary lock}
+
+The contact boundary is declared before payload ingest or scoring:
+\[
+\begin{aligned}
+  \mathrm{atom\ selector}&=C\alpha,\\
+  d_{\rm cut}&=8.0\,\text{\AA},\\
+  \min |i-j|&=3.
+\end{aligned}
+\]
+Evaluation pairs are intentionally not enumerated here. They must be declared after a coordinate payload is ingested and before any residual score is computed. Negative-support rows are also mandatory before classifier metrics such as MCC are read.
+
+\subsection{Freeze-before-target order}
+
+The valid order for a later external-accession pilot is
+\[
+\begin{aligned}
+\text{scope row}
+&\rightarrow \text{frozen AOD contact packet}\\
+&\rightarrow \text{external target row}\\
+&\rightarrow \Delta_Z,\delta_3\\
+&\rightarrow \text{score audit}.
+\end{aligned}
+\]
+The detection packet remains
+\[
+\begin{aligned}
+\text{ChainWordSpec + ReadOnlyTrace}
+&\rightarrow \text{AOD motif / curling-curls specification}\\
+&\rightarrow \text{SADAR context}\\
+&\rightarrow \text{frozen contact packet}.
+\end{aligned}
+\]
+The external accession never enters the raw D.E.C. row, the trace, the AOD motif packet, or the SADAR freeze.
+
+\subsection{Ledger pointers}
+
+The accession scope ledgers are:
+\[
+\begin{array}{ll}
+\text{scope} & \texttt{pdb\_external\_accession\_scope\_declaration.csv},\\
+\text{provenance} & \texttt{pdb\_external\_accession\_target\_provenance.csv},\\
+\text{boundary} & \texttt{pdb\_external\_accession\_boundary\_lock.csv},\\
+\text{leakage} & \texttt{pdb\_external\_accession\_leakage\_checks.csv}.
+\end{array}
+\]
+The manifest records this as a scope gate only: no contact score, no coordinate-level metric, and no released folding value map.

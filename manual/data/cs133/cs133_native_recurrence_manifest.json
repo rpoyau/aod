@@ -1,0 +1,88 @@
+{
+  "certificate_order": [
+    "admitted_M1_identity_and_support_core",
+    "target_free_core_outer_coupling_operator_freeze",
+    "native_coupled_state_registry",
+    "single_successor_exact_kernel_freeze",
+    "connected_transition_matrix",
+    "enumerate_all_exact_mass_execution",
+    "read_only_trace_freeze",
+    "pre_certificate_hash_manifest_verification",
+    "primitive_closure_and_minimality_audit",
+    "counterfactual_identity_specificity_audit"
+  ],
+  "current_state": {
+    "M1H": "complete_v40.03r03.2",
+    "M2_native_recurrence": "complete",
+    "SI_anchor": "inactive",
+    "duration_semantics": "realized_integer_bip_count",
+    "exact_mass_conservation": "passed",
+    "full_period_closure": "passed",
+    "identity_scope": "Cs133_at_00_(8)",
+    "metrological_correspondence": "not_active_until_M3",
+    "primitive_recurrence_bip_count": "6",
+    "proper_prefix_closure_count": "0",
+    "recurrence_specificity": "shared_elementary_recurrence_instantiated_at_Cs_scope",
+    "target_frequency_input": "absent"
+  },
+  "files": [
+    {
+      "bytes": 1638,
+      "path": "manual/data/cs133/cs133_core_outer_coupling_operator.csv",
+      "sha256": "be28f51062c064f0af238c4506dcfde75fc04f0a20ef7878b47812c80844021a"
+    },
+    {
+      "bytes": 3769,
+      "path": "manual/data/cs133/cs133_native_coupled_state_registry.csv",
+      "sha256": "a24d0cd775d39733e0ec972cf43d2f4fca92bb7f19e75857bd7673924a2625e9"
+    },
+    {
+      "bytes": 2339,
+      "path": "manual/data/cs133/cs133_native_recurrence_certificate.csv",
+      "sha256": "29bb177765ba40b6c496442f9a6ca210b83c111410b5baf20e6665098852d44d"
+    },
+    {
+      "bytes": 1191,
+      "path": "manual/data/cs133/cs133_native_recurrence_counterfactual_audit.csv",
+      "sha256": "82791df0988e561b86f59442f1e422eb2c5829589b88104b2cdb95696cc9f505"
+    },
+    {
+      "bytes": 3097,
+      "path": "manual/data/cs133/cs133_native_recurrence_dec_execution_ledger.csv",
+      "sha256": "00dc70232e80ca9b60d3fa51ae8660c61fbd824712c871156b346c0b604045bb"
+    },
+    {
+      "bytes": 611,
+      "path": "manual/data/cs133/cs133_native_recurrence_kernel_contract.csv",
+      "sha256": "8adc952c2f64f1e932cab6494506641019ae28e415277df001ca5d041a41127b"
+    },
+    {
+      "bytes": 1048,
+      "path": "manual/data/cs133/cs133_native_recurrence_mass_audit.csv",
+      "sha256": "70363d86d8cae9d375d5ac3a37ede110a9c9d463cb9d13a41a6439f0a73d1af9"
+    },
+    {
+      "bytes": 4480,
+      "path": "manual/data/cs133/cs133_native_recurrence_pre_certificate_manifest.json",
+      "sha256": "b318b342b2e24257b5f3980ebe1340a1b1c30fdd7c0bd2173407d31b51069d75"
+    },
+    {
+      "bytes": 3744,
+      "path": "manual/data/cs133/cs133_native_recurrence_read_only_trace.csv",
+      "sha256": "936648b3bcb02e807fcf2fafd7f7c3519329c6c9f80f26d70b4fa0b6169719c7"
+    },
+    {
+      "bytes": 4289,
+      "path": "manual/data/cs133/cs133_native_recurrence_transition_matrix.csv",
+      "sha256": "06b77738dac407cefde90eda94d26189cfde6c1b696109a70ed14c2b8f13fdd0"
+    },
+    {
+      "bytes": 36747,
+      "path": "manual/scripts/build_cs133_native_recurrence_certificate.py",
+      "sha256": "2a68486806f0c4eaac3f8379a98e69a0c63f452b08fe0399e4a4d9e7f28bafb0"
+    }
+  ],
+  "fractal_octave_coordinate": "00_(8)",
+  "gate_role": "target_free_native_connected_recurrence_certificate_pre_metrological",
+  "manifest_id": "cs133_native_coupled_core_outer_primitive_recurrence_v1"
+}

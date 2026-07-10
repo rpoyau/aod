@@ -1,0 +1,9 @@
+check_id,status,detail,release_status
+probe_states_are_explicit,pass,"Each row is not_probed, probed_unavailable, retrieved_unlocked, or byte_hash_locked.",v40.02r22B2_reflection_map_availability_probe_byte_lock_gate
+no_fabricated_target_http_status,pass,Target HTTP status/header fields remain not_directly_observed/not_observed because no direct response bytes were obtained.,v40.02r22B2_reflection_map_availability_probe_byte_lock_gate
+no_unavailable_payload_hash,pass,Unavailable payloads carry no SHA-256 or local path.,v40.02r22B2_reflection_map_availability_probe_byte_lock_gate
+official_evidence_is_recorded,pass,"Official entry, archive-listing, validation, or map-documentation evidence is recorded for each completed probe.",v40.02r22B2_reflection_map_availability_probe_byte_lock_gate
+measurement_space_lane_stays_closed,pass,1CRN measurement-space lane is unavailable and the contact-pair AOD representation is incompatible with X-ray forward prediction.,v40.02r22B2_reflection_map_availability_probe_byte_lock_gate
+target_values_not_read,pass,"No reflection, map, contact-target, residual, or score value is joined to the AOD branch.",v40.02r22B2_reflection_map_availability_probe_byte_lock_gate
+large_payload_policy_applied,pass,Reflection/map and raw-image payload classes use the pre-frozen inline/separate-pack/manifest-only policy.,v40.02r22B2_reflection_map_availability_probe_byte_lock_gate
+frozen_main_manual_shared,pass,This generator writes only Manual-II data files.,v40.02r22B2_reflection_map_availability_probe_byte_lock_gate

@@ -1,0 +1,349 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "active_phase": {
+      "enum": [
+        "AUTHORING",
+        "REVIEW",
+        "FEEDBACK",
+        "GO"
+      ]
+    },
+    "authoring_attempt": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "canonical_state_rule": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "cycle_protocol_id": {
+      "const": "AOD_BUNDLE_CYCLE"
+    },
+    "feedback_counts": {
+      "additionalProperties": false,
+      "properties": {
+        "applied_unverified": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "open_blocking": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "open_nonblocking": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "verified_closed": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "waived": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "open_blocking",
+        "open_nonblocking",
+        "applied_unverified",
+        "verified_closed",
+        "waived"
+      ],
+      "type": "object"
+    },
+    "go": {
+      "additionalProperties": false,
+      "properties": {
+        "blocking_reason": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "eligible": {
+          "type": "boolean"
+        },
+        "required_authority": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "self_review_sufficient": {
+          "type": "boolean"
+        },
+        "decision_path": {
+          "oneOf": [
+            {
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "decision_sha256": {
+          "oneOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "eligible",
+        "blocking_reason",
+        "required_authority",
+        "self_review_sufficient"
+      ],
+      "type": "object"
+    },
+    "last_completed_phase": {
+      "enum": [
+        "AUTHORING",
+        "REVIEW",
+        "FEEDBACK",
+        "GO"
+      ]
+    },
+    "lineage_parent": {
+      "additionalProperties": false,
+      "properties": {
+        "filename": {
+          "pattern": "^bundle-v.+\\.zip$",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "filename",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "next_permitted_transitions": {
+      "items": {
+        "enum": [
+          "AUTHORING",
+          "REVIEW",
+          "FEEDBACK",
+          "GO"
+        ]
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "project_id": {
+      "const": "AOD"
+    },
+    "protocol_version": {
+      "const": "3.1"
+    },
+    "record_scope": {
+      "const": "bundle_instance"
+    },
+    "release": {
+      "additionalProperties": false,
+      "properties": {
+        "stable_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "authoring_candidate",
+            "review_candidate",
+            "feedback_candidate",
+            "go_candidate"
+          ]
+        },
+        "target_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "working_version": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "stable_version",
+        "status",
+        "target_version",
+        "working_version"
+      ],
+      "type": "object"
+    },
+    "review": {
+      "additionalProperties": false,
+      "properties": {
+        "record_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "record_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "FEEDBACK_REQUIRED",
+            "GO_RECOMMENDED",
+            "HOLD"
+          ]
+        }
+      },
+      "required": [
+        "record_path",
+        "record_sha256",
+        "verdict"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "transition": {
+      "additionalProperties": false,
+      "properties": {
+        "last_row_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "ledger_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "ledger_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ledger_path",
+        "ledger_sha256",
+        "last_row_sha256"
+      ],
+      "type": "object"
+    },
+    "transition_sequence": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "upstream_release_state": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_lock_status": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policy": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "required_dependencies": {
+          "const": [
+            "AF",
+            "AFC",
+            "GM",
+            "AOD"
+          ]
+        },
+        "source_registry": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "canonical_lock_status",
+        "policy",
+        "required_dependencies",
+        "source_registry"
+      ],
+      "type": "object"
+    },
+    "working_candidate": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "delta_manifest_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "delta_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "governance_manifest_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "governance_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "payload_manifest_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "payload_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "source_tree_delta_manifest_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "source_tree_delta_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "payload_manifest_path",
+        "payload_manifest_sha256",
+        "delta_manifest_path",
+        "delta_manifest_sha256",
+        "source_tree_delta_manifest_path",
+        "source_tree_delta_manifest_sha256",
+        "governance_manifest_path",
+        "governance_manifest_sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_scope",
+    "project_id",
+    "cycle_protocol_id",
+    "protocol_version",
+    "active_phase",
+    "last_completed_phase",
+    "authoring_attempt",
+    "transition_sequence",
+    "canonical_state_rule",
+    "lineage_parent",
+    "release",
+    "working_candidate",
+    "feedback_counts",
+    "review",
+    "transition",
+    "go",
+    "next_permitted_transitions",
+    "upstream_release_state"
+  ],
+  "title": "AOD Concrete Bundle Cycle State",
+  "type": "object"
+}

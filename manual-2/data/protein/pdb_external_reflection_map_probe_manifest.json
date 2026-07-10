@@ -1,0 +1,41 @@
+{
+  "aod_prediction_representation": "contact_pair_set",
+  "candidate_universe_status": "selection_blocked_until_candidate_universe_snapshot",
+  "coordinate_model_lane": "active_reconstruction_space_fixture",
+  "derived_observable_lane": "active_with_quality_mask_but_zero_supported_pairs",
+  "file_sha256": {
+    "access_control": "06383f2502b438a9a0ed55a562f56fce98b6788a86612e5f4715ce039fb7de4a",
+    "availability_summary": "ea90a4b4c4902d83e30e5078ff1144c1a5105ecab1a854efa7cd6cb6f3c41f26",
+    "byte_lock": "b3321444280e294ecb889b07979e138e4c8876415643cbaf0982d40df786d1f7",
+    "candidate_universe_policy": "23603b64d1a6b6995170621c6d918e8d75bfacb57250890b2ba4779e9734c565",
+    "leakage_checks": "3bbe53fe2eb20fe87f1167fb99e730a1fe01823bfe4529585fb1f43dc71c7b46",
+    "normalization_policy": "3693f33607ae3b4289f936d32b5c571606590799b52ead71d95d5a2e9157154b",
+    "probe_evidence": "724fb2fb3972decd57b1e396b4760336168afd337a10c30026ce351bf60ea7fd"
+  },
+  "files": {
+    "access_control": "manual-2/data/protein/pdb_external_reflection_map_access_control.csv",
+    "availability_summary": "manual-2/data/protein/pdb_external_reflection_map_availability_summary.csv",
+    "byte_lock": "manual-2/data/protein/pdb_external_reflection_map_byte_lock.csv",
+    "candidate_universe_policy": "manual-2/data/protein/pdb_external_scored_accession_candidate_universe_policy.csv",
+    "leakage_checks": "manual-2/data/protein/pdb_external_reflection_map_leakage_checks.csv",
+    "normalization_policy": "manual-2/data/protein/pdb_external_validation_snapshot_normalization_policy.csv",
+    "probe_evidence": "manual-2/data/protein/pdb_external_reflection_map_probe_evidence.csv"
+  },
+  "lane": "pdb_reflection_map_availability_probe_and_byte_lock_gate",
+  "measurement_space_lane": "unavailable_for_current_accession",
+  "measurement_space_xray_capability": "blocked_by_prediction_representation_and_target_payload_unavailable",
+  "next_milestone": "v40.02r23 Comparison-Space Capability and Observation-Operator Freeze Gate",
+  "normalization_rule_count": 41,
+  "probe_row_count": 7,
+  "probe_state_counts": {
+    "byte_hash_locked": 0,
+    "not_probed": 1,
+    "probed_unavailable": 6,
+    "retrieved_unlocked": 0
+  },
+  "residual_status": "not_computed",
+  "score_status": "no_score",
+  "source_accession": "1CRN",
+  "target_value_read_status": "not_read_not_joined_to_AOD_prediction",
+  "version_scope": "v40.02r22B.2"
+}

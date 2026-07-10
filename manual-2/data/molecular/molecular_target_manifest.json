@@ -1,0 +1,40 @@
+{
+  "lane": "molecular_data_scale",
+  "version_scope": "v40.02r05",
+  "vector_order": [
+    "C",
+    "H",
+    "N",
+    "O",
+    "P",
+    "S"
+  ],
+  "status": "target_packet_scaffold_plus_chain_dec_fixture_carried_forward_into_prediction_freeze_no_external_score",
+  "no_active_value_maps": [
+    "lambda_molecule",
+    "lambda_formula",
+    "lambda_graph",
+    "lambda_chain",
+    "lambda_fold",
+    "lambda_bio"
+  ],
+  "files": {
+    "component_registry_pubchem": "manual-2/data/molecular/component_registry_pubchem.csv",
+    "component_vector_registry": "manual-2/data/molecular/component_vector_registry.csv",
+    "component_composition_delta3": "manual-2/data/molecular/component_composition_delta3.csv",
+    "pubchem_compound_target_packets": "manual-2/data/molecular/pubchem_compound_target_packets.csv",
+    "rdkit_graph_descriptors": "manual-2/data/molecular/rdkit_graph_descriptors.csv",
+    "route_unit_registry": "manual-2/data/molecular/route_unit_registry.csv",
+    "control_unit_registry": "manual-2/data/molecular/control_unit_registry.csv",
+    "link_rule_registry": "manual-2/data/molecular/link_rule_registry.csv",
+    "chain_word_spec": "manual-2/data/molecular/chain_word_spec.csv",
+    "raw_dec_trace_molecular_chain": "manual-2/data/molecular/raw_dec_trace_molecular_chain.csv",
+    "read_only_trace_molecular_chain": "manual-2/data/molecular/read_only_trace_molecular_chain.csv",
+    "detected_chain_motifs": "manual-2/data/molecular/detected_chain_motifs.csv",
+    "sadar_detector_context": "manual-2/data/molecular/sadar_detector_context.csv",
+    "chain_formula_predictions": "manual-2/data/molecular/chain_formula_predictions.csv",
+    "chain_fission_audit": "manual-2/data/molecular/chain_fission_audit.csv",
+    "molecular_chain_delta3_audit": "manual-2/data/molecular/molecular_chain_delta3_audit.csv"
+  },
+  "claim_discipline": "molecular chain-D.E.C. rows are internal fixture rows carried forward; v40.02r05 prediction-freeze rows may read detected motifs and SADAR contexts but do not read PubChem/RDKit/UniProt/PDB/AlphaFold targets"
+}

@@ -1,0 +1,83 @@
+{
+  "activation": {
+    "aod_rebase_with_nonempty_delta_requires_conflict_audit": true,
+    "authoring_refresh_receipt_required": true,
+    "imports_frozen_from_review_through_go": true,
+    "latest_change_after_candidate_freeze_applies_next_authoring": true,
+    "latest_refresh_required_on_each_authoring": true,
+    "new_governance_not_retroactive": true,
+    "refresh_failure_blocks_review_or_go": false,
+    "refresh_requires_review_and_authorized_go": true
+  },
+  "archive_safety": {
+    "absolute_paths_forbidden": true,
+    "device_entries_forbidden": true,
+    "duplicate_members_forbidden": true,
+    "links_forbidden": true,
+    "nested_archive_size_limits_required": true,
+    "traversal_paths_forbidden": true
+  },
+  "asset_contract": {
+    "authored_checksum_manifest_must_verify": true,
+    "exact_required_roles_per_dependency": true,
+    "unexplained_duplicate_role_assets_fail": true,
+    "unversioned_bundle_alias_must_match_selected_versioned_bundle": true
+  },
+  "discovery": {
+    "allowed_only_during_declared_refresh_or_bootstrap_authoring_goal": true,
+    "latest_is_locator_only": true,
+    "latest_refresh_mode": "always_attempt_on_authoring",
+    "normal_phase_network_access": false,
+    "resolved_snapshot_frozen_per_candidate": true
+  },
+  "fallback": {
+    "aod_snapshot_required": true,
+    "bootstrap_snapshots_allowed_until_first_successful_refresh": true,
+    "candidate_binding_required": true,
+    "carry_forward_last_verified_snapshot": true,
+    "complete_four_dependency_snapshot_required": true,
+    "fallback_does_not_claim_latest": true,
+    "fallback_status_must_be_explicit": true
+  },
+  "material": {
+    "archive_links_forbidden": true,
+    "duplicate_archive_paths_forbidden": true,
+    "embed_release_metadata": true,
+    "embed_required_assets": true,
+    "embed_tag_source_snapshot": true,
+    "maximum_single_asset_bytes": 1073741824,
+    "safe_archive_paths_required": true,
+    "source_pdf_same_release_required": true,
+    "verify_authored_checksum_manifests_when_present": true
+  },
+  "metadata": {
+    "normalized_stable_identity_hash_required": true,
+    "raw_snapshot_hash_required": true
+  },
+  "offline": {
+    "embedded_lock_is_authoritative": true,
+    "explicit_fallback_allows_review_and_go": true,
+    "fallback_receipt_is_candidate_bound": true,
+    "last_verified_or_bootstrap_snapshot_may_be_carried_forward": true,
+    "network_failure_blocks_refresh_only": true
+  },
+  "policy_id": "AOD_ROLLING_LATEST_GITHUB_RELEASE_IMPORTS",
+  "profile_binding": {
+    "normalized_profiles_must_bind_resolved_release_assets": true,
+    "stale_profile_fails": true
+  },
+  "resolution": {
+    "asset_id_name_size_sha256_required": true,
+    "complete_four_dependency_resolution_atomic": true,
+    "download_to_staging_then_atomic_commit": true,
+    "exact_owner_repository_required": true,
+    "partial_resolution_must_rollback": true,
+    "reject_draft": true,
+    "reject_prerelease_by_default": true,
+    "release_id_required": true,
+    "release_metadata_sha256_required": true,
+    "resolved_tag_required": true,
+    "tag_commit_sha_required": true
+  },
+  "schema_version": "3.1"
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "active_ledger_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "historical_files": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "mutation_policy": {
+      "const": "immutable_not_used_for_active_counts_or_GO"
+    },
+    "record_scope": {
+      "const": "inactive_historical_snapshot"
+    },
+    "schema_version": {
+      "const": "3.1"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_scope",
+    "active_ledger_path",
+    "historical_files",
+    "mutation_policy"
+  ],
+  "title": "Inactive Cycle History Status",
+  "type": "object"
+}

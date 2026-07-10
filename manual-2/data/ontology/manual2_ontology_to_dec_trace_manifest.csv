@@ -1,0 +1,8 @@
+stage,file,role,order_status
+motif_family_registry,manual-2/data/ontology/manual2_curling_curl_motif_family_registry.csv,declares recurring motif-family names without extending the raw D.E.C. row schema,pre_dec_bookkeeping
+scoped_occurrence_card,manual-2/data/ontology/manual2_scoped_occurrence_registry.csv,binds motif families to fractal coordinate boundary window and scale lane as dataset cards,pre_dec_bookkeeping
+raw_dec_trace,manual-2/data/molecular/raw_dec_trace_molecular_chain.csv,records AFC edge execution using the frozen D.E.C. row schema,execution_ledger
+read_only_trace,manual-2/data/molecular/read_only_trace_molecular_chain.csv,records returned trace support after raw D.E.C. rows,post_dec_trace
+aod_motif_curling_curls_detection,manual-2/data/molecular/detected_chain_motifs.csv,names AOD motif and curling-curls classification after trace exists,post_trace_detection
+sadar,manual-2/data/molecular/sadar_detector_context.csv,promotes returned trace context into SADAR after motif detection,post_trace_context
+downstream_target_map,manual-2/data/protein/protein_contact_score.csv,records downstream comparison lanes only after frozen AOD packet exists,downstream_after_freeze

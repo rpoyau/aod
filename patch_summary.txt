@@ -1,0 +1,15 @@
+v40.04r03 -- Review Transition Coherence AUTHORING repair
+
+Summary:
+- Made BUNDLE_WORKFLOW surface validation phase-aware for REVIEW, GO, and FEEDBACK bundle-instance state while preserving AUTHORING source templates.
+- Aligned run_bundle_transition.py source-delta classification with validate_complete_bundle.py for D.E.C. overlay and foundation doctrine paths.
+- Added regression coverage for phase-aware workflow surfaces and source-delta classifier parity.
+- Preserved Main, Manual I, Manual II, foundation doctrine, D.E.C. overlay rows, and all scientific closed-lane states unchanged.
+
+Scientific scope:
+- No native rows were recomputed.
+- Target joins, SI/metric report activation, residuals, scores, empirical comparisons, subject/reference phase locks, native resonance periods, and hyperfine C6 pass/fail claims remain closed.
+
+Validation:
+- Focused doctrine/process/source-contract suite: 171/171 passed.
+- Review-transition classifier parity and phase-aware workflow-surface tests passed.

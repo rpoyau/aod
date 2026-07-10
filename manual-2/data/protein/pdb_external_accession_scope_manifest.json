@@ -1,0 +1,35 @@
+{
+  "lane": "external_pdb_accession_scope_gate",
+  "version_scope": "v40.02r11",
+  "status": "external PDB accession scope and provenance gate only; no external coordinate payload ingest, no contact residual score, and no coordinate-level folding claim",
+  "external_accession_scope": {
+    "source_database": "RCSB_PDB",
+    "source_accession": "1CRN",
+    "chain_id": "A",
+    "target_packet_id": "pdb_1crn_A_locator",
+    "coordinate_payload_status": "deferred_not_ingested_in_this_gate",
+    "coordinate_payload_hash_status": "required_before_any_external_accession_score",
+    "atom_selector": "CA",
+    "contact_threshold_angstrom": "8.0",
+    "min_sequence_separation": "3"
+  },
+  "input_order_policy": "declare external accession and boundary; keep AOD motif/curling-curls/SADAR freeze upstream; join external target rows only downstream after freeze; compute residual only in a later declared score gate",
+  "files": {
+    "scope_declaration": "manual-2/data/protein/pdb_external_accession_scope_declaration.csv",
+    "target_provenance": "manual-2/data/protein/pdb_external_accession_target_provenance.csv",
+    "boundary_lock": "manual-2/data/protein/pdb_external_accession_boundary_lock.csv",
+    "leakage_checks": "manual-2/data/protein/pdb_external_accession_leakage_checks.csv"
+  },
+  "deferred": [
+    "coordinate_payload_ingest",
+    "external_accession_contact_derivation",
+    "external_accession_residual_score",
+    "RMSD",
+    "TM-score",
+    "GDT",
+    "AlphaFold scoring",
+    "coordinate-level AOD prediction",
+    "lambda_fold"
+  ],
+  "claim_discipline": "Scope/provenance gate only. This is not a PDB validation and not a folding model."
+}

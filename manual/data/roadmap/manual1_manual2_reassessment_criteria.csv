@@ -1,0 +1,6 @@
+criterion_id,category,criterion,status,required_evidence,effect
+R1,protocol,Shared exactness appendix remains canonical through M12,active_M3_to_M12,shared protocol source hash unchanged,main/shared/manual2 frozen
+R2,M3,Atom-field operator is target-blind and unexecuted,complete,input lock; Q/Z domain; exact operator; perturbation policy; selector; controls; SI guard,admits M4 search
+R3,anchor,SI realization requires unique exact zero-perturbation resonance,planned_M5_M6,exact unique candidate; alias count one; contrast; controls; stability,prevents premature anchor
+R4,migration,Empirical mismatch is a typed result and does not block consolidation,active,protocol_audit_status separate from empirical_result,scientific mismatches retained
+R5,manual2,Manual II remains frozen until synchronized reassessment,deferred_M14,manual-2 source/PDF hash unchanged,prevents unsynchronized shared changes

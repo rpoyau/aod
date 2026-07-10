@@ -1,0 +1,73 @@
+{
+  "lane": "multi_pair_scoped_pdb_contact_residual_pilot",
+  "version_scope": "v40.02r10",
+  "status": "multi_pair_contact_residual_pilot_with_declared_negative_support_rows_no_coordinate_metrics_no_active_lambda_fold",
+  "files": {
+    "pdb_multipair_contact_scope_declaration": "manual-2/data/protein/pdb_multipair_contact_scope_declaration.csv",
+    "pdb_multipair_contact_residual_pilot": "manual-2/data/protein/pdb_multipair_contact_residual_pilot.csv",
+    "pdb_multipair_contact_delta3": "manual-2/data/protein/pdb_multipair_contact_delta3.csv",
+    "pdb_multipair_contact_score": "manual-2/data/protein/pdb_multipair_contact_score.csv",
+    "pdb_multipair_contact_leakage_audit": "manual-2/data/protein/pdb_multipair_contact_leakage_audit.csv",
+    "pdb_multipair_contact_score_summary": "manual-2/data/protein/pdb_multipair_contact_score_summary.csv"
+  },
+  "required_input_files": {
+    "previous_scope_declaration": "manual-2/data/protein/pdb_contact_comparison_scope_declaration.csv",
+    "previous_target_provenance": "manual-2/data/protein/pdb_contact_comparison_target_provenance.csv",
+    "previous_leakage_checks": "manual-2/data/protein/pdb_contact_comparison_leakage_checks.csv",
+    "aod_contact_prediction_freeze": "manual-2/data/protein/aod_contact_prediction_freeze.csv",
+    "pdb_mmcif_contact_map_derived": "manual-2/data/protein/pdb_mmcif_contact_map_derived.csv"
+  },
+  "input_hashes": {
+    "previous_scope_declaration": "d1c6b29fe448952ae031316b63ee8b0f9f5d0440a1f29cbf665da217a679408d",
+    "previous_target_provenance": "239ee24b4429688c61d6ee963a28b8873897fe3ea6753b13c433dc49325c1826",
+    "previous_leakage_checks": "2ae1df22759692cd1ebe985c1e17b5d1ebea3f0602708eaf2d33a917d70fb76f",
+    "aod_contact_prediction_freeze": "339acfbe474ea9830ff4263170761998624c2e4a6d70835c65bb34b0798edc1e",
+    "pdb_mmcif_contact_map_derived": "efb0e20e68a8bce8c98fa7c791d2c6d0cbdda5ef588c93fa295ed3fc8e88ce62"
+  },
+  "output_hashes": {
+    "pdb_multipair_contact_scope_declaration": "42b8ec9c3e115fc2c8d5936262e3f2492207c9d36b982986232c9d8d08fbc4aa",
+    "pdb_multipair_contact_residual_pilot": "cc0fd592ce3d8f2a8618266b55fbaecedad648a761ea6fb5b7ff3bebe45c2c08",
+    "pdb_multipair_contact_delta3": "aff697be9479cbdb90ce274a7a450e37f7a17f184684e48c62c4ee71c37fe1dc",
+    "pdb_multipair_contact_score": "4d88babfb12a983353b2bd8f088490113efeaf80d6991e50cffb30893484ce35",
+    "pdb_multipair_contact_leakage_audit": "1ddb0f9bfcd8501cffdea6be4fcdc2edd45e8fe7c3bf4bbc62ad95849f8cd99d",
+    "pdb_multipair_contact_score_summary": "b20ae69a5e7261af8f95293222090a436cdea9316286ae25ea90483dad5f0330",
+    "manifest_without_self_hash": "not_self_hashed"
+  },
+  "detection_policy": "ChainWordSpec plus ReadOnlyTrace is read before AOD motif / curling-curls specification and SADAR context; target contact rows join only after the frozen packet.",
+  "negative_support_policy": {
+    "negative_support_pairs": [
+      "1-2",
+      "2-3"
+    ],
+    "declaration_status": "declared_before_score",
+    "projection_policy": "adjacent route-support pairs are projected to noncontact controls only inside the declared non-adjacent contact metric boundary; the frozen AOD packet is not modified."
+  },
+  "score_summary": {
+    "summary_id": "pdb_multipair_contact_score_summary_001",
+    "score_version": "v40.02r10",
+    "score_origin_version": "v40.02r10",
+    "scope_count": "1",
+    "score_rows": "1",
+    "residual_rows": "3",
+    "metric_scope": "three_pair_fixture_with_two_declared_negative_support_rows",
+    "metric_validity": "multi_pair_residual_denominator_check",
+    "classifier_generalization": "not_scoped_beyond_manual_GAS_fixture",
+    "tp": "1",
+    "fp": "0",
+    "fn": "0",
+    "tn": "2",
+    "precision_micro": "1",
+    "recall_micro": "1",
+    "f1_micro": "1",
+    "jaccard_micro": "1",
+    "mcc_micro": "1",
+    "mcc_status": "defined_with_declared_negative_support_pairs",
+    "lambda_fold_status": "deferred_not_attached",
+    "claim_status": "multi_pair_scoped_contact_residual_pilot_not_folding_model",
+    "release_status": "v40.02r10_multipair_scoped_contact_residual_pilot"
+  },
+  "lambda_fold_status": "deferred_not_attached",
+  "coordinate_metric_status": "RMSD_TM_score_GDT_deferred_until_coordinate_level_AOD_prediction_freeze",
+  "claim_status": "manual_GAS_fixture_multi_pair_contact_residual_pilot_not_folding_model",
+  "release_status": "v40.02r10_multipair_scoped_contact_residual_pilot"
+}

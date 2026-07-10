@@ -1,0 +1,11 @@
+component_id,exact_type,stage,meaning,correction_target
+E_calc,integer_or_hash_audit,native,native D.E.C. arithmetic incidence or hash defect,implementation
+Delta_oct,declared_refinement_difference,native,lawful exact change under a frozen octave refinement relation,none_retained_as_comparison_coordinate
+E_oct,declared_refinement_condition_failure,native,failure of a declared octave relation or condition,octave_relation_or_scope
+E_proj,projection_contract_audit,projection,projection domain basis denominator frame or execution defect,projection_operator
+I_Pi,projection_information_loss_card,projection,declared noninjectivity or discarded native distinctions,metadata_not_arithmetic
+U_obs,exact_interval_set_or_mask,observation,measurement reconstruction normalization and support uncertainty,observation_branch
+E_lineage,hash_relation_or_policy_audit,observation,payload clock synchronization reconstruction or provenance defect,observation_lineage
+E_scope,set_difference_or_relation_status,join,frame boundary pair alignment or window mismatch,join_scope
+E_emp,rational_interval_or_set_distance,post_join,supported prediction versus target disagreement,hypothesis_only_after_other_layers_pass
+E_rep,rational_rendering_difference,render,display unit or rounding difference,renderer

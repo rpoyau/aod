@@ -1,0 +1,129 @@
+{
+  "atlas_lanes": [
+    "Hydrogen transition",
+    "Elementary Matter 118",
+    "Molecular Matter",
+    "Biomolecular Matter"
+  ],
+  "counterfactual_audit": {
+    "audit_file": "manual-2/data/hydrogen_transition/hydrogen_transition_counterfactual_audit.csv",
+    "control_status": "unchanged_control_must_pass",
+    "execution_mode": "executed_mutation_evaluator"
+  },
+  "current_gate_state": {
+    "Hydrogen_r08": "r08_1_repair_authored_review_required_before_GO",
+    "comparison_join_state": "closed",
+    "manual2_pdf": "rebuilt_from_source_after_authoring_repair",
+    "metric_projection_unit": "second"
+  },
+  "deterministic_script": "manual-2/scripts/build_hydrogen_transition_sadar_lock_atlas.py",
+  "generated_files": [
+    {
+      "bytes": "2292",
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_native_packets.csv",
+      "sha256": "834a1d1478a79eabab4f2f0ea3a27d5aaec919d2bbbd69a2b84418749d80d437"
+    },
+    {
+      "bytes": "856",
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_si_second_projection_packets.csv",
+      "sha256": "6068fe46c8182f59c232de44a0ced57c188336f15d056dce7a9e69570ed7550d"
+    },
+    {
+      "bytes": "507",
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_projection_index.csv",
+      "sha256": "03c0c286ed0dea50db5539ba3df46cfdbacf321d36cff1ddc756476770593c31"
+    },
+    {
+      "bytes": "1562",
+      "path": "manual-2/data/hydrogen_transition/tau_cycle_notation_registry.csv",
+      "sha256": "5814d728f7d691e7c1cb5640678b17718d4f7418c9fc2590365d1047b19078d4"
+    },
+    {
+      "bytes": "693",
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_tau_notation_index.csv",
+      "sha256": "abcc8f2f96bb92864e4a61a9a40f5d89c508e99c10735b2b1b2ec57044622ae1"
+    },
+    {
+      "bytes": "1687",
+      "path": "manual-2/data/hydrogen_transition/sadar_lock_matter_octave_atlas.csv",
+      "sha256": "e0b01153995be6e35e8169fc2780a31b5424123a34ee70d56d70d57c10b716c0"
+    },
+    {
+      "bytes": "1596",
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_counterfactual_audit.csv",
+      "sha256": "292ce5c9c8c50a25636679a1e0526bd406d4aedb29b0bc458672987bcbb524f4"
+    }
+  ],
+  "index_ledgers": {
+    "projection_index": "manual-2/data/hydrogen_transition/hydrogen_transition_projection_index.csv",
+    "tau_notation_index": "manual-2/data/hydrogen_transition/hydrogen_transition_tau_notation_index.csv"
+  },
+  "manifest_id": "manual2_hydrogen_transition_sadar_lock_atlas_v1",
+  "native_packet_policy": {
+    "SI_second_status": "downstream_optional_projection_only",
+    "native_before_projection": true,
+    "native_hash_isolation": "projection_and_tau_notation_excluded_from_native_packet_hash",
+    "score_status": "no_score",
+    "target_value_read_status": "not_read",
+    "tau_cycle_notation": "Tau_index_not_native_identity"
+  },
+  "release_class": "target_blind_native_Hydrogen_transition_and_SADAR_lock_atlas_repair",
+  "source_inputs": [
+    {
+      "bytes": "1900",
+      "path": "manual/data/hydrogen/hydrogen1_returned_current_detection.csv",
+      "sha256": "b2b049f16ff28e31c75ceda7039c95255ffe11b62b1a8de1b193c1f09aa4eee1"
+    },
+    {
+      "bytes": "1378",
+      "path": "manual/data/hydrogen/hydrogen1_read_only_trace.csv",
+      "sha256": "633cccb724ee46aca2484af59672018e50158a63c71e03e15839705153113b4b"
+    },
+    {
+      "bytes": "1647",
+      "path": "manual/data/hydrogen/hydrogen1_occurrence_card.csv",
+      "sha256": "96f4cda4fa63422faf424dc7de8f7dd0b768435e1491c82e4a58f373b3463f40"
+    },
+    {
+      "bytes": "11006",
+      "path": "manual-2/data/elementary/element_registry_118.csv",
+      "sha256": "401c887d20f063ba64bcea8d76b70265943afb116521475d8914986e20f5ba34"
+    },
+    {
+      "bytes": "11620",
+      "path": "manual-2/data/elementary/fusion_ladder_336.csv",
+      "sha256": "a38f5a7b625cfcf7ee1abeeae3ce4741ab9a4d249aaa46207c5d7de29a75db59"
+    },
+    {
+      "bytes": "11684",
+      "path": "manual-2/data/elementary/fusion_ladder_346.csv",
+      "sha256": "299880951ba7d190948a4f7b3611b8b9b86337287468cb5b95bebedd0b8ee3f3"
+    },
+    {
+      "bytes": "339",
+      "path": "manual-2/data/molecular/formula_residuals.csv",
+      "sha256": "64aa451cc4a97c5f95f7e11e5e74cf31364edc3826a82d8280fd2b530dc04889"
+    },
+    {
+      "bytes": "1527",
+      "path": "manual-2/data/molecular/chain_formula_predictions.csv",
+      "sha256": "064d75bf471fd07d7e870482a39b729a95f7cb20683f12bcd103e545df126fb0"
+    },
+    {
+      "bytes": "937",
+      "path": "manual-2/data/bio_chain/nucleotide_candidates.csv",
+      "sha256": "3f9d8c573258b74a2666be4b1eec1bbd16563ec10e47457ad00b28172d83f278"
+    },
+    {
+      "bytes": "416",
+      "path": "manual-2/data/bio_chain/peptide_candidates.csv",
+      "sha256": "19cdb112971f6538f7ea89c0dd5d4b3e1fc8159de47bf631a3710c6de08b5d1a"
+    },
+    {
+      "bytes": "378",
+      "path": "manual-2/data/bio_chain/protein_chain_candidates.csv",
+      "sha256": "2b6f9c22f881600c3edf407c36d8a551d6fbec1012c2b7120a4de38e0d6d530a"
+    }
+  ],
+  "version_scope": "v40.03r08.1"
+}

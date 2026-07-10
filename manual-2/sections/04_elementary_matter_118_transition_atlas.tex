@@ -1,0 +1,74 @@
+
+\section{Elementary Matter 118 Transition Atlas Materialization}
+
+This gate materializes the native Elementary Matter 118 atlas as occurrence, transition, and \(\SADARop\)-flow declaration rows.  The rows are native AOD bookkeeping rows; they are not SI reports, not external target rows, and not empirical scores.
+
+\subsection*{Native atlas packet order}
+
+\[
+\begin{aligned}
+&\text{element registry row}
+\rightarrow
+\text{occurrence card}
+\rightarrow
+\text{transition packet}\\
+&\rightarrow
+\text{SADAR flow declaration}
+\rightarrow
+\text{later relational measurement gate.}
+\end{aligned}
+\]
+
+The materialized atlas contains:
+
+\begin{center}
+\begin{tabular}{ll}
+Occurrence cards & 118\\
+Transition packets & 118\\
+SADAR flow declarations & 118\\
+Target joins & 0\\
+SI reports & 0\\
+Residual rows & 0\\
+Score rows & 0\\
+\end{tabular}
+\end{center}
+
+The first and last occurrence cards are:
+
+\begin{center}
+\begin{tabular}{llll}
+Z & Symbol & Name & Occurrence status\\
+1 & H & Hydrogen & materialized\\
+118 & Og & Oganesson & materialized\\
+\end{tabular}
+\end{center}
+
+\subsection*{Closed-lane discipline}
+
+The atlas deliberately keeps the following lanes closed:
+
+\begin{itemize}
+\item target values are not read;
+\item SI frequency or metric report values are not attached;
+\item residuals and scores are not computed;
+\item subject/reference phase locks are not materialized;
+\item hyperfine \(C_6\)-divisibility remains tested, not assumed.
+\end{itemize}
+
+The fail-closed audit rejects target insertion, SI-frequency promotion to native premise, premature metric-report materialization, and any claim that hyperfine \(C_6\) divisibility has passed before a native resonance packet exists.
+
+\subsection*{Release files}
+
+The generated ledgers are listed with wrapped \texttt{\string\path} entries so the rendered Manual-II page stays inside the text block:
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{l>{\raggedright\arraybackslash}X}
+Occurrence cards & \path{manual-2/data/elementary/elementary_matter_118_occurrence_cards.csv}\\
+Transition packets & \path{manual-2/data/elementary/elementary_matter_118_transition_packets.csv}\\
+SADAR flow declarations & \path{manual-2/data/elementary/elementary_matter_118_sadar_flow_declarations.csv}\\
+Atlas summary & \path{manual-2/data/elementary/elementary_matter_118_transition_atlas_summary.csv}\\
+Counterfactual audit & \path{manual-2/data/elementary/elementary_matter_118_counterfactual_audit.csv}\\
+Manifest & \path{manual-2/data/elementary/elementary_matter_118_transition_atlas_manifest.json}\\
+\end{tabularx}
+\end{center}

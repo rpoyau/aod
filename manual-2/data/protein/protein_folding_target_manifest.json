@@ -1,0 +1,34 @@
+{
+  "lane": "protein_folding_target_normalization_gate",
+  "version_scope": "v40.02r04",
+  "status": "target_normalization_gate_carried_forward_no_aod_prediction_score",
+  "files": {
+    "protein_sequence_target_packets": "manual-2/data/protein/protein_sequence_target_packets.csv",
+    "pdb_mmcif_structure_targets": "manual-2/data/protein/pdb_mmcif_structure_targets.csv",
+    "alphafold_structure_targets": "manual-2/data/protein/alphafold_structure_targets.csv",
+    "protein_contact_map_targets": "manual-2/data/protein/protein_contact_map_targets.csv",
+    "protein_distance_matrix_targets": "manual-2/data/protein/protein_distance_matrix_targets.csv",
+    "protein_structure_target_limitations": "manual-2/data/protein/protein_structure_target_limitations.csv"
+  },
+  "contact_threshold_angstrom_default": 8.0,
+  "min_sequence_separation_default": 3,
+  "manual_fixture_min_sequence_separation": 2,
+  "normalization_policy": "target rows and hashes only; v40.02r04 created the target-normalization gate, and later packages carry it forward without treating target rows as prediction premises",
+  "leakage_policy": "target coordinates, contact maps, distance matrices, confidence fields, and secondary-structure labels are forbidden as prediction premises",
+  "source_roles": {
+    "PDB/mmCIF": "experimental target locator lane",
+    "AlphaFold": "predicted-structure comparator lane, not ground truth",
+    "UniProt": "sequence target locator lane",
+    "manual_fixture": "schema fixture lane only"
+  },
+  "no_active_value_maps": [
+    "lambda_molecule",
+    "lambda_formula",
+    "lambda_graph",
+    "lambda_chain",
+    "lambda_fold",
+    "lambda_bio"
+  ],
+  "next_milestone": "v40.02r05 -- AOD Contact/Reclosure Prediction Freeze; v40.02r06 -- Protein Contact-Map Residual / Folding Target Comparison",
+  "claim_discipline": "normalization rows do not assert protein folding prediction, biological function, solvent stability, kinetics, or coordinate-level AOD structure prediction; later AOD predictions remain contact/reclosure packets only"
+}

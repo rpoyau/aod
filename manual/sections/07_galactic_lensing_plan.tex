@@ -6,7 +6,7 @@
 \subsection{Lensing lanes}\label{manual:lensing-status-lock}
 \small
 \begin{longtable}{p{0.24\textwidth}p{0.10\textwidth}p{0.56\textwidth}}
-\caption{Galactic lensing diagnostic lanes.}\label{tab:manual-lensing-status-lock}\\
+\caption{Galactic lensing data and projection lanes.}\label{tab:manual-lensing-status-lock}\\
 \toprule
 Lane & Class & Active fields\\
 \midrule
@@ -91,19 +91,19 @@ checks passed & 11/11\\
 \label{fig:manual-lensing-toy-delta3}
 \end{figure}
 
-\subsection{SPARC5 lens-medium diagnostic}\label{manual:lensing-sparc5-medium-diagnostic}
-SPARC5 instantiates a radial lens-medium data-support class. It supplies radial field-medium inputs for diagnostic runs. Image-count, Einstein-radius, image-position, and shear target fields are target-side quantities carried by SWELLS or an L3 input package.
+\subsection{SPARC5 lens-medium 2D data fixture}\label{manual:lensing-sparc5-medium-diagnostic}
+SPARC5 instantiates a radial lens-medium data-support class. It supplies radial field-medium inputs for declared projection/readout runs. Image-count, Einstein-radius, image-position, and shear target fields are target-side quantities carried by SWELLS or an L3 input package.
 \input{data/lensing/sparc5_medium_diagnostic_summary_table.tex}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\linewidth]{figures/lensing/03_sparc5_lens_medium_phase_proxy.png}
-\caption{SPARC5 radial lens-medium data-support class. The plotted quantities are diagnostic medium proxies; lensing targets are carried by SWELLS or a higher-resolution class.}
+\caption{SPARC5 radial lens-medium data-support class. The plotted quantities are 2D medium-proxy coordinates; lensing targets are carried by SWELLS or a higher-resolution class.}
 \label{fig:manual-lensing-sparc5-proxy}
 \end{figure}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\linewidth]{figures/lensing/04_sparc5_class_tally_heatmap.png}
-\caption{SPARC5 lens-medium class tallies. The dominant diagnostic route class is recorded for audit.}
+\caption{SPARC5 lens-medium class tallies. The dominant declared route class is recorded for audit.}
 \label{fig:manual-lensing-sparc5-classes}
 \end{figure}
 
@@ -146,7 +146,7 @@ The A\(\Omega\) input side carries medium fields, gate values, and declared pred
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.90\linewidth]{figures/lensing/09_staged_lensing_lane.png}
-\caption{Staged galactic lensing lane. Toy fixtures, SPARC5 diagnostics, SWELLS acquisition, retained baseline, K2/K3 audit diagnostics, and K4 gate are kept distinct.}
+\caption{Staged galactic lensing lane. Toy fixtures, the SPARC5 2D data fixture, SWELLS acquisition, retained baseline, K2/K3 audit outputs, and K4 gate are kept distinct.}
 \label{fig:manual-lensing-staged-lane}
 \end{figure}
 \begin{figure}[H]

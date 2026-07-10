@@ -32,6 +32,11 @@ jobs:
           latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
           cp manual/main.pdf manual.pdf
 
+      - name: Build Manual II Fractal Fusion Scales
+        run: |
+          latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual-2/main.tex
+          cp manual-2/main.pdf manual-2.pdf
+
       - name: Run test suite
         run: |
           set -o pipefail
@@ -47,7 +52,7 @@ jobs:
 
       - name: Build release artifacts
         run: |
-          python3 scripts/build_release_bundle.py --outdir dist --tests tests.txt --main main.pdf --manual manual.pdf
+          python3 scripts/build_release_bundle.py --outdir dist --tests tests.txt --main main.pdf --manual manual.pdf --manual2 manual-2.pdf
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -63,10 +68,16 @@ jobs:
           gh release upload "${{ github.event.release.tag_name }}" \
             dist/main.pdf \
             dist/manual.pdf \
+            dist/manual-2.pdf \
+            dist/MANUAL_I_ROADMAP.md \
+            dist/MANUAL_II_ROADMAP.md \
             dist/source.zip \
+            dist/bundle-${{ github.event.release.tag_name }}.zip \
             dist/bundle.zip \
             dist/tests.txt \
             dist/patch_summary.txt \
+            dist/MANUAL_ARTIFACT_BASELINES_SHA256.txt \
+            dist/EXTERNAL_PAYLOADS_SHA256.txt \
             dist/BUNDLE_CONTENTS_SHA256.txt \
             dist/SHA256.txt \
             --clobber

@@ -1,0 +1,57 @@
+\section{Reproducibility manifest}
+
+Manual II is fixture-backed and target-packet-backed. The manifest file is
+\[
+\texttt{manual-2/data/manifest.json}.
+\]
+It names the elementary, molecular, bio-chain, and protein target lanes and records the protocol sequence:
+\begin{enumerate}[leftmargin=2.3em]
+  \item setup declared boundary/window/octave;
+  \item run raw AFC/D.E.C. substrate;
+  \item trace-detect retained events;
+  \item freeze exact ladder rows or target packets;
+  \item map to observables only after freeze;
+  \item report residuals and error ledger.
+\end{enumerate}
+
+\subsection{Generator}
+
+The deterministic data generators are:
+\begin{itemize}[leftmargin=2.3em]
+  \item \texttt{manual-2/scripts/run\_fractal\_fusion\_scales.py}
+  \item \texttt{manual-2/scripts/run\_molecular\_chain\_fusion\_dec.py}
+  \item \texttt{manual-2/scripts/normalize\_protein\_folding\_targets.py}
+  \item \texttt{manual-2/scripts/freeze\_aod\_contact\_reclosure\_predictions.py}
+  \item \texttt{manual-2/scripts/score\_protein\_contact\_map\_residuals.py}
+\end{itemize}
+It generates the element registry, ladder rows, molecular formula rows, molecular/protein target-packet scaffolds, chain rows, protein target-normalization rows, contact/distance target hashes, frozen contact/reclosure prediction packets, protein contact residual rows, PubChem lookup fixtures, leakage guards, and optional RDKit graph descriptors.
+
+\subsection{Release packaging}
+
+Manual II is a first-class release asset. The release bundle contains:
+\begin{center}
+\begin{tabular}{@{}l@{}}
+\toprule
+Artifact \\
+\midrule
+\texttt{main.pdf} \\
+\texttt{manual.pdf} \\
+\texttt{manual-2.pdf} \\
+\texttt{MANUAL\_II\_ROADMAP.md} \\
+\texttt{source.zip} \\
+\texttt{bundle.zip} \\
+\texttt{tests.txt} \\
+\texttt{patch\_summary.txt} \\
+\texttt{BUNDLE\_CONTENTS\_SHA256.txt} \\
+\texttt{SHA256.txt} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Completion rule}
+
+A new octave may be appended to this manual only if it follows the same ordering:
+\[
+\text{boundary declaration} \to \text{raw run} \to \text{trace detector} \to \text{exact row freeze} \to \text{observable map} \to \text{error ledger}.
+\]
+This is the main reason for the Manual II package: readers see the machinery before they see domain-specific observables.

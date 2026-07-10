@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blocking_reason": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "bootstrap_imports": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "dependency_id": {
+            "enum": [
+              "AF",
+              "AFC",
+              "GM",
+              "AOD"
+            ]
+          },
+          "path": {
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "legacy_bootstrap_hash_locked_noncanonical_fallback",
+              "resolved_release_supersedes_bootstrap"
+            ]
+          }
+        },
+        "required": [
+          "dependency_id",
+          "path",
+          "sha256",
+          "status"
+        ],
+        "type": "object"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array"
+    },
+    "candidate_release": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "canonical_lock_path": {
+      "const": "governance/UPSTREAM_RELEASE_LOCK.json"
+    },
+    "canonical_lock_present": {
+      "type": "boolean"
+    },
+    "fallback_claims_latest": {
+      "const": false
+    },
+    "fallback_mode": {
+      "enum": [
+        "none_resolved_lock_active",
+        "carry_forward_last_verified_lock",
+        "bootstrap_hash_locked_until_first_successful_refresh"
+      ]
+    },
+    "fallback_snapshot_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "fallback_snapshot_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "go_blocking": {
+      "type": "boolean"
+    },
+    "go_eligible": {
+      "type": "boolean"
+    },
+    "latest_locator_semantics": {
+      "const": "authoring_discovery_resolved_snapshot_frozen_per_candidate"
+    },
+    "refresh_attempt_evidence": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "refresh_attempt_receipt_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "refresh_attempt_receipt_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "refresh_attempt_status": {
+      "enum": [
+        "resolved_latest_and_embedded",
+        "attempted_network_unavailable_fallback_active",
+        "attempted_api_failure_fallback_active"
+      ]
+    },
+    "refresh_mode": {
+      "const": "always_attempt_latest_on_authoring"
+    },
+    "required_next_operation": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "status_id": {
+      "const": "AOD_UPSTREAM_RELEASE_LOCK_STATUS"
+    },
+    "validation_mode": {
+      "const": "strict_lock_when_present_or_explicit_nonblocking_fallback"
+    }
+  },
+  "required": [
+    "schema_version",
+    "status_id",
+    "candidate_release",
+    "canonical_lock_path",
+    "canonical_lock_present",
+    "go_eligible",
+    "latest_locator_semantics",
+    "blocking_reason",
+    "required_next_operation",
+    "bootstrap_imports",
+    "validation_mode",
+    "go_blocking",
+    "refresh_mode",
+    "refresh_attempt_status",
+    "refresh_attempt_evidence",
+    "fallback_mode",
+    "fallback_claims_latest",
+    "refresh_attempt_receipt_path",
+    "refresh_attempt_receipt_sha256",
+    "fallback_snapshot_path",
+    "fallback_snapshot_sha256"
+  ],
+  "title": "AOD Upstream Release Refresh Status",
+  "type": "object"
+}

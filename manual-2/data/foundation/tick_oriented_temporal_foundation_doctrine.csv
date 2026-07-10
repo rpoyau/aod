@@ -1,0 +1,11 @@
+sequence,doctrine_id,object,positive_statement,native_status,report_status
+1,null_cut_running,Null symmetry to cut-running,Null symmetry becomes traceable through declared cut-running.,foundation_doctrine,not_applicable
+2,monon_beat,monon beat,The monon is the completed branch/hinge/branch beat of cut-running.,foundation_doctrine,not_applicable
+3,duon_current_cadence,duon current,Temporal flow is duon-current cadence: dynamic relational distinction-current between two or more fields.,foundation_doctrine,not_applicable
+4,boundary_window,declared boundary/window,A boundary and readout window anchor flow for observation and recurrence selection.,foundation_doctrine,not_applicable
+5,sadar_balance,SADAR,"SADAR is a boundary-scoped returned-current, pressure, and attention-balance object.",foundation_doctrine,not_applicable
+6,tick_click_cadence,tick/click cadence,Ticks are duon-current emissions; clicks are returned-duon receptions and closure updates.,foundation_doctrine,not_applicable
+7,clock_extractor,clock process,A clock process extracts recurring ticks from a declared recurrence and compares them relationally.,foundation_doctrine,not_applicable
+8,relational_tick_count,measured time,Measured time is relational tick count.,foundation_doctrine,not_applicable
+9,report_card_expression,frequency and SI units,"Frequency, hertz, and SI seconds are report-card expressions derived from tick counts.",report_layer_only,downstream_report_card
+10,entropic_duon_current,entropy,Entropy in current AOD is information-capacity accounting over retained ternary distinction-current and unresolved return burden.,foundation_doctrine,not_applicable

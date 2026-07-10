@@ -1,0 +1,49 @@
+\section{Fractal fusion protocol}
+
+Manual II is organized around one protocol. Domain labels are delayed until after the protocol is fixed.
+
+\subsection{Protocol FFS-0}
+
+\begin{enumerate}[leftmargin=2.3em]
+  \item Declare the octave label $\ell$, coordinate $\zeta$, finite region $R_\zeta$, boundary $\partial R_\zeta$, and window $\omega$.
+  \item Declare the raw AFC/D.E.C. substrate: state alphabet, admissible distinctions, boundary transitions, and retained accounting rows.
+  \item Run the raw trace $\Trace$ without importing external empirical targets.
+  \item Apply a declared detector $\Detect$ to the raw trace. The detector may label closure, fusion, ladder depth, residual burden, or sheddic route placement.
+  \item Freeze exact rows $\Freeze(\Trace,\Detect)$ before any external mapping.
+  \item Apply the observable map $\Obs$ only after the exact rows are frozen.
+  \item Compare to the external dataset $\Data$ only inside the declared support class.
+  \item Report absolute error, relative error, residual class, source lane, and failure hook.
+\end{enumerate}
+
+In compact notation:
+\[
+\FFL_\ell = \Pi_{\mathrm{obs},\ell}\!\left(\Freeze_\ell\!\left(\Detect_\ell(\Trace_\ell)\right)\right),
+\]
+with the constraint that $\Pi_{\mathrm{obs},\ell}$ is not allowed to rewrite $\Trace_\ell$ or $\Detect_\ell$.
+
+\subsection{Protocol invariant}
+
+The invariant is procedural, not material:
+\[
+\text{boundary} \to \text{raw AFC/D.E.C.} \to \text{trace detection} \to \text{frozen row} \to \text{observable map}.
+\]
+The elementary, molecular, and bio-chain examples differ in data type and external comparison source, but they obey the same row freeze rule.
+
+\aodnoteblock{Reader rule}{Do not read a successful comparison row as a new axiom. Read it as an observable-map row downstream from a declared finite boundary run.}
+
+\subsection{Scale and octave labels}
+
+A scale label is a bookkeeping coordinate. It tells the reader which observable dictionary is active. It does not license transfer of external laws across scales unless a separate map is declared.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Label & Meaning in Manual II \\
+\midrule
+\texttt{exact} & row follows by the declared integer or formula ledger \\
+\texttt{comparison} & row reads an exact result against an external dataset or named lookup lane \\
+\texttt{candidate} & row is admissible under the detector but not promoted to a physical or biological claim \\
+\texttt{residual} & row preserves a nonzero difference instead of deleting it \\
+\bottomrule
+\end{tabularx}
+\end{center}

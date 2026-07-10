@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authoring_attempt": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "bound_digests": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_payload_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "delta_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "governance_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "input_feedback_template_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "source_tree_delta_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_payload_manifest_sha256",
+        "delta_manifest_sha256",
+        "source_tree_delta_manifest_sha256",
+        "governance_manifest_sha256",
+        "input_feedback_template_sha256"
+      ],
+      "type": "object"
+    },
+    "candidate_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "classification": {
+      "enum": [
+        "release_infrastructure",
+        "scientific_source_authoring"
+      ]
+    },
+    "evidence_paths": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "frozen_claim": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "implemented_changes": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "phase": {
+      "const": "AUTHORING"
+    },
+    "record_scope": {
+      "const": "bundle_instance"
+    },
+    "report_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "test_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "tests_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "unresolved_blockers": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_scope",
+    "report_id",
+    "candidate_version",
+    "authoring_attempt",
+    "phase",
+    "classification",
+    "implemented_changes",
+    "frozen_claim",
+    "test_count",
+    "tests_path",
+    "unresolved_blockers",
+    "bound_digests",
+    "evidence_paths"
+  ],
+  "title": "Concrete Authoring Report",
+  "type": "object"
+}

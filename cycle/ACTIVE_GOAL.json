@@ -1,0 +1,39 @@
+{
+  "frozen_artifacts": [
+    "shared/",
+    "external_payloads/"
+  ],
+  "go_exit_conditions": [
+    "Live SPARC Manual-I headings, captions, and registry rows use the 2D observable-data fixture classification.",
+    "Main and Manual I state the SADAR/clock distinction and declared report-coordinate discipline.",
+    "Manual-II overlay fields separate operator parameters, report values, reference cards, enclosures, and activation status.",
+    "Manual-II PDF has no text bounding boxes outside the page boundary.",
+    "Intentionally revised and frozen artifact sets are disjoint and frozen paths remain unchanged.",
+    "Closed lanes remain closed.",
+    "An unmodified source-carried AUTHORING-to-REVIEW transition reproduces a valid REVIEW successor.",
+    "Surface synchronization accepts REVIEW/GO/FEEDBACK phase-instance workflow state while preserving AUTHORING source state."
+  ],
+  "goal_id": "goal_r3_foundation_doctrine_dec_reporting_overlay_plan",
+  "intentionally_revised_artifacts": [
+    "main.pdf",
+    "manual.pdf",
+    "manual-2.pdf",
+    "sections/",
+    "manual/",
+    "manual-2/"
+  ],
+  "milestone_id": "R3",
+  "next_milestone_on_go": "v40.04r04 -- Manual-II Worked Example Reshape",
+  "schema_version": "3.1",
+  "scope": [
+    "Retype live SPARC Manual-I fixture surfaces as 2D observable-data fixtures while preserving declared derived diagnostic outputs.",
+    "Add the explicit SADAR/clock distinction to Main and Manual I.",
+    "Split D.E.C. overlay operator parameters, report values, reference cards, enclosures, and activation state.",
+    "Repair Manual-II overlay layout and harden PDF overflow detection.",
+    "Type intentionally revised and frozen artifacts explicitly and complete the surface-synchronizer trace.",
+    "Do not materialize target joins, SI report values, metric report values, residuals, scores, empirical comparisons, subject/reference phase locks, native resonance periods, or hyperfine C6 pass/fail claims.",
+    "Make review/GO/feedback workflow surfaces phase-aware while preserving authored source templates.",
+    "Keep review-transition source-delta classification identical to complete-bundle validation."
+  ],
+  "title": "Manual I/Main Foundation Doctrine and Manual-II D.E.C. Reporting Overlay Plan"
+}

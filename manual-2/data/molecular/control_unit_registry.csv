@@ -1,0 +1,2 @@
+control_unit_id,control_formula,n_C,n_H,n_N,n_O,n_P,n_S,control_role,route_status,release_status
+methane_carbon_saturation_control,CH4,1,4,0,0,0,0,carbon_saturation_control,not_a_default_chain_route,v40.02r02_no_chain_score

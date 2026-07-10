@@ -1,0 +1,34 @@
+{
+  "binding_policy": "Concrete review records are external reviewer-supplied and data-driven; bind concrete payload, source-tree delta, governance, feedback, authoring, and tests digests only at deterministic review materialization.",
+  "candidate_id": "working_candidate_v40_04r03_foundation_doctrine_dec_reporting_overlay_plan",
+  "candidate_version": "v40.04r03",
+  "checks": [
+    {
+      "check_id": "replace_with_reviewer_check",
+      "evidence": "replace with reviewer-performed evidence",
+      "status": "not_applicable"
+    }
+  ],
+  "closed_findings": [],
+  "counterfactuals": [
+    "replace with reviewer-performed counterfactuals"
+  ],
+  "falsification_conditions": [
+    "replace with reviewer-defined falsification conditions"
+  ],
+  "finding_resolutions": [],
+  "go_recommended": true,
+  "governing_constraints": [
+    "AF_PROTOCOL",
+    "AFC_PROCEDURAL_DYNAMICS",
+    "AOD_BUNDLE_CYCLE"
+  ],
+  "open_findings": [],
+  "record_scope": "source_template",
+  "review_id": "review_template_v40_04r03_foundation_doctrine_dec_reporting_overlay_plan",
+  "review_scope": "review_submission_template_for_concrete_v40_04r03_candidate",
+  "reviewer_class": "independent_bundle_reviewer",
+  "schema_version": "3.1",
+  "verdict": "GO_RECOMMENDED",
+  "verdict_reason": "Template for independent review after v40.04r03 AUTHORING materialization; no verdict is bound until REVIEW successor assembly."
+}

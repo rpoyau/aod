@@ -1,0 +1,14 @@
+object_id,object_class,native_role,not_equal_to,materialization_status
+bip,trace_token,directed relation/transition token in a D.E.C. trace,temporal_flow;temporal_measurement;metric_time,declared_type
+trace_count,combinatorial_count,number of executed or enumerated bip tokens in a trace,RD;RCD;SADAR_flow;metric_time,derived_per_trace
+cycle,closure_class,declared cycle/closure class over a scoped occurrence,fixed_elapsed_duration;metric_second,declared_by_cycle_function
+closure_status,boundary_result,result of applying the declared closure operator on a boundary/window,outer_qualifier_L;C_n_name;trace_count,derived_by_closure_gate
+RD,path_conditioned_accessor,reflection-duration accessor on an admitted path family,minimum_bip_count;realized_bip_count;metric_time,distribution_or_realized_row
+RCD,coupled_reflection_accessor,RD coupled to asymmetric return relation,RD_alone;metric_time,derived_after_RD
+rhoD_omega,window_participation,current-window participation clipped from RCD duration,RD;TTL;trace_count,derived_after_RCD
+duon_current,returned_current_form,returned-current form D_i mu D_j carried by cycles and boundaries,duration_unit;metric_second,declared_or_detected_per_occurrence
+duonic_pressure,local_coupling_load,local pressure/load from returned current participation,cadence;time_measurement,derived_from_rhoD_and_capacity
+SADAR_flow,directed_boundary_current,directed pressure-weighted boundary-current flow,metric_time;target_observation,derived_from_duonic_pressure_and_attention
+temporal_flow,native_flow,evolution and recurrence of SADAR current within scoped boundary/window,trace_count;metric_report,packet_declared_here
+temporal_measurement,relational_lock,phase/cadence lock between subject flow and chosen reference flow,native_flow_alone;metric_unit,not_materialized
+metric_report,downstream_projection,unit-labelled report after metrological reference card is declared,native_calculus;SADAR_flow,closed

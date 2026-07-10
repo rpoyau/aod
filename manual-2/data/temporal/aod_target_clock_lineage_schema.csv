@@ -1,0 +1,16 @@
+field_name,exact_type,required,role,freeze_stage
+clock_target_packet_id,identifier,yes,stable time-target packet identifier,observation_branch
+source_payload_sha256,sha256_hex,yes,clock or timing payload byte identity,observation_branch
+clock_lineage_id,identifier,yes,clock realization and calibration lineage,observation_branch
+t_obs_num,integer,yes,observed rational time numerator,observation_branch
+t_obs_den,integer_positive,yes,observed rational time denominator,observation_branch
+uncertainty_lower_num,integer,conditional,lower uncertainty-bound numerator,observation_branch
+uncertainty_lower_den,integer_positive,conditional,lower uncertainty-bound denominator,observation_branch
+uncertainty_upper_num,integer,conditional,upper uncertainty-bound numerator,observation_branch
+uncertainty_upper_den,integer_positive,conditional,upper uncertainty-bound denominator,observation_branch
+proper_time_frame,identifier,yes,declared proper-time frame or realization frame,observation_branch
+synchronization_policy_id,identifier,yes,clock synchronization policy,observation_branch
+relativistic_correction_policy_id,identifier,yes,relativistic correction policy,observation_branch
+quality_state,enum,yes,supported ambiguous excluded unavailable,observation_branch
+prediction_read_status,enum,yes,must be not_read at observation freeze,observation_branch
+clock_packet_sha256,sha256_hex,yes,hash of frozen clock-lineage packet,observation_branch

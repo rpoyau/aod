@@ -1,0 +1,25 @@
+\section{Regenerating the CSV ledgers}
+
+The source tree carries deterministic scripts for regenerating the Manual II ledgers. Run them from the repository root.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Script & Ledger family \\
+\midrule
+\texttt{manual-2/scripts/run\_fractal\_fusion\_scales.py} & elementary, molecular seed, and bio-chain fixture rows \\
+\texttt{manual-2/scripts/run\_molecular\_chain\_fusion\_dec.py} & molecular chain-fusion, fission, and CHNOPS audit rows \\
+\texttt{manual-2/scripts/normalize\_protein\_folding\_targets.py} & protein target locator and normalization rows \\
+\texttt{manual-2/scripts/freeze\_aod\_contact\_reclosure\_predictions.py} & frozen AOD contact/reclosure packets \\
+\texttt{manual-2/scripts/score\_protein\_contact\_map\_residuals.py} & manual-fixture contact residual score rows \\
+\texttt{manual-2/scripts/derive\_pdb\_mmcif\_contact\_maps.py} & PDBx/mmCIF target coordinate and contact-map derivation rows \\
+\texttt{manual-2/scripts/declare\_pdb\_contact\_comparison\_scope.py} & PDB contact-comparison scope declaration rows \\
+\texttt{manual-2/scripts/score\_scoped\_pdb\_contact\_residual\_pilot.py} & scoped PDB contact residual pilot rows \\
+\texttt{manual-2/scripts/score\_multipair\_pdb\_contact\_residual\_pilot.py} & multi-pair contact residual denominator pilot rows \\
+\texttt{manual-2/scripts/declare\_external\_pdb\_accession\_scope.py} & external PDB accession scope and leakage-gate rows \\
+\path{manual-2/scripts/probe_external_pdb_reflection_map_availability.py} & reflection/map availability, byte-lock, normalization-policy, access-control, and candidate-universe guard rows \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Regeneration is bound by the freeze-first ledger order: exact rows and prediction-freeze rows precede target comparison rows.

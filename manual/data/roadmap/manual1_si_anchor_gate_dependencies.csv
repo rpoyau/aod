@@ -1,0 +1,15 @@
+gate_id,depends_on,required_state,blocked_action,reason
+M1H,M1_structural_occurrence_gate,complete,native coupled recurrence construction,canonical exact-mass execution and cryptographic pre-detection admission must close before recurrence
+M2,M1H,complete,atom-field operator freeze,primitive recurrence must be derived from a connected target-free coupled-state trace
+M3,M2,complete,target-blind native resonance search,drive domain and interaction operator must bind to a certified recurrence
+M4,M3,complete,native resonance certificate,"response search follows the frozen phase domain, windows, operator, controls, and selector"
+M5,M4,complete,correspondence mode and SI anchor,"native cadence, alias class, contrast, perturbation extraction, and stability must be certified"
+M6,M5,exact_unique_zero_perturbation_resonance_or_mode_remains_pending,exact SI-valued report rows,SI realization requires a unique exact resonance; independent validation requires a separately frozen time scale
+M7,M6,complete,native cut and circle report audit,typed SI report cards require an active anchor and explicit physical-domain contracts
+M8,M7,complete,native tracer/run-tumble migration,circle and finite-cut migration require exact report-card and refinement infrastructure
+M9,M7;M8,complete,observation-qualified tracer comparison,native motion and exact projection lanes require the anchor and finite native operators
+M10,M6;M7,complete,hydrogen holdout join,holdout requires frozen anchor and frequency report contract
+M11,M6;M7,complete,Tau time join,Tau projection requires frozen anchor and time report contract
+M12,M8;M9;M10;M11,complete,Manual-I consolidation,"migration audit requires native-operator, motion, and holdout lanes"
+M13,M12,protocol_audit_complete,Manual-II reassessment,empirical mismatch does not block consolidation when ledgers are complete and valid
+M14,M13,complete,Manual-II shared-v2 activation,Manual-II reassessment follows synchronized proposal and artifact-baseline audit

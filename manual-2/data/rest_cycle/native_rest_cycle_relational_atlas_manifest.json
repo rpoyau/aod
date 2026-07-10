@@ -1,0 +1,31 @@
+{
+  "core_rule": "temporal_flow_is_native_SADAR_current; temporal_measurement_is_relational_lock_against_reference; metric_second_is_downstream_metrological_report",
+  "files": {
+    "duon_current_flow_packets.csv": {
+      "path": "manual-2/data/rest_cycle/duon_current_flow_packets.csv",
+      "sha256": "6497ffdf3160aa2ef2239ef2aae4ba88227181056a78e881963f89ccff278bc0"
+    },
+    "matter_octave_rest_cycle_atlas.csv": {
+      "path": "manual-2/data/rest_cycle/matter_octave_rest_cycle_atlas.csv",
+      "sha256": "c0a26c81886aedf1a12299f9915966b5bd9b9e145553d9c362b6a2a22d311b02"
+    },
+    "relational_measurement_packets.csv": {
+      "path": "manual-2/data/rest_cycle/relational_measurement_packets.csv",
+      "sha256": "182c40dd294b441abbf9ea88f273b60f473e48d48039dca3dbaf8d65e8a04e17"
+    },
+    "rest_cycle_type_card.csv": {
+      "path": "manual-2/data/rest_cycle/rest_cycle_type_card.csv",
+      "sha256": "b1c1e2987210df6d87a343a7e57b33babf0e6fccb50ef24344949ad8801c5b46"
+    },
+    "sadar_temporal_flow_packets.csv": {
+      "path": "manual-2/data/rest_cycle/sadar_temporal_flow_packets.csv",
+      "sha256": "97e2d4530991aa1576245268f8b264b4f031427fd758287334b1b53e9ea0ca1c"
+    }
+  },
+  "residual_status": "not_computed",
+  "schema": "aod.manual2.native_rest_cycle_relational_atlas.v1",
+  "score_status": "no_score",
+  "status": "authoring_materialized_no_target_join",
+  "target_value_read_status": "not_read",
+  "version_scope": "v40.03r13.1"
+}

@@ -1,0 +1,68 @@
+\section{External PDB alignment-rule freeze / no-alignment carry-forward gate}
+\label{sec:external-pdb-alignment-rule-freeze-gate}
+
+This gate freezes the alignment rule state for the external 1CRN boundary.  No
+concrete GAS-to-1CRN alignment rule is declared here.  Therefore the only valid
+AOD/D.E.C. action is to freeze the no-alignment carry-forward state before any
+target join or residual score is allowed.
+
+The frozen record is
+\[
+\begin{gathered}
+\texttt{alignment\_rule\_type}=\texttt{no\_alignment\_carry\_forward},\\
+\texttt{alignment\_freeze\_status}=\texttt{frozen\_no\_alignment\_carry\_forward},\\
+\texttt{alignment\_status}=\texttt{no\_alignment\_declared\_frozen}.
+\end{gathered}
+\]
+
+It reads the already frozen external evaluation boundary
+\[
+N_{\mathrm{eval}}=946
+\]
+and the frozen AOD packet
+\[
+\texttt{chain\_GAS\_tripeptide\_seed},\qquad
+\texttt{aod\_reclosure\_pred\_002},\qquad
+\texttt{sadar\_mol\_005}.
+\]
+The coverage state remains
+\[
+N_{\mathrm{in\ scope}}=0,\qquad
+N_{\mathrm{out\ of\ scope}}=946,\qquad
+N_{\mathrm{abstain}}=0,
+\]
+so that
+\[
+\texttt{projection\_coverage}=0/946=0.0.
+\]
+
+The detection order is unchanged:
+\[
+\begin{array}{c}
+\text{ChainWordSpec + ReadOnlyTrace}\\
+\downarrow\\
+\text{A$\Omega$D motif / curling-curls specification}\\
+\downarrow\\
+\text{SADAR context}\\
+\downarrow\\
+\text{frozen contact packet}\\
+\downarrow\\
+\text{downstream target join.}
+\end{array}
+\]
+The downstream join is still blocked.  Target contact values are not read in this
+gate.  Residual rows and score rows are not computed.
+
+The freeze ledgers are
+\[
+\begin{array}{ll}
+\text{freeze row} & \texttt{pdb\_external\_alignment\_rule\_freeze.csv},\\
+\text{pair scope} & \texttt{pdb\_external\_alignment\_rule\_freeze\_pair\_scope.csv},\\
+\text{policy} & \texttt{pdb\_external\_alignment\_rule\_freeze\_policy\_application.csv},\\
+\text{leakage audit} & \texttt{pdb\_external\_alignment\_rule\_freeze\_leakage\_checks.csv},\\
+\text{manifest} & \texttt{pdb\_external\_alignment\_rule\_freeze\_manifest.json}.
+\end{array}
+\]
+
+Coordinate metrics, AlphaFold comparison, coordinate-level AOD prediction, and
+\(\lambda_{\mathrm{fold}}\) remain deferred.

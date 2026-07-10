@@ -1,0 +1,103 @@
+\section{Validation-report local-support ingest gate}
+
+This gate locks the release-local parsed snapshot used for the validation audit and applies the already frozen local-support rule.  The snapshot records selected fields from the official full wwPDB validation report for the external 1CRN target.  It is not represented as the original archive PDF, XML, or CIF byte stream; those upstream byte locks remain separate availability objects.
+
+\subsection{Payload and provenance state}
+
+The target branch records
+\[
+\text{official validation report}
+\longrightarrow
+\text{hash-locked parsed snapshot}
+\longrightarrow
+\text{predeclared support-rule application}.
+\]
+The report identifies X-ray diffraction at a reported resolution of $1.50\,\text{\AA}$.  The validation pipeline records Xtriage and EDS as not executed.  Consequently, the local model-to-data fields RSRZ and RSCC are unavailable in this gate.
+
+The native geometry tables identify four residue-level outliers:
+\[
+A{:}7\ \mathrm{ILE},\qquad
+A{:}12\ \mathrm{ASN},\qquad
+A{:}14\ \mathrm{ASN},\qquad
+A{:}37\ \mathrm{GLY}.
+\]
+The four rows remain native geometry-outlier evidence, but their support action is
+observable-aware.  The $C_\alpha$-involving ILE~7 and GLY~37 flags are
+selected-atom/backbone support ambiguities; the ASN~12 and ASN~14 flags are
+side-chain-only support ambiguities.  None of the four flags makes the selected
+$C_\alpha$ coordinate absent or unusable.  All residues remain
+\texttt{quality\_ambiguous} because EDS-derived local fit and missing-density
+support are unavailable.
+
+\subsection{Frozen aggregation rule}
+
+The residue rule is evaluated without post-ingest threshold selection:
+\[
+\begin{aligned}
+\texttt{quality\_excluded}
+&\iff \text{any required component is excluded},\\
+\texttt{quality\_supported}
+&\iff \text{every required component is candidate-supported},\\
+\texttt{quality\_ambiguous}
+&\iff \text{otherwise}.
+\end{aligned}
+\]
+The pair rule is
+\[
+\texttt{quality\_supported}
+\iff
+\text{both residues are quality-supported}.
+\]
+Every other pair carries the effective target state \texttt{abstain}.  The current materialization therefore gives
+\[
+N_{\rm residue}^{\rm supported}=0,
+\qquad
+N_{\rm residue}^{\rm ambiguous}=46,
+\qquad
+N_{\rm residue}^{\rm excluded}=0,
+\]
+and, over the frozen 946-pair boundary,
+\[
+N_{\rm pair}^{\rm supported}=0,
+\qquad
+N_{\rm pair}^{\rm ambiguous}=946,
+\qquad
+N_{\rm pair}^{\rm excluded}=0.
+\]
+The coordinate-model fixture still carries 114 contact bits and 832 noncontact bits, while the quality-admitted target mask remains
+\[
+N_{\rm effective}^{\rm contact}=0,
+\qquad
+N_{\rm effective}^{\rm noncontact}=0,
+\qquad
+N_{\rm effective}^{\rm abstain}=946.
+\]
+
+\subsection{Two distinct activation gates}
+
+The target-side mask opens under
+\[
+N_{\rm quality\ supported\ pairs}>0.
+\]
+The AOD comparison join is stricter:
+\[
+N_{\rm quality\ supported\ pairs}>0
+\quad\land\quad
+\text{declared alignment/projection rule}
+\quad\land\quad
+N_{\rm in\ scope}>0.
+\]
+The target branch may read coordinate-derived contact bits to materialize its own ternary mask.  Those values remain unread by, and unjoined to, the frozen AOD prediction branch.  Residual and score ledgers remain closed.
+
+The supporting ledgers are
+\begin{verbatim}
+manual-2/data/protein/
+  pdb_external_validation_payload_byte_lock.csv
+  pdb_external_validation_global_metrics.csv
+  pdb_external_validation_residue_outlier_ingest.csv
+  pdb_external_validation_local_support_ingest.csv
+  pdb_external_residue_quality_mask.csv
+  pdb_external_quality_masked_contact_target.csv
+  pdb_external_quality_masked_contact_summary.csv
+  pdb_external_validation_local_support_manifest.json
+\end{verbatim}

@@ -1,0 +1,42 @@
+{
+  "appendix_role": "protocol_only_no_empirical_gate_activation",
+  "calculus_exactness": "declared_fractal_coordinate_octave_boundary_temporal_order_window_and_policy",
+  "comparison_rule": "hash_locked_branch_isolated_unseal_then_typed_residual",
+  "current_state": {
+    "alignment_projection_rule_state": "none_declared",
+    "candidate_universe_state": "not_materialized",
+    "comparable_pair_count": "zero",
+    "comparison_join_state": "closed",
+    "comparison_protocol_name": "hash_locked_branch_isolated_comparison",
+    "coordinate_generative_projection_state": "not_materialized",
+    "metric_projection_operator_state": "contract_declared_not_instantiated",
+    "native_fold_calculus_state": "contract_declared_fixture_only",
+    "observation_uncertainty_ledger_state": "not_materialized_for_scored_accession",
+    "octave_refinement_contract_state": "declared_not_instantiated",
+    "projection_information_loss_state": "intentional_noninjectivity_recorded_outside_E_proj",
+    "protocol_state_id": "manual2_exact_calculus_projection_double_blind_protocol",
+    "release_effect": "protocol_appendix_only_no_gate_activation",
+    "residual_status": "not_computed",
+    "score_status": "no_score",
+    "selected_accession": "none",
+    "target_value_read_status": "not_read",
+    "temporal_order_contract_state": "declared_ordered_DEC_trace_contract"
+  },
+  "files": {
+    "double_blind_state": "manual-2/data/protein/aod_double_blind_comparison_protocol_state.csv",
+    "protocol": "manual-2/data/protein/aod_exact_calculus_projection_protocol.csv",
+    "typed_residual_registry": "manual-2/data/protein/aod_typed_residual_component_registry.csv",
+    "uncertainty_field_registry": "manual-2/data/protein/aod_observation_uncertainty_field_registry.csv"
+  },
+  "metric_projection_exactness": "declared_integer_rational_map_may_be_noninjective",
+  "observation_uncertainty_rule": "freeze_from_observation_lineage_before_prediction_join",
+  "octave_refinement_rule": "Delta_oct_records_lawful_change_and_E_oct_requires_explicit_failure_condition",
+  "projection_information_loss_rule": "declared_noninjectivity_is_metadata_not_E_proj",
+  "sha256": {
+    "double_blind_state": "740a36a6872b795a065668d504b5f8d4eeffc74a4656d79846a32bdd25bde021",
+    "protocol": "6ee6b9e490b7121212d021d9c5a9e74a1b479d847d90a26dc47eb341ab781d9e",
+    "typed_residual_registry": "bef2c5a248e7dca9c2a7a235ccb12ada1c72511a19e4735858675d0cca36627a",
+    "uncertainty_field_registry": "13e7f6d38d8488f6d96bc3eb2784016c459fbf5758e686c3de7a863c0d64cdf0"
+  },
+  "temporal_exactness_rule": "ordered_DEC_trace_and_declared_window_are_part_of_native_scope"
+}

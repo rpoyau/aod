@@ -1,0 +1,63 @@
+\section{Protein contact residual worked row}
+
+This row compares one already frozen AOD contact/reclosure packet against one already derived target contact bit.
+
+\subsection{Frozen prediction and target}
+
+The prediction-freeze ledger gives
+\[
+\widehat O_{1,3}=1.
+\]
+The target derivation ledger gives
+\[
+O_{1,3}=1.
+\]
+The integer residual is therefore
+\[
+\Delta^{\mathbb Z}_{1,3}
+=\widehat O_{1,3}-O_{1,3}
+=1-1=0.
+\]
+The retained contact residual class is
+\[
+\delta_3=(0,0).
+\]
+
+\subsection{Confusion row}
+
+Because the prediction and target are both contacts, the pair is a true positive:
+\[
+TP=1,
+\qquad
+FP=0,
+\qquad
+FN=0,
+\qquad
+TN=0.
+\]
+The summary metrics over this declared pair subset are
+\[
+\mathrm{precision}=1,
+\qquad
+\mathrm{recall}=1,
+\qquad
+F_1=1,
+\qquad
+J=1.
+\]
+The MCC denominator has no true-negative support in this one-pair subset, so the ledger records it as undefined rather than inventing a value.
+
+\subsection{Ledger pointer}
+
+The score row is recorded in
+\begin{center}
+\small\path{manual-2/data/protein/protein_contact_score.csv}
+\end{center}
+The contact residual row is recorded in
+\begin{center}
+\small\path{manual-2/data/protein/protein_contact_delta3.csv}
+\end{center}
+The summary row is recorded in
+\begin{center}
+\small\path{manual-2/data/protein/protein_score_summary.csv}
+\end{center}

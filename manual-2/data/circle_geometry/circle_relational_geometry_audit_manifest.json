@@ -1,0 +1,37 @@
+{
+  "candidate_version": "v40.03r17.1",
+  "files": [
+    {
+      "byte_count": 1256,
+      "path": "manual-2/data/circle_geometry/circle_relational_geometry_type_card.csv",
+      "sha256": "3acff2af6e88df912ea579387e687b481aeb007e94156678993cf22e85532745"
+    },
+    {
+      "byte_count": 894,
+      "path": "manual-2/data/circle_geometry/circle_relational_geometry_audit_records.csv",
+      "sha256": "c40ff5381090f91872d9b75418997a39e7e364973030727ccbe9f700c409bda6"
+    },
+    {
+      "byte_count": 620,
+      "path": "manual-2/data/circle_geometry/circle_trace_independence_requirements.csv",
+      "sha256": "735ac1312fe75afc67a979814f1b9f6671ecefdf75899c39419c05a3d6f61c2b"
+    },
+    {
+      "byte_count": 450,
+      "path": "manual-2/data/circle_geometry/circle_tau_pi_notation_policy.csv",
+      "sha256": "a583fb4ce4c80c6eaaf9e58ddab28be05fbc6d7d328d73b4d3945bc88d41bcd5"
+    },
+    {
+      "byte_count": 958,
+      "path": "manual-2/data/circle_geometry/circle_relational_geometry_counterfactual_audit.csv",
+      "sha256": "d59715c6125174d98e2c01db5e652c358f87e2170c5af7aca7628fd03d2a68ce"
+    }
+  ],
+  "manifest_id": "circle_relational_geometry_audit_manifest_r17_1",
+  "metric_report_status": "closed",
+  "native_generation_status": "record_cards_materialized_traces_pending",
+  "residual_status": "not_computed",
+  "schema_version": "1.0",
+  "score_status": "no_score",
+  "target_join_status": "closed"
+}

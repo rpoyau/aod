@@ -1,0 +1,4 @@
+audit_id,declared_domain,prediction_input,observation_inputs,exact_relation,residual_expression,required_lineage_fields,current_state
+cross_map_h_nu,photon_frequency_lane,none_protocol_only,E_obs;nu_obs,E=h*nu,R_hnu=E_obs-h*nu_obs,energy_lineage;frequency_lineage;unit_policy,schema_declared_not_instantiated
+cross_map_c_t,null_or_light_path_lane,none_protocol_only,d_obs;t_obs,d=c*t,R_ct=d_obs-c*t_obs,distance_lineage;clock_lineage;frame_policy,schema_declared_not_instantiated
+cross_map_nu_t,recurring_cycle_lane,none_protocol_only,nu_obs;t_obs;n_cycle,nu*t=n_cycle,R_nut=nu_obs*t_obs-n_cycle,frequency_lineage;clock_lineage;cycle_count_policy,schema_declared_not_instantiated

@@ -1,0 +1,4 @@
+term_id,field_name,definition,is_coordinate_byte_hash,relationship_to_future_coordinate_payload_sha256,release_status
+PDB-EXT-TERM-001,payload_registration_sha256,compatibility alias for the locator/policy registration hash; this is not the external mmCIF byte-payload SHA-256,false,distinct_from_future_coordinate_payload_sha256,v40.02r12.1_terminology_clarity
+PDB-EXT-TERM-002,locator_policy_registration_sha256,hash of the locked external payload locator plus boundary/readout policy card,false,precedes_and_does_not_replace_future_coordinate_payload_sha256,v40.02r12.1_terminology_clarity
+PDB-EXT-TERM-003,coordinate_payload_sha256,future SHA-256 of the actual external PDBx/mmCIF coordinate byte payload,true_when_registered_in_future_gate,required_before_external_residue_or_contact_derivation,v40.02r12.1_terminology_clarity

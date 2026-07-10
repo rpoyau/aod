@@ -1,0 +1,93 @@
+\section{Circle Relational Geometry Audit Records}
+
+\paragraph{Scope.}
+This section materializes the circle relational-geometry audit cards.  It does not compute a circumference trace, an area trace, an SI report, a target join, a residual, or a score.
+
+\[
+\boxed{
+\text{circle audit}=
+\text{independent boundary flow}
+\bowtie
+\text{independent interior closure}
+}
+\]
+
+\paragraph{Type separation.}
+The audit uses the same rest-cycle discipline as the native rest-cycle atlas.  A bip count is an execution count.  A circle relation is a geometric relation.  A metric report is a downstream card.  These are distinct packets.
+
+\[
+\boxed{
+\text{native trace}
+\neq
+\text{metric radius report}
+\neq
+\text{external target}
+}
+\]
+
+\paragraph{Circle relation card.}
+The record declares a symbolic radius packet $r$, a circumference relation, and an area relation:
+
+\[
+C=\tau_{\mathrm{cycle}} r,
+\qquad
+A=\frac{\tau_{\mathrm{cycle}} r^2}{2}.
+\]
+
+The exact cross-relation is:
+
+\[
+\boxed{Cr-2A=0.}
+\]
+
+The symbol $\pi$ is not admitted as a native primitive.  If used later as display notation, it is quarantined by the relation:
+
+\[
+\pi=\frac{\tau_{\mathrm{cycle}}}{2}.
+\]
+
+\paragraph{Trace independence.}
+The circumference and area traces are independent future rows:
+
+\[
+C_\zeta=\sum_{e\in\partial D_\zeta}\ell_e,
+\qquad
+A_\zeta=\sum_{f\in D_\zeta}a_f.
+\]
+
+Neither trace may read a decimal $\pi$ target, a metric radius report, or the other trace before its own freeze.
+
+\paragraph{Current materialized files.}
+The materialized audit cards are:
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+File & Role\\
+\midrule
+\texttt{circle\_relational\_geometry\_type\_card.csv} & Type separation\\
+\texttt{circle\_relational\_geometry\_audit\_records.csv} & Symbolic circle audit row\\
+\texttt{circle\_trace\_independence\_requirements.csv} & Independent trace requirements\\
+\texttt{circle\_tau\_pi\_notation\_policy.csv} & $\tau$/$\pi$ notation quarantine\\
+\texttt{circle\_relational\_geometry\_counterfactual\_audit.csv} & Fail-closed counterfactuals\\
+\texttt{circle\_relational\_geometry\_audit\_manifest.json} & Hash manifest\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Closed lanes.}
+The current gate remains closed for metric reports, target values, residuals, and scores:
+
+\[
+\boxed{
+\begin{array}{c}
+\mathrm{metric\ report}=\mathrm{closed},\quad
+\mathrm{target\ read}=\mathrm{not\ read},\quad
+\mathrm{residual}=\mathrm{not\ computed},\quad
+\mathrm{score}=\mathrm{no\ score}
+\end{array}
+}
+\]
+
+\paragraph{Counterfactual audit.}
+The fail-closed audit rejects four premature promotions: $\pi$ as a native primitive, a one-metre radius as native input, an external target before trace freeze, and a shared trace for both circumference and area.  The unchanged control passes.

@@ -1,0 +1,86 @@
+
+\section{External PDB coordinate-payload hash gate}
+
+The external accession is already named. This step is a coordinate-payload hash gate: the external payload path and boundary policies are locked, while coordinate bytes, residue tables, contact maps, and scores remain deferred. The coordinate payload joins at a later byte-hash gate before any target contact derivation.
+
+\subsection{Payload path and hash lock}
+
+The scope row is carried from the accession gate:
+\[
+  \mathrm{source}=\mathrm{RCSB\ PDB},\qquad
+  \mathrm{accession}=\texttt{1CRN},\qquad
+  \mathrm{chain}=A.
+\]
+The payload locator is
+\[
+  \texttt{https://files.rcsb.org/download/1CRN.cif}.
+\]
+The current gate records the payload URI and a locator/policy registration hash for the locked policy card. It does not commit external coordinate bytes. Therefore the byte-payload SHA-256 remains a required precondition for any later residue-table or contact-map derivation:
+\[
+\begin{aligned}
+  \mathrm{coordinate\_payload\_path}&=\texttt{external\_uri\_declared},\\
+  \mathrm{coordinate\_payload\_sha256}&=\texttt{required\_before\_contact\_derivation},\\
+  \mathrm{residue\_table\_status}&=\texttt{blocked\_until\_payload\_byte\_hash\_lock}. % blocked_until_payload_byte_hash_lock
+\end{aligned}
+\]
+
+
+\subsection{Registration hash versus byte-payload hash}
+
+This gate carries two distinct hash roles. The locator/policy registration hash records the locked locator and boundary card:
+\[
+  \mathrm{locator\_policy\_registration\_sha256}
+  =\mathrm{hash}(\mathrm{URI},\mathrm{chain},\mathrm{model},\mathrm{atom},d_{\rm cut},\min |i-j|,\mathrm{policies}).
+\]
+The compatibility field \texttt{payload\_registration\_sha256} is an alias for this locator/policy hash. It is not the external mmCIF byte-payload hash. The coordinate byte-payload hash remains the future field:
+\[
+  \mathrm{coordinate\_payload\_sha256}
+  =\mathrm{hash}(\mathrm{actual\ external\ 1CRN.cif\ bytes}),
+\]
+and it is not satisfied in this package. Until that byte hash is registered, residue tables, external contact maps, and external-accession scores remain blocked.
+
+The carried-forward \texttt{pdb\_mmcif\_*} ledgers are Manual-II target-only fixtures from earlier gates. They are not the external \texttt{1CRN} byte-payload ingest lane and are not scored as an external accession here.
+
+\subsection{Boundary policy locked before derivation}
+
+The future coordinate readout policy is fixed before any coordinate payload is parsed:
+\[
+\begin{aligned}
+  \mathrm{model\ policy}&=\texttt{model\_1\_preferred\_single\_model},\\
+  \mathrm{residue\ index\ basis}&=\texttt{one\_based\_residue\_sequence\_position},\\
+  \mathrm{atom\ selector}&=C\alpha,\\
+  d_{\rm cut}&=8.0\,\text{\AA},\\
+  \min |i-j|&=3.
+\end{aligned}
+\]
+Alternate-location and missing-residue policies are also locked before derivation. The purpose is to make a later target contact row reproducible before it is allowed to meet a frozen AOD packet.
+
+\subsection{Deferred derivation order}
+
+The valid future order is
+\[
+\begin{aligned}
+\text{accession scope}
+&\rightarrow \text{payload byte-hash lock}\\
+&\rightarrow \text{residue coordinate table}\\
+&\rightarrow \text{external contact map}\\
+&\rightarrow \text{evaluation-pair boundary}\\
+&\rightarrow \text{frozen AOD packet + downstream target join}\\
+&\rightarrow \Delta_Z,\delta_3,\text{ score audit}.
+\end{aligned}
+\]
+The target payload still never enters the raw D.E.C. row, the read-only trace, the AOD motif / curling-curls specification, or the SADAR context. Those remain upstream of the target map.
+
+\subsection{Ledger pointers}
+
+The hash-gate ledgers are:
+\[
+\begin{array}{ll}
+\text{hash gate} & \texttt{pdb\_external\_coordinate\_payload\_hash\_gate.csv},\\
+\text{provenance lock} & \texttt{pdb\_external\_coordinate\_payload\_provenance\_lock.csv},\\
+\text{policy lock} & \texttt{pdb\_external\_coordinate\_payload\_policy\_lock.csv},\\
+\text{derivation block} & \texttt{pdb\_external\_coordinate\_payload\_derivation\_block.csv},\\
+\text{leakage checks} & \texttt{pdb\_external\_coordinate\_payload\_leakage\_checks.csv}.
+\end{array}
+\]
+The manifest records this as a hash/provenance gate only: no coordinate parsing, no contact-map derivation, no external-accession residual score, and no coordinate-level folding metric. The byte payload, residue table, contact map, residual score, and coordinate metrics join at later declared gates.

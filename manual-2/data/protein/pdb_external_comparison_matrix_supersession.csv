@@ -1,0 +1,2 @@
+matrix_path,matrix_status,superseded_by,canonical_matrix_status,supersession_reason,release_status
+manual-2/data/protein/pdb_external_comparison_allowed_matrix.csv,historical_carried_forward,manual-2/data/protein/pdb_external_comparison_space_capability_gate.csv,authoritative_current_capability_state,r23 capability gate normalizes payload families and operator states; r24 retains it as canonical and tightens comparable-pair activation,v40.02r24_candidate_universe_snapshot_target_independent_accession_selection_gate

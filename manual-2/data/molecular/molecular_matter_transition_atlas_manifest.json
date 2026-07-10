@@ -1,0 +1,49 @@
+{
+  "atlas_id": "molecular_matter_transition_atlas_v40_03r25_1",
+  "closed_lanes": [
+    "target_join",
+    "SI_report_values",
+    "metric_report_values",
+    "residuals",
+    "scores",
+    "empirical_comparison",
+    "subject_reference_phase_lock"
+  ],
+  "files": [
+    {
+      "path": "molecular_matter_transition_occurrence_cards.csv",
+      "sha256": "0e497ba8032e9a8fc51594ce717151fc62865fa0ba451b17bd9c06b0efd92c61"
+    },
+    {
+      "path": "molecular_matter_transition_packets.csv",
+      "sha256": "27b9955f5b8f83e6cc89626a6929c62bda42eac70e1359f71022a7156f1f17ff"
+    },
+    {
+      "path": "molecular_matter_sadar_flow_declarations.csv",
+      "sha256": "c2070b6ce05f482e465f1d0f95d284f2a25700ca0d86b7e84a8a21a4bd0de16c"
+    },
+    {
+      "path": "molecular_matter_transition_atlas_summary.csv",
+      "sha256": "388f16634eecd365634bc769cf1c33a3e63c6faeed8308afc76a0b6d837658c8"
+    },
+    {
+      "path": "molecular_matter_counterfactual_audit.csv",
+      "sha256": "470465507d39b93cf306e3f177a7d588844f47a9d34a9b34c86f75b6501f027d"
+    }
+  ],
+  "metric_report_count": 0,
+  "milestone": "v40.03r25.1",
+  "occurrence_card_count": 23,
+  "residual_count": 0,
+  "sadar_flow_declaration_count": 23,
+  "schema_version": "1.0",
+  "score_count": 0,
+  "si_report_count": 0,
+  "source_basis": [
+    "component_registry_seed.csv",
+    "chain_formula_predictions.csv",
+    "detected_chain_motifs.csv"
+  ],
+  "target_join_count": 0,
+  "transition_packet_count": 23
+}

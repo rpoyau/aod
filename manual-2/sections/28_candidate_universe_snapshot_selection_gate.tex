@@ -1,0 +1,107 @@
+\section{Candidate-universe snapshot and target-independent accession selection gate}
+
+The first quality-supported external accession must be chosen from a frozen archive universe under a policy declared before any AOD agreement value is read. This gate therefore freezes the compatibility policy, archive query specification, eligibility filter, and deterministic selection rule before an accession is selected.
+
+\subsection{Motif-compatibility policy before archive selection}
+
+The active AOD packet family is the contact/reclosure packet
+\[
+\texttt{chain\_GAS\_tripeptide\_seed}
+\longrightarrow
+\texttt{aod\_reclosure\_pred\_002}
+\longrightarrow
+\texttt{sadar\_mol\_005}.
+\]
+The candidate-screening policy is frozen before the archive universe is materialized. It is a topology/window-capacity prefilter, not an alignment rule and not a score. The external chain must lie in the declared length range and admit at least one ordered four-residue window with
+\[
+|j-i|\ge 3.
+\]
+Residue identities, target contact values, and AOD agreement values are not inspected by this policy. Before a later alignment is declared, external pairs remain \texttt{out\_of\_scope}; after an alignment exists, an in-scope non-emission may be recorded as \texttt{abstain}.
+
+\subsection{Frozen archive-query specification}
+
+The archive prefilter is recorded as a canonical JSON request for the RCSB Search API. The service accepts structured JSON queries through its documented query endpoint and returns entry identifiers for the declared result type \cite{rcsbSearchAPI}. The frozen prefilter asks for experimental X-ray entries with archive-reported resolution no worse than 2.0~\AA. Remaining byte-lock, validation, selected-atom, chain, size, alternate-location, payload, and motif-policy criteria are applied only after the official response is byte-locked.
+
+The query object is identified by
+\[
+\texttt{pdb\_candidate\_universe\_query\_spec\_v1}
+\]
+and its release-local SHA-256 is
+\[
+\texttt{c32df05574d61df6d1877b3d781a0ca2f77425bf61790cbdee42cef1327bbc29}.
+\]
+The query specification is embedded in the canonical bundle as release-policy metadata.
+
+\subsection{Snapshot and selection state}
+
+The official archive response was not materialized in this offline build. Consequently,
+\[
+N_{\mathrm{candidate\ universe}}=\texttt{not\_materialized},
+\qquad
+N_{\mathrm{eligible}}=\texttt{not\_materialized},
+\]
+and
+\[
+\texttt{selected\_accession}=\texttt{none}.
+\]
+This is a deliberate closed-gate result. The deterministic selection rule---the lexicographically lowest accession among all fully eligible rows---cannot execute until the official response JSON is stored, byte-counted, SHA-256 locked, and audited under the frozen eligibility filter.
+
+The next required chain is
+\begin{center}
+archive response byte lock\\
+$\downarrow$\\
+candidate-universe snapshot\\
+$\downarrow$\\
+per-accession eligibility audit\\
+$\downarrow$\\
+eligible-accession list hash\\
+$\downarrow$\\
+target-independent selection.
+\end{center}
+No target contact value and no AOD agreement value is read in this gate.
+
+\subsection{Canonical comparison gate}
+
+The authoritative capability table is
+\[
+\texttt{pdb\_external\_comparison\_space\_capability\_gate.csv}.
+\]
+The earlier \texttt{pdb\_external\_comparison\_allowed\_matrix.csv} is carried forward as historical metadata and is explicitly superseded for current capability decisions.
+
+A derived-contact residual may activate only when every factor below is satisfied:
+\[
+N_{\mathrm{quality\ supported}}>0,
+\qquad
+\mathcal A_{\mathrm{alignment}}=1,
+\]
+\[
+N_{\mathrm{in\ scope}}>0,
+\qquad
+N_{\mathrm{prediction\ emitted}}>0,
+\qquad
+N_{\mathrm{comparable}}>0.
+\]
+Here $\mathcal A_{\mathrm{alignment}}=1$ means that a concrete alignment/projection rule is declared and frozen.
+Here a comparable pair has both
+\[
+\widehat O_{ij}\in\{0,1\}
+\qquad\text{and}\qquad
+O^{\mathrm{target}}_{ij}\in\{0,1\}.
+\]
+The current values are zero for quality-supported, in-scope, prediction-emitted, and comparable pairs. The target join, residual ledger, and score audit therefore remain closed.
+
+\subsection{Ledger pointers}
+
+The gate is recorded by:
+\begin{itemize}[leftmargin=2em]
+\item compatibility policy: \path{pdb_external_motif_compatibility_policy.csv}
+\item eligibility filter: \path{pdb_external_scored_accession_eligibility_rule_v2.csv}
+\item query specification: the registered candidate-universe JSON request under \path{external_pdb_candidate_universe_queries/}
+\item response status: \path{pdb_external_candidate_universe_query_response_status.csv}
+\item snapshot gate: \path{pdb_external_scored_accession_candidate_universe_snapshot_gate.csv}
+\item eligibility audit: \path{pdb_external_candidate_universe_eligibility_audit.csv}
+\item selection gate: \path{pdb_external_candidate_universe_selection_gate.csv}
+\item supersession record: \path{pdb_external_comparison_matrix_supersession.csv}
+\item leakage audit: \path{pdb_external_candidate_universe_leakage_checks.csv}
+\item manifest: \path{pdb_external_candidate_universe_manifest.json}
+\end{itemize}

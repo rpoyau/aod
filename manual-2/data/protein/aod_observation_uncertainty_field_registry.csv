@@ -1,0 +1,21 @@
+field_name,exact_type,required,role
+uncertainty_row_id,identifier,yes,stable row identifier
+observation_id,identifier,yes,observable or observation packet identifier
+source_payload_sha256,sha256_hex,yes,byte identity of source payload
+source_byte_count,integer_nonnegative,yes,exact source byte count
+source_lineage_id,identifier,yes,measurement and reconstruction lineage pointer
+normalization_operator_id,identifier,yes,frozen observation normalization map
+observable_name,identifier,yes,declared comparison observable
+admissible_set_type,enum,yes,singleton categorical set rational interval rational box finite set or unavailable
+lower_num,integer,conditional,lower rational numerator when interval based
+lower_den,integer_positive,conditional,lower rational denominator when interval based
+upper_num,integer,conditional,upper rational numerator when interval based
+upper_den,integer_positive,conditional,upper rational denominator when interval based
+categorical_admissible_set,finite_symbol_set,conditional,exact categorical support such as 0 1 or 0_and_1
+quality_mask_state,enum,yes,supported ambiguous excluded or unavailable
+missingness_state,enum,yes,present missing alternate unresolved or out_of_scope
+reconstruction_support_state,enum,yes,direct derived model_supported model_unsupported or unknown
+quantization_num,integer_nonnegative,conditional,exact report quantization numerator
+quantization_den,integer_positive,conditional,exact report quantization denominator
+prediction_read_status,enum,yes,must be not_read at uncertainty freeze
+freeze_sha256,sha256_hex,yes,hash of frozen uncertainty row

@@ -1,0 +1,48 @@
+\section{PDBx/mmCIF CA-contact target worked row}
+
+This example uses the committed GAS target fixture. It is a target-normalization row, not an AOD prediction row.
+
+\subsection{From atom-site rows to a contact bit}
+
+The target derivation path is
+\[
+\texttt{mmCIF atom-site rows}
+\to
+\texttt{residue coordinate table}
+\to
+\texttt{CA distance}
+\to
+\texttt{contact bit}.
+\]
+For the pair $(1,3)$, the derived CA distance is
+\[
+ d_{1,3}=7.6\,\text{Angstrom}.
+\]
+The declared target rule uses threshold $8.0\,\text{Angstrom}$ and minimum sequence separation $2$:
+\[
+ d_{1,3}\le 8.0\,\text{Angstrom},
+\qquad
+ |3-1|\ge 2.
+\]
+Therefore the target contact bit is
+\[
+\boxed{O_{1,3}=1.}
+\]
+Adjacent pairs are retained in the distance ledger but are outside this contact-map scope.
+
+\subsection{Ledger pointer}
+
+The distance row is recorded in
+\begin{center}
+\small\path{manual-2/data/protein/pdb_mmcif_distance_matrix_derived.csv}
+\end{center}
+The contact row is recorded in
+\begin{center}
+\small\path{manual-2/data/protein/pdb_mmcif_contact_map_derived.csv}
+\end{center}
+The derivation manifest is
+\begin{center}
+\small\path{manual-2/data/protein/pdb_mmcif_contact_derivation_manifest.json}
+\end{center}
+
+\aodnoteblock{Target lock}{The target contact bit is forbidden as a raw D.E.C. premise and forbidden as a prediction-freeze premise. It is read only after the AOD packet is frozen.}

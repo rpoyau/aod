@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bound_digests": {
+      "additionalProperties": false,
+      "properties": {
+        "authoring_report_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "candidate_payload_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "delta_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "feedback_ledger_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "governance_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "review_record_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "source_tree_delta_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "go_decision_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_payload_manifest_sha256",
+        "delta_manifest_sha256",
+        "source_tree_delta_manifest_sha256",
+        "governance_manifest_sha256",
+        "feedback_ledger_sha256",
+        "authoring_report_sha256",
+        "review_record_sha256"
+      ],
+      "type": "object"
+    },
+    "candidate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "from_phase": {
+      "enum": [
+        "AUTHORING",
+        "REVIEW",
+        "FEEDBACK",
+        "GO"
+      ]
+    },
+    "go_eligible": {
+      "type": "boolean"
+    },
+    "open_blocking_feedback": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "parent_bundle": {
+      "additionalProperties": false,
+      "properties": {
+        "filename": {
+          "pattern": "^bundle-v.+\\.zip$",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "filename",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "predecessor_state": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "transition_sequence": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "transition_sequence"
+      ],
+      "type": "object"
+    },
+    "previous_row_sha256": {
+      "oneOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "r08_status": {
+      "enum": [
+        "BLOCKED",
+        "OPEN"
+      ],
+      "type": "string"
+    },
+    "recording_semantics": {
+      "const": "content_addressed_no_wall_clock"
+    },
+    "row_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "sequence": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "to_phase": {
+      "enum": [
+        "AUTHORING",
+        "REVIEW",
+        "FEEDBACK",
+        "GO"
+      ]
+    },
+    "transition_class": {
+      "enum": [
+        "ledger_bootstrap_from_parent_state",
+        "ordinary_parent_prefix_plus_one"
+      ]
+    },
+    "transition_id": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "sequence",
+    "transition_id",
+    "transition_class",
+    "parent_bundle",
+    "predecessor_state",
+    "from_phase",
+    "to_phase",
+    "candidate_id",
+    "bound_digests",
+    "open_blocking_feedback",
+    "go_eligible",
+    "r08_status",
+    "recording_semantics",
+    "previous_row_sha256",
+    "row_sha256"
+  ],
+  "title": "AOD Append-Only Transition Record",
+  "type": "object",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "to_phase": {
+            "const": "GO"
+          }
+        },
+        "required": [
+          "to_phase"
+        ]
+      },
+      "then": {
+        "properties": {
+          "bound_digests": {
+            "required": [
+              "go_decision_sha256"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

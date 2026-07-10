@@ -1,0 +1,43 @@
+\section{External PDB contact-map derivation gate}
+
+This gate derives target-contact rows from the locked external PDB residue-coordinate table and then stops.  It is a target-side contact-map construction gate, not an AOD prediction join and not an external residual score.
+
+\paragraph{Declared contact policy.}
+The residue table is the chain-A, model-1, C$\alpha$ table for 1CRN.  The contact policy is declared before pair generation:
+\[
+  |\mathrm{label\_seq}_j-\mathrm{label\_seq}_i|\geq 3,
+  \qquad
+  d_{ij}^{C\alpha}\leq 8.0\,\text{\AA}.
+\]
+The first inequality is the sequence-separation gate.  It is part of the target-contact definition, not a score-time option.
+
+\paragraph{Pair count.}
+The chain contains 46 selected C$\alpha$ rows.  Therefore the unordered pair count is
+\[
+  \binom{46}{2}=1035.
+\]
+The declared sequence-separation rule excludes the 45 adjacent pairs and the 44 next-nearest pairs:
+\[
+  1035-45-44=946.
+\]
+Thus the target contact map has 946 eligible rows.  Applying the 8.0 \AA{} C$\alpha$ cutoff gives
+\[
+  N_{\mathrm{contact}}=114,
+  \qquad
+  N_{\mathrm{noncontact}}=832.
+\]
+
+\paragraph{Ledger order.}
+The derivation reads only the residue-coordinate table and its SHA-256 manifest.  It emits a distance ledger and an eligible contact-map ledger:
+\[
+\begin{array}{rcl}
+\texttt{pdb\_external\_residue\_coordinate\_table.csv} & \longrightarrow &
+\texttt{pdb\_external\_contact\_distance\_matrix.csv},\\
+\texttt{pdb\_external\_contact\_distance\_matrix.csv} & \longrightarrow &
+\texttt{pdb\_external\_contact\_map\_derived.csv}.
+\end{array}
+\]
+The external target rows remain downstream objects.  The future target join still occurs after the AOD motif / curling-curls specification and SADAR context have already frozen the prediction packet.
+
+\paragraph{Current gate status.}
+This gate records the target contact map.  Evaluation-pair boundary selection, AOD-vs-target residual rows, score audit, RMSD, TM-score, GDT, AlphaFold comparison, coordinate-level AOD prediction, and any released folding value map belong to later declared gates.

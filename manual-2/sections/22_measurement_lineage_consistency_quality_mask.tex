@@ -1,0 +1,146 @@
+\section{Measurement-lineage consistency and quality-mask materialization}
+\label{sec:pdb-measurement-consistency-quality-mask}
+
+The target measurement lineage and the frozen AOD prediction lane are recorded
+as independent branches.  They join only at a declared comparison coordinate:
+\[
+\begin{array}{ccl}
+\text{target branch}
+&:&
+X_{\rm physical}
+\xrightarrow{\mathcal M_\theta}Y_{\rm raw}
+\xrightarrow{\mathcal Q_\psi}Y_{\rm processed}
+\xrightarrow{\mathcal R_\phi}\widehat X_{\rm model}
+\xrightarrow{\mathcal D_\eta}O_{\rm derived},
+\\[4pt]
+\text{AOD branch}
+&:&
+\text{AOD raw trace}
+\xrightarrow{\rm freeze}X_{\rm AOD}^{\rm freeze}.
+\end{array}
+\]
+The comparison join remains downstream of both frozen branches.
+
+\subsection{Branch and payload-state ledgers}
+
+The lineage ledger uses separate branch fields:
+\[
+\texttt{lineage\_branch},\qquad
+\texttt{branch\_stage\_order},\qquad
+\texttt{lineage\_object\_id},\qquad
+\texttt{upstream\_object\_id}.
+\]
+The target branch carries stages 1--5.  The AOD prediction branch starts at its
+own stage 1.  The join declaration is recorded in
+\texttt{pdb\_external\_comparison\_join\_declaration.csv}.
+
+Experimental payload state is decomposed into
+\[
+\begin{array}{lll}
+\texttt{archive\_listing\_status}, &
+\texttt{byte\_probe\_status}, &
+\texttt{byte\_lock\_status},\\
+\texttt{parse\_status}, &
+\texttt{field\_availability\_status}. &
+\end{array}
+\]
+For the committed coordinate model the byte payload is hash locked and parsed.
+A deterministic release-local parsed snapshot of the official validation report
+is also hash locked and materialized.  It is distinct from the original archive
+PDF/XML/CIF byte streams, whose byte locks remain unresolved.  Reflection and
+map candidates remain in their declared probe lanes.
+
+\subsection{Quality-rule freeze}
+
+The local-support rule is frozen before each residue/pair support materialization.  The rule
+card records required fields, missing-field handling, RSRZ and RSCC policy,
+occupancy and alternate-location policy, missing-density policy, observable-aware
+validation-outlier policy, residue support states, pair support, and target-state
+admission.  The release-local parsed snapshot remains distinct from the original
+archive validation payload.
+
+The residue support domain is
+\[
+\{\texttt{quality\_supported},
+  \texttt{quality\_ambiguous},
+  \texttt{quality\_excluded}\}.
+\]
+A pair receives a binary contact target only when both residues are
+\texttt{quality\_supported}; all other pair states carry
+\texttt{abstain}.
+
+\subsection{Pair-level ternary target mask}
+
+The coordinate-derived contact map remains an exact model-derived fixture:
+\[
+114\ \text{coordinate-derived contacts},
+\qquad
+832\ \text{coordinate-derived noncontacts}.
+\]
+After validation-snapshot ingest the residue mask contains
+\[
+N_{\rm residue}^{\rm supported}=0,
+\qquad
+N_{\rm residue}^{\rm ambiguous}=46,
+\qquad
+N_{\rm residue}^{\rm excluded}=0.
+\]
+Applying the frozen pair rule to all 946 evaluation pairs gives
+\[
+N_{\rm pair}^{\rm supported}=0,
+\qquad
+N_{\rm pair}^{\rm ambiguous}=946,
+\qquad
+N_{\rm pair}^{\rm excluded}=0,
+\]
+and therefore
+\[
+N_{\rm contact}^{\rm effective}=0,
+\qquad
+N_{\rm noncontact}^{\rm effective}=0,
+\qquad
+N_{\rm abstain}^{\rm effective}=946.
+\]
+The pair-level overlay is carried by
+\texttt{pdb\_external\_quality\_masked\_contact\_target.csv}.  The coordinate
+bit and the quality-admitted target state are separate columns.
+
+\subsection{Comparison-space activation}
+
+The comparison-space matrix records parallel lanes:
+\[
+\text{registry},\quad
+\text{coordinate model},\quad
+\text{derived observable},\quad
+\text{raw measurement},\quad
+\text{processed measurement}.
+\]
+The current AOD contact-pair packet supports the derived contact/reclosure lane.
+The target-side ternary mask opens when
+\[
+N_{\rm quality\ supported\ pairs}>0.
+\]
+The AOD comparison join is a separate, stricter gate:
+\[
+N_{\rm quality\ supported\ pairs}>0
+\quad\land\quad
+\text{declared alignment/projection rule}
+\quad\land\quad
+N_{\rm in\ scope}>0.
+\]
+The current quality mask has zero admitted pairs and the external alignment
+coverage remains zero. Target joins, residual rows, and score audit therefore
+remain closed.
+
+\subsection{Ledger pointers}
+
+\[
+\begin{array}{ll}
+\text{quality rule} & \texttt{pdb\_external\_quality\_rule\_policy.csv},\\
+\text{pair target overlay} & \texttt{pdb\_external\_quality\_masked\_contact\_target.csv},\\
+\text{pair summary} & \texttt{pdb\_external\_quality\_masked\_contact\_summary.csv},\\
+\text{policy application} & \texttt{pdb\_external\_quality\_mask\_policy\_application.csv},\\
+\text{comparison join} & \texttt{pdb\_external\_comparison\_join\_declaration.csv},\\
+\text{quality manifest} & \texttt{pdb\_external\_quality\_mask\_manifest.json}.
+\end{array}
+\]

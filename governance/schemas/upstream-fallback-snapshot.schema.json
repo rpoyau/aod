@@ -1,0 +1,192 @@
+{
+  "$defs": {
+    "AF": {
+      "additionalProperties": false,
+      "properties": {
+        "dependency_id": {
+          "const": "AF"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "provenance_status": {
+          "enum": [
+            "legacy_bootstrap_hash_locked_noncanonical_fallback",
+            "resolved_release_supersedes_bootstrap"
+          ]
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dependency_id",
+        "path",
+        "sha256",
+        "provenance_status"
+      ],
+      "type": "object"
+    },
+    "AFC": {
+      "additionalProperties": false,
+      "properties": {
+        "dependency_id": {
+          "const": "AFC"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "provenance_status": {
+          "enum": [
+            "legacy_bootstrap_hash_locked_noncanonical_fallback",
+            "resolved_release_supersedes_bootstrap"
+          ]
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dependency_id",
+        "path",
+        "sha256",
+        "provenance_status"
+      ],
+      "type": "object"
+    },
+    "AOD": {
+      "additionalProperties": false,
+      "properties": {
+        "dependency_id": {
+          "const": "AOD"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "provenance_status": {
+          "enum": [
+            "legacy_bootstrap_hash_locked_noncanonical_fallback",
+            "resolved_release_supersedes_bootstrap"
+          ]
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dependency_id",
+        "path",
+        "sha256",
+        "provenance_status"
+      ],
+      "type": "object"
+    },
+    "GM": {
+      "additionalProperties": false,
+      "properties": {
+        "dependency_id": {
+          "const": "GM"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "provenance_status": {
+          "enum": [
+            "legacy_bootstrap_hash_locked_noncanonical_fallback",
+            "resolved_release_supersedes_bootstrap"
+          ]
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dependency_id",
+        "path",
+        "sha256",
+        "provenance_status"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate_release": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "claims_latest": {
+      "const": false
+    },
+    "complete": {
+      "const": true
+    },
+    "dependencies": {
+      "items": false,
+      "maxItems": 4,
+      "minItems": 4,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/AF"
+        },
+        {
+          "$ref": "#/$defs/AFC"
+        },
+        {
+          "$ref": "#/$defs/GM"
+        },
+        {
+          "$ref": "#/$defs/AOD"
+        }
+      ],
+      "type": "array"
+    },
+    "dependency_order": {
+      "const": [
+        "AF",
+        "AFC",
+        "GM",
+        "AOD"
+      ]
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "selection_policy": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "snapshot_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "snapshot_type": {
+      "enum": [
+        "bootstrap_four_dependency_snapshot",
+        "last_verified_four_dependency_lock"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "snapshot_id",
+    "snapshot_type",
+    "candidate_release",
+    "dependency_order",
+    "complete",
+    "dependencies",
+    "selection_policy",
+    "claims_latest"
+  ],
+  "title": "AOD Upstream Fallback Snapshot",
+  "type": "object"
+}

@@ -1,0 +1,48 @@
+{
+  "candidate_universe_query_spec_id": "pdb_candidate_universe_query_spec_r24_v1",
+  "endpoint": "https://search.rcsb.org/rcsbsearch/v2/query",
+  "frozen_at_utc": "2026-06-19T00:00:00Z",
+  "http_method_contract": "GET_with_url_encoded_json_or_POST_application_json",
+  "local_sort_policy": "uppercase_identifier_lexicographic_ascending_after_response_lock",
+  "prefilter_scope": "X-ray experimental entries with archive resolution <= 2.0 A; remaining eligibility criteria applied after response lock",
+  "query_execution_status": "not_executed_in_offline_release_build",
+  "query_request": {
+    "query": {
+      "logical_operator": "and",
+      "nodes": [
+        {
+          "parameters": {
+            "attribute": "exptl.method",
+            "operator": "exact_match",
+            "value": "X-RAY DIFFRACTION"
+          },
+          "service": "text",
+          "type": "terminal"
+        },
+        {
+          "parameters": {
+            "attribute": "rcsb_entry_info.resolution_combined",
+            "operator": "less_or_equal",
+            "value": 2.0
+          },
+          "service": "text",
+          "type": "terminal"
+        }
+      ],
+      "type": "group"
+    },
+    "request_info": {
+      "query_id": "aod_r24_xray_resolution_prefilter_v1"
+    },
+    "request_options": {
+      "results_content_type": [
+        "experimental"
+      ],
+      "results_verbosity": "compact",
+      "return_all_hits": true
+    },
+    "return_type": "entry"
+  },
+  "source_documentation": "https://search.rcsb.org/",
+  "target_agreement_read_status": "not_read"
+}

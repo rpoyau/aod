@@ -1,0 +1,15 @@
+field_name,exact_type,required,role,target_read_status
+native_temporal_packet_id,identifier,yes,stable native packet identifier,not_read
+scoped_occurrence_id,identifier,yes,boundary_window_octave occurrence card,not_read
+dec_trace_id,identifier,yes,read-only D.E.C. trace pointer,not_read
+event_order_relation,finite_relation,yes,exact causal event order,not_read
+event_order_sha256,sha256_hex,yes,canonical event-order hash,not_read
+bip_duration_num,integer_nonnegative,yes,native duration numerator,not_read
+bip_duration_den,integer_positive,yes,native duration denominator,not_read
+biz_rate_num,integer,conditional,native rational rate numerator,not_read
+biz_rate_den,integer_positive,conditional,native rational rate denominator,not_read
+curling_curl_incidence,finite_relation,conditional,detected curling-curls relation after trace,not_read
+reclosure_relation,finite_relation,conditional,detected reclosure relation,not_read
+native_residual_packet,typed_exact_packet,yes,native calculation residuals only,not_read
+canonical_serialization_profile_id,identifier,yes,frozen packet serialization profile,not_read
+native_packet_sha256,sha256_hex,yes,hash of canonical native packet,not_read

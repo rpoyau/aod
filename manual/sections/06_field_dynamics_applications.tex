@@ -30,7 +30,7 @@ G1 & radial-medium projection & G0 plus radial density/current proxy fields & ra
 G2 & 3D shell field-dynamics retention & radial, angular, vertical cells; density, velocity, current, background support & local/inter/core/long/bg/J range SADAR & retention / field\\
 G3 & time-resolved tracer-current simulation & G2 plus tracer positions/velocities through time windows & slosh, hinge shift, chiral flip, partial coupling & path / phase\\
 L0 & exact lensing toy fixture & exact gates and comparator tallies & field-ring \(\delta_3\) relations & \(\delta_3\) tally\\
-L1 & radial lens-medium diagnostic & radial medium proxies without image targets & medium-class relations & medium tallies\\
+L1 & radial lens-medium 2D data fixture & radial medium proxies without image targets & medium-class relations & medium tallies\\
 L2 & target-acquisition lane & image-count, Einstein-radius, image-position, or shear targets & target-side quarantine & acquisition\\
 L3 & full lensing input package & declared medium fields, radiation-current gates, and target side & prediction before target join; target scoring after freeze & lens residuals\\
 \bottomrule
@@ -41,7 +41,7 @@ L3 & full lensing input package & declared medium fields, radiation-current gate
 
 
 \subsection{Data-support and uncertainty budget}\label{manual:field-dynamics-data-support-budget}
-A field-dynamics diagnostic records its data-support and uncertainty budget before residuals are interpreted. The budget records the declared distinction family, support class, uncertainty component, and report target.
+A field-dynamics data/projection record declares its data-support and uncertainty budget before residuals are interpreted. The budget records the declared distinction family, support class, uncertainty component, and report target.
 
 \scriptsize
 \begin{longtable}{@{}p{0.16\textwidth}p{0.08\textwidth}p{0.42\textwidth}p{0.26\textwidth}@{}}
@@ -311,8 +311,8 @@ reports & phase counts, octant counts, integer ratios, \(\delta_3\) \\
 \aodnoteblock{Source artifacts}{The source package includes the deterministic run-tumble generator \texttt{manual/scripts/aod\_run\_tumble\_3d\_trace.py}, the generated trace table, the run-tumble CSV outputs under \texttt{manual/data/run\_tumble}, and the projection figure under \texttt{manual/figures}.}
 
 
-\subsection{SPARC square-speed diagnostic}\label{manual:sparc-square-speed-diagnostic}
-The SPARC five-galaxy square-speed score is the current G0 radial shell field-dynamics diagnostic lane. This record uses SPARC radial rotation-curve rows, scores the coordinate \(U=V^2\), forms \(\sigma_U=2V^{\mathrm{obs}}\sigma_V\) from the declared data uncertainty, and records \(\Delta U=U_{\AO}-U^{\mathrm{obs}}\) inside the G0 support class.
+\subsection{SPARC square-speed 2D observable-data fixture}\label{manual:sparc-square-speed-diagnostic}
+The SPARC five-galaxy square-speed fixture is the current G0 radial shell 2D observable-data lane. This record uses SPARC radial rotation-curve rows, scores the coordinate \(U=V^2\), forms \(\sigma_U=2V^{\mathrm{obs}}\sigma_V\) from the declared data uncertainty, and records \(\Delta U=U_{\AO}-U^{\mathrm{obs}}\) inside the G0 support class.
 The SPARC benchmark supplies declared galaxy records
 \[
 \mathcal D_{\mathrm{SPARC}}
@@ -357,7 +357,7 @@ C_{\mathrm{cap},g,j}\lambda^{\mathrm{ret}}_{g,j}
 \left(1+\frac{\mathrm{gas/star}_{g,j}}{16}\right)
 \left(1+\frac{\mathrm{bobbing}_{g,j}}{64}\right)J_{\mathrm{norm}}.
 \]
-In the five-galaxy G0/G1 diagnostic lane, the declared primary projection map uses
+In the five-galaxy G0/G1 projection/readout lane, the declared primary projection map uses
 \[
 C_{\mathrm{cap},g,j}=r_{g,j}
 \left(|V^{\mathrm{gas}}_{g,j}|+|V^{\mathrm{disk}}_{g,j}|+|V^{\mathrm{bulge}}_{g,j}|\right),
@@ -547,7 +547,7 @@ Field component & Source & Support status & Uncertainty status & Scored\\
 Field component & Source & Support status & Uncertainty status & Scored\\
 \midrule
 \endhead
-stellar radial support & SPARC radial model & SPARC-supported radial & radial source row & diagnostic\\
+stellar radial support & SPARC radial model & SPARC-supported radial & radial source row & 2D observable fixture\\
 stars, full medium & 3D stellar density & external 3D & measured / proxy & if declared\\
 gas, full medium & H I / H\(\alpha\) / IFU field & external 3D & channel / velocity uncertainty & yes, if declared\\
 core / background & model or survey & latent / proxy & proxy recorded & conditional\\
@@ -590,7 +590,7 @@ No. & Sheet & Purpose\\
 \end{longtable}
 \normalsize
 
-\aodremark{The SPARC square-speed lane is a G0 radial projection diagnostic. The orbital-retention fixture is the G2/G3 retention-first simulation path. Projection to \(U\) follows retention, capacity seating, and \(\delta_3\) tallies.}
+\aodremark{The SPARC square-speed lane is a G0 radial 2D projection/readout fixture. Derived residual and score outputs, where declared, diagnose the projection; they do not reclassify the dataset. The orbital-retention fixture is the G2/G3 retention-first simulation path. Projection to \(U\) follows retention, capacity seating, and \(\delta_3\) tallies.}
 
 \subsection{Completion requirements}\label{manual:field-dynamics-completion-requirements}
 A SPARC scored record is complete when the data file, declaration constants, square-speed target, residuals, and score metrics are present. A Tau ring fixture is complete when the candidate set, scores, missing fraction, and precision note are present. Display speed is a presentation view only. The orbital-retention field-dynamics fixture is complete when it records medium setup, flip/fizz classification, range-prioritized SADAR, capacity seating, retention class, and \(\delta_3\) tallies.

@@ -1,0 +1,40 @@
+{
+  "closed_lanes": [
+    "target_join",
+    "SI_report_values",
+    "metric_report_values",
+    "residuals",
+    "scores",
+    "empirical_comparison",
+    "subject_reference_phase_lock"
+  ],
+  "files": {
+    "manual-2/data/foundation/cs_reference_tick_card_plan.csv": {
+      "bytes": 236,
+      "sha256": "1269d0d4f08d013fc1d34536ab0a8f48a2101ddb0beddd7ce213fb0e636145e2"
+    },
+    "manual-2/data/foundation/foundation_release_milestone_plan.csv": {
+      "bytes": 1141,
+      "sha256": "29aa15b6ffa5f58f6c149a644f63cc9d8085bea569a7bd46c44042af7ad19d13"
+    },
+    "manual-2/data/foundation/hydrogen_balmer_tick_ratio_plan.csv": {
+      "bytes": 339,
+      "sha256": "e83c1415e51a87585c2ce1221e6ab59468d9451f5af791005abd58fc45ba4864"
+    },
+    "manual-2/data/foundation/tick_oriented_temporal_foundation_doctrine.csv": {
+      "bytes": 1663,
+      "sha256": "e38ca1ea448b3ed65494966fd02e00968fafac10e776d05d6ed66dcba3bc26a9"
+    }
+  },
+  "manifest_id": "tick_oriented_temporal_foundation_release_plan_manifest",
+  "milestone": "v40.03r25.2",
+  "next_release_points": [
+    "v40.04r01 -- Tick-Oriented Temporal / Entropic Duon-Current Foundation",
+    "v40.04r02 -- Tau Phase-Cycle Geometry, Sphere, Hypersphere, and Cell Projection",
+    "v40.04r03 -- Elementary Matter 118 Transition Atlas Release",
+    "v40.04r04 -- Molecular Matter Transition Atlas Release",
+    "v40.04r05 -- Biomolecular Matter Transition Atlas Release"
+  ],
+  "purpose": "Fold positive tick-oriented temporal foundation and staged release plan into the current bundle before further atlas expansion.",
+  "schema_version": "1.0"
+}

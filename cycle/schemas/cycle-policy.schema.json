@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allowed_transitions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "condition": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "from": {
+            "enum": [
+              "AUTHORING",
+              "REVIEW",
+              "FEEDBACK",
+              "GO"
+            ]
+          },
+          "to": {
+            "enum": [
+              "AUTHORING",
+              "REVIEW",
+              "FEEDBACK",
+              "GO"
+            ]
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "condition"
+        ],
+        "type": "object"
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "type": "array"
+    },
+    "canonical_input_rule": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "cycle_protocol_id": {
+      "const": "AOD_BUNDLE_CYCLE"
+    },
+    "feedback_ledger_policy": {
+      "additionalProperties": false,
+      "properties": {
+        "closed_findings_terminal": {
+          "const": true
+        },
+        "current_state_rule": {
+          "const": "latest_event_per_finding_id"
+        },
+        "event_model": {
+          "const": "append_only_status_events"
+        },
+        "regressions_require_new_finding_id": {
+          "const": true
+        },
+        "verification_authority": {
+          "items": {
+            "enum": [
+              "independent_bundle_reviewer",
+              "project_owner",
+              "designated_reviewer"
+            ]
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "event_model",
+        "current_state_rule",
+        "verification_authority",
+        "closed_findings_terminal",
+        "regressions_require_new_finding_id"
+      ],
+      "type": "object"
+    },
+    "feedback_states": {
+      "const": [
+        "OPEN",
+        "APPLIED_UNVERIFIED",
+        "VERIFIED_CLOSED",
+        "NOT_APPLICABLE_VERIFIED",
+        "WAIVED_BY_AUTHORITY",
+        "DISPUTED_OPEN"
+      ]
+    },
+    "go_policy": {
+      "additionalProperties": false,
+      "properties": {
+        "applied_unverified_blocking_feedback_allowed": {
+          "type": "boolean"
+        },
+        "binds_candidate_payload_digest": {
+          "type": "boolean"
+        },
+        "binds_delta_manifest_digest": {
+          "type": "boolean"
+        },
+        "binds_feedback_ledger_digest": {
+          "type": "boolean"
+        },
+        "binds_governance_digest": {
+          "type": "boolean"
+        },
+        "binds_review_digest": {
+          "type": "boolean"
+        },
+        "open_blocking_feedback_allowed": {
+          "type": "boolean"
+        },
+        "r08_status_when_blocked": {
+          "const": "BLOCKED"
+        },
+        "r08_status_when_go": {
+          "const": "OPEN"
+        },
+        "required_authority": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "self_review_sufficient": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "open_blocking_feedback_allowed",
+        "applied_unverified_blocking_feedback_allowed",
+        "binds_candidate_payload_digest",
+        "binds_delta_manifest_digest",
+        "binds_governance_digest",
+        "binds_review_digest",
+        "binds_feedback_ledger_digest",
+        "required_authority",
+        "self_review_sufficient",
+        "r08_status_when_go",
+        "r08_status_when_blocked"
+      ],
+      "type": "object"
+    },
+    "governance": {
+      "additionalProperties": false,
+      "properties": {
+        "AFC_profile_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "AF_profile_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "GM_style_profile_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "canonical_release_lock_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "conflicts_fail": {
+          "type": "boolean"
+        },
+        "global_instructions_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "release_source_registry_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "unknown_fields_fail": {
+          "type": "boolean"
+        },
+        "upstream_release_policy_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "global_instructions_path",
+        "AF_profile_path",
+        "AFC_profile_path",
+        "GM_style_profile_path",
+        "release_source_registry_path",
+        "upstream_release_policy_path",
+        "canonical_release_lock_path",
+        "unknown_fields_fail",
+        "conflicts_fail"
+      ],
+      "type": "object"
+    },
+    "output_contract": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "phases": {
+      "const": [
+        "AUTHORING",
+        "REVIEW",
+        "FEEDBACK",
+        "GO"
+      ]
+    },
+    "protocol_version": {
+      "const": "3.1"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "state_model": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_must_materialize": {
+          "type": "boolean"
+        },
+        "concrete_bundle_records_bind_digests": {
+          "type": "boolean"
+        },
+        "delta_reset_after_rebaseline": {
+          "type": "boolean"
+        },
+        "embed_lineage_parent_bundle": {
+          "type": "boolean"
+        },
+        "explicit_delta_required": {
+          "type": "boolean"
+        },
+        "internalize_stable_payload": {
+          "type": "boolean"
+        },
+        "parent_lineage_by_hash": {
+          "type": "boolean"
+        },
+        "rebaseline_after_authorized_GO": {
+          "type": "boolean"
+        },
+        "source_templates_must_be_typed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "internalize_stable_payload",
+        "explicit_delta_required",
+        "candidate_must_materialize",
+        "parent_lineage_by_hash",
+        "embed_lineage_parent_bundle",
+        "rebaseline_after_authorized_GO",
+        "delta_reset_after_rebaseline",
+        "source_templates_must_be_typed",
+        "concrete_bundle_records_bind_digests"
+      ],
+      "type": "object"
+    },
+    "upstream_release_rules": {
+      "additionalProperties": false,
+      "properties": {
+        "aod_rebase_requires_explicit_goal": {
+          "type": "boolean"
+        },
+        "candidate_snapshot_frozen_during_review_feedback_go": {
+          "const": true
+        },
+        "fallback_must_not_claim_latest": {
+          "const": true
+        },
+        "governance_upgrade_not_retroactive": {
+          "type": "boolean"
+        },
+        "latest_is_discovery_only": {
+          "type": "boolean"
+        },
+        "latest_refresh_each_authoring": {
+          "const": true
+        },
+        "nonempty_delta_rebase_requires_conflict_audit": {
+          "type": "boolean"
+        },
+        "ordinary_operations_offline": {
+          "type": "boolean"
+        },
+        "refresh_failure_nonblocking": {
+          "const": true
+        },
+        "refresh_is_authoring_goal": {
+          "type": "boolean"
+        },
+        "release_lock_frozen_during_review_feedback_go": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "latest_is_discovery_only",
+        "ordinary_operations_offline",
+        "refresh_is_authoring_goal",
+        "release_lock_frozen_during_review_feedback_go",
+        "governance_upgrade_not_retroactive",
+        "aod_rebase_requires_explicit_goal",
+        "nonempty_delta_rebase_requires_conflict_audit",
+        "latest_refresh_each_authoring",
+        "refresh_failure_nonblocking",
+        "candidate_snapshot_frozen_during_review_feedback_go",
+        "fallback_must_not_claim_latest"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "cycle_protocol_id",
+    "phases",
+    "allowed_transitions",
+    "feedback_states",
+    "canonical_input_rule",
+    "output_contract",
+    "state_model",
+    "go_policy",
+    "governance",
+    "upstream_release_rules",
+    "feedback_ledger_policy"
+  ],
+  "title": "AOD Cycle Policy",
+  "type": "object"
+}

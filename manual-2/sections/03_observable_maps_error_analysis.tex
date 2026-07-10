@@ -1,0 +1,48 @@
+\section{Observable maps and error analysis}
+
+Observable maps are deliberately late; the observable maps phrase is intentional because this section fixes the downstream reporting layer. Observable mapping is deliberately late. The map is written
+\[
+\Pi_{\mathrm{obs},\ell}:r_i\mapsto (y_i,\hat y_i,\epsilon_i,s_i),
+\]
+where $y_i$ is the external coordinate, $\hat y_i$ is the AOD report coordinate, $\epsilon_i$ is the residual/error record, and $s_i$ is the support source.
+
+\subsection{Required error ledger}
+
+Every comparison row must be able to carry the following fields:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Field & Role \\
+\midrule
+\texttt{exact\_row\_id} & frozen trace or fixture row being reported \\
+\texttt{observable\_name} & declared external coordinate or descriptor \\
+\texttt{external\_dataset} & source lane; never a core premise \\
+\texttt{external\_value} & value read from the external lane \\
+\texttt{aod\_report\_value} & value produced by the frozen row and report map \\
+\texttt{absolute\_error} & $|\hat y-y|$ where applicable \\
+\texttt{relative\_error} & $|\hat y-y|/|y|$ where applicable \\
+\texttt{residual\_class} & zero, capacity-minus-target, formula residual, graph parse status, or other declared class \\
+\texttt{failure\_hook} & condition that would demote or reject the row \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Non-negotiable ordering}
+
+The order is:
+\[
+\text{exact row} \prec \text{observable map} \prec \text{external comparison} \prec \text{interpretation}.
+\]
+A row may be interesting only after comparison, but it must be well-defined before comparison.
+
+\subsection{Failure hooks}
+
+Manual II uses ordinary failure hooks:
+\begin{itemize}[leftmargin=2em]
+  \item missing boundary declaration;
+  \item detector uses an external target before freeze;
+  \item nonzero residual silently dropped;
+  \item PubChem or RDKit row treated as an AFC premise;
+  \item chain formula ledger fails exact CHONPS accounting;
+  \item observable map lacks source, support class, or error field.
+\end{itemize}

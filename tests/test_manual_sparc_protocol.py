@@ -12,7 +12,7 @@ def test_fractal_origin_anchor_is_octal():
 
 def test_sparc_five_galaxy_registry_status_is_scored():
     text = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
-    assert "SPARC five-galaxy square-speed diagnostic & G0 & SPARC radial rows" in text
+    assert "SPARC five-galaxy square-speed 2D observable-data fixture & G0 & SPARC radial rows" in text
     assert "SPARC radical-free square-speed benchmark protocol" not in text or "benchmark dataset pending" not in text.split("SPARC radical-free square-speed benchmark protocol", 1)[1].split("\\", 1)[0]
     assert "SPARC full-sample / extended benchmark & G0/G1 & target data manifest" in text
 

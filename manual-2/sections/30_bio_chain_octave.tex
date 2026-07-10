@@ -1,0 +1,46 @@
+\section{Bio-chain octave: RNA/DNA and peptide closures}
+
+The bio-chain octave uses the same formula ledger but changes the detector vocabulary to chain closure. The detector may emit nucleotide, dinucleotide, RNA/DNA, peptide, or protein-chain candidate rows.
+
+\subsection{Nucleotide closure}
+
+A nucleotide candidate is read as
+\[
+\text{base} + \text{sugar} + H_3PO_4 - 2H_2O.
+\]
+The fixture includes RNA A/G/C/U and DNA A/T/G/C monophosphate candidates. Each row carries the formula, expected formula, shedding vector, CHONPS residual, and status.
+
+\subsection{Dinucleotide and chain closure}
+
+A dinucleotide row joins two nucleotide candidates and sheds one additional water molecule:
+\[
+N_1+N_2-H_2O.
+\]
+The files \texttt{dinucleotide\_candidates.csv} and \texttt{rna\_dna\_chain\_closures.csv} preserve the sequence label, alphabet, declared components, formula, and residual ledger.
+
+\subsection{Peptide and protein-chain candidates}
+
+A peptide row joins residue formulas and sheds one water molecule per peptide bond:
+\[
+P(r_1,\ldots,r_n)=\sum_{i=1}^{n}r_i-(n-1)H_2O.
+\]
+The protein-chain file is deliberately named \texttt{protein\_chain\_candidates.csv}. It records short chain closures only. It does not perform folding, structural prediction, binding prediction, or biological-function inference.
+
+\subsection{RDKit graph lane}
+
+The RDKit descriptor file is a graph-canonicalization lane. If RDKit is available, the generator writes canonical SMILES and simple graph descriptors. If RDKit is unavailable, the lane remains an offline fixture with an explicit status marker. In both cases, RDKit is downstream of the exact formula rows.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+File & Role \\
+\midrule
+\texttt{nucleotide\_candidates.csv} & RNA/DNA monophosphate formula closures \\
+\texttt{dinucleotide\_candidates.csv} & two-unit chain closures with one water shed \\
+\texttt{rna\_dna\_chain\_closures.csv} & sequence-facing observable map rows \\
+\texttt{peptide\_candidates.csv} & peptide formula closures \\
+\texttt{protein\_chain\_candidates.csv} & seed chain candidates, not folded structures \\
+\texttt{rdkit\_graph\_descriptors.csv} & optional graph-descriptor comparison lane \\
+\bottomrule
+\end{tabularx}
+\end{center}

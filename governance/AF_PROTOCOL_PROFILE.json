@@ -1,0 +1,83 @@
+{
+  "authoring_order": [
+    "axiom_and_scope",
+    "immediate_consequence",
+    "modelling_choice",
+    "derived_corollary",
+    "demonstration",
+    "falsification"
+  ],
+  "core_commitments": [
+    {
+      "id": "AF1",
+      "rule": "State axioms once and precisely; define symbols and scope."
+    },
+    {
+      "id": "AF2",
+      "rule": "Derive immediate consequences by mathematics and logic only."
+    },
+    {
+      "id": "AF3",
+      "rule": "Introduce constraints or structure as explicit modelling choices."
+    },
+    {
+      "id": "AF4",
+      "rule": "Do not import external laws or tacit empirical rules mid-derivation."
+    },
+    {
+      "id": "AF5",
+      "rule": "Do not retrofit axioms or add hidden premises to force a target result."
+    },
+    {
+      "id": "AF6",
+      "rule": "Keep scope local and mark excluded cases out of scope."
+    },
+    {
+      "id": "AF7",
+      "rule": "Bind each derived claim to its axioms and choices and provide falsification hooks."
+    }
+  ],
+  "cycle_application": {
+    "cycle_is_not_a_new_AOD_scientific_axiom": true,
+    "cycle_recurrence_is_a_derived_procedural_motif": true,
+    "cycle_transition_rules_are_modelling_choices": true,
+    "workflow_success_does_not_validate_scientific_claims_without_payload_evidence": true
+  },
+  "profile_id": "AF_PROTOCOL_PROFILE",
+  "relational_foundations": [
+    {
+      "id": "RF1",
+      "rule": "Distinction precedes relation."
+    },
+    {
+      "id": "RF2",
+      "rule": "Within the model universe, only declared distinctions, induced relations, and their mathematics exist."
+    },
+    {
+      "id": "RF3",
+      "rule": "Undeclared absolute properties do not enter derivations."
+    },
+    {
+      "id": "RF4",
+      "rule": "Information measures are bookkeeping constraints, not physical laws."
+    },
+    {
+      "id": "RF5",
+      "rule": "Do not elevate representational limitations to universal laws."
+    }
+  ],
+  "release_binding_status": "bootstrap_fallback_active_nonlatest",
+  "review_binary_checks": [
+    "axioms_once_precise_and_scoped",
+    "mathematical_derivation_only",
+    "choices_explicit",
+    "no_external_law_as_premise",
+    "demonstrations_add_no_premises",
+    "falsification_tied_to_claims",
+    "unique_precise_anchors_and_consistent_units",
+    "RF1_through_RF5_respected"
+  ],
+  "schema_version": "3.1",
+  "source_import_id": "AF_PROTOCOL_2025_08_08",
+  "status": "binding_project_governance"
+}

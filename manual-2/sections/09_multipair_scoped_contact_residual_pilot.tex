@@ -1,0 +1,107 @@
+\section{Multi-pair scoped contact residual pilot}
+
+This worked row extends the scoped contact residual ledger from one positive pair to a declared three-pair boundary with two negative-support controls. The added controls are declared before scoring. They do not alter the frozen A$\Omega$D packet; they specify how adjacent route-support rows are projected inside this contact-metric boundary.
+
+\subsection{Boundary declaration before score}
+
+Declare the GAS contact-score boundary
+\[
+B_{\mathrm{GAS}}^{\mathrm{multi}}
+=
+\{(1,2),(1,3),(2,3)\}.
+\]
+The positive contact evaluation pair is
+\[
+(1,3),
+\]
+and the negative-support control pairs are
+\[
+(1,2),\qquad (2,3).
+\]
+The metric projection is part of the boundary declaration:
+\[
+\widehat O_{1,3}=1,
+\qquad
+\widehat O_{1,2}=0,
+\qquad
+\widehat O_{2,3}=0.
+\]
+Here the adjacent route-support rows remain visible in the frozen A$\Omega$D packet. Their projected value is zero only inside the declared non-adjacent contact metric boundary. This is the denominator-support rule for this pilot, not a change to the raw D.E.C. trace or the A$\Omega$D motif packet.
+
+\subsection{Detection then downstream target map}
+
+The detection chain remains the same:
+\[
+\texttt{trace\_mol\_005}
+\longrightarrow
+\texttt{motif\_mol\_005}
+\longrightarrow
+\texttt{sadar\_mol\_005}
+\longrightarrow
+\text{frozen contact packet}.
+\]
+The target rows join only after this freeze. For the committed GAS fixture, the target contact values under the same pair order are
+\[
+O_{1,2}=0,\qquad O_{1,3}=1,\qquad O_{2,3}=0.
+\]
+The rows therefore read
+\[
+\begin{array}{c|c|c|c|c}
+(i,j)&\widehat O_{ij}&O_{ij}&\Delta^{\mathbb Z}_{ij}&\text{class}\\
+\hline
+(1,2)&0&0&0&TN\\
+(1,3)&1&1&0&TP\\
+(2,3)&0&0&0&TN
+\end{array}
+\]
+and every contact residual has
+\[
+\delta_{3,ij}=0.
+\]
+
+\subsection{Metric denominator}
+
+The confusion row is now
+\[
+TP=1,\qquad FP=0,\qquad FN=0,\qquad TN=2.
+\]
+Thus
+\[
+\mathrm{precision}=1,\qquad
+\mathrm{recall}=1,\qquad
+F_1=1,\qquad
+J=1,
+\]
+and the Matthews denominator is present:
+\[
+\mathrm{MCC}
+=
+\frac{TP\cdot TN-FP\cdot FN}
+{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}
+=
+1.
+\]
+Metric status. This is a three-pair fixture denominator check. The classifier scope remains limited to the declared GAS contact boundary. Coordinate-level scores and $\lambda_{\rm fold}$ remain in the deferred registry.
+
+\subsection{Ledger pointer}
+
+The multi-pair pilot rows are recorded in
+\begin{center}
+\small
+\path{manual-2/data/protein/pdb_multipair_contact_residual_pilot.csv}
+\end{center}
+with the score, residual, leakage-audit, and scope ledgers at
+\begin{center}
+\small
+\path{pdb_multipair_contact_score.csv},\quad
+\path{pdb_multipair_contact_delta3.csv},\quad
+\path{pdb_multipair_contact_leakage_audit.csv},\quad
+\path{pdb_multipair_contact_scope_declaration.csv}.
+\end{center}
+The manifest is
+\begin{center}
+\small
+\path{manual-2/data/protein/pdb_multipair_contact_residual_manifest.json}.
+\end{center}
+
+Current score scope. The coordinate-level scores registry remains deferred until a coordinate-level AOD prediction freeze is declared.

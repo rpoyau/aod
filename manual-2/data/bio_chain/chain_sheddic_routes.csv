@@ -1,0 +1,5 @@
+route_id,chain_id,route_formula,sheddic_route_status
+pep_GA,pep_GA,sum(residues)-1H2O,declared_condensation_route
+pep_GG,pep_GG,sum(residues)-1H2O,declared_condensation_route
+pep_GAS,pep_GAS,sum(residues)-2H2O,declared_condensation_route
+pep_MAG,pep_MAG,sum(residues)-2H2O,declared_condensation_route

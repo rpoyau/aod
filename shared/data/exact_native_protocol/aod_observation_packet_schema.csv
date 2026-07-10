@@ -1,0 +1,12 @@
+field_name,exact_type,required,role,prediction_read_status
+observation_packet_id,identifier,yes,stable observation packet identifier,not_read
+source_payload_sha256,sha256_hex,yes,byte identity of source payload,not_read
+source_lineage_id,identifier,yes,measurement and reconstruction lineage,not_read
+normalization_operator_id,identifier,yes,frozen observation normalization,not_read
+uncertainty_set,exact_set_interval_box_or_finite_state,yes,observation-side uncertainty/support,not_read
+quality_mask_state,enum,yes,supported ambiguous excluded or unavailable,not_read
+missingness_state,enum,yes,present missing alternate unresolved or out_of_scope,not_read
+frame_policy_id,identifier,conditional,proper-time or spatial frame policy,not_read
+synchronization_policy_id,identifier,conditional,clock synchronization policy,not_read
+relativistic_correction_policy_id,identifier,conditional,relativistic correction policy,not_read
+observation_packet_sha256,sha256_hex,yes,hash of frozen observation packet,not_read

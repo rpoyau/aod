@@ -1,0 +1,90 @@
+\section{Original validation-payload byte-lock gate}
+
+This gate locks the original wwPDB validation archive payloads used by the 1CRN target lineage. The locked archive objects are distinct from the release-local parsed validation snapshot. The comparison lane remains closed: this gate records bytes, regenerates the snapshot, and audits field equivalence.
+
+\subsection{Locked archive payloads}
+
+The canonical archive objects are the compressed validation XML, validation CIF, and full validation PDF. Their bundle and source copies are byte-identical. The compressed-byte locks are:
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+payload & SHA-256 \\
+\midrule
+\texttt{1crn\_validation.xml.gz} & \texttt{c6717499...743719d} \\
+\texttt{1crn\_validation.cif.gz} & \texttt{0d822c7f...ea4d25e} \\
+\texttt{1crn\_full\_validation.pdf.gz} & \texttt{a5332328...db6195d} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Each lock row also records compressed byte count, decompressed-content SHA-256 and byte count, canonical source URL, registration timestamp, archive source, redistribution status, and terms reference. The full hashes are carried by
+\texttt{pdb\_external\_validation\_archive\_payload\_byte\_lock.csv}.
+
+\subsection{Deterministic snapshot regeneration}
+
+The regeneration chain is
+\[
+\begin{gathered}
+\text{locked XML/CIF/PDF archives} \\
+\downarrow \\
+\text{deterministic field extraction} \\
+\downarrow \\
+\text{archive-regenerated snapshot} \\
+\downarrow \\
+\text{field-equivalence audit}
+\end{gathered}
+\]
+
+Machine-readable XML/CIF locators are used where the archive supplies them. The PDF supplies reader-facing evidence and the report fields that are not represented by the machine-readable validation payloads. The regenerated snapshot is stored at
+\begin{center}
+\small
+\path{manual-2/data/protein/external_pdb_validation_payloads/}\\
+\path{1crn_full_validation_report_archive_regenerated_snapshot.json}
+\end{center}
+
+The audit compares every field used by the local-support lane:
+\[
+N_{\rm audited}=41,
+\qquad
+N_{\rm equivalent}=41,
+\qquad
+N_{\rm mismatch}=0.
+\]
+
+The existing release-local snapshot remains a distinct provenance object. Its support values are unchanged, so the observable-aware quality mask remains
+\[
+N_{\rm contact}^{\rm effective}=0,
+\qquad
+N_{\rm noncontact}^{\rm effective}=0,
+\qquad
+N_{\rm abstain}^{\rm effective}=946.
+\]
+
+\subsection{Inventory-driven bundle embedding}
+
+The external-payload inventory is the authoritative embedding allowlist. Every inline bundle asset has one source path, one stable bundle path, one origin class, one byte count, and one SHA-256. Unregistered files are not embedded, and every required inventory row must resolve and verify before bundle construction.
+
+The origin classes are
+\[
+\texttt{archive\_external},
+\qquad
+\texttt{release\_local\_derived},
+\qquad
+\texttt{release\_policy\_metadata}.
+\]
+
+Small validation and coordinate payloads are embedded inline. Large raw-image collections use a separate versioned payload pack or a manifest-only external lock according to the frozen embedding policy.
+
+\subsection{Gate status}
+
+This gate admits archive-byte provenance and snapshot-equivalence rows only. The frozen AOD packet remains upstream of every target map. Target joins, residual rows, score audits, coordinate metrics, AlphaFold comparison, coordinate-level AOD prediction, and an active $\lambda_{\rm fold}$ remain at later declared gates.
+
+Ledger pointers:
+\begin{itemize}
+\item \texttt{pdb\_external\_validation\_archive\_payload\_byte\_lock.csv},
+\item \texttt{pdb\_external\_validation\_snapshot\_field\_equivalence\_audit.csv},
+\item \texttt{pdb\_external\_validation\_archive\_payload\_manifest.json},
+\item \texttt{external\_payload\_bundle\_inventory.csv},
+\item \texttt{external\_payload\_embedding\_policy.csv}.
+\end{itemize}

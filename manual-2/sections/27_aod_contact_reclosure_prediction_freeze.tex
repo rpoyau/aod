@@ -1,0 +1,50 @@
+\section{AOD contact/reclosure prediction freeze}
+
+The v40.02r05 milestone freezes AOD contact/reclosure prediction packets before any protein target comparison is read. This is the first Manual II protein-facing prediction packet, but it is deliberately narrow: it emits contact/reclosure motifs only. It is not a full three-dimensional structure predictor and it is not a folding score.
+
+The freeze preserves the ordering:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}X@{}}
+\texttt{ChainWordSpec} \textrightarrow{} \texttt{Raw D.E.C. trace} \textrightarrow{} \texttt{DetectedChainMotif} \\
+\texttt{SADAR context} \textrightarrow{} \texttt{frozen AOD contact/reclosure packet}.
+\end{tabularx}
+\end{center}
+Target rows prepared in the previous gate remain downstream and unread by the prediction-freeze generator.
+
+\subsection{Prediction-freeze files}
+
+The v40.02r05 files are:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+File & Role \\
+\midrule
+\texttt{aod\_folding\_prediction\_model\_registry.csv} & model contract, allowed inputs, forbidden input classes, and freeze status \\
+\texttt{aod\_contact\_prediction\_freeze.csv} & frozen contact-pair predictions from detected chain motifs \\
+\texttt{aod\_reclosure\_motif\_predictions.csv} & frozen reclosure motif packets and predicted pair spans \\
+\texttt{aod\_prediction\_freeze\_manifest.json} & prediction-freeze manifest, leakage policy, and next scoring gate \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The prediction rows read only the committed molecular chain-spec, read-only trace, detected-motif, and SADAR-context tables. They do not read PDB/mmCIF rows, AlphaFold rows, target contact-map rows, target distance-matrix rows, secondary-structure labels, confidence fields, or coordinate payloads.
+
+\subsection{Frozen contact/reclosure packet}
+
+A frozen contact prediction row records
+\[
+(i,j,\chi_{ij},s,\mu,T,M,S),
+\]
+where $(i,j)$ is the residue-pair address, $\chi_{ij}$ is the predicted contact flag, $s$ is the pair separation, and $(\mu,T,M,S)$ identify the model, trace, detected motif, and SADAR-context rows used to freeze the packet. These identifiers point to internal AOD/D.E.C. fixtures only.
+
+The companion reclosure row records the predicted reclosure span and its predicted pair list. For example, the tripeptide seed carries adjacent route-support pairs and a multi-link reclosure span. These rows are frozen for later comparison; they are not scores.
+
+\aodnoteblock{Freeze rule}{AOD contact/reclosure packets are frozen before any PDB/mmCIF, AlphaFold, contact-map, distance-matrix, secondary-structure, or confidence row is read. Target rows can only be used by a later residual/comparison gate.}
+
+\subsection{Current status}
+
+The current status remains:
+\[
+\lambda_{\mathrm{fold}}=\texttt{deferred\_not\_attached}.
+\]
+Current score scope. This milestone freezes AOD contact/reclosure packets and carries deferred score registries. The next gate may compare the frozen packet against normalized contact targets only after this freeze has been packaged and hashed.

@@ -1,0 +1,101 @@
+{
+  "entry": {
+    "alternate_conformation_residue_count": 0,
+    "atom_count": 327,
+    "average_b_all_atoms_angstrom2": 6.0,
+    "cell": {
+      "a": 40.96,
+      "alpha": 90.0,
+      "b": 18.65,
+      "beta": 90.77,
+      "c": 22.52,
+      "gamma": 90.0
+    },
+    "chain_break_count": 0,
+    "chain_id": "A",
+    "clash_count": 0,
+    "completeness": null,
+    "experimental_method": "X-RAY DIFFRACTION",
+    "r_free": null,
+    "r_work": null,
+    "ramachandran_outlier_count": 0,
+    "refinement_program": "PROLSQ",
+    "reported_resolution_angstrom": 1.5,
+    "residue_count": 46,
+    "rmerge": null,
+    "rsym": null,
+    "sidechain_outlier_count": 0,
+    "space_group": "P 1 21 1",
+    "symmetry_clash_count": 0,
+    "trace_residue_count": 0,
+    "zero_occupancy_atom_count": 0
+  },
+  "geometry_outliers": [
+    {
+      "atoms": "CA-C-O",
+      "auth_seq_id": 7,
+      "chain_id": "A",
+      "ideal": 120.95,
+      "label_seq_id": 7,
+      "observed": 115.39,
+      "outlier_type": "bond_angle",
+      "residue_name": "ILE",
+      "z_score": -5.35
+    },
+    {
+      "atoms": "OD1-CG-ND2",
+      "auth_seq_id": 12,
+      "chain_id": "A",
+      "ideal": 122.6,
+      "label_seq_id": 12,
+      "observed": 127.61,
+      "outlier_type": "bond_angle",
+      "residue_name": "ASN",
+      "z_score": 5.01
+    },
+    {
+      "atoms": "OD1-CG-ND2",
+      "auth_seq_id": 14,
+      "chain_id": "A",
+      "ideal": 122.6,
+      "label_seq_id": 14,
+      "observed": 128.62,
+      "outlier_type": "bond_angle",
+      "residue_name": "ASN",
+      "z_score": 6.03
+    },
+    {
+      "atoms": "N-CA",
+      "auth_seq_id": 37,
+      "chain_id": "A",
+      "ideal": 1.45,
+      "label_seq_id": 37,
+      "observed": 1.52,
+      "outlier_type": "bond_length",
+      "residue_name": "GLY",
+      "z_score": 5.78
+    }
+  ],
+  "local_model_to_data": {
+    "eds_status": "not_executed",
+    "missing_density_assessment_available": false,
+    "rscc_available": false,
+    "rsrz_available": false
+  },
+  "snapshot_registration_utc": "2026-06-18T00:00:00Z",
+  "snapshot_schema": "aod.manual2.pdb_validation_report_parsed_snapshot.v1",
+  "snapshot_semantics": "field_level_transcription_of_official_report_not_original_archive_pdf_xml_cif_bytes",
+  "source_accession": "1CRN",
+  "source_database": "RCSB_PDB_wwPDB",
+  "source_report_generated_utc": "2026-03-05T18:55:00Z",
+  "source_report_title": "Full wwPDB X-ray Structure Validation Report",
+  "source_report_url": "https://files.rcsb.org/validation/view/1crn_full_validation.pdf",
+  "upstream_original_payload_byte_lock_status": "not_locked_in_build_environment",
+  "validation_pipeline": {
+    "eds": "NOT EXECUTED",
+    "molprobity": "4-5-2 with Phenix2.0",
+    "percentile_statistics": "20250101.v01",
+    "wwpdb_validation_pipeline": "2.49",
+    "xtriage": "NOT EXECUTED"
+  }
+}

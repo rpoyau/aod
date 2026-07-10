@@ -1,0 +1,44 @@
+{
+  "lane": "external_pdb_coordinate_payload_byte_hash_lock",
+  "version_scope": "v40.02r13",
+  "status": "external PDB coordinate byte-payload SHA-256 lock only; no residue table, contact map, external score, or coordinate metric is derived",
+  "prior_hash_gate": "manual-2/data/protein/pdb_external_coordinate_payload_hash_gate.csv",
+  "source_database": "RCSB_PDB",
+  "source_accession": "1CRN",
+  "chain_id": "A",
+  "coordinate_payload_path": "https://files.rcsb.org/download/1CRN.cif",
+  "local_payload_path": "manual-2/data/protein/external_pdb_payloads/1CRN.cif",
+  "coordinate_payload_sha256": "23787562c427d7c1abe5420e86d5f1d0a6c7007dec1e8ce85645a6d69c32e8ba",
+  "coordinate_payload_byte_count": 69506,
+  "coordinate_payload_fetch_or_registration_timestamp": "2026-06-17T00:00:00Z",
+  "coordinate_payload_storage_policy": "committed_in_release_under_manual2_data_protein_external_pdb_payloads",
+  "coordinate_payload_license_or_terms_ref": "RCSB_PDB_file_download_terms_for_1CRN_cif",
+  "locator_policy_registration_sha256": "37cc67db8e892c25dd1781977ac7b6a920d12dc115c03fe934716081c77bd1f7",
+  "hash_role_note": "coordinate_payload_sha256 hashes the committed local 1CRN.cif byte payload; locator_policy_registration_sha256 hashes only the locked locator/policy card",
+  "policy": {
+    "model_id": "1",
+    "model_policy": "model_1_preferred_single_model_policy",
+    "residue_index_basis": "one_based_residue_sequence_position",
+    "atom_selector": "CA",
+    "altloc_policy": "primary_or_highest_occupancy_altloc_required_before_derivation",
+    "missing_residue_policy": "explicit_gap_rows_required_before_contact_derivation",
+    "contact_threshold_angstrom": "8.0",
+    "min_sequence_separation": "3"
+  },
+  "blocked_until_later_gate": [
+    "external_residue_coordinate_table_derivation",
+    "external_contact_map_derivation",
+    "evaluation_pair_boundary_declaration",
+    "external_accession_residual_score"
+  ],
+  "files": {
+    "byte_hash_lock": "manual-2/data/protein/pdb_external_coordinate_payload_byte_hash_lock.csv",
+    "byte_hash_provenance": "manual-2/data/protein/pdb_external_coordinate_payload_byte_hash_provenance.csv",
+    "byte_hash_policy_lock": "manual-2/data/protein/pdb_external_coordinate_payload_byte_hash_policy_lock.csv",
+    "byte_hash_derivation_block": "manual-2/data/protein/pdb_external_coordinate_payload_byte_hash_derivation_block.csv",
+    "byte_hash_leakage_checks": "manual-2/data/protein/pdb_external_coordinate_payload_byte_hash_leakage_checks.csv",
+    "local_payload": "manual-2/data/protein/external_pdb_payloads/1CRN.cif"
+  },
+  "input_order_policy": "r11 accession scope first; r12 locator/policy gate second; r13 byte-payload SHA-256 lock third; residue/contact derivation only in later gates; AOD motif/curling-curls/SADAR freeze stays upstream of target join",
+  "claim_discipline": "Byte-hash lock only. This is not residue-table derivation, not an external contact-map score, and not a folding model."
+}

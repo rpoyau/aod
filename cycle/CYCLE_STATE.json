@@ -1,0 +1,49 @@
+{
+  "active_phase": "AUTHORING",
+  "authoring_attempt": 3,
+  "canonical_state_rule": "The validated bundle is canonical; source records are explicitly typed templates until deterministic bundle assembly binds concrete digests.",
+  "cycle_protocol_id": "AOD_BUNDLE_CYCLE",
+  "feedback_counts_binding": "BIND_FROM_HASH_CHAINED_ACTIVE_FEEDBACK_LEDGER",
+  "go": {
+    "blocking_reason": "independent_review_required",
+    "eligible": false,
+    "required_authority": "project_owner_or_designated_reviewer",
+    "self_review_sufficient": false
+  },
+  "last_completed_phase": "GO",
+  "lineage_parent_binding": "BIND_FROM_INPUT_BUNDLE_FILENAME_AND_SHA256",
+  "next_permitted_transitions": [
+    "REVIEW"
+  ],
+  "project_id": "AOD",
+  "protocol_version": "3.1",
+  "record_scope": "source_template",
+  "release": {
+    "stable_version": "v40.04r01",
+    "status": "authoring_candidate",
+    "target_version": "v40.04r03",
+    "working_version": "v40.04r03"
+  },
+  "review_binding": "BIND_FROM_CANONICAL_REVIEW_RECORD",
+  "schema_version": "3.1",
+  "transition_binding": "BIND_FROM_APPEND_ONLY_TRANSITION_LEDGER",
+  "transition_sequence_binding": "BIND_FROM_PARENT_STATE_PLUS_ONE",
+  "upstream_release_state": {
+    "canonical_lock_status": "attempted_network_unavailable_fallback_active",
+    "policy": "governance/UPSTREAM_RELEASE_POLICY.json",
+    "required_dependencies": [
+      "AF",
+      "AFC",
+      "GM",
+      "AOD"
+    ],
+    "source_registry": "governance/REPOSITORY_RELEASE_SOURCES.json"
+  },
+  "working_candidate_bindings": {
+    "candidate_id": "working_candidate_v40_04r03_foundation_doctrine_dec_reporting_overlay_plan",
+    "delta_manifest_sha256": "BIND_AT_BUNDLE_ASSEMBLY",
+    "governance_manifest_sha256": "BIND_AT_BUNDLE_ASSEMBLY",
+    "payload_manifest_sha256": "BIND_AT_BUNDLE_ASSEMBLY",
+    "source_tree_delta_manifest_sha256": "BIND_AT_BUNDLE_ASSEMBLY"
+  }
+}

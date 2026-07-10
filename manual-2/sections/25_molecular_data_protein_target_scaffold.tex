@@ -1,0 +1,90 @@
+\section{Molecular data and protein target scaffold}
+
+The v40.02r02 scaffold remains the target-packet foundation, v40.02r03 adds the molecular chain-D.E.C. execution lane, and v40.02r04 adds the protein target-normalization gate before any AOD contact prediction or folding score. It leaves the elementary 118-element lane unchanged and extends the same application discipline upward:
+\[
+\text{Spec}\to\text{Raw D.E.C.}\to\text{Trace}\to\text{Detector/SADAR context}\to\text{target comparison}\to\delta_3\text{/residual audit}.
+\]
+
+\subsection{Molecular target packets}
+
+The molecular-data lane declares component vectors, target-packet rows, route units, controls, and link-rule schemas. The canonical storage order for component vectors is explicit by column name:
+\[
+(n_C,n_H,n_N,n_O,n_P,n_S).
+\]
+The storage order is also recorded in \texttt{manual-2/data/molecular/molecular\_target\_manifest.json}. This avoids silent CHONPS/CHNOPS position errors.
+
+The scaffold files are:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+File & Role \\
+\midrule
+\texttt{component\_registry\_pubchem.csv} & component rows with explicit formula vectors and PubChem locator status \\
+\texttt{component\_vector\_registry.csv} & parsed component vectors in the declared order $C,H,N,O,P,S$ \\
+\texttt{component\_composition\_delta3.csv} & zero-difference formula fixture audit for the declared component packets \\
+\texttt{pubchem\_compound\_target\_packets.csv} & PubChem target locators with provenance, checksums, and leakage role \\
+\texttt{rdkit\_graph\_descriptors.csv} & RDKit-facing graph/canonicalization scaffold, not an active value map \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Route units and link rules}
+
+The first declared route unit is the water-equivalent shedding unit
+\[
+\mathbf w=n(H_2O)=(0,2,0,1,0,0)
+\]
+in the $C,H,N,O,P,S$ storage order. It is a formula-accounting route unit for future dehydration/condensation-style examples. It is not a kinetic mechanism, solvent model, or universal reaction law.
+
+The methane row is a control:
+\[
+\mathbf c=n(CH_4)=(1,4,0,0,0,0).
+\]
+It is a carbon-saturation control and is not a default chain route. The link-rule registry records peptide and nucleotide-style water-route schemas as \texttt{schema\_declared\_deferred}; the chain detector is active for the v40.02r03 fixture rows while external target comparisons remain deferred.
+
+\subsection{Protein target lane}
+
+Protein folding now appears in Manual II as a downstream target lane. In this milestone it is not a prediction, not a score, and not a biological-function claim. The scaffold records locator packets, normalization rows, leakage guards, and deferred value-map rows:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+File & Role \\
+\midrule
+\texttt{protein\_sequence\_targets.csv} & manual seed sequences and UniProt locator rows \\
+\texttt{uniprot\_target\_packets.csv} & UniProt sequence target locators \\
+\texttt{pdb\_structure\_target\_packets.csv} & PDB/mmCIF experimental-structure target locators \\
+\texttt{alphafold\_structure\_target\_packets.csv} & AlphaFold predicted-structure target locators \\
+\texttt{protein\_target\_leakage\_guard.csv} & guards forbidding target-coordinate leakage into raw runs or prediction freeze rows \\
+
+\texttt{protein\_sequence\_target\_packets.csv} & normalized sequence packets and locator rows \\
+\texttt{pdb\_mmcif\_structure\_targets.csv} & normalized PDB/mmCIF target locator rows \\
+\texttt{alphafold\_structure\_targets.csv} & normalized AlphaFold predicted-structure comparator rows \\
+\texttt{protein\_contact\_map\_targets.csv} & contact-map target hashes and status rows \\
+\texttt{protein\_distance\_matrix\_targets.csv} & distance-matrix target hashes and coordinate-status rows \\
+\texttt{protein\_structure\_target\_limitations.csv} & limitation and score-permission rows \\
+\texttt{protein\_value\_map\_quarantine.csv} & deferred lambda register for molecular, graph, chain, fold, and bio maps \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Deferred lambda register}
+
+The current release keeps all higher-octave value maps deferred:
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Map & Status \\
+\midrule
+$\lambda_{\mathrm{molecule}}$ & \texttt{deferred\_not\_attached} \\
+$\lambda_{\mathrm{formula}}$ & \texttt{deferred\_not\_attached} \\
+$\lambda_{\mathrm{graph}}$ & \texttt{deferred\_not\_attached} \\
+$\lambda_{\mathrm{chain}}$ & \texttt{deferred\_not\_attached} \\
+$\lambda_{\mathrm{fold}}$ & \texttt{deferred\_not\_attached} \\
+$\lambda_{\mathrm{bio}}$ & \texttt{deferred\_not\_attached} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Milestone boundary}
+
+This remains a scaffold/data-packet, internal chain-D.E.C., and target-normalization milestone. It does not release external chain scoring, molecular stability, reaction kinetics, solvent behavior, AOD contact prediction, protein folding prediction, 3D coordinate prediction, contact-map scoring, or biological-function inference. Those require later milestones with frozen predictions and target-comparison audits.

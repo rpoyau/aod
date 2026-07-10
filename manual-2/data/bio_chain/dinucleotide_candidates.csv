@@ -1,0 +1,5 @@
+chain_id,alphabet,sequence,declared_components,shedding_vector,formula,residual_CHONPS,status
+RNA_AU,RNA,AU,RNA_A+RNA_U,H2O,C19H25N7O15P2,C:0;H:0;N:0;O:0;P:0;S:0,closed
+RNA_GC,RNA,GC,RNA_G+RNA_C,H2O,C19H26N8O15P2,C:0;H:0;N:0;O:0;P:0;S:0,closed
+DNA_AT,DNA,AT,DNA_A+DNA_T,H2O,C20H27N7O13P2,C:0;H:0;N:0;O:0;P:0;S:0,closed
+DNA_GC,DNA,GC,DNA_G+DNA_C,H2O,C19H26N8O13P2,C:0;H:0;N:0;O:0;P:0;S:0,closed

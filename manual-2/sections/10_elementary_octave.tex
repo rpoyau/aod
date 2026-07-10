@@ -1,0 +1,63 @@
+\section{Elementary octave: $3{:}3{:}6$ and $3{:}4{:}6$}
+
+The elementary octave uses the atomic-number coordinate as a registry-facing readout. The active fixture is not a nuclear-reaction model. It is a retained-capacity ladder whose rows can be compared with the 118-element name/symbol registry.
+
+\subsection{Declared ladders}
+
+The two elementary rules are:
+\[
+\FFL_{336}: 3+3\to 6,
+\qquad
+\FFL_{346}: 3+4\to 6+1_{\mathrm{shed}}.
+\]
+For a target registry coordinate $Z$, the retained six-capacity depth is
+\[
+D_6(Z)=\left\lceil \frac{Z}{6}\right\rceil,
+\qquad
+C_6(Z)=6D_6(Z),
+\qquad
+\epsilon_Z=C_6(Z)-Z.
+\]
+The $3{:}3{:}6$ rule has zero surplus per rung. The $3{:}4{:}6$ rule records one sheddic surplus unit per rung. Both rows preserve $\epsilon_Z$ instead of forcing closure.
+
+\subsection{Registry fixture}
+
+The file \texttt{manual-2/data/elementary/element\_registry\_118.csv} contains one row for each atomic-number coordinate from 1 through 118. The first and last rows are:
+\begin{center}
+\begin{tabular}{@{}rlll@{}}
+\toprule
+$Z$ & Symbol & Name & Status \\
+\midrule
+1 & H & Hydrogen & frozen 118-name/symbol fixture \\
+118 & Og & Oganesson & frozen 118-name/symbol fixture \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\aodliteraturenote{The element-name/symbol registry lane is treated as an external authority lane. The fixture cites the IUPAC periodic-table page and keeps atomic-number comparison separate from the core ladder arithmetic.}
+
+\subsection{Scale-comparison rows}
+
+The elementary data lane provides:
+\begin{itemize}[leftmargin=2em]
+  \item \texttt{fusion\_ladder\_336.csv};
+  \item \texttt{fusion\_ladder\_346.csv};
+  \item \texttt{stellar\_scaled\_comparison.csv};
+  \item \texttt{pubchem\_element\_map.csv}.
+\end{itemize}
+The stellar-scale file uses labels such as light-nuclei boundary marker, alpha-chain comparison marker, stellar-burning comparison marker, and heavy-element comparison marker. These are comparison labels, not claims that the AOD row is a stellar nucleosynthesis engine.
+
+\subsection{Sample rows}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lrrrrX@{}}
+\toprule
+Rule & $Z$ & Depth & Capacity & Residual & Status \\
+\midrule
+$3{:}3{:}6$ & 6 & 1 & 6 & 0 & closed \\
+$3{:}3{:}6$ & 8 & 2 & 12 & 4 & boundary residual \\
+$3{:}4{:}6$ & 26 & 5 & 30 & 4 & boundary residual; surplus 5 \\
+$3{:}4{:}6$ & 118 & 20 & 120 & 2 & boundary residual; surplus 20 \\
+\bottomrule
+\end{tabularx}
+\end{center}

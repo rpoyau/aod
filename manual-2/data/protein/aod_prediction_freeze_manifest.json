@@ -1,0 +1,28 @@
+{
+  "lane": "aod_contact_reclosure_prediction_freeze",
+  "version_scope": "v40.02r05",
+  "status": "prediction_freeze_no_target_comparison_no_contact_score",
+  "files": {
+    "aod_folding_prediction_model_registry": "manual-2/data/protein/aod_folding_prediction_model_registry.csv",
+    "aod_contact_prediction_freeze": "manual-2/data/protein/aod_contact_prediction_freeze.csv",
+    "aod_reclosure_motif_predictions": "manual-2/data/protein/aod_reclosure_motif_predictions.csv"
+  },
+  "allowed_input_files": [
+    "manual-2/data/molecular/chain_word_spec.csv",
+    "manual-2/data/molecular/read_only_trace_molecular_chain.csv",
+    "manual-2/data/molecular/detected_chain_motifs.csv",
+    "manual-2/data/molecular/sadar_detector_context.csv"
+  ],
+  "forbidden_prediction_premises": [
+    "PDB/mmCIF coordinates",
+    "AlphaFold coordinates",
+    "target contact maps",
+    "target distance matrices",
+    "secondary-structure labels",
+    "confidence fields"
+  ],
+  "leakage_policy": "prediction rows are frozen before target comparison and use no external structure, contact, distance, secondary-structure, or confidence payloads",
+  "freeze_policy": "contact/reclosure motif packets are immutable inputs for the later v40.02r06 residual comparison gate",
+  "score_policy": "no contact score, RMSD, TM-score, GDT, or active folding value map is released in v40.02r05",
+  "next_milestone": "v40.02r06 -- Protein Contact-Map Residual / Folding Target Comparison"
+}

@@ -1,0 +1,35 @@
+\section{Dataset inventory and manifests}
+
+The compact inventory is intentionally placed after the worked rows. The main manifest is
+\[
+\texttt{manual-2/data/manifest.json}.
+\]
+It points to the elementary, molecular, bio-chain, and protein ledgers.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Lane & Primary ledger or manifest \\
+\midrule
+Elementary & \path{manual-2/data/elementary/fusion_ladder_336.csv} and \texttt{fusion\_ladder\_346.csv} \\
+Molecular & \path{manual-2/data/molecular/chain_formula_predictions.csv} and \texttt{chain\_fission\_audit.csv} \\
+D.E.C. pen-and-paper & \path{manual-2/data/dec/manual2_dec_pen_paper_gas_trace.csv} and \texttt{manual2\_dec\_trace\_chain\_manifest.csv} \\
+Protein target & \texttt{manual-2/data/protein/protein\_target\_manifest.json} \\
+PDBx/mmCIF derivation & \path{manual-2/data/protein/pdb_mmcif_contact_derivation_manifest.json} \\
+Contact residual & \texttt{manual-2/data/protein/protein\_contact\_score\_manifest.json} \\
+PDB comparison scope & \texttt{manual-2/data/protein/pdb\_contact\_comparison\_scope\_manifest.json} \\
+Scoped PDB contact pilot & \texttt{manual-2/data/protein/pdb\_scoped\_contact\_residual\_manifest.json} \\
+Reflection/map probe & \path{manual-2/data/protein/pdb_external_reflection_map_probe_manifest.json} \\
+Exact calculus/projection protocol & \path{manual-2/data/protein/aod_exact_calculus_projection_protocol_manifest.json} \\
+Native causal-duration protocol & \path{manual-2/data/temporal/manifest.json} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\medskip
+\noindent\textbf{Shared exactness protocol.}
+The cross-manual kernel, execution-mode, native-duration, metric-projection,
+observation, residual, branch-isolation, and migration ledgers are stored under
+\path{shared/data/exact_native_protocol/}.  Their canonical manifest is
+\path{aod_shared_exactness_protocol_manifest.json}; the release-wide migration
+audit is \path{aod_existing_prediction_migration_audit.csv}.

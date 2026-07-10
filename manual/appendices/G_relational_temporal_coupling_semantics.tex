@@ -1,0 +1,219 @@
+\section{Relational Temporal Coupling, Duon Pressure, and SADAR Time Semantics}
+\label{app:manual1-relational-temporal-semantics}
+
+\subsection{Typed objects}
+
+The temporal calculus keeps execution structure and temporal measurement
+separate:
+\begin{center}
+\begin{tabular}{@{}p{0.22\linewidth}p{0.69\linewidth}@{}}
+\toprule
+object & exact role \\
+\midrule
+bip & one admitted executed or propagated directed beat in a D.E.C. path \\
+trace count & combinatorial path length or execution resolution \\
+monon & primitive completed cycle/closure class \\
+duon & returned-current relation carried through the completed cycle \\
+\(C_n\) & support/enclosure object \\
+\(L\) & outer/shared enclosure or window qualifier \\
+\(RD\) & path-conditioned reflection-duration accessor \\
+\(RCD\) & reflection duration coupled to asymmetric return \\
+\(\rho_\omega^D\) & current-window participation \\
+\(p^D\) & local duonic pressure or coupling load \\
+SADAR & directed pressure-weighted returned-current flow \\
+temporal measurement & primitive relational phase/cadence lock between recurrent flows \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A D.E.C. ledger row is not automatically a bip.  A bip is counted only when
+an admitted edge is actually propagated on a path or in an explicitly mass-
+propagated execution packet.
+
+\subsection{Minimal monon witness}
+
+The direct witness
+\[
+x\xrightarrow{\mathrm{bip}}x^\partial
+ \xrightarrow{\mathrm{bip}}x
+\]
+contains one outbound and one inbound executed beat.  Thus
+\[
+\boxed{N_{\mathrm{bip}}^{\min}(\mathrm{monon})=2.}
+\]
+This certifies the shortest direct witness only.  It does not define the
+elapsed duration of every monon realization and does not allow an arbitrary
+trace count to be divided by two to obtain a monon count.
+
+\subsection{Path-conditioned RD, RCD, and pressure}
+
+For a declared path family \(\Gamma_B(C)\), each admitted path has exact
+probability
+\[
+P(\gamma;B)=\prod_t P_t(e_t\mid c_t,B).
+\]
+Reflection duration is a path functional,
+\[
+RD_B(C):\gamma\longmapsto RD_\gamma(B),
+\]
+and its exact distribution is
+\[
+\Pr(RD=r)=
+\sum_{\gamma:\,RD_\gamma=r}P(\gamma;B).
+\]
+The typed order is
+\[
+RD_\gamma
+\longrightarrow
+RCD_\gamma
+\longrightarrow
+\rho_{\omega,\gamma}^{D}
+\longrightarrow
+p_{\gamma}^{D}
+\longrightarrow
+\mathfrak S_\gamma.
+\]
+No mode, expectation, or maximum of the RD distribution is identified with
+time by itself.
+
+Local duonic pressure is
+\[
+p_e^D(B)=C_e(B)\rho_{\omega,e}^{D}(B),
+\]
+while the directed SADAR flow is
+\[
+\mathfrak S_B(X)=
+\sum_{e\in X(B)}p_e^D(B)A_e(B).
+\]
+The kernel-weighted expected flow is separately typed:
+\[
+\mathfrak S_B^{\mathrm{exp}}(X\mid t)=
+\sum_e P_e(B\mid t)p_e^D(B)A_e(B).
+\]
+Pressure magnitude is not cadence.  Cadence enters only through recurrence and
+phase relation in a complete flow packet.
+
+\subsection{Exact relational temporal measurement}
+
+Let \(X\) be the subject process and \(R\) the reference process.  Their full
+SADAR presentations include event order, recurrence, phase, boundary, and
+window data.  Define
+\[
+\mathfrak T_{X:R}
+=
+\operatorname{RelLock}
+\left(
+\operatorname{wave}_{B_X}(C_X),
+\operatorname{wave}_{B_R}(C_R)
+\right).
+\]
+Let \(m,n\) be the smallest coprime positive integers for which the coupled
+flows close with zero exact phase residual and no proper-prefix lock.  Then
+\[
+mT_X=nT_R,
+\qquad
+\boxed{\frac{T_X}{T_R}=\frac{n}{m}},
+\qquad
+\boxed{\frac{\nu_X}{\nu_R}=\frac{m}{n}}.
+\]
+This reduced rational lock is the native temporal measurement.  Absolute
+units attach only after a reference flow receives an independently declared
+report card.
+
+The machine packet records the subject and reference SADAR IDs and their
+frozen phase-extractor IDs.  It also records the boundary and window IDs,
+recurrence counts, exact phase residual, primitive-lock and alias status,
+support and uncertainty states, and the reduced period and frequency ratios.
+
+\subsection{Sheddic exchange}
+
+Native exchange uses sheddic terminology only.  The scalar closure-capacity
+surplus
+\[
+X_{\mathrm{shedding}}
+=
+\max(0,\Delta_{\mathrm{close}})
+\]
+is distinct from a directed sheddic SADAR exchange flux
+\[
+\Phi_{\mathrm{sheddic}}^{\mathfrak S}.
+\]
+A nonzero exchange flux with zero capacity surplus is admitted only when a
+separate source is declared, such as externally driven exchange, balanced
+return exchange, or reclosure exchange.  The flux is never silently derived
+from zero surplus.
+
+\subsection{Cs reference, Hydrogen ratios, and Tau survival}
+
+A future Cs reference packet couples the Cs SADAR flow to a declared
+sheddic-drive SADAR flow:
+\[
+\Theta_{\mathrm{Cs}}
+=
+\operatorname{PrimRelPeriod}
+\left(
+\mathfrak S_{\mathrm{Cs}},
+\mathfrak S_{\mathrm{drive}}^{\mathrm{sheddic}}
+\right).
+\]
+Physical drive and clock labels are downstream metrological interpretations.
+The native lock packet itself contains no SI frequency and no bips-per-second
+identity.
+
+Hydrogen provides a dimensionless first test.  Four frozen native lock packets
+are compared with the exact downstream Balmer period ratio
+\[
+1512:1120:1000:945
+\]
+and the inverse frequency ratio
+\[
+500:675:756:800.
+\]
+No seconds, hertz, or fitted coefficient are required for this ratio audit.
+
+Tau is modeled as a stochastic survival flow against a reference SADAR flow.
+The exact ledgers carry
+\[
+S_\tau(n)
+=
+\Pr(\text{support retained through }n\text{ reference periods})
+\]
+and the discrete conditional hazard \(h_\tau(n)\).  A fixed Tau bip count is
+not used as a lifetime definition.
+
+\subsection{Circle and element-transition programs}
+
+The circle audit is dimensionless and keeps independent circumference and area
+traces.  Its exact cross-trace output is
+\[
+R_{CA}=C_\zeta r_\zeta-2A_\zeta.
+\]
+The value zero is not imposed.  Refinement and enclosure rows determine the
+status of the finite geometry report.
+
+For every element and transition, the same relational protocol applies:
+\[
+\begin{aligned}
+{}^A_ZE
+&\longrightarrow \text{scoped occurrence}
+ \longrightarrow \text{D.E.C. path family}\\
+&\longrightarrow \text{duon current}
+ \longrightarrow \text{SADAR flow}\\
+&\longrightarrow \text{primitive relational lock}.
+\end{aligned}
+\]
+Dimensionless frequency ratios are available before any SI realization.  No
+element receives a private bip-to-second conversion.
+
+\subsection{Machine-readable ledgers}
+
+\begin{sloppypar}
+The protocol schemas cover the type registry, relational temporal measurement,
+duonic pressure, SADAR flow, phase lock, RD path distribution, sheddic exchange
+flux, Cs reference, Hydrogen ratio, Tau survival/hazard, circle audit, and the
+118-element transition atlas.  Their source locations are:
+\end{sloppypar}
+\begin{quote}\small\ttfamily
+manual/data/temporal\_relational/\\
+manual/scripts/build\_relational\_temporal\_semantics.py
+\end{quote}

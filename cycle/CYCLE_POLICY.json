@@ -1,0 +1,107 @@
+{
+  "allowed_transitions": [
+    {
+      "condition": "candidate_ready_and_complete_bundle_validates",
+      "from": "AUTHORING",
+      "to": "REVIEW"
+    },
+    {
+      "condition": "blocking_or_unresolved_findings",
+      "from": "REVIEW",
+      "to": "FEEDBACK"
+    },
+    {
+      "condition": "revision_authorized",
+      "from": "FEEDBACK",
+      "to": "AUTHORING"
+    },
+    {
+      "condition": "no_blockers_and_required_authority",
+      "from": "REVIEW",
+      "to": "GO"
+    },
+    {
+      "condition": "next_goal_seeded_in_successor_bundle",
+      "from": "GO",
+      "to": "AUTHORING"
+    }
+  ],
+  "canonical_input_rule": "The validated bundle, including stable baseline, delta, governance imports, candidate payload, review, feedback ledger, and transition ledger, is canonical.",
+  "cycle_protocol_id": "AOD_BUNDLE_CYCLE",
+  "feedback_ledger_policy": {
+    "closed_findings_terminal": true,
+    "current_state_rule": "latest_event_per_finding_id",
+    "event_model": "append_only_status_events",
+    "regressions_require_new_finding_id": true,
+    "verification_authority": [
+      "independent_bundle_reviewer",
+      "project_owner",
+      "designated_reviewer"
+    ]
+  },
+  "feedback_states": [
+    "OPEN",
+    "APPLIED_UNVERIFIED",
+    "VERIFIED_CLOSED",
+    "NOT_APPLICABLE_VERIFIED",
+    "WAIVED_BY_AUTHORITY",
+    "DISPUTED_OPEN"
+  ],
+  "go_policy": {
+    "applied_unverified_blocking_feedback_allowed": false,
+    "binds_candidate_payload_digest": true,
+    "binds_delta_manifest_digest": true,
+    "binds_feedback_ledger_digest": true,
+    "binds_governance_digest": true,
+    "binds_review_digest": true,
+    "open_blocking_feedback_allowed": false,
+    "r08_status_when_blocked": "BLOCKED",
+    "r08_status_when_go": "OPEN",
+    "required_authority": "project_owner_or_designated_reviewer",
+    "self_review_sufficient": false
+  },
+  "governance": {
+    "AFC_profile_path": "governance/AFC_PROCEDURAL_DYNAMICS.json",
+    "AF_profile_path": "governance/AF_PROTOCOL_PROFILE.json",
+    "GM_style_profile_path": "governance/GENERAL_MECHANICS_STYLE_PROFILE.json",
+    "canonical_release_lock_path": "governance/UPSTREAM_RELEASE_LOCK.json",
+    "conflicts_fail": true,
+    "global_instructions_path": "governance/GLOBAL_INSTRUCTIONS.json",
+    "release_source_registry_path": "governance/REPOSITORY_RELEASE_SOURCES.json",
+    "unknown_fields_fail": true,
+    "upstream_release_policy_path": "governance/UPSTREAM_RELEASE_POLICY.json"
+  },
+  "output_contract": "Exactly one deterministic validated successor bundle is emitted for every admitted phase transition.",
+  "phases": [
+    "AUTHORING",
+    "REVIEW",
+    "FEEDBACK",
+    "GO"
+  ],
+  "protocol_version": "3.1",
+  "schema_version": "3.1",
+  "state_model": {
+    "candidate_must_materialize": true,
+    "concrete_bundle_records_bind_digests": true,
+    "delta_reset_after_rebaseline": true,
+    "embed_lineage_parent_bundle": false,
+    "explicit_delta_required": true,
+    "internalize_stable_payload": true,
+    "parent_lineage_by_hash": true,
+    "rebaseline_after_authorized_GO": true,
+    "source_templates_must_be_typed": true
+  },
+  "upstream_release_rules": {
+    "aod_rebase_requires_explicit_goal": true,
+    "candidate_snapshot_frozen_during_review_feedback_go": true,
+    "fallback_must_not_claim_latest": true,
+    "governance_upgrade_not_retroactive": true,
+    "latest_is_discovery_only": true,
+    "latest_refresh_each_authoring": true,
+    "nonempty_delta_rebase_requires_conflict_audit": true,
+    "ordinary_operations_offline": true,
+    "refresh_failure_nonblocking": true,
+    "refresh_is_authoring_goal": true,
+    "release_lock_frozen_during_review_feedback_go": true
+  }
+}

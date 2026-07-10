@@ -1,0 +1,41 @@
+{
+  "candidate_release": "v40.04r03",
+  "claims_latest": false,
+  "complete": true,
+  "dependencies": [
+    {
+      "dependency_id": "AF",
+      "path": "governance/imports/axiomatic-fundamentalism.pdf",
+      "provenance_status": "legacy_bootstrap_hash_locked_noncanonical_fallback",
+      "sha256": "2ca94a78ee80476bc7dadd367a47a40be5bd5fd54bcb446f27f9cbae0b5572a6"
+    },
+    {
+      "dependency_id": "AFC",
+      "path": "governance/imports/afc-main.zip",
+      "provenance_status": "legacy_bootstrap_hash_locked_noncanonical_fallback",
+      "sha256": "24587c1ddd7dd5b7673795adf97954a3b40e6480fef54a9d8917e6d77ac0b950"
+    },
+    {
+      "dependency_id": "GM",
+      "path": "governance/imports/general-mechanics-1.0.5.0.zip",
+      "provenance_status": "legacy_bootstrap_hash_locked_noncanonical_fallback",
+      "sha256": "5d9171e1b4518d975ad3486aaa6d09a781cc60877a950cc0a23da157c37c4736"
+    },
+    {
+      "dependency_id": "AOD",
+      "path": "governance/imports/aod-stable-baseline-v40.03r17.1.json",
+      "provenance_status": "legacy_bootstrap_hash_locked_noncanonical_fallback",
+      "sha256": "b9f46efcb5ae52fdcca8c2f502815fb472f9b5d50e83eb119ce09394c1f0f680"
+    }
+  ],
+  "dependency_order": [
+    "AF",
+    "AFC",
+    "GM",
+    "AOD"
+  ],
+  "schema_version": "3.1",
+  "selection_policy": "complete_bootstrap_snapshot_until_first_successful_atomic_refresh",
+  "snapshot_id": "AOD_FOUR_DEPENDENCY_BOOTSTRAP_FALLBACK_v40_04r02",
+  "snapshot_type": "bootstrap_four_dependency_snapshot"
+}

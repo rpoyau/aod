@@ -1,0 +1,46 @@
+
+\section{External PDB AOD contact-prediction projection gate}
+
+This gate projects the frozen AOD contact/reclosure packet onto the already frozen external PDB evaluation boundary. It is not a residual score. It does not read target contact values, and it does not compare \(\widehat O_{ij}\) with \(O_{ij}\).
+
+The input boundary is the 1CRN chain-A CA evaluation set declared in the preceding gate:
+\[
+N_{\mathrm{eval}}=946.
+\]
+The AOD-side packet remains the frozen GAS chain packet:
+\[
+\texttt{trace\_mol\_005}\to\texttt{motif\_mol\_005}\to
+\texttt{sadar\_mol\_005}\to\texttt{chain\_GAS\_tripeptide\_seed}.
+\]
+This is the detection-side order: ChainWordSpec and ReadOnlyTrace precede AOD motif / curling-curls specification, SADAR context, and the frozen contact packet. The external PDB target rows remain downstream.
+
+No alignment from the GAS AOD packet to the external 1CRN chain is declared in this gate. Therefore each external evaluation pair is projected as
+\[
+\texttt{prediction\_state}=\texttt{out\_of\_scope},
+\qquad
+\widehat O_{ij}\;\text{blank}.
+\]
+The projection-state domain is explicitly
+\[
+\{\texttt{contact},\texttt{noncontact},\texttt{abstain},\texttt{out\_of\_scope}\}.
+\]
+For this gate the summary is
+\[
+N_{\mathrm{contact\ projection}}=0,
+\quad
+N_{\mathrm{noncontact\ projection}}=0,
+\quad
+N_{\mathrm{abstain}}=0,
+\quad
+N_{\mathrm{out\ of\ scope}}=946.
+\]
+
+The ledger rows are, in order,
+\begin{center}\small
+\begin{tabular}{l}
+\texttt{pdb\_external\_aod\_contact\_projection.csv}\\
+\texttt{pdb\_external\_aod\_contact\_projection\_summary.csv}\\
+\texttt{pdb\_external\_aod\_contact\_projection\_leakage\_checks.csv}.
+\end{tabular}
+\end{center}
+The next residual gate may join a frozen \(\widehat O_{ij}\) column to the frozen target \(O_{ij}\) column only after a declared projection/alignment rule gives coverage. Coordinate metrics, AlphaFold comparison, coordinate-level AOD prediction, released \(\lambda_{\mathrm{fold}}\), and folding value-map claims remain outside this gate.

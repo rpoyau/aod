@@ -1,0 +1,45 @@
+{
+  "lane": "external_pdb_coordinate_payload_hash_gate",
+  "version_scope": "v40.02r12.1",
+  "status": "external PDB coordinate payload hash/provenance gate only; no coordinate bytes are parsed, no residue table is derived, and no external-accession score is computed",
+  "prior_scope": "manual-2/data/protein/pdb_external_accession_scope_declaration.csv",
+  "source_database": "RCSB_PDB",
+  "source_accession": "1CRN",
+  "chain_id": "A",
+  "coordinate_payload_path": "https://files.rcsb.org/download/1CRN.cif",
+  "coordinate_payload_path_status": "external_uri_declared_payload_bytes_not_committed",
+  "coordinate_payload_sha256": "required_after_external_payload_bytes_are_registered_before_contact_derivation",
+  "coordinate_payload_sha256_status": "byte_payload_hash_required_not_satisfied_in_this_gate",
+  "payload_registration_sha256": "37cc67db8e892c25dd1781977ac7b6a920d12dc115c03fe934716081c77bd1f7",
+  "locator_policy_registration_sha256": "37cc67db8e892c25dd1781977ac7b6a920d12dc115c03fe934716081c77bd1f7",
+  "registration_hash_note": "payload_registration_sha256 is a compatibility alias for locator_policy_registration_sha256; it is not the external coordinate byte-payload SHA-256",
+  "download_or_registration_timestamp": "2026-06-16T00:00:00Z",
+  "policy": {
+    "model_id": "1",
+    "model_policy": "model_1_preferred_single_model_policy",
+    "residue_index_basis": "one_based_residue_sequence_position",
+    "atom_selector": "CA",
+    "altloc_policy": "primary_or_highest_occupancy_altloc_required_before_derivation",
+    "missing_residue_policy": "explicit_gap_rows_required_before_contact_derivation",
+    "contact_threshold_angstrom": "8.0",
+    "min_sequence_separation": "3"
+  },
+  "blocked_until_later_gate": [
+    "coordinate_payload_byte_hash_lock",
+    "residue_coordinate_table_derivation",
+    "external_contact_map_derivation",
+    "evaluation_pair_boundary_declaration",
+    "external_accession_residual_score"
+  ],
+  "files": {
+    "hash_gate": "manual-2/data/protein/pdb_external_coordinate_payload_hash_gate.csv",
+    "provenance_lock": "manual-2/data/protein/pdb_external_coordinate_payload_provenance_lock.csv",
+    "policy_lock": "manual-2/data/protein/pdb_external_coordinate_payload_policy_lock.csv",
+    "derivation_block": "manual-2/data/protein/pdb_external_coordinate_payload_derivation_block.csv",
+    "leakage_checks": "manual-2/data/protein/pdb_external_coordinate_payload_leakage_checks.csv",
+    "terminology": "manual-2/data/protein/pdb_external_coordinate_payload_hash_terminology.csv",
+    "carried_forward_fixture_scope": "manual-2/data/protein/pdb_external_coordinate_payload_carried_forward_fixture_scope.csv"
+  },
+  "input_order_policy": "r11 accession scope first; payload byte-hash lock second; residue/contact derivation only after payload byte-hash; AOD motif/curling-curls/SADAR freeze stays upstream of any future target join",
+  "claim_discipline": "Hash/provenance gate only. This is not a coordinate-ingest release, not an external PDB contact score, and not a folding model."
+}

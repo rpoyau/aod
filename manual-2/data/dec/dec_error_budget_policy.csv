@@ -1,0 +1,8 @@
+policy_id,statement,forbidden_conflation,status
+POL_CONVERSION_NOT_RESIDUAL,conversion_error != empirical_residual,conversion_error_as_empirical_residual,active
+POL_PROJECTION_NOT_SCORE,projection_error != target_agreement_score,projection_error_as_score,active
+POL_ROUNDING_NOT_METRIC,rounding_error != metric_report_value,rounding_error_as_metric_report_value,active
+POL_DECIMAL_NOT_NATIVE,display_decimal != native_exact_value,decimal_display_as_native_exact_value,active
+POL_TARGET_CLOSED,target joins remain closed unless explicitly authorized,target_join_opened_by_overlay,active
+POL_SI_CLOSED,SI reports remain closed unless explicitly authorized,si_report_opened_by_overlay,active
+POL_METRIC_CLOSED,metric reports remain closed unless explicitly authorized,metric_report_opened_by_overlay,active

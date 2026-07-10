@@ -1,0 +1,6 @@
+{
+  "canonical_manifest": "aod_native_causal_duration_projection_manifest.json",
+  "canonical_manifest_sha256": "831f803ce0bba7713d4ef84656cfb277210f3e263a564c11004deb21f6753330",
+  "manifest_role": "short_inventory_alias",
+  "protocol_state": "schemas_declared_maps_uninstantiated_empirical_join_closed"
+}

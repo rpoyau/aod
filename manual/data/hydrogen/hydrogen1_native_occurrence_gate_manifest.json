@@ -1,0 +1,123 @@
+{
+  "current_state": {
+    "Balmer_target": "not_read",
+    "H1_identity": "frozen",
+    "RD_RCD": "not_materialized",
+    "SADAR_flow": "not_materialized",
+    "SI_report": "inactive",
+    "declared_core_outer_scope": "3:3:6_coupled_with_1:2:6",
+    "detector_validation": "post_write_exact_schema_and_binding_passed",
+    "duonic_pressure": "not_materialized",
+    "executed_bip_token_count": 2,
+    "local_DEC_execution": "materialized_connected_two_event_direct_return",
+    "occurrence_hash_propagation": "states_inventory_kernel_execution_read_only_detector",
+    "packet_schema": "exact_ordered_fail_closed",
+    "primitive_phase_lock": "not_materialized",
+    "residual_score": "not_computed",
+    "returned_current_detection": "passed_direct_minimal_witness",
+    "source_chain": "exact_semantics_and_prior_gate_manifest_verified",
+    "trace_count_temporal_status": "execution_structure_not_temporal_magnitude"
+  },
+  "files": [
+    {
+      "bytes": 483,
+      "path": "manual/data/hydrogen/hydrogen1_identity_packet.csv",
+      "sha256": "179792cd94a709d1b02865c8d8d14b990b32065b01409e6f43df72f746ad13c2"
+    },
+    {
+      "bytes": 2047,
+      "path": "manual/data/hydrogen/hydrogen1_local_dec_contract.csv",
+      "sha256": "a6315ce0c5502efc6f61024e6d1026bdae595046f3cf79a86a7059005a731982"
+    },
+    {
+      "bytes": 1647,
+      "path": "manual/data/hydrogen/hydrogen1_occurrence_card.csv",
+      "sha256": "96f4cda4fa63422faf424dc7de8f7dd0b768435e1491c82e4a58f373b3463f40"
+    },
+    {
+      "bytes": 707,
+      "path": "manual/data/hydrogen/hydrogen1_local_q4_state_registry.csv",
+      "sha256": "dce066da58ea254af8e892827b702b95edfac78258833cc8f1d48dcc08675b98"
+    },
+    {
+      "bytes": 4356,
+      "path": "manual/data/hydrogen/hydrogen1_local_q4_edge_inventory.csv",
+      "sha256": "17d4169a2db7b9514d40587993b2366c28280a7b4f56da9e2650f33fe0de048e"
+    },
+    {
+      "bytes": 1231,
+      "path": "manual/data/hydrogen/hydrogen1_local_q4_kernel_audit.csv",
+      "sha256": "173f160e402bcd939aec7cd4debb35528ec3d9fe50062fc60e13d2cccf0129d5"
+    },
+    {
+      "bytes": 2060,
+      "path": "manual/data/hydrogen/hydrogen1_dec_execution_ledger.csv",
+      "sha256": "b4fe65436f06e084ca709ea42706fdac992c52ccb19a5336b6cc99b2f2383d84"
+    },
+    {
+      "bytes": 1378,
+      "path": "manual/data/hydrogen/hydrogen1_read_only_trace.csv",
+      "sha256": "633cccb724ee46aca2484af59672018e50158a63c71e03e15839705153113b4b"
+    },
+    {
+      "bytes": 1300,
+      "path": "manual/data/hydrogen/hydrogen1_source_chain_audit.csv",
+      "sha256": "626c220011c710420697931d70af6ec111962a03bbccaceeb5c239bd392b3142"
+    },
+    {
+      "bytes": 3553,
+      "path": "manual/data/hydrogen/hydrogen1_pre_detection_freeze_manifest.json",
+      "sha256": "8e69d28cc06b66b1828fb377da027824ccbd51ba7c1f58ae1005f2bcf9535f85"
+    },
+    {
+      "bytes": 1900,
+      "path": "manual/data/hydrogen/hydrogen1_returned_current_detection.csv",
+      "sha256": "b2b049f16ff28e31c75ceda7039c95255ffe11b62b1a8de1b193c1f09aa4eee1"
+    },
+    {
+      "bytes": 1022,
+      "path": "manual/data/hydrogen/hydrogen1_identity_counterfactual_audit.csv",
+      "sha256": "a710bb3dc98e9569702742d82b99838c0d3e31c370a8b1529d48239922a442e5"
+    },
+    {
+      "bytes": 16290,
+      "path": "manual/data/hydrogen/hydrogen1_counterfactual_audit.csv",
+      "sha256": "a438895f72152f9ae62cd8c347dab8ee3e9bcf3a0b5fcbad2f043fd37ec71861"
+    },
+    {
+      "bytes": 1681,
+      "path": "manual/data/hydrogen/hydrogen1_source_counterfactual_audit.csv",
+      "sha256": "f73412c30f219e7e79f6c4e63910f91fa545499be0c5b13172cff24c71ba583a"
+    },
+    {
+      "bytes": 2523,
+      "path": "manual/data/hydrogen/hydrogen1_detector_counterfactual_audit.csv",
+      "sha256": "6a2bbb53f918c7456d624824e6278c34c2c9f727c11cd21a5082ba7b6f4e3863"
+    }
+  ],
+  "gate_id": "aod_hydrogen1_native_occurrence_gate_v2",
+  "overall_gate_status": "passed",
+  "release_class": "target_blind_H1_native_occurrence_exact_schema_source_chain_detector_hardening",
+  "scientific_claim": "H1_identity_bound_declared_core_outer_scope_with_connected_direct_return_Q4_occurrence_only",
+  "statuses": {
+    "connected_execution_status": "passed",
+    "detector_counterfactual_status": "passed",
+    "exact_packet_schema_status": "passed",
+    "identity_binding_status": "passed",
+    "identity_counterfactual_status": "passed",
+    "kernel_exactness_status": "passed",
+    "local_Q4_geometry_status": "passed",
+    "malformed_packet_structured_failure_status": "passed",
+    "mass_conservation_status": "passed",
+    "occurrence_hash_propagation_status": "passed",
+    "packet_counterfactual_status": "passed",
+    "post_write_detector_validation_status": "passed",
+    "prior_consequent_gate_chain_status": "passed",
+    "read_only_freeze_status": "passed",
+    "returned_current_detection_status": "passed",
+    "source_counterfactual_status": "passed",
+    "source_schema_and_semantics_status": "passed",
+    "target_quarantine_status": "passed"
+  },
+  "version_scope": "v40.03r07.1"
+}

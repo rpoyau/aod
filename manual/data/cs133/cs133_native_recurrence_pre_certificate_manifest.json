@@ -1,0 +1,110 @@
+{
+  "allowed_input_paths": [
+    "manual/data/cs133/cs133_identity_packet.csv",
+    "manual/data/cs133/cs133_fractal_elementary_occurrence_binding.csv",
+    "manual/data/cs133/cs133_structural_detection_result.csv",
+    "manual/data/cs133/cs133_structural_occurrence_manifest.json",
+    "manual/data/cs133/cs133_core_outer_coupling_operator.csv",
+    "manual/data/cs133/cs133_native_recurrence_kernel_contract.csv",
+    "manual/data/cs133/cs133_native_coupled_state_registry.csv",
+    "manual/data/cs133/cs133_native_recurrence_transition_matrix.csv",
+    "manual/data/cs133/cs133_native_recurrence_dec_execution_ledger.csv",
+    "manual/data/cs133/cs133_native_recurrence_read_only_trace.csv",
+    "manual/data/cs133/cs133_native_recurrence_mass_audit.csv",
+    "manual/scripts/build_cs133_native_recurrence_certificate.py"
+  ],
+  "artifact_count": 12,
+  "artifacts": [
+    {
+      "artifact_role": "M1_identity_packet",
+      "bytes": 712,
+      "path": "manual/data/cs133/cs133_identity_packet.csv",
+      "sha256": "7e5f2ff93a558bca36285943b2ae2015cebfd3a2fbe6e4c32f8e34df0d857f6b"
+    },
+    {
+      "artifact_role": "M1_occurrence_binding",
+      "bytes": 897,
+      "path": "manual/data/cs133/cs133_fractal_elementary_occurrence_binding.csv",
+      "sha256": "925ed19dc45d8fdcc43b0b91373af5683cc6f8ce99bad3dda568e551adc2cfbc"
+    },
+    {
+      "artifact_role": "M1_detected_support_core",
+      "bytes": 1344,
+      "path": "manual/data/cs133/cs133_structural_detection_result.csv",
+      "sha256": "87f5f4abd303c7aa97f83135531e6e728e134cda015101f1d9cf69e15d15d4df"
+    },
+    {
+      "artifact_role": "M1_manifest",
+      "bytes": 5976,
+      "path": "manual/data/cs133/cs133_structural_occurrence_manifest.json",
+      "sha256": "1dc4cde22eb86c92f32ad6ffcb30992d08d54494f20f191bbf1892a5fba49ed7"
+    },
+    {
+      "artifact_role": "M2_coupling_operator",
+      "bytes": 1638,
+      "path": "manual/data/cs133/cs133_core_outer_coupling_operator.csv",
+      "sha256": "be28f51062c064f0af238c4506dcfde75fc04f0a20ef7878b47812c80844021a"
+    },
+    {
+      "artifact_role": "M2_kernel_contract",
+      "bytes": 611,
+      "path": "manual/data/cs133/cs133_native_recurrence_kernel_contract.csv",
+      "sha256": "8adc952c2f64f1e932cab6494506641019ae28e415277df001ca5d041a41127b"
+    },
+    {
+      "artifact_role": "M2_state_registry",
+      "bytes": 3769,
+      "path": "manual/data/cs133/cs133_native_coupled_state_registry.csv",
+      "sha256": "a24d0cd775d39733e0ec972cf43d2f4fca92bb7f19e75857bd7673924a2625e9"
+    },
+    {
+      "artifact_role": "M2_transition_matrix",
+      "bytes": 4289,
+      "path": "manual/data/cs133/cs133_native_recurrence_transition_matrix.csv",
+      "sha256": "06b77738dac407cefde90eda94d26189cfde6c1b696109a70ed14c2b8f13fdd0"
+    },
+    {
+      "artifact_role": "M2_execution_ledger",
+      "bytes": 3097,
+      "path": "manual/data/cs133/cs133_native_recurrence_dec_execution_ledger.csv",
+      "sha256": "00dc70232e80ca9b60d3fa51ae8660c61fbd824712c871156b346c0b604045bb"
+    },
+    {
+      "artifact_role": "M2_read_only_trace",
+      "bytes": 3744,
+      "path": "manual/data/cs133/cs133_native_recurrence_read_only_trace.csv",
+      "sha256": "936648b3bcb02e807fcf2fafd7f7c3519329c6c9f80f26d70b4fa0b6169719c7"
+    },
+    {
+      "artifact_role": "M2_mass_audit",
+      "bytes": 1048,
+      "path": "manual/data/cs133/cs133_native_recurrence_mass_audit.csv",
+      "sha256": "70363d86d8cae9d375d5ac3a37ede110a9c9d463cb9d13a41a6439f0a73d1af9"
+    },
+    {
+      "artifact_role": "M2_generator_implementation",
+      "bytes": 36747,
+      "path": "manual/scripts/build_cs133_native_recurrence_certificate.py",
+      "sha256": "2a68486806f0c4eaac3f8379a98e69a0c63f452b08fe0399e4a4d9e7f28bafb0"
+    }
+  ],
+  "forbidden_input_classes": [
+    "SI_caesium_frequency",
+    "SI_reference_period_target",
+    "observation_packets",
+    "target_values",
+    "residuals",
+    "scores"
+  ],
+  "freeze_manifest_id": "cs133_M2_pre_certificate_freeze_v1",
+  "freeze_manifest_sha256": "11a1f8fa035bc37159184856593c1aed16c1c88872957331ad83db79c524245f",
+  "freeze_status": "frozen_before_recurrence_certificate",
+  "semantic_contract": {
+    "duration_semantics": "realized_integer_bip_count",
+    "execution_mode": "enumerate_all",
+    "metrological_correspondence": "inactive",
+    "phase_transition_bip_rule": "one_declared_phase_transition_equals_one_bip",
+    "recurrence_length_uses_declared_L": "false",
+    "target_frequency_input": "absent"
+  }
+}

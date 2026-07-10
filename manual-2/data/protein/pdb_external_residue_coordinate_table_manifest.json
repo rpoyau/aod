@@ -1,0 +1,39 @@
+{
+  "lane": "external_pdb_residue_coordinate_table_derivation_gate",
+  "version_scope": "v40.02r14",
+  "status": "residue coordinate table derivation from locked 1CRN.cif byte payload only; no contact map, external residual score, coordinate metric, or folding value map is derived",
+  "prior_byte_hash_lock": "manual-2/data/protein/pdb_external_coordinate_payload_byte_hash_lock.csv",
+  "source_database": "RCSB_PDB",
+  "source_accession": "1CRN",
+  "chain_id": "A",
+  "model_id": "1",
+  "model_policy": "model_1_preferred_single_model_policy",
+  "residue_index_basis": "one_based_residue_sequence_position",
+  "atom_selector": "CA",
+  "altloc_policy": "primary_or_highest_occupancy_altloc_required_before_derivation",
+  "missing_residue_policy": "explicit_gap_rows_required_before_contact_derivation",
+  "coordinate_payload_sha256": "23787562c427d7c1abe5420e86d5f1d0a6c7007dec1e8ce85645a6d69c32e8ba",
+  "coordinate_payload_byte_count": 69506,
+  "selected_residue_coordinate_rows": 46,
+  "atom_site_extract_rows": 46,
+  "missing_residue_audit_status": "no_missing_CA_coordinates_in_selected_chain_model_policy",
+  "coordinate_table_sha256": "9aadae50bce02e7de3bfaa9432a5708351f9e3513bb1925f33f9484274000dab",
+  "atom_site_extract_sha256": "019fc04a30ac614ee8f7a4a18cf77f809da9c54b3ae052aa19599159b534c326",
+  "blocked_until_later_gate": [
+    "external_contact_map_derivation",
+    "evaluation_pair_boundary_declaration",
+    "external_accession_residual_score",
+    "coordinate_level_metric_score"
+  ],
+  "files": {
+    "atom_site_extract": "manual-2/data/protein/pdb_external_atom_site_extract.csv",
+    "residue_coordinate_table": "manual-2/data/protein/pdb_external_residue_coordinate_table.csv",
+    "missing_residue_audit": "manual-2/data/protein/pdb_external_missing_residue_audit.csv",
+    "policy_application": "manual-2/data/protein/pdb_external_residue_coordinate_policy_application.csv",
+    "derivation_block": "manual-2/data/protein/pdb_external_residue_coordinate_derivation_block.csv",
+    "leakage_checks": "manual-2/data/protein/pdb_external_residue_coordinate_leakage_checks.csv",
+    "local_payload": "manual-2/data/protein/external_pdb_payloads/1CRN.cif"
+  },
+  "input_order_policy": "r11 accession scope; r12 locator/policy gate; r13 byte-payload SHA-256 lock; r14 residue table only; contact maps and scores only in later declared gates; AOD motif/curling-curls/SADAR freeze remains upstream of any target join",
+  "claim_discipline": "Residue coordinate table derivation gate only. This is not external contact-map derivation, not external scoring, not RMSD/TM-score/GDT, and not a folding model."
+}

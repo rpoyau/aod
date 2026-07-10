@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "enum": [
+              "main.pdf",
+              "manual.pdf",
+              "manual-2.pdf",
+              "source.zip"
+            ]
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "sha256"
+        ],
+        "type": "object"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "canonical_bundle_availability": {
+      "const": "embedded_as_stable_payload_in_complete_bundle"
+    },
+    "dependency_id": {
+      "const": "AOD"
+    },
+    "payload_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "snapshot_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_bundle_filename": {
+      "pattern": "^bundle-v.+\\.zip$",
+      "type": "string"
+    },
+    "source_bundle_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "status": {
+      "const": "content_addressed_stable_baseline_descriptor"
+    },
+    "version": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "dependency_id",
+    "snapshot_id",
+    "version",
+    "status",
+    "source_bundle_filename",
+    "source_bundle_sha256",
+    "payload_manifest_sha256",
+    "artifacts",
+    "canonical_bundle_availability"
+  ],
+  "title": "AOD Bootstrap Snapshot",
+  "type": "object"
+}

@@ -1,0 +1,37 @@
+\section{Chain fission audit worked row}
+
+The fission audit uses the same glycine--alanine row and checks that the declared split recovers the route unit.
+
+\subsection{Declare the split}
+
+For the split after the first component, the audit identity is
+\[
+\boxed{\mathbf n(\mathrm{Gly})+\mathbf n(\mathrm{Ala})
+=
+\mathbf n(\mathrm{Gly\mbox{-}Ala})+\mathbf n(H_2O).}
+\]
+
+\subsection{Compute both sides}
+
+Left side:
+\[
+(2,5,1,2,0,0)+(3,7,1,2,0,0)=(5,12,2,4,0,0).
+\]
+Right side:
+\[
+(5,10,2,3,0,0)+(0,2,0,1,0,0)=(5,12,2,4,0,0).
+\]
+Therefore
+\[
+\Delta_{\mathrm{CHNOPS}}=(0,0,0,0,0,0),
+\qquad
+\sum |\Delta_{\mathrm{CHNOPS}}|=0.
+\]
+
+\subsection{Audit row}
+
+The audit row is recorded under \texttt{chain\_GA\_peptide\_seed} in
+\begin{center}
+\small\path{manual-2/data/molecular/chain_fission_audit.csv}
+\end{center}
+The audit status is \texttt{passed\_exact\_route\_recovery}.

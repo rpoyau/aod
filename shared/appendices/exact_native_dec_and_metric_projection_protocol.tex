@@ -1,0 +1,502 @@
+\section{Exact Native D.E.C., Causal Duration, and Metric-Projection Protocol}
+\label{app:shared-native-exactness-protocol}
+
+\subsection{Purpose and layer separation}
+
+This appendix fixes one cross-manual protocol for exact AFC/D.E.C. execution, native causal-duration packets, exact downstream report maps, independently frozen observation packets, and typed residuals.  It separates four questions:
+\begin{enumerate}[leftmargin=2em]
+  \item Was the native calculation declared and executed correctly?
+  \item Was the downstream projection declared and executed correctly?
+  \item Is the target supported by its measurement lineage, uncertainty packet, and comparison scope?
+  \item Does the supported prediction agree with the supported target?
+\end{enumerate}
+
+The common spine is
+\[
+\boxed{
+\begin{aligned}
+&\text{curling-curl family specification}
+\longrightarrow
+\text{scoped occurrence}
+\longrightarrow
+\text{D.E.C. execution}
+\longrightarrow
+\text{read-only trace}
+\\[-0.2em]
+&\longrightarrow
+\text{A$\Omega$D motif / curling-curls detection}
+\longrightarrow
+\text{ADAR/SADAR}
+\longrightarrow
+\text{native exact packet}
+\\[-0.2em]
+&\longrightarrow
+\text{optional exact report projection}
+\longrightarrow
+\text{independent observation join}
+\longrightarrow
+\text{typed residual}.
+\end{aligned}}
+\]
+
+The pre-run motif-family card and the post-trace detected motif are distinct.  The specification states what recurring family is being sought; the read-only trace supplies the evidence from which A$\Omega$D names the detected occurrence.  SADAR promotion follows returned-current detection.  External report or target maps remain downstream of the frozen native packet.
+
+The resulting type boundary is
+\[
+\boxed{
+\text{native exactness}
+\neq
+\text{projection injectivity}
+\neq
+\text{observation certainty}
+\neq
+\text{empirical agreement}.
+}
+\]
+
+\subsection{Curling-curl family and scoped occurrence}
+
+Let
+\[
+M_{\mathrm{cc}}\in\mathcal M_{\mathrm{curl}}
+\]
+be a recurring curling-curl motif-family specification.  A scoped occurrence card is
+\[
+\mathcal O
+=
+(a,M_{\mathrm{cc}},B,\omega,\lambda_{\mathrm{oct}}),
+\qquad
+a\vdash M_{\mathrm{cc}}(B,\omega,\lambda_{\mathrm{oct}}).
+\]
+Here $a$ is the declared fractal coordinate, $B$ is the boundary/window package, $\omega$ is the finite execution window, and $\lambda_{\mathrm{oct}}$ identifies the octave/application lane.  The occurrence card is bookkeeping context; it does not add fields to the raw D.E.C. row.
+
+For a local tesseract witness,
+\[
+c=(a,\epsilon,\mu),
+\qquad
+\epsilon\in Q_4=\{0,1\}^4,
+\qquad
+\mu\in\{-1,0,+1\}.
+\]
+The D.E.C. ledger records execution of the occurrence at tick $t$:
+\[
+\mathrm{D.E.C.}_e(\mathcal O,t)
+=
+(t,B,c,e,v_e,\sigma_e,\operatorname{adm}_t(e;c,B),w_t(e;c,B),P_t(e\mid c,B),\operatorname{route}_t(e;c,B)).
+\]
+
+\subsection{One exact D.E.C. kernel family}
+
+Every finite kernel row uses the same normalization law:
+\[
+\boxed{
+P_t(e\mid c,B)
+=
+\frac{\operatorname{adm}_t(e;c,B)\,w_t(e;c,B)}
+{\displaystyle\sum_f\operatorname{adm}_t(f;c,B)\,w_t(f;c,B)}
+}
+\]
+with
+\[
+\operatorname{adm}_t(e;c,B)\in\{0,1\},
+\qquad
+w_t(e;c,B)\in\mathbb Q_{>0}.
+\]
+Define the exact normalizer
+\[
+Z_t(c;B)=\sum_f\operatorname{adm}_t(f;c,B)w_t(f;c,B).
+\]
+When $Z_t(c;B)>0$, the probabilities are exact rationals and satisfy
+\[
+\sum_e P_t(e\mid c,B)=1
+\]
+by exact arithmetic.
+
+\paragraph{Isotropic specialization.}
+If $w_t(e;c,B)=1$ for every admissible edge, then
+\[
+P_t^{\mathrm{iso}}(e\mid c,B)=\frac{1}{|\mathcal A_t(c;B)|}.
+\]
+For a full unblocked $Q_4$ cell,
+\[
+P^{\mathrm{iso}}=(1/4,1/4,1/4,1/4).
+\]
+
+\paragraph{Anisotropic specialization.}
+With declared exact weights
+\[
+w=(1,1,4,2),
+\qquad
+Z=8,
+\]
+the same kernel gives
+\[
+P^{\mathrm{ani}}=(1/8,1/8,1/2,1/4).
+\]
+Equal anisotropic weights reduce exactly to the isotropic specialization; no second normalization law is introduced.
+
+\paragraph{Blocked hinge and slide pool.}
+A blocked route has
+\[
+\operatorname{adm}(e_0;B)=0.
+\]
+The same kernel removes it before normalization.  For the declared slide weights
+\[
+w'=(3,3,1),
+\qquad
+Z'=7,
+\]
+one obtains
+\[
+P_{\mathrm{slide}}=(3/7,3/7,1/7).
+\]
+
+\paragraph{Terminal state.}
+When $Z_t(c;B)=0$, no division is performed.  The row records the declared terminal policy state:
+\[
+\texttt{terminal},
+\qquad
+\texttt{blocked},
+\qquad\text{or}\qquad
+\texttt{pending}.
+\]
+
+\subsection{Execution modes and read-only trace}
+
+The kernel is distinct from its execution mode.  Every run freezes one of:
+\begin{description}[leftmargin=2.1em,style=nextline]
+  \item[\texttt{enumerate\_all}] propagate every admissible successor with exact rational branch mass;
+  \item[\texttt{deterministic\_selector}] choose one edge under a frozen selector rule;
+  \item[\texttt{sample\_one}] choose one edge under a frozen random algorithm and seed.
+\end{description}
+
+The execution ledger records at least
+\[
+\begin{gathered}
+\texttt{kernel\_id},\quad
+\texttt{kernel\_sha256},\quad
+\texttt{execution\_mode},\quad
+\texttt{selector\_id},\\
+\texttt{rng\_algorithm},\quad
+\texttt{rng\_seed},\quad
+\texttt{selected\_edge},\\
+\texttt{incoming\_mass\_num/den},\quad
+\texttt{outgoing\_mass\_num/den}.
+\end{gathered}
+\]
+A probability table is therefore never confused with the realized or propagated trace.  The read-only trace is hash-frozen before A$\Omega$D motif detection, returned-current pairing, ADAR promotion, or SADAR evaluation.
+
+\subsection{Pen-and-paper D.E.C. audit}
+
+A hand audit follows this exact order:
+\begin{enumerate}[leftmargin=2em]
+  \item declare the curling-curl motif-family specification $M_{\mathrm{cc}}$;
+  \item declare the scoped occurrence $\mathcal O$;
+  \item declare the local cell $c=(a,\epsilon,\mu)$;
+  \item list all Hamming-1 successor edges;
+  \item write the admissibility mask $\operatorname{adm}(e_i;B)$;
+  \item write the exact weights $w(e_i;B)$;
+  \item calculate $Z$ and every exact $P_i$, then verify $\sum_iP_i=1$ when $Z>0$;
+  \item declare the execution mode and record the realized or propagated row;
+  \item freeze the read-only trace;
+  \item identify declared returned-current row pairs;
+  \item promote the detected pair to ADAR;
+  \item compute SADAR and the boundary audit.
+\end{enumerate}
+
+The hand ledger and software ledger must agree exactly.  A disagreement is an $E_{\mathrm{calc}}$ defect; it is not repaired by changing a target or report map.
+
+\subsection{ADAR/SADAR promotion}
+
+After the returned-current relation is detected, write
+\[
+\operatorname{ADAR}_e(B)
+=
+(A_e(B),D_e(B),R_e^{\mathrm{asym}}(B)).
+\]
+The declared returned-current duration and window clip give
+\[
+\rho^D_{\omega,e}
+=
+\min\bigl(\operatorname{dur}(RCD_e),|\omega|_e\bigr),
+\qquad
+p^D_e=C_{3,e}\rho^D_{\omega,e}.
+\]
+The SADAR contribution is
+\[
+\phi_e=p^D_eA_e,
+\qquad
+A_F(B)=\sum_e\phi_e.
+\]
+A kernel-weighted expected SADAR readout is a separate row:
+\[
+A_F^{\mathrm{exp}}(B\mid t)
+=
+\sum_e P_e(B\mid t)p^D_e(B)A_e(B).
+\]
+Thus the three roles are recorded separately:
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+$P_e$ & D.E.C. kernel weight,\\
+$\mathrm{pD}_e A_e$ & SADAR contribution,\\
+$P_e\,\mathrm{pD}_e A_e$ & kernel-weighted expected SADAR.
+\end{tabular}
+\end{center}
+Here $\mathrm{pD}_e$ is the serialized ledger label for the exact quantity $p_e^D$.
+
+\subsection{Native causal-duration packet}
+
+For a scoped occurrence $\mathcal O$, define
+\[
+\mathfrak T_{\mathcal O}
+=
+\bigl(
+\mathcal O,
+\mathcal T_{\omega},
+\prec_{\omega},
+\mathbf b,
+\mathbf r,
+\Gamma_{\mathrm{cc}},
+\Gamma_{\mathrm{recl}},
+\mathcal R_{\mathcal O},
+H_{\mathfrak T}
+\bigr).
+\]
+Here $\mathcal T_{\omega}$ is the ordered D.E.C. trace, $\prec_{\omega}$ is the exact causal/event-order relation, $\mathbf b$ records bip-duration counts, $\mathbf r$ records exact rational biz rates, and $H_{\mathfrak T}$ is the canonical packet hash.
+
+The scalar native duration coordinate is
+\[
+\tau_{\mathrm{caus}}
+=
+\operatorname{Dur}_{\mathcal O}(\mathfrak T_{\mathcal O})
+\in\mathbb Q_{\ge0}\;\mathrm{bip}.
+\]
+The event-order relation remains in the packet after scalarization.  Native causal duration is an exact protocol coordinate; it is not identified with SI proper time until a separately frozen projection contract is instantiated.
+To avoid collision with the temporal symbol, a Tau-lepton candidate is written $K_{\tau\ell}$ or $K^{\star}_{\mathrm{Tau}}$.
+
+\subsection{Exact metric-projection contract}
+
+A report map
+\[
+\Pi_{\mathrm{met}}:\mathfrak X_{\mathrm{native}}\longrightarrow\widehat X_{\mathrm{model}}
+\]
+is exact when its domain, codomain, basis, origin, orientation, scale, alignment, clipping rule, denominator policy, missing-value policy, and serialization profile are frozen before target values enter.
+
+For rational coordinates
+\[
+\widehat{\mathbf x}_i
+=
+\left(\frac{a_i}{d},\frac{b_i}{d},\frac{c_i}{d}\right),
+\qquad a_i,b_i,c_i,d\in\mathbb Z,\quad d>0,
+\]
+the squared distance is exact.  For a rational threshold $T=p/q$, the comparison is performed without square roots or floats by integer cross multiplication:
+\[
+q^2\bigl[(a_i-a_j)^2+(b_i-b_j)^2+(c_i-c_j)^2\bigr]\le p^2d^2.
+\]
+Both sides are integers.  Exactness does not imply injectivity.  Projection information loss is recorded separately as
+\[
+\mathcal I_{\Pi}
+=
+(\text{injectivity status},\text{discarded distinction},\text{inverse-domain status}).
+\]
+Declared non-injectivity is never entered as $E_{\mathrm{proj}}$.  The latter is reserved for projection-contract, basis, denominator, alignment, serialization, or deterministic execution defects.
+
+\subsection{Caesium-133 SI-time reference card}
+
+Three time objects remain distinct:
+\[
+\tau_{\mathrm{caus}}
+=\text{native A$\Omega$D duration},
+\qquad
+t_{\mathrm{SI}}
+=\text{metric-time report},
+\qquad
+t_{\mathrm{obs}}
+=\text{observation-side time packet}.
+\]
+The SI defining value is exact:
+\[
+\Delta\nu_{\mathrm{Cs}}=9\,192\,631\,770\ \mathrm{Hz}.
+\]
+The external reference is the \href{https://www.bipm.org/en/measurement-units/si-defining-constants}{BIPM SI defining-constants card}.
+
+A frozen A$\Omega$D-to-caesium map has the form
+\[
+\Pi_{\mathrm{Cs}}^{(t)}:\tau_{\mathrm{caus}}\longmapsto N_{\mathrm{Cs}}\in\mathbb Q_{\ge0},
+\]
+followed by
+\[
+\boxed{
+ t_{\mathrm{SI}}
+ =
+ \frac{N_{\mathrm{Cs}}}{9\,192\,631\,770}\ \mathrm{s}.
+}
+\]
+For a linear bridge,
+\[
+N_{\mathrm{Cs}}=\kappa_{\mathrm{Cs}}\tau_{\mathrm{caus}},
+\qquad
+\kappa_{\mathrm{Cs}}\in\mathbb Q.
+\]
+The coefficient, native duration basis, frame policy, proper-time policy, canonical serialization profile, and map hash must be frozen before a measured duration target enters.  The SI anchor is exact; the A$\Omega$D-to-SI correspondence is the empirical projection contract being tested.
+
+\subsection{Exact SI-derived report cards}
+
+The following defining values are exact:
+\[
+\Delta\nu_{\mathrm{Cs}}=9\,192\,631\,770\ \mathrm{Hz},
+\qquad
+c=299\,792\,458\ \mathrm{m\,s^{-1}},
+\]
+\[
+h=6.626\,070\,15\times10^{-34}\ \mathrm{J\,s},
+\qquad
+N_A=6.022\,140\,76\times10^{23}\ \mathrm{mol^{-1}}.
+\]
+These constants anchor units.  Each physical relation still requires its own frozen domain card:
+\[
+d_{\mathrm{SI}}=ct_{\mathrm{SI}}
+\quad\text{for a declared null/light path},
+\]
+\[
+\nu_{\mathrm{SI}}=\frac{n_{\mathrm{cycle}}}{t_{\mathrm{SI}}}
+\quad\text{for a declared recurring cycle},
+\]
+\[
+E_{\mathrm{SI}}=h\nu_{\mathrm{SI}}
+\quad\text{for a declared photon-frequency lane},
+\]
+\[
+n_{\mathrm{mol}}=\frac{N}{N_A}
+\quad\text{for an exact entity count }N.
+\]
+Atomic masses, lifetimes, enthalpies, clock realizations, and target values remain observation-side packets with their own lineages and uncertainty.
+
+\subsection{Canonical serialization and branch hashes}
+
+Every native packet, report map, observation packet, and join policy uses a frozen canonical serialization profile.  The comparison freezes three independent hashes:
+\[
+H_P=\operatorname{SHA256}(\text{native scope, native packet, report map, projected prediction}),
+\]
+\[
+H_O=\operatorname{SHA256}(\text{selection, payload, normalization, uncertainty, support mask}),
+\]
+\[
+H_J=\operatorname{SHA256}(\text{alignment, comparable-set rule, residual and score policy}).
+\]
+Only after $H_P$, $H_O$, and $H_J$ are materialized and audited may the join read both value branches.  The canonical term is \emph{hash-locked branch-isolated comparison}; \texttt{computational\_double\_blind} may be retained only as a compatibility alias for the mutual read restriction and unsealing order.
+
+\subsection{Octave refinement and projection information loss}
+
+A lawful exact change under a frozen octave-refinement relation is recorded as $\Delta_{\mathrm{oct}}$.  A defect $E_{\mathrm{oct}}$ is materialized only when a separately declared octave condition fails.  Without a refinement map, common codomain, comparison relation, and pass/fail condition, both fields remain blocked.
+
+An exact projection may collapse distinct native packets.  Such collapse is recorded in $\mathcal I_{\Pi}$ and never silently treated as arithmetic error.  Round-trip checks are required only when an inverse or partial inverse is explicitly declared on a stated domain.
+
+\subsection{Observation packet and uncertainty}
+
+An observation packet is
+\[
+\mathfrak O
+=
+(H_{\mathrm{payload}},L_{\mathrm{source}},N_{\mathrm{obs}},\mathcal U_{\mathrm{obs}},Q_{\mathrm{obs}},M_{\mathrm{obs}}).
+\]
+It records byte identity, measurement and reconstruction lineage, normalization, exact admissible uncertainty sets, support masks, and missingness.
+
+For contact observations,
+\[
+\mathcal U_{ij}^{\mathrm{contact}}
+\in\bigl\{\{0\},\{1\},\{0,1\},\varnothing\bigr\}.
+\]
+Singletons are comparison-ready, $\{0,1\}$ is ambiguous and abstains, and $\varnothing$ is unavailable or out of scope.  Unsupported uncertainty is recorded as \texttt{unknown} or \texttt{blocked}; no interval is invented.
+
+A time target packet is
+\[
+\mathfrak O_t
+=
+(H_{\mathrm{payload}},L_{\mathrm{clock}},t_{\mathrm{obs}},\mathcal U_t,F_{\mathrm{frame}},C_{\mathrm{sync}},C_{\mathrm{relat}},Q_t).
+\]
+Clock realization, proper-time frame, synchronization, relativistic correction, interval support, and payload hash are frozen before comparison.
+
+\subsection{Typed residual ledger}
+
+The common residual ledger is
+\[
+\mathcal E
+=
+(E_{\mathrm{calc}},\Delta_{\mathrm{oct}},E_{\mathrm{oct}},E_{\mathrm{proj}},\mathcal I_{\Pi},\mathcal U_{\mathrm{obs}},E_{\mathrm{lineage}},E_{\mathrm{scope}},E_{\mathrm{emp}},E_{\mathrm{rep}}).
+\]
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Component & Meaning and correction target \\
+\midrule
+$E_{\mathrm{calc}}$ & native arithmetic, incidence, hash, declaration, or deterministic execution defect; correct the native implementation or declaration \\
+$\Delta_{\mathrm{oct}}$ & lawful exact change under a frozen octave-refinement relation; retain as a comparison coordinate \\
+$E_{\mathrm{oct}}$ & failure of a declared octave condition; correct the refinement relation or scope \\
+$E_{\mathrm{proj}}$ & projection-contract or execution defect; correct the report map \\
+$\mathcal I_{\Pi}$ & declared information loss or non-injectivity; projection metadata, not arithmetic error \\
+$\mathcal U_{\mathrm{obs}}$ & uncertainty/support already present in the observation branch \\
+$E_{\mathrm{lineage}}$ & payload, clock, reconstruction, synchronization, or provenance defect \\
+$E_{\mathrm{scope}}$ & frame, boundary, chain, pair, window, or alignment mismatch \\
+$E_{\mathrm{emp}}$ & supported prediction-versus-target disagreement after all earlier gates pass \\
+$E_{\mathrm{rep}}$ & optional display, unit-rendering, or rounding difference \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+For exact scalar prediction $p\in\mathbb Q$ and exact observation interval $[\ell,u]$,
+\[
+E_{\mathrm{emp}}=[p-u,p-\ell].
+\]
+The prediction is uncertainty-consistent exactly when $0\in E_{\mathrm{emp}}$.  Observation ambiguity is not scored as prediction error.
+
+\subsection{Cross-map target audits}
+
+When the declared measurement domain supports the relation, independent observation packets may be checked by
+\[
+R_{h\nu}=E_{\mathrm{obs}}-h\nu_{\mathrm{obs}},
+\qquad
+R_{ct}=d_{\mathrm{obs}}-ct_{\mathrm{obs}},
+\qquad
+R_{\nu t}=\nu_{\mathrm{obs}}t_{\mathrm{obs}}-n_{\mathrm{cycle}}.
+\]
+A failed cross-map audit is assigned to the declared observation, synchronization, lineage, scope, or projection lane.  It does not rewrite the native A$\Omega$D packet.
+
+\subsection{Existing-prediction migration audit}
+
+Every carried prediction receives a migration row with separate native, projection, target-support, scope, report, and residual fields.  Allowed dispositions include
+\[
+\begin{gathered}
+\texttt{native\_unchanged\_report\_unchanged},\\
+\texttt{native\_unchanged\_projection\_retyped},\\
+\texttt{native\_unchanged\_target\_support\_changed},\\
+\texttt{native\_unchanged\_score\_changed},\\
+\texttt{native\_changed\_DEC\_defect\_corrected},\\
+\texttt{comparison\_now\_abstains},\\
+\texttt{comparison\_scope\_changed}.
+\end{gathered}
+\]
+No migration row says only ``prediction changed.''  It identifies the layer that changed.  Target-informed revisions begin a new frozen run and preserve earlier packet hashes.
+
+\subsection{Application-lane implications}
+
+\paragraph{Elementary lane.}
+Native retained-capacity and closure rows remain distinct from registry, isotope-mass, spectrum, lifetime, ionization, stellar, and SI-time report maps.  The caesium-133 elementary occurrence card is not the caesium SI reference card.
+
+\paragraph{Molecular lane.}
+Exact formula and CHNOPS closure rows remain native.  Time, rate, spectrum, geometry, mass, and thermochemical quantities enter through separately frozen maps.  In particular,
+\[
+X_{\mathrm{shedding}}\xrightarrow{\Pi_{\mathrm{thermo}}}\Delta H_{\mathrm{report}}
+\]
+is a report-map contract, not an identity.
+
+\paragraph{Tau, Higgs, field, solar, and SPARC lanes.}
+Native candidate, support, returned-current, pressure, and field rows remain separate from lifetime, mass, unit, benchmark, uncertainty, and score maps.  A changed target support or report map does not by itself change the native packet.
+
+\paragraph{Protein/PDB lane.}
+Coordinate-derived contact bits, measurement-supported target states, A$\Omega$D contact packets, and empirical score rows remain separate.  A coordinate fixture may retain binary contact bits while the quality-supported target mask abstains.  That is a target-support reclassification, not a native prediction change.
+
+\subsection{Machine-readable protocol ledgers}
+
+The canonical shared ledgers are stored under
+\path{shared/data/exact_native_protocol/}.  They record the kernel family, execution modes, native duration packet, metric-projection contract, SI defining-constant cards, projection information loss, observation packet, typed residuals, branch-isolated join order, cross-map audits, and existing-prediction migration rows.  Their deterministic manifest includes the shared appendix source hash.

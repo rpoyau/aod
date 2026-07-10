@@ -1,0 +1,78 @@
+\section{Molecular octave: formula fusion and residuals}
+
+The molecular octave changes the observable dictionary from $Z$ to exact formula accounting. The procedure is still boundary setup, raw ledger, trace detection, frozen row, and observable map.
+
+\subsection{Formula ledger}
+
+For a component formula $F$, let $n_a(F)$ be the count of atom type $a$ in the CHONPS ledger. A molecular fusion row declares reactants $F_1,\ldots,F_k$ and a shedding vector $S_1,\ldots,S_m$. The output formula is
+\[
+F_{\mathrm{out}}=\sum_{i=1}^{k}F_i-\sum_{j=1}^{m}S_j.
+\]
+The residual against a target formula $F_*$ is
+\[
+\Delta_a=n_a(F_{\mathrm{out}})-n_a(F_*),
+\qquad a\in\{C,H,O,N,P,S\}.
+\]
+A closed row has all six residual coordinates equal to zero.
+
+\subsection{Seed components}
+
+The seed component fixture is \texttt{manual-2/data/molecular/component\_registry\_seed.csv}. It includes water, carbon dioxide, ammonia, methane, formaldehyde, hydrogen cyanide, phosphate, ribose, deoxyribose, nucleobases, and amino-acid seeds used by the chain fixtures.
+
+\subsection{Molecular fusion candidates}
+
+The molecular candidate file records small exact closures:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+Fixture & Declared reading & Residual \\
+\midrule
+\texttt{carbonic\_acid\_fixture} & $H_2O+CO_2\to H_2CO_3$ & zero CHONPS residual \\
+\texttt{ribose\_formose\_fixture} & $5CH_2O\to C_5H_{10}O_5$ & zero CHONPS residual \\
+\texttt{adenine\_hcn\_pentamer\_fixture} & $5HCN\to C_5H_5N_5$ & zero CHONPS residual \\
+\texttt{amp\_closure\_fixture} & adenine + ribose + phosphate $-2H_2O$ & zero CHONPS residual \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\aodnoteblock{Formula discipline}{A visually plausible chain is not accepted unless the CHONPS residual row is explicitly recorded. Formula closure is the detector output in this octave.}
+
+\subsection{PubChem lane}
+
+The PubChem file is a lookup map, not a premise. It records query keys and stable lookup URLs so a downstream acquisition step can bind the exact formula rows to external records without changing the rows themselves.
+
+
+\subsection{Molecular chain-D.E.C. execution lane}
+
+Release v40.02r03 activates the next molecular lane after the target-packet scaffold. The lane remains internal: it starts from declared chain words and committed component vectors, runs neutral raw D.E.C. rows, reads a trace, names detector/SADAR contexts, freezes formula rows, and records split/fission and $\delta_3$ audits. External target records are not premises of this run.
+
+The central chain formula is
+\[
+\mathbf n(F_{1:n})=\sum_i \mathbf n(F_i)-\sum_{\ell=1}^{n-1}\mathbf r_\ell.
+\]
+For the committed water-route examples this specializes to
+\[
+\mathbf n(F_{1:n})=\sum_i \mathbf n(F_i)-(n-1)\mathbf n(H_2O).
+\]
+
+The current fixture files are:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+File & Role \\
+\midrule
+\texttt{chain\_word\_spec.csv} & declared chain words and route-unit references \\
+\texttt{raw\_dec\_trace\_molecular\_chain.csv} & neutral raw D.E.C. execution rows with no target-source columns \\
+\texttt{read\_only\_trace\_molecular\_chain.csv} & trace records derived from the raw run \\
+\texttt{detected\_chain\_motifs.csv} & detector outputs after the raw trace \\
+\texttt{sadar\_detector\_context.csv} & SADAR context names with no scalar SADAR claim \\
+\texttt{chain\_formula\_predictions.csv} & frozen formula rows and exact CHNOPS residuals \\
+\texttt{chain\_fission\_audit.csv} & split rows recovering the declared water-equivalent route unit \\
+\texttt{molecular\_chain\_delta3\_audit.csv} & coordinate residual audit rows \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The committed examples include glycine-alanine, adenosine-monophosphate, uridine-monophosphate, adenylate-uridylate, and glycine-alanine-serine seed chains. These names enter at the chain-spec and detector layers; the raw D.E.C. table itself keeps neutral execution fields.
+
+\aodnoteblock{Folding status}{The molecular chain-D.E.C. lane prepares formula and route accounting for later target normalization and residual scoring. Coordinate-backed folding comparison belongs to a later declared gate.}

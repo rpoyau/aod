@@ -1,0 +1,84 @@
+\section{External PDB residue-coordinate table derivation gate}
+
+The byte payload is already locked. This gate reads the locked local \texttt{1CRN.cif} payload and derives only the residue-coordinate table required for a later contact-map gate. It is not a contact-map derivation and not a score.
+
+\subsection{Input lock}
+
+The input payload remains the downstream target object
+\[
+  \texttt{manual-2/data/protein/external\_pdb\_payloads/1CRN.cif}.
+\]
+The byte-payload hash read by this gate is
+\[
+  \mathrm{coordinate\_payload\_sha256}
+  =\texttt{23787562c427d7c1abe5420e86d5f1d0a6c7007dec1e8ce85645a6d69c32e8ba}.
+\]
+The derivation is admitted only because that hash matches the byte-hash lock.
+
+\subsection{Residue-coordinate policy}
+
+The declared coordinate policy is
+\[
+\begin{array}{ll}
+\text{source accession} & \texttt{1CRN},\\
+\text{chain} & \texttt{A},\\
+\text{model} & \texttt{1},\\
+\text{residue index basis} & \texttt{one\_based\_residue\_sequence\_position},\\
+\text{atom selector} & \texttt{CA},\\
+\text{altloc policy} & \texttt{primary\_or\_highest\_occupancy},\\
+\text{missing-residue policy} & \texttt{explicit\_gap\_rows}.
+\end{array}
+\]
+The selected chain/model/atom policy emits 46 residue-coordinate rows. The selected rows cover chain A residues 1 through 46 with no missing CA-coordinate gap row under the declared policy.
+
+\subsection{One row form}
+
+A residue-coordinate row has the ledger form
+\[
+\begin{array}{l}
+(\texttt{source\_accession},\ \texttt{coordinate\_payload\_sha256},\ \texttt{chain\_id},\
+\texttt{model\_id},\ \texttt{auth\_seq\_id},\ \texttt{label\_seq\_id},\\
+\quad \texttt{residue\_name},\ \texttt{atom\_selector},\ \texttt{atom\_name},\
+\texttt{occupancy},\ x,\ y,\ z,\ \texttt{missing\_residue\_status}).
+\end{array}
+\]
+For the first selected row,
+\[
+\begin{array}{ll}
+\texttt{source\_accession} & \texttt{1CRN},\\
+\texttt{chain\_id} & \texttt{A},\\
+\texttt{auth\_seq\_id} & 1,\\
+\texttt{label\_seq\_id} & 1,\\
+\texttt{residue\_name} & \texttt{THR},\\
+\texttt{atom\_selector} & \texttt{CA},\\
+(x,y,z) & (16.967,\ 12.784,\ 4.338).
+\end{array}
+\]
+This row is a target-coordinate row only. It is not a raw D.E.C. row, not an AOD motif row, and not a prediction-freeze premise.
+
+\subsection{Gate status}
+
+The allowed order remains
+\[
+\begin{array}{rcl}
+\text{accession scope} &\to& \text{payload byte-hash lock}\\
+&\to& \text{residue coordinate table}\\
+&\to& \text{external contact map}\\
+&\to& \text{evaluation boundary}\\
+&\to& \text{frozen AOD packet + target join}\\
+&\to& \text{residual audit}.
+\end{array}
+\]
+This gate stops at the residue-coordinate table. The external contact map, evaluation-pair boundary, residual score, RMSD, TM-score, GDT, AlphaFold comparison, coordinate-level AOD prediction, and released \(\lambda_{\rm fold}\) remain deferred.
+
+Ledger rows:
+\[
+\begin{array}{ll}
+\text{atom-site extract} & \texttt{pdb\_external\_atom\_site\_extract.csv},\\
+\text{residue-coordinate table} & \texttt{pdb\_external\_residue\_coordinate\_table.csv},\\
+\text{missing-residue audit} & \texttt{pdb\_external\_missing\_residue\_audit.csv},\\
+\text{policy application} & \texttt{pdb\_external\_residue\_coordinate\_policy\_application.csv},\\
+\text{derivation block} & \texttt{pdb\_external\_residue\_coordinate\_derivation\_block.csv},\\
+\text{leakage audit} & \texttt{pdb\_external\_residue\_coordinate\_leakage\_checks.csv}.
+\end{array}
+\]

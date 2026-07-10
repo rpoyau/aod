@@ -1,0 +1,3 @@
+tick,B,v,e,v_e,sigma_e,adm_e_B,w_e_B,P_num,P_den,P_exact,route_e_B,trace_id,trace_event,support_units,motif_id,detected_motif,sadar_context_id,freeze_row_id,delta3_status
+6,B_mol_005,v0,e0_1,v1,branch,1,1,1,2,1/2,water_equivalent_route_unit,trace_mol_005,water_route_support_accumulated,2,motif_mol_005,water_route_chain_closure,sadar_mol_005,chain_GAS_tripeptide_seed,zero_residual
+7,B_mol_005,v1,e1_2,v2,branch,1,1,1,2,1/2,water_equivalent_route_unit,trace_mol_005,water_route_support_accumulated,2,motif_mol_005,water_route_chain_closure,sadar_mol_005,chain_GAS_tripeptide_seed,zero_residual

@@ -8,7 +8,7 @@ def test_workflow_writes_tests_artifact_before_release_builder():
     assert "pytest -q | tee tests.txt" in workflow
     assert "audit_pack" not in workflow
     assert "verifier.log" not in workflow
-    assert "scripts/build_release_bundle.py --outdir dist --tests tests.txt --main main.pdf --manual manual.pdf" in workflow
+    assert "scripts/build_release_bundle.py --outdir dist --tests tests.txt --main main.pdf --manual manual.pdf --manual2 manual-2.pdf" in workflow
 
 
 def test_release_builder_requires_tests_txt_artifact():
@@ -17,7 +17,10 @@ def test_release_builder_requires_tests_txt_artifact():
     assert "verifier.log" not in script
     assert "audit_pack" not in script
     assert "tests_txt = (ROOT / args.tests).resolve()" in script
+    assert "manual2_pdf = (ROOT / args.manual2).resolve()" in script
     assert "required artifact missing" in script
+    assert 'bundle_versioned_zip = outdir / f"bundle-{version}.zip"' in script
+    assert "shutil.copy2(bundle_versioned_zip, bundle_zip)" in script
 
 
 def test_ci_build_file_names_are_version_free():

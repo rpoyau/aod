@@ -1,0 +1,19 @@
+component_id,formula,pubchem_query_key,pubchem_query_url,comparison_status,src
+water,H2O,water,https://pubchem.ncbi.nlm.nih.gov/#query=water,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+carbon_dioxide,CO2,carbon dioxide,https://pubchem.ncbi.nlm.nih.gov/#query=carbon%20dioxide,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+ammonia,H3N,ammonia,https://pubchem.ncbi.nlm.nih.gov/#query=ammonia,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+methane,CH4,methane,https://pubchem.ncbi.nlm.nih.gov/#query=methane,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+formaldehyde,CH2O,formaldehyde,https://pubchem.ncbi.nlm.nih.gov/#query=formaldehyde,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+hydrogen_cyanide,CHN,hydrogen cyanide,https://pubchem.ncbi.nlm.nih.gov/#query=hydrogen%20cyanide,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+phosphate,H3O4P,phosphate,https://pubchem.ncbi.nlm.nih.gov/#query=phosphate,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+ribose,C5H10O5,ribose,https://pubchem.ncbi.nlm.nih.gov/#query=ribose,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+deoxyribose,C5H10O4,deoxyribose,https://pubchem.ncbi.nlm.nih.gov/#query=deoxyribose,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+adenine,C5H5N5,adenine,https://pubchem.ncbi.nlm.nih.gov/#query=adenine,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+guanine,C5H5N5O,guanine,https://pubchem.ncbi.nlm.nih.gov/#query=guanine,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+cytosine,C4H5N3O,cytosine,https://pubchem.ncbi.nlm.nih.gov/#query=cytosine,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+uracil,C4H4N2O2,uracil,https://pubchem.ncbi.nlm.nih.gov/#query=uracil,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+thymine,C5H6N2O2,thymine,https://pubchem.ncbi.nlm.nih.gov/#query=thymine,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+glycine,C2H5NO2,glycine,https://pubchem.ncbi.nlm.nih.gov/#query=glycine,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+alanine,C3H7NO2,alanine,https://pubchem.ncbi.nlm.nih.gov/#query=alanine,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+serine,C3H7NO3,serine,https://pubchem.ncbi.nlm.nih.gov/#query=serine,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise
+methionine,C5H11NO2S,methionine,https://pubchem.ncbi.nlm.nih.gov/#query=methionine,lookup_fixture_no_network_fetch,PubChem lookup lane declared; not used as AOD premise

@@ -1,0 +1,21 @@
+field_name,exact_type,required,role,current_state
+molecular_native_row_id,identifier,yes,stable molecular native packet row,schema_declared
+motif_family,identifier,yes,recurring motif family,schema_declared
+scoped_occurrence_id,identifier,yes,molecular scoped occurrence,schema_declared
+fractal_coord,identifier,yes,fractal coordinate,schema_declared
+boundary_id,identifier,yes,boundary package,schema_declared
+window_id,identifier,yes,temporal window,schema_declared
+reactant_formula_packet,formula_packet,yes,exact input formulas,carried_forward
+route_unit_packet,formula_packet,yes,exact route/shedding unit,carried_forward
+product_formula_packet,formula_packet,yes,exact output formula,carried_forward
+CHONPS_residual,integer_vector,yes,exact formula residual,carried_forward
+dec_trace_id,identifier,yes,read-only trace,carried_forward
+event_order_sha256,sha256_hex,yes,event-order hash,not_materialized
+native_duration_num,integer_nonnegative,yes,native bip numerator,not_materialized
+native_duration_den,integer_positive,yes,native bip denominator,not_materialized
+RCD,relation_packet,conditional,reflection-duration coupling,not_materialized
+rhoD_omega,rational,conditional,window participation,not_materialized
+PD,integer_or_rational,conditional,pressure/current packet,not_materialized
+SADAR_context_id,identifier,yes,SADAR context pointer,carried_forward
+shedding_route,identifier,conditional,native route,carried_forward
+native_packet_sha256,sha256_hex,yes,native temporal packet hash,not_materialized

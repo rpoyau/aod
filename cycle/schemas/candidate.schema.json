@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "delta_manifest_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "delta_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "lineage_parent_bundle": {
+      "pattern": "^bundle-v.+\\.zip$",
+      "type": "string"
+    },
+    "lineage_parent_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "payload_manifest_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "payload_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "source_tree_delta_manifest_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "source_tree_delta_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "stable_baseline_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "authoring_candidate",
+        "review_candidate",
+        "feedback_candidate",
+        "go_candidate"
+      ]
+    },
+    "version": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "version",
+    "status",
+    "stable_baseline_version",
+    "lineage_parent_bundle",
+    "lineage_parent_sha256",
+    "payload_manifest_path",
+    "payload_manifest_sha256",
+    "delta_manifest_path",
+    "delta_manifest_sha256",
+    "source_tree_delta_manifest_path",
+    "source_tree_delta_manifest_sha256"
+  ],
+  "title": "AOD Working Candidate",
+  "type": "object"
+}

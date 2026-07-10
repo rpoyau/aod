@@ -1,0 +1,27 @@
+{
+  "atlas_id": "elementary_matter_118_transition_atlas",
+  "closed_lanes": {
+    "SI_report_values": "closed",
+    "empirical_comparison": "closed",
+    "metric_report_values": "closed",
+    "residuals": "not_computed",
+    "scores": "no_score",
+    "subject_reference_phase_lock": "closed",
+    "target_join": "closed"
+  },
+  "files": {
+    "manual-2/data/elementary/elementary_matter_118_counterfactual_audit.csv": "0ee20584fc21ac5d6f709edd97115c900c972b29494b1e8097384f5a8188bb45",
+    "manual-2/data/elementary/elementary_matter_118_occurrence_cards.csv": "8b0f1e740c5c4630692cf3ad9de6627f3e23c12216b6c7d8ae28d742dbef2fb1",
+    "manual-2/data/elementary/elementary_matter_118_sadar_flow_declarations.csv": "d0d3788a2a192b9416c4889d393ad5dc7687d20747329a99dea168c4fa61bc19",
+    "manual-2/data/elementary/elementary_matter_118_transition_atlas_summary.csv": "66cdeeadae8c030299a889cb92c39a4b22e14fe88bb9c6526b329e43141dfacd",
+    "manual-2/data/elementary/elementary_matter_118_transition_packets.csv": "4bda5fbd2585dd0dc795db8c35b30f6f1ee32953c5018e2f6a18a1824cea6f80"
+  },
+  "milestone": "v40.03r24",
+  "row_counts": {
+    "counterfactual_rows": 5,
+    "occurrence_cards": 118,
+    "sadar_flow_declarations": 118,
+    "transition_packets": 118
+  },
+  "schema_version": "1.0"
+}

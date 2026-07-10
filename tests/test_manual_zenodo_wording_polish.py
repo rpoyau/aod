@@ -39,7 +39,7 @@ def test_lensing_l3_data_package_wording():
 
 
 def test_simulation_reading_route_and_provenance_policy_present():
-    text = read('manual/sections/00_scope.tex')
+    text = read('shared/manual_intro_scope_policy.tex')
     assert r'\subsection{Simulation reading route}' in text
     assert r'\subsection{Provenance-label policy}' in text
     assert 'Tokens of the form' in text and 'cross-document provenance anchors' in text
@@ -77,7 +77,7 @@ def test_manual_no_claim_data_scope_wording_r59():
 
 
 def test_simulation_data_card_present_r59():
-    scope = read('manual/sections/00_scope.tex')
+    scope = read('shared/manual_intro_scope_policy.tex')
     assert r'\paragraph{Simulation data card.}' in scope
     assert r'C_{\mathrm{support}}' in scope
     assert r'\Pi_{\mathrm{report}}' in scope
@@ -120,11 +120,11 @@ def test_sparc_caption_records_not_entries_r61():
 
 
 def test_r71_final_af_lexical_table_pass():
-    scope = read('manual/sections/00_scope.tex')
+    scope = read('shared/manual_intro_scope_policy.tex')
     field = read('manual/sections/06_field_dynamics_applications.tex')
     rest = read('manual/sections/01_rest_energy_prediction.tex')
     solar = read('manual/sections/05_solar_system_field_tests.tex')
-    dec = read('manual/sections/00_dec_ledger.tex')
+    dec = read('shared/manual_intro_dec_ledger.tex')
     assert 'Projection and marginalization maps carry their own comparison coordinates and uncertainty records' in scope
     assert 'unresolved' not in field.lower()
     assert 'undeclared' not in field.lower()

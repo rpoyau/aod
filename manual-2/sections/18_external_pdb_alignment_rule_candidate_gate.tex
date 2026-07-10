@@ -1,0 +1,53 @@
+\section{External PDB alignment-rule candidate gate}
+
+This gate records the alignment-rule candidate state for the frozen external 1CRN boundary. The candidate is a carry-forward declaration: no GAS-to-1CRN alignment rule is currently declared, so the coverage state remains zero and all external pairs remain out of scope.
+
+The frozen external boundary is still
+\[
+N_{\mathrm{eval}}=946.
+\]
+The AOD-side detection packet remains
+\[
+\texttt{trace\_mol\_005}\to\texttt{motif\_mol\_005}\to
+\texttt{sadar\_mol\_005}\to\texttt{chain\_GAS\_tripeptide\_seed}.
+\]
+This is the upstream D.E.C. chain: ChainWordSpec and ReadOnlyTrace precede AOD motif / curling-curls specification, SADAR context, and the frozen contact packet. External PDB target rows remain downstream.
+
+The candidate row is
+\[
+\texttt{alignment\_rule\_type}=\texttt{no\_alignment\_carry\_forward},
+\]
+with
+\[
+\texttt{mapping\_source}=\texttt{none\_declared},\qquad
+\texttt{mapping\_scope}=\texttt{none\_declared},
+\]
+and
+\[
+\texttt{projection\_rule}=\texttt{none\_no\_projection\_rule\_declared}.
+\]
+Thus the coverage remains
+\[
+N_{\mathrm{in\ scope}}=0,
+\qquad
+N_{\mathrm{out\ of\ scope}}=946,
+\qquad
+N_{\mathrm{abstain}}=0,
+\]
+with
+\[
+\texttt{projection\_coverage}=0/946=0.0.
+\]
+
+This gate does not read target contact values and does not compute residual rows. It freezes the statement that no alignment rule is available yet. The state \texttt{abstain} remains reserved for a later gate where a concrete alignment/projection rule exists and the AOD packet declines to emit contact or noncontact on an in-scope pair.
+
+The ledgers are
+\begin{center}\small
+\begin{tabular}{l}
+\texttt{pdb\_external\_alignment\_rule\_candidate\_gate.csv}\\
+\texttt{pdb\_external\_alignment\_rule\_candidate\_pair\_scope.csv}\\
+\texttt{pdb\_external\_alignment\_rule\_candidate\_policy\_application.csv}\\
+\texttt{pdb\_external\_alignment\_rule\_candidate\_leakage\_checks.csv}.
+\end{tabular}
+\end{center}
+A later gate may declare a manual window, sequence motif, motif-to-residue window, or external projection rule. Only after such a rule gives in-scope coverage may a downstream target join and residual score be admitted. Coordinate metrics, AlphaFold comparison, coordinate-level AOD prediction, released \(\lambda_{\mathrm{fold}}\), and folding value-map claims remain outside this gate.

@@ -1,0 +1,3 @@
+trace_id,dec_row_id,adar_id,A_num,A_den,rhoD_omega,C3,pD,phi_num,phi_den,kernel_weight_num,kernel_weight_den,expected_phi_num,expected_phi_den,sadar_context_id
+trace_dec_sadar_demo,dec_bridge_001,adar_12,1,3,4,3,12,4,1,1,2,2,1,sadar_bridge_demo
+trace_dec_sadar_demo,dec_bridge_002,adar_21,-1,3,4,3,12,-4,1,1,2,-2,1,sadar_bridge_demo

@@ -26,6 +26,7 @@ def test_readme_names_latest_doi_links():
     assert "## Latest DOI links" in readme
     assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in readme
     assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in readme
+    assert "https://doi.org/10.5281/zenodo.20486270/files/manual-2.pdf?download=1" in readme
     assert "## Primary display artifact" not in readme
     assert "## Zenodo file assets" not in readme
 
@@ -35,6 +36,7 @@ def test_zenodo_notes_name_latest_pdf_links():
     notes = data.get("notes", "")
     assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in notes
     assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in notes
+    assert "https://doi.org/10.5281/zenodo.20486270/files/manual-2.pdf?download=1" in notes
     assert "Primary display artifact" not in notes
     assert "Stable release assets" not in notes
     assert "AOD_Temporal_Dynamics_v" not in notes
@@ -51,7 +53,7 @@ def test_build_docs_name_main_pdf_primary_and_bundle_order():
     builder = (ROOT / "scripts" / "build_release_bundle.py").read_text(encoding="utf-8")
     assert 'bundle_order = [' in builder
     assert '"main.pdf"' in builder
-    assert builder.index('"main.pdf"') < builder.index('"manual.pdf"') < builder.index('"source.zip"')
+    assert builder.index('"main.pdf"') < builder.index('"manual.pdf"') < builder.index('"manual-2.pdf"') < builder.index('"source.zip"')
 
 
 def test_canonical_historical_wording_is_version_neutral():

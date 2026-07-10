@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "frozen_artifacts": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "go_exit_conditions": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "goal_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "intentionally_revised_artifacts": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "milestone_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "next_milestone_on_go": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "scope": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "goal_id",
+    "milestone_id",
+    "title",
+    "scope",
+    "frozen_artifacts",
+    "go_exit_conditions",
+    "next_milestone_on_go"
+  ],
+  "title": "AOD Active Goal",
+  "type": "object"
+}

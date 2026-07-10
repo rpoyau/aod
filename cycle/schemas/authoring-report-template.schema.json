@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authoring_attempt": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "binding_policy": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "candidate_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "classification": {
+      "enum": [
+        "release_infrastructure",
+        "scientific_source_authoring"
+      ]
+    },
+    "expected_test_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "frozen_claim": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "implemented_changes": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "phase": {
+      "const": "AUTHORING"
+    },
+    "record_scope": {
+      "const": "source_template"
+    },
+    "report_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "unresolved_blockers": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_scope",
+    "report_id",
+    "candidate_version",
+    "authoring_attempt",
+    "phase",
+    "classification",
+    "implemented_changes",
+    "frozen_claim",
+    "expected_test_count",
+    "unresolved_blockers",
+    "binding_policy"
+  ],
+  "title": "Authoring Report Source Template",
+  "type": "object"
+}

@@ -1,0 +1,91 @@
+
+\section{GAS chain D.E.C. trace application}
+
+This worked application keeps the raw AFC/D.E.C. row separate from the detected molecular packet. Declare the molecular boundary package
+\[
+B=B_{\mathrm{mol},005}.
+\]
+The retained route unit is the water-equivalent route unit, and the worked chain is
+\[
+\texttt{chain\_GAS\_tripeptide\_seed}.
+\]
+
+\subsection{Raw edge rows}
+
+The raw D.E.C. ledger contains two admitted water-route support rows:
+\begin{center}
+\scriptsize
+\begin{tabularx}{0.99\linewidth}{@{}llllllllll@{}}
+\toprule
+\texttt{tick} & \texttt{B} & \texttt{v} & \texttt{e} & \texttt{v\_e} & $\sigma(e)$ & $\operatorname{adm}(e;B)$ & $w(e;B)$ & $P(e;B)$ & $\operatorname{route}(e;B)$ \\
+\midrule
+6 & $B_{\mathrm{mol},005}$ & $v_0$ & $e_{GA}$ & $v_1$ & $+1$ & 1 & 1 & $1/2$ & water\_equivalent\_route\_unit \\
+7 & $B_{\mathrm{mol},005}$ & $v_1$ & $e_{AS}$ & $v_2$ & $+1$ & 1 & 1 & $1/2$ & water\_equivalent\_route\_unit \\
+\bottomrule
+\end{tabularx}
+\end{center}
+The route probability closes as
+\[
+P_{\mathrm{route}}=\frac12+\frac12=1,
+\qquad
+\mathrm{support\_units}=2.
+\]
+
+\subsection{Trace, motif, and SADAR context}
+
+The read-only trace records the accumulated route support:
+\[
+\texttt{trace\_mol\_005}\;\mapsto\;\texttt{water\_route\_support\_accumulated}=2.
+\]
+A$\Omega$D then names the detected motif, read here as the curling-curls specification of the chain route:
+\[
+\texttt{motif\_mol\_005}=\texttt{water\_route\_chain\_closure}.
+\]
+The SADAR context is named after the motif has been detected:
+\[
+\texttt{sadar\_mol\_005}=\texttt{water\_route\_reclosure\_context}.
+\]
+
+\subsection{Frozen formula packet}
+
+The frozen chain packet is
+\[
+\texttt{chain\_GAS\_tripeptide\_seed}.
+\]
+Its formula closure is
+\[
+\mathrm{glycine}+\mathrm{alanine}+\mathrm{serine}-2H_2O
+=\mathrm{C}_8\mathrm{H}_{15}\mathrm{N}_3\mathrm{O}_5.
+\]
+The audit row records
+\[
+\Delta_{\mathrm{CHNOPS}}=(0,0,0,0,0,0),
+\qquad
+\delta_3=0.
+\]
+
+\subsection{Ledger path}
+
+The row is recorded by the ledger chain
+\[
+\begin{array}{c}
+\texttt{chain\_word\_spec.csv}\\
+\downarrow\\
+\texttt{raw\_dec\_trace\_molecular\_chain.csv}\\
+\downarrow\\
+\texttt{read\_only\_trace\_molecular\_chain.csv}\\
+\downarrow\\
+\texttt{detected\_chain\_motifs.csv}\\
+\downarrow\\
+\texttt{sadar\_detector\_context.csv}\\
+\downarrow\\
+\texttt{chain\_formula\_predictions.csv}\\
+\downarrow\\
+\texttt{molecular\_chain\_delta3\_audit.csv}\\
+\downarrow\\
+\texttt{aod\_contact\_prediction\_freeze.csv}\\
+\downarrow\\
+\texttt{protein\_contact\_score.csv}.
+\end{array}
+\]
+The target/comparison rows remain downstream of the frozen chain packet.

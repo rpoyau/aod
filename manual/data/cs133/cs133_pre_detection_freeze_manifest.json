@@ -1,0 +1,96 @@
+{
+  "allowed_input_paths": [
+    "manual/data/cs133/cs133_pre_detection_freeze_manifest.json"
+  ],
+  "artifact_count": 12,
+  "artifacts": [
+    {
+      "artifact_role": "identity_packet",
+      "bytes": 712,
+      "path": "manual/data/cs133/cs133_identity_packet.csv",
+      "sha256": "7e5f2ff93a558bca36285943b2ae2015cebfd3a2fbe6e4c32f8e34df0d857f6b"
+    },
+    {
+      "artifact_role": "occurrence_binding",
+      "bytes": 897,
+      "path": "manual/data/cs133/cs133_fractal_elementary_occurrence_binding.csv",
+      "sha256": "925ed19dc45d8fdcc43b0b91373af5683cc6f8ce99bad3dda568e551adc2cfbc"
+    },
+    {
+      "artifact_role": "construction_rule",
+      "bytes": 1113,
+      "path": "manual/data/cs133/cs133_identity_to_trace_construction_rule.csv",
+      "sha256": "9ea154fa524a56d81f006f65db2f3aad1bc51eb2d80705945663e753c75ba1e4"
+    },
+    {
+      "artifact_role": "boundary_card",
+      "bytes": 501,
+      "path": "manual/data/cs133/cs133_structural_boundary_card.csv",
+      "sha256": "30e62dab190a14551efdd344e80d5b3db2a4f1700e9297887298c9b3ce92b3f3"
+    },
+    {
+      "artifact_role": "kernel_contract",
+      "bytes": 1012,
+      "path": "manual/data/cs133/cs133_structural_kernel_contract.csv",
+      "sha256": "635b6670a24bc51d0253009a96da03f66650e89ae103c52c544bc9e9571ba0ca"
+    },
+    {
+      "artifact_role": "kernel_enumeration",
+      "bytes": 9046,
+      "path": "manual/data/cs133/cs133_native_structural_kernel_enumeration.csv",
+      "sha256": "0a2c2028f08d58e23f005c1897ee2458586fc1e005f3001dbe366f97fe1156eb"
+    },
+    {
+      "artifact_role": "read_only_kernel_enumeration",
+      "bytes": 9882,
+      "path": "manual/data/cs133/cs133_native_structural_read_only_kernel_enumeration.csv",
+      "sha256": "a5eb7498a5e7708f919ee5d783dff2e194069fea10924f045420b7d26fc3ad88"
+    },
+    {
+      "artifact_role": "execution_ledger",
+      "bytes": 8606,
+      "path": "manual/data/cs133/cs133_native_structural_dec_execution_ledger.csv",
+      "sha256": "95aa3b0ef54093dc025c578ab42bab83157de919ea0cb3856512bb7bcc09bd1c"
+    },
+    {
+      "artifact_role": "read_only_execution_ledger",
+      "bytes": 9452,
+      "path": "manual/data/cs133/cs133_native_structural_read_only_execution_ledger.csv",
+      "sha256": "609a92642540337d184c18dd1f8e80be035637f01620f23de35068c2effa55c5"
+    },
+    {
+      "artifact_role": "execution_mass_audit",
+      "bytes": 718,
+      "path": "manual/data/cs133/cs133_structural_execution_mass_audit.csv",
+      "sha256": "2037f879c1c453b799ebba21b937cba46e2f9e5310b185e915e297abea192ddb"
+    },
+    {
+      "artifact_role": "detector_contract",
+      "bytes": 1464,
+      "path": "manual/data/cs133/cs133_structural_detector_contract.csv",
+      "sha256": "7eb929f379e6382ea17fc09b99be2665da81f3d9c3cc962332c8a8182f9bf168"
+    },
+    {
+      "artifact_role": "detector_implementation",
+      "bytes": 76211,
+      "path": "manual/scripts/build_cs133_structural_occurrence_gate.py",
+      "sha256": "e736922b8c17aee8fd004cac5f648fd9bc26ac7ea265c66b955732325a1d2c56"
+    }
+  ],
+  "detector_contract_sha256": "c44ebf1f08ecf66ee8570b1355ef58be95ec3f4e113347fe5812d56ebaa5f8af",
+  "detector_id": "cs133_blind_pq_under_declared_L_detector_v3",
+  "forbidden_input_paths": [
+    "manual/data/cs133/cs133_structural_occurrence_hypothesis.csv",
+    "external_target_packets",
+    "SI_reference_cards"
+  ],
+  "freeze_manifest_id": "cs133_M1_pre_detection_freeze_v1",
+  "freeze_manifest_sha256": "b83caa7d3f67422b7660750a81ada657b0653fd3b90326b6e73c1eb487d6a08e",
+  "freeze_status": "frozen_before_detection",
+  "semantic_contract": {
+    "execution_mode": "enumerate_all",
+    "row_time_semantics": "non_temporal_structural_M1",
+    "target_frequency_input": "absent",
+    "temporal_recurrence": "not_evaluated"
+  }
+}

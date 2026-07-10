@@ -1,0 +1,261 @@
+\section{Hydrogen-1 Native Occurrence Gate}
+\label{app:manual1-hydrogen1-native-occurrence}
+
+\subsection{Scope and claim}
+
+This gate materializes the first target-blind Hydrogen-1 occurrence at the
+fractal octave coordinate
+\[
+\mathtt{00}_{(8)}.
+\]
+The identity packet is
+\[
+{}^{1}_{1}\mathrm H,
+\qquad
+Z=1,
+\quad
+A=1,
+\quad
+N=0,
+\quad
+q_{\mathrm{charge}}=0.
+\]
+The declared support scope is
+\[
+\boxed{
+\mathcal H_1
+=
+\operatorname{Couple}
+\bigl(3{:}3{:}6,1{:}2{:}6\bigr)
+}
+\]
+with the open-seat duon scope \(E_2^0\).  The \(3{:}3{:}6\) and
+\(1{:}2{:}6\) packets supply declared core and outer support contracts.  Their
+support-family members are not reused as local edges.
+
+The scientific claim is deliberately narrow:
+\[
+\boxed{
+\text{an H-1 identity-bound, connected, local }Q_4
+\text{ direct-return occurrence is materialized.}
+}
+\]
+No Balmer ratio, observed line, SI unit, target value, residual, or score enters
+this construction.
+
+\subsection{Local \texorpdfstring{\(Q_4\)}{Q4} contract}
+
+The occurrence declares two retained local states,
+\[
+s_0=(0000,0),
+\qquad
+s_1=(1000,0),
+\]
+and four Hamming--1 edge slots at each source state.  The boundary admits one
+slot at each event and blocks the remaining three.  The complete local edge
+inventory is therefore separate from the executed trace.
+
+\begin{center}
+\small
+\begin{tabular}{@{}ccccccl@{}}
+\toprule
+Event & Source & Slot & Target & \(\sigma\) & \(\operatorname{adm}\) & Route \\
+\midrule
+0 & 0000 & 0 & 1000 & \(+1\) & 1 & outgoing \\
+0 & 0000 & 1 & 0100 & 0 & 0 & blocked \\
+0 & 0000 & 2 & 0010 & 0 & 0 & blocked \\
+0 & 0000 & 3 & 0001 & 0 & 0 & blocked \\
+1 & 1000 & 0 & 0000 & \(-1\) & 1 & returned \\
+1 & 1000 & 1 & 1100 & 0 & 0 & blocked \\
+1 & 1000 & 2 & 1010 & 0 & 0 & blocked \\
+1 & 1000 & 3 & 1001 & 0 & 0 & blocked \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Every listed neighbor differs from its source in exactly one \(Q_4\)
+coordinate.  The local kernel at each event is
+\[
+P(\text{admitted edge})=1,
+\qquad
+P(\text{blocked edge})=0,
+\qquad
+\sum_e P(e)=1.
+\]
+The execution mode is \texttt{enumerate\_all}.  Because each event has one
+admitted successor, the exact propagated mass is
+\[
+1\longmapsto 1
+\]
+at both events, with zero mass residual.
+
+\subsection{Connected execution and read-only trace}
+
+The canonical executed event order is
+\[
+H1\_q4\_state\_origin
+\xrightarrow{\,+1\,}
+H1\_q4\_state\_hinge
+\xrightarrow{\,-1\,}
+H1\_q4\_state\_origin.
+\]
+Equivalently,
+\[
+0000\longrightarrow1000\longrightarrow0000.
+\]
+The first target is the second source, both edges are Hamming--1, and the final
+state equals the initial state.  The one-event prefix does not close.
+
+This particular trace contains two executed bip tokens, one outbound and one
+returned.  The count is execution data:
+\[
+N_{\mathrm{bip}}(\gamma_{H1})=2.
+\]
+It is not a metric duration and it does not define a universal monon-to-bip
+conversion.  It is the direct minimal witness of the monon cycle class on this
+scoped occurrence.
+
+The execution ledger is frozen before returned-current detection.  Its
+read-only packet binds the H-1 identity hash, occurrence hash, boundary,
+window, exact event order, execution-ledger hash, and the state sequence
+\[
+s_0>s_1>s_0.
+\]
+
+\subsection{Returned-current detection}
+
+After the read-only freeze, the detector verifies:
+\begin{itemize}
+  \item the outbound and return events use the same local axis with inverse
+        ternary orientation;
+  \item the complete trace returns to the initial state;
+  \item no proper prefix closes;
+  \item all source, target, kernel, occurrence, and identity hashes agree.
+\end{itemize}
+It then records
+\[
+\texttt{returned\_current\_relation}
+=
+\texttt{outbound\_hinge\_return\_pair}
+\]
+and classifies the trace as a direct minimal monon witness.  This is a
+returned-current seed only.  The following objects remain unmaterialized:
+\[
+RD,
+\quad
+RCD,
+\quad
+p^D,
+\quad
+\mathfrak S_{H1},
+\quad
+\text{reference SADAR flow},
+\quad
+\text{primitive phase lock}.
+\]
+Those belong to the Hydrogen transition and SADAR-lock atlas.
+
+\subsection{Identity and counterfactual audit}
+
+The H-1 identity packet is part of every occurrence and trace hash.  A
+counterfactual H-2 identity changes the identity and occurrence hashes and is
+rejected by the H-1 gate unless it is declared as its own scoped occurrence.
+The direct-return topology may recur, but the scoped occurrence does not.
+
+The fail-closed audit also rejects:
+\begin{itemize}
+  \item a non-binary \(Q_4\) state;
+  \item a Hamming-distance-two edge;
+  \item disconnected event order;
+  \item a fifth local edge slot;
+  \item a non-normalized or zero-denominator kernel;
+  \item support-family identifiers reused as local edge/event identifiers;
+  \item opened target input or changed execution mode;
+  \item a read-only trace/hash mismatch.
+\end{itemize}
+The unchanged control passes.
+
+
+\subsection{Exact schema, source-chain, and detector admission}
+
+The native geometry and exact kernels above are admitted only after a
+fail-closed packet audit.  Every source and generated CSV has one ordered
+schema.  An unknown, missing, duplicated, or reordered column is a failed
+packet rather than an ignored extension.  This closes the target quarantine at
+the packet boundary: Balmer, SI-duration, target-value, residual, and score
+fields are not members of any native H-1 packet schema.
+
+The source chain is verified before packet construction:
+\[
+\begin{aligned}
+\text{H-1 occurrence plan}
+&\to
+\text{frozen }3{:}3{:}6\text{ gate}
+\to
+\text{C6 support-policy card}
+\\
+&\to
+\text{released temporal-type rows}.
+\end{aligned}
+\]
+Exactly one H-1 plan row and exactly one declared core occurrence are admitted.
+The prior consequent-form manifest, its passing gate statuses, and every file
+record are hash-verified.  The carried
+\texttt{hydrogen\_\allowbreak occurrence\_\allowbreak pending} text is retained only as a historical
+pre-H-1 planning status; it is not interpreted as the current gate state.
+
+The occurrence packet hash is propagated through the local-state registry,
+edge inventory, kernel audit, execution ledger, read-only trace, and returned-current
+detector.  State-row hashes and the admitted-edge row hash are likewise bound
+where those rows are consumed.  The read-only packet therefore identifies not
+only the occurrence ID but the exact occurrence and execution packets from
+which it was built.
+
+After the detector row is written, a separate evaluator verifies its exact
+schema, attached row hash, occurrence and identity bindings, returned-current
+classification, two-token witness count, and every downstream closed status.
+Malformed values such as an out-of-range edge slot, non-rational weight,
+missing packet, or zero denominator return a structured failed audit; they do
+not escape as uncontrolled exceptions.
+
+The release audit contains three counterfactual families:
+\begin{itemize}
+  \item source counterfactuals for duplicated or semantically opened planning
+        and carried source rows;
+  \item packet counterfactuals for native-field mutations, malformed packets,
+        and target/metric-field insertion in every packet class;
+  \item detector counterfactuals for schema extension, identity/occurrence
+        drift, altered classification, changed token count, and opened
+        downstream status.
+\end{itemize}
+Each counterfactual is regenerated, rehashed, and passed through the same
+admission evaluator.  The gate passes only when every expected rejection and
+the unchanged controls agree with the frozen audit.
+
+\subsection{Gate boundary and ledger pointers}
+
+The admitted order is
+\[
+\begin{gathered}
+\text{H-1 identity}
+\to
+\text{declared }3{:}3{:}6/1{:}2{:}6\text{ scope}
+\to
+\text{local }Q_4\text{ edge inventory}
+\to
+\text{exact D.E.C. execution}
+\\
+\to
+\text{read-only trace}
+\to
+\text{returned-current detection}.
+\end{gathered}
+\]
+The gate stops there.  Hydrogen transition flows, RD/RCD distributions,
+duonic pressure, SADAR recurrence, phase locks, Balmer comparison, SI reports,
+and empirical scores remain closed.
+
+The deterministic generator is
+\texttt{manual/scripts/build\_hydrogen1\_native\_occurrence\_gate.py}.
+The machine-readable ledgers and manifests are under
+\texttt{manual/data/hydrogen/}.

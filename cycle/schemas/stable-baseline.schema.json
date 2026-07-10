@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "baseline_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "payload_manifest_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "payload_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "source_bundle_filename": {
+      "pattern": "^bundle-v.+\\.zip$",
+      "type": "string"
+    },
+    "source_bundle_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "status": {
+      "const": "authorized_stable_payload_embedded"
+    },
+    "version": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "baseline_id",
+    "version",
+    "status",
+    "source_bundle_filename",
+    "source_bundle_sha256",
+    "payload_manifest_path",
+    "payload_manifest_sha256"
+  ],
+  "title": "AOD Embedded Stable Baseline",
+  "type": "object"
+}

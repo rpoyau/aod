@@ -1,0 +1,65 @@
+{
+  "canonical_arithmetic": "integers_and_reduced_rationals_only",
+  "generator": "manual-2/scripts/materialize_hydrogen_transition_native_packets_r10.py",
+  "native_materialization_status": "passed",
+  "observable_join_state": "closed",
+  "outputs": {
+    "audit": {
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_native_materialization_counterfactual_audit.csv",
+      "rows": 5,
+      "sha256": "22238ba683d605a17e8f0ce050645fbaaa8406102cb30372e6a2ea2d2c07d8f7"
+    },
+    "manifest": {
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_native_materialization_manifest.json",
+      "rows": "1",
+      "sha256": "d2e3a928ae705bcf8c4828bc84fc70e20448564533e6ea337df40eb86c336dbd"
+    },
+    "phase_lock": {
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_phase_lock_packets.csv",
+      "rows": 1,
+      "sha256": "bbcb5271a2d93e374d202c4a8d6b72c6e0d412538c579c125a1705a0b95b69b1"
+    },
+    "pressure": {
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_duonic_pressure_packets.csv",
+      "rows": 1,
+      "sha256": "6c6a7e02f30e8ecd614dc1ebd4f71d9b521317fdb3e1d363db349934bfb14c74"
+    },
+    "rd_rcd": {
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_rd_rcd_packets.csv",
+      "rows": 2,
+      "sha256": "9e8b12a7f1e84e231ac332fcb9c6dd30f82c164aa7958a6f9b0e956027620ba3"
+    },
+    "sadar": {
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_sadar_flow_packets.csv",
+      "rows": 1,
+      "sha256": "de2192e9136996ecf988ea8c8dfa3b25dbb38e38addf0b4fdae809c61553a64a"
+    }
+  },
+  "residual_status": "not_computed",
+  "schema": "aod.manual2.hydrogen_transition_native_materialization_manifest.v1",
+  "score_status": "no_score",
+  "source_bindings": {
+    "H1_detector": {
+      "path": "manual/data/hydrogen/hydrogen1_returned_current_detection.csv",
+      "sha256": "b2b049f16ff28e31c75ceda7039c95255ffe11b62b1a8de1b193c1f09aa4eee1"
+    },
+    "H1_execution": {
+      "path": "manual/data/hydrogen/hydrogen1_dec_execution_ledger.csv",
+      "sha256": "b4fe65436f06e084ca709ea42706fdac992c52ccb19a5336b6cc99b2f2383d84"
+    },
+    "H1_occurrence": {
+      "path": "manual/data/hydrogen/hydrogen1_occurrence_card.csv",
+      "sha256": "96f4cda4fa63422faf424dc7de8f7dd0b768435e1491c82e4a58f373b3463f40"
+    },
+    "H1_trace": {
+      "path": "manual/data/hydrogen/hydrogen1_read_only_trace.csv",
+      "sha256": "633cccb724ee46aca2484af59672018e50158a63c71e03e15839705153113b4b"
+    },
+    "r08_native_packets": {
+      "path": "manual-2/data/hydrogen_transition/hydrogen_transition_native_packets.csv",
+      "sha256": "834a1d1478a79eabab4f2f0ea3a27d5aaec919d2bbbd69a2b84418749d80d437"
+    }
+  },
+  "target_value_read_status": "not_read",
+  "version_scope": "v40.03r10"
+}

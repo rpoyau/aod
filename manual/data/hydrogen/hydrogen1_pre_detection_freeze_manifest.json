@@ -1,0 +1,97 @@
+{
+  "manifest_id": "H1_pre_detection_freeze_manifest_v2",
+  "gate_id": "aod_hydrogen1_native_occurrence_gate_v2",
+  "version_scope": "v40.03r07.1",
+  "packet_schema_profile_id": "H1_exact_ordered_packet_schema_v1",
+  "packet_schema_sha256": "9959f307e4b186df138f54d3befafaee10424a8d056b0d22adc58f37aeef5c6b",
+  "source_schema_sha256": "bdf9b3c179657949c4c52ec90affaac2ba78e77223e9a6d12e30aae72326737d",
+  "allowed_source_inputs": [
+    {
+      "path": "manual/data/c6/hydrogen_occurrence_plan.csv",
+      "bytes": 960,
+      "sha256": "c0da9091f36fd3fb80c03b3fef3d83630b67cafe25b9f19b924fbeac1e183525"
+    },
+    {
+      "path": "manual/data/c6/consequent_six_slot_occurrence_card.csv",
+      "bytes": 1365,
+      "sha256": "61b0fd23346e342cbe074df62f4ce924cdf48f349a1f4fc1da9cdcbb296c050f"
+    },
+    {
+      "path": "manual/data/c6/c6_recurrence_support_policy.csv",
+      "bytes": 1609,
+      "sha256": "dca673075f255b325a1714d4486f621243be5cf828d53b3edb6d29fa8671471d"
+    },
+    {
+      "path": "manual/data/temporal_relational/relational_temporal_type_registry.csv",
+      "bytes": 2857,
+      "sha256": "9d2a5e51e278c3089bacf521c6ef3100fecaed8e6cff4799ae6eb8a04675d9fe"
+    },
+    {
+      "path": "manual/data/c6/consequent_six_slot_gate_manifest.json",
+      "bytes": 5184,
+      "sha256": "2ce13d66f0bb80dfe0dea54886a2fbba61952aa83c0bd305db6ae2a93dcbe1e8"
+    }
+  ],
+  "frozen_packets": [
+    {
+      "path": "manual/data/hydrogen/hydrogen1_identity_packet.csv",
+      "bytes": 483,
+      "sha256": "179792cd94a709d1b02865c8d8d14b990b32065b01409e6f43df72f746ad13c2"
+    },
+    {
+      "path": "manual/data/hydrogen/hydrogen1_local_dec_contract.csv",
+      "bytes": 2047,
+      "sha256": "a6315ce0c5502efc6f61024e6d1026bdae595046f3cf79a86a7059005a731982"
+    },
+    {
+      "path": "manual/data/hydrogen/hydrogen1_occurrence_card.csv",
+      "bytes": 1647,
+      "sha256": "96f4cda4fa63422faf424dc7de8f7dd0b768435e1491c82e4a58f373b3463f40"
+    },
+    {
+      "path": "manual/data/hydrogen/hydrogen1_local_q4_state_registry.csv",
+      "bytes": 707,
+      "sha256": "dce066da58ea254af8e892827b702b95edfac78258833cc8f1d48dcc08675b98"
+    },
+    {
+      "path": "manual/data/hydrogen/hydrogen1_local_q4_edge_inventory.csv",
+      "bytes": 4356,
+      "sha256": "17d4169a2db7b9514d40587993b2366c28280a7b4f56da9e2650f33fe0de048e"
+    },
+    {
+      "path": "manual/data/hydrogen/hydrogen1_local_q4_kernel_audit.csv",
+      "bytes": 1231,
+      "sha256": "173f160e402bcd939aec7cd4debb35528ec3d9fe50062fc60e13d2cccf0129d5"
+    },
+    {
+      "path": "manual/data/hydrogen/hydrogen1_dec_execution_ledger.csv",
+      "bytes": 2060,
+      "sha256": "b4fe65436f06e084ca709ea42706fdac992c52ccb19a5336b6cc99b2f2383d84"
+    },
+    {
+      "path": "manual/data/hydrogen/hydrogen1_read_only_trace.csv",
+      "bytes": 1378,
+      "sha256": "633cccb724ee46aca2484af59672018e50158a63c71e03e15839705153113b4b"
+    },
+    {
+      "path": "manual/data/hydrogen/hydrogen1_source_chain_audit.csv",
+      "bytes": 1300,
+      "sha256": "626c220011c710420697931d70af6ec111962a03bbccaceeb5c239bd392b3142"
+    }
+  ],
+  "detector_implementation": {
+    "path": "manual/scripts/build_hydrogen1_native_occurrence_gate.py",
+    "bytes": 114960,
+    "sha256": "8d272ab38562d3f990616d7397fe0aa68c44c4916c6c5ca3e43b5b978c7145ea"
+  },
+  "forbidden_input_classes": [
+    "Balmer_ratio",
+    "observed_line",
+    "SI_unit",
+    "target_value",
+    "residual",
+    "score"
+  ],
+  "target_value_input_status": "absent",
+  "freeze_status": "frozen_before_returned_current_detection"
+}

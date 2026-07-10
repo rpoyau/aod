@@ -1,0 +1,86 @@
+{
+  "allowed_input_paths": [
+    "manual/data/cs133/cs133_native_recurrence_certificate.csv",
+    "manual/data/cs133/cs133_native_coupled_state_registry.csv",
+    "manual/data/cs133/cs133_native_recurrence_transition_matrix.csv",
+    "manual/data/cs133/cs133_core_outer_coupling_operator.csv",
+    "manual/data/cs133/cs133_native_recurrence_manifest.json"
+  ],
+  "files": [
+    {
+      "bytes": 897,
+      "path": "manual/data/cs133/cs133_atom_field_exact_response_representation_registry.csv",
+      "sha256": "29e35544b27998415b885270dc3327f04f8de1631246930b86bd6b5e91964412"
+    },
+    {
+      "bytes": 1738,
+      "path": "manual/data/cs133/cs133_atom_field_input_lock.csv",
+      "sha256": "6722babbe8a44d55022044bc6285ee8315d88250df7249c818c127d3c57fec86"
+    },
+    {
+      "bytes": 3114,
+      "path": "manual/data/cs133/cs133_atom_field_interaction_operator.csv",
+      "sha256": "aa1b5dfb2ca3bedaff69e1cc02a924b8576fd6da24d38379e2e0d3a540e688a0"
+    },
+    {
+      "bytes": 1053,
+      "path": "manual/data/cs133/cs133_atom_field_interaction_window_policy.csv",
+      "sha256": "63a3c1bf3058861448a6172dbbc76d0a8d834d1abc76a8318655559de233eebd"
+    },
+    {
+      "bytes": 2449,
+      "path": "manual/data/cs133/cs133_atom_field_operator_transition_rules.csv",
+      "sha256": "78a85b97e558a1de2f5d2317a69a4134bee829648ee6f0d7084a44441678648b"
+    },
+    {
+      "bytes": 2120,
+      "path": "manual/data/cs133/cs133_atom_field_resonance_control_audit_plan.csv",
+      "sha256": "dc455fefaec8898be4217adea91e9ee61fd39e37b8554f755a4ef26393a222b9"
+    },
+    {
+      "bytes": 1142,
+      "path": "manual/data/cs133/cs133_atom_field_resonance_selector_contract.csv",
+      "sha256": "ab37edfca69fbcdc7c722cc2ed1b3bd1ff51319bc94b26bb44d6c6810b846752"
+    },
+    {
+      "bytes": 893,
+      "path": "manual/data/cs133/cs133_atom_field_response_function_contract.csv",
+      "sha256": "c54b35ae6b8968baea54181a4811b9a329dc0cd309226465f895047c2d11c0c0"
+    },
+    {
+      "bytes": 846,
+      "path": "manual/data/cs133/cs133_atom_field_si_activation_guard.csv",
+      "sha256": "60b28d4e3a711e5bdeb75f406f21f989cb4fc443ce731032135b76deaecbd548"
+    },
+    {
+      "bytes": 1054,
+      "path": "manual/data/cs133/cs133_atom_field_zero_perturbation_policy.csv",
+      "sha256": "e159d6f7eff1b7883813d01a8ab83ade0c68b22b4c43223e3207aa1bba268dae"
+    },
+    {
+      "bytes": 5237,
+      "path": "manual/data/cs133/cs133_drive_phase_domain.csv",
+      "sha256": "ffb66fa590a2af1f74003a3337e97e1576e14959533deeee07859ca595a1673e"
+    },
+    {
+      "bytes": 34653,
+      "path": "manual/scripts/build_cs133_atom_field_operator_freeze.py",
+      "sha256": "959c8d0486cc6bddeea7e02f9036456d876996241914f46598bcbf375647e23c"
+    }
+  ],
+  "freeze_order": [
+    "verify_M2_native_recurrence",
+    "freeze_QmodZ_drive_domain",
+    "freeze_interaction_windows",
+    "freeze_exact_operator_rules",
+    "freeze_zero_perturbation_policy",
+    "freeze_response_representation",
+    "freeze_selector_and_controls",
+    "freeze_SI_activation_guard",
+    "freeze_operator_declaration"
+  ],
+  "manifest_id": "cs133_atom_field_operator_pre_freeze_manifest_v1",
+  "observation_packet_input_status": "absent",
+  "operator_execution_status": "not_executed",
+  "target_frequency_input_status": "absent"
+}

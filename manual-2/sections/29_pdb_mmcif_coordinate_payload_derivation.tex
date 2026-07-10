@@ -1,0 +1,50 @@
+\section{PDB/mmCIF coordinate-payload derivation gate}
+
+The v40.02r07 milestone is a target-ingest and contact-map derivation gate. It reads committed PDBx/mmCIF-style coordinate payload fixtures and derives target-only coordinate, distance, and contact rows. It does not read AOD prediction packets and it does not compute an expanded AOD-versus-PDB score.
+
+The ordering is:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}X@{}}
+\texttt{committed PDBx/mmCIF coordinate payload fixture} \\
+\textrightarrow{} \texttt{atom-site extraction} \\
+\textrightarrow{} \texttt{residue coordinate table} \\
+\textrightarrow{} \texttt{CA distance rows} \\
+\textrightarrow{} \texttt{derived target-contact rows}. 
+\end{tabularx}
+\end{center}
+
+\subsection{Target-only files}
+
+The v40.02r07 files are:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+File & Role \\
+\midrule
+\texttt{pdb\_mmcif\_coordinate\_payload\_registry.csv} & committed payload registry, hashes, threshold, scope, and no-score status \\
+\texttt{pdb\_mmcif\_atom\_site\_extract.csv} & parsed atom-site rows from the committed PDBx/mmCIF fixture \\
+\texttt{pdb\_mmcif\_residue\_coordinate\_table.csv} & residue-level CA/CB coordinate table used for target derivation \\
+\texttt{pdb\_mmcif\_distance\_matrix\_derived.csv} & CA-pair distance rows derived from the payload \\
+\texttt{pdb\_mmcif\_contact\_map\_derived.csv} & target contact rows derived by threshold and minimum sequence separation \\
+\texttt{pdb\_mmcif\_contact\_derivation\_manifest.json} & derivation manifest, leakage policy, and score deferral statement \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Contact derivation rule}
+
+For residues $i<j$, the target distance row uses the CA distance
+\[
+ d_{ij}=\|\mathrm{CA}_i-\mathrm{CA}_j\|_2 .
+\]
+The committed v40.02r07 derivation gate declares threshold $8.0$ Angstrom and minimum sequence separation $2$. A derived target contact row is therefore
+\[
+O_{ij}=1\quad\Longleftrightarrow\quad d_{ij}\leq 8.0\;\mathrm{Angstrom}\ \text{and}\ j-i\geq 2.
+\]
+Pairs below the minimum sequence separation are retained as derived distance rows but are marked outside the current contact-map scope.
+
+\subsection{No expanded score}
+
+The derived coordinate/contact rows are target-only rows. They are forbidden as raw AFC/D.E.C. premises and forbidden as prediction-freeze inputs. The v40.02r06 manual-fixture contact score remains carried forward unchanged; v40.02r07 does not add PDB/mmCIF scoring, AlphaFold scoring, RMSD, TM-score, GDT, or a coordinate-level AOD prediction.
+
+\aodnoteblock{Gate status}{This milestone exercises coordinate-payload ingestion and contact-map derivation machinery. It is not an experimental protein-folding validation and does not release \(\lambda_{\mathrm{fold}}\). A future comparison milestone must explicitly declare score scope before any derived PDB/mmCIF target row is compared against a frozen AOD packet.}

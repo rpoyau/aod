@@ -1,0 +1,63 @@
+\section{Molecular chain-fusion worked row}
+
+The molecular example uses the glycine--alanine peptide seed. The route unit is one water-equivalent shedding row.
+
+\subsection{Declare the components}
+
+The free-molecule formulas are
+\[
+\mathrm{Gly}=\mathrm{C}_2\mathrm{H}_5\mathrm{N}\mathrm{O}_2,
+\qquad
+\mathrm{Ala}=\mathrm{C}_3\mathrm{H}_7\mathrm{N}\mathrm{O}_2,
+\qquad
+H_2O=\mathrm{H}_2\mathrm{O}.
+\]
+In named CHNOPS coordinates,
+\[
+\mathbf n(\mathrm{Gly})=(2,5,1,2,0,0),
+\]
+\[
+\mathbf n(\mathrm{Ala})=(3,7,1,2,0,0),
+\qquad
+\mathbf n(H_2O)=(0,2,0,1,0,0).
+\]
+
+\subsection{Compute the fusion row}
+
+The declared chain-fusion row is
+\[
+\boxed{\mathbf n(\mathrm{Gly})+\mathbf n(\mathrm{Ala})-\mathbf n(H_2O)=\mathbf n(\mathrm{Gly\mbox{-}Ala}).}
+\]
+Coordinate by coordinate:
+\[
+\begin{array}{c|rrrrrr}
+ & C&H&N&O&P&S\\
+\midrule
+\mathrm{Gly} & 2&5&1&2&0&0\\
+\mathrm{Ala} & 3&7&1&2&0&0\\
+-H_2O & 0&-2&0&-1&0&0\\
+\midrule
+\mathrm{Gly\mbox{-}Ala} & 5&10&2&3&0&0
+\end{array}
+\]
+Hence the frozen formula is
+\[
+\mathrm{C}_5\mathrm{H}_{10}\mathrm{N}_2\mathrm{O}_3.
+\]
+The check formula in the ledger is the same, so
+\[
+\Delta_{\mathrm{CHNOPS}}=(0,0,0,0,0,0),
+\qquad
+\sum |\Delta_{\mathrm{CHNOPS}}|=0.
+\]
+
+\subsection{Ledger pointer}
+
+The frozen row is \texttt{chain\_GA\_peptide\_seed}. It is recorded in
+\begin{center}
+\small\path{manual-2/data/molecular/chain_formula_predictions.csv}
+\end{center}
+The coordinate audit is recorded in
+\begin{center}
+\small\path{manual-2/data/molecular/molecular_chain_delta3_audit.csv}
+\end{center}

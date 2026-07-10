@@ -1,0 +1,14 @@
+phase,path,action,role,freeze_policy
+M1H,MANUAL_I_ROADMAP.md,modify,integrated milestone sequence and governance,manual1_open
+M1H,manual/appendices/E_native_si_anchor_iteration_plan.tex,modify,rendered integrated roadmap,manual1_open
+M1H,manual/data/roadmap/,modify,machine-readable roadmap and dependencies,manual1_open
+M2-M6,manual/appendices/F_cs133_structural_occurrence_gate.tex,modify,Cs occurrence recurrence atom-field search certificate correspondence and anchor sequence,manual1_open
+M2-M6,manual/data/cs133/,add_or_modify,native recurrence atom-field operator search certificate and anchor ledgers,manual1_open
+M2-M6,manual/scripts/build_cs133_*,add_or_modify,deterministic Cs gate generators,manual1_open
+M2-M6,tests/test_manual1_cs133_*,add_or_modify,Cs gate freeze integrity and exact arithmetic tests,manual1_open
+M7,manual/appendices/G_exact_si_causal_metric_projection_cards.tex,add,exact SI report-card contracts,manual1_open
+M7,manual/data/exact_metric/,add,integer/rational SI and mass-equivalent report cards,manual1_open
+M8,manual/appendices/H_native_fractal_coordinate_cut_calculus.tex;manual/appendices/I_circle_boundary_refinement_audit.tex,add,finite native operator and circle report protocols,manual1_open
+M9,manual/appendices/J_native_tracer_run_tumble_migration.tex,add,native tracer and observation-lane migration,manual1_open
+M13,manual/data/roadmap/shared_protocol_v2_proposal/,add,proposal-only synchronized shared protocol v2 artifacts,manual1_open_shared_frozen
+M14,manual-2/sections/;manual-2/data/protein/,add_or_modify,native protein-fold calculus reassessment,manual2_reassessment_only

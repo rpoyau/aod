@@ -1,0 +1,122 @@
+\section{PDB measurement provenance, availability, and target-limitation gate}
+\label{sec:pdb-measurement-provenance-limitations}
+
+The deposited coordinate model is a reconstruction product, not the raw
+experiment.  The external target lineage is therefore written as
+\[
+X_{\rm physical}
+\xrightarrow{\mathcal M_\theta}Y_{\rm raw}
+\xrightarrow{\mathcal Q_\psi}Y_{\rm processed}
+\xrightarrow{\mathcal R_\phi}\widehat X_{\rm model}
+\xrightarrow{\mathcal D_\eta}O_{\rm derived}.
+\]
+The independently frozen AOD lane remains
+\[
+X_{\rm AOD}^{\rm freeze}.
+\]
+A comparison is admitted only in a coordinate supported by both the frozen AOD
+representation and the declared measurement lineage.
+
+\subsection{Target classes}
+
+The carried external-coordinate branch is classified as
+\[
+\texttt{coordinate\_model\_observable\_fixture}.
+\]
+The coordinate, residue, contact, boundary, projection, and no-alignment
+ledgers remain valid as reconstruction-space and derived-observable fixtures.
+
+The active comparison spaces are recorded separately:
+\[
+\begin{array}{c|c|c}
+\text{space} & \text{required target support} & \text{current status}\\ \hline
+\text{registry} & \text{accession and method metadata} & \text{provenance only}\\
+\text{coordinate model} & \text{model plus refinement/validation lineage} & \text{AOD coordinate capability unavailable}\\
+\text{derived observable} & \text{frozen extraction plus quality mask} & \text{mask frozen; zero supported pairs}\\
+\text{raw measurement} & \text{raw payload plus frozen operator} & \text{payload/operator gate pending}\\
+\text{processed measurement} & \text{processed payload plus frozen operator} & \text{payload/operator gate pending}
+\end{array}
+\]
+
+\subsection{1CRN experiment lineage}
+
+The archive and citation values are kept as distinct provenance fields:
+\[
+\begin{aligned}
+\text{method} &= \text{X-ray diffraction},\\
+\text{archive-reported resolution high} &= 1.50\,\text{\AA},\\
+\text{archive entry version} &= 1.5,\\
+\text{citation-reported resolution} &= 0.945\,\text{\AA},\\
+\text{relation status} &= \texttt{reconciliation\_pending}.
+\end{aligned}
+\]
+The coordinate payload is locally byte-hash locked.  Reflection, processed
+reflection, and map-coefficient availability remain \texttt{unresolved}; a
+direct archive probe is required before a measurement-payload byte lock.
+
+\subsection{AOD capability gate}
+
+The current frozen AOD representation is
+\[
+\texttt{aod\_prediction\_representation}=\texttt{contact\_pair\_set}.
+\]
+The current AOD contact-pair packet supports only the derived
+contact/reclosure representation. Current capability and later activation are
+recorded separately:
+\[
+\begin{aligned}
+&\texttt{measurement\_space\_xray\_capability\_current}\\
+&\qquad=\texttt{blocked\_by\_prediction\_representation},\\[2pt]
+&\texttt{measurement\_space\_xray\_activation\_condition}\\
+&\qquad=\texttt{compatible\_measurement\_generative\_AOD\_output\_frozen},\\[2pt]
+&\texttt{coordinate\_model\_capability\_current}\\
+&\qquad=\texttt{unavailable\_for\_contact\_pair\_set},\\[2pt]
+&\texttt{coordinate\_model\_activation\_condition}\\
+&\qquad=\texttt{compatible\_coordinate\_generative\_AOD\_output\_frozen},\\[2pt]
+&\texttt{derived\_contact\_capability\_current}\\
+&\qquad=\texttt{representation\_available\_target\_mask\_closed}.
+\end{aligned}
+\]
+
+\subsection{Local support and ternary target policy}
+
+Global experiment quality and local model support are separate ledgers.
+Resolution and refinement statistics are global; RSRZ, RSCC, occupancy,
+B-factor, alternate-location state, missing density, and validation outliers are
+local support indicators.  They are not interchangeable coordinate standard
+errors.
+
+The derived contact target domain is
+\[
+O^{\rm target}_{ij}\in\{1,0,\texttt{abstain}\}.
+\]
+A contact or noncontact value is admitted only when both residues are
+\texttt{quality\_supported}.  A pair is \texttt{abstain} when either residue is
+quality ambiguous/excluded, a coordinate is missing, an alternate conformation
+is unresolved, or a separately frozen uncertainty model leaves the threshold
+decision unresolved.  Geometry evidence is interpreted relative to the selected
+$C_\alpha$ distance observable.  A selected-atom or backbone geometry flag and
+a side-chain-only geometry flag are retained as distinct ambiguous support
+classes; neither one alone makes the selected $C_\alpha$ coordinate unusable.
+Because EDS-derived RSRZ, RSCC, and missing-density support are unavailable, all
+46 residues remain \texttt{quality\_ambiguous}; none is quality-supported or
+quality-excluded in the current observable-aware mask.
+
+\subsection{Ledger pointers and next gates}
+
+The provenance and limitation ledgers are:
+\[
+\begin{array}{ll}
+\text{experiment lineage} & \texttt{pdb\_external\_experiment\_lineage.csv},\\
+\text{payload availability} & \texttt{pdb\_external\_experimental\_payload\_availability.csv},\\
+\text{refinement/validation} & \texttt{pdb\_external\_refinement\_validation\_metrics.csv},\\
+\text{local support mask} & \texttt{pdb\_external\_residue\_quality\_mask.csv},\\
+\text{observable policy} & \texttt{pdb\_external\_contact\_observable\_policy.csv},\\
+\text{comparison matrix} & \texttt{pdb\_external\_comparison\_allowed\_matrix.csv},\\
+\text{limitation budget} & \texttt{pdb\_external\_target\_limitation\_budget.csv},\\
+\text{manifest} & \texttt{pdb\_external\_measurement\_manifest.json}.
+\end{array}
+\]
+The next gates are reflection/map availability probing and byte lock, followed
+by the comparison-space capability / observation-operator freeze.  Target joins
+and residual scores enter only at their later declared gates.

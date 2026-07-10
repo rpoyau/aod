@@ -1,0 +1,41 @@
+{
+  "lane": "external_pdb_contact_map_derivation_gate",
+  "version_scope": "v40.02r15",
+  "status": "external target contact-map derivation from r14 residue-coordinate table only; no AOD prediction join, external residual score, coordinate metric, AlphaFold score, or folding value map",
+  "prior_residue_table_gate": "manual-2/data/protein/pdb_external_residue_coordinate_table.csv",
+  "source_database": "RCSB_PDB",
+  "source_accession": "1CRN",
+  "chain_id": "A",
+  "model_id": "1",
+  "atom_selector": "CA",
+  "coordinate_payload_sha256": "23787562c427d7c1abe5420e86d5f1d0a6c7007dec1e8ce85645a6d69c32e8ba",
+  "residue_table_sha256": "9aadae50bce02e7de3bfaa9432a5708351f9e3513bb1925f33f9484274000dab",
+  "residue_coordinate_rows": 46,
+  "total_unordered_pair_count": 1035,
+  "eligible_pair_count": 946,
+  "excluded_short_range_pair_count": 89,
+  "target_contact_count": 114,
+  "target_noncontact_count": 832,
+  "contact_threshold_angstrom": 8.0,
+  "min_sequence_separation": 3,
+  "sequence_separation_rule": "abs(label_seq_id_j-label_seq_id_i)>=3",
+  "score_status": "not_scored_in_v40.02r15",
+  "aod_prediction_join_status": "not_joined_in_v40.02r15",
+  "coordinate_metric_status": "RMSD_TM_score_GDT_deferred_until_coordinate_level_AOD_prediction_freeze",
+  "distance_matrix_sha256": "aea7a6164ba2092161a18f3b83c3ce4557a78b19cdb4f7dad28bafe7c6978d15",
+  "contact_map_sha256": "1f72dc9eb44350709fae92739780756346d11be34b700e08f41361aef580b810",
+  "policy_application_sha256": "ebeb6d04c2c369749073073b5f572f420fa37b6a5933f58afe1eed94047786d4",
+  "blocked_until_later_gate": [
+    "evaluation_pair_boundary_declaration",
+    "external_accession_residual_score",
+    "coordinate_level_metric_score"
+  ],
+  "files": {
+    "distance_matrix": "manual-2/data/protein/pdb_external_contact_distance_matrix.csv",
+    "contact_map": "manual-2/data/protein/pdb_external_contact_map_derived.csv",
+    "policy_application": "manual-2/data/protein/pdb_external_contact_map_policy_application.csv",
+    "derivation_block": "manual-2/data/protein/pdb_external_contact_map_derivation_block.csv",
+    "leakage_checks": "manual-2/data/protein/pdb_external_contact_map_leakage_checks.csv"
+  },
+  "claim_discipline": "external contact rows are target-only rows that join only after frozen AOD packet and explicit evaluation-pair boundary gates pass"
+}

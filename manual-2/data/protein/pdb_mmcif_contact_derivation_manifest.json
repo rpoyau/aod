@@ -1,0 +1,23 @@
+{
+  "lane": "pdb_mmcif_coordinate_payload_ingest_contact_map_derivation",
+  "version_scope": "v40.02r07",
+  "status": "target_coordinate_payload_ingest_and_contact_map_derivation_only_no_aod_vs_pdb_score",
+  "files": {
+    "payload_registry": "manual-2/data/protein/pdb_mmcif_coordinate_payload_registry.csv",
+    "atom_site_extract": "manual-2/data/protein/pdb_mmcif_atom_site_extract.csv",
+    "residue_coordinate_table": "manual-2/data/protein/pdb_mmcif_residue_coordinate_table.csv",
+    "derived_contact_map": "manual-2/data/protein/pdb_mmcif_contact_map_derived.csv",
+    "derived_distance_matrix": "manual-2/data/protein/pdb_mmcif_distance_matrix_derived.csv",
+    "coordinate_payloads": "manual-2/data/protein/pdb_mmcif_payloads/"
+  },
+  "input_policy": "read committed PDBx/mmCIF coordinate payload fixtures only; do not read AOD prediction freezes or target-score files",
+  "score_policy": "not_scored_in_v40.02r07; downstream comparison requires a separate milestone",
+  "leakage_policy": "coordinate payloads, derived contacts, and derived distances are target-only rows and forbidden as prediction premises",
+  "claim_discipline": "contact-map derivation gate only; no expanded AOD-vs-PDB scoring, no coordinate-level prediction, no active lambda_fold",
+  "carried_forward": [
+    "v40.02r05 AOD contact/reclosure prediction freeze unchanged",
+    "v40.02r06 manual-fixture contact residual score unchanged",
+    "v40.02r06.1 label/manifest polish preserved"
+  ],
+  "next_milestone": "future expanded PDB target comparison gate, only after explicit scoring scope declaration"
+}

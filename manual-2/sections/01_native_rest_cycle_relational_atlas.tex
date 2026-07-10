@@ -1,0 +1,65 @@
+
+\section{Native Rest-Cycle Relational Atlas}
+\label{sec:manual2-native-rest-cycle-relational-atlas}
+
+\aodnoteblock{Plan printed before materialization}{This section materializes the first atlas layer for the native rest-cycle plan.  It records type cards and scope rows only.  It does not open a target join, residual, score, SI report, or empirical comparison.}
+
+The atlas separates three layers:
+\[
+\text{native temporal flow}
+\neq
+\text{relational temporal measurement}
+\neq
+\text{metric report}.
+\]
+Duon current may flow before it is measured.  SADAR organizes that directed current on a boundary/window.  Temporal measurement is a later relational phase lock between a subject flow and a declared reference flow.
+
+\subsection{What is materialized in this authoring pass}
+
+The deterministic ledger family is rooted at
+\texttt{\detokenize{manual-2/data/rest_cycle/}}.  The generator entry is
+\texttt{\detokenize{manual-2/scripts/build_native_rest_cycle_relational_atlas.py}}.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Ledger & Role \\
+\midrule
+\texttt{\detokenize{rest_cycle_type_card.csv}} & Distinguishes bip, trace count, cycle, closure, RD, RCD, duon current, duonic pressure, SADAR flow, temporal flow, temporal measurement, and metric report. \\
+\texttt{\detokenize{duon_current_flow_packets.csv}} & Declares current-flow packet shells for Elementary Matter 118, Molecular Matter, and Biomolecular Matter. \\
+\texttt{\detokenize{sadar_temporal_flow_packets.csv}} & Declares native SADAR-flow packets; each row states that flow is not measurement. \\
+\texttt{\detokenize{relational_measurement_packets.csv}} & Reserves subject/reference phase-lock rows; no reference flow is declared in this pass. \\
+\texttt{\detokenize{matter_octave_rest_cycle_atlas.csv}} & Indexes the three matter-octave atlas rows and their downstream gates. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Type discipline}
+
+A bip is a directed transition token in a D.E.C. trace.  A trace count is a combinatorial count.  A cycle is a closure class.  RD is a path-conditioned reflection-duration accessor.  RCD is formed after RD.  Duonic pressure is a local coupling load.  SADAR is directed boundary-current flow.  None of these alone is a metric unit.
+
+The native-flow row records the evolution and recurrence of SADAR current.  The measurement row is admitted only when a subject flow and a reference flow are locked by a declared phase relation.  A metric report is downstream of that measurement and requires a metrological reference card.
+
+\[
+\text{duon current flows}
+\to
+\SADAR\text{ flow is organized}
+\to
+\text{reference-flow lock measures it}
+\to
+\text{metric card renders it}.
+\]
+
+\subsection{Matter-octave atlas rows}
+
+The atlas declares three matter-octave rows:
+\[
+\text{Elementary Matter 118},
+\qquad
+\text{Molecular Matter},
+\qquad
+\text{Biomolecular Matter}.
+\]
+Each row is an atlas scope row.  It is not a target observation, not a Balmer comparison, not a PDB comparison, and not an SI unit report.
+
+\aodnoteblock{Current gate state}{Native rest-cycle type cards and atlas rows are materialized.  Subject/reference phase locks are reserved but not computed.  Target values remain unread; residual and score ledgers remain closed.}

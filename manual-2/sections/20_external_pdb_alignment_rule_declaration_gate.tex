@@ -1,0 +1,70 @@
+\section{External PDB alignment-rule declaration gate}
+\label{sec:external-pdb-alignment-rule-declaration-gate}
+
+This gate declares the external 1CRN alignment-rule state after the frozen
+no-alignment carry-forward packet.  No concrete GAS-to-1CRN mapping is supplied
+in this release.  The valid AOD/D.E.C. action is therefore to declare the
+no-alignment carry-forward rule, keep the external boundary at zero coverage,
+and leave the downstream target join closed.
+
+The declared rule is
+\[
+\begin{gathered}
+\texttt{alignment\_rule\_type}=\texttt{no\_alignment\_carry\_forward},\\
+\texttt{alignment\_declaration\_status}=\texttt{declared\_no\_alignment\_carry\_forward},\\
+\texttt{alignment\_status}=\texttt{no\_alignment\_declared\_carry\_forward}.
+\end{gathered}
+\]
+It reads the frozen external evaluation boundary
+\[
+N_{\mathrm{eval}}=946
+\]
+and the frozen AOD packet
+\[
+\texttt{chain\_GAS\_tripeptide\_seed},\qquad
+\texttt{aod\_reclosure\_pred\_002},\qquad
+\texttt{sadar\_mol\_005}.
+\]
+The declared coverage remains
+\[
+N_{\mathrm{in\ scope}}=0,\qquad
+N_{\mathrm{out\ of\ scope}}=946,\qquad
+N_{\mathrm{abstain}}=0,
+\]
+so that
+\[
+\texttt{projection\_coverage}=0/946=0.0.
+\]
+The state \texttt{abstain} is still reserved for a later gate in which a
+concrete alignment/projection rule exists and an in-scope pair receives no AOD
+contact/noncontact emission.  Without an alignment rule, the external pairs are
+\texttt{out\_of\_scope}.
+
+The detection order remains upstream of every target map:
+\[
+\begin{array}{c}
+\text{ChainWordSpec + ReadOnlyTrace}\\
+\downarrow\\
+\text{A$\Omega$D motif / curling-curls specification}\\
+\downarrow\\
+\text{SADAR context}\\
+\downarrow\\
+\text{frozen contact packet}\\
+\downarrow\\
+\text{downstream target join.}
+\end{array}
+\]
+The downstream target join is not opened here.  Target contact values, residual
+rows, score rows, coordinate metrics, AlphaFold comparison, coordinate-level AOD
+prediction, and \(\lambda_{\mathrm{fold}}\) join only at later declared gates.
+
+The declaration ledgers are
+\[
+\begin{array}{ll}
+\text{rule declaration} & \texttt{pdb\_external\_alignment\_rule\_declaration\_gate.csv},\\
+\text{pair scope} & \texttt{pdb\_external\_alignment\_rule\_declaration\_pair\_scope.csv},\\
+\text{policy} & \texttt{pdb\_external\_alignment\_rule\_declaration\_policy\_application.csv},\\
+\text{leakage audit} & \texttt{pdb\_external\_alignment\_rule\_declaration\_leakage\_checks.csv},\\
+\text{manifest} & \texttt{pdb\_external\_alignment\_rule\_declaration\_manifest.json}.
+\end{array}
+\]

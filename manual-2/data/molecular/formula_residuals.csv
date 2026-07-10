@@ -1,0 +1,5 @@
+row_id,formula,target_formula,residual_CHONPS,sum_abs_residual_CHONPS
+carbonic_acid_fixture,CH2O3,H2CO3,C:0;H:0;N:0;O:0;P:0;S:0,0
+ribose_formose_fixture,C5H10O5,C5H10O5,C:0;H:0;N:0;O:0;P:0;S:0,0
+adenine_hcn_pentamer_fixture,C5H5N5,C5H5N5,C:0;H:0;N:0;O:0;P:0;S:0,0
+amp_closure_fixture,C10H14N5O7P,C10H14N5O7P,C:0;H:0;N:0;O:0;P:0;S:0,0

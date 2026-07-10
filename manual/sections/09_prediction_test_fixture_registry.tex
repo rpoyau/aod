@@ -35,11 +35,11 @@ Solar light bending & O0 & observable-map target rows & observable-map value, ta
 Solar redshift & O0 & observable-map target rows & observable-map value, target, error & solar table\\
 Earth--Moon orbital shell & O0 & target data manifest & Moon distance, speed, period records require numeric A\(\Omega\) values & NASA target record~\cite{nasa-moon-by-numbers}\\
 Saturn ring-shell & O0 & target data manifest & ring-boundary and Cassini-division records require numeric A\(\Omega\) values & NASA / ring-boundary target record~\cite{nasa-cassini-division}\\
-SPARC five-galaxy square-speed diagnostic & G0 & SPARC radial rows & $U_{\AO}(r)$, $\Delta U$, $z^U$, $\chi^2_U$, $MAE_U$, $MSE_U$, $MAPE_U$ & per-bin CSV, per-galaxy CSV, score table, and figures~\cite{sparc-database,lelli-sparc-2016}\\
+SPARC five-galaxy square-speed 2D observable-data fixture & G0 & SPARC radial rows & $U_{\AO}(r)$, $\Delta U$, $z^U$, $\chi^2_U$, $MAE_U$, $MSE_U$, $MAPE_U$ & per-bin CSV, per-galaxy CSV, score table, and figures~\cite{sparc-database,lelli-sparc-2016}\\
 SPARC full-sample / extended benchmark & G0/G1 & target data manifest & full-sample $U_{\AO}(r)$, $\Delta U$, $z^U$, $\chi^2_U$, $MAE_U$, $MSE_U$, $MAPE_U$ & extended benchmark package\\
 Orbital-retention field-dynamics fixture & G2/G3 & G2/G3 input package & medium setup, input-provenance gate, flip/fizz classifier, range SADAR, capacity seating, retention class, \(\delta_3\) tallies & workbook spine and provenance tables\\
 Toy 1 lensing field-ring fixture & L0 & integer comparator bins & \(T^0,C^\times,T^\times,O,\Delta^{\mathbb Z},\delta_3\) & manual galactic lensing plan\\
-SPARC5 lens-medium diagnostic & L1 & radial lens-medium fields & radial field-medium class tallies & plan data and figures\\
+SPARC5 lens-medium 2D data fixture & L1 & radial lens-medium fields & radial field-medium class tallies & plan data and figures\\
 SWELLS K0 target acquisition & L2 & target acquisition fields & target tallies before prediction join & target-side quarantine table\\
 SWELLS K1 retained baseline & L1/L2 & baseline target fields & \(\delta_3\) comparison tallies & K1 diagnostic table\\
 SWELLS K2/K3 & L1/L2 & audit diagnostics & \(\delta_3\) comparison tallies & K2/K3 audit table\\
@@ -77,7 +77,7 @@ O_k=\mathcal S_{\mathrm{neuro}}(k;\Omega_{\mathrm{meas}}).
 
 
 \subsection{SPARC benchmark declaration}\label{manual:registry:sparc}
-The SPARC five-galaxy diagnostic is carried as a current field-dynamics square-speed diagnostic lane. The full protocol and scored records are given in \secref{manual:field-dynamics-applications}.
+The SPARC five-galaxy fixture is carried as a current field-dynamics square-speed 2D observable-data lane. Derived residual and score outputs, where declared, are diagnostics of the projection/readout. The full protocol and scored records are given in \secref{manual:field-dynamics-applications}.
 \[
 \mathcal D_{\mathrm{SPARC}}
 =

@@ -1,0 +1,97 @@
+\section{Comparison-space capability and observation-operator freeze gate}
+
+This gate asks one question before any target join: does the frozen AOD representation and the declared target lineage support the same observable coordinate?  The current AOD source packet is a contact-pair set.  It can be declared against a derived contact observable, but it cannot generate atomic coordinates, X-ray structure factors, electron density, or map coefficients.
+
+\subsection{Normalized payload-family evidence}
+
+The earlier locator probe rows are retained as historical evidence.  This gate adds a normalized family layer so that locator variants are not counted as independent scientific payloads.  The seven declared locators belong to four probe families:
+\[
+\text{reflection data},\quad
+\text{validation map coefficients},\quad
+\text{X-ray map service},\quad
+\text{raw-image registry}.
+\]
+
+The release-local evidence snapshot records the observed official entry-page download labels, the documented coefficient-file contract, and the already locked validation-archive state.  Its status is explicit: it is a parsed official-evidence snapshot, not a byte lock of the live HTML pages.
+
+The normalized states are
+\[
+\begin{array}{c|c}
+\text{payload family} & \text{availability state}\\ \hline
+\text{reflection data} & \texttt{not\_listed\_in\_locked\_official\_evidence}\\
+\text{validation map coefficients} & \texttt{not\_listed\_in\_locked\_official\_evidence}\\
+\text{X-ray map service} & \texttt{upstream\_prerequisite\_not\_satisfied}\\
+\text{raw-image registry} & \texttt{not\_probed}
+\end{array}
+\]
+A direct target-specific probe, if later performed, uses its own response and byte-lock fields.  No target HTTP response is inferred from this family-level classification.
+
+\subsection{Capability matrix}
+
+The target lineage and AOD representation are evaluated independently before an operator state is frozen:
+\[
+\begin{array}{c|c}
+\text{comparison space} & \text{operator state}\\ \hline
+\text{registry} & \texttt{active\_provenance\_only}\\
+\text{raw X-ray measurement} & \texttt{inactive\_target\_payload\_unavailable\_and\_representation\_incompatible}\\
+\text{processed X-ray measurement} & \texttt{inactive\_target\_payload\_unavailable\_and\_representation\_incompatible}\\
+\text{coordinate model} & \texttt{inactive\_AOD\_coordinate\_representation\_unavailable}\\
+\text{derived contact} & \texttt{declared\_but\_comparison\_inactive}
+\end{array}
+\]
+
+The derived-contact family is the only non-registry family compatible with the current AOD representation.  Its declaration is
+\[
+\widehat O^{\rm AOD}_{ij}
+\longleftrightarrow
+O^{\rm target}_{ij}
+\in\{1,0,\texttt{abstain}\},
+\]
+under the already frozen policies
+\[
+\text{atom selector}=C_\alpha,\qquad
+ d_{ij}\le 8.0\,\text{\AA},\qquad
+ |j-i|\ge 3.
+\]
+The target quality mask admits a binary target only when both residues are quality-supported; otherwise the target state is \texttt{abstain}.
+
+\subsection{Inactive comparison state}
+
+The operator declaration does not open a target join.  The current target mask and alignment state are
+\[
+N_{\rm quality\ supported\ pairs}=0,
+\qquad
+N_{\rm in\ scope}=0.
+\]
+Therefore the derived-contact operator state is
+\[
+\texttt{declared\_but\_comparison\_inactive\_zero\_supported\_pairs\_and\_zero\_alignment\_coverage}.
+\]
+Target values are not read by this freeze gate, and no residual or score row is emitted.
+
+\subsection{Nuisance-parameter and holdout policy}
+
+The contact threshold, sequence-separation rule, quality-mask rule, and abstention rule are carried from predeclared target policies.  They are not fitted to AOD agreement.  The X-ray forward operator is not instantiated, so scale, occupancy, disorder, bulk-solvent, and B-factor nuisance parameters are not estimated.  A future operator that estimates nuisance parameters from experimental values must freeze a work/free or holdout policy before any residual is read.
+
+\subsection{Candidate-universe guard}
+
+The first quality-supported scored accession remains unselected.  The eligibility query and filter are frozen, but the candidate universe has not been materialized.  Selection remains blocked until a candidate-universe snapshot and eligible-accession list are both hash-locked.  No AOD agreement values are read during universe construction or selection.
+
+\subsection{Ledger pointers}
+
+The gate is recorded by:
+\begin{itemize}
+\item \texttt{pdb\_external\_probe\_evidence\_membership\_audit.csv},
+\item \texttt{pdb\_external\_payload\_family\_locator\_variants.csv},
+\item \texttt{pdb\_external\_payload\_family\_availability.csv},
+\item \texttt{pdb\_external\_comparison\_space\_capability\_gate.csv},
+\item \texttt{pdb\_external\_observation\_operator\_family\_registry.csv},
+\item \texttt{pdb\_external\_observation\_operator\_state.csv},
+\item \texttt{pdb\_external\_derived\_contact\_operator\_declaration.csv},
+\item \texttt{pdb\_external\_observation\_operator\_nuisance\_policy.csv},
+\item \texttt{pdb\_external\_observation\_operator\_leakage\_checks.csv},
+\item \texttt{pdb\_external\_scored\_accession\_candidate\_universe\_snapshot\_gate.csv},
+\item \texttt{pdb\_external\_comparison\_space\_operator\_manifest.json}.
+\end{itemize}
+
+The next target-selection gate may materialize and hash the candidate universe.  Target joins, residual rows, score audits, coordinate metrics, AlphaFold comparison, coordinate-level AOD prediction, and an active $\lambda_{\rm fold}$ remain downstream.

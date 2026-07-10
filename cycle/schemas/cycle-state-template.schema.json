@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "active_phase": {
+      "enum": [
+        "AUTHORING",
+        "REVIEW",
+        "FEEDBACK",
+        "GO"
+      ]
+    },
+    "authoring_attempt": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "canonical_state_rule": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "cycle_protocol_id": {
+      "const": "AOD_BUNDLE_CYCLE"
+    },
+    "feedback_counts_binding": {
+      "const": "BIND_FROM_HASH_CHAINED_ACTIVE_FEEDBACK_LEDGER"
+    },
+    "go": {
+      "additionalProperties": false,
+      "properties": {
+        "blocking_reason": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "eligible": {
+          "type": "boolean"
+        },
+        "required_authority": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "self_review_sufficient": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "eligible",
+        "blocking_reason",
+        "required_authority",
+        "self_review_sufficient"
+      ],
+      "type": "object"
+    },
+    "last_completed_phase": {
+      "enum": [
+        "AUTHORING",
+        "REVIEW",
+        "FEEDBACK",
+        "GO"
+      ]
+    },
+    "lineage_parent_binding": {
+      "const": "BIND_FROM_INPUT_BUNDLE_FILENAME_AND_SHA256"
+    },
+    "next_permitted_transitions": {
+      "items": {
+        "enum": [
+          "AUTHORING",
+          "REVIEW",
+          "FEEDBACK",
+          "GO"
+        ]
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "project_id": {
+      "const": "AOD"
+    },
+    "protocol_version": {
+      "const": "3.1"
+    },
+    "record_scope": {
+      "const": "source_template"
+    },
+    "release": {
+      "additionalProperties": false,
+      "properties": {
+        "stable_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "authoring_candidate",
+            "review_candidate",
+            "feedback_candidate",
+            "go_candidate"
+          ]
+        },
+        "target_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "working_version": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "stable_version",
+        "status",
+        "target_version",
+        "working_version"
+      ],
+      "type": "object"
+    },
+    "review_binding": {
+      "const": "BIND_FROM_CANONICAL_REVIEW_RECORD"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "transition_binding": {
+      "const": "BIND_FROM_APPEND_ONLY_TRANSITION_LEDGER"
+    },
+    "transition_sequence_binding": {
+      "const": "BIND_FROM_PARENT_STATE_PLUS_ONE"
+    },
+    "upstream_release_state": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_lock_status": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "policy": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        },
+        "required_dependencies": {
+          "const": [
+            "AF",
+            "AFC",
+            "GM",
+            "AOD"
+          ]
+        },
+        "source_registry": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "canonical_lock_status",
+        "policy",
+        "required_dependencies",
+        "source_registry"
+      ],
+      "type": "object"
+    },
+    "working_candidate_bindings": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "delta_manifest_sha256": {
+          "const": "BIND_AT_BUNDLE_ASSEMBLY"
+        },
+        "governance_manifest_sha256": {
+          "const": "BIND_AT_BUNDLE_ASSEMBLY"
+        },
+        "payload_manifest_sha256": {
+          "const": "BIND_AT_BUNDLE_ASSEMBLY"
+        },
+        "source_tree_delta_manifest_sha256": {
+          "const": "BIND_AT_BUNDLE_ASSEMBLY"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "payload_manifest_sha256",
+        "delta_manifest_sha256",
+        "source_tree_delta_manifest_sha256",
+        "governance_manifest_sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_scope",
+    "project_id",
+    "cycle_protocol_id",
+    "protocol_version",
+    "active_phase",
+    "last_completed_phase",
+    "authoring_attempt",
+    "transition_sequence_binding",
+    "canonical_state_rule",
+    "lineage_parent_binding",
+    "release",
+    "working_candidate_bindings",
+    "feedback_counts_binding",
+    "review_binding",
+    "transition_binding",
+    "go",
+    "next_permitted_transitions",
+    "upstream_release_state"
+  ],
+  "title": "AOD Cycle State Source Template",
+  "type": "object"
+}

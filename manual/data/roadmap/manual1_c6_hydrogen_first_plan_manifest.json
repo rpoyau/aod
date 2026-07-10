@@ -1,0 +1,47 @@
+{
+  "current_state": {
+    "C6_role": "support_and_shared_recurrence_fixture",
+    "H1_native_occurrence": "materialized_connected_local_Q4_direct_return",
+    "consequent_form_compatibility": "passed_global_packet_set_physical_serialization_pre_map_identity_closed_semantics_support_family_accessor_scope",
+    "cs_active_calibration_role": "none",
+    "monon_to_bip_conversion_status": "not_declared",
+    "sheddic_terminology": "native_sheddic_only",
+    "target_value_read_status": "not_read",
+    "temporal_measurement": "primitive_subject_reference_SADAR_lock"
+  },
+  "files": [
+    {
+      "bytes": 5124,
+      "path": "manual/data/c6/c6_hydrogen_first_plan_manifest.json",
+      "sha256": "79db1b052ffaee762610f9206d58fe20e5a1174812b62011b19b7ae172750cb0"
+    },
+    {
+      "bytes": 3235,
+      "path": "manual/data/roadmap/manual1_c6_hydrogen_first_milestone_plan.csv",
+      "sha256": "b7a4c6398deb3aac32a63eb39bae5728696c7631431912e7c97f53d548e2a6fd"
+    },
+    {
+      "bytes": 1623,
+      "path": "manual/data/roadmap/manual1_c6_hydrogen_first_gate_dependencies.csv",
+      "sha256": "a9242ced8619d82cd35bf7624871af9985089ce267250fe7c55fd60b4323a1ba"
+    },
+    {
+      "bytes": 2324,
+      "path": "manual/data/roadmap/manual1_c6_hydrogen_first_file_change_matrix.csv",
+      "sha256": "3d696c47bebd17ffa41b0bd529fed0b07ec208a676cd3177fa07b7789af09e92"
+    },
+    {
+      "bytes": 341,
+      "path": "manual/data/roadmap/manual1_roadmap_supersession_registry.csv",
+      "sha256": "12ebc5e2d325a4dd01bae686d4be6f2292377255a7155f1a8361c99184becd82"
+    },
+    {
+      "bytes": 1094,
+      "path": "manual/data/roadmap/manual1_c6_hydrogen_first_change_plan.md",
+      "sha256": "6827c74f9c2442e4f5a49687db3d966782e9fe06a8ec3b71c80873c9548666df"
+    }
+  ],
+  "manifest_id": "manual1_relational_temporal_hydrogen_first_roadmap_v4",
+  "release_class": "target_blind_H1_native_occurrence_gate_no_target_or_score",
+  "version_scope": "v40.03r07"
+}

@@ -1,0 +1,19 @@
+field_name,exact_type,required,role,current_state
+temporal_packet_id,identifier,yes,stable native temporal packet identifier,schema_declared
+motif_family,identifier,yes,recurring motif-family identifier,schema_declared
+scoped_occurrence_id,identifier,yes,boundary/window-qualified occurrence identifier,schema_declared
+fractal_coord,identifier,yes,declared fractal coordinate,schema_declared
+boundary_id,identifier,yes,declared boundary package,schema_declared
+window_id,identifier,yes,declared finite temporal window,schema_declared
+scale_lane,enum,yes,elementary molecular collision field or protein lane,schema_declared
+dec_trace_id,identifier,yes,read-only D.E.C. trace pointer,schema_declared
+event_order_sha256,sha256_hex,yes,hash of exact event-order relation,schema_declared
+native_duration_num,integer_nonnegative,yes,native rational bip-duration numerator,not_materialized
+native_duration_den,integer_positive,yes,native rational bip-duration denominator,not_materialized
+native_duration_unit,enum,yes,must be bip,fixed_bip
+native_biz_num,integer,conditional,exact rational biz-rate numerator,not_materialized
+native_biz_den,integer_positive,conditional,exact rational biz-rate denominator,not_materialized
+curling_curls_incidence_id,identifier,conditional,detected AOD curling-curls incidence pointer,not_materialized
+reclosure_relation_id,identifier,conditional,detected reclosure relation pointer,not_materialized
+native_residual_packet_id,identifier,yes,native exact residual packet pointer,schema_declared
+native_packet_sha256,sha256_hex,yes,hash of complete native temporal packet,not_materialized

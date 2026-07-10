@@ -1,0 +1,67 @@
+\section{External PDB coordinate byte-payload hash lock}
+
+The accession and boundary policy are already declared. The next gate registers the actual local coordinate byte payload for \texttt{1CRN.cif}. This is still a byte-hash lock, not a residue-table derivation and not a contact-map score.
+
+\subsection{Payload bytes and hash}
+
+The external locator remains
+\[
+  \texttt{https://files.rcsb.org/download/1CRN.cif}.
+\]
+The local payload committed to the Manual II target lane is
+\[
+  \texttt{manual-2/data/protein/external\_pdb\_payloads/1CRN.cif}.
+\]
+The byte count and byte-payload SHA-256 are now fixed:
+\[
+  \mathrm{byte\_count}=69506,
+\]
+\[
+  \mathrm{coordinate\_payload\_sha256}
+  =\texttt{23787562c427d7c1abe5420e86d5f1d0a6c7007dec1e8ce85645a6d69c32e8ba}.
+\]
+This hash is the actual coordinate byte-payload hash. It is distinct from the locator/policy registration hash, which records only the locked URI and boundary policy card.
+
+\subsection{Gate status}
+
+The byte hash satisfies the prior payload-hash requirement, but it does not authorize later rows automatically. The allowed order remains:
+\[
+\begin{array}{rcl}
+\text{accession scope} &\to& \text{payload byte-hash lock}\\
+&\to& \text{residue table}\\
+&\to& \text{external contact map}\\
+&\to& \text{evaluation boundary}\\
+&\to& \text{frozen AOD packet + target join}\\
+&\to& \text{residual audit}.
+\end{array}
+\]
+Therefore the current row statuses are
+\[
+\begin{aligned}
+  \mathrm{residue\_table\_derivation}&=\texttt{not\_derived\_in\_this\_gate},\\
+  \mathrm{contact\_map\_derivation}&=\texttt{not\_derived\_in\_this\_gate},\\
+  \mathrm{external\_residual\_score}&=\texttt{not\_scored\_in\_this\_gate}.
+\end{aligned}
+\]
+
+\subsection{AOD freeze remains upstream}
+
+The external payload remains a downstream target object. It never enters the raw D.E.C. row and never enters the AOD prediction-freeze packet. The upstream detection chain remains\[
+\begin{array}{rcl}
+\text{ChainWordSpec + ReadOnlyTrace} &\to& \text{AOD motif / curling-curls specification}\\
+&\to& \text{SADAR context}\\
+&\to& \text{frozen contact packet}.
+\end{array}
+\]
+The target payload can join only after that freeze, and only after a later residue/contact derivation gate creates target rows.
+
+Ledger rows:
+\[
+\begin{array}{ll}
+\text{byte hash lock} & \texttt{pdb\_external\_coordinate\_payload\_byte\_hash\_lock.csv},\\
+\text{provenance} & \texttt{pdb\_external\_coordinate\_payload\_byte\_hash\_provenance.csv},\\
+\text{policy lock} & \texttt{pdb\_external\_coordinate\_payload\_byte\_hash\_policy\_lock.csv},\\
+\text{derivation block} & \texttt{pdb\_external\_coordinate\_payload\_byte\_hash\_derivation\_block.csv},\\
+\text{leakage audit} & \texttt{pdb\_external\_coordinate\_payload\_byte\_hash\_leakage\_checks.csv}.
+\end{array}
+\]

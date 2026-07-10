@@ -1,0 +1,5 @@
+tick,fractal_coord,B,epsilon_Q4,mu,edge,target_epsilon_Q4,sigma_e,adm_e_B,weight,Z,P_num,P_den,P_exact,route
+0,00_8,B_dec_q4_demo,0000,0,e1,1000,+1,1,1,8,1,8,1/8,outgoing
+0,00_8,B_dec_q4_demo,0000,0,e2,0100,-1,1,1,8,1,8,1/8,returned
+0,00_8,B_dec_q4_demo,0000,0,e3,0010,0,1,4,8,1,2,1/2,hinge
+0,00_8,B_dec_q4_demo,0000,0,e4,0001,+1,1,2,8,1,4,1/4,outgoing

@@ -1,0 +1,126 @@
+{
+  "canonical_enumeration_mapping_status": "passed",
+  "canonical_identity_status": "passed",
+  "canonical_physical_serialization_status": "passed",
+  "claim_scope": "same_C6_outer_enclosure_exact_accessor_and_fully_bound_support_family_consistency_only",
+  "closed_semantics_binding_status": "passed",
+  "compatibility_status": "passed",
+  "counterfactual_status": "passed",
+  "cross_packet_binding_status": "passed",
+  "empirical_score_status": "not_computed",
+  "enumeration_completeness_status": "passed",
+  "files": [
+    {
+      "bytes": 1158,
+      "path": "manual/data/c6/consequent_six_slot_artifact_retyping_registry.csv",
+      "sha256": "a5bfac05a19af780d232d1102204babd51adbc44bcc48c9436eac4b39a7764a9"
+    },
+    {
+      "bytes": 926,
+      "path": "manual/data/c6/consequent_six_slot_branch_inverse_audit.csv",
+      "sha256": "5f397f471dd8af8fdb2e25956523cf3ffddca87174ebad34ae7a3a7b8bcdca76"
+    },
+    {
+      "bytes": 1861,
+      "path": "manual/data/c6/consequent_six_slot_compatibility_audit.csv",
+      "sha256": "e92290ffddeaeeb49d4ed193567fcfa8453b3e565e04a6ce0ef8f01e9cca60d8"
+    },
+    {
+      "bytes": 24009,
+      "path": "manual/data/c6/consequent_six_slot_counterfactual_audit.csv",
+      "sha256": "68f659e19feca056f26adfc48d9eece493f30cad2748e0769028f40efce4a107"
+    },
+    {
+      "bytes": 1085,
+      "path": "manual/data/c6/consequent_six_slot_cross_packet_binding_audit.csv",
+      "sha256": "c9e753212b0cd4432b9616d4b1b5985b6da346315c675e59f0b412eea92aedd5"
+    },
+    {
+      "bytes": 805,
+      "path": "manual/data/c6/consequent_six_slot_field_accessor_audit.csv",
+      "sha256": "6ae41174c62e1cccbd4d84859ae9be93ced875271ebd46a1e3f9fa8b0e15e915"
+    },
+    {
+      "bytes": 1050,
+      "path": "manual/data/c6/consequent_six_slot_global_packet_set_closure_audit.csv",
+      "sha256": "ef42da59d5dc17a25ad2f5ae009c39192c6661687d85ea3b8b3dfe5696d03fd1"
+    },
+    {
+      "bytes": 600,
+      "path": "manual/data/c6/consequent_six_slot_inverse_solver_domain_contract.csv",
+      "sha256": "a615a0cda266ed55d30926a8ebaa510c5f1e34334c41cd61ec2959dad407f681"
+    },
+    {
+      "bytes": 1324,
+      "path": "manual/data/c6/consequent_six_slot_local_dec_admission_contract.csv",
+      "sha256": "dd12ef4349d84480950cbab83ea57cc0e87a0627006766a53fd3b8685e0d2b75"
+    },
+    {
+      "bytes": 1365,
+      "path": "manual/data/c6/consequent_six_slot_occurrence_card.csv",
+      "sha256": "61b0fd23346e342cbe074df62f4ce924cdf48f349a1f4fc1da9cdcbb296c050f"
+    },
+    {
+      "bytes": 4164,
+      "path": "manual/data/c6/consequent_six_slot_pre_audit_freeze_manifest.csv",
+      "sha256": "2a4a6430eca43e4064761e94fcecea14b7919b1abf4e19843d21cbe5e6657b1c"
+    },
+    {
+      "bytes": 1463,
+      "path": "manual/data/c6/consequent_six_slot_relational_flow_admission.csv",
+      "sha256": "a850fd3b6aa553d6225de29b5758fb83ade1571c8037da1c8c492d602dc8dbbb"
+    },
+    {
+      "bytes": 4041,
+      "path": "manual/data/c6/consequent_six_slot_rule_contract.csv",
+      "sha256": "073ad81bd3b1e7a7dc6c50ec638c5b9c1b6ce7074388eef5bc37caca48b99ae0"
+    },
+    {
+      "bytes": 29237,
+      "path": "manual/data/c6/consequent_six_slot_support_family_enumeration.csv",
+      "sha256": "bbf315a8ad8c302fecda62ecc0d113abc53e70cfee55cb963086842361182fd9"
+    },
+    {
+      "bytes": 810,
+      "path": "manual/data/c6/consequent_six_slot_support_family_mass_audit.csv",
+      "sha256": "b3d0f41838546f0b307e5c7158e8dd79bf88138270ba7252aaf8898b43540de9"
+    },
+    {
+      "bytes": 1311,
+      "path": "manual/data/c6/consequent_six_slot_support_family_measure_contract.csv",
+      "sha256": "4876b832438e1b459b583d4c6b346a8e6b18e7624490678d7ba0a56acdf40231"
+    },
+    {
+      "bytes": 1217,
+      "path": "manual/data/c6/consequent_six_slot_support_family_read_only_packet.csv",
+      "sha256": "876b9f980d23ebf9df1ec518ccf899deef073fdcabac6f2dc85fd2b3eb28e254"
+    },
+    {
+      "bytes": 1650,
+      "path": "manual/data/c6/consequent_six_slot_support_family_registry.csv",
+      "sha256": "8f9309ec1e4cc4a45f493748a35387f789d474bda58ffe222d819cea7d63a4f2"
+    }
+  ],
+  "forms": [
+    "3:3:6",
+    "3:4:6"
+  ],
+  "gate_id": "aod_consequent_six_slot_form_compatibility_gate_v5",
+  "global_packet_set_closure_status": "passed",
+  "inverse_audit_status": "passed",
+  "local_DEC_execution_status": "not_materialized",
+  "manifest_id": "aod_consequent_six_slot_form_compatibility_manifest_v5",
+  "native_compatibility_status": "passed",
+  "overall_gate_status": "passed",
+  "pre_audit_freeze_manifest": "manual/data/c6/consequent_six_slot_pre_audit_freeze_manifest.csv",
+  "pre_audit_freeze_manifest_sha256": "2a4a6430eca43e4064761e94fcecea14b7919b1abf4e19843d21cbe5e6657b1c",
+  "pre_map_identity_closure_status": "passed",
+  "primitive_support_id": "00o8_C6_1_2_6",
+  "recurrence_equivalence_status": "not_evaluated",
+  "support_family_definition": "F_pq=D_q^p_disjoint_union_S_q",
+  "support_family_status": "materialized_non_temporal",
+  "support_policy_validation_mode": "hash_verified_semantically_consumed_and_release_pinned",
+  "target_value_read_status": "not_read",
+  "temporal_measurement_status": "not_materialized",
+  "version_scope": "v40.03r06.3.1"
+}

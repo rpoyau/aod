@@ -1,0 +1,29 @@
+{
+  "artifacts": [
+    {
+      "name": "main.pdf",
+      "sha256": "ae8d89e90ece0dcefab83ba44b2fd1e9de73ba7d04abe7501192b085ab652ca0"
+    },
+    {
+      "name": "manual.pdf",
+      "sha256": "19df9a7711861bb0cbc1a5e71491d3b605ff73a4bf05bbf108241b9f3f4c5112"
+    },
+    {
+      "name": "manual-2.pdf",
+      "sha256": "46aa35accfe20f657597b54878e120bd495620aebd4a00ac8c0f86cb6637b432"
+    },
+    {
+      "name": "source.zip",
+      "sha256": "f6db6ce2653c7a0888d711790ec5912ccd7b1671827a9cea7d546c2c82e259e2"
+    }
+  ],
+  "canonical_bundle_availability": "embedded_as_stable_payload_in_complete_bundle",
+  "dependency_id": "AOD",
+  "payload_manifest_sha256": "3b2451afedd889066f8fe55c48f6c375efe3f3cfbd6a98ddb4bad78d033ebeec",
+  "schema_version": "3.1",
+  "snapshot_id": "AOD_STABLE_BOOTSTRAP_v40.03r07.1",
+  "source_bundle_filename": "bundle-v40.03r07.1.zip",
+  "source_bundle_sha256": "0e8adff68c2e509890fe11b5ddafe1c9cd5b284425e44499692117fe0fd14a5f",
+  "status": "content_addressed_stable_baseline_descriptor",
+  "version": "v40.03r07.1"
+}

@@ -1,0 +1,66 @@
+{
+  "af_order": [
+    "axioms",
+    "distinctions",
+    "relations",
+    "motifs",
+    "calculus"
+  ],
+  "boundary": [
+    "stable_payload_vs_delta",
+    "candidate_payload_vs_review_evidence",
+    "open_feedback_vs_GO_boundary",
+    "parent_bundle_vs_successor_bundle"
+  ],
+  "declared_distinctions": [
+    "stable_baseline_identity",
+    "delta_operation",
+    "candidate_payload_identity",
+    "phase_state",
+    "feedback_state",
+    "review_verdict",
+    "GO_authority",
+    "successor_bundle_identity"
+  ],
+  "derived_invariants": [
+    "candidate_payload_equals_apply_stable_delta",
+    "review_does_not_mutate_the_bound_candidate",
+    "open_blockers_cannot_cross_GO_boundary",
+    "GO_rebaselines_only_in_the_next_successor_bundle",
+    "no hidden conversational or project-source state remains canonical after bootstrap"
+  ],
+  "emergent_motif": "AUTHORING -> REVIEW -> (FEEDBACK -> AUTHORING)* -> GO -> AUTHORING(next goal)",
+  "falsification_hooks": [
+    "materialized_candidate_differs_from_payload_manifest",
+    "delta_omits_a_changed_path",
+    "transition_ledger_is_not_parent_prefix_plus_one_row",
+    "review_digest_differs_from_candidate_digest",
+    "GO_occurs_with_open_or_unverified_blockers",
+    "successor_uses_an_unbound_governance_import"
+  ],
+  "finite_region": "the complete bundle state admitted by the exact schemas and manifests",
+  "induced_relations": [
+    "stable_plus_delta_materializes_candidate",
+    "candidate_digest_is_review_subject",
+    "finding_addresses_candidate_or_delta_path",
+    "verified_closure_addresses_finding",
+    "authorized_GO_binds_candidate_digest",
+    "successor_parent_hash_binds_lineage"
+  ],
+  "memory_state": "CYCLE_STATE plus append-only transition and feedback ledgers",
+  "procedural_divergence_audit": "every non-bootstrap state has exactly one admitted parent relation and every transition appends exactly one ledger row",
+  "procedural_flux": "hash-bound transition and delta operations crossing the declared bundle boundary",
+  "profile_id": "AFC_PROCEDURAL_DYNAMICS",
+  "release_binding_status": "bootstrap_fallback_active_nonlatest",
+  "schema_version": "3.1",
+  "scope_statement": "The bundle cycle is an AFC implementation in the procedural control plane. It is an emergent workflow dynamics, not an automatic premise about the AOD scientific payload.",
+  "source_import_id": "AFC_MAIN_2025_12_07",
+  "status": "declared_procedural_specialization",
+  "transition_kernel": {
+    "note": "Potential branches are an admissibility relation; only the selected, evidenced successor is materialized.",
+    "row_sum": "exactly_1_for_each_materialized_transition",
+    "type": "deterministic_selected_transition_kernel",
+    "values": "0_or_1_after_evidence_and_authority_are_fixed"
+  },
+  "transition_ledger_bootstrap_rule": "A legacy parent without a transition ledger may seed one hash-bound bootstrap row; every later successor must equal the parent ledger prefix plus exactly one row."
+}

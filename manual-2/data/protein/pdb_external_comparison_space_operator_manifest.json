@@ -1,0 +1,53 @@
+{
+  "aod_prediction_representation": "contact_pair_set",
+  "candidate_universe_snapshot_status": "query_spec_frozen_response_not_materialized_selection_blocked",
+  "canonical_comparison_matrix": "manual-2/data/protein/pdb_external_comparison_space_capability_gate.csv",
+  "carried_forward_in_package_version": "v40.02r24",
+  "comparable_pair_count": 0,
+  "effective_abstain_pair_count": 946,
+  "file_sha256": {
+    "candidate_universe_snapshot_gate": "36e25fac2465cdeb924983e7f2db217ac58fec3df09288c443f52307c53a6695",
+    "comparison_space_capability_gate": "2d018c012bfc99c9aed3fc56de8fcac59b5a3aa8f1b6807acbbf80e22f369435",
+    "derived_contact_operator_declaration": "c019737360da4306d628ae885a8fbb867aac3c1dbbe097f20bc5f3267377e036",
+    "leakage_checks": "9686cd1f507dc322e44fbb0af634c6647b26e80fdfc995a1ee106527e25e6bd8",
+    "nuisance_policy": "8c386fe9014c4706fcde015bdd93d4ad23abc51c350a1dd521e5e5613de21c8a",
+    "operator_family_registry": "60186cfa3fa715c6d1560c7d18fc0ed516f310c9d502d2f3603ed585f31e8daf",
+    "operator_state": "1d9fb066bf84556faaeaf95e82f306b30175658aa8db23ae3785f4672dae7e14",
+    "payload_family_availability": "ce924831cdc96269e2ea4daae4296802c80454535a2dbaa3fa13b25b5c369559",
+    "payload_family_locator_variants": "1dd325b1a75c00a3a248b0ec911def28092411f613a2a19c5477145bec974379",
+    "probe_evidence_snapshot": "df2839e04e269a49335fcbd0a58ce3ce38c2af8161afe6b8fdf1ffb7e23a9127",
+    "probe_membership_audit": "6d4fdb645f55107a63f04e352630f363a1a49cc73fe7b24ab95d95316921eba6"
+  },
+  "files": {
+    "candidate_universe_snapshot_gate": "manual-2/data/protein/pdb_external_scored_accession_candidate_universe_snapshot_gate.csv",
+    "comparison_space_capability_gate": "manual-2/data/protein/pdb_external_comparison_space_capability_gate.csv",
+    "derived_contact_operator_declaration": "manual-2/data/protein/pdb_external_derived_contact_operator_declaration.csv",
+    "leakage_checks": "manual-2/data/protein/pdb_external_observation_operator_leakage_checks.csv",
+    "nuisance_policy": "manual-2/data/protein/pdb_external_observation_operator_nuisance_policy.csv",
+    "operator_family_registry": "manual-2/data/protein/pdb_external_observation_operator_family_registry.csv",
+    "operator_state": "manual-2/data/protein/pdb_external_observation_operator_state.csv",
+    "payload_family_availability": "manual-2/data/protein/pdb_external_payload_family_availability.csv",
+    "payload_family_locator_variants": "manual-2/data/protein/pdb_external_payload_family_locator_variants.csv",
+    "probe_evidence_snapshot": "manual-2/data/protein/external_pdb_probe_evidence_snapshots/1crn_official_entry_map_docs_parsed_snapshot.json",
+    "probe_membership_audit": "manual-2/data/protein/pdb_external_probe_evidence_membership_audit.csv"
+  },
+  "historical_comparison_matrix": "manual-2/data/protein/pdb_external_comparison_allowed_matrix.csv",
+  "in_scope_pair_count": 0,
+  "lane": "comparison_space_capability_and_observation_operator_freeze_gate",
+  "next_milestone": "v40.03r02 -- Official Candidate-Universe Response Byte-Lock and Eligibility Materialization Gate",
+  "operator_states": {
+    "coordinate_model": "inactive_AOD_coordinate_representation_unavailable",
+    "derived_observable": "declared_but_comparison_inactive_zero_supported_pairs_and_zero_alignment_coverage",
+    "measurement_processed": "inactive_target_payload_unavailable_and_representation_incompatible",
+    "measurement_raw": "inactive_target_payload_unavailable_and_representation_incompatible",
+    "registry": "active_provenance_only"
+  },
+  "out_of_scope_pair_count": 946,
+  "prediction_emitted_pair_count": 0,
+  "quality_supported_pair_count": 0,
+  "residual_status": "not_computed",
+  "score_status": "no_score",
+  "source_accession": "1CRN",
+  "target_values_read_status": "not_read_by_operator_freeze",
+  "version_scope": "v40.02r23"
+}

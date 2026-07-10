@@ -1,0 +1,61 @@
+{
+  "anchor_rules": [
+    "use_unique_precise_internal_anchors",
+    "do_not_use_vague_section_ranges",
+    "do_not_restate_axioms_or_choices_in_derived_reports",
+    "every displayed_relation_has_its_own_anchor"
+  ],
+  "profile_id": "GENERAL_MECHANICS_STYLE_PROFILE",
+  "release_binding_status": "bootstrap_fallback_active_nonlatest",
+  "report_adaptation": {
+    "authoring": [
+      "Setup",
+      "Declared choices",
+      "Derivation",
+      "Checks",
+      "Falsification",
+      "Provenance"
+    ],
+    "feedback": [
+      "Setup",
+      "Finding disposition",
+      "Evidence",
+      "Verification status",
+      "Provenance"
+    ],
+    "go": [
+      "Setup",
+      "Admission checks",
+      "Decision",
+      "Next specialization",
+      "Provenance"
+    ],
+    "review": [
+      "Setup",
+      "Governing constraints",
+      "Checks",
+      "Findings",
+      "Counterfactuals",
+      "Provenance",
+      "Verdict"
+    ]
+  },
+  "required_paragraph_sequence": [
+    "Setup",
+    "Derivation",
+    "Specialization",
+    "Calibration",
+    "Falsification",
+    "Provenance",
+    "Literature note"
+  ],
+  "schema_version": "3.1",
+  "sequence_rules": {
+    "Calibration": "must state not used when no measured-sector map is admitted",
+    "Literature note": "optional_external_provenance_only_never_a_premise",
+    "Specialization": "optional_when_no_special_regime_exists"
+  },
+  "source_import_id": "GENERAL_MECHANICS_1_0_5_0",
+  "status": "binding_style_profile",
+  "voice": "declarative_neutral_nonconversational"
+}

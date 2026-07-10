@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Synchronize .zenodo.json references from refs.bib and manual/refs.bib.
+"""Synchronize .zenodo.json references from refs.bib, manual/refs.bib, and manual-2/refs.bib.
 
 The BibTeX files are the source of truth for external/reference-list metadata.
 This script generates the Zenodo `references` array from those BibTeX files and
@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BIB_FILES = [ROOT / "refs.bib", ROOT / "manual" / "refs.bib"]
+BIB_FILES = [ROOT / "refs.bib", ROOT / "manual" / "refs.bib", ROOT / "manual-2" / "refs.bib"]
 ZENODO_FILE = ROOT / ".zenodo.json"
 
 
@@ -195,7 +195,7 @@ def update_zenodo(check: bool = False) -> int:
     if current == expected:
         return 0
     if check:
-        print(".zenodo.json references are not synchronized with refs.bib/manual/refs.bib", file=sys.stderr)
+        print(".zenodo.json references are not synchronized with refs.bib/manual/refs.bib/manual-2/refs.bib", file=sys.stderr)
         print(f"expected {len(expected)} references, found {len(current)}", file=sys.stderr)
         return 1
     data["references"] = expected

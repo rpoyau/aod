@@ -1,0 +1,89 @@
+{
+  "latest_locator_semantics": "authoring_discovery_resolved_snapshot_frozen_per_candidate",
+  "owner_policy": "exact_owner_rpoyau",
+  "refresh_contract": {
+    "atomic_resolution_required": true,
+    "attempt_on_every_authoring": true,
+    "attempt_receipt_required": true,
+    "candidate_uses_resolved_snapshot": true,
+    "complete_four_dependency_fallback_required": true,
+    "refresh_failure_nonblocking_with_explicit_fallback": true,
+    "review_feedback_go_network_access": false
+  },
+  "release_source_scope": "governance_and_project_baseline_dependencies",
+  "repositories": [
+    {
+      "api_latest_url": "https://api.github.com/repos/rpoyau/axiomatic-fundamentalism/releases/latest",
+      "dependency_id": "AF",
+      "embedding_root_template": "governance/releases/AF/{tag}",
+      "latest_release_url": "https://github.com/rpoyau/axiomatic-fundamentalism/releases/latest",
+      "owner": "rpoyau",
+      "preferred_pdf_names": [
+        "axiomatic-fundamentalism.pdf"
+      ],
+      "repository": "axiomatic-fundamentalism",
+      "required_material": [
+        "release_metadata",
+        "source_archive",
+        "pdf_assets"
+      ],
+      "role": "authoring_and_review_protocol",
+      "scope": "governance_or_project_baseline_only_not_scientific_evidence"
+    },
+    {
+      "api_latest_url": "https://api.github.com/repos/rpoyau/afc/releases/latest",
+      "dependency_id": "AFC",
+      "embedding_root_template": "governance/releases/AFC/{tag}",
+      "latest_release_url": "https://github.com/rpoyau/afc/releases/latest",
+      "owner": "rpoyau",
+      "preferred_pdf_names": [],
+      "repository": "afc",
+      "required_material": [
+        "release_metadata",
+        "source_archive",
+        "pdf_assets"
+      ],
+      "role": "procedural_calculus_basis",
+      "scope": "governance_or_project_baseline_only_not_scientific_evidence"
+    },
+    {
+      "api_latest_url": "https://api.github.com/repos/rpoyau/general-mechanics/releases/latest",
+      "dependency_id": "GM",
+      "embedding_root_template": "governance/releases/GM/{tag}",
+      "latest_release_url": "https://github.com/rpoyau/general-mechanics/releases/latest",
+      "owner": "rpoyau",
+      "preferred_pdf_names": [],
+      "repository": "general-mechanics",
+      "required_material": [
+        "release_metadata",
+        "source_archive",
+        "pdf_assets"
+      ],
+      "role": "authoring_and_review_style",
+      "scope": "governance_or_project_baseline_only_not_scientific_evidence"
+    },
+    {
+      "api_latest_url": "https://api.github.com/repos/rpoyau/aod/releases/latest",
+      "dependency_id": "AOD",
+      "embedding_root_template": "stable/upstream/AOD/{tag}",
+      "latest_release_url": "https://github.com/rpoyau/aod/releases/latest",
+      "owner": "rpoyau",
+      "preferred_pdf_names": [
+        "main.pdf",
+        "manual.pdf",
+        "manual-2.pdf"
+      ],
+      "repository": "aod",
+      "required_material": [
+        "release_metadata",
+        "canonical_bundle_or_release_payload",
+        "source_archive",
+        "pdf_assets",
+        "checksum_manifests"
+      ],
+      "role": "stable_project_release_baseline",
+      "scope": "governance_or_project_baseline_only_not_scientific_evidence"
+    }
+  ],
+  "schema_version": "3.1"
+}

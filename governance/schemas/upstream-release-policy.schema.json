@@ -1,0 +1,345 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "activation": {
+      "additionalProperties": false,
+      "properties": {
+        "aod_rebase_with_nonempty_delta_requires_conflict_audit": {
+          "const": true
+        },
+        "authoring_refresh_receipt_required": {
+          "const": true
+        },
+        "imports_frozen_from_review_through_go": {
+          "const": true
+        },
+        "latest_change_after_candidate_freeze_applies_next_authoring": {
+          "const": true
+        },
+        "latest_refresh_required_on_each_authoring": {
+          "const": true
+        },
+        "new_governance_not_retroactive": {
+          "const": true
+        },
+        "refresh_failure_blocks_review_or_go": {
+          "const": false
+        },
+        "refresh_requires_review_and_authorized_go": {
+          "const": true
+        }
+      },
+      "required": [
+        "aod_rebase_with_nonempty_delta_requires_conflict_audit",
+        "imports_frozen_from_review_through_go",
+        "new_governance_not_retroactive",
+        "refresh_requires_review_and_authorized_go",
+        "latest_refresh_required_on_each_authoring",
+        "latest_change_after_candidate_freeze_applies_next_authoring",
+        "refresh_failure_blocks_review_or_go",
+        "authoring_refresh_receipt_required"
+      ],
+      "type": "object"
+    },
+    "archive_safety": {
+      "additionalProperties": false,
+      "properties": {
+        "absolute_paths_forbidden": {
+          "const": true
+        },
+        "device_entries_forbidden": {
+          "const": true
+        },
+        "duplicate_members_forbidden": {
+          "const": true
+        },
+        "links_forbidden": {
+          "const": true
+        },
+        "nested_archive_size_limits_required": {
+          "const": true
+        },
+        "traversal_paths_forbidden": {
+          "const": true
+        }
+      },
+      "required": [
+        "absolute_paths_forbidden",
+        "device_entries_forbidden",
+        "duplicate_members_forbidden",
+        "links_forbidden",
+        "nested_archive_size_limits_required",
+        "traversal_paths_forbidden"
+      ],
+      "type": "object"
+    },
+    "asset_contract": {
+      "additionalProperties": false,
+      "properties": {
+        "authored_checksum_manifest_must_verify": {
+          "const": true
+        },
+        "exact_required_roles_per_dependency": {
+          "const": true
+        },
+        "unexplained_duplicate_role_assets_fail": {
+          "const": true
+        },
+        "unversioned_bundle_alias_must_match_selected_versioned_bundle": {
+          "const": true
+        }
+      },
+      "required": [
+        "authored_checksum_manifest_must_verify",
+        "exact_required_roles_per_dependency",
+        "unexplained_duplicate_role_assets_fail",
+        "unversioned_bundle_alias_must_match_selected_versioned_bundle"
+      ],
+      "type": "object"
+    },
+    "discovery": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_only_during_declared_refresh_or_bootstrap_authoring_goal": {
+          "const": true
+        },
+        "latest_is_locator_only": {
+          "const": true
+        },
+        "latest_refresh_mode": {
+          "const": "always_attempt_on_authoring"
+        },
+        "normal_phase_network_access": {
+          "const": false
+        },
+        "resolved_snapshot_frozen_per_candidate": {
+          "const": true
+        }
+      },
+      "required": [
+        "allowed_only_during_declared_refresh_or_bootstrap_authoring_goal",
+        "latest_is_locator_only",
+        "normal_phase_network_access",
+        "resolved_snapshot_frozen_per_candidate",
+        "latest_refresh_mode"
+      ],
+      "type": "object"
+    },
+    "fallback": {
+      "additionalProperties": false,
+      "properties": {
+        "aod_snapshot_required": {
+          "const": true
+        },
+        "bootstrap_snapshots_allowed_until_first_successful_refresh": {
+          "const": true
+        },
+        "candidate_binding_required": {
+          "const": true
+        },
+        "carry_forward_last_verified_snapshot": {
+          "const": true
+        },
+        "complete_four_dependency_snapshot_required": {
+          "const": true
+        },
+        "fallback_does_not_claim_latest": {
+          "const": true
+        },
+        "fallback_status_must_be_explicit": {
+          "const": true
+        }
+      },
+      "required": [
+        "bootstrap_snapshots_allowed_until_first_successful_refresh",
+        "carry_forward_last_verified_snapshot",
+        "fallback_does_not_claim_latest",
+        "fallback_status_must_be_explicit",
+        "complete_four_dependency_snapshot_required",
+        "aod_snapshot_required",
+        "candidate_binding_required"
+      ],
+      "type": "object"
+    },
+    "material": {
+      "additionalProperties": false,
+      "properties": {
+        "archive_links_forbidden": {
+          "const": true
+        },
+        "duplicate_archive_paths_forbidden": {
+          "const": true
+        },
+        "embed_release_metadata": {
+          "const": true
+        },
+        "embed_required_assets": {
+          "const": true
+        },
+        "embed_tag_source_snapshot": {
+          "const": true
+        },
+        "maximum_single_asset_bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "safe_archive_paths_required": {
+          "const": true
+        },
+        "source_pdf_same_release_required": {
+          "const": true
+        },
+        "verify_authored_checksum_manifests_when_present": {
+          "const": true
+        }
+      },
+      "required": [
+        "archive_links_forbidden",
+        "duplicate_archive_paths_forbidden",
+        "embed_release_metadata",
+        "embed_required_assets",
+        "embed_tag_source_snapshot",
+        "maximum_single_asset_bytes",
+        "safe_archive_paths_required",
+        "source_pdf_same_release_required",
+        "verify_authored_checksum_manifests_when_present"
+      ],
+      "type": "object"
+    },
+    "metadata": {
+      "additionalProperties": false,
+      "properties": {
+        "normalized_stable_identity_hash_required": {
+          "const": true
+        },
+        "raw_snapshot_hash_required": {
+          "const": true
+        }
+      },
+      "required": [
+        "normalized_stable_identity_hash_required",
+        "raw_snapshot_hash_required"
+      ],
+      "type": "object"
+    },
+    "offline": {
+      "additionalProperties": false,
+      "properties": {
+        "embedded_lock_is_authoritative": {
+          "const": true
+        },
+        "explicit_fallback_allows_review_and_go": {
+          "const": true
+        },
+        "fallback_receipt_is_candidate_bound": {
+          "const": true
+        },
+        "last_verified_or_bootstrap_snapshot_may_be_carried_forward": {
+          "const": true
+        },
+        "network_failure_blocks_refresh_only": {
+          "const": true
+        }
+      },
+      "required": [
+        "embedded_lock_is_authoritative",
+        "network_failure_blocks_refresh_only",
+        "explicit_fallback_allows_review_and_go",
+        "last_verified_or_bootstrap_snapshot_may_be_carried_forward",
+        "fallback_receipt_is_candidate_bound"
+      ],
+      "type": "object"
+    },
+    "policy_id": {
+      "const": "AOD_ROLLING_LATEST_GITHUB_RELEASE_IMPORTS"
+    },
+    "profile_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "normalized_profiles_must_bind_resolved_release_assets": {
+          "const": true
+        },
+        "stale_profile_fails": {
+          "const": true
+        }
+      },
+      "required": [
+        "normalized_profiles_must_bind_resolved_release_assets",
+        "stale_profile_fails"
+      ],
+      "type": "object"
+    },
+    "resolution": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id_name_size_sha256_required": {
+          "const": true
+        },
+        "complete_four_dependency_resolution_atomic": {
+          "const": true
+        },
+        "download_to_staging_then_atomic_commit": {
+          "const": true
+        },
+        "exact_owner_repository_required": {
+          "const": true
+        },
+        "partial_resolution_must_rollback": {
+          "const": true
+        },
+        "reject_draft": {
+          "const": true
+        },
+        "reject_prerelease_by_default": {
+          "const": true
+        },
+        "release_id_required": {
+          "const": true
+        },
+        "release_metadata_sha256_required": {
+          "const": true
+        },
+        "resolved_tag_required": {
+          "const": true
+        },
+        "tag_commit_sha_required": {
+          "const": true
+        }
+      },
+      "required": [
+        "asset_id_name_size_sha256_required",
+        "download_to_staging_then_atomic_commit",
+        "exact_owner_repository_required",
+        "reject_draft",
+        "reject_prerelease_by_default",
+        "release_id_required",
+        "release_metadata_sha256_required",
+        "resolved_tag_required",
+        "tag_commit_sha_required",
+        "complete_four_dependency_resolution_atomic",
+        "partial_resolution_must_rollback"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "3.1"
+    }
+  },
+  "required": [
+    "schema_version",
+    "policy_id",
+    "activation",
+    "archive_safety",
+    "asset_contract",
+    "discovery",
+    "material",
+    "metadata",
+    "offline",
+    "profile_binding",
+    "resolution",
+    "fallback"
+  ],
+  "title": "AOD Rolling Latest GitHub Release Import Policy",
+  "type": "object"
+}

@@ -1,0 +1,41 @@
+\section{Boundary setup, raw run, and trace detection}
+
+A fusion-scale run begins by declaring a finite boundary. The boundary is the permission surface for accounting. It names what can enter the ledger, what is retained, and what is shed.
+
+\subsection{Boundary package}
+
+Each fixture row is attached to a package
+\[
+B_\ell=(\zeta_\ell,R_\ell,\partial R_\ell,\omega_\ell,\Sigma_\ell,\kappa_\ell),
+\]
+where $\Sigma_\ell$ is the state alphabet and $\kappa_\ell$ is the capacity or closure rule. In the elementary octave, $\kappa$ is a retained-capacity coordinate. In the molecular and bio-chain octaves, $\kappa$ is exact formula preservation after declared shedding.
+
+\subsection{Raw AFC/D.E.C. execution}
+
+The raw layer is not an observable comparison. It is the row-generation layer. A D.E.C. ledger row has the schematic form
+\[
+(d_i,e_i,c_i,\partial_i,\rho_i,\chi_i),
+\]
+where the distinction $d_i$, edge or event $e_i$, cut $c_i$, boundary marker $\partial_i$, retained burden $\rho_i$, and closure marker $\chi_i$ are all finite declarations.
+
+\subsection{Trace detector}
+
+The detector is the first permitted compression of the raw trace. It may return:
+\begin{itemize}[leftmargin=2em]
+  \item a ladder-depth row;
+  \item a retained-capacity row;
+  \item a sheddic surplus row;
+  \item a CHONPS formula residual row;
+  \item a sequence-closure row;
+  \item a downstream observable-map row.
+\end{itemize}
+
+\aodnoteblock{Detector rule}{A detector labels retained trace structure. It does not erase residuals and it does not import the target value it will later be compared against.}
+
+\subsection{Frozen-row boundary}
+
+The row-freeze boundary separates computation from presentation:
+\[
+\Freeze: (\Trace,\Detect) \mapsto \{r_1,\ldots,r_n\}.
+\]
+Only after this boundary may Manual II attach IUPAC, PubChem, RDKit, or any other external comparison lane.

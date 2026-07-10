@@ -1,0 +1,2 @@
+row_id,reference_tick_statement,clock_process_status,frequency_report_status,si_second_report_status
+cs_reference_tick_card,1 s = 9192631770 Cs reference ticks,declared_future_reference_flow,downstream_report,metrological_report_card

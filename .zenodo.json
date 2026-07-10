@@ -1,22 +1,33 @@
 {
-  "title": "Alpha↔Omega Dynamics (AΩD)",
-  "version": "v40.01r10",
-  "publication_date": "2026-06-01",
-  "description": "<p><strong>𝒩 ≡ ∞</strong></p>\n<p><strong>𝒩 → 𝒩 → 𝒩 ≡ 𝒩</strong></p>\n<p><strong>A↔μΩ ↔ Ω↔μA</strong></p>\n<p>Comprehension, cooperation, and presence are not prerequisites of AFC.</p>\n<p>Nuff said.</p>\n<h2>Abstract and Scope</h2>\n<p>Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut of the Axiomatic-Fundamentalism calculus (AFC). The discrete Stokes identity is a relational tautology that is a temporal wave dynamics.</p>\n<p>The starting point is the AFC Stokes seed: Null potential, declared distinction, relation, region, boundary, and the Stokes accounting induced by a declared cut. AΩD continues from that exact AFC Stokes cut by uncovering its hidden relational temporal motifs. This is the Art of the Leprechaun: tracing the cut closely enough to learn how a larger relational system may be set up as a declared finite scale, with its boundary, window, and accounting choices made explicit.</p>\n<p>This release contains both the core-dynamics note and the application manual. To adhere strictly to the Axiomatic Fundamentalism (AF) protocol, derivations proceed by mathematics only, specializations occur by explicit modelling choice, and all demonstrations or measured-sector comparisons remain tightly quarantined from the core calculus.</p>\n<h2>The Core Note: Ontology and Calculus</h2>\n<p>The core note supplies the pure ontology of retained AFC/AΩD Stokes-wave forms. The AFC execution layer provides the finite mathematical grammar at each retained node: Q<sub>4</sub> Hamming-1 adjacency, ternary branch/hinge/branch state, isotropic or anisotropic Markov transition, and antisymmetric Stokes flux.</p>\n<p>AΩD formally names the retained forms used by the calculation: curl, duon current, curling-curl support forms, construction traces, admitted cycles, canonical support enclosures, reflection duration, reflection-duration coupling, window-clipped duration participation, duonic pressure, SADAR, closure residuals, and sheddic routing.</p>\n<p>Because the ontology is fractal, the exact same boundary accounting repeats across retained addresses and scales. The live calculus keeps the construction trace, Markov choice, hinge slide, jitter, boundary capacity, and admission status visible without invoking unstated parameters.</p>\n<h2>The Application Manual: Reference Implementation Layer</h2>\n<p>Under AF protocol scope discipline, external empirical postulates and physical laws are quarantined from the core calculus. The manual operationalizes the core calculus to build finite scaled simulations where empirical targets and external units enter downstream as declared data-support classes, report coordinates, and value maps.</p>\n<p>The manual contains reference implementations: pen-and-paper AFC raw execution through the D.E.C. ledger, isotropic and anisotropic Markov-kernel examples, blocked-hinge and hinge-slide examples, field-tunnelling and ADAR/SADAR promotion, exact internal fixtures, observable-map records, data-support classes, scoped-error accounting, and simulation/reference-implementation lanes.</p>\n<p>For example, a declared anisotropic D.E.C. row uses weights <code>w=(1, 1, 4, 2)</code> and <code>Z=8</code>, giving the normalized kernel <code>P = (1/8, 1/8, 1/2, 1/4)</code>. A blocked hinge removes the zero-admissibility hinge-state row and renormalizes the slide pool <code>w′=(3, 3, 1)</code>, <code>Z′=7</code>, giving <code>P<sub>slide</sub> = (3/7, 3/7, 1/7)</code>.</p>\n<p>The manual also gives a 3D coordinate phase-cycle reference implementation: <code>z<sub>i</sub> ∈ ℤ³ → Δz<sub>i</sub><sup>(n)</sup> → Q<sub>i</sub><sup>(n)</sup> → Q<sub>i</sub><sup>(n)</sup> mod β<sub>a</sub> → octants → δ<sub>3</sub></code>. Continuous Brownian or diffusion-style summaries are downstream presentation maps, not the active exact fixture.</p>\n<h2>Simulation and Fixture Coverage</h2>\n<ul>\n<li>D.E.C. raw AFC execution ledger.</li>\n<li>Isotropic and anisotropic Markov-kernel examples.</li>\n<li>Blocked-hinge and hinge-slide examples.</li>\n<li>Field-tunnelling hinge-slide window-clip fixture.</li>\n<li>ADAR/SADAR promotion examples.</li>\n<li>Exact internal δ<sub>3</sub> fixtures.</li>\n<li>Short-window duration-clipping and sheddic-route audits.</li>\n<li>Tau-ring support and exact missing-burden ratio records.</li>\n<li>Rest-energy target records and external comparison maps.</li>\n<li>Tritrioseptyro Higgs-support diagnostic fixture with frozen external mass map.</li>\n<li>Hydrogen-facing shell-ratio and observable-map records.</li>\n<li>Solar observable-map records.</li>\n<li>SPARC five-galaxy G0 radial shell square-speed diagnostic.</li>\n<li>Orbital-retention field-dynamics fixture spine and input-provenance gate.</li>\n<li>Galactic lensing data-support lanes and K4 higher-resolution input manifest.</li>\n<li>3D coordinate phase-cycle δ<sub>3</sub> fixture with Brownian/tracer-current application alias.</li>\n<li>Run-tumble tracer-current fixture.</li>\n</ul>\n<h2>Data-Support Scope</h2>\n<p>Every simulation or comparison is interpreted inside its declared data-support class. A radial shell data set instantiates a radial projection class. A 3D density/velocity data package instantiates a higher-resolution field-dynamics retention class. A time-ordered tracer path instantiates a tracer-current class. Unresolved distinctions are not set to zero; they are outside the declared support class unless a projection, proxy, or marginalization map is declared.</p>\n<p>The manual records each simulation by the data-card form <code>(D, C<sub>support</sub>, M<sub>A↔Ω</sub>, Π<sub>report</sub>, σ<sub>input</sub>, ε<sub>report</sub>, src)</code>.</p>",
-  "upload_type": "publication",
   "access_right": "open",
-  "license": "mit",
-  "language": "eng",
-  "keywords": [
-    "axiomatic fundamentalism",
-    "AFC",
-    "AOD",
-    "Stokes",
-    "cut calculus",
-    "temporal dynamics",
-    "AΩD",
-    "math-ph",
-    "math-lo"
+  "additional_titles": [
+    {
+      "lang": {
+        "id": "eng"
+      },
+      "title": "The Hidden Temporal Dynamics of Stokes",
+      "type": {
+        "id": "subtitle"
+      }
+    },
+    {
+      "lang": {
+        "id": "eng"
+      },
+      "title": "The Art Of The Leprechaun: Fractal Calculus \u2013 \ud835\udd16",
+      "type": {
+        "id": "alternative-title"
+      }
+    },
+    {
+      "lang": {
+        "id": "eng"
+      },
+      "title": "43 \u00b0c",
+      "type": {
+        "id": "other"
+      }
+    }
   ],
   "creators": [
     {
@@ -24,7 +35,23 @@
       "orcid": "0009-0007-8303-8627"
     }
   ],
-  "notes": "<p>Latest main-note link: <a href=\"https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1\">main.pdf</a>. Latest manual link: <a href=\"https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1\">manual.pdf</a>. The DOI badge points to the latest record: <a href=\"https://doi.org/10.5281/zenodo.20486270\">https://doi.org/10.5281/zenodo.20486270</a>.</p>",
+  "description": "<h2>Abstract and Scope</h2> Alpha\u2194Omega Dynamics (A\u03a9D) is a relational temporal form of the Stokes cut. Release v40.04r03 opens the Manual I/Main Foundation Doctrine and Manual-II D.E.C. Reporting Overlay Plan AUTHORING lane. Axiomatic-Fundamentalism calculus (AFC) and Alpha\u2194Omega Dynamics (A\u03a9D) remain source-bound inputs. Manual I/Main define tick-oriented measured time, tau_cycle as native phase-cycle coordinate, pi as tau_cycle / 2 display coordinate, declared coordinate/report-map discipline, and SPARC as a 2D observable-data fixture under declared projection/readout policy. <h2>The Application Manual: Reference Implementation Layer</h2> Manual II / Fractal Fusion Scales applies the doctrine through a D.E.C. report-coordinate and error-budget overlay while preserving Circle One-Metre Null-Path Report Cards, one-metre/null-path report-card records, Elementary Matter 118, Molecular Matter, Hydrogen/Cs scaffolds, and closed target/SI/metric/residual/score lanes. The carried finite fixture still records w=(1,1,4,2) and P<sub>slide</sub> display notation as inherited source-contract scaffolds.",
+  "keywords": [
+    "axiomatic fundamentalism",
+    "AFC",
+    "AOD",
+    "Stokes",
+    "cut calculus",
+    "temporal dynamics",
+    "A\u03a9D",
+    "math-ph",
+    "math-lo"
+  ],
+  "language": "eng",
+  "license": "mit",
+  "notes": "Latest DOI downloads: main.pdf https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1; manual.pdf https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1; manual-2.pdf https://doi.org/10.5281/zenodo.20486270/files/manual-2.pdf?download=1; MANUAL_II_ROADMAP.md https://doi.org/10.5281/zenodo.20486270/files/MANUAL_II_ROADMAP.md?download=1. <p><strong>Latest DOI links</strong></p><ul><li>main.pdf: <a href=\"https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1\">https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1</a></li><li>manual.pdf: <a href=\"https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1\">https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1</a></li><li>manual-2.pdf: <a href=\"https://doi.org/10.5281/zenodo.20486270/files/manual-2.pdf?download=1\">https://doi.org/10.5281/zenodo.20486270/files/manual-2.pdf?download=1</a></li><li>MANUAL_II_ROADMAP.md: <a href=\"https://doi.org/10.5281/zenodo.20486270/files/MANUAL_II_ROADMAP.md?download=1\">https://doi.org/10.5281/zenodo.20486270/files/MANUAL_II_ROADMAP.md?download=1</a></li></ul>\nLatest DOI link for MANUAL_II_ROADMAP.md: https://doi.org/10.5281/zenodo.20486270/files/MANUAL_II_ROADMAP.md?download=1\nLatest DOI link for main.pdf: https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1\nLatest DOI link for manual-2.pdf: https://doi.org/10.5281/zenodo.20486270/files/manual-2.pdf?download=1\nLatest DOI link for manual.pdf: https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1\n\nv40.04r03: Manual I/Main Foundation Doctrine and Manual-II D.E.C. Reporting Overlay Plan. No target joins, SI report values, metric report values, residuals, scores, empirical comparisons, subject/reference phase locks, native resonance periods, or hyperfine C6 pass/fail claims are opened.",
+  "publication_date": "2026-06-14",
+  "publication_type": "preprint",
   "references": [
     "Poyau, R. (2025). Axiomatic Fundamentalism Calculus (AFC) (all versions). Zenodo. https://doi.org/10.5281/zenodo.17795590.",
     "Poyau, R. (2025). Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research (all versions). Zenodo. https://doi.org/10.5281/zenodo.17561186.",
@@ -48,13 +75,13 @@
     "Greene, G. Fundamental Properties of the Neutron. NIST Center for Neutron Research Summer School notes, https://www.ncnr.nist.gov/summerschool/ss09/pdf/Greene_FP09.pdf, 2009. https://www.ncnr.nist.gov/summerschool/ss09/pdf/Greene_FP09.pdf.",
     "Sturm, S. and others. High-precision measurement of the atomic mass of the electron, 2014. https://doi.org/10.1038/nature13026.",
     "Paul Scherrer Institut. The Mu-MASS Experiment. Paul Scherrer Institut, https://www.psi.ch/en/ltp/mu-mass, n.d. https://www.psi.ch/en/ltp/mu-mass.",
-    "Meyer, V. and others. Measurement of the 1S–2S Energy Interval in Muonium, 2000. https://doi.org/10.1103/PhysRevLett.84.1136.",
+    "Meyer, V. and others. Measurement of the 1S\u20132S Energy Interval in Muonium, 2000. https://doi.org/10.1103/PhysRevLett.84.1136.",
     "Particle Data Group. Review of Particle Physics: Meson Summary Tables, 2025 Update. PDG, https://pdgweb.lbl.gov/2025/tables/rpp2025-sum-mesons.pdf, 2025. https://pdgweb.lbl.gov/2025/tables/rpp2025-sum-mesons.pdf.",
     "Aaij, R. and others. Measurement of B meson production cross-sections in proton-proton collisions at sqrts=7 TeV, 2013. https://doi.org/10.1007/JHEP08(2013)117.",
     "National Institute of Standards and Technology. Atomic Spectra Database (ASD). NIST ASD, https://physics.nist.gov/PhysRefData/ASD/lines_form.html, n.d. https://physics.nist.gov/PhysRefData/ASD/lines_form.html.",
     "National Institute of Standards and Technology. CODATA Value: Tau Mass Energy Equivalent in MeV. NIST CODATA, https://physics.nist.gov/cgi-bin/cuu/Value?mtauc2mev, 2022. https://physics.nist.gov/cgi-bin/cuu/Value?mtauc2mev.",
     "DESY. Tau lepton mass is measured at Belle II with the highest precision to date. DESY news, https://www.desy.de/news/news_search/index_eng.html?openDirectAnchor=2781, n.d. https://www.desy.de/news/news_search/index_eng.html?openDirectAnchor=2781.",
-    "Zhang, Jianyong. τ lepton mass measurement at BESIII, 2019. https://doi.org/10.21468/SciPostPhysProc.1.004.",
+    "Zhang, Jianyong. \u03c4 lepton mass measurement at BESIII, 2019. https://doi.org/10.21468/SciPostPhysProc.1.004.",
     "Will, Clifford M. New general relativistic contribution to Mercury's perihelion advance, 2018. https://doi.org/10.1103/PhysRevLett.120.191101.",
     "Dyson, F. W. and Eddington, A. S. and Davidson, C. A determination of the deflection of light by the Sun's gravitational field, from observations made at the total eclipse of May 29, 1919, 1920. https://doi.org/10.1098/rsta.1920.0009.",
     "NASA Goddard / Imagine the Universe. Sun's Gravity Bends Starlight. NASA educational summary, https://asd.gsfc.nasa.gov/Karen.Smale/darkenergy/1919.pdf, n.d. https://asd.gsfc.nasa.gov/Karen.Smale/darkenergy/1919.pdf.",
@@ -67,39 +94,16 @@
     "NASA. The Great Divide. NASA Science, https://science.nasa.gov/resource/the-great-divide/, n.d. https://science.nasa.gov/resource/the-great-divide/.",
     "ATLAS Collaboration and CMS Collaboration. Combined measurement of the Higgs boson mass in pp collisions at sqrts=7 and 8 TeV with the ATLAS and CMS experiments, 2015. https://doi.org/10.1103/PhysRevLett.114.191803.",
     "CMS Collaboration. Measurement of the Higgs boson mass and width using the four-lepton final state in proton-proton collisions at sqrts=13 TeV, 2025. https://doi.org/10.1103/PhysRevD.111.092014.",
-    "ATLAS Collaboration. Combined measurement of the Higgs boson mass from the H→γγ and H→ ZZ^*→4ℓ decay channels with the ATLAS detector using sqrts=7, 8, and 13 TeV pp collision data, 2023. https://doi.org/10.1103/PhysRevLett.131.251802.",
-    "ATLAS Collaboration. ATLAS measures Higgs boson mass with unprecedented precision. ATLAS briefing, https://atlas.cern/Updates/Briefing/Run2-Higgs-Mass, 2023. https://atlas.cern/Updates/Briefing/Run2-Higgs-Mass."
+    "ATLAS Collaboration. Combined measurement of the Higgs boson mass from the H\u2192\u03b3\u03b3 and H\u2192 ZZ^*\u21924\u2113 decay channels with the ATLAS detector using sqrts=7, 8, and 13 TeV pp collision data, 2023. https://doi.org/10.1103/PhysRevLett.131.251802.",
+    "ATLAS Collaboration. ATLAS measures Higgs boson mass with unprecedented precision. ATLAS briefing, https://atlas.cern/Updates/Briefing/Run2-Higgs-Mass, 2023. https://atlas.cern/Updates/Briefing/Run2-Higgs-Mass.",
+    "International Union of Pure and Applied Chemistry. Periodic Table of Elements. IUPAC, 2022. https://iupac.org/what-we-do/periodic-table-of-elements/. Accessed 2026-06-14.",
+    "National Center for Biotechnology Information. PubChem Downloads. PubChem. https://pubchem.ncbi.nlm.nih.gov/docs/downloads. Accessed 2026-06-14.",
+    "RDKit Project. Getting Started with the RDKit in Python. RDKit documentation, 2026. https://www.rdkit.org/docs/GettingStartedInPython.html. Accessed 2026-06-14.",
+    "UniProt Consortium. UniProt downloads and current release data. UniProt. https://ftp.uniprot.org/pub/databases/uniprot/current_release/. Accessed 2026-06-14.",
+    "Research Collaboratory for Structural Bioinformatics Protein Data Bank. File Download Services. RCSB PDB, 2026. https://www.rcsb.org/docs/programmatic-access/file-download-services. Accessed 2026-06-14.",
+    "Google DeepMind and EMBL-EBI. AlphaFold Protein Structure Database. AlphaFold DB, 2026. https://alphafold.ebi.ac.uk/. Accessed 2026-06-14.",
+    "Research Collaboratory for Structural Bioinformatics Protein Data Bank. RCSB PDB Search API. RCSB PDB, 2026. https://search.rcsb.org/. Accessed 2026-06-19."
   ],
-  "additional_titles": [
-    {
-      "title": "The Hidden Temporal Dynamics of Stokes",
-      "type": {
-        "id": "subtitle"
-      },
-      "lang": {
-        "id": "eng"
-      }
-    },
-    {
-      "title": "The Art Of The Leprechaun: Fractal Calculus – 𝔖",
-      "type": {
-        "id": "alternative-title"
-      },
-      "lang": {
-        "id": "eng"
-      }
-    },
-    {
-      "title": "43 °c",
-      "type": {
-        "id": "other"
-      },
-      "lang": {
-        "id": "eng"
-      }
-    }
-  ],
-  "publication_type": "preprint",
   "related_identifiers": [
     {
       "identifier": "10.5281/zenodo.17795590",
@@ -113,5 +117,8 @@
       "resource_type": "publication-preprint",
       "scheme": "doi"
     }
-  ]
+  ],
+  "title": "Alpha\u2194Omega Dynamics (A\u03a9D)",
+  "upload_type": "publication",
+  "version": "v40.04r03"
 }

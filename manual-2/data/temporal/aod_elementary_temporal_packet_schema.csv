@@ -1,0 +1,22 @@
+field_name,exact_type,required,role,current_state
+element_native_row_id,identifier,yes,stable elementary native packet row,schema_declared
+motif_family,identifier,yes,recurring motif-family identifier,schema_declared
+route_form,identifier,yes,declared elementary route form,schema_declared
+scoped_occurrence_id,identifier,yes,occurrence card,schema_declared
+fractal_coord,identifier,yes,fractal coordinate,schema_declared
+boundary_id,identifier,yes,boundary package,schema_declared
+window_id,identifier,yes,temporal window,schema_declared
+gamma_group,identifier,conditional,declared group/support identifier,schema_declared
+support_enclosure,identifier,conditional,declared support enclosure,schema_declared
+dec_trace_id,identifier,yes,read-only trace pointer,schema_declared
+event_order_sha256,sha256_hex,yes,event-order hash,not_materialized
+native_bip_num,integer_nonnegative,yes,native bip numerator,not_materialized
+native_bip_den,integer_positive,yes,native bip denominator,not_materialized
+native_biz_num,integer,conditional,native biz numerator,not_materialized
+native_biz_den,integer_positive,conditional,native biz denominator,not_materialized
+RCD,relation_packet,conditional,reflection-duration coupling,not_materialized
+rhoD_omega,rational,conditional,window participation,not_materialized
+PD,integer_or_rational,conditional,declared pressure/current packet,not_materialized
+closure_residual,integer_or_rational,yes,native closure audit,not_materialized
+shedding_route,identifier,conditional,native sheddic route,not_materialized
+native_packet_sha256,sha256_hex,yes,native packet hash,not_materialized

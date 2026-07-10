@@ -1,0 +1,17 @@
+{
+  "authority_class": "project_owner",
+  "authority_id": "PROJECT_OWNER",
+  "candidate_version": "v40.03r07.3.4",
+  "checks": [
+    {
+      "check_id": "review_go_recommended",
+      "evidence": "Bind canonical review and zero-open feedback state.",
+      "status": "passed"
+    }
+  ],
+  "decision": "GO",
+  "decision_id": "GO_DECISION_TEMPLATE",
+  "rationale": "Populate only after independent review derives GO_RECOMMENDED and all blockers are resolved.",
+  "record_scope": "source_template",
+  "schema_version": "3.1"
+}

@@ -1,0 +1,80 @@
+{
+  "current_empirical_state": {
+    "candidate_universe": "not_materialized",
+    "comparison_join_state": "closed",
+    "residual_status": "not_computed",
+    "score_status": "no_score",
+    "selected_accession": "none",
+    "target_value_read_status": "not_read"
+  },
+  "files": {
+    "aod_branch_isolated_join_protocol.csv": {
+      "byte_count": 1660,
+      "path": "shared/data/exact_native_protocol/aod_branch_isolated_join_protocol.csv",
+      "sha256": "c75dababccb2f7c36e864da9db1c2c06b7ffc6e05d360626da5e23cf6e1a6f0c"
+    },
+    "aod_cross_map_consistency_audit_schema.csv": {
+      "byte_count": 610,
+      "path": "shared/data/exact_native_protocol/aod_cross_map_consistency_audit_schema.csv",
+      "sha256": "f958a778134ddfafbdee840f424ae1505698a65fce7a102ad56946379bc57123"
+    },
+    "aod_dec_execution_mode_registry.csv": {
+      "byte_count": 967,
+      "path": "shared/data/exact_native_protocol/aod_dec_execution_mode_registry.csv",
+      "sha256": "137653b9557cb57ead5d54fbfacf8ed0ccedbe0bbd072ca82de15b1932a9c4e3"
+    },
+    "aod_dec_kernel_family_registry.csv": {
+      "byte_count": 584,
+      "path": "shared/data/exact_native_protocol/aod_dec_kernel_family_registry.csv",
+      "sha256": "3a87994c11413353e747af7f092c1a13dc835859af47b5f3b23e52542623f7b2"
+    },
+    "aod_existing_prediction_migration_audit.csv": {
+      "byte_count": 4653,
+      "path": "shared/data/exact_native_protocol/aod_existing_prediction_migration_audit.csv",
+      "sha256": "5a0a610a671deea05612ee8568892d00d2033e767eb099752e7fb431b5f17ecc"
+    },
+    "aod_metric_projection_contract_schema.csv": {
+      "byte_count": 1145,
+      "path": "shared/data/exact_native_protocol/aod_metric_projection_contract_schema.csv",
+      "sha256": "57f774e347d82b209af2877ea428ca7a1a941f04faa3c52a83028c85c29053d3"
+    },
+    "aod_native_causal_duration_packet_schema.csv": {
+      "byte_count": 1206,
+      "path": "shared/data/exact_native_protocol/aod_native_causal_duration_packet_schema.csv",
+      "sha256": "f95a455a2f9d2503d4d88d9ca826eabcac7cf2d494d373f23fd24a0b421ca2ee"
+    },
+    "aod_observation_packet_schema.csv": {
+      "byte_count": 1023,
+      "path": "shared/data/exact_native_protocol/aod_observation_packet_schema.csv",
+      "sha256": "58852c0d089f659ec63a908d5ff4a81cc810195abbfa1d1ffe94ed03d589cdc2"
+    },
+    "aod_projection_information_loss_registry.csv": {
+      "byte_count": 564,
+      "path": "shared/data/exact_native_protocol/aod_projection_information_loss_registry.csv",
+      "sha256": "a3656f22af208f5ec353a71fd35a32f34b2cbaa01ea828c050d8113940addc48"
+    },
+    "aod_si_defining_constant_projection_registry.csv": {
+      "byte_count": 640,
+      "path": "shared/data/exact_native_protocol/aod_si_defining_constant_projection_registry.csv",
+      "sha256": "8f8a52c8a5c581b404a265ef021564a4218b5e8bdf5e755fedfa4a3a9882543f"
+    },
+    "aod_typed_residual_registry.csv": {
+      "byte_count": 1431,
+      "path": "shared/data/exact_native_protocol/aod_typed_residual_registry.csv",
+      "sha256": "e30d7a7ec38aee0bc33a9c5a40e59873e78f7bfff0c74605db439d548598c120"
+    },
+    "manual_release_baseline_registry.csv": {
+      "byte_count": 665,
+      "path": "shared/data/exact_native_protocol/manual_release_baseline_registry.csv",
+      "sha256": "6863d491615a75344131ce8cff8c6242de55a75c0ae0304fd6b9b9a7d2ab2bfd"
+    }
+  },
+  "main_note_policy": "frozen_unchanged",
+  "manual_II_policy": "shared_protocol_plus_application_specific_rows",
+  "manual_I_policy": "intentionally_revised_new_artifact_hash",
+  "manual_render_policy": "identical_shared_appendix_source_in_manual_I_and_manual_II",
+  "protocol_id": "shared_native_exactness_dec_metric_projection_v1",
+  "protocol_role": "cross_manual_exactness_and_comparison_contract",
+  "shared_appendix_path": "shared/appendices/exact_native_dec_and_metric_projection_protocol.tex",
+  "shared_appendix_sha256": "846624558e0270451dc22cf30074033b76dec2aa16850798eaa983252379f05b"
+}

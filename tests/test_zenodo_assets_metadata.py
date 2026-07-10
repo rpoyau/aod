@@ -9,6 +9,8 @@ def test_zenodo_notes_use_latest_doi_links_only():
     notes = z.get("notes", "")
     assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in notes
     assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in notes
+    assert "https://doi.org/10.5281/zenodo.20486270/files/manual-2.pdf?download=1" in notes
+    assert "https://doi.org/10.5281/zenodo.20486270/files/MANUAL_II_ROADMAP.md?download=1" in notes
     assert "Primary display artifact" not in notes
     assert "Default display artifact" not in notes
     assert "Stable release assets" not in notes
@@ -26,6 +28,8 @@ def test_readme_uses_latest_links_not_asset_block():
     assert "## Latest DOI links" in readme
     assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in readme
     assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in readme
+    assert "https://doi.org/10.5281/zenodo.20486270/files/manual-2.pdf?download=1" in readme
+    assert "https://doi.org/10.5281/zenodo.20486270/files/MANUAL_II_ROADMAP.md?download=1" in readme
     assert "## Zenodo file assets" not in readme
     assert "## Primary display artifact" not in readme
     latest = readme.split("## Latest DOI links", 1)[1].split("##", 1)[0]

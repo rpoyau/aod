@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "base_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "candidate_payload_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "candidate_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "delta_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "delta_manifest_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "delta_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "operation_counts": {
+      "additionalProperties": false,
+      "properties": {
+        "add": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "delete": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "replace": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "add",
+        "replace",
+        "delete"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "source_tree_delta_manifest_path": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+      "type": "string"
+    },
+    "source_tree_delta_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "source_tree_operation_counts": {
+      "additionalProperties": false,
+      "properties": {
+        "add": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "delete": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "modify": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "add",
+        "modify",
+        "delete"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "delta_id",
+    "base_version",
+    "candidate_version",
+    "delta_manifest_path",
+    "delta_manifest_sha256",
+    "candidate_payload_manifest_sha256",
+    "operation_counts",
+    "source_tree_delta_manifest_path",
+    "source_tree_delta_manifest_sha256",
+    "source_tree_operation_counts"
+  ],
+  "title": "AOD Payload and Source Delta Summary",
+  "type": "object"
+}

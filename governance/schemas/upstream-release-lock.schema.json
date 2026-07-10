@@ -1,0 +1,1144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "lock_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "registry_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "repositories": {
+      "items": false,
+      "maxItems": 4,
+      "minItems": 4,
+      "prefixItems": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "assets": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "archive_audit": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "archive_checked": {
+                        "type": "boolean"
+                      },
+                      "member_count": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "uncompressed_bytes": {
+                        "minimum": 0,
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "archive_checked",
+                      "member_count",
+                      "uncompressed_bytes"
+                    ],
+                    "type": "object"
+                  },
+                  "asset_id": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "byte_count": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "download_url": {
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "embedded_path": {
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+                    "type": "string"
+                  },
+                  "github_digest": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "role": {
+                    "enum": [
+                      "canonical_bundle",
+                      "bundle_alias",
+                      "source_archive",
+                      "pdf",
+                      "checksum_manifest",
+                      "supporting_asset"
+                    ]
+                  },
+                  "sha256": {
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "asset_id",
+                  "name",
+                  "role",
+                  "download_url",
+                  "byte_count",
+                  "sha256",
+                  "embedded_path",
+                  "archive_audit"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "authored_checksum_audits": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "covered_asset_names": {
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "manifest_asset_name": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "passed"
+                  }
+                },
+                "required": [
+                  "manifest_asset_name",
+                  "covered_asset_names",
+                  "status"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "dependency_id": {
+              "const": "AF"
+            },
+            "draft": {
+              "const": false
+            },
+            "latest_locator": {
+              "const": "https://github.com/rpoyau/axiomatic-fundamentalism/releases/latest"
+            },
+            "normalized_release_identity_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "owner": {
+              "const": "rpoyau"
+            },
+            "prerelease": {
+              "const": false
+            },
+            "profile_binding": {
+              "additionalProperties": false,
+              "properties": {
+                "normalized_release_identity_sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "profile_path": {
+                  "const": "governance/AF_PROTOCOL_PROFILE.json"
+                },
+                "profile_sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "profile_path",
+                "profile_sha256",
+                "normalized_release_identity_sha256"
+              ],
+              "type": "object"
+            },
+            "published_at": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "release_html_url": {
+              "format": "uri",
+              "type": "string"
+            },
+            "release_id": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "release_metadata_path": {
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+              "type": "string"
+            },
+            "release_metadata_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "repository": {
+              "const": "axiomatic-fundamentalism"
+            },
+            "resolved_tag": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "role": {
+              "const": "authoring_and_review_protocol"
+            },
+            "source_snapshot": {
+              "additionalProperties": false,
+              "properties": {
+                "archive_audit": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "archive_checked": {
+                      "const": true
+                    },
+                    "member_count": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "uncompressed_bytes": {
+                      "minimum": 1,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "archive_checked",
+                    "member_count",
+                    "uncompressed_bytes"
+                  ],
+                  "type": "object"
+                },
+                "byte_count": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "download_url": {
+                  "format": "uri",
+                  "type": "string"
+                },
+                "embedded_path": {
+                  "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+                  "type": "string"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "download_url",
+                "byte_count",
+                "sha256",
+                "embedded_path",
+                "archive_audit"
+              ],
+              "type": "object"
+            },
+            "status": {
+              "const": "resolved_embedded_and_hash_verified"
+            },
+            "tag_commit_sha": {
+              "pattern": "^[0-9a-f]{40}$",
+              "type": "string"
+            },
+            "target_commitish": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "dependency_id",
+            "owner",
+            "repository",
+            "role",
+            "latest_locator",
+            "release_id",
+            "resolved_tag",
+            "release_html_url",
+            "published_at",
+            "target_commitish",
+            "tag_commit_sha",
+            "draft",
+            "prerelease",
+            "release_metadata_path",
+            "release_metadata_sha256",
+            "assets",
+            "source_snapshot",
+            "authored_checksum_audits",
+            "normalized_release_identity_sha256",
+            "profile_binding",
+            "status"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "assets": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "archive_audit": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "archive_checked": {
+                        "type": "boolean"
+                      },
+                      "member_count": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "uncompressed_bytes": {
+                        "minimum": 0,
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "archive_checked",
+                      "member_count",
+                      "uncompressed_bytes"
+                    ],
+                    "type": "object"
+                  },
+                  "asset_id": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "byte_count": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "download_url": {
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "embedded_path": {
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+                    "type": "string"
+                  },
+                  "github_digest": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "role": {
+                    "enum": [
+                      "canonical_bundle",
+                      "bundle_alias",
+                      "source_archive",
+                      "pdf",
+                      "checksum_manifest",
+                      "supporting_asset"
+                    ]
+                  },
+                  "sha256": {
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "asset_id",
+                  "name",
+                  "role",
+                  "download_url",
+                  "byte_count",
+                  "sha256",
+                  "embedded_path",
+                  "archive_audit"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "authored_checksum_audits": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "covered_asset_names": {
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "manifest_asset_name": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "passed"
+                  }
+                },
+                "required": [
+                  "manifest_asset_name",
+                  "covered_asset_names",
+                  "status"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "dependency_id": {
+              "const": "AFC"
+            },
+            "draft": {
+              "const": false
+            },
+            "latest_locator": {
+              "const": "https://github.com/rpoyau/afc/releases/latest"
+            },
+            "normalized_release_identity_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "owner": {
+              "const": "rpoyau"
+            },
+            "prerelease": {
+              "const": false
+            },
+            "profile_binding": {
+              "additionalProperties": false,
+              "properties": {
+                "normalized_release_identity_sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "profile_path": {
+                  "const": "governance/AFC_PROCEDURAL_DYNAMICS.json"
+                },
+                "profile_sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "profile_path",
+                "profile_sha256",
+                "normalized_release_identity_sha256"
+              ],
+              "type": "object"
+            },
+            "published_at": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "release_html_url": {
+              "format": "uri",
+              "type": "string"
+            },
+            "release_id": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "release_metadata_path": {
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+              "type": "string"
+            },
+            "release_metadata_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "repository": {
+              "const": "afc"
+            },
+            "resolved_tag": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "role": {
+              "const": "procedural_calculus_basis"
+            },
+            "source_snapshot": {
+              "additionalProperties": false,
+              "properties": {
+                "archive_audit": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "archive_checked": {
+                      "const": true
+                    },
+                    "member_count": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "uncompressed_bytes": {
+                      "minimum": 1,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "archive_checked",
+                    "member_count",
+                    "uncompressed_bytes"
+                  ],
+                  "type": "object"
+                },
+                "byte_count": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "download_url": {
+                  "format": "uri",
+                  "type": "string"
+                },
+                "embedded_path": {
+                  "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+                  "type": "string"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "download_url",
+                "byte_count",
+                "sha256",
+                "embedded_path",
+                "archive_audit"
+              ],
+              "type": "object"
+            },
+            "status": {
+              "const": "resolved_embedded_and_hash_verified"
+            },
+            "tag_commit_sha": {
+              "pattern": "^[0-9a-f]{40}$",
+              "type": "string"
+            },
+            "target_commitish": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "dependency_id",
+            "owner",
+            "repository",
+            "role",
+            "latest_locator",
+            "release_id",
+            "resolved_tag",
+            "release_html_url",
+            "published_at",
+            "target_commitish",
+            "tag_commit_sha",
+            "draft",
+            "prerelease",
+            "release_metadata_path",
+            "release_metadata_sha256",
+            "assets",
+            "source_snapshot",
+            "authored_checksum_audits",
+            "normalized_release_identity_sha256",
+            "profile_binding",
+            "status"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "assets": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "archive_audit": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "archive_checked": {
+                        "type": "boolean"
+                      },
+                      "member_count": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "uncompressed_bytes": {
+                        "minimum": 0,
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "archive_checked",
+                      "member_count",
+                      "uncompressed_bytes"
+                    ],
+                    "type": "object"
+                  },
+                  "asset_id": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "byte_count": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "download_url": {
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "embedded_path": {
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+                    "type": "string"
+                  },
+                  "github_digest": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "role": {
+                    "enum": [
+                      "canonical_bundle",
+                      "bundle_alias",
+                      "source_archive",
+                      "pdf",
+                      "checksum_manifest",
+                      "supporting_asset"
+                    ]
+                  },
+                  "sha256": {
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "asset_id",
+                  "name",
+                  "role",
+                  "download_url",
+                  "byte_count",
+                  "sha256",
+                  "embedded_path",
+                  "archive_audit"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "authored_checksum_audits": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "covered_asset_names": {
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "manifest_asset_name": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "passed"
+                  }
+                },
+                "required": [
+                  "manifest_asset_name",
+                  "covered_asset_names",
+                  "status"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "dependency_id": {
+              "const": "GM"
+            },
+            "draft": {
+              "const": false
+            },
+            "latest_locator": {
+              "const": "https://github.com/rpoyau/general-mechanics/releases/latest"
+            },
+            "normalized_release_identity_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "owner": {
+              "const": "rpoyau"
+            },
+            "prerelease": {
+              "const": false
+            },
+            "profile_binding": {
+              "additionalProperties": false,
+              "properties": {
+                "normalized_release_identity_sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "profile_path": {
+                  "const": "governance/GENERAL_MECHANICS_STYLE_PROFILE.json"
+                },
+                "profile_sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "profile_path",
+                "profile_sha256",
+                "normalized_release_identity_sha256"
+              ],
+              "type": "object"
+            },
+            "published_at": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "release_html_url": {
+              "format": "uri",
+              "type": "string"
+            },
+            "release_id": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "release_metadata_path": {
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+              "type": "string"
+            },
+            "release_metadata_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "repository": {
+              "const": "general-mechanics"
+            },
+            "resolved_tag": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "role": {
+              "const": "authoring_and_review_style"
+            },
+            "source_snapshot": {
+              "additionalProperties": false,
+              "properties": {
+                "archive_audit": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "archive_checked": {
+                      "const": true
+                    },
+                    "member_count": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "uncompressed_bytes": {
+                      "minimum": 1,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "archive_checked",
+                    "member_count",
+                    "uncompressed_bytes"
+                  ],
+                  "type": "object"
+                },
+                "byte_count": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "download_url": {
+                  "format": "uri",
+                  "type": "string"
+                },
+                "embedded_path": {
+                  "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+                  "type": "string"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "download_url",
+                "byte_count",
+                "sha256",
+                "embedded_path",
+                "archive_audit"
+              ],
+              "type": "object"
+            },
+            "status": {
+              "const": "resolved_embedded_and_hash_verified"
+            },
+            "tag_commit_sha": {
+              "pattern": "^[0-9a-f]{40}$",
+              "type": "string"
+            },
+            "target_commitish": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "dependency_id",
+            "owner",
+            "repository",
+            "role",
+            "latest_locator",
+            "release_id",
+            "resolved_tag",
+            "release_html_url",
+            "published_at",
+            "target_commitish",
+            "tag_commit_sha",
+            "draft",
+            "prerelease",
+            "release_metadata_path",
+            "release_metadata_sha256",
+            "assets",
+            "source_snapshot",
+            "authored_checksum_audits",
+            "normalized_release_identity_sha256",
+            "profile_binding",
+            "status"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "assets": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "archive_audit": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "archive_checked": {
+                        "type": "boolean"
+                      },
+                      "member_count": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "uncompressed_bytes": {
+                        "minimum": 0,
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "archive_checked",
+                      "member_count",
+                      "uncompressed_bytes"
+                    ],
+                    "type": "object"
+                  },
+                  "asset_id": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "byte_count": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "download_url": {
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "embedded_path": {
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+                    "type": "string"
+                  },
+                  "github_digest": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "role": {
+                    "enum": [
+                      "canonical_bundle",
+                      "bundle_alias",
+                      "source_archive",
+                      "pdf",
+                      "checksum_manifest",
+                      "supporting_asset"
+                    ]
+                  },
+                  "sha256": {
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "asset_id",
+                  "name",
+                  "role",
+                  "download_url",
+                  "byte_count",
+                  "sha256",
+                  "embedded_path",
+                  "archive_audit"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "authored_checksum_audits": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "covered_asset_names": {
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "manifest_asset_name": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "passed"
+                  }
+                },
+                "required": [
+                  "manifest_asset_name",
+                  "covered_asset_names",
+                  "status"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "dependency_id": {
+              "const": "AOD"
+            },
+            "draft": {
+              "const": false
+            },
+            "latest_locator": {
+              "const": "https://github.com/rpoyau/aod/releases/latest"
+            },
+            "normalized_release_identity_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "owner": {
+              "const": "rpoyau"
+            },
+            "prerelease": {
+              "const": false
+            },
+            "profile_binding": {
+              "additionalProperties": false,
+              "properties": {
+                "normalized_release_identity_sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "profile_path": {
+                  "const": "governance/GLOBAL_INSTRUCTIONS.json"
+                },
+                "profile_sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "profile_path",
+                "profile_sha256",
+                "normalized_release_identity_sha256"
+              ],
+              "type": "object"
+            },
+            "published_at": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "release_html_url": {
+              "format": "uri",
+              "type": "string"
+            },
+            "release_id": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "release_metadata_path": {
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+              "type": "string"
+            },
+            "release_metadata_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "repository": {
+              "const": "aod"
+            },
+            "resolved_tag": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "role": {
+              "const": "stable_project_release_baseline"
+            },
+            "source_snapshot": {
+              "additionalProperties": false,
+              "properties": {
+                "archive_audit": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "archive_checked": {
+                      "const": true
+                    },
+                    "member_count": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "uncompressed_bytes": {
+                      "minimum": 1,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "archive_checked",
+                    "member_count",
+                    "uncompressed_bytes"
+                  ],
+                  "type": "object"
+                },
+                "byte_count": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "download_url": {
+                  "format": "uri",
+                  "type": "string"
+                },
+                "embedded_path": {
+                  "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$",
+                  "type": "string"
+                },
+                "sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "download_url",
+                "byte_count",
+                "sha256",
+                "embedded_path",
+                "archive_audit"
+              ],
+              "type": "object"
+            },
+            "status": {
+              "const": "resolved_embedded_and_hash_verified"
+            },
+            "tag_commit_sha": {
+              "pattern": "^[0-9a-f]{40}$",
+              "type": "string"
+            },
+            "target_commitish": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "dependency_id",
+            "owner",
+            "repository",
+            "role",
+            "latest_locator",
+            "release_id",
+            "resolved_tag",
+            "release_html_url",
+            "published_at",
+            "target_commitish",
+            "tag_commit_sha",
+            "draft",
+            "prerelease",
+            "release_metadata_path",
+            "release_metadata_sha256",
+            "assets",
+            "source_snapshot",
+            "authored_checksum_audits",
+            "normalized_release_identity_sha256",
+            "profile_binding",
+            "status"
+          ],
+          "type": "object"
+        }
+      ],
+      "type": "array"
+    },
+    "resolved_at_utc": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "resolver_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    }
+  },
+  "required": [
+    "schema_version",
+    "lock_id",
+    "resolved_at_utc",
+    "resolver_version",
+    "registry_sha256",
+    "policy_sha256",
+    "repositories"
+  ],
+  "title": "AOD Pinned Upstream Release Lock",
+  "type": "object"
+}

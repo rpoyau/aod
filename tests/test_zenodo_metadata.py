@@ -29,7 +29,7 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))
     assert any(t.get("title") == "43 °c" and t.get("type", {}).get("id") == "other" for t in data.get("additional_titles", []))
     assert data["version"] == current_version()
-    assert data["publication_date"] == "2026-06-01"
+    assert data["publication_date"] == "2026-06-14"
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form" in data["description"]
     assert "<h2>Abstract and Scope</h2>" in data["description"]
     assert "## Abstract and Scope" not in data["description"]
@@ -37,6 +37,7 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert "w=(1,1,4,2)" in data["description"] or "w=(1, 1, 4, 2)" in data["description"]
     assert "P<sub>slide</sub>" in data["description"]
     assert "manual.pdf" in data.get("notes", "")
+    assert "manual-2.pdf" in data.get("notes", "")
     assert "main.pdf" in data.get("notes", "")
     assert "Axiomatic-Fundamentalism calculus (AFC)" in data["description"]
     assert "Alpha↔Omega Dynamics (AΩD)" in data["description"]
@@ -88,6 +89,7 @@ def test_readme_version_matches_canonical_version_r69():
     assert f"Canonical version: {current_version()}" in canon
     assert "main.pdf" in readme
     assert "manual.pdf" in readme
+    assert "manual-2.pdf" in readme
     assert "AOD_Temporal_Dynamics_v" not in readme
     assert "**Title:** Alpha↔Omega Dynamics (AΩD)" in readme
     assert "**Subtitle:** The Hidden Temporal Dynamics of Stokes" in readme
@@ -102,7 +104,7 @@ def test_zenodo_references_are_synchronized_with_bib_files():
 def test_readme_references_are_synchronized_with_zenodo_references():
     data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "References are synchronized from `refs.bib` and `manual/refs.bib`." in readme
+    assert "References are synchronized from `refs.bib`, `manual/refs.bib`, and `manual-2/refs.bib`." in readme
     for ref in data["references"]:
         assert f"- {ref}" in readme
 
@@ -119,6 +121,9 @@ def test_root_zenodo_json_is_source_metadata_for_github_sync():
     data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
     assert data["version"] == current_version()
     assert "references" in data and data["references"]
+    assert any("Periodic Table of Elements" in r for r in data["references"])
+    assert any("PubChem Downloads" in r for r in data["references"])
+    assert any("RDKit" in r for r in data["references"])
 
 
 def test_core_bib_entries_are_structured():
@@ -181,3 +186,13 @@ def test_web_sources_carry_access_dates():
         m = re.search(r"@\w+\s*\{\s*" + re.escape(key) + r"\s*,(?P<body>.*?)\n\}", combined, re.S)
         assert m, key
         assert "urldate = {2026-06-09}" in m.group("body")
+
+def test_zenodo_description_names_current_circle_one_metre_report_card_lane():
+    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
+    description = data["description"]
+    assert current_version() in description
+    assert "Circle One-Metre Null-Path Report Cards" in description
+    assert "one-metre/null-path report-card records" in description
+    assert "v40.03r17" not in description
+    assert "No circle relational geometry audit records" not in description
+

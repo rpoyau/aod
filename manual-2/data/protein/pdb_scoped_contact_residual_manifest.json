@@ -1,0 +1,57 @@
+{
+  "lane": "scoped_pdb_contact_residual_pilot",
+  "version_scope": "v40.02r09.1",
+  "score_origin_version": "v40.02r09",
+  "scope_input_version": "v40.02r08",
+  "status": "scoped_pdb_contact_residual_pilot_boundary_source_metric_guard_no_coordinate_metrics_no_active_lambda_fold",
+  "files": {
+    "pdb_scoped_contact_residual_pilot": "manual-2/data/protein/pdb_scoped_contact_residual_pilot.csv",
+    "pdb_scoped_contact_score": "manual-2/data/protein/pdb_scoped_contact_score.csv",
+    "pdb_scoped_contact_delta3": "manual-2/data/protein/pdb_scoped_contact_delta3.csv",
+    "pdb_scoped_contact_leakage_audit": "manual-2/data/protein/pdb_scoped_contact_leakage_audit.csv",
+    "pdb_scoped_contact_score_summary": "manual-2/data/protein/pdb_scoped_contact_score_summary.csv"
+  },
+  "required_scope_inputs": [
+    "manual-2/data/protein/pdb_contact_comparison_scope_declaration.csv",
+    "manual-2/data/protein/pdb_contact_comparison_target_provenance.csv",
+    "manual-2/data/protein/pdb_contact_comparison_residual_coordinates.csv",
+    "manual-2/data/protein/pdb_contact_comparison_leakage_checks.csv"
+  ],
+  "prediction_inputs": [
+    "manual-2/data/protein/aod_contact_prediction_freeze.csv"
+  ],
+  "target_inputs": [
+    "manual-2/data/protein/pdb_mmcif_contact_map_derived.csv"
+  ],
+  "input_hashes": {
+    "scope_declaration": "d1c6b29fe448952ae031316b63ee8b0f9f5d0440a1f29cbf665da217a679408d",
+    "target_provenance": "239ee24b4429688c61d6ee963a28b8873897fe3ea6753b13c433dc49325c1826",
+    "residual_coordinates": "622f7f599fd0bfac0040ca11902dac556b139097f47c535c79b361d315b272dd",
+    "leakage_checks": "2ae1df22759692cd1ebe985c1e17b5d1ebea3f0602708eaf2d33a917d70fb76f",
+    "aod_contact_prediction_freeze": "339acfbe474ea9830ff4263170761998624c2e4a6d70835c65bb34b0798edc1e",
+    "pdb_mmcif_contact_map_derived": "efb0e20e68a8bce8c98fa7c791d2c6d0cbdda5ef588c93fa295ed3fc8e88ce62"
+  },
+  "detection_policy": "AOD motif / curling-curls specification plus SADAR context is read from the frozen prediction packet before downstream target mapping",
+  "score_policy": "compute TP/FP/FN/TN and pairwise Delta_Z/delta3 only for explicitly declared v40.02r08 evaluation pairs",
+  "metric_scope": "single_positive_contact_row",
+  "metric_validity": "residual_row_smoke_test",
+  "classifier_generalization": "not_scoped_in_this_pilot",
+  "mcc_status": "undefined_no_true_negative_denominator",
+  "target_source_policy": {
+    "target_source_type": "manual_pdbx_mmcif_fixture",
+    "target_coordinate_status": "fixture_coordinate_payload_derived_not_external_pdb_accession",
+    "contact_definition": "CA_distance_leq_8.0A_min_sequence_separation_2",
+    "pair_index_basis": "one_based_residue_sequence_position"
+  },
+  "forbidden_inputs_as_prediction_premises": [
+    "PDB/mmCIF atom-site coordinates",
+    "PDB/mmCIF distance matrices",
+    "target contact maps before prediction freeze",
+    "AlphaFold coordinates or confidence fields",
+    "secondary-structure labels"
+  ],
+  "metric_policy": "single positive contact residual row; precision/recall/F1/Jaccard report the closed row; MCC is undefined without true-negative support; RMSD, TM-score, GDT, and coordinate-level AOD prediction remain deferred",
+  "claim_discipline": "scoped PDB-contact residual pilot; validates input-lock, target provenance, and residual ledger plumbing, not a released folding model",
+  "lambda_fold_status": "deferred_not_attached",
+  "next_candidate_milestone": "v40.02r10 candidate: multi-pair scoped contact residual pilot with a declared negative-support row before MCC generalization"
+}

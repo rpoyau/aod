@@ -1,0 +1,27 @@
+{
+  "circumference_area_trace_id_relation": "must_be_distinct",
+  "decimal_value_status": "forbidden_in_canonical_scientific_rows",
+  "files": [
+    {
+      "path": "manual-2/data/circle_geometry/circle_finite_trace_audit_records.csv",
+      "sha256": "0390a544937f96f8c375f34535793ca6741cff56e0dc99ee49e8d5b9df5eb3be"
+    },
+    {
+      "path": "manual-2/data/circle_geometry/circle_rational_tau_pi_error_audit.csv",
+      "sha256": "0bc61b8a1b7c306c0f483455c2fe26e66dc8d025d95a48d531d1a8308d2d4630"
+    },
+    {
+      "path": "manual-2/data/circle_geometry/circle_finite_trace_counterfactual_audit.csv",
+      "sha256": "4d46a4c333fe5138c1805893cc424bbeb871e60fd2a6cd92c6fd6d9cb39a4bf4"
+    }
+  ],
+  "metric_report_status": "closed",
+  "milestone": "v40.03r18.2",
+  "residual_status": "not_computed",
+  "schema": "aod.manual2.circle_finite_trace_tau_pi_error_audit.v1",
+  "score_status": "no_score",
+  "shared_circle_occurrence_status": "allowed",
+  "shared_tau_cycle_candidate_status": "allowed",
+  "target_join_status": "closed",
+  "trace_identity_contract": "shared_circle_occurrence_with_independent_circumference_and_area_trace_ids"
+}

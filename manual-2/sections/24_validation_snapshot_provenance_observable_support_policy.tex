@@ -1,0 +1,94 @@
+\section{Parsed validation-snapshot provenance and observable-support policy}
+
+This gate identifies the locked object precisely.  The committed hash covers a
+release-local parsed validation snapshot.  The archive PDF, XML, and CIF
+validation payloads advance through their own byte-lock gates.
+
+\subsection{Field-level provenance}
+
+Every snapshot field used by the support audit carries the chain
+\[
+\text{archive payload}
+\longrightarrow
+\text{source-field locator}
+\longrightarrow
+\text{parsed snapshot field}
+\longrightarrow
+\text{snapshot SHA-256}.
+\]
+The current evidence ledger records PDF page, report section, table/row key, the
+snapshot JSON path, extraction method, and source-payload lock state.  Native XML
+XPath or validation-CIF row locators join after those archive payloads are
+byte-locked.  A later equivalence audit regenerates the snapshot from the locked
+machine-readable source and compares every parsed field.
+
+\subsection{Observable-aware local support}
+
+The active derived observable uses
+\[
+\text{atom selector}=C_\alpha,
+\qquad
+O_{ij}=\mathbf 1\!\left[d_{C_\alpha,C_\alpha}(i,j)\leq 8.0\,\text{\AA}\right]
+\]
+inside the frozen sequence-separation boundary.  Local evidence is therefore
+classified by its relevance to the selected atom:
+\[
+\begin{array}{c|c}
+\text{condition} & \text{support action}\\ \hline
+\text{selected }C_\alpha\text{ missing or unusable} & \texttt{quality\_excluded}\\
+\text{unresolved selected-atom alternate location} & \texttt{quality\_excluded}\\
+\text{selected-atom/backbone geometry flag} & \texttt{quality\_ambiguous}\\
+\text{side-chain-only geometry flag} & \texttt{quality\_ambiguous}\\
+\text{missing local model-to-data support} & \texttt{quality\_ambiguous}
+\end{array}
+\]
+Geometry flags and local model-to-data support remain separate evidence classes.
+No RSRZ or RSCC threshold is chosen after inspecting the entry values; the rule
+uses an explicitly named native validation classification when available and
+maps missing support to ambiguity.
+
+The rematerialized residue state is
+\[
+N_{\rm residue}^{\rm supported}=0,
+\qquad
+N_{\rm residue}^{\rm ambiguous}=46,
+\qquad
+N_{\rm residue}^{\rm excluded}=0.
+\]
+All 946 pair rows are therefore quality-ambiguous and retain
+\texttt{abstain} as the effective target state.  The coordinate-model fixture
+still preserves 114 derived contact bits and 832 derived noncontact bits.
+
+\subsection{Legacy-entry and scored-accession policy}
+
+The 1CRN lane is frozen as
+\[
+\texttt{measurement\_lineage\_coordinate\_model\_abstention\_fixture}.
+\]
+Its measurement lineage, coordinate model, and abstention mask remain useful,
+but the first quality-supported derived-contact score requires a separately
+selected accession.  Eligibility criteria are frozen before accession selection
+and before any AOD agreement values are read.  The selection method is the
+lexicographically first accession among all entries satisfying the declared
+method, byte-lock, machine-readable validation, local-support, selected-atom
+coverage, alternate-location, chain, size, resolution, payload-status, and
+motif-policy criteria.
+
+The target-mask gate remains
+\[
+N_{\rm quality\ supported\ pairs}>0,
+\]
+while the AOD comparison join additionally requires a declared
+alignment/projection rule and nonzero in-scope coverage.  No target join,
+residual, or score is opened here.
+
+\subsection{Ledger pointers}
+
+\begin{verbatim}
+manual-2/data/protein/
+  pdb_external_validation_snapshot_evidence_locators.csv
+  pdb_external_validation_outlier_observable_policy.csv
+  pdb_external_legacy_entry_policy.csv
+  pdb_external_scored_accession_eligibility_rule.csv
+  pdb_external_validation_snapshot_provenance_manifest.json
+\end{verbatim}

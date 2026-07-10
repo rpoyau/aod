@@ -1,0 +1,102 @@
+{
+  "authority_domains": {
+    "AF": "authoring_review_classification_and_evidence_protocol",
+    "AFC": "procedural_derivation_and_calculus",
+    "AOD_governance": "bundle_state_manifests_transitions_and_release_mechanics",
+    "GM": "exposition_only_no_semantic_override"
+  },
+  "conflict_policy": "cross_domain_conflicts_fail_closed",
+  "instruction_set_id": "AOD_GLOBAL_BUNDLE_GOVERNANCE",
+  "instructions": [
+    {
+      "id": "GI-001",
+      "rule": "After bootstrap, the validated bundle is the complete canonical project state; hidden conversational state and unbundled project-source files are noncanonical."
+    },
+    {
+      "id": "GI-002",
+      "rule": "Every authoring, review, feedback, or GO operation emits exactly one successor bundle."
+    },
+    {
+      "id": "GI-003",
+      "rule": "Every working bundle internalizes the last authorized stable payload and an explicit ordered delta; the root candidate must equal apply(stable, delta)."
+    },
+    {
+      "id": "GI-004",
+      "rule": "All authoring and review follow the imported Axiomatic Fundamentalism protocol, including AF1-AF7 and RF1-RF5."
+    },
+    {
+      "id": "GI-005",
+      "rule": "The phase cycle is treated as a declared AFC procedural specialization whose recurrent motif is an emergent control-plane dynamics."
+    },
+    {
+      "id": "GI-006",
+      "rule": "The procedural dynamics does not by itself establish or modify AOD scientific claims; those remain bound to payload derivations and evidence."
+    },
+    {
+      "id": "GI-007",
+      "rule": "Human-readable authoring and review records follow the imported General Mechanics style profile."
+    },
+    {
+      "id": "GI-008",
+      "rule": "Unknown governance fields, unverified imports, precedence conflicts, missing manifests, or non-materializing deltas fail closed."
+    },
+    {
+      "id": "GI-009",
+      "rule": "GO promotes the candidate to stable only in the next successor bundle; the new delta then begins empty."
+    },
+    {
+      "id": "GI-010",
+      "rule": "Every AUTHORING cycle resolves each GitHub /releases/latest locator. A successfully resolved tag, commit, assets, and hashes are frozen in that candidate; the moving locator is not consulted during REVIEW, FEEDBACK, or GO."
+    },
+    {
+      "id": "GI-011",
+      "rule": "AF, AFC, General Mechanics, and AOD upstream snapshots are candidate-scoped and frozen from REVIEW through GO. A newer release is discovered only at the next AUTHORING cycle and is never retroactive."
+    },
+    {
+      "id": "GI-012",
+      "rule": "The AOD GitHub release may seed or rebase the stable baseline only during an explicit bootstrap or rebase goal; the resolved stable payload must be internalized in the emitted bundle."
+    },
+    {
+      "id": "GI-013",
+      "rule": "Source archives and PDFs used for one dependency must originate from the same pinned release; cross-release mixing, missing assets, unsafe archives, or profile/source mismatches fail closed."
+    },
+    {
+      "id": "GI-014",
+      "rule": "Every AUTHORING cycle attempts the latest-release refresh. Network or API failure is recorded explicitly and carries forward the last verified or bootstrap snapshot without blocking REVIEW or GO."
+    },
+    {
+      "id": "GI-015",
+      "rule": "Every operation, including release discovery, import refresh, review, feedback, GO, and publication receipt, emits exactly one successor bundle as its canonical output."
+    },
+    {
+      "id": "GI-016",
+      "rule": "Source records with record_scope=source_template are noncanonical binding templates; only deterministic bundle assembly may materialize concrete digest-bound instances."
+    },
+    {
+      "id": "GI-017",
+      "rule": "Every native JSON record is validated against its exact schema with duplicate keys, unknown fields, missing fields, invalid types, and inconsistent cross-record bindings rejected."
+    },
+    {
+      "id": "GI-018",
+      "rule": "Review may verify an authoring correction; authoring or self-review alone may not close a blocking finding or authorize GO."
+    },
+    {
+      "id": "GI-019",
+      "rule": "Every transition ledger after bootstrap is the parent ledger prefix plus exactly one hash-chained row; the one-time legacy bootstrap row binds the predecessor state and parent bundle hash."
+    },
+    {
+      "id": "GI-020",
+      "rule": "REVIEW scope is delta-bound: project source dependencies embedded in the bundle, including AOD stable baseline material, are trusted as current released substrate unless touched by the current candidate delta or explicitly declared in the active goal; broad inherited source-suite failures outside the current bundle/source-tree delta are recorded as nonblocking inherited context, while bundle evolution, phase state, manifests, transition ledger, feedback ledger, frozen artifacts, and touched files remain blocking review gates."
+    },
+    {
+      "id": "GI-021",
+      "rule": "Project-provided dependency sources (AF, AFC, General Mechanics, and the AOD stable baseline) are trusted source-of-record inputs. They are not strict review gates unless touched by the active AOD candidate delta or explicitly requested by the project owner. Checksum locks document identity; review strictly validates the evolving AOD bundle, touched source delta, manifests, transition ledger, feedback ledger, and rendered artifacts."
+    }
+  ],
+  "platform_precedence": "platform_safety_and_tool_constraints_nonoverridable",
+  "release_import_policy_path": "governance/UPSTREAM_RELEASE_POLICY.json",
+  "release_source_registry_path": "governance/REPOSITORY_RELEASE_SOURCES.json",
+  "release_source_scope": "governance_and_project_baseline_dependencies",
+  "schema_version": "3.1",
+  "status": "binding_inside_validated_bundle_candidate"
+}

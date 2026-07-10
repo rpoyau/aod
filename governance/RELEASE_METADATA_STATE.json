@@ -1,0 +1,127 @@
+{
+  "active_authoring_milestone": "v40.04r03",
+  "active_goal_title": "Manual I/Main Foundation Doctrine and Manual-II D.E.C. Reporting Overlay Plan",
+  "active_repair_scope": "Foundation Doctrine Coherence and Overlay Typing Repair",
+  "bundle_process_policy": "AOD_AF_AFC_FOUR_ROLE_BUNDLE_LOOP",
+  "candidate_version": "v40.04r03",
+  "carried_scientific_payload": "The v40.04r01 GO payload is promoted as the stable baseline. Manual I/Main doctrine and Manual-II D.E.C. report-overlay ledgers are authored; native scientific rows remain target-blind, report-blind, residual-blind, and score-blind.",
+  "carried_scientific_payloads": {
+    "circle_finite_trace_tau_pi_error_audit": {
+      "materialization_milestone": "v40.03r18.2",
+      "status": "carried_unchanged"
+    },
+    "circle_one_metre_null_path_report_cards": {
+      "materialization_milestone": "v40.03r19.1",
+      "status": "carried_unchanged"
+    },
+    "cs_field_coupled_temporal_reference_flow": {
+      "materialization_milestone": "v40.03r21.2",
+      "status": "carried_forward"
+    },
+    "dec_report_coordinate_overlay": {
+      "materialization_milestone": "v40.04r03",
+      "status": "overlay_plan_authored_no_target_or_score_rows"
+    },
+    "elementary_matter_118_transition_atlas": {
+      "materialization_milestone": "v40.03r24",
+      "status": "carried_unchanged"
+    },
+    "hyperfine_c6_divisibility_falsification_protocol": {
+      "materialization_milestone": "v40.03r20",
+      "status": "carried_forward"
+    },
+    "molecular_matter_transition_atlas": {
+      "materialization_milestone": "v40.03r25.1",
+      "status": "carried_unchanged"
+    },
+    "molecular_matter_transition_atlas_seed": {
+      "materialization_milestone": "v40.03r25.1",
+      "status": "authoring_open_no_rows_materialized"
+    },
+    "tick_oriented_temporal_foundation": {
+      "materialization_milestone": "v40.04r01",
+      "status": "authoring_open_no_new_target_or_score_rows"
+    },
+    "tick_oriented_temporal_foundation_release_plan": {
+      "materialization_milestone": "v40.03r25.2",
+      "status": "carried_forward_as_foundation_context"
+    }
+  },
+  "closed_lanes": [
+    "target_join",
+    "SI_report_values",
+    "metric_report_values",
+    "residuals",
+    "scores",
+    "empirical_comparison",
+    "subject_reference_phase_lock"
+  ],
+  "dependency_scope": {
+    "dependency_governance_provenance_touched": true,
+    "dependency_payload_touched": false,
+    "project_sources": "trusted_source_of_record_unless_touched_by_active_delta",
+    "touched_provenance_validation": "passed"
+  },
+  "doi_links": {
+    "MANUAL_II_ROADMAP.md": "https://doi.org/10.5281/zenodo.20486270/files/MANUAL_II_ROADMAP.md?download=1",
+    "main.pdf": "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1",
+    "manual-2.pdf": "https://doi.org/10.5281/zenodo.20486270/files/manual-2.pdf?download=1",
+    "manual.pdf": "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1"
+  },
+  "foundation_release_sequence": [
+    {
+      "title": "Tick-Oriented Temporal / Entropic Duon-Current Foundation",
+      "version": "v40.04r01"
+    },
+    {
+      "title": "Tau Phase-Cycle Geometry, Sphere, Hypersphere, and Cell Projection",
+      "version": "v40.04r02"
+    },
+    {
+      "title": "Manual I/Main Foundation Doctrine and Manual-II D.E.C. Reporting Overlay Plan",
+      "version": "v40.04r03"
+    },
+    {
+      "title": "Manual-II Worked Example Reshape",
+      "version": "v40.04r04"
+    },
+    {
+      "title": "Foundation Point Release Freeze",
+      "version": "v40.04r05"
+    },
+    {
+      "title": "Elementary Matter 118 Release",
+      "version": "v40.05r01"
+    },
+    {
+      "title": "Molecular Matter Release",
+      "version": "v40.06r01"
+    },
+    {
+      "title": "Biomolecular Matter Release",
+      "version": "v40.07r01"
+    }
+  ],
+  "license": "mit",
+  "manual2_artifact_status": "manual_2_source_tree_hash_bound_for_v40_04r03_foundation_doctrine_coherence_overlay_typing_repair",
+  "manual2_source_tree_hash": "7c50763b9f7c1f7574635f67f18a574e966665a27b6b70f6d17c35b81c1baf04",
+  "metadata_generation_policy": "single_source_release_metadata_state_drives_readme_zenodo_roadmaps_readiness_and_version_surfaces",
+  "next_milestone": {
+    "title": "Manual-II Worked Example Reshape",
+    "version": "v40.04r04"
+  },
+  "payload_materialization_milestone": "v40.03r19.1",
+  "schema_version": "2.0",
+  "source_tree_delta_scope": {
+    "active_authoring_delta": "foundation_doctrine_coherence_and_overlay_typing_repair",
+    "declared_parent_baseline": "v40.04r01",
+    "foundation_doctrine_rows": "Manual I/Main doctrine and live SPARC fixture classification synchronized; SADAR/clock distinction made explicit",
+    "go_to_authoring_rebaseline": "v40.04r01_go_payload_promoted_to_stable_payload",
+    "manual2_overlay_rows": "D.E.C. overlay fields split into operator parameters, report values, reference cards, enclosures, and activation state",
+    "scientific_row_values_changed": false,
+    "target_report_residual_score_lanes": "closed"
+  },
+  "stable_baseline_version": "v40.04r01",
+  "surface_synchronization_policy": "metadata_scaffold_manifest_source_tree_hash_and_render_surfaces_checked_before_review",
+  "test_taxonomy_policy": "tests_text_must_classify_milestone_surface_scaffold_historical_cycle_and_render_evidence"
+}

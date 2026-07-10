@@ -1,0 +1,4 @@
+scope_B,fractal_coord,epsilon_Q4,mu,direct_hinge,direct_adm,slide_branch,slide_weight,Z_slide,P_slide_num,P_slide_den,RD,omega,rhoD_omega,C3,pD,is_tunnel_branch,T_tunnel_num,T_tunnel_den
+B_tunnel_demo,00_8,0000,0,e0,0,"(e1,-1)",3,7,3,7,5,2,2,3,6,0,0,1
+B_tunnel_demo,00_8,0000,0,e0,0,"(e2,-1)",3,7,3,7,5,2,2,3,6,0,0,1
+B_tunnel_demo,00_8,0000,0,e0,0,"(e3,+1)",1,7,1,7,5,2,2,3,6,1,6,7

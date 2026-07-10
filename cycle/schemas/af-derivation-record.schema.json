@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "affected_paths": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "claim_class": {
+      "enum": [
+        "imported_protocol",
+        "axiom",
+        "structural_consequence",
+        "modelling_choice",
+        "derived_consequence",
+        "corollary",
+        "demonstration",
+        "external_target_or_comparison",
+        "release_infrastructure"
+      ]
+    },
+    "depends_on": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "falsification_hooks": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "record_id": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "statement": {
+      "type": "string"
+    },
+    "target_lane_status": {
+      "enum": [
+        "native_target_blind",
+        "external_quarantined",
+        "not_applicable"
+      ]
+    }
+  },
+  "required": [
+    "record_id",
+    "claim_class",
+    "statement",
+    "depends_on",
+    "scope",
+    "affected_paths",
+    "falsification_hooks",
+    "target_lane_status"
+  ],
+  "title": "AF Traceability Record",
+  "type": "object"
+}

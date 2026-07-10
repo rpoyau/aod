@@ -1,42 +1,25 @@
-AOD Temporal Dynamics v40.01r10 release readiness
-
-Canonical package: v40.01r10.
-Canonical version: v40.01r10
-
-Status locks:
-- Main note: ontology and calculus of AFC/AΩD retained Stokes waves.
-- Manual: finite simulations, exact fixtures, diagnostics, observable-map fixtures, external comparisons, and error audits.
-- SPARC five-galaxy lane: G0 radial shell field-dynamics square-speed diagnostic; higher-resolution orbital-retention is a separate data-support class.
-- Tau ring: internal AΩ diagnostic fixture.
-- Solar rows: observable-map comparison records with map value, target, residual, percent error, citation, and audit.
-- Galactic lensing: staged diagnostic; the L3 input manifest lists independent 3D + time-flow data, radiation-current gates, target-side quarantine, null controls, and audit before the lens-residual coordinate.
-- Tritrioseptyro Higgs-support diagnostic: manual diagnostic fixture with frozen external map before LHC target rows; production-channel and decay-channel residual tables are the next comparison layer.
-
-Notation locks:
-RD_B(C) -> RCD -> ρ^D -> ρ^D_ω -> p^D -> 𝔖_B(C).
-δ_3 records exact ternary signed residuals for exact internal fixtures.
-X_shedding is parent surplus; SheddicPath declares route placement.
-
-Release checks are enforced by the test suite and SHA-256 manifests.
-
-Orbital-retention: planned fixture requires an input-provenance gate separating SPARC-supported radial inputs, external 3D inputs, latent components, and declared proxies before scored use.
-
-D.E.C. ledger: manual pen-and-paper path from raw AFC edge computation to AΩD motif naming.
-
-D.E.C. ledger bridge sentence, blocking rule, neighbor vertices, and audit hooks are present.
-
-Data-support classes: manual simulations and comparisons are interpreted within declared data-support class; projection and marginalization maps record their comparison coordinates and uncertainties.
-
-Field tunnelling: D0 exact internal hinge-slide window-clip fixture; scalar tunnel contribution is computed from declared slide pool, window clipping, and pressure.
-
-Manual Brownian fixture: the 3D Brownian Phase-Cycle delta_3 fixture is a G3 time-resolved tracer-current manual entry. The exact fixture uses integerized Z^3 trajectory bins, squared displacement Q=a^2+b^2+c^2, phase residues Q mod beta_a, octant counts, integer ratios, and delta_3 residuals. Continuous diffusion summaries are presentation/external maps after the exact fixture.
-
-Manual Appendix C carries the full 3D coordinate phase-cycle delta_3 fixture specification; the Field Dynamics section retains the reader-facing Brownian fixture entry and source artifacts as Brownian application aliases of the generic coordinate fixture.
-
-Simulation data card: manual rows record input data, support class, report map, input uncertainty, residual coordinate, and source artifact.
-Manual wording uses input/support/report/residual language in place of claim-status or defensive release wording.
+Canonical package: v40.04r03
+Canonical version: v40.04r03
+Stable baseline: v40.04r01 GO
+Manual-II source-tree hash: 7c50763b9f7c1f7574635f67f18a574e966665a27b6b70f6d17c35b81c1baf04
+Active goal: Manual I/Main Foundation Doctrine and Manual-II D.E.C. Reporting Overlay Plan
 
 AOD_Temporal_Dynamics is the canonical package.
 Older AOD Temporal Dynamics artifacts are historical comparison artifacts only.
+The input-provenance gate and data-support class conventions remain carried forward.
+Shared-source freeze: main.pdf and manual.pdf are updated for foundation doctrine placement; shared Section 1--2 source is carried forward unchanged.
+Manual II Section 1--2 shared opening content is not modified.
 
-Run-tumble tracer-current fixture: manual G3 tracer-current fixture with Q4 support, Z^4 accumulated trace, declared pi_3 projection to Z^3, Q^2_3D/Q^2_4 audits, phase-cycle delta_3, and octant delta_3 outputs.
+Closed lanes: target joins, SI reports, SI report values, metric reports, metric report values, residuals, scores, empirical comparisons, subject/reference phase locks, native resonance periods, hyperfine C6 pass/fail claims.
+
+Next milestone on GO: v40.04r04 -- Manual-II Worked Example Reshape
+AOD_Temporal_Dynamics is the canonical package.
+Older AOD Temporal Dynamics artifacts are historical comparison artifacts only.
+
+Current milestone: Manual I/Main Foundation Doctrine and Manual-II D.E.C. Reporting Overlay Plan AUTHORING
+Foundation doctrine: Manual I/Main define tick measurement, tau phase-cycle, declared coordinate/report-map, and SPARC fixture classification.
+Manual-II overlay: D.E.C. report-coordinate and error-budget ledgers are added for worked examples.
+input-provenance gate and data-support class remain governed by the active bundle scope.
+No target joins, SI report values, metric report values, residuals, scores, empirical comparisons, subject/reference phase locks, native resonance periods, or hyperfine C6 pass/fail claims are opened.
+
+Input-provenance gate and data-support class remain governed by the active bundle scope.

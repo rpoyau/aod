@@ -1,0 +1,74 @@
+{
+  "central_rule": "executed_bip_structure_plus_duonic_pressure_plus_SADAR_flow_plus_primitive_reference_lock",
+  "files": [
+    {
+      "bytes": 2556,
+      "path": "manual/data/temporal_relational/circle_relational_audit_packet.csv",
+      "sha256": "18f10d460fde3a2daf0d52c2c70163f44ba49246264e8692ecbddf49d59e0746"
+    },
+    {
+      "bytes": 2304,
+      "path": "manual/data/temporal_relational/cs_sheddic_drive_temporal_reference_packet.csv",
+      "sha256": "793d06a03ed78c2e61f27f10edf8f992b6f3feb85d7f697125e57c3df8a5db24"
+    },
+    {
+      "bytes": 2175,
+      "path": "manual/data/temporal_relational/duon_pressure_packet.csv",
+      "sha256": "e8e8d4d3a7e2228a7e6a6ae128114d56fbcc504be22951525ac7870a4504bbde"
+    },
+    {
+      "bytes": 2439,
+      "path": "manual/data/temporal_relational/element_transition_relational_atlas_schema.csv",
+      "sha256": "84129e37ff7150f2af74c74618e6d4cc0417a2cec3a7c48d9634fb39a0f6b338"
+    },
+    {
+      "bytes": 2018,
+      "path": "manual/data/temporal_relational/hydrogen_balmer_relational_ratio_packet.csv",
+      "sha256": "c4cefab9681a8ea1c64c6d95fb1a1f8fecd066dffcf2684b4a489f8e5f3f1647"
+    },
+    {
+      "bytes": 1875,
+      "path": "manual/data/temporal_relational/rd_path_distribution_packet.csv",
+      "sha256": "c28bb3a9ea8406474c3d62f2baef09f742fc2f0b2e3159837632474eb67f328e"
+    },
+    {
+      "bytes": 4414,
+      "path": "manual/data/temporal_relational/relational_temporal_measurement_packet.csv",
+      "sha256": "a99ce8eb8943a5c0bbbdeec8aa0f94e4572179ac48391cf8f75a9568c94f524c"
+    },
+    {
+      "bytes": 2857,
+      "path": "manual/data/temporal_relational/relational_temporal_type_registry.csv",
+      "sha256": "9d2a5e51e278c3089bacf521c6ef3100fecaed8e6cff4799ae6eb8a04675d9fe"
+    },
+    {
+      "bytes": 2310,
+      "path": "manual/data/temporal_relational/sadar_flow_packet.csv",
+      "sha256": "6d668c03b140dd146eb265948f2ecbd47a7f56e6cd15be3d51d4c1c74f937be8"
+    },
+    {
+      "bytes": 2338,
+      "path": "manual/data/temporal_relational/sadar_phase_lock_packet.csv",
+      "sha256": "27deb88176fef6a3e79c08b99b98179b8c5195461df9b7c1894bad0d99dd440b"
+    },
+    {
+      "bytes": 2241,
+      "path": "manual/data/temporal_relational/sheddic_exchange_flux_packet.csv",
+      "sha256": "27d5977f6adc84b85a86a952fd6e60f4a9d40c1bb44dd71ef197d18e64a1e652"
+    },
+    {
+      "bytes": 2256,
+      "path": "manual/data/temporal_relational/tau_survival_hazard_packet.csv",
+      "sha256": "f9873beae43f1ed9149ebe332f92f9c763c037f14cad8cc42246c1cfeff8c6e1"
+    }
+  ],
+  "manifest_id": "aod_relational_temporal_semantics_protocol_v1",
+  "monon_semantics": "cycle_class_with_two_bip_minimal_direct_witness_not_duration",
+  "release_role": "semantic_type_repair_no_new_scientific_result",
+  "residual_status": "not_computed",
+  "score_status": "not_computed",
+  "sheddic_terminology": "native_sheddic_only",
+  "target_value_read_status": "not_read",
+  "trace_count_temporal_status": "execution_structure_not_temporal_magnitude",
+  "version_scope": "v40.03r06.3.1"
+}

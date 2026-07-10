@@ -1,0 +1,28 @@
+{
+  "archive_validation_payloads": {
+    "1crn_full_validation.pdf.gz": "archive_payload_byte_hash_locked",
+    "1crn_validation.cif.gz": "archive_payload_byte_hash_locked",
+    "1crn_validation.xml.gz": "archive_payload_byte_hash_locked"
+  },
+  "bundle_alias_policy": "bundle.zip may be generated internally but the versioned bundle is the canonical review artifact",
+  "bundle_policy": "Only inventory rows with embedding_class=inline_bundle are copied into external_payloads/. Unregistered files are never embedded; required rows must exist and match recorded byte count and SHA-256.",
+  "candidate_accession_selection_status": "blocked_no_materialized_candidate_universe",
+  "candidate_universe_query_response_status": "not_materialized_offline_build",
+  "candidate_universe_query_spec_sha256": "c32df05574d61df6d1877b3d781a0ca2f77425bf61790cbdee42cef1327bbc29",
+  "candidate_universe_query_spec_status": "hash_locked",
+  "comparison_operator_gate": "derived_contact_operator_declared_inactive; coordinate and X-ray operators inactive",
+  "historical_versioned_bundles": "immutable_not_rewritten",
+  "inventory_authority": "manual-2/data/protein/external_payload_bundle_inventory.csv",
+  "large_payload_policy": "inline up to 52428800 bytes when redistribution permits; larger payloads use a separate versioned payload pack or manifest-only external lock",
+  "map_coefficient_probe_status": "not_listed_in_locked_official_evidence",
+  "measurement_space_lane": "inactive_target_payload_unavailable_and_representation_incompatible",
+  "next_payload_gate": "v40.03r02 Official Candidate-Universe Response Byte-Lock and Eligibility Materialization Gate",
+  "parsed_snapshot_status": "release_local_snapshot_hash_locked_and_41_of_41_audit_fields_equivalent_to_archive_regenerated_snapshot",
+  "policy_title": "Exact Multioctave Temporal Calculus, Metric Projection, and Uncertainty-Qualified Comparison Protocol",
+  "policy_version": "v40.03r01",
+  "probe_evidence_policy": "r22B.2 raw locator rows are retained; r23 adds a hash-locked release-local parsed official-evidence snapshot, deterministic membership audit, payload-family normalization, and prerequisite-failure typing without fabricating target HTTP responses.",
+  "raw_image_registry_probe_status": "not_probed_optional",
+  "reflection_payload_probe_status": "not_listed_in_locked_official_evidence",
+  "source_zip_policy": "flat_git_root_ready",
+  "xray_map_service_status": "upstream_prerequisite_not_satisfied"
+}

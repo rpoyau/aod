@@ -1,0 +1,137 @@
+\section{Scoped PDB contact-map residual pilot}
+
+This section executes the first PDB-scoped contact residual pilot with boundary, source, and metric guards. The score is not broad folding validation. It is one declared comparison row whose inputs were already frozen or declared in earlier gates.
+
+\subsection{Input lock}
+
+The pilot reads the declared scope files first:
+\begin{center}
+\small
+\path{pdb_contact_comparison_scope_declaration.csv}
+$\rightarrow$
+\path{pdb_contact_comparison_leakage_checks.csv}
+\end{center}
+Only after those rows pass does the scorer read the frozen prediction packet and the target contact row:
+\begin{center}
+\small
+\path{aod_contact_prediction_freeze.csv}
+$\rightarrow$
+\path{pdb_mmcif_contact_map_derived.csv}.
+\end{center}
+The input-lock rule is
+\[
+\text{scope rows first} \;\longrightarrow\; \widehat O_{ij}\text{ from freeze}\;\longrightarrow\; O_{ij}\text{ from target map}.
+\]
+Detection status. The frozen AOD packet is not read as a target row. It is the downstream record of
+\begin{center}
+\small
+\begin{tabular}{c}
+\texttt{ChainWordSpec + ReadOnlyTrace}\\
+$\downarrow$\\
+A$\Omega$D motif / curling-curls specification\\
+$\downarrow$\\
+SADAR context\\
+$\downarrow$\\
+frozen contact packet
+\end{tabular}
+\end{center}
+For the GAS pilot this path is
+\[
+\texttt{trace\_mol\_005}\to\texttt{motif\_mol\_005}\to\texttt{sadar\_mol\_005}.
+\]
+Only after this freeze does the PDB/mmCIF target-contact row join downstream.
+The PDBx/mmCIF atom-site table and distance matrix are not prediction premises; they are target-derivation ledgers already written before this pilot.
+
+\subsection{Declared pilot row}
+
+The declared scope admits exactly one evaluation pair for the committed GAS fixture:
+\[
+(i,j)=(1,3),
+\qquad
+\theta=8.0\,\text{\AA},
+\qquad
+|3-1|\ge 2.
+\]
+The frozen AOD packet gives
+\[
+\widehat O_{1,3}=1.
+\]
+Target-source status. The boundary/source/metric ledger records
+\begin{center}
+\small
+\begin{tabular}{ll}
+\texttt{target\_source\_type} & \texttt{manual\_pdbx\_mmcif\_fixture}\\
+\texttt{contact\_definition} & \texttt{CA\_distance\_leq\_8.0A\_min\_sequence\_separation\_2}
+\end{tabular}
+\end{center}
+This says that the row exercises the PDBx/mmCIF target-lane format by committed fixture payload; it is not an external PDB accession validation. The PDBx/mmCIF-derived contact row gives
+\[
+O_{1,3}=1
+\]
+from the previously derived target distance
+\[
+d_{1,3}=7.6\,\text{\AA}\le 8.0\,\text{\AA}.
+\]
+Therefore the scoped PDB residual is
+\[
+\Delta^{\mathbb Z}_{1,3}=\widehat O_{1,3}-O_{1,3}=1-1=0,
+\qquad
+\delta_{3,1,3}=0.
+\]
+
+\subsection{Pilot confusion row}
+
+Over the declared one-pair scope,
+\[
+TP=1,
+\qquad
+FP=0,
+\qquad
+FN=0,
+\qquad
+TN=0.
+\]
+Hence
+\[
+\mathrm{precision}=1,
+\qquad
+\mathrm{recall}=1,
+\qquad
+F_1=1,
+\qquad
+J=1.
+\]
+Score status. The GAS pilot is a single positive contact-residual row. Precision, recall, $F_1$, and Jaccard report the closed row. The MCC denominator has no true-negative support in this one-pair scope, so the pilot ledger records it as
+\[
+\texttt{undefined\_no\_true\_negative\_denominator}.
+\]
+The summary rows therefore carry
+\begin{center}
+\small
+\begin{tabular}{ll}
+\texttt{metric\_scope} & \texttt{single\_positive\_contact\_row}\\
+\texttt{metric\_validity} & \texttt{residual\_row\_smoke\_test}
+\end{tabular}
+\end{center}
+with classifier generalization marked out of scope for this pilot.
+
+\subsection{Ledger pointer}
+
+The scoped pilot rows are recorded in
+\begin{center}
+\small
+\path{manual-2/data/protein/pdb_scoped_contact_residual_pilot.csv}
+\end{center}
+with the score, residual, and leakage-audit ledgers at
+\begin{center}
+\small
+\path{manual-2/data/protein/pdb_scoped_contact_score.csv},\quad
+\path{pdb_scoped_contact_delta3.csv},\quad
+\path{pdb_scoped_contact_leakage_audit.csv}.
+\end{center}
+The manifest is
+\begin{center}
+\small
+\path{manual-2/data/protein/pdb_scoped_contact_residual_manifest.json}.
+\end{center}
+Current score scope. This pilot is a scoped contact-residual ledger. Coordinate scores, AlphaFold comparison, RMSD, TM-score, GDT, and $\lambda_{\rm fold}$ remain in the coordinate-score registry until a later coordinate-level prediction freeze is declared.

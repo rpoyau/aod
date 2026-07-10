@@ -1,0 +1,5 @@
+fusion_id,reactants,shedding_vector,formula,expected_formula,residual_CHONPS,status
+carbonic_acid_fixture,H2O+CO2,none,CH2O3,H2CO3,C:0;H:0;N:0;O:0;P:0;S:0,closed
+ribose_formose_fixture,CH2O+CH2O+CH2O+CH2O+CH2O,none,C5H10O5,C5H10O5,C:0;H:0;N:0;O:0;P:0;S:0,closed
+adenine_hcn_pentamer_fixture,CHN+CHN+CHN+CHN+CHN,none,C5H5N5,C5H5N5,C:0;H:0;N:0;O:0;P:0;S:0,closed
+amp_closure_fixture,C5H5N5+C5H10O5+H3O4P,H2O+H2O,C10H14N5O7P,C10H14N5O7P,C:0;H:0;N:0;O:0;P:0;S:0,closed

@@ -1,0 +1,40 @@
+{
+  "lane": "external_pdb_aod_contact_prediction_projection_gate",
+  "version_scope": "v40.02r17",
+  "status": "projection of the frozen AOD contact/reclosure packet onto the frozen r16 external evaluation boundary; no target contact values read, no residual score, no coordinate metrics, no folding value map",
+  "source_database": "RCSB_PDB",
+  "source_accession": "1CRN",
+  "evaluation_boundary_sha256": "1010aa846e6f509e9432c1a194f451fc5a4afbd02d6bdb335272fa287969fbfb",
+  "evaluation_pair_list_sha256": "71320ebd61b55b7010a140c2d80a2ed01956c7cab4d92398d2c58b02484173af",
+  "evaluation_pair_count": 946,
+  "projection_contact_count": 0,
+  "projection_noncontact_count": 0,
+  "projection_abstain_count": 0,
+  "projection_out_of_scope_count": 946,
+  "aod_packet_id": "chain_GAS_tripeptide_seed",
+  "aod_reclosure_id": "aod_reclosure_pred_002",
+  "aod_packet_sha256": "339acfbe474ea9830ff4263170761998624c2e4a6d70835c65bb34b0798edc1e",
+  "aod_reclosure_sha256": "8b327c168e45b2f807c7187ca3a0a6a62c37fc692bfca0808ee6d524c0a4144c",
+  "sadar_context_id": "sadar_mol_005",
+  "projection_rule": "no_declared_alignment_between_GAS_AOD_packet_and_external_1CRN_boundary_all_pairs_out_of_scope",
+  "target_value_read_status": "not_read_by_projection_gate",
+  "residual_status": "not_computed_in_v40.02r17",
+  "score_status": "projection_gate_only_no_residual_score",
+  "blocked_until_later_gate": [
+    "declared_external_alignment_or_projection_rule_with_coverage",
+    "external_accession_residual_score",
+    "coordinate_level_metric_score",
+    "released_lambda_fold"
+  ],
+  "files": {
+    "projection": "manual-2/data/protein/pdb_external_aod_contact_projection.csv",
+    "summary": "manual-2/data/protein/pdb_external_aod_contact_projection_summary.csv",
+    "policy_application": "manual-2/data/protein/pdb_external_aod_contact_projection_policy_application.csv",
+    "leakage_checks": "manual-2/data/protein/pdb_external_aod_contact_projection_leakage_checks.csv"
+  },
+  "projection_sha256": "03604bd933b6abf140f345522eb2f94b467cf830b3dcc8aaae76ed62c74e3fc0",
+  "summary_sha256": "1f65c2ca518296748a9d0875e91ab72fda902f32445a9384cb0fffd70c20b4ea",
+  "policy_application_sha256": "c2d495f23ffbbbca4bd30b98e7948bccd59fc2fa282857c5ec982b7f8bb363c8",
+  "leakage_checks_sha256": "cfc4999213dabbd979660df8c0bab5691c96eabae2f19c41bd2b0013326ee142",
+  "claim_discipline": "projection rows are AOD-side coverage rows over a frozen boundary; target O_ij values join only in a later residual gate"
+}

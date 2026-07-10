@@ -1,0 +1,39 @@
+{
+  "appendix_role": "protocol_only_no_empirical_gate_activation",
+  "cesium_projection_state": "contract_declared_not_instantiated",
+  "current_empirical_state": {
+    "comparison_join_state": "closed",
+    "score_status": "no_score",
+    "target_value_read_status": "not_read"
+  },
+  "files": {
+    "application_lane_registry": "manual-2/data/temporal/aod_temporal_application_lane_registry.csv",
+    "cesium_projection": "manual-2/data/temporal/aod_cesium_time_projection_registry.csv",
+    "clock_schema": "manual-2/data/temporal/aod_target_clock_lineage_schema.csv",
+    "cross_map_schema": "manual-2/data/temporal/aod_cross_map_consistency_audit_schema.csv",
+    "elementary_schema": "manual-2/data/temporal/aod_elementary_temporal_packet_schema.csv",
+    "information_loss": "manual-2/data/temporal/aod_temporal_projection_information_loss_registry.csv",
+    "molecular_schema": "manual-2/data/temporal/aod_molecular_temporal_packet_schema.csv",
+    "native_packet_schema": "manual-2/data/temporal/aod_native_causal_duration_packet_schema.csv",
+    "protein_schema": "manual-2/data/temporal/aod_protein_temporal_packet_schema.csv",
+    "si_registry": "manual-2/data/temporal/aod_si_defining_constant_projection_registry.csv",
+    "typed_residual": "manual-2/data/temporal/aod_temporal_typed_residual_registry.csv"
+  },
+  "motif_detection_rule": "family_and_occurrence_cards_pre_run_detected_AOD_motif_after_trace_then_SADAR",
+  "native_time_semantics": "exact_ordered_DEC_duration_in_bip_not_SI_time_until_projection_instantiated",
+  "octave_residual_rule": "Delta_oct_lawful_change_E_oct_declared_condition_failure",
+  "sha256": {
+    "application_lane_registry": "b34366e9ef133630b747f7e63575a4dc5330496e99bf42216fd74dc8c11d033f",
+    "cesium_projection": "f73d7ff26f9cf2ffb837a00c5cb624d437c0c0240fa9dcb2c84a9f1353965241",
+    "clock_schema": "c182d3bd37578f571810577fb1c7dda87db172a84c11f6c43e32cbd42331074a",
+    "cross_map_schema": "76e7285d2bd287c4854a04e2f3108fdd53f79ce65abbbf51c9625f65af44bf70",
+    "elementary_schema": "621e76d38984955a30a9b4e463ed9e01e3c0acc524f0f275924dc5473495f1c3",
+    "information_loss": "0884c2fc373e3fa4a66050b8d1f395fd23fbf0d0044d69f512c51ae37f223c68",
+    "molecular_schema": "7d0a5e186db43fb607a74eb8b433e67b560335d7c30c7c1b00c87c1aff45f7ad",
+    "native_packet_schema": "f0bc05cc39444ffdc57fc6ca8150274e64cd813daadfd2a46856dc6cf4446c48",
+    "protein_schema": "0104e93a0f067fb31f85524a2ec23294d93e01920713db123adb547f339b7474",
+    "si_registry": "15a056e923f2dbf2d140b7f9e0d09aa0ee07e0fe1532630241d2acdaaa65f1ad",
+    "typed_residual": "67d8c404afc443182408b54339ed819f9e58f9463a8214ffe06a0e34df97c926"
+  },
+  "si_reference_source": "BIPM_defining_constants"
+}

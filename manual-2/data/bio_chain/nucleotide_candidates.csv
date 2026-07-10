@@ -1,0 +1,9 @@
+candidate_id,alphabet,symbol,declared_components,shedding_vector,formula,expected_formula,residual_CHONPS,status
+RNA_A,RNA,A,adenine+ribose+phosphate,H2O+H2O,C10H14N5O7P,C10H14N5O7P,C:0;H:0;N:0;O:0;P:0;S:0,closed
+RNA_G,RNA,G,guanine+ribose+phosphate,H2O+H2O,C10H14N5O8P,C10H14N5O8P,C:0;H:0;N:0;O:0;P:0;S:0,closed
+RNA_C,RNA,C,cytosine+ribose+phosphate,H2O+H2O,C9H14N3O8P,C9H14N3O8P,C:0;H:0;N:0;O:0;P:0;S:0,closed
+RNA_U,RNA,U,uracil+ribose+phosphate,H2O+H2O,C9H13N2O9P,C9H13N2O9P,C:0;H:0;N:0;O:0;P:0;S:0,closed
+DNA_A,DNA,A,adenine+deoxyribose+phosphate,H2O+H2O,C10H14N5O6P,C10H14N5O6P,C:0;H:0;N:0;O:0;P:0;S:0,closed
+DNA_T,DNA,T,thymine+deoxyribose+phosphate,H2O+H2O,C10H15N2O8P,C10H15N2O8P,C:0;H:0;N:0;O:0;P:0;S:0,closed
+DNA_G,DNA,G,guanine+deoxyribose+phosphate,H2O+H2O,C10H14N5O7P,C10H14N5O7P,C:0;H:0;N:0;O:0;P:0;S:0,closed
+DNA_C,DNA,C,cytosine+deoxyribose+phosphate,H2O+H2O,C9H14N3O7P,C9H14N3O7P,C:0;H:0;N:0;O:0;P:0;S:0,closed

@@ -1,0 +1,9 @@
+{
+  "active_ledger_path": "cycle/FEEDBACK_LEDGER.csv",
+  "historical_files": [
+    "cycle/history/FEEDBACK_LEDGER.r06-r07.csv"
+  ],
+  "mutation_policy": "immutable_not_used_for_active_counts_or_GO",
+  "record_scope": "inactive_historical_snapshot",
+  "schema_version": "3.1"
+}

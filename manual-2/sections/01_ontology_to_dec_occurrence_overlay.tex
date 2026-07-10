@@ -1,0 +1,55 @@
+
+\section{Ontology-to-D.E.C. occurrence overlay}
+
+This Manual-II overlay records motif-family and scoped-occurrence cards without changing the raw D.E.C. row form. The row form remains the finite AFC edge-execution ledger introduced above. The ontology card names what family is being followed; D.E.C. records the execution; A$\Omega$D names the detected motif after the trace has been written; SADAR records the returned-current context; target lanes join downstream.
+
+\[
+\begin{array}{c}
+\text{motif-family registry}\to\text{scoped occurrence card}\to\text{raw D.E.C. rows}\\[0.25em]
+\to\text{read-only trace}\to\text{A$\Omega$D motif / curling-curls detection}\\[0.25em]
+\to\text{SADAR context}\to\text{frozen packet}\to\text{downstream target map}.
+\end{array}
+\]
+
+The scoped occurrence is a dataset card, not a new raw-row ontology. For a motif family
+\[
+M_{\rm cc}\in\mathcal M_{\rm curl},
+\]
+Manual II records an occurrence card as
+\[
+\mathcal O=(a,M_{\rm cc},B,\omega,\lambda_{\rm scale}),
+\qquad
+ a\vdash M_{\rm cc}(B,\omega,\lambda_{\rm scale}).
+\]
+Here $a$ is the declared fractal coordinate, $B$ is the boundary/window package, and $\lambda_{\rm scale}$ names the Manual-II scale lane. This card points to the raw execution ledger; it does not replace the D.E.C. columns.
+
+The raw D.E.C. row therefore stays in the shared form
+\[
+(B,v,e,v_e,\sigma(e),\operatorname{adm}(e;B),w(e;B),P(e;B),\operatorname{route}(e;B)),
+\]
+with any occurrence identifier stored only in the Manual-II registry and manifest ledgers. The valid detection chain is trace-first:
+\[
+\texttt{trace\_mol\_005}
+\rightarrow
+\texttt{motif\_mol\_005}
+\rightarrow
+\texttt{sadar\_mol\_005}
+\rightarrow
+\texttt{chain\_GAS\_tripeptide\_seed}.
+\]
+
+\begin{center}\small
+\begin{tabular}{lll}
+\toprule
+layer & example & role\\
+\midrule
+motif family & \texttt{contact\_reclosure} & recurring curling-curl family\\
+scoped occurrence & \texttt{gas\_contact\_reclosure\_occurrence\_001} & boundary/window dataset card\\
+D.E.C. trace & \texttt{trace\_mol\_005} & declared AFC edge execution\\
+A$\Omega$D motif & \texttt{motif\_mol\_005} & curling-curls classification after trace\\
+SADAR context & \texttt{sadar\_mol\_005} & returned-current context\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The ledgers are listed in \texttt{manual-2/data/ontology/}: \texttt{manual2\_curling\_curl\_motif\_family\_registry.csv}, \texttt{manual2\_scoped\_occurrence\_registry.csv}, and \texttt{manual2\_ontology\_to\_dec\_trace\_manifest.csv}. They are Manual-II bookkeeping ledgers; no scientific row, target row, residual row, or score row is recomputed here.

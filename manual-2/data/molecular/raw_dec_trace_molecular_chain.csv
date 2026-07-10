@@ -1,0 +1,9 @@
+tick,B,v,e,v_e,sigma_e,adm_e_B,w_e_B,P_e_B,route_e_B
+0,B_mol_001,v0,e0_1,v1,branch,1,1,1/1,water_equivalent_route_unit
+1,B_mol_002,v0,e0_1,v1,branch,1,1,1/2,water_equivalent_route_unit
+2,B_mol_002,v1,e1_2,v2,branch,1,1,1/2,water_equivalent_route_unit
+3,B_mol_003,v0,e0_1,v1,branch,1,1,1/2,water_equivalent_route_unit
+4,B_mol_003,v1,e1_2,v2,branch,1,1,1/2,water_equivalent_route_unit
+5,B_mol_004,v0,e0_1,v1,branch,1,1,1/1,water_equivalent_route_unit
+6,B_mol_005,v0,e0_1,v1,branch,1,1,1/2,water_equivalent_route_unit
+7,B_mol_005,v1,e1_2,v2,branch,1,1,1/2,water_equivalent_route_unit

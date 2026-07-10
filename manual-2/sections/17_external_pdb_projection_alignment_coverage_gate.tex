@@ -1,0 +1,44 @@
+\section{External PDB projection alignment and coverage declaration gate}
+
+This gate declares the alignment and coverage state for the frozen external 1CRN boundary. It is not a residual score. It does not read target contact values, and it does not compare \(\widehat O_{ij}\) with \(O_{ij}\).
+
+The frozen external boundary is still
+\[
+N_{\mathrm{eval}}=946,
+\]
+from the 1CRN chain-A CA contact-map boundary. The AOD-side packet remains
+\[
+\texttt{trace\_mol\_005}\to\texttt{motif\_mol\_005}\to
+\texttt{sadar\_mol\_005}\to\texttt{chain\_GAS\_tripeptide\_seed}.
+\]
+This is the detection-side order: ChainWordSpec and ReadOnlyTrace precede AOD motif / curling-curls specification, SADAR context, and the frozen contact packet. External PDB target rows remain downstream.
+
+No alignment from the GAS packet to the 1CRN chain is declared in this gate:
+\[
+\texttt{alignment\_status}=\texttt{no\_alignment\_declared},
+\qquad
+\texttt{alignment\_rule}=\texttt{none\_declared}.
+\]
+Therefore the coverage declaration is
+\[
+N_{\mathrm{in\ scope}}=0,
+\qquad
+N_{\mathrm{out\ of\ scope}}=946,
+\qquad
+N_{\mathrm{abstain}}=0.
+\]
+Equivalently,
+\[
+\texttt{projection\_coverage}=0/946=0.0.
+\]
+The state \texttt{abstain} is reserved for a later gate where an alignment or projection rule exists and the AOD packet explicitly declines to emit contact or noncontact on an in-scope pair. Without alignment, the correct state is \texttt{out\_of\_scope}.
+
+The alignment/coverage ledgers are, in order,
+\begin{center}\small
+\begin{tabular}{l}
+\texttt{pdb\_external\_projection\_alignment\_gate.csv}\\
+\texttt{pdb\_external\_projection\_alignment\_coverage.csv}\\
+\texttt{pdb\_external\_projection\_alignment\_leakage\_checks.csv}.
+\end{tabular}
+\end{center}
+The next score gate remains blocked until a later alignment/projection rule gives in-scope coverage. Coordinate metrics, AlphaFold comparison, coordinate-level AOD prediction, released \(\lambda_{\mathrm{fold}}\), and folding value-map claims remain outside this gate.

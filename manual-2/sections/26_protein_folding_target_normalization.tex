@@ -1,0 +1,54 @@
+\section{Protein folding target normalization gate}
+
+The v40.02r04 gate is a target-normalization milestone. It does not freeze an AOD folding prediction and it does not score a folding result. Its job is narrower: prepare protein sequence, structure, contact-map, distance-matrix, confidence, and limitation rows so a later prediction-freeze release can be compared without target leakage.
+
+The normalized gate preserves the Manual II ordering:
+\[
+\text{target packet}\to\text{normalization row}\to\text{hash/coverage row}\to\text{limitation row}\to\text{future comparison}.
+\]
+It remains downstream of the raw molecular D.E.C. chain lane.
+
+\subsection{Normalized target files}
+
+The v40.02r04 files are:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+File & Role \\
+\midrule
+\texttt{protein\_sequence\_target\_packets.csv} & normalized sequence packets and locator rows \\
+\texttt{pdb\_mmcif\_structure\_targets.csv} & PDB/mmCIF experimental-structure target locator normalizations \\
+\texttt{alphafold\_structure\_targets.csv} & AlphaFold predicted-structure comparator target normalizations \\
+\texttt{protein\_contact\_map\_targets.csv} & contact-map target hashes and status rows \\
+\texttt{protein\_distance\_matrix\_targets.csv} & distance-matrix target hashes and coordinate-status rows \\
+\texttt{protein\_structure\_target\_limitations.csv} & limitation and score-permission rows \\
+\texttt{protein\_folding\_target\_manifest.json} & gate manifest and leakage policy \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Manual seed rows exercise the normalization schema. PDB/mmCIF and AlphaFold rows are locator-normalization rows in this release; no archive coordinate payload is committed. The rows still carry stable hashes, threshold fields, source roles, leakage roles, and limitation classes so later coordinate-backed target rows can be audited against the same table grammar.
+
+\subsection{Contact and distance target coordinates}
+
+The contact target row records
+\[
+(\texttt{protein\_id},\texttt{structure\_target\_id},\tau_c,s_{\min},H_C),
+\]
+where $\tau_c$ is the contact threshold in Angstrom, $s_{\min}$ is the minimum sequence separation, and $H_C$ is a SHA-256 hash of the normalized contact payload or locator-normalization record. The distance row records the corresponding distance-matrix hash $H_D$.
+
+These are target coordinates, not predictions. A future AOD prediction freeze may emit predicted contact/reclosure motifs, but that file must be created before any target-contact comparison is read.
+
+\subsection{Ground-truth and comparator discipline}
+
+PDB/mmCIF rows are the experimental target lane when a coordinate payload is explicitly loaded. AlphaFold rows are a predicted-structure comparator lane. They are not experimental ground truth, not raw D.E.C. premises, and not evidence that a folding value map has been released.
+
+\aodnoteblock{Leakage rule}{Target coordinates, contact maps, distance matrices, confidence fields, and secondary-structure labels are forbidden as inputs to raw D.E.C. rows and future AOD prediction-freeze rows. They can only be read after a prediction freeze as comparison targets.}
+
+\subsection{Current status}
+
+The current status remains:
+\[
+\lambda_{\mathrm{fold}}=\texttt{deferred\_not\_attached}.
+\]
+Current score scope. This milestone carries target-normalization rows and deferred coordinate-score registries. Contact score, RMSD, TM-score, GDT, coordinate-level structure prediction, solvent model, kinetic model, and biological-function model remain outside this gate.

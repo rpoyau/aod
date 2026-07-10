@@ -1,0 +1,2 @@
+route_unit_id,route_formula,n_C,n_H,n_N,n_O,n_P,n_S,route_role,route_status,release_status
+water_equivalent_route_unit,H2O,0,2,0,1,0,0,dehydration_condensation_accounting_unit,declared_route_unit_scaffold_only,v40.02r02_no_chain_score

@@ -1,0 +1,2 @@
+kernel_family_id,kernel_formula,admissibility_domain,weight_domain,normalizer_rule,probability_domain,isotropic_specialization,anisotropic_specialization,blocked_edge_rule,terminal_rule,exactness_status
+aod_dec_exact_kernel_v1,"P_t(e|c,B)=adm_t(e;c,B)*w_t(e;c,B)/sum_f adm_t(f;c,B)*w_t(f;c,B)","{0,1}",positive_rational,"Z_t=sum_f adm_t(f;c,B)*w_t(f;c,B)",exact_rational_when_Z_t_gt_0,all_admissible_weights_equal_1,declared_positive_rational_weights,adm_t=0_removes_edge_before_normalization,if_Z_t_eq_0_no_division_record_terminal_blocked_or_pending,one_kernel_family_all_octaves

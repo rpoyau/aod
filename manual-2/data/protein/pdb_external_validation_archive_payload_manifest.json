@@ -1,0 +1,43 @@
+{
+  "archive_payload_count": 3,
+  "archive_payload_lock_status": "xml_cif_pdf_archive_payloads_byte_hash_locked",
+  "archive_payload_types": [
+    "validation_xml_gz",
+    "validation_cif_gz",
+    "validation_pdf_gz"
+  ],
+  "field_equivalence_audit_count": 41,
+  "field_equivalence_exact_count": 41,
+  "field_equivalence_mismatch_count": 0,
+  "field_equivalence_status": "41_of_41_exact_after_declared_normalization",
+  "file_sha256": {
+    "archive_payload_byte_lock": "85d6d6133747074c8f1822f063e6cec98368dc726fc3545e13089b95e826748b",
+    "evidence_locators": "ea74423a1a2c89f9d7fe4acfc766c5cbfec73f572776a274a12152ada402c303",
+    "field_equivalence_audit": "3bd24ed6d40313c0edfa467a09af8ebdcdb7707ce7d046e0d339012b3cc8cbe0",
+    "original_snapshot": "6b79a4de285ab03b300d3e7d745b3d8729fdeb4159ebfdeae8e0ffe2ed57d732",
+    "payload_availability": "beb1eec1cb403f272fabf768698ca69f968b4d767780841d9852f8c719a79a61",
+    "regenerated_snapshot": "a39125fa6a677c2a3f2e9a56cb1e0d090f825cd63d4be91c9172e15c9191918a"
+  },
+  "files": {
+    "archive_payload_byte_lock": "manual-2/data/protein/pdb_external_validation_archive_payload_byte_lock.csv",
+    "evidence_locators": "manual-2/data/protein/pdb_external_validation_snapshot_evidence_locators.csv",
+    "field_equivalence_audit": "manual-2/data/protein/pdb_external_validation_snapshot_field_equivalence_audit.csv",
+    "original_snapshot": "manual-2/data/protein/external_pdb_validation_payloads/1crn_full_validation_report_parsed_snapshot.json",
+    "payload_availability": "manual-2/data/protein/pdb_external_experimental_payload_availability.csv",
+    "regenerated_snapshot": "manual-2/data/protein/external_pdb_validation_payloads/1crn_full_validation_report_archive_regenerated_snapshot.json"
+  },
+  "lane": "original_validation_payload_byte_lock_and_snapshot_regeneration_equivalence_gate",
+  "next_milestones": [
+    "v40.02r22B.2 Reflection / Map Availability Probe and Byte-Lock Gate",
+    "v40.02r23 Comparison-Space Capability and Observation-Operator Freeze Gate"
+  ],
+  "original_snapshot_sha256": "6b79a4de285ab03b300d3e7d745b3d8729fdeb4159ebfdeae8e0ffe2ed57d732",
+  "parsed_snapshot_regeneration_sha256": "a39125fa6a677c2a3f2e9a56cb1e0d090f825cd63d4be91c9172e15c9191918a",
+  "quality_mask_recomputation_status": "not_required_values_equivalent_existing_all_abstain_mask_carried_forward",
+  "residual_status": "not_computed",
+  "score_status": "no_score",
+  "source_accession": "1CRN",
+  "source_database": "RCSB_PDB_wwPDB",
+  "target_join_status": "closed_zero_quality_supported_pairs_and_no_alignment_coverage",
+  "version_scope": "v40.02r22B.1"
+}

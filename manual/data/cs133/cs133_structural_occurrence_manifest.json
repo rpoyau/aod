@@ -1,0 +1,146 @@
+{
+  "current_state": {
+    "SI_anchor": "inactive",
+    "canonical_DEC_execution": "enumerate_all_mass_conserved",
+    "capacity_fill_audit": "passed_exact_not_recurrence_closure",
+    "classification_mode": "blind_pq_under_declared_L",
+    "construction_equivalence_class": "elementary_00o8_Q4_branch_hinge_branch_monon_family",
+    "cs_to_occurrence_binding": "scoped_elementary_occurrence_bound_physical_adequacy_not_empirically_validated",
+    "declared_scope_L": "6",
+    "detected_support_core": "1:2",
+    "element_registry_binding": "Cs_Z55_row_verified",
+    "fractal_elementary_occurrence_binding": "passed",
+    "identity_packet": "frozen",
+    "identity_specificity": "identity_specific_scope_shared_native_topology_family",
+    "kernel_enumeration": "frozen_non_temporal",
+    "monon_completion_certificate": "pending_connected_cycle_trace_M2",
+    "native_count_unit": "bip",
+    "pre_detection_freeze": "cryptographically_enforced",
+    "primitive_completion_object": "monon",
+    "recurrence_to_reference_correspondence": "not_active",
+    "scope_conditioned_form": "1:2:6",
+    "support_certificate": "passed_scope_conditioned_kernel_and_execution_packet",
+    "support_core_hypothesis": "frozen_1:2",
+    "target_frequency_input": "absent",
+    "target_join": "closed",
+    "temporal_recurrence_certificate": "not_materialized"
+  },
+  "detector_order": [
+    "declared_elementary_identity_and_origin_anchor_scope",
+    "identity_to_occurrence_binding",
+    "shared_topology_construction_rule",
+    "exact_kernel_contract_freeze",
+    "non_temporal_kernel_enumeration",
+    "canonical_enumerate_all_mass_execution",
+    "read_only_packet_freeze",
+    "pre_detection_hash_manifest_verification",
+    "blind_pq_detection_under_declared_L",
+    "post_detection_hypothesis_audit",
+    "native_capacity_fill_audit"
+  ],
+  "files": [
+    {
+      "bytes": 438,
+      "path": "manual/data/cs133/cs133_c3_window_capacity_rule.csv",
+      "sha256": "29c18d816a79ae4aa8716ac8b8b58932510e009290af11d9db9a7ade9ef6bfdd"
+    },
+    {
+      "bytes": 897,
+      "path": "manual/data/cs133/cs133_fractal_elementary_occurrence_binding.csv",
+      "sha256": "925ed19dc45d8fdcc43b0b91373af5683cc6f8ce99bad3dda568e551adc2cfbc"
+    },
+    {
+      "bytes": 2005,
+      "path": "manual/data/cs133/cs133_identity_counterfactual_audit.csv",
+      "sha256": "25a2e5ea752c8632bcd277bf7b59dee17610425b0b2d2837d2ac6415088b9e62"
+    },
+    {
+      "bytes": 712,
+      "path": "manual/data/cs133/cs133_identity_packet.csv",
+      "sha256": "7e5f2ff93a558bca36285943b2ae2015cebfd3a2fbe6e4c32f8e34df0d857f6b"
+    },
+    {
+      "bytes": 1113,
+      "path": "manual/data/cs133/cs133_identity_to_trace_construction_rule.csv",
+      "sha256": "9ea154fa524a56d81f006f65db2f3aad1bc51eb2d80705945663e753c75ba1e4"
+    },
+    {
+      "bytes": 8606,
+      "path": "manual/data/cs133/cs133_native_structural_dec_execution_ledger.csv",
+      "sha256": "95aa3b0ef54093dc025c578ab42bab83157de919ea0cb3856512bb7bcc09bd1c"
+    },
+    {
+      "bytes": 9046,
+      "path": "manual/data/cs133/cs133_native_structural_kernel_enumeration.csv",
+      "sha256": "0a2c2028f08d58e23f005c1897ee2458586fc1e005f3001dbe366f97fe1156eb"
+    },
+    {
+      "bytes": 9452,
+      "path": "manual/data/cs133/cs133_native_structural_read_only_execution_ledger.csv",
+      "sha256": "609a92642540337d184c18dd1f8e80be035637f01620f23de35068c2effa55c5"
+    },
+    {
+      "bytes": 9882,
+      "path": "manual/data/cs133/cs133_native_structural_read_only_kernel_enumeration.csv",
+      "sha256": "a5eb7498a5e7708f919ee5d783dff2e194069fea10924f045420b7d26fc3ad88"
+    },
+    {
+      "bytes": 3766,
+      "path": "manual/data/cs133/cs133_pre_detection_freeze_manifest.json",
+      "sha256": "a400856ef763fffd523a5df00306fcc8a07595ab8f292a62a4d5f668898a9c6c"
+    },
+    {
+      "bytes": 501,
+      "path": "manual/data/cs133/cs133_structural_boundary_card.csv",
+      "sha256": "30e62dab190a14551efdd344e80d5b3db2a4f1700e9297887298c9b3ce92b3f3"
+    },
+    {
+      "bytes": 1344,
+      "path": "manual/data/cs133/cs133_structural_detection_result.csv",
+      "sha256": "87f5f4abd303c7aa97f83135531e6e728e134cda015101f1d9cf69e15d15d4df"
+    },
+    {
+      "bytes": 1464,
+      "path": "manual/data/cs133/cs133_structural_detector_contract.csv",
+      "sha256": "7eb929f379e6382ea17fc09b99be2665da81f3d9c3cc962332c8a8182f9bf168"
+    },
+    {
+      "bytes": 718,
+      "path": "manual/data/cs133/cs133_structural_execution_mass_audit.csv",
+      "sha256": "2037f879c1c453b799ebba21b937cba46e2f9e5310b185e915e297abea192ddb"
+    },
+    {
+      "bytes": 628,
+      "path": "manual/data/cs133/cs133_structural_hypothesis_counterfactual_audit.csv",
+      "sha256": "6a7ea7385d2d8d697665b293c18524fd275f731abccc27b099f28846e1d810b1"
+    },
+    {
+      "bytes": 955,
+      "path": "manual/data/cs133/cs133_structural_hypothesis_detection_audit.csv",
+      "sha256": "e387ca68ff374a4abb66072a66a2dcbaa21157db8d18215e1e045675d32b926a"
+    },
+    {
+      "bytes": 1012,
+      "path": "manual/data/cs133/cs133_structural_kernel_contract.csv",
+      "sha256": "635b6670a24bc51d0253009a96da03f66650e89ae103c52c544bc9e9571ba0ca"
+    },
+    {
+      "bytes": 956,
+      "path": "manual/data/cs133/cs133_structural_occurrence_hypothesis.csv",
+      "sha256": "6e0402e19514837e5e4e708728fe77220e8ce48fbf6940b68420c274c57a655b"
+    },
+    {
+      "bytes": 1122,
+      "path": "manual/data/cs133/cs133_structural_support_audit.csv",
+      "sha256": "7fbf091bd3f295dbf7670866a2d7559a89b7844174f81447372aed953a67bb20"
+    },
+    {
+      "bytes": 2979,
+      "path": "manual/data/cs133/cs133_target_independence_audit.csv",
+      "sha256": "567315bc21adbcbf6409d52a73a3770895b3582a5ec8604d6ec4a7fc81f11cfd"
+    }
+  ],
+  "fractal_octave_coordinate": "00_(8)",
+  "gate_role": "target_independent_scope_conditioned_structural_classification_with_canonical_DEC_execution_and_pre_detection_hash_freeze",
+  "manifest_id": "cs133_fractal_elementary_occurrence_gate_v3"
+}

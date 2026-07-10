@@ -1,0 +1,58 @@
+\section{Protein contact-map residual comparison}
+
+The v40.02r06 milestone is the first protein-contact comparison gate. It reads the frozen AOD contact/reclosure packet from v40.02r05 and only then reads normalized contact-map target rows from the v40.02r04 target-normalization gate. This section is a contact-residual audit, not a full coordinate-level folding model.
+
+The ordering is:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}X@{}}
+\texttt{frozen AOD contact/reclosure packet} \\ 
+\textrightarrow{} \texttt{normalized contact target} \\ 
+\textrightarrow{} \texttt{confusion row} \\ 
+\textrightarrow{} $\delta_3$ \texttt{contact residual}.
+\end{tabularx}
+\end{center}
+
+\subsection{Residual files}
+
+The v40.02r06 files are:
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+File & Role \\
+\midrule
+\texttt{protein\_contact\_score.csv} & score rows for frozen AOD contact packets against concrete normalized contact targets \\
+\texttt{protein\_contact\_delta3.csv} & contact-level $\Delta_Z$ and $\delta_3$ residual rows \\
+\texttt{protein\_score\_summary.csv} & score-scope summary, micro metrics, and deferred external-target status \\
+\texttt{protein\_folding\_residual\_analysis.csv} & scored/deferred residual ledger for unmatched predictions, target-only rows, and locator-only rows \\
+\texttt{protein\_contact\_score\_manifest.json} & comparison manifest and leakage policy \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Contact residual}
+
+For a residue pair $(i,j)$, let $\widehat O_{ij}\in\{0,1\}$ be the frozen AOD contact flag and let $O_{ij}\in\{0,1\}$ be the normalized target-contact flag. The contact residual is
+\[
+\Delta^{\mathbb Z}_{ij}=\widehat O_{ij}-O_{ij},\qquad
+\delta_{3,ij}=\Delta^{\mathbb Z}_{ij}\bmod 3.
+\]
+The error class is TP, FP, FN, or TN according to the pairwise confusion row. The committed v40.02r06 fixture uses the declared minimum-sequence-separation subset from the normalized contact target. Adjacent route-support contacts outside that declared target subset are retained in the freeze file but are not counted as false positives in this score scope.
+
+\subsection{Score scope and deferred external targets}
+
+The only scored row in v40.02r06 is the concrete manual contact-map fixture for the tripeptide seed. PDB/mmCIF and AlphaFold rows remain locator-only rows without committed coordinate/contact payloads, so they are not scored here. AlphaFold remains a predicted-structure comparator lane, not experimental ground truth.
+
+\aodnoteblock{Comparison rule}{A score row may read target contact maps only after the AOD contact/reclosure packet has already been frozen and hashed. No target coordinate, distance matrix, secondary-structure, or confidence field is allowed to become a prediction premise.}
+
+\subsection{Current status}
+
+The current status remains:
+\[
+\lambda_{\mathrm{fold}}=\texttt{deferred\_not\_attached}.
+\]
+Current score scope. This milestone carries the declared contact-residual fixture and deferred coordinate-score registry. RMSD, TM-score, GDT, full 3D coordinate prediction, solvent model, kinetic model, metabolism/signaling model, biological-function model, and released folding value map remain outside this scope.
+
+
+\subsection{v40.02r06.1 label polish}
+
+The v40.02r06.1 package does not add a new score row. It normalizes carried-forward labels so the target-normalization rows are identified as \texttt{v40.02r04\_target\_normalization\_carried\_forward}. The contact-residual rows remain the v40.02r06 manual-fixture comparison rows, and the next scientific gate is a PDB/mmCIF coordinate-payload target-normalization milestone rather than an expanded folding score.

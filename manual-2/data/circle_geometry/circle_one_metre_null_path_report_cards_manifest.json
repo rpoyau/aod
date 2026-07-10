@@ -1,0 +1,25 @@
+{
+  "card_scope": "downstream_metric_report_card_contracts_only",
+  "files": [
+    {
+      "path": "manual-2/data/circle_geometry/circle_one_metre_null_path_report_cards.csv",
+      "sha256": "96ec5a3091c231feae2a9d8368df4a2df0dbe06c13da5e39fe01dd245dbdec47"
+    },
+    {
+      "path": "manual-2/data/circle_geometry/circle_one_metre_report_link_index.csv",
+      "sha256": "b11014d98573aa3b10821496e477251ae74c5b6999668c4a4fdcc586012bc316"
+    },
+    {
+      "path": "manual-2/data/circle_geometry/circle_one_metre_null_path_counterfactual_audit.csv",
+      "sha256": "f3a630e621c140a1b218aa73d489c5abda0149280ce82cabce5a7ab466596848"
+    }
+  ],
+  "metric_report_status": "contract_declared_not_instantiated",
+  "milestone": "v40.03r19.1",
+  "native_premise_status": "forbidden",
+  "null_path_relation": "d=c*t only under declared null_path_light_propagation_domain",
+  "residual_status": "not_computed",
+  "schema": "aod.manual2.circle_one_metre_null_path_report_cards.v1",
+  "score_status": "no_score",
+  "target_join_status": "closed"
+}

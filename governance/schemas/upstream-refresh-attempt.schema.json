@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "atomic_commit_status": {
+      "enum": [
+        "committed_complete_snapshot",
+        "not_committed_fallback_preserved"
+      ]
+    },
+    "attempt_status": {
+      "enum": [
+        "resolved_latest_and_embedded",
+        "attempted_network_unavailable_fallback_active",
+        "attempted_api_failure_fallback_active"
+      ]
+    },
+    "attempted_at_utc": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "candidate_binding_status": {
+      "const": "version_bound"
+    },
+    "candidate_release": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "canonical_lock_path": {
+      "const": "governance/UPSTREAM_RELEASE_LOCK.json"
+    },
+    "canonical_lock_present": {
+      "type": "boolean"
+    },
+    "dependency_order": {
+      "const": [
+        "AF",
+        "AFC",
+        "GM",
+        "AOD"
+      ]
+    },
+    "failure_class": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "failure_message": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "fallback_snapshot_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "fallback_snapshot_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "partial_mutation_rollback_status": {
+      "const": "passed_no_candidate_mutation"
+    },
+    "receipt_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "record_scope": {
+      "const": "candidate_refresh_attempt"
+    },
+    "refresh_mode": {
+      "const": "always_attempt_latest_on_authoring"
+    },
+    "resolved_lock_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "resolver_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "3.1"
+    },
+    "staging_mode": {
+      "const": "isolated_full_tree_atomic_commit"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_scope",
+    "receipt_id",
+    "candidate_release",
+    "attempted_at_utc",
+    "refresh_mode",
+    "dependency_order",
+    "attempt_status",
+    "resolver_version",
+    "staging_mode",
+    "atomic_commit_status",
+    "partial_mutation_rollback_status",
+    "canonical_lock_present",
+    "canonical_lock_path",
+    "fallback_snapshot_path",
+    "fallback_snapshot_sha256",
+    "resolved_lock_sha256",
+    "failure_class",
+    "failure_message",
+    "candidate_binding_status"
+  ],
+  "title": "AOD Upstream Refresh Attempt",
+  "type": "object"
+}

@@ -1,0 +1,75 @@
+{
+  "capture_timestamp_utc": "2026-06-19T00:00:00Z",
+  "interpretation_guard": "This snapshot locks release-local parsed evidence and locally committed validation archive bytes. It is not an archive byte lock of the live RCSB HTML pages.",
+  "snapshot_class": "release_local_parsed_official_evidence_snapshot",
+  "snapshot_id": "pdb_external_probe_evidence_snapshot_1CRN_r23",
+  "source_byte_lock_status": "official_webpage_bytes_not_byte_locked; validation_archive_bytes_locked",
+  "sources": [
+    {
+      "capture_method": "release_local_parsed_text_snapshot_from_official_page",
+      "membership_note": "No structure-factor or validation-map-coefficient download label occurs in the captured official entry-page download list.",
+      "observed_download_labels": [
+        "FASTA Sequence",
+        "PDBx/mmCIF Format",
+        "PDBx/mmCIF Format (gz)",
+        "BinaryCIF Format (gz)",
+        "Legacy PDB Format",
+        "Legacy PDB Format (gz)",
+        "PDBML/XML Format (gz)",
+        "Validation Full (PDF - gz)",
+        "Validation (XML - gz)",
+        "Validation (CIF - gz)",
+        "Biological Assembly 1 (CIF - gz)",
+        "Biological Assembly 1 (PDB - gz)"
+      ],
+      "observed_entry_fields": {
+        "archive_entry_version": 1.5,
+        "archive_reported_resolution_angstrom": 1.5,
+        "experimental_method": "X-RAY DIFFRACTION"
+      },
+      "source_id": "rcsb_1crn_entry_page_parsed_snapshot",
+      "source_url": "https://www.rcsb.org/structure/1CRN"
+    },
+    {
+      "capture_method": "release_local_parsed_text_snapshot_from_official_help_page",
+      "locator_templates": [
+        "https://files.rcsb.org/pub/pdb/validation_reports/{hash}/{pdbid}/{pdbid}_validation_2fo-fc_map_coef.cif.gz",
+        "https://files.rcsb.org/pub/pdb/validation_reports/{hash}/{pdbid}/{pdbid}_validation_fo-fc_map_coef.cif.gz"
+      ],
+      "observed_contract": {
+        "coordinate_and_structure_factor_distinction": true,
+        "edmaps_shutdown_date_text": "June 28, 2024",
+        "edmaps_shutdown_documented": true,
+        "validation_map_coefficient_download_template_documented": true
+      },
+      "source_id": "rcsb_electron_density_help_parsed_snapshot",
+      "source_url": "https://www.rcsb.org/docs/general-help/electron-density-maps-and-coefficient-files"
+    },
+    {
+      "capture_method": "locally_committed_archive_bytes",
+      "observed_validation_pipeline_state": {
+        "eds_executed": false,
+        "xtriage_executed": false
+      },
+      "payloads": [
+        {
+          "byte_count": 2192,
+          "path": "manual-2/data/protein/external_pdb_validation_payloads/1crn_validation.xml.gz",
+          "sha256": "c67174996cef25bfd3d7a61e1ad21a88c83d07d9758f6a0a20642b0cd743719d"
+        },
+        {
+          "byte_count": 3011,
+          "path": "manual-2/data/protein/external_pdb_validation_payloads/1crn_validation.cif.gz",
+          "sha256": "0d822c7f3e60f01852e5f426e7602223ef7b3ce61584f2f121e890393ea4d25e"
+        },
+        {
+          "byte_count": 347318,
+          "path": "manual-2/data/protein/external_pdb_validation_payloads/1crn_full_validation.pdf.gz",
+          "sha256": "a5332328f61705d7e7acdcd3bea09267e5f5f55a1c8d9cefde0760205db6195d"
+        }
+      ],
+      "source_id": "wwpdb_validation_archive_locked_payloads",
+      "source_url": "https://files.rcsb.org/validation/download/"
+    }
+  ]
+}
