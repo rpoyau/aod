@@ -1,0 +1,292 @@
+\section{Phase Cycle and Relational Temporal-Flow Audit}\label{manual:phase-temporal-flow-audit}
+
+\subsection{Scope}\label{manual:phase-temporal:scope}
+This record carries the accepted native phase-cycle fixture, relational recurrence and successor-effect fixture, provenance-aware temporal-cadence fixture, and finite downstream \(\pi\)-projection audit. It binds the frozen r07.1, r08, and r08.1 results without adding an engine update law. The native and downstream count types remain separate.
+
+The phase and relational recurrence scope is the two-field fixture
+\[
+F_{3:4}\cup F_{3:3}
+\quad\text{on the declared common window}\quad
+W=8357.
+\]
+The cadence scope is the observer boundary \(B_{\mathrm{obs}}\) with the closed logical window
+\[
+\omega_{\mathrm{obs}}=\{0,1,\ldots,9\}.
+\]
+The r08 projection is one downstream \(\mathbb Z^2\) cell-centre presentation over nine finite dyadic refinements. It is not native phase or temporal machinery.
+
+\subsection{Declaration}\label{manual:phase-temporal:declaration}
+For the single-hinge symmetric \(p{:}q\) support used by this fixture, declare
+\[
+P_{p:q}=q^p+q,
+\qquad
+N_{p:q}=2P_{p:q}+1.
+\]
+The native state is segment-indexed by outbound succession, one hinge transition, handed return, and semantic reclosure. The value \(N_{p:q}\) is a derived closure output.
+
+A temporal cadence is the ordered recurrence of a declared compatible event class under a frozen extractor \(\kappa_{K,B,\omega}\). A tick is an emitted extractor output. A transition, shedding event, arrival, click, serialized row, runtime frame, or report row is not automatically a tick.
+
+For the observer fixture, the trace-signature relation is the heterogeneous compatibility relation
+\[
+\mathcal R_{\Sigma}
+=
+\{(\sigma_0,K_F),(\sigma_1,K_F)\}.
+\]
+The pairs \((\sigma_{\mathrm{sham}},K_F)\) and \((\mathrm{signature\_lost},K_F)\) are excluded. Reflexivity, symmetry, and transitivity are not established, source uniqueness is not inferred, and \(\mathcal R_{\Sigma}\) is not treated as an equivalence relation.
+
+Source retention ends at shedding. Realized provenance may persist as \(\sigma_0\), transform as \(\sigma_1\), or be lost as trace evidence. Uncoupled transit is distinct from source-unconditioned transit. Cadence, co-anchoring, coupling, SADAR balance, temporal-flow composition, and probe back-action are separate witnesses.
+
+The operational roles are distinct:
+\[
+\text{cadence source}
+\ne
+\text{interrogating field}
+\ne
+\text{detector}.
+\]
+Their downstream placement is
+\[
+\text{native cadence}
+\longrightarrow
+\text{declared extractor}
+\longrightarrow
+\text{physical transducer}
+\longrightarrow
+\text{reported clock signal}.
+\]
+
+\subsection{Fixture}\label{manual:phase-temporal:fixture}
+The phase fixture carries \(C_{3:4}\) and \(C_{3:3}\). The relational recurrence fixture assigns one retained stable-source polyrhythm beat to each of \(F_{3:4}\) and \(F_{3:3}\), then admits the declared truthful cross-return relation at the first common reclosure.
+
+The generic observer fixture is bound to the stable source row
+\[
+1{:}2{:}7\longrightarrow C_6,
+\qquad
+\rho^D=9,
+\quad
+\rho^D_{\omega}=7,
+\quad
+Q^D=6,
+\quad
+P^D=21,
+\quad
+C^{\mathrm{close}}=18,
+\]
+\[
+\Delta^{\mathrm{close}}=3,
+\qquad
+X_{\mathrm{shedding}}=3.
+\]
+After this stable result is fixed, \(d_0,d_1,d_2\) provide one finite discriminating observer row per unit of \(X_{\mathrm{shedding}}=3\). This is a fixture-produced cadence, not a released-source prediction, and not a native one-unit-to-one-tick law.
+
+The candidate
+\[
+\mathcal M_0=(K_{3:3:6}@0,K_{1:2:6}@0;\mathrm{roles},B,\omega,\kappa)
+\]
+is not instantiated by this fixture. Its status remains
+\[
+\begin{gathered}
+\texttt{WORKING\_HYPOTHESIS\_PENDING\_SOURCE\_}\\
+\texttt{CERTIFICATION\_AND\_TRACE}.
+\end{gathered}
+\]
+Structural keys alone do not constitute cadence, and role assignment requires
+source certification together with trace evidence.
+
+\subsection{State row}\label{manual:phase-temporal:state-row}
+\begin{table}[H]
+\centering
+\small
+\caption{Frozen native phase and relational-recurrence state rows.}
+\begin{tabular}{lrrrrl}
+\toprule
+Cycle & \(p\) & \(q\) & \(P_{p:q}\) & \(N_{p:q}\) & Common-window extracted count\\
+\midrule
+\(C_{3:4}\) & 3 & 4 & 68 & 137 & \(F_{3:4}=61\)\\
+\(C_{3:3}\) & 3 & 3 & 30 & 61 & \(F_{3:3}=137\)\\
+\bottomrule
+\end{tabular}
+\label{tab:manual-phase-temporal-state}
+\end{table}
+
+The hinge indices are respectively 68 and 30. Each native trace contains a handed-return witness. When the handed hinge relation is destroyed, semantic closure is absent. The field-local closure count and the number of extracted reclosures in \(W\) are different count types.
+
+The cadence state row carries source \(G_0\), receiving field \(F\), detector \(D_{\mathrm{report}}\), extractors \(\kappa_G,\kappa_F\), relation \(\mathcal R_{\Sigma}\), and the frozen window \(\omega_{\mathrm{obs}}\). The exact semantic rows are stored in \path{manual/data/phase_temporal/cadence_signature_trace.csv}.
+
+\subsection{Execution}\label{manual:phase-temporal:execution}
+The phase execution advances outbound offsets, applies the single hinge transition, advances the handed return, and records the first semantic reclosure. It returns
+\[
+N_{3:4}=137,
+\qquad
+N_{3:3}=61.
+\]
+The common-window recurrence execution retains the local closure types and counts semantic reclosures:
+\[
+W=\operatorname{lcm}(137,61)=8357,
+\]
+\[
+\#F_{3:4}=\frac{8357}{137}=61,
+\qquad
+\#F_{3:3}=\frac{8357}{61}=137.
+\]
+The r07.1 namespace reconciliation binds \(F_{3:4}\leftrightarrow C_{3:4}\) and \(F_{3:3}\leftrightarrow C_{3:3}\); all bound values agree and the accepted scientific result is unchanged.
+
+For the observer execution, \(\kappa_G\) emits
+\[
+(\texttt{p.d0.shed},\texttt{p.d1.shed},\texttt{p.d2.shed}),
+\]
+and \(\kappa_F\) emits
+\[
+(\texttt{p.d0.admit},\texttt{p.d1.admit}).
+\]
+Thus the truthful observer lanes produce
+\[
+(N_G,N_F)=(3,2),
+\qquad
+\operatorname{cadence}(G_0,F)=3{:}2.
+\]
+The relation-destroyed lane excludes \(\sigma_{\mathrm{sham}}\) and produces \((N_G,N_F)=(3,1)\). The cadence result is read only after event class, compatibility relation, boundary, window, and extractors are frozen.
+
+\subsection{Passive trace}\label{manual:phase-temporal:passive-trace}
+Lane A is the bare engine. Lane B adds passive trace and satisfies exact state-sequence equality with A. Lane C adds a read-only report after \(\omega_{\mathrm{obs}}\) closes and satisfies exact state-sequence equality with B. Complete reverse serialization preserves the ordered \(\kappa_G\) and \(\kappa_F\) outputs.
+
+Lane C emits a cadence report with no feedback edge. The physical transducer is not instantiated, and the reported clock signal is not instantiated. SI, frequency, maser, electric-field, and electric-field quantum-clock mappings remain downstream and unopened.
+
+Probe back-action is audited separately by
+\[
+R_{\mathrm{probe}}
+=d\!\left(\mathcal T_{\mathrm{interrogated}},
+\mathcal T_{\mathrm{uninterrogated}}\right).
+\]
+Here \(d\) is the Hamming distance over the ordered final
+\texttt{last\_return\_source} components for \(F_{3:4}\) and \(F_{3:3}\).
+Passive trace and report-only interrogation give \(R_{\mathrm{probe}}=0\). Truthful admitted cross-return changes exactly the two final \texttt{last\_return\_source} components and gives \(R_{\mathrm{probe}}=2\). Relation-destroyed input gives \(R_{\mathrm{probe}}=0\).
+
+\subsection{Controls}\label{manual:phase-temporal:controls}
+\begin{table}[H]
+\centering
+\small
+\caption{Frozen five-lane phase, cadence, report, and probe controls. Every lane retains the common-window extracted recurrence counts \(\#F_{3:4}=61\) and \(\#F_{3:3}=137\); the native closure counts remain \(N_{3:4}=137\) and \(N_{3:3}=61\).}
+\begin{tabularx}{\textwidth}{clXcccc}
+\toprule
+Lane & Dynamic & Ontology input & Cadence & Coupling & Report & \(R_{\mathrm{probe}}\)\\
+\midrule
+A & bare engine & none & -- & no & no & 0\\
+B & same engine & passive trace & \(3{:}2\) & no & no & 0\\
+C & same engine & passive trace plus report; no feedback & \(3{:}2\) & no & yes & 0\\
+D & same engine & truthful admitted cross-return & \(3{:}2\) & yes & no & 2\\
+E & same engine & sham or relation-destroyed input & \(3{:}1\) & no & no & 0\\
+\bottomrule
+\end{tabularx}
+\label{tab:manual-phase-temporal-controls}
+\end{table}
+
+The B/D comparison separates cadence from coupling: both carry \(3{:}2\), while only D carries the successor-effect witness. The D/E comparison separates truthful relation admission from structural similarity or self-return sham. Co-anchoring at the relational anchor 0 does not create coupling; 0 is a relational anchor rather than an external time origin.
+
+\subsection{Exact audit}\label{manual:phase-temporal:exact-audit}
+The native closure identities are
+\[
+4^3+4=68,
+\qquad
+2(68)+1=137,
+\]
+\[
+3^3+3=30,
+\qquad
+2(30)+1=61,
+\qquad
+137\cdot61=8357.
+\]
+The cancellation fixture records shedding followed by source readmission:
+\[
+\Delta n_{\mathrm{free}}
+=1_{\mathrm{shed}}-1_{\mathrm{readmit}}=0.
+\]
+This is self-reclosure and does not supply a cross-field coupling witness.
+
+For the downstream finite projection, define only the report coordinates
+\[
+\widehat\pi_C(r)=\frac{C(r)}{2r},
+\qquad
+\widehat\pi_A(r)=\frac{A(r)}{r^2},
+\qquad
+R_{C,A}(r)=rC(r)-2A(r),
+\]
+\[
+\widehat\pi_C-\widehat\pi_A
+=\frac{R_{C,A}}{2r^2},
+\qquad
+\widehat\tau_C-\widehat\tau_A
+=\frac{R_{C,A}}{r^2}.
+\]
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{All nine retained exact rows of the downstream finite \(\pi\)-projection audit.}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{rrrrrrrr}
+\toprule
+\(r\) & \(C\) & \(A\) & \(\widehat\pi_C\) & \(\widehat\pi_A\) & \(R_{C,A}\) & \(\Delta\pi\) & \(\Delta\tau\)\\
+\midrule
+1 & 8 & 1 & 4 & 1 & 6 & 3 & 6\\
+2 & 12 & 9 & 3 & \(9/4\) & 6 & \(3/4\) & \(3/2\)\\
+4 & 32 & 45 & 4 & \(45/16\) & 38 & \(19/16\) & \(19/8\)\\
+8 & 48 & 193 & 3 & \(193/64\) & \(-2\) & \(-1/64\) & \(-1/32\)\\
+16 & 112 & 793 & \(7/2\) & \(793/256\) & 206 & \(103/256\) & \(103/128\)\\
+32 & 188 & 3205 & \(47/16\) & \(3205/1024\) & \(-394\) & \(-197/1024\) & \(-197/512\)\\
+64 & 440 & 12849 & \(55/16\) & \(12849/4096\) & 2462 & \(1231/4096\) & \(1231/2048\)\\
+128 & 788 & 51429 & \(197/64\) & \(51429/16384\) & \(-1994\) & \(-997/16384\) & \(-997/8192\)\\
+256 & 1608 & 205857 & \(201/64\) & \(205857/65536\) & \(-66\) & \(-33/65536\) & \(-33/32768\)\\
+\bottomrule
+\end{tabular}}
+\label{tab:manual-finite-pi-projection}
+\end{table}
+
+The exact symbolic comparator uses
+\[
+\frac{103993}{33102}<\pi<\frac{104348}{33215}.
+\]
+The boundary error sequence is finite and nonmonotone. The interior error strictly improves over these nine selected rows. The fixture establishes no projection uniqueness, primitive circularity, native circularity, asymptotic convergence, convergence theorem, or universal \(\pi\) derivation.
+
+\subsection{Formation}\label{manual:phase-temporal:formation}
+Native phase-cycle formation occurs when the declared outbound, hinge, handed-return, and reclosure relations first return the semantic state at derived count \(N_{p:q}\). Relational recurrence formation records nonempty field-local reclosure sequences in the declared common window. The separately admitted cross-return relation forms a coupling successor witness only when the successor state retains a non-self returned source.
+
+Temporal-cadence formation occurs after \(\omega_{\mathrm{obs}}\) closes when both frozen extractors emit nonempty ordered sequences from their declared event classes and the receiving events satisfy the pre-frozen \(\mathcal R_\Sigma\). Reporting occurs after formation.
+
+\subsection{Falsification}\label{manual:phase-temporal:falsification}
+The operational record fails if any of the following occurs:
+\begin{itemize}[leftmargin=*]
+\item a handed-relation-destroyed phase trace still forms semantic closure;
+\item a shed object remains source-retained without explicit readmission;
+\item a signature appears without trace origin, or signature identity is used to infer a unique source;
+\item extractor counts change under complete reverse serialization;
+\item an incompatible signature contributes a receiving-field tick;
+\item passive tracing changes core state, or a report feeds task control;
+\item cadence alone is recorded as coupling, or coupling alone defines a cadence;
+\item \(R_{C,A}\), \(\Delta\pi\), or \(\Delta\tau\) fails its exact integer/rational identity;
+\item the downstream finite projection is promoted to native phase or temporal machinery.
+\end{itemize}
+
+\subsection{Provenance}\label{manual:phase-temporal:provenance}
+The source record is content-bound to the following frozen authorities.
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Scientific-result content bindings.}
+\begin{tabularx}{\textwidth}{lXX}
+\toprule
+Record & Archive SHA-256 & Bound member SHA-256\\
+\midrule
+r07.1 phase/temporal & \texttt{060df61f\allowbreak 65be3fa8\allowbreak 325ad2d5\allowbreak be127c00\allowbreak 303a7d28\allowbreak 0e512e36\allowbreak 588553df\allowbreak 0009eb8c} & \texttt{36ece6b2\allowbreak cea4a830\allowbreak 9a96eeeb\allowbreak 0e7414eb\allowbreak b9bc3803\allowbreak 20b0980a\allowbreak 76da9ed4\allowbreak 52f3d344}\\
+r08 finite \(\pi\)-error & \texttt{422d09b6\allowbreak 2b529dbb\allowbreak 1246b768\allowbreak cd102273\allowbreak 7cfb9093\allowbreak 789bd078\allowbreak c25f2668\allowbreak 27af6ec1} & \texttt{ee5c7848\allowbreak 0cea83ba\allowbreak 6c632a2b\allowbreak 4fb1f1ab\allowbreak 33c4c639\allowbreak a11ab2ef\allowbreak f4739cf6\allowbreak 0caaf948}\\
+r08.1 cadence & \texttt{6f0e19b3\allowbreak ffaab2f6\allowbreak 96192bb4\allowbreak 236a2c9f\allowbreak 19887abd\allowbreak ede209cc\allowbreak d98252df\allowbreak 9918e7a6} & \texttt{48ab65dc\allowbreak 3f4ceaa7\allowbreak e9443125\allowbreak e258bc27\allowbreak 0318f8de\allowbreak 9b128780\allowbreak acaec0a1\allowbreak 56f2c970}\\
+Integrated review & same r08.1 archive & \texttt{f4d86556\allowbreak d226c80f\allowbreak d55cabe8\allowbreak b5e94c38\allowbreak efd83844\allowbreak ede947b3\allowbreak 85fd0fce\allowbreak 18a7de78}\\
+\bottomrule
+\end{tabularx}
+\label{tab:manual-phase-temporal-provenance}
+\end{table}
+
+The complete member paths, hashes, verification state, and scope qualifications are stored in \path{manual/data/phase_temporal/scientific_result_bindings.json}. Exact semantic rows are stored beside it in \path{phase_cycle_closure.csv}, \path{cadence_signature_trace.csv}, \path{cadence_control_matrix.csv}, and \path{finite_pi_projection.csv}.
+
+\aodremark{The accepted provenance-aware result is the generic observer-side fixture. \(\mathcal M_0\) remains pending source certification and trace. The cadence report is not a physical clock signal; transducer and clock-hardware realization remain downstream.}

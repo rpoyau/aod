@@ -61,7 +61,7 @@ def test_forbidden_q4_position_language_absent():
 
 
 def test_run_tumble_csv_consistency():
-    csv_path = ROOT / "manual" / "data" / "run_tumble" / "run_tumble_trace_20_ticks.csv"
+    csv_path = ROOT / "manual" / "data" / "run_tumble" / "run_tumble_trace_20_steps.csv"
     assert csv_path.exists()
     rows = list(csv.DictReader(csv_path.open(encoding="utf-8")))
     assert len(rows) == 21
@@ -106,7 +106,7 @@ def test_run_tumble_phase_and_octant_delta3_conservation():
 def test_run_tumble_artifacts_present():
     files = [
         "manual/scripts/aod_run_tumble_3d_trace.py",
-        "manual/data/run_tumble/run_tumble_trace_20_ticks.csv",
+        "manual/data/run_tumble/run_tumble_trace_20_steps.csv",
         "manual/data/run_tumble/run_tumble_phase_cycle_delta3.csv",
         "manual/data/run_tumble/run_tumble_octant_delta3.csv",
         "manual/data/run_tumble/run_tumble_integer_motion_ratios.csv",

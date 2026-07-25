@@ -1,0 +1,3 @@
+cycle_id,p,q,branch_support,hinge_index,closure_count,half_cycle_topology,common_window,common_window_extracted_count,handed_return_witness,relation_destroyed_semantic_closure,status
+C_3_4,3,4,68,68,137,hinge_transition_at_68,8357,61,true,false,PASS_FROZEN
+C_3_3,3,3,30,30,61,hinge_transition_at_30,8357,137,true,false,PASS_FROZEN

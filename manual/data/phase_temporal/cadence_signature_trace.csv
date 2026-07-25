@@ -1,0 +1,19 @@
+lane,fixture_id,logical_index,event_id,object_id,source_field,target_field,relational_anchor,event_class,retention_before,retention_after,transit_state,signature_in,signature_out,signature_origin,relation_compatible,count_scope,extractor_G_tick,extractor_F_tick,admitted,coupling_successor_effect,report_only,notes
+B,positive_127_C6,0,p.d0.retain,d0,G0,,,retention_event,false,true,retained_G0,,,,,true,false,false,false,false,false,observer state begins with source retention
+B,positive_127_C6,1,p.d0.shed,d0,G0,,,shedding_event,true,false,free,,sigma0,trace_retention_history,true,true,true,false,false,false,false,first unit of stable X_shedding=3 witness
+B,positive_127_C6,2,p.d0.admit,d0,G0,F,,admission_event,false,false,admitted_F,sigma0,sigma0,trace_retention_history,true,true,false,true,true,false,false,
+B,positive_127_C6,3,p.d1.retain,d1,G0,,,retention_event,false,true,retained_G0,,,,,true,false,false,false,false,false,
+B,positive_127_C6,4,p.d1.shed,d1,G0,,,shedding_event,true,false,free,,sigma0,trace_retention_history,true,true,true,false,false,false,false,second unit of stable X_shedding=3 witness
+B,positive_127_C6,5,p.d1.transform,d1,G0,,,signature_transform,false,false,free,sigma0,sigma1,trace_transformation,true,true,false,false,false,false,false,compatible trace transformation
+B,positive_127_C6,6,p.d1.admit,d1,G0,F,,admission_event,false,false,admitted_F,sigma1,sigma1,trace_transformation,true,true,false,true,true,false,false,transformed compatible signature admitted
+B,positive_127_C6,7,p.d2.retain,d2,G0,,,retention_event,false,true,retained_G0,,,,,true,false,false,false,false,false,
+B,positive_127_C6,8,p.d2.shed,d2,G0,,,shedding_event,true,false,free,,sigma0,trace_retention_history,true,true,true,false,false,false,false,third unit of stable X_shedding=3 witness
+B,positive_127_C6,9,p.d2.loss,d2,G0,,,open_loss_event,false,false,open_loss,sigma0,signature_lost,trace_loss,false,true,false,false,false,false,false,"window closes after preservation, transformation, and loss outcomes"
+B,cancellation_reclosure,0,c.dR.retain,dR,G0,,,retention_event,false,true,retained_G0,,,,,false,false,false,false,false,false,
+B,cancellation_reclosure,1,c.dR.shed,dR,G0,,,shedding_event,true,false,free,,sigma0,trace_retention_history,true,false,false,false,false,false,false,outside cadence counting boundary
+B,cancellation_reclosure,2,c.dR.readmit,dR,G0,G0,,source_readmission,false,true,readmitted_G0,sigma0,sigma0,trace_retention_history,true,false,false,false,true,false,false,self reclosure cancels free occupancy and is not coupling
+B,cancellation_reclosure,3,c.dR.reclose,dR,G0,G0,,reclosure_event,true,true,retained_G0,sigma0,sigma0,trace_retention_history,true,false,false,false,false,false,false,net free occupancy 1-1=0
+B,signature_collision,0,n.d3.retain,d3,G1,,,retention_event,false,true,retained_G1,,,,,false,false,false,false,false,false,separate source outside cadence counting boundary
+B,signature_collision,1,n.d3.shed,d3,G1,,,shedding_event,true,false,free,,sigma0,trace_retention_history,true,false,false,false,false,false,false,same compatible token as d0 from different source; uniqueness is not inferred
+B,coanchor_no_coupling,0,a.G0.anchor,anchor_G0,G0,,0,coanchor_declaration,,,,,,,,false,false,false,false,false,false,relational anchor only
+B,coanchor_no_coupling,0,a.F.anchor,anchor_F,F,,0,coanchor_declaration,,,,,,,,false,false,false,false,false,false,co-anchoring does not create a successor effect

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate the manual 3D coordinate phase-cycle delta_3 fixture assets.
+"""Generate the manual 3D coordinate-residue delta_3 presentation assets.
 
 The coordinate fixture is integer-native: a track is mapped to Z^3, lagged displacements
-produce Q=a^2+b^2+c^2, phase residues Q mod beta_a, octant counts, and exact
+produce Q=a^2+b^2+c^2, coordinate residues Q mod beta_a, octant counts, and exact
 ternary signed residuals against integer-balanced comparators.
 """
 from __future__ import annotations
@@ -104,9 +104,9 @@ def compute_rows():
     return rows
 
 
-def write_csv(path: Path, rows: List[dict], fieldnames: List[str]):
+def write_csv(path: Path, rows: List[dict], fieldnames: List[str], lineterminator: str = "\r\n"):
     with path.open("w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator=lineterminator)
         writer.writeheader()
         writer.writerows(rows)
 
@@ -180,10 +180,10 @@ def generate_data():
         {"lag_n": LAG, "ratio": "R_x", "numerator": sum_x, "denominator": sum_q, "description": "x-axis squared share"},
         {"lag_n": LAG, "ratio": "R_y", "numerator": sum_y, "denominator": sum_q, "description": "y-axis squared share"},
         {"lag_n": LAG, "ratio": "R_z", "numerator": sum_z, "denominator": sum_q, "description": "z-axis squared share"},
-        {"lag_n": LAG, "ratio": "R_theta", "numerator": ":".join(str(phase_counts[t]) for t in range(BETA_A)), "denominator": N, "description": "phase-cycle count ratio"},
+        {"lag_n": LAG, "ratio": "R_theta", "numerator": ":".join(str(phase_counts[t]) for t in range(BETA_A)), "denominator": N, "description": "coordinate-residue count ratio (legacy phase-cycle alias)"},
         {"lag_n": LAG, "ratio": "R_oct", "numerator": ":".join(str(oct_counts[q]) for q in range(8)), "denominator": N, "description": "octant count ratio"},
     ]
-    write_csv(DATA_DIR / "integer_motion_ratios.csv", ratio_rows, ["lag_n", "ratio", "numerator", "denominator", "description"])
+    write_csv(DATA_DIR / "integer_motion_ratios.csv", ratio_rows, ["lag_n", "ratio", "numerator", "denominator", "description"], lineterminator="\n")
 
 
 def generate_figure():
@@ -221,20 +221,20 @@ def generate_figure():
     # formula / counts panel
     ax2 = fig.add_axes([0.49, 0.66, 0.47, 0.22])
     ax2.axis("off")
-    ax2.set_title("Integer squared displacement and phase", fontsize=12, fontweight="bold", pad=6)
+    ax2.set_title("Integer squared displacement and residue", fontsize=12, fontweight="bold", pad=6)
     ax2.text(0.02, 0.82, r"$\Delta z_i^{(n)}=(a_i^{(n)},b_i^{(n)},c_i^{(n)})\in\mathbb{Z}^3$", fontsize=11)
     ax2.text(0.02, 0.62, r"$Q_i^{(n)}=(a_i^{(n)})^2+(b_i^{(n)})^2+(c_i^{(n)})^2\in\mathbb{Z}_{\geq 0}$", fontsize=11)
     ax2.text(0.02, 0.42, r"$\theta_i^{(n)}=Q_i^{(n)}\,\mathrm{mod}\,\beta_a$", fontsize=11)
-    ax2.text(0.02, 0.20, r"Active fixture: counts on $Q$, phase, and octant bins; no radial-distance fit.", fontsize=10)
+    ax2.text(0.02, 0.20, r"Active fixture: counts on $Q$, residue, and octant bins; no radial-distance fit.", fontsize=10)
     ax2.text(0.72, 0.68, r"$\delta_{3,k}=(s^{(3)}_k,m_k)$", fontsize=11, bbox=dict(boxstyle="round", facecolor="white", edgecolor="0.3"))
 
-    # phase/octal small bar charts
+    # residue/octant small bar charts
     ax3 = fig.add_axes([0.51, 0.34, 0.20, 0.23])
     phase_counts = {theta: 0 for theta in range(BETA_A)}
     for r in rows:
         phase_counts[r["theta"]] += 1
     ax3.bar(range(BETA_A), [phase_counts[t] for t in range(BETA_A)], color="0.72", edgecolor="black")
-    ax3.set_title(r"Phase counts $O_\theta$", fontsize=10)
+    ax3.set_title(r"Residue counts $O_\theta$", fontsize=10)
     ax3.set_xlabel(r"$\theta$")
     ax3.set_ylabel("count")
     ax3.set_xticks(range(BETA_A))
@@ -260,9 +260,9 @@ def generate_figure():
         ax5.text(x, 0.55, lab, fontsize=10, ha="center", va="center", bbox=dict(boxstyle="round,pad=0.35", facecolor="white", edgecolor="0.3"))
         if i < len(labels)-1:
             ax5.annotate("", xy=(x+0.10,0.55), xytext=(x+0.07,0.55), arrowprops=dict(arrowstyle="->", lw=1.5, color="black"))
-    ax5.text(0.5, 0.08, "3D coordinate phase-cycle delta_3 fixture: integer counts first; continuous summaries only after exact fixture", ha="center", fontsize=10, fontweight="bold")
+    ax5.text(0.5, 0.08, "3D coordinate-residue delta_3 presentation: integer counts first; continuous summaries only after exact fixture", ha="center", fontsize=10, fontweight="bold")
 
-    fig.suptitle(r"3D Coordinate Phase-Cycle $\delta_3$ Fixture", fontsize=16, fontweight="bold", y=0.985)
+    fig.suptitle(r"3D Coordinate-Residue $\delta_3$ Presentation", fontsize=16, fontweight="bold", y=0.985)
     fig.savefig(FIG_DIR / "coordinate_phase_delta3_wireframe.png", bbox_inches="tight")
     plt.close(fig)
 

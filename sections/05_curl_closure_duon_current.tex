@@ -66,21 +66,50 @@ A duon current is carried hinge-current through cycle support. The primitive res
 \[
 2\times3\times2=12
 \]
-variants. Duon, duad, and temporal cycle presentation. \appref{app:cc-duon-duad-cycle}.
+variants. Duon, duad, and native phase-cycle presentation. \appref{app:cc-duon-duad-cycle}.
 
-\subsubsection{Tick/click}\label{subsec:duon-tick-click}
-Let \(K_t\) be a field cycle state. A tick emits a duon current
-\[
-X_t=E(K_t).
-\]
-A click receives a returned duon \(Y_t\). The cycle update is
-\[
-K_{t+1}=U(K_t,Y_t,\beta_t,\Delta_{\mathrm{lead/lag}}),
-\]
-and the next tick emits
-\[
-X_{t+1}=E(K_{t+1}).
-\]
+\subsubsection{Native phase cycle and declared extractor}\label{subsec:native-phase-declared-extractor}
+Let \((s_n)_{n\ge 0}\) be engine states under the indexed operations
+\(s_{n+1}=\mathcal C_n(s_n)\). A native phase cycle is the minimal closed
+handed return
+\begin{equation}
+s_0\xrightarrow{\mathcal C_0}s_1
+\xrightarrow{\mathcal C_1}\cdots
+\xrightarrow{\mathcal C_{N_C-1}}s_{N_C}=s_0,
+\label{eq:native-phase-cycle}
+\end{equation}
+with closure count
+\begin{equation}
+N_C=\min\left\{n>0:
+s_n=s_0\ \text{and}\
+\operatorname{HandRet}_C(s_0,\ldots,s_n)=1
+\right\}.
+\label{eq:native-phase-closure-count}
+\end{equation}
+For \(0\le i,j<N_C\), the native rational phase accessor is
+\begin{equation}
+\eta_C(s_i,s_j)
+=
+\frac{[j-i]_{N_C}}{N_C}
+\in\mathbb Q/\mathbb Z.
+\label{eq:native-phase-accessor}
+\end{equation}
+The state \(s_0\) is the relational zero anchor of the declared cycle.
+
+Let \(K\) be a compatible event class fixed on \(B=(\partial_TF,\omega)\),
+and let \(T\) be a finite trace with event order \(\prec\). A declared
+extractor is
+\begin{equation}
+\kappa_{K,B,\omega}(T)
+=
+(e_1,\ldots,e_N),
+\qquad
+e_i\in K,
+\qquad
+e_1\prec\cdots\prec e_N.
+\label{eq:declared-extractor}
+\end{equation}
+Only the selected events \(e_i\) are ticks of this extractor.
 
 \subsubsection{Markovian and retained-history continuity}\label{subsec:duon-continuity}
 A Markovian continuity continues by present cycle state. A retained-history continuity carries prior return, lead--lag burden, jitter, shell residue, duration, or SADAR channel memory. Both forms carry wave continuity when distinction-information persists through recurring duon cycle form.
@@ -116,12 +145,33 @@ A duad is the seat-taken state of the same duon current.
 \subsection{Curling-curl support forms}\label{subsec:curling-curl-support-forms}
 
 A compact expression \(p{:}q{:}L\) is a compressed curling-curl specification. The \(p{:}q\) part names the retained curling-curl support form, the construction trace admits it on \(B\), and \(L\) declares the enclosure/window support used by a downstream entry. In the single-hinge symmetric fixture,
-\[
-\Pi(p{:}q)=q^p+q,
+\begin{equation}
+\Pi_{p{:}q}=q^p+q,
 \qquad
-RD_B^{(1)}(p{:}q)=\Pi(p{:}q)+1+\Pi(p{:}q).
+N_{p{:}q}=2\Pi_{p{:}q}+1.
+\label{eq:scoped-support-closure-count}
+\end{equation}
+When the construction trace witnesses the native closure,
+\(N_C=N_{p{:}q}\). A separately declared reflection-duration accessor has
+the same arithmetic value in this fixture,
+\[
+RD_B^{(1)}(p{:}q)=\Pi_{p{:}q}+1+\Pi_{p{:}q},
 \]
-Thus \(1{:}2\) gives \(\Pi=4\) and \(RD_B^{(1)}=9\); \(3{:}2\) gives \(\Pi=10\) and \(RD_B^{(1)}=21\); \(3{:}3\) gives \(\Pi=30\) and \(RD_B^{(1)}=61\); \(3{:}4\) gives \(\Pi=68\) and \(RD_B^{(1)}=137\). These are internal reflection-duration accessors of declared curling-curl specifications. The live calculus keeps the construction trace, isotropic/anisotropic Markov choice, hinge slide, jitter, boundary capacity, and admission status visible. Measured-sector interpretations, if any, belong to the manual external-comparison layer.
+without identifying phase closure with reflection duration. Thus
+the candidate single-hinge counts are
+\[
+N_{1{:}2}=9,
+\qquad
+N_{3{:}2}=21,
+\qquad
+N_{3{:}3}=61,
+\qquad
+N_{3{:}4}=137.
+\]
+On the content-bound phase traces, only \(N_{3{:}3}=61\) and
+\(N_{3{:}4}=137\) are certified here as native closure counts.
+The live calculus keeps the construction trace, the declared Markov choice,
+hinge slide, jitter, boundary capacity, and admission status visible.
 
 \begin{definition}[Support expression]
 A support expression is formal syntax
@@ -293,11 +343,18 @@ For \(C_f[3{:}4]_{\AO}=\operatorname{cycle}_{\partial_T\mathcal F}[x\succ x=x;\o
 \]
 Under symmetric single-hinge support,
 \[
+N_{3{:}4}=68+1+68=137,
+\qquad
 RD^{(1)}_{\AO}\!\left(C_f[3{:}4]\right)=68+1+68=137.
 \]
-The retained object is \(C_f[3{:}4]_{\AO}\). The value \(137\) is the reflection-duration accessor:
+The retained object is \(C_f[3{:}4]_{\AO}\). The closure count and the
+reflection-duration accessor are separately typed scalar accessors:
 \[
-C_f[3{:}4]_{\AO}\ne 137.
+C_f[3{:}4]_{\AO}\ne N_{3{:}4},
+\qquad
+\operatorname{type}(N_{3{:}4})
+\ne
+\operatorname{type}\!\left(RD^{(1)}_{\AO}\!\left(C_f[3{:}4]\right)\right).
 \]
 
 \begin{figure}[H]
@@ -320,14 +377,17 @@ Boundary accumulation & \(\downarrow\) & \(\Phi^D_{\partial_T R}=\sum_{e\in\part
 \end{figure}
 
 \subsection{Cycle / wave identity}\label{subsec:cycle-wave-identity}
-A cycle is the retained branch/hinge/branch package. A wave is the SADAR-valued temporal presentation of that package. For a retained cycle \(C\) on \(B=(\partial_TF,\omega)\), define
+A cycle is the retained branch/hinge/branch package. A wave is the
+SADAR-valued ordered-window presentation of that package. For a retained
+cycle \(C\) on \(B=(\partial_TF,\omega)\), define
 \begin{equation}
 \operatorname{wave}_B(C)
 =
 \{(t,\SADARop_{B|t}(C)):t\in\omega\}.
 \label{eq:wave-sadar-presentation}
 \end{equation}
-Thus \(\operatorname{wave}_B(C)\) is the temporal SADAR presentation of \(C\).
+Thus \(\operatorname{wave}_B(C)\) is the SADAR-valued ordered-window
+presentation of \(C\).
 
 The hinge \(\mu\) implicitly supports chirality: it carries the handed return of the branch/hinge/branch package. The chiral cycle presentation is
 \begin{equation}
@@ -344,7 +404,7 @@ This presentation is part of the same cycle/wave package: \(A\leftrightarrow_{\m
 \begin{tabular}{c}
 $C$ = retained branch/hinge/branch package\\[0.25em]
 $A\leftrightarrow_{\mu}\Omega\rightarrow\Omega\leftrightarrow_{\mu}A\rightarrow A\leftrightarrow_{\mu}\Omega$ = chiral hinge return presentation\\[0.25em]
-$\downarrow$ temporal SADAR presentation on $\omega$\\[0.25em]
+$\downarrow$ SADAR-valued ordered-window presentation on $\omega$\\[0.25em]
 $\operatorname{wave}_B(C)=\{(t,\SADARop_{B|t}(C)):t\in\omega\}$
 \end{tabular}
 \end{minipage}}
@@ -390,15 +450,19 @@ C_\sigma[3{:}4;C_6]_{\AO},
 \qquad
 C_\sigma[3{:}3;C_6]_{\AO},
 \]
-with \(|\Sigma_{\mathrm{support}}|=2\). Cadence diagnostics are
+with \(|\Sigma_{\mathrm{support}}|=2\). Their scoped phase-closure counts
+and common recurrence window are
 \[
-RD_{\AO}(3{:}4)=137,
+N_{3{:}4}=137,
 \qquad
-RD_{\AO}(3{:}3)=61,
+N_{3{:}3}=61,
 \qquad
-T_{\mathrm{sync}}=\operatorname{lcm}(137,61)=8357.
+W_{\mathrm{common}}=\operatorname{lcm}(137,61)=8357.
 \]
-The coupling is \(\SADARop_B(C_{3{:}4},C_{3{:}3})\), not automatic adjacency and not the cadence diagnostic.
+The common window contains \(61\) closures of \(C_{3{:}4}\) and \(137\)
+closures of \(C_{3{:}3}\). Common-window closure is neither cadence nor
+coupling. SADAR coupling is present only when its relation is separately
+declared.
 
 \begin{figure}[H]
 \centering
@@ -440,19 +504,16 @@ A fractal field ring gate is the ring specialization of finite SADAR accumulatio
 External comparison symbols do not enter the A\(\Omega\) calculation. Constants, measured-sector units, and comparison coordinates may appear only in an explicitly quarantined comparison appendix or external comparison entry, and they do not set A\(\Omega\) notation.
 
 \subsection{Polyrhythm coupling}\label{subsec:polyrhythm-coupling}
-A polyrhythm coupling is a finite family of cycle-valued compressions whose returned-current cadences are retained together on a declared boundary/window. In the notation above, such a family is
+A polyrhythm family is a finite family of cycle-valued compressions retained
+on a declared boundary/window. In the notation above, such a family is
 \[
 \mathcal C_{\mathfrak a,r,\Sigma}
 =
 \operatorname{cycle}\langle\mathfrak a,r\rangle(\Sigma).
 \]
-The retained phase coordinate of beat \(u\) is
-\begin{equation}
-\theta_u(t)=t\bmod RD_{\AO}(C_u),
-\qquad t\in\omega.
-\label{eq:polyrhythm-phase-coordinate}
-\end{equation}
-SADAR coupling is declared by \(E_{\SADARop}(B)\). For \((u,v)\in E_{\SADARop}(B)\), the coupled contribution is
+Family membership and a common window establish neither cadence nor
+coupling. SADAR coupling is declared separately by \(E_{\SADARop}(B)\).
+For \((u,v)\in E_{\SADARop}(B)\), the coupled contribution is
 \begin{equation}
 \SADARop_B(C_u,C_v)
 =

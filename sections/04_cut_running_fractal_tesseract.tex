@@ -157,7 +157,7 @@ d_H(x,y)=\#\{k:x_k\ne y_k\}.
 \]
 
 \paragraph{Definition.}
-A local tick/click state on an oriented edge carries the ternary fibre
+A local transition state on an oriented edge carries the ternary fibre
 \[
 \sigma_t(e)\in\{-1,0,+1\},
 \]
@@ -193,7 +193,7 @@ where the weights may depend on \(\Delta\chi^{\mathrm{lag}}_{e'}(B)\),
 
 
 \paragraph{Four-edge implementation.}
-At a vertex of \(Q_4\), the current oriented edge may be treated as the ancestor edge of the local tick/click step.  The four Hamming--1 incident edge slots consist of that retained ancestor slot together with up to three successor slots.  The successor pool carries the ternary fibre \(\{-1,0,+1\}\): return branch, hinge/dwell, and outbound branch.  The isotropic kernel assigns equal weight to admissible successor states; the anisotropic kernel reweights the same admissible states by the declared boundary data.  When the hinge state reaches capacity on the declared scope, same-resolution dwell is unavailable and the continuation is branch/hinge/branch through the remaining admitted branch states.
+At a vertex of \(Q_4\), the current oriented edge may be treated as the ancestor edge of the local transition step.  The four Hamming--1 incident edge slots consist of that retained ancestor slot together with up to three successor slots.  The successor pool carries the ternary fibre \(\{-1,0,+1\}\): return branch, hinge/dwell, and outbound branch.  The isotropic kernel assigns equal weight to admissible successor states; the anisotropic kernel reweights the same admissible states by the declared boundary data.  When the hinge state reaches capacity on the declared scope, same-resolution dwell is unavailable and the continuation is branch/hinge/branch through the remaining admitted branch states.
 
 The hinge-continuation family is
 \begin{equation}
@@ -224,7 +224,7 @@ until reseating, shedding, pass-through, or coordinate lift. Jitter is unresolve
 \aodliteraturenote{Graph random walks and Markov kernels: Wisconsin~\cite{wisconsinRandomWalks}, Norris~\cite{norrisMarkov}, Levin--Peres--Wilmer~\cite{levinPeresWilmer}, Lawler--Limic~\cite{lawlerLimic}.}
 \aodliteraturenote{Dyck/Catalan paths: Stanley~\cite{stanleyCatalan}, Flajolet--Sedgewick~\cite{flajoletSedgewick}.}
 
-\aodremark{The \(Q_4\) chart is a finite Hamming--1 graph. The kernel supplies admissible tick/click histories; it does not replace the scoped flux calculation.}
+\aodremark{The \(Q_4\) chart is a finite Hamming--1 graph. The kernel supplies admissible transition histories; it does not replace the scoped flux calculation.}
 
 
 \paragraph{Definition.}

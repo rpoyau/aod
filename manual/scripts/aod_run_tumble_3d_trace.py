@@ -115,7 +115,7 @@ def write_artifacts(rows: list[dict[str, object]]) -> None:
         rr = dict(r)
         rr["beta_a"] = BETA
         trace_rows.append(rr)
-    write_csv(DATA / "run_tumble_trace_20_ticks.csv", trace_rows, fields)
+    write_csv(DATA / "run_tumble_trace_20_steps.csv", trace_rows, fields)
 
     active = rows[1:]
     n = len(active)
@@ -179,7 +179,7 @@ def write_trace_tex(rows: list[dict[str, object]]) -> None:
     lines = []
     lines.append(r"\scriptsize")
     lines.append(r"\begin{longtable}{@{}rllrllrrrr@{}}")
-    lines.append(r"\caption{Run-tumble tracer-current 20-tick exact trace.}\label{tab:run-tumble-tracer-current-20tick}\\")
+    lines.append(r"\caption{Run-tumble tracer-current 20-step exact trace.}\label{tab:run-tumble-tracer-current-20step}\\")
     lines.append(r"\toprule")
     lines.append(r"$t$ & mode & edge & $\sigma$ & $h_t$ & $\pi_3(h_t)$ & $Q^2_{3D}$ & $Q^2_4$ & $\theta$ & oct.\\")
     lines.append(r"\midrule")
@@ -224,7 +224,7 @@ def write_figure(rows: list[dict[str, object]], phase_rows: list[dict[str, objec
     ax0.set_zlabel("z")
     ax1 = fig.add_subplot(gs[1, 0])
     ax1.step(t, q3, where="post")
-    ax1.set_title("Q^2_3D by tick")
+    ax1.set_title("Q^2_3D by update step")
     ax1.set_xlabel("t")
     ax1.set_ylabel("Q^2_3D")
     ax2 = fig.add_subplot(gs[1, 1])
@@ -235,7 +235,7 @@ def write_figure(rows: list[dict[str, object]], phase_rows: list[dict[str, objec
     ax2.set_title("mode strip: init/run/tumble")
     ax3 = fig.add_subplot(gs[2, 0])
     ax3.bar([int(r["theta"]) for r in phase_rows], [int(r["O"]) for r in phase_rows])
-    ax3.set_title("phase counts Q^2_3D mod beta")
+    ax3.set_title("coordinate-residue counts Q^2_3D mod beta")
     ax3.set_xlabel("theta")
     ax3.set_ylabel("count")
     ax4 = fig.add_subplot(gs[2, 1])

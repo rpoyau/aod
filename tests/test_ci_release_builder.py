@@ -20,6 +20,18 @@ def test_release_builder_requires_tests_txt_artifact():
     assert "required artifact missing" in script
 
 
+def test_release_builder_uses_fixed_deterministic_zip_members():
+    script = (ROOT / "scripts" / "build_release_bundle.py").read_text()
+    assert "ZIP_DATE_TIME = (1980, 1, 1, 0, 0, 0)" in script
+    assert "def write_zip_member" in script
+    assert "zf.write(" not in script
+
+
+def test_cycle_shedding_generator_input_is_in_source_archive():
+    script = (ROOT / "scripts" / "build_release_bundle.py").read_text()
+    assert '"wavelet_shedding_simulation.csv"' in script
+
+
 def test_ci_build_file_names_are_version_free():
     assert (ROOT / ".github" / "workflows" / "build.yml").exists()
     assert (ROOT / "scripts" / "build_release_bundle.py").exists()
