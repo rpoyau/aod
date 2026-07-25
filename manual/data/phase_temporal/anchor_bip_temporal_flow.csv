@@ -1,0 +1,8 @@
+case_id,anchor_bip,source_potential,d_H,native_incidence,second_bip,relation_present,return_or_closure,extractor,x_T,N_C,N_kappa,reported_duration,report_unit,d_phi,kernel_weighting,passive_trace,engine_output
+anchor_only,00_8,Null,1,1,,false,false,,,,,,,,,false,
+duration_a,00_8,Null,1,1,01_8,true,true,kappa_a,3,,1,5,declared_report_unit,0,isotropic,false,"{""closure"":true,""events"":[1,0,-1],""x_T"":3}"
+duration_b,00_8,Null,1,1,02_8,true,true,kappa_b,3,,2,8,declared_report_unit,0,isotropic,false,"{""closure"":true,""events"":[1,0,-1],""x_T"":3}"
+kernel_iso,00_8,Null,1,1,03_8,true,true,kappa_kernel,6,,3,13,declared_report_unit,0,isotropic,false,"{""closure"":true,""events"":[1,0,-1],""x_T"":6}"
+kernel_aniso,00_8,Null,1,1,03_8,true,true,kappa_kernel,6,,3,13,declared_report_unit,1,anisotropic,false,"{""closure"":true,""events"":[1,0,-1],""x_T"":6}"
+trace_bare,00_8,Null,1,1,04_8,true,true,kappa_trace,9,,4,21,declared_report_unit,0,isotropic,false,"{""closure"":true,""events"":[1,0,-1],""x_T"":9}"
+trace_passive,00_8,Null,1,1,04_8,true,true,kappa_trace,9,,4,21,declared_report_unit,0,isotropic,true,"{""closure"":true,""events"":[1,0,-1],""x_T"":9}"

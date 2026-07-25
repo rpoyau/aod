@@ -55,6 +55,29 @@ Their downstream placement is
 \text{reported clock signal}.
 \]
 
+\paragraph{Anchor-bip declaration.}
+The anchor bip is \(b_0=\mathtt{00}_8\), carrying the native incidence
+\[
+d_H(\mathcal N,b_0)=1
+\]
+from Null potential. The value \(1\) is an incidence count. Elapsed
+duration is undeclared on the anchor row. A temporal record forms through
+the ordered declaration
+\[
+b_0
+\longrightarrow
+b_1
+\longrightarrow
+\operatorname{return/closure}
+\longrightarrow
+\kappa
+\longrightarrow
+\text{reported duration}.
+\]
+For \(n\) ternary branch/hinge/branch presentations on that relation,
+\(x_T=3n\) is the ternary temporal-flow count in bip. The accessors
+\(x_T,N_C,N_\kappa,d_H\) retain separate types.
+
 \subsection{Fixture}\label{manual:phase-temporal:fixture}
 The phase fixture carries \(C_{3:4}\) and \(C_{3:3}\). The relational recurrence fixture assigns one retained stable-source polyrhythm beat to each of \(F_{3:4}\) and \(F_{3:3}\), then admits the declared truthful cross-return relation at the first common reclosure.
 
@@ -93,6 +116,12 @@ is not instantiated by this fixture. Its status remains
 Structural keys alone do not constitute cadence, and role assignment requires
 source certification together with trace evidence.
 
+The F002 anchor-bip repair fixture is stored beside the bound
+phase-temporal data as \path{anchor_bip_temporal_flow.csv}. It carries one
+anchor-only row; two paired-bip duration rows; a kernel-selector control
+pair; and bare/passive-trace rows. Its reported durations use a declared
+report unit rather than SI seconds.
+
 \subsection{State row}\label{manual:phase-temporal:state-row}
 \begin{table}[H]
 \centering
@@ -112,6 +141,23 @@ Cycle & \(p\) & \(q\) & \(P_{p:q}\) & \(N_{p:q}\) & Common-window extracted coun
 The hinge indices are respectively 68 and 30. Each native trace contains a handed-return witness. When the handed hinge relation is destroyed, semantic closure is absent. The field-local closure count and the number of extracted reclosures in \(W\) are different count types.
 
 The cadence state row carries source \(G_0\), receiving field \(F\), detector \(D_{\mathrm{report}}\), extractors \(\kappa_G,\kappa_F\), relation \(\mathcal R_{\Sigma}\), and the frozen window \(\omega_{\mathrm{obs}}\). The exact semantic rows are stored in \path{manual/data/phase_temporal/cadence_signature_trace.csv}.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Anchor-bip and relational temporal-flow state rows. Blank accessors
+are undeclared.}
+\begin{tabular}{lcccccc}
+\toprule
+Case & \(b_0\) & \(d_H\) & \(b_1\) & \(x_T\) & \(N_\kappa\) & Reported duration\\
+\midrule
+anchor only & \(\mathtt{00}_8\) & 1 & -- & -- & -- & --\\
+duration A & \(\mathtt{00}_8\) & 1 & \(\mathtt{01}_8\) & 3 & 1 & 5 report units\\
+duration B & \(\mathtt{00}_8\) & 1 & \(\mathtt{02}_8\) & 3 & 2 & 8 report units\\
+\bottomrule
+\end{tabular}
+\label{tab:manual-anchor-bip-temporal-state}
+\end{table}
 
 \subsection{Execution}\label{manual:phase-temporal:execution}
 The phase execution advances outbound offsets, applies the single hinge transition, advances the handed return, and records the first semantic reclosure. It returns
@@ -147,6 +193,16 @@ Thus the truthful observer lanes produce
 \]
 The relation-destroyed lane excludes \(\sigma_{\mathrm{sham}}\) and produces \((N_G,N_F)=(3,1)\). The cadence result is read only after event class, compatibility relation, boundary, window, and extractors are frozen.
 
+The anchor-only execution returns \(d_H=1\) and leaves \(x_T\),
+\(N_C\), \(N_\kappa\), and reported duration undeclared. Removing the
+second bip therefore removes the bip-to-bip temporal-flow relation. In the
+paired execution, duration A and duration B retain the same anchor
+incidence and the same ternary temporal-flow count \(x_T=3\), while their
+extractors return \(N_\kappa=1\) and \(N_\kappa=2\), respectively. Their
+reported durations are 5 and 8 declared report units. Thus the same
+anchor incidence admits different reported durations, and the same
+ternary temporal-flow count admits different extractor counts.
+
 \subsection{Passive trace}\label{manual:phase-temporal:passive-trace}
 Lane A is the bare engine. Lane B adds passive trace and satisfies exact state-sequence equality with A. Lane C adds a read-only report after \(\omega_{\mathrm{obs}}\) closes and satisfies exact state-sequence equality with B. Complete reverse serialization preserves the ordered \(\kappa_G\) and \(\kappa_F\) outputs.
 
@@ -161,6 +217,13 @@ R_{\mathrm{probe}}
 Here \(d\) is the Hamming distance over the ordered final
 \texttt{last\_return\_source} components for \(F_{3:4}\) and \(F_{3:3}\).
 Passive trace and report-only interrogation give \(R_{\mathrm{probe}}=0\). Truthful admitted cross-return changes exactly the two final \texttt{last\_return\_source} components and gives \(R_{\mathrm{probe}}=2\). Relation-destroyed input gives \(R_{\mathrm{probe}}=0\).
+
+For the F002 passive-trace control, the bare and passive lanes serialize
+the same engine output bytes:
+\[
+\{\texttt{"closure":true,"events":[1,0,-1],"x\_T":9}\}.
+\]
+The passive lane adds the trace record after engine serialization.
 
 \subsection{Controls}\label{manual:phase-temporal:controls}
 \begin{table}[H]
@@ -182,6 +245,13 @@ E & same engine & sham or relation-destroyed input & \(3{:}1\) & no & no & 0\\
 \end{table}
 
 The B/D comparison separates cadence from coupling: both carry \(3{:}2\), while only D carries the successor-effect witness. The D/E comparison separates truthful relation admission from structural similarity or self-return sham. Co-anchoring at the relational anchor 0 does not create coupling; 0 is a relational anchor rather than an external time origin.
+
+The F002 kernel-selector control freezes the anchor, second bip,
+return/closure witness, extractor, \(x_T,N_C,N_\kappa\), reported
+duration, and engine output. Its \(d_\varphi=0\) row declares isotropic
+weighting. Its \(d_\varphi=1\) row satisfies \(2d_\varphi\ge1\) and
+declares anisotropic weighting. This kernel-selector control changes
+weighting only.
 
 \subsection{Exact audit}\label{manual:phase-temporal:exact-audit}
 The native closure identities are
@@ -254,6 +324,11 @@ Native phase-cycle formation occurs when the declared outbound, hinge, handed-re
 
 Temporal-cadence formation occurs after \(\omega_{\mathrm{obs}}\) closes when both frozen extractors emit nonempty ordered sequences from their declared event classes and the receiving events satisfy the pre-frozen \(\mathcal R_\Sigma\). Reporting occurs after formation.
 
+Anchor-bip relational temporal flow forms after a second bip, the
+bip-to-bip relation, a return or closure witness, and an extractor are
+declared. Wave is the SADAR-valued cycle presentation carried along that
+relation.
+
 \subsection{Falsification}\label{manual:phase-temporal:falsification}
 The operational record fails if any of the following occurs:
 \begin{itemize}[leftmargin=*]
@@ -264,6 +339,9 @@ The operational record fails if any of the following occurs:
 \item an incompatible signature contributes a receiving-field tick;
 \item passive tracing changes core state, or a report feeds task control;
 \item cadence alone is recorded as coupling, or coupling alone defines a cadence;
+\item anchor incidence \(d_H=1\) is recorded as intrinsic elapsed duration;
+\item \(x_T\), \(N_C\), \(N_\kappa\), or \(d_H\) is substituted for another count type;
+\item \(2d_\varphi\ge1\) changes a temporal count, closure witness, or geometry rather than kernel weighting only;
 \item \(R_{C,A}\), \(\Delta\pi\), or \(\Delta\tau\) fails its exact integer/rational identity;
 \item the downstream finite projection is promoted to native phase or temporal machinery.
 \end{itemize}
@@ -287,6 +365,6 @@ Integrated review & same r08.1 archive & \texttt{f4d86556\allowbreak d226c80f\al
 \label{tab:manual-phase-temporal-provenance}
 \end{table}
 
-The complete member paths, hashes, verification state, and scope qualifications are stored in \path{manual/data/phase_temporal/scientific_result_bindings.json}. Exact semantic rows are stored beside it in \path{phase_cycle_closure.csv}, \path{cadence_signature_trace.csv}, \path{cadence_control_matrix.csv}, and \path{finite_pi_projection.csv}.
+The complete member paths, hashes, verification state, and scope qualifications are stored in \path{manual/data/phase_temporal/scientific_result_bindings.json}. Exact semantic rows are stored beside it in \path{phase_cycle_closure.csv}, \path{cadence_signature_trace.csv}, \path{cadence_control_matrix.csv}, \path{finite_pi_projection.csv}, and \path{anchor_bip_temporal_flow.csv}.
 
-\aodremark{The accepted provenance-aware result is the generic observer-side fixture. \(\mathcal M_0\) remains pending source certification and trace. The cadence report is not a physical clock signal; transducer and clock-hardware realization remain downstream.}
+\aodremark{The accepted provenance-aware result is the generic observer-side fixture. \(\mathcal M_0\) remains pending source certification and trace. The cadence report is not a physical clock signal; transducer and clock-hardware realization remain downstream. SI seconds, diagonal irrational completion, and transcendental \(\tau\) completion remain downstream of the native anchor and relation.}
