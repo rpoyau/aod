@@ -3,7 +3,8 @@
 
 \subsection{Scope}
 \label{app:wave:scope}
-This appendix records wave as the temporal SADAR presentation of a retained A\(\Omega\) cycle and gives its audit conditions.
+This appendix records wave as the SADAR-valued ordered-window presentation
+of a retained A\(\Omega\) cycle and gives its audit conditions.
 
 \subsection{Cycle / wave identity}
 \label{app:wave:cycle-wave-identity}
@@ -14,11 +15,15 @@ A cycle is the retained branch/hinge/branch package. For a retained cycle \(C\) 
 \{(t,\SADARop_{B|t}(C)):t\in\omega\}.
 \label{app:wave:eq:wave-sadar-presentation}
 \end{equation}
-Thus the wave is the SADAR-valued temporal presentation of \(C\). The hinge \(\mu\) implicitly supports chirality through the handed return presentation \(A\leftrightarrow_{\mu}\Omega\rightarrow\Omega\leftrightarrow_{\mu}A\rightarrow A\leftrightarrow_{\mu}\Omega\).
+Thus the wave is the SADAR-valued ordered-window presentation of \(C\). This
+presentation alone declares neither an extractor cadence nor relational
+temporal flow. The hinge \(\mu\) implicitly supports chirality through the
+handed return presentation
+\(A\leftrightarrow_{\mu}\Omega\rightarrow\Omega\leftrightarrow_{\mu}A\rightarrow A\leftrightarrow_{\mu}\Omega\).
 
 
 
-\subsection{Fractal growth and temporal direction}
+\subsection{Fractal growth and successor direction}
 \label{app:wave:fractal-growth-temporal-direction}
 A branch/hinge/branch package repeats because the declared kernel continues until the current hinge is saturated on the declared support. When the isotropic or anisotropic max-capacity-3 kernel has no admissible continuation through the current hinge, the hinge is closed into the current Alpha/Omega order and the next retained presentation requires a new hinge:
 \[
@@ -33,7 +38,10 @@ C\xrightarrow{\text{closed hinge }\mu}
 \xrightarrow{\text{new hinge }\mu'}
 C'.
 \]
-Thus the future direction is the retained successor branch after the locked hinge closes; it is not an added external time container. Every retained cycle, whether seat-retained or free-routed, has a wave presentation whenever \(\SADARop_{B|t}(C)\) is declared over \(\omega\).
+Thus successor direction is the retained successor branch after the locked
+hinge closes. Every retained cycle, whether seat-retained or free-routed,
+has a wave presentation whenever \(\SADARop_{B|t}(C)\) is declared over
+\(\omega\).
 
 \subsection{Flux and window current}
 \label{app:wave:flux-current}
@@ -58,7 +66,11 @@ J^D_{\partial_T R}(\omega;B)
 
 \subsection{Falsification}
 \label{app:wave:falsification}
-The wave audit fails on a declared scope if \(\operatorname{wave}_B(C)\) is used without a retained cycle \(C\), without a declared boundary/window \(B\), or without the SADAR values \(\SADARop_{B|t}(C)\) over the declared window.
+The wave audit fails on a declared scope if \(\operatorname{wave}_B(C)\) is
+used without a retained cycle \(C\), without a declared boundary/window
+\(B\), or without the SADAR values \(\SADARop_{B|t}(C)\) over the declared
+window. A wave presentation does not substitute for a declared extractor or
+an inter-field temporal relation.
 
 \aodprovenance{\eqnref{eq:cut-running-form},
 \eqnref{eq:monon-cycle},
@@ -66,4 +78,4 @@ The wave audit fails on a declared scope if \(\operatorname{wave}_B(C)\) is used
 \eqnref{eq:wave-sadar-presentation},
 \eqnref{eq:sadar-operator-cycle}.}
 
-\aodremark{Wave terms are SADAR-valued temporal presentations of retained cycles.}
+\aodremark{Wave terms are SADAR-valued ordered-window presentations of retained cycles.}

@@ -29,8 +29,13 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))
     assert any(t.get("title") == "43 °c" and t.get("type", {}).get("id") == "other" for t in data.get("additional_titles", []))
     assert data["version"] == current_version()
-    assert data["publication_date"] == "2026-06-01"
+    assert data["publication_date"] == "2026-07-20"
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form" in data["description"]
+    assert "accepted finite phase-cycle and relational temporal-flow foundation" in data["description"]
+    assert "ordered recurrence of a declared compatible event class" in data["description"]
+    assert "Cadence source, interrogating field, and detector remain distinct roles" in data["description"]
+    assert "not a native π premise or convergence theorem" in data["description"]
+    assert "coordinate-residue fixture is an operational specialization" in data["description"]
     assert "<h2>Abstract and Scope</h2>" in data["description"]
     assert "## Abstract and Scope" not in data["description"]
     assert "<h2>The Application Manual: Reference Implementation Layer</h2>" in data["description"]
@@ -52,7 +57,9 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
 
     assert data["keywords"] == [
         "axiomatic fundamentalism", "AFC", "AOD", "Stokes", "cut calculus",
-        "temporal dynamics", "AΩD", "math-ph", "math-lo"
+        "temporal dynamics", "phase cycle", "relational temporal flow",
+        "temporal cadence", "provenance-aware trace", "finite pi audit",
+        "AΩD", "math-ph", "math-lo"
     ]
 
 

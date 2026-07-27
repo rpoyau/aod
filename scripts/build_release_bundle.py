@@ -20,6 +20,7 @@ import tempfile
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
+ZIP_DATE_TIME = (1980, 1, 1, 0, 0, 0)
 
 EXCLUDE_DIR_NAMES = {
     ".git", ".pytest_cache", "__pycache__", ".mypy_cache", ".ruff_cache",
@@ -41,7 +42,8 @@ EXCLUDE_FILE_PATTERNS = [
 INCLUDE_TOP_LEVEL = [
     ".github", "appendices", "figures_jpg", "manual", "scripts", "sections", "tests",
     "CANONICAL_VERSION.txt", "RELEASE_READINESS.txt", "main.tex", "preamble.tex",
-    "refs.bib", "cycle_shedding_summary.tex", "README.md", "LICENSE", "CITATION.cff",
+    "refs.bib", "cycle_shedding_summary.tex", "wavelet_shedding_simulation.csv",
+    "README.md", "LICENSE", "CITATION.cff",
     "requirements-ci.txt", ".zenodo.json", "BUILD.md",
 ]
 
@@ -130,6 +132,15 @@ def validate_zenodo_metadata(version: str) -> None:
         raise ValueError(".zenodo.json references must be synchronized from refs.bib and manual/refs.bib")
 
 
+def write_zip_member(zf: zipfile.ZipFile, path: Path, arcname: str) -> None:
+    """Write one deterministic ZIP member with a fixed timestamp."""
+    info = zipfile.ZipInfo(arcname, date_time=ZIP_DATE_TIME)
+    info.create_system = 3
+    info.external_attr = ((0o100000 | (path.stat().st_mode & 0o777)) << 16)
+    info.compress_type = zipfile.ZIP_DEFLATED
+    zf.writestr(info, path.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+
+
 def zip_dir(src_dir: Path, zip_path: Path) -> None:
     """Zip the *contents* of src_dir, not src_dir itself.
 
@@ -140,7 +151,7 @@ def zip_dir(src_dir: Path, zip_path: Path) -> None:
     with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for p in sorted(src_dir.rglob("*")):
             if p.is_file():
-                zf.write(p, p.relative_to(src_dir).as_posix())
+                write_zip_member(zf, p, p.relative_to(src_dir).as_posix())
 
 
 def write_sha_manifest(path: Path, files: list[Path], base: Path | None = None) -> None:
@@ -228,7 +239,7 @@ def main() -> int:
         for name in bundle_order:
             p = bundle_tmp / name
             if p.is_file():
-                zf.write(p, p.name)
+                write_zip_member(zf, p, p.name)
 
     bundle_contents_out = outdir / "BUNDLE_CONTENTS_SHA256.txt"
     shutil.copy2(bundle_contents, bundle_contents_out)

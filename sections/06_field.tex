@@ -326,7 +326,7 @@ be the retained field family, and define
 n_F(\mathcal B):=|\mathcal F_{\mathcal B}|.
 \label{eq:field-count}
 \end{equation}
-Here \(n_F\) is retained field count, \(T\) is path/account duration or tick count, \(m\) is enclosure order in \(\mathsf C_{2m}\), and \(p\) is rotor or cycle completion period.
+Here \(n_F\) is retained field count, \(T\) is path/account duration or declared step count, \(m\) is enclosure order in \(\mathsf C_{2m}\), and \(p\) is rotor or cycle completion period.
 
 \subsubsection{Returned-current channels}\label{subsec:returned-current-channels}
 For \(F_i,F_j\in\mathcal F_{\mathcal B}\), write
@@ -653,6 +653,43 @@ X_{\mathrm{shedding}}(\partial F,\omega)=
 records sheddic excess. A negative closure residual is a deficit/open check, not sheddic surplus.
 \end{definition}
 
+For a duon \(d\) shed from source field \(G\) at event \(e\), source
+retention changes as
+\begin{equation}
+\operatorname{Ret}_{G}(d;e^-)=1,
+\qquad
+\operatorname{Ret}_{G}(d;e^+)=0.
+\label{eq:shedding-retention-separation}
+\end{equation}
+For the post-event trace tail \(T_{e:}\), realized source provenance is
+typed independently:
+\begin{equation}
+\Sigma_{\mathrm{src}}(d;T_{e:})
+\in
+\Sigma_{\mathrm{tr}}\cup\{\bot\}.
+\label{eq:realized-source-signature}
+\end{equation}
+Shedding ends source retention; a realized trace signature may remain. In
+particular,
+\begin{equation}
+\operatorname{UncoupledTransit}(d)
+\ne
+\operatorname{SourceUnconditioned}(d).
+\label{eq:uncoupled-source-conditioned}
+\end{equation}
+
+Let \(K_F\) be a declared compatible event class for field \(F\). Source
+signature compatibility is the heterogeneous relation
+\begin{equation}
+\mathcal R_\Sigma
+\subseteq
+\Sigma_{\mathrm{tr}}\times\{K_F\}.
+\label{eq:signature-compatibility-relation}
+\end{equation}
+Reflexivity, symmetry, and transitivity are not established for
+\(\mathcal R_\Sigma\). Compatibility under this relation identifies neither
+an equivalence class nor a unique source.
+
 \subsubsection{Sheddic path}\label{subsec:sheddic-path}
 Shedding is unresolved excess from local closure compatibility. Unresolved excess follows a sheddic path. The path may pass through \(E_2\), \(\mathsf C_6\), \(\mathsf C_8\), \(\mathsf C_{10}\), or a higher even enclosure form \(\mathsf C_{2n}\); seat-compatible retention determines which form is retained on the declared boundary/window:
 \begin{equation}
@@ -729,6 +766,119 @@ Entropic duon current carries unresolved temporal-cycle burden retained in duon 
 \eqnref{eq:support-enclosure-excess},
 \appref{app:wave},
 \appref{app:curling-curls}.}
+
+\subsection{Relational temporal flow}\label{sec:relational-temporal-flow}
+
+\subsubsection{Anchor bip and typed temporal count}\label{subsec:anchor-bip-temporal-count}
+Let \(b_0=\mathtt{00}_8\) be the anchor bip, with declared native
+incidence \(d_H(\mathcal N,b_0)=1\) from Null potential. Let
+\(b_1\ne b_0\) be a second declared bip. Relational temporal flow is
+bip-to-bip:
+\begin{equation}
+\mathcal R_b=(b_0,b_1;\operatorname{return/closure},\kappa).
+\label{eq:bip-to-bip-temporal-relation}
+\end{equation}
+The anchor incidence and the temporal relation are distinct types. Each
+retained presentation along \(\mathcal R_b\) has ternary
+branch/hinge/branch form. For \(n\) such presentations, define the
+ternary temporal-flow count
+\begin{equation}
+x_T=3n,
+\qquad n\in\mathbb N_0,
+\label{eq:ternary-temporal-flow-count}
+\end{equation}
+recorded in bip. The native closure count \(N_C\), the extractor count
+\(N_\kappa\), the temporal-flow count \(x_T\), and the anchor incidence
+\(d_H\) remain separately typed:
+\begin{equation}
+\operatorname{type}(x_T),\quad
+\operatorname{type}(N_C),\quad
+\operatorname{type}(N_\kappa),\quad
+\operatorname{type}(d_H)
+\quad\text{are pairwise distinct.}
+\label{eq:temporal-count-type-separation}
+\end{equation}
+Along \(\mathcal R_b\), wave is the SADAR-valued cycle presentation
+\(\operatorname{wave}_{\mathcal R_b,B}(C)\) defined by
+\eqnref{eq:wave-sadar-presentation}; it is carried along the bip-to-bip
+relation.
+
+The threshold
+\begin{equation}
+2d_\varphi\ge1
+\label{eq:kernel-weighting-selector}
+\end{equation}
+selects the declared anisotropic kernel weighting; its complementary
+fixture lane selects isotropic weighting. Its type is
+\(\operatorname{KernelWeightingSelector}\). The temporal counts
+\(x_T,N_C,N_\kappa,d_H\) and the return/closure witness retain their
+declared values across that selector control. SI seconds, diagonal
+irrational completion, and transcendental \(\tau\) completion are
+downstream report coordinates.
+
+\subsubsection{Temporal cadence}\label{subsec:temporal-cadence}
+For a declared compatible event class \(K\), boundary/window
+\(B=(\partial_TF,\omega)\), and extractor \(\kappa_{K,B,\omega}\), temporal
+cadence is the ordered recurrence
+\begin{equation}
+\operatorname{Cad}_{\kappa}(T;K,B,\omega)
+:=
+\kappa_{K,B,\omega}(T)
+=
+(e_1,\ldots,e_N),
+\qquad
+e_1\prec\cdots\prec e_N.
+\label{eq:temporal-cadence}
+\end{equation}
+Its count is the distinct scalar accessor
+\begin{equation}
+N_\kappa(T;K,B,\omega)
+=
+\left|\operatorname{Cad}_{\kappa}(T;K,B,\omega)\right|.
+\label{eq:temporal-cadence-count}
+\end{equation}
+Native phase closure, a common recurrence window, the ordered cadence, and
+its scalar count are distinct objects.
+
+\subsubsection{Co-anchoring and composition}\label{subsec:temporal-flow-composition}
+Let \(m\ge2\) fields carry declared cadence roles on the same
+\(B,\omega\). Their relational temporal flow is the typed composition
+\begin{equation}
+\operatorname{RTF}_{B,\omega}
+=
+\left(
+\left\{\bigl(F_i,\operatorname{Cad}_{\kappa_i}\bigr)\right\}_{i=1}^{m},
+\mathcal R_T(B,\omega)
+\right),
+\label{eq:relational-temporal-flow}
+\end{equation}
+where \(\mathcal R_T(B,\omega)\) is a declared relation between the cadence
+roles. Sharing \(B,\omega\) is co-anchoring; it is not coupling.
+
+The cadence source, interrogating field, and detector are distinct roles:
+\begin{equation}
+\begin{aligned}
+\operatorname{CadenceSource}
+&\not\equiv\operatorname{InterrogatingField},\\
+\operatorname{InterrogatingField}
+&\not\equiv\operatorname{Detector},\\
+\operatorname{CadenceSource}
+&\not\equiv\operatorname{Detector}.
+\end{aligned}
+\label{eq:temporal-role-separation}
+\end{equation}
+Probe response is measured on a declared trace metric by
+\begin{equation}
+R_{\mathrm{probe}}
+=
+d\!\left(
+\mathcal T_{\mathrm{interrogated}},
+\mathcal T_{\mathrm{uninterrogated}}
+\right).
+\label{eq:probe-response}
+\end{equation}
+Co-anchoring, cadence, coupling, SADAR balance, relational temporal flow,
+and probe response remain separately declared relations or witnesses.
 
 \subsection{Seat compatibility and shell/enclosure routing}\label{sec:seat-shell-enclosure-routing}
 
@@ -817,7 +967,7 @@ For a support-enclosure declaration \(\mathcal C=a:b:c::L\), write
 \begin{equation}
 \mathrm{TTL}_{\mathcal C}(\partial F,\omega)
 =
-\text{retained tick duration available for seat-compatible SADAR rebalancing}.
+\text{retained window duration available for seat-compatible SADAR rebalancing}.
 \label{eq:support-enclosure-retention}
 \end{equation}
 This is distinct from \(\rho^D_{\omega,ij}(B)\), the window-clipped duration participation clip for a channel.
@@ -1412,7 +1562,16 @@ The cycle audit is certified when a retained field cycle is declared before any 
 \quad\text{before}\quad
 RD\!\left(\mathcal C_f[p{:}q]\right).
 \]
-The polyrhythm audit is certified when each coupled cycle, its boundary/window, its reflection-duration accessor, and the coupling residual \(\Delta^{\mathrm{cyc}}_{ab}(B)\) are declared before the SADAR coupling term is formed.
+The polyrhythm audit is certified when each coupled cycle, its
+boundary/window, the separately declared \(E_{\SADARop}(B)\), and the
+coupling residual \(\Delta^{\mathrm{cyc}}_{ab}(B)\) are declared before the
+SADAR coupling term is formed.
+
+\subsubsection{Temporal-flow audit}\label{subsec:temporal-flow-audit}
+The temporal-flow audit keeps native closure, extractor output, cadence
+count, co-anchor, declared relation, SADAR coupling, and probe response
+separately typed. Relational temporal flow requires at least two declared
+field cadence roles and \(\mathcal R_T(B,\omega)\) on their common scope.
 
 
 \subsubsection{Fusion closure audit}\label{subsec:fusion-closure-audit}

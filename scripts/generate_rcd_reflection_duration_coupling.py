@@ -18,9 +18,9 @@ ax.text(7,7.15,'RCD names the duration coordinate when coupled to asymmetric ref
 # window
 win = FancyBboxPatch((3.2,1.95),7.8,4.85,boxstyle='round,pad=0.04',linewidth=1.8,edgecolor='#2f68b0',facecolor='#eef5ff')
 ax.add_patch(win)
-ax.text(7.1,6.55,'declared window $\omega$',ha='center',fontsize=13,color='#2f68b0')
-ax.text(1.6,6.15,'emitted\nduon ticks',ha='center',fontsize=12,color='#d55e00')
-ax.text(12.3,6.15,'asymmetric\nreflected clicks',ha='center',fontsize=12,color='#1f5a9d')
+ax.text(7.1,6.55,r'declared window $\omega$',ha='center',fontsize=13,color='#2f68b0')
+ax.text(1.6,6.15,'emitted\nduon events',ha='center',fontsize=12,color='#d55e00')
+ax.text(12.3,6.15,'asymmetric\nreturned events',ha='center',fontsize=12,color='#1f5a9d')
 # timelines
 ys=[5.6,4.9,4.25,3.55,2.85]
 starts=[2.2,2.9,3.7,4.4,5.1]

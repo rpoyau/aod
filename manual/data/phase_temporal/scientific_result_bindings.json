@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "work_request_id": "WR_v41_0_0_source_authoring_pull_review",
+  "milestone": "v41.0.0 — Phase Cycle and Relational Temporal Flow",
+  "digest_rule": "scientific_result_digest is SHA-256 of the exact UTF-8 bytes of this file",
+  "authoring_authority_transition": {
+    "prior_integrated_review_authoring_authorized": false,
+    "prior_integrated_review_release_authoring": "CLOSED",
+    "later_authority": "WR_v41_0_0_source_authoring_pull_review",
+    "later_authority_bundle_sha256": "7cc1d8f09576de3c3c2676530024e024d9bb352f24f949ab55be0b718c61af8b",
+    "effect": "opens PRE_PR_SOURCE_AUTHORING without altering any frozen scientific artifact"
+  },
+  "artifacts": [
+    {
+      "id": "r07_1_phase_temporal",
+      "archive": "authority/aod-native-phase-temporal-r07.1-scientific-execution-bundle.zip",
+      "archive_sha256": "060df61f65be3fa8325ad2d5be127c00303a7d280e512e36588553df0009eb8c",
+      "members": [
+        {
+          "path": "science/PHASE_TEMPORAL_RESULT_FREEZE.json",
+          "sha256": "36ece6b2cea4a8309a96eeeb0e7414ebb9bc380320b0980a76da9ed452f3d344"
+        },
+        {
+          "path": "science/SCIENTIFIC_REVIEW.json",
+          "sha256": "f894bf7982565995c476337e7975e42fee495448dfe877ed714a8286fa93e557"
+        }
+      ],
+      "status": "CONTENT_BOUND"
+    },
+    {
+      "id": "r08_finite_pi_error",
+      "archive": "authority/aod-finite-pi-error-r08-scientific-execution-bundle.zip",
+      "archive_sha256": "422d09b62b529dbb1246b768cd1022737cfb9093789bd078c25f266827af6ec1",
+      "members": [
+        {
+          "path": "science/PI_ERROR_RESULT_FREEZE.json",
+          "sha256": "ee5c78480cea83ba6c632a2b4fb1f1ab33c4c639a11ab2eff4739cf60caaf948"
+        }
+      ],
+      "status": "CONTENT_BOUND"
+    },
+    {
+      "id": "r08_1_temporal_cadence",
+      "archive": "aod-temporal-cadence-feedback-merge-r08.1-scientific-execution-bundle.zip",
+      "archive_sha256": "6f0e19b3ffaab2f696192bb4236a2c9f19887abdede209ccd98252df9918e7a6",
+      "members": [
+        {
+          "path": "science/TEMPORAL_CADENCE_RESULT_FREEZE.json",
+          "sha256": "48ab65dc3f4ceaa7e9443125e258bc270318f8de9b128780acaec0a156f2c970"
+        }
+      ],
+      "status": "CONTENT_BOUND"
+    },
+    {
+      "id": "integrated_scientific_review",
+      "archive": "aod-temporal-cadence-feedback-merge-r08.1-scientific-execution-bundle.zip",
+      "archive_sha256": "6f0e19b3ffaab2f696192bb4236a2c9f19887abdede209ccd98252df9918e7a6",
+      "sha256": "f4d86556d226c80fd55cabe8b5e94c38efd83844ede947b385fd0fce18a7de78",
+      "members": [
+        {
+          "path": "science/INTEGRATED_PHASE_TEMPORAL_PI_REVIEW.json",
+          "sha256": "f4d86556d226c80fd55cabe8b5e94c38efd83844ede947b385fd0fce18a7de78"
+        }
+      ],
+      "status": "CONTENT_BOUND"
+    }
+  ],
+  "scope_qualifications": [
+    "r07.1 is fixture-scoped recurrence and successor-effect coupling evidence, not the complete provenance-aware cadence ontology.",
+    "The r07.1 field-local closure counts and common-window extracted counts remain different types; no universal phase denominator or temporal ratio is asserted.",
+    "The r08 projection is one downstream Z2 cell-centre presentation fixture; it establishes no projection uniqueness or native circularity, and it supports no convergence theorem and no universal pi derivation.",
+    "The r08.1 3:2 cadence is produced by the declared generic observer fixture and is not a released-source prediction or a native one-unit-to-one-tick law.",
+    "R_Sigma remains a heterogeneous declared compatibility relation; reflexivity, symmetry, transitivity, source uniqueness, and equivalence status are not established.",
+    "Candidate M0 is not instantiated and remains WORKING_HYPOTHESIS_PENDING_SOURCE_CERTIFICATION_AND_TRACE.",
+    "Cadence, co-anchoring, coupling, SADAR balance, relational temporal-flow composition, and probe back-action remain distinct witnesses.",
+    "Shedding ends source retention while realized provenance may persist, transform, or be lost as trace evidence; uncoupled in transit is distinct from source-unconditioned.",
+    "Physical transducer, reported clock signal, SI, frequency, maser, and electric-field mappings remain uninstantiated or unopened."
+  ],
+  "verification": {
+    "archives_sha256": "PASS",
+    "member_sha256": "PASS",
+    "zip_integrity": "PASS",
+    "r07_1_and_r08_nested_authorities_byte_identical": true,
+    "frozen_artifacts_modified": false
+  },
+  "status": "ALL_REQUIRED_RESULTS_CONTENT_BOUND"
+}

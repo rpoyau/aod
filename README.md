@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/1012484945.svg)](https://doi.org/10.5281/zenodo.20486270)
 
-**Version:** v40.01r10
+**Version:** v41.0.0
 
 ## Latest DOI links
 
@@ -43,6 +43,10 @@ The starting point is the AFC Stokes seed: Null potential, declared distinction,
 
 This release contains both the core-dynamics note and the application manual. To adhere strictly to the Axiomatic Fundamentalism (AF) protocol, derivations proceed by mathematics only, specializations occur by explicit modelling choice, and all demonstrations or measured-sector comparisons remain tightly quarantined from the core calculus.
 
+Version v41.0.0 adds the accepted finite phase-cycle and relational temporal-flow foundation. Native phase is an exact closure position and rational cycle fraction. Temporal cadence is the ordered recurrence of a declared compatible event class, and a tick is the output of its declared extractor. Cadence source, interrogating field, and detector remain distinct roles; passive trace, report-only observation, and probe back-action are audited separately.
+
+The finite $\pi$ audit compares count-derived rational report coordinates at declared refinements. Its coordinate residues are finite, scoped report errors: they do not supply $\pi$ to the native calculus and do not establish a convergence theorem. The coordinate-residue fixture remains an operational specialization rather than the definition of native phase.
+
 ## 1. The Core Note (Ontology and Calculus)
 
 The core note supplies the pure ontology of retained AFC/AΩD Stokes-wave forms. The AFC execution layer provides the finite mathematical grammar at each retained node: $Q_4$ Hamming-1 adjacency, ternary branch/hinge/branch state, isotropic or anisotropic Markov transition, and antisymmetric Stokes flux.
@@ -60,7 +64,7 @@ Because the ontology is fractal, the exact same boundary accounting repeats acro
 
 Under AF protocol scope discipline, external empirical postulates and physical laws are disallowed as premises of the core calculus. The manual operationalizes the core calculus to build finite scaled simulations where empirical targets and external units are quarantined. Output residuals are read only against declared boundary choices, clustering, resolution, time-flow data, and explicit value maps.
 
-The manual contains the reference implementations: pen-and-paper AFC raw execution through the D.E.C. ledger, isotropic and anisotropic Markov-kernel examples, blocked-hinge and hinge-slide examples, field-tunnelling and ADAR/SADAR promotion, exact internal fixtures, observable-map records, data-support classes, scoped-error accounting, and simulation/reference-implementation lanes.
+The manual contains the reference implementations: pen-and-paper AFC raw execution through the D.E.C. ledger, isotropic and anisotropic Markov-kernel examples, blocked-hinge and hinge-slide examples, field-tunnelling and ADAR/SADAR promotion, exact internal fixtures, native phase-cycle closure traces, provenance-aware cadence controls, passive/report/probe lanes, finite $\pi$-error audits, observable-map records, data-support classes, scoped-error accounting, and simulation/reference-implementation lanes.
 
 For example, a declared anisotropic D.E.C. row uses weights
 
@@ -78,7 +82,7 @@ so
 
 $P_{\mathrm{slide}}=(3/7,3/7,1/7)$.
 
-The manual also gives a 3D coordinate phase-cycle reference implementation:
+The manual also gives a 3D coordinate-residue presentation (retaining the legacy phase-cycle alias):
 
 $z_i\in\mathbb{Z}^3 \rightarrow \Delta z_i^{(n)} \rightarrow Q_i^{(n)} \rightarrow Q_i^{(n)}\bmod\beta_a \rightarrow \text{octants} \rightarrow \delta_3$.
 
@@ -86,7 +90,7 @@ Continuous Brownian or diffusion-style summaries are downstream presentation map
 
 ## Simulation and Fixture Coverage
 
-The manual includes D.E.C. raw AFC execution, isotropic and anisotropic Markov-kernel examples, blocked-hinge and hinge-slide examples, field-tunnelling hinge-slide window-clip fixture, ADAR/SADAR promotion examples, exact internal $\delta_3$ fixtures, short-window duration-clipping and sheddic-route audits, Tau-ring support and exact missing-burden ratio records, rest-energy target records and external comparison maps, Tritrioseptyro Higgs-support diagnostic fixture with frozen external mass map, hydrogen-facing shell-ratio and observable-map records, solar observable-map records, SPARC five-galaxy G0 radial shell square-speed diagnostic, orbital-retention field-dynamics fixture spine and input-provenance gate, galactic lensing data-support lanes and K4 higher-resolution input manifest, and the 3D coordinate phase-cycle $\delta_3$ fixture with Brownian/tracer-current application alias.
+The manual includes D.E.C. raw AFC execution, isotropic and anisotropic Markov-kernel examples, blocked-hinge and hinge-slide examples, field-tunnelling hinge-slide window-clip fixture, ADAR/SADAR promotion examples, exact internal $\delta_3$ fixtures, short-window duration-clipping and sheddic-route audits, Tau-ring support and exact missing-burden ratio records, rest-energy target records and external comparison maps, Tritrioseptyro Higgs-support diagnostic fixture with frozen external mass map, hydrogen-facing shell-ratio and observable-map records, solar observable-map records, SPARC five-galaxy G0 radial shell square-speed diagnostic, orbital-retention field-dynamics fixture spine and input-provenance gate, galactic lensing data-support lanes and K4 higher-resolution input manifest, and the 3D coordinate-residue $\delta_3$ presentation with Brownian/tracer-current legacy phase-cycle aliases.
 
 ## Data-Support Scope
 

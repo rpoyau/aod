@@ -1,12 +1,12 @@
 
-\section{3D coordinate phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture specification}\label{manual:app:coordinate-phase-cycle-delta3}
-This appendix records the active integer 3D coordinate fixture used by time-ordered trajectory records. It gives the coordinate-level specification: integerized trajectory bins, squared displacement counts, phase-cycle counts, octant counts, integer ratios, and exact \(\delta_3\) residuals. Continuous-motion summaries are downstream presentation maps and do not enter the exact fixture.
-The run-tumble tracer-current fixture in \secref{manual:run-tumble-tracer-current-fixture} is an application of this coordinate phase-cycle specification after its mode, accumulated trace, and projection declarations are fixed.
+\section{3D coordinate-residue \texorpdfstring{$\delta_3$}{delta3} presentation specification}\label{manual:app:coordinate-phase-cycle-delta3}
+This appendix records a downstream coordinate-residue presentation used by time-ordered trajectory records. It gives the coordinate-level specification: integerized trajectory bins, squared displacement counts, residue-class counts, octant counts, integer ratios, and exact \(\delta_3\) residuals. It does not generate the native closure count and is not the native phase-cycle relation. Continuous-motion summaries are downstream presentation maps and do not enter the exact fixture.
+The run-tumble tracer-current fixture in \secref{manual:run-tumble-tracer-current-fixture} is an application of this coordinate-residue specification after its mode, accumulated trace, and projection declarations are fixed. Existing source paths retain their legacy phase-cycle alias.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.95\linewidth]{figures/coordinate_phase_delta3_wireframe.png}
-\caption{3D coordinate phase-cycle \(\delta_3\) fixture. The coordinate fixture maps trajectory positions into \(\mathbb Z^3\), forms integer squared displacement \(Q=a^2+b^2+c^2\), records phase residues \(Q\bmod\beta_a\), counts octants, and audits integer residuals by \(\delta_3\). Continuous summaries belong after the exact fixture as presentation or external maps.}
+\caption{3D coordinate-residue \(\delta_3\) presentation. The coordinate fixture maps trajectory positions into \(\mathbb Z^3\), forms integer squared displacement \(Q=a^2+b^2+c^2\), records residues \(Q\bmod\beta_a\), counts octants, and audits integer residuals by \(\delta_3\). Continuous summaries belong after the exact fixture as presentation or external maps.}
 \label{fig:manual-coordinate-phase-delta3}
 \end{figure}
 
@@ -63,7 +63,7 @@ The conservation check and total exact mismatch are
 M_{\delta_3}^{(n)}=\sum_\ell m_\ell^{(n)}.
 \]
 
-\subsection{Phase-cycle fixture}
+\subsection{Coordinate-residue presentation}
 Let the candidate monon-beat scale from mass/size be
 \[
 \beta_a\in\mathbb Z_{>0}.
@@ -72,7 +72,7 @@ Define the phase residue
 \[
 \theta_i^{(n)}=Q_i^{(n)}\bmod\beta_a.
 \]
-The phase-cycle count is
+The coordinate-residue count is
 \[
 O_\theta^{(n)}=\#\{i:\theta_i^{(n)}=\theta\},
 \qquad
@@ -84,7 +84,7 @@ Against an integer comparator \(\widehat O_\theta^{(n)}\), record
 \qquad
 \delta_{3,\theta}^{(n)}=\left(\operatorname{sgn}(\Delta_\theta^{\mathbb Z,(n)}),|\Delta_\theta^{\mathbb Z,(n)}|\right).
 \]
-The phase-cycle fixture is read as: mass/size data may declare \(\beta_a\), and the trajectory tests the phase-cycle counts.
+This downstream presentation is read as: mass/size data may declare \(\beta_a\), and the trajectory tests the resulting coordinate-residue counts. The declaration of \(\beta_a\) does not derive a native closure count.
 
 \subsection{Octant direction counts}
 For each displacement vector, declare
@@ -177,4 +177,4 @@ Output files are
 \]
 
 \subsection{Final lock}
-The 3D coordinate phase-cycle fixture uses integer phase-cycle ratios. It uses \(Q=a^2+b^2+c^2\), phase residues \(Q\bmod\beta_a\), octant counts for three-dimensional direction, and \(\delta_3\) on integer counts. External continuous-motion summaries live after the exact fixture.
+The 3D coordinate fixture is a downstream coordinate-residue presentation. It uses \(Q=a^2+b^2+c^2\), residues \(Q\bmod\beta_a\), octant counts for three-dimensional direction, and \(\delta_3\) on integer counts. It does not generate the native closure count and is not the native phase-cycle relation. External continuous-motion summaries live after this exact presentation fixture.

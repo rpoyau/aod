@@ -181,14 +181,14 @@ Improper boundary & \(B_{\mathrm{bad}}\), wrong boundary/capacity/route & \(\Del
 
 
 
-\subsection{3D Brownian phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture}\label{manual:brownian-phase-delta3-fixture}
+\subsection{3D Brownian coordinate-residue \texorpdfstring{$\delta_3$}{delta3} presentation}\label{manual:brownian-phase-delta3-fixture}
 \aodnoteblock{Data-support class}{This Brownian / tracer-motion fixture is a G3 time-resolved tracer-current fixture when the track declares time-ordered three-dimensional positions. A two-dimensional microscopy slice records its projection map or ablation cut.}
 
 This fixture uses integerized three-dimensional trajectory data. A bacterium or tracer track is binned into \(\mathbb Z^3\); lagged displacements produce the active integer squared displacement
 \[
 Q_i^{(n)}=(a_i^{(n)})^2+(b_i^{(n)})^2+(c_i^{(n)})^2\in\mathbb Z_{\ge0}.
 \]
-Mass and size supply a candidate monon-beat scale \(\beta_a\). The trajectory is tested by displacement-bin counts, phase-cycle counts \(Q_i^{(n)}\bmod\beta_a\), octant direction counts, integer ratios, and exact \(\delta_3\) residuals. The full 3D coordinate phase-cycle specification is given in \appref{manual:app:coordinate-phase-cycle-delta3}.
+Mass and size supply a candidate monon-beat scale \(\beta_a\). The trajectory is tested by displacement-bin counts, coordinate-residue counts \(Q_i^{(n)}\bmod\beta_a\), octant direction counts, integer ratios, and exact \(\delta_3\) residuals. The full 3D coordinate-residue presentation is given in \appref{manual:app:coordinate-phase-cycle-delta3}; its source paths retain the legacy phase-cycle alias.
 
 The exact fixture path is
 \[
@@ -212,8 +212,8 @@ Continuous summaries belong after the exact fixture as presentation or external 
 \texttt{integer\_motion\_ratios.csv}.
 \end{gathered}
 \]
-These Brownian application artifacts are aliases of the generic 3D coordinate phase-cycle fixture specified in \appref{manual:app:coordinate-phase-cycle-delta3}.}
-\aodremark{Active coordinate: integerized three-dimensional displacement and phase-cycle count data,
+These Brownian application artifacts are legacy phase-cycle aliases of the generic 3D coordinate-residue presentation specified in \appref{manual:app:coordinate-phase-cycle-delta3}.}
+\aodremark{Active coordinate: integerized three-dimensional displacement and coordinate-residue count data,
 \[
 z_i\in\mathbb Z^3
 \to \Delta z_i^{(n)}
@@ -228,7 +228,7 @@ Continuous Brownian and diffusion-coefficient summaries are downstream presentat
 \subsubsection{Run-tumble tracer-current fixture}\label{manual:run-tumble-tracer-current-fixture}
 \aodnoteblock{Data-support class}{This run-tumble record is a G3 time-resolved tracer-current fixture. Its exact integer tallies are recorded as D0-style internal fixture audit coordinates when a comparator is declared.}
 
-This fixture records a finite D.E.C. trace over four declared Hamming--1 edge slots, stores the selected signed edge steps as a four-channel accumulated trace, and projects that retained trace into a declared three-dimensional coordinate map before phase-cycle, octant, and \(\delta_3\) summaries are formed. Declare
+This fixture records a finite D.E.C. trace over four declared Hamming--1 edge slots, stores the selected signed edge steps as a four-channel accumulated trace, and projects that retained trace into a declared three-dimensional coordinate map before coordinate-residue, octant, and \(\delta_3\) summaries are formed. Declare
 \[
 B_{\mathrm{RT}}=(\partial_TF_{\mathrm{RT}},\omega_{20}),
 \qquad
@@ -294,7 +294,7 @@ run rule & retain selected channel over declared short window \\
 tumble rule & reseat selected channel by isotropic successor rule \\
 3D displacement & \(Q^2_{3D}(t)=x_t^2+y_t^2+z_t^2\) \\
 four-channel audit & \(Q^2_4(t)=\sum_{r=1}^4h_{r,t}^2\) \\
-reports & phase counts, octant counts, integer ratios, \(\delta_3\) \\
+reports & coordinate-residue counts, octant counts, integer ratios, \(\delta_3\) \\
 \bottomrule
 \end{tabularx}
 \end{table}

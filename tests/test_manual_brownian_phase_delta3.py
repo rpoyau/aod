@@ -15,8 +15,8 @@ def brownian_text():
 def test_brownian_section_present_and_manual_only():
     sec = read('manual/sections/06_field_dynamics_applications.tex')
     app = read('manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex')
-    assert r'\subsection{3D Brownian phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture}' in sec
-    assert r'\section{3D coordinate phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture specification}' in app
+    assert r'\subsection{3D Brownian coordinate-residue \texorpdfstring{$\delta_3$}{delta3} presentation}' in sec
+    assert r'\section{3D coordinate-residue \texorpdfstring{$\delta_3$}{delta3} presentation specification}' in app
     assert r'\label{manual:app:coordinate-phase-cycle-delta3}' in app
     assert r'\appref{manual:app:coordinate-phase-cycle-delta3}' in sec
     assert 'Brownian' not in app
@@ -33,7 +33,7 @@ def test_brownian_integerized_trajectory_and_q_active():
     assert r'\Delta z_i^{(n)}=z_{i+n}-z_i=(a_i^{(n)},b_i^{(n)},c_i^{(n)})' in text
     assert r'Q_i^{(n)}=(a_i^{(n)})^2+(b_i^{(n)})^2+(c_i^{(n)})^2\in\mathbb Z_{\ge0}' in text
     assert 'not radial-distance fit' not in text
-    assert 'Active coordinate: integerized three-dimensional displacement and phase-cycle count data' in text
+    assert 'Active coordinate: integerized three-dimensional displacement and coordinate-residue count data' in text
     exact_chunk = read('manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex')
     forbidden = ['radial distance fit', 'diffusion coefficient fit', r'\sqrt']
     for term in forbidden:
@@ -86,17 +86,17 @@ def test_brownian_data_outputs_exact_integer_counts():
 def test_brownian_figure_and_registry_present():
     assert (ROOT / 'manual/figures/coordinate_phase_delta3_wireframe.png').exists()
     reg = read('manual/sections/09_prediction_test_fixture_registry.tex')
-    assert '3D Brownian phase-cycle fixture & G3/D0 & 3D coordinate track fields' in reg
-    assert '3D coordinate phase-cycle CSVs (Brownian application aliases), integer-ratio audit, and App.~\\ref{manual:app:coordinate-phase-cycle-delta3}' in reg
+    assert '3D Brownian coordinate-residue presentation & G3/D0 & 3D coordinate track fields' in reg
+    assert '3D coordinate-residue CSVs (legacy phase-cycle/Brownian aliases), integer-ratio audit, and App.~\\ref{manual:app:coordinate-phase-cycle-delta3}' in reg
 
 
 def test_brownian_script_target_and_continuous_summary_quarantine():
     script = read('manual/scripts/aod_brownian_3d_phase_delta3.py')
     assert 'Q=a^2+b^2+c^2' in script
-    assert 'phase residues Q mod beta_a' in script
+    assert 'coordinate residues Q mod beta_a' in script
     sec = read('manual/sections/06_field_dynamics_applications.tex')
     app = read('manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex')
     assert 'Continuous summaries belong after the exact fixture as presentation or external maps.' in sec
-    assert 'These Brownian application artifacts are aliases of the generic 3D coordinate phase-cycle fixture' in sec
+    assert 'These Brownian application artifacts are legacy phase-cycle aliases of the generic 3D coordinate-residue presentation' in sec
     assert 'Continuous-motion summaries are downstream presentation maps and do not enter the exact fixture.' in app
     assert 'continuous summaries only after exact fixture' in script

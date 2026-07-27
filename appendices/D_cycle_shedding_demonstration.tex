@@ -7,7 +7,7 @@ This demonstration run illustrates boundary accounting after the ontology has be
 
 \subsection{Setup}
 \label{app:cycle-shedding-demo-setup}
-For tick \(t\), let \(L_t\) be the lead component, \(G_t\) the lag component, \(S_t\) the disturbance span, \(P_t\) the burden, \(C_t\) local closure compatibility, \(X_t\) sheddic excess, \(O_t\) outward remainder, and \(R_t\) local reclosure.
+For update index \(t\), let \(L_t\) be the lead component, \(G_t\) the lag component, \(S_t\) the disturbance span, \(P_t\) the burden, \(C_t\) local closure compatibility, \(X_t\) sheddic excess, \(O_t\) outward remainder, and \(R_t\) local reclosure.
 
 \subsection{Statement(s)}
 \label{app:cycle-shedding-demo-statements}
@@ -30,7 +30,7 @@ Here \(O_t\) is the non-reclosed outward remainder; route placement may later sp
 
 \subsection{Demonstration}
 \label{app:cycle-shedding-demo-demonstration}
-The displayed run uses \(90\) ticks, retention coefficient \(\eta_{\mathrm{ret}}=41/50\), span gain \(\gamma_{\mathrm{span}}=11/20\), and reclosure fraction \(\lambda_{\mathrm{reclose}}=19/50\). The lead and lag components are declared deterministic test streams with two local disturbance pulses.
+The displayed run uses \(90\) update steps, retention coefficient \(\eta_{\mathrm{ret}}=41/50\), span gain \(\gamma_{\mathrm{span}}=11/20\), and reclosure fraction \(\lambda_{\mathrm{reclose}}=19/50\). The lead and lag components are declared deterministic test streams with two local disturbance pulses.
 
 \begin{figure}[H]
 \centering
@@ -45,7 +45,7 @@ The displayed run uses \(90\) ticks, retention coefficient \(\eta_{\mathrm{ret}}
 
 \subsection{Falsification}
 \label{app:cycle-shedding-demo-falsification}
-If the computed values violate the stated recurrences on the declared ticks, the demonstration fails on that run.
+If the computed values violate the stated recurrences on the declared update indices, the demonstration fails on that run.
 
 \aodprovenance{\secref{subsec:temporal-sadar-burden},
 \secref{subsec:shedding},
