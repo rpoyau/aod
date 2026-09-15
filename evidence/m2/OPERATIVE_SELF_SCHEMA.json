@@ -1,0 +1,17 @@
+{
+  "schema": "aod.operative.self.r04",
+  "identity": "current causally operative recurrent/coupled subgraph",
+  "constructor": "operative: remove each retained source coordinate under fixed current input; compare strictly later outcome",
+  "roles": {
+    "target": "ME",
+    "operative source interface": "BETWEEN",
+    "unconnected": "NOT-ME",
+    "Null": "separate foundational type"
+  },
+  "labels": "derived from incidence under full node/provenance renaming",
+  "proprioception": "unique issued action after issuer/channel recurrence; exact certified-return count projection; later matched use",
+  "learning": "persistent acquired relation with later removal/restoration",
+  "carriage": "original retained relation and source action registry, inner identities, exact folded certificate, recurrent outer target and repeated higher contacts; new higher matched effect before next offer",
+  "mindfulness": "q_k=-J_k; response at k+1, constant forcing b, p>1/2; exact p1,b1 witness",
+  "operational_only": true
+}

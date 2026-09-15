@@ -46,3 +46,42 @@ def test_required_scientific_objects_precede_dependent_operations():
     labels=a.label_map(ROOT)
     assert labels['eq:cycle-valued-field-compression']['position']<labels['eq:cycle-rd-accessor']['position']
     assert labels['eq:causal-update']['position']<labels['eq:support-trace-spine']['position']
+
+
+def test_m2_canonical_science_and_manual_fixture_are_rendered():
+    mf=a.include_graph(ROOT)[0];uf=a.include_graph(ROOT,'manual')[0]
+    assert 'sections/08_awareness_learning_mindfulness.tex' in mf
+    fixture='manual/sections/00_awareness_fixtures.tex';assert fixture in uf
+    assert uf.index('manual/sections/00_native_closure_wave_temporal_fixtures.tex')<uf.index(fixture)<uf.index('manual/sections/00_dec_ledger.tex')
+    equations=a.equations(ROOT)
+    bindings={'eq:awareness-state-factorization':r'S^+_k=(X_k,M^C_k,R_k)',
+              'eq:awareness-active':r'\exists t>k',
+              'eq:awareness-response':r'J_{k+1}=J_k+\frac{A_k+q_k+g\sum',
+              'eq:awareness-causal-difference':r'\frac{g}{p}',
+              'eq:operative-self':r'S_k\setminus R_i',
+              'eq:action-return-retention':r'r_a=y-u',
+              'eq:awareness-carriage':r'R^{\uparrow}',
+              'eq:mindfulness-stability':r'J_{k+1}-b='}
+    for lab,formula in bindings.items():assert a.normalize_math(formula) in a.normalize_math(equations[lab])
+    assert 'manual:m2-awareness-fixtures' in a.label_map(ROOT,'manual')
+
+
+def test_m2_data_rows_bind_active_definitions_and_exact_source():
+    import hashlib
+    rows=[json.loads(t) for t in (ROOT/'manual/data/m2/awareness_cases.jsonl').read_text().splitlines()]
+    assert len(rows)==47 and len({x['fixture_id'] for x in rows})==47
+    main=a.label_map(ROOT);manual=a.label_map(ROOT,'manual')
+    for x in rows:
+        assert x['main_anchor'] in main and x['manual_anchor'] in manual
+        assert x['source_sha256']==hashlib.sha256((ROOT/x['source']).read_bytes()).hexdigest()
+        assert x['fixture_id'].startswith('R04-NEW-') and x['randomness']=='none'
+        assert x['record_class']=='DECLARED_EXACT_MODEL'
+
+
+def test_m2_displayed_sum_indices_and_empty_self_match_the_declared_types():
+    eq=a.equations(ROOT)
+    difference=a.normalize_math(eq['eq:awareness-causal-difference'])
+    assert a.normalize_math(r'\sum_{e:\,i_e\in D_k}r_e') in difference
+    assert a.normalize_math(r"\sum_{e:\,i_e\in D_k}r'_e") in difference
+    empty=a.normalize_math(eq['eq:operative-self'])
+    assert a.normalize_math(r'\varnothing,&I^{\rm op}_k=\varnothing') in empty
