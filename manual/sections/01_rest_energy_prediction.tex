@@ -1,6 +1,8 @@
-\section{Field Rest-Energy Records}\label{manual:rest-energy-prediction}
+\section{Field Rest-Energy Records}
+\label{manual:rest-energy-prediction}
 
-\subsection{0\texorpdfstring{$|-$}{|-} scope}\label{manual:rest:scope}
+\subsection{0\texorpdfstring{$|-$}{|-} scope}
+\label{manual:rest:scope}
 Rest-energy records are split into two tables. The A\(\Omega\) field-map table records support, carried cycle, and A\(\Omega\) accessor values. The measured-data comparison table records declared measured-sector target rows.
 \[
 \mathbf a\vdash(F,R,\partial_T R,\omega),
@@ -21,9 +23,10 @@ E_{x,\mathrm{ext}}.
 \]
 \aodnoteblock{Data-support class}{Rest-energy records are exact internal A\(\Omega\) field records or O0 external-map comparisons, depending on the declared measured-sector target rows. Uncertainty is scoped to the external measured-sector target and value map.}
 
-\aodprovenance{main:app:ao-field-fractal-properties.}
+\aodprovenance{manual:app:ao-field-fractal-properties.}
 
-\subsection{Support notation used by the calculation records}\label{manual:rest:support-notation}
+\subsection{Support notation used by the calculation records}
+\label{manual:rest:support-notation}
 The manual uses compact support notation only where the calculation needs it:
 \[
 D_i\Box D_j=\text{open-seat duon support},
@@ -54,11 +57,12 @@ C_{2k}\leadsto L\leadsto C_{2k+2}.
 \]
 When this odd-window instability is retained as a route-status suffix, write \(K_{\mathrm{yro}}\). Support-enclosure names remain the even-enclosure names.
 
-\aodprovenance{main:app:ao-field-fractal-properties.}
+\aodprovenance{manual:app:ao-field-fractal-properties.}
 
 
-\subsection{A\texorpdfstring{$\Omega$}{Omega} field-map table}\label{manual:rest:ao-field-value-table}
-The A\(\Omega\) field-map table lists the manual mapping from measured-sector names to A\(\Omega\) field supports. Field-support properties are listed in the main note, App.~J.
+\subsection{A\texorpdfstring{$\Omega$}{Omega} field-map table}
+\label{manual:rest:ao-field-value-table}
+The A\(\Omega\) field-map table lists the manual mapping from measured-sector names to A\(\Omega\) field supports. Field-support properties are listed in the native fixture table, Table~\ref{tab:ao-field-fractal-properties}.
 
 \begin{table}[H]
 \centering
@@ -82,10 +86,11 @@ The A\(\Omega\) field-map table lists the manual mapping from measured-sector na
 \label{tab:manual-ao-field-value-table}
 \end{table}
 
-\aodprovenance{main:app:ao-field-fractal-properties; main:subsec:curling-curl-support-forms.}
+\aodprovenance{manual:app:ao-field-fractal-properties; main:subsec:curling-curl-support-forms.}
 \aodremark{The manual declares measured-sector maps such as \(e^-\mapsto 00|-\) Dimonhexon. These maps are carried by manual comparison records; the main note lists the A\(\Omega\) field-property table.}
 
-\subsection{Electron external map}\label{manual:rest:electron-external-map}
+\subsection{Electron external map}
+\label{manual:rest:electron-external-map}
 The electron comparison record is a manual map from the measured-sector electron to the A\(\Omega\) Dimonhexon support:
 \[
 e^-
@@ -112,7 +117,8 @@ E^{\mathrm{tar}}_e=0.51099895069\ \mathrm{MeV},
 \aodremark{The \(00|-\) tag is a manual measured-sector charge/orientation map carried by the manual comparison record.}
 
 
-\subsection{Measured rest-energy target records}\label{manual:rest:measured-comparison-analysis}
+\subsection{Measured rest-energy target records}
+\label{manual:rest:measured-comparison-analysis}
 External comparison is quarantined. For records with declared targets,
 \[
 E_{x,\mathrm{ext}}=K_{\mathrm{ext}}\nu_{x,\AO},
@@ -151,11 +157,12 @@ Record & Target [MeV] & \(\sigma_E\) [MeV] & Unit & Source\\
 \label{tab:manual-measured-comparison-analysis}
 \end{table}
 
-\aodprovenance{main:app:ao-field-fractal-properties; manual \appref{manual:external-comparison}.}
+\aodprovenance{manual:app:ao-field-fractal-properties; manual \appref{manual:external-comparison}.}
 
 \aodliteraturenote{Lepton/baryon targets: NIST CODATA~\cite{nist-electron-mass-energy,nist-muon-mass-energy,nist-tau-mass-energy,nist-proton-mass-energy,nist-neutron-mass-energy}, meson targets: PDG 2025~\cite{pdg-bmeson-2025}.}
 
-\subsection{Tritrioseptyro Higgs-support diagnostic fixture}\label{manual:tritrioseptyro-higgs-support-fixture}
+\subsection{Tritrioseptyro Higgs-support diagnostic fixture}
+\label{manual:tritrioseptyro-higgs-support-fixture}
 Tritrioseptyro is the \(3{:}3{:}7_{\mathrm{yro}}\) Higgs-support prediction candidate selected by the internal AFC trace. The AFC run produces the trace rows; A\(\Omega\) detectors read the trace and name the retained route status. The selected candidate is joined to the frozen external mass map \(E_H=RD\,2^{L+4}\) MeV. Production-channel and decay-channel residual tables carry the next comparison layer.
 \[
 \text{AFC run}\longrightarrow \text{read-only trace}\longrightarrow \text{A\(\Omega\) route-status naming}.
@@ -257,7 +264,8 @@ The scoring gate requires
 \label{fig:manual-higgs-trace-flow}
 \end{figure}
 
-\subsubsection{External mass map after candidate freeze}\label{manual:higgs-external-map-after-freeze}
+\subsubsection{External mass map after candidate freeze}
+\label{manual:higgs-external-map-after-freeze}
 The external mass map is frozen after the internal candidate is selected:
 \[
 E_H^{(0)}[\mathrm{MeV}]=RD_H\,2^{L+4}.
@@ -317,5 +325,5 @@ E_H^{(0)}=RD_H2^{L+4}=61\cdot2^{11}\,\mathrm{MeV}=124.928\,\mathrm{GeV}.
 Table~\ref{tab:manual-higgs-lhc-comparison} records the declared Higgs mass-input rows, their quoted uncertainties, and the resulting \(\Delta E\), \(|\epsilon|\), and \(z\) coordinates. The mapped value \(124.928\,\mathrm{GeV}\) lies within \(1\sigma\) of the ATLAS+CMS Run-1 combined mass record and the CMS Run-2 \(H\to4\ell\) mass record. Production-channel and decay-channel residual tables carry the next comparison layer.
 
 \aodliteraturenote{ATLAS+CMS Run-1 combined mass~\cite{atlas-cms-higgs-run1}. CMS \(H\to4\ell\) mass~\cite{cms-hig-21-019}. ATLAS combined Run-1+Run-2 mass~\cite{atlas-higgs-mass-combined-2023}. ATLAS diphoton mass~\cite{atlas-higgs-diphoton-2023}.}
-\aodprovenance{main:subsec:yro-odd-window-route-status; main:app:ao-field-fractal-properties; manual:tab:manual-higgs-internal-candidates; manual:tab:manual-higgs-external-map.}
+\aodprovenance{main:subsec:yro-odd-window-route-status; manual:app:ao-field-fractal-properties; manual:tab:manual-higgs-internal-candidates; manual:tab:manual-higgs-external-map.}
 

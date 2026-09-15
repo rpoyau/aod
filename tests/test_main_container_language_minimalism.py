@@ -28,11 +28,14 @@ def test_main_note_container_language_minimalism_strings_absent():
 
 
 def test_main_note_container_language_minimalism_replacements_present():
-    text = read_all_main_source()
-    assert 'The scalar accessors \\(RD_{\\AO}\\), \\(\\rho^D_\\omega\\), \\(P^D\\), and \\(Q^D\\) are obtained from \\(C_f[\\Sigma]_{\\AO}\\)' in text
-    assert r'\subsection{Integer support reductions}\label{app:rd-tests:support-reductions}' in text
-    assert 'The declared integer reductions are' in text
-    assert 'This appendix records integer path-complexity reductions and 4-step closure controls' in text
-    assert 'A declared 4-step closure reduction is contradicted on a scope' in text
-    assert 'This appendix records A\\(\\Omega\\) field-support accessors and field-property invariants.' in text
-    assert 'Under the declared single-hinge neutral-reflection field-property reduction' in text
+    import importlib.util
+    spec=importlib.util.spec_from_file_location("source_audit",ROOT/"scripts/audit_scientific_sources.py")
+    audit=importlib.util.module_from_spec(spec);spec.loader.exec_module(audit)
+    main="\n".join(text for path,text in audit.include_graph(ROOT)[1])
+    manual="\n".join(text for path,text in audit.include_graph(ROOT,"manual")[1])
+    assert "The declared integer reductions are" in main
+    assert r"\label{eq:cycle-valued-field-compression}" in main
+    assert r"\label{eq:cycle-rd-accessor}" in main
+    assert r"\label{app:proto:eq:four-step-load}" in manual
+    assert r"\label{tab:ao-field-fractal-properties}" in manual
+    assert "Under the declared single-hinge neutral-reflection" in manual

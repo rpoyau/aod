@@ -1,12 +1,15 @@
-\section{Galactic Lensing Diagnostic Plan}\label{manual:galactic-lensing-diagnostic-plan}
+\section{Galactic Lensing Diagnostic Plan}
+\label{manual:galactic-lensing-diagnostic-plan}
 \aodnoteblock{Scope}{This section applies the current A\(\Omega\)D field-ring and \(\delta_3\) notation to a staged galactic-lensing diagnostic plan. It is a manual/application plan with an explicit L3 data-package gate.}
 \aodprovenance{main:subsec:fractal-field-ring-gate; main:sec:field-dynamics; manual \secref{manual:cross-return-short-window}; manual \secref{manual:prediction-test-registry}.}
 \aodliteraturenote{SWELLS target lane: Treu et al.~\cite{treu-swells-2011}, Brewer et al.~\cite{brewer-swells-2012}.}
 
-\subsection{Lensing lanes}\label{manual:lensing-status-lock}
+\subsection{Lensing lanes}
+\label{manual:lensing-status-lock}
 \small
 \begin{longtable}{p{0.24\textwidth}p{0.10\textwidth}p{0.56\textwidth}}
-\caption{Galactic lensing diagnostic lanes.}\label{tab:manual-lensing-status-lock}\\
+\caption{Galactic lensing diagnostic lanes.}
+\label{tab:manual-lensing-status-lock}\\
 \toprule
 Lane & Class & Active fields\\
 \midrule
@@ -26,7 +29,8 @@ L3 lensing input package & L3 & L3 input-manifest row; required fields: independ
 \end{longtable}
 \normalsize
 
-\subsection{Field-ring spine}\label{manual:lensing-field-ring-spine}
+\subsection{Field-ring spine}
+\label{manual:lensing-field-ring-spine}
 The lensing fixture uses a discrete exoshedding field-ring calculation. The value table records the evaluated gate values.
 \[
 B_{\mathrm{lens}}=(\partial_TF_{\mathrm{exo}},\omega_{\mathrm{lens}}).
@@ -62,11 +66,13 @@ m_k=|\Delta^{\mathbb Z}_k|.
 \label{fig:manual-lensing-frg-delta3}
 \end{figure}
 
-\subsection{Toy fixture lane}\label{manual:lensing-toy-fixture-lane}
+\subsection{Toy fixture lane}
+\label{manual:lensing-toy-fixture-lane}
 Toy 1 is the exact internal lensing toy. It belongs to the manual fixture lane and registry.
 \small
 \begin{longtable}{p{0.36\textwidth}r}
-\caption{Toy 1 exact internal \(\delta_3\) fixture summary.}\label{tab:manual-lensing-toy-summary}\\
+\caption{Toy 1 exact internal \(\delta_3\) fixture summary.}
+\label{tab:manual-lensing-toy-summary}\\
 \toprule
 Quantity & Value\\
 \midrule
@@ -91,7 +97,8 @@ checks passed & 11/11\\
 \label{fig:manual-lensing-toy-delta3}
 \end{figure}
 
-\subsection{SPARC5 lens-medium diagnostic}\label{manual:lensing-sparc5-medium-diagnostic}
+\subsection{SPARC5 lens-medium diagnostic}
+\label{manual:lensing-sparc5-medium-diagnostic}
 SPARC5 instantiates a radial lens-medium data-support class. It supplies radial field-medium inputs for diagnostic runs. Image-count, Einstein-radius, image-position, and shear target fields are target-side quantities carried by SWELLS or an L3 input package.
 \input{data/lensing/sparc5_medium_diagnostic_summary_table.tex}
 \begin{figure}[H]
@@ -107,7 +114,8 @@ SPARC5 instantiates a radial lens-medium data-support class. It supplies radial 
 \label{fig:manual-lensing-sparc5-classes}
 \end{figure}
 
-\subsection{SWELLS target lane}\label{manual:lensing-swells-lane}
+\subsection{SWELLS target lane}
+\label{manual:lensing-swells-lane}
 SWELLS supplies target-side acquisition fields for the lensing lane.
 \input{data/lensing/swells_k0_target_tallies_table.tex}
 \input{data/lensing/swells_k1_k2_k3_comparison_table.tex}
@@ -125,7 +133,8 @@ K1 is retained as the baseline. K2 and K3 are audit diagnostics.
 \label{fig:manual-lensing-swells-k1}
 \end{figure}
 
-\subsection{K4 input gate}\label{manual:lensing-k4-input-gate}
+\subsection{K4 input gate}
+\label{manual:lensing-k4-input-gate}
 K4 is the higher-resolution lensing input-manifest row for independent 3D and time-flow inputs.
 \input{data/lensing/k4_3d_timeflow_input_gate_table.tex}
 \begin{figure}[H]
@@ -135,7 +144,8 @@ K4 is the higher-resolution lensing input-manifest row for independent 3D and ti
 \label{fig:manual-lensing-k4-gate}
 \end{figure}
 
-\subsection{Target-side quarantine and release gate}\label{manual:lensing-release-gate}
+\subsection{Target-side quarantine and release gate}
+\label{manual:lensing-release-gate}
 The A\(\Omega\) input side carries medium fields, gate values, and declared prediction values. The target side carries image-position, Einstein-radius, and image-count targets after prediction values freeze.
 \begin{figure}[H]
 \centering

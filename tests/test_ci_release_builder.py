@@ -24,3 +24,18 @@ def test_ci_build_file_names_are_version_free():
     assert (ROOT / ".github" / "workflows" / "build.yml").exists()
     assert (ROOT / "scripts" / "build_release_bundle.py").exists()
     assert not any("v39" in p.name for p in (ROOT / "scripts").glob("*.py"))
+
+
+def test_source_archive_exactly_preserves_detached_candidate(tmp_path):
+    import importlib.util, hashlib, zipfile
+    spec=importlib.util.spec_from_file_location('release_builder',ROOT/'scripts/build_release_bundle.py')
+    builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
+    source=builder.build_source_tree(tmp_path)
+    builder.zip_dir(source,tmp_path/'source.zip')
+    wanted={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in ROOT.rglob('*') if p.is_file() and not builder.excluded(p)}
+    with zipfile.ZipFile(tmp_path/'source.zip') as z:
+        actual={i.filename:hashlib.sha256(z.read(i)).hexdigest() for i in z.infolist() if not i.is_dir()}
+    assert actual==wanted
+    for name in ('.zenodo_doi','requirements-ci.txt','wavelet_shedding_simulation.csv','wavelet_shedding_summary.tex'):
+        assert name in actual

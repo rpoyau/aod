@@ -1,6 +1,8 @@
-\section{Quarantined External Comparison}\label{manual:external-comparison}
+\section{Quarantined External Comparison}
+\label{manual:external-comparison}
 
-\subsection{Scope}\label{manual:external-comparison:scope}
+\subsection{Scope}
+\label{manual:external-comparison:scope}
 This appendix compares A\(\Omega\) outputs against external comparison coordinates. It does not import external units, constants, or symbols into the A\(\Omega\) calculation. The active calculation produces a candidate such as
 \[
 \nu_{x,\AO}.
@@ -12,10 +14,12 @@ Only after that value is declared may an external comparison record use it:
 
 
 
-\subsection{Presentation-numeric policy}\label{manual:external-comparison:presentation-numeric-policy}
+\subsection{Presentation-numeric policy}
+\label{manual:external-comparison:presentation-numeric-policy}
 A\(\Omega\)-internal arithmetic remains integer/rational. The decimals in this appendix are external comparison presentation values. Measured external values are carried with a declared uncertainty; exact defining constants are marked as exact. The external normalizer \(\eta_{\mathrm{ext}}\) is measured, so uncertainty propagation for normalized rates may include both the target-energy uncertainty and the uncertainty of \(\eta_{\mathrm{ext}}\).
 
-\subsection{External comparison symbols}\label{manual:external-comparison-symbols}
+\subsection{External comparison symbols}
+\label{manual:external-comparison-symbols}
 External constants and measured-sector units are named only inside this quarantine. The active A\(\Omega\) notation is unaffected by them.
 
 \subsubsection{Distance comparison}
@@ -64,7 +68,8 @@ Q_{\mathrm{ext}}=ze,
 \]
 where \(e\) is an external defining constant in the comparison coordinate system.
 
-\subsection{Choice: external rate normalizer}\label{manual:external-comparison:action-normalization}
+\subsection{Choice: external rate normalizer}
+\label{manual:external-comparison:action-normalization}
 Define the quarantined external rate normalizer
 \[
 \eta_{\mathrm{ext}}:=\alpha_{\mathrm{fs}}^{-1}.
@@ -98,7 +103,8 @@ E_{x,\mathrm{ext}}[\mathrm{MeV}]
 K_{\mathrm{ext}}\nu_{x,\AO}.
 \]
 
-\subsection{Tau target record}\label{manual:external-comparison:tau-target-normalization}
+\subsection{Tau target record}
+\label{manual:external-comparison:tau-target-normalization}
 The Tau Rest Energy section uses the measured target record
 \[
 E_\tau^{\mathrm{tar}}=1776.86\ \mathrm{MeV},
@@ -178,7 +184,8 @@ K_{\mathrm{ext}} & \(h_{\mathrm{ext}}\eta_{\mathrm{ext}}/(10^6e)\) & 5.667353551
 \end{tabularx}
 \end{table}
 
-\subsection{Audit}\label{manual:external-comparison:falsification}
+\subsection{Audit}
+\label{manual:external-comparison:falsification}
 F1. External-comparison audit records the active \(\nu_{x,\AO}\) candidate before the external comparison.
 
 F2. Speed-comparison audit records integer \(\Delta q\), integer positive \(\Delta n\), and \(\Delta q\le\Delta n\).
