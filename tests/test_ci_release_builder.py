@@ -27,13 +27,15 @@ def test_ci_build_file_names_are_version_free():
 
 
 def test_source_archive_exactly_preserves_detached_candidate(tmp_path):
-    import importlib.util, hashlib, zipfile
+    import importlib.util, hashlib, os, subprocess, zipfile
     spec=importlib.util.spec_from_file_location('release_builder',ROOT/'scripts/build_release_bundle.py')
     builder=importlib.util.module_from_spec(spec);spec.loader.exec_module(builder)
     source=builder.build_source_tree(tmp_path)
     builder.zip_dir(source,tmp_path/'source.zip')
-    wanted={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest()
-            for p in ROOT.rglob('*') if p.is_file() and not builder.excluded(p)}
+    tracked=subprocess.check_output(['git','ls-files','-z'],cwd=ROOT).split(b'\0')
+    tracked_paths=(Path(os.fsdecode(raw)) for raw in tracked if raw)
+    wanted={rel.as_posix():hashlib.sha256((ROOT/rel).read_bytes()).hexdigest()
+            for rel in tracked_paths}
     with zipfile.ZipFile(tmp_path/'source.zip') as z:
         actual={i.filename:hashlib.sha256(z.read(i)).hexdigest() for i in z.infolist() if not i.is_dir()}
     assert actual==wanted
