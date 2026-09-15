@@ -1,15 +1,17 @@
-\section{Boundary Current Applications}\label{manual:boundary-current-applications}
+\section{Boundary Current Applications}
+\label{manual:boundary-current-applications}
 \aodnoteblock{Data-support class}{Boundary-current applications are D0 exact scoped-flux fixtures. External report maps carry separate comparison rows. Errors are Stokes residuals, moving-boundary identity residuals, current-split residuals, and sheddic-route conservation residuals.}
-\aodnoteblock{Scope}{This section applies the same scoped AFC flux calculation to wire, fluid, plasma, shell-electromagnetic comparison, and phase-fluid SADAR records. The declared boundary selects the application case of the declared-scope calculus.}
+\aodnoteblock{Scope}{This section applies the same scoped A\(\Omega\)D pressure-resolved flux calculation to wire, fluid, plasma, shell-electromagnetic comparison, and phase-fluid SADAR records. The declared boundary selects the application case of the declared-scope calculus.}
 
-\subsection{Shared scoped-flux setup}\label{manual:boundary-current:shared-setup}
+\subsection{Shared scoped-flux setup}
+\label{manual:boundary-current:shared-setup}
 Declare an application scope
 \[
 \mathbf a\vdash(F,R,\partial R,\omega),
 \qquad
 B=(\partial F,\omega).
 \]
-The scoped AFC flux is
+The scoped A\(\Omega\)D pressure-resolved flux is
 \[
 \phi_{ij}(B)=p^D_{ij}(B)A_{ij}(B),
 \]
@@ -47,7 +49,7 @@ The directional SADAR quantity remains
 \[
 \mathbf A_F(B)=\sum_{(i,j)\in F(B)}\phi_{ij}(B),
 \qquad
-\operatorname{motion}_F(B)=\mathbf A_F(B).
+\operatorname{motion}_{F,k+1}(B)=(S^W_{F,k},S^W_{F,k+1}).
 \]
 
 \begin{figure}[h]
@@ -71,7 +73,8 @@ The directional SADAR quantity remains
 \label{fig:manual-boundary-current-spine}
 \end{figure}
 
-\subsection{Canonical worked substitution}\label{manual:boundary-current:worked-substitution}
+\subsection{Canonical worked substitution}
+\label{manual:boundary-current:worked-substitution}
 Use the signed moving-boundary calculation
 \[
 \Phi^D_{\mathrm{cross}}=8,
@@ -131,7 +134,8 @@ $\phi_{21}(B)$ & $-4$\\
 \label{tab:manual-boundary-current-substitution}
 \end{table}
 
-\subsection{Wire boundary current}\label{manual:boundary-current:wire}
+\subsection{Wire boundary current}
+\label{manual:boundary-current:wire}
 Declare
 \[
 \mathbf a_{\mathrm{wire}}
@@ -155,7 +159,8 @@ X_{\mathrm{shedding}}(B).
 \]
 \aodremark{The wire case is a boundary-duon-current example. The surrounding field shell carries returned-current duration, pressure, and SADAR attention balance.}
 
-\subsection{Fluid interface dynamics}\label{manual:boundary-current:fluid}
+\subsection{Fluid interface dynamics}
+\label{manual:boundary-current:fluid}
 Declare
 \[
 \mathbf a_{\mathrm{fluid}}
@@ -177,7 +182,8 @@ The moving interface uses
 Here cross is current crossing the interface, sweep is current displaced by the moving boundary, and shedding is excess crossing or re-routing through the interface.
 The output record carries interface current, interface pressure, SADAR attention vector, and sheddic path.
 
-\subsection{Plasma shell dynamics}\label{manual:boundary-current:plasma}
+\subsection{Plasma shell dynamics}
+\label{manual:boundary-current:plasma}
 Declare
 \[
 \mathbf a_{\mathrm{plasma}}
@@ -188,7 +194,8 @@ B_{\mathrm{plasma}}=(\partial F_{\mathrm{plasma}},\omega_{\mathrm{plasma}}).
 \]
 The plasma case uses the same scoped-flux calculation as the fluid interface, with the declared boundary now a shell boundary. The calculation changes by boundary declaration, not by introducing a new current object.
 
-\subsection{Shell electromagnetic comparison}\label{manual:boundary-current:shell-em}
+\subsection{Shell electromagnetic comparison}
+\label{manual:boundary-current:shell-em}
 The shell electromagnetic record is a downstream comparison record. It computes A\(\Omega\) quantities first:
 \[
 J^D_{\partial R}(\omega;B),
@@ -201,10 +208,12 @@ X_{\mathrm{shedding}}(B).
 \]
 Only after these A\(\Omega\) quantities are declared may a measured-sector comparison be attached.
 
-\subsection{Phase-fluid SADAR rebalancing}\label{manual:boundary-current:phase-fluid}
-Phase-fluid motion is the SADAR attention vector of the declared interface field:
+\subsection{Phase-fluid SADAR rebalancing}
+\label{manual:boundary-current:phase-fluid}
+Phase-fluid motion is the realized later response of the declared interface
+field to its committed SADAR attention input:
 \[
-\operatorname{motion}_F(B)=\mathbf A_F(B).
+\operatorname{motion}_{F,k+1}(B)=(S^W_{F,k},S^W_{F,k+1}).
 \]
 The local sequence is
 \[
@@ -218,7 +227,8 @@ The local sequence is
 \]
 Push and pull are signed phase-biased components of the same vector.
 
-\subsection{Audit}\label{manual:boundary-current:falsification}
+\subsection{Audit}
+\label{manual:boundary-current:falsification}
 The boundary-current application record carries the declared scope, antisymmetry \(\phi_{ji}(B)=-\phi_{ij}(B)\), the signed window current as the sum of slice fluxes, and the moving-boundary cross, sweep, and shedding terms.
 \[
 J^D_{\partial R}(\omega;B)
@@ -227,3 +237,11 @@ J^D_{\partial R}(\omega;B)
 \]
 marks a window-current audit residual on the declared scope.
 \aodprovenance{main:eq:b-scoped-flux; main:eq:rcd-coupling; main:eq:window-clipped-rho; main:eq:sadar-attention-vector; main:eq:moving-boundary.}
+
+\paragraph{Trace and response typing.}
+The pressure-resolved flux in these applications is \(\phi^{\mathrm{AOD}}=p^D A\).
+Normalized AFC memory/kernel flux remains separately typed. Pressure, signed
+phase bias, directional RCD and current are distinct committed coordinates.
+Their response changes state at the next transition; the attention vector
+alone does not constitute motion. Opposite oriented values can cancel while
+both bound histories remain retained.

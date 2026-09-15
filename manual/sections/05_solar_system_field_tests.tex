@@ -1,9 +1,11 @@
 
-\section{Solar Observable-Map Fixtures}\label{manual:solar-system-field-tests}
+\section{Solar Observable-Map Fixtures}
+\label{manual:solar-system-field-tests}
 \aodnoteblock{Scope}{This section carries solar-system observable-map comparison fixtures. Each record declares its solar-system scope, names the observable map, attaches the measured-sector target, and records residual, percent error, source citation, and audit.}
 \aodnoteblock{Data-support class}{Solar records are O0 observable-map fixtures. Each row records map value, target, residual/error, and citation inside the declared observable-map support class.}
 
-\subsection{Shared solar-system declaration}\label{manual:solar:shared}
+\subsection{Shared solar-system declaration}
+\label{manual:solar:shared}
 Declare a solar field scope
 \[
 \mathbf a_\odot\vdash(F_\odot,R_\odot,\partial R_\odot,\omega_\odot),
@@ -41,7 +43,8 @@ Each record computes the long-window \(\SADARop_B\) value first and only then at
 \boxed{\text{Solar-system tests are long-window }\SADARop_B\text{ values on the Sun-field cycle family.}}
 \]
 
-\subsection{SADAR observable bridge}\label{manual:solar:observable-export-bridge}
+\subsection{SADAR observable bridge}
+\label{manual:solar:observable-export-bridge}
 Before a solar-system record is compared to a target, the Sun-field cycle family is evaluated by \(\SADARop_B\) and passed through a declared observable comparison map:
 \[
 \mathcal O_{x,\AO}
@@ -81,7 +84,8 @@ J^D_{\partial R}(\omega_{\mathrm{red}};B_{\mathrm{red}})
 \]
 The comparison maps are manual observable maps. Their rows record map value, target, residual, error coordinate, and citation after the \(\SADARop_B\) value is declared.
 
-\subsection{Observable-map comparison table}\label{manual:solar:observable-map-table}
+\subsection{Observable-map comparison table}
+\label{manual:solar:observable-map-table}
 
 \begin{table}[h]
 \centering
@@ -113,7 +117,8 @@ Solar redshift & $2.11996\times10^{-6}$ & $2.12\times10^{-6}$ & $-4.0\times10^{-
 \label{fig:manual-solar-percent-error}
 \end{figure}
 
-\subsection{Mercury perihelion window}\label{manual:solar:mercury}
+\subsection{Mercury perihelion window}
+\label{manual:solar:mercury}
 Declare
 \[
 \mathbf a_{\mathrm{Hg}}\vdash(F_{\mathrm{Hg}},R_{\mathrm{orbit}},\partial R_{\mathrm{peri}},\omega_{\mathrm{cy}}),
@@ -135,7 +140,8 @@ The target is
 \]
 \aodliteraturenote{Mercury perihelion target: Will~\cite{will-mercury-2018}.}
 
-\subsection{Solar light-bending boundary}\label{manual:solar:light-bending}
+\subsection{Solar light-bending boundary}
+\label{manual:solar:light-bending}
 Declare
 \[
 \mathbf a_{\mathrm{bend}}\vdash(F_{\mathrm{signal}},R_{\mathrm{path}},\partial R_{\odot\mathrm{limb}},\omega_{\mathrm{bend}}),
@@ -157,7 +163,8 @@ The target is
 \]
 \aodliteraturenote{Solar-limb light-bending target: NASA~\cite{nasa-1919-light-bending}.}
 
-\subsection{Solar redshift transfer boundary}\label{manual:solar:redshift}
+\subsection{Solar redshift transfer boundary}
+\label{manual:solar:redshift}
 Declare
 \[
 \mathbf a_{\mathrm{red}}
@@ -188,7 +195,8 @@ v_z^{\mathrm{meas}}=638\pm6\ \mathrm{m/s}.
 \]
 \aodliteraturenote{Solar redshift target and measured value: Heidelberg/ZAH~\cite{zah-solar-redshift}.}
 
-\subsection{Audit hooks}\label{manual:solar:audit-hooks}
+\subsection{Audit hooks}
+\label{manual:solar:audit-hooks}
 \begin{itemize}
 \item Scope audit: each record declares \(\mathbf a\vdash(F,R,\partial R,\omega)\) and \(B=(\partial F,\omega)\).
 \item Comparison-fixture audit: each record includes observable-map value, target, residual, percent error, and status.

@@ -106,7 +106,7 @@ def test_swells_k0_target_acquisition_fields_only_r61():
 
 
 def test_main_walk_support_audit_affirmative_r61():
-    app = read('appendices/H_combinatorics_rd_tests.tex')
+    app = read('appendices/C_short_proofs.tex')
     assert r'\subsection{Walk-support audit}' in app
     assert 'A walk-support reduction records declared first-branch support' in app
     for forbidden in ['claimed RD row', 'claimed row', 'Use of \\(2\\Pi+1\\) fails', 'A kernel fails']:
@@ -131,7 +131,7 @@ def test_r71_final_af_lexical_table_pass():
     assert 'route / slosh / pending' not in field
     assert 'no-override internal selection rule' not in rest
     assert 'candidate-identity override' not in rest
-    assert 'Field-support properties are listed in the main note, App.~J' in rest
+    assert 'Field-support properties are listed in the native fixture table, Table~\\ref{tab:ao-field-fractal-properties}' in rest
     assert 'Field-support properties are not repeated here' not in rest
     assert 'read-only unless' not in rest
     assert 'Status' not in solar.split('\\subsection{Observable-map comparison table}', 1)[1].split('\\end{table}', 1)[0]

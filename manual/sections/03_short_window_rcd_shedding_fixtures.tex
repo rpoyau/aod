@@ -1,10 +1,12 @@
 
 
-\section{Exact Internal Fixtures}\label{manual:cross-return-short-window}
+\section{Exact Internal Fixtures}
+\label{manual:cross-return-short-window}
 \aodnoteblock{Scope}{This section carries exact A\(\Omega\)-internal fixtures: cross-return, duration-clipping, exact \(\delta_3\) residual tally, and sheddic route audit.}
 \aodnoteblock{Data-support class}{These are D0 exact internal fixtures. Input data are declared integer gates, channels, windows, and comparator bins. Comparator fixtures record \(O_k,\Delta^{\mathbb Z}_k,\delta_{3,k}\). Route-audit fixtures record \(\Delta_{\mathrm{close}}\), \(X_{\mathrm{shedding}}\), and \(\operatorname{SheddicPath}\).}
 
-\subsection{Dimonhexon cross-return fixture}\label{manual:cross-return:dimonhexon-slit}
+\subsection{Dimonhexon cross-return fixture}
+\label{manual:cross-return:dimonhexon-slit}
 \aodnoteblock{Scope}{This subsection is a boundary-restriction test. A stable Dimonhexon closure enters a slit boundary, becomes a duon-cycle handoff across the restricted boundary/window, and recloses into target bins.}
 \aodprovenance{main:subsec:fractal-field-ring-gate; main:eq:sadar-operator-cycle; manual \secref{manual:cross-return:dimonhexon-slit}.}
 
@@ -45,7 +47,8 @@ For a second gate \(g_b\), define \(S^{(b)}_k\) analogously.
 
 \aodremark{The particle-like term is retained closure. The wave-like term is boundary-constrained handoff. The hit-like term is local reclosure.}
 
-\subsection{Recurrent-ring double-slit cross-return}\label{manual:cross-return:ring-double-slit}
+\subsection{Recurrent-ring double-slit cross-return}
+\label{manual:cross-return:ring-double-slit}
 \aodnoteblock{Scope}{This subsection applies the main-note fractal field ring gate to the Dimonhexon slit handoff.}
 Declare a recurrent ring field
 \[
@@ -105,7 +108,8 @@ T^\times_k-T^0_k=C^\times_k.
 \]
 
 
-\subsubsection{Exact double-slit fixture}\label{manual:cross-return:exact-double-slit-fixture}
+\subsubsection{Exact double-slit fixture}
+\label{manual:cross-return:exact-double-slit-fixture}
 The following fixture is a released A\(\Omega\)-internal exact integer bin test. The independent gate-sum value is \(T_k^0\). The recurrent ring value is \(T_k^\times\). The declared fixture comparator is \(O_k\). The comparison is the exact \(\delta_3\) tally \(\delta_{3,k}(T^\times,O)=(s_k^{(3)},m_k)\).
 
 \begin{table}[h]
@@ -185,7 +189,8 @@ $\delta_{3,k}(T^\times,O)$ & exact ternary signed residual tally\\
 \aodprovenance{main:subsec:fractal-field-ring-gate; main:eq:b-scoped-flux; main:eq:frg-cross-return-contribution; manual \secref{manual:cross-return:dimonhexon-slit}.}
 \aodremark{The independent gate-sum value records independent reclosure. The recurrent ring value records redistributed returned-current coupling.}
 
-\subsection{Short-window fixture scope}\label{manual:short-window:scope}
+\subsection{Short-window fixture scope}
+\label{manual:short-window:scope}
 \aodnoteblock{Scope}{This section is A\(\Omega\)-internal. It tests short-window \(\rho^D\)-clipping, pending overhang, closure residual, and sheddic path status without external comparison.}
 
 Declare the short-window fixture scope
@@ -224,7 +229,8 @@ The record length is denoted by \(L_M\). It is distinct from the path-derived sc
 \label{fig:manual-short-window-setup}
 \end{figure}
 
-\subsection{Shared fixture equations}\label{manual:short-window:equations}
+\subsection{Shared fixture equations}
+\label{manual:short-window:equations}
 For a candidate record \(M\) in a declared scope \(B\), use
 \[
 \rho^D_\omega(M;B)=\min(\rho^D(M;B),|\omega|),
@@ -245,7 +251,8 @@ X_{\mathrm{shedding}}(M;B)=\max(0,\Delta^{\mathrm{close}}(M;B)).
 \]
 \aodnoteblock{Remark}{\(\Delta^{\mathrm{close}}\) records signed closure residual. \(X_{\mathrm{shedding}}\) records only positive surplus. Negative closure residuals are retained as deficits or open checks, not as sheddic surplus.}
 
-\subsection{Closure-dependent and surplus fixtures}\label{manual:short-window:fixture-table}
+\subsection{Closure-dependent and surplus fixtures}
+\label{manual:short-window:fixture-table}
 The following table keeps \(\Delta^{\mathrm{close}}\) and \(X_{\mathrm{shedding}}\) separate. This prevents closure-deficit records from being misread as sheddic surplus.
 
 \begin{table}[h]
@@ -265,7 +272,8 @@ Row & \(C_3\) & \(\rho^D\) & \(L_M\) & \(|\omega|\) & \(\rho^D_\omega\) & \(Q^D\
 \label{tab:manual-short-window-fixtures}
 \end{table}
 
-\subsection{The \texorpdfstring{\(1{:}2{:}7\)}{1:2:7} closure-dependent fixture}\label{manual:short-window:127}
+\subsection{The \texorpdfstring{\(1{:}2{:}7\)}{1:2:7} closure-dependent fixture}
+\label{manual:short-window:127}
 For \(1{:}2{:}7\), the window is shorter than the path-derived support:
 \[
 \rho^D_\omega=\min(9,7)=7,
@@ -288,7 +296,8 @@ X_{\mathrm{shedding}}=0.
 \]
 Thus \(1{:}2{:}7\) is closure-dependent.
 
-\subsection{The \texorpdfstring{\(1{:}2{:}9\)}{1:2:9} surplus fixture}\label{manual:short-window:129}
+\subsection{The \texorpdfstring{\(1{:}2{:}9\)}{1:2:9} surplus fixture}
+\label{manual:short-window:129}
 For \(1{:}2{:}9\), the candidate window reaches the path-derived support:
 \[
 \rho^D_\omega=\min(9,9)=9,
@@ -305,7 +314,8 @@ X_{\mathrm{shedding}}=3.
 \]
 This is the nine-window surplus fixture.
 
-\subsection{The \texorpdfstring{\(1{:}2{:}10\)}{1:2:10} clipped retained fixture}\label{manual:short-window:1210}
+\subsection{The \texorpdfstring{\(1{:}2{:}10\)}{1:2:10} clipped retained fixture}
+\label{manual:short-window:1210}
 For \(1{:}2{:}10\), the candidate record length exceeds the path-derived support:
 \[
 \rho^D_\omega=\min(9,10)=9,
@@ -322,7 +332,8 @@ X_{\mathrm{shedding}}=0.
 \]
 The fixture is a clipped retained check.
 
-\subsection{Sheddic path audit}\label{manual:short-window:shedpath-audit}
+\subsection{Sheddic path audit}
+\label{manual:short-window:shedpath-audit}
 The sheddic path audit uses
 \[
 \mathrm{SheddicPath}(X_{\mathrm{shedding}})
@@ -331,7 +342,14 @@ The sheddic path audit uses
 \]
 A surplus fixture must declare where the positive \(X_{\mathrm{shedding}}\) is routed. A deficit fixture may remain an open check or may be paired with a declared closure completion.
 
-\subsection{Audit hooks}\label{manual:short-window:audit-hooks}
+\subsection{Audit hooks}
+\label{manual:short-window:audit-hooks}
 \aodnoteblock{Audit}{A short-window fixture records \(\rho^D_\omega\), \(Q^D\), \(\Delta^{\mathrm{close}}\), and \(X_{\mathrm{shedding}}\) separately. Sheddic surplus is positive only, and every positive \(X_{\mathrm{shedding}}\) carries a declared sheddic path.}
 \aodprovenance{main:eq:window-clipped-rho; main:eq:burden-overhang; main:eq:sheddic-path; manual \secref{manual:short-window:scope}.}
 \aodremark{This section is A\(\Omega\)-internal. It prepares the mechanics used by rest-energy records and boundary-current records without adding an external comparison target.}
+
+\paragraph{Duration-domain declaration.}
+These reductions declare \(R^{\mathrm{asym}}=\mathrm{id}\) and the additive native
+count realization, so \(\rho^D=RD\) in this specialization. The window is a
+count in that same domain; \(\rho^D_\omega=\min(\rho^D,|\omega|)\) is scalar
+participation. Neither support RD nor the coupled RCD object is clipped.

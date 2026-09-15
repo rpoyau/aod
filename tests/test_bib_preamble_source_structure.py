@@ -61,7 +61,7 @@ def test_no_inline_bibliography_in_main_tex_files():
 
 
 def test_h6_literature_note_is_single_block():
-    text = read("appendices/H_combinatorics_rd_tests.tex")
+    text = read("appendices/C_short_proofs.tex")
     assert text.count(r"\aodliteraturenote{Dyck/Catalan path combinatorics") == 1
     assert "Dyck/Catalan path combinatorics" in text
     assert "Markov kernels and random walks" in text

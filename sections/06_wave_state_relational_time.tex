@@ -1,0 +1,250 @@
+\section{Wave state and relational temporal structure}
+\label{sec:wave-state-relational-time}
+
+\subsection{Complete state before comparison}
+Wave identity is fixed by \eqref{eq:wave-identity}. Its mutable state retains
+all coordinates needed by the declared realization:
+\begin{equation}
+\begin{split}
+S^W_{B,i,k}={}&(W^{\mathrm{id}}_{B,i},K^{\mathrm{adm}}_i,
+\sigma^C,J,p,\partial B,\Phi,\operatorname{Cad},\varepsilon,\\
+&\mathrm{memory},\mathrm{capacity},\mathrm{context})_k.
+\end{split}
+\label{eq:complete-wave-state}
+\end{equation}
+The closure state \(\sigma^C\) may be forming, open, pending, closed, fusing,
+reclosed or shedding. Retained context has its own coordinate; it is not
+identical with closure memory or pressure. The companion coupling state is
+\begin{equation}
+S^\times_{I,B,k}=
+(E,\psi^{\mathrm{bias}},\Lambda,\Delta\Lambda,
+\operatorname{RCD},\rho^D,\mathrm{provenance})_k.
+\label{eq:complete-coupling-state}
+\end{equation}
+Its fields hold committed comparison records, with absent coordinates typed
+as absent until their preconditions have been established.
+
+\paragraph{Declared update and trace.}
+An implementation states its update law and admissible input domain:
+\begin{equation}
+S^W_{k+1}=\mathcal U_B(S^W_{\le k},S^\times_{\le k},\mathrm{input}_{\le k}),
+\qquad
+\Gamma^W_{B,i}[k_0{:}k_1]=(S^W_{B,i,k})_{k_0\le k\le k_1}.
+\label{eq:wave-update-trace}
+\end{equation}
+In the native event realization, state and input cuts are integers. Initialization
+at a completed return retains that return's vertex coordinate; any rebasing uses
+a declared coordinate map.
+This interface permits different declared realizations. It does not assert a
+universal response law. Pair events have separate immutable records:
+\begin{equation}
+\begin{split}
+e_s^\times={}&(\operatorname{id}_s,W_i^{\mathrm{id}},W_j^{\mathrm{id}},
+B,\omega,\mathrm{direction},\mathrm{contact},\mathrm{reflection},\\
+&k_s,\operatorname{digest}\Gamma^W_{i,\le k_s},
+\operatorname{digest}\Gamma^W_{j,\le k_s}),
+\qquad \Gamma^\times=(e_s^\times)_s.
+\end{split}
+\label{eq:coupling-trace}
+\end{equation}
+Both lineages and the common committed window are bound before comparison.
+One contact supplies a relation or stage. Repeated distinct bound contacts
+between recurrent waves supply the comparison input.
+
+\subsection{Directional RCD and duration}
+\label{sec:boundary-accounting}
+\label{subsec:boundary-scope}
+The scoped address binder is \(\mathbf a\vdash(\mathcal F,R,\partial R,\omega)\).
+The field resolves to its wave members before a channel is evaluated.
+For returned channel \(e\), the retained duration coordinate is
+\begin{equation}
+D_e(\partial F,\omega)=\operatorname{dur}(\operatorname{RCD}_e),
+\label{eq:returned-duration}
+\end{equation}
+\label{subsec:returned-current-duration-coordinate}
+with the specific duration interface declared on that channel.
+
+\paragraph{Constructor.}
+\label{subsec:reflection-duration-coupling}
+Keep the inherited support accessor, coupling object and scalar distinct:
+\begin{equation}
+\RCD_{ij}(B)=RD_B(C_{ij})\bowtie_B R^{\mathrm{asym}}_{ij}(B),
+\label{eq:rcd-coupling}
+\end{equation}
+\begin{equation}
+\operatorname{dur}_{\mathcal P}:\RCD_{ij}\longrightarrow\mathcal D_{ij},
+\qquad \rho^D_{ij}(B)=\operatorname{dur}_{\mathcal P}(\RCD_{ij}(B)).
+\label{eq:rcd-duration-participation}
+\end{equation}
+Here \(\mathcal D_{ij}\) is a declared exact ordered native count domain.
+The constructor retains both lineages, direction, repeated contact identities,
+scope and reflection witness. A concrete additive-count realization stores
+\((RD,r_1,\ldots,r_m)\) with \(r_s\ge0\) and sets
+\begin{equation}
+\operatorname{dur}_{+}(RD\bowtie(r_s)_s)=RD+\sum_s r_s.
+\label{eq:rcd-additive-realization}
+\end{equation}
+This is a declared interface realization. Neutral reflection \(r_s=0\)
+specializes it to \(\rho^D=RD\); directional reversal recomputes the \(r_s\)
+and can change duration.
+
+\paragraph{Window participation.}
+A window projection requires a compatible count in the same ordered domain:
+\begin{equation}
+\operatorname{Compat}_{\mathcal D}(\rho^D_{ij},|\omega|^{\mathcal D}_{ij})
+\quad\Longrightarrow\quad
+\rho^D_{\omega,ij}=\min_{\mathcal D}(\rho^D_{ij},|\omega|^{\mathcal D}_{ij}).
+\label{eq:window-clipped-rho}
+\end{equation}
+Only this scalar participation is clipped. RD support and the RCD record
+retain their full values. TTL is the separate duration of seat-compatible
+retention. Participation is a downstream accounting projection, rather than
+the definition of native relational time.
+
+\subsection{Comparison from committed recurrence}
+The phase accessor is \eqref{eq:cumulative-closure-counts}. A native comparison
+window has two strictly ordered integer endpoints \(u<v\); contact commitments
+are integer cuts in \([u,v]\), and reclosures are counted in \((u,v]\) as in
+\eqref{eq:closure-phase-window}. For distinct recurrent lineages with repeated
+bound contacts in that window, the exact cadence ratio is
+\begin{equation}
+\operatorname{biz}^{TF}_{i|j}(\omega)=
+\frac{\Delta\operatorname{bip}_i(\omega)}{\Delta\operatorname{bip}_j(\omega)},
+\qquad\Delta\operatorname{bip}_j(\omega)>0.
+\label{eq:cadence-ratio}
+\end{equation}
+Here \(\Delta\mathrm{bip}_i(\omega)=\mathrm{bip}_i(\omega)
+=\mathrm{bip}^{\le}_i(v)-\mathrm{bip}^{\le}_i(u)\) uses the window accessor.
+A single monon pair supports structural comparison, but lacks the two
+cadences required here. A declared comparison protocol \(\mathcal P\) fixes
+the exact ordered domain, orientation and exchange law:
+\begin{equation}
+\operatorname{Compare}^{\Phi}_{\mathcal P,i|j}
+(\Phi_i,\Phi_j,\operatorname{Cad}_i,\operatorname{Cad}_j,\Gamma^\times_{ij})
+=(\psi^{\mathrm{bias}}_{i|j},\Lambda_{i|j},\Delta\Lambda_{i|j}).
+\label{eq:native-comparator}
+\end{equation}
+The comparison is unwrapped unless an additional display map is declared.
+For example, an exact count convention may set
+\begin{equation}
+\psi_{i|j}=b_i-b_j,\quad
+\Lambda_{i|j}=N_i-N_j+b_i-b_j,\quad
+\Delta\Lambda_{i|j}=\Lambda_{i|j}(k)-\Lambda_{i|j}(k^-),
+\label{eq:count-comparator-realization}
+\end{equation}
+where \(N_i,N_j\) are committed reclosure counts and
+\((b_i,b_j)\in\mathbb Q^2\) is the ordered pair of separately declared oriented
+native offsets. No circular normalization is
+used. Adding one whole closure to \(N_i\) changes \(\Lambda\) by one even if
+a downstream wrapped display repeats. A cadence-qualified linear comparator
+\(qX_i-pX_j\) is another declared convention; its reversal includes its stated
+coefficient normalization. There is no universal comparator law.
+
+\begin{equation}
+\begin{split}
+\operatorname{RT}_{I,B}(\omega)
+&=\Pi^{\mathrm{native}}_{\mathrm{rel}}
+(\{\Gamma^W_{B,i}\}_{i\in I},\Gamma^\times_{I,B,\omega};\mathcal P)\\
+&=\{(\operatorname{biz}^{TF}_{i|j},\psi_{i|j},\Lambda_{i|j},
+\Delta\Lambda_{i|j},\RCD_{ij},\rho^D_{ij},\mathrm{provenance}_{ij})\}_{(i,j)\in E}.
+\end{split}
+\label{eq:relational-time}
+\end{equation}
+With positive counts in both directions, cadence ratios reverse reciprocally.
+The count comparator reverses bias and lag by sign; the directional RCD is
+reconstructed. Three or more waves form an edge-labelled comparison structure.
+No global scalar clock is required. Equal temporal coordinates may coexist
+with unequal pressure, closure condition or retained context in
+\eqref{eq:complete-wave-state}.
+
+\paragraph{Falsification.}
+Aliased wave identities, an uncoupled pair, one contact, zero denominator,
+unbound prefix, absent duration interface or incompatible clipping domain
+invalidate the stated coordinate. Aggregation that discards direction or
+ancestry loses part of the relation even when its current sums to zero.
+
+\paragraph{Provenance.}
+Equations \eqref{eq:beat-reclosure}, \eqref{eq:wave-identity},
+\eqref{eq:wave-update-trace}, \eqref{eq:coupling-trace} and
+\eqref{eq:rcd-coupling}. Native counts and ratios become measurements only
+through a separately declared Manual protocol, reference, calibration, unit,
+resolution, uncertainty, repeatability and traceability.
+
+\subsubsection{Tick/click}
+\label{subsec:duon-tick-click}
+As a declared specialization of \eqref{eq:wave-update-trace}, let \(K_t\) be the current complete wave state. A tick emits a duon current
+\[
+X_t=E(K_t).
+\]
+A click receives a returned duon \(Y_t\). The cycle update is
+\[
+K_{t+1}=U(K_t,Y_t,\beta_t,\Delta_{\mathrm{lead/lag},\le t}),
+\]
+and the next tick emits
+\[
+X_{t+1}=E(K_{t+1}).
+\]
+
+\subsubsection{Markovian and retained-history continuity}
+\label{subsec:duon-continuity}
+A Markovian continuity continues by present cycle state. A retained-history continuity carries prior return, lead--lag burden, jitter, shell residue, duration, or SADAR channel memory. Both forms carry wave continuity when distinction-information persists through recurring duon cycle form.
+
+
+\subsection{Downstream continuation model}
+\label{subsec:q4-hamming-ternary-kernel}
+\label{subsec:hinge-slide}
+On already admitted support, choose nonnegative rational weights. The atomic-traversal kernel below records H1 base changes. Fibre-only additional dwell has zero base traversals and uses the separate \(0_H\to0_D\) continuation on an already entered hinge; it is not called an atomic H1 event. With
+the typed continuation support split as
+\begin{equation}
+\operatorname{Adm}_B=
+\operatorname{Adm}^{\mathrm{H1}}_B\sqcup\operatorname{Adm}^{\mathrm{fib}}_B,
+\label{eq:continuation-domain-split}
+\end{equation}
+the first part contains atomic base traversals and the second contains
+zero-base-traversal hinge-fibre continuations. Define the atomic kernel by
+\begin{equation}
+P_B(e',\sigma'\mid e,\sigma)=
+\begin{cases}
+w_B(e',\sigma')/Z_B,&(e',\sigma')\in\operatorname{Adm}^{\mathrm{H1}}_B,\ Z_B>0,\\
+0,&(e',\sigma')\notin\operatorname{Adm}^{\mathrm{H1}}_B,
+\end{cases}
+\quad Z_B=\sum_{a\in\operatorname{Adm}^{\mathrm{H1}}_B}w_B(a).
+\label{eq:admitted-kernel}
+\end{equation}
+For \(Z_B=0\), report empty positive-weight support; distinguish it from an empty structural admissible set. Neither case is normalized. Equal
+positive weights give \(1/N_B\); unequal weights give the anisotropic model.
+Weights may use committed lag, orientation and reflection coordinates.
+Both choices preserve \eqref{eq:atomic-probability-one}. Direct branch bypass
+has zero support. The kernel neither supplies the first distinction nor
+certifies closure from a phase threshold.
+
+\paragraph{Hinge saturation.}
+The additional-dwell continuation family and its unweighted/weighted empty
+conditions are
+\begin{equation}
+\operatorname{Adm}^{0}_{B}(e,\sigma)=
+\{(e,0_D)\in\operatorname{Adm}^{\mathrm{fib}}_{B}(e,\sigma)\},
+\label{eq:hinge-admissible-family}
+\end{equation}
+\label{subsec:fractal-jitter}
+\begin{equation}
+\operatorname{Adm}^{0}_{B}(e,\sigma)=\varnothing,
+\label{eq:hinge-saturation}
+\end{equation}
+\begin{equation}
+\sum_{(e,0_D)\in\operatorname{Adm}^{\mathrm{fib}}_B(e,\sigma)}w_B(e,0_D)=0.
+\label{eq:hinge-saturation-weighted}
+\end{equation}
+After the mandatory hinge, any remaining admitted continuation then has
+\begin{equation}
+\sigma'\in\{-1,+1\}.
+\label{eq:hinge-saturation-branch-continuation}
+\end{equation}
+If no such continuation exists, the declared state is pending, reseated,
+shedding or lifted according to the model; an empty kernel does not force an
+invented event. Jitter records unresolved lawful continuation before seating.
+\aodliteraturenote{Hypercube support: Weisstein~\cite{weissteinHypercubeGraph};
+adjacency walks: MIT OCW~\cite{mitAdjacencyWalks}, Duncan~\cite{duncanAdjacencyWalks};
+random walks: Wisconsin~\cite{wisconsinRandomWalks}, Norris~\cite{norrisMarkov}.
+Dyck/Catalan context: Stanley~\cite{stanleyCatalan},
+Flajolet--Sedgewick~\cite{flajoletSedgewick}.}

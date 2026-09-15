@@ -1,0 +1,50 @@
+{
+  "schema": "aod.awareness.active.r04",
+  "m1_parent_tree": "a745e0253da564bb561942961714cc6f522a2246",
+  "state": {
+    "factorization": "S+=(X,Mclosure,R)",
+    "present": "Every M1 WaveState coordinate except closure_memory and retained_rebalancing; wrapper placeholders required empty to prevent duplication",
+    "memory": "M1 immutable retained return identities, separate coordinate",
+    "retention": "Only storage for prior FRG rebalancing residual and its source/target wave, committed contact, lineage/scope, operand and phase provenance",
+    "present_projection": "X; matched controls also hold Mclosure and immutable admitted world equal",
+    "law": "Declared exact model J_next=J+(A+q+g*sum(available_i*r_i))/p; A is unchanged present pressure-bearing attention, q separately declared perturbation, g model gain; native update supplies J+A/p first; all effects committed at k+1",
+    "admissible_response": "Selected H1 continuation on already admitted Q4 support; later fold/contact requires separate M1 certificates",
+    "no_hidden_channel": "X.retained_rebalancing and X.closure_memory are empty; historical causal values live only in R; evidence lane names and traces cannot enter U",
+    "scope": "Operational finite model; no new universal dynamics, observer, phenomenology or metrology",
+    "residual_constructor": "R.value = FRG(independent Q tuple, cross Q tuple).residual = sum(cross); R holds these committed prior operands, source/target wave IDs, real native repeated contacts, native signed-lag comparison and commitment. Both operands are declared pressure-bearing channel contributions; n.aod_flux and n.frg retain provenance and exact AO=-OA.",
+    "world_read_boundary": "Immutable world may validate admitted waves, contact/action provenance and causal order only. U cannot derive or recover absent R values from world, closure memory, traces or caches. Only present attention and R values explicitly retained in the state contribute to response."
+  },
+  "controls": {
+    "fixed_at_boundary": [
+      "X",
+      "Mclosure",
+      "admitted recurrent world",
+      "update law",
+      "future exogenous sequence"
+    ],
+    "intervened": "R only",
+    "primary_lanes": [
+      "positive",
+      "removal",
+      "exact restoration",
+      "wrong lineage (rejected as inadmissible retention)",
+      "ineffective retention via separately declared zero-gain family",
+      "passive trace"
+    ],
+    "pressure": "Separate p=1 and p=2 families, retention matched within each; cross-pressure pair rejected",
+    "exact_restoration": "Value plus full lineage/provenance, not a matching scalar alone",
+    "randomness": "Deterministic exact rational model; no seed claim or stochastic inference",
+    "strict_order": "prior contact through k-1, retained rebalancing committed at k, effect only after k",
+    "phase": "M1 signed relational lag and directional RCD, with wave/contact prefix binding; selector, wrapped display and metrology substitutions rejected",
+    "query_provenance": "Each event retains the consumed observation cut. Immediate q_k=-J_k cites k; delayed q_k=-J_(k-1) cites k-1. Delayed fixture starts with explicitly declared J_32=0 and J_33=3; later source values are recorded observations."
+  },
+  "operative_source": "manual/scripts/aod_awareness.py",
+  "source_sha256": "b98f4a6cb1986bcaa6be16d303dfd46f1a0d4c82b9a520453e8eb88af48ca9f8",
+  "source_anchors": [
+    "eq:awareness-state-factorization",
+    "eq:retained-rebalancing",
+    "eq:awareness-active",
+    "eq:awareness-causal-difference"
+  ],
+  "runtime_delta": "Source-bound prior operand commitments, full inherited immutable-state validation, exact native integer cuts, actual action-return projection, and independent second-hop retained intervention enforce this specification. Comparator bias is an exact two-operand tuple. Every declared outer certificate carries its actual inner wave pair and scope map: both B1 comparison operands and the B2 fold. An outer tag without that witness is rejected."
+}

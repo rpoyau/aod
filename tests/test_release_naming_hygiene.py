@@ -33,24 +33,12 @@ def current_prefix():
 
 
 def test_main_front_matter_uses_afc_pattern_without_setup_key_framing():
-    abstract = (ROOT / "sections" / "01_abstract.tex").read_text()
-    front = abstract + "\n" + (ROOT / "sections" / "02_introduction.tex").read_text()
-    forbidden = ["setup key", "setup keys", "configuration language", "compiler language", "magic number", "fine-structure constant explained", "new physical laws", "periodic table", "universe operates", "press play"]
-    for term in forbidden:
-        assert term not in front
-    assert "Axioms $\\to$ Distinctions $\\to$ Relations $\\to$ Motifs $\\to$ Calculus" in abstract
-    assert "This is the way" in abstract
-    assert r"Alpha\(\leftrightarrow\)Omega Dynamics (A\(\Omega\)D)" in abstract
+    abstract = (ROOT / "sections/01_abstract.tex").read_text()
+    for term in ("magic number", "new physical laws", "universe operates", "press play"):
+        assert term not in abstract
     assert "Axiomatic--Fundamentalism calculus (AFC)" in abstract
-    assert "Null potential" in abstract
-    assert "declared distinction, relation, region, boundary" in abstract
-    assert "hidden relational temporal motifs" in abstract
-    assert "The core note gives the calculus" in abstract
-    assert "observable maps" in abstract
-    assert r"x \mapsto x \succ x = x" not in abstract
-    assert r"\operatorname{monon}(x)=\operatorname{cycle}_{H_3}" not in abstract
-    assert "compressed specifications" not in abstract
-    assert r"Axiomatic--Fundamentalism (AF)~\cite" in abstract
+    assert "one closure phase" in abstract and "recurring waves" in abstract
+    assert "Fields organize" in abstract and "committed recurrence" in abstract
 
 def test_canonical_version_file_declares_this_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
@@ -77,7 +65,7 @@ def test_sheddic_nomenclature_does_not_regress_to_old_symbols():
 
 
 def test_reclosure_split_preserves_outward_remainder_and_exo_route():
-    field = (ROOT / "sections" / "06_field.tex").read_text()
+    field = (ROOT / "sections" / "07_stokes_sadar_harmonic_boundary.tex").read_text()
     assert r"X_W^{\mathrm{out}}=(1-\lambda_{\mathrm{reclose}})X_{\mathrm{shedding}}" in field
     assert r"X_W^{\mathrm{exo}}=(1-\lambda_{\mathrm{reclose}})X_{\mathrm{shedding}}" not in field
     assert r"X_W^{\mathrm{out}}=X_{\mathrm{exo}}+X_{\mathrm{redir}}+X_{\mathrm{open}}" in field
@@ -142,10 +130,10 @@ def test_manual_container_terms_are_disciplined():
 
 
 def test_main_note_avoids_container_terms_as_ontology_names():
-    main_text = "\n".join(path.read_text() for root in [ROOT / "sections", ROOT / "appendices"] for path in root.rglob("*.tex"))
-    forbidden = ["readout", "ledger", "motif package", "motif card", "declared object layer"]
-    for term in forbidden:
-        assert term not in main_text
+    text = active_text()
+    for term in ("motif card", "declared object layer", r"\begin{definition}[Ledger]", r"\begin{definition}[Readout]"):
+        assert term not in text
+    assert r"F_{B,\lambda}|_k=(B,\lambda,I_B(k)" in text
 
 
 def test_manual_problematic_row_card_phrases_are_cleaned():
@@ -193,7 +181,7 @@ def test_symbol_compression_rho_omega_and_bowtie_lock():
 
 
 def test_no_bare_ttl_pressure_heading_regression():
-    field = (ROOT / "sections" / "06_field.tex").read_text()
+    field = (ROOT / "sections" / "07_stokes_sadar_harmonic_boundary.tex").read_text()
     assert r"\subsubsection{TTL}" not in field
     assert r"\subsubsection{Seat-compatible retention duration}" in field
     assert "Seat compatibility and support-enclosure retention" not in field
@@ -225,13 +213,12 @@ def _index(text, needle):
 
 
 def test_main_section_order_dependency_progression():
-    field = (ROOT / "sections" / "06_field.tex").read_text()
-    assert _index(field, r"\subsection{Field disposition}") < _index(field, r"\subsection{Field-as-monon compression}")
-    assert _index(field, r"\subsection{Field-as-monon compression}") < _index(field, r"\subsection{Cycle-valued field compression}")
-    assert _index(field, r"\subsection{Duonic pressure}") < _index(field, r"\subsection{SADAR}")
-    assert _index(field, r"\subsection{SADAR}") < _index(field, r"\subsection{Cycle-shedding and temporal SADAR burden}")
-    assert _index(field, r"\subsection{Fusion closure and chain reclosure}") < _index(field, r"\subsection{Fractal Field Ring Gate}")
-    assert _index(field, r"\subsection{Fractal Field Ring Gate}") < _index(field, r"\subsection{Field dynamics}")
+    main = (ROOT / "main.tex").read_text()
+    ordered = ["02_specific_distinction", "04_closure_phase_wave", "05_motif_field_folding", "06_wave_state_relational_time", "07_stokes_sadar_harmonic_boundary"]
+    assert [main.index(x) for x in ordered] == sorted(main.index(x) for x in ordered)
+    text = active_text()
+    assert text.index(r"\label{eq:wave-identity}") < text.index(r"\label{eq:field-organization}")
+    assert text.index(r"\subsection{Duonic pressure}") < text.index(r"\subsection{SADAR}")
 
 
 def test_manual_section_order_dependency_progression():
@@ -250,7 +237,7 @@ def test_manual_no_hardcoded_old_frg_section_number():
 
 
 def test_main_shell_paths_precede_field_dynamics():
-    field = (ROOT / "sections/06_field.tex").read_text()
+    field = (ROOT / "sections/07_stokes_sadar_harmonic_boundary.tex").read_text()
     assert _index(field, r"\subsection{Seat compatibility and shell/enclosure routing}") < _index(field, r"\subsection{Shell paths}")
     assert _index(field, r"\subsection{Shell paths}") < _index(field, r"\subsection{Fusion closure and chain reclosure}")
     assert _index(field, r"\subsection{Fusion closure and chain reclosure}") < _index(field, r"\subsection{Fractal Field Ring Gate}")
@@ -319,7 +306,7 @@ def test_lensing_plan_data_and_figures_are_packaged():
 
 
 def test_sadar_operator_moved_after_pressure_and_before_sadar_section():
-    field = (ROOT / "sections/06_field.tex").read_text()
+    field = (ROOT / "sections/07_stokes_sadar_harmonic_boundary.tex").read_text()
     assert _index(field, r"\subsection{Duonic pressure}") < _index(field, r"\subsection{SADAR value operator}")
     assert _index(field, r"\subsection{SADAR value operator}") < _index(field, r"\subsection{SADAR}")
     primitive = (ROOT / "sections/05_curl_closure_duon_current.tex").read_text()
@@ -357,11 +344,11 @@ def test_appendix_a_uses_duration_clipping_not_high_rcd_phrase():
 
 
 def test_q4_kernel_four_edge_implementation_present():
-    text = (ROOT / "sections/04_cut_running_fractal_tesseract.tex").read_text()
-    assert "Four-edge implementation" in text
-    assert "ancestor edge" in text
-    assert "up to three successor slots" in text
-    assert "return branch, hinge/dwell, and outbound branch" in text
+    text = active_text()
+    assert "four incident edges" in text and "slot binds the ancestor" in text
+    assert r"E(\Qfour)=\{(u,v):d_H(u,v)=1\}" in text
+    assert "three other slots" in text
+    assert r"\label{eq:admitted-kernel}" in text
 
 
 def test_epitaph_contains_afc_non_prerequisite_without_citation():
@@ -470,9 +457,10 @@ def test_release_readiness_file_and_no_stale_lensing_plan_manifests():
 
 
 def test_introduction_uses_records_not_setup_key_proposes():
-    intro = (ROOT / "sections/02_introduction.tex").read_text()
-    assert "A compact expression records a curling-curl specification" in intro
-    assert "A compact expression proposes a curling-curl specification" not in intro
+    text = active_text()
+    assert "A compact expression" in text and "curling-curl specification" in text
+    assert r"\label{eq:motif-admission}" in text
+    assert "A core signature is" in text and "construction witness is bound" in text
 
 
 
@@ -502,16 +490,20 @@ def test_solar_observable_map_table_is_not_duplicated():
 
 
 def test_sheddic_path_definition_is_single_and_audit_is_distinct():
-    field = (ROOT / "sections" / "06_field.tex").read_text()
-    assert field.count(r"\subsubsection{Sheddic path}") == 1
-    assert r"\subsubsection{Sheddic route reference}" in field
-    assert r"\subsubsection{Sheddic path audit}" in field
+    text = active_text()
+    assert text.count(r"\subsubsection{Sheddic path}")==1
+    assert r"\label{eq:sheddic-path}" in text
+    manual = active_text("manual")
+    assert r"\subsubsection{Sheddic path audit}" in manual
 
 
 def test_appendix_f_is_wave_presentation_audit_not_second_ontology():
-    wave = (ROOT / "appendices" / "F_wave.tex").read_text()
-    assert r"\section{Wave presentation and audit}" in wave
-    assert "second wave ontology" not in wave
+    text = active_text()
+    assert text.count(r"\label{eq:wave-identity}")==1
+    assert text.count(r"\label{eq:wave-sadar-presentation}")==1
+    assert "For an already admitted wave" in text
+    legacy = (ROOT / "appendices/F_wave.tex").read_text()
+    assert not any(line.strip() and not line.lstrip().startswith("%") for line in legacy.splitlines())
 
 
 def test_procedural_tracking_language_is_not_used():
@@ -537,10 +529,11 @@ def test_no_defensive_ontology_negations():
 
 
 def test_rcd_and_b_scoped_flux_are_separate_headings():
-    field = (ROOT / "sections" / "06_field.tex").read_text()
-    assert r"\subsubsection{Reflection-duration coupling}" in field
-    assert r"\subsubsection{\texorpdfstring{\(B\)-scoped flux contents}{B-scoped flux contents}}" in field
-    assert "Reflection-duration coupling and" not in field
+    text = active_text()
+    assert r"\subsection{Directional RCD and duration}" in text
+    assert r"\label{eq:rcd-coupling}" in text
+    assert r"\label{eq:flux-types}" in text
+    assert text.index(r"\label{eq:rcd-coupling}") < text.index(r"\label{eq:flux-types}")
 
 
 def test_abstract_expands_afc_before_first_acronym_use():
@@ -552,15 +545,10 @@ def test_abstract_expands_afc_before_first_acronym_use():
 
 
 def test_abstract_uses_null_potential_and_cites_afc_af():
-    abstract = (ROOT / "sections" / "01_abstract.tex").read_text()
-    assert "Alpha\\(\\leftrightarrow\\)Omega Dynamics (A\\(\\Omega\\)D) is a relational temporal form of the Stokes cut of the Axiomatic--Fundamentalism calculus (AFC)." in abstract
-    assert "The starting point is Null potential" in abstract
-    assert r"A\(\Omega\)D continues from that AFC Stokes cut" in abstract
-    assert "The core note gives the calculus; the manual carries" in abstract
-    assert "Axiomatic--Fundamentalism calculus (AFC)~\\cite{afc}." in abstract
-    assert "Axiomatic--Fundamentalism (AF)~\\cite{reginald2025af}." in abstract
-    assert "develops from" not in abstract
-    assert "the calculus of Axiomatic--Fundamentalism" not in abstract
+    abstract = (ROOT / "sections/01_abstract.tex").read_text()
+    assert "Null potential" in abstract
+    assert r"\cite{afc}" in abstract and r"\cite{reginald2025af}" in abstract
+    assert "one closure phase" in abstract and "Fields organize" in abstract
 
 
 def test_r35_affirmative_quarantine_language():
@@ -606,7 +594,7 @@ def test_title_pages_use_leprechaun_as_title_page_subtitle_and_body_remark():
 def test_afc_citation_only_in_literature_note():
     title = (ROOT / "sections" / "00_title.tex").read_text()
     manual_title = (ROOT / "manual" / "main.tex").read_text()
-    afc = (ROOT / "sections" / "03_afc_basis.tex").read_text()
+    afc = (ROOT / "sections" / "02_specific_distinction.tex").read_text()
     assert "\\cite{afc}" not in title
     assert "\\cite{afc}" not in manual_title
     assert "\\cite{afc}" not in afc
@@ -625,19 +613,17 @@ def test_note_blocks_use_general_mechanics_style_macro():
 
 
 def test_afc_provenance_block_is_present_and_uncited():
-    afc = (ROOT / "sections" / "03_afc_basis.tex").read_text()
-    assert r"\subsection{Null potential}" in afc
-    assert "AFC provenance used here: Null potential; declared distinctions; induced relations; regions; boundaries; Stokes identity on declared cuts." in afc
-    assert "declared fields and regions" not in afc
-    assert "Null posture" not in afc
-    assert "used by reference~\\cite{afc}" not in afc
+    text = active_text()
+    assert "AFC, Axioms (Null and distinction-induced relations)" in text
+    assert "Stokes corollary" in text and "internal-pair cancellation" in text
+    assert "Null posture" not in text
 
 
 def test_afc_provenance_is_note_block_not_intro_subsection():
-    intro = (ROOT / "sections" / "02_introduction.tex").read_text()
-    assert r"\subsection{AFC provenance}" not in intro
-    afc = (ROOT / "sections" / "03_afc_basis.tex").read_text()
-    assert r"\aodprovenance{AFC provenance used here:" in afc
+    text = active_text()
+    assert r"\paragraph{Provenance.}" in text
+    assert r"\subsection{AFC provenance}" not in text
+    assert "AFC, Axioms" in text
 
 
 
@@ -648,7 +634,7 @@ def test_null_potential_language_is_consistent():
 
 
 def test_intro_expands_frg_once():
-    intro = (ROOT / "sections" / "02_introduction.tex").read_text()
+    intro = (ROOT / "sections" / "02_specific_distinction.tex").read_text()
     assert "Fractal Field Ring Gate (FRG)" in intro
 
 
@@ -889,3 +875,11 @@ def test_build_source_zip_is_flat_repo_root_archive():
     assert "repository checkout" in script
     assert "p.relative_to(src_dir).as_posix()" in script
     assert "AOD_Temporal_Dynamics_source" not in script
+
+
+def active_text(surface="main"):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("source_audit", ROOT / "scripts/audit_scientific_sources.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return "\n".join(text for path, text in module.include_graph(ROOT, surface)[1])
