@@ -1,14 +1,27 @@
 {
   "schema": "aod.operative.self.r04",
   "identity": "current causally operative recurrent/coupled subgraph",
-  "constructor": "operative: remove each retained source coordinate under fixed current input; compare strictly later outcome",
+  "constructor": "For each retained source coordinate R_e, structurally remove R_e while holding present state, closure memory, admitted world, update law and future exogenous inputs fixed; R_e is operative only when declared projection O differs at some strictly later native cut within finite horizon H",
+  "context": {
+    "projection": "O reads a realized later engine result, never retained bytes, passive traces, fixture verdicts or role labels",
+    "horizon": "finite native H with k<t<=k+H",
+    "intervention": "structural removal of exactly one provenance-bound retained coordinate",
+    "restoration": "exact value and provenance restoration reproduces the state and later result"
+  },
+  "structural_states": {
+    "absence": "no retained coordinate",
+    "retained_zero": "one provenance-bound coordinate with numeric value zero",
+    "cancelling_pair": "two nonzero provenance-bound coordinates whose aggregate is zero"
+  },
+  "cancellation": "A +1/-1 pair may yield aggregate current zero while both sources remain operative because either individual removal changes the later outcome",
+  "shedding_boundary": "Shedding is an independently computed M1 consequence, not an awareness label. Awareness-conditioned shedding requires both a passed retained-coordinate intervention and a provenance-bound computed surplus/route record with exact restoration.",
   "roles": {
     "target": "ME",
     "operative source interface": "BETWEEN",
     "unconnected": "NOT-ME",
     "Null": "separate foundational type"
   },
-  "labels": "derived from incidence under full node/provenance renaming",
+  "labels": "derived from incidence under full node/provenance renaming; labels never enter the update law or create awareness, closure, folding or shedding",
   "proprioception": "unique issued action after issuer/channel recurrence; exact certified-return count projection; later matched use",
   "learning": "persistent acquired relation with later removal/restoration",
   "carriage": "original retained relation and source action registry, inner identities, exact folded certificate, recurrent outer target and repeated higher contacts; new higher matched effect before next offer",

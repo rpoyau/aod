@@ -270,7 +270,9 @@ def test_outer_phase_reclosure_and_exposure_bind_actual_inner_construction():
     records=[n.certified(n.outer_trace(inner,occurrence=k),'outer',inner=inner) for k in range(3)]
     folds=[n.fold(inner,r) for r in records]
     assert all(f['phase']==1 and n.expose(f)==tuple(inner) for f in folds)
-    shedding=dict(folds[0],status='shedding');assert n.expose(shedding)==tuple(inner) and shedding['phase']==1
+    for label in ('shedding','exposed','pending'):
+        with pytest.raises(n.AdmissionError,match='status label'):
+            n.expose(dict(folds[0],status=label))
     outer=n.wave(records);assert outer.bip==2 and outer.scale==1 and n.phase_count(records)==3
     assert n.field('B1','outer organization',[outer]).members==(outer.identity,)
     with pytest.raises(n.AdmissionError):n.wave([records[0],records[0]])
@@ -278,6 +280,50 @@ def test_outer_phase_reclosure_and_exposure_bind_actual_inner_construction():
     with pytest.raises(n.AdmissionError):n.fold([replace(inner[0],identity='forged')],records[0])
     with pytest.raises(n.AdmissionError):n.fold([n.recurrent('different')],records[0])
     with pytest.raises(n.AdmissionError):n.outer_trace(inner,start_index=0)
+
+
+def test_computed_shedding_binds_exact_operands_route_and_exposure():
+    inner=[n.recurrent('shed-source')]
+    folded=n.fold(inner,n.certified(n.outer_trace(inner),'outer',inner=inner))
+    state=n.initial_state(inner[0]);outer=folded['outer'][0]
+    common={'source_event_digest':n.digest(('event',state.committed)),
+            'model_bridge':n.digest('declared-load-bridge'),
+            'committed':outer.indices[-1]+1}
+    positive=n.shedding(folded,state,3,2,route='exoshedding',
+                        target_scope=inner[0].scope,target_scale=inner[0].scale,**common)
+    assert (positive.residual,positive.surplus,positive.status,positive.route)==(1,1,'shedding','exoshedding')
+    assert n.validate_shedding(folded,positive) and n.expose(folded,positive)==tuple(inner)
+    rational=n.shedding(folded,state,Q(3,2),1,route='exoshedding',
+                        target_scope=inner[0].scope,target_scale=inner[0].scale,**common)
+    assert rational.residual==rational.surplus==Q(1,2)
+    zero=n.shedding(folded,state,2,2,**common)
+    assert (zero.residual,zero.surplus,zero.status,zero.route)==(0,0,'no_shedding',None)
+    negative=n.shedding(folded,state,1,2,**common)
+    assert (negative.residual,negative.surplus,negative.status)==(-1,0,'deficit_open')
+    for record in (zero,negative):
+        with pytest.raises(n.AdmissionError,match='positive exoshedding'):
+            n.expose(folded,record)
+    for value in (1.0,True):
+        with pytest.raises(n.AdmissionError,match='exact integer'):
+            n.shedding(folded,state,value,1,**common)
+    with pytest.raises(n.AdmissionError,match='bound route'):
+        n.shedding(folded,state,3,2,**common)
+    with pytest.raises(n.AdmissionError):
+        n.shedding(dict(folded,outer=(outer,folded['outer'][1],{})),state,3,2,
+                   route='exoshedding',target_scope='B0',target_scale=0,**common)
+    with pytest.raises(n.AdmissionError,match='another inner lineage'):
+        n.shedding(folded,replace(state,identity='wrong'),3,2,
+                   route='exoshedding',target_scope='B0',target_scale=0,**common)
+    with pytest.raises(n.AdmissionError,match='another inner lineage'):
+        n.shedding(folded,replace(state,boundary='wrong'),3,2,
+                   route='exoshedding',target_scope='B0',target_scale=0,**common)
+    with pytest.raises(n.AdmissionError,match='precede the outer closure'):
+        n.shedding(folded,replace(state,committed=outer.indices[0]),3,2,
+                   route='exoshedding',target_scope='B0',target_scale=0,**common)
+    wrong_target=n.shedding(folded,state,3,2,route='exoshedding',
+                            target_scope='wrong',target_scale=9,**common)
+    with pytest.raises(n.AdmissionError,match='target'):
+        n.expose(folded,wrong_target)
 
 
 def test_coupled_return_cannot_be_replayed_or_change_scale():

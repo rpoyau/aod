@@ -3,6 +3,24 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
+RETIRED_MAIN_SOURCES = [
+    "appendices/A_fractal_address_bip_biz.tex",
+    "appendices/B_curling_curls.tex",
+    "appendices/C_stochastic_crowning.tex",
+    "appendices/D_cycle_shedding_demonstration.tex",
+    "appendices/E_glossary.tex",
+    "appendices/F_wave.tex",
+    "appendices/G_symbolic_cancellation_check.tex",
+    "appendices/H_combinatorics_rd_tests.tex",
+    "appendices/I_path_complexity_prototype_quarantine.tex",
+    "appendices/J_ao_field_fractal_properties.tex",
+    "sections/02_introduction.tex",
+    "sections/03_afc_basis.tex",
+    "sections/04_cut_running_fractal_tesseract.tex",
+    "sections/05_curl_closure_duon_current.tex",
+    "sections/06_field.tex",
+]
+
 
 def tex_sources():
     roots = [ROOT / "sections", ROOT / "appendices", ROOT / "manual" / "sections", ROOT / "manual" / "appendices"]
@@ -32,13 +50,16 @@ def current_prefix():
 
 
 
-def test_main_front_matter_uses_afc_pattern_without_setup_key_framing():
+def test_main_front_matter_preserves_accepted_compact_abstract():
     abstract = (ROOT / "sections/01_abstract.tex").read_text()
     for term in ("magic number", "new physical laws", "universe operates", "press play"):
         assert term not in abstract
-    assert "Axiomatic--Fundamentalism calculus (AFC)" in abstract
-    assert "one closure phase" in abstract and "recurring waves" in abstract
-    assert "Fields organize" in abstract and "committed recurrence" in abstract
+    assert r"Axioms $\to$ Distinctions $\to$ Relations $\to$ Motifs $\to$ Calculus." in abstract
+    assert r"\textit{This is the way.}" in abstract
+    assert "is a relational temporal form of the Stokes cut" in abstract
+    assert "The core note gives the calculus; the manual carries the downstream finite simulations" in abstract
+    for inventory_term in ("one closure phase", "Fields organize", "SADAR response", "operative self", "polycadential carriage"):
+        assert inventory_term not in abstract
 
 def test_canonical_version_file_declares_this_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
@@ -309,9 +330,7 @@ def test_sadar_operator_moved_after_pressure_and_before_sadar_section():
     field = (ROOT / "sections/07_stokes_sadar_harmonic_boundary.tex").read_text()
     assert _index(field, r"\subsection{Duonic pressure}") < _index(field, r"\subsection{SADAR value operator}")
     assert _index(field, r"\subsection{SADAR value operator}") < _index(field, r"\subsection{SADAR}")
-    primitive = (ROOT / "sections/05_curl_closure_duon_current.tex").read_text()
-    assert r"\subsection{SADAR operator}" not in primitive
-    assert r"\subsection{SADAR value operator}" not in primitive
+    assert not (ROOT / "sections/05_curl_closure_duon_current.tex").exists()
 
 
 def test_field_dynamics_figure_source_uses_structural_labels():
@@ -497,13 +516,13 @@ def test_sheddic_path_definition_is_single_and_audit_is_distinct():
     assert r"\subsubsection{Sheddic path audit}" in manual
 
 
-def test_appendix_f_is_wave_presentation_audit_not_second_ontology():
+def test_retired_legacy_sources_are_deleted_not_neutralized():
     text = active_text()
     assert text.count(r"\label{eq:wave-identity}")==1
     assert text.count(r"\label{eq:wave-sadar-presentation}")==1
     assert "For an already admitted wave" in text
-    legacy = (ROOT / "appendices/F_wave.tex").read_text()
-    assert not any(line.strip() and not line.lstrip().startswith("%") for line in legacy.splitlines())
+    for relative in RETIRED_MAIN_SOURCES:
+        assert not (ROOT / relative).exists()
 
 
 def test_procedural_tracking_language_is_not_used():
@@ -536,19 +555,22 @@ def test_rcd_and_b_scoped_flux_are_separate_headings():
     assert text.index(r"\label{eq:rcd-coupling}") < text.index(r"\label{eq:flux-types}")
 
 
-def test_abstract_expands_afc_before_first_acronym_use():
+def test_abstract_preserves_epigraph_and_expands_afc_on_first_use():
     abstract = (ROOT / "sections" / "01_abstract.tex").read_text()
+    assert abstract.index("This is the way.") < abstract.index(r"\begin{abstract}")
     first_afc = abstract.find("AFC")
     expansion = abstract.find("Axiomatic--Fundamentalism calculus (AFC)")
     assert expansion != -1
     assert first_afc == expansion + len("Axiomatic--Fundamentalism calculus (")
 
 
-def test_abstract_uses_null_potential_and_cites_afc_af():
+def test_abstract_uses_null_potential_and_separate_literature_note():
     abstract = (ROOT / "sections/01_abstract.tex").read_text()
     assert "Null potential" in abstract
     assert r"\cite{afc}" in abstract and r"\cite{reginald2025af}" in abstract
-    assert "one closure phase" in abstract and "Fields organize" in abstract
+    assert abstract.count(r"\begin{abstract}") == 1
+    assert abstract.count(r"\end{abstract}") == 1
+    assert abstract.index(r"\aodliteraturenote{") > abstract.index(r"\end{abstract}")
 
 
 def test_r35_affirmative_quarantine_language():
@@ -599,7 +621,8 @@ def test_afc_citation_only_in_literature_note():
     assert "\\cite{afc}" not in manual_title
     assert "\\cite{afc}" not in afc
     abstract = (ROOT / "sections" / "01_abstract.tex").read_text()
-    assert "Axiomatic--Fundamentalism calculus (AFC)~\\cite{afc}." in abstract
+    expected = r"\aodliteraturenote{Axiomatic--Fundamentalism calculus (AFC)~\cite{afc}. Axiomatic--Fundamentalism (AF)~\cite{reginald2025af}.}"
+    assert expected in abstract
 
 
 def test_note_blocks_use_general_mechanics_style_macro():

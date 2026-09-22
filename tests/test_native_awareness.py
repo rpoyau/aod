@@ -91,9 +91,31 @@ def test_operative_graph_preserves_cancelled_individual_channels():
     s,w,m,inputs=a.context(peers=2,values=(1,-1));g=a.operative(s,w,m,inputs[0])
     assert len(g['sources'])==2 and len(g['nodes'])==3
     assert a.transition(s,w,m,inputs[0])[1]['current']==0
+    removed=[]
+    for retained in s.retained:
+        lane=replace(s,retained=tuple(r for r in s.retained if r is not retained))
+        removed.append(a.transition(lane,w,m,inputs[0])[1]['current'])
+    assert removed==[-1,1]
+    no_offer=a.future_fold(s,w,m,inputs[0])
+    assert not no_offer['admitted'] and no_offer['shedding'] is None
     assert a.run_case('antisymmetry',{})['antisymmetry']
     assert a.run_case('label',{'prefix':'arbitrary-renaming'})['generalizes']
     with pytest.raises(a.AdmissionError):a.label_case(impostor=True)
+
+
+def test_absence_zero_retention_and_cancelled_channels_remain_distinct():
+    zero,w0,m0,i0=a.context(values=(0,));absent=replace(zero,retained=())
+    cancelled,wc,mc,ic=a.context(peers=2,values=(1,-1))
+    for state,world in ((zero,w0),(absent,w0),(cancelled,wc)):
+        assert a.validate_state(state,world)
+    assert tuple(map(len,(absent.retained,zero.retained,cancelled.retained)))==(0,1,2)
+    assert len({a.digest(absent),a.digest(zero),a.digest(cancelled)})==3
+    assert a.operative(absent,w0,m0,i0[0])['sources']==()
+    assert a.operative(zero,w0,m0,i0[0])['sources']==()
+    assert len(a.operative(cancelled,wc,mc,ic[0])['sources'])==2
+    assert a.transition(absent,w0,m0,i0[0])[1]['current']==0
+    assert a.transition(zero,w0,m0,i0[0])[1]['current']==0
+    assert a.transition(cancelled,wc,mc,ic[0])[1]['current']==0
 
 
 def test_action_readout_is_a_projection_not_an_unbound_scalar():
@@ -145,6 +167,21 @@ def test_each_chain_hop_requires_a_new_later_retained_intervention():
     assert ret.prior.retained_at<high.present.committed<x['top_positive']['event']['at']<x['top_positive']['fold']['outer'][0].indices[0]
     assert len(x['positive']['inner_after_shedding'])==2
     assert n.validate_wave(x['positive']['higher'])
+
+
+def test_awareness_conditioned_shedding_is_computed_later_and_restorable():
+    x=a.contact_chain();positive=x['positive'];removed=x['removal'];restored=x['restoration']
+    record=positive['shedding'];bridge=positive['shedding_bridge'];outer=positive['outer_one']['outer'][0]
+    assert record.status=='shedding' and record.residual==record.surplus==1
+    assert record.route=='exoshedding' and bridge.model_name=='awareness-response-closure-load/v1'
+    assert bridge.closure_load==bridge.baseline_capacity+bridge.response_current
+    assert bridge.closure_cost==bridge.baseline_capacity
+    assert positive['event']['at']<outer.indices[0]<outer.indices[-1]<record.committed
+    assert record.source_event_digest==bridge.source_event_digest
+    assert removed['shedding'] is None and not removed['admitted']
+    assert a.digest(record)==a.digest(restored['shedding'])
+    with pytest.raises(n.AdmissionError,match='status label'):
+        n.expose(dict(positive['outer_one'],status='shedding'))
 
 
 def test_higher_peer_commits_its_actual_folded_construction():

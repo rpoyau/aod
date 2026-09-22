@@ -104,6 +104,21 @@ class Model:
     selector_threshold:Fraction=Q(0)
 
 
+@dataclass(frozen=True)
+class SheddingBridge:
+    """Declared toy bridge; response current is not renamed as SADAR pressure."""
+    model_name:str
+    source_identity:str
+    source_committed:int
+    source_state_digest:str
+    source_event_digest:str
+    baseline_capacity:Fraction
+    response_current:Fraction
+    closure_load:Fraction
+    closure_cost:Fraction
+    bridge_digest:str
+
+
 def residual(prior):
     return n.frg(prior.independent,prior.cross,committed=prior.input_commit,
                  response=prior.retained_at)['residual']
@@ -354,21 +369,48 @@ def crescendo():
             'retained_after_dropout':len(s.retained)}
 
 
+def shedding_bridge(later,event):
+    """Bind this toy's later response to an exact closure-load specialization.
+
+    The declared load is baseline closure capacity plus the later response
+    current.  The capacity itself is the closure cost.  This is a named model
+    bridge, not an identification of current with pressure or a universal law.
+    """
+    require(event['at']==later.present.committed and Q(event['current'])==Q(later.present.current),
+            'shedding bridge must consume the committed response event')
+    capacity=Q(later.present.capacity);response=Q(event['current'])
+    require(capacity>0,'positive baseline closure capacity required')
+    load=capacity+response;cost=capacity
+    name='awareness-response-closure-load/v1'
+    state_digest=n.digest(asdict(later.present));event_digest=digest(event)
+    fields=(name,later.present.identity,later.present.committed,state_digest,event_digest,
+            capacity,response,load,cost)
+    return SheddingBridge(*fields,digest(fields))
+
+
 def future_fold(state,world,model,inp,offer=True):
     later,event=transition(state,world,model,inp)
-    if not offer or event['current']<=0:return {'admitted':False,'event':event,'phase':0}
+    if not offer or event['current']<=0:
+        return {'admitted':False,'event':event,'phase':0,'shedding':None}
     a,b=world.waves[:2];start=later.present.committed+1
     def outer(occurrence):
         t=n.outer_trace((a,b),'carried-outer',occurrence,'B1',1,start_index=start+10*occurrence)
         return n.certified(t,'outer',inner=(a,b))
     one=n.fold((a,b),outer(0));second=n.fold((a,b),outer(1));third=n.fold((a,b),outer(2))
     higher=n.wave((one['outer'],second['outer'],third['outer']))
-    preserved=n.expose(dict(one,status='shedding'))
+    bridge=shedding_bridge(later,event)
+    sheddic=n.shedding(one,later.present,bridge.closure_load,bridge.closure_cost,
+                       source_event_digest=bridge.source_event_digest,
+                       model_bridge=bridge.bridge_digest,
+                       committed=one['outer'][0].indices[-1]+1,
+                       route='exoshedding',target_scope=a.scope,target_scale=a.scale)
+    preserved=n.expose(one,sheddic)
     # Both outer wave operands commit their actual inner construction.
     peer=n.wave([n.certified(n.outer_trace((a,b),'outer-peer',i,'B1',1,start_index=start+9*i),'outer',inner=(a,b)) for i in range(3)])
     events=n.contacts(higher,peer);comparison=n.compare(higher,peer,events,window=(0,1000))
     return {'admitted':True,'event':event,'outer_one':one,'outer_reclosure':second,'outer_third':third,'higher':higher,
             'phase':one['phase'],'inner_after_shedding':tuple(x.identity for x in preserved),
+            'shedding_bridge':bridge,'shedding':sheddic,
             'higher_contact':events,'higher_peer':peer,'higher_relation':comparison,'depth':1}
 
 
@@ -462,7 +504,12 @@ def run_case(op,args):
     if op=='crescendo':
         x=crescendo();return {'sources':x['operative_sources'],'retained':x['retained_after_dropout']}
     if op=='chain':
-        x=contact_chain(args.get('mutation'));return {'positive':x['positive']['admitted'],'removal':x['removal']['admitted'],'outer_phase':x['positive']['phase'],'depth':x['positive']['depth']}
+        x=contact_chain(args.get('mutation'));sheddic=x['positive']['shedding']
+        return {'positive':x['positive']['admitted'],'removal':x['removal']['admitted'],
+                'outer_phase':x['positive']['phase'],'depth':x['positive']['depth'],
+                'shedding_status':sheddic.status,'shedding_surplus':sheddic.surplus,
+                'shedding_route':sheddic.route,
+                'restored_shedding_equal':digest(sheddic)==digest(x['restoration']['shedding'])}
     if op=='query':
         s,w,m,inputs=context();ordinary=execute(s,w,m,inputs,True)
         queried=(replace(inputs[0],query=Q(1),query_observed_at=s.present.committed),)+inputs[1:]

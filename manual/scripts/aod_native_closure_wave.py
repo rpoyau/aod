@@ -555,11 +555,146 @@ def fold(inner,outer_record):
     return {'outer':outer_record,'phase':1,'inner':tuple(inner),'proposal':proposal,'status':'outer_closed'}
 
 
-def expose(f):
+def _validate_folded(f):
     bound=fold(f['inner'],f['outer'])
     require(all(f.get(k)==bound[k] for k in ('outer','phase','inner','proposal')),
             'folded record lost bound inner provenance')
-    require(f.get('status') in ('outer_closed','shedding','exposed','pending'),'unknown outer status')
+    require(f.get('status')=='outer_closed',
+            'a status label cannot replace the derived outer-closure record')
+    return bound
+
+
+@dataclass(frozen=True)
+class SheddingRecord:
+    source_identity: str
+    source_scope: str
+    source_scale: int
+    source_committed: int
+    source_state_digest: str
+    source_event_digest: str
+    retained_lineages: tuple[str,...]
+    retained_certificate_digests: tuple[tuple[str,...],...]
+    outer_return_id: str
+    outer_certificate_digest: str
+    outer_scope: str
+    outer_scale: int
+    committed: int
+    closure_load: Fraction
+    closure_cost: Fraction
+    residual: Fraction
+    surplus: Fraction
+    status: str
+    route: str|None
+    target_scope: str|None
+    target_scale: int|None
+    model_bridge: str
+    operand_digest: str
+    record_digest: str
+
+
+def _shedding_payload(r):
+    return tuple(getattr(r,name) for name in SheddingRecord.__dataclass_fields__
+                 if name!='record_digest')
+
+
+def validate_shedding(f,r):
+    bound=_validate_folded(f)
+    require(isinstance(r,SheddingRecord),'typed computed shedding record required')
+    t,c,_=bound['outer']
+    inner=bound['inner']
+    require((r.outer_return_id,r.outer_certificate_digest,r.outer_scope,r.outer_scale)==
+            (t.return_id,c.certificate_digest,t.scope,t.scale),
+            'shedding record belongs to another outer closure')
+    require(r.retained_lineages==tuple(w.identity for w in inner) and
+            r.retained_certificate_digests==tuple(tuple(x.certificate_digest for x in w.certificates)
+                                                  for w in inner),
+            'shedding record lost retained inner lineage or certificates')
+    source=[w for w in inner if w.identity==r.source_identity]
+    require(len(source)==1 and (r.source_scope,r.source_scale)==(source[0].scope,source[0].scale),
+            'shedding source has wrong lineage or scope')
+    require(type(r.source_scale) is int and type(r.outer_scale) is int and
+            type(r.source_committed) is int and type(r.committed) is int and
+            r.source_committed<t.indices[0] and t.indices[-1]<r.committed,
+            'shedding commitment order is stale or noncausal')
+    load,cost=Q(r.closure_load),Q(r.closure_cost)
+    require(cost>=0,'closure cost must be nonnegative')
+    residual=load-cost;surplus=max(Q(0),residual)
+    status='shedding' if residual>0 else ('no_shedding' if residual==0 else 'deficit_open')
+    require((Q(r.residual),Q(r.surplus),r.status)==(residual,surplus,status),
+            'shedding status must derive from exact closure residual')
+    bindings=(r.source_state_digest,r.source_event_digest,r.model_bridge,
+              r.operand_digest,r.record_digest)
+    require(all(type(x) is str and len(x)==64 and set(x)<={'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'}
+                for x in bindings),
+            'shedding operands require bound state, event and model-bridge provenance')
+    expected_operand=digest((r.source_state_digest,r.source_event_digest,r.outer_return_id,
+                             r.outer_certificate_digest,load,cost,r.model_bridge))
+    require(r.operand_digest==expected_operand,'shedding operand provenance mismatch')
+    if status=='shedding':
+        require(r.route in ('endoshedding','exoshedding','redirected_support','open_loss') and
+                type(r.target_scope) is str and bool(r.target_scope) and
+                type(r.target_scale) is int and r.target_scale>=0,
+                'positive sheddic surplus requires a bound route and target')
+    else:
+        require(r.route is None and r.target_scope is None and r.target_scale is None,
+                'zero or negative residual cannot acquire a sheddic route')
+    require(r.record_digest==digest(_shedding_payload(r)),
+            'computed shedding record digest mismatch')
+    return True
+
+
+def shedding(f,source_state,closure_load,closure_cost,*,source_event_digest,
+             model_bridge,committed,route=None,target_scope=None,target_scale=None):
+    """Exact closure-surplus result; callers must bind their own load bridge."""
+    bound=_validate_folded(f)
+    require(isinstance(source_state,WaveState),'typed source wave state required')
+    inner=bound['inner'];source=[w for w in inner if w.identity==source_state.identity]
+    require(len(source)==1 and source_state.boundary==source[0].scope,
+            'source state belongs to another inner lineage or scope')
+    require(source_state.motif_certificates==tuple(c.certificate_digest for c in source[0].certificates) and
+            source_state.cadence==source[0].cadence,
+            'source state is not bound to the retained inner wave')
+    t,c,_=bound['outer']
+    require(type(source_state.committed) is int and source_state.committed<t.indices[0],
+            'source state must precede the outer closure')
+    load,cost=Q(closure_load),Q(closure_cost)
+    require(cost>=0,'closure cost must be nonnegative')
+    residual=load-cost;surplus=max(Q(0),residual)
+    status='shedding' if residual>0 else ('no_shedding' if residual==0 else 'deficit_open')
+    if status=='shedding':
+        require(route in ('endoshedding','exoshedding','redirected_support','open_loss') and
+                type(target_scope) is str and bool(target_scope) and
+                type(target_scale) is int and target_scale>=0,
+                'positive sheddic surplus requires a bound route and target')
+    else:
+        require(route is None and target_scope is None and target_scale is None,
+                'zero or negative residual cannot acquire a sheddic route')
+    require(type(committed) is int and t.indices[-1]<committed,
+            'shedding result must follow its certified outer closure')
+    state_digest=digest(asdict(source_state))
+    lineages=tuple(w.identity for w in inner)
+    certificates=tuple(tuple(x.certificate_digest for x in w.certificates) for w in inner)
+    operand_digest=digest((state_digest,source_event_digest,t.return_id,
+                           c.certificate_digest,load,cost,model_bridge))
+    fields=(source_state.identity,source_state.boundary,source[0].scale,source_state.committed,
+            state_digest,source_event_digest,lineages,certificates,t.return_id,
+            c.certificate_digest,t.scope,t.scale,committed,load,cost,residual,surplus,
+            status,route,target_scope,target_scale,model_bridge,operand_digest)
+    result=SheddingRecord(*fields,digest(fields))
+    validate_shedding(f,result)
+    return result
+
+
+def expose(f,sheddic_record=None):
+    bound=_validate_folded(f)
+    if sheddic_record is not None:
+        validate_shedding(f,sheddic_record)
+        require(sheddic_record.status=='shedding' and sheddic_record.route=='exoshedding',
+                'exposure requires a positive exoshedding result')
+        inner_scope={(w.scope,w.scale) for w in bound['inner']}
+        require(len(inner_scope)==1 and
+                (sheddic_record.target_scope,sheddic_record.target_scale)==next(iter(inner_scope)),
+                'exoshedding target does not expose the bound inner scope')
     return f['inner']
 
 
@@ -762,7 +897,7 @@ def run_case(op,args):
         f=fold(inn,outer)
         require(not args.get('reuse_lower_beats'),'inner beats do not count at outer scope')
         if args.get('erase_inner'):f['inner']=()
-        require(len(expose(f))==1,'outer shedding erased inner lineage')
+        require(len(expose(f))==1,'outer exposure erased inner lineage')
         return {'outer_phase':f['phase'],'outer_wave':False,'inner_waves':len(expose(f))}
     if op=='temporal':
         a=recurrent('a',args.get('na',3));b=recurrent('b',args.get('nb',3),spacing=7)

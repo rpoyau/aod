@@ -78,6 +78,26 @@ def test_m2_data_rows_bind_active_definitions_and_exact_source():
         assert x['record_class']=='DECLARED_EXACT_MODEL'
 
 
+def test_active_evidence_sources_and_anchors_are_byte_bound():
+    import hashlib
+    main=a.label_map(ROOT);checked=[]
+    for path in sorted((ROOT/'evidence').rglob('*.json')):
+        record=json.loads(path.read_text())
+        has_binding=any(key in record for key in ('operative_source','source_sha256','source_anchors'))
+        if not has_binding:continue
+        assert {'operative_source','source_sha256','source_anchors'}<=record.keys()
+        source=ROOT/record['operative_source']
+        assert source.is_file()
+        assert record['source_sha256']==hashlib.sha256(source.read_bytes()).hexdigest()
+        assert record['source_anchors'] and len(record['source_anchors'])==len(set(record['source_anchors']))
+        for anchor in record['source_anchors']:assert anchor in main
+        checked.append(path.relative_to(ROOT).as_posix())
+    assert checked==['evidence/m2/AWARENESS_ACTIVE_CAUSAL_SPEC.json']
+    record=json.loads((ROOT/checked[0]).read_text())
+    assert {'eq:awareness-operative-set','eq:operative-self','eq:awareness-shedding-bridge',
+            'eq:awareness-conditioned-shedding'}<=set(record['source_anchors'])
+
+
 def test_m2_displayed_sum_indices_and_empty_self_match_the_declared_types():
     eq=a.equations(ROOT)
     difference=a.normalize_math(eq['eq:awareness-causal-difference'])

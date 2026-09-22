@@ -63,26 +63,37 @@ are \eqref{eq:complete-wave-state}, \eqref{eq:coupling-trace},
 \label{subsec:active-awareness}
 \paragraph{Setup.}
 Fix an admissible intervention cut \(k\), the same \(X_k\), \(M^C_k\), admitted
-world, response law \(\mathcal U\), and future exogenous realization \(E\).
-Only the retained coordinate differs between the paired states. An outcome
-projection \(O\) reads realized later current, continuation and contact; it
-excludes the retained value itself and passive record bytes. Define active
-awareness on this intervention by
+world, response law \(\mathcal U\), future exogenous realization \(E\), outcome
+projection \(O\), and finite native horizon \(H>0\). In a stochastic model the
+same addressed random inputs are also fixed. For a provenance-bound retained
+relation \(R_e\in\mathbf R_k\), structural removal is
+\(S_k^{-e}=(X_k,M^C_k,\mathbf R_k\setminus\{R_e\})\); it does not insert a
+numeric zero record. The projection \(O\) reads realized later current,
+continuation, contact, or another declared engine result. It excludes retained
+bytes, passive records, fixture verdicts, and role labels. Define channel
+operativity on this matched intervention by
 \begin{equation}
- \mathcal A^{\rm act}_k(R,R')=1
+ \operatorname{Op}^{O,H}_e(S_k)=1
  \quad\Longleftrightarrow\quad
- \exists t>k:\quad
- O\bigl(\mathcal U^{t-k}(X_k,M^C_k,R;E)\bigr)
- \ne O\bigl(\mathcal U^{t-k}(X_k,M^C_k,R';E)\bigr).
+ R_e\ \hbox{is valid}\quad\land\quad
+ \exists t>k,\ t\le k+H:\quad
+ O\bigl(\mathcal U^{t-k}(S_k;E)\bigr)
+ \ne O\bigl(\mathcal U^{t-k}(S_k^{-e};E)\bigr).
  \label{eq:awareness-active}
 \end{equation}
-The comparison holds non-intervened coordinates equal at the boundary;
-later endogenous states may differ through the same law. An inadmissible
-wrong-lineage state does not form a causal pair. Removal replaces the
-retained coordinate by its empty value. Exact restoration restores value and
-provenance together. Deterministic exact models need no random sampling;
-a stochastic realization would additionally require the same addressed
-random inputs, rather than a seed whose consumption can change.
+The operative awareness set in that declared context is
+\begin{equation}
+ \mathcal A_k^{O,H}=\{R_e\in\mathbf R_k:
+ \operatorname{Op}^{O,H}_e(S_k)=1\}.
+ \label{eq:awareness-operative-set}
+\end{equation}
+The comparison holds every non-intervened coordinate equal at the boundary;
+later endogenous states may differ only through the common law. An
+inadmissible wrong-lineage state does not form a causal pair. Exact restoration
+restores value and provenance together. A numerically zero retained relation,
+an absent relation, and nonzero relations whose sum cancels therefore remain
+distinct structural states. Arithmetic may extend an absent summand by zero
+inside a declared sum, but that convenience is not an ontology identity.
 
 \paragraph{Derivation.}
 Consider the following rational response realization on already admitted
@@ -167,6 +178,8 @@ node role. A bijective renaming of admitted identities and all their
 provenance preserves these incidence relations and the numerical response.
 A learned label such as \emph{I} binds the operative target relation; a
 memorized string on an unconnected node cannot supply that relation.
+Cancellation neither empties \(\mathcal A_k^{O,H}\) nor forces a fold or a
+sheddic route. Those remain separately computed downstream results.
 
 \paragraph{Specialization.}
 Sensor, memory-register, CPU and vocabulary descriptions may expose the same
@@ -236,8 +249,35 @@ before its own closure certification. One completed outer return supplies
 one phase. Distinct outer reclosures admit a recurring outer wave; enough
 bound returns and contacts are required for a new temporal comparison.
 Each operand declared as an outer wave carries its own inner construction
-witness, including the comparison peer. Exposure during outer shedding
-preserves the inner lineages.
+witness, including the comparison peer. Ordinary exposure preserves the inner
+lineages without asserting shedding. In the executable awareness toy, a
+separately named exact bridge binds the committed later response to the
+declared closure-load specialization
+\begin{equation}
+ L^{\rm toy}_{k+1}=C^{\rm cap}_{k+1}+J_{k+1},\qquad
+ C_{\rm close}^{\rm toy}=C^{\rm cap}_{k+1},\qquad
+ \Delta_{\rm close}^{\rm toy}=L^{\rm toy}_{k+1}-C_{\rm close}^{\rm toy},
+ \quad X_{\rm shedding}^{\rm toy}=\max(0,\Delta_{\rm close}^{\rm toy}).
+ \label{eq:awareness-shedding-bridge}
+\end{equation}
+Here \(L^{\rm toy}\) is a model-specific closure-load operand, not a renaming
+of \(J\) as SADAR pressure. A positive result binds its source state and
+event, outer certificate, exact operands, route, target, commitment order and
+provenance digest before exoshedding exposure preserves the inner lineages.
+Zero residual is explicit no shedding; negative residual is a deficit/open
+condition. The status word itself computes none of these.
+
+With \(O=O_{\rm shed}\) projecting that computed record,
+\begin{equation}
+ \operatorname{Op}^{O_{\rm shed},H}_e(S_k)=1
+ \quad\land\quad
+ \operatorname{Restore}_e(S_k^{-e})=S_k
+ \label{eq:awareness-conditioned-shedding}
+\end{equation}
+is an awareness-conditioned shedding witness only when removal changes the
+later sheddic result and exact restoration reproduces it. Shedding without
+that matched comparison remains an M1 consequence; awareness whose later
+effect has no computed surplus remains awareness without a shedding claim.
 For a retained relation to be carried upward, its transfer witness includes
 that same inner relation and the actual folded construction:
 \begin{equation}
@@ -259,7 +299,9 @@ Contact is not a fold certificate; an outer phase is not yet a recurring
 outer wave; a recurring outer wave is not automatically active awareness.
 The ordering follows \eqref{eq:fold-outer-closure},
 \eqref{eq:expose-inner-lineage}, \eqref{eq:relational-time} and
-\eqref{eq:awareness-active}. All surviving source/target identities remain
+\eqref{eq:awareness-active}. The toy load bridge specializes
+\eqref{eq:closure-residual} and \eqref{eq:shedding-excess}; it does not replace
+their SADAR operands. All surviving source/target identities remain
 available after exposure, fission or temporary loss of outer participation.
 
 \subsection{Passive observation, interrogation and operational mindfulness}
