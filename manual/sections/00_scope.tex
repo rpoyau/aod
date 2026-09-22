@@ -1,19 +1,23 @@
 
-\section{Scope}\label{manual:scope}
+\section{Scope}
+\label{manual:scope}
 This manual carries application and prediction-test material downstream from the main A\(\Omega\)D note. The main note carries the AF/AFC/A\(\Omega\)D calculus. This manual carries calculation records, setup diagrams, comparison targets, external-comparison records, error audits, and audit tables.
 
-\subsection{Use of this manual}\label{manual:scope:use}
+\subsection{Use of this manual}
+\label{manual:scope:use}
 The manual uses the same section / subsection / subsubsection structure as the main note. Rest-energy calculation records are organized under \secref{manual:rest-energy-prediction}. External comparison material remains downstream and quarantined from the A\(\Omega\)-internal scoped-flux calculation.
 
 
-\subsection{Simulation reading route}\label{manual:simulation-reading-route}
-For a compact release reading order, use the following route: main note \S\S1--3 for the AFC seed, Null/cut, branch/hinge/branch, and Q4/tesseract support; main note \S\S4--5.8 for curl, duon current, boundary, RD/RCD, pressure, and SADAR; main note \S\S5.13--5.14 for Fractal Field Ring Gate and field dynamics; manual \S\S1--2 for the calculation spine and D.E.C. ledger; manual \S\S8.1--8.3 for data-support classes and scoped errors; manual \S\S8.6--8.7 for the SPARC G0 radial shell scoring lane; manual App.~C for the 3D coordinate phase-cycle fixture; and manual \S\S9--10 for lensing data gates, registry records, and completion tables.
+\subsection{Simulation reading route}
+\label{manual:simulation-reading-route}
+Follow Main in its dependency order: specific distinction, closure and recurring wave, motif/field folding, complete wave state and relational time, then Stokes/SADAR/harmonic values. Manual Scope is followed by the consolidated native fixtures, the D.E.C. ledger and the retained applications.
 
 
 
 
 
-\subsection{Calculation spine}\label{manual:calculation-spine}
+\subsection{Calculation spine}
+\label{manual:calculation-spine}
 The manual uses one active calculation language. A calculation declares
 \[
 B=(\partial_TF,\omega).
@@ -32,7 +36,8 @@ The boundary value is stored by
 \]
 Tables store evaluated values. Tables are not the calculus.
 
-\subsection{Worked-calculation release}\label{manual:worked-calculation-release}
+\subsection{Worked-calculation release}
+\label{manual:worked-calculation-release}
 A manual worked record carries a complete row: setup, declared A\(\Omega\) calculation, comparator or target, residual/error coordinate, and audit.
 
 For an exact A\(\Omega\)-internal fixture, form
@@ -74,7 +79,8 @@ Registry rows carry benchmark calculations until the declared dataset, required 
 \aodnoteblock{Placement rule}{A worked record carries a complete simulation or comparison row. Registry rows carry declared setup, target, comparator, residual, uncertainty, and audit fields as they are supplied.}
 \aodnoteblock{Specification discipline}{A rest or prediction record may use a compact curling-curl specification only after \(HT(K;B)\) is declared or inherited.}
 
-\subsection{Table discipline}\label{manual:table-discipline}
+\subsection{Table discipline}
+\label{manual:table-discipline}
 Tables in this manual store calculated values, target values, residuals, and audit records. Manual rows, ledgers, tables, records, registries, and fixtures are document containers. They record declared values. The calculation is the declared boundary computation
 \[
 \mathbf a\vdash(F,R,\partial_T R,\omega),
@@ -84,10 +90,12 @@ B=(\partial_TF,\omega),
 followed by the A\(\Omega\) and SADAR calculation on that boundary.
 
 
-\subsection{Provenance-label policy}\label{manual:provenance-label-policy}
+\subsection{Provenance-label policy}
+\label{manual:provenance-label-policy}
 Tokens of the form \texttt{main:<anchor>} and \texttt{manual:<anchor>} are cross-document provenance anchors. They refer to the corresponding source label \texttt{<anchor>} in the named document. Explicit alias labels declare alternate anchors. Provenance records remain internal-reference lists; external sources belong in Literature note records.
 
-\subsection{Exact arithmetic and presentation decimals}\label{manual:exact-arithmetic-presentation}
+\subsection{Exact arithmetic and presentation decimals}
+\label{manual:exact-arithmetic-presentation}
 A\(\Omega\)-internal calculations use integer counts and exact rational ratios. Decimal values appear only as external comparison coordinates, presentation values, or plot labels.
 \[
 \text{A\(\Omega\) side: integers / fractions},
@@ -119,7 +127,8 @@ The symbol \(\delta_3\) records the exact ternary signed residual for an interna
 Here \(\mathrm{scope}(x)\in\{\text{internal},\text{external},\text{measured},\text{derived external},\text{value map},\text{demonstration}\}\). The precision field \(u_x\) records declared display uncertainty.}
 
 
-\subsection{External-comparison quarantine}\label{manual:external-comparison-quarantine}
+\subsection{External-comparison quarantine}
+\label{manual:external-comparison-quarantine}
 External constants, measured-sector units, and external comparison symbols are quarantined. They can compare against A\(\Omega\) outputs in a comparison record, but they do not enter the A\(\Omega\) calculation and do not set A\(\Omega\) notation. In this manual, an external comparison is written
 \[
 \Qext(\nu_{x,\AO};\mathcal T_x),
@@ -127,7 +136,8 @@ External constants, measured-sector units, and external comparison symbols are q
 where \(\mathcal T_x\) is a declared measured-sector target record.
 
 
-\subsection{Scoped errors by data-support class}\label{manual:scoped-errors-data-support}
+\subsection{Scoped errors by data-support class}
+\label{manual:scoped-errors-data-support}
 A simulation or comparison is classified by the declared data support it instantiates. Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals in its declared coordinate. Projection and marginalization maps carry their own comparison coordinates and uncertainty records.
 
 The scoped-error chain is
@@ -147,7 +157,8 @@ Here \(D\) is the declared input data, \(C_{\mathrm{support}}\) is the data-supp
 
 
 
-\subsection{Manual record forms}\label{manual:record-forms}
+\subsection{Manual record forms}
+\label{manual:record-forms}
 \begin{table}[H]
 \centering
 \scriptsize
@@ -167,3 +178,15 @@ Calibration anchor & convention value and convention-audit residual\\
 \end{tabularx}
 \label{tab:manual-record-forms}
 \end{table}
+
+\paragraph{Construction and record classes.}
+Native fixtures establish exact typed relations; declared models specify their
+chosen update/coupling law; metrology records add calibration and units;
+empirical comparisons additionally bind external data and residuals. Admission
+precedes all four projections. The common construction is distinction,
+retained relation, admitted motif/closure, recurring wave, scoped field
+organization, complete state/trace and native comparison. A field resolves
+wave identities and is not retained closure lineage itself. Motion is the
+later realized pressure-bearing transition. Modular coordinate phase in the
+3D applications is a downstream statistic; sampling interval is an acquisition
+coordinate. Native closure counts and RCD are not measured time.

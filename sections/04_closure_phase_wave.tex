@@ -1,0 +1,217 @@
+\section{Closure, one phase and recurring wave}
+\label{sec:closure-phase-wave}
+
+\subsection{Completed retained return}
+\label{subsec:monon-beat}
+\label{subsec:monon-cycle}
+\label{app:wave}
+\label{app:wave:scope}
+A closure trace retains its start even as the current crown advances:
+\begin{equation}
+\Gamma_C=(B,r,i,a_0,(e_0,\ldots,e_n),M_{\varepsilon,m},\mathcal W_C).
+\label{eq:closure-trace}
+\end{equation}
+Here \(r\) is scale, \(i\) is lineage, the events are strictly committed in
+order, and \(\mathcal W_C\) binds the hinge and return to the retained start.
+All traversals satisfy \eqref{eq:atomic-h1}. The closure certificate is
+\begin{equation}
+\operatorname{Cert}(C)=
+(B,r,i,\operatorname{id}(e_0),\operatorname{id}(e_n),
+\operatorname{digest}\Gamma_C,\mathcal W_C,\mathrm{closed}),
+\quad \operatorname{end}(C)\sim_{B,i,\mathcal W_C}\operatorname{start}(C).
+\label{eq:closure-certificate}
+\end{equation}
+The equivalence preserves the bound start and ancestry. Equal unbound
+endpoints alone supply no certificate. A monon is the primitive completed
+closure of \eqref{eq:hinge-grammar}, written
+\begin{equation}
+\mathrm{Monon}(x)=\operatorname{cycle}_{\mathsf H_3}(x\succ x=x).
+\label{eq:monon-cycle}
+\end{equation}
+Completion contributes one phase:
+\begin{equation}
+\Delta\Phi(C)=1_C.
+\label{eq:closure-phase}
+\end{equation}
+Additional dwell does not multiply this count. The two reflected legs are
+parts of the same completed phase. An isotropic or anisotropic model can
+support a certified closure; its oriented ancestral trace remains retained.
+
+\paragraph{Symmetry.}
+\begin{equation}
+\operatorname{Close}(C)=1\;\not\Rightarrow\;\operatorname{Isotropic}(C).
+\label{eq:closure-not-isotropy}
+\end{equation}
+Isotropy refers to a named support, model and relabelling action. Cancellation
+of aggregate values preserves the contributing oriented histories. Neither
+symmetry nor anisotropy changes \eqref{eq:closure-phase}.
+
+\subsection{Advance and closure memory}
+\label{subsec:crown}
+An admitted successor becomes the next crown through a committed advance:
+\begin{equation}
+\operatorname{Adv}_k(x_k^0)=x_{k+1}^-,\qquad
+\operatorname{Adv}_k(h_k^+)=x_{k+1}^0,\qquad h_k^+\in\mathcal H_k^+.
+\label{eq:crown-advance}
+\end{equation}
+Advance carries the selected member into the next crown. A later
+lineage-bound return can re-crown the retained start:
+\begin{equation}
+\operatorname{Crown}(\mathsf H_3^{\mathrm{role}}(k+L))
+\sim_{B,i,\mathcal W_C}\operatorname{Crown}(\mathsf H_3^{\mathrm{role}}(k)),\qquad L>0.
+\label{eq:closure-memory}
+\end{equation}
+Open advance is a continuation; the further return witness establishes closure.
+Solitonic recurrence names preservation of certified relational form through
+the stated advance and reclosure, with the ancestry and scope map retained.
+
+\subsection{Return identity, beat and cadence}
+\label{app:wave:cycle-wave-identity}
+Give each completed return immutable identity
+\begin{equation}
+\operatorname{id}_{\mathrm{return}}(C)=
+(B,r,i,\operatorname{id}(e_0),\operatorname{id}(e_n),
+\operatorname{digest}\Gamma_C).
+\label{eq:return-identity}
+\end{equation}
+Certificate wrapping, repeated observation of the same closed state, and
+replay of that return retain this identity. A distinct compatible certified
+reclosure after completion contributes one beat. With ordered completion
+indices \(k_0<k_1<\cdots<k_m\), define
+\begin{equation}
+\mathrm{bip}_i(\omega)=
+\#\{C_{i,j}:j\ge1,\ k_j\in\omega,\ \operatorname{id}_{\mathrm{return}}(C_{i,j})
+\text{ is distinct}\},\qquad
+\operatorname{Sep}_{i,j}=k_{j+1}-k_j>0.
+\label{eq:beat-reclosure}
+\end{equation}
+The initial closure supplies the origin of this reclosure count. At an integer
+cut \(k\), the cumulative accessor counts distinct committed return identities:
+\begin{equation}
+\begin{aligned}
+N_i^C(k)&=\#\{\operatorname{id}_{\mathrm{return}}(C_{i,j}):k_j\le k\},\\
+\Phi_i(k)&=N_i^C(k)1_C,\qquad
+\mathrm{bip}^{\le}_i(k)=\max(N_i^C(k)-1,0).
+\end{aligned}
+\label{eq:cumulative-closure-counts}
+\end{equation}
+Thus \(N\ge1\) completed closures give \(N\) phase units and \(N-1\)
+reclosure beats from the lineage origin. For an arbitrary native window
+\(\omega=(u,v]\), \(u,v\in\mathbb Z\), \(u<v\), the same distinct-return count gives
+\begin{equation}
+\Phi_i(v)-\Phi_i(u)=
+\bigl(\mathrm{bip}_i((u,v])+\mathbf1_{\{u<k_0\le v\}}\bigr)1_C.
+\label{eq:closure-phase-window}
+\end{equation}
+The origin contributes the indicator; later windows do not subtract another
+initial closure. The exact ordered separations form cadence \(\operatorname{Cad}_i=(\operatorname{Sep}_{i,j})_j\).
+It may be nonuniform; RD support and harmonic display period are separate
+quantities. Recurrence is not inferred from a repeated value alone.
+
+\paragraph{Recurring wave.}
+For a compatible certified closure/current lineage with distinct reclosure,
+fix immutable wave identity and its growing admitted history:
+\begin{equation}
+W^{\mathrm{id}}_{B,i}=(B,r,i,K_i^{\mathrm{id}},
+\operatorname{id}_{\mathrm{return}}(C_{i,0})),\qquad
+W_{B,i}|_k=(W^{\mathrm{id}}_{B,i},(C_{i,j})_{k_j\le k},\operatorname{Cad}_i|_k).
+\label{eq:wave-identity}
+\end{equation}
+Compatibility retains the origin's ancestral identity at fixed scope and
+representation; changed representations require their declared identity-preserving
+scope map. At least two compatible distinct completed closures precede recurrence. A single closure is one phase; recurring retained
+closure/current with cadence is wave. Later field organization resolves these
+already admitted identities.
+
+\paragraph{Native running and standing classifications.}
+A running-wave classification retains an oriented recurring current lineage;
+recurring oriented Duon current is the inherited running-Duon construction.
+A standing organization binds compatible oppositely oriented recurrent
+lineages under a declared coupling and balance condition. Zero aggregate
+current by itself supplies neither recurrence nor that coupling witness.
+Both classifications retain their individual return identities and histories;
+the character and running/standing coordinates in \eqref{eq:fourier-transform}
+and \eqref{eq:fourier-running-standing} represent these admitted organizations.\label{eq:native-running-standing}
+
+\subsection{Reflected-leg comparison}
+\label{subsec:reflected-leg-phase}
+\paragraph{Setup.}
+Declare a uniform atomic-event support comparison, with formal quantum
+\(h\) in the ordered additive domain \(\mathcal L=\mathbb N_0 h,\ h>0\).
+A target closure and a primitive reference are already certified at the same
+scope and scale. Their reflection witnesses bind the outbound events, committed
+hinge/turnaround, returning events and retained target start. Both legs are
+nonempty; an arbitrary cut of a word is not that witness. Count each atomic
+traversal once, excluding hinge dwell and replay:
+\begin{equation}
+\delta\phi^{\rightarrow}=n_{\rightarrow}h,\qquad
+\delta\phi^{\leftarrow}=n_{\leftarrow}h,\qquad
+n_{\rightarrow},n_{\leftarrow}\in\mathbb Z_{\ge1}.
+\label{eq:directed-leg-operands}
+\end{equation}
+The reference is a certified two-edge retained-start return with mandatory
+hinge. Its support is \(2h\). Fix the comparison embedding before examining
+the target:
+\begin{equation}
+\iota_{\mathrm{ref}}:\mathbb N_0 1_C\longrightarrow\mathcal L,
+\qquad \iota_{\mathrm{ref}}(n1_C)=2nh.
+\label{eq:phase-unit-embedding}
+\end{equation}
+This embedding compares two distinct domains: closure count and declared
+event support. Uniform weighting and this reference are model choices.
+
+\paragraph{Derivation.}
+Each committed leg has at least one atomic traversal, so addition in
+\(\mathcal L\) gives
+\begin{equation}
+\delta\phi^{\rightarrow}+\delta\phi^{\leftarrow}
+=(n_{\rightarrow}+n_{\leftarrow})h
+\ge2h=\iota_{\mathrm{ref}}(1_C).
+\label{eq:reflected-leg-bound}
+\end{equation}
+One-phase normalization by itself does not prove this support inequality.
+Its premises are the explicit event convention and certified reference.
+
+\paragraph{Specialization.}
+Under declared reflected-path symmetry and equal operands,
+\begin{equation}
+\delta\phi^{\rightarrow}=\delta\phi^{\leftarrow}=\delta\phi
+\quad\Longrightarrow\quad
+\delta\phi^{\rightarrow}+\delta\phi^{\leftarrow}=2\delta\phi
+\ge\iota_{\mathrm{ref}}(1_C).
+\label{eq:equal-leg-factorization}
+\end{equation}
+An asymmetric \(1+3\) trace has support \(4h\) and one closure phase. Its sum
+equals neither \(2h\) nor \(6h\), the doubled individual legs. In this uniform
+model each doubled leg may separately satisfy the lower bound; equality is
+required for factorization of the sum into one common operand. With the
+embedding understood, \(2\delta\phi\ge1_C\) denotes this specialization.
+
+\paragraph{Falsification.}
+A missing or misbound reflection witness, signed branch cancellation used as
+support, incompatible reference scale, nonminimal reference, or unequal-leg
+factorization violates the derivation. This comparison supplies no pre-closure
+admission selector, duration, stochastic weight or flux.
+
+\paragraph{Provenance.}
+Equations \eqref{eq:atomic-h1}, \eqref{eq:hinge-grammar},
+\eqref{eq:closure-certificate}, and the declared comparison
+\eqref{eq:phase-unit-embedding}. The Manual executes symmetric and asymmetric
+lineage-bound cases with separate phase and support counts.
+
+\paragraph{Continuation.}
+\label{app:wave:fractal-growth-temporal-direction}
+Hinge saturation restricts further same-resolution dwell. A later hinge and
+an admitted continuation may follow; only a certified retained-start return
+adds closure, and only a distinct compatible reclosure adds recurrence.
+\paragraph{Localized recurrence.}
+\label{subsec:localized-wavelet}
+A native wavelet is a localized segment of an already admitted recurrent wave:
+it retains that wave's identity, its adjacent certified return events and their
+positive local separation. Localization selects a segment of retained recurrence;
+it does not promote an isolated monon or an arbitrary scalar pulse into a wave.
+Its later harmonic representation, when used, binds that same finite segment.
+\paragraph{Falsification of wave admission.}
+\label{app:wave:falsification}
+An isolated closure, a replayed certificate, an unbound lineage, or an
+unrealized successor horizon cannot satisfy \eqref{eq:wave-identity}.

@@ -8,7 +8,7 @@ def read(rel):
 
 
 def test_reclosure_split_uses_outward_remainder_not_exo_remainder():
-    text = read('sections/06_field.tex')
+    text = read('sections/07_stokes_sadar_harmonic_boundary.tex')
     assert r'X_W^{\mathrm{out}}=(1-\lambda_{\mathrm{reclose}})X_{\mathrm{shedding}}' in text
     assert r'X_W^{\mathrm{exo}}=(1-\lambda_{\mathrm{reclose}})X_{\mathrm{shedding}}' not in text
     assert r'X_W^{\mathrm{out}}=X_{\mathrm{exo}}+X_{\mathrm{redir}}+X_{\mathrm{open}}' in text
@@ -21,6 +21,6 @@ def test_flip_class_uses_sheddic_route_not_bare_sheddic():
 
 
 def test_cycle_shedding_demo_uses_outward_remainder():
-    text = read('appendices/D_cycle_shedding_demonstration.tex')
+    text = read('manual/sections/00_native_closure_wave_temporal_fixtures.tex')
     assert 'outward remainder' in text
     assert 'O_t) exoshedding' not in text

@@ -1,6 +1,7 @@
 
 \clearpage
-\section{Field Dynamics Applications}\label{manual:field-dynamics-applications}
+\section{Field Dynamics Applications}
+\label{manual:field-dynamics-applications}
 \aodnoteblock{Scope}{This section uses the main-note field dynamics calculus as an application layer. SPARC uses the square-speed coordinate \(U=V^2\). The Tau ring fixture uses \(S_\tau\) and missing-burden diagnostics. Each score coordinate is declared inside its own support class.}
 
 \aodremark{Field-dynamics simulations are finite compressions of the A\(\Omega\)D ontology. A macroscopic field is simulated by declared clustering, finite boundary windows, support families, and value maps. Output residuals are read against the declared data support: boundary placement, density resolution, time-flow data, angular/radial momentum inputs, slosh windows, capacity seating, and sheddic-route declarations.}
@@ -9,12 +10,14 @@ A large field-dynamics system is handled by declared clustering. A cluster recor
 
 
 
-\subsection{Data-support classes for manual simulations and comparisons}\label{manual:field-dynamics-data-support-classes}
+\subsection{Data-support classes for manual simulations and comparisons}
+\label{manual:field-dynamics-data-support-classes}
 Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals only in its declared coordinate. The table below records the manual classes used by this release.
 
 \scriptsize
 \begin{longtable}{@{}p{0.07\textwidth}p{0.17\textwidth}p{0.27\textwidth}p{0.22\textwidth}p{0.12\textwidth}@{}}
-\caption{Data-support classes for manual simulations and comparisons.}\label{tab:manual-data-support-classes}\\
+\caption{Data-support classes for manual simulations and comparisons.}
+\label{tab:manual-data-support-classes}\\
 \toprule
 Class & Name & Declared distinctions & Relations induced & Residual\\
 \midrule
@@ -40,12 +43,14 @@ L3 & full lensing input package & declared medium fields, radiation-current gate
 \aodremark{This table records which distinctions are instantiated by a manual calculation. Projection and marginalization maps record comparison coordinates and uncertainty.}
 
 
-\subsection{Data-support and uncertainty budget}\label{manual:field-dynamics-data-support-budget}
+\subsection{Data-support and uncertainty budget}
+\label{manual:field-dynamics-data-support-budget}
 A field-dynamics diagnostic records its data-support and uncertainty budget before residuals are interpreted. The budget records the declared distinction family, support class, uncertainty component, and report target.
 
 \scriptsize
 \begin{longtable}{@{}p{0.16\textwidth}p{0.08\textwidth}p{0.42\textwidth}p{0.26\textwidth}@{}}
-\caption{Field dynamics data-support classes.}\label{tab:field-dynamics-data-support-budget-a}\\
+\caption{Field dynamics data-support classes.}
+\label{tab:field-dynamics-data-support-budget-a}\\
 \toprule
 Distinction family & Symbol & Declared data support & Support class\\
 \midrule
@@ -66,7 +71,8 @@ External map & \(\epsilon_K\) & \(K_{\mathrm{ext}}\) or \(\lambda\) & frozen / c
 \end{longtable}
 
 \begin{longtable}{@{}p{0.16\textwidth}p{0.08\textwidth}p{0.32\textwidth}p{0.36\textwidth}@{}}
-\caption{Field dynamics uncertainty and report targets.}\label{tab:field-dynamics-data-support-budget-b}\\
+\caption{Field dynamics uncertainty and report targets.}
+\label{tab:field-dynamics-data-support-budget-b}\\
 \toprule
 Distinction family & Symbol & Uncertainty & Report target\\
 \midrule
@@ -92,7 +98,8 @@ External map & \(\epsilon_K\) & \(\sigma_{\mathrm{map}}\) & external comparison\
 \paragraph{Ablation cut.}
 An ablation cut is a declared data-support cut with one distinction family intentionally omitted or marginalized. It records projection or marginalization residuals against a comparison support class. The evaluated A\(\Omega\)D form remains the declared form for that record.
 
-\subsection{Scoped error forms by data-support class}\label{manual:field-dynamics-scoped-error-forms}
+\subsection{Scoped error forms by data-support class}
+\label{manual:field-dynamics-scoped-error-forms}
 For a G0 radial shell projection, the score coordinate remains square speed:
 \[
 U^{\mathrm{obs}}_{g,j}=(V^{\mathrm{obs}}_{g,j})^2,
@@ -135,7 +142,8 @@ When vector targets are declared, alignment may be recorded as
 \cos\alpha_c=\frac{J^{A\Omega}_c\cdot J^{\mathrm{obs}}_c}{\|J^{A\Omega}_c\|\,\|J^{\mathrm{obs}}_c\|+\varepsilon}.
 \]
 For a G3 time-resolved tracer-current fixture, path and velocity residuals such as \(\epsilon_x\) and \(\epsilon_v\) are declared against path-coordinate targets. RMSE reports are used only when the fixture declares metric units and path-coordinate targets.
-\subsection{Two-dimensional slice / three-dimensional field toy}\label{manual:2d-3d-slice-toy}
+\subsection{Two-dimensional slice / three-dimensional field toy}
+\label{manual:2d-3d-slice-toy}
 This toy records how data-support scope changes the reported value when a three-dimensional field is represented by a two-dimensional slice or when the boundary is placed improperly. It is a manual diagnostic container that records declared comparison values.
 
 Let \(B_{3D}\) be the declared three-dimensional boundary/window and let \(B_{2D}\) be the slice boundary obtained by suppressing the vertical/time-flow input. Let \(B_{\mathrm{bad}}\) be an intentionally improper setup boundary. The same calculation is evaluated three ways:
@@ -161,7 +169,8 @@ For exact internal bins, the same comparison may be recorded by
 
 \small
 \begin{longtable}{@{}p{0.18\textwidth}p{0.22\textwidth}p{0.24\textwidth}p{0.20\textwidth}@{}}
-\caption{Toy data-support cases.}\label{tab:toy-data-support-cases}\\
+\caption{Toy data-support cases.}
+\label{tab:toy-data-support-cases}\\
 \toprule
 Case & Boundary / data & Diagnostic & Interpretation\\
 \midrule
@@ -181,7 +190,8 @@ Improper boundary & \(B_{\mathrm{bad}}\), wrong boundary/capacity/route & \(\Del
 
 
 
-\subsection{3D Brownian phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture}\label{manual:brownian-phase-delta3-fixture}
+\subsection{3D Brownian phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture}
+\label{manual:brownian-phase-delta3-fixture}
 \aodnoteblock{Data-support class}{This Brownian / tracer-motion fixture is a G3 time-resolved tracer-current fixture when the track declares time-ordered three-dimensional positions. A two-dimensional microscopy slice records its projection map or ablation cut.}
 
 This fixture uses integerized three-dimensional trajectory data. A bacterium or tracer track is binned into \(\mathbb Z^3\); lagged displacements produce the active integer squared displacement
@@ -225,7 +235,8 @@ z_i\in\mathbb Z^3
 Continuous Brownian and diffusion-coefficient summaries are downstream presentation maps.}
 
 
-\subsubsection{Run-tumble tracer-current fixture}\label{manual:run-tumble-tracer-current-fixture}
+\subsubsection{Run-tumble tracer-current fixture}
+\label{manual:run-tumble-tracer-current-fixture}
 \aodnoteblock{Data-support class}{This run-tumble record is a G3 time-resolved tracer-current fixture. Its exact integer tallies are recorded as D0-style internal fixture audit coordinates when a comparator is declared.}
 
 This fixture records a finite D.E.C. trace over four declared Hamming--1 edge slots, stores the selected signed edge steps as a four-channel accumulated trace, and projects that retained trace into a declared three-dimensional coordinate map before phase-cycle, octant, and \(\delta_3\) summaries are formed. Declare
@@ -311,7 +322,8 @@ reports & phase counts, octant counts, integer ratios, \(\delta_3\) \\
 \aodnoteblock{Source artifacts}{The source package includes the deterministic run-tumble generator \texttt{manual/scripts/aod\_run\_tumble\_3d\_trace.py}, the generated trace table, the run-tumble CSV outputs under \texttt{manual/data/run\_tumble}, and the projection figure under \texttt{manual/figures}.}
 
 
-\subsection{SPARC square-speed diagnostic}\label{manual:sparc-square-speed-diagnostic}
+\subsection{SPARC square-speed diagnostic}
+\label{manual:sparc-square-speed-diagnostic}
 The SPARC five-galaxy square-speed score is the current G0 radial shell field-dynamics diagnostic lane. This record uses SPARC radial rotation-curve rows, scores the coordinate \(U=V^2\), forms \(\sigma_U=2V^{\mathrm{obs}}\sigma_V\) from the declared data uncertainty, and records \(\Delta U=U_{\AO}-U^{\mathrm{obs}}\) inside the G0 support class.
 The SPARC benchmark supplies declared galaxy records
 \[
@@ -382,7 +394,8 @@ Here \(K^U_{\mathrm{ext}}\) is a quarantined external map coefficient frozen bef
 \aodliteraturenote{SPARC benchmark: SPARC database~\cite{sparc-database}, Lelli et al.~\cite{lelli-sparc-2016}.}
 \aodnoteblock{Data-support class}{The SPARC five-galaxy lane instantiates a G0 radial shell data-support class. G0 active input fields are \(G_i,r_{ij},V^{\mathrm{obs}}_{ij},\sigma_{V,ij},V^{\mathrm{gas}}_{ij},V^{\mathrm{disk}}_{ij},V^{\mathrm{bulge}}_{ij}\). The report coordinate is \(U=(V^{\mathrm{obs}})^2\), \(\sigma_U=2V^{\mathrm{obs}}\sigma_V\), and \(\Delta U=U_{\AO}-U^{\mathrm{obs}}\). G1/G2/G3 packages carry angular, vertical, or time-flow fields through declared source or proxy rows.}
 
-\subsection{SPARC five-galaxy scored records}\label{manual:sparc-five-galaxy-scored}
+\subsection{SPARC five-galaxy scored records}
+\label{manual:sparc-five-galaxy-scored}
 The five scored records are
 \[
 \{\mathrm{NGC2403},\mathrm{NGC3198},\mathrm{NGC6503},\mathrm{NGC2841},\mathrm{DDO154}\}.
@@ -441,7 +454,8 @@ Bins are excluded only by a predeclared data-quality rule or by a predeclared de
 \label{fig:manual-sparc-display-speed}
 \end{figure}
 
-\subsection{Tau ring diagnostic fixture}\label{manual:tau-ring-diagnostic}
+\subsection{Tau ring diagnostic fixture}
+\label{manual:tau-ring-diagnostic}
 The Tau ring fixture uses \(S_\tau\), \(S_{\tau,\mathrm{ring}}\), missing fraction, and winner margin.
 \[
 \mathcal K_\tau=\{1{:}2{:}8,1{:}2{:}9_{\mathrm{yro}},1{:}2{:}10,3{:}3{:}8\}.
@@ -493,7 +507,8 @@ The missing-burden diagnostic records the exact ratio
 \label{fig:manual-tau-controls}
 \end{figure}
 
-\subsection{Milky Way / Gaia follow-up declaration}\label{manual:mw-gaia-followup}
+\subsection{Milky Way / Gaia follow-up declaration}
+\label{manual:mw-gaia-followup}
 The Sol bobbing record is recorded as a field dynamics diagnostic.
 \[
 B_{\mathrm{Sol}}|t=(\partial_T R_{\mathrm{Sol}}(t),\omega_{\mathrm{Sol}}|t).
@@ -505,7 +520,8 @@ B_{\mathrm{Sol}}|t=(\partial_T R_{\mathrm{Sol}}(t),\omega_{\mathrm{Sol}}|t).
 A Gaia follow-up comparison is recorded after a benchmark target record is supplied.
 
 
-\subsection{Orbital-retention field-dynamics fixture plan}\label{manual:orbital-retention-field-dynamics-fixture}
+\subsection{Orbital-retention field-dynamics fixture plan}
+\label{manual:orbital-retention-field-dynamics-fixture}
 Data-support class: G2/G3 retention-first field-dynamics fixture. Its sequence is
 \[
 \begin{aligned}
@@ -538,7 +554,8 @@ Before a scored orbital-retention run, the fixture records the data provenance o
 
 \scriptsize
 \begin{longtable}{p{0.19\textwidth}p{0.17\textwidth}p{0.17\textwidth}p{0.20\textwidth}p{0.09\textwidth}}
-\caption{Orbital-retention input provenance gate.}\label{tab:orbital-retention-input-provenance}\\
+\caption{Orbital-retention input provenance gate.}
+\label{tab:orbital-retention-input-provenance}\\
 \toprule
 Field component & Source & Support status & Uncertainty status & Scored\\
 \midrule
@@ -562,7 +579,8 @@ external value map & quarantined map & declared proxy & frozen before scoring & 
 
 \small
 \begin{longtable}{@{}p{0.08\textwidth}p{0.34\textwidth}p{0.42\textwidth}@{}}
-\caption{Orbital-retention field-dynamics fixture spine.}\label{tab:orbital-retention-fixture-spine}\\
+\caption{Orbital-retention field-dynamics fixture spine.}
+\label{tab:orbital-retention-fixture-spine}\\
 \toprule
 No. & Sheet & Purpose\\
 \midrule
@@ -592,5 +610,6 @@ No. & Sheet & Purpose\\
 
 \aodremark{The SPARC square-speed lane is a G0 radial projection diagnostic. The orbital-retention fixture is the G2/G3 retention-first simulation path. Projection to \(U\) follows retention, capacity seating, and \(\delta_3\) tallies.}
 
-\subsection{Completion requirements}\label{manual:field-dynamics-completion-requirements}
+\subsection{Completion requirements}
+\label{manual:field-dynamics-completion-requirements}
 A SPARC scored record is complete when the data file, declaration constants, square-speed target, residuals, and score metrics are present. A Tau ring fixture is complete when the candidate set, scores, missing fraction, and precision note are present. Display speed is a presentation view only. The orbital-retention field-dynamics fixture is complete when it records medium setup, flip/fizz classification, range-prioritized SADAR, capacity seating, retention class, and \(\delta_3\) tallies.

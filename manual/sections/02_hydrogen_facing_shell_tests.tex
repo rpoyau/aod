@@ -1,6 +1,8 @@
-\section{Hydrogen-facing Shell Tests}\label{manual:hydrogen-shell-tests}
+\section{Hydrogen-facing Shell Tests}
+\label{manual:hydrogen-shell-tests}
 
-\subsection{Shared hydrogen-facing shell declaration}\label{manual:hydrogen:scope}
+\subsection{Shared hydrogen-facing shell declaration}
+\label{manual:hydrogen:scope}
 \aodnoteblock{Scope}{This section is a manual comparison section. It declares hydrogen-facing shell records, computes finite \(\SADARop_B\) values on a shell-cycle ladder first, and only then records wavelength/frequency/energy comparisons.}
 \aodnoteblock{Data-support class}{Hydrogen shell tests instantiate D0 exact shell-ratio fixtures and O0 shell observable-map comparisons. Error quantities are shell-ratio or spectral-map residuals.}
 
@@ -57,7 +59,8 @@ Thus a transition into shell \(S_m\) has normalized pressure difference
 \label{fig:manual-hydrogen-shell-setup}
 \end{figure}
 
-\subsection{Shell-radius comparison}\label{manual:hydrogen:radii}
+\subsection{Shell-radius comparison}
+\label{manual:hydrogen:radii}
 The radius-ratio check records the standard shell scaling
 \[
 \frac{r_n}{r_1}=n^2.
@@ -81,7 +84,8 @@ Shell & A\(\Omega\) shell & Ratio target & Status\\
 \label{tab:manual-hydrogen-shell-radii}
 \end{table}
 
-\subsection{Shell-pressure table}\label{manual:hydrogen:pressure-table}
+\subsection{Shell-pressure table}
+\label{manual:hydrogen:pressure-table}
 The Balmer comparison records use transitions into \(S_2\). The A\(\Omega\)-internal normalized pressure differences are
 \[
 \Delta \widehat P^D(n\to2)=\frac{1}{2^2}-\frac{1}{n^2}.
@@ -110,7 +114,8 @@ H$\delta$ & $6\to2$ & $2/9$ & $8/5$ & $1.59999025$ & $0.000609$\\
 \label{tab:manual-hydrogen-pressure-ratios}
 \end{table}
 
-\subsection{Shell-energy transitions}\label{manual:hydrogen:energy-transitions}
+\subsection{Shell-energy transitions}
+\label{manual:hydrogen:energy-transitions}
 The measured comparison is downstream. Given a cited vacuum wavelength \(\lambda\), the comparison sequence is
 \[
 f=\frac{c}{\lambda},
@@ -138,7 +143,8 @@ H$\delta$ & $6\to2$ & $410.29$ & $7.30684292\times10^{14}$ & $3.02186742$\\
 
 
 
-\subsection{Hydrogen spectral-series extension}\label{manual:hydrogen:spectral-extension}
+\subsection{Hydrogen spectral-series extension}
+\label{manual:hydrogen:spectral-extension}
 \aodnoteblock{Choice}{The Lyman and Paschen records use the same normalized shell-pressure ladder as the Balmer records. The destination shell \(S_m\) is declared before each transition table. Ratio comparison is performed before wavelength, frequency, or energy export.}
 
 For a fixed destination shell \(S_m\) and a transition \(n\to m\), with \(n>m\), define the A\(\Omega\)-internal series ratio
@@ -155,7 +161,8 @@ For wavelength comparison, use the inverse-wavelength relation
 \]
 Thus the A\(\Omega\)-internal pressure ratio is compared against the measured inverse-wavelength ratio. external frequency coordinate and energy export remain downstream.
 
-\subsubsection{Lyman series}\label{manual:hydrogen:lyman}
+\subsubsection{Lyman series}
+\label{manual:hydrogen:lyman}
 For Lyman records, the destination shell is \(S_1\). The baseline is \(2\to1\), with
 \[
 \Delta\widehat P^D(2\to1)=1-\frac14=\frac34.
@@ -180,7 +187,8 @@ Limit & $\infty\to1$ & $1$ & $4/3$ & series limit & $4/3$ & audit record\\
 \label{tab:manual-hydrogen-lyman-ratios}
 \end{table}
 
-\subsubsection{Paschen series}\label{manual:hydrogen:paschen}
+\subsubsection{Paschen series}
+\label{manual:hydrogen:paschen}
 For Paschen records, the destination shell is \(S_3\). The baseline is \(4\to3\), with
 \[
 \Delta\widehat P^D(4\to3)=\frac19-\frac1{16}=\frac7{144}.
@@ -205,13 +213,15 @@ Limit & $\infty\to3$ & $1/9$ & $16/7$ & series limit & $16/7$ & audit record\\
 \label{tab:manual-hydrogen-paschen-ratios}
 \end{table}
 
-\subsubsection{Series-ratio audit}\label{manual:hydrogen:series-audit}
+\subsubsection{Series-ratio audit}
+\label{manual:hydrogen:series-audit}
 \aodnoteblock{Audit}{A spectral-series record carries the destination shell \(S_m\), the computed \(\Delta\widehat P^D(n\to m)\), and the inverse-wavelength ratio \(\lambda_{(m+1)\to m}/\lambda_{n\to m}\).}
 \aodprovenance{main:subsec:shared-shell-path-declaration; manual \appref{manual:external-comparison}.}
 \aodliteraturenote{Hydrogen spectral-line targets: NIST Atomic Spectra Database~\cite{nist-asd}.}
 
 
-\subsection{Error audit}\label{manual:hydrogen:error-audit}
+\subsection{Error audit}
+\label{manual:hydrogen:error-audit}
 For a transition record \(x\), record
 \[
 \Delta\mathcal R_x
@@ -225,7 +235,8 @@ For a transition record \(x\), record
 \]
 The ratio table above uses this formula. Energy errors may be recorded only after the wavelength target and external conversion are declared.
 
-\subsection{Audit hooks}\label{manual:hydrogen:audit-hooks}
+\subsection{Audit hooks}
+\label{manual:hydrogen:audit-hooks}
 \aodnoteblock{Audit}{A hydrogen-facing shell record carries the transition pressure difference before external comparison, the ratio record matching the declared shell-pressure difference, and the cited wavelength target for each energy comparison.}
 \aodprovenance{main:subsec:shared-shell-path-declaration; manual \appref{manual:external-comparison}; manual \secref{manual:hydrogen:scope}.}
 \aodliteraturenote{Hydrogen Balmer targets: NIST Atomic Spectra Database~\cite{nist-asd}.}

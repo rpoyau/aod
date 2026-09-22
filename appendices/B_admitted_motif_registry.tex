@@ -1,7 +1,8 @@
-\section{Curling-curls}
+\section{Admitted motif registry}
+\label{app:admitted-motif-registry}
 \label{app:curling-curls}
 
-\subsection{Curl-closure names}
+\subsection{Derivative curl-closure names}
 \label{app:cc-naming-conventions}
 
 \subsubsection{Hinge triad}
@@ -29,7 +30,7 @@ Curling curls are recursive returns that become active path structure inside the
 
 \subsubsection{Monon}
 \label{app:cc-monon}
-The monon is the primitive branch/hinge/branch cycle:
+The primitive monon closure is defined in \eqref{eq:monon-cycle}; its derivative signature is
 \[
 \mathrm{monon}(x)=\operatorname{cycle}_{\mathsf H_3}(x\succ x=x).
 \]
@@ -46,11 +47,11 @@ D_\Omega=(-1,+1).
 \label{app:cc-duon-duad-cycle}
 The duon is Dion--hinge--Dion returned-current support:
 \[
-\mathrm{duon}=D_i\mu D_j,
+\mathrm{duon}=D_i\mu_M D_j,
 \qquad
 D_i,D_j\in\{D_\alpha,D_\Omega\},
 \qquad
-\mu\in\{-1,0,+1\}.
+\mu_M\in\{-1,0,+1\}.
 \]
 The resolved family has \(2\times3\times2=12\) variants.
 
@@ -69,7 +70,7 @@ The open-seat duon is \(E_2^0\), and the seat-closed duon is the duad \(E_2^{\pm
 \[
 \mathrm{tetratrion}=4\times\mathrm{trion}=3:4.
 \]
-A tetrad is the seated tetron closure.
+Standalone trion is the threefold core unit. A tetrad is the seated tetron closure. Admission of each named entry resolves its scope, lineage and certificate through \eqref{eq:motif-admission}.
 
 \subsection{Curling curls}
 \label{app:cc-families}
@@ -178,7 +179,14 @@ Compact form & Name & Outer enclosure \\
 \toprule
 Category & Entries & Anchor \\
 \midrule
-Primitives & \(\mathsf H_3\), monon, dion, duon, duad & \appref{app:cc-naming-conventions} \\
+Hinge/closure & \(\mathsf H_3\), Monon & \eqref{eq:hinge-grammar} \\
+Branch pattern & Dion \(D_\alpha,D_\Omega\) & \secref{subsec:dion} \\
+Composite closure & Dimonon \(=2\,\mathrm{Monon}\) & \eqref{eq:motif-grammar} \\
+Returned-current support & Duon \(D_i\mu_M D_j\), with bound pivot & \eqref{eq:duon-current} \\
+Realized current & Carried crossings on admitted Duon support and a declared window & \eqref{eq:window-current} \\
+Seated current state & Duad & \secref{subsec:duad} \\
+Recurring current wave & Running Duon wave, certified recurrence and orientation & \eqref{eq:wave-identity} \\
+Standing organization & Bound opposite recurring lineages with declared balance & \ref{eq:native-running-standing} \\
 Four-cycle / four-enclosure terms & tetrion, tetron \(E_4\), tetratrion \(3:4\), tetrad & \appref{app:cc-tetrion-tetron-tetratrion} \\
 Curling curls & Dimonon, Trio, Ditrion, Tritrion, Tetratrion & \appref{app:cc-families} \\
 Outer enclosures & hexon, octon, decon & \appref{app:cc-support-enclosure-names} \\

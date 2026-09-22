@@ -5,7 +5,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_fractal_origin_anchor_is_octal():
-    text = (ROOT / "appendices" / "A_fractal_address_bip_biz.tex").read_text()
+    text = (ROOT / "appendices" / "A_type_symbol_registry.tex").read_text()
     assert r"\mathtt{00}_8\vdash \mathrm{monon},\mathrm{bip},\mathrm{biz}." in text
     assert r"\mathtt{00}\vdash \mathrm{monon},\mathrm{bip},\mathrm{biz}." not in text
 
