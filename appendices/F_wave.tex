@@ -3,67 +3,51 @@
 
 \subsection{Scope}
 \label{app:wave:scope}
-This appendix records wave as the temporal SADAR presentation of a retained A\(\Omega\) cycle and gives its audit conditions.
+This appendix audits downstream presentations of an already admitted recurrent
+wave. Recurrence and semantic admission precede every value transform.
 
-\subsection{Cycle / wave identity}
+\subsection{Cycle and wave identity}
 \label{app:wave:cycle-wave-identity}
-A cycle is the retained branch/hinge/branch package. For a retained cycle \(C\) on a declared boundary/window \(B=(\partial_TF,\omega)\), its wave presentation is
+Admission and cycle/reclosure counts are \eqref{eq:wave-identity} and
+\eqref{eq:cumulative-closure-counts}. The presentation below consumes those
+witnesses.
+
+For an already admitted wave \(W_{B,i}\), its SADAR-valued presentation may be
+written
 \begin{equation}
-\operatorname{wave}_B(C)
+\operatorname{Present}_{B}(W_{B,i})
 =
-\{(t,\SADARop_{B|t}(C)):t\in\omega\}.
+\{(k,\SADARop_{B|k}(W_{B,i})):k\in\omega\}.
 \label{app:wave:eq:wave-sadar-presentation}
 \end{equation}
-Thus the wave is the SADAR-valued temporal presentation of \(C\). The hinge \(\mu\) implicitly supports chirality through the handed return presentation \(A\leftrightarrow_{\mu}\Omega\rightarrow\Omega\leftrightarrow_{\mu}A\rightarrow A\leftrightarrow_{\mu}\Omega\).
+This presentation consumes the admitted identity and committed trace; it does
+not create either one.
 
-
-
-\subsection{Fractal growth and temporal direction}
+\subsection{Continuation and direction}
 \label{app:wave:fractal-growth-temporal-direction}
-A branch/hinge/branch package repeats because the declared kernel continues until the current hinge is saturated on the declared support. When the isotropic or anisotropic max-capacity-3 kernel has no admissible continuation through the current hinge, the hinge is closed into the current Alpha/Omega order and the next retained presentation requires a new hinge:
-\[
-\operatorname{sat}_{\mu}(C;B)=1
-\quad\Rightarrow\quad
-\Pi_{\Omega}(C)=\operatorname{Close}_{B}(\Pi_{\alpha}(C),H_{\mu}(C)).
-\]
-The successor presentation is then carried by a new hinge \(\mu'\):
-\[
-C\xrightarrow{\text{closed hinge }\mu}
-\operatorname{wave}_{B}(C)
-\xrightarrow{\text{new hinge }\mu'}
-C'.
-\]
-Thus the future direction is the retained successor branch after the locked hinge closes; it is not an added external time container. Every retained cycle, whether seat-retained or free-routed, has a wave presentation whenever \(\SADARop_{B|t}(C)\) is declared over \(\omega\).
+Use the advance \eqref{eq:crown-advance} and running/standing classification
+\ref{eq:native-running-standing}, retaining each contributing identity and orientation.
 
 \subsection{Flux and window current}
 \label{app:wave:flux-current}
-For a cut-frame \(t\), write
-\[
-B|_t=(\partial_TF,\{t\}).
-\]
-The SADAR slice value is
-\begin{equation}
-\Phi^D_{\partial_T R}(t;B|_t)
-=
-\sum_{e\in\partial_T R(t)}\SADARop_{B|_t}(C_e).
-\label{app:wave:eq:slice-flux}
-\end{equation}
-The retained many-frame continuation is
-\begin{equation}
-J^D_{\partial_T R}(\omega;B)
-=
-\sum_{t\in\omega}\Phi^D_{\partial_T R}(t;B|_t).
-\label{app:wave:eq:window-current}
-\end{equation}
+The slice flux \eqref{eq:slice-flux} and retained window current
+\eqref{eq:window-current} are downstream value coordinates of the admitted
+wave. Aggregate cancellation preserves both oriented channel histories.
 
 \subsection{Falsification}
 \label{app:wave:falsification}
-The wave audit fails on a declared scope if \(\operatorname{wave}_B(C)\) is used without a retained cycle \(C\), without a declared boundary/window \(B\), or without the SADAR values \(\SADARop_{B|t}(C)\) over the declared window.
+The audit fails if a presentation is used without an admitted recurring wave,
+declared boundary/window, committed values, lineage provenance, or the required
+closure and reclosure witnesses. Exact Fourier inversion of an unbound word
+does not repair any missing witness.
 
-\aodprovenance{\eqnref{eq:cut-running-form},
-\eqnref{eq:monon-cycle},
-\eqnref{eq:cycle-valued-field-compression},
+\aodprovenance{\eqnref{eq:closure-phase},
+\eqnref{eq:beat-reclosure},
+\eqnref{eq:wave-identity},
 \eqnref{eq:wave-sadar-presentation},
-\eqnref{eq:sadar-operator-cycle}.}
+\eqnref{eq:slice-flux},
+\eqnref{eq:window-current},
+\eqnref{eq:fourier-transform}.}
 
-\aodremark{Wave terms are SADAR-valued temporal presentations of retained cycles.}
+\aodremark{Wave presentation is derivative; recurrence and semantic admission
+precede every SADAR or harmonic coordinate.}

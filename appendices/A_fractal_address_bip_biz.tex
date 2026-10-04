@@ -1,32 +1,36 @@
-\section{Fractal address}
+\section{Fractal address, bip and biz}
 \label{app:fractal-address-bip-biz}
 
 \subsection{Scope}
 \label{app:fractal-address:scope}
-A retained calculation declares a fractal coordinate when boundary accounting requires an explicit retained location.
+A retained calculation declares a fractal address only after the first finite
+distinction. Null, fibre zero, the encoded vertex, the anchor
+\(\mathtt{00}_8\), and its declared scope remain distinct types.
 
-\subsection{Setup}
+\subsection{Address binding}
 \label{app:fractal-address:setup}
-The coordinate is a left-context binder for the retained cut, field, boundary, and window:
+The first anchor is co-created by the distinction in \eqref{eq:first-anchor}; it
+is not selected from a prior coordinate set. A later retained calculation may
+bind its already admitted wave lineages and comparison window by
 \[
-\mathbf a\vdash(\mathcal F,\partial\mathcal F,\omega).
+\mathbf a\vdash(B,\{W_{B,i}^{\mathrm{id}}\}_{i\in I},\omega).
 \]
+Addresses below \(\mathtt{00}_8\) remain out of scope and unbound.
 
-\subsection{Statement(s)}
+\subsection{Native counts}
 \label{app:fractal-address:statements}
-Counts are recorded in \(\mathrm{bip}\) and reciprocal rates in \(\mathrm{biz}\) under the declared fractal coordinate context:
-\[
-\mathbf a\vdash \mathrm{bip},\mathrm{biz}.
-\]
-When the coordinate must be displayed, write
-\[
-\mathrm{bip}_{\mathbf a},\qquad \mathrm{biz}_{\mathbf a}.
-\]
-At the origin anchor,
-\[
-\mathtt{00}_8\vdash \mathrm{monon},\mathrm{bip},\mathrm{biz}.
-\]
+For a bound lineage, \(\mathrm{bip}_i(\omega)\) counts distinct certified
+reclosures as defined by \eqref{eq:beat-reclosure}. For two admitted recurrent
+lineages, \(\mathrm{biz}^{TF}_{i|j}(\omega)\) is defined only on the common
+committed repeated-contact window required by \eqref{eq:relational-time}.
+Neither accessor creates the anchor, admits a motif, supplies a wave, or
+defines a master clock.
 
-\aodprovenance{\eqnref{eq:null-presentation},
-\eqnref{eq:cut-running-form},
+\aodprovenance{\eqnref{eq:first-anchor},
+\eqnref{eq:atomic-h1},
+\eqnref{eq:beat-reclosure},
+\eqnref{eq:relational-time},
 \secref{subsec:afc-fractal-address}.}
+
+\aodremark{Fractal addressing binds provenance; it does not replace the
+closure, recurrence, or coupling witnesses.}

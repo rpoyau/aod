@@ -38,12 +38,7 @@ EXCLUDE_FILE_PATTERNS = [
     re.compile(r"AOD_Temporal_Dynamics_v.*_tests\.txt$"),
 ]
 
-INCLUDE_TOP_LEVEL = [
-    ".github", "appendices", "figures_jpg", "manual", "scripts", "sections", "tests",
-    "CANONICAL_VERSION.txt", "RELEASE_READINESS.txt", "main.tex", "preamble.tex",
-    "refs.bib", "cycle_shedding_summary.tex", "README.md", "LICENSE", "CITATION.cff",
-    "requirements-ci.txt", ".zenodo.json", "BUILD.md",
-]
+INCLUDE_TOP_LEVEL = ['.github', '.zenodo.json', '.zenodo_doi', "BUILD.md", 'CANONICAL_VERSION.txt', 'LICENSE', 'README.md', 'RELEASE_READINESS.txt', 'STALE_TEST_DISPOSITION.md', 'appendices', 'evidence', 'cycle_shedding_summary.tex', 'figures_jpg', 'main.tex', 'manual', 'preamble.tex', 'refs.bib', 'requirements-ci.txt', 'scripts', 'sections', 'tests', 'wavelet_shedding_simulation.csv', 'wavelet_shedding_summary.tex']
 
 
 def read_version(explicit: str | None) -> str:
@@ -101,10 +96,26 @@ def build_source_tree(stage_root: Path) -> Path:
     """Build a flat source tree whose contents unzip directly into a repo root."""
     source_root = stage_root / "source_root"
     source_root.mkdir(parents=True, exist_ok=True)
-    for name in INCLUDE_TOP_LEVEL:
-        src = ROOT / name
-        if src.exists():
-            copy_item(src, source_root / name)
+    # In a checkout, tracked names are authoritative, including small root
+    # inputs that older publication allowlists accidentally omitted.
+    tracked = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT,
+                             capture_output=True, check=False)
+    if tracked.returncode == 0 and tracked.stdout:
+        for raw in tracked.stdout.split(b"\0"):
+            if raw:
+                rel = Path(os.fsdecode(raw))
+                src = ROOT / rel
+                if not src.is_file():
+                    raise ValueError(f"tracked source missing: {rel}")
+                target = source_root / rel
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, target)
+    else:
+        # Detached candidate: complete declared top-level source surfaces.
+        for name in INCLUDE_TOP_LEVEL:
+            src = ROOT / name
+            if src.exists():
+                copy_item(src, source_root / name)
     return source_root
 
 

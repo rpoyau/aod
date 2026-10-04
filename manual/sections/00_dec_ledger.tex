@@ -116,14 +116,14 @@ isotropic & equal probability over admissible successors\\
 anisotropic & unequal declared weights over admissible successors\\
 blocked & zero admissibility on the declared scope\\
 hinge slide & renormalization after same-resolution dwell is removed\\
-wave trace & repeated node updates after hinge slide\\
+continuation trace & repeated admitted node updates after hinge slide\\
 \bottomrule
 \end{tabular}
 \label{tab:manual-dec-blocking-rules}
 \end{table}
 
 \subsection{Blocked hinge and hinge slide}\label{manual:dec-ledger:hinge-slide}
-In the following block event, the prior hinge-state row \((e_3,0)\) attempts same-resolution dwell, but the declared scope sets \(\operatorname{adm}(e_3,0;B)=0\). The hinge-state row \((e_3,0)\), not the edge slot \(e_3\) itself, is removed before renormalization; the \(e_3\) slot may re-enter only as an admitted branch state. Declare the post-block slide pool
+In the following block event, the prior hinge-state row \((e_3,0)\) attempts same-resolution dwell, but the declared scope sets \(\operatorname{adm}(e_3,0;B)=0\). The additional-dwell row \((e_3,0_D)\), not the edge slot \(e_3\) itself, is removed before renormalization; the \(e_3\) slot may re-enter only as an admitted branch state. Declare the post-block slide pool
 \[
 \{(e_1,-1),(e_2,-1),(e_3,+1)\}
 \]
@@ -148,6 +148,20 @@ P_{\mathrm{returned}}=3/7+3/7=6/7,
 P_{\mathrm{outgoing}}=1/7.
 \]
 
+\paragraph{Three roles and two branch roles.}
+The four-channel kernel above has role probabilities
+\((P_-,P_0,P_+)=(1/8,1/2,3/8)\). After blocking additional dwell,
+three channel rows remain, while their two-role projection is
+\((P_-,P_+)=(6/7,1/7)\). The structural hinge remains. The binary role entropy
+\(-(6/7)\log_3(6/7)-(1/7)\log_3(1/7)\) is below the uniform maximum
+\(\log_3 2\) stated in \texttt{main:subsec:q4-hamming-ternary-kernel}.
+This is conditional role entropy, separate from channel cardinality,
+\(C_3(k)=k\), and channel mutual information.
+For a capacity counterexample, declare the deterministic ternary channel
+\(P_{01}=P_{12}=P_{20}=1\), all other entries zero, with uniform input.
+It has one successor per row but preserves the input bijectively, so
+\(I(X;Y)=H(X)=1\) trit, exceeding \(\log_3 2\).
+No row-degree bound alone establishes that universal channel-capacity bound.
 
 \subsection{Field tunnelling: hinge-slide window clip}\label{manual:dec-ledger:field-tunnelling}
 \aodnoteblock{Data-support class}{Field tunnelling is a D0 exact internal fixture. It uses declared hinge-slide admissibility, exact slide-kernel fractions, window-clipped duration participation, and scalar tunnel contribution.}
@@ -376,3 +390,13 @@ missing\_fraction\_display & decimal presentation field\\
 \end{tabular}
 \label{tab:manual-dec-tau-missing-ratio-fields}
 \end{table}
+
+\paragraph{Atomic leg and hinge role.}
+Each D.E.C. row records the H1 base traversal separately from the ternary role.
+Removing optional dwell sets \(m=0\) in \(\varepsilon0_H(0_D)^m(-\varepsilon)\);
+the structural hinge remains. A slide pool is entered only after that hinge.
+Kernel normalization uses already admissible support. Repeated updates are
+continuation traces until the actual closure and distinct-reclosure witnesses
+establish wave admission. The short-window examples declare neutral reflection,
+the native count duration interface and a same-domain window. They clip only
+\(\rho^D=\operatorname{dur}(RD\bowtie_B R^{\mathrm{asym}})\), leaving RD and RCD intact.

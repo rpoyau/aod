@@ -1,62 +1,48 @@
-\section{Curling-curls}
+\section{Admitted motif registry}
+\label{app:admitted-motif-registry}
 \label{app:curling-curls}
 
-\subsection{Curl-closure names}
+\subsection{Derivative curl-closure names}
 \label{app:cc-naming-conventions}
 
 \subsubsection{Hinge triad}
 \label{app:cc-hinge-triad}
-\[
-\mathsf H_3=(x^-,\mu,x^+).
-\]
-Here \(x^-\) is the reflected branch, \(\mu\) is the hinge / dwell / pivot, and \(x^+\) is the successor branch. The local ternary support is \(\{-1,0,+1\}\).
+The support relation and its ternary roles are \eqref{eq:hinge-grammar};
+committed predecessor/crown/successor-horizon roles are \eqref{eq:hinge-triad}.
 
 \subsubsection{Curl}
 \label{app:cc-curl}
-Curl is returned closure through a hinge.
+The curl construction is in \secref{subsec:curl}.
 
 \subsubsection{Nested curl}
 \label{app:cc-nested-curl}
-A nested curl is a curl carried inside another curl.
+See \secref{subsec:nested-curl}.
 
 \subsubsection{Pin-curl}
 \label{app:cc-pin-curl}
-A pin-curl is a returned curl whose residue seats, delays, or fixes a hinge.
+See \secref{subsec:pin-curl}.
 
 \subsubsection{Curling curls}
 \label{app:cc-curling-curls}
-Curling curls are recursive returns that become active path structure inside the fractal tesseract topology.
+See \secref{subsec:curling-curls}.
 
 \subsubsection{Monon}
 \label{app:cc-monon}
-The monon is the primitive branch/hinge/branch cycle:
-\[
-\mathrm{monon}(x)=\operatorname{cycle}_{\mathsf H_3}(x\succ x=x).
-\]
+The primitive monon is \eqref{eq:monon-cycle}.
 
 \subsubsection{Dion}
 \label{app:cc-dion}
-\[
-D_\alpha=(+1,-1),
-\qquad
-D_\Omega=(-1,+1).
-\]
+The two oriented signatures are given in \secref{subsec:dion}.
 
 \subsubsection{Duon}
 \label{app:cc-duon-duad-cycle}
-The duon is Dion--hinge--Dion returned-current support:
-\[
-\mathrm{duon}=D_i\mu D_j,
-\qquad
-D_i,D_j\in\{D_\alpha,D_\Omega\},
-\qquad
-\mu\in\{-1,0,+1\}.
-\]
-The resolved family has \(2\times3\times2=12\) variants.
+Use the resolved constructor \eqref{eq:duon-current} and the twelve-variant
+count in \secref{subsec:duon-current-cell}.
 
 \subsubsection{Duad}
 \label{app:cc-duad}
-The open-seat duon is \(E_2^0\), and the seat-closed duon is the duad \(E_2^{\pm}\).
+Seating is \secref{subsec:duad}; open/closed notation is in
+\secref{subsec:e2-duon} and \secref{subsec:e2-duad}.
 
 \subsubsection{Trion / tetrion / tetron / tetratrion / tetrad}
 \label{app:cc-tetrion-tetron-tetratrion}
@@ -64,12 +50,12 @@ The open-seat duon is \(E_2^0\), and the seat-closed duon is the duad \(E_2^{\pm
 \mathrm{tetrion}=\text{bare four-cycle / four-pivot return closure},
 \]
 \[
-\mathrm{tetron}=E_4=\text{default inner enclosure with four seats},
+\mathrm{tetron}\ \text{is the }E_4\text{ enclosure of }\secref{subsec:e4-tetron},
 \]
 \[
 \mathrm{tetratrion}=4\times\mathrm{trion}=3:4.
 \]
-A tetrad is the seated tetron closure.
+Standalone trion is the threefold core unit. A tetrad is the seated tetron closure. Admission of each named entry resolves its scope, lineage and certificate through \eqref{eq:motif-admission}.
 
 \subsection{Curling curls}
 \label{app:cc-families}
@@ -178,7 +164,14 @@ Compact form & Name & Outer enclosure \\
 \toprule
 Category & Entries & Anchor \\
 \midrule
-Primitives & \(\mathsf H_3\), monon, dion, duon, duad & \appref{app:cc-naming-conventions} \\
+Hinge/closure & \(\mathsf H_3\), Monon & \eqref{eq:hinge-grammar} \\
+Branch pattern & Dion \(D_\alpha,D_\Omega\) & \secref{subsec:dion} \\
+Composite closure & Dimonon \(=2\,\mathrm{Monon}\) & \eqref{eq:motif-grammar} \\
+Returned-current support & Duon \(D_i\mu_M D_j\), with bound pivot & \eqref{eq:duon-current} \\
+Realized current & Carried crossings on admitted Duon support and a declared window & \eqref{eq:window-current} \\
+Seated current state & Duad & \secref{subsec:duad} \\
+Recurring current wave & Running Duon wave, certified recurrence and orientation & \eqref{eq:wave-identity} \\
+Standing organization & Bound opposite recurring lineages with declared balance & \ref{eq:native-running-standing} \\
 Four-cycle / four-enclosure terms & tetrion, tetron \(E_4\), tetratrion \(3:4\), tetrad & \appref{app:cc-tetrion-tetron-tetratrion} \\
 Curling curls & Dimonon, Trio, Ditrion, Tritrion, Tetratrion & \appref{app:cc-families} \\
 Outer enclosures & hexon, octon, decon & \appref{app:cc-support-enclosure-names} \\

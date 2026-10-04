@@ -35,14 +35,18 @@ The crowning map selects the present:
 
 \subsubsection{Alpha advantage}
 \label{app:stoch-alpha-advantage}
-Define
+At one declared observation restriction, partition histories into mutually
+exclusive statuses: crowned-alpha and not yet returned, completed Omega
+return, or unresolved. A history is counted in exactly one current status;
+its earlier alpha event remains in provenance but is not counted again as a
+second current history. With this partition, define
 \[
 N_\alpha=
-\#\{h:\ h_{\mathrm{present}}\text{ selects }\alpha\},
+\#\{h:\ h\text{ has current alpha status}\},
 \]
 \[
 N_\Omega=
-\#\{h:\ h_{\mathrm{future}}\text{ closes through }\Omega\},
+\#\{h:\ h\text{ has completed-return status}\},
 \]
 \[
 N_0=
@@ -75,7 +79,7 @@ The history retention indicator is
 \[
 \mathbf 1_{\mathrm{ret}}(h,\omega)=1
 \]
-when every retained channel required by \(h\) satisfies the declared TTL policy on \(\omega\). The retained-history family is
+when every retained channel required by \(h\) satisfies the declared TTL policy on \(\omega\). The same mutually exclusive status partition is used after filtering. The retained-history family is
 \[
 \mathcal H_{\mathcal F}^{\mathrm{ret}}(\omega)
 =
@@ -87,13 +91,13 @@ Define
 N_{\alpha}^{\mathrm{ret}}
 =
 \#\{h\in\mathcal H_{\mathcal F}^{\mathrm{ret}}(\omega):
-h_{\mathrm{present}}\text{ selects }\alpha\},
+h\text{ has current alpha status}\},
 \]
 \[
 N_{\Omega}^{\mathrm{ret}}
 =
 \#\{h\in\mathcal H_{\mathcal F}^{\mathrm{ret}}(\omega):
-h_{\mathrm{future}}\text{ closes through }\Omega\},
+h\text{ has completed-return status}\},
 \]
 \[
 N_{\mathrm{tot}}^{\mathrm{ret}}
@@ -110,15 +114,8 @@ The retained alpha advantage is defined when \(N_{\mathrm{tot}}^{\mathrm{ret}}>0
 
 \subsection{Derivation}
 \label{app:stoch-derivation}
-For a temporal cycle group \(W\), use the window-clipped duration participation \(\rho^D_{\omega,e}\) inside the temporal SADAR burden:
-\[
-P_W(\partial F,\omega)
-=
-\sum_{e\in W}
-C_{3,e}
-\rho^D_{\omega,e}(\partial F,\omega)
-|\Delta^{\chi\mathrm{lag}}_e|.
-\]
+For each history, let \(P_W(h)\) be the restriction of
+\eqref{eq:temporal-sadar-burden} to its temporal cycle group.
 The notation \(\mathbb E_{\mathcal H}\) denotes finite arithmetic average over the declared history family \(\mathcal H_{\mathcal F}(\omega)\):
 \[
 \mathbb E_{\mathcal H}[P_W]
