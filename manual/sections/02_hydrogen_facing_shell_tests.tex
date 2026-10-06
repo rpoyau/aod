@@ -207,7 +207,7 @@ Limit & $\infty\to3$ & $1/9$ & $16/7$ & series limit & $16/7$ & audit record\\
 
 \subsubsection{Series-ratio audit}\label{manual:hydrogen:series-audit}
 \aodnoteblock{Audit}{A spectral-series record carries the destination shell \(S_m\), the computed \(\Delta\widehat P^D(n\to m)\), and the inverse-wavelength ratio \(\lambda_{(m+1)\to m}/\lambda_{n\to m}\).}
-\aodprovenance{main:subsec:shared-shell-path-declaration; manual \appref{manual:external-comparison}.}
+\aodprovenance{\mainsection{main:subsec:shared-shell-path-declaration}; manual \appref{manual:external-comparison}.}
 \aodliteraturenote{Hydrogen spectral-line targets: NIST Atomic Spectra Database~\cite{nist-asd}.}
 
 
@@ -223,9 +223,9 @@ For a transition record \(x\), record
 =
 100\frac{\Delta\mathcal R_x}{\mathcal R_x^{\mathrm{tar}}}.
 \]
-The ratio table above uses this formula. Energy errors may be recorded only after the wavelength target and external conversion are declared.
+The ratio audits in \tabref{tab:manual-hydrogen-pressure-ratios}, \tabref{tab:manual-hydrogen-lyman-ratios} and \tabref{tab:manual-hydrogen-paschen-ratios} use this formula. Energy errors may be recorded only after the wavelength target and external conversion are declared.
 
 \subsection{Audit hooks}\label{manual:hydrogen:audit-hooks}
 \aodnoteblock{Audit}{A hydrogen-facing shell record carries the transition pressure difference before external comparison, the ratio record matching the declared shell-pressure difference, and the cited wavelength target for each energy comparison.}
-\aodprovenance{main:subsec:shared-shell-path-declaration; manual \appref{manual:external-comparison}; manual \secref{manual:hydrogen:scope}.}
+\aodprovenance{\mainsection{main:subsec:shared-shell-path-declaration}; manual \appref{manual:external-comparison}; manual \secref{manual:hydrogen:scope}.}
 \aodliteraturenote{Hydrogen Balmer targets: NIST Atomic Spectra Database~\cite{nist-asd}.}

@@ -1,6 +1,6 @@
 \section{Boundary Current Applications}\label{manual:boundary-current-applications}
 \aodnoteblock{Data-support class}{Boundary-current applications are D0 exact scoped-flux fixtures. External report maps carry separate comparison rows. Errors are Stokes residuals, moving-boundary identity residuals, current-split residuals, and sheddic-route conservation residuals.}
-\aodnoteblock{Scope}{This section applies the same scoped AFC flux calculation to wire, fluid, plasma, shell-electromagnetic comparison, and phase-fluid SADAR records. The declared boundary selects the application case of the declared-scope calculus.}
+\aodnoteblock{Scope}{This section applies the same scoped A\(\Omega\)D pressure-resolved flux calculation to wire, fluid, plasma, shell-electromagnetic comparison, and phase-fluid SADAR records. The declared boundary selects the application case of the declared-scope calculus.}
 
 \subsection{Shared scoped-flux setup}\label{manual:boundary-current:shared-setup}
 Declare an application scope
@@ -9,7 +9,7 @@ Declare an application scope
 \qquad
 B=(\partial F,\omega).
 \]
-The scoped AFC flux is
+The scoped A\(\Omega\)D pressure-resolved flux is
 \[
 \phi_{ij}(B)=p^D_{ij}(B)A_{ij}(B),
 \]
@@ -47,7 +47,7 @@ The directional SADAR quantity remains
 \[
 \mathbf A_F(B)=\sum_{(i,j)\in F(B)}\phi_{ij}(B),
 \qquad
-\operatorname{motion}_F(B)=\mathbf A_F(B).
+\operatorname{motion}_{F,k+1}(B)=(S^W_{F,k},S^W_{F,k+1}).
 \]
 
 \begin{figure}[h]
@@ -202,9 +202,10 @@ X_{\mathrm{shedding}}(B).
 Only after these A\(\Omega\) quantities are declared may a measured-sector comparison be attached.
 
 \subsection{Phase-fluid SADAR rebalancing}\label{manual:boundary-current:phase-fluid}
-Phase-fluid motion is the SADAR attention vector of the declared interface field:
+Phase-fluid motion is the realized later response of the declared interface
+field to its committed SADAR attention input:
 \[
-\operatorname{motion}_F(B)=\mathbf A_F(B).
+\operatorname{motion}_{F,k+1}(B)=(S^W_{F,k},S^W_{F,k+1}).
 \]
 The local sequence is
 \[
@@ -226,4 +227,12 @@ J^D_{\partial R}(\omega;B)
 \sum_{t\in\omega}\Phi^D_{\partial R}(t;B|_t)
 \]
 marks a window-current audit residual on the declared scope.
-\aodprovenance{main:eq:b-scoped-flux; main:eq:rcd-coupling; main:eq:window-clipped-rho; main:eq:sadar-attention-vector; main:eq:moving-boundary.}
+\aodprovenance{\mainequation{main:eq:b-scoped-flux}; \mainequation{main:eq:rcd-coupling}; \mainequation{main:eq:window-clipped-rho}; \mainequation{main:eq:sadar-attention-vector}; \mainequation{main:eq:moving-boundary}.}
+
+\paragraph{Trace and response typing.}
+The pressure-resolved flux in these applications is \(\phi^{\mathrm{AOD}}=p^D A\).
+Normalized AFC memory/kernel flux remains separately typed. Pressure, signed
+phase bias, directional RCD and current are distinct committed coordinates.
+Their response changes state at the next transition; the attention vector
+alone does not constitute motion. Opposite oriented values can cancel while
+both bound histories remain retained.

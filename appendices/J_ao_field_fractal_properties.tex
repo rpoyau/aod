@@ -1,55 +1,23 @@
-\section{A\texorpdfstring{\(\leftrightarrow\Omega\)}{<->Omega} Field Fractal Properties}\label{app:ao-field-fractal-properties}
+\section{A\texorpdfstring{\(\leftrightarrow\Omega\)}{<->Omega} Field Fractal Properties}
+\label{app:ao-field-fractal-properties}
 
 \subsection{Scope}\label{app:ao-field-fractal-properties:scope}
-This appendix records A\(\Omega\) field-support accessors and field-property invariants. The retained cycle package is written
+This declared model records A\(\Omega\) field-support accessors and field-property invariants. The retained cycle package is written
 \[
 C_f[M]_{\AO}.
 \]
 The accessors below are defined at the declared A\(\Omega\) field-support level.
 
 \subsection{Branch/hinge/branch accessor}\label{app:ao-field-fractal-properties:accessor}
-For a retained cycle \(C\),
-\[
-\mathsf{AO}_{\mu}(C)
-:=
-\operatorname{A\leftrightarrow_{\mu}\Omega}(C)
-=
-\langle
-\Pi_\alpha(C),
-H_\mu(C),
-\Pi_\Omega(C)
-\rangle.
-\]
-The reflection-duration accessor is
-\[
-RD_{\AO}(C;B)
-=
-|\Pi_\alpha(C)|+H_\mu(C)+|\Pi_\Omega(C)|.
-\]
-The single-hinge symmetric reduction is
-\[
-H_\mu=1,
-\qquad
-\Pi_\Omega=\Pi_\alpha,
-\qquad
-RD^{(1)}_{\AO}=2\Pi_\alpha+1.
-\]
-The scalar-duration, window-clipped, and pending-overhang accessors remain
-\[
-RCD=RD_{\AO}\bowtie_B R^{\mathrm{asym}},
-\qquad
-\rho^D=\operatorname{dur}(RCD),
-\qquad
-\rho^D_\omega=\min(\rho^D,|\omega|),
-\]
-with
-\[
-Q^D=C_3\max(0,\rho^D-|\omega|),
-\qquad
-P^D=C_3\rho^D_\omega.
-\]
-Under the declared single-hinge neutral-reflection field-property reduction, \(\rho^D=RD_{\AO}\) for this accessor family.
-
+Use the branch-order object \eqref{eq:ao-kernel}, its cardinality accessor
+\eqref{eq:ao-rd-accessor-kernel}, and the hypotheses of
+\eqref{eq:single-hinge-symmetric-fixture}.
+Under the declared single-hinge neutral-reflection field-property reduction,
+\(\rho^D=RD_{\AO}\). A compatible native count window then supplies
+\eqref{eq:window-clipped-rho}, channel pressure
+\eqref{eq:b-scoped-channel-pressure}, and pending burden
+\eqref{eq:burden-overhang}. These are the table's scalar accessors of
+\(C_f[M]_{\AO}\), with no change to its certified object.
 
 \subsection{Field-property accessors}\label{app:ao-field-fractal-properties:accessors-table}
 \begin{table}[H]
@@ -75,4 +43,4 @@ Under the declared single-hinge neutral-reflection field-property reduction, \(\
 \end{table}
 
 \aodprovenance{\secref{subsec:q4-hamming-ternary-kernel}, \eqnref{eq:branch-hinge-rd}, \eqnref{eq:window-clipped-rho}, \eqnref{eq:burden-overhang}, \eqnref{eq:shedding-excess}.}
-\aodremark{This App records A\(\Omega\) field-support accessors only. Measured-sector names, charges, target energies, residuals, percent errors, and \(z\)-scores are manual external-comparison data.}
+\aodremark{This declared model records A\(\Omega\) field-support accessors only. Measured-sector names, charges, target energies, residuals, percent errors, and \(z\)-scores are manual external-comparison data.}

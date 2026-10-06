@@ -1,0 +1,77 @@
+{
+  "path": "sections/04_cut_running_fractal_tesseract.tex",
+  "label": "eq:reflected-leg-bound",
+  "operand_type": "nonnegative integers times formal h in exact ordered additive module",
+  "construction": "delta_out=n_out*h; delta_return=n_return*h; counts atomic traversals, excludes hinge dwell and replay",
+  "provenance": [
+    "certified closed target",
+    "bound reflection witness, not arbitrary cut",
+    "two nonempty legs",
+    "same scope and scale as reference",
+    "retained start and distinct committed event ids"
+  ],
+  "reference": "certified two-edge H1 closure with mandatory hinge; support 2h",
+  "embedding": "iota_ref(n*1_C)=2n*h, comparison convention fixed before target analysis",
+  "proof": "n_out>=1 and n_return>=1 imply (n_out+n_return)h>=2h=iota_ref(1_C)",
+  "factorization": "equality of legs under declared reflection specialization permits replacing their sum with 2delta; asymmetric 1+3 differs from 2*1 and 2*3 even though both doubled terms can satisfy the lower bound",
+  "phase_step_type": "one committed H1 atomic traversal; hinge dwell and replay excluded",
+  "closure_cycle_type": "one distinct certified end-at-retained-start return counted in N0 1_C",
+  "minimal_shorthand": "2 Delta_phi_step >= 1_C with iota_ref declared locally",
+  "admission_role": "necessary phase-support conjunct inside the reflected closure certificate; never sufficient without endpoint return, lineage, witness, commitment order and certificate integrity",
+  "not_inferred": [
+    "universal physical phase-progress",
+    "sufficient closure admission",
+    "flux",
+    "duration",
+    "metrology",
+    "whole-closure separation as leg operand"
+  ],
+  "review": "../reviews/phase_preparation/REVIEW.md",
+  "domain": {
+    "leg_support": "N0 h, ordered additive monoid with h>0",
+    "closure_count": "N0 1_C",
+    "embedding": "iota_ref(n 1_C)=2n h",
+    "hypotheses": [
+      "certified two-edge reference",
+      "two nonempty committed target legs",
+      "same scope and scale",
+      "uniform event-support comparison declared before target evaluation"
+    ]
+  },
+  "causal_binding": {
+    "turnaround": "actual retained hinge event and commitment",
+    "return": "committed terminal event with retained start and lineage",
+    "witness": "part of immutable trace digest"
+  },
+  "superseded": [
+    "OWNER_SINGLE_PLAN section3.5 unsigned whole-closure separation argument",
+    "old section5.4 phase-resolvability witness",
+    "untyped treatment of 2 Delta phase >=1 as either sufficient admission or wholly unrelated to the reflected closure certificate"
+  ],
+  "exact_symmetric_example": {
+    "outbound": 1,
+    "return": 1,
+    "sum": 2,
+    "embedded_unit": 2,
+    "closure_phase": 1,
+    "phase_steps": 2,
+    "closure_cycles": 1,
+    "factored": 2
+  },
+  "exact_asymmetric_example": {
+    "outbound": 1,
+    "return": 3,
+    "sum": 4,
+    "embedded_unit": 2,
+    "closure_phase": 1,
+    "phase_steps": 4,
+    "closure_cycles": 1,
+    "factored": null
+  },
+  "implementation_function_sha256": "abe1b222ea39ba177250d4c237273cdffd77eda873fb15174530061c527b6ae4",
+  "phase_step_count_function_sha256": "66955a2a387824c9e800a436503999e54ff28f7ba495ce5c853d7e17e2e972e7",
+  "closure_cycle_count_function_sha256": "ded3e31edcc2a839d4129c464819864277cd00a5baee7c4630db4caadb2dabf1",
+  "legacy_phase_count_function_sha256": "807d8b0ed5a6c866309fb3589720572a531a7365de44f3df9a0d56076d0d9d8a",
+  "implementation_script_sha256": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+  "evidence": "tests/test_native_closure_wave.py::test_reflected_factorization_is_equality_not_just_inequality"
+}

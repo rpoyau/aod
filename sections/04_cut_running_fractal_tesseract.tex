@@ -1,243 +1,236 @@
+\section{Closure-phase cycle and recurring wave}
+\label{sec:closure-phase-wave}
 
-\section{Cut-running and fractal tesseract}\label{sec:cut-running-fractal-tesseract}
-
-\subsection{Null presentation}\label{subsec:null-presentation}
-\begin{definition}[Null symmetry]
-The A\(\Omega\)D form of the AFC Null potential is
+\subsection{Completed retained return}
+\label{subsec:monon-beat}
+\label{subsec:monon-cycle}
+A closure trace retains its start even as the current crown advances:
 \begin{equation}
-\Null\equiv \infD,
-\label{eq:null-axiom}
+\Gamma_C=(B,r,i,a_0,(e_0,\ldots,e_n),M_{\varepsilon,m},\mathcal W_C).
+\label{eq:closure-trace}
 \end{equation}
-where \(\infD\) names unresolved possible distinction. Null names symmetric closure under which branch selection is presented.
-\end{definition}
-
-The Null presentation preserves the same syntax as the local cut-running form:
+Here \(r\) is scale, \(i\) is lineage, the events are strictly committed in
+order, and \(\mathcal W_C\) binds the hinge and return to the retained start.
+All traversals satisfy \eqref{eq:atomic-h1}. The closure certificate is
 \begin{equation}
-\Null\equiv\infty
-\qquad
-\Null\to\Null\to\Null\equiv\Null.
-\label{eq:null-presentation}
+\operatorname{Cert}(C)=
+(B,r,i,\operatorname{id}(e_0),\operatorname{id}(e_n),
+\operatorname{digest}\Gamma_C,\mathcal W_C,\mathrm{closed}),
+\quad \operatorname{end}(C)\sim_{B,i,\mathcal W_C}\operatorname{start}(C).
+\label{eq:closure-certificate}
 \end{equation}
-
-\subsection{Local cut-running form}\label{subsec:local-cut-running-form}
-\begin{definition}[Cut operator]
-The A\(\Omega\)D cut operator sends a retained occurrence into simultaneous identity and cut-running:
+The witness preserves start and ancestry: closure is certified end at that
+retained start. Endpoint equality alone is insufficient. The primitive closure
+of \eqref{eq:hinge-grammar} is the monon:
 \begin{equation}
-x\mapsto x\succ x=x.
-\label{eq:cut-running-form}
-\end{equation}
-The symbol \(\succ\) names asymmetric cut-running. The expression records that the same \(x\) is held in identity while also presenting a running cut relation.
-\end{definition}
-
-\paragraph{Stokes identity as temporal dynamics.}
-The cut operator presents the Stokes identity as temporal dynamics. A null bounds its unspooled infinity of nulls and returns to null. This completed return is the monon cycle:
-\begin{equation}
-\mathrm{monon}(x)=\operatorname{cycle}(x\succ x=x).
+\mathrm{Monon}(x)=\operatorname{cycle}_{\mathsf H_3}(x\succ x=x).
 \label{eq:monon-cycle}
 \end{equation}
-The monon is the first completed beat of the cut operator. It is the primitive completion marker of A\(\Omega\)D return dynamics.
+Its phase-bearing step count is the number of committed atomic traversals,
+excluding hinge dwell, certificate wrapping and replay:
+\begin{equation}
+m(C):=\#\{\text{committed phase-bearing traversals in }\Gamma_C\}\ge2.
+\label{eq:closure-phase-step-count}
+\end{equation}
+At least one outbound and one return traversal are required; further traversals
+may precede the first certified return. Completion contributes one complete
+closure-phase cycle:
+\begin{equation}
+\Delta\Phi(C)=1_C.
+\label{eq:closure-phase}
+\end{equation}
+The accessor \(\Phi\) counts this completion once, including both reflected
+legs. Dwell, replay and further traversals within the same first return add no
+cycle. The oriented ancestral trace remains retained under either the isotropic
+or anisotropic model in \secref{subsec:q4-hamming-ternary-kernel}.
 
-\paragraph{Simultaneous presentation.}
-The null potential is symmetric in totality. The cut operator unspools that symmetry into temporal asymmetry. Motion is the rebalancing of the unspooled asymmetry toward symmetric closure. The rebalancing has no terminal global end because the null remains simultaneously symmetric while cut-running continues. Local completion is the monon beat: null-to-unspooled-boundary-to-null return.
+\paragraph{Symmetry.}
+\begin{equation}
+\operatorname{Close}(C)=1\;\not\Rightarrow\;\operatorname{Isotropic}(C).
+\label{eq:closure-not-isotropy}
+\end{equation}
+Isotropy refers to a named support, model and relabelling action. Cancellation
+of aggregate values preserves the contributing oriented histories. Neither
+symmetry nor anisotropy changes \eqref{eq:closure-phase}.
 
-\paragraph{Inheritance.}
-Each occurrence of \(x\) inherits the same primitive presentation:
-\[
-x\mapsto (x\succ x=x).
-\]
-Thus
-\[
-x
-\Rightarrow (x\succ x=x)
-\Rightarrow ((x\succ x=x)\succ(x\succ x=x)=(x\succ x=x))
-\Rightarrow \cdots.
-\]
-The cut begets a cut because every presented occurrence can present the same simultaneous identity and running relation.
+\subsection{Advance and closure memory}
+\label{subsec:crown}
+An admitted successor becomes the next crown through a committed advance:
+\begin{equation}
+\operatorname{Adv}_k(x_k^0)=x_{k+1}^-,\qquad
+\operatorname{Adv}_k(h_k^+)=x_{k+1}^0,\qquad h_k^+\in\mathcal H_k^+.
+\label{eq:crown-advance}
+\end{equation}
+Advance carries the selected member into the next crown. A later
+lineage-bound return can re-crown the retained start:
+\begin{equation}
+\operatorname{Crown}(\mathsf H_3^{\mathrm{role}}(k+L))
+\sim_{B,i,\mathcal W_C}\operatorname{Crown}(\mathsf H_3^{\mathrm{role}}(k)),\qquad L>0.
+\label{eq:closure-memory}
+\end{equation}
+Open advance is a continuation; the further return witness establishes closure.
+Solitonic recurrence names preservation of certified relational form through
+the stated advance and reclosure, with the ancestry and scope map retained.
 
-\subsection{Branch / hinge / branch}\label{subsec:branch-hinge-branch}
-\begin{definition}[Branch / hinge / branch]
-A retained cut-running presentation distinguishes branch, hinge, and branch. The branches are the two retained occurrences exposed by the cut-running relation. The hinge is the middle occurrence through which return, dwell, pinning, reseating, or closure can occur.
-\end{definition}
+\subsection{Return identity, beat and cadence}
+Give each completed return immutable identity
+\begin{equation}
+\operatorname{id}_{\mathrm{return}}(C)=
+(B,r,i,\operatorname{id}(e_0),\operatorname{id}(e_n),
+\operatorname{digest}\Gamma_C).
+\label{eq:return-identity}
+\end{equation}
+Wrapping, observation and replay retain this identity. Each distinct compatible
+certified reclosure contributes a beat. For completions
+\(k_0<k_1<\cdots<k_m\), define
+\begin{equation}
+\mathrm{bip}_i(\omega)=
+\#\{C_{i,j}:j\ge1,\ k_j\in\omega,\ \operatorname{id}_{\mathrm{return}}(C_{i,j})
+\text{ is distinct}\},\qquad
+\operatorname{Sep}_{i,j}=k_{j+1}-k_j>0.
+\label{eq:beat-reclosure}
+\end{equation}
+The initial closure supplies the origin of this reclosure count. At an integer
+cut \(k\), the cumulative accessor counts distinct committed return identities:
+\begin{equation}
+\begin{aligned}
+N_i^C(k)&=\#\{\operatorname{id}_{\mathrm{return}}(C_{i,j}):k_j\le k\},\\
+\Phi_i(k)&=N_i^C(k)1_C,\qquad
+\mathrm{bip}^{\le}_i(k)=\max(N_i^C(k)-1,0).
+\end{aligned}
+\label{eq:cumulative-closure-counts}
+\end{equation}
+Thus \(N\ge1\) completed closures give \(N\) complete closure-phase cycles and \(N-1\)
+reclosure beats from the lineage origin. For an arbitrary native window
+\(\omega=(u,v]\), \(u,v\in\mathbb Z\), \(u<v\), the same distinct-return count gives
+\begin{equation}
+\Phi_i(v)-\Phi_i(u)=
+\bigl(\mathrm{bip}_i((u,v])+\mathbf1_{\{u<k_0\le v\}}\bigr)1_C.
+\label{eq:closure-phase-window}
+\end{equation}
+The origin contributes the indicator; later windows do not subtract another
+initial closure. The exact ordered separations form cadence \(\operatorname{Cad}_i=(\operatorname{Sep}_{i,j})_j\).
+It may be nonuniform; RD support and harmonic display period are separate
+quantities. Recurrence is not inferred from a repeated value alone.
 
-\subsubsection{Hinge triad}\label{subsec:hinge-triad}
-\begin{definition}[Hinge triad]
-The branch/hinge/branch support is the hinge triad
-\[
-\mathsf H_3=(x^-,\mu,x^+).
-\]
-Here \(x^-\) is the past branch, \(\mu\) is the hinge / dwell / pivot, and \(x^+\) is the future branch. Its local ternary support is
-\[
-\{-1,0,+1\}.
-\]
-\end{definition}
+\paragraph{Recurring wave.}
+For a compatible certified closure/current lineage with distinct reclosure,
+fix immutable wave identity and its growing admitted history:
+\begin{equation}
+W^{\mathrm{id}}_{B,i}=(B,r,i,K_i^{\mathrm{id}},
+\operatorname{id}_{\mathrm{return}}(C_{i,0})),\qquad
+W_{B,i}|_k=(W^{\mathrm{id}}_{B,i},(C_{i,j})_{k_j\le k},\operatorname{Cad}_i|_k).
+\label{eq:wave-identity}
+\end{equation}
+Compatibility preserves the origin's ancestor at fixed scope and representation;
+a changed representation requires an identity-preserving scope map. At least two
+compatible distinct completions admit the recurring wave. Field organization
+then resolves those identities.
 
-\subsubsection{Crown}\label{subsec:crown}
-Use the direct temporal terms
-\[
-x^- = \text{past},
-\qquad
-x^0 = \text{present},
-\qquad
-x^+ = \text{future}.
-\]
-The temporal dynamic is
-\[
-x^-\to x^0\to x^+.
-\]
-The field holds past, present, and future in symmetric totality. The cut crowns the present:
-\[
-\operatorname{Crown}(x)=x^0.
-\]
-Temporal dynamics is the asymmetric unspooling of this symmetric totality.
+\paragraph{Native running and standing classifications.}
+\phantomsection\label{eq:native-running-standing}
+A running-wave classification retains an oriented recurring current lineage;
+recurring oriented Duon current is the inherited running-Duon construction.
+A standing organization binds compatible oppositely oriented recurrent
+lineages under a declared coupling and balance condition. Zero aggregate
+current by itself supplies neither recurrence nor that coupling witness.
+Both classifications retain their individual return identities and histories;
+the character and running/standing coordinates in \eqref{eq:fourier-transform}
+and \eqref{eq:fourier-running-standing} represent these admitted organizations.
 
-\paragraph{Retained ternary support.}
-When branch/hinge/branch is retained locally, its coarse support is
-\[
-\{-1,0,+1\}.
-\]
-The value \(0\) is hinge, dwell, or pivot. The values \(-1\) and \(+1\) are branch orientations. For \(k\) unconstrained retained positions, the retained base-3 capacity is
-\[
-C_3(k)=\log_3(3^k)=k.
-\]
-This capacity is carried by duon current and by entropic duon current when unresolved return burden is retained.
+\paragraph{Continuation.}
+Hinge saturation restricts further same-resolution dwell. A later hinge and
+an admitted continuation may follow; only a certified retained-start return
+adds closure, and only a distinct compatible reclosure adds recurrence.
+\paragraph{Localized recurrence.}
+\label{subsec:localized-wavelet}
+A native wavelet is a localized segment of an already admitted recurrent wave:
+it retains that wave's identity, its adjacent certified return events and their
+positive local separation. Localization selects a segment of retained recurrence;
+it does not promote an isolated monon or an arbitrary scalar pulse into a wave.
+Its later harmonic representation, when used, binds that same finite segment.
+\paragraph{Falsification of wave admission.}
+An isolated closure, a replayed certificate, an unbound lineage, or an
+unrealized successor horizon cannot satisfy \eqref{eq:wave-identity}.
 
-\subsection{Fractal tesseract}\label{subsec:fractal-tesseract}
-\subsubsection{Recursive support}\label{subsec:fractal-recursive-support}
-The fractal tesseract is the self-similar branch/hinge/branch topology of recursive cut-running. Recursive cut-running preserves branch, hinge, and branch across nested presentations. Each retained occurrence inherits \(x\succ x=x\) and can run the cut again. The result is recursive incidence, return, and enclosure.
-
-\subsubsection{Jitter}\label{subsec:fractal-jitter}
-Jitter is unresolved successor movement inside the fractal tesseract topology. Before a carried current has seated, the next branch/hinge/branch continuation can remain unsettled. Jitter is the local motion of successor possibility before return stabilizes.
-
-\subsubsection{Four-edge x witness}\label{subsec:four-edge-x-witness}
-A retained \(x\)-occurrence in the finite \(\Qfour\) witness is a vertex
-\[
-\epsilon=(\epsilon_1,\epsilon_2,\epsilon_3,\epsilon_4)\in\{0,1\}^4.
-\]
-The four active dion positions supply the four tesseract-edge directions:
-\[
-\epsilon \leftrightarrow \epsilon\oplus e_i,
-\qquad i=1,2,3,4.
-\]
-Thus every retained \(x\)-vertex in the local witness has
-\[
-\deg_{\Qfour}(\epsilon)=4.
-\]
-The monon hinge \(\mu\) remains the ternary fibre over that four-edge support.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.96\linewidth]{figures_jpg/null_four_edge_x_witness.png}
-\caption{Null-to-tesseract four-edge witness.}
-\label{fig:null-four-edge-x-witness}
-\end{figure}
-
-\subsubsection{Finite Q4 witness}\label{subsec:finite-q4-witness}
-A finite \(\Qfour\) chart is a local witness of the fractal tesseract topology. A resolved duon has four active dion positions and one carried monon hinge. Partial unspooling of the four active positions gives \(\{0,1\}^4\). Hamming-1 adjacency gives \(\Qfour\). The middle hinge remains the ternary fibre.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.96\linewidth]{figures_jpg/fractal_tesseract_q4_witness.jpg}
-\caption{Fractal tesseract support with finite \(\Qfour\) witness.}
-\label{fig:v39-fractal-tesseract-q4-witness}
-\end{figure}
-
-
-
-\subsubsection{Hamming--1 graph and ternary kernel}\label{subsec:q4-hamming-ternary-kernel}
+\subsection{Reflected-leg comparison}
+\label{subsec:reflected-leg-phase}
 \paragraph{Setup.}
-The finite tesseract support is the Hamming--1 graph
-\[
-V(Q_4)=\{0,1\}^4,
-\qquad
-E(Q_4)=\{(x,y):d_H(x,y)=1\},
-\]
-where
-\[
-d_H(x,y)=\#\{k:x_k\ne y_k\}.
-\]
-
-\paragraph{Definition.}
-A local tick/click state on an oriented edge carries the ternary fibre
-\[
-\sigma_t(e)\in\{-1,0,+1\},
-\]
-with \(+1\) out-bound, \(0\) hinge / dwell, and \(-1\) return-bound.
-
-\paragraph{Choice.}
-A max-capacity-3 Markov kernel on the declared scope is
-\[
-P_B((e',\sigma')\mid(e,\sigma))\ge0,
-\qquad
-\sum_{(e',\sigma')}P_B((e',\sigma')\mid(e,\sigma))=1,
-\]
-with
-\[
-P_B((e',\sigma')\mid(e,\sigma))=0
-\quad\text{outside admissible Hamming--1 continuations},
-\qquad
-\sigma'\in\{-1,0,+1\}.
-\]
-The isotropic choice is
-\[
-P_B^{\mathrm{iso}}((e',\sigma')\mid(e,\sigma))=
-\frac{1}{N_B(e,\sigma)}
-\]
-over admissible successors. The anisotropic choice is
-\[
-P_B^{\mathrm{ani}}((e',\sigma')\mid(e,\sigma))=
-\frac{w_B(e',\sigma')}
-{\sum_{(a,\vartheta)\in\operatorname{Adm}_B(e,\sigma)}w_B(a,\vartheta)},
-\]
-where the weights may depend on \(\Delta\chi^{\mathrm{lag}}_{e'}(B)\),
-\(i_{e'}(B)\), and \(R^{\mathrm{asym}}_{e'}(B)\).
-
-
-\paragraph{Four-edge implementation.}
-At a vertex of \(Q_4\), the current oriented edge may be treated as the ancestor edge of the local tick/click step.  The four Hamming--1 incident edge slots consist of that retained ancestor slot together with up to three successor slots.  The successor pool carries the ternary fibre \(\{-1,0,+1\}\): return branch, hinge/dwell, and outbound branch.  The isotropic kernel assigns equal weight to admissible successor states; the anisotropic kernel reweights the same admissible states by the declared boundary data.  When the hinge state reaches capacity on the declared scope, same-resolution dwell is unavailable and the continuation is branch/hinge/branch through the remaining admitted branch states.
-
-The hinge-continuation family is
+Declare a uniform atomic-event support comparison, with formal quantum
+\(h\) in the ordered additive domain \(\mathcal L=\mathbb N_0 h,\ h>0\).
+Write \(\Delta\phi_{\rm step}:=h\) for this declared phase-bearing step
+quantum. It is not a Fourier coefficient phase or a normalized circle
+coordinate.
+A target closure and a primitive reference are already certified at the same
+scope and scale. Their reflection witnesses bind the outbound events, committed
+hinge/turnaround, returning events and retained target start. Both legs are
+nonempty; an arbitrary cut of a word is not that witness. Count each atomic
+traversal once, excluding hinge dwell and replay:
 \begin{equation}
-\operatorname{Adm}^{0}_{B}(e,\sigma)
-=
-\{(e',0)\in\operatorname{Adm}_{B}(e,\sigma)\}.
-\label{eq:hinge-admissible-family}
+\delta\phi^{\rightarrow}=n_{\rightarrow}h,\qquad
+\delta\phi^{\leftarrow}=n_{\leftarrow}h,\qquad
+n_{\rightarrow},n_{\leftarrow}\in\mathbb Z_{\ge1}.
+\label{eq:directed-leg-operands}
 \end{equation}
-Hinge saturation is
+The reference is a certified two-edge retained-start return with mandatory
+hinge. Its support is \(2h\). Fix the comparison embedding before examining
+the target:
 \begin{equation}
-\operatorname{Adm}^{0}_{B}(e,\sigma)=\varnothing,
-\label{eq:hinge-saturation}
+\iota_{\mathrm{ref}}:\mathbb N_0 1_C\longrightarrow\mathcal L,
+\qquad \iota_{\mathrm{ref}}(n1_C)=2nh.
+\label{eq:phase-unit-embedding}
 \end{equation}
-or, in the weighted kernel,
+This embedding compares two distinct domains: closure count and declared
+event support. Uniform weighting and this reference are model choices.
+
+\paragraph{Derivation.}
+Each committed leg has at least one atomic traversal, so addition in
+\(\mathcal L\) gives
 \begin{equation}
-\sum_{(e',0)\in\operatorname{Adm}_{B}(e,\sigma)}w_B(e',0)=0.
-\label{eq:hinge-saturation-weighted}
+\delta\phi^{\rightarrow}+\delta\phi^{\leftarrow}
+=(n_{\rightarrow}+n_{\leftarrow})h
+\ge2\Delta\phi_{\rm step}=2h=\iota_{\mathrm{ref}}(1_C).
+\label{eq:reflected-leg-bound}
 \end{equation}
-When \(\operatorname{Adm}^{0}_{B}(e,\sigma)=\varnothing\), the continuation is branch-oriented,
+Thus, with the comparison embedding stated locally, the minimal native
+shorthand is
 \begin{equation}
-\sigma'\in\{-1,+1\},
-\label{eq:hinge-saturation-branch-continuation}
+2\Delta\phi_{\rm step}\ge1_C.
+\label{eq:minimal-phase-quantum-bound}
 \end{equation}
-until reseating, shedding, pass-through, or coordinate lift. Jitter is unresolved successor motion before seating; hinge saturation removes same-resolution dwell and forces branch-oriented continuation.
+This is a necessary phase-support conjunct of the reflected closure
+certificate, never sufficient closure admission. Its other premises remain
+the retained-start return, explicit event convention, lineage, reflection
+witness, commitment order and certificate integrity.
 
-\aodliteraturenote{Hypercube/Hamming--1 support: Weisstein~\cite{weissteinHypercubeGraph}.}
-\aodliteraturenote{Adjacency-walk counts: MIT OCW~\cite{mitAdjacencyWalks}, Duncan~\cite{duncanAdjacencyWalks}.}
-\aodliteraturenote{Graph random walks and Markov kernels: Wisconsin~\cite{wisconsinRandomWalks}, Norris~\cite{norrisMarkov}, Levin--Peres--Wilmer~\cite{levinPeresWilmer}, Lawler--Limic~\cite{lawlerLimic}.}
-\aodliteraturenote{Dyck/Catalan paths: Stanley~\cite{stanleyCatalan}, Flajolet--Sedgewick~\cite{flajoletSedgewick}.}
-
-\aodremark{The \(Q_4\) chart is a finite Hamming--1 graph. The kernel supplies admissible tick/click histories; it does not replace the scoped flux calculation.}
-
-
-\paragraph{Definition.}
-A tesseract-admissible boundary is a retained shell cut through the finite Hamming--1 support:
+\paragraph{Specialization.}
+Under declared reflected-path symmetry and equal operands,
 \begin{equation}
-\partial_TF\subseteq E(\Qfour)\times\{-1,0,+1\}.
-\label{eq:tesseract-admissible-boundary}
+\delta\phi^{\rightarrow}=\delta\phi^{\leftarrow}=\delta\phi
+\quad\Longrightarrow\quad
+\delta\phi^{\rightarrow}+\delta\phi^{\leftarrow}=2\delta\phi
+\ge\iota_{\mathrm{ref}}(1_C).
+\label{eq:equal-leg-factorization}
 \end{equation}
-The boundary/window scope is
-\begin{equation}
-B=(\partial_TF,\omega).
-\label{eq:tesseract-boundary-window}
-\end{equation}
-A calculation may record values computed on \(B\). The boundary is fixed by the retained tesseract-admissible shell cut.
+An asymmetric \(1+3\) trace has four phase-bearing steps and one complete
+closure-phase cycle. Its sum
+equals neither \(2h\) nor \(6h\), the doubled individual legs. In this uniform
+model each doubled leg may separately satisfy the lower bound; equality is
+required for factorization of the sum into one common operand. With the
+embedding understood, \(2\delta\phi\ge1_C\) denotes this equal-whole-leg
+specialization. It is distinct from the minimal-step shorthand in
+\eqref{eq:minimal-phase-quantum-bound}.
 
-\aodprovenance{\eqnref{eq:null-presentation}, \eqnref{eq:cut-running-form}, \eqnref{eq:monon-cycle}, \appref{app:curling-curls}.}
+\paragraph{Falsification.}
+A missing or misbound reflection witness, signed branch cancellation used as
+support, incompatible reference scale, nonminimal reference, or unequal-leg
+factorization violates the derivation. Passing the phase-support bound while
+the endpoint remains open, the lineage is unbound, or the witness/certificate
+is absent does not admit closure. The comparison supplies no duration,
+stochastic weight or flux.
+
+\paragraph{Provenance.}
+Equations \eqref{eq:atomic-h1}, \eqref{eq:hinge-grammar},
+\eqref{eq:closure-certificate}, and the declared comparison
+\eqref{eq:phase-unit-embedding}. The Manual executes symmetric and asymmetric
+lineage-bound cases with separate phase and support counts.

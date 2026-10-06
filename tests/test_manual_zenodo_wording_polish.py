@@ -131,7 +131,8 @@ def test_r71_final_af_lexical_table_pass():
     assert 'route / slosh / pending' not in field
     assert 'no-override internal selection rule' not in rest
     assert 'candidate-identity override' not in rest
-    assert 'Field-support properties are listed in the main note, App.~J' in rest
+    assert 'Field-support properties are defined in Main Appendix~J' in rest
+    assert r'\maintable{main:tab:ao-field-fractal-properties}' in rest
     assert 'Field-support properties are not repeated here' not in rest
     assert 'read-only unless' not in rest
     assert 'Status' not in solar.split('\\subsection{Observable-map comparison table}', 1)[1].split('\\end{table}', 1)[0]

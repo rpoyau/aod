@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "request": "PR39 full-review repairs F01\u2013F06",
+  "baseline_commit": "5d3418ea7a26fa8211740841cbd61dbac128ff06",
+  "baseline_tree": "fa78c2f7ac578fd175637e8863972513339afe17",
+  "scope": "Six reviewed repairs; existing formulas, labels, models, calibration and reference repositories retained. F05 adds only the existing completed-return vertex admission guard.",
+  "repairs": {
+    "F01": "Current and legacy typed Main destinations; RG/type/namespace/freshness guards retained.",
+    "F02": "Restore the Main Appendix I appref.",
+    "F03": "Restore the inherited unconstrained ternary-position input role of k.",
+    "F04": "Bind supplied finite cycle contributions and the existing recurrent pair domain.",
+    "F05": "Reject a closed state at its exact certified return cut when its vertex differs; pending/later states unchanged.",
+    "F06": "Run the existing actual-build scientific audit before release packaging; add executed/uninvoked display controls."
+  },
+  "provenance_rebindings": [
+    {
+      "path": "evidence/m2/AWARENESS_ACTIVE_CAUSAL_SPEC.json",
+      "before_sha256": "752034a05fde792c4a8927ae9f30b86f8c453f6427a888e41c0cb448a7333171",
+      "after_sha256": "6ac09d69784b295ef7daeefe3ebe64faf5e7a7bccce142d39ad6d77922872169"
+    },
+    {
+      "path": "manual/data/m2/awareness_cases.jsonl",
+      "before_sha256": "32df359db40d3b15decd33594c58353f32f6ae129a7745ed7eab9a5ada316e58",
+      "after_sha256": "6ac3bee0475813cc9ea3513c088d43be0e7b6d54b5c9484ccee60fd2fc7de35a"
+    },
+    {
+      "path": "manual/preamble.tex",
+      "before_sha256": "71b8fb0801a5ed6ef4dceede6082134bacf94459a7a333d64267b381581f448f",
+      "after_sha256": "3f9700a9ed234b7402fae87d5de11f7d246e0e3d01d62b2c5e1ca0f43e19a3f1"
+    },
+    {
+      "path": "manual/scripts/aod_awareness.py",
+      "before_sha256": "23d2cc5606033d5ea54018c51f6dc0e3b5b63444b3f1e87334fc240cc0871427",
+      "after_sha256": "fa5653fa80400af24cc5eaec3ee65818bb7d817b0eccc25390b54fb29a06a03c"
+    },
+    {
+      "path": "tests/test_active_scientific_sources.py",
+      "before_sha256": "3847bb9808b8a614600fdda7af11b0052f5dc228f71ed9b42f7a611483bc362c",
+      "after_sha256": "8513683f10a641139840dfef6419ddc8d8e55c6a0743119bc762e8832a00bb7f"
+    },
+    {
+      "path": "tests/test_ci_release_builder.py",
+      "before_sha256": "a153d65100b41d40a3812675d8ef2a608dc1d4d62372a3e26b63b4a16877d25a",
+      "after_sha256": "f6a25acdcea0ebca21ce0d28d4f729a4e4ff700707dd5cb2dcfa89c3faf56a72"
+    },
+    {
+      "path": "tests/test_native_awareness.py",
+      "before_sha256": "bdfb12ac8000fee9a176fd7f82d2191f62981d90f8cd4d0940f62026fe3b0358",
+      "after_sha256": "a80240a90f9e955f12993b2ed46962193cecfbdda2356eef91e13414f07a4ae3"
+    }
+  ],
+  "fixture_metadata": "47 source_sha256 fields and the operative engine binding refreshed; all fixture inputs, expected verdicts and expected_exact values unchanged.",
+  "preservation": "All 81 canonical formula bindings, 43 owners, 67 dependency edges and 163 protected path names retained. All other engine scripts, inherited assets, abstract, epitaph and appendix identities A\u2013J unchanged.",
+  "verification_commands": [
+    "python3 -m pytest -q -p no:cacheprovider",
+    "python3 manual/scripts/aod_native_closure_wave.py --check-data",
+    "python3 manual/scripts/aod_awareness.py --check-data",
+    "python3 scripts/audit_scientific_sources.py . --build-root .",
+    "python3 scripts/sync_zenodo_references.py --check"
+  ]
+}

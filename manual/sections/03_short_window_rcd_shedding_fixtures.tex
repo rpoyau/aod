@@ -6,7 +6,7 @@
 
 \subsection{Dimonhexon cross-return fixture}\label{manual:cross-return:dimonhexon-slit}
 \aodnoteblock{Scope}{This subsection is a boundary-restriction test. A stable Dimonhexon closure enters a slit boundary, becomes a duon-cycle handoff across the restricted boundary/window, and recloses into target bins.}
-\aodprovenance{main:subsec:fractal-field-ring-gate; main:eq:sadar-operator-cycle; manual \secref{manual:cross-return:dimonhexon-slit}.}
+\aodprovenance{\mainsection{main:subsec:fractal-field-ring-gate}; \mainequation{main:eq:sadar-operator-cycle}; manual \secref{manual:cross-return:dimonhexon-slit}.}
 
 Declare the slit scope
 \[
@@ -182,7 +182,7 @@ $\delta_{3,k}(T^\times,O)$ & exact ternary signed residual tally\\
 \end{table}
 
 \aodnoteblock{Status}{Released A\(\leftrightarrow\Omega\)-internal field-ring fixture.}
-\aodprovenance{main:subsec:fractal-field-ring-gate; main:eq:b-scoped-flux; main:eq:frg-cross-return-contribution; manual \secref{manual:cross-return:dimonhexon-slit}.}
+\aodprovenance{\mainsection{main:subsec:fractal-field-ring-gate}; \mainequation{main:eq:b-scoped-flux}; \mainequation{main:eq:frg-cross-return-contribution}; manual \secref{manual:cross-return:dimonhexon-slit}.}
 \aodremark{The independent gate-sum value records independent reclosure. The recurrent ring value records redistributed returned-current coupling.}
 
 \subsection{Short-window fixture scope}\label{manual:short-window:scope}
@@ -194,6 +194,12 @@ Declare the short-window fixture scope
 \qquad
 B_{\mathrm{sw}}=(\partial F_{\mathrm{sw}},\omega_{\mathrm{sw}}).
 \]
+
+\paragraph{Duration-domain declaration.}
+These reductions declare \(R^{\mathrm{asym}}=\mathrm{id}\) and the additive native
+count realization, so \(\rho^D=RD\) in this specialization. The window is a
+count in that same domain; \(\rho^D_\omega=\min(\rho^D,|\omega|)\) is scalar
+participation. Neither support RD nor the coupled RCD object is clipped.
 The baseline Dimonon support used below is
 \[
 \Pi(1{:}2)=2^1+2=4,
@@ -333,5 +339,5 @@ A surplus fixture must declare where the positive \(X_{\mathrm{shedding}}\) is r
 
 \subsection{Audit hooks}\label{manual:short-window:audit-hooks}
 \aodnoteblock{Audit}{A short-window fixture records \(\rho^D_\omega\), \(Q^D\), \(\Delta^{\mathrm{close}}\), and \(X_{\mathrm{shedding}}\) separately. Sheddic surplus is positive only, and every positive \(X_{\mathrm{shedding}}\) carries a declared sheddic path.}
-\aodprovenance{main:eq:window-clipped-rho; main:eq:burden-overhang; main:eq:sheddic-path; manual \secref{manual:short-window:scope}.}
+\aodprovenance{\mainequation{main:eq:window-clipped-rho}; \mainequation{main:eq:burden-overhang}; \mainequation{main:eq:sheddic-path}; manual \secref{manual:short-window:scope}.}
 \aodremark{This section is A\(\Omega\)-internal. It prepares the mechanics used by rest-energy records and boundary-current records without adding an external comparison target.}

@@ -1,0 +1,1155 @@
+{
+  "schema_version": 1,
+  "reviewed_tree": "a99a824ebc2e9a51c39bbc405829423933777774",
+  "scope": "Equivalent ontology consolidation; definitions, proof statements and immutable engine inputs",
+  "ownership": [
+    {
+      "concept": "Null sameness",
+      "path": "sections/03_afc_basis.tex",
+      "anchors": [
+        "eq:null-axiom"
+      ],
+      "first_declarations": [
+        "eq:null-axiom"
+      ],
+      "depends_on": []
+    },
+    {
+      "concept": "First finite anchor",
+      "path": "sections/03_afc_basis.tex",
+      "anchors": [
+        "eq:first-anchor"
+      ],
+      "first_declarations": [
+        "eq:first-anchor"
+      ],
+      "depends_on": [
+        "Null sameness"
+      ]
+    },
+    {
+      "concept": "Branch hinge counterbranch",
+      "path": "sections/03_afc_basis.tex",
+      "anchors": [
+        "eq:hinge-grammar"
+      ],
+      "first_declarations": [
+        "eq:hinge-grammar"
+      ],
+      "depends_on": [
+        "First finite anchor"
+      ]
+    },
+    {
+      "concept": "Oriented reflection",
+      "path": "sections/03_afc_basis.tex",
+      "anchors": [
+        "eq:hinge-reflection-involution"
+      ],
+      "first_declarations": [
+        "eq:hinge-reflection-involution"
+      ],
+      "depends_on": [
+        "Branch hinge counterbranch"
+      ]
+    },
+    {
+      "concept": "Crown roles and successor horizon",
+      "path": "sections/03_afc_basis.tex",
+      "anchors": [
+        "eq:hinge-triad"
+      ],
+      "first_declarations": [
+        "eq:hinge-triad"
+      ],
+      "depends_on": [
+        "Branch hinge counterbranch"
+      ]
+    },
+    {
+      "concept": "Faithful atomic H1 carrier",
+      "path": "sections/03_afc_basis.tex",
+      "anchors": [
+        "eq:atomic-h1"
+      ],
+      "first_declarations": [
+        "eq:atomic-h1"
+      ],
+      "depends_on": [
+        "Branch hinge counterbranch"
+      ]
+    },
+    {
+      "concept": "Probability-one atomic support",
+      "path": "sections/03_afc_basis.tex",
+      "anchors": [
+        "eq:atomic-probability-one"
+      ],
+      "first_declarations": [
+        "eq:atomic-probability-one"
+      ],
+      "depends_on": [
+        "Faithful atomic H1 carrier"
+      ]
+    },
+    {
+      "concept": "Scope and retained boundary",
+      "path": "sections/03_afc_basis.tex",
+      "anchors": [
+        "eq:tesseract-admissible-boundary"
+      ],
+      "first_declarations": [
+        "eq:tesseract-admissible-boundary"
+      ],
+      "depends_on": [
+        "Faithful atomic H1 carrier"
+      ]
+    },
+    {
+      "concept": "Closure trace and certificate",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "anchors": [
+        "eq:closure-trace",
+        "eq:closure-certificate"
+      ],
+      "first_declarations": [
+        "eq:closure-trace",
+        "eq:closure-certificate"
+      ],
+      "depends_on": [
+        "Branch hinge counterbranch",
+        "Faithful atomic H1 carrier",
+        "Scope and retained boundary"
+      ]
+    },
+    {
+      "concept": "Primitive monon",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "anchors": [
+        "eq:monon-cycle"
+      ],
+      "first_declarations": [
+        "eq:monon-cycle"
+      ],
+      "depends_on": [
+        "Closure trace and certificate"
+      ]
+    },
+    {
+      "concept": "Phase-bearing step count",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "anchors": [
+        "eq:closure-phase-step-count"
+      ],
+      "first_declarations": [
+        "eq:closure-phase-step-count"
+      ],
+      "depends_on": [
+        "Closure trace and certificate"
+      ]
+    },
+    {
+      "concept": "Completed closure-cycle count",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "anchors": [
+        "eq:closure-phase"
+      ],
+      "first_declarations": [
+        "eq:closure-phase"
+      ],
+      "depends_on": [
+        "Closure trace and certificate",
+        "Phase-bearing step count"
+      ]
+    },
+    {
+      "concept": "Closure versus model isotropy",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "anchors": [
+        "eq:closure-not-isotropy"
+      ],
+      "first_declarations": [
+        "eq:closure-not-isotropy"
+      ],
+      "depends_on": [
+        "Closure trace and certificate"
+      ]
+    },
+    {
+      "concept": "Committed crown advance and memory",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "anchors": [
+        "eq:crown-advance",
+        "eq:closure-memory"
+      ],
+      "first_declarations": [
+        "eq:crown-advance",
+        "eq:closure-memory"
+      ],
+      "depends_on": [
+        "Crown roles and successor horizon",
+        "Closure trace and certificate"
+      ]
+    },
+    {
+      "concept": "Return identity and reclosure beat",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "anchors": [
+        "eq:return-identity",
+        "eq:beat-reclosure"
+      ],
+      "first_declarations": [
+        "eq:return-identity",
+        "eq:beat-reclosure"
+      ],
+      "depends_on": [
+        "Closure trace and certificate"
+      ]
+    },
+    {
+      "concept": "Cumulative and window counts",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "anchors": [
+        "eq:cumulative-closure-counts",
+        "eq:closure-phase-window"
+      ],
+      "first_declarations": [
+        "eq:cumulative-closure-counts",
+        "eq:closure-phase-window"
+      ],
+      "depends_on": [
+        "Completed closure-cycle count",
+        "Return identity and reclosure beat"
+      ]
+    },
+    {
+      "concept": "Recurring wave identity",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "anchors": [
+        "eq:wave-identity"
+      ],
+      "first_declarations": [
+        "eq:wave-identity"
+      ],
+      "depends_on": [
+        "Return identity and reclosure beat",
+        "Cumulative and window counts"
+      ]
+    },
+    {
+      "concept": "Reflected comparison and embedding",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "anchors": [
+        "eq:directed-leg-operands",
+        "eq:phase-unit-embedding",
+        "eq:reflected-leg-bound",
+        "eq:minimal-phase-quantum-bound",
+        "eq:equal-leg-factorization"
+      ],
+      "first_declarations": [
+        "eq:directed-leg-operands",
+        "eq:phase-unit-embedding",
+        "eq:reflected-leg-bound",
+        "eq:minimal-phase-quantum-bound",
+        "eq:equal-leg-factorization"
+      ],
+      "depends_on": [
+        "Closure trace and certificate",
+        "Phase-bearing step count",
+        "Completed closure-cycle count"
+      ]
+    },
+    {
+      "concept": "Distinct motif grammar",
+      "path": "sections/05_curl_closure_duon_current.tex",
+      "anchors": [
+        "eq:motif-grammar"
+      ],
+      "first_declarations": [
+        "subsec:dion",
+        "subsec:duon",
+        "eq:duon-current"
+      ],
+      "depends_on": [
+        "Primitive monon",
+        "Branch hinge counterbranch"
+      ]
+    },
+    {
+      "concept": "Reflection-duration support",
+      "path": "sections/05_curl_closure_duon_current.tex",
+      "anchors": [
+        "eq:branch-hinge-rd"
+      ],
+      "first_declarations": [
+        "eq:branch-hinge-rd"
+      ],
+      "depends_on": [
+        "Distinct motif grammar"
+      ]
+    },
+    {
+      "concept": "Scoped field organization and lineage separation",
+      "path": "sections/05_curl_closure_duon_current.tex",
+      "anchors": [
+        "eq:field-organization",
+        "eq:retained-lineage-field-separation"
+      ],
+      "first_declarations": [
+        "eq:field-organization",
+        "eq:retained-lineage-field-separation"
+      ],
+      "depends_on": [
+        "Recurring wave identity"
+      ]
+    },
+    {
+      "concept": "Folded outer construction and exposure",
+      "path": "sections/05_curl_closure_duon_current.tex",
+      "anchors": [
+        "eq:fold-outer-closure",
+        "eq:expose-inner-lineage"
+      ],
+      "first_declarations": [
+        "subsec:field-as-monon-compression"
+      ],
+      "depends_on": [
+        "Closure trace and certificate",
+        "Scoped field organization and lineage separation"
+      ]
+    },
+    {
+      "concept": "Cycle-valued compression",
+      "path": "sections/05_curl_closure_duon_current.tex",
+      "anchors": [
+        "eq:cycle-valued-field-compression"
+      ],
+      "first_declarations": [
+        "eq:cycle-valued-field-compression"
+      ],
+      "depends_on": [
+        "Folded outer construction and exposure"
+      ]
+    },
+    {
+      "concept": "Complete wave and coupling state",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "anchors": [
+        "eq:complete-wave-state",
+        "eq:complete-coupling-state"
+      ],
+      "first_declarations": [
+        "eq:complete-wave-state",
+        "eq:complete-coupling-state"
+      ],
+      "depends_on": [
+        "Recurring wave identity",
+        "Scoped field organization and lineage separation"
+      ]
+    },
+    {
+      "concept": "Declared update and coupling trace",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "anchors": [
+        "eq:wave-update-trace",
+        "eq:coupling-trace"
+      ],
+      "first_declarations": [
+        "eq:wave-update-trace",
+        "eq:coupling-trace"
+      ],
+      "depends_on": [
+        "Complete wave and coupling state"
+      ]
+    },
+    {
+      "concept": "RCD and duration participation",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "anchors": [
+        "eq:rcd-coupling",
+        "eq:rcd-duration-participation",
+        "eq:window-clipped-rho"
+      ],
+      "first_declarations": [
+        "eq:rcd-coupling",
+        "eq:rcd-duration-participation",
+        "eq:window-clipped-rho"
+      ],
+      "depends_on": [
+        "Reflection-duration support",
+        "Declared update and coupling trace"
+      ]
+    },
+    {
+      "concept": "Relational cadence phase lag and time",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "anchors": [
+        "eq:cadence-ratio",
+        "eq:native-comparator",
+        "eq:relational-time"
+      ],
+      "first_declarations": [
+        "eq:cadence-ratio",
+        "eq:native-comparator",
+        "eq:relational-time"
+      ],
+      "depends_on": [
+        "Recurring wave identity",
+        "Declared update and coupling trace",
+        "RCD and duration participation",
+        "Cumulative and window counts"
+      ]
+    },
+    {
+      "concept": "AFC and AOD flux types",
+      "path": "sections/06_field.tex",
+      "anchors": [
+        "eq:flux-types"
+      ],
+      "first_declarations": [
+        "eq:flux-types"
+      ],
+      "depends_on": [
+        "RCD and duration participation"
+      ]
+    },
+    {
+      "concept": "Finite Stokes accounting",
+      "path": "sections/06_field.tex",
+      "anchors": [
+        "eq:b-scoped-divergence",
+        "eq:afc-stokes-used",
+        "eq:b-scoped-stokes"
+      ],
+      "first_declarations": [
+        "eq:b-scoped-divergence",
+        "eq:afc-stokes-used",
+        "eq:b-scoped-stokes"
+      ],
+      "depends_on": [
+        "AFC and AOD flux types"
+      ]
+    },
+    {
+      "concept": "SADAR and later causal update",
+      "path": "sections/06_field.tex",
+      "anchors": [
+        "eq:sadar-operator-cycle",
+        "eq:causal-update"
+      ],
+      "first_declarations": [
+        "eq:sadar-operator-cycle",
+        "eq:causal-update"
+      ],
+      "depends_on": [
+        "AFC and AOD flux types",
+        "Relational cadence phase lag and time"
+      ]
+    },
+    {
+      "concept": "Residual and sheddic routing",
+      "path": "sections/06_field.tex",
+      "anchors": [
+        "eq:closure-residual",
+        "eq:shedding-excess",
+        "eq:shedding-route-partition"
+      ],
+      "first_declarations": [
+        "eq:closure-residual",
+        "eq:shedding-excess",
+        "eq:shedding-route-partition"
+      ],
+      "depends_on": [
+        "SADAR and later causal update"
+      ]
+    },
+    {
+      "concept": "Fusion and chain closure",
+      "path": "sections/06_field.tex",
+      "anchors": [
+        "eq:fusion-closure",
+        "eq:link-closure-ladder"
+      ],
+      "first_declarations": [
+        "eq:fusion-closure",
+        "eq:link-closure-ladder"
+      ],
+      "depends_on": [
+        "Folded outer construction and exposure",
+        "Residual and sheddic routing"
+      ]
+    },
+    {
+      "concept": "FRG construction and value",
+      "path": "sections/06_field.tex",
+      "anchors": [
+        "eq:frg-admission-order",
+        "eq:frg-identity"
+      ],
+      "first_declarations": [
+        "eq:frg-admission-order",
+        "eq:frg-identity"
+      ],
+      "depends_on": [
+        "SADAR and later causal update"
+      ]
+    },
+    {
+      "concept": "Finite harmonic conventions",
+      "path": "sections/06_field.tex",
+      "anchors": [
+        "eq:fourier-transform"
+      ],
+      "first_declarations": [
+        "eq:fourier-transform"
+      ],
+      "depends_on": [
+        "Recurring wave identity"
+      ]
+    },
+    {
+      "concept": "Fourier corollaries",
+      "path": "sections/06_field.tex",
+      "anchors": [
+        "eq:fourier-orthogonality",
+        "eq:fourier-inversion",
+        "eq:fourier-linearity",
+        "eq:fourier-shift-modulation",
+        "eq:fourier-convolution-product",
+        "eq:fourier-correlation-power",
+        "eq:fourier-parseval",
+        "eq:fourier-real-symmetry",
+        "eq:fourier-running-standing",
+        "eq:fourier-recurrence-support",
+        "eq:fourier-product-factorization"
+      ],
+      "first_declarations": [
+        "eq:fourier-orthogonality",
+        "eq:fourier-inversion",
+        "eq:fourier-linearity",
+        "eq:fourier-shift-modulation",
+        "eq:fourier-convolution-product",
+        "eq:fourier-correlation-power",
+        "eq:fourier-parseval",
+        "eq:fourier-real-symmetry",
+        "eq:fourier-running-standing",
+        "eq:fourier-recurrence-support",
+        "eq:fourier-product-factorization"
+      ],
+      "depends_on": [
+        "Finite harmonic conventions"
+      ]
+    },
+    {
+      "concept": "Awareness state factorization and retention",
+      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "anchors": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing"
+      ],
+      "first_declarations": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing"
+      ],
+      "depends_on": [
+        "Complete wave and coupling state",
+        "Declared update and coupling trace",
+        "FRG construction and value"
+      ]
+    },
+    {
+      "concept": "Matched later operativity and awareness set",
+      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "anchors": [
+        "eq:awareness-active",
+        "eq:awareness-operative-set"
+      ],
+      "first_declarations": [
+        "eq:awareness-active",
+        "eq:awareness-operative-set"
+      ],
+      "depends_on": [
+        "Awareness state factorization and retention",
+        "Declared update and coupling trace"
+      ]
+    },
+    {
+      "concept": "Awareness response and causal difference",
+      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "anchors": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "first_declarations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "depends_on": [
+        "Matched later operativity and awareness set",
+        "SADAR and later causal update"
+      ]
+    },
+    {
+      "concept": "Operative self",
+      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "anchors": [
+        "eq:operative-self"
+      ],
+      "first_declarations": [
+        "eq:operative-self"
+      ],
+      "depends_on": [
+        "Branch hinge counterbranch",
+        "Matched later operativity and awareness set"
+      ]
+    },
+    {
+      "concept": "Action return and learning",
+      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "anchors": [
+        "eq:action-return-retention"
+      ],
+      "first_declarations": [
+        "eq:action-return-retention"
+      ],
+      "depends_on": [
+        "Closure trace and certificate",
+        "Matched later operativity and awareness set"
+      ]
+    },
+    {
+      "concept": "Awareness shedding bridge and carriage",
+      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "anchors": [
+        "eq:awareness-shedding-bridge",
+        "eq:awareness-conditioned-shedding",
+        "eq:awareness-carriage"
+      ],
+      "first_declarations": [
+        "eq:awareness-shedding-bridge",
+        "eq:awareness-conditioned-shedding",
+        "eq:awareness-carriage"
+      ],
+      "depends_on": [
+        "Awareness response and causal difference",
+        "Folded outer construction and exposure",
+        "Residual and sheddic routing"
+      ]
+    },
+    {
+      "concept": "Operational mindfulness stability",
+      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "anchors": [
+        "eq:mindfulness-stability"
+      ],
+      "first_declarations": [
+        "eq:mindfulness-stability"
+      ],
+      "depends_on": [
+        "Operative self",
+        "Awareness response and causal difference"
+      ]
+    },
+    {
+      "concept": "Index discipline",
+      "path": "appendices/E_glossary.tex",
+      "anchors": [
+        "eq:odd-support-index"
+      ],
+      "first_declarations": [
+        "eq:odd-support-index"
+      ],
+      "depends_on": []
+    }
+  ],
+  "formulas": {
+    "eq:null-axiom": "\\begin{equation}x=\\Null,\\qquadx=x,\\qquad\\Null\\equiv\\infD.\\end{equation}",
+    "eq:first-anchor": "\\begin{equation}a_0=\\mathtt{00}_8,\\qquad\\mathbfa\\in\\mathcalA^{\\mathrm{ret}}_8\\subseteq\\{0,1,\\ldots,7\\}^{<\\omega}.\\end{equation}",
+    "eq:hinge-grammar": "\\begin{equation}1\\,0^*\\,-1\\quad\\rightsquigarrow\\quadM_{\\varepsilon,m}=\\varepsilon\\,0_H(0_D)^m(-\\varepsilon),\\qquad\\varepsilon\\in\\{-1,+1\\},\\quadm\\in\\mathbbZ_{\\ge0}.\\end{equation}",
+    "eq:hinge-reflection-involution": "\\begin{equation}\\iota(\\mathsfH_3^{\\varepsilon})=\\mathsfH_3^{-\\varepsilon},\\qquad\\iota(\\mu)=\\mu,\\qquad\\iota^2=\\mathrm{id}.\\end{equation}",
+    "eq:hinge-triad": "\\begin{equation}\\mathsfH_3^{\\mathrm{role}}(k)=(x_k^-,\\mu_k,\\mathcalH_k^+),\\qquad\\mu_k=x_k^0.\\end{equation}",
+    "eq:atomic-h1": "\\begin{equation}V(\\Qfour)=\\{0,1\\}^4,\\qquadE(\\Qfour)=\\{(u,v):d_H(u,v)=1\\},\\qquadd_H(u,v)=\\#\\{j:u_j\\nev_j\\}.\\end{equation}",
+    "eq:atomic-probability-one": "\\begin{equation}\\Pr[d_H=1\\mid\\text{admittedatomicevent}]=1.\\end{equation}",
+    "eq:tesseract-admissible-boundary": "\\begin{equation}\\partial_TR\\subseteqE(\\Qfour)\\times\\{-1,0,+1\\},\\qquadB=(\\partial_TR,\\omega).\\end{equation}",
+    "eq:closure-trace": "\\begin{equation}\\Gamma_C=(B,r,i,a_0,(e_0,\\ldots,e_n),M_{\\varepsilon,m},\\mathcalW_C).\\end{equation}",
+    "eq:closure-certificate": "\\begin{equation}\\operatorname{Cert}(C)=(B,r,i,\\operatorname{id}(e_0),\\operatorname{id}(e_n),\\operatorname{digest}\\Gamma_C,\\mathcalW_C,\\mathrm{closed}),\\quad\\operatorname{end}(C)\\sim_{B,i,\\mathcalW_C}\\operatorname{start}(C).\\end{equation}",
+    "eq:monon-cycle": "\\begin{equation}\\mathrm{Monon}(x)=\\operatorname{cycle}_{\\mathsfH_3}(x\\succx=x).\\end{equation}",
+    "eq:closure-phase-step-count": "\\begin{equation}m(C):=\\#\\{\\text{committedphase-bearingtraversalsin}\\Gamma_C\\}\\ge2.\\end{equation}",
+    "eq:closure-phase": "\\begin{equation}\\Delta\\Phi(C)=1_C.\\end{equation}",
+    "eq:closure-not-isotropy": "\\begin{equation}\\operatorname{Close}(C)=1\\;\\not\\Rightarrow\\;\\operatorname{Isotropic}(C).\\end{equation}",
+    "eq:crown-advance": "\\begin{equation}\\operatorname{Adv}_k(x_k^0)=x_{k+1}^-,\\qquad\\operatorname{Adv}_k(h_k^+)=x_{k+1}^0,\\qquadh_k^+\\in\\mathcalH_k^+.\\end{equation}",
+    "eq:closure-memory": "\\begin{equation}\\operatorname{Crown}(\\mathsfH_3^{\\mathrm{role}}(k+L))\\sim_{B,i,\\mathcalW_C}\\operatorname{Crown}(\\mathsfH_3^{\\mathrm{role}}(k)),\\qquadL>0.\\end{equation}",
+    "eq:return-identity": "\\begin{equation}\\operatorname{id}_{\\mathrm{return}}(C)=(B,r,i,\\operatorname{id}(e_0),\\operatorname{id}(e_n),\\operatorname{digest}\\Gamma_C).\\end{equation}",
+    "eq:beat-reclosure": "\\begin{equation}\\mathrm{bip}_i(\\omega)=\\#\\{C_{i,j}:j\\ge1,\\k_j\\in\\omega,\\\\operatorname{id}_{\\mathrm{return}}(C_{i,j})\\text{isdistinct}\\},\\qquad\\operatorname{Sep}_{i,j}=k_{j+1}-k_j>0.\\end{equation}",
+    "eq:cumulative-closure-counts": "\\begin{equation}\\begin{aligned}N_i^C(k)&=\\#\\{\\operatorname{id}_{\\mathrm{return}}(C_{i,j}):k_j\\lek\\},\\\\\\Phi_i(k)&=N_i^C(k)1_C,\\qquad\\mathrm{bip}^{\\le}_i(k)=\\max(N_i^C(k)-1,0).\\end{aligned}\\end{equation}",
+    "eq:closure-phase-window": "\\begin{equation}\\Phi_i(v)-\\Phi_i(u)=\\bigl(\\mathrm{bip}_i((u,v])+\\mathbf1_{\\{u<k_0\\lev\\}}\\bigr)1_C.\\end{equation}",
+    "eq:wave-identity": "\\begin{equation}W^{\\mathrm{id}}_{B,i}=(B,r,i,K_i^{\\mathrm{id}},\\operatorname{id}_{\\mathrm{return}}(C_{i,0})),\\qquadW_{B,i}|_k=(W^{\\mathrm{id}}_{B,i},(C_{i,j})_{k_j\\lek},\\operatorname{Cad}_i|_k).\\end{equation}",
+    "eq:directed-leg-operands": "\\begin{equation}\\delta\\phi^{\\rightarrow}=n_{\\rightarrow}h,\\qquad\\delta\\phi^{\\leftarrow}=n_{\\leftarrow}h,\\qquadn_{\\rightarrow},n_{\\leftarrow}\\in\\mathbbZ_{\\ge1}.\\end{equation}",
+    "eq:phase-unit-embedding": "\\begin{equation}\\iota_{\\mathrm{ref}}:\\mathbbN_01_C\\longrightarrow\\mathcalL,\\qquad\\iota_{\\mathrm{ref}}(n1_C)=2nh.\\end{equation}",
+    "eq:reflected-leg-bound": "\\begin{equation}\\delta\\phi^{\\rightarrow}+\\delta\\phi^{\\leftarrow}=(n_{\\rightarrow}+n_{\\leftarrow})h\\ge2\\Delta\\phi_{\\rmstep}=2h=\\iota_{\\mathrm{ref}}(1_C).\\end{equation}",
+    "eq:minimal-phase-quantum-bound": "\\begin{equation}2\\Delta\\phi_{\\rmstep}\\ge1_C.\\end{equation}",
+    "eq:equal-leg-factorization": "\\begin{equation}\\delta\\phi^{\\rightarrow}=\\delta\\phi^{\\leftarrow}=\\delta\\phi\\quad\\Longrightarrow\\quad\\delta\\phi^{\\rightarrow}+\\delta\\phi^{\\leftarrow}=2\\delta\\phi\\ge\\iota_{\\mathrm{ref}}(1_C).\\end{equation}",
+    "eq:motif-grammar": "\\begin{equation}\\mathrm{Dimonon}=2\\,\\mathrm{Monon}\\ne\\mathrm{Dion},\\qquad\\mathrm{Duon}\\\\text{hasthesupportof}\\eqref{eq:duon-current}.\\end{equation}",
+    "eq:branch-hinge-rd": "\\begin{equation}RD_\\gamma(B)=\\Pi^-_\\gamma(B)+H_{\\mu,\\gamma}(B)+\\Pi^+_\\gamma(B).\\end{equation}",
+    "eq:field-organization": "\\begin{equation}F_{B,\\lambda}|_k=(B,\\lambda,I_B(k),\\{W^{\\mathrm{id}}_{B,i}\\}_{i\\inI_B(k)}).\\end{equation}",
+    "eq:retained-lineage-field-separation": "\\begin{equation}C^{\\mathrm{ret}}=\\text{retainedclosurelineage},\\qquad\\operatorname{Resolve}(F_{B,\\lambda})=\\{W^{\\mathrm{id}}_{B,i}\\}_{i\\inI_B}.\\end{equation}",
+    "eq:fold-outer-closure": "\\begin{equation}\\{C^{\\mathrm{ret}}_{B_\\ell,i}\\}_i\\xrightarrow{\\operatorname{Fold}^{\\uparrow}}K^{\\mathrm{prop}}_{B_{\\ell+1}}\\xrightarrow{\\mathrm{OuterClose}+\\mathrm{OuterCert}}C^{\\mathrm{ret}}_{B_{\\ell+1}}.\\end{equation}",
+    "eq:expose-inner-lineage": "\\begin{equation}\\operatorname{Expose}^{\\downarrow}(C^{\\mathrm{ret}}_{B_{\\ell+1}})=\\{C^{\\mathrm{ret}}_{B_\\ell,i},\\mathrm{lineage},\\mathrm{orientation},\\mathrm{history},\\mathrm{certificates}\\}_i.\\end{equation}",
+    "eq:cycle-valued-field-compression": "\\begin{equation}C_f[\\Sigma]_{\\AO}:=\\operatorname{cycle}_{\\partial_T\\mathcalF}\\left[x\\succx=x;\\\\operatorname{int}=\\Sigma,\\\\omega_f\\right]_{\\AO}.\\end{equation}",
+    "eq:complete-wave-state": "\\begin{equation}\\begin{split}S^W_{B,i,k}={}&(W^{\\mathrm{id}}_{B,i},K^{\\mathrm{adm}}_i,\\sigma^C,J,p,\\partialB,\\Phi,\\operatorname{Cad},\\varepsilon,\\\\&\\mathrm{memory},\\mathrm{capacity},\\mathrm{context})_k.\\end{split}\\end{equation}",
+    "eq:complete-coupling-state": "\\begin{equation}S^\\times_{I,B,k}=(E,\\psi^{\\mathrm{bias}},\\Lambda,\\Delta\\Lambda,\\operatorname{RCD},\\rho^D,\\mathrm{provenance})_k.\\end{equation}",
+    "eq:wave-update-trace": "\\begin{equation}S^W_{k+1}=\\mathcalU_B(S^W_{\\lek},S^\\times_{\\lek},\\mathrm{input}_{\\lek}),\\qquad\\Gamma^W_{B,i}[k_0{:}k_1]=(S^W_{B,i,k})_{k_0\\lek\\lek_1}.\\end{equation}",
+    "eq:coupling-trace": "\\begin{equation}\\begin{split}e_s^\\times={}&(\\operatorname{id}_s,W_i^{\\mathrm{id}},W_j^{\\mathrm{id}},B,\\omega,\\mathrm{direction},\\mathrm{contact},\\mathrm{reflection},\\\\&k_s,\\operatorname{digest}\\Gamma^W_{i,\\lek_s},\\operatorname{digest}\\Gamma^W_{j,\\lek_s}),\\qquad\\Gamma^\\times=(e_s^\\times)_s.\\end{split}\\end{equation}",
+    "eq:rcd-coupling": "\\begin{equation}\\RCD_{ij}(B)=RD_B(C_{ij})\\bowtie_BR^{\\mathrm{asym}}_{ij}(B),\\end{equation}",
+    "eq:rcd-duration-participation": "\\begin{equation}\\operatorname{dur}_{\\mathcalP}:\\RCD_{ij}\\longrightarrow\\mathcalD_{ij},\\qquad\\rho^D_{ij}(B)=\\operatorname{dur}_{\\mathcalP}(\\RCD_{ij}(B)).\\end{equation}",
+    "eq:window-clipped-rho": "\\begin{equation}\\operatorname{Compat}_{\\mathcalD}(\\rho^D_{ij},|\\omega|^{\\mathcalD}_{ij})\\quad\\Longrightarrow\\quad\\rho^D_{\\omega,ij}=\\min_{\\mathcalD}(\\rho^D_{ij},|\\omega|^{\\mathcalD}_{ij}).\\end{equation}",
+    "eq:cadence-ratio": "\\begin{equation}\\operatorname{biz}^{TF}_{i|j}(\\omega)=\\frac{\\Delta\\operatorname{bip}_i(\\omega)}{\\Delta\\operatorname{bip}_j(\\omega)},\\qquad\\Delta\\operatorname{bip}_j(\\omega)>0.\\end{equation}",
+    "eq:native-comparator": "\\begin{equation}\\operatorname{Compare}^{\\Phi}_{\\mathcalP,i|j}(\\Phi_i,\\Phi_j,\\operatorname{Cad}_i,\\operatorname{Cad}_j,\\Gamma^\\times_{ij})=(\\psi^{\\mathrm{bias}}_{i|j},\\Lambda_{i|j},\\Delta\\Lambda_{i|j}).\\end{equation}",
+    "eq:relational-time": "\\begin{equation}\\begin{split}\\operatorname{RT}_{I,B}(\\omega)&=\\Pi^{\\mathrm{native}}_{\\mathrm{rel}}(\\{\\Gamma^W_{B,i}\\}_{i\\inI},\\Gamma^\\times_{I,B,\\omega};\\mathcalP)\\\\&=\\{(\\operatorname{biz}^{TF}_{i|j},\\psi_{i|j},\\Lambda_{i|j},\\Delta\\Lambda_{i|j},\\RCD_{ij},\\rho^D_{ij},\\mathrm{provenance}_{ij})\\}_{(i,j)\\inE}.\\end{split}\\end{equation}",
+    "eq:flux-types": "\\begin{equation}\\phi^{\\mathrm{AFC}}_{ij}=p_i^{\\mathrm{mem}}P_{ij}-p_j^{\\mathrm{mem}}P_{ji},\\qquad\\phi^{\\mathrm{AOD}}_{ij}(B)=p^D_{ij}(B)A_{ij}(B).\\end{equation}",
+    "eq:b-scoped-divergence": "\\begin{equation}\\operatorname{div}(i;B)=\\sum_{j\\inV}\\phi_{ij}(B).\\end{equation}",
+    "eq:afc-stokes-used": "\\begin{equation}\\begin{split}\\sum_{i\\inR}\\operatorname{div}(i;B)&=\\sum_{i,j\\inR}\\phi_{ij}(B)+\\sum_{i\\inR,j\\notinR}\\phi_{ij}(B)\\\\&=\\sum_{i\\inR,j\\notinR}\\phi_{ij}(B).\\end{split}\\end{equation}",
+    "eq:b-scoped-stokes": "\\begin{equation}\\sum_{i\\inR}\\operatorname{div}(i;B)=\\sum_{\\substack{i\\inR\\\\j\\notinR}}\\phi_{ij}(B).\\end{equation}",
+    "eq:sadar-operator-cycle": "\\begin{equation}\\SADARop_B(C)=\\phi_{C,\\AO}(B)=p^D_{C,\\AO}(B)A_{C,\\AO}(B).\\end{equation}",
+    "eq:causal-update": "\\begin{equation}\\operatorname{motion}_{F,k+1}(B)=(S^W_{F,k},S^W_{F,k+1}),\\qquadS^W_{F,k+1}=\\mathcalU^{\\SADAR}_B(S^W_{\\lek},S^\\times_{\\lek},\\mathbfA_{F,\\lek}).\\end{equation}",
+    "eq:closure-residual": "\\begin{equation}\\Delta_{\\mathrm{close}}(\\partialF,\\omega)=P_W^{\\SADARop}(\\partialF,\\omega)-C^{\\mathrm{close}}_W(\\partialF,\\omega).\\end{equation}",
+    "eq:shedding-excess": "\\begin{equation}X_{\\mathrm{shedding}}(\\partialF,\\omega)=\\max\\!\\left(0,\\Delta_{\\mathrm{close}}(\\partialF,\\omega)\\right)\\end{equation}",
+    "eq:shedding-route-partition": "\\begin{equation}X_{\\mathrm{shedding}}=X_{\\mathrm{endo}}+X_{\\mathrm{exo}}+X_{\\mathrm{redir}}+X_{\\mathrm{open}}.\\end{equation}",
+    "eq:fusion-closure": "\\begin{equation}\\operatorname{Fuse}_{B}(F,G):=\\operatorname{Close}_{B}\\left(\\widehatF\\;\\mu\\;\\widehatG\\right),\\end{equation}",
+    "eq:link-closure-ladder": "\\begin{equation}L_{i,i+1}=\\operatorname{Close}_{B_{i,i+1}}\\left(\\widehatF_i\\;\\mu\\;\\widehatF_{i+1}\\right).\\end{equation}",
+    "eq:frg-admission-order": "\\begin{equation}D_{\\mathrm{FRG}}\\longrightarrowR^{\\mathrm{ret}}_{\\mathrm{FRG}}\\longrightarrowK_{\\mathrm{FRG,adm}}(B,i;\\mathrm{cert})\\longrightarrow(K_{\\mathrm{bin}},\\kappa,\\lambda_{\\mathcalY}).\\end{equation}",
+    "eq:frg-identity": "\\begin{equation*}T_k^\\times-T_k^0=\\sum_{(i,j)\\inE_{\\mathrm{return}}}C_{ij,k}^{\\times}(B).\\tag{RG8}\\end{equation*}",
+    "eq:fourier-transform": "\\begin{equation}\\widehatv(\\chi)=\\frac1N\\sum_{g\\inG}v(g)\\overline{\\chi(g)},\\qquad\\langlev,w\\rangle_G=\\frac1N\\sum_{g\\inG}v(g)\\overline{w(g)}.\\end{equation}",
+    "eq:fourier-orthogonality": "\\begin{equation}\\frac1N\\sum_{g\\inG}\\chi(g)\\overline{\\xi(g)}=\\mathbf1_{\\chi=\\xi},\\qquad\\frac1N\\sum_{\\chi\\in\\widehatG}\\chi(g)\\overline{\\chi(h)}=\\mathbf1_{g=h}.\\end{equation}",
+    "eq:fourier-inversion": "\\begin{equation}\\sum_{\\chi}\\widehatv(\\chi)\\chi(g)=\\frac1N\\sum_hv(h)\\sum_\\chi\\chi(g)\\overline{\\chi(h)}=v(g).\\end{equation}",
+    "eq:fourier-linearity": "\\begin{equation}\\widehat{av+bw}=a\\widehatv+b\\widehatw.\\end{equation}",
+    "eq:fourier-shift-modulation": "\\begin{equation}\\widehat{T_av}(\\chi)=\\overline{\\chi(a)}\\widehatv(\\chi),\\qquad\\widehat{M_\\etav}(\\chi)=\\widehatv(\\chi\\overline\\eta).\\end{equation}",
+    "eq:fourier-convolution-product": "\\begin{equation}\\widehat{v*w}(\\chi)=N\\widehatv(\\chi)\\widehatw(\\chi),\\qquad\\widehat{vw}(\\chi)=\\sum_{\\eta\\in\\widehatG}\\widehatv(\\eta)\\widehatw(\\chi\\overline\\eta).\\end{equation}",
+    "eq:fourier-correlation-power": "\\begin{equation}R_{vw}(a)=N\\sum_\\chi\\widehatv(\\chi)\\overline{\\widehatw(\\chi)}\\chi(a),\\quad\\widehatR_{vw}(\\chi)=N\\widehatv(\\chi)\\overline{\\widehatw(\\chi)}.\\end{equation}",
+    "eq:fourier-parseval": "\\begin{equation}\\frac1N\\sum_gv(g)\\overline{w(g)}=\\sum_\\chi\\widehatv(\\chi)\\overline{\\widehatw(\\chi)},\\qquad\\frac1N\\sum_g|v(g)|^2=\\sum_\\chi|\\widehatv(\\chi)|^2.\\end{equation}",
+    "eq:fourier-real-symmetry": "\\begin{equation}\\widehatv(\\overline\\chi)=\\overline{\\widehatv(\\chi)}.\\end{equation}",
+    "eq:fourier-running-standing": "\\begin{equation}c_\\chi=(\\chi+\\overline\\chi)/2,\\quads_\\chi=(\\chi-\\overline\\chi)/(2\\mathrmi),\\qquada\\chi+\\overlinea\\,\\overline\\chi=2\\operatorname{Re}(a)c_\\chi-2\\operatorname{Im}(a)s_\\chi.\\end{equation}",
+    "eq:fourier-recurrence-support": "\\begin{equation}v(g+h)=v(g)\\(h\\inH)\\quad\\Longleftrightarrow\\quad\\operatorname{supp}\\widehatv\\subseteqH^\\perp,\\quadH^\\perp=\\{\\chi:\\chi(h)=1\\\\forallh\\inH\\}.\\end{equation}",
+    "eq:fourier-product-factorization": "\\begin{equation}v(g)=\\prod_jv_j(g_j)\\quad\\Longrightarrow\\quad\\widehatv(\\chi_1,\\ldots,\\chi_s)=\\prod_j\\widehatv_j(\\chi_j).\\end{equation}",
+    "eq:awareness-state-factorization": "\\begin{equation}S^+_k=(X_k,M^C_k,R_k),\\qquadP_{\\rmnow}(S^+_k)=X_k.\\end{equation}",
+    "eq:retained-rebalancing": "\\begin{equation}r_e=\\Phi^{\\rmrecurrent}_e-\\Phi^{\\rmindependent}_e=\\sum_{s\\inI_e}c_{e,s},\\qquadR_k=\\{(e,i,j,B,\\ell,k_e,r_e,\\Pi_e):k_e\\lek\\}.\\end{equation}",
+    "eq:awareness-active": "\\begin{equation}\\operatorname{Op}^{O,H}_e(S_k)=1\\quad\\Longleftrightarrow\\quadR_e\\\\hbox{isvalid}\\quad\\land\\quad\\existst>k,\\t\\lek+H:\\quadO\\bigl(\\mathcalU^{t-k}(S_k;E)\\bigr)\\neO\\bigl(\\mathcalU^{t-k}(S_k^{-e};E)\\bigr).\\end{equation}",
+    "eq:awareness-operative-set": "\\begin{equation}\\mathcalA_k^{O,H}=\\{R_e\\in\\mathbfR_k:\\operatorname{Op}^{O,H}_e(S_k)=1\\}.\\end{equation}",
+    "eq:awareness-response": "\\begin{equation}J_{k+1}=J_k+\\frac{A_k+q_k+g\\sum_{e:\\,i_e\\inD_k}r_e}{p}.\\end{equation}",
+    "eq:awareness-causal-difference": "\\begin{equation}J_{k+1}(R)-J_{k+1}(R')=\\frac{g}{p}\\left(\\sum_{e:\\,i_e\\inD_k}r_e-\\sum_{e:\\,i_e\\inD_k}r'_e\\right).\\end{equation}",
+    "eq:operative-self": "\\begin{equation}\\begin{aligned}I^{\\rmop}_k&=\\{i:O(\\mathcalU(S_k;E))\\neO(\\mathcalU(S_k\\setminusR_i;E))\\},\\\\V^{\\rmop}_k&=\\begin{cases}I^{\\rmop}_k\\cup\\{j\\},&I^{\\rmop}_k\\ne\\varnothing,\\\\\\varnothing,&I^{\\rmop}_k=\\varnothing,\\end{cases}\\\\E^{\\rmop}_k&=\\{(i,j):i\\inI^{\\rmop}_k\\}.\\end{aligned}\\end{equation}",
+    "eq:action-return-retention": "\\begin{equation}a=(\\mathrm{id},i,k_a,u,\\mathrm{channel}),\\qquady=\\#\\{\\text{atomictraversalsintheboundreturn}\\},\\qquadr_a=y-u.\\end{equation}",
+    "eq:awareness-shedding-bridge": "\\begin{equation}L^{\\rmtoy}_{k+1}=C^{\\rmcap}_{k+1}+J_{k+1},\\qquadC_{\\rmclose}^{\\rmtoy}=C^{\\rmcap}_{k+1},\\qquad\\Delta_{\\rmclose}^{\\rmtoy}=L^{\\rmtoy}_{k+1}-C_{\\rmclose}^{\\rmtoy},\\quadX_{\\rmshedding}^{\\rmtoy}=\\max(0,\\Delta_{\\rmclose}^{\\rmtoy}).\\end{equation}",
+    "eq:awareness-conditioned-shedding": "\\begin{equation}\\operatorname{Op}^{O_{\\rmshed},H}_e(S_k)=1\\quad\\land\\quad\\operatorname{Restore}_e(S_k^{-e})=S_k\\end{equation}",
+    "eq:awareness-carriage": "\\begin{equation}R^{\\uparrow}=(R^{\\rminner},\\mathrm{FoldWitness},W^{\\rmouter},\\Pi^{\\times}_{\\rmouter}),\\qquad\\mathrm{Close}(C^{\\rmouter})=1\\\\Longrightarrow\\\\Delta\\Phi(C^{\\rmouter})=1_C.\\end{equation}",
+    "eq:mindfulness-stability": "\\begin{equation}J_{k+1}=\\left(1-\\frac1p\\right)J_k+\\fracbp,\\qquadJ_{k+1}-b=\\left(1-\\frac1p\\right)(J_k-b).\\end{equation}",
+    "eq:odd-support-index": "\\begin{equation}\\nu_\\ell=2\\ell+1,\\qquad\\ell\\in\\mathbbN_0,\\qquad\\nu_0=1.\\end{equation}"
+  },
+  "first_uses": [
+    {
+      "id": "F2-RD",
+      "required_declaration_anchors": [
+        "subsec:dion",
+        "subsec:duon",
+        "eq:duon-current"
+      ],
+      "first_substantive_use_anchor": "subsec:branch-hinge-rd"
+    },
+    {
+      "id": "F2-CYCLE",
+      "required_declaration_anchors": [
+        "subsec:field-as-monon-compression"
+      ],
+      "first_substantive_use_anchor": "subsec:cycle-valued-field-compression"
+    }
+  ],
+  "unique_signatures": [
+    {
+      "anchor": "eq:null-axiom",
+      "path": "sections/03_afc_basis.tex",
+      "pattern": "x=\\\\Null"
+    },
+    {
+      "anchor": "eq:atomic-h1",
+      "path": "sections/03_afc_basis.tex",
+      "pattern": "E\\(\\\\Qfour\\)(?::=|=)"
+    },
+    {
+      "anchor": "eq:monon-cycle",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "pattern": "\\\\mathrm\\{Monon\\}\\(x\\)(?::=|=)"
+    },
+    {
+      "anchor": "eq:closure-phase",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "pattern": "\\\\Delta\\\\Phi\\(C\\)(?::=|=)1_C"
+    },
+    {
+      "anchor": "eq:wave-identity",
+      "path": "sections/04_cut_running_fractal_tesseract.tex",
+      "pattern": "W\\^\\{\\\\mathrm\\{id\\}\\}_\\{B,i\\}(?::=|=)"
+    },
+    {
+      "anchor": "eq:field-organization",
+      "path": "sections/05_curl_closure_duon_current.tex",
+      "pattern": "F_\\{B,\\\\lambda\\}(?:\\|_k)?(?::=|=)"
+    },
+    {
+      "anchor": "eq:relational-time",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "pattern": "\\\\operatorname\\{RT\\}_\\{I,B\\}\\(\\\\omega\\)&?(?::=|=)"
+    },
+    {
+      "anchor": "eq:awareness-state-factorization",
+      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "pattern": "S\\^\\+_k(?::=|=)"
+    },
+    {
+      "anchor": "eq:awareness-active",
+      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "pattern": "\\\\operatorname\\{Op\\}\\^\\{O,H\\}_e\\(S_k\\)=1\\\\quad\\\\Longleftrightarrow"
+    }
+  ],
+  "appendices": [
+    "appendices/A_fractal_address_bip_biz.tex",
+    "appendices/B_curling_curls.tex",
+    "appendices/C_stochastic_crowning.tex",
+    "appendices/D_cycle_shedding_demonstration.tex",
+    "appendices/E_glossary.tex",
+    "appendices/F_wave.tex",
+    "appendices/G_symbolic_cancellation_check.tex",
+    "appendices/H_combinatorics_rd_tests.tex",
+    "appendices/I_path_complexity_prototype_quarantine.tex",
+    "appendices/J_ao_field_fractal_properties.tex"
+  ],
+  "navigation": [
+    {
+      "path": "appendices/D_cycle_shedding_demonstration.tex",
+      "target": "subsec:temporal-sadar-burden",
+      "target_path": "sections/06_field.tex",
+      "replacement": "\\secref{subsec:temporal-sadar-burden}"
+    },
+    {
+      "path": "appendices/D_cycle_shedding_demonstration.tex",
+      "target": "subsec:shedding",
+      "target_path": "sections/06_field.tex",
+      "replacement": "\\secref{subsec:shedding}"
+    },
+    {
+      "path": "appendices/D_cycle_shedding_demonstration.tex",
+      "target": "subsec:sheddic-path",
+      "target_path": "sections/06_field.tex",
+      "replacement": "\\secref{subsec:sheddic-path}"
+    },
+    {
+      "path": "appendices/I_path_complexity_prototype_quarantine.tex",
+      "target": "app:combinatorics-rd-tests",
+      "target_path": "appendices/H_combinatorics_rd_tests.tex",
+      "replacement": "\\appref{app:combinatorics-rd-tests}"
+    },
+    {
+      "path": "appendices/I_path_complexity_prototype_quarantine.tex",
+      "target": "eq:path-history-pressure",
+      "target_path": "sections/06_field.tex",
+      "replacement": "\\eqnref{eq:path-history-pressure}"
+    },
+    {
+      "path": "appendices/I_path_complexity_prototype_quarantine.tex",
+      "target": "eq:path-history-compression",
+      "target_path": "sections/06_field.tex",
+      "replacement": "\\eqnref{eq:path-history-compression}"
+    },
+    {
+      "path": "appendices/J_ao_field_fractal_properties.tex",
+      "target": "subsec:q4-hamming-ternary-kernel",
+      "target_path": "sections/06_wave_state_relational_time.tex",
+      "replacement": "\\secref{subsec:q4-hamming-ternary-kernel}"
+    },
+    {
+      "path": "appendices/J_ao_field_fractal_properties.tex",
+      "target": "eq:branch-hinge-rd",
+      "target_path": "sections/05_curl_closure_duon_current.tex",
+      "replacement": "\\eqnref{eq:branch-hinge-rd}"
+    },
+    {
+      "path": "appendices/J_ao_field_fractal_properties.tex",
+      "target": "eq:window-clipped-rho",
+      "target_path": "sections/06_wave_state_relational_time.tex",
+      "replacement": "\\eqnref{eq:window-clipped-rho}"
+    },
+    {
+      "path": "appendices/J_ao_field_fractal_properties.tex",
+      "target": "eq:burden-overhang",
+      "target_path": "sections/06_field.tex",
+      "replacement": "\\eqnref{eq:burden-overhang}"
+    },
+    {
+      "path": "appendices/J_ao_field_fractal_properties.tex",
+      "target": "eq:shedding-excess",
+      "target_path": "sections/06_field.tex",
+      "replacement": "\\eqnref{eq:shedding-excess}"
+    }
+  ],
+  "manual_families": [
+    {
+      "id": "MEX-01",
+      "manual_path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "manual_anchor": "manual:m1-native-fixtures",
+      "main_anchors": [
+        "eq:null-axiom",
+        "eq:first-anchor",
+        "eq:atomic-h1"
+      ]
+    },
+    {
+      "id": "MEX-02",
+      "manual_path": "manual/sections/00_dec_ledger.tex",
+      "manual_anchor": "manual:dec-ledger",
+      "main_anchors": [
+        "eq:hinge-reflection-involution",
+        "eq:flux-types",
+        "eq:b-scoped-stokes"
+      ]
+    },
+    {
+      "id": "MEX-03",
+      "manual_path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "manual_anchor": "manual:m1-native-fixtures",
+      "main_anchors": [
+        "eq:closure-phase-step-count",
+        "eq:closure-phase",
+        "eq:cumulative-closure-counts",
+        "eq:phase-unit-embedding"
+      ]
+    },
+    {
+      "id": "MEX-04",
+      "manual_path": "manual/sections/00_dec_ledger.tex",
+      "manual_anchor": "manual:dec-ledger:hinge-slide",
+      "main_anchors": [
+        "eq:hinge-grammar",
+        "eq:ternary-capacity",
+        "eq:atomic-h1"
+      ]
+    },
+    {
+      "id": "MEX-05",
+      "manual_path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "manual_anchor": "manual:m1-native-fixtures",
+      "main_anchors": [
+        "eq:wave-identity",
+        "eq:cadence-ratio",
+        "eq:native-comparator",
+        "eq:rcd-coupling",
+        "eq:relational-time"
+      ]
+    },
+    {
+      "id": "MEX-06",
+      "manual_path": "manual/sections/00_awareness_fixtures.tex",
+      "manual_anchor": "sec:self-proprio-toys",
+      "main_anchors": [
+        "eq:awareness-state-factorization",
+        "eq:awareness-active",
+        "eq:operative-self"
+      ]
+    },
+    {
+      "id": "MEX-07",
+      "manual_path": "manual/sections/00_awareness_fixtures.tex",
+      "manual_anchor": "sec:self-proprio-toys",
+      "main_anchors": [
+        "eq:action-return-retention",
+        "eq:awareness-active",
+        "eq:mindfulness-stability"
+      ]
+    },
+    {
+      "id": "MEX-08",
+      "manual_path": "manual/sections/00_awareness_fixtures.tex",
+      "manual_anchor": "sec:m2-crescendo",
+      "main_anchors": [
+        "eq:fold-outer-closure",
+        "eq:awareness-shedding-bridge",
+        "eq:awareness-conditioned-shedding",
+        "eq:awareness-carriage"
+      ]
+    },
+    {
+      "id": "MEX-09",
+      "manual_path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "manual_anchor": "manual:m1-native-fixtures",
+      "main_anchors": [
+        "eq:wave-identity",
+        "eq:fourier-transform",
+        "eq:fourier-inversion",
+        "eq:fourier-parseval"
+      ]
+    }
+  ],
+  "frozen_sha256": {
+    "evidence/FOURIER_COROLLARY_RECORD.md": "0bb855f5666a97a285d4e2ded98adf9cb70dc372b9039c33bcaeb43b38435328",
+    "evidence/METROLOGY_BOUNDARY.md": "553609db18f523faae6d2a53c3465c56ceb9034c6ba1ae3b7a6cff77fdf678af",
+    "evidence/ROUND_TRIP_PHASE_FACTOR_SPEC.json": "0cac6e37429372c2b0784e0d4bfc4b8be958e819bba6f5691990ae647655bf9e",
+    "evidence/UPDATE_CAUSAL_ORDER.md": "c0e2fb9feb37bc1391493f6788d9d96e1a4df2fce67d2e4ca48e595fdae7bf86",
+    "evidence/m2/AWARENESS_ACTIVE_CAUSAL_SPEC.json": "6ac09d69784b295ef7daeefe3ebe64faf5e7a7bccce142d39ad6d77922872169",
+    "evidence/m2/HISTORICAL_TOY_SOURCE_STATUS.csv": "dc0f1b94afc71f930929e64caef8d9f9cb49386035706aa2b79b8b9cc0de42d4",
+    "evidence/m2/OPERATIVE_SELF_SCHEMA.json": "9464dd36380676d4d6edf11a10c5cbad3b2c2cc73d69dbc3801acf8d85909ba4",
+    "figures_jpg/attention_phase_bias_pressure.jpg": "cfc56c0777f1fe14e5c75fde9b98c412983ff6dff9109acd2c73130ed8dc2139",
+    "figures_jpg/closure_ladder_monon_dion_duon.jpg": "85dca95a121d9b94fda9fef74d37220fecdbc18439d4c24316813fcd28812d47",
+    "figures_jpg/curl_to_duon_current_support.png": "d1c44eac8eec563b60a64f0beb90dd0ab77134a0e956ec3c66cf6dfc52057261",
+    "figures_jpg/curling_curl_layers.png": "f9b7ff99375ae2a41bee2142b3b8d85d010841bae1537ab276cee9e72f73c3c4",
+    "figures_jpg/cycle_disturbance_shedding.png": "64e5559ad3f2a6ed1d8933e328923634be8871367958d4723e2d293a6ef7c1be",
+    "figures_jpg/cycle_disturbance_shedding_simulation.png": "e57cdc99319fb4aae9ba2852e09965de19e0c965872aa4b9bda6f7cd0fabda92",
+    "figures_jpg/field_dynamics_layered.png": "163c0460532bc6ca9e8b698ab838014d0901159c148852fdcaa64f74ced4c60a",
+    "figures_jpg/fixed_scope_field_count.png": "ee53dc23c84a0be170ed4c8c7ecb8ea9dea0e1095870d5d5bc771ea0fc2e6ea3",
+    "figures_jpg/fractal_tesseract_q4_witness.jpg": "313146c288ffa53f23be25103547e88590bf83b12faa4a0ca13a83f4ca6e968e",
+    "figures_jpg/null_four_edge_x_witness.png": "7b446097b578068cb77b2b3b80844f446a31ff42d708160bef997f3b5bf19ac2",
+    "figures_jpg/rcd_pending_return_duration.jpg": "3fa6d2b13cb68e0c959dabb0429576df537bca440c94838fbb447e029d0ed4c4",
+    "figures_jpg/rcd_reflection_duration_coupling.jpg": "cbf46dbc8b463247933b18edf4b5f7c01f630cd3934a63d56b0ee3957abc5340",
+    "figures_jpg/sadar_b_scoped_afc_flux.png": "caa66f9b96e7020ef1cf3f04452ea84d13008e274e66b3a161f482aafa80f906",
+    "figures_jpg/sadar_boundary_relative_balance.png": "ce8ae530b64196747b188981f8afce9748a3bf0c560d486d807bf671803e1083",
+    "figures_jpg/sadar_rcd_b_scoped_afc_flux.png": "aaa5536ab8b2230e0655c40076ba46332141827b645b148501ae896395f5bd52",
+    "figures_jpg/support_enclosure_retention.png": "d868abf47b42dbbe056cb92bb0163aa41e1901bdc25c18c50f8c8f180d7a97aa",
+    "main.tex": "439182eaa6832f2f937da6f478878f2db3e74bb67d68160469e10855f456ba8b",
+    "manual/data/brownian/brownian_displacements.csv": "c3729725d1fa4bb1a1e68cf9092f5a55fe54a6f9c2d8cc0c63f77a6f7de3c80e",
+    "manual/data/brownian/brownian_sample_track.csv": "96280533fb6c26a13b1914dbd939919234754ec3da94b6a2b0d720a668cb59d3",
+    "manual/data/brownian/displacement_q_counts.csv": "0d02e4bc951ee26100943dc788618f67e32f420e3295ab32ad9cb3d14c80556c",
+    "manual/data/brownian/integer_motion_ratios.csv": "f5757760602671566117af80c84b1cff3bb5995442f7397011abc01751313fd9",
+    "manual/data/brownian/octant_delta3.csv": "46af0e42928b9250de099bfb5f638984f07f2e0ad3c6d9d10cdf81f01c7df878",
+    "manual/data/brownian/phase_cycle_delta3.csv": "768395563ac52c766c3967d0288f239ab7c8ef0833c4ccf66187fec659b41a21",
+    "manual/data/dec/dec_hinge_slide_example.csv": "36060f271ee910faae2a62400f060462c33ede68cd25dfd73b6ff3a7ac0b8271",
+    "manual/data/dec/dec_one_node_ledger_example.csv": "d4278a3212709e28e44553e624883f36e64891ad017ee0e2beec37c5043121e6",
+    "manual/data/dec/field_tunnelling_hinge_slide_window_clip.csv": "c736065782521b55b6817c995faed6e7aba2bd2c03424125eeae38d7bcaeb847",
+    "manual/data/dec/tau_missing_burden_exact_ratio_patch.csv": "ee90703644a41d7568bb1f4ebaaa5ff56fa111df0a77ee96ba0f44c74137c1e1",
+    "manual/data/derived/sparc_declaration_controls.csv": "e16ef11585c814112e6f19f4cbabee1b5442f6bd1981f9d3d9f70cc76f7afd12",
+    "manual/data/derived/sparc_five_galaxy_per_bin.csv": "2ceec667b927d9cc6e1c65ae0980dadfdbb0ca4a0497bbd2fdc8999314b7e2e4",
+    "manual/data/derived/sparc_five_galaxy_per_galaxy.csv": "26f0ddb4560d86639386c7ee2ceca9b1e4cb5dcb92d8940c00cf48b3b080f621",
+    "manual/data/derived/sparc_summary_table.tex": "977b15cff45f44da60dac01a95507ded32eacb7f814278ae4f2cf4657412642b",
+    "manual/data/derived/tau_declaration_controls.csv": "d1769dd1161a4f12f0be0bd7916f89c708f429560ba2fedbb2ecfd7c24ea5cab",
+    "manual/data/derived/tau_ring_diagnostic.csv": "c15898ce88098fbe4086f45f43d9e7323c26d36a863fe2da52ea19edb84a15bd",
+    "manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv": "a87e3e915367fe044ddd703d12f4a94f4ad61c509a3d312f91ebf5015c075a2b",
+    "manual/data/higgs/higgs_external_map_after_candidate_freeze.csv": "18403c7ad4344b278fcc9f9c2d35e5f609c41e5daf100267846cd24be94a225f",
+    "manual/data/higgs/higgs_trace_internal_candidates_selection.csv": "462885db9b133fde44c9cd887da1be427da0595462336ae41eabd7755e585bf5",
+    "manual/data/higgs/higgs_trace_score_formula.md": "e10b4c80ae531c9ab716d5f789f19df8c2e209561215f763c4a49a07d8223d83",
+    "manual/data/higgs/yro_aliases_and_renames.csv": "02f964314f30405de624080b14da3e4e9b5b24732d3c05b335e470f0d19c79e5",
+    "manual/data/lensing/k4_3d_timeflow_input_gate.csv": "0bd0f3422b4f66a9547898d56486372ce0458fff5c9a907a5ceee945493e21b6",
+    "manual/data/lensing/k4_3d_timeflow_input_gate_table.tex": "b972211294ba5e7205a2e258b3d1e6ab1b9e3126861e540c624aa0735e779e05",
+    "manual/data/lensing/sparc5_lensing_class_tallies.csv": "3256c12827e38bde89691303c467e3f19401b7caf5b37501f6388dd73bf2f5a2",
+    "manual/data/lensing/sparc5_medium_diagnostic_summary.csv": "678e38efdf95445722acc661c420fdd863bfab756e56357360cb2fd70aa1807f",
+    "manual/data/lensing/sparc5_medium_diagnostic_summary_table.tex": "eaebd5869923a9e825c323c3364e4c9bed46de889294bb11742fc1d1ec03f61b",
+    "manual/data/lensing/swells_k0_target_tallies_delta3_acquisition.csv": "1785bef29b2abf3d466b533d9dbeb9a71cffaa54ea2da05a0964d7afe2164291",
+    "manual/data/lensing/swells_k0_target_tallies_table.tex": "9d489a2b33b54017434fafefa57ab9804b43a507245cca7fc9451c47e8dc4c6b",
+    "manual/data/lensing/swells_k1_k2_k3_comparison_table.tex": "813626c32c9a3dda9327884965c5aeae7da05b1118f2bddab87d72413bde9573",
+    "manual/data/lensing/swells_k1_k2_k3_delta3_comparison.csv": "10af49ec35953722e275cbf22bb94fd56dcf4e8535251ddd38b8b00a3ab7790d",
+    "manual/data/lensing/swells_k1_thetaE_delta3_scores.csv": "ae1081cdd1834c92d40c87f689a564fbece85db2f1470b0494074afc5a21c65d",
+    "manual/data/lensing/toy1_delta3_class_tallies.csv": "e6c21ebc81511ea7dbc6d1d2a94e4f483350016854422756f121e528d9b4c983",
+    "manual/data/lensing/toy1_verification_checks.csv": "eb9065222a9efbc6dbd0edecd0d19b551a044cc5efec58fdca3a648eea3f7c28",
+    "manual/data/m1/closure_phase_reclosure.csv": "a958f0caba18c4dfe9b71e2c1aea8df3ab54e47fab23b1a7019470ddcf22ed69",
+    "manual/data/m1/h1_composite_paths.csv": "71bce7160edd7100a0b2a9da3172637a4e4e9544cf8289a689199de0b35cf457",
+    "manual/data/m1/harmonic_reconstruction.csv": "cfe53a31c2d1c13f187bbba80e4ad7861f36027d052741d6a09bcd8dd39517f7",
+    "manual/data/m1/motif_fold_fusion.csv": "c5c77ede4d7a4178d52678e20c246a1b8cb50eeb99d4036d08375d28c2f3e3cd",
+    "manual/data/m1/relational_time_coupling.csv": "64fe791a91a9c9e7a30360db82514e98a0678b4a6bdba2a396bb37e078137b9c",
+    "manual/data/m2/awareness_cases.jsonl": "6ac3bee0475813cc9ea3513c088d43be0e7b6d54b5c9484ccee60fd2fc7de35a",
+    "manual/data/run_tumble/run_tumble_integer_motion_ratios.csv": "89a2da2d6223a2e12923a2eab3903bd48ea87534c1ca9c02766b74cb3e2f4b26",
+    "manual/data/run_tumble/run_tumble_octant_delta3.csv": "eb7fff97653233a68c01ad7551477f6d7239ae47d48ff82ac00b236202089568",
+    "manual/data/run_tumble/run_tumble_phase_cycle_delta3.csv": "19ec7d8e75b916b8bdbf610c439ced726b756b9ab93da8045b65abf2ef4b7009",
+    "manual/data/run_tumble/run_tumble_trace_20_ticks.csv": "67fe77c99d57a0de0841ac5f023ae2443a422257963b1ff6b8b0728a147f20b7",
+    "manual/data/run_tumble/run_tumble_trace_table.tex": "f942b7f23a3e988014c311c9e2cc55ab51ef81261ec43ab0d7210d8b7a862921",
+    "manual/data/sparc/DDO154_rotmod.dat": "2458c2c392ab2314abc92725b7d0ccee22d9b666a15377e13a1c69d5f5d67ac7",
+    "manual/data/sparc/NGC2403_rotmod.dat": "9be193eccc5c363e74d04270290d831738f41ec9225a3b2c95353fd3812170b8",
+    "manual/data/sparc/NGC2841_rotmod.dat": "3182e398c3325cb7d43dcda432e150e55a06be8d74b2e95fd92e094e291b4e5f",
+    "manual/data/sparc/NGC3198_rotmod.dat": "17b774ad11e7dd745a067073b76f1909d4de32fa87616df12b64da3f225cf953",
+    "manual/data/sparc/NGC6503_rotmod.dat": "82015340fa6465db44e6375cf3a7745d49d916dca21a56fbcbe758809e66e27c",
+    "manual/data/tau/aod_tau_fractal_ring_baseline_compatible.csv": "b6fdf97b8998381c81ce850278aebf7382fd9ece79f181a80db814e516a83d35",
+    "manual/data/tau/aod_tau_fractal_ring_comparison.csv": "cc022faec55a0dc1863cfa123f0b8a5d9599415b0cca62b6929ff9c8fff5b74a",
+    "manual/data/tau/aod_tau_fractal_ring_primary_lane_audit.csv": "f045f9bc16e71b8d9531c6fd39632fb1653f9483496b4d8079738b56799dfba8",
+    "manual/data/tau/aod_tau_fractal_ring_summary.csv": "7aceb1d12cf39bbabf0153d10ab35d0307be6be6c4258ea4231acd2fe05f066b",
+    "manual/data/tau/aod_tau_fractal_ring_top_cells.csv": "8baedf575d8c435f4f4a58c0c69a5c5af0c89e78c7ba2fec07fd316afb2440f2",
+    "manual/data/tau/aod_tau_fractal_ring_verification.csv": "aa5149ccc0a31189ba83d7126fed892b0f95161ef4d739329e0c3585a9a8ad01",
+    "manual/figures/brownian_phase_delta3_wireframe.png": "436b288118627da6d6bb9b82f2196e04072d816fbb85579684e7abb791c21e7a",
+    "manual/figures/coordinate_phase_delta3_wireframe.png": "b3ae1f69dc01631d6d67fac8ec67e5d34b6e3ca1d974144c5240752a47d0d953",
+    "manual/figures/double_slit_cross_return_setup.png": "a3fb47d9bfbfa8174282e8229c331efc6c034392cc7c5d77f72d48879d43eddc",
+    "manual/figures/double_slit_reclosure_fixture.png": "998892233c9ff3ac2bcbbf87bf67d2f61db14ed4214b8895977c8b359ee08504",
+    "manual/figures/higgs/higgs_mass_comparison.png": "a801efba81e384ca0e1a09bb0b443368f195096414f91678e3f869bf7eba3b54",
+    "manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png": "54fd6d25942d8e671b6ead0517a4f8c94194022d1fe470d863d8c1c75e5ce9ba",
+    "manual/figures/higgs/higgs_yro_saddle_signature.png": "2e1419b70144491b962b0e328e31700a6652ca2f948647cf08e5e9ce0ce0f288",
+    "manual/figures/lensing/00_corrected_spine_equations.png": "7f1ff2bbbfa5d764dcb960c6a7826fb2d0bd175933925b6e3f942f204237a809",
+    "manual/figures/lensing/01_toy1_delta3_class_tallies.png": "115908e2576dbb52deb53f420e85c2d9212d027eacb49b3ac2c25f83be067cb3",
+    "manual/figures/lensing/02_frg_value_identity_delta3.png": "09c68be4dfaa270c81a49e575ae5934f069946f53d4d3eb66811e4c344238ba8",
+    "manual/figures/lensing/03_sparc5_lens_medium_phase_proxy.png": "c716f30bc2f84129891ee5ced4c6553a7f437530a8c1346d4f830907e2e767a1",
+    "manual/figures/lensing/04_sparc5_class_tally_heatmap.png": "0abd311f29096328e499f52ce6fbb51995d2641bc92ad34039f8bdc98c00772b",
+    "manual/figures/lensing/05_swells_k_comparison_delta3.png": "444b91e394289d453c4a7bfbed3a596e0d804b050f284403deb549ff022b0f95",
+    "manual/figures/lensing/06_swells_k1_thetaE_delta3_tallies.png": "fb5cfa962466722252b7e30cf1ed842f26698cb8dfa42f40a77f09903e8b97d1",
+    "manual/figures/lensing/07_k4_3d_timeflow_input_gate.png": "84d06ac8c62c626f653e68bfb045eccb32914bf49e20bdd0a656ee40688179d5",
+    "manual/figures/lensing/08_target_quarantine.png": "8dd4a633807d0d13efedd3cec302fc931d8643be0cf3f7031d76dc6091f5b97f",
+    "manual/figures/lensing/09_staged_lensing_lane.png": "ccfd26c58ca326048620e32cd88abf53ab3c9b9ba2cee61b465bfa718f7b260f",
+    "manual/figures/lensing/10_lensing_calculation_spine.png": "6fd82b24252cded79270931a6f8bc295651b28cd1623385e5f5b7083323870d4",
+    "manual/figures/run_tumble_trace_3d_projection.png": "249355364c3ac29213afeba6dd61dd87f0e23414b16a443d1e02d715e3953c3d",
+    "manual/figures/solar_calculated_vs_target.png": "2df323ecf99dbcf828a318259dffbfeb043eb0ae1364afb30701fd679b6dddf3",
+    "manual/figures/solar_percent_error.png": "40e1aba659d280aebd4e6ff65df4e4774e13413eab2dc8b519e44affe714cae5",
+    "manual/figures/sparc_declaration_controls.png": "dbaf9c68c9f3ff6c2840315c6a77d402a4e20a53bf793e0a0f82fd97599ebf4a",
+    "manual/figures/sparc_display_speed_view.png": "c1847fa3fb6f92059e7d268ca018dd50d8c815771c9f191e580cf5dff9620957",
+    "manual/figures/sparc_square_speed_comparison.png": "fbd8b3a9371a82c54dd65fec942832eaae1971fb78390ac325642d022fc1baf7",
+    "manual/figures/sparc_square_speed_residuals.png": "849eb1637c57a7cf44599249b4316a6c1bde0a5eae6506202ab21b2e775974a2",
+    "manual/figures/tau_declaration_controls.png": "2079c070499370107b74db1dabb414e3dfae79e72c8fd0f22f0912002a81fcc8",
+    "manual/figures/tau_missing_burden_diagnostic.png": "35ef395570960b9da44708408fdcc1cfc058e5cbbea35d5ecb1aa32b44b4a123",
+    "manual/figures/tau_ring_support_score.png": "767f7700eaec07048f499a850876f177b8eb61b55709c718235132cec0b53852",
+    "manual/figures/tau_sensor_wall_setup_and_boundary_chain.png": "f4a6abf88ce16269feeafcf6a605c625470e9085120b9717a6c288b150b273a0",
+    "manual/figures/tau_sensor_wall_setup_and_boundary_stack.png": "6e17711df76c860b7bf3631b3630683771a2f4557830911f0af8019c182126dd",
+    "manual/figures/tau_support_residuals.png": "b8dda0b3fa4576d56ee892bc021b48ea99ba16847c0124ac39726241632c9de2",
+    "manual/main.tex": "bb42bbe3a97c8bc44b8821ac0f32e0309ead8c506c6bb1385255bf8abdffd497",
+    "manual/preamble.tex": "3f9700a9ed234b7402fae87d5de11f7d246e0e3d01d62b2c5e1ca0f43e19a3f1",
+    "manual/scripts/aod_3d_coordinate_phase_delta3.py": "55ab9a657321282f0560cc031f5baf41087072560840551a932a503ae63e412d",
+    "manual/scripts/aod_awareness.py": "fa5653fa80400af24cc5eaec3ee65818bb7d817b0eccc25390b54fb29a06a03c",
+    "manual/scripts/aod_brownian_3d_phase_delta3.py": "472b6e490cc8ed12a17364e3fee5559e1d666b15f5ce259b60674ab79d6c16ba",
+    "manual/scripts/aod_native_closure_wave.py": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+    "manual/scripts/aod_run_tumble_3d_trace.py": "601f6c6718248219e7f7c3ecc2c52ede0704941822eebc6453bd5af08a6efdd7",
+    "manual/scripts/generate_higgs_trace_figures.py": "7c162117d7771ef45219b476ade7b5cde72a6242d4f16a6f6adec04fa41a94f3",
+    "manual/scripts/generate_k4_input_gate_figure.py": "3f4f514d7f424919ac1c68b13782b8a511ecb30d73589ad2895773ed818f66cc",
+    "manual/scripts/score_sparc_field_dynamics.py": "6d42f031f1a8e4bf4331b2c2be80fffac2c8dbfc98278de7e650aeb45f0f7cbb",
+    "preamble.tex": "019fb7e5c3383037a678925dcef8332f338656edb1af237f219437e721ea159e",
+    "refs.bib": "25e9347ee6d733a4d990b70e2cd3a5e9677add8606905fc13490674e7bb8c825",
+    "scripts/build_release_bundle.py": "be58771d33600b5ca3fc91a8a0f60eb5d00d7511951ca3fd1d50ca89f0043a14",
+    "scripts/generate_curl_support_figures.py": "185801d68d6fe2e18430670927451edccbd80dd03080f2addf249f86e67e017f",
+    "scripts/generate_curling_curl_layers.py": "8f1abfa1af255124ea13b5221a99e628e05b28dd9d04b646c9bbacbaeac69d0e",
+    "scripts/generate_field_count_sadar_scope.py": "110a6f425e824f409a71a6e3328c04f8f89242250f144e80db3e07d7bcb0523c",
+    "scripts/generate_field_dynamics_layered.py": "c3192e5fe47ca9acef7863c5feb3507838a90034ce832108334b4097b8b5ef10",
+    "scripts/generate_fractal_tesseract_q4_witness.py": "c1cf4328978a08db48413488392a8f93ecbef7ea2072ed896044db2b57014a3b",
+    "scripts/generate_manual_figures.py": "9e0f18a75f4e95849bb86373b55b5ad1d9f1ef9f5b019ff88baf9e58dbf2ce63",
+    "scripts/generate_null_four_edge.py": "a86c8b8bb446ea5f6e1a64c00d21acf1c676adcfce445f68cd9e89a9d3b706ae",
+    "scripts/generate_rcd_reflection_duration_coupling.py": "55e38f24c440f25c260931be22358e10ab8a49fd5327908249a908d401285301",
+    "scripts/generate_sadar_boundary_balance.py": "f4ce30d66302762a15765edd181786d0a77c13594e445063f4b9e4406fba56de",
+    "scripts/sync_zenodo_references.py": "30b5caae356cc9ce255faba6e622d8e01ab244322cd403d46ece4543b856917d",
+    "sections/00_title.tex": "c86e23a01c95c43c2cb3603afc2d3c574d36f44360da626ebe86f734ad4ce4d4",
+    "sections/01_abstract.tex": "060c5db2c931b743e37cf6505c41098bf6da74c7fc4b321cf754a807180a6747",
+    "tests/test_active_scientific_sources.py": "8513683f10a641139840dfef6419ddc8d8e55c6a0743119bc762e8832a00bb7f",
+    "tests/test_bib_preamble_source_structure.py": "e040035bc0409f6056a20e540dead1d43042e3a5adddfebf84f87be11f758ad4",
+    "tests/test_ci_release_builder.py": "f6a25acdcea0ebca21ce0d28d4f729a4e4ff700707dd5cb2dcfa89c3faf56a72",
+    "tests/test_m2_r02_awareness.py": "3f82d2761debcf46558b8cfe7c1433ed65d5b2b85a941bc97454eab59054c254",
+    "tests/test_main_container_language_minimalism.py": "256d637b7b552e82aa32164fd54998dfaf9acb8c9a7e22f30be92f7e2c997bba",
+    "tests/test_main_figure_layout_sources.py": "376f8323f719809ea887562d31fec705d212cb8a8ff4c6f0355b1bd3abfa1d29",
+    "tests/test_manual_brownian_phase_delta3.py": "928469424b0c8182f282c38584671ce8caa1b7b65dfb38e91651c18bc0d44d3e",
+    "tests/test_manual_dec_ledger.py": "cad7f4013950947aa0bfb783b86271859e71b2a656dee680cbb6cc7768a0d5ef",
+    "tests/test_manual_field_tunnelling.py": "b659dcd4ef0970aba388ae5750bc1be79807e72cc90d98b91b3a77fdac0e52a4",
+    "tests/test_manual_run_tumble_tracer_current.py": "5566f6b60c773963b08f1d65b0bd0ca1a430bc3144179742c260886f6ae7d024",
+    "tests/test_manual_sparc_protocol.py": "3115dd4c359615581b838b49e2f8e8fc14816a748da622364dcd0c39cd6ead22",
+    "tests/test_manual_table_grammar_release_polish.py": "381e45a580cce70431b966485176baa4273d241fb686953f6dcb930485dc2948",
+    "tests/test_manual_zenodo_wording_polish.py": "2e432065897ca4b091e374e59654b5c4ec4d37241c7af45fa6a7e458be690ea2",
+    "tests/test_native_awareness.py": "a80240a90f9e955f12993b2ed46962193cecfbdda2356eef91e13414f07a4ae3",
+    "tests/test_native_closure_wave.py": "1bcd170745b2de5e01baebf2fa2b8e1f383b5c9729d7e65ffadee15e9aa68b10",
+    "tests/test_release_naming_hygiene.py": "20081aa669f07a1c98d7e3b8baa6e2f5a51d53bdd8ea24c33bf417fdc4e54f0c",
+    "tests/test_release_primary_artifact.py": "c73b87cbb2955f83afc2fe7026cd8e3bffd9d38fbfc52e863e86531603ebce3c",
+    "tests/test_sadar_pressure_targets.py": "8b4f4f7b8ffcc3835167e71c26770d6282438a376800acee51a4d095b15d2e79",
+    "tests/test_sadar_rcd_pressure.py": "2ecbfb332f624a2c4c59a18e297e3b4e9cadee6481a801ec7021f08eda1e3573",
+    "tests/test_sadar_scope_cancellation.py": "7579dd6f58fd30e6692a99e130be1b313774bd60f43550e8a83b0148a87aa1c3",
+    "tests/test_scoped_flux_stokes.py": "8687ae37096a2901b122657489908d5214eae2ded50adbc48eaf018a25654bbc",
+    "tests/test_sheddic_route_naming.py": "a4595ef26be81423f5f351c4ade24c872ed00dd4720c95a31975089c2ee96ee4",
+    "tests/test_sparc_script_release_neutral.py": "1b4adcad7702956334245808c9f338b22d107940286f63ff18d8498049e11da8",
+    "tests/test_sympy_exact_arithmetic.py": "8e0a603fc81ce177fc8ad359638d4c03c5b2478ee1248bd5e3c60ed07039acdd",
+    "tests/test_title_and_table_layout.py": "23fc273ff8b6c9c466725493d1d2a2a2941a3d6a91da215741cce898dd744108",
+    "tests/test_yro_tritrioseptyro.py": "15ddec62f4d7e261c1b63b729ab327a4bb870be3db319f5d2afd835a5b8f58d8",
+    "tests/test_zenodo_assets_metadata.py": "7d82774c384f88ee4ea69f336bcd492464fa23141525a4a140ec610e8fac991d",
+    "tests/test_zenodo_metadata.py": "526b01b63ceddf49add10c9df9101aa71efc10eebb4d536e37eb379d86440b59"
+  }
+}
