@@ -76,6 +76,28 @@ def test_inherited_complete_state_cannot_be_fabricated(field,value):
     with pytest.raises(a.AdmissionError):a.transition(bad,w,m,inputs[0])
 
 
+def test_closed_initialization_at_return_cut_rejects_an_unbound_vertex():
+    s,w,m,inputs=a.context();returned=w.get(w.target).returns[-1]
+    closed=replace(s,present=replace(s.present,committed=returned.indices[-1]))
+    bad=replace(closed,present=replace(closed.present,present=(returned.vertices[-1]^7,1)))
+    inp=replace(inputs[0],committed=returned.indices[-1])
+    with pytest.raises(a.AdmissionError,match='closed initialization vertex'):
+        a.transition(bad,w,m,inp)
+
+
+def test_bound_closed_initialization_and_pending_continuation_remain_admissible():
+    s,w,m,inputs=a.context();returned=w.get(w.target).returns[-1]
+    closed=replace(s,present=replace(s.present,committed=returned.indices[-1]))
+    assert closed.present.present[0]==returned.vertices[-1] and a.validate_state(closed,w)
+    pending,event=a.transition(closed,w,m,replace(inputs[0],committed=returned.indices[-1]))
+    assert pending.present.closure_status=='pending' and a.validate_state(pending,w)
+    assert pending.present.committed==returned.indices[-1]+1 and event['new_phase']==0
+    assert n.hamming(returned.vertices[-1],pending.present.present[0])==1
+    # Later closed cuts are outside this completed-return initialization guard.
+    later=replace(s,present=replace(s.present,present=(returned.vertices[-1]^7,1)))
+    assert later.present.committed>returned.indices[-1] and a.validate_state(later,w)
+
+
 def recommit(s,w,prior):
     r=a.retain(prior);return replace(s,retained=(r,)),replace(w,prior_commitments=(a.digest(prior),))
 

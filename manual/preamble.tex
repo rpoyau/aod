@@ -75,7 +75,7 @@
 \NewDocumentCommand{\mainequation}{m}
   {
     \aod_main_reference_check:nn {#1}
-      { \A (equation|AMS)\. [0-9]+ \Z }
+      { \A (equation\. ([A-J]\.)? [0-9]+ (\.[0-9]+)* | AMS\. [0-9]+) \Z }
     % AMS anchors belong to explicitly tagged math displays; accept RG tags only.
     \exp_args:NnV \regex_match:nnT { \A AMS\. } \l_aod_main_anchor_tl
       {
@@ -97,7 +97,7 @@
 \NewDocumentCommand{\mainappendix}{m}
   {
     \aod_main_reference_check:nn {#1}
-      { \A (section|subsection|subsubsection)\. [A-J] (\.[0-9]+)* \Z }
+      { \A (appendix|section|subsection|subsubsection)\. [A-J] (\.[0-9]+)* \Z }
     Main~App.~\ref{#1}
   }
 \NewDocumentCommand{\maintable}{m}

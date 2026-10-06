@@ -11,6 +11,13 @@ def test_workflow_writes_tests_artifact_before_release_builder():
     assert "scripts/build_release_bundle.py --outdir dist --tests tests.txt --main main.pdf --manual manual.pdf" in workflow
 
 
+def test_executed_science_gate_precedes_release_packaging():
+    workflow = (ROOT / ".github/workflows/build.yml").read_text()
+    gate = "python3 scripts/audit_scientific_sources.py . --build-root ."
+    assert workflow.index("cp manual/main.pdf manual.pdf") < workflow.index(gate)
+    assert workflow.index(gate) < workflow.index("scripts/build_release_bundle.py --outdir")
+
+
 def test_release_builder_requires_tests_txt_artifact():
     script = (ROOT / "scripts" / "build_release_bundle.py").read_text()
     assert "def resolve_required_artifact" not in script

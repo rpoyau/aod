@@ -30,6 +30,31 @@ def test_conditional_hidden_file_cannot_supply_science(tmp_path):
     assert 'eq:closure-phase' not in a.label_map(tmp_path)
 
 
+@pytest.mark.parametrize('invoked', [True, False], ids=['executed-display', 'uninvoked-macro'])
+def test_actual_build_requires_execution_of_scientific_labels(tmp_path, invoked):
+    import shutil, subprocess
+    xelatex = shutil.which('xelatex')
+    if xelatex is None:
+        pytest.skip('XeLaTeX is required for executed-source integration controls')
+    display = (r'\begin{equation}\operatorname{Close}(C)=1\;\not\Rightarrow\;'
+               r'\operatorname{Isotropic}(C).\label{eq:closure-not-isotropy}\end{equation}')
+    body = display if invoked else r'\newcommand{\UnusedCanonicalDisplay}{' + display + '}'
+    (tmp_path / 'main.tex').write_text(
+        r'\documentclass{article}\usepackage{amsmath}\begin{document}'
+        + 'Publication control.\n' + body + '\n' + r'\end{document}')
+    # Both sources satisfy the same static mathematical-body lookup.
+    assert a.equations(tmp_path)['eq:closure-not-isotropy'] == display
+    result = subprocess.run(
+        [xelatex, '-recorder', '-interaction=nonstopmode', '-halt-on-error', 'main.tex'],
+        cwd=tmp_path, capture_output=True, text=True, timeout=30)
+    assert result.returncode == 0, result.stdout
+    if invoked:
+        assert a.actual_build(tmp_path, tmp_path, 'main')['actual_labels'] == 1
+    else:
+        with pytest.raises(ValueError, match='source label absent from actual aux eq:closure-not-isotropy'):
+            a.actual_build(tmp_path, tmp_path, 'main')
+
+
 def test_unrelated_active_heading_cannot_satisfy_conservation():
     expected={'source:closure':{'source_content_sha256':'original-source-equation',
         'destinations':[{'surface':'main','path':'sections/04_cut_running_fractal_tesseract.tex','label':'eq:closure-phase'}],

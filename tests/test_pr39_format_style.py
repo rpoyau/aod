@@ -102,18 +102,32 @@ def _latex(directory):
 
 
 @pytest.fixture
-def documents(tmp_path):
+def documents(tmp_path, request):
     if XELATEX is None:
         pytest.skip("XeLaTeX is required for reference integration tests")
     root = tmp_path / "source"
     manual = root / "manual"
     manual.mkdir(parents=True)
+    legacy = getattr(request, "param", {})
+    equation_format = (
+        r"\renewcommand{\theHequation}{\theHsection.\arabic{equation}}" + "\n"
+        if legacy.get("equations") else ""
+    )
+    appendix_anchor = (
+        r"\makeatletter\hyper@makecurrent{section}"
+        r"\Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend}"
+        r"\makeatother" + "\n"
+        if legacy.get("appendix") else ""
+    )
     (root / "main.tex").write_text(
         "\\documentclass{article}\n\\usepackage{amsmath,caption}\n\\usepackage{hyperref}\n"
+        + equation_format +
         "\\begin{document}\n\\section{Source}\\label{sec:source}\n"
         "\\label{eq:prose}\n\\input{proof.tex}\n"
         "\\begin{table}\\caption{Source table}\\label{tab:source}\\end{table}\n"
-        "\\appendix\\section{Appendix source}\\label{app:source}\n"
+        "\\appendix\\section{Appendix source}\n" + appendix_anchor +
+        "\\label{app:source}\n"
+        "\\begin{equation}y=y\\label{eq:appendix-source}\\end{equation}\n"
         "\\end{document}\n"
     )
     (root / "proof.tex").write_text(
@@ -250,6 +264,78 @@ def test_non_rg_ams_anchor_is_rejected_as_a_main_equation(documents):
     result = _manual(documents, r"\mainequation{main:eq:fake}")
     assert result.returncode != 0
     assert "Wrong Main reference type" in result.stdout
+
+
+@pytest.mark.parametrize("documents", [
+    {},
+    {"equations": True},
+    {"appendix": True},
+    {"equations": True, "appendix": True},
+], indirect=True, ids=["current", "legacy-equations", "legacy-appendix", "legacy-both"])
+def test_current_and_legacy_published_destinations_are_accepted(documents):
+    root, manual = documents
+    source = (root / "main.tex").read_text()
+    hierarchical = r"\renewcommand{\theHequation}" in source
+    legacy_appendix = r"\hyper@makecurrent{section}" in source
+    expected = {
+        "eq:source": "equation.1.8" if hierarchical else "equation.8",
+        "eq:appendix-source": "equation.A.9" if hierarchical else "equation.9",
+        "app:source": "appendix.A" if legacy_appendix else "section.A",
+    }
+    aux = (root / "main.aux").read_text()
+    for key, anchor in expected.items():
+        line = next(line for line in aux.splitlines() if line.startswith(r"\newlabel{" + key + "}"))
+        assert "{" + anchor + "}" in line, (key, line)
+    result = _manual(documents, (
+        r"\mainequation{main:eq:source}; \mainequation{main:eq:appendix-source}; "
+        r"\mainequation{main:eq:tagged}; \mainappendix{main:app:source}."
+    ))
+    assert result.returncode == 0, result.stdout
+    assert "Reference `main:" not in (manual / "main.log").read_text()
+    pdftotext = shutil.which("pdftotext")
+    if pdftotext is not None:
+        text = subprocess.run(
+            [pdftotext, str(manual / "main.pdf"), "-"], capture_output=True,
+            text=True, check=True, timeout=10,
+        ).stdout
+        for printed in ("Main (8)", "Main (9)", "Main (RG4)", "Main App. A"):
+            assert printed in text
+
+
+@pytest.mark.parametrize("anchor", [
+    "section.1.1", "appendix.A", "equation.A", "equation.1.A", "equation.K.2", "AMS.1.1",
+])
+def test_legacy_equation_grammar_rejects_other_types_and_malformed_destinations(documents, anchor):
+    root, _ = documents
+    with (root / "main.aux").open("a") as stream:
+        stream.write("\\newlabel{eq:fake}{{RG4}{1}{Source}{" + anchor + "}{}}\n")
+    result = _manual(documents, r"\mainequation{main:eq:fake}")
+    assert result.returncode != 0
+    assert "Wrong Main reference type" in result.stdout
+
+
+@pytest.mark.parametrize("documents", [{"equations": True, "appendix": True}], indirect=True)
+@pytest.mark.parametrize("content", [
+    r"\mainequation{main:app:source}",
+    r"\mainsection{main:app:source}",
+    r"\mainappendix{main:eq:appendix-source}",
+])
+def test_legacy_destinations_preserve_object_type_separation(documents, content):
+    result = _manual(documents, content)
+    assert result.returncode != 0
+    assert "Wrong Main reference type" in result.stdout
+
+
+def test_local_manual_equation_cannot_be_used_as_an_imported_main_equation(documents):
+    result = _manual(documents, r"\begin{equation}z=z\label{manual:eq:local}\end{equation}")
+    assert result.returncode == 0, result.stdout
+    assert r"\newlabel{manual:eq:local}" in (documents[1] / "main.aux").read_text()
+    result = _manual(documents, (
+        r"\begin{equation}z=z\label{manual:eq:local}\end{equation}"
+        r"\mainequation{manual:eq:local}"
+    ))
+    assert result.returncode != 0
+    assert "Unresolved Main reference" in result.stdout
 
 
 @pytest.mark.parametrize("content", [

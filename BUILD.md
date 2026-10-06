@@ -8,6 +8,7 @@ Typical local build:
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
 latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
 cp manual/main.pdf manual.pdf
+python3 scripts/audit_scientific_sources.py . --build-root .
 pytest -q | tee tests.txt
 python scripts/build_release_bundle.py --outdir dist --main main.pdf --manual manual.pdf --tests tests.txt
 ```
@@ -22,6 +23,10 @@ reference types stop the Manual build. This timestamp check does not detect
 content edits with preserved modification times or within the same timestamp
 second. Use clean Main-then-Manual builds for publication. Keep the delivered `main.pdf` and
 `manual.pdf` together so their external links resolve to the root pair.
+
+Before packaging publication artifacts, the scientific-source audit checks
+both completed builds against their recorded inputs and executed AUX labels.
+A canonical display stored in an uninvoked macro cannot satisfy this gate.
 
 The release tests artifact is `tests.txt`. It is produced by the pytest suite; SymPy exact-arithmetic checks are part of that suite. The release builder consumes `tests.txt` directly.
 

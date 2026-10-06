@@ -208,6 +208,9 @@ def validate_state(s,world):
     Q(x.current)
     require(x.committed>=w.returns[-1].indices[-1],'present cut precedes retained closure history')
     require(Q(x.pressure)>0 and type(x.committed) is int,'invalid current pressure/cut')
+    if x.closure_status=='closed' and x.committed==w.returns[-1].indices[-1]:
+        require(x.present[0]==w.returns[-1].vertices[-1],
+                'closed initialization vertex is not bound to its certified return')
     require(len({r.prior.source for r in s.retained})==len(s.retained),'duplicate retained source channel')
     for r in s.retained:validate_retention(r,world,x.committed)
     return True

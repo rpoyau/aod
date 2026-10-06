@@ -44,7 +44,7 @@
     "query_provenance": "Each event retains the consumed observation cut. Immediate q_k=-J_k cites k; delayed q_k=-J_(k-1) cites k-1. Delayed fixture starts with explicitly declared J_32=0 and J_33=3; later source values are recorded observations."
   },
   "operative_source": "manual/scripts/aod_awareness.py",
-  "source_sha256": "23d2cc5606033d5ea54018c51f6dc0e3b5b63444b3f1e87334fc240cc0871427",
+  "source_sha256": "fa5653fa80400af24cc5eaec3ee65818bb7d817b0eccc25390b54fb29a06a03c",
   "source_anchors": [
     "eq:awareness-state-factorization",
     "eq:retained-rebalancing",
