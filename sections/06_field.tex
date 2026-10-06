@@ -38,7 +38,8 @@ Let \(V\) be the finite vertex set, \(R\subseteq V\), and
 \operatorname{div}(i;B)=\sum_{j\in V}\phi_{ij}(B).
 \label{eq:b-scoped-divergence}
 \end{equation}
-\paragraph{Finite Stokes: derivation.}
+\subsubsection{Finite Stokes}
+\paragraph{Derivation.}
 For either one declared antisymmetric flux type, split the double sum:
 \begin{equation}
 \begin{split}
@@ -58,9 +59,14 @@ two contributing lineage records. The same finite argument holds componentwise.
 In the remaining pressure formulas \(\phi\) abbreviates \(\phi^{\mathrm{AOD}}\).
 \paragraph{Falsification.} Wrong antisymmetry or an omitted boundary channel
 breaks the finite identity; it does not create an alternative admission rule.
-\paragraph{Provenance.} AFC Choices (memory, stochastic kernel, flux) and
-Stokes corollary, finite internal-pair cancellation (AFC \texttt{choice:memory-state}, \texttt{choice:kernel}, \texttt{choice:flux}, \texttt{choice:divergence}, \texttt{choice:region}, \texttt{cor:afc-stokes}, \texttt{eq:afc-stokes-cor}); A\(\Omega\)D
+\paragraph{Provenance.} A\(\Omega\)D
 \eqref{eq:rcd-coupling} and \eqref{eq:b-scoped-channel-attention}.
+% AFC binding: choice:memory-state, choice:kernel, choice:flux,
+% choice:divergence, choice:region, cor:afc-stokes, eq:afc-stokes-cor.
+\aodliteraturenote{AFC Choices (memory, stochastic kernel, flux) and
+Stokes corollary, finite internal-pair cancellation: Poyau~\cite{afc},
+Choices~1--5, Corollary~1 and equation~(1),
+source revision \href{https://github.com/rpoyau/afc/commit/5a25e8bd5bbc3f20ec4413a6b63abc420b7a54cb}{\texttt{5a25e8bd5bbc}}.}
 \subsubsection{\texorpdfstring{\(B\)-scoped flux contents}{B-scoped flux contents}}\label{subsec:b-scoped-flux-contents}
 Resolve the A\(\Omega\)D channel operands of \eqref{eq:flux-types} on
 \(B=(\partial F,\omega)\).
@@ -476,7 +482,8 @@ J_{k+1}=J_k+\mathbf A_k/p_k.
 \end{equation}
 This realization leaves identity and closure memory fixed unless a separate
 admissible closure transition is witnessed. A zero scalar residual alone is
-not such a witness. The support triples AO and OA exchange branches; their
+not such a witness. \phantomsection
+The support triples AO and OA exchange branches; their
 oriented signed values obey \(AO=-OA\), with the hinge count retained.\label{eq:ao-oa-oriented-value}
 
 \paragraph{Statement: incident return shift.}
@@ -606,7 +613,7 @@ Component projections select declared components of the already-fixed SADAR atte
 
 \subsubsection{Temporal cycle group}\label{subsec:temporal-cycle-group}
 \begin{definition}[Temporal cycle group]
-A temporal cycle group is a carried segment of duon current participating in wave continuity. \secref{app:wave}.
+A temporal cycle group is a carried segment of duon current participating in wave continuity. \appref{app:wave}.
 \end{definition}
 
 \subsubsection{Lead-lag burden}\label{subsec:lead-lag-burden}
@@ -724,7 +731,7 @@ current family. Coherent continuity can accumulate the unresolved lead--lag burd
 \eqnref{eq:entropic-duon-current},
 \eqnref{eq:sadar-field},
 \eqnref{eq:support-enclosure-excess},
-\secref{app:wave},
+\appref{app:wave},
 \appref{app:curling-curls}.}
 
 \subsection{Seat compatibility and shell/enclosure routing}\label{sec:seat-shell-enclosure-routing}
@@ -1069,7 +1076,7 @@ the current cut; response follows at the next transition.
 
 \subsubsection{Gate contribution}\label{subsec:frg-gate-contribution}
 For a declared gate \(g_i\), define the bin contribution
-\begin{equation}
+\begin{equation*}
 S_k^{(i)}
 =
 \sum_{t\in\omega}
@@ -1077,23 +1084,23 @@ S_k^{(i)}
 \kappa_k\,
 \SADARop_{B|t}(C_\gamma).
 \tag{RG1}\label{eq:frg-gate-contribution}
-\end{equation}
+\end{equation*}
 
 \subsubsection{Independent gate-sum value}\label{subsec:frg-independent-gate-sum}
 The independent gate-sum value is
-\begin{equation}
+\begin{equation*}
 T_k^0=\sum_{i\in I}S_k^{(i)}.
 \tag{RG2}\label{eq:frg-independent-gate-sum}
-\end{equation}
+\end{equation*}
 For two gates,
-\begin{equation}
+\begin{equation*}
 T_k^0=S_k^{(a)}+S_k^{(b)}.
 \tag{RG3}\label{eq:frg-independent-two-gate}
-\end{equation}
+\end{equation*}
 
 \subsubsection{Cross-return contribution}\label{subsec:frg-cross-return-contribution}
 For a returned-current pair \((i,j)\in E_{\mathrm{return}}\), define
-\begin{equation}
+\begin{equation*}
 C_{ij,k}^{\times}(B)
 =
 \sum_{t\in\omega}
@@ -1101,9 +1108,9 @@ C_{ij,k}^{\times}(B)
 \kappa_k\,
 \SADARop_{B|t}(C_\gamma).
 \tag{RG4}\label{eq:frg-cross-return-contribution}
-\end{equation}
+\end{equation*}
 The two-gate specialization is
-\begin{equation}
+\begin{equation*}
 C_{ab,k}^{\times}(B)
 =
 \sum_{t\in\omega}
@@ -1111,38 +1118,38 @@ C_{ab,k}^{\times}(B)
 \kappa_k\,
 \SADARop_{B|t}(C_\gamma).
 \tag{RG5}\label{eq:frg-cross-return-two-gate}
-\end{equation}
+\end{equation*}
 
 \subsubsection{Recurrent ring value}\label{subsec:frg-recurrent-ring-value}
 The recurrent ring value is
-\begin{equation}
+\begin{equation*}
 T_k^\times
 =
 T_k^0+
 \sum_{(i,j)\in E_{\mathrm{return}}}
 C_{ij,k}^{\times}(B).
 \tag{RG6}\label{eq:frg-recurrent-ring-value}
-\end{equation}
+\end{equation*}
 For two gates,
-\begin{equation}
+\begin{equation*}
 T_k^\times=T_k^0+C_{ab,k}^{\times}(B).
 \tag{RG7}\label{eq:frg-recurrent-two-gate}
-\end{equation}
+\end{equation*}
 
 \subsubsection{Field-ring identity}\label{subsec:frg-identity}
 The field-ring identity is
-\begin{equation}
+\begin{equation*}
 T_k^\times-T_k^0
 =
 \sum_{(i,j)\in E_{\mathrm{return}}}
 C_{ij,k}^{\times}(B).
 \tag{RG8}\label{eq:frg-identity}
-\end{equation}
+\end{equation*}
 For two gates,
-\begin{equation}
+\begin{equation*}
 T_k^\times-T_k^0=C_{ab,k}^{\times}(B).
 \tag{RG9}\label{eq:frg-identity-two-gate}
-\end{equation}
+\end{equation*}
 
 \subsubsection{Exact-fixture corollary}\label{subsec:frg-delta-three-corollary}
 If an exact fixture declares
@@ -1164,33 +1171,33 @@ Thus
 \label{eq:frg-delta-three-signed-product}
 \end{equation}
 The compact residual package is
-\begin{equation}
+\begin{equation*}
 \delta_{3,k}(T^\times,O)=(s_k^{(3)},m_k),
 \qquad
 \delta_3(T^\times,O)
 =
 \left(\delta_{3,k}(T^\times,O)\right)_{k\in K_{\mathrm{bin}}}.
 \tag{RG10}\label{eq:frg-delta-three}
-\end{equation}
+\end{equation*}
 Normalized decimal summaries belong to declared value maps or external comparison entries.
 
 \subsubsection{FRG value package}\label{subsec:frg-value-package}
 The compact FRG value package is
-\begin{equation}
+\begin{equation*}
 \mathcal V_{\mathrm{FRG}}
 =
 (\mathfrak a,\ B,\ R_{\mathrm{ring}},\partial_T R_{\mathrm{ring}},
 V_N,E_N,I,G,K_{\mathrm{bin}},\kappa,E_{\mathrm{return}},\lambda_{\mathcal Y}).
 \tag{RG11}\label{eq:frg-value-package}
-\end{equation}
+\end{equation*}
 The declared value map is
-\begin{equation}
+\begin{equation*}
 \lambda_{\mathcal Y}:
 (T_k^\times)_{k\in K_{\mathrm{bin}}}
 \mapsto
 \mathcal Y.
 \tag{RG12}\label{eq:frg-value-map}
-\end{equation}
+\end{equation*}
 
 \aodremark{FRG supplies gated recurrent cross-return; fusion closes admitted support.}
 
@@ -1341,8 +1348,10 @@ Boundary accumulation & \(\downarrow\) & \(\Phi^D_{\partial_T R}=\sum_{e\in\part
 \label{fig:fractal-calculus-spine}
 \end{figure}\subsection{SADAR value trace of admitted recurrence}
 \label{subsec:cycle-wave-identity}
-For an already admitted wave \(W\), let \(C_t\) denote its bound
-closure/current contribution on each committed cut. Its value projection is
+For an already admitted wave \(W\) of \eqref{eq:wave-identity}, let \(C_t\)
+denote its bound retained cycle on each committed cut. This closure/current
+contribution is the operand of \eqref{eq:sadar-operator-cycle}. Its value
+projection is
 
 \begin{equation}
 v_B(W)=\{(t,\SADARop_{B|t}(C_t)):t\in\omega\}.
@@ -1364,10 +1373,10 @@ This presentation is part of the admitted recurring lineage: \(A\leftrightarrow_
 \centering\footnotesize
 \textbf{SADAR value trace of admitted recurrence}\\[0.45em]
 \begin{tabular}{c}
-$C$ = retained branch/hinge/branch package\\[0.25em]
+$C_t$ = retained branch/hinge/branch package on the committed cut\\[0.25em]
 $A\leftrightarrow_{\mu}\Omega\rightarrow\Omega\leftrightarrow_{\mu}A\rightarrow A\leftrightarrow_{\mu}\Omega$ = chiral hinge return presentation\\[0.25em]
 $\downarrow$ temporal SADAR presentation on $\omega$\\[0.25em]
-$v_B(W)=\{(t,\SADARop_{B|t}(C)):t\in\omega\}$
+$v_B(W)=\{(t,\SADARop_{B|t}(C_t)):t\in\omega\}$
 \end{tabular}
 \end{minipage}}
 \caption{An admitted recurring lineage has a chiral hinge-return presentation and a downstream SADAR value trace.}
@@ -1565,19 +1574,22 @@ bound to its committed history. Translation means \(T_a v(g)=v(g-a)\).
 Using \(G\) to index a finite record is a representation choice; periodic
 extension of that record supplies no proof of periodic dynamics.
 
-\paragraph{Definition and normalization.}
+\subsubsection{Definition and normalization}
+\paragraph{Setup.}
 \begin{equation}
 \widehat v(\chi)=\frac1N\sum_{g\in G}v(g)\overline{\chi(g)},
 \qquad \langle v,w\rangle_G=\frac1N\sum_{g\in G}v(g)\overline{w(g)}.
 \label{eq:fourier-transform}
 \end{equation}
-All corollaries below share this group, committed trace and normalization;
+All corollaries in \secref{sec:finite-harmonics} share this group, committed trace and normalization;
 local extra hypotheses are stated at their use. These value identities,
 including inversion, neither admit motifs/waves nor supply a response law.
 
 
-\paragraph{Orthogonality: derivation.}
+\subsubsection{Orthogonality}
+\paragraph{Setup.}
 For a nontrivial character \(\eta\), choose \(a\) with \(\eta(a)\ne1\).
+\paragraph{Derivation.}
 Translation of the finite sum gives \(S=\sum_g\eta(g)=\eta(a)S\), hence
 \(S=0\). For the trivial character the sum is \(N\). Thus
 \begin{equation}
@@ -1593,7 +1605,8 @@ exactly \(|\widehat G|=N\) characters. Orthogonality therefore gives a basis
 of the \(N\)-dimensional function space and the second identity by the same
 translation argument on the dual. This establishes completeness.
 
-\paragraph{Inversion and uniqueness: derivation.}
+\subsubsection{Inversion and uniqueness}
+\paragraph{Derivation.}
 Substitute \eqref{eq:fourier-transform} and apply the second identity:
 \begin{equation}
 \sum_{\chi}\widehat v(\chi)\chi(g)
@@ -1610,7 +1623,8 @@ unbound trace fails the corresponding representation or admission premise.
 \eqref{eq:fourier-orthogonality}; admission remains
 \eqref{eq:wave-identity} and \eqref{eq:motif-admission}.
 
-\paragraph{Linearity: setup and derivation.}
+\subsubsection{Linearity}
+\paragraph{Derivation.}
 Distribute the defining finite sum:
 \begin{equation}
 \widehat{av+bw}=a\widehat v+b\widehat w.
@@ -1621,8 +1635,10 @@ Distribute the defining finite sum:
 closure or update law changes its domain.
 \paragraph{Provenance.} Equation \eqref{eq:fourier-transform}.
 
-\paragraph{Shift and modulation: setup and derivation.}
+\subsubsection{Shift and modulation}
+\paragraph{Setup.}
 For \(a\in G\) and \(\eta\in\widehat G\), set \(M_\eta v(g)=\eta(g)v(g)\).
+\paragraph{Derivation.}
 Substitution \(h=g-a\) and character multiplication give
 \begin{equation}
 \widehat{T_a v}(\chi)=\overline{\chi(a)}\widehat v(\chi),
@@ -1635,7 +1651,8 @@ changing phase. Equal power therefore does not identify return phase or lineage.
 requires the opposite character factor; replacing both by one untyped shift fails.
 \paragraph{Provenance.} Equation \eqref{eq:fourier-transform}.
 
-\paragraph{Convolution and product: setup.}
+\subsubsection{Convolution and product}
+\paragraph{Setup.}
 Use unnormalized convolution \((v*w)(g)=\sum_h v(h)w(g-h)\) and pointwise
 product \((vw)(g)=v(g)w(g)\) on the same finite group.
 \paragraph{Derivation.} Substituting \(u=g-h\) factors the convolution sum;
@@ -1652,8 +1669,10 @@ operations after motif admission. Choosing a product is an explicit model.
 \paragraph{Provenance.} Equations \eqref{eq:fourier-transform} and
 \eqref{eq:fourier-inversion}.
 
-\paragraph{Correlation and power: setup and derivation.}
-Set \(R_{vw}(a)=\sum_g v(g+a)\overline{w(g)}\). Substitute the inversions;
+\subsubsection{Correlation and power}
+\paragraph{Setup.}
+Set \(R_{vw}(a)=\sum_g v(g+a)\overline{w(g)}\).
+\paragraph{Derivation.} Substitute the inversions;
 the sum over \(g\) removes unequal characters:
 \begin{equation}
 R_{vw}(a)=N\sum_\chi\widehat v(\chi)\overline{\widehat w(\chi)}\chi(a),
@@ -1665,7 +1684,8 @@ For \(v=w\), the power coefficients are \(N|\widehat v(\chi)|^2\).
 coefficients, equal phase, or equal construction provenance.
 \paragraph{Provenance.} Equation \eqref{eq:fourier-orthogonality}.
 
-\paragraph{Parseval: derivation.}
+\subsubsection{Parseval}
+\paragraph{Derivation.}
 At zero shift the same calculation, or direct orthogonality, gives
 \begin{equation}
 \frac1N\sum_g v(g)\overline{w(g)}
@@ -1678,7 +1698,8 @@ coordinate space; a physical energy meaning requires its own declared map.
 \paragraph{Falsification.} Changing normalization on one side breaks equality.
 \paragraph{Provenance.} Equation \eqref{eq:fourier-orthogonality}.
 
-\paragraph{Real traces and standing coordinates: derivation.}
+\subsubsection{Real traces and standing coordinates}
+\paragraph{Derivation.}
 For real \(v\), complex conjugation of the defining sum gives
 \begin{equation}
 \widehat v(\overline\chi)=\overline{\widehat v(\chi)}.
@@ -1699,9 +1720,11 @@ word as a running wave or establish physical propagation.
 \paragraph{Provenance.} Equations \eqref{eq:fourier-inversion} and
 \eqref{eq:fourier-real-symmetry}.
 
-\paragraph{Recurrence subgroup: setup and derivation.}
+\subsubsection{Recurrence subgroup}
+\paragraph{Setup.}
 Let \(H\le G\), and assume the bound value trace is invariant under every
-translation in \(H\). Shift covariance gives
+translation in \(H\).
+\paragraph{Derivation.} Shift covariance gives
 \((1-\overline{\chi(h)})\widehat v(\chi)=0\). Therefore
 \begin{equation}
 v(g+h)=v(g)\ (h\in H)
@@ -1718,9 +1741,11 @@ translation invariance or exact dynamical recurrence subgroup.
 \paragraph{Provenance.} Equations \eqref{eq:fourier-shift-modulation} and
 \eqref{eq:fourier-inversion}.
 
-\paragraph{Direct products: setup and derivation.}
+\subsubsection{Direct products}
+\paragraph{Setup.}
 For \(G=G_1\times\cdots\times G_s\), characters factor as
 \(\chi(g)=\prod_j\chi_j(g_j)\), and \(N=\prod_j|G_j|\).
+\paragraph{Derivation.}
 If, additionally, the trace is separable, finite sums factor:
 \begin{equation}
 v(g)=\prod_j v_j(g_j)

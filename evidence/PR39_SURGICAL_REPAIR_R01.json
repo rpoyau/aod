@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "request": "PR39 surgical repair, General Mechanics double-check",
+  "baseline_commit": "623fc5f1c574a05165043da79191f70176017ccb",
+  "baseline_staged_tree": "0bb84ae9879001a24319cbccefbcd78ca18a2378",
+  "scope": "Nine scoped repair groups; existing reviewed R04 refactor retained; no new scientific model or computational engine change.",
+  "repairs": {
+    "R01": "RG1–RG12 use explicitly tagged equation* displays; expressions, tags and labels retained.",
+    "R02": "42 source-key pointers become 40 typed Main references and 2 local table references, retaining full keys.",
+    "R03": "Four appendix pointers use appref; hydrogen uses the three existing ratio tables.",
+    "R04": "Declared response realization remains in Setup; Derivation begins at matched subtraction.",
+    "R05": "Three intact Literature notes close their applicable blocks after remarks/provenance.",
+    "R06": "Two existing Literature notes link the pinned AFC source revision 5a25e8bd5bbc3f20ec4413a6b63abc420b7a54cb.",
+    "R07": "Existing bound retained-cycle C_t is used in Main, its figure and Appendix F; no selection or aggregation rule added.",
+    "R08": "Unchanged returned-duration block follows its constructor/interface; natural equation numbering is allowed.",
+    "R09": "The exact trace remains in Manual; carrier names move to the existing Manual application; generic Main mathematics remains."
+  },
+  "expected_number_permutation": {
+    "eq:rcd-coupling": [
+      57,
+      56
+    ],
+    "eq:rcd-duration-participation": [
+      58,
+      57
+    ],
+    "eq:rcd-additive-realization": [
+      59,
+      58
+    ],
+    "eq:returned-duration": [
+      56,
+      59
+    ]
+  },
+  "reference_inventory": {
+    "Main_total": 79,
+    "equations": 57,
+    "sections": 14,
+    "appendices": 7,
+    "tables": 1
+  },
+  "audit_adjustments": {
+    "equation_parser": "Match paired starred or unstarred equation/align/gather environments.",
+    "binding_contract": "Only frg-identity environment spelling, the authorized Manual preamble hash and the one inherited formatting-test hash are refreshed. That test now expects the typed maintable pointer instead of a rendered raw key; all other canonical formula bindings and frozen hashes are retained."
+  },
+  "preservation": "Computational engine, inherited Manual assets, abstract, epitaph, appendix identities A–J, bibliography files and source-citation data remain bound to the accepted refactor.",
+  "validation": "Clean source export; pytest; native and awareness check-data; supplied semantic mutations; source and publication audit; two clean Main-before-Manual builds; actual rendered references and destinations."
+}

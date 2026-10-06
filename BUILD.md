@@ -14,6 +14,15 @@ python scripts/build_release_bundle.py --outdir dist --main main.pdf --manual ma
 
 The generated release files use stable names; source-internal paths also remain version-neutral.
 
+Build Main before Manual from the same source tree. Manual imports Main's
+published equation, section, appendix and table numbers from `main.aux`, using `main.fls` (the
+recorder file produced by latexmk by default) to reject missing inputs and
+inputs newer than the AUX. Missing files, unknown Main labels and mismatched
+reference types stop the Manual build. This timestamp check does not detect
+content edits with preserved modification times or within the same timestamp
+second. Use clean Main-then-Manual builds for publication. Keep the delivered `main.pdf` and
+`manual.pdf` together so their external links resolve to the root pair.
+
 The release tests artifact is `tests.txt`. It is produced by the pytest suite; SymPy exact-arithmetic checks are part of that suite. The release builder consumes `tests.txt` directly.
 
 ## Artifact order

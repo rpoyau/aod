@@ -55,13 +55,6 @@ and repeated distinct bound contacts; one contact supplies only a stage.
 \label{subsec:boundary-scope}
 The scoped address binder is \(\mathbf a\vdash(\mathcal F,R,\partial R,\omega)\).
 The field resolves to its wave members before a channel is evaluated.
-For returned channel \(e\), the retained duration coordinate is
-\begin{equation}
-D_e(\partial F,\omega)=\operatorname{dur}(\operatorname{RCD}_e),
-\label{eq:returned-duration}
-\end{equation}
-\label{subsec:returned-current-duration-coordinate}
-with the specific duration interface declared on that channel.
 
 \paragraph{Constructor.}
 \label{subsec:reflection-duration-coupling}
@@ -87,6 +80,14 @@ This is a declared interface realization. Neutral reflection \(r_s=0\)
 specializes it to \(\rho^D=RD\); directional reversal recomputes the \(r_s\)
 and can change duration.
 
+For returned channel \(e\), the retained duration coordinate is
+\begin{equation}
+D_e(\partial F,\omega)=\operatorname{dur}(\operatorname{RCD}_e),
+\label{eq:returned-duration}
+\end{equation}
+\label{subsec:returned-current-duration-coordinate}
+with the specific duration interface declared on that channel.
+
 \paragraph{Window participation.}
 A window projection requires a compatible count in the same ordered domain:
 \begin{equation}
@@ -97,7 +98,8 @@ A window projection requires a compatible count in the same ordered domain:
 \end{equation}
 Clipping changes only scalar participation. RD and RCD stay intact;
 support-enclosure retention TTL has its own interface in
-\eqref{eq:support-enclosure-retention}. Native relational time is constructed below.
+\eqref{eq:support-enclosure-retention}. Native relational time is constructed in
+\eqref{eq:relational-time}.
 
 \subsection{Comparison from committed recurrence}
 The phase accessor is \eqref{eq:cumulative-closure-counts}. A native comparison
@@ -185,7 +187,8 @@ A Markovian continuity continues by present cycle state. A retained-history cont
 \subsection{Downstream continuation model}
 \label{subsec:q4-hamming-ternary-kernel}
 \label{subsec:hinge-slide}
-On already admitted support, choose nonnegative rational weights. The atomic-traversal kernel below records H1 base changes. Fibre-only additional dwell has zero base traversals and uses the separate \(0_H\to0_D\) continuation on an already entered hinge; it is not called an atomic H1 event. With
+\paragraph{Setup.}
+On already admitted support, choose nonnegative rational weights. The atomic-traversal kernel \eqref{eq:admitted-kernel} records H1 base changes. Fibre-only additional dwell has zero base traversals and uses the separate \(0_H\to0_D\) continuation on an already entered hinge; it is not called an atomic H1 event. With
 the typed continuation support split as
 \begin{equation}
 \operatorname{Adm}_B=
@@ -210,7 +213,8 @@ Both choices preserve \eqref{eq:atomic-probability-one}. Direct branch bypass
 has zero support. The kernel neither supplies the first distinction nor
 certifies closure from a phase threshold.
 
-\paragraph{Hinge saturation.}
+\subsubsection{Hinge saturation}
+\paragraph{Setup.}
 The additional-dwell continuation family and its unweighted/weighted empty
 conditions are
 \begin{equation}
@@ -227,6 +231,8 @@ conditions are
 \sum_{(e,0_D)\in\operatorname{Adm}^{\mathrm{fib}}_B(e,\sigma)}w_B(e,0_D)=0.
 \label{eq:hinge-saturation-weighted}
 \end{equation}
+
+\paragraph{Derivation.}
 After the mandatory hinge, any remaining admitted continuation then has
 \begin{equation}
 \sigma'\in\{-1,+1\}.

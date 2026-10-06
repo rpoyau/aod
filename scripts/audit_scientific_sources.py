@@ -108,7 +108,7 @@ def label_map(root,surface='main'):
 def equations(root,surface='main'):
     result={}
     for path,text in include_graph(root,surface)[1]:
-        for m in re.finditer(r'\\begin\{(?:equation|align|gather)\}.*?\\end\{(?:equation|align|gather)\}',text,re.S):
+        for m in re.finditer(r'\\begin\{(equation|align|gather)(\*?)\}.*?\\end\{\1\2\}',text,re.S):
             for lab in re.findall(r'\\label\{([^}]+)\}',m.group()):result[lab]=m.group()
     return result
 

@@ -1,7 +1,7 @@
 
 \section{Pen-and-Paper AFC Raw Execution and D.E.C. Ledger}\label{manual:dec-ledger}
 \aodnoteblock{Scope}{This section gives a hand-calculation path from one declared AFC edge computation into the A\(\Omega\)D motif names used later in the manual. It is a manual ledger section: it records exact edge weights, kernel fractions, route status, and boundary values.}
-\aodprovenance{main:sec:afc-stokes-seed; main:subsec:q4-four-edge-implementation; main:subsec:hinge-slide; main:subsec:sadar; manual \secref{manual:exact-arithmetic-presentation}; manual \secref{manual:cross-return-short-window}.}
+\aodprovenance{\mainsection{main:sec:afc-stokes-seed}; \mainsection{main:subsec:q4-four-edge-implementation}; \mainsection{main:subsec:hinge-slide}; \mainsection{main:subsec:sadar}; manual \secref{manual:exact-arithmetic-presentation}; manual \secref{manual:cross-return-short-window}.}
 
 AFC runs raw. The trace records the run. A\(\Omega\)D names detected motifs. A simulation fixture first declares the AFC scope \(B\), boundary/region data, admissible channels, and update rule. The AFC run produces trace rows. A\(\Omega\)D detectors read the trace and classify motifs such as cross-return, yro route, duration-clipping, sheddic route, terminal split, Tau-ring support, orbital retention, and collision-support trace status.
 
@@ -149,12 +149,13 @@ P_{\mathrm{outgoing}}=1/7.
 \]
 
 \paragraph{Three roles and two branch roles.}
-The four-channel kernel above has role probabilities
+The four-channel kernel in \secref{manual:dec-ledger:kernel},
+\tabref{tab:manual-dec-kernel-fractions}, has role probabilities
 \((P_-,P_0,P_+)=(1/8,1/2,3/8)\). After blocking additional dwell,
 three channel rows remain, while their two-role projection is
 \((P_-,P_+)=(6/7,1/7)\). The structural hinge remains. The binary role entropy
 \(-(6/7)\log_3(6/7)-(1/7)\log_3(1/7)\) is below the uniform maximum
-\(\log_3 2\) stated in \texttt{main:subsec:q4-hamming-ternary-kernel}.
+\(\log_3 2\) stated in \mainsection{main:subsec:q4-hamming-ternary-kernel}.
 This is conditional role entropy, separate from channel cardinality,
 \(C_3(k)=k\), and channel mutual information.
 For a capacity counterexample, declare the deterministic ternary channel
