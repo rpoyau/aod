@@ -109,15 +109,18 @@ def documents(tmp_path, request):
     manual = root / "manual"
     manual.mkdir(parents=True)
     legacy = getattr(request, "param", {})
-    equation_format = (
-        r"\renewcommand{\theHequation}{\theHsection.\arabic{equation}}" + "\n"
-        if legacy.get("equations") else ""
+    equation_number = (
+        r"\theHsection.\arabic{equation}" if legacy.get("equations")
+        else r"\arabic{equation}"
     )
+    equation_format = r"\renewcommand{\theHequation}{" + equation_number + "}\n"
+    appendix_prefix = "appendix" if legacy.get("appendix") else "section"
     appendix_anchor = (
-        r"\makeatletter\hyper@makecurrent{section}"
-        r"\Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend}"
+        r"\makeatletter\edef\aodTestDesiredHref{" + appendix_prefix + r".\theHsection}"
+        r"\ifx\@currentHref\aodTestDesiredHref\else"
+        r"\Hy@raisedlink{\hyper@anchorstart{\aodTestDesiredHref}\hyper@anchorend}\fi"
+        r"\global\let\@currentHref\aodTestDesiredHref"
         r"\makeatother" + "\n"
-        if legacy.get("appendix") else ""
     )
     (root / "main.tex").write_text(
         "\\documentclass{article}\n\\usepackage{amsmath,caption}\n\\usepackage{hyperref}\n"
@@ -275,8 +278,8 @@ def test_non_rg_ams_anchor_is_rejected_as_a_main_equation(documents):
 def test_current_and_legacy_published_destinations_are_accepted(documents):
     root, manual = documents
     source = (root / "main.tex").read_text()
-    hierarchical = r"\renewcommand{\theHequation}" in source
-    legacy_appendix = r"\hyper@makecurrent{section}" in source
+    hierarchical = r"\theHsection.\arabic{equation}" in source
+    legacy_appendix = r"\edef\aodTestDesiredHref{appendix." in source
     expected = {
         "eq:source": "equation.1.8" if hierarchical else "equation.8",
         "eq:appendix-source": "equation.A.9" if hierarchical else "equation.9",
