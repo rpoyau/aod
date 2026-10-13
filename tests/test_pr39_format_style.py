@@ -46,9 +46,55 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
             else:
                 assert key in SECTION_TARGETS
                 assert labels[key]["path"] == SECTION_TARGETS[key]
-    assert len(references) == 43
-    assert ("mainequation", "eq:awareness-response") in references
-    assert ("mainequation", "eq:fourier-transform") in references
+    assert set(references) == {
+        ('mainequation', 'eq:atomic-h1'),
+        ('mainequation', 'eq:awareness-active'),
+        ('mainequation', 'eq:awareness-carriage'),
+        ('mainequation', 'eq:awareness-operative-set'),
+        ('mainequation', 'eq:awareness-state-factorization'),
+        ('mainequation', 'eq:b-scoped-flux-antisymmetry'),
+        ('mainequation', 'eq:b-scoped-stokes'),
+        ('mainequation', 'eq:causal-update'),
+        ('mainequation', 'eq:closure-certificate'),
+        ('mainequation', 'eq:closure-phase'),
+        ('mainequation', 'eq:closure-phase-window'),
+        ('mainequation', 'eq:closure-residual'),
+        ('mainequation', 'eq:coupling-trace'),
+        ('mainequation', 'eq:cumulative-closure-counts'),
+        ('mainequation', 'eq:expose-inner-lineage'),
+        ('mainequation', 'eq:field-organization'),
+        ('mainequation', 'eq:first-anchor'),
+        ('mainequation', 'eq:flux-types'),
+        ('mainequation', 'eq:fold-outer-closure'),
+        ('mainequation', 'eq:fourier-transform'),
+        ('mainequation', 'eq:hinge-grammar'),
+        ('mainequation', 'eq:motif-admission'),
+        ('mainequation', 'eq:operative-self'),
+        ('mainequation', 'eq:rcd-additive-realization'),
+        ('mainequation', 'eq:rcd-coupling'),
+        ('mainequation', 'eq:reflected-leg-bound'),
+        ('mainequation', 'eq:relational-time'),
+        ('mainequation', 'eq:retained-rebalancing'),
+        ('mainequation', 'eq:return-identity'),
+        ('mainequation', 'eq:sadar-rational-response'),
+        ('mainequation', 'eq:shedding-excess'),
+        ('mainequation', 'eq:wave-identity'),
+        ('mainequation', 'eq:wave-update-trace'),
+        ('mainsection', 'sec:afc-stokes-seed'),
+        ('mainsection', 'subsec:hinge-slide'),
+        ('mainsection', 'subsec:q4-four-edge-implementation'),
+        ('mainsection', 'subsec:q4-hamming-ternary-kernel'),
+        ('mainsection', 'subsec:sadar'),
+    }
+    local = audit.equations(ROOT, 'manual')
+    moved = {'eq:awareness-response', 'eq:awareness-causal-difference',
+             'eq:action-return-retention', 'eq:awareness-shedding-bridge',
+             'eq:awareness-conditioned-shedding', 'eq:mindfulness-stability'}
+    text = (ROOT / TARGETS[0]).read_text()
+    for key in moved:
+        assert key in local and key not in equations
+        assert r"\eqref{" + key + "}" in text
+        assert ('mainequation', key) not in references
 
 
 def _argument_end(text, opening):
@@ -75,7 +121,7 @@ def test_afc_citation_variants_are_confined_to_literature_notes():
     assert afc, "AFC attribution is required, including optional-note cite forms"
     for match in afc:
         assert any(start <= match.start() < match.end() <= end for start, end in notes)
-    provenance = text.index(r"\paragraph{Provenance.}")
+    provenance = text.index(r"\aodprovenance{")
     literature = text.index(r"\aodliteraturenote", provenance)
     assert not any(provenance < match.start() < literature for match in citations)
 
@@ -91,7 +137,7 @@ def test_historical_role_headings_and_separate_awareness_stages_are_preserved():
     awareness = (ROOT / "sections/08_awareness_learning_mindfulness.tex").read_text()
     assert r"\paragraph{Falsification and provenance.}" not in awareness
     assert awareness.count(r"\paragraph{Falsification.}") >= 4
-    assert awareness.count(r"\paragraph{Provenance.}") >= 4
+    assert awareness.count(r"\aodprovenance{") == 4
 
 
 def _latex(directory):

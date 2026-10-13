@@ -147,7 +147,7 @@ def audit(root):
     result={'main_files':mfiles,'manual_files':ufiles,'main_labels':len(labs),'manual_labels':len(ulabs),'literal_provenance':len(refs),'equation_contracts':len(CANONICAL_EQUATIONS)}
     spec=importlib.util.spec_from_file_location('audit_ontology_compaction',root/'scripts/audit_ontology_compaction.py')
     compaction=importlib.util.module_from_spec(spec);spec.loader.exec_module(compaction)
-    result['compaction']=compaction.audit(root,mfiles,mparts,labs,eqs,ufiles,ulabs)
+    result['compaction']=compaction.audit(root,mfiles,mparts,labs,eqs,ufiles,ulabs,uparts,equations(root,'manual'))
     return result
 
 

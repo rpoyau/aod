@@ -322,14 +322,14 @@ def operative(s,w,m,inp):
         if outcome([base])!=outcome([alt]):sources.append(r.prior.source)
     nodes=tuple(sorted({w.target,*sources})) if sources else ()
     return {'nodes':nodes,'edges':tuple((source,w.target) for source in sources),'sources':tuple(sources),
-            'roles':{node:('ME' if node==w.target else 'BETWEEN') for node in nodes},'outside_role':'NOT-ME'}
+            'roles':{node:('SELF' if node==w.target else 'BETWEEN') for node in nodes},'outside_role':'NOT-SELF'}
 
 
 def label_case(prefix='renamed',impostor=False):
     s,w,m,inputs=context(peers=2,prefix=prefix);g=operative(s,w,m,inputs[0])
     bound={'I':w.target,'notice':tuple(g['sources'])}
     candidate='unconnected-node' if impostor else bound['I']
-    require(candidate in g['nodes'] and g['roles'][candidate]=='ME','I label cannot create operative participation')
+    require(candidate in g['nodes'] and g['roles'][candidate]=='SELF','I label cannot create operative participation')
     return {'operative_count':len(g['nodes']),'edge_count':len(g['edges']),'I_role':g['roles'][candidate],
             'graph':g,'binding':bound}
 

@@ -25,7 +25,7 @@ Its fields hold committed comparison records, with absent coordinates typed
 as absent until their preconditions have been established.
 
 \paragraph{Declared update and trace.}
-An implementation states its update law and admissible input domain:
+Declare an update law on its admissible input domain:
 \begin{equation}
 S^W_{k+1}=\mathcal U_B(S^W_{\le k},S^\times_{\le k},\mathrm{input}_{\le k}),
 \qquad
@@ -35,8 +35,8 @@ S^W_{k+1}=\mathcal U_B(S^W_{\le k},S^\times_{\le k},\mathrm{input}_{\le k}),
 In the native event realization, state and input cuts are integers. Initialization
 at a completed return retains that return's vertex coordinate; any rebasing uses
 a declared coordinate map.
-This interface permits different declared realizations. It does not assert a
-universal response law. Pair events have separate immutable records:
+This interface permits different declared realizations. Pair events have
+separate immutable records:
 \begin{equation}
 \begin{split}
 e_s^\times={}&(\operatorname{id}_s,W_i^{\mathrm{id}},W_j^{\mathrm{id}},
@@ -70,15 +70,15 @@ Couple the support accessor \eqref{eq:branch-hinge-rd} before projecting duratio
 \end{equation}
 Here \(\mathcal D_{ij}\) is a declared exact ordered native count domain.
 The constructor retains both lineages, direction, repeated contact identities,
-scope and reflection witness. A concrete additive-count realization stores
+scope and reflection witness. An additive-count specialization has domain
 \((RD,r_1,\ldots,r_m)\) with \(r_s\ge0\) and sets
 \begin{equation}
 \operatorname{dur}_{+}(RD\bowtie(r_s)_s)=RD+\sum_s r_s.
 \label{eq:rcd-additive-realization}
 \end{equation}
-This is a declared interface realization. Neutral reflection \(r_s=0\)
-specializes it to \(\rho^D=RD\); directional reversal recomputes the \(r_s\)
-and can change duration.
+This is a declared duration specialization. Neutral reflection \(r_s=0\)
+specializes it to \(\rho^D=RD\); the \(r_s\) depend on direction,
+so reversal can change duration.
 
 For returned channel \(e\), the retained duration coordinate is
 \begin{equation}
@@ -135,7 +135,7 @@ Here \(N_i,N_j\) count committed reclosures and
 \((b_i,b_j)\in\mathbb Q^2\) are separately declared ordered oriented offsets.
 A whole-closure slip changes \(\Lambda\) by one even if a wrapped display repeats.
 Another declared convention is the cadence-qualified \(qX_i-pX_j\), whose
-reversal retains its coefficient normalization. Neither law is universal.
+reversal retains its coefficient normalization.
 
 \begin{equation}
 \begin{split}
@@ -160,12 +160,9 @@ unbound prefix, absent duration interface or incompatible clipping domain
 invalidate the stated coordinate. Aggregation that discards direction or
 ancestry loses part of the relation even when its current sums to zero.
 
-\paragraph{Provenance.}
-Equations \eqref{eq:beat-reclosure}, \eqref{eq:wave-identity},
+\aodprovenance{Equations \eqref{eq:beat-reclosure}, \eqref{eq:wave-identity},
 \eqref{eq:wave-update-trace}, \eqref{eq:coupling-trace} and
-\eqref{eq:rcd-coupling}. Native counts and ratios become measurements only
-through a separately declared Manual protocol, reference, calibration, unit,
-resolution, uncertainty, repeatability and traceability.
+\eqref{eq:rcd-coupling}.}
 
 \subsubsection{Tick/click}
 \label{subsec:duon-tick-click}
@@ -249,6 +246,6 @@ maximum at \(z=1/2\), with the endpoints defined by continuity. This scoped
 entropy differs from \eqref{eq:ternary-capacity} and general channel capacity.
 \aodliteraturenote{Hypercube support: Weisstein~\cite{weissteinHypercubeGraph};
 adjacency walks: MIT OCW~\cite{mitAdjacencyWalks}, Duncan~\cite{duncanAdjacencyWalks};
-random walks: Wisconsin~\cite{wisconsinRandomWalks}, Norris~\cite{norrisMarkov}.
+random walks: Norris~\cite{norrisMarkov}.
 Dyck/Catalan context: Stanley~\cite{stanleyCatalan},
 Flajolet--Sedgewick~\cite{flajoletSedgewick}.}

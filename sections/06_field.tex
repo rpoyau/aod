@@ -1,5 +1,5 @@
 
-\section{Stokes, SADAR and harmonic boundary values}
+\section{Field and SADAR}
 \label{sec:stokes-sadar-harmonic}
 \label{sec:afc-stokes-seed}
 \label{subsec:afc-stokes-identity}
@@ -18,18 +18,16 @@ values of admitted returned channels. Keep their types explicit:
 \end{equation}
 Each normalized product lies in \([0,1]\), hence
 \(|\phi^{\mathrm{AFC}}_{ij}|\le1\). Pressure values such as \(7\) are A\(\Omega\)D
-channel values in their declared count domain. An oriented ledger channel
-has a reverse view of equal magnitude and opposite sign. A separately
-constructed reverse physical channel retains its own directional RCD; it
-is not identified with that bookkeeping reverse view.
+channel values in their declared count domain. Orientation reversal of a
+fixed antisymmetric flux changes its sign. A separately constructed reverse
+channel retains its own directional RCD and need not have the same magnitude.
 
 \paragraph{Joint invariance.}
 For a relabelling \(g\), \(p^{\mathrm{mem}}_{gi}=p^{\mathrm{mem}}_i\) and
 \(P_{gi,gj}=P_{ij}\) imply \(\phi^{\mathrm{AFC}}_{gi,gj}=\phi^{\mathrm{AFC}}_{ij}\)
 by substitution. Kernel symmetry alone supplies no such result: a two-state
 swap kernel with memory \((3/4,1/4)\) has flux \(1/2\), whereas equal memory
-gives zero. In both cases an admitted closure retains its ancestry and one
-complete closure-phase cycle.
+gives zero.
 
 \paragraph{Region and boundary.}
 Let \(V\) be the finite vertex set, \(R\subseteq V\), and
@@ -58,9 +56,9 @@ two contributing lineage records. The same finite argument holds componentwise.
 \end{equation}
 In the remaining pressure formulas \(\phi\) abbreviates \(\phi^{\mathrm{AOD}}\).
 \paragraph{Falsification.} Wrong antisymmetry or an omitted boundary channel
-breaks the finite identity; it does not create an alternative admission rule.
-\paragraph{Provenance.} A\(\Omega\)D
-\eqref{eq:rcd-coupling} and \eqref{eq:b-scoped-channel-attention}.
+breaks the finite identity.
+\aodprovenance{A\(\Omega\)D
+\eqref{eq:rcd-coupling} and \eqref{eq:b-scoped-channel-attention}.}
 % AFC binding: choice:memory-state, choice:kernel, choice:flux,
 % choice:divergence, choice:region, cor:afc-stokes, eq:afc-stokes-cor.
 \aodliteraturenote{AFC Choices (memory, stochastic kernel, flux) and
@@ -122,7 +120,7 @@ In \eqref{eq:b-scoped-flux}, \(p^D\) is magnitude and \(A\) is direction.
 Scaling every \(p^D\) by \(\lambda\) at fixed orientation and channel family
 scales both \(\phi\) and its attention sum \(\mathbf A_F\) by \(\lambda\).
 
-The oriented ledger channel \((i,j)\) fixes \(\phi_{ij}(B)\); its reverse bookkeeping view is fixed by antisymmetry:
+For a fixed antisymmetric flux on the oriented pair \((i,j)\):
 \begin{equation}
 \phi_{ji}(B)=-\phi_{ij}(B),
 \qquad
@@ -133,7 +131,7 @@ When \(i_{ij}(B)\) has components, the antisymmetry and Stokes identity are eval
 
 The divergence is the sum defined in \eqref{eq:b-scoped-divergence}.
 
-Specializing \eqref{eq:afc-stokes-used} to that ledger gives
+Specializing \eqref{eq:afc-stokes-used} to this flux gives
 \begin{equation}
 \sum_{i\in R}\operatorname{div}(i;B)
 =
@@ -536,7 +534,7 @@ When another field is included in the same accounting scope, cross-return channe
 \[
 \ADAR_{i\leftarrow j}=\text{cross-return channel},\qquad i\ne j.
 \]
-Self-return and cross-return are channel forms inside the same SADAR balance. A field ring gate is a finite cross-return fixture with declared boundary gates, returned-current relations, and output bins.
+Self-return and cross-return are channel forms inside the same SADAR balance. The field ring gate has the declared boundary gates, returned-current relations and value domain of \secref{subsec:fractal-field-ring-gate}.
 
 \subsubsection{Boundary-relative simultaneity}\label{subsec:boundary-relative-simultaneity}
 Boundary-relative simultaneity names the coexistence of component-field and enclosing-field SADAR balances. Component fields and enclosing fields may each carry their own SADAR attention vector because each vector is scoped by its declared boundary/window. For the enclosing two-field scope, write
@@ -1046,7 +1044,7 @@ The returned-current relation is
 E_{\mathrm{return}}\subseteq I\times I.
 \label{eq:frg-return-relation}
 \end{equation}
-For adjacent-only fixtures,
+Under the adjacent-only restriction,
 \begin{equation}
 (i,j)\in E_{\mathrm{return}}
 \Rightarrow
@@ -1109,7 +1107,8 @@ C_{ij,k}^{\times}(B)
 \SADARop_{B|t}(C_\gamma).
 \tag{RG4}\label{eq:frg-cross-return-contribution}
 \end{equation*}
-The two-gate specialization is
+For the two-gate specialization with
+\(E_{\mathrm{return}}=\{(a,b)\}\),
 \begin{equation*}
 C_{ab,k}^{\times}(B)
 =
@@ -1130,7 +1129,7 @@ T_k^0+
 C_{ij,k}^{\times}(B).
 \tag{RG6}\label{eq:frg-recurrent-ring-value}
 \end{equation*}
-For two gates,
+Under the specialization of \eqnref{eq:frg-cross-return-two-gate},
 \begin{equation*}
 T_k^\times=T_k^0+C_{ab,k}^{\times}(B).
 \tag{RG7}\label{eq:frg-recurrent-two-gate}
@@ -1145,41 +1144,12 @@ T_k^\times-T_k^0
 C_{ij,k}^{\times}(B).
 \tag{RG8}\label{eq:frg-identity}
 \end{equation*}
-For two gates,
+Under the specialization of \eqnref{eq:frg-cross-return-two-gate},
 \begin{equation*}
 T_k^\times-T_k^0=C_{ab,k}^{\times}(B).
 \tag{RG9}\label{eq:frg-identity-two-gate}
 \end{equation*}
 
-\subsubsection{Exact-fixture corollary}\label{subsec:frg-delta-three-corollary}
-If an exact fixture declares
-\[
-T_k^\times,O_k\in\mathbb Z,
-\]
-then record the exact ternary signed residual
-\begin{equation}
-\Delta_k^{\mathbb Z}=T_k^\times-O_k,
-\qquad
-s_k^{(3)}=\operatorname{sgn}(\Delta_k^{\mathbb Z})\in\{-1,0,+1\},
-\qquad
-m_k=|\Delta_k^{\mathbb Z}|\in\mathbb Z_{\ge0}.
-\label{eq:frg-delta-three-components}
-\end{equation}
-Thus
-\begin{equation}
-\Delta_k^{\mathbb Z}=s_k^{(3)}m_k.
-\label{eq:frg-delta-three-signed-product}
-\end{equation}
-The compact residual package is
-\begin{equation*}
-\delta_{3,k}(T^\times,O)=(s_k^{(3)},m_k),
-\qquad
-\delta_3(T^\times,O)
-=
-\left(\delta_{3,k}(T^\times,O)\right)_{k\in K_{\mathrm{bin}}}.
-\tag{RG10}\label{eq:frg-delta-three}
-\end{equation*}
-Normalized decimal summaries belong to declared value maps or external comparison entries.
 
 \subsubsection{FRG value package}\label{subsec:frg-value-package}
 The compact FRG value package is
@@ -1272,7 +1242,7 @@ n_F(c)\le N^{\max,0}_{F,c}.
 A gas/fluid classifier is a declaration on \(B_c\), not an external material label. Chiral flip, background-continuation jitter, slosh, semi-coupling, and lead-lag are boundary-current features of the declared regime.
 
 
-\aodremark{A field-fluid regime may distinguish locally seated, unresolved-jitter, pending, and sheddic chiral events by declared boundary status. Application fixtures evaluate these distinctions as manual entries.}
+\aodremark{A field-fluid regime may distinguish locally seated, unresolved-jitter, pending, and sheddic chiral events by declared boundary status.}
 
 \subsubsection{Nested boundary and inter-layer SADAR coupling}\label{subsec:interlayer-sadar-coupling}
 For nested boundaries
@@ -1317,7 +1287,7 @@ construct the higher closure, and their iteration gives chain reclosure.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.82\linewidth]{figures_jpg/field_dynamics_layered.png}
+\includegraphics[width=0.82\linewidth]{figures_jpg/field_dynamics_layered_main.png}
 \caption{Layered field dynamics. Boundaries separate layers; same-sense circulation remains on each layer; coupling arrows cross declared inter-layer channels; decoupling/lift arrows indicate exoshedding after closure surplus.}
 \label{fig:field-dynamics-layered}
 \end{figure}
@@ -1427,7 +1397,8 @@ RD_{\AO}(3{:}3)=61,
 \qquad
 T_{\mathrm{sync}}=\operatorname{lcm}(137,61)=8357.
 \]
-The coupling is \(\SADARop_B(C_{3{:}4},C_{3{:}3})\), not automatic adjacency and not the cadence diagnostic.
+The coupling is \(\SADARop_B(C_{3{:}4},C_{3{:}3})\). Adjacency and the
+least common multiple alone do not establish that coupling.
 
 \begin{figure}[H]
 \centering
@@ -1523,7 +1494,7 @@ p^D_{uv,\AO}(B)A_{uv,\AO}(B).
 \end{equation}
 The polyrhythm SADAR value is the finite accumulation in \eqnref{eq:fractal-cycle-finite-accumulation}. Ring-adjacent SADAR coupling gives the fractal field ring gate of \secref{subsec:fractal-field-ring-gate}.
 
-\aodremark{A polyrhythm calculation follows cycle provenance first, then stores scalar A\(\Omega\) accessors. Reducing a retained cycle to a raw duration erases branch/hinge/branch information needed by later coupling, seat compatibility, shedding, or SADAR calculations.}
+\aodremark{A scalar duration projection of a retained cycle omits branch/hinge/branch information needed by later coupling, seat compatibility, shedding, or SADAR calculations.}
 
 \begin{figure}[H]
 \centering
@@ -1625,9 +1596,9 @@ no second coefficient family represents a different trace with the same
 full transform. Distinct provenance can still accompany equal value traces.
 \paragraph{Falsification.} A missing coefficient, altered normalization or
 unbound trace fails the corresponding representation or admission premise.
-\paragraph{Provenance.} Finite character sum and
+\aodprovenance{Finite character sum and
 \eqref{eq:fourier-orthogonality}; admission remains
-\eqref{eq:wave-identity} and \eqref{eq:motif-admission}.
+\eqref{eq:wave-identity} and \eqref{eq:motif-admission}.}
 
 \subsubsection{Linearity}
 \paragraph{Derivation.}
@@ -1639,7 +1610,7 @@ Distribute the defining finite sum:
 \paragraph{Specialization.} Value superposition is linear; certificates, fusion and updates retain their own laws.
 \paragraph{Falsification.} Applying this value identity to infer a linear
 closure or update law changes its domain.
-\paragraph{Provenance.} Equation \eqref{eq:fourier-transform}.
+\aodprovenance{Equation \eqref{eq:fourier-transform}.}
 
 \subsubsection{Shift and modulation}
 \paragraph{Setup.}
@@ -1655,7 +1626,7 @@ Substitution \(h=g-a\) and character multiplication give
 changing phase. Equal power therefore does not identify return phase or lineage.
 \paragraph{Falsification.} A shift with the opposite translation convention
 requires the opposite character factor; replacing both by one untyped shift fails.
-\paragraph{Provenance.} Equation \eqref{eq:fourier-transform}.
+\aodprovenance{Equation \eqref{eq:fourier-transform}.}
 
 \subsubsection{Convolution and product}
 \paragraph{Setup.}
@@ -1671,9 +1642,9 @@ substituting both inversions and using orthogonality gives the product sum:
 \end{equation}
 \paragraph{Specialization.} A declared mixing model may consume these value
 operations after motif admission. Choosing a product is an explicit model.
-\paragraph{Falsification.} Omitting \(N\) violates the shared normalization; value mixing supplies no outer certificate.
-\paragraph{Provenance.} Equations \eqref{eq:fourier-transform} and
-\eqref{eq:fourier-inversion}.
+\paragraph{Falsification.} Omitting \(N\) violates the shared normalization.
+\aodprovenance{Equations \eqref{eq:fourier-transform} and
+\eqref{eq:fourier-inversion}.}
 
 \subsubsection{Correlation and power}
 \paragraph{Setup.}
@@ -1688,7 +1659,7 @@ R_{vw}(a)=N\sum_\chi\widehat v(\chi)\overline{\widehat w(\chi)}\chi(a),
 For \(v=w\), the power coefficients are \(N|\widehat v(\chi)|^2\).
 \paragraph{Falsification.} Equal power is insufficient for equal complex
 coefficients, equal phase, or equal construction provenance.
-\paragraph{Provenance.} Equation \eqref{eq:fourier-orthogonality}.
+\aodprovenance{Equation \eqref{eq:fourier-orthogonality}.}
 
 \subsubsection{Parseval}
 \paragraph{Derivation.}
@@ -1702,7 +1673,7 @@ At zero shift the same calculation, or direct orthogonality, gives
 \paragraph{Specialization.} This is a squared-value identity in the chosen
 coordinate space; a physical energy meaning requires its own declared map.
 \paragraph{Falsification.} Changing normalization on one side breaks equality.
-\paragraph{Provenance.} Equation \eqref{eq:fourier-orthogonality}.
+\aodprovenance{Equation \eqref{eq:fourier-orthogonality}.}
 
 \subsubsection{Real traces and standing coordinates}
 \paragraph{Derivation.}
@@ -1723,8 +1694,8 @@ Running character and standing pair coordinates represent the same admitted
 trace. Self-conjugate characters are already real and occur once.
 \paragraph{Falsification.} This coordinate change cannot classify an open
 word as a running wave or establish physical propagation.
-\paragraph{Provenance.} Equations \eqref{eq:fourier-inversion} and
-\eqref{eq:fourier-real-symmetry}.
+\aodprovenance{Equations \eqref{eq:fourier-inversion} and
+\eqref{eq:fourier-real-symmetry}.}
 
 \subsubsection{Recurrence subgroup}
 \paragraph{Setup.}
@@ -1744,8 +1715,8 @@ The converse follows by translating each term in the inversion.
 index may satisfy this hypothesis. Jittered cadence need not do so.
 \paragraph{Falsification.} A finite observation window alone supplies no
 translation invariance or exact dynamical recurrence subgroup.
-\paragraph{Provenance.} Equations \eqref{eq:fourier-shift-modulation} and
-\eqref{eq:fourier-inversion}.
+\aodprovenance{Equations \eqref{eq:fourier-shift-modulation} and
+\eqref{eq:fourier-inversion}.}
 
 \subsubsection{Direct products}
 \paragraph{Setup.}
@@ -1761,9 +1732,9 @@ v(g)=\prod_j v_j(g_j)
 \end{equation}
 \paragraph{Specialization.} Declared independent recurrence orders may use
 a product group. A coupled trace generally has nonseparable coefficients.
-\paragraph{Falsification.} Product index alone does not imply separability. The shared value setup supplies no admission or linear coupling law.
-\paragraph{Provenance.} Equation \eqref{eq:fourier-transform}, finite products
-of cyclic character bases, and the declared separability premise.
+\paragraph{Falsification.} Product index alone does not imply separability.
+\aodprovenance{Equation \eqref{eq:fourier-transform}, finite products
+of cyclic character bases, and the declared separability premise.}
 \subsubsection{Finite cancellation residuals}
 \label{subsec:afc-flux-stokes-audit}
 For a declared region \(R\) and scope \(B\), define
@@ -1803,8 +1774,7 @@ and its retained window sum is \eqref{eq:window-current}. These are downstream
 value coordinates of \eqref{eq:wave-identity}.
 \paragraph{Comparison scope.}\label{subsec:external-comparison-quarantine}
 Native counts and admitted harmonic coordinates retain their exact finite
-domains. The Manual declares calibration and external comparison maps at
-their reporting interfaces.
+domains.
 
 \subsection{Audit hooks}
 \label{sec:audit-hooks}
@@ -1833,7 +1803,6 @@ On a declared field and window, if \(X_{\mathrm{shedding}}(\partial F,\omega)>0\
 SYM-A1--A4 check, in order, support \eqref{eq:branch-hinge-rd}, constructor
 \eqref{eq:rcd-coupling}, scalar interface \eqref{eq:rcd-duration-participation},
 and compatible clipping \eqref{eq:window-clipped-rho}.
-SYM-A5 checks integer-fixture residuals \eqref{eq:frg-delta-three}.
 
 \subsubsection{Cycle and polyrhythm audit}\label{subsec:cycle-polyrhythm-audit}
 The cycle audit is certified when a retained field cycle is declared before any scalar duration accessor:
@@ -1867,12 +1836,11 @@ RG-A8. Each path contribution uses \(\SADARop_{B|t}(C_\gamma)\) or declared \(\p
 
 RG-A9. \(\lambda_{\mathcal Y}:(T_k^\times)_k\mapsto\mathcal Y\) is declared as a value map.
 
-RG-A10. \(T_k^\times-T_k^0=\sum C_{ij,k}^{\times}(B)\) is formed for declared exact integer fixtures.
+RG-A10. The retained value difference obeys \eqref{eq:frg-identity}.
 
-RG-A11. Exact integer fixtures record \(\Delta^{\mathbb Z}\) and \(\delta_3\).
 
 \subsubsection{Naming audit}\label{subsec:naming-audit}
-A core name passes when it identifies a reusable relation pattern rather than a specific measured-sector carrier. Carrier names may appear in manual entries, comparison entries, benchmark entries, or quarantined external maps.
+A core name passes when it identifies a reusable relation pattern rather than a specific measured-sector carrier.
 
 \subsubsection{Wave audit}\label{subsec:wave-audit}
 For an already admitted recurrent wave, its value/state projection may be recorded as:

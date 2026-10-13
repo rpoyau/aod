@@ -65,6 +65,43 @@ The \(1{:}2{:}7\) fixture has \(P^D=21\) and closure-dependent sign.
 
 
 
+\subsection{Four-step arithmetic fixtures}
+\label{manual:simfix:four-step-arithmetic}
+Specialize \mainappendix{main:app:proto:statements}:
+Then
+\[
+6=4(1)+2,
+\qquad
+7=4(1)+3,
+\qquad
+8=4(2)+0,
+\]
+\[
+9=4(2)+1,
+\qquad
+10=4(2)+2.
+\]
+
+\subsection{Demonstration}
+\label{app:cycle-shedding-demo-demonstration}
+The model is \mainappendix{main:app:cycle-shedding-demo-statements}.
+The retained \texttt{wavelet\_shedding\_simulation.csv} fixture supplies \(90\) ticks. Specialize the model to retention coefficient \(\eta_{\mathrm{ret}}=41/50\), span gain \(\gamma_{\mathrm{span}}=11/20\), reclosure fraction \(\lambda_{\mathrm{reclose}}=19/50\), and initial burden \(P_{-1}=0\). The generator \path{manual/scripts/generate_cycle_shedding_fixture.py} validates the stored recurrences and summary before plotting the supplied lead and lag streams. All stored states are open; the local fraction \(R_t\) does not certify a return.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.98\linewidth]{../figures_jpg/cycle_disturbance_shedding_fixture.png}
+\caption{Retained temporal-cycle fixture. The burden \(P_t\) is post-clipping, with \(P_t\le C_t\); the stacked outward and local fractions sum to \(X_t\). Figure and summary use the same CSV. The summary label ``Total exoshedding'' denotes \(\sum_t O_t\) in this fixture.}
+\label{fig:v39-cycle-shedding-simulation}
+\end{figure}
+
+\begin{center}
+\input{../cycle_shedding_summary.tex}
+\end{center}
+
+\subsection{Falsification}
+\label{manual:cycle-shedding-run-verdict}
+If the computed values violate the stated recurrences on the declared ticks, the demonstration fails on that run.
+
 \subsection{Data-support class reference}\label{manual:app:data-support-class-reference}
 Manual fixtures and comparisons are read together with their declared data-support class. The compact class list is:
 \[

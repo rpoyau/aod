@@ -99,7 +99,14 @@ def test_m2_canonical_science_and_manual_fixture_are_rendered():
               'eq:action-return-retention':r'r_a=y-u',
               'eq:awareness-carriage':r'R^{\uparrow}',
               'eq:mindfulness-stability':r'J_{k+1}-b='}
-    for lab,formula in bindings.items():assert a.normalize_math(formula) in a.normalize_math(equations[lab])
+    local = a.equations(ROOT, 'manual')
+    moved = {'eq:awareness-response', 'eq:awareness-causal-difference',
+             'eq:action-return-retention', 'eq:mindfulness-stability'}
+    for lab, formula in bindings.items():
+        owner = local if lab in moved else equations
+        other = equations if lab in moved else local
+        assert lab not in other
+        assert a.normalize_math(formula) in a.normalize_math(owner[lab])
     assert 'manual:m2-awareness-fixtures' in a.label_map(ROOT,'manual')
 
 
@@ -107,9 +114,15 @@ def test_m2_data_rows_bind_active_definitions_and_exact_source():
     import hashlib
     rows=[json.loads(t) for t in (ROOT/'manual/data/m2/awareness_cases.jsonl').read_text().splitlines()]
     assert len(rows)==47 and len({x['fixture_id'] for x in rows})==47
-    main=a.label_map(ROOT);manual=a.label_map(ROOT,'manual')
-    for x in rows:
-        assert x['main_anchor'] in main and x['manual_anchor'] in manual
+    maps = {s: a.label_map(ROOT, s) for s in ('main', 'manual')}
+    bindings = json.loads((ROOT/'evidence/PR39_MAIN_MANUAL_RELOCATION_R07.json').read_text())['fixture_bindings']
+    assert a.audit(ROOT)['compaction']['canonical_equations'] == 81
+    for x, binding in zip(rows, bindings):
+        assert x['fixture_id'] == binding['fixture_id']
+        assert x['main_anchor'] == binding['immutable_legacy_main_anchor']
+        current = binding['current_construct']
+        assert maps[current['surface']][current['label']]['path'] == current['path']
+        assert x['manual_anchor'] in maps['manual']
         assert x['source_sha256']==hashlib.sha256((ROOT/x['source']).read_bytes()).hexdigest()
         assert x['fixture_id'].startswith('R04-NEW-') and x['randomness']=='none'
         assert x['record_class']=='DECLARED_EXACT_MODEL'
@@ -127,7 +140,10 @@ def test_active_evidence_sources_and_anchors_are_byte_bound():
         assert source.is_file()
         assert record['source_sha256']==hashlib.sha256(source.read_bytes()).hexdigest()
         assert record['source_anchors'] and len(record['source_anchors'])==len(set(record['source_anchors']))
-        for anchor in record['source_anchors']:assert anchor in main
+        assert [b['label'] for b in record['source_anchor_bindings']] == record['source_anchors']
+        for binding in record['source_anchor_bindings']:
+            owners = a.label_map(ROOT, binding['surface'])
+            assert owners[binding['label']]['path'] == binding['path']
         checked.append(path.relative_to(ROOT).as_posix())
     assert checked==['evidence/m2/AWARENESS_ACTIVE_CAUSAL_SPEC.json']
     record=json.loads((ROOT/checked[0]).read_text())
@@ -137,7 +153,7 @@ def test_active_evidence_sources_and_anchors_are_byte_bound():
 
 def test_m2_displayed_sum_indices_and_empty_self_match_the_declared_types():
     eq=a.equations(ROOT)
-    difference=a.normalize_math(eq['eq:awareness-causal-difference'])
+    difference=a.normalize_math(a.equations(ROOT, 'manual')['eq:awareness-causal-difference'])
     assert a.normalize_math(r'\sum_{e:\,i_e\in D_k}r_e') in difference
     assert a.normalize_math(r"\sum_{e:\,i_e\in D_k}r'_e") in difference
     empty=a.normalize_math(eq['eq:operative-self'])

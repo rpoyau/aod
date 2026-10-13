@@ -37,7 +37,7 @@ def test_main_note_container_language_minimalism_replacements_present():
     assert r"\label{eq:cycle-valued-field-compression}" in main
     assert r"\label{eq:cycle-rd-accessor}" in main
     assert r"\label{app:proto:eq:four-step-load}" in main
-    assert r"\label{tab:ao-field-fractal-properties}" in main
+    assert r"\label{tab:ao-field-fractal-properties}" not in main
     assert "Under the declared single-hinge neutral-reflection" in main
     assert r"\label{app:proto:eq:four-step-load}" not in manual
-    assert r"\label{tab:ao-field-fractal-properties}" not in manual
+    assert r"\label{tab:ao-field-fractal-properties}" in manual

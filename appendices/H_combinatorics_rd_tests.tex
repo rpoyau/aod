@@ -2,7 +2,8 @@
 \label{app:combinatorics-rd-tests}
 
 \subsection{Scope}\label{app:rd-tests:scope}
-This App records graph support, ternary fibre, Markov kernel, path histories, RD/RCD calculation, and integer support reductions used by the A\(\Omega\)-internal SADAR pressure and attention tests.
+This App states graph support, ternary fibre, Markov kernels, path histories,
+RD/RCD and integer support reductions for A\(\Omega\)-internal SADAR pressure.
 
 \subsection{Setup}\label{app:rd-tests:setup}
 Use \eqref{eq:atomic-h1} for the finite graph and
@@ -91,19 +92,6 @@ The declared integer reductions are
 3{:}3{:}6,
 \quad
 3{:}4{:}6.
-\]
-The following scalar reductions declare neutral reflection, compatible count windows, and their closure thresholds. The \(1{:}2{:}7\) reduction is closure-dependent:
-\[
-P^D(1{:}2{:}7)=3\min(7,9)=21.
-\]
-If closure is \(1{:}2{:}8\), then \(21-24=-3\). If closure is \(1{:}2{:}6\), then \(21-18=3\).
-The \(1{:}2{:}9\) reduction is the nine-window surplus reduction:
-\[
-P^D=27,
-\qquad
-C^{\mathrm{close}}=24,
-\qquad
-X_{\mathrm{shedding}}=3.
 \]
 
 

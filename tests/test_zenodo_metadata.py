@@ -26,8 +26,8 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert "v39" not in data["title"]
     assert "The Hidden Temporal Dynamics of Stokes" not in data["title"]
     assert any(t.get("title") == "The Hidden Temporal Dynamics of Stokes" and t.get("type", {}).get("id") == "subtitle" for t in data.get("additional_titles", []))
-    assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))
-    assert any(t.get("title") == "43 °c" and t.get("type", {}).get("id") == "other" for t in data.get("additional_titles", []))
+    assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "subtitle" for t in data.get("additional_titles", []))
+    assert any(t.get("title") == "43◦c" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))
     assert data["version"] == current_version()
     assert data["publication_date"] == "2026-06-01"
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form" in data["description"]

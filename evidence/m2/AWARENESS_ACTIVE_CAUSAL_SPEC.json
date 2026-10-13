@@ -44,7 +44,7 @@
     "query_provenance": "Each event retains the consumed observation cut. Immediate q_k=-J_k cites k; delayed q_k=-J_(k-1) cites k-1. Delayed fixture starts with explicitly declared J_32=0 and J_33=3; later source values are recorded observations."
   },
   "operative_source": "manual/scripts/aod_awareness.py",
-  "source_sha256": "fa5653fa80400af24cc5eaec3ee65818bb7d817b0eccc25390b54fb29a06a03c",
+  "source_sha256": "6846300c020aca4af2c7fc51c0727dcd0ce7e302453e0a514904ce8aa5331d7b",
   "source_anchors": [
     "eq:awareness-state-factorization",
     "eq:retained-rebalancing",
@@ -55,5 +55,47 @@
     "eq:awareness-shedding-bridge",
     "eq:awareness-conditioned-shedding"
   ],
-  "runtime_delta": "Source-bound prior operand commitments, full inherited immutable-state validation, exact native integer cuts, actual action-return projection, and independent second-hop retained intervention enforce this specification. Comparator bias is an exact two-operand tuple. Every declared outer certificate carries its actual inner wave pair and scope map: both B1 comparison operands and the B2 fold. An outer tag without that witness is rejected. Structural removal, zero retention and nonzero cancellation remain distinct. A status label cannot create shedding; the exact bridge and computed record bind operands, surplus, route, commitment and restoration."
+  "runtime_delta": "Source-bound prior operand commitments, full inherited immutable-state validation, exact native integer cuts, actual action-return projection, and independent second-hop retained intervention enforce this specification. Comparator bias is an exact two-operand tuple. Every declared outer certificate carries its actual inner wave pair and scope map: both B1 comparison operands and the B2 fold. An outer tag without that witness is rejected. Structural removal, zero retention and nonzero cancellation remain distinct. A status label cannot create shedding; the exact bridge and computed record bind operands, surplus, route, commitment and restoration.",
+  "source_anchor_bindings": [
+    {
+      "label": "eq:awareness-state-factorization",
+      "surface": "main",
+      "path": "sections/08_awareness_learning_mindfulness.tex"
+    },
+    {
+      "label": "eq:retained-rebalancing",
+      "surface": "main",
+      "path": "sections/08_awareness_learning_mindfulness.tex"
+    },
+    {
+      "label": "eq:awareness-active",
+      "surface": "main",
+      "path": "sections/08_awareness_learning_mindfulness.tex"
+    },
+    {
+      "label": "eq:awareness-operative-set",
+      "surface": "main",
+      "path": "sections/08_awareness_learning_mindfulness.tex"
+    },
+    {
+      "label": "eq:awareness-causal-difference",
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex"
+    },
+    {
+      "label": "eq:operative-self",
+      "surface": "main",
+      "path": "sections/08_awareness_learning_mindfulness.tex"
+    },
+    {
+      "label": "eq:awareness-shedding-bridge",
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex"
+    },
+    {
+      "label": "eq:awareness-conditioned-shedding",
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex"
+    }
+  ]
 }

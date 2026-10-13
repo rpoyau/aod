@@ -324,7 +324,12 @@ U^{\mathrm{obs}}_{g,j}=(V^{\mathrm{obs}}_{g,j})^2,
 \qquad
 \sigma_{U,g,j}=2V^{\mathrm{obs}}_{g,j}\sigma_{V,g,j}.
 \]
-The uncertainty propagation is external benchmark arithmetic. The declared score target is \(U^{\mathrm{obs}}_{g,j}\), and benchmark input columns remain input data until the report map is evaluated.
+The uncertainty propagation is external benchmark arithmetic. The declared score target is \(U^{\mathrm{obs}}_{g,j}\), and benchmark input columns remain input data until the report map is evaluated. This G0 diagnostic uses nonnegative component proxies
+\[
+U^k_{g,j}:=(V^k_{g,j})^2,
+\qquad k\in\{\mathrm{gas},\mathrm{disk},\mathrm{bulge}\}.
+\]
+SPARC's signed gas contribution is \(V^{\mathrm{gas}}|V^{\mathrm{gas}}|\). The retained proxy \(U^{\mathrm{gas}}=(V^{\mathrm{gas}})^2\) preserves its magnitude and removes the contribution sign for negative source entries.
 \[
 U^{\mathrm{bar}}_{g,j}
 =
@@ -419,7 +424,7 @@ Bins are excluded only by a predeclared data-quality rule or by a predeclared de
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\linewidth]{figures/sparc_declaration_controls.png}
-\caption{SPARC declaration controls. The score is \(MAPE_U\) across the five-galaxy benchmark sample.}
+\caption{SPARC carried declaration-control scores. The four values in \texttt{sparc\_declaration\_controls.csv} are frozen comparison records; their variant recipes and aggregation rule are not supplied. Primary per-bin and per-galaxy scores are computed separately by the declared map.}
 \label{fig:manual-sparc-controls}
 \end{figure}
 \begin{figure}[H]
@@ -442,14 +447,14 @@ Bins are excluded only by a predeclared data-quality rule or by a predeclared de
 \end{figure}
 
 \subsection{Tau ring diagnostic fixture}\label{manual:tau-ring-diagnostic}
-The Tau ring fixture uses \(S_\tau\), \(S_{\tau,\mathrm{ring}}\), missing fraction, and winner margin.
+The Tau ring fixture carries frozen \(S_\tau\), \(S_{\tau,\mathrm{ring}}\), missing-fraction, and winner-margin records from \texttt{manual/data/derived/tau\_ring\_diagnostic.csv}.
 \[
 \mathcal K_\tau=\{1{:}2{:}8,1{:}2{:}9_{\mathrm{yro}},1{:}2{:}10,3{:}3{:}8\}.
 \]
 \[
 K_\tau^\star=\arg\min_{K\in\mathcal K_\tau}|S_{\tau,\mathrm{ring}}(K)|.
 \]
-The rerun selects
+Winner lookup in the supplied diagnostic selects
 \[
 \boxed{K_\tau^\star=1{:}2{:}9_{\mathrm{yro}}=\mathrm{Dimonnanyro}.}
 \]
@@ -467,7 +472,8 @@ The missing-burden diagnostic records the exact ratio
 \qquad
 \mathrm{missing\_fraction\_display}=0.62.
 \]
-\aodnoteblock{Precision note}{Support identities and candidate declarations are exact. Plotted scores are diagnostic presentation decimals from the analysis script and are not A\(\Omega\) primitives.}
+\aodnoteblock{Precision note}{Support identities and candidate declarations are exact. Plotted scores are presentation decimals carried by the frozen diagnostic CSV.}
+\aodnoteblock{Provenance}{The depth-3 rows in \texttt{manual/data/tau/aod\_tau\_fractal\_ring\_summary.csv} preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied.}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\linewidth]{figures/tau_ring_support_score.png}

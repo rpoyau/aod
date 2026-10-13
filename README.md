@@ -16,9 +16,9 @@
 
 **Subtitle:** The Hidden Temporal Dynamics of Stokes
 
-**Alternative title:** The Art Of The Leprechaun: Fractal Calculus – 𝔖
+**Additional subtitle:** The Art Of The Leprechaun: Fractal Calculus – 𝔖
 
-**Other title:** 43 °c
+**Alternative title:** 43◦c
 
 **Zenodo title:** Alpha↔Omega Dynamics (AΩD)
 
@@ -41,20 +41,32 @@ Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut of
 
 The starting point is the AFC Stokes seed: Null potential, declared distinction, relation, region, boundary, and the Stokes accounting induced by a declared cut. AΩD continues from that exact AFC Stokes cut by uncovering its hidden relational temporal motifs. This is the Art of the Leprechaun: tracing the cut closely enough to learn how a larger relational system may be set up as a declared finite scale, with its boundary, window, and accounting choices made explicit.
 
-This release contains both the core-dynamics note and the application manual. To adhere strictly to the Axiomatic Fundamentalism (AF) protocol, derivations proceed by mathematics only, specializations occur by explicit modelling choice, and all demonstrations or measured-sector comparisons remain tightly quarantined from the core calculus.
+This release contains Main and Manual. Main owns ontology and explicitly scoped AΩD mathematical models, including definitions, hypotheses, derivations and proofs. Manual owns the D.E.C. ledger, reference implementations, fixtures, worked examples and measured-sector comparisons.
 
 ## 1. The Core Note (Ontology and Calculus)
 
-The core note supplies the pure ontology of retained AFC/AΩD Stokes-wave forms. The AFC execution layer provides the finite mathematical grammar at each retained node: $Q_4$ Hamming-1 adjacency, ternary branch/hinge/branch state, isotropic or anisotropic Markov transition, and antisymmetric Stokes flux.
+The ontology refactor consolidates closure, recurrence, relational time, finite Fourier representations and Awareness under canonical owners. The dependency order is axiom → distinction → induced relations → admitted motif → declared model → mathematical consequence.
 
 AΩD formally names the retained forms used by the calculation:
 
 - Carriers and motifs: curl, duon current, curling-curl support forms, construction traces, and admitted cycles.
-- Canonical support enclosures: Dimonhexon, Ditrion, Tritrion, and Tetratrion.
+- Curling-curl families: Dimonon, Ditrion, Tritrion and Tetratrion; proposed enclosed specifications: Dimonhexon, Tritriohexon and Tetratriohexon.
 - Boundary accounting: reflection duration, reflection-duration coupling, window-clipped duration participation, and duonic pressure.
 - Dynamics: SADAR (Symmetric Attention-Duration-Asymmetric Reflection), closure residuals, and sheddic routing.
 
-Because the ontology is fractal, the exact same boundary accounting repeats across retained addresses and scales. The live calculus keeps the construction trace, Markov choice, hinge slide, jitter, boundary capacity, and admission status entirely visible without invoking unstated parameters.
+Each admitted scale retains its construction trace, lineage, scope and boundary certificate.
+
+### Closure and Fourier
+
+One certified retained-start return contributes one closure-phase cycle, $\Delta\Phi(C)=1_C$. It requires at least two committed phase-bearing traversals, $m(C)\ge2$, with the hinge, lineage and return witness bound. Dwell and replay add no cycle; the two-step bound alone does not certify closure.
+
+Distinct compatible certified reclosures supply recurrence. Finite Fourier transforms represent committed value traces of already admitted recurrence on a declared finite abelian index group; their phase coordinates do not certify closure.
+
+### Awareness
+
+Awareness names the one-sided branch / boundary / not-branch relation: inside/branch = SELF; interface/boundary = BETWEEN; outside/not-branch = NOT-SELF.
+
+The scoped operativity model uses complete-state factorization and matched structural removal. A retained relation is operative when its removal changes a strictly later projected outcome under the same response law, admitted world and future inputs.
 
 ## 2. The Application Manual (Reference Implementation Layer)
 
@@ -85,6 +97,8 @@ $z_i\in\mathbb{Z}^3 \rightarrow \Delta z_i^{(n)} \rightarrow Q_i^{(n)} \rightarr
 Continuous Brownian or diffusion-style summaries are downstream presentation maps, not the active exact fixture.
 
 ## Simulation and Fixture Coverage
+
+The Manual includes native closure, recurrence, relational-time and finite-Fourier fixtures, together with structural-removal, cancellation, learning and retained-carriage fixtures.
 
 The manual includes D.E.C. raw AFC execution, isotropic and anisotropic Markov-kernel examples, blocked-hinge and hinge-slide examples, field-tunnelling hinge-slide window-clip fixture, ADAR/SADAR promotion examples, exact internal $\delta_3$ fixtures, short-window duration-clipping and sheddic-route audits, Tau-ring support and exact missing-burden ratio records, rest-energy target records and external comparison maps, Tritrioseptyro Higgs-support diagnostic fixture with frozen external mass map, hydrogen-facing shell-ratio and observable-map records, solar observable-map records, SPARC five-galaxy G0 radial shell square-speed diagnostic, orbital-retention field-dynamics fixture spine and input-provenance gate, galactic lensing data-support lanes and K4 higher-resolution input manifest, and the 3D coordinate phase-cycle $\delta_3$ fixture with Brownian/tracer-current application alias.
 
@@ -117,8 +131,7 @@ References are synchronized from `refs.bib` and `manual/refs.bib`.
 - Poyau, R. (2025). Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research (all versions). Zenodo. https://doi.org/10.5281/zenodo.17561186.
 - Weisstein, E. W. Hypercube Graph. Wolfram MathWorld. https://mathworld.wolfram.com/HypercubeGraph.html. Accessed 2026-06-09.
 - MIT OpenCourseWare. Mathematics for Computer Science: Graph Theory / adjacency matrix walks. 6.042J course materials, 2015. https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/. Accessed 2026-06-09.
-- Duncan, A. (2004). Powers of the adjacency matrix and the walk matrix.
-- University of Wisconsin. Random Walks and Markov Chains. Course lecture notes.
+- Duncan, A. (2004). Powers of the adjacency matrix and the walk matrix. The Collection, 9, 4–11. https://www.um.edu.mt/library/oar/handle/123456789/24439.
 - Stanley, R. P. (2015). Catalan Numbers. Cambridge University Press. https://doi.org/10.1017/CBO9781139871495.
 - Flajolet, P., and Sedgewick, R. (2009). Analytic Combinatorics. Cambridge University Press.
 - Norris, J. R. (1997). Markov Chains. Cambridge University Press.
@@ -138,6 +151,7 @@ References are synchronized from `refs.bib` and `manual/refs.bib`.
 - Meyer, V. and others. Measurement of the 1S–2S Energy Interval in Muonium, 2000. https://doi.org/10.1103/PhysRevLett.84.1136.
 - Particle Data Group. Review of Particle Physics: Meson Summary Tables, 2025 Update. PDG, https://pdgweb.lbl.gov/2025/tables/rpp2025-sum-mesons.pdf, 2025. https://pdgweb.lbl.gov/2025/tables/rpp2025-sum-mesons.pdf.
 - Aaij, R. and others. Measurement of B meson production cross-sections in proton-proton collisions at sqrts=7 TeV, 2013. https://doi.org/10.1007/JHEP08(2013)117.
+- National Institute of Standards and Technology. Strong Lines of Hydrogen (H). NIST Physical Measurement Laboratory, https://physics.nist.gov/PhysRefData/Handbook/Tables/hydrogentable2.htm, n.d.
 - National Institute of Standards and Technology. Atomic Spectra Database (ASD). NIST ASD, https://physics.nist.gov/PhysRefData/ASD/lines_form.html, n.d. https://physics.nist.gov/PhysRefData/ASD/lines_form.html.
 - National Institute of Standards and Technology. CODATA Value: Tau Mass Energy Equivalent in MeV. NIST CODATA, https://physics.nist.gov/cgi-bin/cuu/Value?mtauc2mev, 2022. https://physics.nist.gov/cgi-bin/cuu/Value?mtauc2mev.
 - DESY. Tau lepton mass is measured at Belle II with the highest precision to date. DESY news, https://www.desy.de/news/news_search/index_eng.html?openDirectAnchor=2781, n.d. https://www.desy.de/news/news_search/index_eng.html?openDirectAnchor=2781.

@@ -23,9 +23,9 @@ def copy_source(tmp_path):
 
 def test_rendered_compaction_authority_and_all_ordered_dependencies():
     result = a.audit(ROOT)['compaction']
-    assert result['canonical_groups'] == 43
+    assert result['canonical_groups'] == 44  # Mixed bridge/carriage group splits by owner.
     assert result['canonical_equations'] == 81
-    assert result['ordered_dependencies'] == 67
+    assert result['ordered_dependencies'] == 72  # All 67 old edges + five explicit premises.
     assert result['refined_first_uses'] == 2
     assert result['manual_example_families'] == 9
 

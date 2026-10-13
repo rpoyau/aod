@@ -56,7 +56,9 @@ def test_main_front_matter_preserves_accepted_compact_abstract():
     assert r"Axioms $\to$ Distinctions $\to$ Relations $\to$ Motifs $\to$ Calculus." in abstract
     assert r"\textit{This is the way.}" in abstract
     assert "is a relational temporal form of the Stokes cut" in abstract
-    assert "The core note gives the calculus; the manual carries the downstream finite simulations" in abstract
+    # R07 permits only the final routing sentence deletion.
+    import hashlib
+    assert hashlib.sha256(abstract.encode()).hexdigest() == 'a42ebe256def1106badff156f495206d39fe32a984b97e9fe2ed07ba12c1803c'
     for inventory_term in ("one closure phase", "Fields organize", "SADAR response", "operative self", "polycadential carriage"):
         assert inventory_term not in abstract
 
@@ -593,7 +595,7 @@ def test_r35_affirmative_quarantine_language():
 
 def test_r35_leprechaun_remark_is_conceptual():
     text = read_all_tex()
-    assert "The Art of the Leprechaun is the tracing and exploration of Stokes temporal wave dynamics" in text
+    assert "The Art of the Leprechaun is the tracing and exploration of Stokes temporal wave dynamics" not in text
     assert "AFC supplies the finite \\(Q_4\\) Hamming--1" not in text
 
 
@@ -616,7 +618,7 @@ def test_title_pages_use_leprechaun_as_title_page_subtitle_and_body_remark():
         assert "The Art Of The Leprechaun: Fractal Calculus" in text
         assert r"\SADARop" in text
     all_text = read_all_tex()
-    assert "The Art of the Leprechaun is the tracing and exploration of Stokes temporal wave dynamics" in all_text
+    assert "The Art of the Leprechaun is the tracing and exploration of Stokes temporal wave dynamics" not in all_text
 
 
 def test_afc_citation_only_in_literature_note():
@@ -650,7 +652,7 @@ def test_afc_provenance_block_is_present_and_uncited():
 
 def test_afc_provenance_is_note_block_not_intro_subsection():
     text = active_text()
-    assert r"\paragraph{Provenance.}" in text
+    assert r"\aodprovenance{" in text
     assert r"\subsection{AFC provenance}" not in text
     assert "AFC, Axioms" in text
 
@@ -879,8 +881,8 @@ def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     assert f"**Version:** {current_version()}" in readme
     assert "**Title:** Alpha↔Omega Dynamics (AΩD)" in readme
     assert "**Subtitle:** The Hidden Temporal Dynamics of Stokes" in readme
-    assert "**Alternative title:** The Art Of The Leprechaun: Fractal Calculus" in readme
-    assert "**Other title:** 43 °c" in readme
+    assert "**Additional subtitle:** The Art Of The Leprechaun: Fractal Calculus" in readme
+    assert "**Alternative title:** 43◦c" in readme
     assert "**Zenodo title:** Alpha↔Omega Dynamics (AΩD)" in readme
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut" in readme
     assert "## Abstract and Scope" in readme

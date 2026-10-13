@@ -44,6 +44,14 @@ P(e;B),
 \]
 Here \(B\) is the declared boundary/window, \(v\) is the active node, \(e\) is an admissible edge slot, \(v_e\) is the Hamming--1 neighbor reached by that slot, \(\sigma(e)\in\{-1,0,+1\}\) is the local ternary state, \(\operatorname{adm}(e;B)\) records admissibility on the declared scope, \(w(e;B)\) is the declared integer weight, \(P(e;B)\) is the exact normalized kernel fraction, and \(\operatorname{route}(e;B)\) records returned, outgoing, blocked, slide, hinge, or pending route status.
 
+\paragraph{Signed channel views.}
+An oriented ledger channel fixes one signed value. Its reverse bookkeeping
+view has equal magnitude and opposite sign, implementing
+\mainequation{main:eq:b-scoped-flux-antisymmetry}. A separately constructed
+reverse channel retains its own directional RCD and must be evaluated
+independently. Component-valued rows apply the sign and Stokes checks
+componentwise; \mainequation{main:eq:b-scoped-stokes} gives their boundary sum.
+
 \subsection{One-node D.E.C. ledger}\label{manual:dec-ledger:one-node}
 Declare one \(Q_4\) node and four Hamming--1 edge slots:
 \[

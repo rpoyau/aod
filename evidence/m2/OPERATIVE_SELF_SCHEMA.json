@@ -16,9 +16,9 @@
   "cancellation": "A +1/-1 pair may yield aggregate current zero while both sources remain operative because either individual removal changes the later outcome",
   "shedding_boundary": "Shedding is an independently computed M1 consequence, not an awareness label. Awareness-conditioned shedding requires both a passed retained-coordinate intervention and a provenance-bound computed surplus/route record with exact restoration.",
   "roles": {
-    "target": "ME",
+    "target": "SELF",
     "operative source interface": "BETWEEN",
-    "unconnected": "NOT-ME",
+    "unconnected": "NOT-SELF",
     "Null": "separate foundational type"
   },
   "labels": "derived from incidence under full node/provenance renaming; labels never enter the update law or create awareness, closure, folding or shedding",

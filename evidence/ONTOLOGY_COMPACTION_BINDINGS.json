@@ -12,7 +12,8 @@
       "first_declarations": [
         "eq:null-axiom"
       ],
-      "depends_on": []
+      "depends_on": [],
+      "surface": "main"
     },
     {
       "concept": "First finite anchor",
@@ -25,7 +26,8 @@
       ],
       "depends_on": [
         "Null sameness"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Branch hinge counterbranch",
@@ -38,7 +40,8 @@
       ],
       "depends_on": [
         "First finite anchor"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Oriented reflection",
@@ -51,7 +54,8 @@
       ],
       "depends_on": [
         "Branch hinge counterbranch"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Crown roles and successor horizon",
@@ -64,7 +68,8 @@
       ],
       "depends_on": [
         "Branch hinge counterbranch"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Faithful atomic H1 carrier",
@@ -77,7 +82,8 @@
       ],
       "depends_on": [
         "Branch hinge counterbranch"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Probability-one atomic support",
@@ -90,7 +96,8 @@
       ],
       "depends_on": [
         "Faithful atomic H1 carrier"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Scope and retained boundary",
@@ -103,7 +110,8 @@
       ],
       "depends_on": [
         "Faithful atomic H1 carrier"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Closure trace and certificate",
@@ -120,7 +128,8 @@
         "Branch hinge counterbranch",
         "Faithful atomic H1 carrier",
         "Scope and retained boundary"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Primitive monon",
@@ -133,7 +142,8 @@
       ],
       "depends_on": [
         "Closure trace and certificate"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Phase-bearing step count",
@@ -146,7 +156,8 @@
       ],
       "depends_on": [
         "Closure trace and certificate"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Completed closure-cycle count",
@@ -160,7 +171,8 @@
       "depends_on": [
         "Closure trace and certificate",
         "Phase-bearing step count"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Closure versus model isotropy",
@@ -173,7 +185,8 @@
       ],
       "depends_on": [
         "Closure trace and certificate"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Committed crown advance and memory",
@@ -189,7 +202,8 @@
       "depends_on": [
         "Crown roles and successor horizon",
         "Closure trace and certificate"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Return identity and reclosure beat",
@@ -204,7 +218,8 @@
       ],
       "depends_on": [
         "Closure trace and certificate"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Cumulative and window counts",
@@ -220,7 +235,8 @@
       "depends_on": [
         "Completed closure-cycle count",
         "Return identity and reclosure beat"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Recurring wave identity",
@@ -234,7 +250,8 @@
       "depends_on": [
         "Return identity and reclosure beat",
         "Cumulative and window counts"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Reflected comparison and embedding",
@@ -257,7 +274,8 @@
         "Closure trace and certificate",
         "Phase-bearing step count",
         "Completed closure-cycle count"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Distinct motif grammar",
@@ -273,7 +291,8 @@
       "depends_on": [
         "Primitive monon",
         "Branch hinge counterbranch"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Reflection-duration support",
@@ -286,7 +305,8 @@
       ],
       "depends_on": [
         "Distinct motif grammar"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Scoped field organization and lineage separation",
@@ -301,7 +321,8 @@
       ],
       "depends_on": [
         "Recurring wave identity"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Folded outer construction and exposure",
@@ -316,7 +337,8 @@
       "depends_on": [
         "Closure trace and certificate",
         "Scoped field organization and lineage separation"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Cycle-valued compression",
@@ -329,7 +351,8 @@
       ],
       "depends_on": [
         "Folded outer construction and exposure"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Complete wave and coupling state",
@@ -345,7 +368,8 @@
       "depends_on": [
         "Recurring wave identity",
         "Scoped field organization and lineage separation"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Declared update and coupling trace",
@@ -360,7 +384,8 @@
       ],
       "depends_on": [
         "Complete wave and coupling state"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "RCD and duration participation",
@@ -378,7 +403,8 @@
       "depends_on": [
         "Reflection-duration support",
         "Declared update and coupling trace"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Relational cadence phase lag and time",
@@ -398,7 +424,8 @@
         "Declared update and coupling trace",
         "RCD and duration participation",
         "Cumulative and window counts"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "AFC and AOD flux types",
@@ -411,7 +438,8 @@
       ],
       "depends_on": [
         "RCD and duration participation"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Finite Stokes accounting",
@@ -428,7 +456,8 @@
       ],
       "depends_on": [
         "AFC and AOD flux types"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "SADAR and later causal update",
@@ -444,7 +473,8 @@
       "depends_on": [
         "AFC and AOD flux types",
         "Relational cadence phase lag and time"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Residual and sheddic routing",
@@ -461,7 +491,8 @@
       ],
       "depends_on": [
         "SADAR and later causal update"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Fusion and chain closure",
@@ -477,7 +508,8 @@
       "depends_on": [
         "Folded outer construction and exposure",
         "Residual and sheddic routing"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "FRG construction and value",
@@ -492,7 +524,8 @@
       ],
       "depends_on": [
         "SADAR and later causal update"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Finite harmonic conventions",
@@ -505,7 +538,8 @@
       ],
       "depends_on": [
         "Recurring wave identity"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Fourier corollaries",
@@ -538,7 +572,8 @@
       ],
       "depends_on": [
         "Finite harmonic conventions"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Awareness state factorization and retention",
@@ -555,7 +590,8 @@
         "Complete wave and coupling state",
         "Declared update and coupling trace",
         "FRG construction and value"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Matched later operativity and awareness set",
@@ -571,11 +607,12 @@
       "depends_on": [
         "Awareness state factorization and retention",
         "Declared update and coupling trace"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Awareness response and causal difference",
-      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "path": "manual/sections/00_awareness_fixtures.tex",
       "anchors": [
         "eq:awareness-response",
         "eq:awareness-causal-difference"
@@ -587,7 +624,8 @@
       "depends_on": [
         "Matched later operativity and awareness set",
         "SADAR and later causal update"
-      ]
+      ],
+      "surface": "manual"
     },
     {
       "concept": "Operative self",
@@ -601,11 +639,12 @@
       "depends_on": [
         "Branch hinge counterbranch",
         "Matched later operativity and awareness set"
-      ]
+      ],
+      "surface": "main"
     },
     {
       "concept": "Action return and learning",
-      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "path": "manual/sections/00_awareness_fixtures.tex",
       "anchors": [
         "eq:action-return-retention"
       ],
@@ -614,31 +653,49 @@
       ],
       "depends_on": [
         "Closure trace and certificate",
-        "Matched later operativity and awareness set"
-      ]
+        "Matched later operativity and awareness set",
+        "Awareness response and causal difference"
+      ],
+      "surface": "manual"
     },
     {
-      "concept": "Awareness shedding bridge and carriage",
-      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "concept": "Awareness shedding bridge",
+      "path": "manual/sections/00_awareness_fixtures.tex",
       "anchors": [
         "eq:awareness-shedding-bridge",
-        "eq:awareness-conditioned-shedding",
-        "eq:awareness-carriage"
+        "eq:awareness-conditioned-shedding"
       ],
       "first_declarations": [
         "eq:awareness-shedding-bridge",
-        "eq:awareness-conditioned-shedding",
-        "eq:awareness-carriage"
+        "eq:awareness-conditioned-shedding"
       ],
       "depends_on": [
         "Awareness response and causal difference",
         "Folded outer construction and exposure",
-        "Residual and sheddic routing"
-      ]
+        "Residual and sheddic routing",
+        "Retained carriage"
+      ],
+      "surface": "manual"
+    },
+    {
+      "concept": "Retained carriage",
+      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "anchors": [
+        "eq:awareness-carriage"
+      ],
+      "first_declarations": [
+        "eq:awareness-carriage"
+      ],
+      "depends_on": [
+        "Awareness state factorization and retention",
+        "Matched later operativity and awareness set",
+        "Folded outer construction and exposure"
+      ],
+      "surface": "main"
     },
     {
       "concept": "Operational mindfulness stability",
-      "path": "sections/08_awareness_learning_mindfulness.tex",
+      "path": "manual/sections/00_awareness_fixtures.tex",
       "anchors": [
         "eq:mindfulness-stability"
       ],
@@ -648,7 +705,8 @@
       "depends_on": [
         "Operative self",
         "Awareness response and causal difference"
-      ]
+      ],
+      "surface": "manual"
     },
     {
       "concept": "Index discipline",
@@ -659,7 +717,8 @@
       "first_declarations": [
         "eq:odd-support-index"
       ],
-      "depends_on": []
+      "depends_on": [],
+      "surface": "main"
     }
   ],
   "formulas": {
@@ -767,47 +826,56 @@
     {
       "anchor": "eq:null-axiom",
       "path": "sections/03_afc_basis.tex",
-      "pattern": "x=\\\\Null"
+      "pattern": "x=\\\\Null",
+      "surface": "main"
     },
     {
       "anchor": "eq:atomic-h1",
       "path": "sections/03_afc_basis.tex",
-      "pattern": "E\\(\\\\Qfour\\)(?::=|=)"
+      "pattern": "E\\(\\\\Qfour\\)(?::=|=)",
+      "surface": "main"
     },
     {
       "anchor": "eq:monon-cycle",
       "path": "sections/04_cut_running_fractal_tesseract.tex",
-      "pattern": "\\\\mathrm\\{Monon\\}\\(x\\)(?::=|=)"
+      "pattern": "\\\\mathrm\\{Monon\\}\\(x\\)(?::=|=)",
+      "surface": "main"
     },
     {
       "anchor": "eq:closure-phase",
       "path": "sections/04_cut_running_fractal_tesseract.tex",
-      "pattern": "\\\\Delta\\\\Phi\\(C\\)(?::=|=)1_C"
+      "pattern": "\\\\Delta\\\\Phi\\(C\\)(?::=|=)1_C",
+      "surface": "main"
     },
     {
       "anchor": "eq:wave-identity",
       "path": "sections/04_cut_running_fractal_tesseract.tex",
-      "pattern": "W\\^\\{\\\\mathrm\\{id\\}\\}_\\{B,i\\}(?::=|=)"
+      "pattern": "W\\^\\{\\\\mathrm\\{id\\}\\}_\\{B,i\\}(?::=|=)",
+      "surface": "main"
     },
     {
       "anchor": "eq:field-organization",
       "path": "sections/05_curl_closure_duon_current.tex",
-      "pattern": "F_\\{B,\\\\lambda\\}(?:\\|_k)?(?::=|=)"
+      "pattern": "F_\\{B,\\\\lambda\\}(?:\\|_k)?(?::=|=)",
+      "surface": "main"
     },
     {
       "anchor": "eq:relational-time",
       "path": "sections/06_wave_state_relational_time.tex",
-      "pattern": "\\\\operatorname\\{RT\\}_\\{I,B\\}\\(\\\\omega\\)&?(?::=|=)"
+      "pattern": "\\\\operatorname\\{RT\\}_\\{I,B\\}\\(\\\\omega\\)&?(?::=|=)",
+      "surface": "main"
     },
     {
       "anchor": "eq:awareness-state-factorization",
       "path": "sections/08_awareness_learning_mindfulness.tex",
-      "pattern": "S\\^\\+_k(?::=|=)"
+      "pattern": "S\\^\\+_k(?::=|=)",
+      "surface": "main"
     },
     {
       "anchor": "eq:awareness-active",
       "path": "sections/08_awareness_learning_mindfulness.tex",
-      "pattern": "\\\\operatorname\\{Op\\}\\^\\{O,H\\}_e\\(S_k\\)=1\\\\quad\\\\Longleftrightarrow"
+      "pattern": "\\\\operatorname\\{Op\\}\\^\\{O,H\\}_e\\(S_k\\)=1\\\\quad\\\\Longleftrightarrow",
+      "surface": "main"
     }
   ],
   "appendices": [
@@ -959,8 +1027,10 @@
       "manual_path": "manual/sections/00_awareness_fixtures.tex",
       "manual_anchor": "sec:self-proprio-toys",
       "main_anchors": [
+        "eq:awareness-active"
+      ],
+      "manual_model_anchors": [
         "eq:action-return-retention",
-        "eq:awareness-active",
         "eq:mindfulness-stability"
       ]
     },
@@ -970,9 +1040,11 @@
       "manual_anchor": "sec:m2-crescendo",
       "main_anchors": [
         "eq:fold-outer-closure",
-        "eq:awareness-shedding-bridge",
-        "eq:awareness-conditioned-shedding",
         "eq:awareness-carriage"
+      ],
+      "manual_model_anchors": [
+        "eq:awareness-shedding-bridge",
+        "eq:awareness-conditioned-shedding"
       ]
     },
     {
@@ -1109,7 +1181,7 @@
     "manual/scripts/generate_k4_input_gate_figure.py": "3f4f514d7f424919ac1c68b13782b8a511ecb30d73589ad2895773ed818f66cc",
     "manual/scripts/score_sparc_field_dynamics.py": "6d42f031f1a8e4bf4331b2c2be80fffac2c8dbfc98278de7e650aeb45f0f7cbb",
     "preamble.tex": "019fb7e5c3383037a678925dcef8332f338656edb1af237f219437e721ea159e",
-    "refs.bib": "25e9347ee6d733a4d990b70e2cd3a5e9677add8606905fc13490674e7bb8c825",
+    "refs.bib": "39b6167100ce5c31c544ec65fdb6901f6abe44628fb44ad12eb448c396d7d8e9",
     "scripts/build_release_bundle.py": "be58771d33600b5ca3fc91a8a0f60eb5d00d7511951ca3fd1d50ca89f0043a14",
     "scripts/generate_curl_support_figures.py": "185801d68d6fe2e18430670927451edccbd80dd03080f2addf249f86e67e017f",
     "scripts/generate_curling_curl_layers.py": "8f1abfa1af255124ea13b5221a99e628e05b28dd9d04b646c9bbacbaeac69d0e",
@@ -1123,11 +1195,11 @@
     "scripts/sync_zenodo_references.py": "30b5caae356cc9ce255faba6e622d8e01ab244322cd403d46ece4543b856917d",
     "sections/00_title.tex": "c86e23a01c95c43c2cb3603afc2d3c574d36f44360da626ebe86f734ad4ce4d4",
     "sections/01_abstract.tex": "060c5db2c931b743e37cf6505c41098bf6da74c7fc4b321cf754a807180a6747",
-    "tests/test_active_scientific_sources.py": "8513683f10a641139840dfef6419ddc8d8e55c6a0743119bc762e8832a00bb7f",
+    "tests/test_active_scientific_sources.py": "37d15a97ea79e01c9628d667ed575d4a1f9d588222fc151e7d31cff189b4e6fe",
     "tests/test_bib_preamble_source_structure.py": "e040035bc0409f6056a20e540dead1d43042e3a5adddfebf84f87be11f758ad4",
     "tests/test_ci_release_builder.py": "f6a25acdcea0ebca21ce0d28d4f729a4e4ff700707dd5cb2dcfa89c3faf56a72",
     "tests/test_m2_r02_awareness.py": "3f82d2761debcf46558b8cfe7c1433ed65d5b2b85a941bc97454eab59054c254",
-    "tests/test_main_container_language_minimalism.py": "256d637b7b552e82aa32164fd54998dfaf9acb8c9a7e22f30be92f7e2c997bba",
+    "tests/test_main_container_language_minimalism.py": "f40e68397a9875c43c3c3c9a0129283b52846130ed17ba75066fedae89678fe5",
     "tests/test_main_figure_layout_sources.py": "376f8323f719809ea887562d31fec705d212cb8a8ff4c6f0355b1bd3abfa1d29",
     "tests/test_manual_brownian_phase_delta3.py": "928469424b0c8182f282c38584671ce8caa1b7b65dfb38e91651c18bc0d44d3e",
     "tests/test_manual_dec_ledger.py": "cad7f4013950947aa0bfb783b86271859e71b2a656dee680cbb6cc7768a0d5ef",
@@ -1135,10 +1207,10 @@
     "tests/test_manual_run_tumble_tracer_current.py": "5566f6b60c773963b08f1d65b0bd0ca1a430bc3144179742c260886f6ae7d024",
     "tests/test_manual_sparc_protocol.py": "3115dd4c359615581b838b49e2f8e8fc14816a748da622364dcd0c39cd6ead22",
     "tests/test_manual_table_grammar_release_polish.py": "381e45a580cce70431b966485176baa4273d241fb686953f6dcb930485dc2948",
-    "tests/test_manual_zenodo_wording_polish.py": "2e432065897ca4b091e374e59654b5c4ec4d37241c7af45fa6a7e458be690ea2",
+    "tests/test_manual_zenodo_wording_polish.py": "a2477569a1010ab9d7af00f9ced97c60615657c3c9d288e7c6865858d7018577",
     "tests/test_native_awareness.py": "a80240a90f9e955f12993b2ed46962193cecfbdda2356eef91e13414f07a4ae3",
     "tests/test_native_closure_wave.py": "1bcd170745b2de5e01baebf2fa2b8e1f383b5c9729d7e65ffadee15e9aa68b10",
-    "tests/test_release_naming_hygiene.py": "20081aa669f07a1c98d7e3b8baa6e2f5a51d53bdd8ea24c33bf417fdc4e54f0c",
+    "tests/test_release_naming_hygiene.py": "5fdd7768e427dc4f80d11c16831107c1baccffcd8af347e5f3744e48ba03e5ba",
     "tests/test_release_primary_artifact.py": "c73b87cbb2955f83afc2fe7026cd8e3bffd9d38fbfc52e863e86531603ebce3c",
     "tests/test_sadar_pressure_targets.py": "8b4f4f7b8ffcc3835167e71c26770d6282438a376800acee51a4d095b15d2e79",
     "tests/test_sadar_rcd_pressure.py": "2ecbfb332f624a2c4c59a18e297e3b4e9cadee6481a801ec7021f08eda1e3573",
@@ -1150,6 +1222,10 @@
     "tests/test_title_and_table_layout.py": "23fc273ff8b6c9c466725493d1d2a2a2941a3d6a91da215741cce898dd744108",
     "tests/test_yro_tritrioseptyro.py": "15ddec62f4d7e261c1b63b729ab327a4bb870be3db319f5d2afd835a5b8f58d8",
     "tests/test_zenodo_assets_metadata.py": "7d82774c384f88ee4ea69f336bcd492464fa23141525a4a140ec610e8fac991d",
-    "tests/test_zenodo_metadata.py": "526b01b63ceddf49add10c9df9101aa71efc10eebb4d536e37eb379d86440b59"
+    "tests/test_zenodo_metadata.py": "526b01b63ceddf49add10c9df9101aa71efc10eebb4d536e37eb379d86440b59",
+    "figures_jpg/field_dynamics_layered_main.png": "d7b6118b8f4a0e018336da23f596b70653eeb5db9bb5d70c249465d0c6a0f5b9",
+    "figures_jpg/cycle_disturbance_shedding_fixture.png": "cda868137826a61f74b1b22a45f55556bbcf2dd155ff2b1d35d04f747589ed04",
+    "manual/scripts/generate_cycle_shedding_fixture.py": "593f5023461e0b999398d3d99c7074f4b750740d3c26cac03d8423df5ece8326",
+    "tests/test_cycle_shedding_fixture.py": "0ae07e6186cc453c09c986508493572bfd1843bb23f9fa422867286838249a8a"
   }
 }
