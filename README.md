@@ -41,11 +41,9 @@ Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut of
 
 The starting point is the AFC Stokes seed: Null potential, declared distinction, relation, region, boundary, and the Stokes accounting induced by a declared cut. AΩD continues from that exact AFC Stokes cut by uncovering its hidden relational temporal motifs. This is the Art of the Leprechaun: tracing the cut closely enough to learn how a larger relational system may be set up as a declared finite scale, with its boundary, window, and accounting choices made explicit.
 
-This release contains Main and Manual. Main owns ontology and explicitly scoped AΩD mathematical models, including definitions, hypotheses, derivations and proofs. Manual owns the D.E.C. ledger, reference implementations, fixtures, worked examples and measured-sector comparisons.
+The core note presents AΩD ontology and explicitly scoped mathematical models, including definitions, hypotheses, derivations and proofs. The application manual contains the D.E.C. ledger, reference implementations, fixtures, worked examples and measured-sector comparisons.
 
 ## 1. The Core Note (Ontology and Calculus)
-
-The ontology refactor consolidates closure, recurrence, relational time, finite Fourier representations and Awareness under canonical owners. The dependency order is axiom → distinction → induced relations → admitted motif → declared model → mathematical consequence.
 
 AΩD formally names the retained forms used by the calculation:
 
