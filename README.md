@@ -39,6 +39,8 @@ Nuff said.
 
 Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut of the Axiomatic-Fundamentalism calculus (AFC). The discrete Stokes identity is a relational tautology that is a temporal wave dynamics.
 
+AΩD is a computational calculus; computational intelligence is a downstream application area.
+
 The starting point is the AFC Stokes seed: Null potential, declared distinction, relation, region, boundary, and the Stokes accounting induced by a declared cut. AΩD continues from that exact AFC Stokes cut by uncovering its hidden relational temporal motifs. This is the Art of the Leprechaun: tracing the cut closely enough to learn how a larger relational system may be set up as a declared finite scale, with its boundary, window, and accounting choices made explicit.
 
 The core note presents AΩD ontology and explicitly scoped mathematical models, including definitions, hypotheses, derivations and proofs. The application manual contains the D.E.C. ledger, reference implementations, fixtures, worked examples and measured-sector comparisons.
