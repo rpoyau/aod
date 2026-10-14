@@ -12,7 +12,12 @@
     "axiomatic fundamentalism",
     "AFC",
     "AOD",
+    "Stokes",
+    "cut calculus",
+    "temporal dynamics",
     "AΩD",
+    "math-ph",
+    "math-lo",
     "discrete Stokes calculus",
     "graph combinatorics",
     "certified closure",
@@ -29,6 +34,16 @@
   ],
   "subjects": [
     {
+      "term": "Mathematical Physics",
+      "identifier": "https://arxiv.org/list/math-ph/recent",
+      "scheme": "url"
+    },
+    {
+      "term": "Logic",
+      "identifier": "https://arxiv.org/list/math.LO/recent",
+      "scheme": "url"
+    },
+    {
       "term": "Combinatorics",
       "identifier": "https://arxiv.org/list/math.CO/recent",
       "scheme": "url"
@@ -36,11 +51,6 @@
     {
       "term": "Discrete Mathematics",
       "identifier": "https://arxiv.org/list/cs.DM/recent",
-      "scheme": "url"
-    },
-    {
-      "term": "Mathematical Physics",
-      "identifier": "https://arxiv.org/list/math-ph/recent",
       "scheme": "url"
     },
     {
