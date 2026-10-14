@@ -246,7 +246,7 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
         for anchor in record.get("manual_model_anchors", []):
             position(anchor, "manual")
             _require(anchor in manual_equations, "local model body absent " + anchor)
-    # The registered Zenodo title rebase changes only these metadata assertions.
+    # The registered Zenodo title and subject updates change only metadata assertions.
     # Reconstruct their original lines; every other byte keeps its frozen hash.
     metadata_expectations = {
         "tests/test_release_naming_hygiene.py": (
@@ -260,6 +260,27 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
              '    assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "subtitle" for t in data.get("additional_titles", []))\n'),
             ('    assert any(t.get("title") == "43 °c" and t.get("type", {}).get("id") == "other" for t in data.get("additional_titles", []))\n',
              '    assert any(t.get("title") == "43◦c" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))\n'),
+            (
+                '    assert data["keywords"] == [\n'
+                '        "axiomatic fundamentalism", "AFC", "AOD", "Stokes", "cut calculus",\n'
+                '        "temporal dynamics", "AΩD", "math-ph", "math-lo"\n'
+                '    ]\n',
+                '    assert data["keywords"] == [\n'
+                '        "computational calculus", "axiomatic fundamentalism", "AFC",\n'
+                '        "AOD", "AΩD", "discrete Stokes calculus",\n'
+                '        "graph combinatorics", "certified closure", "discrete recurrence",\n'
+                '        "relational time", "finite Fourier representation", "Awareness",\n'
+                '        "computational intelligence", "persistent learning", "proprioceptive action-return models",\n'
+                '        "physical observable maps", "exact rational simulation", "Declared Edge Computation"\n'
+                '    ]\n'
+                '    assert data["subjects"] == [\n'
+                '        {"term": "Combinatorics", "identifier": "https://arxiv.org/list/math.CO/recent", "scheme": "url"},\n'
+                '        {"term": "Discrete Mathematics", "identifier": "https://arxiv.org/list/cs.DM/recent", "scheme": "url"},\n'
+                '        {"term": "Mathematical Physics", "identifier": "https://arxiv.org/list/math-ph/recent", "scheme": "url"},\n'
+                '        {"term": "Artificial Intelligence", "identifier": "https://arxiv.org/list/cs.AI/recent", "scheme": "url"},\n'
+                '        {"term": "Neural and Evolutionary Computing", "identifier": "https://arxiv.org/list/cs.NE/recent", "scheme": "url"}\n'
+                '    ]\n',
+            ),
         ),
     }
     # Reverse only the reviewed output-format/provenance repairs; the full

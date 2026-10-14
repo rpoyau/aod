@@ -51,8 +51,19 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert not any("Alpha–Omega Dynamics Manual" in r or "Alpha--Omega Dynamics Manual" in r for r in data["references"])
 
     assert data["keywords"] == [
-        "axiomatic fundamentalism", "AFC", "AOD", "Stokes", "cut calculus",
-        "temporal dynamics", "AΩD", "math-ph", "math-lo"
+        "computational calculus", "axiomatic fundamentalism", "AFC",
+        "AOD", "AΩD", "discrete Stokes calculus",
+        "graph combinatorics", "certified closure", "discrete recurrence",
+        "relational time", "finite Fourier representation", "Awareness",
+        "computational intelligence", "persistent learning", "proprioceptive action-return models",
+        "physical observable maps", "exact rational simulation", "Declared Edge Computation"
+    ]
+    assert data["subjects"] == [
+        {"term": "Combinatorics", "identifier": "https://arxiv.org/list/math.CO/recent", "scheme": "url"},
+        {"term": "Discrete Mathematics", "identifier": "https://arxiv.org/list/cs.DM/recent", "scheme": "url"},
+        {"term": "Mathematical Physics", "identifier": "https://arxiv.org/list/math-ph/recent", "scheme": "url"},
+        {"term": "Artificial Intelligence", "identifier": "https://arxiv.org/list/cs.AI/recent", "scheme": "url"},
+        {"term": "Neural and Evolutionary Computing", "identifier": "https://arxiv.org/list/cs.NE/recent", "scheme": "url"}
     ]
 
 

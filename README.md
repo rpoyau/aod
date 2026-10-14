@@ -109,6 +109,22 @@ The manual records each simulation by the data-card form
 $(D, C_{\mathrm{support}}, M_{A\leftrightarrow\Omega}, \Pi_{\mathrm{report}}, \sigma_{\mathrm{input}}, \epsilon_{\mathrm{report}}, \mathrm{src})$.
 
 
+## Keywords and subject areas
+
+**Core:** computational calculus; discrete Stokes calculus; graph combinatorics; certified closure; discrete recurrence; relational time; finite Fourier representation; Awareness.
+
+**Downstream:** computational intelligence; persistent learning; proprioceptive action-return models; physical observable maps; exact rational simulation; Declared Edge Computation.
+
+Related [arXiv subject areas](https://arxiv.org/category_taxonomy):
+
+| Scope | Category | Content |
+| --- | --- | --- |
+| Core | `math.CO` — Combinatorics | Graph support, paths and finite boundary sums. |
+| Core | `cs.DM` — Discrete Mathematics | Discrete relations and exact finite constructions. |
+| Downstream | `math-ph` — Mathematical Physics | Scoped physical models and observable maps. |
+| Downstream | `cs.AI` — Artificial Intelligence | Finite awareness, action-return and learning models. |
+| Downstream | `cs.NE` — Neural and Evolutionary Computing | Finite adaptive-behavior and retained-learning models. |
+
 ## Zenodo metadata description
 
 The Zenodo description in `.zenodo.json` is HTML-formatted so the deposit page renders headings, paragraphs, lists, and links correctly. The README remains Markdown for repository reading.
