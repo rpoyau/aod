@@ -288,6 +288,13 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
     # Reverse only the reviewed output-format/provenance repairs; the full
     # original hash still binds every calculation, constant and input byte.
     presentation_expectations = {
+        "tests/test_manual_table_grammar_release_polish.py": (
+            ('    assert "formula" not in text\n',
+             '    target_table = text.split(r"\\caption{Measured rest-energy target records.}", 1)[1].split(r"\\end{table}", 1)[0]\n'
+             '    assert "formula" not in target_table\n'),
+            ('    assert "Record & Target [MeV]" in text\n',
+             '    assert "Record & Target [MeV]" in target_table\n'),
+        ),
         "tests/test_sparc_script_release_neutral.py": (
             ('    assert "Controls are declared comparison variants from the current diagnostic run." in text\n',
              '    assert "Carried frozen comparison records; variant recipes and aggregation provenance" in text\n    assert "are not supplied. These values are not computed by this script." in text\n'),
