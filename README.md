@@ -125,7 +125,7 @@ Related [arXiv subject areas](https://arxiv.org/category_taxonomy):
 | Core | `math.CO` — Combinatorics | Graph support, paths and finite boundary sums. |
 | Core | `cs.DM` — Discrete Mathematics | Discrete relations and exact finite constructions. |
 | Mathematical models | `math-ph` — Mathematical Physics | Mathematical structures and scoped physical models. |
-| Downstream | `cs.AI` — Artificial Intelligence | Finite awareness, action-return and learning models. |
+| Downstream | `cs.AI` — Artificial Intelligence | Finite retained-relation operativity, action-return and learning models. |
 | Downstream | `cs.NE` — Neural and Evolutionary Computing | Finite adaptive-behavior and retained-learning models. |
 
 ## Zenodo metadata description
