@@ -290,7 +290,7 @@ For \(F_i,F_j\in\mathcal F_{\mathcal B}\), write
 for the returned-current channel from \(F_j\) into \(F_i\). The diagonal terms are self-return terms; off-diagonal terms are cross-return terms. A retained field family may carry field-ring returned-current relations when \(E_{\mathrm{return}}\) is declared on the fixed boundary/window.
 
 \subsubsection{Field-count term}\label{subsec:field-count-term}
-As a declared count-weighting model, the field-count contribution is
+For \(n_F(\mathcal B)\ge1\), the declared count-weighting model is
 \begin{equation}
 \mathcal O_{\partial F}(\mathcal B)=n_F(\mathcal B)\log n_F(\mathcal B),
 \label{eq:field-count-term}
@@ -1223,7 +1223,7 @@ RD_{\AO}(C_u;B).
 Resolution is chosen by a declared coarseness order \(\preceq_{\mathrm{coarse}}\). Tie-breakers are declared before application. The selected \(q\) is the coarsest resolution among already admitted candidates under \(\preceq_{\mathrm{coarse}}\) after declared tie-breakers. No measured residual or score enters this gate.
 
 \subsubsection{Medium declaration and field count}\label{subsec:medium-declaration-field-count}
-Declare integer or rational constants before application. The raw maximum supported field count is
+Declare \(N_{\mathrm{candidate},c},N_{\mathrm{support},c}\in\mathbb Z_{\ge0}\), \(\mathcal K^{\mathrm{raw}}_c\in\mathbb Q_{\ge0}\), and \(\bar k_F,\bar\rho^D_F\in\mathbb Q_{>0}\) before application. The raw maximum supported field count is
 \[
 N^{\max,0}_{F,c}
 =
