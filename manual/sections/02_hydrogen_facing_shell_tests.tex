@@ -118,12 +118,12 @@ f=\frac{c}{\lambda},
 \qquad
 E=h_{\mathrm{ext}}f.
 \]
-This is the same quarantined external-comparison sequence used elsewhere in the manual.
+This sequence uses the quarantine of \appref{manual:external-comparison}.
 
 \begin{table}[h]
 \centering
 \scriptsize
-\caption{Hydrogen Balmer comparison targets. Wavelength records follow the NIST Atomic Spectra Database target convention used by the earlier manual examples.}
+\caption{Hydrogen Balmer comparison targets. Wavelength records follow the NIST Atomic Spectra Database target convention.}
 \begin{tabular}{c c c c c}
 \toprule
 Line & Transition & $\lambda_{\mathrm{vac}}$ [nm] & $f$ [Hz] & $E$ [eV]\\
@@ -208,7 +208,8 @@ Limit & $\infty\to3$ & $1/9$ & $16/7$ & series limit & $16/7$ & audit record\\
 
 \subsubsection{Series-ratio audit}\label{manual:hydrogen:series-audit}
 \aodnoteblock{Audit}{A spectral-series record carries the destination shell \(S_m\), the computed \(\Delta\widehat P^D(n\to m)\), and the inverse-wavelength ratio \(\lambda_{(m+1)\to m}/\lambda_{n\to m}\).}
-\aodprovenance{\mainsection{main:subsec:shared-shell-path-declaration}; manual \appref{manual:external-comparison}.}
+\aodprovenance{\mainsection{main:subsec:shared-shell-path-declaration};
+\appref{manual:external-comparison}.}
 \aodliteraturenote{Hydrogen spectral-line targets: NIST Atomic Spectra Database~\cite{nist-asd}; Paschen Pa\(\alpha\), Pa\(\beta\), Pa\(\epsilon\) air rows: NIST Hydrogen Handbook~\cite{nist-hydrogen-handbook}.}
 
 
@@ -228,5 +229,7 @@ The ratio audits in \tabref{tab:manual-hydrogen-pressure-ratios}, \tabref{tab:ma
 
 \subsection{Audit hooks}\label{manual:hydrogen:audit-hooks}
 \aodnoteblock{Audit}{A hydrogen-facing shell record carries the released-pressure magnitude before external comparison, its ratio record, and the wavelength target with its declared source-medium binding.}
-\aodprovenance{\mainsection{main:subsec:shared-shell-path-declaration}; manual \appref{manual:external-comparison}; manual \secref{manual:hydrogen:scope}.}
+\aodprovenance{\mainsection{main:subsec:shared-shell-path-declaration};
+\appref{manual:external-comparison};
+\secref{manual:hydrogen:scope}.}
 \aodliteraturenote{Hydrogen Balmer targets: NIST Atomic Spectra Database~\cite{nist-asd}.}

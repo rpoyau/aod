@@ -133,6 +133,7 @@ The target is
 \qquad
 |\epsilon_\varpi|=0.0002327\%.
 \]
+
 \aodliteraturenote{Mercury perihelion target: Will~\cite{will-mercury-2018}.}
 
 \subsection{Solar light-bending boundary}\label{manual:solar:light-bending}
@@ -155,6 +156,7 @@ The target is
 \qquad
 |\epsilon_\delta|=0.0005714\%.
 \]
+
 \aodliteraturenote{Solar-limb light-bending target: NASA~\cite{nasa-1919-light-bending}.}
 
 \subsection{Solar redshift transfer boundary}\label{manual:solar:redshift}
@@ -186,6 +188,7 @@ with the measured comparison
 \[
 v_z^{\mathrm{meas}}=638\pm6\ \mathrm{m/s}.
 \]
+
 \aodliteraturenote{Solar gravitational-redshift reference prediction \(633.1\ \mathrm{m/s}\) and measured comparison \(638\pm6\ \mathrm{m/s}\): Heidelberg/ZAH~\cite{zah-solar-redshift}.}
 
 \subsection{Audit hooks}\label{manual:solar:audit-hooks}
@@ -194,4 +197,9 @@ v_z^{\mathrm{meas}}=638\pm6\ \mathrm{m/s}.
 \item Comparison-fixture audit: each record includes observable-map value, target, residual, percent error, and status.
 \item Input audit: target values are cited in the record where they are used; residuals are computed from the declared observable-map value and declared target.
 \end{itemize}
-\aodprovenance{\mainsection{main:subsec:disoma-declaration}; \mainequation{main:eq:b-scoped-flux}; \mainequation{main:eq:sadar-attention-vector}; \mainequation{main:eq:window-clipped-rho}; manual \appref{manual:external-comparison}.}
+
+\aodprovenance{\mainsection{main:subsec:disoma-declaration};
+\mainequation{main:eq:b-scoped-flux};
+\mainequation{main:eq:sadar-attention-vector};
+\mainequation{main:eq:window-clipped-rho};
+\appref{manual:external-comparison}.}

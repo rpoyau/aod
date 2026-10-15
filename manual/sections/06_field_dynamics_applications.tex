@@ -10,7 +10,7 @@ A large field-dynamics system is handled by declared clustering. A cluster recor
 
 
 \subsection{Data-support classes for manual simulations and comparisons}\label{manual:field-dynamics-data-support-classes}
-Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals only in its declared coordinate. The table below records the manual classes used by this release.
+Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals only in its declared coordinate. \tabref{tab:manual-data-support-classes} records the manual classes used by this release.
 
 \scriptsize
 \begin{longtable}{@{}p{0.07\textwidth}p{0.17\textwidth}p{0.27\textwidth}p{0.22\textwidth}p{0.12\textwidth}@{}}
@@ -384,6 +384,7 @@ Here \(K^U_{\mathrm{ext}}\) is a quarantined external map coefficient frozen bef
 \qquad
 [K^U_{\mathrm{ext}}]=\frac{(\mathrm{km/s})^2}{\mathrm{kpc}\cdot(\mathrm{km/s})}=\frac{\mathrm{km/s}}{\mathrm{kpc}}.
 \]
+
 \aodliteraturenote{SPARC benchmark: SPARC database~\cite{sparc-database}, Lelli et al.~\cite{lelli-sparc-2016}.}
 \aodnoteblock{Data-support class}{The SPARC five-galaxy lane instantiates a G0 radial shell data-support class. G0 active input fields are \(G_i,r_{ij},V^{\mathrm{obs}}_{ij},\sigma_{V,ij},V^{\mathrm{gas}}_{ij},V^{\mathrm{disk}}_{ij},V^{\mathrm{bulge}}_{ij}\). The report coordinate is \(U=(V^{\mathrm{obs}})^2\), \(\sigma_U=2V^{\mathrm{obs}}\sigma_V\), and \(\Delta U=U_{\AO}-U^{\mathrm{obs}}\). G1/G2/G3 packages carry angular, vertical, or time-flow fields through declared source or proxy rows.}
 
@@ -473,7 +474,7 @@ The missing-burden diagnostic records the exact ratio
 \mathrm{missing\_fraction\_display}=0.62.
 \]
 \aodnoteblock{Precision note}{Support identities and candidate declarations are exact. Plotted scores are presentation decimals carried by the frozen diagnostic CSV.}
-\aodnoteblock{Provenance}{The depth-3 rows in \texttt{manual/data/tau/aod\_tau\_fractal\_ring\_summary.csv} preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied.}
+\aodnoteblock{Source artifacts}{The depth-3 rows in \texttt{manual/data/tau/aod\_tau\_fractal\_ring\_summary.csv} preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied.}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\linewidth]{figures/tau_ring_support_score.png}

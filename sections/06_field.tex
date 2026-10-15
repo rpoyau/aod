@@ -57,8 +57,9 @@ two contributing lineage records. The same finite argument holds componentwise.
 In the remaining pressure formulas \(\phi\) abbreviates \(\phi^{\mathrm{AOD}}\).
 \paragraph{Falsification.} Wrong antisymmetry or an omitted boundary channel
 breaks the finite identity.
-\aodprovenance{A\(\Omega\)D
-\eqref{eq:rcd-coupling} and \eqref{eq:b-scoped-channel-attention}.}
+
+\aodprovenance{\eqref{eq:rcd-coupling},
+\eqref{eq:b-scoped-channel-attention}.}
 % AFC binding: choice:memory-state, choice:kernel, choice:flux,
 % choice:divergence, choice:region, cor:afc-stokes, eq:afc-stokes-cor.
 \aodliteraturenote{AFC Choices (memory, stochastic kernel, flux) and
@@ -1596,9 +1597,11 @@ no second coefficient family represents a different trace with the same
 full transform. Distinct provenance can still accompany equal value traces.
 \paragraph{Falsification.} A missing coefficient, altered normalization or
 unbound trace fails the corresponding representation or admission premise.
-\aodprovenance{Finite character sum and
-\eqref{eq:fourier-orthogonality}; admission remains
-\eqref{eq:wave-identity} and \eqref{eq:motif-admission}.}
+
+\aodprovenance{\eqref{eq:fourier-transform},
+\eqref{eq:fourier-orthogonality},
+\eqref{eq:wave-identity},
+\eqref{eq:motif-admission}.}
 
 \subsubsection{Linearity}
 \paragraph{Derivation.}
@@ -1610,7 +1613,8 @@ Distribute the defining finite sum:
 \paragraph{Specialization.} Value superposition is linear; certificates, fusion and updates retain their own laws.
 \paragraph{Falsification.} Applying this value identity to infer a linear
 closure or update law changes its domain.
-\aodprovenance{Equation \eqref{eq:fourier-transform}.}
+
+\aodprovenance{\eqref{eq:fourier-transform}.}
 
 \subsubsection{Shift and modulation}
 \paragraph{Setup.}
@@ -1626,7 +1630,8 @@ Substitution \(h=g-a\) and character multiplication give
 changing phase. Equal power therefore does not identify return phase or lineage.
 \paragraph{Falsification.} A shift with the opposite translation convention
 requires the opposite character factor; replacing both by one untyped shift fails.
-\aodprovenance{Equation \eqref{eq:fourier-transform}.}
+
+\aodprovenance{\eqref{eq:fourier-transform}.}
 
 \subsubsection{Convolution and product}
 \paragraph{Setup.}
@@ -1643,8 +1648,10 @@ substituting both inversions and using orthogonality gives the product sum:
 \paragraph{Specialization.} A declared mixing model may consume these value
 operations after motif admission. Choosing a product is an explicit model.
 \paragraph{Falsification.} Omitting \(N\) violates the shared normalization.
-\aodprovenance{Equations \eqref{eq:fourier-transform} and
-\eqref{eq:fourier-inversion}.}
+
+\aodprovenance{\eqref{eq:fourier-transform},
+\eqref{eq:fourier-inversion},
+\eqref{eq:fourier-orthogonality}.}
 
 \subsubsection{Correlation and power}
 \paragraph{Setup.}
@@ -1659,7 +1666,9 @@ R_{vw}(a)=N\sum_\chi\widehat v(\chi)\overline{\widehat w(\chi)}\chi(a),
 For \(v=w\), the power coefficients are \(N|\widehat v(\chi)|^2\).
 \paragraph{Falsification.} Equal power is insufficient for equal complex
 coefficients, equal phase, or equal construction provenance.
-\aodprovenance{Equation \eqref{eq:fourier-orthogonality}.}
+
+\aodprovenance{\eqref{eq:fourier-inversion},
+\eqref{eq:fourier-orthogonality}.}
 
 \subsubsection{Parseval}
 \paragraph{Derivation.}
@@ -1673,7 +1682,8 @@ At zero shift the same calculation, or direct orthogonality, gives
 \paragraph{Specialization.} This is a squared-value identity in the chosen
 coordinate space; a physical energy meaning requires its own declared map.
 \paragraph{Falsification.} Changing normalization on one side breaks equality.
-\aodprovenance{Equation \eqref{eq:fourier-orthogonality}.}
+
+\aodprovenance{\eqref{eq:fourier-orthogonality}.}
 
 \subsubsection{Real traces and standing coordinates}
 \paragraph{Derivation.}
@@ -1694,7 +1704,9 @@ Running character and standing pair coordinates represent the same admitted
 trace. Self-conjugate characters are already real and occur once.
 \paragraph{Falsification.} This coordinate change cannot classify an open
 word as a running wave or establish physical propagation.
-\aodprovenance{Equations \eqref{eq:fourier-inversion} and
+
+\aodprovenance{\eqref{eq:fourier-transform},
+\eqref{eq:fourier-inversion},
 \eqref{eq:fourier-real-symmetry}.}
 
 \subsubsection{Recurrence subgroup}
@@ -1715,7 +1727,8 @@ The converse follows by translating each term in the inversion.
 index may satisfy this hypothesis. Jittered cadence need not do so.
 \paragraph{Falsification.} A finite observation window alone supplies no
 translation invariance or exact dynamical recurrence subgroup.
-\aodprovenance{Equations \eqref{eq:fourier-shift-modulation} and
+
+\aodprovenance{\eqref{eq:fourier-shift-modulation},
 \eqref{eq:fourier-inversion}.}
 
 \subsubsection{Direct products}
@@ -1733,8 +1746,9 @@ v(g)=\prod_j v_j(g_j)
 \paragraph{Specialization.} Declared independent recurrence orders may use
 a product group. A coupled trace generally has nonseparable coefficients.
 \paragraph{Falsification.} Product index alone does not imply separability.
-\aodprovenance{Equation \eqref{eq:fourier-transform}, finite products
-of cyclic character bases, and the declared separability premise.}
+
+\aodprovenance{\eqref{eq:fourier-transform},
+\eqref{eq:fourier-orthogonality}.}
 \subsubsection{Finite cancellation residuals}
 \label{subsec:afc-flux-stokes-audit}
 For a declared region \(R\) and scope \(B\), define
