@@ -33,9 +33,9 @@ Run-tumble tracer-current fixture & G3/D0 & mode $m_t$, selected channel $j_t$, 
 Mercury perihelion & O0 & observable-map target rows & observable-map value, target, error & solar table\\
 Solar light bending & O0 & observable-map target rows & observable-map value, target, error & solar table\\
 Solar redshift & O0 & observable-map target rows & observable-map value, target, error & solar table\\
-Earth--Moon orbital shell & O0 & target data manifest & Moon distance, speed, period records require numeric A\(\Omega\) values & NASA target record~\cite{nasa-moon-by-numbers}\\
-Saturn ring-shell & O0 & target data manifest & ring-boundary and Cassini-division records require numeric A\(\Omega\) values & NASA / ring-boundary target record~\cite{nasa-cassini-division}\\
-SPARC five-galaxy square-speed diagnostic & G0 & SPARC radial rows & $U_{\AO}(r)$, $\Delta U$, $z^U$, $\chi^2_U$, $MAE_U$, $MSE_U$, $MAPE_U$ & per-bin CSV, per-galaxy CSV, score table, and figures~\cite{sparc-database,lelli-sparc-2016}\\
+Earth--Moon orbital shell & O0 & target data manifest & Moon distance, speed, period records require numeric A\(\Omega\) values & NASA target record\\
+Saturn ring-shell & O0 & target data manifest & ring-boundary and Cassini-division records require numeric A\(\Omega\) values & NASA / ring-boundary target record\\
+SPARC five-galaxy square-speed diagnostic & G0 & SPARC radial rows & $U_{\AO}(r)$, $\Delta U$, $z^U$, $\chi^2_U$, $MAE_U$, $MSE_U$, $MAPE_U$ & per-bin CSV, per-galaxy CSV, score table, and figures\\
 SPARC full-sample / extended benchmark & G0/G1 & target data manifest & full-sample $U_{\AO}(r)$, $\Delta U$, $z^U$, $\chi^2_U$, $MAE_U$, $MSE_U$, $MAPE_U$ & extended benchmark package\\
 Orbital-retention field-dynamics fixture & G2/G3 & G2/G3 input package & medium setup, input-provenance gate, flip/fizz classifier, range SADAR, capacity seating, retention class, \(\delta_3\) tallies & workbook spine and provenance tables\\
 Toy 1 lensing field-ring fixture & L0 & integer comparator bins & \(T^0,C^\times,T^\times,O,\Delta^{\mathbb Z},\delta_3\) & manual galactic lensing plan\\
@@ -51,6 +51,10 @@ Tritrioseptyro Higgs-support fixture & D0/O0 & AFC trace rows + route detector &
 \normalsize
 
 \aodnoteblock{Data-support registry note}{Registry rows are read together with data-support class. A row carries active fields, an A\(\Omega\) calculation or report map, and an artifact. Residuals are scoped to the declared class.}
+
+\aodliteraturenote{Earth--Moon orbital target: NASA~\cite{nasa-moon-by-numbers};
+Saturn ring/Cassini target: NASA~\cite{nasa-cassini-division};
+SPARC five-galaxy diagnostic: SPARC database and Lelli et al.~\cite{sparc-database,lelli-sparc-2016}.}
 
 \subsection{Neuronal-ring benchmark acquisition}\label{manual:registry:neuronal-benchmark-acquisition}
 This registry subsection supplies a measured acquisition declaration for a field-ring benchmark record. For a biological benchmark acquisition, declare
@@ -103,6 +107,7 @@ MAE_U,\qquad
 MSE_U,\qquad
 MAPE_U.
 \]
+
 \aodliteraturenote{SPARC benchmark: SPARC database~\cite{sparc-database}, Lelli et al.~\cite{lelli-sparc-2016}.}
 
 \aodnoteblock{Completion rule}{External-comparison rows record numeric map value, target, residual, percent error, and audit hook. Observable-map fixture rows record map value, target, residual, percent error, citation, fixture status, and audit hook. Benchmark-dataset rows record benchmark data table, A\(\Omega\) calculation row, report coordinate, residual, and audit hook. Cross-return rows record declared \(C^\times_{ab,k}(B)\).}

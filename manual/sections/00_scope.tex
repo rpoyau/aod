@@ -7,7 +7,7 @@ The manual uses the same section / subsection / subsubsection structure as the m
 
 
 \subsection{Simulation reading route}\label{manual:simulation-reading-route}
-For a compact release reading order, use the following route: main note \S\S1--3 for the AFC seed, Null/cut, branch/hinge/branch, and Q4/tesseract support; main note \S\S4--5.8 for curl, duon current, boundary, RD/RCD, pressure, and SADAR; main note \S\S5.13--5.14 for Fractal Field Ring Gate and field dynamics; manual \S\S1--2 for the calculation spine and D.E.C. ledger; manual \S\S8.1--8.3 for data-support classes and scoped errors; manual \S\S8.6--8.7 for the SPARC G0 radial shell scoring lane; manual App.~C for the 3D coordinate phase-cycle fixture; and manual \S\S9--10 for lensing data gates, registry records, and completion tables.
+Follow Main in its dependency order: specific distinction, closure and recurring wave, motif/field folding, complete wave state and relational time, then Stokes/SADAR/harmonic values. Manual Scope is followed by the consolidated native fixtures, the D.E.C. ledger and the retained applications.
 
 
 
@@ -85,7 +85,7 @@ followed by the A\(\Omega\) and SADAR calculation on that boundary.
 
 
 \subsection{Provenance-label policy}\label{manual:provenance-label-policy}
-Tokens of the form \texttt{main:<anchor>} and \texttt{manual:<anchor>} are cross-document provenance anchors. They refer to the corresponding source label \texttt{<anchor>} in the named document. Explicit alias labels declare alternate anchors. Provenance records remain internal-reference lists; external sources belong in Literature note records.
+Tokens of the form \texttt{main:<anchor>} and \texttt{manual:<anchor>} are cross-document provenance anchors. They refer to the corresponding source label \texttt{<anchor>} in the named document. Reader pointers render the published equation, section, appendix or table number from that label; the full source keys remain in macro arguments or source metadata. Explicit alias labels declare alternate anchors. Provenance records remain internal-reference lists; external sources belong in Literature note records.
 
 \subsection{Exact arithmetic and presentation decimals}\label{manual:exact-arithmetic-presentation}
 A\(\Omega\)-internal calculations use integer counts and exact rational ratios. Decimal values appear only as external comparison coordinates, presentation values, or plot labels.
@@ -96,21 +96,40 @@ A\(\Omega\)-internal calculations use integer counts and exact rational ratios. 
 \]
 If an external measured decimal is used as a comparison target, the comparison record declares its uncertainty \(\sigma\) when a \(z\)-score is formed. Percent errors may be shown as presentation comparisons when the target value is declared.
 
-\aodnoteblock{\(\delta_3\) exact-fixture package}{For an exact internal integer fixture, define
+\subsubsection{Exact-fixture corollary}\label{subsec:frg-delta-three-corollary}
+If an exact fixture declares
 \[
+T_k^\times,O_k\in\mathbb Z,
+\]
+then record the exact ternary signed residual
+\begin{equation}
 \Delta_k^{\mathbb Z}=T_k^\times-O_k,
 \qquad
-s_k^{(3)}=\operatorname{sgn}(\Delta_k^{\mathbb Z}),
+s_k^{(3)}=\operatorname{sgn}(\Delta_k^{\mathbb Z})\in\{-1,0,+1\},
 \qquad
-m_k=|\Delta_k^{\mathbb Z}|,
+m_k=|\Delta_k^{\mathbb Z}|\in\mathbb Z_{\ge0}.
+\label{eq:frg-delta-three-components}
+\end{equation}
+Thus
+\begin{equation}
+\Delta_k^{\mathbb Z}=s_k^{(3)}m_k.
+\label{eq:frg-delta-three-signed-product}
+\end{equation}
+The compact residual package is
+\begin{equation*}
+\delta_{3,k}(T^\times,O)=(s_k^{(3)},m_k),
 \qquad
-\delta_{3,k}(T^\times,O)=(s_k^{(3)},m_k).
-\]
-Then
-\[
-\delta_3(T^\times,O)=\left(\delta_{3,k}(T^\times,O)\right)_{k\in K}.
-\]
-The symbol \(\delta_3\) records the exact ternary signed residual for an internal integer fixture.}
+\delta_3(T^\times,O)
+=
+\left(\delta_{3,k}(T^\times,O)\right)_{k\in K_{\mathrm{bin}}}.
+\tag{RG10}\label{eq:frg-delta-three}
+\end{equation*}
+Normalized decimal summaries belong to declared value maps or external comparison entries.
+
+SYM-A5 checks integer-fixture residuals \eqref{eq:frg-delta-three}.
+RG-A10 forms \(T_k^\times-T_k^0=\sum C_{ij,k}^{\times}(B)\) for
+declared exact integer fixtures. RG-A11 records \(\Delta^{\mathbb Z}\) and
+\(\delta_3\) using \eqref{eq:frg-delta-three-components}--\eqref{eq:frg-delta-three}.
 
 \aodnoteblock{Decimal precision record}{A released decimal presentation value carries
 \[
@@ -167,3 +186,15 @@ Calibration anchor & convention value and convention-audit residual\\
 \end{tabularx}
 \label{tab:manual-record-forms}
 \end{table}
+
+\paragraph{Construction and record classes.}
+Native fixtures establish exact typed relations; declared models specify their
+chosen update/coupling law; metrology records add calibration and units;
+empirical comparisons additionally bind external data and residuals. Admission
+precedes all four projections. The common construction is distinction,
+retained relation, admitted motif/closure, recurring wave, scoped field
+organization, complete state/trace and native comparison. A field resolves
+wave identities and is not retained closure lineage itself. Motion is the
+later realized pressure-bearing transition. Modular coordinate phase in the
+3D applications is a downstream statistic; sampling interval is an acquisition
+coordinate. Native closure counts and RCD are not measured time.

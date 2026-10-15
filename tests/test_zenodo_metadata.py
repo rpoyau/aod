@@ -26,8 +26,8 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert "v39" not in data["title"]
     assert "The Hidden Temporal Dynamics of Stokes" not in data["title"]
     assert any(t.get("title") == "The Hidden Temporal Dynamics of Stokes" and t.get("type", {}).get("id") == "subtitle" for t in data.get("additional_titles", []))
-    assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))
-    assert any(t.get("title") == "43 °c" and t.get("type", {}).get("id") == "other" for t in data.get("additional_titles", []))
+    assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "subtitle" for t in data.get("additional_titles", []))
+    assert any(t.get("title") == "43◦c" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))
     assert data["version"] == current_version()
     assert data["publication_date"] == "2026-06-01"
     assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form" in data["description"]
@@ -51,8 +51,21 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert not any("Alpha–Omega Dynamics Manual" in r or "Alpha--Omega Dynamics Manual" in r for r in data["references"])
 
     assert data["keywords"] == [
-        "axiomatic fundamentalism", "AFC", "AOD", "Stokes", "cut calculus",
-        "temporal dynamics", "AΩD", "math-ph", "math-lo"
+        "computational calculus", "axiomatic fundamentalism", "AFC",
+        "AOD", "Stokes", "cut calculus", "temporal dynamics", "AΩD",
+        "math-ph", "math-lo",
+        "discrete Stokes calculus", "graph combinatorics", "certified closure",
+        "discrete recurrence", "relational time", "finite Fourier representation",
+        "Awareness", "computational intelligence", "persistent learning", "proprioceptive action-return models",
+        "physical observable maps", "exact rational simulation", "Declared Edge Computation"
+    ]
+    assert data["subjects"] == [
+        {"term": "Mathematical Physics", "identifier": "https://arxiv.org/list/math-ph/recent", "scheme": "url"},
+        {"term": "Logic", "identifier": "https://arxiv.org/list/math.LO/recent", "scheme": "url"},
+        {"term": "Combinatorics", "identifier": "https://arxiv.org/list/math.CO/recent", "scheme": "url"},
+        {"term": "Discrete Mathematics", "identifier": "https://arxiv.org/list/cs.DM/recent", "scheme": "url"},
+        {"term": "Artificial Intelligence", "identifier": "https://arxiv.org/list/cs.AI/recent", "scheme": "url"},
+        {"term": "Neural and Evolutionary Computing", "identifier": "https://arxiv.org/list/cs.NE/recent", "scheme": "url"}
     ]
 
 

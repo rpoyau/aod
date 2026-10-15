@@ -20,14 +20,15 @@ For the hydrogen-facing comparison records, the normalized shell-pressure ladder
 \[
 \widehat P^D_{S_n}:=-\frac{1}{n^2}.
 \]
-Thus a transition into shell \(S_m\) has normalized pressure difference
+For a downward transition \(n\to m\), with \(n>m\), declare the released normalized pressure magnitude
 \[
 \Delta \widehat P^D(n\to m)
+:=
+\widehat P^D_{S_n}-\widehat P^D_{S_m}
 =
-\widehat P^D_{S_m}-\widehat P^D_{S_n}
-=
-\frac{1}{m^2}-\frac{1}{n^2}.
+\frac{1}{m^2}-\frac{1}{n^2}>0.
 \]
+The signed state change is \(\widehat P^D_{S_m}-\widehat P^D_{S_n}=-\Delta\widehat P^D(n\to m)\).
 
 
 \[
@@ -44,7 +45,7 @@ Thus a transition into shell \(S_m\) has normalized pressure difference
 \begin{tikzpicture}[node distance=0.55cm, every node/.style={rounded corners, draw, align=center, inner sep=4pt}]
 \node (scope) {Hydrogen-facing scope\\$\mathbf a_H\vdash(F_H,R_H,\partial R_H,\omega_H)$};
 \node[below=of scope] (shells) {Shell ladder\\$S_n,\quad \widehat P^D_{S_n}=-1/n^2$};
-\node[below left=0.65cm and 1.2cm of shells] (diff) {\(\SADARop_B\) shell-cycle value\\$\Delta \widehat P^D(n\to m)$};
+\node[below left=0.65cm and 1.2cm of shells] (diff) {Released shell-pressure magnitude\\$\Delta \widehat P^D(n\to m)>0$};
 \node[below right=0.65cm and 1.2cm of shells] (targets) {Measured comparison\\$\lambda,\ f=c/\lambda,\ E=hf$};
 \node[below=1.0cm of shells] (audit) {Audit\\ratio, error, provenance};
 \draw[-{Latex}] (scope) -- (shells);
@@ -53,7 +54,7 @@ Thus a transition into shell \(S_m\) has normalized pressure difference
 \draw[-{Latex}] (diff) -- (audit);
 \draw[-{Latex}] (targets) -- (audit);
 \end{tikzpicture}
-\caption{Hydrogen-facing shell-cycle ladder. The finite \(\SADARop_B\) shell value is calculated before measured wavelengths and external energy-coordinate comparisons are attached.}
+\caption{Hydrogen-facing shell-cycle ladder. The released shell-pressure magnitude is calculated before measured wavelengths and external energy-coordinate comparisons are attached.}
 \label{fig:manual-hydrogen-shell-setup}
 \end{figure}
 
@@ -82,7 +83,7 @@ Shell & A\(\Omega\) shell & Ratio target & Status\\
 \end{table}
 
 \subsection{Shell-pressure table}\label{manual:hydrogen:pressure-table}
-The Balmer comparison records use transitions into \(S_2\). The A\(\Omega\)-internal normalized pressure differences are
+The Balmer comparison records use downward transitions into \(S_2\). The normalized released-pressure magnitudes are
 \[
 \Delta \widehat P^D(n\to2)=\frac{1}{2^2}-\frac{1}{n^2}.
 \]
@@ -96,7 +97,7 @@ The ratio to the \(3\to2\) record is
 \begin{table}[h]
 \centering
 \scriptsize
-\caption{Hydrogen-facing Balmer shell-pressure ratios. Targets are ratio comparisons against cited Balmer wavelengths.}
+\caption{Hydrogen-facing Balmer released-pressure ratios. Targets are ratio comparisons against cited Balmer wavelengths.}
 \begin{tabular}{c c c c c c}
 \toprule
 Line & Transition & $\Delta\widehat P^D$ & A\(\Omega\) ratio & Target ratio & Error [\%]\\
@@ -117,12 +118,12 @@ f=\frac{c}{\lambda},
 \qquad
 E=h_{\mathrm{ext}}f.
 \]
-This is the same quarantined external-comparison sequence used elsewhere in the manual.
+This sequence uses the quarantine of \appref{manual:external-comparison}.
 
 \begin{table}[h]
 \centering
 \scriptsize
-\caption{Hydrogen Balmer comparison targets. Wavelength records follow the NIST Atomic Spectra Database target convention used by the earlier manual examples.}
+\caption{Hydrogen Balmer comparison targets. Wavelength records follow the NIST Atomic Spectra Database target convention.}
 \begin{tabular}{c c c c c}
 \toprule
 Line & Transition & $\lambda_{\mathrm{vac}}$ [nm] & $f$ [Hz] & $E$ [eV]\\
@@ -164,7 +165,7 @@ For Lyman records, the destination shell is \(S_1\). The baseline is \(2\to1\), 
 \begin{table}[h]
 \centering
 \scriptsize
-\caption{Hydrogen Lyman shell-pressure ratio audit. Vacuum wavelength targets are downstream comparison records carried by the NIST-ASD target convention.}
+\caption{Hydrogen Lyman released-pressure ratio audit. Vacuum wavelength targets are downstream comparison records carried by the NIST-ASD target convention.}
 \begin{tabular}{c c c c c c c}
 \toprule
 Line & Transition & $\Delta\widehat P^D$ & A\(\Omega\) ratio & $\lambda_{\mathrm{vac}}$ [nm] & Target ratio & Error [\%]\\
@@ -181,7 +182,7 @@ Limit & $\infty\to1$ & $1$ & $4/3$ & series limit & $4/3$ & audit record\\
 \end{table}
 
 \subsubsection{Paschen series}\label{manual:hydrogen:paschen}
-For Paschen records, the destination shell is \(S_3\). The baseline is \(4\to3\), with
+For Paschen records, the destination shell is \(S_3\). Pa\(\alpha\), Pa\(\beta\), and Pa\(\epsilon\) carry the NIST Hydrogen Handbook air wavelengths. Pa\(\gamma\) and Pa\(\delta\) remain carried targets with source-row and medium bindings unverified. The baseline is \(4\to3\), with
 \[
 \Delta\widehat P^D(4\to3)=\frac19-\frac1{16}=\frac7{144}.
 \]
@@ -189,10 +190,10 @@ For Paschen records, the destination shell is \(S_3\). The baseline is \(4\to3\)
 \begin{table}[h]
 \centering
 \scriptsize
-\caption{Hydrogen Paschen shell-pressure ratio audit. Vacuum wavelength targets are downstream comparison records carried by the NIST-ASD target convention.}
+\caption{Hydrogen Paschen released-pressure ratio audit. Wavelengths are carried comparison targets with the source-medium bindings declared in this subsection.}
 \begin{tabular}{c c c c c c c}
 \toprule
-Line & Transition & $\Delta\widehat P^D$ & A\(\Omega\) ratio & $\lambda_{\mathrm{vac}}$ [nm] & Target ratio & Error [\%]\\
+Line & Transition & $\Delta\widehat P^D$ & A\(\Omega\) ratio & $\lambda_{\mathrm{tar}}$ [nm] & Target ratio & Error [\%]\\
 \midrule
 Pa$\alpha$ & $4\to3$ & $7/144$ & $1$ & $1875.101$ & $1.00000000$ & $0.000000$\\
 Pa$\beta$ & $5\to3$ & $16/225$ & $256/175$ & $1281.807$ & $1.46285751$ & $-0.000025$\\
@@ -207,8 +208,9 @@ Limit & $\infty\to3$ & $1/9$ & $16/7$ & series limit & $16/7$ & audit record\\
 
 \subsubsection{Series-ratio audit}\label{manual:hydrogen:series-audit}
 \aodnoteblock{Audit}{A spectral-series record carries the destination shell \(S_m\), the computed \(\Delta\widehat P^D(n\to m)\), and the inverse-wavelength ratio \(\lambda_{(m+1)\to m}/\lambda_{n\to m}\).}
-\aodprovenance{main:subsec:shared-shell-path-declaration; manual \appref{manual:external-comparison}.}
-\aodliteraturenote{Hydrogen spectral-line targets: NIST Atomic Spectra Database~\cite{nist-asd}.}
+\aodprovenance{\mainsection{main:subsec:shared-shell-path-declaration};
+\appref{manual:external-comparison}.}
+\aodliteraturenote{Hydrogen spectral-line targets: NIST Atomic Spectra Database~\cite{nist-asd}; Paschen Pa\(\alpha\), Pa\(\beta\), Pa\(\epsilon\) air rows: NIST Hydrogen Handbook~\cite{nist-hydrogen-handbook}.}
 
 
 \subsection{Error audit}\label{manual:hydrogen:error-audit}
@@ -223,9 +225,11 @@ For a transition record \(x\), record
 =
 100\frac{\Delta\mathcal R_x}{\mathcal R_x^{\mathrm{tar}}}.
 \]
-The ratio table above uses this formula. Energy errors may be recorded only after the wavelength target and external conversion are declared.
+The ratio audits in \tabref{tab:manual-hydrogen-pressure-ratios}, \tabref{tab:manual-hydrogen-lyman-ratios} and \tabref{tab:manual-hydrogen-paschen-ratios} use this formula. Energy errors may be recorded only after the wavelength target and external conversion are declared.
 
 \subsection{Audit hooks}\label{manual:hydrogen:audit-hooks}
-\aodnoteblock{Audit}{A hydrogen-facing shell record carries the transition pressure difference before external comparison, the ratio record matching the declared shell-pressure difference, and the cited wavelength target for each energy comparison.}
-\aodprovenance{main:subsec:shared-shell-path-declaration; manual \appref{manual:external-comparison}; manual \secref{manual:hydrogen:scope}.}
+\aodnoteblock{Audit}{A hydrogen-facing shell record carries the released-pressure magnitude before external comparison, its ratio record, and the wavelength target with its declared source-medium binding.}
+\aodprovenance{\mainsection{main:subsec:shared-shell-path-declaration};
+\appref{manual:external-comparison};
+\secref{manual:hydrogen:scope}.}
 \aodliteraturenote{Hydrogen Balmer targets: NIST Atomic Spectra Database~\cite{nist-asd}.}

@@ -6,7 +6,110 @@
 \usepackage{float}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning}
+\usepackage{xr-hyper}
 \usepackage[hidelinks]{hyperref}
+\usepackage{refcount}
+\usepackage{bookmark}
+% Main labels retain their complete source keys, but display published numbers.
+% latexmk records Main's inputs in main.fls; build Main before this document.
+\ExplSyntaxOn
+\cs_new_protected:Npn \aod_main_reference_error:n #1
+  {
+    \PackageError{aod-mainrefs}{#1}
+      {Build~Main~with~latexmk~from~this~source~tree~before~Manual.}
+  }
+\ior_new:N \l_aod_main_inputs_ior
+\seq_new:N \l_aod_main_input_seq
+\tl_new:N \l_aod_main_input_tl
+\tl_new:N \l_aod_main_anchor_tl
+\tl_new:N \l_aod_main_number_tl
+\clist_map_inline:nn { ../main.aux, ../main.fls }
+  {
+    \file_if_exist:nF {#1}
+      { \aod_main_reference_error:n {Missing~Main~build~file~#1} }
+  }
+\ior_open:Nn \l_aod_main_inputs_ior { ../main.fls }
+\ior_str_map_inline:Nn \l_aod_main_inputs_ior
+  {
+    \regex_extract_once:nnNT { \A INPUT \s+ (.+) \Z }
+      {#1} \l_aod_main_input_seq
+      {
+        \tl_set:Nx \l_aod_main_input_tl
+          { \seq_item:Nn \l_aod_main_input_seq {2} }
+        % Check source and graphics, not generated AUX/BBL/TOC inputs.
+        % Checking Main's BBL here would register it as a Manual input.
+        \exp_args:NnV \regex_match:nnT
+          { \.(tex|bib|tikz|png|jpe?g|eps|pdf) \Z } \l_aod_main_input_tl
+          {
+            \exp_args:NnV \regex_match:nnF { \A / } \l_aod_main_input_tl
+              { \tl_put_left:Nn \l_aod_main_input_tl { ../ } }
+            \file_if_exist:VTF \l_aod_main_input_tl
+              {
+                \file_compare_timestamp:VNnT \l_aod_main_input_tl > { ../main.aux }
+                  { \aod_main_reference_error:n {Stale~Main~AUX:~\l_aod_main_input_tl} }
+              }
+              { \aod_main_reference_error:n {Missing~Main~input~\l_aod_main_input_tl} }
+          }
+      }
+  }
+\ior_close:N \l_aod_main_inputs_ior
+% BibTeX reads refs.bib separately, so it need not appear in XeLaTeX's FLS.
+\file_if_exist:nT { ../refs.bib }
+  {
+    \file_compare_timestamp:nNnT { ../refs.bib } > { ../main.aux }
+      { \aod_main_reference_error:n {Stale~Main~AUX:~../refs.bib} }
+  }
+\cs_new_protected:Npn \aod_main_reference_check:nn #1#2
+  {
+    \regex_match:nnF { \A main: } {#1}
+      { \aod_main_reference_error:n {Unresolved~Main~reference:~#1} }
+    \cs_if_exist:cTF { r@#1 }
+      {
+        \tl_set:Nx \l_aod_main_anchor_tl
+          { \getrefbykeydefault{#1}{anchor}{} }
+        \exp_args:NnV \regex_match:nnF {#2} \l_aod_main_anchor_tl
+          { \aod_main_reference_error:n {Wrong~Main~reference~type:~#1} }
+      }
+      { \aod_main_reference_error:n {Unresolved~Main~reference:~#1} }
+  }
+\NewDocumentCommand{\mainequation}{m}
+  {
+    \aod_main_reference_check:nn {#1}
+      { \A (equation\. ([A-J]\.)? [0-9]+ (\.[0-9]+)* | AMS\. [0-9]+) \Z }
+    % AMS anchors belong to explicitly tagged math displays; accept RG tags only.
+    \exp_args:NnV \regex_match:nnT { \A AMS\. } \l_aod_main_anchor_tl
+      {
+        \tl_set:Nx \l_aod_main_number_tl { \getrefnumber{#1} }
+        \tl_set:Nx \l_aod_main_number_tl
+          { \tl_to_str:V \l_aod_main_number_tl }
+        \exp_args:NnV \regex_match:nnF
+          { \A (RG[0-9]+|\{RG[0-9]+\}) \Z } \l_aod_main_number_tl
+          { \aod_main_reference_error:n {Wrong~Main~reference~type:~#1} }
+      }
+    Main~\eqref{#1}
+  }
+\NewDocumentCommand{\mainsection}{m}
+  {
+    \aod_main_reference_check:nn {#1}
+      { \A (section|subsection|subsubsection)\. [0-9]+ (\.[0-9]+)* \Z }
+    Main~\S\ref{#1}
+  }
+\NewDocumentCommand{\mainappendix}{m}
+  {
+    \aod_main_reference_check:nn {#1}
+      { \A (appendix|section|subsection|subsubsection)\. [A-J] (\.[0-9]+)* \Z }
+    Main~App.~\ref{#1}
+  }
+\NewDocumentCommand{\maintable}{m}
+  {
+    \aod_main_reference_check:nn {#1}
+      { \A table\. (caption\.)? [0-9]+ \Z }
+    Main~Table~\ref{#1}
+  }
+\ExplSyntaxOff
+% nocite prevents Main's bibliography labels from contaminating Manual's.
+% The root release pair is manual.pdf and main.pdf in the same directory.
+\externaldocument[main:][nocite]{../main}[main.pdf]
 \setlength{\tabcolsep}{3pt}
 
 \hypersetup{
@@ -46,3 +149,10 @@
 \renewcommand*\l@subsection{\@dottedtocline{2}{1.6em}{3.9em}}
 \renewcommand*\l@subsubsection{\@dottedtocline{3}{4.0em}{5.0em}}
 \makeatother
+
+\newcommand{\ADAR}{\mathrm{ADAR}}
+\newcommand{\RCD}{\operatorname{RCD}}
+\newcommand{\Qfour}{Q_4}
+\newcommand{\Null}{\mathcal N}
+\newcommand{\infD}{\infty_D}
+\setlength{\emergencystretch}{2em}

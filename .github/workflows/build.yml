@@ -32,6 +32,10 @@ jobs:
           latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
           cp manual/main.pdf manual.pdf
 
+      - name: Audit executed scientific sources
+        run: |
+          python3 scripts/audit_scientific_sources.py . --build-root .
+
       - name: Run test suite
         run: |
           set -o pipefail

@@ -1,6 +1,6 @@
 
 \section{Solar Observable-Map Fixtures}\label{manual:solar-system-field-tests}
-\aodnoteblock{Scope}{This section carries solar-system observable-map comparison fixtures. Each record declares its solar-system scope, names the observable map, attaches the measured-sector target, and records residual, percent error, source citation, and audit.}
+\aodnoteblock{Scope}{This section carries solar-system observable-map comparison fixtures. Each record declares its solar-system scope, names the observable map, carries a comparison value, attaches an external reference target, and records residual, percent error, source citation, and audit.}
 \aodnoteblock{Data-support class}{Solar records are O0 observable-map fixtures. Each row records map value, target, residual/error, and citation inside the declared observable-map support class.}
 
 \subsection{Shared solar-system declaration}\label{manual:solar:shared}
@@ -14,7 +14,7 @@ For a body, signal, or transfer record $x$, declare a comparison boundary/window
 \[
 B_x=(\partial F_x,\omega_x).
 \]
-Each record computes the long-window \(\SADARop_B\) value first and only then attaches the measured-sector comparison target.
+Each record carries a frozen O0 map-value comparison and its external reference target.
 
 \begin{figure}[h]
 \centering
@@ -38,11 +38,11 @@ Each record computes the long-window \(\SADARop_B\) value first and only then at
 \end{figure}
 
 \[
-\boxed{\text{Solar-system tests are long-window }\SADARop_B\text{ values on the Sun-field cycle family.}}
+\boxed{\text{Solar-system records carry O0 observable-map comparisons.}}
 \]
 
 \subsection{SADAR observable bridge}\label{manual:solar:observable-export-bridge}
-Before a solar-system record is compared to a target, the Sun-field cycle family is evaluated by \(\SADARop_B\) and passed through a declared observable comparison map:
+Native solar-system evaluation requires a Sun-field cycle family evaluated by \(\SADARop_B\) and a declared observable comparison map with signature
 \[
 \mathcal O_{x,\AO}
 =
@@ -51,7 +51,7 @@ Before a solar-system record is compared to a target, the Sun-field cycle family
 RCD,\rho^D,\rho^D_\omega,p^D,\phi,\mathbf A_F,J^D_{\partial R};B_x
 \right].
 \]
-For the three observable-map comparison fixtures in this section, the maps are declared as:
+The three observable-map comparison fixtures record the following map signatures:
 \[
 \Delta\varpi_{\mathrm{Hg},\AO}
 =
@@ -79,14 +79,14 @@ z_{\odot,\AO}
 J^D_{\partial R}(\omega_{\mathrm{red}};B_{\mathrm{red}})
 \right].
 \]
-The comparison maps are manual observable maps. Their rows record map value, target, residual, error coordinate, and citation after the \(\SADARop_B\) value is declared.
+The rows below carry O0 comparison values and residual arithmetic. Map definitions and evaluated native \(\SADARop_B\) input certificates are not supplied for these records.
 
 \subsection{Observable-map comparison table}\label{manual:solar:observable-map-table}
 
 \begin{table}[h]
 \centering
 \scriptsize
-\caption{Solar-system observable-map comparison records.}
+\caption{Solar-system observable-map comparison records (carried O0 values).}
 \begin{tabularx}{\textwidth}{l r r r r}
 \toprule
 Record & A\(\Omega\) value & Target & Residual & Abs. percent error\\
@@ -102,7 +102,7 @@ Solar redshift & $2.11996\times10^{-6}$ & $2.12\times10^{-6}$ & $-4.0\times10^{-
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.82\textwidth]{figures/solar_calculated_vs_target.png}
-\caption{Solar-system field tests: observable-map values versus declared targets. The vertical axis is logarithmic because the records use different units/scales.}
+\caption{Solar-system carried observable-map values versus declared targets. The vertical axis is logarithmic; each record is compared only within its own unit/scale.}
 \label{fig:manual-solar-calculated-target}
 \end{figure}
 
@@ -133,6 +133,7 @@ The target is
 \qquad
 |\epsilon_\varpi|=0.0002327\%.
 \]
+
 \aodliteraturenote{Mercury perihelion target: Will~\cite{will-mercury-2018}.}
 
 \subsection{Solar light-bending boundary}\label{manual:solar:light-bending}
@@ -155,6 +156,7 @@ The target is
 \qquad
 |\epsilon_\delta|=0.0005714\%.
 \]
+
 \aodliteraturenote{Solar-limb light-bending target: NASA~\cite{nasa-1919-light-bending}.}
 
 \subsection{Solar redshift transfer boundary}\label{manual:solar:redshift}
@@ -178,15 +180,16 @@ z_{\odot}^{\mathrm{tar}}=2.12\times10^{-6}.
 \qquad
 |\epsilon_z|=0.001887\%.
 \]
-Equivalently, the velocity target is
+A separate external reference prediction is
 \[
 v_z^{\mathrm{tar}}=633.1\ \mathrm{m/s},
 \]
-with measurement context
+with the measured comparison
 \[
 v_z^{\mathrm{meas}}=638\pm6\ \mathrm{m/s}.
 \]
-\aodliteraturenote{Solar redshift target and measured value: Heidelberg/ZAH~\cite{zah-solar-redshift}.}
+
+\aodliteraturenote{Solar gravitational-redshift reference prediction \(633.1\ \mathrm{m/s}\) and measured comparison \(638\pm6\ \mathrm{m/s}\): Heidelberg/ZAH~\cite{zah-solar-redshift}.}
 
 \subsection{Audit hooks}\label{manual:solar:audit-hooks}
 \begin{itemize}
@@ -194,4 +197,9 @@ v_z^{\mathrm{meas}}=638\pm6\ \mathrm{m/s}.
 \item Comparison-fixture audit: each record includes observable-map value, target, residual, percent error, and status.
 \item Input audit: target values are cited in the record where they are used; residuals are computed from the declared observable-map value and declared target.
 \end{itemize}
-\aodprovenance{main:subsec:disoma-declaration; main:eq:b-scoped-flux; main:eq:sadar-attention-vector; main:eq:window-clipped-rho; manual \appref{manual:external-comparison}.}
+
+\aodprovenance{\mainsection{main:subsec:disoma-declaration};
+\mainequation{main:eq:b-scoped-flux};
+\mainequation{main:eq:sadar-attention-vector};
+\mainequation{main:eq:window-clipped-rho};
+\appref{manual:external-comparison}.}

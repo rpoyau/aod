@@ -6,8 +6,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_fractal_origin_anchor_is_octal():
     text = (ROOT / "appendices" / "A_fractal_address_bip_biz.tex").read_text()
-    assert r"\mathtt{00}_8\vdash \mathrm{monon},\mathrm{bip},\mathrm{biz}." in text
-    assert r"\mathtt{00}\vdash \mathrm{monon},\mathrm{bip},\mathrm{biz}." not in text
+    assert r"\mathtt{00}_8" in text
+    assert "Addresses below" in text and "out of scope and unbound" in text
+    assert r"\mathtt{00}\vdash" not in text
 
 
 def test_sparc_five_galaxy_registry_status_is_scored():

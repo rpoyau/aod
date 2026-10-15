@@ -10,7 +10,7 @@ A large field-dynamics system is handled by declared clustering. A cluster recor
 
 
 \subsection{Data-support classes for manual simulations and comparisons}\label{manual:field-dynamics-data-support-classes}
-Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals only in its declared coordinate. The table below records the manual classes used by this release.
+Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals only in its declared coordinate. \tabref{tab:manual-data-support-classes} records the manual classes used by this release.
 
 \scriptsize
 \begin{longtable}{@{}p{0.07\textwidth}p{0.17\textwidth}p{0.27\textwidth}p{0.22\textwidth}p{0.12\textwidth}@{}}
@@ -130,9 +130,9 @@ J^{\mathrm{obs}}_c=\rho^{\mathrm{obs}}_c v^{\mathrm{obs}}_c,
 \qquad
 \epsilon_J(c)=J^{A\Omega}_c-J^{\mathrm{obs}}_c.
 \]
-When vector targets are declared, alignment may be recorded as
+For vector targets, the fixture declares \(\varepsilon\ge0\) with the units of \(\|J^{A\Omega}_c\|\,\|J^{\mathrm{obs}}_c\|\) and a positive denominator. The dimensionless regularized alignment score is
 \[
-\cos\alpha_c=\frac{J^{A\Omega}_c\cdot J^{\mathrm{obs}}_c}{\|J^{A\Omega}_c\|\,\|J^{\mathrm{obs}}_c\|+\varepsilon}.
+c_{\varepsilon,c}=\frac{J^{A\Omega}_c\cdot J^{\mathrm{obs}}_c}{\|J^{A\Omega}_c\|\,\|J^{\mathrm{obs}}_c\|+\varepsilon}.
 \]
 For a G3 time-resolved tracer-current fixture, path and velocity residuals such as \(\epsilon_x\) and \(\epsilon_v\) are declared against path-coordinate targets. RMSE reports are used only when the fixture declares metric units and path-coordinate targets.
 \subsection{Two-dimensional slice / three-dimensional field toy}\label{manual:2d-3d-slice-toy}
@@ -324,7 +324,12 @@ U^{\mathrm{obs}}_{g,j}=(V^{\mathrm{obs}}_{g,j})^2,
 \qquad
 \sigma_{U,g,j}=2V^{\mathrm{obs}}_{g,j}\sigma_{V,g,j}.
 \]
-The uncertainty propagation is external benchmark arithmetic. The declared score target is \(U^{\mathrm{obs}}_{g,j}\), and benchmark input columns remain input data until the report map is evaluated.
+The uncertainty propagation is external benchmark arithmetic. The declared score target is \(U^{\mathrm{obs}}_{g,j}\), and benchmark input columns remain input data until the report map is evaluated. This G0 diagnostic uses nonnegative component proxies
+\[
+U^k_{g,j}:=(V^k_{g,j})^2,
+\qquad k\in\{\mathrm{gas},\mathrm{disk},\mathrm{bulge}\}.
+\]
+SPARC's signed gas contribution is \(V^{\mathrm{gas}}|V^{\mathrm{gas}}|\). The retained proxy \(U^{\mathrm{gas}}=(V^{\mathrm{gas}})^2\) preserves its magnitude and removes the contribution sign for negative source entries.
 \[
 U^{\mathrm{bar}}_{g,j}
 =
@@ -379,6 +384,7 @@ Here \(K^U_{\mathrm{ext}}\) is a quarantined external map coefficient frozen bef
 \qquad
 [K^U_{\mathrm{ext}}]=\frac{(\mathrm{km/s})^2}{\mathrm{kpc}\cdot(\mathrm{km/s})}=\frac{\mathrm{km/s}}{\mathrm{kpc}}.
 \]
+
 \aodliteraturenote{SPARC benchmark: SPARC database~\cite{sparc-database}, Lelli et al.~\cite{lelli-sparc-2016}.}
 \aodnoteblock{Data-support class}{The SPARC five-galaxy lane instantiates a G0 radial shell data-support class. G0 active input fields are \(G_i,r_{ij},V^{\mathrm{obs}}_{ij},\sigma_{V,ij},V^{\mathrm{gas}}_{ij},V^{\mathrm{disk}}_{ij},V^{\mathrm{bulge}}_{ij}\). The report coordinate is \(U=(V^{\mathrm{obs}})^2\), \(\sigma_U=2V^{\mathrm{obs}}\sigma_V\), and \(\Delta U=U_{\AO}-U^{\mathrm{obs}}\). G1/G2/G3 packages carry angular, vertical, or time-flow fields through declared source or proxy rows.}
 
@@ -419,7 +425,7 @@ Bins are excluded only by a predeclared data-quality rule or by a predeclared de
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\linewidth]{figures/sparc_declaration_controls.png}
-\caption{SPARC declaration controls. The score is \(MAPE_U\) across the five-galaxy benchmark sample.}
+\caption{SPARC carried declaration-control scores. The four values in \texttt{sparc\_declaration\_controls.csv} are frozen comparison records; their variant recipes and aggregation rule are not supplied. Primary per-bin and per-galaxy scores are computed separately by the declared map.}
 \label{fig:manual-sparc-controls}
 \end{figure}
 \begin{figure}[H]
@@ -442,14 +448,14 @@ Bins are excluded only by a predeclared data-quality rule or by a predeclared de
 \end{figure}
 
 \subsection{Tau ring diagnostic fixture}\label{manual:tau-ring-diagnostic}
-The Tau ring fixture uses \(S_\tau\), \(S_{\tau,\mathrm{ring}}\), missing fraction, and winner margin.
+The Tau ring fixture carries frozen \(S_\tau\), \(S_{\tau,\mathrm{ring}}\), missing-fraction, and winner-margin records from \texttt{manual/data/derived/tau\_ring\_diagnostic.csv}.
 \[
 \mathcal K_\tau=\{1{:}2{:}8,1{:}2{:}9_{\mathrm{yro}},1{:}2{:}10,3{:}3{:}8\}.
 \]
 \[
 K_\tau^\star=\arg\min_{K\in\mathcal K_\tau}|S_{\tau,\mathrm{ring}}(K)|.
 \]
-The rerun selects
+Winner lookup in the supplied diagnostic selects
 \[
 \boxed{K_\tau^\star=1{:}2{:}9_{\mathrm{yro}}=\mathrm{Dimonnanyro}.}
 \]
@@ -467,7 +473,8 @@ The missing-burden diagnostic records the exact ratio
 \qquad
 \mathrm{missing\_fraction\_display}=0.62.
 \]
-\aodnoteblock{Precision note}{Support identities and candidate declarations are exact. Plotted scores are diagnostic presentation decimals from the analysis script and are not A\(\Omega\) primitives.}
+\aodnoteblock{Precision note}{Support identities and candidate declarations are exact. Plotted scores are presentation decimals carried by the frozen diagnostic CSV.}
+\aodnoteblock{Source artifacts}{The depth-3 rows in \texttt{manual/data/tau/aod\_tau\_fractal\_ring\_summary.csv} preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied.}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\linewidth]{figures/tau_ring_support_score.png}

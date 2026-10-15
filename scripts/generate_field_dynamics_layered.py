@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Generate the Layered Field Dynamics figure with AΩD structural labels."""
+import argparse
+from pathlib import Path
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle, FancyArrowPatch, FancyBboxPatch
@@ -10,6 +13,16 @@ MID = '#6e8198'
 LIGHT = '#dfe6ee'
 TEAL = '#0a6b73'
 GRAY = '#b9c2cc'
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--main', action='store_true',
+                    help='omit the Manual-owned storage callout and capacity inset')
+parser.add_argument('--output', type=Path,
+                    help='PNG destination (defaults to the selected figure mode)')
+args = parser.parse_args()
+output = args.output or Path(
+    'figures_jpg/field_dynamics_layered_main.png' if args.main
+    else 'figures_jpg/field_dynamics_layered.png')
 
 fig, ax = plt.subplots(figsize=(10.24, 12.8), dpi=150)
 ax.set_xlim(-1.35, 1.55)
@@ -75,14 +88,16 @@ def callout(text, xy, xytext, ha='left'):
 
 callout('core coupling\nstrongest retained coupling;\nseeds retained circulation', (-0.17,0.13), (-1.18,0.95))
 callout('inter-layer coupling\nretained transfer through\ndeclared channels', (0.55,0.67), (0.84,0.95))
-callout('channel capacity\nradial channels store,\nbuffer, and transfer support', (-0.74,-0.53), (-1.18,-0.82))
+if not args.main:
+    callout('channel capacity\nradial channels store,\nbuffer, and transfer support', (-0.74,-0.53), (-1.18,-0.82))
 callout('outer-layer coupling\nbroader retained circulation;\nredistribution and recycling', (0.0,-0.89), (-0.28,-1.16), ha='center')
 callout('support/current lift\nexoshedding routes surplus\ntoward outer boundaries', (0.66,-0.55), (0.85,-0.86))
 
 # Right inset boxes
-for y, title, lines in [
+insets = [
     (0.50, 'A. LIFT / EXOSHEDDING VIEW', ['support/current lifts', 'from inner layers', 'along sheddic routes']),
-    (-0.33, 'B. RADIAL CHANNEL /\nCAPACITY VIEW', ['channels provide', 'capacity, buffering,', 'and transfer'])]:
+    (-0.33, 'B. RADIAL CHANNEL /\nCAPACITY VIEW', ['channels provide', 'capacity, buffering,', 'and transfer'])]
+for y, title, lines in insets[:1] if args.main else insets:
     box = FancyBboxPatch((1.02,y-0.28), 0.45, 0.56, boxstyle='round,pad=0.02', ec=MID, fc='white', lw=1.1)
     ax.add_patch(box)
     ax.text(1.245, y+0.21, title, ha='center', va='center', fontsize=9.3, color=BLUE, fontweight='bold')
@@ -118,4 +133,4 @@ ax.add_patch(arr); ax.text(legend_x+0.23,legend_y-0.02,'decoupling / lift',fonts
 ax.plot([legend_x+0.65,legend_x+0.82],[legend_y-0.02,legend_y-0.02],color=GRAY,lw=2); ax.text(legend_x+0.88,legend_y-0.02,'layer boundary',fontsize=8.8,color=NAVY,va='center')
 
 plt.tight_layout(pad=0.3)
-fig.savefig('figures_jpg/field_dynamics_layered.png', dpi=150, bbox_inches='tight')
+fig.savefig(output, dpi=150, bbox_inches='tight')

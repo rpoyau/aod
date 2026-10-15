@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "request": "PR39_FORMAT_STYLE_REQUEST_R01",
+  "scope": "Formatting and style only; F01–F08; scientific bodies, engines, inputs and assets unchanged.",
+  "baseline_commit": "623fc5f1c574a05165043da79191f70176017ccb",
+  "baseline_tree": "bb9ef122263365bdf56fd36936937403a56f4e33",
+  "reference_bindings": {
+    "reference_commit": "5a25e8bd5bbc3f20ec4413a6b63abc420b7a54cb",
+    "reference_tree": "5cba459cf4b7d8ed54961670b9b367effcc6fe16",
+    "binding_status": "VERIFIED_BIBLIOGRAPHY_COMPLETE_PINNED_AFC_BUILD",
+    "independent_counters_file": "authority/repositories/afc/tex/preamble.tex",
+    "include_order_file": "authority/repositories/afc/tex/main.tex",
+    "bindings": [
+      {
+        "key": "ax:null-infinity",
+        "type": "Axiom",
+        "candidate_number": 1,
+        "path": "tex/sections/03_axioms.tex",
+        "published_number": "1",
+        "published_page": 4,
+        "destination": "axiom.1"
+      },
+      {
+        "key": "cons:region",
+        "type": "Consequence",
+        "candidate_number": 1,
+        "path": "tex/sections/03_axioms.tex",
+        "published_number": "1",
+        "published_page": 4,
+        "destination": "consequence.1"
+      },
+      {
+        "key": "cons:relations",
+        "type": "Consequence",
+        "candidate_number": 2,
+        "path": "tex/sections/03_axioms.tex",
+        "published_number": "2",
+        "published_page": 4,
+        "destination": "consequence.2"
+      },
+      {
+        "key": "choice:memory-state",
+        "type": "Choice",
+        "candidate_number": 1,
+        "path": "tex/sections/04_choices.tex",
+        "published_number": "1",
+        "published_page": 4,
+        "destination": "choice.1"
+      },
+      {
+        "key": "choice:kernel",
+        "type": "Choice",
+        "candidate_number": 2,
+        "path": "tex/sections/04_choices.tex",
+        "published_number": "2",
+        "published_page": 4,
+        "destination": "choice.2"
+      },
+      {
+        "key": "choice:flux",
+        "type": "Choice",
+        "candidate_number": 3,
+        "path": "tex/sections/04_choices.tex",
+        "published_number": "3",
+        "published_page": 4,
+        "destination": "choice.3"
+      },
+      {
+        "key": "choice:divergence",
+        "type": "Choice",
+        "candidate_number": 4,
+        "path": "tex/sections/04_choices.tex",
+        "published_number": "4",
+        "published_page": 4,
+        "destination": "choice.4"
+      },
+      {
+        "key": "choice:region",
+        "type": "Choice",
+        "candidate_number": 5,
+        "path": "tex/sections/04_choices.tex",
+        "published_number": "5",
+        "published_page": 4,
+        "destination": "choice.5"
+      },
+      {
+        "key": "cor:afc-stokes",
+        "type": "Corollary",
+        "candidate_number": 1,
+        "path": "tex/corollaries/00_stokes.tex",
+        "published_number": "1",
+        "published_page": 6,
+        "destination": "corollary.1"
+      },
+      {
+        "key": "eq:afc-stokes-cor",
+        "type": "Equation",
+        "candidate_number": 1,
+        "path": "tex/corollaries/00_stokes.tex",
+        "published_number": "1",
+        "published_page": 6,
+        "destination": "equation.1"
+      }
+    ],
+    "rule": "Verify the published/AUX number against pinned source before use; do not hardcode candidate Main numbers.",
+    "aux_sha256": "8a85cbb7ee2ea38497f6d2ec5a250572315fb8432f28c988e3a15dc49febd93c",
+    "pdf_sha256": "ef0ca650616cf89b92f4ccc21f4abe95cd259566df4103cf51da134fab77381f",
+    "source_bytes": "Copied unchanged from pinned read-only AFC reference repository."
+  },
+  "conditional_preamble_hash": {
+    "old_sha256": "7481d6a85ff3db5fb4d30afb78d381c8baa5b742fb2029fe582cd205f0c5cc59",
+    "new_sha256": "0455a4c5cfe6eb7e3794a18508caa3776ddf402bf80972c076518bc69e280081",
+    "reason": "Import freshly built Main labels for qualified equation/section references, with source freshness and anchor-type checks.",
+    "only_binding_field_changed": "frozen_sha256[manual/preamble.tex]"
+  },
+  "main_reference_macros": {
+    "equation": "mainequation",
+    "section": "mainsection",
+    "source_key_prefix": "main:",
+    "imported_bibliography": false,
+    "pdf_sibling": "main.pdf",
+    "freshness": "Require Main AUX/FLS, recorded source/graphics and refs.bib no newer than AUX; exclude generated artifacts. Preserved-mtime/same-second edits require clean paired builds."
+  },
+  "pointer_evidence": {
+    "F06-MODELS": {
+      "accepted_source": "accepted-science-source-a99a824e.zip:sections/04_cut_running_fractal_tesseract.tex",
+      "accepted_statement": "An isotropic or anisotropic model can support a certified closure; its oriented ancestral trace remains retained.",
+      "destination": "subsec:q4-hamming-ternary-kernel",
+      "qualifier_preserved": true
+    }
+  },
+  "deferred_unchanged": [
+    "RCD accessor/constructor order",
+    "wave C_t/C/W reconciliation",
+    "availability tuple/catalogue ownership",
+    "engine validator findings"
+  ],
+  "publication_validation": "Actual candidate twice-clean build evidence is delivered separately; no historical pagecount invariant."
+}

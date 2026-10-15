@@ -84,7 +84,8 @@ def compute() -> tuple[pd.DataFrame, pd.DataFrame]:
 def write_outputs(per_bin: pd.DataFrame, per_gal: pd.DataFrame) -> None:
     per_bin.to_csv(DER / "sparc_five_galaxy_per_bin.csv", index=False)
     per_gal.to_csv(DER / "sparc_five_galaxy_per_galaxy.csv", index=False)
-    # Controls are declared comparison variants from the current diagnostic run.
+    # Carried frozen comparison records; variant recipes and aggregation provenance
+    # are not supplied. These values are not computed by this script.
     controls = pd.DataFrame([
         {"declaration": "radial only", "MAPE_U_percent": 38.67004681721992},
         {"declaration": "z-layer slow", "MAPE_U_percent": 33.267659551663},
@@ -96,13 +97,13 @@ def write_outputs(per_bin: pd.DataFrame, per_gal: pd.DataFrame) -> None:
     lines.append(r"\begin{table}[H]")
     lines.append(r"\centering")
     lines.append(r"\scriptsize")
-    lines.append(r"\caption{SPARC five-galaxy scored records.}")
-    lines.append(r"\begin{tabular}{lrrrrr}")
+    lines.append(r"\caption{SPARC five-galaxy scored records. Data-support class is G0 for this radial shell projection lane; the uncertainty policy is observation-only in this release.}")
+    lines.append(r"\begin{tabular}{lccrrrrr}")
     lines.append(r"\toprule")
-    lines.append(r"$G$ & $N$ & $\chi^2_U$ & $MAE_U$ & $MSE_U$ & $MAPE_U$ [\%]\\")
+    lines.append(r"$G$ & Class & $\sigma$ policy & $N$ & $\chi^2_U$ & $MAE_U$ & $MSE_U$ & $MAPE_U$ [\%]\\")
     lines.append(r"\midrule")
     for _, row in per_gal.sort_values("galaxy").iterrows():
-        lines.append(f"{row['galaxy']} & {int(row['N'])} & {row['chi2_U']:.2f} & {row['MAE_U']:.1f} & {row['MSE_U']:.1f} & {row['MAPE_U']:.2f}\\\\")
+        lines.append(f"{row['galaxy']} & G0 & obs-only & {int(row['N'])} & {row['chi2_U']:.2f} & {row['MAE_U']:.1f} & {row['MSE_U']:.1f} & {row['MAPE_U']:.2f}\\\\")
     lines.append(r"\bottomrule")
     lines.append(r"\end{tabular}")
     lines.append(r"\label{tab:manual-sparc-five-galaxy-scores}")
