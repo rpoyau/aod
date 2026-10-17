@@ -163,7 +163,12 @@ def reference_from_fields(fields: dict[str, str]) -> str | None:
         if doi:
             rest += f". https://doi.org/{latex_to_text(doi).rstrip('.')}"
         elif url:
-            rest += f". {latex_to_text(url).rstrip('.')}"
+            url_text = latex_to_text(url).rstrip(".")
+            publisher_text = latex_to_text(publisher).rstrip(".") if publisher else ""
+            # A URL in the publication field already identifies this source.
+            # Compare complete tokens so distinct paths or queries remain intact.
+            if url_text not in publisher_text.split():
+                rest += f". {url_text}"
         parts.append(rest)
         return ". ".join(parts) + "."
     note = fields.get("note")

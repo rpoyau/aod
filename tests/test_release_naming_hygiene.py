@@ -884,10 +884,10 @@ def test_readme_contains_zenodo_description_and_version_neutral_build_notes():
     assert "**Additional subtitle:** The Art Of The Leprechaun: Fractal Calculus" in readme
     assert "**Alternative title:** 43◦c" in readme
     assert "**Zenodo title:** Alpha↔Omega Dynamics (AΩD)" in readme
-    assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut" in readme
-    assert "## Abstract and Scope" in readme
-    assert "## Simulation and Fixture Coverage" in readme
-    assert "## Data-Support Scope" in readme
+    assert "**Alpha↔Omega Dynamics (AΩD)** is a relational, temporal computational calculus built from the discrete Stokes cut" in readme
+    assert "## What AΩD is" in readme
+    assert "## Run the reference fixtures" in readme
+    assert "Each record states its support, inputs and execution status:" in readme
     assert "## References" in readme
     assert "Generated release artifact names are stable" in readme
     assert "scripts/build_release_bundle.py" in readme
