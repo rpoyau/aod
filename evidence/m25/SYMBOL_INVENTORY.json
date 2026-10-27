@@ -1,0 +1,119 @@
+{
+  "\\mathbf R_k": {
+    "type": "obsolete retained-family alias",
+    "before": {
+      "sections/08_awareness_learning_mindfulness.tex": 3,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    },
+    "after": {
+      "sections/08_awareness_learning_mindfulness.tex": 0,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    }
+  },
+  "R_k": {
+    "type": "retained family",
+    "before": {
+      "sections/08_awareness_learning_mindfulness.tex": 7,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    },
+    "after": {
+      "sections/08_awareness_learning_mindfulness.tex": 12,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    }
+  },
+  "R_e": {
+    "type": "individual event-bound retained tuple",
+    "before": {
+      "sections/08_awareness_learning_mindfulness.tex": 4,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    },
+    "after": {
+      "sections/08_awareness_learning_mindfulness.tex": 9,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    }
+  },
+  "R_{k,i}": {
+    "type": "source-indexed subset",
+    "before": {
+      "sections/08_awareness_learning_mindfulness.tex": 0,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    },
+    "after": {
+      "sections/08_awareness_learning_mindfulness.tex": 3,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    }
+  },
+  "S_k^+": {
+    "type": "factored comparison state",
+    "before": {
+      "sections/08_awareness_learning_mindfulness.tex": 0,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    },
+    "after": {
+      "sections/08_awareness_learning_mindfulness.tex": 6,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    }
+  },
+  "S_k^{+,-i}": {
+    "type": "source removal state",
+    "before": {
+      "sections/08_awareness_learning_mindfulness.tex": 0,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    },
+    "after": {
+      "sections/08_awareness_learning_mindfulness.tex": 2,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    }
+  },
+  "\\Delta^{\\chi\\mathrm{lag}}_e": {
+    "type": "obsolete Main lag accessor",
+    "before": {
+      "sections/08_awareness_learning_mindfulness.tex": 0,
+      "sections/06_field.tex": 2,
+      "sections/05_curl_closure_duon_current.tex": 0
+    },
+    "after": {
+      "sections/08_awareness_learning_mindfulness.tex": 0,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    }
+  },
+  "\\Delta\\chi_e^{\\mathrm{lag}}(B)": {
+    "type": "signed lag accessor on B",
+    "before": {
+      "sections/08_awareness_learning_mindfulness.tex": 0,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    },
+    "after": {
+      "sections/08_awareness_learning_mindfulness.tex": 0,
+      "sections/06_field.tex": 2,
+      "sections/05_curl_closure_duon_current.tex": 0
+    }
+  },
+  "\\lvert\\Pi_\\alpha\\rvert": {
+    "type": "support-set cardinality",
+    "before": {
+      "sections/08_awareness_learning_mindfulness.tex": 0,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 0
+    },
+    "after": {
+      "sections/08_awareness_learning_mindfulness.tex": 0,
+      "sections/06_field.tex": 0,
+      "sections/05_curl_closure_duon_current.tex": 1
+    }
+  }
+}

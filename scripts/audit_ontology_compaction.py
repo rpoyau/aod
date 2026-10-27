@@ -23,6 +23,32 @@ def _json_hash(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
 
 
+def _m25_successor(root, contract, maps, eqs):
+    """Advance only enumerated M2.5 statements and preserve historical bytes."""
+    baseline_bytes = (root / 'evidence/m25/ONTOLOGY_COMPACTION_BINDINGS.baseline.json').read_bytes()
+    _require(hashlib.sha256(baseline_bytes).hexdigest() ==
+             '3d460c81201ba4a3793269ce2ba2a5f484f6dbb020e39533167aa27e4e73430b',
+             'M2.5 baseline binding changed')
+    successor_bytes = (root / 'evidence/m25/BINDING_SUCCESSOR.json').read_bytes()
+    _require(hashlib.sha256(successor_bytes).hexdigest() ==
+             '1d2a3b1926c1f581b8db402762d67127ae23ae351842ee6540d2a86485833abb',
+             'unreviewed M2.5 successor binding')
+    successor = json.loads(successor_bytes)
+    expected = json.loads(baseline_bytes)
+    for label, change in successor['formula_changes'].items():
+        if change['canonical_contract']:
+            _require(expected['formulas'][label] == change['old'],
+                     'M2.5 original formula differs ' + label)
+            expected['formulas'][label] = change['new']
+    _require(contract == expected, 'unrelated M2.5 contract change')
+    for label, change in (successor['formula_changes'] | successor['new_formulas']).items():
+        surface = change['surface']
+        _require(maps[surface].get(label, {}).get('path') == change['path'] and
+                 label in eqs[surface] and _formula(eqs[surface][label]) == change['new'],
+                 'M2.5 mathematical statement or owner changed ' + label)
+    return successor
+
+
 # Pinned reviewed bindings from the sealed R07 request; these are not inferred
 # from ID ranges, historical anchor tags, or the candidate's active label sets.
 REVIEWED = {'fixture_bindings': '097d31a40378cf4a0198b05fb0d6983512cc7b265f6dab3e4fa9c59117ee5958', 'anchor_moves': 'a2f048eefa63082f4a56764f04fccb848da1bcc9500aafcb156912029edebe11', 'source_anchor_bindings': 'b7638c7b3f0da21fd142c12c61dc94e6ff4d2d1aa1a48054cf915a5530c9d2ed', 'baseline_groups': '9e7ae7a93bcac5b0b9e2e9b030213d30dda4516e142895620ea5bcb7d8ba4cae', 'current_groups': 'd866324d660289d8a84b7d82d60450cf50a4edc5502450af8072c8114987b666'}
@@ -207,6 +233,7 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
              'current typed ownership differs from reviewed migration')
     _require({a for r in groups.values() for a in r['anchors']} == set(contract['formulas']) and
              len(contract['formulas']) == 81, 'canonical formula inventory changed')
+    m25 = _m25_successor(root, contract, maps, eqs)
     for record in contract['first_uses']:
         for anchor in record['required_declaration_anchors']:
             _require(position(anchor) < position(record['first_substantive_use_anchor']),
@@ -218,8 +245,13 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
             body = re.sub(r'\\begin\{(figure\*?|table\*?|longtable)\}.*?\\end\{\1\}', '', text, flags=re.S)
             definition_text.append((surface, path, re.sub(r'\s+', '', body)))
     for record in contract['unique_signatures']:
+        pattern = record['pattern']
+        if record['anchor'] in m25['signature_changes']:
+            change = m25['signature_changes'][record['anchor']]
+            _require(pattern == change['old'], 'M2.5 original defining signature differs')
+            pattern = change['new']
         matches = [(surface, path) for surface, path, body in definition_text
-                   for match in re.finditer(record['pattern'], body)]
+                   for match in re.finditer(pattern, body)]
         _require(matches == [(record['surface'], record['path'])],
                  'competing or absent canonical binding ' + record['anchor'])
 
@@ -735,6 +767,11 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
     }
     for path, wanted in contract["frozen_sha256"].items():
         data = _awareness_naming_bytes(path, (root / path).read_bytes())
+        if path in m25['test_changes']:
+            change = m25['test_changes'][path]
+            _require(data == change['new'].encode(),
+                     'protected M2.5 test changed ' + path)
+            data = change['old'].encode()
         if path in metadata_expectations and hashlib.sha256(data).hexdigest() != wanted:
             for old, new in metadata_expectations[path]:
                 old, new = old.encode(), new.encode()

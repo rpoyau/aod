@@ -1,0 +1,887 @@
+{
+  "results": [
+    {
+      "fixture_id": "M1-closure-01",
+      "actual_verdict": "PASS",
+      "actual": {
+        "phases": 1,
+        "dwell": 0,
+        "edges": 2
+      },
+      "expected_matched": true,
+      "input_digest": "158f54e70284946200792d2f97816f2aec2d72723954ba64e8a019eb39bde083"
+    },
+    {
+      "fixture_id": "M1-closure-02",
+      "actual_verdict": "PASS",
+      "actual": {
+        "phases": 1,
+        "dwell": 2,
+        "edges": 2
+      },
+      "expected_matched": true,
+      "input_digest": "36b367a555e2920490ccfac7ed6f32f6cb78155c8d09af9bc5d0422221d2eabd"
+    },
+    {
+      "fixture_id": "M1-closure-03",
+      "actual_verdict": "PASS",
+      "actual": {
+        "phases": 1,
+        "dwell": 0,
+        "edges": 2
+      },
+      "expected_matched": true,
+      "input_digest": "a55c01a3485a4c68d32c816357a4349c397ff3602ccaee464d270530d78af32a"
+    },
+    {
+      "fixture_id": "M1-closure-04",
+      "actual_verdict": "PASS",
+      "actual": {
+        "phases": 1,
+        "dwell": 2,
+        "edges": 2
+      },
+      "expected_matched": true,
+      "input_digest": "e9edd4a22fe67f5b96df8c6e23de569afe1c2fa0576c3f7b480b29977a9f7356"
+    },
+    {
+      "fixture_id": "M1-closure-05",
+      "actual_verdict": "PASS",
+      "actual": {
+        "phases": 1,
+        "dwell": 0,
+        "edges": 2
+      },
+      "expected_matched": true,
+      "input_digest": "e609a23bc1b67ce34b55f913a5376cd291ac290510b9fad096d5bc3a5b59d31c"
+    },
+    {
+      "fixture_id": "M1-closure-06",
+      "actual_verdict": "PASS",
+      "actual": {
+        "phases": 1,
+        "dwell": 2,
+        "edges": 2
+      },
+      "expected_matched": true,
+      "input_digest": "9d1c084c03433b359fbad67c336f27084f77c5ad890622c85480daef3b6fec39"
+    },
+    {
+      "fixture_id": "M1-closure-07",
+      "actual_verdict": "PASS",
+      "actual": {
+        "phases": 1,
+        "dwell": 0,
+        "edges": 4
+      },
+      "expected_matched": true,
+      "input_digest": "356c71db604aad6684591ae6aebed8a6fe5be9da1b3d91d54699bcc5155e46ef"
+    },
+    {
+      "fixture_id": "M1-closure-08",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "mandatory hinge and counterbranch required"
+      },
+      "expected_matched": true,
+      "input_digest": "74d8cf75f8b5c8add60ee23146f89c19e0bad431349bd7c601083acecbe6f747"
+    },
+    {
+      "fixture_id": "M1-closure-09",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "mandatory hinge and counterbranch required"
+      },
+      "expected_matched": true,
+      "input_digest": "ac4ec3826f21298f1bc668e4b69805c9afba9e80f49f1b1e56e93cc961e05e4f"
+    },
+    {
+      "fixture_id": "M1-closure-10",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "end differs from retained start"
+      },
+      "expected_matched": true,
+      "input_digest": "ba19336417c34180698df2389c5375f16ee8ab895e5db0622760480ae0ac2b14"
+    },
+    {
+      "fixture_id": "M1-closure-11",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "wrong reflection lineage or hinge"
+      },
+      "expected_matched": true,
+      "input_digest": "c39a16dd79538ac270e60376f3559e880826c65922b3619dfdf82add01568ba5"
+    },
+    {
+      "fixture_id": "M1-closure-12",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "missing bound reflection witness"
+      },
+      "expected_matched": true,
+      "input_digest": "fd302810758c3dd9d3953a8e2a138a95943279891ba784462b755b725e46a360"
+    },
+    {
+      "fixture_id": "M1-closure-13",
+      "actual_verdict": "PASS",
+      "actual": {
+        "phases": 1,
+        "dwell": 0,
+        "edges": 2
+      },
+      "expected_matched": true,
+      "input_digest": "3511ff605de4ceb4196dd39e1fa48478e0974d801de2988f62976ad6c8f1cefc"
+    },
+    {
+      "fixture_id": "M1-closure-14",
+      "actual_verdict": "PASS",
+      "actual": {
+        "bip": 2,
+        "cadence": [
+          10,
+          10
+        ]
+      },
+      "expected_matched": true,
+      "input_digest": "dcea2a3dafc9db9c08abc58d9ac90a55aa5e54ca09ff5acac88124371dfa8891"
+    },
+    {
+      "fixture_id": "M1-closure-15",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "one closure supplies no recurrence"
+      },
+      "expected_matched": true,
+      "input_digest": "f7026b5f6cb5c73c728fbef90099a9c2043031a124752f8f1749a97e5414cd4f"
+    },
+    {
+      "fixture_id": "M1-closure-16",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "replayed return is not a beat"
+      },
+      "expected_matched": true,
+      "input_digest": "dd95260419753048f4fc55d037586d0dd4d038346121aadcadd96ca37b735726"
+    },
+    {
+      "fixture_id": "M1-closure-17",
+      "actual_verdict": "PASS",
+      "actual": {
+        "advance": "a:0:e1",
+        "reclosed": false
+      },
+      "expected_matched": true,
+      "input_digest": "f605f37a1ebc6c87cb9e14ea1d3bcdc817cff3bc354ef2ad5d005fd0156c2794"
+    },
+    {
+      "fixture_id": "M1-closure-18",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "horizon requires admitted advance"
+      },
+      "expected_matched": true,
+      "input_digest": "b1915e5b6c2083ea8e19229ca135aa4b084fea28ffe70e94b79cd2772d4e0d6e"
+    },
+    {
+      "fixture_id": "M1-closure-19",
+      "actual_verdict": "PASS",
+      "actual": {
+        "outbound": 1,
+        "return": 1,
+        "sum": 2,
+        "embedded_unit": 2,
+        "closure_phase": 1,
+        "factored": 2
+      },
+      "expected_matched": true,
+      "input_digest": "01075e4f3f1582e3e2b1f3d142d8e59cb5d59a6be8f9da792cff07718a43a0af"
+    },
+    {
+      "fixture_id": "M1-closure-20",
+      "actual_verdict": "PASS",
+      "actual": {
+        "outbound": 1,
+        "return": 3,
+        "sum": 4,
+        "embedded_unit": 2,
+        "closure_phase": 1,
+        "factored": null
+      },
+      "expected_matched": true,
+      "input_digest": "19c167b09dbe512f52ccb710af4d98251e865272e87634acfd480541ef3cc304"
+    },
+    {
+      "fixture_id": "M1-closure-21",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "unequal legs cannot factor into a common operand"
+      },
+      "expected_matched": true,
+      "input_digest": "1c4961902cfea379a81b62fac316db8ea5cf3c5360747d9fe558013f2438e688"
+    },
+    {
+      "fixture_id": "M1-closure-22",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "reference is not primitive two-edge closure"
+      },
+      "expected_matched": true,
+      "input_digest": "f96be4349918bf22bcd19d8a34cbfab5bde8cc74193f1cbe556adaa9b3b88111"
+    },
+    {
+      "fixture_id": "M1-closure-23",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "missing bound reflection witness"
+      },
+      "expected_matched": true,
+      "input_digest": "f1fdd7a7a0d5407573ffb6af37de979ced5c86865b5cf08852fabcd1e3b36c80"
+    },
+    {
+      "fixture_id": "M1-closure-24",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "two nonempty legs required"
+      },
+      "expected_matched": true,
+      "input_digest": "3ba3baccd53ae2bd985534b50427d732de2ca18aa1997d488d94a22c1cdbd8de"
+    },
+    {
+      "fixture_id": "M1-h1-01",
+      "actual_verdict": "PASS",
+      "actual": {
+        "distinct": 5,
+        "anchor": "00_8"
+      },
+      "expected_matched": true,
+      "input_digest": "4b86798b61b15459d48a4457e046337ed087c27388f18a5a7f36e3f26755ed9a"
+    },
+    {
+      "fixture_id": "M1-h1-02",
+      "actual_verdict": "PASS",
+      "actual": {
+        "distinct": 5,
+        "anchor": "00_8"
+      },
+      "expected_matched": true,
+      "input_digest": "26f98484a08b632662af8d0b18389b5fc523c686e96a1bbd8272ea559e6bae49"
+    },
+    {
+      "fixture_id": "M1-h1-03",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "distinct ontology types collapsed"
+      },
+      "expected_matched": true,
+      "input_digest": "f5eda0efe7cbf7435cb36c992b927ae61c96e8f813c96de71acb2606b0bff4f1"
+    },
+    {
+      "fixture_id": "M1-h1-04",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "first anchor cannot be selected from prior finite coordinates"
+      },
+      "expected_matched": true,
+      "input_digest": "828d770e9642ff89eb78c63818e685becfe92c10c01bfeb2a74c823a93782099"
+    },
+    {
+      "fixture_id": "M1-h1-05",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "lower anchor is unbound"
+      },
+      "expected_matched": true,
+      "input_digest": "73688babdb768bd1069a2656571b073f73ae7bd1c5fbd7db070d9dabcb742bbe"
+    },
+    {
+      "fixture_id": "M1-h1-06",
+      "actual_verdict": "PASS",
+      "actual": {
+        "legs": [
+          1
+        ],
+        "endpoint": 1
+      },
+      "expected_matched": true,
+      "input_digest": "93b569a3ee7633dc39ff64a20f4a5c598a3d090ae0a08668409fcb591141f0ac"
+    },
+    {
+      "fixture_id": "M1-h1-07",
+      "actual_verdict": "PASS",
+      "actual": {
+        "legs": [
+          1,
+          1
+        ],
+        "endpoint": 2
+      },
+      "expected_matched": true,
+      "input_digest": "0148b021b068a716e08062b97edab7ee328f33349026eab49daff0c6e3c76d08"
+    },
+    {
+      "fixture_id": "M1-h1-08",
+      "actual_verdict": "PASS",
+      "actual": {
+        "legs": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "endpoint": 0
+      },
+      "expected_matched": true,
+      "input_digest": "d80d31469715d5ff7e1069172801013b0f26afc6abf4ea4939e300e55581392d"
+    },
+    {
+      "fixture_id": "M1-h1-09",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "non-H1 event called atomic"
+      },
+      "expected_matched": true,
+      "input_digest": "f24dc5ccf38a199deb3f5acc3d8a92a949d06ac94f35eca3bb90a74f7f14865e"
+    },
+    {
+      "fixture_id": "M1-h1-10",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "non-H1 constituent"
+      },
+      "expected_matched": true,
+      "input_digest": "71363fba7ca72c76738181daac9fb5780be6e0646d99f47d7448d81434c9dca3"
+    },
+    {
+      "fixture_id": "M1-h1-11",
+      "actual_verdict": "PASS",
+      "actual": {
+        "status": "NORMALIZED",
+        "probabilities": [
+          "1/2",
+          "1/2",
+          "0",
+          "0"
+        ]
+      },
+      "expected_matched": true,
+      "input_digest": "ac5d691b35e7ddc676bf97b2d5daf62971ab631ff02d5748fda310d2af8abc74"
+    },
+    {
+      "fixture_id": "M1-h1-12",
+      "actual_verdict": "PASS",
+      "actual": {
+        "status": "NORMALIZED",
+        "probabilities": [
+          "1/4",
+          "3/4",
+          "0",
+          "0"
+        ]
+      },
+      "expected_matched": true,
+      "input_digest": "6b889c608067f3a308f266f35fdbc376ed2da3becb095f46ab1364317c073bd9"
+    },
+    {
+      "fixture_id": "M1-h1-13",
+      "actual_verdict": "PASS",
+      "actual": {
+        "status": "EMPTY_POSITIVE_WEIGHT_SUPPORT",
+        "probabilities": [
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      },
+      "expected_matched": true,
+      "input_digest": "898b6cf36dadc996a44089b1714b9df0abec738ca6009f33592efd814c71c831"
+    },
+    {
+      "fixture_id": "M1-h1-14",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "negative model weight"
+      },
+      "expected_matched": true,
+      "input_digest": "895b82cfdfda8c3828755c11bcf683e51f88580567b81b611a9d134b7eb0b0cd"
+    },
+    {
+      "fixture_id": "M1-conservation-1",
+      "actual_verdict": "PASS",
+      "actual": {
+        "rendered": true,
+        "canonical_bindings": 1
+      },
+      "expected_matched": true,
+      "input_digest": "2c9bf077510ac3cc9a227707919bf159aefc44b302b6ee5279d4d80b234014a8"
+    },
+    {
+      "fixture_id": "M1-conservation-2",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "source mapped to unrelated scientific construction source:one-phase"
+      },
+      "expected_matched": true,
+      "input_digest": "7a3d747b32d92e9b4f97313da91f1542cee250d2fc5e5f2cc375a93d1fc7ca43"
+    },
+    {
+      "fixture_id": "M1-harmonic-01",
+      "actual_verdict": "PASS",
+      "actual": {
+        "reconstruction": [
+          "1",
+          "0",
+          "-1",
+          "0"
+        ],
+        "coefficients": [
+          "0",
+          "1/2",
+          "0",
+          "1/2"
+        ]
+      },
+      "expected_matched": true,
+      "input_digest": "cfc6e7a34ef04f6be46655b5ffca0463c3e4346b9e5d57898aaf190e00698e49"
+    },
+    {
+      "fixture_id": "M1-harmonic-02",
+      "actual_verdict": "PASS",
+      "actual": {
+        "reconstruction": [
+          "0",
+          "1",
+          "0",
+          "-1"
+        ],
+        "coefficients": [
+          "0",
+          "-I/2",
+          "0",
+          "I/2"
+        ]
+      },
+      "expected_matched": true,
+      "input_digest": "e7b816f17a3e4e9f028304da1edc071efc8dadbd6566d6ad6ba3db9d7824eae6"
+    },
+    {
+      "fixture_id": "M1-harmonic-03",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "admitted recurring wave required"
+      },
+      "expected_matched": true,
+      "input_digest": "b9459305dd37e18c6a33d8e2cfcee5c1969622de07123610ddf95ba8eb14ac51"
+    },
+    {
+      "fixture_id": "M1-motif-01",
+      "actual_verdict": "PASS",
+      "actual": {
+        "D_alpha": [
+          1,
+          -1
+        ],
+        "D_omega": [
+          -1,
+          1
+        ],
+        "Dimonon_monons": 2,
+        "Duon_variants": 12,
+        "Duad": "seated Duon state",
+        "RD": [
+          9,
+          21,
+          61,
+          137
+        ]
+      },
+      "expected_matched": true,
+      "input_digest": "7c07578225b1689a462c38d5d0e7271acc20be373bdf07a5f3e258555a17acd6"
+    },
+    {
+      "fixture_id": "M1-motif-02",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "motif/current/state collapse"
+      },
+      "expected_matched": true,
+      "input_digest": "c2f7a9192977db4b82f380516e7f129078aa1362e35d07c9ee9c2722e726017d"
+    },
+    {
+      "fixture_id": "M1-motif-03",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "motif/current/state collapse"
+      },
+      "expected_matched": true,
+      "input_digest": "3fe0708895c814bc4ffe4841ab39383bd2489a7a0cf32f0cea84128da2b16693"
+    },
+    {
+      "fixture_id": "M1-motif-04",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "motif/current/state collapse"
+      },
+      "expected_matched": true,
+      "input_digest": "afd64c5e4bb3a6c22c735b1b34d6fbae9d45b5983d9acd8ad3f91975c7460236"
+    },
+    {
+      "fixture_id": "M1-motif-05",
+      "actual_verdict": "PASS",
+      "actual": {
+        "admitted": true
+      },
+      "expected_matched": true,
+      "input_digest": "9839ff7d2fd28e2e0ba1f2d76edea5834a0eb3672325b690bb67969ab4a92389"
+    },
+    {
+      "fixture_id": "M1-motif-06",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "unregistered or altered certificate"
+      },
+      "expected_matched": true,
+      "input_digest": "54cec0ffa1390c70e3b7085761a035801850c6115deec6cbd512d3831084317d"
+    },
+    {
+      "fixture_id": "M1-motif-07",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "unregistered or altered certificate"
+      },
+      "expected_matched": true,
+      "input_digest": "86b5c551de3c94096550225db28746500e93b83bac2f3c63a9173a09d77d9eb0"
+    },
+    {
+      "fixture_id": "M1-motif-08",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "unregistered or altered certificate"
+      },
+      "expected_matched": true,
+      "input_digest": "5d020acd4ab63966e4df638e49736e6bf4f74d5b7582a16600d2198027c952c7"
+    },
+    {
+      "fixture_id": "M1-motif-09",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "unregistered or altered certificate"
+      },
+      "expected_matched": true,
+      "input_digest": "f733e2f619125915b5108883656c54b21f9c12a04fd0d610ed98e938ee2a113c"
+    },
+    {
+      "fixture_id": "M1-motif-10",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "blank certificate"
+      },
+      "expected_matched": true,
+      "input_digest": "97c916547a788dcb80569b2abf5f3f8518c7e26da0755ab731e93a1d199545ad"
+    },
+    {
+      "fixture_id": "M1-motif-11",
+      "actual_verdict": "PASS",
+      "actual": {
+        "wave_members": 1
+      },
+      "expected_matched": true,
+      "input_digest": "a77a4705b516f7de4d6b9f2e7efb2991720dac2ddd5ab7903c19a8fa8599701a"
+    },
+    {
+      "fixture_id": "M1-motif-12",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "field cannot admit closure or alias as wave"
+      },
+      "expected_matched": true,
+      "input_digest": "34038a502bbb7b6f3f1d1bf80ea59da96e0f326772cad7b8f6629747600b36a9"
+    },
+    {
+      "fixture_id": "M1-motif-13",
+      "actual_verdict": "PASS",
+      "actual": {
+        "outer_phase": 1,
+        "outer_wave": false,
+        "inner_waves": 1
+      },
+      "expected_matched": true,
+      "input_digest": "044b46b7aeaa861557f11609ae70b69b6000584a6b89b7d07a00d14915e89f35"
+    },
+    {
+      "fixture_id": "M1-motif-14",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "contact proposal is not closure"
+      },
+      "expected_matched": true,
+      "input_digest": "7538a63f67520df7f31ca860fc65542221c42e05923fe87d29b568c22d41d873"
+    },
+    {
+      "fixture_id": "M1-motif-15",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "inner beats do not count at outer scope"
+      },
+      "expected_matched": true,
+      "input_digest": "0bc5ab2abef16553ff7ad871053eed906bf686cbf08233e97137169719a0e62f"
+    },
+    {
+      "fixture_id": "M1-motif-16",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "admitted inner lineages required"
+      },
+      "expected_matched": true,
+      "input_digest": "6606eb8cf60c11a21366e908886062ebe86fd7e06e845a2cf78a84b4dc9c5414"
+    },
+    {
+      "fixture_id": "M1-time-01",
+      "actual_verdict": "PASS",
+      "actual": {
+        "ratio": "1",
+        "bias": "0",
+        "lag": "0",
+        "drift": "0",
+        "duration": "5"
+      },
+      "expected_matched": true,
+      "input_digest": "ae8e4286975b2d94f705be966363d35e225da4e04f5831b13ebf48bd5188421b"
+    },
+    {
+      "fixture_id": "M1-time-02",
+      "actual_verdict": "PASS",
+      "actual": {
+        "ratio": "1",
+        "bias": "0",
+        "lag": "0",
+        "drift": "0",
+        "duration": "7"
+      },
+      "expected_matched": true,
+      "input_digest": "e459682ed1d133912e1acecfb4151a61213574fb5d4af4ab9647fa9646c3994f"
+    },
+    {
+      "fixture_id": "M1-time-03",
+      "actual_verdict": "PASS",
+      "actual": {
+        "ratio": "3/2",
+        "bias": "0",
+        "lag": "1",
+        "drift": "1",
+        "duration": "5"
+      },
+      "expected_matched": true,
+      "input_digest": "4fffecbed10463b9c2ae7025652a9c7545633b5580d45c39fa10024a8ec7c3bc"
+    },
+    {
+      "fixture_id": "M1-time-04",
+      "actual_verdict": "PASS",
+      "actual": {
+        "ratio": "1",
+        "bias": "1/4",
+        "lag": "1/4",
+        "drift": "1/4",
+        "duration": "5"
+      },
+      "expected_matched": true,
+      "input_digest": "ee5aef9c9faf71d653520f5edcbea3435431736236da3a34a4bb9a98b4c94758"
+    },
+    {
+      "fixture_id": "M1-time-05",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "same wave under aliases"
+      },
+      "expected_matched": true,
+      "input_digest": "f41ceab5cc6df7417499a5c0f31ac61d01d40be57716c5c81dbfa6d0c977a23a"
+    },
+    {
+      "fixture_id": "M1-time-06",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "repeated distinct bound contacts required"
+      },
+      "expected_matched": true,
+      "input_digest": "c55bbcc0d345547ff929068bbed972dd9387802f7e67970a9716a64443d7a2e6"
+    },
+    {
+      "fixture_id": "M1-time-07",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "wrong coupling lineage"
+      },
+      "expected_matched": true,
+      "input_digest": "183880942a0d1a8258a6eade3dc72abec07702718fd06312cddc9a246eaf09f5"
+    },
+    {
+      "fixture_id": "M1-time-08",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "contact outside committed window"
+      },
+      "expected_matched": true,
+      "input_digest": "2188d0ab326b447cc2a921548eee1fa8f1fe20b69eb4ef83bf594d2b742c16a2"
+    },
+    {
+      "fixture_id": "M1-time-09",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "incompatible duration/window domain"
+      },
+      "expected_matched": true,
+      "input_digest": "ad604cc88775e0c17b6bb35df6af0be4ce7386056b35fc286971f3dd1c8649f0"
+    },
+    {
+      "fixture_id": "M1-time-10",
+      "actual_verdict": "PASS",
+      "actual": {
+        "same_identity": true,
+        "distinct_state": true
+      },
+      "expected_matched": true,
+      "input_digest": "96903ed4ab01bc932e5d0560362e5fc7f4153be8d099f23454681cd0836c361d"
+    },
+    {
+      "fixture_id": "M1-time-11",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "temporal projection cannot identify complete state"
+      },
+      "expected_matched": true,
+      "input_digest": "3daeb258386d93d30dfd87350bff26c33e4959ec8640d9d0f539b0e7ce315b88"
+    },
+    {
+      "fixture_id": "M1-time-12",
+      "actual_verdict": "PASS",
+      "actual": {
+        "step": 1,
+        "current": "3"
+      },
+      "expected_matched": true,
+      "input_digest": "589ecca337e2f3e0d56eebe003c175bbe31ea33598d6aabc1f4db3cd28cc4a33"
+    },
+    {
+      "fixture_id": "M1-time-13",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "future input or same-step circular response"
+      },
+      "expected_matched": true,
+      "input_digest": "65bdb8e3b312ee873dcff0b6842e3babead5191782aaa72a33e801f810925510"
+    },
+    {
+      "fixture_id": "M1-time-14",
+      "actual_verdict": "PASS",
+      "actual": {
+        "afc": "0",
+        "aod": "7",
+        "boundary": "3",
+        "retained_lineages": 2
+      },
+      "expected_matched": true,
+      "input_digest": "ba9d7bbc6496f98e7bfddc5fd078e2a72d860b260c6917bf873a5288b032fba8"
+    },
+    {
+      "fixture_id": "M1-time-15",
+      "actual_verdict": "PASS",
+      "actual": {
+        "afc": "1/2",
+        "aod": "7",
+        "boundary": "3",
+        "retained_lineages": 2
+      },
+      "expected_matched": true,
+      "input_digest": "e8b7e34c10f0826918e835e88c788256a9f7d4fae186209c2cb9eef6e6d85b10"
+    },
+    {
+      "fixture_id": "M1-time-16",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "memory not normalized"
+      },
+      "expected_matched": true,
+      "input_digest": "be383cf1bf634e228ff1d5ecb44eb7f753898b0cf8b4137b00367a0c9cb3a622"
+    },
+    {
+      "fixture_id": "M1-time-17",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "antisymmetry or boundary cancellation fails"
+      },
+      "expected_matched": true,
+      "input_digest": "edc498feb9a3eb67b552903e0e57e8a0e54d7b22b9bbb5b348562b7ac3fdae21"
+    },
+    {
+      "fixture_id": "M1-time-18",
+      "actual_verdict": "PASS",
+      "actual": {
+        "independent": "5",
+        "cross": "3",
+        "recurrent": "8",
+        "residual": "3"
+      },
+      "expected_matched": true,
+      "input_digest": "13af8c319755419b5b45ca4d4c9f3deb39994ade888614640a0de0650c5c66b5"
+    },
+    {
+      "fixture_id": "M1-time-19",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "FRG construction order"
+      },
+      "expected_matched": true,
+      "input_digest": "c008cc14f9b6b81500b4ef7d0edbeaadff0cb9080df892a6383fe5bd33f7965e"
+    },
+    {
+      "fixture_id": "M1-time-20",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "FRG response must follow committed inputs"
+      },
+      "expected_matched": true,
+      "input_digest": "85984f7684796593bb20f7727f3501f51e103d3355ca37e668d6253c5c4c3c03"
+    },
+    {
+      "fixture_id": "M1-time-21",
+      "actual_verdict": "PASS",
+      "actual": {
+        "report": "2",
+        "N": 3
+      },
+      "expected_matched": true,
+      "input_digest": "338f289160a3af54ac1c46e9efc36aa72c8c4e9a1fbc5746e1e465be616021f7"
+    },
+    {
+      "fixture_id": "M1-time-22",
+      "actual_verdict": "PASS",
+      "actual": {
+        "report": "8/3",
+        "N": 4
+      },
+      "expected_matched": true,
+      "input_digest": "3b98d6198e4934341a4a69b4725ae14272ef1652a78d30bfeba645fd6536e4f1"
+    },
+    {
+      "fixture_id": "M1-time-23",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "incomplete metrology record"
+      },
+      "expected_matched": true,
+      "input_digest": "fe19dc8e709f04675614c0eba7749c10ba053e79e91ca91678c69f32c5313947"
+    },
+    {
+      "fixture_id": "M1-time-24",
+      "actual_verdict": "REJECT",
+      "actual": {
+        "error": "x=3n requires N=3"
+      },
+      "expected_matched": true,
+      "input_digest": "145fe2946f9b075b51708eb30bfe48ea7ca6a8b780ecfce8d3e1e001061d2903"
+    }
+  ],
+  "passed": 83,
+  "total": 83
+}

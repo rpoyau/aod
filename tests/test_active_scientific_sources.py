@@ -91,11 +91,12 @@ def test_m2_canonical_science_and_manual_fixture_are_rendered():
     fixture='manual/sections/00_awareness_fixtures.tex';assert fixture in uf
     assert uf.index('manual/sections/00_native_closure_wave_temporal_fixtures.tex')<uf.index(fixture)<uf.index('manual/sections/00_dec_ledger.tex')
     equations=a.equations(ROOT)
-    bindings={'eq:awareness-state-factorization':r'S^+_k=(X_k,M^C_k,R_k)',
+    bindings={'eq:awareness-state-factorization':r'S_k^+=(X_k,M^C_k,R_k)',
               'eq:awareness-active':r'\exists t>k',
               'eq:awareness-response':r'J_{k+1}=J_k+\frac{A_k+q_k+g\sum',
               'eq:awareness-causal-difference':r'\frac{g}{p}',
-              'eq:operative-self':r'S_k\setminus R_i',
+              'eq:operative-source-removal':r'R_{k,i}&:=\{R_e\in R_k:i_e=i\}',
+              'eq:operative-self':r'S_k^{+,-i}',
               'eq:action-return-retention':r'r_a=y-u',
               'eq:awareness-carriage':r'R^{\uparrow}',
               'eq:mindfulness-stability':r'J_{k+1}-b='}
@@ -107,6 +108,11 @@ def test_m2_canonical_science_and_manual_fixture_are_rendered():
         other = equations if lab in moved else local
         assert lab not in other
         assert a.normalize_math(formula) in a.normalize_math(owner[lab])
+    removal = a.normalize_math(equations['eq:operative-source-removal'])
+    assert a.normalize_math(r'S_k^{+,-i}&:=(X_k,M^C_k,R_k\setminus R_{k,i})') in removal
+    operative = a.normalize_math(equations['eq:operative-self'])
+    assert a.normalize_math(r'\mathcal U(S_k^+;E)') in operative
+    assert a.normalize_math(r'\mathcal U(S_k^{+,-i};E)') in operative
     assert 'manual:m2-awareness-fixtures' in a.label_map(ROOT,'manual')
 
 

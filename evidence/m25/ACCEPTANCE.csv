@@ -1,0 +1,34 @@
+id,area,required_result,status,candidate_evidence
+A01,binding,Complete checkout commit/tree and clean isolated worktree recorded,PASS,SOURCE_BINDINGS.json; source-build-audit.json
+A02,authority,Current instructions and four skill/source bindings recorded,PASS,SOURCE_BINDINGS.json; source-build-audit.json
+A03,source,Both active include graphs and Main/Manual ownership resolved,PASS,SOURCE_BINDINGS.json; source-build-audit.json
+A04,terminology,SADAR expansion agrees with the owning definition,PASS,PRESENTATION_CHECKS.json; SYMBOL_INVENTORY.json; BINDING_SUCCESSOR.json
+A05,notation,Support-set cardinality repaired without changing scalar support model or 68/137 values,PASS,PRESENTATION_CHECKS.json; SYMBOL_INVENTORY.json; BINDING_SUCCESSOR.json
+A06,notation,Signed lag accessor consistent; magnitude bars and orientation preserved,PASS,PRESENTATION_CHECKS.json; SYMBOL_INVENTORY.json; BINDING_SUCCESSOR.json
+A07,notation,Family/record/source subset and factored state have defined symbols at every use,PASS,PRESENTATION_CHECKS.json; SYMBOL_INVENTORY.json; BINDING_SUCCESSOR.json
+A08,presentation,Repeated clip and finite index set wording repaired,PASS,PRESENTATION_CHECKS.json; SYMBOL_INVENTORY.json; BINDING_SUCCESSOR.json
+A09,presentation,Detached reference fragment integrated with exact destination,PASS,PRESENTATION_CHECKS.json; SYMBOL_INVENTORY.json; BINDING_SUCCESSOR.json
+A10,presentation,"Statement(s), Statement: prefixes and This App forms repaired without hierarchy/label loss",PASS,PRESENTATION_CHECKS.json; SYMBOL_INVENTORY.json; BINDING_SUCCESSOR.json
+A11,proof,Structural-empty dwell implies branch-only admitted continuation in declared post-hinge domain,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A12,proof,Zero nonnegative dwell sum implies only empty positive-weight dwell support,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A13,counterexample,Admitted zero-weight dwell disproves structural-emptiness inference,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A14,scope,Strict-positive equivalence identified as additional hypothesis; nonnegative model preserved,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A15,kernel,Empty structural and all-zero positive support distinguished; no zero-total normalization,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A16,typing,Fibre dwell remains zero base traversals; mandatory hinge retained; H1 kernel unchanged,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A17,entropy,Binary role entropy conditional on normalized positive branch mass; no capacity overclaim,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A18,intervention,Source subset binds target/scope/identity and exact factored removal,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A19,intervention,One retained record per source declared and duplicate-source rejection preserved,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A20,controls,"Present coordinates, closure memory, world, law and future inputs matched; restoration exact",PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A21,controls,"Missing, zero and cancelling distinct-source retention remain different states",PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A22,causality,Strictly-later realized outcome; no recovery from hidden cache or label,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A23,scope,H=1 source specialization separated from general finite-horizon record operativity,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A24,passivity,Passive observation and identity renaming preserve actual run/outcome invariants,PASS,CROSS_AGENT_SCIENTIFIC_REVIEW.md; SEMANTIC_TEST_REVIEW.md; tests/test_m25_repairs.py; unchanged awareness controls
+A25,fixtures,Existing closure/wave and awareness fixture runners match unchanged expected data,PASS,closure-wave.json: 83/83; awareness.json: 47/47; unchanged expected data
+A26,tests,Full repository suite passes with actual collected totals; added semantic tests address actual claims,PASS,tests.txt: 559 passed; baseline-tests.txt: 542 passed
+A27,build,Clean Main then Manual builds from same final source; AUX/FLS and logs audited,PASS,BUILD_VALIDATION.json; VISUAL_REVIEW.md; VISUAL_REVIEW_AGENT.md
+A28,visual,"Changed pages, adjacent breaks and contents entries inspected",PASS,BUILD_VALIDATION.json; VISUAL_REVIEW.md; VISUAL_REVIEW_AGENT.md
+A29,conservation,"Existing label destinations, figures, datasets, titles, bibliography and unrelated laws preserved",PASS,SOURCE_BINDINGS.json: label destinations and 125 unchanged protected assets/input/metadata files
+A30,review,Scientific and presentation review records complete; independent review claimed only if performed,PASS,AUTHOR_PROOF_REVIEW.md; CROSS_AGENT_SCIENTIFIC_REVIEW.md; CROSS_AGENT_AUDIT_REVIEW.md; VISUAL_REVIEW.md
+A31,delivery,Cumulative patch replay matches final tree; source/PDF/test files and SHA-256 manifests verify,DELIVERY_GATE,"Final commit/tree, patch replay and delivery hashes recorded after this commit in detached DELIVERY_REPORT.json and SHA256 manifests"
+A32,handoff,Accepted M2.5 commit/tree bound for M3 WP0; M3 acceptance remains separate,PR_REVIEW_PENDING,M2.5 candidate bound in detached delivery; acceptance/merge not claimed. M3 WP0 must bind the accepted commit after review; M3 checks unexecuted.
+A33,binding_conservation,Only listed formula/test bindings advance with old/new evidence; unrelated mutation still rejected,PASS,BINDING_SUCCESSOR.json; baseline contract; tests/test_m25_conservation.py; CROSS_AGENT_AUDIT_REVIEW.md
