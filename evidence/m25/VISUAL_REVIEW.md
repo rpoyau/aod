@@ -8,4 +8,6 @@ No clipping, overlap, equation-number collision, broken glyphs or heading defect
 
 Both documents have zero overfull boxes and no unresolved references/citations or multiply-defined labels. Baseline warnings remain: installed LaTeX release date warning, Manual float placement adjustments, and xdvipdfmx's existing duplicate page.1 destination warning from the title/body page numbering. No new warning class was introduced. No publication metadata or page-numbering convention was changed.
 
-Visual evidence is in the detached delivery under `evidence/renders/`; final clean-build raster equivalence is recorded in `BUILD_VALIDATION.json`.
+Visual evidence is in the detached delivery under `evidence/renders/`; original clean-build raster equivalence was recorded in the R01 delivery. The R02 caption review is in `FOLLOWUP_VISUAL_REVIEW.md`; current build hashes and page differences are in `BUILD_VALIDATION.json`.
+
+R02 follow-up: the original visual pass missed an undeclared lag spelling inside Figure 8. The new caption supplies its scoped alias while preserving the image. Only Main physical pages 35–36 differ from R01; all Manual pages and other Main pages raster-match R01. The changed pages and adjacent page 34 were reinspected.

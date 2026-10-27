@@ -91,4 +91,4 @@ index df59c4e..c855f0b 100644
 
 ```
 
-Coordinator follow-up: the final reference-inventory test also adds exactly eq:hinge-saturation, eq:hinge-saturation-weighted, and eq:operative-source-removal, matching the three new Manual references. Final exact old/new bytes and hashes are in BINDING_SUCCESSOR.json. The full final suite includes 8 additional conservation controls, for 559 passing tests.
+Coordinator follow-up: the final reference-inventory test also adds exactly eq:hinge-saturation, eq:hinge-saturation-weighted, and eq:operative-source-removal, matching the three new Manual references. Final exact old/new bytes and hashes are in BINDING_SUCCESSOR.json. The original local run included eight additional conservation controls and reported 559 passes before the raw report was persisted. Review of committed ec08587 found 558 passes and one report-schema failure; that claim is superseded by reviewed-head-tests.txt and the follow-up final tests.txt.

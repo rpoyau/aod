@@ -1,0 +1,212 @@
+{
+  "schema": "aod.m25-followup-skill-review.v1",
+  "review_date": "2026-10-27",
+  "reviewer": {
+    "identity": "Codex subagent /root/proof_repairs",
+    "role": "Separate-agent source and provenance review of F1/F2; this agent did not author their implementation. The agent authored earlier M2.5 proof prose; this is not external human approval."
+  },
+  "review_scope": {
+    "repository": "rpoyau/aod",
+    "pr": 41,
+    "reviewed_parent_commit": "ec085872719179ac2fa214365db6bde4c81e0aa5",
+    "reviewed_parent_tree": "1565c5addfcdb6af3a0496c360ee1a0b5c98264e",
+    "findings": [
+      "F1 run-report schema collision",
+      "F2 embedded schematic lag alias",
+      "four-skill review provenance correction"
+    ],
+    "status": "SUPPORTED_SCOPED_SOURCE_REVIEW",
+    "limit": "Final assembled full-suite, clean paired-build, visual inspection, CI and delivery acceptance are recorded separately by the coordinator. No merge or M3 acceptance is asserted."
+  },
+  "supplied_snapshot_verification": {
+    "source_role": "User-supplied reference archive from the PR41 review bundle; actual contents read for this follow-up review, not a retroactive replacement of original authoring skills.",
+    "bundle_relative_path": "reference/aod-skills-main.zip",
+    "archive_sha256": "9be19e55902c20f6729b98a6744623453d1508a9d5f02e5cb9fa3c7038d82a34",
+    "zip_crc_check": "PASS",
+    "archive_comment": "1bf2107c8dba68f95938cadd92c48f646fb39799",
+    "file_count": 59,
+    "reconstructed_git_tree": "7428dcc843fba43ea298aac154c95dac69562d84",
+    "tree_method": "Reconstructed Git blob and tree SHA-1 objects from all archive file bytes, paths and ZIP Unix modes; 59 regular non-executable files. Result equals the tree named by supplied REVIEW_BINDINGS.json.",
+    "commit_limit": "The archive comment names the supplied snapshot commit; a comment alone does not authenticate a remote commit. No current private-repository revision or remote access was verified in this review."
+  },
+  "prior_reviewer_attestation": {
+    "source": "evidence/attached-skills-comparison.json in supplied review bundle",
+    "sha256": "74c460cc08fef739bff1af523b871fa6c8d5b4243ea9c44fdadb7170ba91d3c0",
+    "claim": "All 59 archive files matched the prior reviewed checkout, without additions, omissions or changes.",
+    "status": "REPORTED_BY_PRIOR_REVIEWER",
+    "limit": "That checkout-to-archive comparison was not independently repeated here. Fresh checks verify the supplied ZIP hash, file count, entrypoint hashes and reconstructed tree against supplied bindings."
+  },
+  "review_input_hashes": {
+    "FOLLOWUP_REQUEST.md": "0cafa5f1c5622f620273264baa1454fb4007d278fed610cd2289df8d3f07d2d4",
+    "REVIEW.md": "8d6ed4aaf9fc7cb261c26e2524a5873d52ef6e1e1cb717c7b248269b730f0ac9",
+    "evidence/REVIEW_BINDINGS.json": "b84c7810c48de7fd26858372e59dffa2d651ea45a9e5fd1b89b5d7fd71c1265e",
+    "evidence/attached-skills-comparison.json": "74c460cc08fef739bff1af523b871fa6c8d5b4243ea9c44fdadb7170ba91d3c0"
+  },
+  "skills": [
+    {
+      "path": "skills/axiomatic-fundamentalism/SKILL.md",
+      "archive_member": "aod-skills-main/skills/axiomatic-fundamentalism/SKILL.md",
+      "sha256": "4eeaba030dd15d44c96f8cd0021f090c38abdf8b3922269bea0381336eca5b10",
+      "read_for_this_review": true,
+      "source_role": "AF: preserve accepted premises, scope, typed notation and proof/fixture distinction."
+    },
+    {
+      "path": "skills/afc/SKILL.md",
+      "archive_member": "aod-skills-main/skills/afc/SKILL.md",
+      "sha256": "296b57b18dc7158daba511f554a46af66f753157b0ceefbf0a80cb6b96b3eee3",
+      "read_for_this_review": true,
+      "source_role": "AFC: preserve finite exact response outcomes, orientation, nonnegative weights and signed-versus-magnitude separation."
+    },
+    {
+      "path": "skills/aod/SKILL.md",
+      "archive_member": "aod-skills-main/skills/aod/SKILL.md",
+      "sha256": "6a5926d2fd86db985d901aa92d7d0f44493849015242cded0a5a9350eb8e3cdc",
+      "read_for_this_review": true,
+      "source_role": "AOD: separate source authority, execution reports and scientific specifications; preserve Main/Manual ownership and scope."
+    },
+    {
+      "path": "skills/general-mechanics/SKILL.md",
+      "archive_member": "aod-skills-main/skills/general-mechanics/SKILL.md",
+      "sha256": "01158467b37d3afff06d01a35eed496ac094f267decfe99c816821376b8cc306",
+      "read_for_this_review": true,
+      "source_role": "GM: define the schematic alias locally, preserve semantic anchors and inspect actual builds rather than treating lexical checks as publication evidence."
+    }
+  ],
+  "additional_references_read": [
+    {
+      "path": "skills/axiomatic-fundamentalism/references/protocol.md",
+      "sha256": "3f162c49b63231aaff9f60925dab7adbe4e5eeed1ff7de846ee890d60fa333b3",
+      "read_for_this_review": true
+    },
+    {
+      "path": "skills/afc/references/calculus.md",
+      "sha256": "0713ea4750363b701db98dcaa77bf629bbb6fc25262b6a1db92649eddec38831",
+      "read_for_this_review": true
+    },
+    {
+      "path": "skills/afc/references/source-issues.md",
+      "sha256": "7537155cc723a3aa251e6cf0e998106ae648949e2db1e6c8ade211d41bf58dd1",
+      "read_for_this_review": true
+    },
+    {
+      "path": "skills/aod/references/authority.md",
+      "sha256": "71716d8abc0a8bc511ec3e100de20e09b10e9f9167087d18a0832fb24ecd2bd0",
+      "read_for_this_review": true
+    },
+    {
+      "path": "skills/aod/references/manuscripts.md",
+      "sha256": "1e3c78f0e4308470fd8f0dfc3b83f33de46232b260c93aa2b1c641960ecad8d4",
+      "read_for_this_review": true
+    },
+    {
+      "path": "skills/aod/references/mappings-and-milestones.md",
+      "sha256": "236a967a4adccbf15cef2acb8b5625633fe61b74d3b911cab7b97d092fbccc05",
+      "read_for_this_review": true
+    },
+    {
+      "path": "skills/general-mechanics/references/presentation.md",
+      "sha256": "95aa037b29dcbacf3efae4019d87ed636be69dfa9b8a137d74dedd94513c231b",
+      "read_for_this_review": true
+    },
+    {
+      "path": "skills/general-mechanics/references/labels-and-references.md",
+      "sha256": "4bbe4ada71d8e98cac8a1d8a6c0a870b496a8cf9f1e28cc80e0f0593ee1c71df",
+      "read_for_this_review": true
+    },
+    {
+      "path": "skills/general-mechanics/references/folder-structure.md",
+      "sha256": "422e6f76dbc70a31f708dfea0c5a187a7586e4456f6bd74736335b6a3175846e",
+      "read_for_this_review": true
+    }
+  ],
+  "preserved_authoring_record": {
+    "path": "evidence/m25/SOURCE_BINDINGS.json",
+    "sha256": "23b4ea0c2960a030dd2a9d3fbe8bbcd021a075aac401c5c839af27c27f381694",
+    "unchanged_from_parent": true,
+    "interpretation": "The original record binds five local authoring skills. This new record separately binds the requested AF/AFC/AOD/GM supplied snapshot and follow-up review; it does not claim those exact four entrypoints were read during original authoring."
+  },
+  "assessment": {
+    "F1": {
+      "status": "supported",
+      "reason": "An explicit fixture-run-report schema and runner path separate an execution report from active scientific specifications. Nested runner_output preserves all original records and the engine hash; reserialization reproduces the original raw report bytes. No engine, scientific specification validator or its inventory changes.",
+      "preserved_results": 47,
+      "all_expected_matched": true,
+      "raw_parent_report_sha256": "c383a6bd9cbd97fb5a72aaf8626f164cd930a8d63f32375a397114a7399cdb98",
+      "negative_controls_reviewed": [
+        "stale nested engine hash rejected",
+        "altered result rejected even when expected_matched remains true"
+      ],
+      "regression_source": "tests/test_m25_report_schema.py"
+    },
+    "F2": {
+      "status": "supported",
+      "reason": "The caption explicitly binds schematic Delta_e^{chi lag} to the existing signed Delta chi_e^{lag}(B) on B=(partial F,omega), with absolute-value bars selecting magnitude. This is a scoped notation alias and introduces no new comparator, kernel, normalization or physical claim.",
+      "equation_blocks_unchanged": true,
+      "labels_unchanged": true,
+      "figure_bytes_unchanged": true,
+      "figure_path": "figures_jpg/cycle_disturbance_shedding.png",
+      "figure_label": "fig:v39-cycle-disturbance-shedding",
+      "inventory_resolution": "The symbol inventory now distinguishes literal TeX counts from the separately counted raster occurrence.",
+      "visual_check_status": "Not performed by this reviewer; final rebuilt caption and page breaks are assigned to the presentation reviewer."
+    },
+    "scientific_concerns": []
+  },
+  "candidate_file_hashes": {
+    "evidence/m25/awareness.json": "8338b790bb5a1cdc52cee2d71e4113383c75b7f1e7c7e60ed7bf6a3f310ca416",
+    "tests/test_m25_report_schema.py": "0e8a0893c54e9719627a0d1bba8aaab62b5a9fb23db246e6304a72073465e05b",
+    "sections/06_field.tex": "79e16685826aee15273fbcddc0a59d5f14f75dbf3671e43ae261fcd6fc9acf70",
+    "evidence/m25/SYMBOL_INVENTORY.json": "eccd1d69af4a168fa7f36965c44dbfa73384a272a8d94c3be1f22315fec35f2d"
+  },
+  "preservation_checks": {
+    "evidence/m25/SOURCE_BINDINGS.json": {
+      "sha256": "23b4ea0c2960a030dd2a9d3fbe8bbcd021a075aac401c5c839af27c27f381694",
+      "unchanged_from_parent": true
+    },
+    "manual/scripts/aod_awareness.py": {
+      "sha256": "6846300c020aca4af2c7fc51c0727dcd0ce7e302453e0a514904ce8aa5331d7b",
+      "unchanged_from_parent": true
+    },
+    "manual/scripts/aod_native_closure_wave.py": {
+      "sha256": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+      "unchanged_from_parent": true
+    },
+    "manual/data/m2/awareness_cases.jsonl": {
+      "sha256": "f85fbdca3b1c11adba54ef5e7205a8aee5e31db2fb55b2f425e85354c04da693",
+      "unchanged_from_parent": true
+    },
+    "evidence/m2/AWARENESS_ACTIVE_CAUSAL_SPEC.json": {
+      "sha256": "7a9d0e79c32453f5f1ea3b3ed79373b4234825359c9bd5b979e5cba72c610695",
+      "unchanged_from_parent": true
+    },
+    "evidence/m2/OPERATIVE_SELF_SCHEMA.json": {
+      "sha256": "0fba87a85c542a5a9b74f2242724bf334ecb1a0c39886a20c9298309d3005ecd",
+      "unchanged_from_parent": true
+    },
+    "evidence/m25/ONTOLOGY_COMPACTION_BINDINGS.baseline.json": {
+      "sha256": "3d460c81201ba4a3793269ce2ba2a5f484f6dbb020e39533167aa27e4e73430b",
+      "unchanged_from_parent": true
+    },
+    "evidence/m25/BINDING_SUCCESSOR.json": {
+      "sha256": "1d2a3b1926c1f581b8db402762d67127ae23ae351842ee6540d2a86485833abb",
+      "unchanged_from_parent": true
+    },
+    "scripts/audit_ontology_compaction.py": {
+      "sha256": "90c0db366466f0b18e4e3834fea1eea51bd27ca865bdc5103738cfd9333e86a5",
+      "unchanged_from_parent": true
+    },
+    "tests/test_active_scientific_sources.py": {
+      "sha256": "f97b56b22d38ae7a609e57b6be1eb8aca70b2a6868c12b5223fdf5f0e59be055",
+      "unchanged_from_parent": true
+    },
+    "figures_jpg/cycle_disturbance_shedding.png": {
+      "sha256": "64e5559ad3f2a6ed1d8933e328923634be8871367958d4723e2d293a6ef7c1be",
+      "unchanged_from_parent": true
+    }
+  },
+  "skill_test_status": "No skill source was modified. The supplied archive matches its recorded snapshot hashes/tree. Prior skill-test results remain prior evidence; no skill-suite rerun or current remote-revision claim is made here.",
+  "focused_validation": {
+    "command": "/tmp/m25-venv/bin/python -m pytest -q tests/test_m25_report_schema.py tests/test_active_scientific_sources.py::test_active_evidence_sources_and_anchors_are_byte_bound",
+    "result": "4 passed in 1.94s",
+    "scope": "Fresh runner equality, stale-hash mutation, altered-result mutation, and unchanged recursive scientific-specification inventory, with this review JSON present."
+  }
+}

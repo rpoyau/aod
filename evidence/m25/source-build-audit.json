@@ -98,7 +98,7 @@
         "sections/08_awareness_learning_mindfulness.tex"
       ],
       "actual_labels": 438,
-      "log_sha256": "291ca6814b1fbaf2c6112a691f9ead68670e9315efe81518cfdb8cc81ab7f8ed"
+      "log_sha256": "54ddcb388f26a041dda203eb1e3791584f01f68f6cc2a39b8b20956cd6874484"
     },
     {
       "surface": "manual",
@@ -189,7 +189,7 @@
         "sections/08_awareness_learning_mindfulness.tex"
       ],
       "actual_labels": 201,
-      "log_sha256": "4ce05f7c095480ae4a9ec9bdb6856ba6682843a92e412a91a85cd3d44d0414c9"
+      "log_sha256": "f5425b67528c5c7f0c03523641b55a41e799b048cac53cf62f2bc807af0383c4"
     }
   ]
 }

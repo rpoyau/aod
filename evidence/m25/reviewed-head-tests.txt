@@ -1,0 +1,27 @@
+..........F............................................................. [ 12%]
+........................................................................ [ 25%]
+........................................................................ [ 38%]
+........................................................................ [ 51%]
+........................................................................ [ 64%]
+........................................................................ [ 77%]
+........................................................................ [ 90%]
+.......................................................                  [100%]
+=================================== FAILURES ===================================
+___________ test_active_evidence_sources_and_anchors_are_byte_bound ____________
+
+    def test_active_evidence_sources_and_anchors_are_byte_bound():
+        import hashlib
+        main=a.label_map(ROOT);checked=[]
+        for path in sorted((ROOT/'evidence').rglob('*.json')):
+            record=json.loads(path.read_text())
+            has_binding=any(key in record for key in ('operative_source','source_sha256','source_anchors'))
+            if not has_binding:continue
+>           assert {'operative_source','source_sha256','source_anchors'}<=record.keys()
+E           AssertionError: assert {'operative_source', 'source_anchors', 'source_sha256'} <= dict_keys(['source_sha256', 'results'])
+E            +  where dict_keys(['source_sha256', 'results']) = <built-in method keys of dict object at 0x7f39468407c0>()
+E            +    where <built-in method keys of dict object at 0x7f39468407c0> = {'source_sha256': '6846300c020aca4af2c7fc51c0727dcd0ce7e302453e0a514904ce8aa5331d7b', 'results': [{'fixture_id': 'R04-...R04-NEW-006', 'verdict': 'REJECT', 'actual': None, 'error': 'law, world or future exogenous inputs differ', ...}, ...]}.keys
+
+tests/test_active_scientific_sources.py:144: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_active_scientific_sources.py::test_active_evidence_sources_and_anchors_are_byte_bound
+1 failed, 558 passed in 71.62s (0:01:11)
