@@ -1,4 +1,4 @@
-"""R07 typed ownership and semantic negative controls on disposable sources."""
+"""Current typed ownership and semantic negative controls on disposable sources."""
 import importlib.util
 import json
 from pathlib import Path
@@ -16,12 +16,13 @@ MAIN = 'sections/08_awareness_learning_mindfulness.tex'
 def copy_source(tmp_path):
     out = tmp_path / 'source'
     shutil.copytree(ROOT, out, ignore=shutil.ignore_patterns('.git', '__pycache__', '.pytest_cache', 'R07_DELIVERY'))
+    assert a.audit(out)['compaction']['canonical_equations'] == 81
     return out
 
 
 def test_reviewed_ownership_preserves_formulas_and_operation_bindings():
     assert a.audit(ROOT)['compaction']['canonical_equations'] == 81
-    record = json.loads((ROOT/'evidence/PR39_MAIN_MANUAL_RELOCATION_R07.json').read_text())
+    record = json.loads((ROOT/'contracts/scientific/OWNERSHIP_AND_FIXTURES.json').read_text())
     rows = record['fixture_bindings']
     assert sum(r['current_construct']['surface'] == 'manual' for r in rows) == 23
     assert len(rows) == 47
@@ -34,10 +35,10 @@ def test_reviewed_ownership_preserves_formulas_and_operation_bindings():
 
 
 @pytest.mark.parametrize('mutation, reason', [
-    ('unincluded-model', 'Manual example family not rendered'),
+    ('unincluded-model', 'Manual example family not rendered|Active scientific source anchor ownership mismatch'),
     ('label-without-body', 'canonical mathematical body absent'),
-    ('renamed-copy-in-main', 'Main concept exclusion|relocated application body'),
-    ('unrelated-fixture-binding', 'unreviewed relocation binding'),
+    ('renamed-copy-in-main', 'Main concept exclusion|local application body'),
+    ('unrelated-fixture-binding', 'scientific contract integrity changed'),
     ('backward-dependency', 'Main depends on Manual'),
     ('altered-action-residual', 'canonical mathematical statement changed'),
 ], ids=['O01', 'O02', 'O03', 'O04', 'O05', 'O06'])
@@ -56,12 +57,12 @@ def test_semantic_ownership_mutations_are_rejected(tmp_path, mutation, reason):
         with (root/MAIN).open('a') as f:
             f.write('\nA signal binding and observed difference.\n' + body)
     elif mutation == 'unrelated-fixture-binding':
-        p = root/'evidence/PR39_MAIN_MANUAL_RELOCATION_R07.json'; data = json.loads(p.read_text())
+        p = root/'contracts/scientific/OWNERSHIP_AND_FIXTURES.json'; data = json.loads(p.read_text())
         data['fixture_bindings'][21]['current_construct'] = {
             'surface': 'main', 'path': 'sections/06_field.tex', 'label': 'eq:fourier-transform'}
         p.write_text(json.dumps(data))
     elif mutation == 'backward-dependency':
-        p = root/'evidence/ONTOLOGY_COMPACTION_BINDINGS.json'; data = json.loads(p.read_text())
+        p = root/'contracts/scientific/CANONICAL_BINDINGS.json'; data = json.loads(p.read_text())
         next(r for r in data['ownership'] if r['concept'] == 'Retained carriage')['depends_on'].append('Awareness response and causal difference')
         p.write_text(json.dumps(data))
     else:
@@ -72,7 +73,7 @@ def test_semantic_ownership_mutations_are_rejected(tmp_path, mutation, reason):
 
 def test_wrong_document_owner_is_rejected(tmp_path):
     root = copy_source(tmp_path)
-    p = root/'evidence/ONTOLOGY_COMPACTION_BINDINGS.json';data = json.loads(p.read_text())
+    p = root/'contracts/scientific/CANONICAL_BINDINGS.json';data = json.loads(p.read_text())
     row = next(r for r in data['ownership'] if r['concept'] == 'Action return and learning')
     row.update(surface='main', path=MAIN)
     p.write_text(json.dumps(data))

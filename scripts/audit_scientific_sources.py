@@ -53,6 +53,96 @@ REQUIRED_LABELS=('eq:first-anchor','eq:closure-certificate','eq:closure-trace','
  'eq:fourier-shift-modulation','eq:fourier-correlation-power','eq:fourier-real-symmetry',
  'eq:fourier-running-standing','eq:fourier-product-factorization')
 
+
+SCIENTIFIC_CONTRACT_SCHEMAS = {
+    'CANONICAL_BINDINGS.json': 'aod.scientific.canonical.v1',
+    'OWNERSHIP_AND_FIXTURES.json': 'aod.scientific.ownership-fixtures.v1',
+    'AWARENESS_ACTIVE_CAUSAL_SPEC.json': 'aod.awareness.active.r04',
+    'OPERATIVE_SELF_SCHEMA.json': 'aod.operative.self.r04',
+    'ROUND_TRIP_PHASE_FACTOR_SPEC.json': 'aod.scientific.round-trip-phase-factor.v1',
+}
+SCIENTIFIC_SCOPE_FILES = {
+    'README.md', 'FOURIER_SCOPE.md', 'METROLOGY_BOUNDARY.md',
+    'UPDATE_CAUSAL_ORDER.md', 'HISTORICAL_TOY_SOURCE_STATUS.csv',
+}
+SCIENTIFIC_SOURCE_SPECS = ('AWARENESS_ACTIVE_CAUSAL_SPEC.json',)
+
+
+def validate_contract_inventory(root):
+    """Select only the complete, explicitly registered current contracts.
+
+    Unknown files in the contract namespace fail regardless of their schema.
+    Elsewhere, scientific-specification fields/names cannot silently establish
+    an alternative authority. Transient run reports are a separate protocol.
+    """
+    root = Path(root).resolve()
+    folder = root / 'contracts/scientific'
+    expected = set(SCIENTIFIC_CONTRACT_SCHEMAS) | SCIENTIFIC_SCOPE_FILES
+    paths = list(folder.rglob('*'))
+    actual = {path.relative_to(folder).as_posix() for path in paths
+              if path.is_file() or path.is_symlink()}
+    if actual != expected:
+        raise ValueError('Scientific contract inventory mismatch; missing=' + str(sorted(expected - actual))
+                         + '; unregistered=' + str(sorted(actual - expected)))
+    if any(path.is_symlink() for path in [root / 'contracts', folder, *paths]):
+        raise ValueError('Scientific contracts cannot be symlinks')
+    records = {}
+    for name, schema in SCIENTIFIC_CONTRACT_SCHEMAS.items():
+        record = json.loads((folder / name).read_text())
+        if not isinstance(record, dict) or record.get('schema') != schema:
+            raise ValueError('Scientific contract schema mismatch: ' + name)
+        records[name] = record
+    registered = {folder / name for name in SCIENTIFIC_CONTRACT_SCHEMAS}
+    fields = {'operative_source', 'source_anchors', 'source_anchor_bindings'}
+    for path in root.rglob('*.json'):
+        if path in registered or any(part.startswith('.') for part in path.relative_to(root).parts):
+            continue
+        if path.name.endswith(('_SPEC.json', '_SCHEMA.json')):
+            raise ValueError('Unregistered scientific specification: ' + path.relative_to(root).as_posix())
+        try:
+            record = json.loads(path.read_text())
+        except (ValueError, UnicodeError):
+            continue
+        if not isinstance(record, dict):
+            continue
+        schema = record.get('schema', '')
+        is_scientific = (bool(fields.intersection(record))
+                         or (isinstance(schema, str) and schema.startswith(
+                             ('aod.scientific.', 'aod.awareness.', 'aod.operative.'))))
+        if is_scientific:
+            raise ValueError('Unregistered scientific specification: ' + path.relative_to(root).as_posix())
+    return records
+
+
+def validate_active_specifications(root, records=None):
+    root = Path(root).resolve()
+    records = validate_contract_inventory(root) if records is None else records
+    maps = {surface: label_map(root, surface) for surface in ('main', 'manual')}
+    checked = []
+    for name in SCIENTIFIC_SOURCE_SPECS:
+        record = records[name]
+        required = {'operative_source', 'source_sha256', 'source_anchors', 'source_anchor_bindings'}
+        if not required <= record.keys():
+            raise ValueError('Incomplete active scientific source binding: ' + name)
+        relative = record['operative_source']
+        if not isinstance(relative, str) or Path(relative).is_absolute() or '..' in Path(relative).parts:
+            raise ValueError('Unsafe active scientific source: ' + name)
+        source = root / relative
+        if not source.is_file() or record['source_sha256'] != hashlib.sha256(source.read_bytes()).hexdigest():
+            raise ValueError('Active scientific source hash mismatch: ' + name)
+        anchors = record['source_anchors']
+        if not isinstance(anchors, list) or not anchors or len(anchors) != len(set(anchors)):
+            raise ValueError('Invalid active scientific source anchors: ' + name)
+        bindings = record['source_anchor_bindings']
+        if [binding['label'] for binding in bindings] != anchors:
+            raise ValueError('Active scientific source anchor inventory mismatch: ' + name)
+        for binding in bindings:
+            if maps.get(binding['surface'], {}).get(binding['label'], {}).get('path') != binding['path']:
+                raise ValueError('Active scientific source anchor ownership mismatch: ' + name)
+        checked.append('contracts/scientific/' + name)
+    return checked
+
+
 def clean(text):
     return re.sub(r'(?<!\\)%[^\n]*','',text)
 
@@ -118,7 +208,8 @@ def normalize_math(t):
 
 
 def audit(root):
-    root=Path(root);mfiles,mparts=include_graph(root);ufiles,uparts=include_graph(root,'manual')
+    root=Path(root);records=validate_contract_inventory(root)
+    mfiles,mparts=include_graph(root);ufiles,uparts=include_graph(root,'manual')
     require=lambda ok,msg: None if ok else (_ for _ in ()).throw(ValueError(msg))
     for p in MAIN_REQUIRED:require(p in mfiles,'canonical Main source not rendered: '+p)
     for p in MANUAL_REQUIRED:require(p in ufiles,'canonical Manual fixture not rendered: '+p)
@@ -147,6 +238,8 @@ def audit(root):
     result={'main_files':mfiles,'manual_files':ufiles,'main_labels':len(labs),'manual_labels':len(ulabs),'literal_provenance':len(refs),'equation_contracts':len(CANONICAL_EQUATIONS)}
     spec=importlib.util.spec_from_file_location('audit_ontology_compaction',root/'scripts/audit_ontology_compaction.py')
     compaction=importlib.util.module_from_spec(spec);spec.loader.exec_module(compaction)
+    result['scientific_contracts']={'registered_json':len(records),
+        'active_source_specifications':validate_active_specifications(root,records)}
     result['compaction']=compaction.audit(root,mfiles,mparts,labs,eqs,ufiles,ulabs,uparts,equations(root,'manual'))
     return result
 

@@ -1,4 +1,5 @@
 {
+  "schema": "aod.scientific.round-trip-phase-factor.v1",
   "path": "sections/04_cut_running_fractal_tesseract.tex",
   "label": "eq:reflected-leg-bound",
   "operand_type": "nonnegative integers times formal h in exact ordered additive module",
@@ -26,7 +27,6 @@
     "metrology",
     "whole-closure separation as leg operand"
   ],
-  "review": "../reviews/phase_preparation/REVIEW.md",
   "domain": {
     "leg_support": "N0 h, ordered additive monoid with h>0",
     "closure_count": "N0 1_C",
@@ -43,11 +43,6 @@
     "return": "committed terminal event with retained start and lineage",
     "witness": "part of immutable trace digest"
   },
-  "superseded": [
-    "OWNER_SINGLE_PLAN section3.5 unsigned whole-closure separation argument",
-    "old section5.4 phase-resolvability witness",
-    "untyped treatment of 2 Delta phase >=1 as either sufficient admission or wholly unrelated to the reflected closure certificate"
-  ],
   "exact_symmetric_example": {
     "outbound": 1,
     "return": 1,

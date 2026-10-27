@@ -463,11 +463,10 @@ def test_tau_duration_ratio_header_uses_current_duration_language():
     assert "duration_clip_ratio_to_tau_window" in tau_text
 
 
-def test_release_readiness_file_and_no_stale_lensing_plan_manifests():
-    readiness = ROOT / "RELEASE_READINESS.txt"
-    assert readiness.exists()
-    text = readiness.read_text()
-    assert f"Canonical package: {current_version()}" in text
+def test_canonical_metadata_and_no_stale_lensing_plan_manifests():
+    import json
+    metadata = json.loads((ROOT / ".zenodo.json").read_text())
+    assert metadata["version"] == current_version()
     stale = [
         ROOT / "manual/data/lensing/package_manifest.csv",
         ROOT / "manual/data/lensing/plan_data_manifest.csv",
@@ -693,7 +692,7 @@ def test_source_root_has_no_release_patch_summaries():
 
 
 def test_source_file_names_are_version_neutral():
-    allowed = {"CANONICAL_VERSION.txt", "RELEASE_READINESS.txt"}
+    allowed = {"CANONICAL_VERSION.txt"}
     forbidden = []
     for p in ROOT.rglob("*"):
         if not p.is_file():
@@ -760,11 +759,14 @@ def test_orbital_retention_registry_mentions_input_provenance_gate():
     assert "workbook spine and provenance tables" in registry
 
 
-def test_release_readiness_mentions_orbital_retention_provenance_gate():
-    readiness = (ROOT / "RELEASE_READINESS.txt").read_text()
-    assert f"Canonical version: {current_version()}" in readiness
-    assert "input-provenance gate" in readiness
-    assert "data-support class" in readiness
+def test_canonical_orbital_retention_provenance_and_data_support():
+    section = (ROOT / "manual/sections/06_field_dynamics_applications.tex").read_text()
+    registry = (ROOT / "manual/sections/09_prediction_test_fixture_registry.tex").read_text()
+    scope = (ROOT / "manual/sections/00_scope.tex").read_text()
+    assert r"\label{tab:orbital-retention-input-provenance}" in section
+    assert "Orbital-retention field-dynamics fixture & G2/G3 & G2/G3 input package" in registry
+    assert "input-provenance gate" in registry
+    assert "Every manual comparison declares its data-support class before residuals are interpreted." in scope
 
 
 

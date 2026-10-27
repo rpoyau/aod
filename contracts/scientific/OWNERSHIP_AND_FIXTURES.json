@@ -1,0 +1,1249 @@
+{
+  "schema": "aod.scientific.ownership-fixtures.v1",
+  "fixture_path": "manual/data/m2/awareness_cases.jsonl",
+  "fixture_sha256": "f85fbdca3b1c11adba54ef5e7205a8aee5e31db2fb55b2f425e85354c04da693",
+  "fixture_provenance": {
+    "original_fixture_sha256": "6ac3bee0475813cc9ea3513c088d43be0e7b6d54b5c9484ccee60fd2fc7de35a",
+    "original_source_sha256": "fa5653fa80400af24cc5eaec3ee65818bb7d817b0eccc25390b54fb29a06a03c",
+    "source_sha256": "6846300c020aca4af2c7fc51c0727dcd0ce7e302453e0a514904ce8aa5331d7b",
+    "scope": "Original row digests identify the unchanged input and expected-result lineage before source-role naming. Current digests bind executable rows directly; historical tags do not determine their current mathematical owner."
+  },
+  "anchor_owners": [
+    {
+      "surface": "manual",
+      "path": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
+      "label": "app:cycle-shedding-demo-demonstration",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex",
+      "label": "eq:action-return-retention",
+      "equation": true,
+      "formula_sha256": "9396ddbe9c308ab7e18bbb036d28f827474b82f11711a0f8988bd8008212603e"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex",
+      "label": "eq:awareness-causal-difference",
+      "equation": true,
+      "formula_sha256": "75ed0a1e5c73ec9d45b4f3e46923d9c577c454d4caaa15ffb1d4d1ba561c1020"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex",
+      "label": "eq:awareness-conditioned-shedding",
+      "equation": true,
+      "formula_sha256": "c60a4e9dc2adbe7d7559709415662ef0c58abea2d9412cee8452fe969c435afc"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex",
+      "label": "eq:awareness-response",
+      "equation": true,
+      "formula_sha256": "834e96632c8af51a903b93dfbb67bacd44c2cbda200f7ecd4334505831b8a7ba"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex",
+      "label": "eq:awareness-shedding-bridge",
+      "equation": true,
+      "formula_sha256": "3c0e74e1be8eaf7f38d7022b99d4cfe4cf53c4608da1d11b2b9ac60d4395e622"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_scope.tex",
+      "label": "eq:frg-delta-three",
+      "equation": true,
+      "formula_sha256": "a6d96be5e1d8af5d2c7d0d14e03df8f106d6d4b958d937f6b8817932c186b2bb"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_scope.tex",
+      "label": "eq:frg-delta-three-components",
+      "equation": true,
+      "formula_sha256": "7e5cd55cfac2cb52fc34c79e7fd0d458daabe347471a9b83537920b7351dfa55"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_scope.tex",
+      "label": "eq:frg-delta-three-signed-product",
+      "equation": true,
+      "formula_sha256": "c47a7be3e6d60511752c1a6a6347cfc67f1d64546e515244e7805389c936a227"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex",
+      "label": "eq:mindfulness-stability",
+      "equation": true,
+      "formula_sha256": "d2bef5956ecbea6cd34f95d04dabacb4a0284b44d43b771aa1a17eaba5acdc54"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
+      "label": "fig:v39-cycle-shedding-simulation",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_scope.tex",
+      "label": "subsec:frg-delta-three-corollary",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex",
+      "label": "subsec:proprioception-learning",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex",
+      "label": "subsec:query-mindfulness",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "label": "tab:ao-field-fractal-properties",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "label": "app:ao-field-fractal-properties:accessors-table",
+      "equation": false,
+      "formula_sha256": null
+    }
+  ],
+  "fixture_bindings": [
+    {
+      "fixture_id": "R04-NEW-001",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "26973d30a055e61c66504a95e9ac685e8d10c039693f76e7f8a0c9316bc2144e",
+      "fixture_row_sha256": "7c59ec0dd235ecc22f055a3a4c396a6468abc7eea07508f7a79795e6d56d62a1"
+    },
+    {
+      "fixture_id": "R04-NEW-002",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "62f89d29f6c31d634fd8139af8d27189a1f496ae420a21077562f234a2b13479",
+      "fixture_row_sha256": "57bb57e7fbaf300418113a64b07dfab227e9624a5963db288510a1c6deeb450a"
+    },
+    {
+      "fixture_id": "R04-NEW-003",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "5d29a02794f1b17f8dc3ac750dd1a44303ddfb42d2409a3f9a29267b23a80c68",
+      "fixture_row_sha256": "3c340df0a9f03ebd99d02ab2d8af05a916ea59c961507ed79953bfbce2985ef7"
+    },
+    {
+      "fixture_id": "R04-NEW-004",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "364262a4e38b8e9fcdf340dd6f72a412301568daf988cb747dd74bf59adb1dff",
+      "fixture_row_sha256": "43323092efe929ae4cf84c21d52a6a3af2f1805ed0c3662e9907a8f3c2d146ba"
+    },
+    {
+      "fixture_id": "R04-NEW-005",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "00d01b083b78d049d1dbbfe247df1f7a637308615def8541b2ba60b94728352b",
+      "fixture_row_sha256": "afc18d157c038727bb88eb0380823d94f0d24a0a79d0b1569b4c619ff5135275"
+    },
+    {
+      "fixture_id": "R04-NEW-006",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "de2916640825970051e1a55eed9e19618f46f07755526cd81d76b870c3a08f3b",
+      "fixture_row_sha256": "41d2fbaf30ea661ef9c9d6ccfe5d04c32f90e84b527ce1508a36edfc978690d1"
+    },
+    {
+      "fixture_id": "R04-NEW-007",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "4fd4d65b1b151ccaf8e3ca97d6e194e081e22f34688658c0a5a52c28f5996560",
+      "fixture_row_sha256": "8b97d566b115b7cee5bec4282f45e9b683fc2d534f2380a492e2d2064670710b"
+    },
+    {
+      "fixture_id": "R04-NEW-008",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "acc09c655d0bf69d9895e7075e3735ce3417d03f4239c83cd80d23392f08bf1a",
+      "fixture_row_sha256": "6d40b1a694d1f6022daaeae21ca3f6fcd868e0a61c3639c2307e5719ec29ca1f"
+    },
+    {
+      "fixture_id": "R04-NEW-009",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "cfab4862d905df55a5d51fa6b9e1f114e78d86153f8a21ca5e26ecc8bd245f5b",
+      "fixture_row_sha256": "e09d052bb7ebb13c4e42cfd9d0d896975519b7e70d6ee865fd570dbcbbc1c268"
+    },
+    {
+      "fixture_id": "R04-NEW-010",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "50c9c3b86bed6e3ceedccc52609fbd8e46fabc929b858c2d07881190c261fe55",
+      "fixture_row_sha256": "9e428ff02b7f278fa98ab72a2ba1ea412be8f01c56626d53898f9e4b7b979a6c"
+    },
+    {
+      "fixture_id": "R04-NEW-011",
+      "immutable_legacy_main_anchor": "eq:awareness-active",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:awareness-active"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "9c83ef195178382ce38a6936692249d5a4bd3a7f1f9fdc45a484f3cfd6035698",
+      "fixture_row_sha256": "6a0601475a6aec7d2a2a19ba49700f4e68228a750cd4680717ba75c1af1420e5"
+    },
+    {
+      "fixture_id": "R04-NEW-012",
+      "immutable_legacy_main_anchor": "eq:retained-rebalancing",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:retained-rebalancing"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "c17b6dab7a972029c9753c7612455fccb57df96242df207cae3407282c66369f",
+      "fixture_row_sha256": "88b49d7ea7394bdedd719150760f202ff9364d2d8b5f090a69c2c6c0d4640f10"
+    },
+    {
+      "fixture_id": "R04-NEW-013",
+      "immutable_legacy_main_anchor": "eq:retained-rebalancing",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:retained-rebalancing"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "110cb6ded4a7bf2d07510bb7e7cc4d6da07a443e26fe8ca64add0105c6ea13a5",
+      "fixture_row_sha256": "0aef9cb671c2854c46788b6cb00c540d432c4e44260167cbd42d6758f0124a0d"
+    },
+    {
+      "fixture_id": "R04-NEW-014",
+      "immutable_legacy_main_anchor": "eq:retained-rebalancing",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:retained-rebalancing"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "ea705f1cf31fe5ba13690c94f7755c6716045b1da2ef96231f572d89d63cdccd",
+      "fixture_row_sha256": "985346ac1b6faa9299041655da006c0e55cc1abf8e855594012a976d4563525a"
+    },
+    {
+      "fixture_id": "R04-NEW-015",
+      "immutable_legacy_main_anchor": "eq:retained-rebalancing",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:retained-rebalancing"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "attention_only",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "e7c8bac353164ec04866f204e0da3a0003393e2af76efd4497bb5f664c8c1951",
+      "fixture_row_sha256": "9e3c837b8bbea8e95c877d1ae21f9c9c3dd1048af17ddad006ca5779b3d1da35"
+    },
+    {
+      "fixture_id": "R04-NEW-016",
+      "immutable_legacy_main_anchor": "eq:operative-self",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:operative-self"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:operative-self"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "self",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "f8af6a32685358fc5f214ac0da8604625d114ddc381fbae3aba51e36ba30c6e1",
+      "fixture_row_sha256": "f969e50ae472f7ca790b5c4519c5231ba32fc65e47d8942e75f033211fde2a8a"
+    },
+    {
+      "fixture_id": "R04-NEW-017",
+      "immutable_legacy_main_anchor": "eq:operative-self",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:operative-self"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:operative-self"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "self",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "e2e1e92fec7f53fadaaeb92f837021fe45c5a4b547a7e66a10d5fa2ad0f86e4e",
+      "fixture_row_sha256": "398aeac9084fd00eefe63f666ec0830562ff651e9170d5ef176fe017475b3d17"
+    },
+    {
+      "fixture_id": "R04-NEW-018",
+      "immutable_legacy_main_anchor": "eq:operative-self",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:operative-self"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:operative-self"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "label",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "045da136c19b294db1eeea97d109b7f5b789b05b784f8cd3fa895e65f5ef4395",
+      "fixture_row_sha256": "3feb231e469a1b7a77066ebd1e864be1566b67a1b9698bc3ee42cc4c27491183"
+    },
+    {
+      "fixture_id": "R04-NEW-019",
+      "immutable_legacy_main_anchor": "eq:operative-self",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:operative-self"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:operative-self"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "label",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "45a0f5c5729d5aaa58c7d878f266dcdf99daaad8547a6f66a5763bcc327d272c",
+      "fixture_row_sha256": "873785c49e88bcd97c83eeafeb4e4e46ffce1106d8c615c6b2daaa88c971b8f0"
+    },
+    {
+      "fixture_id": "R04-NEW-020",
+      "immutable_legacy_main_anchor": "eq:operative-self",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:operative-self"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:operative-self"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "cpu",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "b07c7b6819ca4b21d22ff2b25ede6701c278447b7bb27c23fe2edc252f5f38db",
+      "fixture_row_sha256": "a699d3ca3dc14ce2749a86e1bf256faafb78c23438ae87ea931d1b8dea06082a"
+    },
+    {
+      "fixture_id": "R04-NEW-021",
+      "immutable_legacy_main_anchor": "eq:operative-self",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:operative-self"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:operative-self"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "cpu",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "2a465aa3ecefd1d5c770be11b135b819bcd888bfaaa390d76f9c3e1a9b3ac81b",
+      "fixture_row_sha256": "2c5967492f3c0a1c9695355e3bbf32c03d0b6cdf2377154f5532ae6ec11dc4e5"
+    },
+    {
+      "fixture_id": "R04-NEW-022",
+      "immutable_legacy_main_anchor": "eq:action-return-retention",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:action-return-retention"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference",
+        "eq:action-return-retention"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "proprioception",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "5ccb5377abe84d13d3a6668aaed151d082b5a772d5edf561deada13513ad25a3",
+      "fixture_row_sha256": "35c2c78628506ab3d641ff9f39896c1ec22923d062730da7e2349a19499437af"
+    },
+    {
+      "fixture_id": "R04-NEW-023",
+      "immutable_legacy_main_anchor": "eq:action-return-retention",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:action-return-retention"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference",
+        "eq:action-return-retention"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "proprioception",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "a79c2e9a866568ea1fcf3301e8faa211ed1c36e0cf8c09d8f89b356756c935e0",
+      "fixture_row_sha256": "3a34a225700aa615116d9825f57e670fb9741fb9b97c72906ceac0ec8ee89235"
+    },
+    {
+      "fixture_id": "R04-NEW-024",
+      "immutable_legacy_main_anchor": "eq:action-return-retention",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:action-return-retention"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference",
+        "eq:action-return-retention"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "proprioception",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "f56124b713e6adb423e7f56e52355f14ad92ce3e5b9c83d51521693f55c0c8b8",
+      "fixture_row_sha256": "f5bf1eb837684e5c06abd6fd8c5288a8a58d3dc99ce1554d96ed8b08bcec28aa"
+    },
+    {
+      "fixture_id": "R04-NEW-025",
+      "immutable_legacy_main_anchor": "eq:action-return-retention",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:action-return-retention"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference",
+        "eq:action-return-retention"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "proprioception",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "3abe4d2888b946c18aa9fea433ae6252d4506717264b52e4b2dab47b2717ae64",
+      "fixture_row_sha256": "c681b66525ce6a84d867b5eb386fd68a3195faeaa8a42abdcaeacee25ced0489"
+    },
+    {
+      "fixture_id": "R04-NEW-026",
+      "immutable_legacy_main_anchor": "eq:action-return-retention",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:action-return-retention"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference",
+        "eq:action-return-retention"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "proprioception",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "c5e570f1f6026d2ef4ac959999ce024252d61cd21414893540e4d33c7574be41",
+      "fixture_row_sha256": "a0c77415c347cf7bfd0a12fb8f774d8a935b477ad340635dda4aee2eeb9c28c8"
+    },
+    {
+      "fixture_id": "R04-NEW-027",
+      "immutable_legacy_main_anchor": "subsec:proprioception-learning",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "subsec:proprioception-learning"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "learning",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "operation_note": "learning() uses core() and an already retained relation; no call to action-return acquisition",
+      "original_fixture_row_sha256": "0b5c7f6c65ce6fa3f1c398b25d12681a358c45e3c249cd9142ea763b475300fd",
+      "fixture_row_sha256": "2980d484aa9d8ae1e856476f73547eb1f934b132417c725337389e406f387fc3"
+    },
+    {
+      "fixture_id": "R04-NEW-028",
+      "immutable_legacy_main_anchor": "subsec:proprioception-learning",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "086b7503c29690868ed1c21b74769c884ddd2c3e13181b744d9932d4d959389b",
+      "fixture_row_sha256": "745f2b50337d62d388518257028e4480c963d1eaca2ce510eb6bb902125b1fc6"
+    },
+    {
+      "fixture_id": "R04-NEW-029",
+      "immutable_legacy_main_anchor": "subsec:proprioception-learning",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "9e92270ffc79066ea45736ff3a2c06e4d3a96c0b1dcdddacb83badd1aa092200",
+      "fixture_row_sha256": "e6bca8a9409a5a91cd8f8ca91f0b1a54a7270b4e870b832896a236514add3f20"
+    },
+    {
+      "fixture_id": "R04-NEW-030",
+      "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "sec:m2-crescendo"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:awareness-operative-set",
+        "eq:operative-self"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "crescendo",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "948e7060473b6d8d368430335e0a6a96553e1b8da8567d515ac8b06e973e9ef8",
+      "fixture_row_sha256": "25be43de27651398db50800e565da8c9b3a8eba21c57ceb6c89b9c2680614b7b"
+    },
+    {
+      "fixture_id": "R04-NEW-031",
+      "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:count-comparator-realization"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "177fa08d5bf8e8df52c408eda85ea22e3cc555ad9d261aadf354d4b01e494d08",
+      "fixture_row_sha256": "40ba83f3a73febe89ddb3965ba5cbabc6c37fa7d921e1c6d2bd8f708af007032"
+    },
+    {
+      "fixture_id": "R04-NEW-032",
+      "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:count-comparator-realization"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "d91aac0252e71bb74d2b4430d9b81189688361b58f71e0a59759aea385a2de6e",
+      "fixture_row_sha256": "74730e8e154d57a9640185a489367dd949c798503bc51cea0f22eb0d00ca46e1"
+    },
+    {
+      "fixture_id": "R04-NEW-033",
+      "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:count-comparator-realization"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "ecd14d9be0031e5b7ce1dc67feb808b7f94d5c095d582d6936115701e341a7b5",
+      "fixture_row_sha256": "8c9c1528557c2805dc68a00d612f7666e7dafe598714089caea397b9979a8c07"
+    },
+    {
+      "fixture_id": "R04-NEW-034",
+      "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:count-comparator-realization"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "7ba5de8f1a643eaf5333bbf24ead32fdcd307f1d00729601900a2b05e204e744",
+      "fixture_row_sha256": "d467b1f4691fe28e63efe28ca82651edb8bfc9c8aee420ce7661d1ab642bcec1"
+    },
+    {
+      "fixture_id": "R04-NEW-035",
+      "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:count-comparator-realization"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "core",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "0886ccfb0bdaa5f8cec955286e2d2335a3b55d035223a0cced32e381bf225c55",
+      "fixture_row_sha256": "ac95ef4fc14fb9539b148337c5752e52bd470eacd73c844c744956fb203f6029"
+    },
+    {
+      "fixture_id": "R04-NEW-036",
+      "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:count-comparator-realization"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "bfb6036ce8212867b46f4cbf1648685acfc7f2894e60026ad553c72bd1631dd2",
+      "fixture_row_sha256": "96aed808b243396c29f188cb35149e7cf2cda7eb6b586d1bfb71bc6dc77bc5d2"
+    },
+    {
+      "fixture_id": "R04-NEW-037",
+      "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:count-comparator-realization"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "d95eea294dbe3ccd101cea5836a63373c27d832a477e0e90132ff73b0b326237",
+      "fixture_row_sha256": "868c6a18efad97d4cbe85bed817164d2501c781a6ae651d4637687605576309c"
+    },
+    {
+      "fixture_id": "R04-NEW-038",
+      "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:count-comparator-realization"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "7af38596a99e29d972566851a5cfc47a1f5a7608764f680675743d370bdfa1d8",
+      "fixture_row_sha256": "c88c7de0f7528de126b604ca3eedf2afc9971ec1e69d68409aca8fcdac742614"
+    },
+    {
+      "fixture_id": "R04-NEW-039",
+      "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-response"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:count-comparator-realization"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "954ece39f90f436d40909c7ff58f324eeebaa1676d8d0a3cc80b26f487c16d76",
+      "fixture_row_sha256": "ebd92586a7e9fdc24c24f31e82fc4eec3e42b9b86cdbb9047b80ae15ea548123"
+    },
+    {
+      "fixture_id": "R04-NEW-040",
+      "immutable_legacy_main_anchor": "eq:awareness-conditioned-shedding",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:awareness-conditioned-shedding"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:fold-outer-closure",
+        "eq:closure-phase",
+        "eq:expose-inner-lineage",
+        "eq:awareness-carriage",
+        "eq:shedding-excess"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference",
+        "eq:awareness-shedding-bridge",
+        "eq:awareness-conditioned-shedding"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "chain",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "de5a4109b1624a3ef983c5bbda3cf2bbb5d9b1b72bce209e23cb304379bfb317",
+      "fixture_row_sha256": "a4e17ca87bd324e7c90587a4f4a8c3d944337fafec7a5587c171525b05313eee"
+    },
+    {
+      "fixture_id": "R04-NEW-041",
+      "immutable_legacy_main_anchor": "eq:awareness-carriage",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/05_curl_closure_duon_current.tex",
+        "label": "eq:fold-outer-closure"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:awareness-carriage",
+        "eq:fold-outer-closure"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "chain",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "operation_note": "Local trace supplied to fold rejected before bridge evaluation; carriage tag is broader historical claim provenance",
+      "original_fixture_row_sha256": "2e1828af76e2d6f99804ed10ecd5dce5550b84bab3d6d7602352f3d83008c21b",
+      "fixture_row_sha256": "53399b491c44487cca7ee38ad3b030b2641a22f38e03227a598fa55ec7b6dd9a"
+    },
+    {
+      "fixture_id": "R04-NEW-042",
+      "immutable_legacy_main_anchor": "eq:awareness-carriage",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:retained-rebalancing"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:awareness-carriage"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "matching",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "operation_note": "Ordinary local Prior scope/provenance mutation; no carriage witness or shedding bridge executes",
+      "original_fixture_row_sha256": "3d5aeed5054ee82cc77743a168f75e23c8003b3543adaac6a87ef050c9752401",
+      "fixture_row_sha256": "c5c9b7d61c174e62176fbcf052579e0ad83bf2a543a4aaff4e841f986670a2c0"
+    },
+    {
+      "fixture_id": "R04-NEW-043",
+      "immutable_legacy_main_anchor": "eq:mindfulness-stability",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "manual:m2-query-mindfulness"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "query",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "operation_note": "Generic q=1 query perturbation, not q=-J stabilization",
+      "original_fixture_row_sha256": "f63b14d4d74396b76efb3c9fabc130efe84277cb706abc97ad15b120787989b9",
+      "fixture_row_sha256": "c7ed45466ea41414648a4c4dfe1385d4f3e09cde1dbfdb6b5da5e3d03b147b03"
+    },
+    {
+      "fixture_id": "R04-NEW-044",
+      "immutable_legacy_main_anchor": "eq:mindfulness-stability",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:mindfulness-stability"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:mindfulness-stability"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "mindfulness",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "bf61c32e3b1f962916995cd0e7f7f82db2c99ad97cfc9f9a01195b1322989d06",
+      "fixture_row_sha256": "3bb34b218c3efd5dc76be261caf4e44a2a06ecf886dc482f2a3df0c85767df74"
+    },
+    {
+      "fixture_id": "R04-NEW-045",
+      "immutable_legacy_main_anchor": "eq:mindfulness-stability",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:mindfulness-stability"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:mindfulness-stability"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "mindfulness",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "a1990921082766b27b5c64256d0fb1496eb7b2a9d42647765216e7ae003c5711",
+      "fixture_row_sha256": "4b2316a7fd5c78a81a8328444b998a34a3b938a2d9bd4728cd4b7bd2381c446d"
+    },
+    {
+      "fixture_id": "R04-NEW-046",
+      "immutable_legacy_main_anchor": "eq:mindfulness-stability",
+      "current_construct": {
+        "surface": "manual",
+        "path": "manual/sections/00_awareness_fixtures.tex",
+        "label": "eq:mindfulness-stability"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:mindfulness-stability"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "mindfulness",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "original_fixture_row_sha256": "0c6a94a0c1b8acfacb77b743d15e5d80d625c33e1c0c5884f119843cc63cbc0f",
+      "fixture_row_sha256": "71d60c8f5775cab2290687f728ca752a157423a24297ebf78e17a7e00ab5fa60"
+    },
+    {
+      "fixture_id": "R04-NEW-047",
+      "immutable_legacy_main_anchor": "eq:retained-rebalancing",
+      "current_construct": {
+        "surface": "main",
+        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "label": "eq:retained-rebalancing"
+      },
+      "main_premises": [
+        "eq:awareness-state-factorization",
+        "eq:retained-rebalancing",
+        "eq:awareness-active",
+        "eq:awareness-operative-set",
+        "eq:operative-self",
+        "eq:afc-flux-ao-resolution",
+        "eq:b-scoped-flux-antisymmetry",
+        "eq:afc-stokes-used"
+      ],
+      "manual_model_equations": [
+        "eq:awareness-response",
+        "eq:awareness-causal-difference"
+      ],
+      "immutable_manual_anchor": "manual:m2-awareness-fixtures",
+      "operation": "antisymmetry",
+      "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
+      "operation_note": "Antisymmetry/operative-source cancellation; no mindfulness model",
+      "original_fixture_row_sha256": "30a38dbcd467a0a5854a3aa953227b4c7911a6454d86831b350579f0b25afa0c",
+      "fixture_row_sha256": "0d29389b63ddaf0a8465d821bef6184a57ec8ab64d6871f1b9dc571b7a1d1c49"
+    }
+  ]
+}

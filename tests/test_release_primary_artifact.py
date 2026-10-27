@@ -61,12 +61,11 @@ def test_build_docs_name_main_pdf_primary_and_bundle_order():
 
 def test_canonical_historical_wording_is_version_neutral():
     canon = (ROOT / "CANONICAL_VERSION.txt").read_text(encoding="utf-8")
-    ready = (ROOT / "RELEASE_READINESS.txt").read_text(encoding="utf-8")
+    metadata = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))
+    assert metadata["version"] == current_version()
     assert f"Canonical version: {current_version()}" in canon
     assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only." in canon
     assert "Older r1-r" not in canon
-    assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only." in ready
-    assert "Older r1-r" not in ready
 
 
 def test_title_page_subtitle_line_order():

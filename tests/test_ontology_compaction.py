@@ -18,6 +18,7 @@ def copy_source(tmp_path):
     # Tests mutate a disposable source copy; no tracked worktree is edited.
     result = tmp_path / "source"
     shutil.copytree(ROOT, result, ignore=shutil.ignore_patterns('.git', '__pycache__', '.pytest_cache'))
+    assert a.audit(result)['compaction']['canonical_equations'] == 81
     return result
 
 
@@ -25,7 +26,7 @@ def test_rendered_compaction_authority_and_all_ordered_dependencies():
     result = a.audit(ROOT)['compaction']
     assert result['canonical_groups'] == 44  # Mixed bridge/carriage group splits by owner.
     assert result['canonical_equations'] == 81
-    assert result['ordered_dependencies'] == 72  # All 67 old edges + five explicit premises.
+    assert result['ordered_dependencies'] == 72  # All current ordered scientific prerequisites.
     assert result['refined_first_uses'] == 2
     assert result['manual_example_families'] == 9
 
@@ -70,7 +71,7 @@ def test_manual_awareness_inclusion_is_an_active_coverage_obligation(tmp_path):
     root = copy_source(tmp_path)
     path = root / 'manual/main.tex'
     path.write_text(path.read_text().replace('\\input{sections/00_awareness_fixtures.tex}', ''))
-    with pytest.raises(ValueError, match='Manual example family not rendered'):
+    with pytest.raises(ValueError, match='Manual example family not rendered|Active scientific source anchor ownership mismatch'):
         a.audit(root)
 
 
@@ -107,6 +108,6 @@ def test_two_branch_roles_do_not_bound_general_channel_capacity():
 def test_canonical_contract_does_not_modify_inherited_engine_or_inputs():
     result = a.audit(ROOT)['compaction']
     assert result['frozen_files'] >= 150
-    contract = json.loads((ROOT/'evidence/ONTOLOGY_COMPACTION_BINDINGS.json').read_text())
+    contract = json.loads((ROOT/'contracts/scientific/CANONICAL_BINDINGS.json').read_text())
     assert 'manual/scripts/aod_awareness.py' in contract['frozen_sha256']
     assert 'manual/scripts/aod_native_closure_wave.py' in contract['frozen_sha256']

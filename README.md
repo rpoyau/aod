@@ -81,6 +81,12 @@ Tracing a cut closely enough to set up a larger relational system as a finite sc
 
 - **Measured-sector comparisons and benchmark plans.** Freeze internal outputs before comparison through declared observable maps and external units. The Manual covers rest-energy and hydrogen-series records, boundary-current examples, solar observable-map records, the SPARC five-galaxy radial diagnostic, and staged SWELLS lensing work. Each record states its support, inputs and execution status: solar native input certificates and map definitions remain unsupplied; the originating tau calculation recipe is not supplied; higher-resolution field-dynamics and L3 lensing execution depend on their stated input gates.
 
+## Source layout
+
+`main.tex` and `sections/` contain the main publication. `manual/` contains the companion Manual, executable models and input datasets. `contracts/scientific/` binds current formulas, ownership, fixture provenance and scientific scope; `tests/` and `scripts/` validate and package this source.
+
+A checkout or extracted source archive contains everything needed for the documented builds and tests. See [BUILD.md](BUILD.md) for dependencies and commands, [scientific contracts](contracts/scientific/README.md) for their scope, and [CHANGELOG.md](CHANGELOG.md) for source changes.
+
 ## Run the reference fixtures
 
 Use the dependencies and publication-build instructions in [BUILD.md](BUILD.md). From the repository root:
