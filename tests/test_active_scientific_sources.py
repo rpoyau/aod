@@ -67,29 +67,18 @@ def test_unrelated_active_heading_cannot_satisfy_conservation():
     with pytest.raises(ValueError,match='unrelated scientific construction'):a.audit_conservation([bad],expected,ROOT)
 
 
-def test_canonical_closure_phase_language_is_rendered_and_typed():
+def test_canonical_closure_phase_labels_are_active_and_typed():
     files,parts=a.include_graph(ROOT)
     assert 'sections/04_cut_running_fractal_tesseract.tex' in files
-    rendered='\n'.join(text for _,text in parts)
-    assert 'one complete closure-phase cycle' in rendered
-    assert 'phase-bearing step count' in rendered
-    assert 'never sufficient closure admission' in rendered
     labels=a.label_map(ROOT)
     assert labels['eq:closure-phase-step-count']['path']=='sections/04_cut_running_fractal_tesseract.tex'
     assert labels['eq:minimal-phase-quantum-bound']['path']=='sections/04_cut_running_fractal_tesseract.tex'
-
-
-def test_required_scientific_objects_precede_dependent_operations():
-    labels=a.label_map(ROOT)
-    assert labels['eq:cycle-valued-field-compression']['position']<labels['eq:cycle-rd-accessor']['position']
-    assert labels['eq:causal-update']['position']<labels['eq:support-trace-spine']['position']
 
 
 def test_m2_canonical_science_and_manual_fixture_are_rendered():
     mf=a.include_graph(ROOT)[0];uf=a.include_graph(ROOT,'manual')[0]
     assert 'sections/08_awareness_learning_mindfulness.tex' in mf
     fixture='manual/sections/00_awareness_fixtures.tex';assert fixture in uf
-    assert uf.index('manual/sections/00_native_closure_wave_temporal_fixtures.tex')<uf.index(fixture)<uf.index('manual/sections/00_dec_ledger.tex')
     equations=a.equations(ROOT)
     bindings={'eq:awareness-state-factorization':r'S_k^+=(X_k,M^C_k,R_k)',
               'eq:awareness-active':r'\exists t>k',

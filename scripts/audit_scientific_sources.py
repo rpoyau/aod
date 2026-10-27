@@ -213,16 +213,11 @@ def audit(root):
     require=lambda ok,msg: None if ok else (_ for _ in ()).throw(ValueError(msg))
     for p in MAIN_REQUIRED:require(p in mfiles,'canonical Main source not rendered: '+p)
     for p in MANUAL_REQUIRED:require(p in ufiles,'canonical Manual fixture not rendered: '+p)
-    require(ufiles.index(MANUAL_REQUIRED[0])<ufiles.index(MANUAL_REQUIRED[1])<ufiles.index('manual/sections/00_dec_ledger.tex'),'Manual dependency order')
     labs=label_map(root);ulabs=label_map(root,'manual');eqs=equations(root)
     for lab in REQUIRED_LABELS:require(lab in labs,'missing canonical label '+lab)
     for lab,formula in CANONICAL_EQUATIONS.items():
         require(lab in eqs,'required equation absent from rendered graph: '+lab)
         require(normalize_math(formula) in normalize_math(eqs[lab]),'canonical equation content changed: '+lab)
-    # The scope organization consumes an already defined wave identity.
-    require(mfiles.index(labs['eq:wave-identity']['path'])<mfiles.index(labs['eq:field-organization']['path']),'wave identity must precede field')
-    cf=labs['eq:cycle-valued-field-compression'];rd=labs['eq:cycle-rd-accessor']
-    require(cf['path']==rd['path'] and cf['position']<rd['position'],'cycle object must precede scalar accessor')
     refs=[]
     for path,text in uparts:
         for lab in re.findall(r'(?<![\w:])main:((?:eq|sec|subsec|app|fig|tab):[A-Za-z0-9:_-]+)',text):

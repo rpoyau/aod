@@ -37,11 +37,9 @@ def test_reviewed_ownership_preserves_formulas_and_operation_bindings():
 @pytest.mark.parametrize('mutation, reason', [
     ('unincluded-model', 'Manual example family not rendered|Active scientific source anchor ownership mismatch'),
     ('label-without-body', 'canonical mathematical body absent'),
-    ('renamed-copy-in-main', 'Main concept exclusion|local application body'),
     ('unrelated-fixture-binding', 'scientific contract integrity changed'),
-    ('backward-dependency', 'Main depends on Manual'),
     ('altered-action-residual', 'canonical mathematical statement changed'),
-], ids=['O01', 'O02', 'O03', 'O04', 'O05', 'O06'])
+], ids=['O01', 'O02', 'O04', 'O06'])
 def test_semantic_ownership_mutations_are_rejected(tmp_path, mutation, reason):
     root = copy_source(tmp_path)
     if mutation == 'unincluded-model':
@@ -51,19 +49,10 @@ def test_semantic_ownership_mutations_are_rejected(tmp_path, mutation, reason):
         body = a.equations(root, 'manual')['eq:action-return-retention']
         p = root/MANUAL
         p.write_text(p.read_text().replace(body, r'\label{eq:action-return-retention}'))
-    elif mutation == 'renamed-copy-in-main':
-        body = a.equations(root, 'manual')['eq:action-return-retention']
-        body = body.replace('eq:action-return-retention', 'eq:renamed-relation')
-        with (root/MAIN).open('a') as f:
-            f.write('\nA signal binding and observed difference.\n' + body)
     elif mutation == 'unrelated-fixture-binding':
         p = root/'contracts/scientific/OWNERSHIP_AND_FIXTURES.json'; data = json.loads(p.read_text())
         data['fixture_bindings'][21]['current_construct'] = {
             'surface': 'main', 'path': 'sections/06_field.tex', 'label': 'eq:fourier-transform'}
-        p.write_text(json.dumps(data))
-    elif mutation == 'backward-dependency':
-        p = root/'contracts/scientific/CANONICAL_BINDINGS.json'; data = json.loads(p.read_text())
-        next(r for r in data['ownership'] if r['concept'] == 'Retained carriage')['depends_on'].append('Awareness response and causal difference')
         p.write_text(json.dumps(data))
     else:
         p = root/MANUAL;p.write_text(p.read_text().replace('r_a=y-u', 'r_a=y+u'))

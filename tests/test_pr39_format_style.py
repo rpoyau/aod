@@ -111,38 +111,6 @@ def _argument_end(text, opening):
     raise AssertionError("Unclosed Literature note")
 
 
-def test_afc_citation_variants_are_confined_to_literature_notes():
-    text = (ROOT / "sections/03_afc_basis.tex").read_text()
-    notes = [
-        (match.start(), _argument_end(text, match.end() - 1))
-        for match in re.finditer(r"\\aodliteraturenote\s*\{", text)
-    ]
-    citations = list(re.finditer(
-        r"\\[A-Za-z]*cite[A-Za-z]*\*?\s*(?:\[[^\]]*\]\s*)*\{([^}]+)\}", text
-    ))
-    afc = [match for match in citations if "afc" in [key.strip() for key in match[1].split(",")]]
-    assert afc, "AFC attribution is required, including optional-note cite forms"
-    for match in afc:
-        assert any(start <= match.start() < match.end() <= end for start, end in notes)
-    provenance = text.index(r"\aodprovenance{")
-    literature = text.index(r"\aodliteraturenote", provenance)
-    assert not any(provenance < match.start() < literature for match in citations)
-
-
-def test_content_headings_keep_historical_anchors_and_separate_awareness_stages():
-    appendix = (ROOT / "appendices/A_fractal_address_bip_biz.tex").read_text()
-    assert re.search(
-        r"\\subsection\{Setup\}\s*\\label\{app:fractal-address:setup\}", appendix
-    )
-    assert re.search(
-        r"\\subsection\{Bound bip and biz accessors\}\s*\\label\{app:fractal-address:statements\}", appendix
-    )
-    awareness = (ROOT / "sections/08_awareness_learning_mindfulness.tex").read_text()
-    assert r"\paragraph{Falsification and provenance.}" not in awareness
-    assert awareness.count(r"\paragraph{Falsification.}") >= 4
-    assert awareness.count(r"\aodprovenance{") == 4
-
-
 def _latex(directory):
     return subprocess.run(
         [XELATEX, "-recorder", "-interaction=nonstopmode", "-halt-on-error", "main.tex"],

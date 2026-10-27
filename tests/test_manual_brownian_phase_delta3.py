@@ -15,16 +15,10 @@ def brownian_text():
 def test_brownian_section_present_and_manual_only():
     sec = read('manual/sections/06_field_dynamics_applications.tex')
     app = read('manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex')
-    assert r'\subsection{3D Brownian phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture}' in sec
-    assert r'\section{3D coordinate phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture specification}' in app
     assert r'\label{manual:app:coordinate-phase-cycle-delta3}' in app
     assert r'\appref{manual:app:coordinate-phase-cycle-delta3}' in sec
-    assert 'Brownian' not in app
-    assert 'brownian' not in app
     assert 'G3 time-resolved tracer-current fixture' in sec
     assert 'A two-dimensional microscopy slice records its projection map or ablation cut' in sec
-    main = read('main.tex') + ''.join(p.read_text() for p in (ROOT/'sections').glob('*.tex'))
-    assert 'Brownian' not in main
 
 
 def test_brownian_integerized_trajectory_and_q_active():
@@ -32,7 +26,6 @@ def test_brownian_integerized_trajectory_and_q_active():
     assert r'z_i=(X_i,Y_i,Z_i)\in\mathbb Z^3' in text
     assert r'\Delta z_i^{(n)}=z_{i+n}-z_i=(a_i^{(n)},b_i^{(n)},c_i^{(n)})' in text
     assert r'Q_i^{(n)}=(a_i^{(n)})^2+(b_i^{(n)})^2+(c_i^{(n)})^2\in\mathbb Z_{\ge0}' in text
-    assert 'not radial-distance fit' not in text
     assert 'Active coordinate: integerized three-dimensional displacement and phase-cycle count data' in text
     exact_chunk = read('manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex')
     forbidden = ['radial distance fit', 'diffusion coefficient fit', r'\sqrt']

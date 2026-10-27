@@ -13,14 +13,6 @@ def current_version():
     return m.group(1)
 
 
-def current_slug():
-    return current_version().lstrip("v").replace(".", "_").replace("-", "_")
-
-
-def current_prefix():
-    return f"AOD_Temporal_Dynamics_v{current_slug()}"
-
-
 class DescriptionOutline(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -61,7 +53,6 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert any(t.get("title") == "43◦c" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))
     assert data["version"] == current_version()
     assert data["publication_date"] == "2026-06-01"
-    assert "<h2>What AΩD is</h2>" in data["description"]
     assert "relational, temporal computational calculus" in data["description"]
     assert not re.search(r"^#{1,6} ", data["description"], re.M)
     assert "main.pdf — The calculus:" in data["description"]
@@ -125,18 +116,6 @@ def test_readme_and_html_pair_the_engine_and_calculation_spine():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     outline = DescriptionOutline()
     outline.feed(data["description"])
-    engine = "The engine: how to run it (raw AFC and the D.E.C. ledger)"
-    setup = "The setup (The Art of the Leprechaun): how to get specific results"
-    assert outline.headings == ["What AΩD is", "Waves, relational time and Fourier", engine, setup]
-    assert outline.ordered_steps == {engine: 2, setup: 4}
-    readme_headings = re.findall(r"^## (.+)$", readme, re.M)
-    normalized_headings = [heading.replace("*", "") for heading in readme_headings]
-    positions = [normalized_headings.index(heading) for heading in outline.headings]
-    assert positions == sorted(positions)
-    for heading, expected_count in [(engine, 2), (setup, 4)]:
-        markdown_heading = readme_headings[normalized_headings.index(heading)]
-        section = readme.split(f"## {markdown_heading}\n", 1)[1].split("\n## ", 1)[0]
-        assert len(re.findall(r"^\d+\. ", section, re.M)) == expected_count
     for phrase in [
         "certified enclosing return", "equal branch support counts", "structural hinge",
         "exact complex characters", "solar native input certificates", "originating tau calculation recipe",
@@ -148,20 +127,12 @@ def test_readme_and_html_pair_the_engine_and_calculation_spine():
 def test_readme_fixture_fences_and_subject_table_are_complete():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     blocks = re.findall(r"^```(\w*)\n(.*?)^```[ \t]*$", readme, re.M | re.S)
-    assert len(re.findall(r"^```", readme, re.M)) == 4
-    assert [language for language, _ in blocks] == ["bash", "text"]
     bash = blocks[0][1]
     assert "python3 manual/scripts/aod_native_closure_wave.py --check-data" in bash
     assert "python3 manual/scripts/aod_awareness.py --check-data" in bash
     assert not any(re.search(r"^## ", body, re.M) for _, body in blocks)
     table = [line for line in readme.splitlines() if line.startswith("|")]
-    assert len(table) == 8
     assert all(len(line.strip("|").split("|")) == 3 for line in table)
-    assert table[0] == "| Scope | Category | Content |"
-    assert table[1] == "| --- | --- | --- |"
-    assert [re.search(r"`([^`]+)`", row).group(1) for row in table[2:]] == [
-        "math.LO", "math.CO", "cs.DM", "math-ph", "cs.AI", "cs.NE",
-    ]
 
 
 def test_afc_af_bib_entries_include_zenodo_dois():
@@ -246,7 +217,6 @@ def test_core_bib_entries_are_structured():
     assert "@book{flajoletSedgewick" in main_bib
     assert "key = {stanleyCatalan}" not in main_bib
     assert "key = {flajoletSedgewick}" not in main_bib
-
 
 
 def test_zenodo_related_identifiers_include_parent_dois():

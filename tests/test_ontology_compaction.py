@@ -1,4 +1,4 @@
-"""Actual rendered authority, hierarchy and mathematical-scope controls."""
+"""Actual rendered definitions, declared dependencies and mathematical scope."""
 import importlib.util
 import json
 from pathlib import Path
@@ -22,12 +22,11 @@ def copy_source(tmp_path):
     return result
 
 
-def test_rendered_compaction_authority_and_all_ordered_dependencies():
+def test_rendered_compaction_authority_and_declared_dependencies():
     result = a.audit(ROOT)['compaction']
     assert result['canonical_groups'] == 44  # Mixed bridge/carriage group splits by owner.
     assert result['canonical_equations'] == 81
-    assert result['ordered_dependencies'] == 72  # All current ordered scientific prerequisites.
-    assert result['refined_first_uses'] == 2
+    assert result['declared_dependencies'] == 72  # All current declared scientific prerequisites.
     assert result['manual_example_families'] == 9
 
 
@@ -59,32 +58,11 @@ def test_unrendered_awareness_file_cannot_supply_canonical_science(tmp_path):
         a.audit(root)
 
 
-def test_appendix_c_demotion_cannot_pass_navigation(tmp_path):
-    root = copy_source(tmp_path)
-    path = root / 'appendices/C_stochastic_crowning.tex'
-    path.write_text(path.read_text().replace('\\section{', '\\subsection{', 1))
-    with pytest.raises(ValueError, match='appendix is not a top-level section'):
-        a.audit(root)
-
-
 def test_manual_awareness_inclusion_is_an_active_coverage_obligation(tmp_path):
     root = copy_source(tmp_path)
     path = root / 'manual/main.tex'
     path.write_text(path.read_text().replace('\\input{sections/00_awareness_fixtures.tex}', ''))
     with pytest.raises(ValueError, match='Manual example family not rendered|Active scientific source anchor ownership mismatch'):
-        a.audit(root)
-
-
-def test_first_declaration_cannot_follow_the_rd_consumer(tmp_path):
-    root = copy_source(tmp_path)
-    path = root / 'sections/05_curl_closure_duon_current.tex'
-    text = path.read_text()
-    # Move the actual constructor while leaving both labels present.
-    start = text.index('\\subsection{Dion}')
-    end = text.index('\\subsubsection{Branch/hinge/branch reflection duration}')
-    early = text[start:end]
-    path.write_text(text[:start] + text[end:] + '\n' + early)
-    with pytest.raises(ValueError, match='substantive consumer precedes prerequisite'):
         a.audit(root)
 
 
@@ -111,3 +89,27 @@ def test_canonical_contract_does_not_modify_inherited_engine_or_inputs():
     contract = json.loads((ROOT/'contracts/scientific/CANONICAL_BINDINGS.json').read_text())
     assert 'manual/scripts/aod_awareness.py' in contract['frozen_sha256']
     assert 'manual/scripts/aod_native_closure_wave.py' in contract['frozen_sha256']
+
+
+def test_declared_prerequisites_form_a_dag_without_requiring_page_order():
+    spec = importlib.util.spec_from_file_location('dependency_audit', ROOT / 'scripts/audit_ontology_compaction.py')
+    checker = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(checker)
+    # A consumer may precede its premise in this mapping and in the source.
+    graph = {'consequence': {'depends_on': ['relation']},
+             'primitive': {'depends_on': []},
+             'relation': {'depends_on': ['primitive']}}
+    assert checker.validate_dependencies(graph) == 2
+    graph['primitive']['depends_on'] = ['consequence']
+    with pytest.raises(ValueError, match='cyclic scientific prerequisite'):
+        checker.validate_dependencies(graph)
+    graph['primitive']['depends_on'] = ['missing']
+    with pytest.raises(ValueError, match='unknown prerequisite'):
+        checker.validate_dependencies(graph)
+    graph['primitive']['depends_on'] = ['primitive']
+    with pytest.raises(ValueError, match='cyclic scientific prerequisite'):
+        checker.validate_dependencies(graph)
+    graph['primitive']['depends_on'] = []
+    graph['consequence']['depends_on'] = ['relation', 'relation']
+    with pytest.raises(ValueError, match='duplicate scientific prerequisite'):
+        checker.validate_dependencies(graph)

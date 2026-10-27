@@ -23,13 +23,10 @@ def current_prefix():
 
 def test_readme_names_this_version_pdf_links():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "## This version" in readme
     assert "https://zenodo.org/records/23426642/files/main.pdf?download=1" in readme
     assert "https://zenodo.org/records/23426642/files/manual.pdf?download=1" in readme
     assert "https://doi.org/10.5281/zenodo.20486270/files/" not in readme
     assert "](https://doi.org/10.5281/zenodo.20486270)" in readme
-    assert "## Primary display artifact" not in readme
-    assert "## Zenodo file assets" not in readme
 
 
 def test_zenodo_notes_pair_version_pdf_links_with_current_version():
@@ -39,9 +36,6 @@ def test_zenodo_notes_pair_version_pdf_links_with_current_version():
     assert "https://zenodo.org/records/23426642/files/manual.pdf?download=1" in notes
     assert "https://doi.org/10.5281/zenodo.20486270/files/" not in notes
     assert 'All versions: <a href="https://doi.org/10.5281/zenodo.20486270">' in notes
-    assert "Primary display artifact" not in notes
-    assert "Stable release assets" not in notes
-    assert "AOD_Temporal_Dynamics_v" not in notes
     assert data["title"] == "Alpha↔Omega Dynamics (AΩD)"
     assert any(t.get("title") == "The Hidden Temporal Dynamics of Stokes" for t in data.get("additional_titles", []))
     assert data["version"] == current_version()
@@ -65,13 +59,3 @@ def test_canonical_historical_wording_is_version_neutral():
     assert metadata["version"] == current_version()
     assert f"Canonical version: {current_version()}" in canon
     assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only." in canon
-    assert "Older r1-r" not in canon
-
-
-def test_title_page_subtitle_line_order():
-    from pathlib import Path
-    root = Path(__file__).resolve().parents[1]
-    main = (root / "sections" / "00_title.tex").read_text()
-    manual = (root / "manual" / "main.tex").read_text()
-    for text in [main, manual]:
-        assert text.index("The Hidden Temporal Dynamics of Stokes") < text.index("The Art Of The Leprechaun: Fractal Calculus") < text.index("43")

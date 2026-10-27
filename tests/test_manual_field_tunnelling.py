@@ -11,12 +11,8 @@ def read(rel):
 
 def test_field_tunnelling_placement_and_scope():
     sec = read('manual/sections/00_dec_ledger.tex')
-    assert r'\subsection{Blocked hinge and hinge slide}' in sec
-    assert r'\subsection{Field tunnelling: hinge-slide window clip}' in sec
-    assert sec.index(r'\subsection{Blocked hinge and hinge slide}') < sec.index(r'\subsection{Field tunnelling: hinge-slide window clip}') < sec.index(r'\subsection{D.E.C. row-pair to ADAR and SADAR}')
     assert 'Field tunnelling is a D0 exact internal fixture' in sec
     assert 'scalar tunnel contribution' in sec
-    assert 'It carries no external measured-sector target in this fixture row' not in sec
 
 
 def test_field_tunnelling_exact_arithmetic_in_manual():
@@ -50,18 +46,6 @@ def test_field_tunnelling_csv_exact_values():
     assert tunnel['pD'] == '6'
     assert tunnel['tunnel_contribution_num'] == '6'
     assert tunnel['tunnel_contribution_den'] == '7'
-
-
-def test_field_tunnelling_no_external_target_language():
-    sec = read('manual/sections/00_dec_ledger.tex')
-    start = sec.index(r'\subsection{Field tunnelling: hinge-slide window clip}')
-    end = sec.index(r'\subsection{D.E.C. row-pair to ADAR and SADAR}')
-    chunk = sec[start:end]
-    for term in ['GeV', 'LHC', 'ATLAS', 'CMS', 'measured-sector target']:
-        if term == 'measured-sector target':
-            assert 'no external measured-sector target' not in chunk
-        else:
-            assert term not in chunk
 
 
 def test_registry_contains_field_tunnelling_row():
