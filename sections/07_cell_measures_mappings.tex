@@ -1,0 +1,215 @@
+\section{Declared cell measures and mappings}
+\label{sec:m3-cells}
+\subsection{Finite cells and weighted support}
+\label{def:m3-cell-complex}
+\paragraph{Setup.}
+Let \(K_d\) be a finite set of oriented \(d\)-cells, with free chain group
+\(C_d=\mathbb Z[K_d]\), and let \(B_d:C_d\to C_{d-1}\) be its declared
+integer incidence map. A chain complex requires \(B_{d-1}B_d=0\).
+The vertices and edges of \eqref{eq:atomic-h1} specify a graph; additional
+cells, their incidences and their admission hypotheses are separate choices.
+For occupied support \(S\subseteq K_d\), weights \(w_d(c)\ge0\), and
+declared multiplicities \(m(c)\in\mathbb N\), define
+\begin{equation}
+ \mu_d(S)=\sum_{c\in S}w_d(c),\qquad
+ \mu_d(S,m)=\sum_{c\in S}m(c)w_d(c).
+ \label{eq:m3-support-measure}
+\end{equation}
+Cell identity defines support; zero weight does not remove a cell from it.
+The signed chain \(z=\sum_c n_c c\), its boundary \(B_dz\), and occupied
+support are distinct objects. A signed coefficient cancelling to zero
+does not imply that either contributing occurrence was absent.
+
+\paragraph{Derivation.}
+For disjoint supports, finite summation in \eqref{eq:m3-support-measure}
+is additive. For overlapping supports it gives
+\(\mu_d(S\cup T)=\mu_d(S)+\mu_d(T)-\mu_d(S\cap T)\).
+An occurrence sum instead counts its declared multiplicities. Neither
+identity relates a \(d\)-measure to a \((d-1)\)-measure without additional
+weights and geometric hypotheses.
+
+\paragraph{Specialization.}
+\label{prop:m3-cell-boundary}
+For an ordered product of vertices and oriented intervals, let
+\(i_1<\cdots<i_d\) denote the interval coordinates and \(c_{j,\pm}\)
+the endpoint faces. Set
+\begin{equation}
+ \partial c=\sum_{j=1}^{d}(-1)^{j-1}(c_{j,+}-c_{j,-}),
+ \qquad \partial^2c=0.
+ \label{eq:m3-cubical-boundary}
+\end{equation}
+Indeed, fixing two distinct interval coordinates in either order produces
+the same face. Removing the earlier coordinate changes the later index by
+one, so the two incidence products have opposite signs. Each codimension-two
+face cancels exactly once. This constructs a cubical chain complex when all
+faces are included; it supplies no physical metric.
+
+\paragraph{Falsification.}
+Reversing one face incidence while retaining its endpoint incidences can
+make \(\partial^2c\ne0\). Counting \(S\cap T\) twice changes the support
+measure whenever its weight is positive. A zero-weight shared face still
+participates in \eqref{eq:m3-cubical-boundary}.
+\aodprovenance{\eqref{eq:atomic-h1}; \eqref{eq:afc-stokes-used};
+\eqref{eq:m3-support-measure}.}
+
+\subsection{Folds, projections and a metric counterexample}
+\label{prop:m3-fold-support}
+\paragraph{Setup.}
+A declared family \(F_d:C_d(K)\to C_d(L)\) is a chain map precisely when
+\begin{equation}
+ B_d^L F_d=F_{d-1}B_d^K.
+ \label{eq:m3-chain-map}
+\end{equation}
+Such maps may supplement the retained inner identities and scope maps of
+\eqref{eq:fold-outer-closure}. That construction alone does not assert
+\eqref{eq:m3-chain-map} or preservation of \eqref{eq:m3-support-measure}.
+
+\paragraph{Derivation.}
+Commutation sends cycles to cycles, since \(B^Kz=0\) implies
+\(B^LFz=FB^Kz=0\). It supplies no equation for unsigned image support.
+Take two adjacent oriented unit squares and reflect the right square onto
+the left. The induced signed cell maps commute with boundaries; the two
+oriented area contributions cancel. Nevertheless, the domain occupies two
+squares and the image support occupies one. Retaining two occurrences on
+that image would give multiplicity two. All three statements are compatible.
+
+\paragraph{Specialization.}
+\label{prop:m3-staircase}
+A monotone axial quarter path with coordinate displacements \(r,r\),
+\(r>0\), has length \(2r\) when its length is the sum of axial displacements.
+Four quarters therefore have length \(8r\) at every subdivision. A report
+in a Euclidean circle geometry has circumference \(2\pi r\), so subdivision
+with the axial estimator retains the discrepancy \((8-2\pi)r\).
+An independently convergent area estimator cannot alter this length identity.
+For the fixed unit disk and mesh \(1/n\), define quarter-disk upper and
+lower rectangle heights
+\(u_i=\lceil\sqrt{n^2-i^2}\rceil\) and
+\(\ell_i=\lfloor\sqrt{n^2-(i+1)^2}\rfloor\), \(0\le i<n\).
+Monotonicity of the circle graph encloses its area between the two rectangle
+sums. Writing each ceiling as its floor plus a number in \([0,1]\), the
+floor differences telescope to \(n\). Consequently
+\begin{equation}
+ A_n^-\le A_{\mathrm{disk}}\le A_n^+,\qquad
+ A_n^+-A_n^-=\frac{4}{n^2}\sum_{i=0}^{n-1}(u_i-\ell_i)
+ \le \frac{8}{n}.
+ \label{eq:m3-disk-enclosure}
+\end{equation}
+This is an area convergence statement for the specified fixed geometric
+object and estimator, independently of the axial boundary identity.
+Likewise, \(C=2qr\) and \(A=qr^2\) imply \(Cr-2A=0\) for every \(q\);
+the residual cannot select a coefficient.
+
+\paragraph{Falsification.}
+Identify distinct preimages through their equal projected coordinates:
+unique reconstruction fails. Reversing an oriented face without its induced
+edge map can violate \eqref{eq:m3-chain-map}. Increasing numerical precision
+does not change the axial length \(8r\).
+\aodprovenance{\eqref{eq:fold-outer-closure}; \eqref{eq:expose-inner-lineage};
+\eqref{eq:m3-support-measure}; \eqref{eq:m3-chain-map}.}
+
+\subsection{Typed mappings and conditional error bounds}
+\label{sec:m3-maps}
+\label{def:m3-map}
+\paragraph{Setup.}
+Let \(f:D\subseteq X\to Y\) and \(g:E\subseteq Y\to Z\), with specified
+quantity dimensions, units and admissibility conditions. Composition requires
+\(f(D)\subseteq E\). A projection may be exact and many-to-one: its fibres
+state the lost distinctions. A reconstruction error requires a specified
+reconstruction map and a comparison metric; it is not implied by noninjectivity.
+
+\paragraph{Derivation.}
+\label{prop:m3-composed-bound}
+Suppose \(Y,Z\) are normed spaces, both \(f(D)\) and \(\widetilde f(D)\)
+lie in \(E\), and on the relevant domains
+\(\|\widetilde f-f\|\le b_f\),
+\(\|\widetilde g-g\|\le b_g\), and
+\(\|g(y)-g(y')\|\le L_g\|y-y'\|\).
+Inserting \(g(\widetilde f(x))\) and applying the triangle inequality gives
+\begin{equation}
+ \|\widetilde g(\widetilde f(x))-g(f(x))\|
+ \le b_g+L_g b_f.
+ \label{eq:m3-composed-bound}
+\end{equation}
+No probability or independence hypothesis is used. These are deterministic
+bounds, with compatible output dimensions, rather than standard deviations.
+
+\paragraph{Specialization.}
+For \(g(y)=1/y\) on a positive interval with lower endpoint \(a>0\),
+\(L_g=a^{-2}\) suffices. If admissible intermediate values approach zero,
+no such finite uniform bound follows; crossing zero makes the reciprocal
+undefined there and its remaining image unbounded.
+
+\paragraph{Falsification.}
+An approximation taking an intermediate value outside \(E\) violates the
+composition hypotheses even if its error is small. On intervals approaching
+zero a fixed reciprocal Lipschitz constant fails.
+\aodprovenance{The declared domains and norm inequalities of
+\secref{sec:m3-maps}; \eqref{eq:m3-composed-bound}.}
+
+\subsection{Finite joint laws and approximation scope}
+\label{prop:m3-finite-law}
+\paragraph{Setup.}
+Let a joint input \(X\) have finite support \(x_s\), probabilities
+\(p_s\ge0\), \(\sum_s p_s=1\), and let every \(x_s\) be in the domain
+of \(h\). Shared coordinates refer to the same input variable throughout
+a composition. The output moments are
+\begin{equation}
+ \bar y=\sum_s p_sh(x_s),\qquad
+ \Sigma_y=\sum_s p_s(h(x_s)-\bar y)(h(x_s)-\bar y)^T.
+ \label{eq:m3-finite-law}
+\end{equation}
+\paragraph{Derivation.}
+Finite expectation gives \eqref{eq:m3-finite-law} directly. For any vector
+\(v\), \(v^T\Sigma_yv=\sum_sp_s[v^T(h(x_s)-\bar y)]^2\ge0\), so
+singular positive-semidefinite covariance is admissible. If \(h\) is affine,
+\(h(x)=Ax+b\), substitution gives \(\Sigma_y=A\Sigma_xA^T\) exactly.
+For a differentiable nonlinear map, the corresponding expression at
+\(\bar x\) is only its first-order covariance:
+\begin{equation}
+ \Sigma_{y,\mathrm{lin}}=J(\bar x)\Sigma_xJ(\bar x)^T.
+ \label{eq:m3-linear-covariance}
+\end{equation}
+Adequacy for a specified output requires control of the omitted remainder
+or a comparison with the full joint law. Means and covariances alone need
+not determine nonlinear output moments.
+
+\paragraph{Specialization.}
+Let \(X\) take \(-\epsilon,0,\epsilon\) with probabilities
+\(1/4,1/2,1/4\), \(\epsilon>0\). For \(h(X)=X^2\), the linearized
+variance at zero vanishes, but the exact mean and variance are
+\(\epsilon^2/2\) and \(\epsilon^4/4\). In contrast, identical shared
+offsets cancel exactly in \((a+X)-(b+X)=a-b\). A constant output on the
+entire supplied support has zero variance even for a nonlinear formula.
+
+\paragraph{Falsification.}
+Replacing the shared offset by two independent copies changes the model.
+Treating the zero derivative of \(X^2\) as a proof of zero spread contradicts
+\eqref{eq:m3-finite-law}. Neither exact rational arithmetic nor an exact
+finite law establishes applicability to an unmodelled physical system.
+\aodprovenance{\eqref{eq:m3-finite-law}; \eqref{eq:m3-linear-covariance}.}
+
+\subsection{Observation-map identifiability}
+\label{prop:m3-atomic-gain}
+\paragraph{Setup.}
+Use two recurrent coupled lineages admitted by \eqref{eq:relational-time},
+with positive window counts \(N_H,N_C\). Suppose a declared observation law
+has free positive gains \(g_H,g_C\) and assigns equivalent cycles
+\(C_H=g_HN_H\), \(C_C=g_CN_C\). Fixing a reference scale fixes \(g_C\)
+but supplies no constraint on \(g_H/g_C\).
+\paragraph{Derivation.}
+For any positive proposed ratio \(R\), choosing
+\(g_H=R g_C N_C/N_H\) gives \(C_H/C_C=R\), preserving both native
+histories and the reference normalization. The ratio is therefore
+underdetermined until an independently specified observation law fixes
+the relative gain.
+\paragraph{Specialization.}
+Under a constant reference frequency \(\nu_C>0\), the conditional elapsed
+interval is \(C_C/\nu_C\). This additional observation law does not assign
+a universal duration to a native cut. A predicted transition period
+\(1/\nu_H\) is a derived transformation, distinct from that elapsed interval.
+\paragraph{Falsification.}
+Selecting \(g_H\) from an evaluation value of \(R\) makes the resulting
+ratio a calibration. Changing evaluation data alone must leave a previously
+fixed model output unchanged.
+\aodprovenance{\eqref{eq:relational-time}; \eqref{eq:cadence-ratio};
+\eqref{eq:complete-wave-state}; \eqref{eq:complete-coupling-state}.}

@@ -1,0 +1,65 @@
+{
+  "schema": "aod.scientific.m3-mathematics.v1",
+  "scope": "Conditional finite cell, mapping and uncertainty mathematics; no physical metric or atomic observation law inferred",
+  "sources": {
+    "sections/07_cell_measures_mappings.tex": "93da328ebd03e714bf9cc6e9346783bb4a691503ebd4a5e5ef44f125a5f4e0b4"
+  },
+  "equations": {
+    "eq:m3-support-measure": {
+      "path": "sections/07_cell_measures_mappings.tex",
+      "formula": "\\begin{equation}\\mu_d(S)=\\sum_{c\\inS}w_d(c),\\qquad\\mu_d(S,m)=\\sum_{c\\inS}m(c)w_d(c).\\end{equation}"
+    },
+    "eq:m3-cubical-boundary": {
+      "path": "sections/07_cell_measures_mappings.tex",
+      "formula": "\\begin{equation}\\partialc=\\sum_{j=1}^{d}(-1)^{j-1}(c_{j,+}-c_{j,-}),\\qquad\\partial^2c=0.\\end{equation}"
+    },
+    "eq:m3-chain-map": {
+      "path": "sections/07_cell_measures_mappings.tex",
+      "formula": "\\begin{equation}B_d^LF_d=F_{d-1}B_d^K.\\end{equation}"
+    },
+    "eq:m3-disk-enclosure": {
+      "path": "sections/07_cell_measures_mappings.tex",
+      "formula": "\\begin{equation}A_n^-\\leA_{\\mathrm{disk}}\\leA_n^+,\\qquadA_n^+-A_n^-=\\frac{4}{n^2}\\sum_{i=0}^{n-1}(u_i-\\ell_i)\\le\\frac{8}{n}.\\end{equation}"
+    },
+    "eq:m3-composed-bound": {
+      "path": "sections/07_cell_measures_mappings.tex",
+      "formula": "\\begin{equation}\\|\\widetildeg(\\widetildef(x))-g(f(x))\\|\\leb_g+L_gb_f.\\end{equation}"
+    },
+    "eq:m3-finite-law": {
+      "path": "sections/07_cell_measures_mappings.tex",
+      "formula": "\\begin{equation}\\bary=\\sum_sp_sh(x_s),\\qquad\\Sigma_y=\\sum_sp_s(h(x_s)-\\bary)(h(x_s)-\\bary)^T.\\end{equation}"
+    },
+    "eq:m3-linear-covariance": {
+      "path": "sections/07_cell_measures_mappings.tex",
+      "formula": "\\begin{equation}\\Sigma_{y,\\mathrm{lin}}=J(\\barx)\\Sigma_xJ(\\barx)^T.\\end{equation}"
+    }
+  },
+  "dependencies": {
+    "cells": [
+      "eq:atomic-h1",
+      "eq:afc-stokes-used"
+    ],
+    "fold": [
+      "eq:fold-outer-closure",
+      "eq:expose-inner-lineage"
+    ],
+    "maps": [
+      "declared dimensions and domains",
+      "declared norm/Lipschitz bounds"
+    ],
+    "finite_law": [
+      "specified finite support and joint probabilities"
+    ],
+    "atomic_gain": [
+      "eq:relational-time",
+      "positive window counts",
+      "unfixed relative observation gain"
+    ]
+  },
+  "limits": [
+    "Declared cubical completion is not derived native physical geometry",
+    "Exact projection need not be invertible or preserve unsigned measure",
+    "Linear covariance alone is not nonlinear adequacy",
+    "Underdetermination is a verified mathematical result, not an independent atomic prediction"
+  ]
+}

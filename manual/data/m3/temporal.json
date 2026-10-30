@@ -1,0 +1,3628 @@
+{
+  "atomic_objective": "incomplete: state construction and target-independent relative gain law missing",
+  "comparison": {
+    "combined_uncertainty": null,
+    "diagnostic_residual_hz": "1546067737904/125",
+    "evaluation_sha256": "56015b21c89a1a015f22a11c7fffcba2721e327f993f3b2feade709007d01580",
+    "prediction_sha256": "81ec2552b15fb72c4f7c80094cd66369b20c841ae347968236f77a345d990e65",
+    "status": "diagnostic_only_missing_atomic_law_and_cross_covariance"
+  },
+  "countermodel_scope": "hypothetical species assignment only; no member selected or fitted",
+  "evaluation_only_mutation": {
+    "combined_uncertainty": null,
+    "diagnostic_residual_hz": "1546067737779/125",
+    "evaluation_sha256": "07a414b651eac63b1e1bc5ffd9dd6aafc325d17828e845c8f79d0a195c58811a",
+    "prediction_sha256": "81ec2552b15fb72c4f7c80094cd66369b20c841ae347968236f77a345d990e65",
+    "status": "diagnostic_only_missing_atomic_law_and_cross_covariance"
+  },
+  "gain_countermodels": [
+    {
+      "Cs_gain": "1",
+      "H_gain": "1",
+      "conditional_rate_hz": "13788947655",
+      "lambda": "0"
+    },
+    {
+      "Cs_gain": "1",
+      "H_gain": "2",
+      "conditional_rate_hz": "27577895310",
+      "lambda": "1"
+    }
+  ],
+  "gain_family": "g_lambda(Z)=1+lambda*(55-Z)/54; lambda>-1; Cs fixed and H free",
+  "prediction": {
+    "atomic_prediction": null,
+    "classification": "conditional_model_prediction_not_atomic_prediction",
+    "complete_physical_standard_uncertainty": null,
+    "complete_temporal_record": {
+      "complete_input": {
+        "biases": [
+          "1/4",
+          "-1/4"
+        ],
+        "contacts": [
+          {
+            "committed": 12,
+            "identity": "contact:12",
+            "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+            "left_prefix": "2c653c053d9669c3ac2bfd858ee74ce4a8d1a98e680a3c857e540de9f67a9d77",
+            "reflection": [
+              1,
+              2
+            ],
+            "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+            "right_prefix": "b39d131acfd15f287be2eec186957728185af127d5c7384610b32f7995b01f8d",
+            "scope": "m3:comparison",
+            "support_certificate": {
+              "certificate_digest": "357c94ef0d9bd328030727efbcbf6bd802050c1c94bac6e2d6b875ee689bd595",
+              "inner_waves": [],
+              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+              "motif": "Monon",
+              "return_id": "aa6fc12eeff81353281e87146f8c8a40692e6a72d2d80c5438a951baf08ac330",
+              "scale": 0,
+              "scope": "m3:comparison",
+              "status": "closed",
+              "trace_digest": "52e5e0d68cee1617fc0f919cc7a14a04c8365849fac6aed275aa0cd477cc5172",
+              "witness_digest": "33a5e929f77457b73bc3d12333d6a18d1bcfe99e33c51808d2437da36f8185de"
+            },
+            "support_trace": {
+              "ancestor": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:ancestor",
+              "event_ids": [
+                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e0",
+                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1",
+                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e2"
+              ],
+              "indices": [
+                10,
+                11,
+                12
+              ],
+              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+              "reflected_comparison": true,
+              "reflection": {
+                "committed_at": 12,
+                "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                "outbound_ids": [
+                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1"
+                ],
+                "return_ids": [
+                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e2"
+                ],
+                "scope": "m3:comparison",
+                "target_start_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e0",
+                "turnaround_committed_at": 11,
+                "turnaround_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1"
+              },
+              "roles": [
+                1,
+                0,
+                -1
+              ],
+              "scale": 0,
+              "scope": "m3:comparison",
+              "turn": 1,
+              "vertices": [
+                0,
+                1,
+                0
+              ]
+            }
+          },
+          {
+            "committed": 22,
+            "identity": "contact:22",
+            "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+            "left_prefix": "f285e38a40202c2f9b4f9147eee0b46de4b872333ed190e570fcf85f410eb8d6",
+            "reflection": [
+              1,
+              2
+            ],
+            "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+            "right_prefix": "0f6cac076fd270e7c48a11381617f732699b6d40da4e66f0c6510d32be6372de",
+            "scope": "m3:comparison",
+            "support_certificate": {
+              "certificate_digest": "1ff0af1db7ec8f75f93fee0433b68b2aa61e200d4c6885827b631290ab24bc3d",
+              "inner_waves": [],
+              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+              "motif": "Monon",
+              "return_id": "fb4ca9e16a5a3964a2b48f2f45476dbee0b4692f38bd8df967f3ea199cddb537",
+              "scale": 0,
+              "scope": "m3:comparison",
+              "status": "closed",
+              "trace_digest": "9e2dc2deaf3e5b69b4e08b4a14d902fd019e33e07710125c673c951f72dd20c1",
+              "witness_digest": "a87037ac8bc35d11b6175b01d2b05e981d6d4cb13ed00b3d0be856610e1673c0"
+            },
+            "support_trace": {
+              "ancestor": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:ancestor",
+              "event_ids": [
+                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e0",
+                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1",
+                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e2"
+              ],
+              "indices": [
+                20,
+                21,
+                22
+              ],
+              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+              "reflected_comparison": true,
+              "reflection": {
+                "committed_at": 22,
+                "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                "outbound_ids": [
+                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1"
+                ],
+                "return_ids": [
+                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e2"
+                ],
+                "scope": "m3:comparison",
+                "target_start_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e0",
+                "turnaround_committed_at": 21,
+                "turnaround_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1"
+              },
+              "roles": [
+                1,
+                0,
+                -1
+              ],
+              "scale": 0,
+              "scope": "m3:comparison",
+              "turn": 1,
+              "vertices": [
+                0,
+                1,
+                0
+              ]
+            }
+          }
+        ],
+        "left": {
+          "certificates": [
+            {
+              "certificate_digest": "11e73bf6d297bda570c17d701df860c02e1a168a574c52bc49d8d04c6ee9bb3f",
+              "inner_waves": [],
+              "lineage": "m3:compared",
+              "motif": "Monon",
+              "return_id": "5ca0da4226fc736725b4d23f9dc2260a89d5a31320444bd93f563749f1aec784",
+              "scale": 0,
+              "scope": "m3:comparison",
+              "status": "closed",
+              "trace_digest": "a2ecdfd78107480732cc96967f1b4dc01453addbed8744414b36657c9de3a7da",
+              "witness_digest": "303859b36ad642140f6e1195357f8927858c454f6cf8f5a0cc72fcacdb8adea8"
+            },
+            {
+              "certificate_digest": "c63bd85d7835c7b53272f7c826571a935846015805930ca53659d92e7a7a2d97",
+              "inner_waves": [],
+              "lineage": "m3:compared",
+              "motif": "Monon",
+              "return_id": "559f8eaeb04e4e59a7126b94061347679ee7669f7d08d7525eb787b04ed088a4",
+              "scale": 0,
+              "scope": "m3:comparison",
+              "status": "closed",
+              "trace_digest": "cca47003c81925ad4c9ba1951213af5b9e214c0cb697771f0632bc3f4ee6f654",
+              "witness_digest": "19b7fd2779728b70d5039604e8e88916aea2e6f16d7e9daf405eb6520843e5c4"
+            },
+            {
+              "certificate_digest": "39de8f165d863db0ad2aca209837c69f90d5eba72ca999be062f369585c3cc4f",
+              "inner_waves": [],
+              "lineage": "m3:compared",
+              "motif": "Monon",
+              "return_id": "ea7c9298ad5425f2b599f741272362f5f530e7ffb0714328e48550a9919d2028",
+              "scale": 0,
+              "scope": "m3:comparison",
+              "status": "closed",
+              "trace_digest": "d6801a35610f690a3bb252fedcc9fc4be1c46b0f6424825a9470dfb93ca838b4",
+              "witness_digest": "34bffff5cc337c78b013d9fb0c8d18d417c4b7a0c4f9d37ae04e7dc3c51d7704"
+            },
+            {
+              "certificate_digest": "11b907edd5ebd1a98bb4bdad8f454a99e834faf8f3cb9832500e7b70538c451d",
+              "inner_waves": [],
+              "lineage": "m3:compared",
+              "motif": "Monon",
+              "return_id": "f9a4bcaa367627a8135157934ad02de7bcb5cbd94ce4683726ae8a4fc3f4f140",
+              "scale": 0,
+              "scope": "m3:comparison",
+              "status": "closed",
+              "trace_digest": "b39cd2dc692be283276d10298111f250449708848ef3c6d825b4772b5b593fdc",
+              "witness_digest": "4d3da14dc2f3c7e3167cb57837a8dd379a4b5bc5359a4670ffea9ec22387e1e9"
+            }
+          ],
+          "identity": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+          "lineage": "m3:compared",
+          "motif": "Monon",
+          "motif_witnesses": [],
+          "returns": [
+            {
+              "ancestor": "m3:compared:ancestor",
+              "event_ids": [
+                "m3:compared:0:e0",
+                "m3:compared:0:e1",
+                "m3:compared:0:e2"
+              ],
+              "indices": [
+                0,
+                1,
+                2
+              ],
+              "lineage": "m3:compared",
+              "reflected_comparison": true,
+              "reflection": {
+                "committed_at": 2,
+                "lineage": "m3:compared",
+                "outbound_ids": [
+                  "m3:compared:0:e1"
+                ],
+                "return_ids": [
+                  "m3:compared:0:e2"
+                ],
+                "scope": "m3:comparison",
+                "target_start_id": "m3:compared:0:e0",
+                "turnaround_committed_at": 1,
+                "turnaround_id": "m3:compared:0:e1"
+              },
+              "roles": [
+                1,
+                0,
+                -1
+              ],
+              "scale": 0,
+              "scope": "m3:comparison",
+              "turn": 1,
+              "vertices": [
+                0,
+                1,
+                0
+              ]
+            },
+            {
+              "ancestor": "m3:compared:ancestor",
+              "event_ids": [
+                "m3:compared:1:e0",
+                "m3:compared:1:e1",
+                "m3:compared:1:e2"
+              ],
+              "indices": [
+                8,
+                9,
+                10
+              ],
+              "lineage": "m3:compared",
+              "reflected_comparison": true,
+              "reflection": {
+                "committed_at": 10,
+                "lineage": "m3:compared",
+                "outbound_ids": [
+                  "m3:compared:1:e1"
+                ],
+                "return_ids": [
+                  "m3:compared:1:e2"
+                ],
+                "scope": "m3:comparison",
+                "target_start_id": "m3:compared:1:e0",
+                "turnaround_committed_at": 9,
+                "turnaround_id": "m3:compared:1:e1"
+              },
+              "roles": [
+                1,
+                0,
+                -1
+              ],
+              "scale": 0,
+              "scope": "m3:comparison",
+              "turn": 1,
+              "vertices": [
+                0,
+                1,
+                0
+              ]
+            },
+            {
+              "ancestor": "m3:compared:ancestor",
+              "event_ids": [
+                "m3:compared:2:e0",
+                "m3:compared:2:e1",
+                "m3:compared:2:e2"
+              ],
+              "indices": [
+                16,
+                17,
+                18
+              ],
+              "lineage": "m3:compared",
+              "reflected_comparison": true,
+              "reflection": {
+                "committed_at": 18,
+                "lineage": "m3:compared",
+                "outbound_ids": [
+                  "m3:compared:2:e1"
+                ],
+                "return_ids": [
+                  "m3:compared:2:e2"
+                ],
+                "scope": "m3:comparison",
+                "target_start_id": "m3:compared:2:e0",
+                "turnaround_committed_at": 17,
+                "turnaround_id": "m3:compared:2:e1"
+              },
+              "roles": [
+                1,
+                0,
+                -1
+              ],
+              "scale": 0,
+              "scope": "m3:comparison",
+              "turn": 1,
+              "vertices": [
+                0,
+                1,
+                0
+              ]
+            },
+            {
+              "ancestor": "m3:compared:ancestor",
+              "event_ids": [
+                "m3:compared:3:e0",
+                "m3:compared:3:e1",
+                "m3:compared:3:e2"
+              ],
+              "indices": [
+                24,
+                25,
+                26
+              ],
+              "lineage": "m3:compared",
+              "reflected_comparison": true,
+              "reflection": {
+                "committed_at": 26,
+                "lineage": "m3:compared",
+                "outbound_ids": [
+                  "m3:compared:3:e1"
+                ],
+                "return_ids": [
+                  "m3:compared:3:e2"
+                ],
+                "scope": "m3:comparison",
+                "target_start_id": "m3:compared:3:e0",
+                "turnaround_committed_at": 25,
+                "turnaround_id": "m3:compared:3:e1"
+              },
+              "roles": [
+                1,
+                0,
+                -1
+              ],
+              "scale": 0,
+              "scope": "m3:comparison",
+              "turn": 1,
+              "vertices": [
+                0,
+                1,
+                0
+              ]
+            }
+          ],
+          "scale": 0,
+          "scope": "m3:comparison"
+        },
+        "prior_lag": "0",
+        "right": {
+          "certificates": [
+            {
+              "certificate_digest": "6d56c3d4c24aff769249369260618c67b336641db0c1776827bcf823ea2c7aa9",
+              "inner_waves": [],
+              "lineage": "m3:reference",
+              "motif": "Monon",
+              "return_id": "de4cb0a11c1705442853cf144fc23e8f695c7285ffe318ff24bc4a5c0475b6b7",
+              "scale": 0,
+              "scope": "m3:comparison",
+              "status": "closed",
+              "trace_digest": "86879bb542a4e9726911f96a75a8db692ff6b76dce4bafa917a19bf42083449c",
+              "witness_digest": "cf8c00c15145ec4ec010e37e3c1a11b99e074005f880aca590ece6be5a7467ee"
+            },
+            {
+              "certificate_digest": "c89acc5f42ef8977f63927be4a5e7de0e9d2c04f35f9c4e3fda1a66203e5a1ec",
+              "inner_waves": [],
+              "lineage": "m3:reference",
+              "motif": "Monon",
+              "return_id": "3b090e7539bfaa86797d83cd6e2a9c5acf0676c822713295c62255376f9d5fb2",
+              "scale": 0,
+              "scope": "m3:comparison",
+              "status": "closed",
+              "trace_digest": "19578783d8a79ce2cb32ca728c7b100720f54474224dc2e3a8a263901ffceb3c",
+              "witness_digest": "0ff290c6b8d82c4dc15c6ab4e17676fd9b46730021f55019c982a244b9c4657a"
+            },
+            {
+              "certificate_digest": "88a1ae54fa2341b6432c751403e452f334cc4c8651b2fbbcc0f6b300bd1f550b",
+              "inner_waves": [],
+              "lineage": "m3:reference",
+              "motif": "Monon",
+              "return_id": "d8cfde636aa1b8c6c87c35af5088c73749826822741d81ab780693108860f0b3",
+              "scale": 0,
+              "scope": "m3:comparison",
+              "status": "closed",
+              "trace_digest": "6b6b43ac0b66492317dc2529decbc2420149c2777fbfea544cd27ddf33243b22",
+              "witness_digest": "a022870033bcc0b04552ef3db25628f0c729a49c9c35ec56b35e6948d047aa50"
+            }
+          ],
+          "identity": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+          "lineage": "m3:reference",
+          "motif": "Monon",
+          "motif_witnesses": [],
+          "returns": [
+            {
+              "ancestor": "m3:reference:ancestor",
+              "event_ids": [
+                "m3:reference:0:e0",
+                "m3:reference:0:e1",
+                "m3:reference:0:e2"
+              ],
+              "indices": [
+                0,
+                1,
+                2
+              ],
+              "lineage": "m3:reference",
+              "reflected_comparison": true,
+              "reflection": {
+                "committed_at": 2,
+                "lineage": "m3:reference",
+                "outbound_ids": [
+                  "m3:reference:0:e1"
+                ],
+                "return_ids": [
+                  "m3:reference:0:e2"
+                ],
+                "scope": "m3:comparison",
+                "target_start_id": "m3:reference:0:e0",
+                "turnaround_committed_at": 1,
+                "turnaround_id": "m3:reference:0:e1"
+              },
+              "roles": [
+                1,
+                0,
+                -1
+              ],
+              "scale": 0,
+              "scope": "m3:comparison",
+              "turn": 1,
+              "vertices": [
+                0,
+                1,
+                0
+              ]
+            },
+            {
+              "ancestor": "m3:reference:ancestor",
+              "event_ids": [
+                "m3:reference:1:e0",
+                "m3:reference:1:e1",
+                "m3:reference:1:e2"
+              ],
+              "indices": [
+                10,
+                11,
+                12
+              ],
+              "lineage": "m3:reference",
+              "reflected_comparison": true,
+              "reflection": {
+                "committed_at": 12,
+                "lineage": "m3:reference",
+                "outbound_ids": [
+                  "m3:reference:1:e1"
+                ],
+                "return_ids": [
+                  "m3:reference:1:e2"
+                ],
+                "scope": "m3:comparison",
+                "target_start_id": "m3:reference:1:e0",
+                "turnaround_committed_at": 11,
+                "turnaround_id": "m3:reference:1:e1"
+              },
+              "roles": [
+                1,
+                0,
+                -1
+              ],
+              "scale": 0,
+              "scope": "m3:comparison",
+              "turn": 1,
+              "vertices": [
+                0,
+                1,
+                0
+              ]
+            },
+            {
+              "ancestor": "m3:reference:ancestor",
+              "event_ids": [
+                "m3:reference:2:e0",
+                "m3:reference:2:e1",
+                "m3:reference:2:e2"
+              ],
+              "indices": [
+                20,
+                21,
+                22
+              ],
+              "lineage": "m3:reference",
+              "reflected_comparison": true,
+              "reflection": {
+                "committed_at": 22,
+                "lineage": "m3:reference",
+                "outbound_ids": [
+                  "m3:reference:2:e1"
+                ],
+                "return_ids": [
+                  "m3:reference:2:e2"
+                ],
+                "scope": "m3:comparison",
+                "target_start_id": "m3:reference:2:e0",
+                "turnaround_committed_at": 21,
+                "turnaround_id": "m3:reference:2:e1"
+              },
+              "roles": [
+                1,
+                0,
+                -1
+              ],
+              "scale": 0,
+              "scope": "m3:comparison",
+              "turn": 1,
+              "vertices": [
+                0,
+                1,
+                0
+              ]
+            }
+          ],
+          "scale": 0,
+          "scope": "m3:comparison"
+        },
+        "window": [
+          0,
+          30
+        ]
+      },
+      "counts": {
+        "compared": 3,
+        "reference": 2
+      },
+      "endpoints": {
+        "compared": {
+          "identity": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+          "lineage": "m3:compared",
+          "phase_endpoints": [
+            0,
+            3
+          ],
+          "prefix_sha256": [
+            "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "c7db192c4e6cabd6b80d6a6e3efd11874cf476146f295880b575a49a5d01b7b9"
+          ]
+        },
+        "reference": {
+          "identity": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+          "lineage": "m3:reference",
+          "phase_endpoints": [
+            0,
+            2
+          ],
+          "prefix_sha256": [
+            "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+            "0f6cac076fd270e7c48a11381617f732699b6d40da4e66f0c6510d32be6372de"
+          ]
+        }
+      },
+      "forward": {
+        "bias": "1/2",
+        "drift": "3/2",
+        "duration": 5,
+        "lag": "3/2",
+        "ratio": "3/2",
+        "rcd": {
+          "contact_ids": [
+            "contact:12",
+            "contact:22"
+          ],
+          "domain": "native-return-count",
+          "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+          "reflection_counts": [
+            1,
+            1
+          ],
+          "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+          "scope": "m3:comparison",
+          "support": 3
+        }
+      },
+      "native_scope": "m3:comparison",
+      "physical_observation_status": "not_identified",
+      "record_type": "admitted_native_recurrent_coupled_pair",
+      "reverse": {
+        "bias": "-1/2",
+        "drift": "-3/2",
+        "duration": 7,
+        "lag": "-3/2",
+        "ratio": "2/3",
+        "rcd": {
+          "contact_ids": [
+            "contact:12",
+            "contact:22"
+          ],
+          "domain": "native-return-count",
+          "left": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+          "reflection_counts": [
+            2,
+            2
+          ],
+          "right": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+          "scope": "m3:comparison",
+          "support": 3
+        }
+      },
+      "window": [
+        0,
+        30
+      ],
+      "window_domain": "integer_native_cuts_not_seconds",
+      "window_meaning": "finite_window_reclosure_comparison_not_stationary_frequency"
+    },
+    "coordinate": "stipulated:local",
+    "derived_reciprocal_period_seconds": "1/13788947655",
+    "end_coordinate_seconds": "1/4596315885",
+    "epoch_seconds": "0",
+    "exposure": "known_H_previously_exposed; no_blind_claim",
+    "mapped": {
+      "input_sha256": "43b46732bdfd1e1ddc70d457d7c44c75733c555ec62ecc579fb353963384965d",
+      "map_id": "map:m3:conditional-cycle-time",
+      "outputs": {
+        "average_rate_hz": {
+          "origin": {
+            "execution_sha256": "30f09ee6fe3b23fa5b75939379a18cf76849d6831cb2d474902a1075bc8ac8fd",
+            "inputs": {
+              "compared": {
+                "origin": {
+                  "kind": "source",
+                  "payload_key": "compared",
+                  "source_id": "native:temporal"
+                },
+                "port": {
+                  "bounds": [
+                    "1",
+                    "1000000"
+                  ],
+                  "dimension": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "kind": "native_reclosure_count",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "compared",
+                  "scope": "m3:comparison",
+                  "unit": "count"
+                },
+                "provenance": {
+                  "native:temporal": "46b484557f36d57edc943667f39a89bfbfdb689f6e5874155cb268af372b6bec"
+                },
+                "sha256": "927681d35bd2739927bd63e80de9784071f5b4cb7c81547fab54a86e0de141cb",
+                "value": "3"
+              },
+              "reference": {
+                "origin": {
+                  "kind": "source",
+                  "payload_key": "reference",
+                  "source_id": "native:temporal"
+                },
+                "port": {
+                  "bounds": [
+                    "1",
+                    "1000000"
+                  ],
+                  "dimension": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "kind": "native_reclosure_count",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "reference",
+                  "scope": "m3:comparison",
+                  "unit": "count"
+                },
+                "provenance": {
+                  "native:temporal": "46b484557f36d57edc943667f39a89bfbfdb689f6e5874155cb268af372b6bec"
+                },
+                "sha256": "bd7f6b5c0687415d361210503b445ee59d98be04de9d647672cd80a4e300d875",
+                "value": "2"
+              }
+            },
+            "kind": "map_output",
+            "map": {
+              "calibration": {
+                "fitted_parameters": [],
+                "reason": "declared exact observation gains and defining second only; no instrument realization",
+                "status": "not_applicable"
+              },
+              "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+              "codomain": [
+                {
+                  "bounds": [
+                    "0",
+                    "1000000"
+                  ],
+                  "dimension": [
+                    0,
+                    1,
+                    0
+                  ],
+                  "kind": "elapsed_interval",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "elapsed_seconds",
+                  "scope": "m3:comparison",
+                  "unit": "s"
+                },
+                {
+                  "bounds": [
+                    "0",
+                    "1000000000000000000"
+                  ],
+                  "dimension": [
+                    0,
+                    -1,
+                    0
+                  ],
+                  "kind": "finite_window_cycle_average",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "average_rate_hz",
+                  "scope": "m3:comparison",
+                  "unit": "Hz"
+                }
+              ],
+              "comparison": {
+                "evaluation_sources": [],
+                "prediction_frozen": true
+              },
+              "domain": [
+                {
+                  "bounds": [
+                    "1",
+                    "1000000"
+                  ],
+                  "dimension": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "kind": "native_reclosure_count",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "compared",
+                  "scope": "m3:comparison",
+                  "unit": "count"
+                },
+                {
+                  "bounds": [
+                    "1",
+                    "1000000"
+                  ],
+                  "dimension": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "kind": "native_reclosure_count",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "reference",
+                  "scope": "m3:comparison",
+                  "unit": "count"
+                }
+              ],
+              "error": {
+                "arithmetic": {
+                  "kind": "exact",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "exact rational operation",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1",
+                  "value": "0"
+                },
+                "calibration": {
+                  "kind": "unknown",
+                  "provenance": "observation:declared",
+                  "reason": "physical endpoint phase, missed cycles, slips, drift, realization and temporal covariance not supplied",
+                  "scope": "physical interpretation",
+                  "unit": "s or Hz by output"
+                },
+                "comparison": {
+                  "kind": "not_applicable",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "no comparison operation in this example",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1"
+                },
+                "model_discrepancy": {
+                  "kind": "unknown",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "no physical observation model supplied",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1"
+                },
+                "propagation": {
+                  "kind": "exact",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "exact rational evaluation of deterministic declared operands; no physical probability law",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1",
+                  "value": "0"
+                },
+                "resolution": {
+                  "kind": "not_applicable",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "no resolution operation in this example",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1"
+                },
+                "solver": {
+                  "kind": "exact",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "exact rational operation",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1",
+                  "value": "0"
+                },
+                "window": {
+                  "kind": "unknown",
+                  "provenance": "observation:declared",
+                  "reason": "physical endpoint phase, missed cycles, slips, drift, realization and temporal covariance not supplied",
+                  "scope": "physical interpretation",
+                  "unit": "s or Hz by output"
+                }
+              },
+              "id": "map:m3:conditional-cycle-time",
+              "information_loss": {
+                "equivalence": "admitted histories with identical endpoint increments under the fixed gains",
+                "reconstruction": "nonunique",
+                "task": "reconstruct committed history from two report scalars"
+              },
+              "law": {
+                "average_rate_hz": [
+                  "div",
+                  [
+                    "mul",
+                    [
+                      "input",
+                      "compared"
+                    ],
+                    [
+                      "parameter",
+                      "compared_gain"
+                    ]
+                  ],
+                  [
+                    "div",
+                    [
+                      "mul",
+                      [
+                        "input",
+                        "reference"
+                      ],
+                      [
+                        "parameter",
+                        "reference_gain"
+                      ]
+                    ],
+                    [
+                      "parameter",
+                      "frequency"
+                    ]
+                  ]
+                ],
+                "elapsed_seconds": [
+                  "div",
+                  [
+                    "mul",
+                    [
+                      "input",
+                      "reference"
+                    ],
+                    [
+                      "parameter",
+                      "reference_gain"
+                    ]
+                  ],
+                  [
+                    "parameter",
+                    "frequency"
+                  ]
+                ]
+              },
+              "parameters": {
+                "compared_gain": {
+                  "dimension": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "origin": "declared",
+                  "payload_key": "compared_gain",
+                  "source_id": "observation:declared",
+                  "value": "1"
+                },
+                "frequency": {
+                  "dimension": [
+                    0,
+                    -1,
+                    0
+                  ],
+                  "origin": "definition",
+                  "payload_key": "frequency",
+                  "source_id": "si:second",
+                  "value": "9192631770"
+                },
+                "reference_gain": {
+                  "dimension": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "origin": "declared",
+                  "payload_key": "reference_gain",
+                  "source_id": "observation:declared",
+                  "value": "1"
+                }
+              },
+              "resolution": {
+                "reason": "fixed native cut window with committed endpoint phases and all contact records; no stationarity inference",
+                "status": "specified"
+              },
+              "sources": [
+                {
+                  "id": "native:temporal",
+                  "payload": {
+                    "compared": "3",
+                    "complete_record": {
+                      "complete_input": {
+                        "biases": [
+                          "1/4",
+                          "-1/4"
+                        ],
+                        "contacts": [
+                          {
+                            "committed": 12,
+                            "identity": "contact:12",
+                            "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                            "left_prefix": "2c653c053d9669c3ac2bfd858ee74ce4a8d1a98e680a3c857e540de9f67a9d77",
+                            "reflection": [
+                              1,
+                              2
+                            ],
+                            "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                            "right_prefix": "b39d131acfd15f287be2eec186957728185af127d5c7384610b32f7995b01f8d",
+                            "scope": "m3:comparison",
+                            "support_certificate": {
+                              "certificate_digest": "357c94ef0d9bd328030727efbcbf6bd802050c1c94bac6e2d6b875ee689bd595",
+                              "inner_waves": [],
+                              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                              "motif": "Monon",
+                              "return_id": "aa6fc12eeff81353281e87146f8c8a40692e6a72d2d80c5438a951baf08ac330",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "52e5e0d68cee1617fc0f919cc7a14a04c8365849fac6aed275aa0cd477cc5172",
+                              "witness_digest": "33a5e929f77457b73bc3d12333d6a18d1bcfe99e33c51808d2437da36f8185de"
+                            },
+                            "support_trace": {
+                              "ancestor": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:ancestor",
+                              "event_ids": [
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e0",
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1",
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e2"
+                              ],
+                              "indices": [
+                                10,
+                                11,
+                                12
+                              ],
+                              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 12,
+                                "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                                "outbound_ids": [
+                                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1"
+                                ],
+                                "return_ids": [
+                                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e0",
+                                "turnaround_committed_at": 11,
+                                "turnaround_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            }
+                          },
+                          {
+                            "committed": 22,
+                            "identity": "contact:22",
+                            "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                            "left_prefix": "f285e38a40202c2f9b4f9147eee0b46de4b872333ed190e570fcf85f410eb8d6",
+                            "reflection": [
+                              1,
+                              2
+                            ],
+                            "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                            "right_prefix": "0f6cac076fd270e7c48a11381617f732699b6d40da4e66f0c6510d32be6372de",
+                            "scope": "m3:comparison",
+                            "support_certificate": {
+                              "certificate_digest": "1ff0af1db7ec8f75f93fee0433b68b2aa61e200d4c6885827b631290ab24bc3d",
+                              "inner_waves": [],
+                              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                              "motif": "Monon",
+                              "return_id": "fb4ca9e16a5a3964a2b48f2f45476dbee0b4692f38bd8df967f3ea199cddb537",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "9e2dc2deaf3e5b69b4e08b4a14d902fd019e33e07710125c673c951f72dd20c1",
+                              "witness_digest": "a87037ac8bc35d11b6175b01d2b05e981d6d4cb13ed00b3d0be856610e1673c0"
+                            },
+                            "support_trace": {
+                              "ancestor": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:ancestor",
+                              "event_ids": [
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e0",
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1",
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e2"
+                              ],
+                              "indices": [
+                                20,
+                                21,
+                                22
+                              ],
+                              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 22,
+                                "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                                "outbound_ids": [
+                                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1"
+                                ],
+                                "return_ids": [
+                                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e0",
+                                "turnaround_committed_at": 21,
+                                "turnaround_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            }
+                          }
+                        ],
+                        "left": {
+                          "certificates": [
+                            {
+                              "certificate_digest": "11e73bf6d297bda570c17d701df860c02e1a168a574c52bc49d8d04c6ee9bb3f",
+                              "inner_waves": [],
+                              "lineage": "m3:compared",
+                              "motif": "Monon",
+                              "return_id": "5ca0da4226fc736725b4d23f9dc2260a89d5a31320444bd93f563749f1aec784",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "a2ecdfd78107480732cc96967f1b4dc01453addbed8744414b36657c9de3a7da",
+                              "witness_digest": "303859b36ad642140f6e1195357f8927858c454f6cf8f5a0cc72fcacdb8adea8"
+                            },
+                            {
+                              "certificate_digest": "c63bd85d7835c7b53272f7c826571a935846015805930ca53659d92e7a7a2d97",
+                              "inner_waves": [],
+                              "lineage": "m3:compared",
+                              "motif": "Monon",
+                              "return_id": "559f8eaeb04e4e59a7126b94061347679ee7669f7d08d7525eb787b04ed088a4",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "cca47003c81925ad4c9ba1951213af5b9e214c0cb697771f0632bc3f4ee6f654",
+                              "witness_digest": "19b7fd2779728b70d5039604e8e88916aea2e6f16d7e9daf405eb6520843e5c4"
+                            },
+                            {
+                              "certificate_digest": "39de8f165d863db0ad2aca209837c69f90d5eba72ca999be062f369585c3cc4f",
+                              "inner_waves": [],
+                              "lineage": "m3:compared",
+                              "motif": "Monon",
+                              "return_id": "ea7c9298ad5425f2b599f741272362f5f530e7ffb0714328e48550a9919d2028",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "d6801a35610f690a3bb252fedcc9fc4be1c46b0f6424825a9470dfb93ca838b4",
+                              "witness_digest": "34bffff5cc337c78b013d9fb0c8d18d417c4b7a0c4f9d37ae04e7dc3c51d7704"
+                            },
+                            {
+                              "certificate_digest": "11b907edd5ebd1a98bb4bdad8f454a99e834faf8f3cb9832500e7b70538c451d",
+                              "inner_waves": [],
+                              "lineage": "m3:compared",
+                              "motif": "Monon",
+                              "return_id": "f9a4bcaa367627a8135157934ad02de7bcb5cbd94ce4683726ae8a4fc3f4f140",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "b39cd2dc692be283276d10298111f250449708848ef3c6d825b4772b5b593fdc",
+                              "witness_digest": "4d3da14dc2f3c7e3167cb57837a8dd379a4b5bc5359a4670ffea9ec22387e1e9"
+                            }
+                          ],
+                          "identity": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                          "lineage": "m3:compared",
+                          "motif": "Monon",
+                          "motif_witnesses": [],
+                          "returns": [
+                            {
+                              "ancestor": "m3:compared:ancestor",
+                              "event_ids": [
+                                "m3:compared:0:e0",
+                                "m3:compared:0:e1",
+                                "m3:compared:0:e2"
+                              ],
+                              "indices": [
+                                0,
+                                1,
+                                2
+                              ],
+                              "lineage": "m3:compared",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 2,
+                                "lineage": "m3:compared",
+                                "outbound_ids": [
+                                  "m3:compared:0:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:compared:0:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:compared:0:e0",
+                                "turnaround_committed_at": 1,
+                                "turnaround_id": "m3:compared:0:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            },
+                            {
+                              "ancestor": "m3:compared:ancestor",
+                              "event_ids": [
+                                "m3:compared:1:e0",
+                                "m3:compared:1:e1",
+                                "m3:compared:1:e2"
+                              ],
+                              "indices": [
+                                8,
+                                9,
+                                10
+                              ],
+                              "lineage": "m3:compared",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 10,
+                                "lineage": "m3:compared",
+                                "outbound_ids": [
+                                  "m3:compared:1:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:compared:1:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:compared:1:e0",
+                                "turnaround_committed_at": 9,
+                                "turnaround_id": "m3:compared:1:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            },
+                            {
+                              "ancestor": "m3:compared:ancestor",
+                              "event_ids": [
+                                "m3:compared:2:e0",
+                                "m3:compared:2:e1",
+                                "m3:compared:2:e2"
+                              ],
+                              "indices": [
+                                16,
+                                17,
+                                18
+                              ],
+                              "lineage": "m3:compared",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 18,
+                                "lineage": "m3:compared",
+                                "outbound_ids": [
+                                  "m3:compared:2:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:compared:2:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:compared:2:e0",
+                                "turnaround_committed_at": 17,
+                                "turnaround_id": "m3:compared:2:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            },
+                            {
+                              "ancestor": "m3:compared:ancestor",
+                              "event_ids": [
+                                "m3:compared:3:e0",
+                                "m3:compared:3:e1",
+                                "m3:compared:3:e2"
+                              ],
+                              "indices": [
+                                24,
+                                25,
+                                26
+                              ],
+                              "lineage": "m3:compared",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 26,
+                                "lineage": "m3:compared",
+                                "outbound_ids": [
+                                  "m3:compared:3:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:compared:3:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:compared:3:e0",
+                                "turnaround_committed_at": 25,
+                                "turnaround_id": "m3:compared:3:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            }
+                          ],
+                          "scale": 0,
+                          "scope": "m3:comparison"
+                        },
+                        "prior_lag": "0",
+                        "right": {
+                          "certificates": [
+                            {
+                              "certificate_digest": "6d56c3d4c24aff769249369260618c67b336641db0c1776827bcf823ea2c7aa9",
+                              "inner_waves": [],
+                              "lineage": "m3:reference",
+                              "motif": "Monon",
+                              "return_id": "de4cb0a11c1705442853cf144fc23e8f695c7285ffe318ff24bc4a5c0475b6b7",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "86879bb542a4e9726911f96a75a8db692ff6b76dce4bafa917a19bf42083449c",
+                              "witness_digest": "cf8c00c15145ec4ec010e37e3c1a11b99e074005f880aca590ece6be5a7467ee"
+                            },
+                            {
+                              "certificate_digest": "c89acc5f42ef8977f63927be4a5e7de0e9d2c04f35f9c4e3fda1a66203e5a1ec",
+                              "inner_waves": [],
+                              "lineage": "m3:reference",
+                              "motif": "Monon",
+                              "return_id": "3b090e7539bfaa86797d83cd6e2a9c5acf0676c822713295c62255376f9d5fb2",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "19578783d8a79ce2cb32ca728c7b100720f54474224dc2e3a8a263901ffceb3c",
+                              "witness_digest": "0ff290c6b8d82c4dc15c6ab4e17676fd9b46730021f55019c982a244b9c4657a"
+                            },
+                            {
+                              "certificate_digest": "88a1ae54fa2341b6432c751403e452f334cc4c8651b2fbbcc0f6b300bd1f550b",
+                              "inner_waves": [],
+                              "lineage": "m3:reference",
+                              "motif": "Monon",
+                              "return_id": "d8cfde636aa1b8c6c87c35af5088c73749826822741d81ab780693108860f0b3",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "6b6b43ac0b66492317dc2529decbc2420149c2777fbfea544cd27ddf33243b22",
+                              "witness_digest": "a022870033bcc0b04552ef3db25628f0c729a49c9c35ec56b35e6948d047aa50"
+                            }
+                          ],
+                          "identity": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                          "lineage": "m3:reference",
+                          "motif": "Monon",
+                          "motif_witnesses": [],
+                          "returns": [
+                            {
+                              "ancestor": "m3:reference:ancestor",
+                              "event_ids": [
+                                "m3:reference:0:e0",
+                                "m3:reference:0:e1",
+                                "m3:reference:0:e2"
+                              ],
+                              "indices": [
+                                0,
+                                1,
+                                2
+                              ],
+                              "lineage": "m3:reference",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 2,
+                                "lineage": "m3:reference",
+                                "outbound_ids": [
+                                  "m3:reference:0:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:reference:0:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:reference:0:e0",
+                                "turnaround_committed_at": 1,
+                                "turnaround_id": "m3:reference:0:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            },
+                            {
+                              "ancestor": "m3:reference:ancestor",
+                              "event_ids": [
+                                "m3:reference:1:e0",
+                                "m3:reference:1:e1",
+                                "m3:reference:1:e2"
+                              ],
+                              "indices": [
+                                10,
+                                11,
+                                12
+                              ],
+                              "lineage": "m3:reference",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 12,
+                                "lineage": "m3:reference",
+                                "outbound_ids": [
+                                  "m3:reference:1:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:reference:1:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:reference:1:e0",
+                                "turnaround_committed_at": 11,
+                                "turnaround_id": "m3:reference:1:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            },
+                            {
+                              "ancestor": "m3:reference:ancestor",
+                              "event_ids": [
+                                "m3:reference:2:e0",
+                                "m3:reference:2:e1",
+                                "m3:reference:2:e2"
+                              ],
+                              "indices": [
+                                20,
+                                21,
+                                22
+                              ],
+                              "lineage": "m3:reference",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 22,
+                                "lineage": "m3:reference",
+                                "outbound_ids": [
+                                  "m3:reference:2:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:reference:2:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:reference:2:e0",
+                                "turnaround_committed_at": 21,
+                                "turnaround_id": "m3:reference:2:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            }
+                          ],
+                          "scale": 0,
+                          "scope": "m3:comparison"
+                        },
+                        "window": [
+                          0,
+                          30
+                        ]
+                      },
+                      "counts": {
+                        "compared": 3,
+                        "reference": 2
+                      },
+                      "endpoints": {
+                        "compared": {
+                          "identity": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                          "lineage": "m3:compared",
+                          "phase_endpoints": [
+                            0,
+                            3
+                          ],
+                          "prefix_sha256": [
+                            "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                            "c7db192c4e6cabd6b80d6a6e3efd11874cf476146f295880b575a49a5d01b7b9"
+                          ]
+                        },
+                        "reference": {
+                          "identity": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                          "lineage": "m3:reference",
+                          "phase_endpoints": [
+                            0,
+                            2
+                          ],
+                          "prefix_sha256": [
+                            "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                            "0f6cac076fd270e7c48a11381617f732699b6d40da4e66f0c6510d32be6372de"
+                          ]
+                        }
+                      },
+                      "forward": {
+                        "bias": "1/2",
+                        "drift": "3/2",
+                        "duration": 5,
+                        "lag": "3/2",
+                        "ratio": "3/2",
+                        "rcd": {
+                          "contact_ids": [
+                            "contact:12",
+                            "contact:22"
+                          ],
+                          "domain": "native-return-count",
+                          "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                          "reflection_counts": [
+                            1,
+                            1
+                          ],
+                          "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                          "scope": "m3:comparison",
+                          "support": 3
+                        }
+                      },
+                      "native_scope": "m3:comparison",
+                      "physical_observation_status": "not_identified",
+                      "record_type": "admitted_native_recurrent_coupled_pair",
+                      "reverse": {
+                        "bias": "-1/2",
+                        "drift": "-3/2",
+                        "duration": 7,
+                        "lag": "-3/2",
+                        "ratio": "2/3",
+                        "rcd": {
+                          "contact_ids": [
+                            "contact:12",
+                            "contact:22"
+                          ],
+                          "domain": "native-return-count",
+                          "left": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                          "reflection_counts": [
+                            2,
+                            2
+                          ],
+                          "right": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                          "scope": "m3:comparison",
+                          "support": 3
+                        }
+                      },
+                      "window": [
+                        0,
+                        30
+                      ],
+                      "window_domain": "integer_native_cuts_not_seconds",
+                      "window_meaning": "finite_window_reclosure_comparison_not_stationary_frequency"
+                    },
+                    "reference": "2"
+                  },
+                  "role": "model",
+                  "sha256": "46b484557f36d57edc943667f39a89bfbfdb689f6e5874155cb268af372b6bec"
+                },
+                {
+                  "id": "observation:declared",
+                  "payload": {
+                    "compared_gain": "1",
+                    "coordinate": "stipulated:local",
+                    "epoch_seconds": "0",
+                    "origin": "stipulated_cycle_equivalents_per_return_not_physical_calibration",
+                    "reference_gain": "1",
+                    "scope": "m3:comparison",
+                    "window": [
+                      0,
+                      30
+                    ]
+                  },
+                  "role": "model",
+                  "sha256": "98d10fb7637f90689b9adb64dc69276bb67dfcbe39fdb5003013c4e1d80b8454"
+                },
+                {
+                  "id": "si:second",
+                  "payload": {
+                    "frequency": "9192631770",
+                    "role": "exact_defining_reference_not_realized_clock",
+                    "url": "https://www.bipm.org/en/si-base-units/second"
+                  },
+                  "role": "definition",
+                  "sha256": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
+                }
+              ],
+              "spec_sha256": "73b54f02eb643734b6356d218d02c49bc5524ff73815bccba43456c1aed84d69",
+              "status": {
+                "arithmetic": "exact within declared domain",
+                "physical_applicability": "unknown"
+              },
+              "structure": {
+                "injective": "unknown",
+                "invariance": "nonlinear scalar injectivity not certified by generic adapter; upstream history-to-count projection ignores event ordering and retains provenance"
+              },
+              "version": "1"
+            },
+            "output": "average_rate_hz"
+          },
+          "port": {
+            "bounds": [
+              "0",
+              "1000000000000000000"
+            ],
+            "dimension": [
+              0,
+              -1,
+              0
+            ],
+            "kind": "finite_window_cycle_average",
+            "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+            "name": "average_rate_hz",
+            "scope": "m3:comparison",
+            "unit": "Hz"
+          },
+          "provenance": {
+            "native:temporal": "46b484557f36d57edc943667f39a89bfbfdb689f6e5874155cb268af372b6bec",
+            "observation:declared": "98d10fb7637f90689b9adb64dc69276bb67dfcbe39fdb5003013c4e1d80b8454",
+            "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
+          },
+          "sha256": "9d7d06883b749fdd00d235a8a51555eb1f8372af0100838466a4f42935b2e326",
+          "value": "13788947655"
+        },
+        "elapsed_seconds": {
+          "origin": {
+            "execution_sha256": "2d62eb81eb7534dab4eb4f45a879e348a4c6507322e743371a6b020942d74762",
+            "inputs": {
+              "compared": {
+                "origin": {
+                  "kind": "source",
+                  "payload_key": "compared",
+                  "source_id": "native:temporal"
+                },
+                "port": {
+                  "bounds": [
+                    "1",
+                    "1000000"
+                  ],
+                  "dimension": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "kind": "native_reclosure_count",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "compared",
+                  "scope": "m3:comparison",
+                  "unit": "count"
+                },
+                "provenance": {
+                  "native:temporal": "46b484557f36d57edc943667f39a89bfbfdb689f6e5874155cb268af372b6bec"
+                },
+                "sha256": "927681d35bd2739927bd63e80de9784071f5b4cb7c81547fab54a86e0de141cb",
+                "value": "3"
+              },
+              "reference": {
+                "origin": {
+                  "kind": "source",
+                  "payload_key": "reference",
+                  "source_id": "native:temporal"
+                },
+                "port": {
+                  "bounds": [
+                    "1",
+                    "1000000"
+                  ],
+                  "dimension": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "kind": "native_reclosure_count",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "reference",
+                  "scope": "m3:comparison",
+                  "unit": "count"
+                },
+                "provenance": {
+                  "native:temporal": "46b484557f36d57edc943667f39a89bfbfdb689f6e5874155cb268af372b6bec"
+                },
+                "sha256": "bd7f6b5c0687415d361210503b445ee59d98be04de9d647672cd80a4e300d875",
+                "value": "2"
+              }
+            },
+            "kind": "map_output",
+            "map": {
+              "calibration": {
+                "fitted_parameters": [],
+                "reason": "declared exact observation gains and defining second only; no instrument realization",
+                "status": "not_applicable"
+              },
+              "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+              "codomain": [
+                {
+                  "bounds": [
+                    "0",
+                    "1000000"
+                  ],
+                  "dimension": [
+                    0,
+                    1,
+                    0
+                  ],
+                  "kind": "elapsed_interval",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "elapsed_seconds",
+                  "scope": "m3:comparison",
+                  "unit": "s"
+                },
+                {
+                  "bounds": [
+                    "0",
+                    "1000000000000000000"
+                  ],
+                  "dimension": [
+                    0,
+                    -1,
+                    0
+                  ],
+                  "kind": "finite_window_cycle_average",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "average_rate_hz",
+                  "scope": "m3:comparison",
+                  "unit": "Hz"
+                }
+              ],
+              "comparison": {
+                "evaluation_sources": [],
+                "prediction_frozen": true
+              },
+              "domain": [
+                {
+                  "bounds": [
+                    "1",
+                    "1000000"
+                  ],
+                  "dimension": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "kind": "native_reclosure_count",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "compared",
+                  "scope": "m3:comparison",
+                  "unit": "count"
+                },
+                {
+                  "bounds": [
+                    "1",
+                    "1000000"
+                  ],
+                  "dimension": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "kind": "native_reclosure_count",
+                  "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "name": "reference",
+                  "scope": "m3:comparison",
+                  "unit": "count"
+                }
+              ],
+              "error": {
+                "arithmetic": {
+                  "kind": "exact",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "exact rational operation",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1",
+                  "value": "0"
+                },
+                "calibration": {
+                  "kind": "unknown",
+                  "provenance": "observation:declared",
+                  "reason": "physical endpoint phase, missed cycles, slips, drift, realization and temporal covariance not supplied",
+                  "scope": "physical interpretation",
+                  "unit": "s or Hz by output"
+                },
+                "comparison": {
+                  "kind": "not_applicable",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "no comparison operation in this example",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1"
+                },
+                "model_discrepancy": {
+                  "kind": "unknown",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "no physical observation model supplied",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1"
+                },
+                "propagation": {
+                  "kind": "exact",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "exact rational evaluation of deterministic declared operands; no physical probability law",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1",
+                  "value": "0"
+                },
+                "resolution": {
+                  "kind": "not_applicable",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "no resolution operation in this example",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1"
+                },
+                "solver": {
+                  "kind": "exact",
+                  "provenance": "native:temporal;observation:declared;si:second",
+                  "reason": "exact rational operation",
+                  "scope": "conditional finite-window cycle-equivalent SI outputs",
+                  "unit": "1",
+                  "value": "0"
+                },
+                "window": {
+                  "kind": "unknown",
+                  "provenance": "observation:declared",
+                  "reason": "physical endpoint phase, missed cycles, slips, drift, realization and temporal covariance not supplied",
+                  "scope": "physical interpretation",
+                  "unit": "s or Hz by output"
+                }
+              },
+              "id": "map:m3:conditional-cycle-time",
+              "information_loss": {
+                "equivalence": "admitted histories with identical endpoint increments under the fixed gains",
+                "reconstruction": "nonunique",
+                "task": "reconstruct committed history from two report scalars"
+              },
+              "law": {
+                "average_rate_hz": [
+                  "div",
+                  [
+                    "mul",
+                    [
+                      "input",
+                      "compared"
+                    ],
+                    [
+                      "parameter",
+                      "compared_gain"
+                    ]
+                  ],
+                  [
+                    "div",
+                    [
+                      "mul",
+                      [
+                        "input",
+                        "reference"
+                      ],
+                      [
+                        "parameter",
+                        "reference_gain"
+                      ]
+                    ],
+                    [
+                      "parameter",
+                      "frequency"
+                    ]
+                  ]
+                ],
+                "elapsed_seconds": [
+                  "div",
+                  [
+                    "mul",
+                    [
+                      "input",
+                      "reference"
+                    ],
+                    [
+                      "parameter",
+                      "reference_gain"
+                    ]
+                  ],
+                  [
+                    "parameter",
+                    "frequency"
+                  ]
+                ]
+              },
+              "parameters": {
+                "compared_gain": {
+                  "dimension": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "origin": "declared",
+                  "payload_key": "compared_gain",
+                  "source_id": "observation:declared",
+                  "value": "1"
+                },
+                "frequency": {
+                  "dimension": [
+                    0,
+                    -1,
+                    0
+                  ],
+                  "origin": "definition",
+                  "payload_key": "frequency",
+                  "source_id": "si:second",
+                  "value": "9192631770"
+                },
+                "reference_gain": {
+                  "dimension": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "origin": "declared",
+                  "payload_key": "reference_gain",
+                  "source_id": "observation:declared",
+                  "value": "1"
+                }
+              },
+              "resolution": {
+                "reason": "fixed native cut window with committed endpoint phases and all contact records; no stationarity inference",
+                "status": "specified"
+              },
+              "sources": [
+                {
+                  "id": "native:temporal",
+                  "payload": {
+                    "compared": "3",
+                    "complete_record": {
+                      "complete_input": {
+                        "biases": [
+                          "1/4",
+                          "-1/4"
+                        ],
+                        "contacts": [
+                          {
+                            "committed": 12,
+                            "identity": "contact:12",
+                            "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                            "left_prefix": "2c653c053d9669c3ac2bfd858ee74ce4a8d1a98e680a3c857e540de9f67a9d77",
+                            "reflection": [
+                              1,
+                              2
+                            ],
+                            "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                            "right_prefix": "b39d131acfd15f287be2eec186957728185af127d5c7384610b32f7995b01f8d",
+                            "scope": "m3:comparison",
+                            "support_certificate": {
+                              "certificate_digest": "357c94ef0d9bd328030727efbcbf6bd802050c1c94bac6e2d6b875ee689bd595",
+                              "inner_waves": [],
+                              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                              "motif": "Monon",
+                              "return_id": "aa6fc12eeff81353281e87146f8c8a40692e6a72d2d80c5438a951baf08ac330",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "52e5e0d68cee1617fc0f919cc7a14a04c8365849fac6aed275aa0cd477cc5172",
+                              "witness_digest": "33a5e929f77457b73bc3d12333d6a18d1bcfe99e33c51808d2437da36f8185de"
+                            },
+                            "support_trace": {
+                              "ancestor": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:ancestor",
+                              "event_ids": [
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e0",
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1",
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e2"
+                              ],
+                              "indices": [
+                                10,
+                                11,
+                                12
+                              ],
+                              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 12,
+                                "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                                "outbound_ids": [
+                                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1"
+                                ],
+                                "return_ids": [
+                                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e0",
+                                "turnaround_committed_at": 11,
+                                "turnaround_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            }
+                          },
+                          {
+                            "committed": 22,
+                            "identity": "contact:22",
+                            "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                            "left_prefix": "f285e38a40202c2f9b4f9147eee0b46de4b872333ed190e570fcf85f410eb8d6",
+                            "reflection": [
+                              1,
+                              2
+                            ],
+                            "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                            "right_prefix": "0f6cac076fd270e7c48a11381617f732699b6d40da4e66f0c6510d32be6372de",
+                            "scope": "m3:comparison",
+                            "support_certificate": {
+                              "certificate_digest": "1ff0af1db7ec8f75f93fee0433b68b2aa61e200d4c6885827b631290ab24bc3d",
+                              "inner_waves": [],
+                              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                              "motif": "Monon",
+                              "return_id": "fb4ca9e16a5a3964a2b48f2f45476dbee0b4692f38bd8df967f3ea199cddb537",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "9e2dc2deaf3e5b69b4e08b4a14d902fd019e33e07710125c673c951f72dd20c1",
+                              "witness_digest": "a87037ac8bc35d11b6175b01d2b05e981d6d4cb13ed00b3d0be856610e1673c0"
+                            },
+                            "support_trace": {
+                              "ancestor": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:ancestor",
+                              "event_ids": [
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e0",
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1",
+                                "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e2"
+                              ],
+                              "indices": [
+                                20,
+                                21,
+                                22
+                              ],
+                              "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 22,
+                                "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                                "outbound_ids": [
+                                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1"
+                                ],
+                                "return_ids": [
+                                  "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e0",
+                                "turnaround_committed_at": 21,
+                                "turnaround_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            }
+                          }
+                        ],
+                        "left": {
+                          "certificates": [
+                            {
+                              "certificate_digest": "11e73bf6d297bda570c17d701df860c02e1a168a574c52bc49d8d04c6ee9bb3f",
+                              "inner_waves": [],
+                              "lineage": "m3:compared",
+                              "motif": "Monon",
+                              "return_id": "5ca0da4226fc736725b4d23f9dc2260a89d5a31320444bd93f563749f1aec784",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "a2ecdfd78107480732cc96967f1b4dc01453addbed8744414b36657c9de3a7da",
+                              "witness_digest": "303859b36ad642140f6e1195357f8927858c454f6cf8f5a0cc72fcacdb8adea8"
+                            },
+                            {
+                              "certificate_digest": "c63bd85d7835c7b53272f7c826571a935846015805930ca53659d92e7a7a2d97",
+                              "inner_waves": [],
+                              "lineage": "m3:compared",
+                              "motif": "Monon",
+                              "return_id": "559f8eaeb04e4e59a7126b94061347679ee7669f7d08d7525eb787b04ed088a4",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "cca47003c81925ad4c9ba1951213af5b9e214c0cb697771f0632bc3f4ee6f654",
+                              "witness_digest": "19b7fd2779728b70d5039604e8e88916aea2e6f16d7e9daf405eb6520843e5c4"
+                            },
+                            {
+                              "certificate_digest": "39de8f165d863db0ad2aca209837c69f90d5eba72ca999be062f369585c3cc4f",
+                              "inner_waves": [],
+                              "lineage": "m3:compared",
+                              "motif": "Monon",
+                              "return_id": "ea7c9298ad5425f2b599f741272362f5f530e7ffb0714328e48550a9919d2028",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "d6801a35610f690a3bb252fedcc9fc4be1c46b0f6424825a9470dfb93ca838b4",
+                              "witness_digest": "34bffff5cc337c78b013d9fb0c8d18d417c4b7a0c4f9d37ae04e7dc3c51d7704"
+                            },
+                            {
+                              "certificate_digest": "11b907edd5ebd1a98bb4bdad8f454a99e834faf8f3cb9832500e7b70538c451d",
+                              "inner_waves": [],
+                              "lineage": "m3:compared",
+                              "motif": "Monon",
+                              "return_id": "f9a4bcaa367627a8135157934ad02de7bcb5cbd94ce4683726ae8a4fc3f4f140",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "b39cd2dc692be283276d10298111f250449708848ef3c6d825b4772b5b593fdc",
+                              "witness_digest": "4d3da14dc2f3c7e3167cb57837a8dd379a4b5bc5359a4670ffea9ec22387e1e9"
+                            }
+                          ],
+                          "identity": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                          "lineage": "m3:compared",
+                          "motif": "Monon",
+                          "motif_witnesses": [],
+                          "returns": [
+                            {
+                              "ancestor": "m3:compared:ancestor",
+                              "event_ids": [
+                                "m3:compared:0:e0",
+                                "m3:compared:0:e1",
+                                "m3:compared:0:e2"
+                              ],
+                              "indices": [
+                                0,
+                                1,
+                                2
+                              ],
+                              "lineage": "m3:compared",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 2,
+                                "lineage": "m3:compared",
+                                "outbound_ids": [
+                                  "m3:compared:0:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:compared:0:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:compared:0:e0",
+                                "turnaround_committed_at": 1,
+                                "turnaround_id": "m3:compared:0:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            },
+                            {
+                              "ancestor": "m3:compared:ancestor",
+                              "event_ids": [
+                                "m3:compared:1:e0",
+                                "m3:compared:1:e1",
+                                "m3:compared:1:e2"
+                              ],
+                              "indices": [
+                                8,
+                                9,
+                                10
+                              ],
+                              "lineage": "m3:compared",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 10,
+                                "lineage": "m3:compared",
+                                "outbound_ids": [
+                                  "m3:compared:1:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:compared:1:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:compared:1:e0",
+                                "turnaround_committed_at": 9,
+                                "turnaround_id": "m3:compared:1:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            },
+                            {
+                              "ancestor": "m3:compared:ancestor",
+                              "event_ids": [
+                                "m3:compared:2:e0",
+                                "m3:compared:2:e1",
+                                "m3:compared:2:e2"
+                              ],
+                              "indices": [
+                                16,
+                                17,
+                                18
+                              ],
+                              "lineage": "m3:compared",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 18,
+                                "lineage": "m3:compared",
+                                "outbound_ids": [
+                                  "m3:compared:2:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:compared:2:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:compared:2:e0",
+                                "turnaround_committed_at": 17,
+                                "turnaround_id": "m3:compared:2:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            },
+                            {
+                              "ancestor": "m3:compared:ancestor",
+                              "event_ids": [
+                                "m3:compared:3:e0",
+                                "m3:compared:3:e1",
+                                "m3:compared:3:e2"
+                              ],
+                              "indices": [
+                                24,
+                                25,
+                                26
+                              ],
+                              "lineage": "m3:compared",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 26,
+                                "lineage": "m3:compared",
+                                "outbound_ids": [
+                                  "m3:compared:3:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:compared:3:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:compared:3:e0",
+                                "turnaround_committed_at": 25,
+                                "turnaround_id": "m3:compared:3:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            }
+                          ],
+                          "scale": 0,
+                          "scope": "m3:comparison"
+                        },
+                        "prior_lag": "0",
+                        "right": {
+                          "certificates": [
+                            {
+                              "certificate_digest": "6d56c3d4c24aff769249369260618c67b336641db0c1776827bcf823ea2c7aa9",
+                              "inner_waves": [],
+                              "lineage": "m3:reference",
+                              "motif": "Monon",
+                              "return_id": "de4cb0a11c1705442853cf144fc23e8f695c7285ffe318ff24bc4a5c0475b6b7",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "86879bb542a4e9726911f96a75a8db692ff6b76dce4bafa917a19bf42083449c",
+                              "witness_digest": "cf8c00c15145ec4ec010e37e3c1a11b99e074005f880aca590ece6be5a7467ee"
+                            },
+                            {
+                              "certificate_digest": "c89acc5f42ef8977f63927be4a5e7de0e9d2c04f35f9c4e3fda1a66203e5a1ec",
+                              "inner_waves": [],
+                              "lineage": "m3:reference",
+                              "motif": "Monon",
+                              "return_id": "3b090e7539bfaa86797d83cd6e2a9c5acf0676c822713295c62255376f9d5fb2",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "19578783d8a79ce2cb32ca728c7b100720f54474224dc2e3a8a263901ffceb3c",
+                              "witness_digest": "0ff290c6b8d82c4dc15c6ab4e17676fd9b46730021f55019c982a244b9c4657a"
+                            },
+                            {
+                              "certificate_digest": "88a1ae54fa2341b6432c751403e452f334cc4c8651b2fbbcc0f6b300bd1f550b",
+                              "inner_waves": [],
+                              "lineage": "m3:reference",
+                              "motif": "Monon",
+                              "return_id": "d8cfde636aa1b8c6c87c35af5088c73749826822741d81ab780693108860f0b3",
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "status": "closed",
+                              "trace_digest": "6b6b43ac0b66492317dc2529decbc2420149c2777fbfea544cd27ddf33243b22",
+                              "witness_digest": "a022870033bcc0b04552ef3db25628f0c729a49c9c35ec56b35e6948d047aa50"
+                            }
+                          ],
+                          "identity": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                          "lineage": "m3:reference",
+                          "motif": "Monon",
+                          "motif_witnesses": [],
+                          "returns": [
+                            {
+                              "ancestor": "m3:reference:ancestor",
+                              "event_ids": [
+                                "m3:reference:0:e0",
+                                "m3:reference:0:e1",
+                                "m3:reference:0:e2"
+                              ],
+                              "indices": [
+                                0,
+                                1,
+                                2
+                              ],
+                              "lineage": "m3:reference",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 2,
+                                "lineage": "m3:reference",
+                                "outbound_ids": [
+                                  "m3:reference:0:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:reference:0:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:reference:0:e0",
+                                "turnaround_committed_at": 1,
+                                "turnaround_id": "m3:reference:0:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            },
+                            {
+                              "ancestor": "m3:reference:ancestor",
+                              "event_ids": [
+                                "m3:reference:1:e0",
+                                "m3:reference:1:e1",
+                                "m3:reference:1:e2"
+                              ],
+                              "indices": [
+                                10,
+                                11,
+                                12
+                              ],
+                              "lineage": "m3:reference",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 12,
+                                "lineage": "m3:reference",
+                                "outbound_ids": [
+                                  "m3:reference:1:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:reference:1:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:reference:1:e0",
+                                "turnaround_committed_at": 11,
+                                "turnaround_id": "m3:reference:1:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            },
+                            {
+                              "ancestor": "m3:reference:ancestor",
+                              "event_ids": [
+                                "m3:reference:2:e0",
+                                "m3:reference:2:e1",
+                                "m3:reference:2:e2"
+                              ],
+                              "indices": [
+                                20,
+                                21,
+                                22
+                              ],
+                              "lineage": "m3:reference",
+                              "reflected_comparison": true,
+                              "reflection": {
+                                "committed_at": 22,
+                                "lineage": "m3:reference",
+                                "outbound_ids": [
+                                  "m3:reference:2:e1"
+                                ],
+                                "return_ids": [
+                                  "m3:reference:2:e2"
+                                ],
+                                "scope": "m3:comparison",
+                                "target_start_id": "m3:reference:2:e0",
+                                "turnaround_committed_at": 21,
+                                "turnaround_id": "m3:reference:2:e1"
+                              },
+                              "roles": [
+                                1,
+                                0,
+                                -1
+                              ],
+                              "scale": 0,
+                              "scope": "m3:comparison",
+                              "turn": 1,
+                              "vertices": [
+                                0,
+                                1,
+                                0
+                              ]
+                            }
+                          ],
+                          "scale": 0,
+                          "scope": "m3:comparison"
+                        },
+                        "window": [
+                          0,
+                          30
+                        ]
+                      },
+                      "counts": {
+                        "compared": 3,
+                        "reference": 2
+                      },
+                      "endpoints": {
+                        "compared": {
+                          "identity": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                          "lineage": "m3:compared",
+                          "phase_endpoints": [
+                            0,
+                            3
+                          ],
+                          "prefix_sha256": [
+                            "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                            "c7db192c4e6cabd6b80d6a6e3efd11874cf476146f295880b575a49a5d01b7b9"
+                          ]
+                        },
+                        "reference": {
+                          "identity": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                          "lineage": "m3:reference",
+                          "phase_endpoints": [
+                            0,
+                            2
+                          ],
+                          "prefix_sha256": [
+                            "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                            "0f6cac076fd270e7c48a11381617f732699b6d40da4e66f0c6510d32be6372de"
+                          ]
+                        }
+                      },
+                      "forward": {
+                        "bias": "1/2",
+                        "drift": "3/2",
+                        "duration": 5,
+                        "lag": "3/2",
+                        "ratio": "3/2",
+                        "rcd": {
+                          "contact_ids": [
+                            "contact:12",
+                            "contact:22"
+                          ],
+                          "domain": "native-return-count",
+                          "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                          "reflection_counts": [
+                            1,
+                            1
+                          ],
+                          "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                          "scope": "m3:comparison",
+                          "support": 3
+                        }
+                      },
+                      "native_scope": "m3:comparison",
+                      "physical_observation_status": "not_identified",
+                      "record_type": "admitted_native_recurrent_coupled_pair",
+                      "reverse": {
+                        "bias": "-1/2",
+                        "drift": "-3/2",
+                        "duration": 7,
+                        "lag": "-3/2",
+                        "ratio": "2/3",
+                        "rcd": {
+                          "contact_ids": [
+                            "contact:12",
+                            "contact:22"
+                          ],
+                          "domain": "native-return-count",
+                          "left": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                          "reflection_counts": [
+                            2,
+                            2
+                          ],
+                          "right": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                          "scope": "m3:comparison",
+                          "support": 3
+                        }
+                      },
+                      "window": [
+                        0,
+                        30
+                      ],
+                      "window_domain": "integer_native_cuts_not_seconds",
+                      "window_meaning": "finite_window_reclosure_comparison_not_stationary_frequency"
+                    },
+                    "reference": "2"
+                  },
+                  "role": "model",
+                  "sha256": "46b484557f36d57edc943667f39a89bfbfdb689f6e5874155cb268af372b6bec"
+                },
+                {
+                  "id": "observation:declared",
+                  "payload": {
+                    "compared_gain": "1",
+                    "coordinate": "stipulated:local",
+                    "epoch_seconds": "0",
+                    "origin": "stipulated_cycle_equivalents_per_return_not_physical_calibration",
+                    "reference_gain": "1",
+                    "scope": "m3:comparison",
+                    "window": [
+                      0,
+                      30
+                    ]
+                  },
+                  "role": "model",
+                  "sha256": "98d10fb7637f90689b9adb64dc69276bb67dfcbe39fdb5003013c4e1d80b8454"
+                },
+                {
+                  "id": "si:second",
+                  "payload": {
+                    "frequency": "9192631770",
+                    "role": "exact_defining_reference_not_realized_clock",
+                    "url": "https://www.bipm.org/en/si-base-units/second"
+                  },
+                  "role": "definition",
+                  "sha256": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
+                }
+              ],
+              "spec_sha256": "73b54f02eb643734b6356d218d02c49bc5524ff73815bccba43456c1aed84d69",
+              "status": {
+                "arithmetic": "exact within declared domain",
+                "physical_applicability": "unknown"
+              },
+              "structure": {
+                "injective": "unknown",
+                "invariance": "nonlinear scalar injectivity not certified by generic adapter; upstream history-to-count projection ignores event ordering and retains provenance"
+              },
+              "version": "1"
+            },
+            "output": "elapsed_seconds"
+          },
+          "port": {
+            "bounds": [
+              "0",
+              "1000000"
+            ],
+            "dimension": [
+              0,
+              1,
+              0
+            ],
+            "kind": "elapsed_interval",
+            "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+            "name": "elapsed_seconds",
+            "scope": "m3:comparison",
+            "unit": "s"
+          },
+          "provenance": {
+            "native:temporal": "46b484557f36d57edc943667f39a89bfbfdb689f6e5874155cb268af372b6bec",
+            "observation:declared": "98d10fb7637f90689b9adb64dc69276bb67dfcbe39fdb5003013c4e1d80b8454",
+            "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
+          },
+          "sha256": "8c34c1782014f1e1bfebd58e04c30f8144d6d277c2f7e6634a317912b46df8f3",
+          "value": "1/4596315885"
+        }
+      },
+      "provenance": {
+        "native:temporal": "46b484557f36d57edc943667f39a89bfbfdb689f6e5874155cb268af372b6bec",
+        "observation:declared": "98d10fb7637f90689b9adb64dc69276bb67dfcbe39fdb5003013c4e1d80b8454",
+        "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
+      },
+      "spec_sha256": "73b54f02eb643734b6356d218d02c49bc5524ff73815bccba43456c1aed84d69"
+    },
+    "mapping_contract": {
+      "calibration": {
+        "fitted_parameters": [],
+        "reason": "declared exact observation gains and defining second only; no instrument realization",
+        "status": "not_applicable"
+      },
+      "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+      "codomain": [
+        {
+          "bounds": [
+            "0",
+            "1000000"
+          ],
+          "dimension": [
+            0,
+            1,
+            0
+          ],
+          "kind": "elapsed_interval",
+          "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+          "name": "elapsed_seconds",
+          "scope": "m3:comparison",
+          "unit": "s"
+        },
+        {
+          "bounds": [
+            "0",
+            "1000000000000000000"
+          ],
+          "dimension": [
+            0,
+            -1,
+            0
+          ],
+          "kind": "finite_window_cycle_average",
+          "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+          "name": "average_rate_hz",
+          "scope": "m3:comparison",
+          "unit": "Hz"
+        }
+      ],
+      "comparison": {
+        "evaluation_sources": [],
+        "prediction_frozen": true
+      },
+      "domain": [
+        {
+          "bounds": [
+            "1",
+            "1000000"
+          ],
+          "dimension": [
+            0,
+            0,
+            1
+          ],
+          "kind": "native_reclosure_count",
+          "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+          "name": "compared",
+          "scope": "m3:comparison",
+          "unit": "count"
+        },
+        {
+          "bounds": [
+            "1",
+            "1000000"
+          ],
+          "dimension": [
+            0,
+            0,
+            1
+          ],
+          "kind": "native_reclosure_count",
+          "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+          "name": "reference",
+          "scope": "m3:comparison",
+          "unit": "count"
+        }
+      ],
+      "error": {
+        "arithmetic": {
+          "kind": "exact",
+          "provenance": "native:temporal;observation:declared;si:second",
+          "reason": "exact rational operation",
+          "scope": "conditional finite-window cycle-equivalent SI outputs",
+          "unit": "1",
+          "value": "0"
+        },
+        "calibration": {
+          "kind": "unknown",
+          "provenance": "observation:declared",
+          "reason": "physical endpoint phase, missed cycles, slips, drift, realization and temporal covariance not supplied",
+          "scope": "physical interpretation",
+          "unit": "s or Hz by output"
+        },
+        "comparison": {
+          "kind": "not_applicable",
+          "provenance": "native:temporal;observation:declared;si:second",
+          "reason": "no comparison operation in this example",
+          "scope": "conditional finite-window cycle-equivalent SI outputs",
+          "unit": "1"
+        },
+        "model_discrepancy": {
+          "kind": "unknown",
+          "provenance": "native:temporal;observation:declared;si:second",
+          "reason": "no physical observation model supplied",
+          "scope": "conditional finite-window cycle-equivalent SI outputs",
+          "unit": "1"
+        },
+        "propagation": {
+          "kind": "exact",
+          "provenance": "native:temporal;observation:declared;si:second",
+          "reason": "exact rational evaluation of deterministic declared operands; no physical probability law",
+          "scope": "conditional finite-window cycle-equivalent SI outputs",
+          "unit": "1",
+          "value": "0"
+        },
+        "resolution": {
+          "kind": "not_applicable",
+          "provenance": "native:temporal;observation:declared;si:second",
+          "reason": "no resolution operation in this example",
+          "scope": "conditional finite-window cycle-equivalent SI outputs",
+          "unit": "1"
+        },
+        "solver": {
+          "kind": "exact",
+          "provenance": "native:temporal;observation:declared;si:second",
+          "reason": "exact rational operation",
+          "scope": "conditional finite-window cycle-equivalent SI outputs",
+          "unit": "1",
+          "value": "0"
+        },
+        "window": {
+          "kind": "unknown",
+          "provenance": "observation:declared",
+          "reason": "physical endpoint phase, missed cycles, slips, drift, realization and temporal covariance not supplied",
+          "scope": "physical interpretation",
+          "unit": "s or Hz by output"
+        }
+      },
+      "id": "map:m3:conditional-cycle-time",
+      "information_loss": {
+        "equivalence": "admitted histories with identical endpoint increments under the fixed gains",
+        "reconstruction": "nonunique",
+        "task": "reconstruct committed history from two report scalars"
+      },
+      "law": {
+        "average_rate_hz": [
+          "div",
+          [
+            "mul",
+            [
+              "input",
+              "compared"
+            ],
+            [
+              "parameter",
+              "compared_gain"
+            ]
+          ],
+          [
+            "div",
+            [
+              "mul",
+              [
+                "input",
+                "reference"
+              ],
+              [
+                "parameter",
+                "reference_gain"
+              ]
+            ],
+            [
+              "parameter",
+              "frequency"
+            ]
+          ]
+        ],
+        "elapsed_seconds": [
+          "div",
+          [
+            "mul",
+            [
+              "input",
+              "reference"
+            ],
+            [
+              "parameter",
+              "reference_gain"
+            ]
+          ],
+          [
+            "parameter",
+            "frequency"
+          ]
+        ]
+      },
+      "parameters": {
+        "compared_gain": {
+          "dimension": [
+            0,
+            0,
+            -1
+          ],
+          "origin": "declared",
+          "payload_key": "compared_gain",
+          "source_id": "observation:declared",
+          "value": "1"
+        },
+        "frequency": {
+          "dimension": [
+            0,
+            -1,
+            0
+          ],
+          "origin": "definition",
+          "payload_key": "frequency",
+          "source_id": "si:second",
+          "value": "9192631770"
+        },
+        "reference_gain": {
+          "dimension": [
+            0,
+            0,
+            -1
+          ],
+          "origin": "declared",
+          "payload_key": "reference_gain",
+          "source_id": "observation:declared",
+          "value": "1"
+        }
+      },
+      "resolution": {
+        "reason": "fixed native cut window with committed endpoint phases and all contact records; no stationarity inference",
+        "status": "specified"
+      },
+      "sources": [
+        {
+          "id": "native:temporal",
+          "payload": {
+            "compared": "3",
+            "complete_record": {
+              "complete_input": {
+                "biases": [
+                  "1/4",
+                  "-1/4"
+                ],
+                "contacts": [
+                  {
+                    "committed": 12,
+                    "identity": "contact:12",
+                    "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                    "left_prefix": "2c653c053d9669c3ac2bfd858ee74ce4a8d1a98e680a3c857e540de9f67a9d77",
+                    "reflection": [
+                      1,
+                      2
+                    ],
+                    "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                    "right_prefix": "b39d131acfd15f287be2eec186957728185af127d5c7384610b32f7995b01f8d",
+                    "scope": "m3:comparison",
+                    "support_certificate": {
+                      "certificate_digest": "357c94ef0d9bd328030727efbcbf6bd802050c1c94bac6e2d6b875ee689bd595",
+                      "inner_waves": [],
+                      "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                      "motif": "Monon",
+                      "return_id": "aa6fc12eeff81353281e87146f8c8a40692e6a72d2d80c5438a951baf08ac330",
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "status": "closed",
+                      "trace_digest": "52e5e0d68cee1617fc0f919cc7a14a04c8365849fac6aed275aa0cd477cc5172",
+                      "witness_digest": "33a5e929f77457b73bc3d12333d6a18d1bcfe99e33c51808d2437da36f8185de"
+                    },
+                    "support_trace": {
+                      "ancestor": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:ancestor",
+                      "event_ids": [
+                        "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e0",
+                        "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1",
+                        "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e2"
+                      ],
+                      "indices": [
+                        10,
+                        11,
+                        12
+                      ],
+                      "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                      "reflected_comparison": true,
+                      "reflection": {
+                        "committed_at": 12,
+                        "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                        "outbound_ids": [
+                          "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1"
+                        ],
+                        "return_ids": [
+                          "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e2"
+                        ],
+                        "scope": "m3:comparison",
+                        "target_start_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e0",
+                        "turnaround_committed_at": 11,
+                        "turnaround_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:12:e1"
+                      },
+                      "roles": [
+                        1,
+                        0,
+                        -1
+                      ],
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "turn": 1,
+                      "vertices": [
+                        0,
+                        1,
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "committed": 22,
+                    "identity": "contact:22",
+                    "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                    "left_prefix": "f285e38a40202c2f9b4f9147eee0b46de4b872333ed190e570fcf85f410eb8d6",
+                    "reflection": [
+                      1,
+                      2
+                    ],
+                    "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                    "right_prefix": "0f6cac076fd270e7c48a11381617f732699b6d40da4e66f0c6510d32be6372de",
+                    "scope": "m3:comparison",
+                    "support_certificate": {
+                      "certificate_digest": "1ff0af1db7ec8f75f93fee0433b68b2aa61e200d4c6885827b631290ab24bc3d",
+                      "inner_waves": [],
+                      "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                      "motif": "Monon",
+                      "return_id": "fb4ca9e16a5a3964a2b48f2f45476dbee0b4692f38bd8df967f3ea199cddb537",
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "status": "closed",
+                      "trace_digest": "9e2dc2deaf3e5b69b4e08b4a14d902fd019e33e07710125c673c951f72dd20c1",
+                      "witness_digest": "a87037ac8bc35d11b6175b01d2b05e981d6d4cb13ed00b3d0be856610e1673c0"
+                    },
+                    "support_trace": {
+                      "ancestor": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:ancestor",
+                      "event_ids": [
+                        "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e0",
+                        "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1",
+                        "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e2"
+                      ],
+                      "indices": [
+                        20,
+                        21,
+                        22
+                      ],
+                      "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                      "reflected_comparison": true,
+                      "reflection": {
+                        "committed_at": 22,
+                        "lineage": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                        "outbound_ids": [
+                          "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1"
+                        ],
+                        "return_ids": [
+                          "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e2"
+                        ],
+                        "scope": "m3:comparison",
+                        "target_start_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e0",
+                        "turnaround_committed_at": 21,
+                        "turnaround_id": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d|011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e:22:e1"
+                      },
+                      "roles": [
+                        1,
+                        0,
+                        -1
+                      ],
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "turn": 1,
+                      "vertices": [
+                        0,
+                        1,
+                        0
+                      ]
+                    }
+                  }
+                ],
+                "left": {
+                  "certificates": [
+                    {
+                      "certificate_digest": "11e73bf6d297bda570c17d701df860c02e1a168a574c52bc49d8d04c6ee9bb3f",
+                      "inner_waves": [],
+                      "lineage": "m3:compared",
+                      "motif": "Monon",
+                      "return_id": "5ca0da4226fc736725b4d23f9dc2260a89d5a31320444bd93f563749f1aec784",
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "status": "closed",
+                      "trace_digest": "a2ecdfd78107480732cc96967f1b4dc01453addbed8744414b36657c9de3a7da",
+                      "witness_digest": "303859b36ad642140f6e1195357f8927858c454f6cf8f5a0cc72fcacdb8adea8"
+                    },
+                    {
+                      "certificate_digest": "c63bd85d7835c7b53272f7c826571a935846015805930ca53659d92e7a7a2d97",
+                      "inner_waves": [],
+                      "lineage": "m3:compared",
+                      "motif": "Monon",
+                      "return_id": "559f8eaeb04e4e59a7126b94061347679ee7669f7d08d7525eb787b04ed088a4",
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "status": "closed",
+                      "trace_digest": "cca47003c81925ad4c9ba1951213af5b9e214c0cb697771f0632bc3f4ee6f654",
+                      "witness_digest": "19b7fd2779728b70d5039604e8e88916aea2e6f16d7e9daf405eb6520843e5c4"
+                    },
+                    {
+                      "certificate_digest": "39de8f165d863db0ad2aca209837c69f90d5eba72ca999be062f369585c3cc4f",
+                      "inner_waves": [],
+                      "lineage": "m3:compared",
+                      "motif": "Monon",
+                      "return_id": "ea7c9298ad5425f2b599f741272362f5f530e7ffb0714328e48550a9919d2028",
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "status": "closed",
+                      "trace_digest": "d6801a35610f690a3bb252fedcc9fc4be1c46b0f6424825a9470dfb93ca838b4",
+                      "witness_digest": "34bffff5cc337c78b013d9fb0c8d18d417c4b7a0c4f9d37ae04e7dc3c51d7704"
+                    },
+                    {
+                      "certificate_digest": "11b907edd5ebd1a98bb4bdad8f454a99e834faf8f3cb9832500e7b70538c451d",
+                      "inner_waves": [],
+                      "lineage": "m3:compared",
+                      "motif": "Monon",
+                      "return_id": "f9a4bcaa367627a8135157934ad02de7bcb5cbd94ce4683726ae8a4fc3f4f140",
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "status": "closed",
+                      "trace_digest": "b39cd2dc692be283276d10298111f250449708848ef3c6d825b4772b5b593fdc",
+                      "witness_digest": "4d3da14dc2f3c7e3167cb57837a8dd379a4b5bc5359a4670ffea9ec22387e1e9"
+                    }
+                  ],
+                  "identity": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                  "lineage": "m3:compared",
+                  "motif": "Monon",
+                  "motif_witnesses": [],
+                  "returns": [
+                    {
+                      "ancestor": "m3:compared:ancestor",
+                      "event_ids": [
+                        "m3:compared:0:e0",
+                        "m3:compared:0:e1",
+                        "m3:compared:0:e2"
+                      ],
+                      "indices": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "lineage": "m3:compared",
+                      "reflected_comparison": true,
+                      "reflection": {
+                        "committed_at": 2,
+                        "lineage": "m3:compared",
+                        "outbound_ids": [
+                          "m3:compared:0:e1"
+                        ],
+                        "return_ids": [
+                          "m3:compared:0:e2"
+                        ],
+                        "scope": "m3:comparison",
+                        "target_start_id": "m3:compared:0:e0",
+                        "turnaround_committed_at": 1,
+                        "turnaround_id": "m3:compared:0:e1"
+                      },
+                      "roles": [
+                        1,
+                        0,
+                        -1
+                      ],
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "turn": 1,
+                      "vertices": [
+                        0,
+                        1,
+                        0
+                      ]
+                    },
+                    {
+                      "ancestor": "m3:compared:ancestor",
+                      "event_ids": [
+                        "m3:compared:1:e0",
+                        "m3:compared:1:e1",
+                        "m3:compared:1:e2"
+                      ],
+                      "indices": [
+                        8,
+                        9,
+                        10
+                      ],
+                      "lineage": "m3:compared",
+                      "reflected_comparison": true,
+                      "reflection": {
+                        "committed_at": 10,
+                        "lineage": "m3:compared",
+                        "outbound_ids": [
+                          "m3:compared:1:e1"
+                        ],
+                        "return_ids": [
+                          "m3:compared:1:e2"
+                        ],
+                        "scope": "m3:comparison",
+                        "target_start_id": "m3:compared:1:e0",
+                        "turnaround_committed_at": 9,
+                        "turnaround_id": "m3:compared:1:e1"
+                      },
+                      "roles": [
+                        1,
+                        0,
+                        -1
+                      ],
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "turn": 1,
+                      "vertices": [
+                        0,
+                        1,
+                        0
+                      ]
+                    },
+                    {
+                      "ancestor": "m3:compared:ancestor",
+                      "event_ids": [
+                        "m3:compared:2:e0",
+                        "m3:compared:2:e1",
+                        "m3:compared:2:e2"
+                      ],
+                      "indices": [
+                        16,
+                        17,
+                        18
+                      ],
+                      "lineage": "m3:compared",
+                      "reflected_comparison": true,
+                      "reflection": {
+                        "committed_at": 18,
+                        "lineage": "m3:compared",
+                        "outbound_ids": [
+                          "m3:compared:2:e1"
+                        ],
+                        "return_ids": [
+                          "m3:compared:2:e2"
+                        ],
+                        "scope": "m3:comparison",
+                        "target_start_id": "m3:compared:2:e0",
+                        "turnaround_committed_at": 17,
+                        "turnaround_id": "m3:compared:2:e1"
+                      },
+                      "roles": [
+                        1,
+                        0,
+                        -1
+                      ],
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "turn": 1,
+                      "vertices": [
+                        0,
+                        1,
+                        0
+                      ]
+                    },
+                    {
+                      "ancestor": "m3:compared:ancestor",
+                      "event_ids": [
+                        "m3:compared:3:e0",
+                        "m3:compared:3:e1",
+                        "m3:compared:3:e2"
+                      ],
+                      "indices": [
+                        24,
+                        25,
+                        26
+                      ],
+                      "lineage": "m3:compared",
+                      "reflected_comparison": true,
+                      "reflection": {
+                        "committed_at": 26,
+                        "lineage": "m3:compared",
+                        "outbound_ids": [
+                          "m3:compared:3:e1"
+                        ],
+                        "return_ids": [
+                          "m3:compared:3:e2"
+                        ],
+                        "scope": "m3:comparison",
+                        "target_start_id": "m3:compared:3:e0",
+                        "turnaround_committed_at": 25,
+                        "turnaround_id": "m3:compared:3:e1"
+                      },
+                      "roles": [
+                        1,
+                        0,
+                        -1
+                      ],
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "turn": 1,
+                      "vertices": [
+                        0,
+                        1,
+                        0
+                      ]
+                    }
+                  ],
+                  "scale": 0,
+                  "scope": "m3:comparison"
+                },
+                "prior_lag": "0",
+                "right": {
+                  "certificates": [
+                    {
+                      "certificate_digest": "6d56c3d4c24aff769249369260618c67b336641db0c1776827bcf823ea2c7aa9",
+                      "inner_waves": [],
+                      "lineage": "m3:reference",
+                      "motif": "Monon",
+                      "return_id": "de4cb0a11c1705442853cf144fc23e8f695c7285ffe318ff24bc4a5c0475b6b7",
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "status": "closed",
+                      "trace_digest": "86879bb542a4e9726911f96a75a8db692ff6b76dce4bafa917a19bf42083449c",
+                      "witness_digest": "cf8c00c15145ec4ec010e37e3c1a11b99e074005f880aca590ece6be5a7467ee"
+                    },
+                    {
+                      "certificate_digest": "c89acc5f42ef8977f63927be4a5e7de0e9d2c04f35f9c4e3fda1a66203e5a1ec",
+                      "inner_waves": [],
+                      "lineage": "m3:reference",
+                      "motif": "Monon",
+                      "return_id": "3b090e7539bfaa86797d83cd6e2a9c5acf0676c822713295c62255376f9d5fb2",
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "status": "closed",
+                      "trace_digest": "19578783d8a79ce2cb32ca728c7b100720f54474224dc2e3a8a263901ffceb3c",
+                      "witness_digest": "0ff290c6b8d82c4dc15c6ab4e17676fd9b46730021f55019c982a244b9c4657a"
+                    },
+                    {
+                      "certificate_digest": "88a1ae54fa2341b6432c751403e452f334cc4c8651b2fbbcc0f6b300bd1f550b",
+                      "inner_waves": [],
+                      "lineage": "m3:reference",
+                      "motif": "Monon",
+                      "return_id": "d8cfde636aa1b8c6c87c35af5088c73749826822741d81ab780693108860f0b3",
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "status": "closed",
+                      "trace_digest": "6b6b43ac0b66492317dc2529decbc2420149c2777fbfea544cd27ddf33243b22",
+                      "witness_digest": "a022870033bcc0b04552ef3db25628f0c729a49c9c35ec56b35e6948d047aa50"
+                    }
+                  ],
+                  "identity": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "lineage": "m3:reference",
+                  "motif": "Monon",
+                  "motif_witnesses": [],
+                  "returns": [
+                    {
+                      "ancestor": "m3:reference:ancestor",
+                      "event_ids": [
+                        "m3:reference:0:e0",
+                        "m3:reference:0:e1",
+                        "m3:reference:0:e2"
+                      ],
+                      "indices": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "lineage": "m3:reference",
+                      "reflected_comparison": true,
+                      "reflection": {
+                        "committed_at": 2,
+                        "lineage": "m3:reference",
+                        "outbound_ids": [
+                          "m3:reference:0:e1"
+                        ],
+                        "return_ids": [
+                          "m3:reference:0:e2"
+                        ],
+                        "scope": "m3:comparison",
+                        "target_start_id": "m3:reference:0:e0",
+                        "turnaround_committed_at": 1,
+                        "turnaround_id": "m3:reference:0:e1"
+                      },
+                      "roles": [
+                        1,
+                        0,
+                        -1
+                      ],
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "turn": 1,
+                      "vertices": [
+                        0,
+                        1,
+                        0
+                      ]
+                    },
+                    {
+                      "ancestor": "m3:reference:ancestor",
+                      "event_ids": [
+                        "m3:reference:1:e0",
+                        "m3:reference:1:e1",
+                        "m3:reference:1:e2"
+                      ],
+                      "indices": [
+                        10,
+                        11,
+                        12
+                      ],
+                      "lineage": "m3:reference",
+                      "reflected_comparison": true,
+                      "reflection": {
+                        "committed_at": 12,
+                        "lineage": "m3:reference",
+                        "outbound_ids": [
+                          "m3:reference:1:e1"
+                        ],
+                        "return_ids": [
+                          "m3:reference:1:e2"
+                        ],
+                        "scope": "m3:comparison",
+                        "target_start_id": "m3:reference:1:e0",
+                        "turnaround_committed_at": 11,
+                        "turnaround_id": "m3:reference:1:e1"
+                      },
+                      "roles": [
+                        1,
+                        0,
+                        -1
+                      ],
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "turn": 1,
+                      "vertices": [
+                        0,
+                        1,
+                        0
+                      ]
+                    },
+                    {
+                      "ancestor": "m3:reference:ancestor",
+                      "event_ids": [
+                        "m3:reference:2:e0",
+                        "m3:reference:2:e1",
+                        "m3:reference:2:e2"
+                      ],
+                      "indices": [
+                        20,
+                        21,
+                        22
+                      ],
+                      "lineage": "m3:reference",
+                      "reflected_comparison": true,
+                      "reflection": {
+                        "committed_at": 22,
+                        "lineage": "m3:reference",
+                        "outbound_ids": [
+                          "m3:reference:2:e1"
+                        ],
+                        "return_ids": [
+                          "m3:reference:2:e2"
+                        ],
+                        "scope": "m3:comparison",
+                        "target_start_id": "m3:reference:2:e0",
+                        "turnaround_committed_at": 21,
+                        "turnaround_id": "m3:reference:2:e1"
+                      },
+                      "roles": [
+                        1,
+                        0,
+                        -1
+                      ],
+                      "scale": 0,
+                      "scope": "m3:comparison",
+                      "turn": 1,
+                      "vertices": [
+                        0,
+                        1,
+                        0
+                      ]
+                    }
+                  ],
+                  "scale": 0,
+                  "scope": "m3:comparison"
+                },
+                "window": [
+                  0,
+                  30
+                ]
+              },
+              "counts": {
+                "compared": 3,
+                "reference": 2
+              },
+              "endpoints": {
+                "compared": {
+                  "identity": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                  "lineage": "m3:compared",
+                  "phase_endpoints": [
+                    0,
+                    3
+                  ],
+                  "prefix_sha256": [
+                    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                    "c7db192c4e6cabd6b80d6a6e3efd11874cf476146f295880b575a49a5d01b7b9"
+                  ]
+                },
+                "reference": {
+                  "identity": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "lineage": "m3:reference",
+                  "phase_endpoints": [
+                    0,
+                    2
+                  ],
+                  "prefix_sha256": [
+                    "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                    "0f6cac076fd270e7c48a11381617f732699b6d40da4e66f0c6510d32be6372de"
+                  ]
+                }
+              },
+              "forward": {
+                "bias": "1/2",
+                "drift": "3/2",
+                "duration": 5,
+                "lag": "3/2",
+                "ratio": "3/2",
+                "rcd": {
+                  "contact_ids": [
+                    "contact:12",
+                    "contact:22"
+                  ],
+                  "domain": "native-return-count",
+                  "left": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                  "reflection_counts": [
+                    1,
+                    1
+                  ],
+                  "right": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "scope": "m3:comparison",
+                  "support": 3
+                }
+              },
+              "native_scope": "m3:comparison",
+              "physical_observation_status": "not_identified",
+              "record_type": "admitted_native_recurrent_coupled_pair",
+              "reverse": {
+                "bias": "-1/2",
+                "drift": "-3/2",
+                "duration": 7,
+                "lag": "-3/2",
+                "ratio": "2/3",
+                "rcd": {
+                  "contact_ids": [
+                    "contact:12",
+                    "contact:22"
+                  ],
+                  "domain": "native-return-count",
+                  "left": "011767beb092e0fa50d2b8446a6bbdcfdaa6592534fd969de8b5b0a4563d5f0e",
+                  "reflection_counts": [
+                    2,
+                    2
+                  ],
+                  "right": "32c8bdacc512e39ae50d7b638554849c66f59a05cecb167029c57eb75fc93b1d",
+                  "scope": "m3:comparison",
+                  "support": 3
+                }
+              },
+              "window": [
+                0,
+                30
+              ],
+              "window_domain": "integer_native_cuts_not_seconds",
+              "window_meaning": "finite_window_reclosure_comparison_not_stationary_frequency"
+            },
+            "reference": "2"
+          },
+          "role": "model",
+          "sha256": "46b484557f36d57edc943667f39a89bfbfdb689f6e5874155cb268af372b6bec"
+        },
+        {
+          "id": "observation:declared",
+          "payload": {
+            "compared_gain": "1",
+            "coordinate": "stipulated:local",
+            "epoch_seconds": "0",
+            "origin": "stipulated_cycle_equivalents_per_return_not_physical_calibration",
+            "reference_gain": "1",
+            "scope": "m3:comparison",
+            "window": [
+              0,
+              30
+            ]
+          },
+          "role": "model",
+          "sha256": "98d10fb7637f90689b9adb64dc69276bb67dfcbe39fdb5003013c4e1d80b8454"
+        },
+        {
+          "id": "si:second",
+          "payload": {
+            "frequency": "9192631770",
+            "role": "exact_defining_reference_not_realized_clock",
+            "url": "https://www.bipm.org/en/si-base-units/second"
+          },
+          "role": "definition",
+          "sha256": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
+        }
+      ],
+      "spec_sha256": "73b54f02eb643734b6356d218d02c49bc5524ff73815bccba43456c1aed84d69",
+      "status": {
+        "arithmetic": "exact within declared domain",
+        "physical_applicability": "unknown"
+      },
+      "structure": {
+        "injective": "unknown",
+        "invariance": "nonlinear scalar injectivity not certified by generic adapter; upstream history-to-count projection ignores event ordering and retains provenance"
+      },
+      "version": "1"
+    },
+    "period_role": "derived_transform_not_elapsed_interval_or_second_validation"
+  },
+  "schema_version": 1,
+  "source_code_sha256": "c0a518303a4ec4e18fa35d027ca888b65d8841431e7f450574905a0d7b82240b"
+}

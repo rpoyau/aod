@@ -17,7 +17,7 @@ def contract_root(tmp_path):
     shutil.copytree(ROOT / 'contracts', tmp_path / 'contracts')
     # Establish the positive result before each disposable mutation; no Git,
     # historical evidence, private project archive or external access is needed.
-    assert len(audit.validate_contract_inventory(tmp_path)) == 5
+    assert len(audit.validate_contract_inventory(tmp_path)) == 9
     return tmp_path
 
 
@@ -27,6 +27,8 @@ def test_complete_current_scientific_inventory_is_local():
         'CANONICAL_BINDINGS.json', 'OWNERSHIP_AND_FIXTURES.json',
         'AWARENESS_ACTIVE_CAUSAL_SPEC.json', 'OPERATIVE_SELF_SCHEMA.json',
         'ROUND_TRIP_PHASE_FACTOR_SPEC.json',
+        'CELL_MEASURE_SPEC.json', 'MAP_CONTRACT.json', 'ERROR_BUDGET.json',
+        'M3_MATHEMATICAL_BINDINGS.json',
     }
 
 
@@ -59,7 +61,7 @@ def test_run_report_is_not_an_active_scientific_specification(contract_root):
     report = {'schema': 'aod.fixture-run-report.v1', 'runner': 'manual/scripts/aod_awareness.py',
               'runner_output': {'source_sha256': '0' * 64, 'results': []}}
     (contract_root / 'transient-report.json').write_text(json.dumps(report))
-    assert len(audit.validate_contract_inventory(contract_root)) == 5
+    assert len(audit.validate_contract_inventory(contract_root)) == 9
     path = contract_root / 'contracts/scientific/AWARENESS_ACTIVE_CAUSAL_SPEC.json'
     path.write_text(json.dumps(report))
     with pytest.raises(ValueError, match='Scientific contract schema mismatch'):

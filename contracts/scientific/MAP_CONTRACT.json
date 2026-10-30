@@ -1,0 +1,47 @@
+{
+  "schema": "aod.scientific.map-contract.v1",
+  "scope": "Declared exact finite rational maps; no native geometric or physical observation law is inferred.",
+  "mathematical_anchor": "def:m3-map",
+  "implementation": "manual/scripts/aod_mapping_error.py",
+  "record_fields": [
+    "id",
+    "version",
+    "code_sha256",
+    "spec_sha256",
+    "domain",
+    "codomain",
+    "law",
+    "parameters",
+    "sources",
+    "structure",
+    "information_loss",
+    "resolution",
+    "error",
+    "calibration",
+    "comparison",
+    "status"
+  ],
+  "ports": {
+    "fields": [
+      "name",
+      "kind",
+      "dimension",
+      "unit",
+      "bounds",
+      "scope",
+      "lineage"
+    ],
+    "dimensions": "integer exponents in the ordered declared basis [length, time, count]",
+    "admissibility": "closed rational bounds checked at every stage; reciprocal denominators must be nonzero at evaluation",
+    "compatibility": "kind, dimension, unit, scope and lineage agree; the complete first codomain lies inside the next domain",
+    "scope_limit": "These scalar ports do not validate native Wave objects; the temporal adapter must do that before conversion."
+  },
+  "executable_law": "Closed AST: input, parameter, add, sub, mul, div; no arbitrary code evaluation.",
+  "source_binding": "Independent trusted registry must match identities, roles, canonical payload bytes and hashes. Raw scalar inputs bind exact values to source payload keys; upstream outputs retain and recursively reproduce the actual map/input execution and digest. Canonical payload hashing is distinct from external raw-file hashing.",
+  "parameters": "Every used parameter binds its value, dimension, payload key, source identity and declared/definition/fitted origin. Fitted parameters require calibration exposure.",
+  "composition": "Retain each stage's specification and input digest plus shared source identity; shared sources are one dependency, not independent copies.",
+  "information_loss": "Exact many-to-one maps must identify equivalence and reconstruction task; unique reconstruction is rejected. Loss alone is not a scalar numerical error.",
+  "calibration_and_evaluation": "Evaluation-role sources cannot enter a frozen prediction directly or through upstream provenance. Unknown and inapplicable records carry separate reasons.",
+  "claim_status": "Only exact arithmetic within the declared domain and unknown physical applicability are admitted by this adapter; finite arithmetic cannot set physical model discrepancy to exact.",
+  "limitations": "The validator checks typing, binding and evaluation of the restricted expression language, and affine injectivity by exact rank. Nonlinear injectivity remains unknown. Arbitrary symmetry assertions and physical calibration certificates are not established by this adapter."
+}

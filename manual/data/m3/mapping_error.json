@@ -1,0 +1,2095 @@
+{
+  "bounded_ratio": {
+    "bounds": [
+      "1/3",
+      "1"
+    ],
+    "status": "bounded"
+  },
+  "composed_bound": {
+    "L": "4",
+    "bound": "41/1000",
+    "hypotheses": {
+      "intermediate": [
+        "1",
+        "2"
+      ],
+      "outer_domain": [
+        "1/2",
+        "3"
+      ],
+      "outer_law": "reciprocal",
+      "uniform_inner_bound": "1/100",
+      "uniform_outer_bound": "1/1000"
+    },
+    "scope": "conditional bound given the two stated uniform approximation bounds"
+  },
+  "composition": {
+    "provenance": {
+      "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+    },
+    "shared_sources": [
+      "model:scale"
+    ],
+    "stages": [
+      {
+        "input_sha256": "dd87d5e648b14a9b8527ab4d521830ec91f1e4e6d5017389c2633d6d6d5a4b96",
+        "map_id": "map:scale",
+        "outputs": {
+          "y": {
+            "origin": {
+              "execution_sha256": "bf5193dd1e35591a8d97dc869e5d4c8d05e2c67b8e3b0c0a5efee1f883c550a9",
+              "inputs": {
+                "x": {
+                  "origin": {
+                    "kind": "source",
+                    "payload_key": "input",
+                    "source_id": "model:scale"
+                  },
+                  "port": {
+                    "bounds": [
+                      "-10",
+                      "10"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "x",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  },
+                  "provenance": {
+                    "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                  },
+                  "sha256": "fef5955f97b0ef65aadaacb94738e46bd2778139b3d11f3e888a20c4a5543ae7",
+                  "value": "3"
+                }
+              },
+              "kind": "map_output",
+              "map": {
+                "calibration": {
+                  "reason": "declared algebraic parameter, no device",
+                  "status": "not_applicable"
+                },
+                "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+                "codomain": [
+                  {
+                    "bounds": [
+                      "-20",
+                      "20"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "y",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  }
+                ],
+                "comparison": {
+                  "evaluation_sources": [],
+                  "prediction_frozen": true
+                },
+                "domain": [
+                  {
+                    "bounds": [
+                      "-10",
+                      "10"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "x",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  }
+                ],
+                "error": {
+                  "arithmetic": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "calibration": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no calibration operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "comparison": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no comparison operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "model_discrepancy": {
+                    "kind": "unknown",
+                    "provenance": "model:finite",
+                    "reason": "no physical observation model supplied",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "propagation": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "resolution": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no resolution operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "solver": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "window": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no window operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  }
+                },
+                "id": "map:scale",
+                "information_loss": {
+                  "equivalence": "x values with equal output",
+                  "reconstruction": "unique",
+                  "task": "recover x from y"
+                },
+                "law": {
+                  "y": [
+                    "mul",
+                    [
+                      "input",
+                      "x"
+                    ],
+                    [
+                      "parameter",
+                      "factor"
+                    ]
+                  ]
+                },
+                "parameters": {
+                  "factor": {
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "origin": "declared",
+                    "payload_key": "factor",
+                    "source_id": "model:scale",
+                    "value": "2"
+                  }
+                },
+                "resolution": {
+                  "reason": "exact finite rational input",
+                  "status": "not_applicable"
+                },
+                "sources": [
+                  {
+                    "id": "model:scale",
+                    "payload": {
+                      "factor": "2",
+                      "hidden0": "0",
+                      "hidden1": "1",
+                      "input": "3"
+                    },
+                    "role": "model",
+                    "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                  }
+                ],
+                "spec_sha256": "044def75e6089759116070a8ecfe3fe00fab16f5aef9c80ef5f715860c795186",
+                "status": {
+                  "arithmetic": "exact within declared domain",
+                  "physical_applicability": "unknown"
+                },
+                "structure": {
+                  "injective": true,
+                  "invariance": "retains input identity in provenance"
+                },
+                "version": "1"
+              },
+              "output": "y"
+            },
+            "port": {
+              "bounds": [
+                "-20",
+                "20"
+              ],
+              "dimension": [
+                0,
+                0,
+                0
+              ],
+              "kind": "report_scalar",
+              "lineage": "fixture",
+              "name": "y",
+              "scope": "declared-finite-model",
+              "unit": "1"
+            },
+            "provenance": {
+              "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+            },
+            "sha256": "8af9fa8eb9080db7adb173c59ca82f74648b97b1763ab750741db76863ac327a",
+            "value": "6"
+          }
+        },
+        "provenance": {
+          "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+        },
+        "spec_sha256": "044def75e6089759116070a8ecfe3fe00fab16f5aef9c80ef5f715860c795186"
+      },
+      {
+        "input_sha256": "2c9749f4d325fe83ae290c62b8126720a98b9d752feca6a54d4338e3e454ec8a",
+        "map_id": "map:scale-again",
+        "outputs": {
+          "y": {
+            "origin": {
+              "execution_sha256": "a988c84fd8688c5bd4d3adc1e13ca1e5e0361c96c78628235fd23ad183c0903b",
+              "inputs": {
+                "x": {
+                  "origin": {
+                    "execution_sha256": "bf5193dd1e35591a8d97dc869e5d4c8d05e2c67b8e3b0c0a5efee1f883c550a9",
+                    "inputs": {
+                      "x": {
+                        "origin": {
+                          "kind": "source",
+                          "payload_key": "input",
+                          "source_id": "model:scale"
+                        },
+                        "port": {
+                          "bounds": [
+                            "-10",
+                            "10"
+                          ],
+                          "dimension": [
+                            0,
+                            0,
+                            0
+                          ],
+                          "kind": "report_scalar",
+                          "lineage": "fixture",
+                          "name": "x",
+                          "scope": "declared-finite-model",
+                          "unit": "1"
+                        },
+                        "provenance": {
+                          "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                        },
+                        "sha256": "fef5955f97b0ef65aadaacb94738e46bd2778139b3d11f3e888a20c4a5543ae7",
+                        "value": "3"
+                      }
+                    },
+                    "kind": "map_output",
+                    "map": {
+                      "calibration": {
+                        "reason": "declared algebraic parameter, no device",
+                        "status": "not_applicable"
+                      },
+                      "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+                      "codomain": [
+                        {
+                          "bounds": [
+                            "-20",
+                            "20"
+                          ],
+                          "dimension": [
+                            0,
+                            0,
+                            0
+                          ],
+                          "kind": "report_scalar",
+                          "lineage": "fixture",
+                          "name": "y",
+                          "scope": "declared-finite-model",
+                          "unit": "1"
+                        }
+                      ],
+                      "comparison": {
+                        "evaluation_sources": [],
+                        "prediction_frozen": true
+                      },
+                      "domain": [
+                        {
+                          "bounds": [
+                            "-10",
+                            "10"
+                          ],
+                          "dimension": [
+                            0,
+                            0,
+                            0
+                          ],
+                          "kind": "report_scalar",
+                          "lineage": "fixture",
+                          "name": "x",
+                          "scope": "declared-finite-model",
+                          "unit": "1"
+                        }
+                      ],
+                      "error": {
+                        "arithmetic": {
+                          "kind": "exact",
+                          "provenance": "model:finite",
+                          "reason": "exact rational operation",
+                          "scope": "declared finite example",
+                          "unit": "1",
+                          "value": "0"
+                        },
+                        "calibration": {
+                          "kind": "not_applicable",
+                          "provenance": "model:finite",
+                          "reason": "no calibration operation in this example",
+                          "scope": "declared finite example",
+                          "unit": "1"
+                        },
+                        "comparison": {
+                          "kind": "not_applicable",
+                          "provenance": "model:finite",
+                          "reason": "no comparison operation in this example",
+                          "scope": "declared finite example",
+                          "unit": "1"
+                        },
+                        "model_discrepancy": {
+                          "kind": "unknown",
+                          "provenance": "model:finite",
+                          "reason": "no physical observation model supplied",
+                          "scope": "declared finite example",
+                          "unit": "1"
+                        },
+                        "propagation": {
+                          "kind": "exact",
+                          "provenance": "model:finite",
+                          "reason": "exact rational operation",
+                          "scope": "declared finite example",
+                          "unit": "1",
+                          "value": "0"
+                        },
+                        "resolution": {
+                          "kind": "not_applicable",
+                          "provenance": "model:finite",
+                          "reason": "no resolution operation in this example",
+                          "scope": "declared finite example",
+                          "unit": "1"
+                        },
+                        "solver": {
+                          "kind": "exact",
+                          "provenance": "model:finite",
+                          "reason": "exact rational operation",
+                          "scope": "declared finite example",
+                          "unit": "1",
+                          "value": "0"
+                        },
+                        "window": {
+                          "kind": "not_applicable",
+                          "provenance": "model:finite",
+                          "reason": "no window operation in this example",
+                          "scope": "declared finite example",
+                          "unit": "1"
+                        }
+                      },
+                      "id": "map:scale",
+                      "information_loss": {
+                        "equivalence": "x values with equal output",
+                        "reconstruction": "unique",
+                        "task": "recover x from y"
+                      },
+                      "law": {
+                        "y": [
+                          "mul",
+                          [
+                            "input",
+                            "x"
+                          ],
+                          [
+                            "parameter",
+                            "factor"
+                          ]
+                        ]
+                      },
+                      "parameters": {
+                        "factor": {
+                          "dimension": [
+                            0,
+                            0,
+                            0
+                          ],
+                          "origin": "declared",
+                          "payload_key": "factor",
+                          "source_id": "model:scale",
+                          "value": "2"
+                        }
+                      },
+                      "resolution": {
+                        "reason": "exact finite rational input",
+                        "status": "not_applicable"
+                      },
+                      "sources": [
+                        {
+                          "id": "model:scale",
+                          "payload": {
+                            "factor": "2",
+                            "hidden0": "0",
+                            "hidden1": "1",
+                            "input": "3"
+                          },
+                          "role": "model",
+                          "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                        }
+                      ],
+                      "spec_sha256": "044def75e6089759116070a8ecfe3fe00fab16f5aef9c80ef5f715860c795186",
+                      "status": {
+                        "arithmetic": "exact within declared domain",
+                        "physical_applicability": "unknown"
+                      },
+                      "structure": {
+                        "injective": true,
+                        "invariance": "retains input identity in provenance"
+                      },
+                      "version": "1"
+                    },
+                    "output": "y"
+                  },
+                  "port": {
+                    "bounds": [
+                      "-20",
+                      "20"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "y",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  },
+                  "provenance": {
+                    "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                  },
+                  "sha256": "8af9fa8eb9080db7adb173c59ca82f74648b97b1763ab750741db76863ac327a",
+                  "value": "6"
+                }
+              },
+              "kind": "map_output",
+              "map": {
+                "calibration": {
+                  "reason": "declared algebraic parameter, no device",
+                  "status": "not_applicable"
+                },
+                "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+                "codomain": [
+                  {
+                    "bounds": [
+                      "-40",
+                      "40"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "y",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  }
+                ],
+                "comparison": {
+                  "evaluation_sources": [],
+                  "prediction_frozen": true
+                },
+                "domain": [
+                  {
+                    "bounds": [
+                      "-20",
+                      "20"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "x",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  }
+                ],
+                "error": {
+                  "arithmetic": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "calibration": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no calibration operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "comparison": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no comparison operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "model_discrepancy": {
+                    "kind": "unknown",
+                    "provenance": "model:finite",
+                    "reason": "no physical observation model supplied",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "propagation": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "resolution": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no resolution operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "solver": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "window": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no window operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  }
+                },
+                "id": "map:scale-again",
+                "information_loss": {
+                  "equivalence": "x values with equal output",
+                  "reconstruction": "unique",
+                  "task": "recover x from y"
+                },
+                "law": {
+                  "y": [
+                    "mul",
+                    [
+                      "input",
+                      "x"
+                    ],
+                    [
+                      "parameter",
+                      "factor"
+                    ]
+                  ]
+                },
+                "parameters": {
+                  "factor": {
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "origin": "declared",
+                    "payload_key": "factor",
+                    "source_id": "model:scale",
+                    "value": "2"
+                  }
+                },
+                "resolution": {
+                  "reason": "exact finite rational input",
+                  "status": "not_applicable"
+                },
+                "sources": [
+                  {
+                    "id": "model:scale",
+                    "payload": {
+                      "factor": "2",
+                      "hidden0": "0",
+                      "hidden1": "1",
+                      "input": "3"
+                    },
+                    "role": "model",
+                    "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                  }
+                ],
+                "spec_sha256": "59fdd8c79007d729e738c6bed61b2aa4bf82cb221802a0e032ce90bfe8093dd1",
+                "status": {
+                  "arithmetic": "exact within declared domain",
+                  "physical_applicability": "unknown"
+                },
+                "structure": {
+                  "injective": true,
+                  "invariance": "retains input identity in provenance"
+                },
+                "version": "1"
+              },
+              "output": "y"
+            },
+            "port": {
+              "bounds": [
+                "-40",
+                "40"
+              ],
+              "dimension": [
+                0,
+                0,
+                0
+              ],
+              "kind": "report_scalar",
+              "lineage": "fixture",
+              "name": "y",
+              "scope": "declared-finite-model",
+              "unit": "1"
+            },
+            "provenance": {
+              "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+            },
+            "sha256": "646773660ce880e0550c31c9d57633faaef3e984b40baaeefda259013292fb44",
+            "value": "12"
+          }
+        },
+        "provenance": {
+          "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+        },
+        "spec_sha256": "59fdd8c79007d729e738c6bed61b2aa4bf82cb221802a0e032ce90bfe8093dd1"
+      }
+    ]
+  },
+  "constant_on_declared_support": {
+    "adequacy": "full finite-support propagation",
+    "arithmetic": "exact rational",
+    "input_covariance": [
+      [
+        "1/4"
+      ]
+    ],
+    "input_mean": {
+      "x": "3/2"
+    },
+    "input_order": [
+      "x"
+    ],
+    "jacobian": [
+      "0"
+    ],
+    "linearized_variance_diagnostic": "0",
+    "linearized_variance_difference": "0",
+    "mean_shift": "0",
+    "nominal": "1",
+    "output_mean": "1",
+    "output_variance": "0",
+    "support": [
+      {
+        "output": "1",
+        "p": "1/2"
+      },
+      {
+        "output": "1",
+        "p": "1/2"
+      }
+    ],
+    "uncertainty_status": "exact_for_declared_joint_law"
+  },
+  "contracts": {
+    "ERROR_BUDGET.json": "a3193ad92103b0a915ec2085a65f48c78b7b7aecf2668ef03b352f6ebee62d80",
+    "MAP_CONTRACT.json": "140d1141bdd4e109a6327929eec11105106842dbdefc9f5f8f83e8dbc96b564b"
+  },
+  "covariance_only_nonlinear": {
+    "adequacy": "unresolved nonlinear propagation; marginal size is insufficient",
+    "arithmetic": "exact rational",
+    "input_covariance": [
+      [
+        "1/20000",
+        "-1/20000"
+      ],
+      [
+        "-1/20000",
+        "1/20000"
+      ]
+    ],
+    "input_mean": {
+      "frequency": "1",
+      "ratio": "1"
+    },
+    "input_order": [
+      "ratio",
+      "frequency"
+    ],
+    "jacobian": [
+      "1",
+      "1"
+    ],
+    "linearized_variance_diagnostic": "0",
+    "mean_shift": null,
+    "nominal": "1",
+    "output_mean": null,
+    "output_variance": null,
+    "uncertainty_status": "partial"
+  },
+  "error_budget": {
+    "arithmetic": {
+      "kind": "exact",
+      "provenance": "model:finite",
+      "reason": "exact rational operation",
+      "scope": "declared finite example",
+      "unit": "1",
+      "value": "0"
+    },
+    "calibration": {
+      "kind": "not_applicable",
+      "provenance": "model:finite",
+      "reason": "no calibration operation in this example",
+      "scope": "declared finite example",
+      "unit": "1"
+    },
+    "comparison": {
+      "kind": "not_applicable",
+      "provenance": "model:finite",
+      "reason": "no comparison operation in this example",
+      "scope": "declared finite example",
+      "unit": "1"
+    },
+    "model_discrepancy": {
+      "kind": "unknown",
+      "provenance": "model:finite",
+      "reason": "no physical observation model supplied",
+      "scope": "declared finite example",
+      "unit": "1"
+    },
+    "propagation": {
+      "kind": "exact",
+      "provenance": "model:finite",
+      "reason": "exact rational operation",
+      "scope": "declared finite example",
+      "unit": "1",
+      "value": "0"
+    },
+    "resolution": {
+      "kind": "not_applicable",
+      "provenance": "model:finite",
+      "reason": "no resolution operation in this example",
+      "scope": "declared finite example",
+      "unit": "1"
+    },
+    "solver": {
+      "kind": "exact",
+      "provenance": "model:finite",
+      "reason": "exact rational operation",
+      "scope": "declared finite example",
+      "unit": "1",
+      "value": "0"
+    },
+    "window": {
+      "kind": "not_applicable",
+      "provenance": "model:finite",
+      "reason": "no window operation in this example",
+      "scope": "declared finite example",
+      "unit": "1"
+    }
+  },
+  "error_budget_status": {
+    "status": "partial"
+  },
+  "exact_lossy_projection": {
+    "arithmetic_error": "0",
+    "hidden_coordinate_reconstruction": "nonunique; no scalar reconstruction error asserted",
+    "witnesses": [
+      {
+        "input_sha256": "76d2b55f99f3c052597f1dfd3deede1983cc796a51fd48cc60375548ed927644",
+        "map_id": "map:project",
+        "outputs": {
+          "y": {
+            "origin": {
+              "execution_sha256": "b241e08bde4d0f6fba43c4454be761ff9a160a8cbe798a185101e783f01ec2e7",
+              "inputs": {
+                "hidden": {
+                  "origin": {
+                    "kind": "source",
+                    "payload_key": "hidden0",
+                    "source_id": "model:scale"
+                  },
+                  "port": {
+                    "bounds": [
+                      "-100",
+                      "100"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "hidden",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  },
+                  "provenance": {
+                    "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                  },
+                  "sha256": "28231bf77372c4e037e9c48a1c24ef65b0133ea0367962692793916e1a54b1e1",
+                  "value": "0"
+                },
+                "x": {
+                  "origin": {
+                    "kind": "source",
+                    "payload_key": "input",
+                    "source_id": "model:scale"
+                  },
+                  "port": {
+                    "bounds": [
+                      "-100",
+                      "100"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "x",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  },
+                  "provenance": {
+                    "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                  },
+                  "sha256": "004822e172d892e2ef5794ae28c399793df92c0ea2f2bc83f5fe685cbfde3865",
+                  "value": "3"
+                }
+              },
+              "kind": "map_output",
+              "map": {
+                "calibration": {
+                  "reason": "declared algebraic parameter, no device",
+                  "status": "not_applicable"
+                },
+                "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+                "codomain": [
+                  {
+                    "bounds": [
+                      "-100",
+                      "100"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "y",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  }
+                ],
+                "comparison": {
+                  "evaluation_sources": [],
+                  "prediction_frozen": true
+                },
+                "domain": [
+                  {
+                    "bounds": [
+                      "-100",
+                      "100"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "x",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  },
+                  {
+                    "bounds": [
+                      "-100",
+                      "100"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "hidden",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  }
+                ],
+                "error": {
+                  "arithmetic": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "calibration": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no calibration operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "comparison": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no comparison operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "model_discrepancy": {
+                    "kind": "unknown",
+                    "provenance": "model:finite",
+                    "reason": "no physical observation model supplied",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "propagation": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "resolution": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no resolution operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "solver": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "window": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no window operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  }
+                },
+                "id": "map:project",
+                "information_loss": {
+                  "equivalence": "equal x, arbitrary hidden coordinate",
+                  "reconstruction": "nonunique",
+                  "task": "recover the hidden coordinate"
+                },
+                "law": {
+                  "y": [
+                    "input",
+                    "x"
+                  ]
+                },
+                "parameters": {},
+                "resolution": {
+                  "reason": "exact finite rational input",
+                  "status": "not_applicable"
+                },
+                "sources": [
+                  {
+                    "id": "model:scale",
+                    "payload": {
+                      "factor": "2",
+                      "hidden0": "0",
+                      "hidden1": "1",
+                      "input": "3"
+                    },
+                    "role": "model",
+                    "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                  }
+                ],
+                "spec_sha256": "36e34e09d0f2ef7c1a4bd010b11b4588e62fc13e8a3a4052dc9f61e285c6fdf9",
+                "status": {
+                  "arithmetic": "exact within declared domain",
+                  "physical_applicability": "unknown"
+                },
+                "structure": {
+                  "injective": false,
+                  "invariance": "changing hidden coordinate preserves output"
+                },
+                "version": "1"
+              },
+              "output": "y"
+            },
+            "port": {
+              "bounds": [
+                "-100",
+                "100"
+              ],
+              "dimension": [
+                0,
+                0,
+                0
+              ],
+              "kind": "report_scalar",
+              "lineage": "fixture",
+              "name": "y",
+              "scope": "declared-finite-model",
+              "unit": "1"
+            },
+            "provenance": {
+              "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+            },
+            "sha256": "738a54cb0912959f21ec2fd7ee33eea261884e1563cc927b3729864751e9febe",
+            "value": "3"
+          }
+        },
+        "provenance": {
+          "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+        },
+        "spec_sha256": "36e34e09d0f2ef7c1a4bd010b11b4588e62fc13e8a3a4052dc9f61e285c6fdf9"
+      },
+      {
+        "input_sha256": "40ccb3268e6bd5585fd3fae30774145f5df3b9197e2587575c17f0b95605d629",
+        "map_id": "map:project",
+        "outputs": {
+          "y": {
+            "origin": {
+              "execution_sha256": "56aaef0c39778037636a03e83bad237dbf5b9a1a2def91edc470f4ebfc936adc",
+              "inputs": {
+                "hidden": {
+                  "origin": {
+                    "kind": "source",
+                    "payload_key": "hidden1",
+                    "source_id": "model:scale"
+                  },
+                  "port": {
+                    "bounds": [
+                      "-100",
+                      "100"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "hidden",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  },
+                  "provenance": {
+                    "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                  },
+                  "sha256": "426b06064dd31dc559d519257cfd2af2edb8676a12193073ca1e97dad66346db",
+                  "value": "1"
+                },
+                "x": {
+                  "origin": {
+                    "kind": "source",
+                    "payload_key": "input",
+                    "source_id": "model:scale"
+                  },
+                  "port": {
+                    "bounds": [
+                      "-100",
+                      "100"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "x",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  },
+                  "provenance": {
+                    "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                  },
+                  "sha256": "004822e172d892e2ef5794ae28c399793df92c0ea2f2bc83f5fe685cbfde3865",
+                  "value": "3"
+                }
+              },
+              "kind": "map_output",
+              "map": {
+                "calibration": {
+                  "reason": "declared algebraic parameter, no device",
+                  "status": "not_applicable"
+                },
+                "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+                "codomain": [
+                  {
+                    "bounds": [
+                      "-100",
+                      "100"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "y",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  }
+                ],
+                "comparison": {
+                  "evaluation_sources": [],
+                  "prediction_frozen": true
+                },
+                "domain": [
+                  {
+                    "bounds": [
+                      "-100",
+                      "100"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "x",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  },
+                  {
+                    "bounds": [
+                      "-100",
+                      "100"
+                    ],
+                    "dimension": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "kind": "report_scalar",
+                    "lineage": "fixture",
+                    "name": "hidden",
+                    "scope": "declared-finite-model",
+                    "unit": "1"
+                  }
+                ],
+                "error": {
+                  "arithmetic": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "calibration": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no calibration operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "comparison": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no comparison operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "model_discrepancy": {
+                    "kind": "unknown",
+                    "provenance": "model:finite",
+                    "reason": "no physical observation model supplied",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "propagation": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "resolution": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no resolution operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  },
+                  "solver": {
+                    "kind": "exact",
+                    "provenance": "model:finite",
+                    "reason": "exact rational operation",
+                    "scope": "declared finite example",
+                    "unit": "1",
+                    "value": "0"
+                  },
+                  "window": {
+                    "kind": "not_applicable",
+                    "provenance": "model:finite",
+                    "reason": "no window operation in this example",
+                    "scope": "declared finite example",
+                    "unit": "1"
+                  }
+                },
+                "id": "map:project",
+                "information_loss": {
+                  "equivalence": "equal x, arbitrary hidden coordinate",
+                  "reconstruction": "nonunique",
+                  "task": "recover the hidden coordinate"
+                },
+                "law": {
+                  "y": [
+                    "input",
+                    "x"
+                  ]
+                },
+                "parameters": {},
+                "resolution": {
+                  "reason": "exact finite rational input",
+                  "status": "not_applicable"
+                },
+                "sources": [
+                  {
+                    "id": "model:scale",
+                    "payload": {
+                      "factor": "2",
+                      "hidden0": "0",
+                      "hidden1": "1",
+                      "input": "3"
+                    },
+                    "role": "model",
+                    "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+                  }
+                ],
+                "spec_sha256": "36e34e09d0f2ef7c1a4bd010b11b4588e62fc13e8a3a4052dc9f61e285c6fdf9",
+                "status": {
+                  "arithmetic": "exact within declared domain",
+                  "physical_applicability": "unknown"
+                },
+                "structure": {
+                  "injective": false,
+                  "invariance": "changing hidden coordinate preserves output"
+                },
+                "version": "1"
+              },
+              "output": "y"
+            },
+            "port": {
+              "bounds": [
+                "-100",
+                "100"
+              ],
+              "dimension": [
+                0,
+                0,
+                0
+              ],
+              "kind": "report_scalar",
+              "lineage": "fixture",
+              "name": "y",
+              "scope": "declared-finite-model",
+              "unit": "1"
+            },
+            "provenance": {
+              "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+            },
+            "sha256": "6b6abddb19b0a8a65bb3fe89f64d45cf362407475c416b67d098ac9a2019319c",
+            "value": "3"
+          }
+        },
+        "provenance": {
+          "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+        },
+        "spec_sha256": "36e34e09d0f2ef7c1a4bd010b11b4588e62fc13e8a3a4052dc9f61e285c6fdf9"
+      }
+    ]
+  },
+  "historical_probe_status": {
+    "expected_file": "probe_metrology_edges.py",
+    "expected_sha256": "685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e",
+    "fidelity": "MAP-21/MAP-22 historical exact replay remains partial; new controls do not replace the missing original law",
+    "r01_probe": "unavailable in supplied R02 archive or local filename/text search",
+    "recovered_product": "separate historical consumer test: delta=-1/2,0,1/2; probabilities 1/4,1/2,1/4; mean 7/8 and variance 1/64"
+  },
+  "historical_product_regression": {
+    "adequacy": "full finite-support propagation",
+    "arithmetic": "exact rational",
+    "input_covariance": [
+      [
+        "1/8",
+        "-1/8"
+      ],
+      [
+        "-1/8",
+        "1/8"
+      ]
+    ],
+    "input_mean": {
+      "frequency": "1",
+      "ratio": "1"
+    },
+    "input_order": [
+      "ratio",
+      "frequency"
+    ],
+    "jacobian": [
+      "1",
+      "1"
+    ],
+    "linearized_variance_diagnostic": "0",
+    "linearized_variance_difference": "1/64",
+    "mean_shift": "-1/8",
+    "nominal": "1",
+    "output_mean": "7/8",
+    "output_variance": "1/64",
+    "support": [
+      {
+        "output": "3/4",
+        "p": "1/4"
+      },
+      {
+        "output": "1",
+        "p": "1/2"
+      },
+      {
+        "output": "3/4",
+        "p": "1/4"
+      }
+    ],
+    "uncertainty_status": "exact_for_declared_joint_law"
+  },
+  "interval_zero_linear_control": {
+    "adequacy": "full finite-support propagation",
+    "arithmetic": "exact rational",
+    "input_covariance": [
+      [
+        "0",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "1/20000",
+        "-1/20000"
+      ],
+      [
+        "0",
+        "-1/20000",
+        "1/20000"
+      ]
+    ],
+    "input_mean": {
+      "cycles": "1",
+      "frequency": "1",
+      "ratio": "1"
+    },
+    "input_order": [
+      "cycles",
+      "ratio",
+      "frequency"
+    ],
+    "jacobian": [
+      "1",
+      "-1",
+      "-1"
+    ],
+    "linearized_variance_diagnostic": "0",
+    "linearized_variance_difference": "1/399920004",
+    "mean_shift": "1/19998",
+    "nominal": "1",
+    "output_mean": "19999/19998",
+    "output_variance": "1/399920004",
+    "support": [
+      {
+        "output": "10000/9999",
+        "p": "1/4"
+      },
+      {
+        "output": "1",
+        "p": "1/2"
+      },
+      {
+        "output": "10000/9999",
+        "p": "1/4"
+      }
+    ],
+    "uncertainty_status": "exact_for_declared_joint_law"
+  },
+  "legitimate_common_offset_cancellation": {
+    "adequacy": "structural affine proof",
+    "arithmetic": "exact rational",
+    "input_covariance": [
+      [
+        "4",
+        "4"
+      ],
+      [
+        "4",
+        "4"
+      ]
+    ],
+    "input_mean": {
+      "end": "7",
+      "start": "2"
+    },
+    "input_order": [
+      "end",
+      "start"
+    ],
+    "jacobian": [
+      "1",
+      "-1"
+    ],
+    "linearized_variance_diagnostic": "0",
+    "mean_shift": "0",
+    "nominal": "5",
+    "output_mean": "5",
+    "output_variance": "0",
+    "uncertainty_status": "exact_for_declared_affine_model"
+  },
+  "maps": [
+    {
+      "calibration": {
+        "reason": "declared algebraic parameter, no device",
+        "status": "not_applicable"
+      },
+      "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+      "codomain": [
+        {
+          "bounds": [
+            "-20",
+            "20"
+          ],
+          "dimension": [
+            0,
+            0,
+            0
+          ],
+          "kind": "report_scalar",
+          "lineage": "fixture",
+          "name": "y",
+          "scope": "declared-finite-model",
+          "unit": "1"
+        }
+      ],
+      "comparison": {
+        "evaluation_sources": [],
+        "prediction_frozen": true
+      },
+      "domain": [
+        {
+          "bounds": [
+            "-10",
+            "10"
+          ],
+          "dimension": [
+            0,
+            0,
+            0
+          ],
+          "kind": "report_scalar",
+          "lineage": "fixture",
+          "name": "x",
+          "scope": "declared-finite-model",
+          "unit": "1"
+        }
+      ],
+      "error": {
+        "arithmetic": {
+          "kind": "exact",
+          "provenance": "model:finite",
+          "reason": "exact rational operation",
+          "scope": "declared finite example",
+          "unit": "1",
+          "value": "0"
+        },
+        "calibration": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no calibration operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "comparison": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no comparison operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "model_discrepancy": {
+          "kind": "unknown",
+          "provenance": "model:finite",
+          "reason": "no physical observation model supplied",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "propagation": {
+          "kind": "exact",
+          "provenance": "model:finite",
+          "reason": "exact rational operation",
+          "scope": "declared finite example",
+          "unit": "1",
+          "value": "0"
+        },
+        "resolution": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no resolution operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "solver": {
+          "kind": "exact",
+          "provenance": "model:finite",
+          "reason": "exact rational operation",
+          "scope": "declared finite example",
+          "unit": "1",
+          "value": "0"
+        },
+        "window": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no window operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        }
+      },
+      "id": "map:scale",
+      "information_loss": {
+        "equivalence": "x values with equal output",
+        "reconstruction": "unique",
+        "task": "recover x from y"
+      },
+      "law": {
+        "y": [
+          "mul",
+          [
+            "input",
+            "x"
+          ],
+          [
+            "parameter",
+            "factor"
+          ]
+        ]
+      },
+      "parameters": {
+        "factor": {
+          "dimension": [
+            0,
+            0,
+            0
+          ],
+          "origin": "declared",
+          "payload_key": "factor",
+          "source_id": "model:scale",
+          "value": "2"
+        }
+      },
+      "resolution": {
+        "reason": "exact finite rational input",
+        "status": "not_applicable"
+      },
+      "sources": [
+        {
+          "id": "model:scale",
+          "payload": {
+            "factor": "2",
+            "hidden0": "0",
+            "hidden1": "1",
+            "input": "3"
+          },
+          "role": "model",
+          "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+        }
+      ],
+      "spec_sha256": "044def75e6089759116070a8ecfe3fe00fab16f5aef9c80ef5f715860c795186",
+      "status": {
+        "arithmetic": "exact within declared domain",
+        "physical_applicability": "unknown"
+      },
+      "structure": {
+        "injective": true,
+        "invariance": "retains input identity in provenance"
+      },
+      "version": "1"
+    },
+    {
+      "calibration": {
+        "reason": "declared algebraic parameter, no device",
+        "status": "not_applicable"
+      },
+      "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+      "codomain": [
+        {
+          "bounds": [
+            "-40",
+            "40"
+          ],
+          "dimension": [
+            0,
+            0,
+            0
+          ],
+          "kind": "report_scalar",
+          "lineage": "fixture",
+          "name": "y",
+          "scope": "declared-finite-model",
+          "unit": "1"
+        }
+      ],
+      "comparison": {
+        "evaluation_sources": [],
+        "prediction_frozen": true
+      },
+      "domain": [
+        {
+          "bounds": [
+            "-20",
+            "20"
+          ],
+          "dimension": [
+            0,
+            0,
+            0
+          ],
+          "kind": "report_scalar",
+          "lineage": "fixture",
+          "name": "x",
+          "scope": "declared-finite-model",
+          "unit": "1"
+        }
+      ],
+      "error": {
+        "arithmetic": {
+          "kind": "exact",
+          "provenance": "model:finite",
+          "reason": "exact rational operation",
+          "scope": "declared finite example",
+          "unit": "1",
+          "value": "0"
+        },
+        "calibration": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no calibration operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "comparison": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no comparison operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "model_discrepancy": {
+          "kind": "unknown",
+          "provenance": "model:finite",
+          "reason": "no physical observation model supplied",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "propagation": {
+          "kind": "exact",
+          "provenance": "model:finite",
+          "reason": "exact rational operation",
+          "scope": "declared finite example",
+          "unit": "1",
+          "value": "0"
+        },
+        "resolution": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no resolution operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "solver": {
+          "kind": "exact",
+          "provenance": "model:finite",
+          "reason": "exact rational operation",
+          "scope": "declared finite example",
+          "unit": "1",
+          "value": "0"
+        },
+        "window": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no window operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        }
+      },
+      "id": "map:scale-again",
+      "information_loss": {
+        "equivalence": "x values with equal output",
+        "reconstruction": "unique",
+        "task": "recover x from y"
+      },
+      "law": {
+        "y": [
+          "mul",
+          [
+            "input",
+            "x"
+          ],
+          [
+            "parameter",
+            "factor"
+          ]
+        ]
+      },
+      "parameters": {
+        "factor": {
+          "dimension": [
+            0,
+            0,
+            0
+          ],
+          "origin": "declared",
+          "payload_key": "factor",
+          "source_id": "model:scale",
+          "value": "2"
+        }
+      },
+      "resolution": {
+        "reason": "exact finite rational input",
+        "status": "not_applicable"
+      },
+      "sources": [
+        {
+          "id": "model:scale",
+          "payload": {
+            "factor": "2",
+            "hidden0": "0",
+            "hidden1": "1",
+            "input": "3"
+          },
+          "role": "model",
+          "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+        }
+      ],
+      "spec_sha256": "59fdd8c79007d729e738c6bed61b2aa4bf82cb221802a0e032ce90bfe8093dd1",
+      "status": {
+        "arithmetic": "exact within declared domain",
+        "physical_applicability": "unknown"
+      },
+      "structure": {
+        "injective": true,
+        "invariance": "retains input identity in provenance"
+      },
+      "version": "1"
+    },
+    {
+      "calibration": {
+        "reason": "declared algebraic parameter, no device",
+        "status": "not_applicable"
+      },
+      "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+      "codomain": [
+        {
+          "bounds": [
+            "-100",
+            "100"
+          ],
+          "dimension": [
+            0,
+            0,
+            0
+          ],
+          "kind": "report_scalar",
+          "lineage": "fixture",
+          "name": "y",
+          "scope": "declared-finite-model",
+          "unit": "1"
+        }
+      ],
+      "comparison": {
+        "evaluation_sources": [],
+        "prediction_frozen": true
+      },
+      "domain": [
+        {
+          "bounds": [
+            "-100",
+            "100"
+          ],
+          "dimension": [
+            0,
+            0,
+            0
+          ],
+          "kind": "report_scalar",
+          "lineage": "fixture",
+          "name": "x",
+          "scope": "declared-finite-model",
+          "unit": "1"
+        },
+        {
+          "bounds": [
+            "-100",
+            "100"
+          ],
+          "dimension": [
+            0,
+            0,
+            0
+          ],
+          "kind": "report_scalar",
+          "lineage": "fixture",
+          "name": "hidden",
+          "scope": "declared-finite-model",
+          "unit": "1"
+        }
+      ],
+      "error": {
+        "arithmetic": {
+          "kind": "exact",
+          "provenance": "model:finite",
+          "reason": "exact rational operation",
+          "scope": "declared finite example",
+          "unit": "1",
+          "value": "0"
+        },
+        "calibration": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no calibration operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "comparison": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no comparison operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "model_discrepancy": {
+          "kind": "unknown",
+          "provenance": "model:finite",
+          "reason": "no physical observation model supplied",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "propagation": {
+          "kind": "exact",
+          "provenance": "model:finite",
+          "reason": "exact rational operation",
+          "scope": "declared finite example",
+          "unit": "1",
+          "value": "0"
+        },
+        "resolution": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no resolution operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        },
+        "solver": {
+          "kind": "exact",
+          "provenance": "model:finite",
+          "reason": "exact rational operation",
+          "scope": "declared finite example",
+          "unit": "1",
+          "value": "0"
+        },
+        "window": {
+          "kind": "not_applicable",
+          "provenance": "model:finite",
+          "reason": "no window operation in this example",
+          "scope": "declared finite example",
+          "unit": "1"
+        }
+      },
+      "id": "map:project",
+      "information_loss": {
+        "equivalence": "equal x, arbitrary hidden coordinate",
+        "reconstruction": "nonunique",
+        "task": "recover the hidden coordinate"
+      },
+      "law": {
+        "y": [
+          "input",
+          "x"
+        ]
+      },
+      "parameters": {},
+      "resolution": {
+        "reason": "exact finite rational input",
+        "status": "not_applicable"
+      },
+      "sources": [
+        {
+          "id": "model:scale",
+          "payload": {
+            "factor": "2",
+            "hidden0": "0",
+            "hidden1": "1",
+            "input": "3"
+          },
+          "role": "model",
+          "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+        }
+      ],
+      "spec_sha256": "36e34e09d0f2ef7c1a4bd010b11b4588e62fc13e8a3a4052dc9f61e285c6fdf9",
+      "status": {
+        "arithmetic": "exact within declared domain",
+        "physical_applicability": "unknown"
+      },
+      "structure": {
+        "injective": false,
+        "invariance": "changing hidden coordinate preserves output"
+      },
+      "version": "1"
+    }
+  ],
+  "near_cancelled_product_control": {
+    "adequacy": "full finite-support propagation",
+    "arithmetic": "exact rational",
+    "input_covariance": [
+      [
+        "1/20000",
+        "-999/20000000"
+      ],
+      [
+        "-999/20000000",
+        "998001/20000000000"
+      ]
+    ],
+    "input_mean": {
+      "frequency": "1",
+      "ratio": "1"
+    },
+    "input_order": [
+      "ratio",
+      "frequency"
+    ],
+    "jacobian": [
+      "1",
+      "1"
+    ],
+    "linearized_variance_diagnostic": "1/20000000000",
+    "linearized_variance_difference": "998001/400000000000000",
+    "mean_shift": "-999/20000000",
+    "nominal": "1",
+    "output_mean": "19999001/20000000",
+    "output_variance": "1018001/400000000000000",
+    "support": [
+      {
+        "output": "9998901/10000000",
+        "p": "1/4"
+      },
+      {
+        "output": "1",
+        "p": "1/2"
+      },
+      {
+        "output": "9999101/10000000",
+        "p": "1/4"
+      }
+    ],
+    "uncertainty_status": "exact_for_declared_joint_law"
+  },
+  "printed_precision": {
+    "nonzero": {
+      "bound": "1/20000000",
+      "rounding_policy": "nearest_to_printed_last_place",
+      "scope": "conditional on nearest rounding to the last printed place; source convention must justify application",
+      "status": "conditional_deterministic_rounding_bound",
+      "unit": "Hz^2",
+      "value": "617/5000000"
+    },
+    "scope": "synthetic parser controls; no new BIPM-source interpretation",
+    "zero_documented": {
+      "bound": "0",
+      "status": "exact_source_convention",
+      "unit": "Hz^2",
+      "value": "0"
+    },
+    "zero_unknown": {
+      "bound": null,
+      "status": "unknown",
+      "unit": "Hz^2",
+      "value": "0"
+    }
+  },
+  "ratio_domain": {
+    "bounds": null,
+    "reason": "denominator domain contains zero",
+    "status": "undefined_or_unbounded"
+  },
+  "reference_definition": {
+    "kind": "defining_constant",
+    "status": "definition_only",
+    "variance": "0"
+  },
+  "reference_realization": {
+    "kind": "realized_reference",
+    "status": "partial; realization uncertainty unknown",
+    "variance": null
+  },
+  "schema": "aod.m3.mapping-error.v1",
+  "scope": "exact declared finite models; physical model discrepancy remains unknown"
+}
