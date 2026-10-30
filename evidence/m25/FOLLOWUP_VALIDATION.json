@@ -1,0 +1,36 @@
+{
+  "schema": "aod.m25-followup-validation.v1",
+  "parent_commit": "ec085872719179ac2fa214365db6bde4c81e0aa5",
+  "reviewed_parent_result": {
+    "passed": 558,
+    "failed": 1,
+    "failure": "test_active_evidence_sources_and_anchors_are_byte_bound"
+  },
+  "preserved_files": {
+    "scripts/audit_scientific_sources.py": "0ce859b06b5c8af8a6c34cd0689ae4586d6793168c8d40ef45875423a4ea4875",
+    "scripts/audit_ontology_compaction.py": "90c0db366466f0b18e4e3834fea1eea51bd27ca865bdc5103738cfd9333e86a5",
+    "tests/test_active_scientific_sources.py": "f97b56b22d38ae7a609e57b6be1eb8aca70b2a6868c12b5223fdf5f0e59be055",
+    "manual/scripts/aod_awareness.py": "6846300c020aca4af2c7fc51c0727dcd0ce7e302453e0a514904ce8aa5331d7b",
+    "manual/scripts/aod_native_closure_wave.py": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+    "sections/06_wave_state_relational_time.tex": "bbd265de629de74ae43be75ff5146406b5dda80c380bf02507725a98d233404d",
+    "sections/08_awareness_learning_mindfulness.tex": "310b4860c1710b8191725d9c40ff1fc05bd45a7ed818f0891e1fbd8fa58feae1",
+    "evidence/ONTOLOGY_COMPACTION_BINDINGS.json": "7292e87c93d59fb98da9b97d148c0f62f38ee482e8fc22bbf8e622c5e0799216",
+    "evidence/m25/BINDING_SUCCESSOR.json": "1d2a3b1926c1f581b8db402762d67127ae23ae351842ee6540d2a86485833abb",
+    "evidence/m25/ONTOLOGY_COMPACTION_BINDINGS.baseline.json": "3d460c81201ba4a3793269ce2ba2a5f484f6dbb020e39533167aa27e4e73430b",
+    "evidence/m25/SOURCE_BINDINGS.json": "23b4ea0c2960a030dd2a9d3fbe8bbcd021a075aac401c5c839af27c27f381694",
+    "figures_jpg/cycle_disturbance_shedding.png": "64e5559ad3f2a6ed1d8933e328923634be8871367958d4723e2d293a6ef7c1be"
+  },
+  "fixtures": {
+    "closure_wave": {
+      "rows": 83,
+      "matches_parent_report": true
+    },
+    "awareness": {
+      "rows": 47,
+      "nested_output_matches_parent_and_fresh_runner": true
+    }
+  },
+  "report_protocol": "aod.fixture-run-report.v1; original raw output nested without engine change",
+  "full_suite_evidence": "tests.txt (written by final assembled-tree run); post-refresh active-binding/report regression repeated",
+  "publication_gate": "Successful exact-head GitHub CI and delivery replay are recorded after commit in detached delivery; no merge claimed."
+}

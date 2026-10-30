@@ -68,8 +68,11 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
         ('mainequation', 'eq:fold-outer-closure'),
         ('mainequation', 'eq:fourier-transform'),
         ('mainequation', 'eq:hinge-grammar'),
+        ('mainequation', 'eq:hinge-saturation'),
+        ('mainequation', 'eq:hinge-saturation-weighted'),
         ('mainequation', 'eq:motif-admission'),
         ('mainequation', 'eq:operative-self'),
+        ('mainequation', 'eq:operative-source-removal'),
         ('mainequation', 'eq:rcd-additive-realization'),
         ('mainequation', 'eq:rcd-coupling'),
         ('mainequation', 'eq:reflected-leg-bound'),
@@ -126,13 +129,13 @@ def test_afc_citation_variants_are_confined_to_literature_notes():
     assert not any(provenance < match.start() < literature for match in citations)
 
 
-def test_historical_role_headings_and_separate_awareness_stages_are_preserved():
+def test_content_headings_keep_historical_anchors_and_separate_awareness_stages():
     appendix = (ROOT / "appendices/A_fractal_address_bip_biz.tex").read_text()
     assert re.search(
         r"\\subsection\{Setup\}\s*\\label\{app:fractal-address:setup\}", appendix
     )
     assert re.search(
-        r"\\subsection\{Statement\(s\)\}\s*\\label\{app:fractal-address:statements\}", appendix
+        r"\\subsection\{Bound bip and biz accessors\}\s*\\label\{app:fractal-address:statements\}", appendix
     )
     awareness = (ROOT / "sections/08_awareness_learning_mindfulness.tex").read_text()
     assert r"\paragraph{Falsification and provenance.}" not in awareness

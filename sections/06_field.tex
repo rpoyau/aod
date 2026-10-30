@@ -380,7 +380,7 @@ Duonic pressure resists change of attention orientation. In the declared inverse
 
 \subsection{SADAR value operator}\label{subsec:sadar-operator}
 \begin{definition}[SADAR operator]
-Write \(\SADARop_B\) for Symmetry Attention Duration Asymmetric Reflection (SADAR) on the declared boundary/window \(B\). For a retained cycle \(C\),
+Write \(\SADARop_B\) for the scalar value operator of SADAR, defined in \secref{subsec:sadar-balance}, on the declared boundary/window \(B\). For a retained cycle \(C\),
 \begin{equation}
 \SADARop_B(C)
 =
@@ -485,7 +485,7 @@ not such a witness. \phantomsection
 The support triples AO and OA exchange branches; their
 oriented signed values obey \(AO=-OA\), with the hinge count retained.\label{eq:ao-oa-oriented-value}
 
-\paragraph{Statement: incident return shift.}
+\paragraph{Incident return shift.}
 If \(\mathbf A_F(B)=0\) and an unmatched incident returned duon \(e\) contributes
 \[
 \phi_e(B)=p^D_e(B)A_e(B),
@@ -501,7 +501,7 @@ If a matching return \(\bar e\) is declared and \(\phi_{\bar e}(B)=-\phi_e(B)\),
 \label{eq:matched-return-cancellation}
 \end{equation}
 
-\paragraph{Statement: short window and high incident current.}
+\paragraph{Short window and high incident current.}
 If \(|\omega|_h<\rho^D_h(B)\), then \(\rho^D_{\omega,h}(B)=|\omega|_h\) and \(Q^D_h(B)>0\). For a short window,
 \[
 p^D_h(B)=C_{3,h}|\omega|_h.
@@ -612,7 +612,7 @@ Component projections select declared components of the already-fixed SADAR atte
 
 \subsubsection{Temporal cycle group}\label{subsec:temporal-cycle-group}
 \begin{definition}[Temporal cycle group]
-A temporal cycle group is a carried segment of duon current participating in wave continuity. \appref{app:wave}.
+A temporal cycle group is a carried segment of duon current participating in the wave continuity of \appref{app:wave}.
 \end{definition}
 
 \subsubsection{Lead-lag burden}\label{subsec:lead-lag-burden}
@@ -621,13 +621,13 @@ The lead--lag disturbance span is the carried asymmetric return extent of a temp
 \end{definition}
 
 \subsubsection{Temporal SADAR burden}\label{subsec:temporal-sadar-burden}
-For a temporal cycle group \(W\) on a declared boundary/window, its temporal SADAR burden is
+For a temporal cycle group \(W\) on a declared boundary/window \(B=(\partial F,\omega)\), its temporal SADAR burden is
 \begin{equation}
 P^{\SADARop}_{W}(\partial F,\omega)=
 \sum_{e\in W}
 C_{3,e}
 \rho^D_{\omega,e}(\partial F,\omega)
-\left|\Delta^{\chi\mathrm{lag}}_e\right|.
+\left|\Delta\chi_e^{\mathrm{lag}}(B)\right|.
 \label{eq:temporal-sadar-burden}
 \end{equation}
 This burden is taken up by SADAR balance in \secref{sec:field:sadar}.
@@ -702,13 +702,13 @@ A yro suffix is audited as route status on a declared boundary/window and is rec
 \begin{definition}[Entropic duon current]
 Entropic duon current is retained duon current carrying unresolved return burden. It carries retained ternary capacity through shell return, shedding, reclosure, and SADAR dynamics.
 \end{definition}
-For a declared field, boundary, and window, one local scalar form is
+For a declared field and boundary/window \(B=(\partial F,\omega)\), one local scalar form is
 \begin{equation}
 J^D_{\mathrm{ent}}(\partial F,\omega)=
 \sum_{e\in F(\partial F,\omega)}
 C_{3,e}
 \rho^D_{\omega,e}(\partial F,\omega)
-\left|\Delta^{\chi\mathrm{lag}}_e\right|.
+\left|\Delta\chi_e^{\mathrm{lag}}(B)\right|.
 \label{eq:entropic-duon-current}
 \end{equation}
 The sum specializes \eqref{eq:temporal-sadar-burden} to the field's retained
@@ -717,7 +717,7 @@ current family. Coherent continuity can accumulate the unresolved lead--lag burd
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.96\linewidth]{figures_jpg/cycle_disturbance_shedding.png}
-\caption{Temporal cycle lead--lag disturbance and shedding.}
+\caption{Temporal cycle lead--lag disturbance and shedding. On the declared boundary/window \(B=(\partial F,\omega)\), the schematic \(\Delta_e^{\chi\mathrm{lag}}\) denotes the signed lag accessor \(\Delta\chi_e^{\mathrm{lag}}(B)\); the absolute-value bars take its magnitude.}
 \label{fig:v39-cycle-disturbance-shedding}
 \end{figure}
 
@@ -823,7 +823,7 @@ For a support-enclosure declaration \(\mathcal C=a:b:c::L\), write
 \text{retained tick duration available for seat-compatible SADAR rebalancing}.
 \label{eq:support-enclosure-retention}
 \end{equation}
-This is distinct from \(\rho^D_{\omega,ij}(B)\), the window-clipped duration participation clip for a channel.
+This is distinct from \(\rho^D_{\omega,ij}(B)\), the window-clipped duration participation for a channel.
 Retention on the declared window is \(\mathrm{TTL}_{\mathcal C}(\partial F,\omega)\ge |\omega|\). If \(\mathrm{TTL}_{\mathcal C}(\partial F,\omega)<|\omega|\), the sheddic path continues through re-entry, reclosure, or decay status before the window closes.
 
 \begin{figure}[H]
@@ -1451,7 +1451,7 @@ X_{\mathrm{shedding}}
 \subsection{Fractal-cycle finite accumulation}
 \label{subsec:fractal-cycle-finite-accumulation}
 For a retained cycle family \(\mathcal C=\mathcal C_{\mathfrak a,r,\Sigma}\),
-let \(V_{\mathrm{beat}}\) be the finite index of its supplied certificate-bound cycle
+let \(V_{\mathrm{beat}}\) be the finite index set of its supplied certificate-bound cycle
 contributions \(C_u\). The declared coupling family \(E_{\SADARop}(B)\)
 consists of supplied pairs of these contributions in the recurrent-lineage
 domain of \eqref{eq:sadar-operator-beat-coupling}. Define the finite SADAR

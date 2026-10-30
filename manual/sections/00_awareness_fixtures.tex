@@ -129,6 +129,12 @@ endpoints happen to coincide.
 \label{sec:self-proprio-toys}
 \paragraph{Setup.}
 The operative boundary is \mainequation{main:eq:operative-self}.
+Source removal uses \mainequation{main:eq:operative-source-removal}: the
+runner admits at most one retained record per source, rejects duplicate
+sources, and removes the record with that exact source identity while
+preserving present state and closure memory. Restoration replaces its exact
+value and provenance. The \(H=1\) verdict uses the next-transition outcome;
+an unavailable source can acquire a later effect over a longer declared horizon.
 Sensor, register, CPU and vocabulary models reuse this interface.
 \paragraph{Derivation.}
 Two retained source contributions produce a three-node operative subgraph:

@@ -2,15 +2,17 @@
 \label{app:scoped-flux-cancellation}
 
 \subsection{Scope}\label{app:scoped-flux:scope}
-This App records symbolic support for finite Stokes with separately typed A\(\Omega\)D pressure-resolved flux values. The scope is a finite declared region \(R\) and boundary/window \(B=(\partial F,\omega)\).
+This appendix records symbolic support for finite Stokes with separately typed A\(\Omega\)D pressure-resolved flux values. The scope is a finite declared region \(R\) and boundary/window \(B=(\partial F,\omega)\).
 
-\subsection{Statement(s)}\label{app:scoped-flux:statements}
+\subsection{Scoped pairing and Stokes residual}\label{app:scoped-flux:statements}
 
+\paragraph{Setup.}
 \[
 \phi_{ij}\mapsto \phi_{ij}(B),
 \qquad
 \phi_{ij,\AO}(B)=p^D_{ij,\AO}(B)A_{ij,\AO}(B).
 \]
+\paragraph{Derivation.}
 The scoped boundary pairing is retained through the AFC Stokes identity:
 \begin{equation}
 \sum_{i\in R}\operatorname{div}(i;B)
