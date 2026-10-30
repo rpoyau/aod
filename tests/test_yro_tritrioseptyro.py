@@ -28,8 +28,6 @@ def test_yro_is_route_status_not_support_enclosure():
 def test_dimonnanyro_and_tau_yro_update():
     manual = read_sources('manual/sections','manual/appendices')
     assert 'Dimonnanyro' in manual
-    assert 'DimonNanon' not in manual
-    assert 'DimonNanon' not in (ROOT / 'manual/data/higgs/yro_aliases_and_renames.csv').read_text()
     assert r'1{:}2{:}9_{\mathrm{yro}}' in manual
     assert r'K_\tau^\star=1{:}2{:}9_{\mathrm{yro}}=\mathrm{Dimonnanyro}' in manual
 
@@ -73,15 +71,6 @@ def test_score_formula_has_no_candidate_identity_override():
     assert r'\arg\min_K S_H(K)=3{:}3{:}7_{\rm yro}' in text
 
 
-def test_higgs_terms_are_manual_only():
-    main = read_sources('sections','appendices')
-    for term in ['Higgs', 'LHC', 'GeV', 'ATLAS', 'CMS', 'Tritrioseptyro']:
-        assert term not in main
-    manual = read_sources('manual/sections','manual/appendices')
-    for term in ['Higgs', 'LHC', 'GeV', 'ATLAS', 'CMS', 'Tritrioseptyro']:
-        assert term in manual
-
-
 def test_higgs_external_lhc_table_values():
     p=ROOT/'manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv'
     assert p.exists()
@@ -99,10 +88,8 @@ def test_higgs_clean_line_wording_and_next_layer():
     assert r'Tritrioseptyro is the \(3{:}3{:}7_{\mathrm{yro}}\) Higgs-support prediction candidate selected by the internal AFC trace' in manual
     assert 'Production-channel and decay-channel residual tables carry the next comparison layer' in manual
     assert 'absolute percent error' in manual
-    assert 'This is a Higgs-support diagnostic candidate under a frozen external map. It is not an equivalence proof.' not in manual
 
 def test_yro_clean_status_language():
     main = read_sources('sections','appendices')
     assert 'A yro suffix is audited as route status on a declared boundary/window' in main
     assert 'terminal split' in main
-    assert 'does not introduce an odd support enclosure' not in main

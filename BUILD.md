@@ -2,15 +2,29 @@
 
 This source tree is version-neutral. Release artifact filenames are stable (`main.pdf`, `manual.pdf`, `source.zip`, `bundle.zip`, `tests.txt`). The source archive is flat: unzipping `source.zip` into a repository checkout writes files directly into that checkout so Zenodo latest-file links keep working across revisions. The release version is read from `CANONICAL_VERSION.txt` and recorded in metadata and manifests.
 
-Typical local build:
+## Dependencies and source preparation
+
+Install XeLaTeX, latexmk, BibTeX support, Python 3 and the test dependencies. On Ubuntu, the publication workflow uses:
+
+```bash
+sudo apt-get install latexmk texlive-xetex texlive-bibtex-extra texlive-latex-extra python3 python3-pip python3-venv
+python3 -m venv .venv
+. .venv/bin/activate
+python3 -m pip install -r requirements-ci.txt pytest pandas matplotlib
+```
+
+Extract `source.zip` into a new empty directory. Git, credentials, and external project records are not required to run the publications, scientific checks or fallback release packaging. Keep `contracts/scientific/`, `tests/`, model scripts and datasets with the manuscripts. Current contracts state mathematical obligations and are checked against independent integrity bindings.
+
+Typical local build (Bash):
 
 ```bash
 latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
 latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
 cp manual/main.pdf manual.pdf
 python3 scripts/audit_scientific_sources.py . --build-root .
-pytest -q | tee tests.txt
-python scripts/build_release_bundle.py --outdir dist --main main.pdf --manual manual.pdf --tests tests.txt
+set -o pipefail
+python3 -m pytest -q | tee tests.txt
+python3 scripts/build_release_bundle.py --outdir dist --main main.pdf --manual manual.pdf --tests tests.txt
 ```
 
 The generated release files use stable names; source-internal paths also remain version-neutral.
@@ -61,3 +75,15 @@ To refresh `.zenodo.json` after editing bibliography files, run:
 ```bash
 python3 scripts/sync_zenodo_references.py
 ```
+
+## Reproducibility checks
+
+```bash
+python3 manual/scripts/aod_native_closure_wave.py --check-data
+python3 manual/scripts/aod_awareness.py --check-data
+python3 scripts/sync_zenodo_references.py --check
+```
+
+Generated fixture results are run reports. They are validated against the unchanged runner and canonical inputs; they are not scientific specifications. The registered current scientific contracts remain in `contracts/scientific/`.
+
+The source packager uses the complete tracked source in a Git checkout and the documented source surfaces in an unpacked archive. Both paths include the tests and scientific contracts, preserve executable file modes, and omit generated build products and temporary output. Place detached logs and release bundles outside the source tree when comparing independent builds.

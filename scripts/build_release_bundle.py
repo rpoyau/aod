@@ -23,12 +23,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 EXCLUDE_DIR_NAMES = {
     ".git", ".pytest_cache", "__pycache__", ".mypy_cache", ".ruff_cache",
-    ".DS_Store", "dist", "build", "release", "_render", "_renders"
+    ".DS_Store", ".venv", ".tox", "node_modules", "dist", "build", "release",
+    "_build", "_render", "_renders"
 }
 
 EXCLUDE_SUFFIXES = {
     ".pdf", ".aux", ".log", ".out", ".toc", ".fls", ".fdb_latexmk",
-    ".xdv", ".synctex.gz", ".pyc", ".pyo", ".bbl", ".blg", ".run.xml"
+    ".xdv", ".synctex.gz", ".pyc", ".pyo", ".bbl", ".blg", ".run.xml",
+    ".bcf", ".lof", ".lot", ".dvi", ".nav", ".snm", ".vrb", ".zip"
 }
 
 EXCLUDE_FILE_PATTERNS = [
@@ -38,7 +40,15 @@ EXCLUDE_FILE_PATTERNS = [
     re.compile(r"AOD_Temporal_Dynamics_v.*_tests\.txt$"),
 ]
 
-INCLUDE_TOP_LEVEL = ['.github', '.zenodo.json', '.zenodo_doi', "BUILD.md", 'CANONICAL_VERSION.txt', 'LICENSE', 'README.md', 'RELEASE_READINESS.txt', 'STALE_TEST_DISPOSITION.md', 'appendices', 'evidence', 'cycle_shedding_summary.tex', 'figures_jpg', 'main.tex', 'manual', 'preamble.tex', 'refs.bib', 'requirements-ci.txt', 'scripts', 'sections', 'tests', 'wavelet_shedding_simulation.csv', 'wavelet_shedding_summary.tex']
+# The same source surfaces apply in a checkout and an extracted source.zip.
+# Git supplies the exact tracked paths; the fallback omits generated files.
+INCLUDE_TOP_LEVEL = [
+    ".github", ".zenodo.json", ".zenodo_doi", "BUILD.md", "CHANGELOG.md",
+    "CANONICAL_VERSION.txt", "LICENSE", "README.md", "appendices", "contracts",
+    "cycle_shedding_summary.tex", "figures_jpg", "main.tex", "manual",
+    "preamble.tex", "refs.bib", "requirements-ci.txt", "scripts", "sections",
+    "tests", "wavelet_shedding_simulation.csv", "wavelet_shedding_summary.tex",
+]
 
 
 def read_version(explicit: str | None) -> str:
@@ -73,51 +83,48 @@ def excluded(path: Path) -> bool:
     return any(name.endswith(suf) for suf in EXCLUDE_SUFFIXES)
 
 
-def copy_item(src: Path, dst: Path) -> None:
-    if not src.exists() or excluded(src):
-        return
-    if src.is_file():
-        dst.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, dst)
-    elif src.is_dir():
-        for p in src.rglob("*"):
-            if excluded(p):
-                continue
-            rel = p.relative_to(src)
-            target = dst / rel
-            if p.is_dir():
-                target.mkdir(parents=True, exist_ok=True)
-            else:
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(p, target)
+def copy_source_file(rel: Path, source_root: Path) -> None:
+    if rel.is_absolute() or ".." in rel.parts or rel.parts[0] not in INCLUDE_TOP_LEVEL:
+        raise ValueError(f"path outside declared source surfaces: {rel}")
+    if excluded(rel):
+        raise ValueError(f"generated file is tracked as source: {rel}")
+    src = ROOT / rel
+    if src.is_symlink() or any((ROOT / parent).is_symlink() for parent in rel.parents):
+        raise ValueError(f"source must not depend on a symlink: {rel}")
+    if not src.is_file():
+        raise ValueError(f"tracked source missing: {rel}")
+    target = source_root / rel
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src, target)
 
 
 def build_source_tree(stage_root: Path) -> Path:
     """Build a flat source tree whose contents unzip directly into a repo root."""
     source_root = stage_root / "source_root"
     source_root.mkdir(parents=True, exist_ok=True)
-    # In a checkout, tracked names are authoritative, including small root
-    # inputs that older publication allowlists accidentally omitted.
-    tracked = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT,
-                             capture_output=True, check=False)
-    if tracked.returncode == 0 and tracked.stdout:
+    # An extracted archive can be inside an unrelated parent checkout. Only a
+    # .git entry at this source root may select the tracked-file path.
+    if (ROOT / ".git").exists():
+        tracked = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT,
+                                 capture_output=True, check=True)
+        if not tracked.stdout:
+            raise ValueError("Git checkout has no tracked source files")
         for raw in tracked.stdout.split(b"\0"):
             if raw:
-                rel = Path(os.fsdecode(raw))
-                src = ROOT / rel
-                if not src.is_file():
-                    raise ValueError(f"tracked source missing: {rel}")
-                target = source_root / rel
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(src, target)
+                copy_source_file(Path(os.fsdecode(raw)), source_root)
     else:
-        # Detached candidate: complete declared top-level source surfaces.
         for name in INCLUDE_TOP_LEVEL:
             src = ROOT / name
-            if src.exists():
-                copy_item(src, source_root / name)
+            if not src.exists():
+                continue
+            if src.is_symlink():
+                raise ValueError(f"source must not depend on a symlink: {name}")
+            paths = src.rglob("*") if src.is_dir() else (src,)
+            for path in paths:
+                rel = path.relative_to(ROOT)
+                if not excluded(rel) and (path.is_file() or path.is_symlink()):
+                    copy_source_file(rel, source_root)
     return source_root
-
 
 
 

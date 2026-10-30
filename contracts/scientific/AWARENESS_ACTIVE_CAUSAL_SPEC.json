@@ -1,6 +1,5 @@
 {
   "schema": "aod.awareness.active.r04",
-  "m1_parent_tree": "a745e0253da564bb561942961714cc6f522a2246",
   "state": {
     "factorization": "S+=(X,Mclosure,R)",
     "present": "Every M1 WaveState coordinate except closure_memory and retained_rebalancing; wrapper placeholders required empty to prevent duplication",
@@ -55,7 +54,6 @@
     "eq:awareness-shedding-bridge",
     "eq:awareness-conditioned-shedding"
   ],
-  "runtime_delta": "Source-bound prior operand commitments, full inherited immutable-state validation, exact native integer cuts, actual action-return projection, and independent second-hop retained intervention enforce this specification. Comparator bias is an exact two-operand tuple. Every declared outer certificate carries its actual inner wave pair and scope map: both B1 comparison operands and the B2 fold. An outer tag without that witness is rejected. Structural removal, zero retention and nonzero cancellation remain distinct. A status label cannot create shedding; the exact bridge and computed record bind operands, surplus, route, commitment and restoration.",
   "source_anchor_bindings": [
     {
       "label": "eq:awareness-state-factorization",
@@ -97,5 +95,7 @@
       "surface": "manual",
       "path": "manual/sections/00_awareness_fixtures.tex"
     }
-  ]
+  ],
+  "implementation": "Source-bound prior operand commitments, full inherited immutable-state validation, exact native integer cuts, actual action-return projection, and independent second-hop retained intervention enforce this specification. Comparator bias is an exact two-operand tuple. Every declared outer certificate carries its actual inner wave pair and scope map: both B1 comparison operands and the B2 fold. An outer tag without that witness is rejected. Structural removal, zero retention and nonzero cancellation remain distinct. A status label cannot create shedding; the exact bridge and computed record bind operands, surplus, route, commitment and restoration.",
+  "native_source_tree": "a745e0253da564bb561942961714cc6f522a2246"
 }

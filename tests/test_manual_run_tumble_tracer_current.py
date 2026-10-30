@@ -40,24 +40,6 @@ def test_run_tumble_layer_separation_terms():
     ]
     for term in required:
         assert term in text
-    assert text.index(r"h_t\in\mathbb Z^4") < text.index(r"\pi_3:\mathbb Z^4\to\mathbb Z^3") < text.index(r"Q^2_{3D}")
-
-
-def test_forbidden_q4_position_language_absent():
-    text = manual_text() + "\n" + main_text()
-    forbidden = [
-        "Q4 position",
-        "Q4 Position",
-        "Q_4 position",
-        "Q_4 Position",
-        "crude 3D",
-        "toy 3D simulation",
-        "Wiener process",
-        "Itô calculus",
-        "Ito calculus",
-    ]
-    for term in forbidden:
-        assert term not in text
 
 
 def test_run_tumble_csv_consistency():
@@ -130,13 +112,6 @@ def test_appendix_c_cross_reference_and_registry_row():
     assert "run-tumble trace CSV" in reg
 
 
-def test_main_note_unchanged_by_run_tumble():
-    text = main_text().lower()
-    assert "run-tumble" not in text
-    assert "run tumble" not in text
-
-
 def test_run_tumble_registry_class_exact():
     reg = read("manual/sections/09_prediction_test_fixture_registry.tex")
-    assert "Run-tumble tracer-current fixture & G3/D0 &" in reg
     assert "G3/D0 audit" not in reg

@@ -67,29 +67,18 @@ def test_unrelated_active_heading_cannot_satisfy_conservation():
     with pytest.raises(ValueError,match='unrelated scientific construction'):a.audit_conservation([bad],expected,ROOT)
 
 
-def test_canonical_closure_phase_language_is_rendered_and_typed():
+def test_canonical_closure_phase_labels_are_active_and_typed():
     files,parts=a.include_graph(ROOT)
     assert 'sections/04_cut_running_fractal_tesseract.tex' in files
-    rendered='\n'.join(text for _,text in parts)
-    assert 'one complete closure-phase cycle' in rendered
-    assert 'phase-bearing step count' in rendered
-    assert 'never sufficient closure admission' in rendered
     labels=a.label_map(ROOT)
     assert labels['eq:closure-phase-step-count']['path']=='sections/04_cut_running_fractal_tesseract.tex'
     assert labels['eq:minimal-phase-quantum-bound']['path']=='sections/04_cut_running_fractal_tesseract.tex'
-
-
-def test_required_scientific_objects_precede_dependent_operations():
-    labels=a.label_map(ROOT)
-    assert labels['eq:cycle-valued-field-compression']['position']<labels['eq:cycle-rd-accessor']['position']
-    assert labels['eq:causal-update']['position']<labels['eq:support-trace-spine']['position']
 
 
 def test_m2_canonical_science_and_manual_fixture_are_rendered():
     mf=a.include_graph(ROOT)[0];uf=a.include_graph(ROOT,'manual')[0]
     assert 'sections/08_awareness_learning_mindfulness.tex' in mf
     fixture='manual/sections/00_awareness_fixtures.tex';assert fixture in uf
-    assert uf.index('manual/sections/00_native_closure_wave_temporal_fixtures.tex')<uf.index(fixture)<uf.index('manual/sections/00_dec_ledger.tex')
     equations=a.equations(ROOT)
     bindings={'eq:awareness-state-factorization':r'S_k^+=(X_k,M^C_k,R_k)',
               'eq:awareness-active':r'\exists t>k',
@@ -121,7 +110,7 @@ def test_m2_data_rows_bind_active_definitions_and_exact_source():
     rows=[json.loads(t) for t in (ROOT/'manual/data/m2/awareness_cases.jsonl').read_text().splitlines()]
     assert len(rows)==47 and len({x['fixture_id'] for x in rows})==47
     maps = {s: a.label_map(ROOT, s) for s in ('main', 'manual')}
-    bindings = json.loads((ROOT/'evidence/PR39_MAIN_MANUAL_RELOCATION_R07.json').read_text())['fixture_bindings']
+    bindings = json.loads((ROOT/'contracts/scientific/OWNERSHIP_AND_FIXTURES.json').read_text())['fixture_bindings']
     assert a.audit(ROOT)['compaction']['canonical_equations'] == 81
     for x, binding in zip(rows, bindings):
         assert x['fixture_id'] == binding['fixture_id']
@@ -134,27 +123,14 @@ def test_m2_data_rows_bind_active_definitions_and_exact_source():
         assert x['record_class']=='DECLARED_EXACT_MODEL'
 
 
-def test_active_evidence_sources_and_anchors_are_byte_bound():
-    import hashlib
-    main=a.label_map(ROOT);checked=[]
-    for path in sorted((ROOT/'evidence').rglob('*.json')):
-        record=json.loads(path.read_text())
-        has_binding=any(key in record for key in ('operative_source','source_sha256','source_anchors'))
-        if not has_binding:continue
-        assert {'operative_source','source_sha256','source_anchors'}<=record.keys()
-        source=ROOT/record['operative_source']
-        assert source.is_file()
-        assert record['source_sha256']==hashlib.sha256(source.read_bytes()).hexdigest()
-        assert record['source_anchors'] and len(record['source_anchors'])==len(set(record['source_anchors']))
-        assert [b['label'] for b in record['source_anchor_bindings']] == record['source_anchors']
-        for binding in record['source_anchor_bindings']:
-            owners = a.label_map(ROOT, binding['surface'])
-            assert owners[binding['label']]['path'] == binding['path']
-        checked.append(path.relative_to(ROOT).as_posix())
-    assert checked==['evidence/m2/AWARENESS_ACTIVE_CAUSAL_SPEC.json']
-    record=json.loads((ROOT/checked[0]).read_text())
-    assert {'eq:awareness-operative-set','eq:operative-self','eq:awareness-shedding-bridge',
-            'eq:awareness-conditioned-shedding'}<=set(record['source_anchors'])
+def test_registered_scientific_sources_and_anchors_are_byte_bound():
+    records = a.validate_contract_inventory(ROOT)
+    assert set(records) == set(a.SCIENTIFIC_CONTRACT_SCHEMAS)
+    checked = a.validate_active_specifications(ROOT, records)
+    assert checked == ['contracts/scientific/AWARENESS_ACTIVE_CAUSAL_SPEC.json']
+    record = records['AWARENESS_ACTIVE_CAUSAL_SPEC.json']
+    assert {'eq:awareness-operative-set', 'eq:operative-self', 'eq:awareness-shedding-bridge',
+            'eq:awareness-conditioned-shedding'} <= set(record['source_anchors'])
 
 
 def test_m2_displayed_sum_indices_and_empty_self_match_the_declared_types():

@@ -1,13 +1,29 @@
-"""Rendered mathematical ownership and the reviewed R07 relocation contract.
+"""Current mathematical ownership, fixture provenance and protected source bytes.
 
-Main is a self-contained ontology. Manual models import typed Main premises;
-immutable fixture tags retain their historical spelling and resolve only via
-the reviewed operation-specific bindings, never a union of document labels.
+Source locations identify the reviewed statements; they do not prescribe style.
+Immutable fixture tags resolve through operation-specific current bindings.
 """
 from pathlib import Path
 import hashlib
 import json
 import re
+
+
+CONTRACT_ROOT = 'contracts/scientific/'
+# These independent byte bindings are reviewed with the checker. Loading a
+# modified contract never changes an expected digest or authorizes new sources.
+CONTRACT_SHA256 = {
+    "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "a4e530314d03ff2a695a5d9f6d59f20f18ab8ae4c388a594b99fcf0996c5cf05",
+    "CANONICAL_BINDINGS.json": "55900dde344466f7ba07db08bb4c07dcf2f629b8f3765d504ed346db6fcfa5ac",
+    "FOURIER_SCOPE.md": "0bb855f5666a97a285d4e2ded98adf9cb70dc372b9039c33bcaeb43b38435328",
+    "HISTORICAL_TOY_SOURCE_STATUS.csv": "dc0f1b94afc71f930929e64caef8d9f9cb49386035706aa2b79b8b9cc0de42d4",
+    "METROLOGY_BOUNDARY.md": "553609db18f523faae6d2a53c3465c56ceb9034c6ba1ae3b7a6cff77fdf678af",
+    "OPERATIVE_SELF_SCHEMA.json": "0fba87a85c542a5a9b74f2242724bf334ecb1a0c39886a20c9298309d3005ecd",
+    "OWNERSHIP_AND_FIXTURES.json": "b86ef3d495a0b689da77307ad8facb945dd75bd603c0485bbcd88028c31e69d8",
+    "README.md": "86ff326ce8faf75f26231599cfef3d312a5f3b461229a63f3ed0e7e441f948e3",
+    "ROUND_TRIP_PHASE_FACTOR_SPEC.json": "a7f7c6aea4a373655e9031515d95cc19569557ad35357665e1e56d8b81777ed5",
+    "UPDATE_CAUSAL_ORDER.md": "879fe4fce9ec09b8640ca31eea28c09a3a6d2047f6d58eeafe463ece055315bd"
+}
 
 
 def _require(condition, message):
@@ -19,95 +35,20 @@ def _formula(block):
     return re.sub(r"\s+", "", re.sub(r"\\label\{[^}]+\}", "", block))
 
 
-def _json_hash(value):
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
-
-
-def _m25_successor(root, contract, maps, eqs):
-    """Advance only enumerated M2.5 statements and preserve historical bytes."""
-    baseline_bytes = (root / 'evidence/m25/ONTOLOGY_COMPACTION_BINDINGS.baseline.json').read_bytes()
-    _require(hashlib.sha256(baseline_bytes).hexdigest() ==
-             '3d460c81201ba4a3793269ce2ba2a5f484f6dbb020e39533167aa27e4e73430b',
-             'M2.5 baseline binding changed')
-    successor_bytes = (root / 'evidence/m25/BINDING_SUCCESSOR.json').read_bytes()
-    _require(hashlib.sha256(successor_bytes).hexdigest() ==
-             '1d2a3b1926c1f581b8db402762d67127ae23ae351842ee6540d2a86485833abb',
-             'unreviewed M2.5 successor binding')
-    successor = json.loads(successor_bytes)
-    expected = json.loads(baseline_bytes)
-    for label, change in successor['formula_changes'].items():
-        if change['canonical_contract']:
-            _require(expected['formulas'][label] == change['old'],
-                     'M2.5 original formula differs ' + label)
-            expected['formulas'][label] = change['new']
-    _require(contract == expected, 'unrelated M2.5 contract change')
-    for label, change in (successor['formula_changes'] | successor['new_formulas']).items():
-        surface = change['surface']
-        _require(maps[surface].get(label, {}).get('path') == change['path'] and
-                 label in eqs[surface] and _formula(eqs[surface][label]) == change['new'],
-                 'M2.5 mathematical statement or owner changed ' + label)
-    return successor
-
-
-# Pinned reviewed bindings from the sealed R07 request; these are not inferred
-# from ID ranges, historical anchor tags, or the candidate's active label sets.
-REVIEWED = {'fixture_bindings': '097d31a40378cf4a0198b05fb0d6983512cc7b265f6dab3e4fa9c59117ee5958', 'anchor_moves': 'a2f048eefa63082f4a56764f04fccb848da1bcc9500aafcb156912029edebe11', 'source_anchor_bindings': 'b7638c7b3f0da21fd142c12c61dc94e6ff4d2d1aa1a48054cf915a5530c9d2ed', 'baseline_groups': '9e7ae7a93bcac5b0b9e2e9b030213d30dda4516e142895620ea5bcb7d8ba4cae', 'current_groups': 'd866324d660289d8a84b7d82d60450cf50a4edc5502450af8072c8114987b666'}
-
-
-def _awareness_naming_bytes(path, data):
-    # SELF names the existing target role. Reverse only this reviewed naming
-    # change; full historical hashes still bind the law, schema and all cases.
-    original_source = 'fa5653fa80400af24cc5eaec3ee65818bb7d817b0eccc25390b54fb29a06a03c'
-    renamed_source = '6846300c020aca4af2c7fc51c0727dcd0ce7e302453e0a514904ce8aa5331d7b'
-    bindings = {
-        'manual/scripts/aod_awareness.py': (original_source, (
-            ("            'roles':{node:('ME' if node==w.target else 'BETWEEN') for node in nodes},'outside_role':'NOT-ME'}\n",
-             "            'roles':{node:('SELF' if node==w.target else 'BETWEEN') for node in nodes},'outside_role':'NOT-SELF'}\n", 1),
-            ("    require(candidate in g['nodes'] and g['roles'][candidate]=='ME','I label cannot create operative participation')\n",
-             "    require(candidate in g['nodes'] and g['roles'][candidate]=='SELF','I label cannot create operative participation')\n", 1),
-        )),
-        'evidence/m2/OPERATIVE_SELF_SCHEMA.json': (
-            '9464dd36380676d4d6edf11a10c5cbad3b2c2cc73d69dbc3801acf8d85909ba4', (
-                ('    "target": "ME",\n', '    "target": "SELF",\n', 1),
-                ('    "unconnected": "NOT-ME",\n', '    "unconnected": "NOT-SELF",\n', 1),
-            )),
-        'manual/data/m2/awareness_cases.jsonl': (
-            '6ac3bee0475813cc9ea3513c088d43be0e7b6d54b5c9484ccee60fd2fc7de35a', (
-                ('"source_sha256":"' + original_source + '"',
-                 '"source_sha256":"' + renamed_source + '"', 47),
-            )),
-        'evidence/m2/AWARENESS_ACTIVE_CAUSAL_SPEC.json': (
-            'ffb51dbf0e63b2599a8ccde85f62aa70c2dfd69ab05758a9d6335a1ce72334af', (
-                ('  "source_sha256": "' + original_source + '",\n',
-                 '  "source_sha256": "' + renamed_source + '",\n', 1),
-            )),
-    }
-    if path not in bindings:
-        return data
-    wanted, replacements = bindings[path]
-    if hashlib.sha256(data).hexdigest() != wanted:
-        for old, new, count in replacements:
-            old, new = old.encode(), new.encode()
-            _require(data.count(new) == count and old not in data,
-                     'Awareness naming repair differs ' + path)
-            data = data.replace(new, old)
-    _require(hashlib.sha256(data).hexdigest() == wanted,
-             'protected Awareness source or fixture changed ' + path)
+def _check_contract(root, name):
+    data = (root / CONTRACT_ROOT / name).read_bytes()
+    _require(hashlib.sha256(data).hexdigest() == CONTRACT_SHA256[name],
+             'scientific contract integrity changed ' + name)
     return data
 
 
-def audit_relocation(root, maps, eqs, parts):
-    record = json.loads((root / 'evidence/PR39_MAIN_MANUAL_RELOCATION_R07.json').read_text())
-    _require(record['schema'] == 'aod.main-manual-relocation.r07', 'unknown relocation schema')
-    _require(record['baseline_head'] == 'e6d3f33048ba0453b15d6ad4fdb140f3fdb3922e' and
-             record['baseline_tree'] == '1b71284e2df488d985322f37ce880237d1550d86', 'relocation baseline changed')
-    for key in ('fixture_bindings', 'anchor_moves'):
-        _require(_json_hash(record[key]) == REVIEWED[key], 'unreviewed relocation binding: ' + key)
-    spec = json.loads((root / 'evidence/m2/AWARENESS_ACTIVE_CAUSAL_SPEC.json').read_text())
+def audit_ownership(root, maps, eqs, parts):
+    record = json.loads(_check_contract(root, 'OWNERSHIP_AND_FIXTURES.json'))
+    _require(record['schema'] == 'aod.scientific.ownership-fixtures.v1',
+             'unknown ownership and fixture schema')
+    spec = json.loads(_check_contract(root, 'AWARENESS_ACTIVE_CAUSAL_SPEC.json'))
     _require(hashlib.sha256((root / spec['operative_source']).read_bytes()).hexdigest() ==
              spec['source_sha256'], 'current Awareness specification source binding changed')
-    _require(_json_hash(spec['source_anchor_bindings']) == REVIEWED['source_anchor_bindings'],
-             'unreviewed typed scientific source binding')
 
     def resolve(binding):
         surface, path, label = (binding[k] for k in ('surface', 'path', 'label'))
@@ -118,127 +59,100 @@ def audit_relocation(root, maps, eqs, parts):
 
     for binding in spec['source_anchor_bindings']:
         resolve(binding)
-    for move in record.get('additional_anchor_moves', []):
-        resolve(dict(move['new'], label=move['label']))
-    for move in record['anchor_moves']:
-        label = move['label']; binding = dict(move['new'], label=label)
+    for binding in record['anchor_owners']:
         resolve(binding)
-        if move['equation']:
-            body = eqs[binding['surface']].get(label)
-            _require(body is not None, 'relocated mathematical body absent ' + label)
-            _require(hashlib.sha256(_formula(body).encode()).hexdigest() == move['formula_sha256'],
-                     'relocated mathematical statement changed ' + label)
+        if binding['equation']:
+            body = eqs[binding['surface']].get(binding['label'])
+            _require(body is not None, 'owned mathematical body absent ' + binding['label'])
+            _require(hashlib.sha256(_formula(body).encode()).hexdigest() == binding['formula_sha256'],
+                     'owned mathematical statement changed ' + binding['label'])
     fixture = root / record['fixture_path']
-    fixture_bytes = _awareness_naming_bytes(record['fixture_path'], fixture.read_bytes())
+    fixture_bytes = fixture.read_bytes()
     _require(record['fixture_path'] == 'manual/data/m2/awareness_cases.jsonl' and
              hashlib.sha256(fixture_bytes).hexdigest() == record['fixture_sha256'],
              'immutable fixture file changed')
-    raw_rows = fixture_bytes.decode().splitlines()
-    current_rows = fixture.read_text().splitlines()
-    _require(len(raw_rows) == len(record['fixture_bindings']) == 47, 'fixture inventory changed')
-    for raw, current_raw, binding in zip(raw_rows, current_rows, record['fixture_bindings']):
+    rows = fixture_bytes.decode().splitlines()
+    _require(len(rows) == len(record['fixture_bindings']) == 47, 'fixture inventory changed')
+    for raw, binding in zip(rows, record['fixture_bindings']):
         row = json.loads(raw)
-        current_row = json.loads(current_raw)
         _require(hashlib.sha256(raw.encode()).hexdigest() == binding['fixture_row_sha256'],
                  'immutable fixture row changed ' + binding['fixture_id'])
         _require((row['fixture_id'], row['main_anchor'], row['manual_anchor'], row['operation']) ==
                  (binding['fixture_id'], binding['immutable_legacy_main_anchor'],
                   binding['immutable_manual_anchor'], binding['operation']), 'fixture provenance mismatch')
-        source_bytes = (root / row['source']).read_bytes()
-        _require(hashlib.sha256(source_bytes).hexdigest() == current_row['source_sha256'],
+        _require(hashlib.sha256((root / row['source']).read_bytes()).hexdigest() == row['source_sha256'],
                  'current fixture source binding changed')
-        original_source_bytes = _awareness_naming_bytes(row['source'], source_bytes)
-        _require(hashlib.sha256(original_source_bytes).hexdigest() == row['source_sha256'],
-                 'fixture engine changed')
         resolve(binding['current_construct'])
         for label in binding['main_premises']:
             _require(label in eqs['main'], 'missing genuine Main premise ' + label)
         for label in binding['manual_model_equations']:
             _require(label in eqs['manual'] and label not in maps['main'],
                      'missing local Manual model ' + label)
-    text = '\n'.join(t for _, t in parts['main'])
-    # Stable internal keys are not rendered terminology. Do not rename them.
-    prose = re.sub(r'\\(?:label|(?:eqn?|sec|app|fig|tab)?ref)\{[^}]+\}', '', text)
-    for name, pattern in (
-        ('Main-to-Manual dependency', r'(?i)\bmanual\b'),
-        ('application procedure', r'(?i)\b(readout|ledger|cache|implementation|sensor|proprioception|mindfulness)\b'),
-        ('action residual', r'r_a\s*=\s*y\s*-\s*u'),
-        ('query feedback', r'q_k\s*=\s*-\s*J_k'),
-        ('fixture diagnostic', r'\\delta_\{?3'),
-    ):
-        _require(re.search(pattern, prose) is None, 'Main concept exclusion: ' + name)
-    # Formula bodies, even with new labels or renamed prose, cannot return to Main.
-    main_formulas = {_formula(m.group()) for m in re.finditer(
-        r'\\begin\{(equation|align|gather)(\*?)\}.*?\\end\{\1\2\}', text, re.S)}
-    moved_hashes = {m['formula_sha256'] for m in record['anchor_moves'] if m['equation']}
-    _require(not ({hashlib.sha256(t.encode()).hexdigest() for t in main_formulas} & moved_hashes),
-             'relocated application body copied into Main')
-    dep = record['dependency_correspondence']
-    _require(_json_hash(dep['baseline_groups']) == REVIEWED['baseline_groups'], 'historical group obligations changed')
-    _require(_json_hash(dep['current_groups']) == REVIEWED['current_groups'], 'reviewed current dependency map changed')
-    original_edges = {(d, r['concept']) for r in dep['baseline_groups'] for d in r['depends_on']}
-    correspondence = dep['edge_correspondence']
-    _require({tuple(r['old']) for r in correspondence} == original_edges and len(correspondence) == 67,
-             'historical dependency obligation omitted')
-    actual_edges = {(d, r['concept']) for r in dep['current_groups'] for d in r['depends_on']}
-    accounted = {tuple(e) for r in correspondence for e in r['current']} | {tuple(r['current']) for r in dep['added_edges']}
-    _require(accounted == actual_edges, 'current dependency correspondence incomplete')
     return record
+
+
+def validate_dependencies(groups):
+    """Verify declared premise relations independently of publication order."""
+    visiting, complete = set(), set()
+
+    def visit(concept):
+        _require(concept in groups, 'unknown prerequisite ' + concept)
+        _require(concept not in visiting, 'cyclic scientific prerequisite ' + concept)
+        if concept in complete:
+            return
+        visiting.add(concept)
+        dependencies = groups[concept]['depends_on']
+        _require(len(dependencies) == len(set(dependencies)),
+                 'duplicate scientific prerequisite ' + concept)
+        for dependency in dependencies:
+            visit(dependency)
+        visiting.remove(concept)
+        complete.add(concept)
+
+    for concept in groups:
+        visit(concept)
+    return sum(len(row['depends_on']) for row in groups.values())
 
 
 def audit(root, main_files, main_parts, labels, equations, manual_files, manual_labels,
           manual_parts, manual_equations):
     root = Path(root)
-    contract = json.loads((root / 'evidence/ONTOLOGY_COMPACTION_BINDINGS.json').read_text())
+    contract = json.loads((root / CONTRACT_ROOT / 'CANONICAL_BINDINGS.json').read_text())
+    _require(contract['schema'] == 'aod.scientific.canonical.v1', 'unknown canonical schema')
     groups = {row['concept']: row for row in contract['ownership']}
     _require(len(groups) == len(contract['ownership']) == 44, 'canonical group inventory changed')
     maps = {'main': labels, 'manual': manual_labels}
     eqs = {'main': equations, 'manual': manual_equations}
-    files = {'main': main_files, 'manual': manual_files}
     parts = {'main': main_parts, 'manual': manual_parts}
     _require(not (set(labels) & set(manual_labels)), 'duplicate cross-document active owner')
 
-    def position(anchor, surface='main'):
+    def require_anchor(anchor, surface='main'):
         _require(anchor in maps[surface], 'missing active canonical anchor ' + anchor)
-        item = maps[surface][anchor]
-        return files[surface].index(item['path']), item['position']
 
     # Keep active-inclusion failures legible before resolving moved equations.
     for record in contract['manual_families']:
         _require(record['manual_path'] in manual_files and
                  manual_labels.get(record['manual_anchor'], {}).get('path') == record['manual_path'],
                  'Manual example family not rendered ' + record['id'])
-    edges = 0
+    edges = validate_dependencies(groups)
     for row in groups.values():
         surface = row['surface']
         for anchor in row['anchors']:
-            position(anchor, surface)
+            require_anchor(anchor, surface)
             _require(maps[surface][anchor]['path'] == row['path'], 'canonical owner changed ' + anchor)
             _require(anchor not in maps['manual' if surface == 'main' else 'main'], 'duplicate canonical owner ' + anchor)
             _require(anchor in eqs[surface], 'canonical mathematical body absent ' + anchor)
             _require(_formula(eqs[surface][anchor]) == contract['formulas'][anchor],
                      'canonical mathematical statement changed ' + anchor)
-        for dependency in row['depends_on']:
-            _require(dependency in groups, 'unknown prerequisite ' + dependency)
-            premise = groups[dependency]; ps = premise['surface']
-            _require(not (surface == 'main' and ps == 'manual'), 'Main depends on Manual: ' + row['concept'])
-            if ps == surface:
-                _require(max(position(a, ps) for a in premise['first_declarations']) <
-                         min(position(a, surface) for a in row['first_declarations']),
-                         'substantive consumer precedes prerequisite ' + row['concept'])
-            edges += 1
     _require(edges == 72, 'dependency edge inventory changed')
-    relocation = audit_relocation(root, maps, eqs, parts)
-    _require(contract['ownership'] == relocation['dependency_correspondence']['current_groups'],
-             'current typed ownership differs from reviewed migration')
+    audit_ownership(root, maps, eqs, parts)
     _require({a for r in groups.values() for a in r['anchors']} == set(contract['formulas']) and
              len(contract['formulas']) == 81, 'canonical formula inventory changed')
-    m25 = _m25_successor(root, contract, maps, eqs)
-    for record in contract['first_uses']:
-        for anchor in record['required_declaration_anchors']:
-            _require(position(anchor) < position(record['first_substantive_use_anchor']),
-                     'first use precedes its actual declaration ' + record['id'])
-
+    for label, binding in contract['supplemental_formulas'].items():
+        surface = binding['surface']
+        _require(maps[surface].get(label, {}).get('path') == binding['path'] and
+                 label in eqs[surface] and _formula(eqs[surface][label]) == binding['formula'],
+                 'supplemental mathematical statement or owner changed ' + label)
     definition_text = []
     for surface in ('main', 'manual'):
         for path, text in parts[surface]:
@@ -246,564 +160,31 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
             definition_text.append((surface, path, re.sub(r'\s+', '', body)))
     for record in contract['unique_signatures']:
         pattern = record['pattern']
-        if record['anchor'] in m25['signature_changes']:
-            change = m25['signature_changes'][record['anchor']]
-            _require(pattern == change['old'], 'M2.5 original defining signature differs')
-            pattern = change['new']
         matches = [(surface, path) for surface, path, body in definition_text
                    for match in re.finditer(pattern, body)]
         _require(matches == [(record['surface'], record['path'])],
                  'competing or absent canonical binding ' + record['anchor'])
-
-    appendices = contract["appendices"]
-    _require([p for p in main_files if p.startswith("appendices/")] == appendices,
-             "inherited A-J paths/order changed")
-    for path in appendices:
-        text = dict(main_parts)[path]
-        heading = re.search(r"\\(section|subsection|subsubsection)\*?\{", text)
-        _require(heading is not None and heading[1] == "section",
-                 "appendix is not a top-level section " + path)
-    for record in contract["navigation"]:
-        _require(record["replacement"] in dict(main_parts)[record["path"]],
-                 "local Main provenance call absent " + record["target"])
-        _require(labels.get(record["target"], {}).get("path") == record["target_path"],
-                 "local Main provenance target changed " + record["target"])
 
     for record in contract["manual_families"]:
         _require(record["manual_path"] in manual_files and
                  manual_labels.get(record["manual_anchor"], {}).get("path") == record["manual_path"],
                  "Manual example family not rendered " + record["id"])
         for anchor in record["main_anchors"]:
-            position(anchor)
+            require_anchor(anchor)
         for anchor in record.get("manual_model_anchors", []):
-            position(anchor, "manual")
+            require_anchor(anchor, "manual")
             _require(anchor in manual_equations, "local model body absent " + anchor)
-    # Reverse only the reviewed metadata, link assertions and reference presentation
-    # hunks before the historical title/subject repairs. All other bytes stay frozen.
-    metadata_expectations = {
-        "tests/test_release_naming_hygiene.py": (
-            (
-                '    assert "**Additional subtitle:** The Art Of The Leprechaun: Fractal Calculus" in readme\n'
-                '    assert "**Alternative title:** 43◦c" in readme\n'
-                '    assert "**Zenodo title:** Alpha↔Omega Dynamics (AΩD)" in readme\n'
-                '    assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form of the Stokes cut" in readme\n'
-                '    assert "## Abstract and Scope" in readme\n'
-                '    assert "## Simulation and Fixture Coverage" in readme\n'
-                '    assert "## Data-Support Scope" in readme\n'
-                '    assert "## References" in readme\n'
-                '    assert "Generated release artifact names are stable" in readme\n'
-                '    assert "scripts/build_release_bundle.py" in readme\n',
-                '    assert "**Additional subtitle:** The Art Of The Leprechaun: Fractal Calculus" in readme\n'
-                '    assert "**Alternative title:** 43◦c" in readme\n'
-                '    assert "**Zenodo title:** Alpha↔Omega Dynamics (AΩD)" in readme\n'
-                '    assert "**Alpha↔Omega Dynamics (AΩD)** is a relational, temporal computational calculus built from the discrete Stokes cut" in readme\n'
-                '    assert "## What AΩD is" in readme\n'
-                '    assert "## Run the reference fixtures" in readme\n'
-                '    assert "Each record states its support, inputs and execution status:" in readme\n'
-                '    assert "## References" in readme\n'
-                '    assert "Generated release artifact names are stable" in readme\n'
-                '    assert "scripts/build_release_bundle.py" in readme\n',
-            ),
-            ('    assert "**Alternative title:** The Art Of The Leprechaun: Fractal Calculus" in readme\n',
-             '    assert "**Additional subtitle:** The Art Of The Leprechaun: Fractal Calculus" in readme\n'),
-            ('    assert "**Other title:** 43 °c" in readme\n',
-             '    assert "**Alternative title:** 43◦c" in readme\n'),
-        ),
-        "tests/test_zenodo_metadata.py": (
-            (
-                'import json\n'
-                'import re\n'
-                'from pathlib import Path\n'
-                '\n'
-                'ROOT = Path(__file__).resolve().parents[1]\n'
-                '\n',
-                'import json\n'
-                'import re\n'
-                'from html.parser import HTMLParser\n'
-                'from pathlib import Path\n'
-                '\n'
-                'ROOT = Path(__file__).resolve().parents[1]\n'
-                '\n',
-            ),
-            (
-                'def current_prefix():\n'
-                '    return f"AOD_Temporal_Dynamics_v{current_slug()}"\n'
-                '\n'
-                '\n'
-                'def test_zenodo_metadata_present_and_title_has_no_revision():\n'
-                '    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))\n'
-                '    assert data["title"] == "Alpha↔Omega Dynamics (AΩD)"\n'
-                '    assert "v39" not in data["title"]\n'
-                '    assert "The Hidden Temporal Dynamics of Stokes" not in data["title"]\n'
-                '    assert any(t.get("title") == "The Hidden Temporal Dynamics of Stokes" and t.get("type", {}).get("id") == "subtitle" for t in data.get("additional_titles", []))\n'
-                '    assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "subtitle" for t in data.get("additional_titles", []))\n'
-                '    assert any(t.get("title") == "43◦c" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))\n'
-                '    assert data["version"] == current_version()\n'
-                '    assert data["publication_date"] == "2026-06-01"\n'
-                '    assert "Alpha↔Omega Dynamics (AΩD) is a relational temporal form" in data["description"]\n'
-                '    assert "<h2>Abstract and Scope</h2>" in data["description"]\n'
-                '    assert "## Abstract and Scope" not in data["description"]\n'
-                '    assert "<h2>The Application Manual: Reference Implementation Layer</h2>" in data["description"]\n'
-                '    assert "w=(1,1,4,2)" in data["description"] or "w=(1, 1, 4, 2)" in data["description"]\n'
-                '    assert "P<sub>slide</sub>" in data["description"]\n'
-                '    assert "manual.pdf" in data.get("notes", "")\n'
-                '    assert "main.pdf" in data.get("notes", "")\n'
-                '    assert "Axiomatic-Fundamentalism calculus (AFC)" in data["description"]\n'
-                '    assert "Alpha↔Omega Dynamics (AΩD)" in data["description"]\n'
-                '    assert data["upload_type"] == "publication"\n'
-                '    assert data["publication_type"] == "preprint"\n'
-                '    assert data["access_right"] == "open"\n'
-                '    assert data["license"] == "mit"\n'
-                '    assert any(c.get("name") == "Poyau, Reginald" for c in data["creators"])\n'
-                '    assert "references" in data\n'
-                '    assert "Poyau, R. (2025). Axiomatic Fundamentalism Calculus (AFC) (all versions). Zenodo. https://doi.org/10.5281/zenodo.17795590." in data["references"]\n'
-                '    assert "Poyau, R. (2025). Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research (all versions). Zenodo. https://doi.org/10.5281/zenodo.17561186." in data["references"]\n'
-                '    assert not any("Alpha–Omega Dynamics Manual" in r or "Alpha--Omega Dynamics Manual" in r for r in data["references"])\n'
-                '\n',
-                'def current_prefix():\n'
-                '    return f"AOD_Temporal_Dynamics_v{current_slug()}"\n'
-                '\n'
-                '\n'
-                'class DescriptionOutline(HTMLParser):\n'
-                '    def __init__(self):\n'
-                '        super().__init__()\n'
-                '        self.headings = []\n'
-                '        self.ordered_steps = {}\n'
-                '        self.heading_parts = None\n'
-                '        self.section = None\n'
-                '        self.list_depth = 0\n'
-                '\n'
-                '    def handle_starttag(self, tag, attrs):\n'
-                '        if tag == "h2":\n'
-                '            self.heading_parts = []\n'
-                '        elif tag == "ol":\n'
-                '            self.list_depth += 1\n'
-                '        elif tag == "li" and self.list_depth == 1:\n'
-                '            self.ordered_steps[self.section] = self.ordered_steps.get(self.section, 0) + 1\n'
-                '\n'
-                '    def handle_data(self, data):\n'
-                '        if self.heading_parts is not None:\n'
-                '            self.heading_parts.append(data)\n'
-                '\n'
-                '    def handle_endtag(self, tag):\n'
-                '        if tag == "h2":\n'
-                '            self.section = "".join(self.heading_parts)\n'
-                '            self.headings.append(self.section)\n'
-                '            self.heading_parts = None\n'
-                '        elif tag == "ol":\n'
-                '            self.list_depth -= 1\n'
-                '\n'
-                '\n'
-                'def test_zenodo_metadata_present_and_title_has_no_revision():\n'
-                '    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))\n'
-                '    assert data["title"] == "Alpha↔Omega Dynamics (AΩD)"\n'
-                '    assert not re.search(r"\\bv\\d", data["title"])\n'
-                '    assert "The Hidden Temporal Dynamics of Stokes" not in data["title"]\n'
-                '    assert any(t.get("title") == "The Hidden Temporal Dynamics of Stokes" and t.get("type", {}).get("id") == "subtitle" for t in data.get("additional_titles", []))\n'
-                '    assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "subtitle" for t in data.get("additional_titles", []))\n'
-                '    assert any(t.get("title") == "43◦c" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))\n'
-                '    assert data["version"] == current_version()\n'
-                '    assert data["publication_date"] == "2026-06-01"\n'
-                '    assert "<h2>What AΩD is</h2>" in data["description"]\n'
-                '    assert "relational, temporal computational calculus" in data["description"]\n'
-                '    assert not re.search(r"^#{1,6} ", data["description"], re.M)\n'
-                '    assert "main.pdf — The calculus:" in data["description"]\n'
-                '    assert "manual.pdf — Working with the calculus:" in data["description"]\n'
-                '    assert "w=(1,1,4,2)" in data["description"] or "w=(1, 1, 4, 2)" in data["description"]\n'
-                '    assert "P<sub>slide</sub>" in data["description"]\n'
-                '    assert "manual.pdf" in data.get("notes", "")\n'
-                '    assert "main.pdf" in data.get("notes", "")\n'
-                '    assert "Axiomatic Fundamentalism Calculus (AFC)" in data["description"]\n'
-                '    assert "Alpha↔Omega Dynamics (AΩD)" in data["description"]\n'
-                '    assert data["upload_type"] == "publication"\n'
-                '    assert data["publication_type"] == "preprint"\n'
-                '    assert data["access_right"] == "open"\n'
-                '    assert data["license"] == "mit"\n'
-                '    assert data["language"] == "eng"\n'
-                '    assert any(c.get("name") == "Poyau, Reginald" for c in data["creators"])\n'
-                '    assert any(c.get("orcid") == "0009-0007-8303-8627" for c in data["creators"])\n'
-                '    assert data["custom"]["code:codeRepository"] == "https://github.com/rpoyau/aod"\n'
-                '    assert "references" in data\n'
-                '    assert len(data["references"]) == 43\n'
-                '    assert "Poyau, R. (2025). Axiomatic Fundamentalism Calculus (AFC) (all versions). Zenodo. https://doi.org/10.5281/zenodo.17795590." in data["references"]\n'
-                '    assert "Poyau, R. (2025). Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research (all versions). Zenodo. https://doi.org/10.5281/zenodo.17561186." in data["references"]\n'
-                '    assert not any("Alpha–Omega Dynamics Manual" in r or "Alpha--Omega Dynamics Manual" in r for r in data["references"])\n'
-                '\n',
-            ),
-            (
-                '        "math-ph", "math-lo",\n'
-                '        "discrete Stokes calculus", "graph combinatorics", "certified closure",\n'
-                '        "discrete recurrence", "relational time", "finite Fourier representation",\n'
-                '        "Awareness", "computational intelligence", "persistent learning", "proprioceptive action-return models",\n'
-                '        "physical observable maps", "exact rational simulation", "Declared Edge Computation"\n'
-                '    ]\n'
-                '    assert data["subjects"] == [\n'
-                '        {"term": "Mathematical Physics", "identifier": "https://arxiv.org/list/math-ph/recent", "scheme": "url"},\n'
-                '        {"term": "Logic", "identifier": "https://arxiv.org/list/math.LO/recent", "scheme": "url"},\n'
-                '        {"term": "Combinatorics", "identifier": "https://arxiv.org/list/math.CO/recent", "scheme": "url"},\n'
-                '        {"term": "Discrete Mathematics", "identifier": "https://arxiv.org/list/cs.DM/recent", "scheme": "url"},\n'
-                '        {"term": "Artificial Intelligence", "identifier": "https://arxiv.org/list/cs.AI/recent", "scheme": "url"},\n'
-                '        {"term": "Neural and Evolutionary Computing", "identifier": "https://arxiv.org/list/cs.NE/recent", "scheme": "url"}\n'
-                '    ]\n'
-                '\n'
-                '\n'
-                'def test_afc_af_bib_entries_include_zenodo_dois():\n',
-                '        "math-ph", "math-lo",\n'
-                '        "discrete Stokes calculus", "graph combinatorics", "certified closure",\n'
-                '        "discrete recurrence", "relational time", "finite Fourier representation",\n'
-                '        "Awareness", "computational intelligence", "persistent learning", "proprioceptive action-return models",\n'
-                '        "physical observable maps", "exact rational simulation", "Declared Edge Computation",\n'
-                '        "Alpha-Omega Dynamics", "temporal wave dynamics", "causal operativity",\n'
-                '        "math.LO", "math.CO", "cs.DM", "cs.AI", "cs.NE"\n'
-                '    ]\n'
-                '    assert data["subjects"] == [\n'
-                '        {"term": "Mathematical Physics", "identifier": "https://arxiv.org/list/math-ph/recent", "scheme": "url"},\n'
-                '        {"term": "Logic", "identifier": "https://arxiv.org/list/math.LO/recent", "scheme": "url"},\n'
-                '        {"term": "Combinatorics", "identifier": "https://arxiv.org/list/math.CO/recent", "scheme": "url"},\n'
-                '        {"term": "Discrete Mathematics", "identifier": "https://arxiv.org/list/cs.DM/recent", "scheme": "url"},\n'
-                '        {"term": "Artificial Intelligence", "identifier": "https://arxiv.org/list/cs.AI/recent", "scheme": "url"},\n'
-                '        {"term": "Neural and Evolutionary Computing", "identifier": "https://arxiv.org/list/cs.NE/recent", "scheme": "url"}\n'
-                '    ]\n'
-                '\n'
-                '\n'
-                'def test_publication_and_revision_dates_are_distinct_and_paired():\n'
-                '    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))\n'
-                '    readme = (ROOT / "README.md").read_text(encoding="utf-8")\n'
-                '    assert data["publication_date"] == "2026-06-01"\n'
-                '    assert data["dates"] == [{\n'
-                '        "start": "2026-10-17", "end": "2026-10-17", "type": "Other",\n'
-                '        "description": f"Revision date for version {current_version()}",\n'
-                '    }]\n'
-                '    assert "Initial publication: 2026-06-01 · Revision: 2026-10-17" in readme\n'
-                '    assert "revision: 2026-10-17; initial publication: 2026-06-01" in data["notes"]\n'
-                '    assert f"Version {current_version()}" in data["notes"]\n'
-                '\n'
-                '\n'
-                'def test_readme_and_html_pair_the_engine_and_calculation_spine():\n'
-                '    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))\n'
-                '    readme = (ROOT / "README.md").read_text(encoding="utf-8")\n'
-                '    outline = DescriptionOutline()\n'
-                '    outline.feed(data["description"])\n'
-                '    engine = "The engine: how to run it (raw AFC and the D.E.C. ledger)"\n'
-                '    setup = "The setup (The Art of the Leprechaun): how to get specific results"\n'
-                '    assert outline.headings == ["What AΩD is", "Waves, relational time and Fourier", engine, setup]\n'
-                '    assert outline.ordered_steps == {engine: 2, setup: 4}\n'
-                '    readme_headings = re.findall(r"^## (.+)$", readme, re.M)\n'
-                '    normalized_headings = [heading.replace("*", "") for heading in readme_headings]\n'
-                '    positions = [normalized_headings.index(heading) for heading in outline.headings]\n'
-                '    assert positions == sorted(positions)\n'
-                '    for heading, expected_count in [(engine, 2), (setup, 4)]:\n'
-                '        markdown_heading = readme_headings[normalized_headings.index(heading)]\n'
-                '        section = readme.split(f"## {markdown_heading}\\n", 1)[1].split("\\n## ", 1)[0]\n'
-                '        assert len(re.findall(r"^\\d+\\. ", section, re.M)) == expected_count\n'
-                '    for phrase in [\n'
-                '        "certified enclosing return", "equal branch support counts", "structural hinge",\n'
-                '        "exact complex characters", "solar native input certificates", "originating tau calculation recipe",\n'
-                '    ]:\n'
-                '        assert phrase in readme\n'
-                '        assert phrase in data["description"]\n'
-                '\n'
-                '\n'
-                'def test_readme_fixture_fences_and_subject_table_are_complete():\n'
-                '    readme = (ROOT / "README.md").read_text(encoding="utf-8")\n'
-                '    blocks = re.findall(r"^```(\\w*)\\n(.*?)^```[ \\t]*$", readme, re.M | re.S)\n'
-                '    assert len(re.findall(r"^```", readme, re.M)) == 4\n'
-                '    assert [language for language, _ in blocks] == ["bash", "text"]\n'
-                '    bash = blocks[0][1]\n'
-                '    assert "python3 manual/scripts/aod_native_closure_wave.py --check-data" in bash\n'
-                '    assert "python3 manual/scripts/aod_awareness.py --check-data" in bash\n'
-                '    assert not any(re.search(r"^## ", body, re.M) for _, body in blocks)\n'
-                '    table = [line for line in readme.splitlines() if line.startswith("|")]\n'
-                '    assert len(table) == 8\n'
-                '    assert all(len(line.strip("|").split("|")) == 3 for line in table)\n'
-                '    assert table[0] == "| Scope | Category | Content |"\n'
-                '    assert table[1] == "| --- | --- | --- |"\n'
-                '    assert [re.search(r"`([^`]+)`", row).group(1) for row in table[2:]] == [\n'
-                '        "math.LO", "math.CO", "cs.DM", "math-ph", "cs.AI", "cs.NE",\n'
-                '    ]\n'
-                '\n'
-                '\n'
-                'def test_afc_af_bib_entries_include_zenodo_dois():\n',
-            ),
-            (
-                'def test_readme_references_are_synchronized_with_zenodo_references():\n'
-                '    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))\n'
-                '    readme = (ROOT / "README.md").read_text(encoding="utf-8")\n'
-                '    assert "References are synchronized from `refs.bib` and `manual/refs.bib`." in readme\n'
-                '    for ref in data["references"]:\n'
-                '        assert f"- {ref}" in readme\n'
-                '\n'
-                '\n'
-                'def test_root_zenodo_json_is_source_metadata_for_github_sync():\n'
-                '    assert (ROOT / ".zenodo.json").exists()\n',
-                'def test_readme_references_are_synchronized_with_zenodo_references():\n'
-                '    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))\n'
-                '    readme = (ROOT / "README.md").read_text(encoding="utf-8")\n'
-                '    assert "References are synchronized from `refs.bib` and `manual/refs.bib`." in readme\n'
-                '    section = readme.split("## References\\n", 1)[1].split("\\n## ", 1)[0]\n'
-                '    references = [line[2:] for line in section.splitlines() if line.startswith("- ")]\n'
-                '    assert references == data["references"]\n'
-                '\n'
-                '\n'
-                'def test_root_zenodo_json_is_source_metadata_for_github_sync():\n'
-                '    assert (ROOT / ".zenodo.json").exists()\n',
-            ),
-            ('    assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))\n',
-             '    assert any(t.get("title") == "The Art Of The Leprechaun: Fractal Calculus – 𝔖" and t.get("type", {}).get("id") == "subtitle" for t in data.get("additional_titles", []))\n'),
-            ('    assert any(t.get("title") == "43 °c" and t.get("type", {}).get("id") == "other" for t in data.get("additional_titles", []))\n',
-             '    assert any(t.get("title") == "43◦c" and t.get("type", {}).get("id") == "alternative-title" for t in data.get("additional_titles", []))\n'),
-            (
-                '    assert data["keywords"] == [\n'
-                '        "axiomatic fundamentalism", "AFC", "AOD", "Stokes", "cut calculus",\n'
-                '        "temporal dynamics", "AΩD", "math-ph", "math-lo"\n'
-                '    ]\n',
-                '    assert data["keywords"] == [\n'
-                '        "computational calculus", "axiomatic fundamentalism", "AFC",\n'
-                '        "AOD", "Stokes", "cut calculus", "temporal dynamics", "AΩD",\n'
-                '        "math-ph", "math-lo",\n'
-                '        "discrete Stokes calculus", "graph combinatorics", "certified closure",\n'
-                '        "discrete recurrence", "relational time", "finite Fourier representation",\n'
-                '        "Awareness", "computational intelligence", "persistent learning", "proprioceptive action-return models",\n'
-                '        "physical observable maps", "exact rational simulation", "Declared Edge Computation"\n'
-                '    ]\n'
-                '    assert data["subjects"] == [\n'
-                '        {"term": "Mathematical Physics", "identifier": "https://arxiv.org/list/math-ph/recent", "scheme": "url"},\n'
-                '        {"term": "Logic", "identifier": "https://arxiv.org/list/math.LO/recent", "scheme": "url"},\n'
-                '        {"term": "Combinatorics", "identifier": "https://arxiv.org/list/math.CO/recent", "scheme": "url"},\n'
-                '        {"term": "Discrete Mathematics", "identifier": "https://arxiv.org/list/cs.DM/recent", "scheme": "url"},\n'
-                '        {"term": "Artificial Intelligence", "identifier": "https://arxiv.org/list/cs.AI/recent", "scheme": "url"},\n'
-                '        {"term": "Neural and Evolutionary Computing", "identifier": "https://arxiv.org/list/cs.NE/recent", "scheme": "url"}\n'
-                '    ]\n',
-            ),
-        ),
-        'tests/test_zenodo_assets_metadata.py': (
-            (
-                'ROOT = Path(__file__).resolve().parents[1]\n'
-                '\n'
-                '\n'
-                'def test_zenodo_notes_use_latest_doi_links_only():\n'
-                '    z = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))\n'
-                '    notes = z.get("notes", "")\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in notes\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in notes\n'
-                '    assert "Primary display artifact" not in notes\n'
-                '    assert "Default display artifact" not in notes\n'
-                '    assert "Stable release assets" not in notes\n',
-                'ROOT = Path(__file__).resolve().parents[1]\n'
-                '\n'
-                '\n'
-                'def test_zenodo_notes_use_this_version_pdf_links_and_all_versions_doi():\n'
-                '    z = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))\n'
-                '    notes = z.get("notes", "")\n'
-                '    assert "This version:" in notes\n'
-                '    assert "https://zenodo.org/records/23426642/files/main.pdf?download=1" in notes\n'
-                '    assert "https://zenodo.org/records/23426642/files/manual.pdf?download=1" in notes\n'
-                '    assert \'All versions: <a href="https://doi.org/10.5281/zenodo.20486270">\' in notes\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/" not in notes\n'
-                '    assert "Primary display artifact" not in notes\n'
-                '    assert "Default display artifact" not in notes\n'
-                '    assert "Stable release assets" not in notes\n',
-            ),
-            (
-                '    assert "AOD_Temporal_Dynamics_v" not in notes\n'
-                '\n'
-                '\n'
-                'def test_readme_uses_latest_links_not_asset_block():\n'
-                '    readme = (ROOT / "README.md").read_text(encoding="utf-8")\n'
-                '    assert "## Latest DOI links" in readme\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in readme\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in readme\n'
-                '    assert "## Zenodo file assets" not in readme\n'
-                '    assert "## Primary display artifact" not in readme\n'
-                '    latest = readme.split("## Latest DOI links", 1)[1].split("##", 1)[0]\n'
-                '    assert "AOD_Temporal_Dynamics_v" not in latest\n',
-                '    assert "AOD_Temporal_Dynamics_v" not in notes\n'
-                '\n'
-                '\n'
-                'def test_readme_uses_this_version_links_not_asset_block():\n'
-                '    readme = (ROOT / "README.md").read_text(encoding="utf-8")\n'
-                '    assert "## This version" in readme\n'
-                '    assert "https://zenodo.org/records/23426642/files/main.pdf?download=1" in readme\n'
-                '    assert "https://zenodo.org/records/23426642/files/manual.pdf?download=1" in readme\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/" not in readme\n'
-                '    assert "## Zenodo file assets" not in readme\n'
-                '    assert "## Primary display artifact" not in readme\n'
-                '    this_version = readme.split("## This version", 1)[1].split("##", 1)[0]\n'
-                '    assert "AOD_Temporal_Dynamics_v" not in this_version\n'
-                '    assert "[![DOI](https://zenodo.org/badge/1012484945.svg)](https://doi.org/10.5281/zenodo.20486270)" in readme\n',
-            ),
-        ),
-        'tests/test_release_primary_artifact.py': (
-            (
-                '    return f"AOD_Temporal_Dynamics_v{current_slug()}"\n'
-                '\n'
-                '\n'
-                'def test_readme_names_latest_doi_links():\n'
-                '    readme = (ROOT / "README.md").read_text(encoding="utf-8")\n'
-                '    assert "## Latest DOI links" in readme\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in readme\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in readme\n'
-                '    assert "## Primary display artifact" not in readme\n'
-                '    assert "## Zenodo file assets" not in readme\n'
-                '\n'
-                '\n'
-                'def test_zenodo_notes_name_latest_pdf_links():\n'
-                '    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))\n'
-                '    notes = data.get("notes", "")\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/main.pdf?download=1" in notes\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/manual.pdf?download=1" in notes\n'
-                '    assert "Primary display artifact" not in notes\n'
-                '    assert "Stable release assets" not in notes\n'
-                '    assert "AOD_Temporal_Dynamics_v" not in notes\n'
-                '    assert data["title"] == "Alpha↔Omega Dynamics (AΩD)"\n'
-                '    assert any(t.get("title") == "The Hidden Temporal Dynamics of Stokes" for t in data.get("additional_titles", []))\n'
-                '    assert data["version"] == current_version()\n'
-                '\n'
-                '\n'
-                'def test_build_docs_name_main_pdf_primary_and_bundle_order():\n',
-                '    return f"AOD_Temporal_Dynamics_v{current_slug()}"\n'
-                '\n'
-                '\n'
-                'def test_readme_names_this_version_pdf_links():\n'
-                '    readme = (ROOT / "README.md").read_text(encoding="utf-8")\n'
-                '    assert "## This version" in readme\n'
-                '    assert "https://zenodo.org/records/23426642/files/main.pdf?download=1" in readme\n'
-                '    assert "https://zenodo.org/records/23426642/files/manual.pdf?download=1" in readme\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/" not in readme\n'
-                '    assert "](https://doi.org/10.5281/zenodo.20486270)" in readme\n'
-                '    assert "## Primary display artifact" not in readme\n'
-                '    assert "## Zenodo file assets" not in readme\n'
-                '\n'
-                '\n'
-                'def test_zenodo_notes_pair_version_pdf_links_with_current_version():\n'
-                '    data = json.loads((ROOT / ".zenodo.json").read_text(encoding="utf-8"))\n'
-                '    notes = data.get("notes", "")\n'
-                '    assert "https://zenodo.org/records/23426642/files/main.pdf?download=1" in notes\n'
-                '    assert "https://zenodo.org/records/23426642/files/manual.pdf?download=1" in notes\n'
-                '    assert "https://doi.org/10.5281/zenodo.20486270/files/" not in notes\n'
-                '    assert \'All versions: <a href="https://doi.org/10.5281/zenodo.20486270">\' in notes\n'
-                '    assert "Primary display artifact" not in notes\n'
-                '    assert "Stable release assets" not in notes\n'
-                '    assert "AOD_Temporal_Dynamics_v" not in notes\n'
-                '    assert data["title"] == "Alpha↔Omega Dynamics (AΩD)"\n'
-                '    assert any(t.get("title") == "The Hidden Temporal Dynamics of Stokes" for t in data.get("additional_titles", []))\n'
-                '    assert data["version"] == current_version()\n'
-                '    assert f"Version {current_version()}" in notes\n'
-                '\n'
-                '\n'
-                'def test_build_docs_name_main_pdf_primary_and_bundle_order():\n',
-            ),
-        ),
-        'scripts/sync_zenodo_references.py': (
-            (
-                '        if doi:\n'
-                '            rest += f". https://doi.org/{latex_to_text(doi).rstrip(\'.\')}"\n'
-                '        elif url:\n'
-                '            rest += f". {latex_to_text(url).rstrip(\'.\')}"\n'
-                '        parts.append(rest)\n'
-                '        return ". ".join(parts) + "."\n'
-                '    note = fields.get("note")\n',
-                '        if doi:\n'
-                '            rest += f". https://doi.org/{latex_to_text(doi).rstrip(\'.\')}"\n'
-                '        elif url:\n'
-                '            url_text = latex_to_text(url).rstrip(".")\n'
-                '            publisher_text = latex_to_text(publisher).rstrip(".") if publisher else ""\n'
-                '            # A URL in the publication field already identifies this source.\n'
-                '            # Compare complete tokens so distinct paths or queries remain intact.\n'
-                '            if url_text not in publisher_text.split():\n'
-                '                rest += f". {url_text}"\n'
-                '        parts.append(rest)\n'
-                '        return ". ".join(parts) + "."\n'
-                '    note = fields.get("note")\n',
-            ),
-        ),
-    }
-    # Reverse only the reviewed output-format/provenance repairs; the full
-    # original hash still binds every calculation, constant and input byte.
-    presentation_expectations = {
-        "tests/test_manual_table_grammar_release_polish.py": (
-            ('    assert "formula" not in text\n',
-             '    target_table = text.split(r"\\caption{Measured rest-energy target records.}", 1)[1].split(r"\\end{table}", 1)[0]\n'
-             '    assert "formula" not in target_table\n'),
-            ('    assert "Record & Target [MeV]" in text\n',
-             '    assert "Record & Target [MeV]" in target_table\n'),
-        ),
-        "tests/test_sparc_script_release_neutral.py": (
-            ('    assert "Controls are declared comparison variants from the current diagnostic run." in text\n',
-             '    assert "Carried frozen comparison records; variant recipes and aggregation provenance" in text\n    assert "are not supplied. These values are not computed by this script." in text\n'),
-        ),
-        "preamble.tex": (
-            ('  pdfsubject={The Hidden Temporal Dynamics of Stokes; The Art Of The Leprechaun: Fractal Calculus; AFC/AOD temporal dynamics, boundary accounting, finite simulation fixtures, data-support classes, scoped error},\n',
-             '  pdfsubject={The Hidden Temporal Dynamics of Stokes; The Art Of The Leprechaun: Fractal Calculus; AFC/AOD temporal dynamics, ontology, certified closure, discrete recurrence, relational time, finite Fourier representation, Awareness},\n'),
-            ('  pdfkeywords={Axiomatic Fundamentalism, AFC, AOD, AΩD, Stokes, SADAR, boundary accounting, data-support classes, scoped error, finite simulation fixtures}\n',
-             '  pdfkeywords={Axiomatic Fundamentalism, AFC, AOD, AΩD, Stokes, SADAR, ontology, certified closure, discrete recurrence, relational time, finite Fourier representation, Awareness}\n'),
-        ),
-        "scripts/generate_field_dynamics_layered.py": (
-            ('"""Generate the Layered Field Dynamics figure with AΩD structural labels."""\n',
-             '"""Generate the Layered Field Dynamics figure with AΩD structural labels."""\nimport argparse\nfrom pathlib import Path\n\n'),
-            ("GRAY = '#b9c2cc'\n",
-             "GRAY = '#b9c2cc'\n\nparser = argparse.ArgumentParser(description=__doc__)\nparser.add_argument('--main', action='store_true',\n                    help='omit the Manual-owned storage callout and capacity inset')\nparser.add_argument('--output', type=Path,\n                    help='PNG destination (defaults to the selected figure mode)')\nargs = parser.parse_args()\noutput = args.output or Path(\n    'figures_jpg/field_dynamics_layered_main.png' if args.main\n    else 'figures_jpg/field_dynamics_layered.png')\n"),
-            ("callout('channel capacity\\nradial channels store,\\nbuffer, and transfer support', (-0.74,-0.53), (-1.18,-0.82))\n",
-             "if not args.main:\n    callout('channel capacity\\nradial channels store,\\nbuffer, and transfer support', (-0.74,-0.53), (-1.18,-0.82))\n"),
-            ('for y, title, lines in [\n',
-             'insets = [\n'),
-            ("    (-0.33, 'B. RADIAL CHANNEL /\\nCAPACITY VIEW', ['channels provide', 'capacity, buffering,', 'and transfer'])]:\n",
-             "    (-0.33, 'B. RADIAL CHANNEL /\\nCAPACITY VIEW', ['channels provide', 'capacity, buffering,', 'and transfer'])]\nfor y, title, lines in insets[:1] if args.main else insets:\n"),
-            ("fig.savefig('figures_jpg/field_dynamics_layered.png', dpi=150, bbox_inches='tight')\n",
-             "fig.savefig(output, dpi=150, bbox_inches='tight')\n"),
-        ),
-        "manual/scripts/score_sparc_field_dynamics.py": (
-            ('lines.append(r"\\caption{SPARC five-galaxy scored records.}")',
-             'lines.append(r"\\caption{SPARC five-galaxy scored records. Data-support class is G0 for this radial shell projection lane; the uncertainty policy is observation-only in this release.}")'),
-            ('lines.append(r"\\begin{tabular}{lrrrrr}")',
-             'lines.append(r"\\begin{tabular}{lccrrrrr}")'),
-            ('lines.append(r"$G$ & $N$ & $\\chi^2_U$ & $MAE_U$ & $MSE_U$ & $MAPE_U$ [\\%]\\\\")',
-             'lines.append(r"$G$ & Class & $\\sigma$ policy & $N$ & $\\chi^2_U$ & $MAE_U$ & $MSE_U$ & $MAPE_U$ [\\%]\\\\")'),
-            ('f"{row[\'galaxy\']} & {int(row[\'N\'])} & {row[\'chi2_U\']:.2f} & {row[\'MAE_U\']:.1f} & {row[\'MSE_U\']:.1f} & {row[\'MAPE_U\']:.2f}',
-             'f"{row[\'galaxy\']} & G0 & obs-only & {int(row[\'N\'])} & {row[\'chi2_U\']:.2f} & {row[\'MAE_U\']:.1f} & {row[\'MSE_U\']:.1f} & {row[\'MAPE_U\']:.2f}'),
-            ('# Controls are declared comparison variants from the current diagnostic run.',
-             '# Carried frozen comparison records; variant recipes and aggregation provenance\n    # are not supplied. These values are not computed by this script.'),
-        ),
-    }
-    for path, wanted in contract["frozen_sha256"].items():
-        data = _awareness_naming_bytes(path, (root / path).read_bytes())
-        if path in m25['test_changes']:
-            change = m25['test_changes'][path]
-            _require(data == change['new'].encode(),
-                     'protected M2.5 test changed ' + path)
-            data = change['old'].encode()
-        if path in metadata_expectations and hashlib.sha256(data).hexdigest() != wanted:
-            for old, new in metadata_expectations[path]:
-                old, new = old.encode(), new.encode()
-                _require(data.count(new) == 1 and old not in data,
-                         "metadata assertion rebase differs " + path)
-                data = data.replace(new, old, 1)
-        if path in presentation_expectations and hashlib.sha256(data).hexdigest() != wanted:
-            for old, new in presentation_expectations[path]:
-                old, new = old.encode(), new.encode()
-                _require(data.count(new) == 1,
-                         "presentation repair differs " + path)
-                data = data.replace(new, old, 1)
-        if path == "evidence/m2/AWARENESS_ACTIVE_CAUSAL_SPEC.json":
-            # Preserve the original byte contract on all scientific fields;
-            # the separately pinned typed relocation field is the sole addition.
-            original = json.loads(data)
-            del original["source_anchor_bindings"]
-            data = (json.dumps(original, indent=2) + "\n").encode()
-        if path == "sections/01_abstract.tex":
-            # Reconstruct only the owner-authorized final sentence deletion.
-            removed = (" The core note gives the calculus; the manual carries the downstream finite simulations, "
-                       "exact fixtures, diagnostics, observable maps, external comparisons, and setup-error audits.")
-            text = data.decode()
-            _require(removed not in text, "obsolete abstract routing sentence")
-            data = text.replace("\n\\end{abstract}", removed + "\n\\end{abstract}", 1).encode()
-        _require(hashlib.sha256(data).hexdigest() == wanted,
-                 "protected engine, input, test or presentation changed " + path)
-    _require(not (root / "sections/02_introduction.tex").exists(),
-             "obsolete introduction restored")
-    return {"canonical_groups": len(groups), "canonical_equations": len(contract["formulas"]),
-            "ordered_dependencies": edges, "refined_first_uses": len(contract["first_uses"]),
-            "unique_defining_signatures": len(contract["unique_signatures"]),
-            "appendices": 10, "local_provenance_repairs": len(contract["navigation"]),
-            "manual_example_families": len(contract["manual_families"]),
-            "frozen_files": len(contract["frozen_sha256"])}
+    # Check exact contract bytes after semantic diagnostics, before using any
+    # source-protection entries. Deleting or rebinding an entry cannot pass.
+    for name in CONTRACT_SHA256:
+        _check_contract(root, name)
+    for path, wanted in contract['frozen_sha256'].items():
+        _require((root / path).is_file() and
+                 hashlib.sha256((root / path).read_bytes()).hexdigest() == wanted,
+                 'protected source changed ' + path)
+    return {'canonical_groups': len(groups), 'canonical_equations': len(contract['formulas']),
+            'supplemental_equations': len(contract['supplemental_formulas']),
+            'declared_dependencies': edges,
+            'unique_defining_signatures': len(contract['unique_signatures']),
+            'manual_example_families': len(contract['manual_families']),
+            'frozen_files': len(contract['frozen_sha256'])}

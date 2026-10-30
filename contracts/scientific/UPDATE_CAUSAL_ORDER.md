@@ -8,4 +8,4 @@ Contact comparison requires two distinct recurrent lineages, two distinct commit
 
 Motif/fold witnesses in this executable realization preassemble component closures before the target starts. The general Main condition is commit-before-consumption; the stronger fixture ordering is not a new universal axiom. Outer certification binds exact inner IDs, certificates and scope map; one outer closure is one complete closure-phase cycle, and fresh outer returns supply recurrence. Exposure preserves surviving inner history during outer shedding.
 
-M1 exposes a retained-context state coordinate but does not claim active causal awareness. M2 must extend and intervene on that coordinate only after the complete M1 gate.
+A retained-context coordinate alone does not establish active causal awareness. Causal intervention additionally requires the complete native admission, provenance and commitment conditions.
