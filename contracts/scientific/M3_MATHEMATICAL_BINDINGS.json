@@ -2,7 +2,7 @@
   "schema": "aod.scientific.m3-mathematics.v1",
   "scope": "Conditional finite cell, mapping and uncertainty mathematics; no physical metric or atomic observation law inferred",
   "sources": {
-    "sections/07_cell_measures_mappings.tex": "93da328ebd03e714bf9cc6e9346783bb4a691503ebd4a5e5ef44f125a5f4e0b4"
+    "sections/07_cell_measures_mappings.tex": "9e825161edf90d77b2f13282f030dd002ba3520a225c2dc4781b9cec7a9ec7f5"
   },
   "equations": {
     "eq:m3-support-measure": {

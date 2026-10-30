@@ -1,15 +1,15 @@
-\section{Declared cell measures and mappings}
+\section{Cell measures and mappings}
 \label{sec:m3-cells}
 \subsection{Finite cells and weighted support}
 \label{def:m3-cell-complex}
 \paragraph{Setup.}
 Let \(K_d\) be a finite set of oriented \(d\)-cells, with free chain group
-\(C_d=\mathbb Z[K_d]\), and let \(B_d:C_d\to C_{d-1}\) be its declared
+\(C_d=\mathbb Z[K_d]\), and let \(B_d:C_d\to C_{d-1}\) be its
 integer incidence map. A chain complex requires \(B_{d-1}B_d=0\).
 The vertices and edges of \eqref{eq:atomic-h1} specify a graph; additional
 cells, their incidences and their admission hypotheses are separate choices.
-For occupied support \(S\subseteq K_d\), weights \(w_d(c)\ge0\), and
-declared multiplicities \(m(c)\in\mathbb N\), define
+For occupied support \(S\subseteq K_d\), cell weights \(w_d(c)\ge0\), and
+multiplicities \(m(c)\in\mathbb N\), define
 \begin{equation}
  \mu_d(S)=\sum_{c\in S}w_d(c),\qquad
  \mu_d(S,m)=\sum_{c\in S}m(c)w_d(c).
@@ -41,8 +41,7 @@ the endpoint faces. Set
 Indeed, fixing two distinct interval coordinates in either order produces
 the same face. Removing the earlier coordinate changes the later index by
 one, so the two incidence products have opposite signs. Each codimension-two
-face cancels exactly once. This constructs a cubical chain complex when all
-faces are included; it supplies no physical metric.
+face cancels exactly once. Including all faces gives a cubical chain complex.
 
 \paragraph{Falsification.}
 Reversing one face incidence while retaining its endpoint incidences can
@@ -55,7 +54,7 @@ participates in \eqref{eq:m3-cubical-boundary}.
 \subsection{Folds, projections and a metric counterexample}
 \label{prop:m3-fold-support}
 \paragraph{Setup.}
-A declared family \(F_d:C_d(K)\to C_d(L)\) is a chain map precisely when
+A family \(F_d:C_d(K)\to C_d(L)\) is a chain map precisely when
 \begin{equation}
  B_d^L F_d=F_{d-1}B_d^K.
  \label{eq:m3-chain-map}
@@ -66,21 +65,20 @@ Such maps may supplement the retained inner identities and scope maps of
 
 \paragraph{Derivation.}
 Commutation sends cycles to cycles, since \(B^Kz=0\) implies
-\(B^LFz=FB^Kz=0\). It supplies no equation for unsigned image support.
+\(B^LFz=FB^Kz=0\).
 Take two adjacent oriented unit squares and reflect the right square onto
 the left. The induced signed cell maps commute with boundaries; the two
-oriented area contributions cancel. Nevertheless, the domain occupies two
+oriented area contributions cancel. The domain occupies two
 squares and the image support occupies one. Retaining two occurrences on
-that image would give multiplicity two. All three statements are compatible.
+that image would give multiplicity two.
 
 \paragraph{Specialization.}
 \label{prop:m3-staircase}
 A monotone axial quarter path with coordinate displacements \(r,r\),
 \(r>0\), has length \(2r\) when its length is the sum of axial displacements.
-Four quarters therefore have length \(8r\) at every subdivision. A report
-in a Euclidean circle geometry has circumference \(2\pi r\), so subdivision
+Four quarters therefore have length \(8r\) at every subdivision. The Euclidean
+circle has circumference \(2\pi r\), so subdivision
 with the axial estimator retains the discrepancy \((8-2\pi)r\).
-An independently convergent area estimator cannot alter this length identity.
 For the fixed unit disk and mesh \(1/n\), define quarter-disk upper and
 lower rectangle heights
 \(u_i=\lceil\sqrt{n^2-i^2}\rceil\) and
@@ -94,8 +92,7 @@ floor differences telescope to \(n\). Consequently
  \le \frac{8}{n}.
  \label{eq:m3-disk-enclosure}
 \end{equation}
-This is an area convergence statement for the specified fixed geometric
-object and estimator, independently of the axial boundary identity.
+The area enclosure converges; the axial perimeter remains fixed.
 Likewise, \(C=2qr\) and \(A=qr^2\) imply \(Cr-2A=0\) for every \(q\);
 the residual cannot select a coefficient.
 
@@ -130,8 +127,7 @@ Inserting \(g(\widetilde f(x))\) and applying the triangle inequality gives
  \le b_g+L_g b_f.
  \label{eq:m3-composed-bound}
 \end{equation}
-No probability or independence hypothesis is used. These are deterministic
-bounds, with compatible output dimensions, rather than standard deviations.
+These are deterministic bounds in the specified output units.
 
 \paragraph{Specialization.}
 For \(g(y)=1/y\) on a positive interval with lower endpoint \(a>0\),
@@ -184,15 +180,14 @@ entire supplied support has zero variance even for a nonlinear formula.
 \paragraph{Falsification.}
 Replacing the shared offset by two independent copies changes the model.
 Treating the zero derivative of \(X^2\) as a proof of zero spread contradicts
-\eqref{eq:m3-finite-law}. Neither exact rational arithmetic nor an exact
-finite law establishes applicability to an unmodelled physical system.
+\eqref{eq:m3-finite-law}.
 \aodprovenance{\eqref{eq:m3-finite-law}; \eqref{eq:m3-linear-covariance}.}
 
 \subsection{Observation-map identifiability}
 \label{prop:m3-atomic-gain}
 \paragraph{Setup.}
 Use two recurrent coupled lineages admitted by \eqref{eq:relational-time},
-with positive window counts \(N_H,N_C\). Suppose a declared observation law
+with positive window counts \(N_H,N_C\). Suppose an observation law
 has free positive gains \(g_H,g_C\) and assigns equivalent cycles
 \(C_H=g_HN_H\), \(C_C=g_CN_C\). Fixing a reference scale fixes \(g_C\)
 but supplies no constraint on \(g_H/g_C\).
@@ -203,7 +198,7 @@ histories and the reference normalization. The ratio is therefore
 underdetermined until an independently specified observation law fixes
 the relative gain.
 \paragraph{Specialization.}
-Under a constant reference frequency \(\nu_C>0\), the conditional elapsed
+Under a constant reference frequency \(\nu_C>0\), the elapsed
 interval is \(C_C/\nu_C\). This additional observation law does not assign
 a universal duration to a native cut. A predicted transition period
 \(1/\nu_H\) is a derived transformation, distinct from that elapsed interval.

@@ -14,7 +14,7 @@ CONTRACT_ROOT = 'contracts/scientific/'
 # modified contract never changes an expected digest or authorizes new sources.
 CONTRACT_SHA256 = {
     "MAP_CONTRACT.json": "140d1141bdd4e109a6327929eec11105106842dbdefc9f5f8f83e8dbc96b564b",
-    "M3_MATHEMATICAL_BINDINGS.json": "cd6aa0ae03e064b19eb0420d45ae6d84b99ad28d9ccbbc2268ce7e26b1d5e3e4",
+    "M3_MATHEMATICAL_BINDINGS.json": "00b7fec2cac1425a0a9c5fa4426edc1652df65420affa7c86e74b7bd18335fa0",
     "ERROR_BUDGET.json": "a3193ad92103b0a915ec2085a65f48c78b7b7aecf2668ef03b352f6ebee62d80",
     "CELL_MEASURE_SPEC.json": "701e895e4e85c03b35daada7d75c9a21a1cb46a8afe52e05ab125b58adb9c2ce",
     "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "a4e530314d03ff2a695a5d9f6d59f20f18ab8ae4c388a594b99fcf0996c5cf05",

@@ -1,29 +1,28 @@
 \section{Cell measures and geometric comparisons}
 \label{manual:m3-cells}
-\paragraph{Declared construction.}
-The implementation instantiates \mainsection{main:sec:m3-cells}
-and \mainequation{main:eq:m3-cubical-boundary} with elementary axis boxes.
-An active integer interval has length one before the declared report scale;
-an inactive interval is a vertex coordinate. Increasing active-axis order fixes
-orientation. The closure of one filled square contains four vertices, four
+\paragraph{Construction.}
+The model uses axis boxes with the cells of \mainsection{main:sec:m3-cells}
+and boundary \mainequation{main:eq:m3-cubical-boundary}.
+Each coordinate is a vertex or a unit interval before scaling.
+Increasing active-axis order fixes orientation.
+The closure of one filled square contains four vertices, four
 edges and one interior cell. The filled four-cube contains, by dimension,
-\((16,32,24,8,1)\) cells. These fillings are declared verification models.
-The inherited \(Q_4\) graph does not by itself supply their higher cells or
-a physical metric.
+\((16,32,24,8,1)\) cells. These fillings and their metric are model choices;
+the inherited \(Q_4\) graph supplies vertices and edges.
 
 \paragraph{Independent measures.}
-The interior routine sums nonnegative weights over occupied top-cell support.
-Repeated visits to one identity count once; a zero weight leaves that identity
-in support. The boundary routine sums oriented incidences and then measures
-the exposed faces. A separate neighbour-occupancy routine reconstructs those
-faces without calling the boundary operator. Shared faces cancel in the signed
-chain and remain in the full complex. At four-cube edge length \(a=3/2\)
+For these boxes, a \(d\)-cell's weight is the product of its \(d\) side lengths.
+The interior measure adds the weights of occupied \(d\)-cells, counting each
+cell once. A zero weight leaves the cell present.
+The boundary operator cancels shared faces; the boundary measure adds the
+weights of exposed faces. An independent check finds those faces from
+neighbouring occupied cells. Shared faces remain in the complex.
+At four-cube edge length \(a=3/2\)
 in coordinate units \(u\), literal enumeration gives
 \[
  V_4=\frac{81}{16}\,u^4,\qquad B_3=27\,u^3.
 \]
-The two outputs have different dimensions. They instantiate \(a^4\) and
-\(8a^3\); they are not a three-volume and a two-dimensional surface area.
+These are the four-volume \(a^4\) and boundary three-measure \(8a^3\).
 
 \paragraph{Circle comparison.}
 The fixed comparison object is the unit disk \(x^2+y^2\leq1\).
@@ -53,9 +52,8 @@ while the exposed axial boundary has length \(C_n=8\) at every level.
 \end{tabular}
 \end{center}
 Area and the last column use \(u^2\), length uses \(u\), and \(r_n=1u\).
-The narrowing area enclosure and the fixed axial perimeter demonstrate distinct
-estimator behaviour. Increased precision in the downstream \(\pi\) comparison
-cannot alter that metric mismatch. Rational alternating-series enclosures for
+The area enclosure narrows while the axial perimeter stays fixed.
+Rational alternating-series enclosures for
 \(16\arctan(1/5)-4\arctan(1/239)\), with 4, 8 and 16 terms per series,
 separately bound numerical reference error. Their lower bound for
 \(C_n-2\pi r_n\) remains positive.
@@ -74,10 +72,10 @@ its inner scope, identity, construction lineage and outer image. Distinct
 projected event identities cannot be merged to certify native closure.
 For a two-by-one rectangle with axis weights \((2,1)\), the boundary measure
 is \(10u\). Swapping only its coordinates gives \(8u\); swapping the metric
-with the coordinates restores \(10u\). This tests the hypotheses of a
-relabelling claim without inferring isotropy from a square.
+with the coordinates restores \(10u\). This relabelling preserves the measure
+when the metric is swapped with the coordinates.
 
-\paragraph{Execution and limits.}
+\paragraph{Execution and falsification.}
 The contract is \texttt{contracts/scientific/CELL\_MEASURE\_SPEC.json}.
 The command
 \texttt{python3} \path{manual/scripts/aod_cell_measures.py} \texttt{--check-data}
@@ -87,6 +85,3 @@ chain coefficients, duplicate
 occupancy, dimension, native metric promotion, projection reconstruction,
 projected closure and refinement inputs. The companion tests also mutate face
 counts and metric weights and isolate evaluation constants from construction.
-These results establish conditional finite geometry and its stated bounds.
-They add no native cell admission, physical calibration or atomic observation
-law. The sphere extension is not opened.
