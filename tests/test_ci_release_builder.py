@@ -57,6 +57,10 @@ SOURCE_DIRECTORY_TYPES = {
 def expected_source_inventory(root):
     import hashlib
     paths = {root / name for name in SOURCE_ROOT_FILES}
+    # Explicit additional reproducible M3 records; arbitrary generated JSON
+    # elsewhere in the Manual does not acquire source status through a suffix.
+    paths.update(root / 'manual/data/m3' / name for name in (
+        'cells_geometry.json', 'mapping_error.json', 'temporal.json'))
     for name, suffixes in SOURCE_DIRECTORY_TYPES.items():
         for path in (root / name).rglob("*"):
             rel = path.relative_to(root / name)

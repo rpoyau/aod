@@ -1,0 +1,113 @@
+\section{Typed maps and exact uncertainty examples}
+\label{manual:m3-mapping-error}
+These examples instantiate \mainsection{main:sec:m3-maps} using rational
+addition, subtraction, multiplication and division.
+
+\paragraph{Mapping records and composition.}
+Inputs and outputs retain quantity kind, dimension, unit, admissible bounds, scope and
+lineage. Dimensions use the declared ordered basis length, time and count.
+Native counts, cycle counts and dimensionless report coordinates remain distinct
+through kind and unit checks. Every parameter binds a source identity, payload
+key, exact value, dimension and origin. Raw inputs bind their values to trusted
+source payloads; intermediate values carry a reproducible upstream execution.
+Map versions, code, specifications, inputs and source payloads receive separate
+hashes.
+
+The worked composition takes \(x=3\), \(f(x)=2x\), and \(g(y)=2y\).
+Its output is \(12\). Both stages retain the same factor-source identity;
+the source appears once in the composed dependency set. The complete first
+codomain must lie inside the second domain. Mismatched dimensions, units,
+scopes and lineages reject composition. Evaluation-role sources reject both
+direct use in a prediction and indirect use through upstream provenance.
+Fitted parameters require declared calibration exposure and an applicable
+calibration budget component.
+
+\paragraph{Exact projection and information loss.}
+The map \(P(x,h)=x\) maps \((3,0)\) and \((3,1)\) to the same scalar.
+Both original input records remain in the execution provenance. Its arithmetic
+error is zero; recovering \(h\) from the projected scalar is nonunique.
+No scalar reconstruction error is assigned without a declared task metric.
+Affine injectivity is checked by exact matrix rank.
+Unproved nonlinear injectivity remains unknown.
+
+\paragraph{Joint laws and linearized diagnostics.}
+For each stated finite joint law the implementation enumerates all atoms and
+computes the exact mean and variance of
+\mainequation{main:eq:m3-finite-law}. It also reports the distinct first-order
+quantity in \mainequation{main:eq:m3-linear-covariance}. Covariance validation
+uses exact rational Schur complements and retains singular positive-semidefinite
+matrices. Missing covariance is not replaced by zero. A supplied covariance
+matrix that disagrees with the supplied joint law is rejected.
+
+Two finite examples use
+\(\Pr(\delta=-1/100)=\Pr(\delta=1/100)=1/4\) and
+\(\Pr(\delta=0)=1/2\). The dimensionless interval model is
+\(T=1/[(1+\delta)(1-\delta)]\). Its first-order variance is zero, but
+\[
+ \mathbb E[T]=\frac{19999}{19998},\qquad
+ \operatorname{Var}(T)=\frac{1}{399920004}>0.
+\]
+The near-cancelled product is
+\(F=(1+\delta)(1-999\delta/1000)\). Its exact results are
+\[
+ \mathbb E[F]=\frac{19999001}{20000000},\qquad
+ \operatorname{Var}(F)=\frac{1018001}{400000000000000},\qquad
+ J\Sigma J^{\mathsf T}=\frac{1}{20000000000}.
+\]
+The full variance is more than forty times the nonzero linearized diagnostic.
+The exact mean shift is \(-999/20000000\). Small marginal uncertainties
+therefore do not certify the omitted nonlinear contribution.
+
+A further example uses
+\(R=1+\delta\), \(f=1-\delta\), with probabilities \((1/4,1/2,1/4)\)
+at \(\delta=(-1/2,0,1/2)\). It reproduces
+\(\mathbb E[Rf]=7/8\), \(\operatorname{Var}(Rf)=1/64\), and zero
+first-order variance.
+
+\paragraph{Legitimate cancellation and limits of moments.}
+For an affine endpoint difference with means \((7,2)\) and covariance
+\(\left(\begin{smallmatrix}4&4\\4&4\end{smallmatrix}\right)\), the mean is
+\(5\) and the exact variance is zero. The model \(x/x\) is constant on the
+stated nonzero support and also has zero variance.
+For a nonlinear map supplied only with input moments, the first-order diagnostic
+is retained and output uncertainty remains unresolved.
+Two laws illustrate this with identical input mean zero and
+variance one: mass \(1/2\) at each of \(-1,1\), and masses \((1/8,3/4,1/8)\)
+at \((-2,0,2)\). Their squared outputs have variances zero and three,
+respectively. Input means and covariances do not determine nonlinear output
+uncertainty.
+
+\paragraph{Bounds, domains and source precision.}
+The composed-bound example instantiates
+\mainequation{main:eq:m3-composed-bound}. Assume uniform bounds
+\(b_f=1/100\) and \(b_g=1/1000\), an inner image in \([1,2]\), and the
+outer reciprocal law on \([1/2,3]\). The enlarged image remains in the outer
+domain. Its Lipschitz constant is \(4\), giving the bound \(41/1000\).
+A denominator domain containing zero returns an undefined-or-unbounded status,
+with no finite symmetric interval. A discrete joint law can still be evaluated
+when its actual denominator support excludes zero, even if its mean lies at an
+invalid linearization point; the first-order diagnostic is then unavailable.
+
+Each output has a separate budget with matching dimensions and units,
+distinguishing arithmetic, resolution, window, model discrepancy,
+calibration, propagation, solver and comparison contributions. Bounds and
+standard uncertainties bind evidence to that output. Unknown and
+inapplicable components carry reasons and no numerical values. Standard
+uncertainty requires an actual declared finite law and a matching variance;
+a deterministic bound cannot be relabelled as a standard deviation. Defining
+constants have zero measurement variance, while absent realization uncertainty
+remains unknown. This example has no physical discrepancy model, so its physical
+budget remains partial despite exact finite arithmetic.
+
+Synthetic printed-decimal controls test units and half-last-place bounds under
+nearest rounding. Printed zero requires a source convention or remains unknown.
+Numerical interpretation is checked separately from raw-byte integrity.
+
+\paragraph{Execution and falsification.}
+Run \texttt{python3 manual/scripts/aod\_mapping\_error.py --check} to
+reconstruct \path{manual/data/m3/mapping_error.json}.
+The tests mutate source payloads, input values,
+upstream execution digests, parameter origins, dimensions, domain bounds,
+projection claims, covariance, missing error components and purported physical
+completion. Each mutation executes the affected validator. The same guards
+remain active with Python optimization enabled.

@@ -1,0 +1,69 @@
+\section{Temporal records and SI mapping}
+\label{manual:m3-temporal}
+\paragraph{Constructed input.}
+The adapter consumes the admitted recurrent waves and repeated coupled returns of
+\mainequation{main:eq:wave-update-trace},
+\mainequation{main:eq:coupling-trace} and
+\mainequation{main:eq:rcd-additive-realization}.
+It retains each complete trace, certificate, lineage, contact prefix, integer
+window endpoint, signed phase bias, lag and directional reflection count.
+The worked pair has four compared closures at cuts \(2,10,18,26\) and three
+reference closures at cuts \(2,12,22\). Over \((0,30]\), excluding the first
+closure of each recurrent lineage, its increments are \((3,2)\).
+The comparison ratio is \(3/2\), its reverse is \(2/3\), and the two
+additive directional durations are \(5\) and \(7\) in their declared native
+count domain. Biases \((1/4,-1/4)\) give lag \(3/2\) and reverse lag \(-3/2\).
+
+\paragraph{Declared observation and units.}
+Let \(a_c,a_r>0\) be stipulated cycle-equivalent gains per native return.
+Let \(f_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{Hz}\) denote the defining
+reference, without a clock realization. For the fixed window define
+\[
+ T=\frac{a_rN_r}{f_{\mathrm{Cs}}},\qquad
+ \bar\nu_c=\frac{a_cN_c}{T},\qquad
+ t_1=t_0+T.
+\]
+The mapping binds both gains, the time coordinate and epoch, the complete
+input records, the defining reference and the executable mapping specification.
+At \(a_c=a_r=1\), \(T=2/f_{\mathrm{Cs}}\) seconds and
+\(\bar\nu_c=3f_{\mathrm{Cs}}/2\).
+The result is a finite-window average.
+The reciprocal \(1/\bar\nu_c\) is a derived period, distinct from \(T\)
+and from an independent validation. Physical realization and uncertainties from
+drift, endpoint phase, cycle slips and temporal dependence remain unspecified.
+The gains are stipulated without fitting hydrogen.
+
+\paragraph{Identifiability and separated evaluation.}
+The family \(g_\lambda(Z)=1+\lambda(55-Z)/54\), \(\lambda>-1\), has
+\(g_\lambda(55)=1\) and \(g_\lambda(1)=1+\lambda\).
+The \(\lambda=0,1\) countermodels preserve the native records and Cs anchor
+while producing different reports. The relative gain therefore remains free.
+The known hydrogen value remains retrospectively exposed. Evaluation validates
+the frozen prediction against the original model inputs before comparison,
+then binds separate prediction and target hashes. Changing only the
+target changes its diagnostic residual and leaves prediction bytes unchanged.
+An atomic point prediction and its complete uncertainty remain unresolved.
+
+\paragraph{Consumer and causal control.}
+The separately bound Matter I v2 replay preserves its declared-model status:
+its native atomic admission remains pending. The baseline and capacity
+intervention share committed history through cut 39. The intervention at 40
+causes retention loss at 41, changing observed increments from \((6,5)\) to
+\((2,5)\). Applying the same stipulated gain one in both cases leaves
+\(T=5/f_{\mathrm{Cs}}\) fixed and changes the average from
+\(6f_{\mathrm{Cs}}/5\) to \(2f_{\mathrm{Cs}}/5\).
+A hostile mutation disconnects the loss response from the next state while
+retaining the intervention inputs. The effect disappears and the original
+replay validator rejects that trace.
+
+\paragraph{Reproduction and source precision.}
+\texttt{manual/scripts/aod\_m3\_temporal.py --check} reconstructs the native
+adapter and mapping report; \texttt{--consumer-root} selects the
+separately bound Matter I replay. The tests reject changed scopes, aliases,
+uncoupled records, invalid windows, scheduler substitutions, nonpositive gains,
+and evaluation leakage. The consumer preserves historical v1/v2 fixture bytes
+and identifies its two active Main amendments separately.
+The BIPM comparison retains raw hashes, tests nearest rounding for nonzero
+entries and uses conditional point-zero covariance transcriptions.
+Its source documents do not specify zero formatting or underflow, so zero
+precision remains unresolved.

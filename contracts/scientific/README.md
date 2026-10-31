@@ -11,3 +11,9 @@ These records bind the current rendered manuscript, executable models and exact 
 Run `python3 scripts/audit_scientific_sources.py .` and `python3 -m pytest -q` from the source root. Contract bytes are pinned independently in the checker; editing a contract cannot authorize a source mutation. The source package contains all validation inputs and requires no external project records.
 
 Source hashes establish the reviewed version. Mathematical checks separately verify exact arithmetic and model behavior under the declared assumptions. Neither a matching hash nor a preferred prose arrangement proves a scientific claim.
+
+## Cell measures and mappings
+
+`CELL_MEASURE_SPEC.json` declares the finite cell completion, incidences, weights and fold properties. `MAP_CONTRACT.json` and `ERROR_BUDGET.json` specify typed mapping records and the distinction between exact results, bounds, uncertainty and unknown applicability. `M3_MATHEMATICAL_BINDINGS.json` binds the new active mathematical statements and their source bytes. All are registered explicitly and have independent checker digests.
+
+The worked records in `manual/data/m3/` are reproduced by `aod_cell_measures.py`, `aod_mapping_error.py` and `aod_m3_temporal.py` in `manual/scripts/`. Their tests exercise rejected inputs and mathematical counterexamples as well as positive cases. A declared cubical metric, exact finite probability law or conditional SI observation map is not an independent physical prediction.

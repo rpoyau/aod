@@ -1,0 +1,86 @@
+\section{Cell measures and geometric comparisons}
+\label{manual:m3-cells}
+\paragraph{Construction.}
+The model uses axis boxes with the cells of \mainsection{main:sec:m3-cells}
+and boundary \mainequation{main:eq:m3-cubical-boundary}.
+Each coordinate is a vertex or a unit interval before scaling.
+Increasing active-axis order fixes orientation.
+The closure of one filled square contains four vertices, four
+edges and one interior cell. The filled four-cube contains, by dimension,
+\((16,32,24,8,1)\) cells. These fillings and their metric are model choices;
+the inherited \(Q_4\) graph supplies vertices and edges.
+
+\paragraph{Independent measures.}
+For these boxes, a \(d\)-cell's weight is the product of its \(d\) side lengths.
+The interior measure adds the weights of occupied \(d\)-cells, counting each
+cell once. A zero weight leaves the cell present.
+The boundary operator cancels shared faces; the boundary measure adds the
+weights of exposed faces. An independent check finds those faces from
+neighbouring occupied cells. Shared faces remain in the complex.
+At four-cube edge length \(a=3/2\)
+in coordinate units \(u\), literal enumeration gives
+\[
+ V_4=\frac{81}{16}\,u^4,\qquad B_3=27\,u^3.
+\]
+These are the four-volume \(a^4\) and boundary three-measure \(8a^3\).
+
+\paragraph{Circle comparison.}
+The fixed comparison object is the unit disk \(x^2+y^2\leq1\).
+At resolution \(n\), square cells have side \(1/n\).
+The outer staircase includes cells whose minimum squared corner radius is
+strictly below one. The inner staircase includes cells whose maximum squared
+corner radius is at most one. Integer inequalities select both supports before
+any evaluation of \(\pi\). An independent quarter-column calculation uses
+integer square roots. The radius report is the common maximum absolute
+vertex coordinate on the two axes.
+\mainequation{main:eq:m3-disk-enclosure} supplies the inclusion bound
+\(A_n^-\leq\pi\leq A_n^+\) and \(A_n^+-A_n^-\leq8/n\),
+while the exposed axial boundary has length \(C_n=8\) at every level.
+
+\begin{center}
+\begin{tabular}{rrrrr}
+\toprule
+\(n\)&\(A_n^-\)&\(A_n^+\)&\(C_n\)&\(C_n r_n-2A_n^+\)\\
+\midrule
+1&0&4&8&0\\
+2&1&4&8&0\\
+4&2&\(15/4\)&8&\(1/2\)\\
+8&\(41/16\)&\(7/2\)&8&1\\
+16&\(183/64\)&\(107/32\)&8&\(21/16\)\\
+32&\(385/128\)&\(833/256\)&8&\(191/128\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+Area and the last column use \(u^2\), length uses \(u\), and \(r_n=1u\).
+The area enclosure narrows while the axial perimeter stays fixed.
+Rational alternating-series enclosures for
+\(16\arctan(1/5)-4\arctan(1/239)\), with 4, 8 and 16 terms per series,
+separately bound numerical reference error. Their lower bound for
+\(C_n-2\pi r_n\) remains positive.
+The shared-coefficient controls \(C=2qr\), \(A=qr^2\), with
+\(q\in\{2,3,355/113,7/2\}\), all give \(Cr-2A=0\).
+Each fails comparison with the independently computed finite measures.
+Thus that zero residual cannot identify a common coefficient.
+
+\paragraph{Fold and projection.}
+\mainequation{main:eq:m3-chain-map} is instantiated by two
+adjacent unit squares, folded by \(x\mapsto\min(x,2-x)\) with \(y\) fixed.
+The right square reverses orientation. The complete induced maps commute with
+boundary; the oriented top image is zero. The input occupied area remains
+\(2u^2\) and the image support has area \(1u^2\). Every source cell retains
+its inner scope, identity, construction lineage and outer image. Distinct
+projected event identities cannot be merged to certify native closure.
+For a two-by-one rectangle with axis weights \((2,1)\), the boundary measure
+is \(10u\). Swapping only its coordinates gives \(8u\); swapping the metric
+with the coordinates restores \(10u\).
+
+\paragraph{Execution and falsification.}
+The contract is \texttt{contracts/scientific/CELL\_MEASURE\_SPEC.json}.
+The command
+\texttt{python3} \path{manual/scripts/aod_cell_measures.py} \texttt{--check-data}
+reproduces \path{manual/data/m3/cells_geometry.json} from the declared
+construction. It executes mutations of incidence, fold orientation, integer
+chain coefficients, duplicate
+occupancy, dimension, native metric promotion, projection reconstruction,
+projected closure and refinement inputs. The companion tests also mutate face
+counts and metric weights and isolate evaluation constants from construction.
