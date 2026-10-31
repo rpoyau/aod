@@ -159,8 +159,8 @@ Finite expectation gives \eqref{eq:m3-finite-law} directly. For any vector
 \(v\), \(v^T\Sigma_yv=\sum_sp_s[v^T(h(x_s)-\bar y)]^2\ge0\), so
 singular positive-semidefinite covariance is admissible. If \(h\) is affine,
 \(h(x)=Ax+b\), substitution gives \(\Sigma_y=A\Sigma_xA^T\) exactly.
-For a differentiable nonlinear map, the corresponding expression at
-\(\bar x\) is only its first-order covariance:
+If a nonlinear \(h\) is differentiable at the input mean \(\bar x\),
+its Jacobian gives the first-order covariance:
 \begin{equation}
  \Sigma_{y,\mathrm{lin}}=J(\bar x)\Sigma_xJ(\bar x)^T.
  \label{eq:m3-linear-covariance}

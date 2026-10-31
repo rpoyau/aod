@@ -88,8 +88,10 @@ with no finite symmetric interval. A discrete joint law can still be evaluated
 when its actual denominator support excludes zero, even if its mean lies at an
 invalid linearization point; the first-order diagnostic is then unavailable.
 
-The budget distinguishes arithmetic, resolution, window, model discrepancy,
-calibration, propagation, solver and comparison contributions. Unknown and
+Each output has a separate budget with matching dimensions and units,
+distinguishing arithmetic, resolution, window, model discrepancy,
+calibration, propagation, solver and comparison contributions. Bounds and
+standard uncertainties bind evidence to that output. Unknown and
 inapplicable components carry reasons and no numerical values. Standard
 uncertainty requires an actual declared finite law and a matching variance;
 a deterministic bound cannot be relabelled as a standard deviation. Defining

@@ -35,10 +35,15 @@
       {
         "input_sha256": "dd87d5e648b14a9b8527ab4d521830ec91f1e4e6d5017389c2633d6d6d5a4b96",
         "map_id": "map:scale",
+        "operand_sources": {
+          "y": {
+            "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+          }
+        },
         "outputs": {
           "y": {
             "origin": {
-              "execution_sha256": "bf5193dd1e35591a8d97dc869e5d4c8d05e2c67b8e3b0c0a5efee1f883c550a9",
+              "execution_sha256": "d1c94cf1fed9f07335251dafb7662ad889dcbfc5d0aa23c8e01ae001ef801618",
               "inputs": {
                 "x": {
                   "origin": {
@@ -75,7 +80,7 @@
                   "reason": "declared algebraic parameter, no device",
                   "status": "not_applicable"
                 },
-                "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+                "code_sha256": "d548965f11b529c2a52f4d323fff75c7c64585f8559e88924ee1e2b5333fcffa",
                 "codomain": [
                   {
                     "bounds": [
@@ -117,64 +122,58 @@
                   }
                 ],
                 "error": {
-                  "arithmetic": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "calibration": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no calibration operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "comparison": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no comparison operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "model_discrepancy": {
-                    "kind": "unknown",
-                    "provenance": "model:finite",
-                    "reason": "no physical observation model supplied",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "propagation": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "resolution": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no resolution operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "solver": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "window": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no window operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
+                  "y": {
+                    "arithmetic": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "calibration": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no calibration operation in this example",
+                      "unit": "1"
+                    },
+                    "comparison": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no comparison operation in this example",
+                      "unit": "1"
+                    },
+                    "model_discrepancy": {
+                      "included_sources": {},
+                      "kind": "unknown",
+                      "reason": "no physical observation model supplied",
+                      "unit": "1"
+                    },
+                    "propagation": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "resolution": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no resolution operation in this example",
+                      "unit": "1"
+                    },
+                    "solver": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "window": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no window operation in this example",
+                      "unit": "1"
+                    }
                   }
                 },
                 "id": "map:scale",
@@ -226,7 +225,7 @@
                     "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
                   }
                 ],
-                "spec_sha256": "044def75e6089759116070a8ecfe3fe00fab16f5aef9c80ef5f715860c795186",
+                "spec_sha256": "cca28e2378df8c609084021a314a439f5927255f89c0620310926ef3363eaa41",
                 "status": {
                   "arithmetic": "exact within declared domain",
                   "physical_applicability": "unknown"
@@ -235,7 +234,7 @@
                   "injective": true,
                   "invariance": "retains input identity in provenance"
                 },
-                "version": "1"
+                "version": "2"
               },
               "output": "y"
             },
@@ -258,26 +257,31 @@
             "provenance": {
               "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
             },
-            "sha256": "8af9fa8eb9080db7adb173c59ca82f74648b97b1763ab750741db76863ac327a",
+            "sha256": "d6856ddabbf6a5a65da764703260eb9d71a98315c48ea59e8d6c48ad1b784210",
             "value": "6"
           }
         },
         "provenance": {
           "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
         },
-        "spec_sha256": "044def75e6089759116070a8ecfe3fe00fab16f5aef9c80ef5f715860c795186"
+        "spec_sha256": "cca28e2378df8c609084021a314a439f5927255f89c0620310926ef3363eaa41"
       },
       {
-        "input_sha256": "2c9749f4d325fe83ae290c62b8126720a98b9d752feca6a54d4338e3e454ec8a",
+        "input_sha256": "97244c426ce1f7610452918c1d81d4fa58f26630e8fc827d7d6065bd1c8f95ca",
         "map_id": "map:scale-again",
+        "operand_sources": {
+          "y": {
+            "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+          }
+        },
         "outputs": {
           "y": {
             "origin": {
-              "execution_sha256": "a988c84fd8688c5bd4d3adc1e13ca1e5e0361c96c78628235fd23ad183c0903b",
+              "execution_sha256": "cabe5cfdfde8e277f19d919d38b49141cc45b8d4e930a011bf6064a2f3cb1467",
               "inputs": {
                 "x": {
                   "origin": {
-                    "execution_sha256": "bf5193dd1e35591a8d97dc869e5d4c8d05e2c67b8e3b0c0a5efee1f883c550a9",
+                    "execution_sha256": "d1c94cf1fed9f07335251dafb7662ad889dcbfc5d0aa23c8e01ae001ef801618",
                     "inputs": {
                       "x": {
                         "origin": {
@@ -314,7 +318,7 @@
                         "reason": "declared algebraic parameter, no device",
                         "status": "not_applicable"
                       },
-                      "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+                      "code_sha256": "d548965f11b529c2a52f4d323fff75c7c64585f8559e88924ee1e2b5333fcffa",
                       "codomain": [
                         {
                           "bounds": [
@@ -356,64 +360,58 @@
                         }
                       ],
                       "error": {
-                        "arithmetic": {
-                          "kind": "exact",
-                          "provenance": "model:finite",
-                          "reason": "exact rational operation",
-                          "scope": "declared finite example",
-                          "unit": "1",
-                          "value": "0"
-                        },
-                        "calibration": {
-                          "kind": "not_applicable",
-                          "provenance": "model:finite",
-                          "reason": "no calibration operation in this example",
-                          "scope": "declared finite example",
-                          "unit": "1"
-                        },
-                        "comparison": {
-                          "kind": "not_applicable",
-                          "provenance": "model:finite",
-                          "reason": "no comparison operation in this example",
-                          "scope": "declared finite example",
-                          "unit": "1"
-                        },
-                        "model_discrepancy": {
-                          "kind": "unknown",
-                          "provenance": "model:finite",
-                          "reason": "no physical observation model supplied",
-                          "scope": "declared finite example",
-                          "unit": "1"
-                        },
-                        "propagation": {
-                          "kind": "exact",
-                          "provenance": "model:finite",
-                          "reason": "exact rational operation",
-                          "scope": "declared finite example",
-                          "unit": "1",
-                          "value": "0"
-                        },
-                        "resolution": {
-                          "kind": "not_applicable",
-                          "provenance": "model:finite",
-                          "reason": "no resolution operation in this example",
-                          "scope": "declared finite example",
-                          "unit": "1"
-                        },
-                        "solver": {
-                          "kind": "exact",
-                          "provenance": "model:finite",
-                          "reason": "exact rational operation",
-                          "scope": "declared finite example",
-                          "unit": "1",
-                          "value": "0"
-                        },
-                        "window": {
-                          "kind": "not_applicable",
-                          "provenance": "model:finite",
-                          "reason": "no window operation in this example",
-                          "scope": "declared finite example",
-                          "unit": "1"
+                        "y": {
+                          "arithmetic": {
+                            "included_sources": {},
+                            "kind": "exact",
+                            "reason": "exact rational operation",
+                            "unit": "1",
+                            "value": "0"
+                          },
+                          "calibration": {
+                            "included_sources": {},
+                            "kind": "not_applicable",
+                            "reason": "no calibration operation in this example",
+                            "unit": "1"
+                          },
+                          "comparison": {
+                            "included_sources": {},
+                            "kind": "not_applicable",
+                            "reason": "no comparison operation in this example",
+                            "unit": "1"
+                          },
+                          "model_discrepancy": {
+                            "included_sources": {},
+                            "kind": "unknown",
+                            "reason": "no physical observation model supplied",
+                            "unit": "1"
+                          },
+                          "propagation": {
+                            "included_sources": {},
+                            "kind": "exact",
+                            "reason": "exact rational operation",
+                            "unit": "1",
+                            "value": "0"
+                          },
+                          "resolution": {
+                            "included_sources": {},
+                            "kind": "not_applicable",
+                            "reason": "no resolution operation in this example",
+                            "unit": "1"
+                          },
+                          "solver": {
+                            "included_sources": {},
+                            "kind": "exact",
+                            "reason": "exact rational operation",
+                            "unit": "1",
+                            "value": "0"
+                          },
+                          "window": {
+                            "included_sources": {},
+                            "kind": "not_applicable",
+                            "reason": "no window operation in this example",
+                            "unit": "1"
+                          }
                         }
                       },
                       "id": "map:scale",
@@ -465,7 +463,7 @@
                           "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
                         }
                       ],
-                      "spec_sha256": "044def75e6089759116070a8ecfe3fe00fab16f5aef9c80ef5f715860c795186",
+                      "spec_sha256": "cca28e2378df8c609084021a314a439f5927255f89c0620310926ef3363eaa41",
                       "status": {
                         "arithmetic": "exact within declared domain",
                         "physical_applicability": "unknown"
@@ -474,7 +472,7 @@
                         "injective": true,
                         "invariance": "retains input identity in provenance"
                       },
-                      "version": "1"
+                      "version": "2"
                     },
                     "output": "y"
                   },
@@ -497,7 +495,7 @@
                   "provenance": {
                     "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
                   },
-                  "sha256": "8af9fa8eb9080db7adb173c59ca82f74648b97b1763ab750741db76863ac327a",
+                  "sha256": "d6856ddabbf6a5a65da764703260eb9d71a98315c48ea59e8d6c48ad1b784210",
                   "value": "6"
                 }
               },
@@ -507,7 +505,7 @@
                   "reason": "declared algebraic parameter, no device",
                   "status": "not_applicable"
                 },
-                "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+                "code_sha256": "d548965f11b529c2a52f4d323fff75c7c64585f8559e88924ee1e2b5333fcffa",
                 "codomain": [
                   {
                     "bounds": [
@@ -549,64 +547,58 @@
                   }
                 ],
                 "error": {
-                  "arithmetic": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "calibration": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no calibration operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "comparison": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no comparison operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "model_discrepancy": {
-                    "kind": "unknown",
-                    "provenance": "model:finite",
-                    "reason": "no physical observation model supplied",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "propagation": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "resolution": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no resolution operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "solver": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "window": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no window operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
+                  "y": {
+                    "arithmetic": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "calibration": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no calibration operation in this example",
+                      "unit": "1"
+                    },
+                    "comparison": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no comparison operation in this example",
+                      "unit": "1"
+                    },
+                    "model_discrepancy": {
+                      "included_sources": {},
+                      "kind": "unknown",
+                      "reason": "no physical observation model supplied",
+                      "unit": "1"
+                    },
+                    "propagation": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "resolution": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no resolution operation in this example",
+                      "unit": "1"
+                    },
+                    "solver": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "window": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no window operation in this example",
+                      "unit": "1"
+                    }
                   }
                 },
                 "id": "map:scale-again",
@@ -658,7 +650,7 @@
                     "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
                   }
                 ],
-                "spec_sha256": "59fdd8c79007d729e738c6bed61b2aa4bf82cb221802a0e032ce90bfe8093dd1",
+                "spec_sha256": "8c7fb204f8e24cd806a2af09beada2cc992e6dbef7bb75ca4e4a602bdbdde699",
                 "status": {
                   "arithmetic": "exact within declared domain",
                   "physical_applicability": "unknown"
@@ -667,7 +659,7 @@
                   "injective": true,
                   "invariance": "retains input identity in provenance"
                 },
-                "version": "1"
+                "version": "2"
               },
               "output": "y"
             },
@@ -690,14 +682,14 @@
             "provenance": {
               "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
             },
-            "sha256": "646773660ce880e0550c31c9d57633faaef3e984b40baaeefda259013292fb44",
+            "sha256": "e90857e445bb01c520d5de41d29d1e13e7be9c8164913c1f20c59bf3f30d6183",
             "value": "12"
           }
         },
         "provenance": {
           "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
         },
-        "spec_sha256": "59fdd8c79007d729e738c6bed61b2aa4bf82cb221802a0e032ce90bfe8093dd1"
+        "spec_sha256": "8c7fb204f8e24cd806a2af09beada2cc992e6dbef7bb75ca4e4a602bdbdde699"
       }
     ]
   },
@@ -737,8 +729,8 @@
     "uncertainty_status": "exact_for_declared_joint_law"
   },
   "contracts": {
-    "ERROR_BUDGET.json": "a3193ad92103b0a915ec2085a65f48c78b7b7aecf2668ef03b352f6ebee62d80",
-    "MAP_CONTRACT.json": "140d1141bdd4e109a6327929eec11105106842dbdefc9f5f8f83e8dbc96b564b"
+    "ERROR_BUDGET.json": "4d7f8fc7209b09cbb9903bc13ce08bd3b4a90dee0b15f6e4de75fa67bd30bea6",
+    "MAP_CONTRACT.json": "8aaf2820643fcab6414264d2eae553921b58fc09300c226fdce8e0dd87a492bf"
   },
   "covariance_only_nonlinear": {
     "adequacy": "unresolved nonlinear propagation; marginal size is insufficient",
@@ -773,68 +765,64 @@
     "uncertainty_status": "partial"
   },
   "error_budget": {
-    "arithmetic": {
-      "kind": "exact",
-      "provenance": "model:finite",
-      "reason": "exact rational operation",
-      "scope": "declared finite example",
-      "unit": "1",
-      "value": "0"
-    },
-    "calibration": {
-      "kind": "not_applicable",
-      "provenance": "model:finite",
-      "reason": "no calibration operation in this example",
-      "scope": "declared finite example",
-      "unit": "1"
-    },
-    "comparison": {
-      "kind": "not_applicable",
-      "provenance": "model:finite",
-      "reason": "no comparison operation in this example",
-      "scope": "declared finite example",
-      "unit": "1"
-    },
-    "model_discrepancy": {
-      "kind": "unknown",
-      "provenance": "model:finite",
-      "reason": "no physical observation model supplied",
-      "scope": "declared finite example",
-      "unit": "1"
-    },
-    "propagation": {
-      "kind": "exact",
-      "provenance": "model:finite",
-      "reason": "exact rational operation",
-      "scope": "declared finite example",
-      "unit": "1",
-      "value": "0"
-    },
-    "resolution": {
-      "kind": "not_applicable",
-      "provenance": "model:finite",
-      "reason": "no resolution operation in this example",
-      "scope": "declared finite example",
-      "unit": "1"
-    },
-    "solver": {
-      "kind": "exact",
-      "provenance": "model:finite",
-      "reason": "exact rational operation",
-      "scope": "declared finite example",
-      "unit": "1",
-      "value": "0"
-    },
-    "window": {
-      "kind": "not_applicable",
-      "provenance": "model:finite",
-      "reason": "no window operation in this example",
-      "scope": "declared finite example",
-      "unit": "1"
+    "y": {
+      "arithmetic": {
+        "included_sources": {},
+        "kind": "exact",
+        "reason": "exact rational operation",
+        "unit": "1",
+        "value": "0"
+      },
+      "calibration": {
+        "included_sources": {},
+        "kind": "not_applicable",
+        "reason": "no calibration operation in this example",
+        "unit": "1"
+      },
+      "comparison": {
+        "included_sources": {},
+        "kind": "not_applicable",
+        "reason": "no comparison operation in this example",
+        "unit": "1"
+      },
+      "model_discrepancy": {
+        "included_sources": {},
+        "kind": "unknown",
+        "reason": "no physical observation model supplied",
+        "unit": "1"
+      },
+      "propagation": {
+        "included_sources": {},
+        "kind": "exact",
+        "reason": "exact rational operation",
+        "unit": "1",
+        "value": "0"
+      },
+      "resolution": {
+        "included_sources": {},
+        "kind": "not_applicable",
+        "reason": "no resolution operation in this example",
+        "unit": "1"
+      },
+      "solver": {
+        "included_sources": {},
+        "kind": "exact",
+        "reason": "exact rational operation",
+        "unit": "1",
+        "value": "0"
+      },
+      "window": {
+        "included_sources": {},
+        "kind": "not_applicable",
+        "reason": "no window operation in this example",
+        "unit": "1"
+      }
     }
   },
   "error_budget_status": {
-    "status": "partial"
+    "y": {
+      "status": "partial"
+    }
   },
   "exact_lossy_projection": {
     "arithmetic_error": "0",
@@ -843,10 +831,15 @@
       {
         "input_sha256": "76d2b55f99f3c052597f1dfd3deede1983cc796a51fd48cc60375548ed927644",
         "map_id": "map:project",
+        "operand_sources": {
+          "y": {
+            "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+          }
+        },
         "outputs": {
           "y": {
             "origin": {
-              "execution_sha256": "b241e08bde4d0f6fba43c4454be761ff9a160a8cbe798a185101e783f01ec2e7",
+              "execution_sha256": "42749d9a77becf03fdb557bb0004e6a552e6e468eb944a69803b9bfc1412d768",
               "inputs": {
                 "hidden": {
                   "origin": {
@@ -911,7 +904,7 @@
                   "reason": "declared algebraic parameter, no device",
                   "status": "not_applicable"
                 },
-                "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+                "code_sha256": "d548965f11b529c2a52f4d323fff75c7c64585f8559e88924ee1e2b5333fcffa",
                 "codomain": [
                   {
                     "bounds": [
@@ -969,64 +962,58 @@
                   }
                 ],
                 "error": {
-                  "arithmetic": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "calibration": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no calibration operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "comparison": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no comparison operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "model_discrepancy": {
-                    "kind": "unknown",
-                    "provenance": "model:finite",
-                    "reason": "no physical observation model supplied",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "propagation": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "resolution": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no resolution operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "solver": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "window": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no window operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
+                  "y": {
+                    "arithmetic": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "calibration": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no calibration operation in this example",
+                      "unit": "1"
+                    },
+                    "comparison": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no comparison operation in this example",
+                      "unit": "1"
+                    },
+                    "model_discrepancy": {
+                      "included_sources": {},
+                      "kind": "unknown",
+                      "reason": "no physical observation model supplied",
+                      "unit": "1"
+                    },
+                    "propagation": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "resolution": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no resolution operation in this example",
+                      "unit": "1"
+                    },
+                    "solver": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "window": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no window operation in this example",
+                      "unit": "1"
+                    }
                   }
                 },
                 "id": "map:project",
@@ -1059,7 +1046,7 @@
                     "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
                   }
                 ],
-                "spec_sha256": "36e34e09d0f2ef7c1a4bd010b11b4588e62fc13e8a3a4052dc9f61e285c6fdf9",
+                "spec_sha256": "dddb4d3cd5739611a96ef6c704c8de4149255b221beba4494938ac52d4838b03",
                 "status": {
                   "arithmetic": "exact within declared domain",
                   "physical_applicability": "unknown"
@@ -1068,7 +1055,7 @@
                   "injective": false,
                   "invariance": "changing hidden coordinate preserves output"
                 },
-                "version": "1"
+                "version": "2"
               },
               "output": "y"
             },
@@ -1091,22 +1078,27 @@
             "provenance": {
               "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
             },
-            "sha256": "738a54cb0912959f21ec2fd7ee33eea261884e1563cc927b3729864751e9febe",
+            "sha256": "de3fcd9dee263e889aec25f4f22954a3889ffb052bb01016fa4313b8958cd1da",
             "value": "3"
           }
         },
         "provenance": {
           "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
         },
-        "spec_sha256": "36e34e09d0f2ef7c1a4bd010b11b4588e62fc13e8a3a4052dc9f61e285c6fdf9"
+        "spec_sha256": "dddb4d3cd5739611a96ef6c704c8de4149255b221beba4494938ac52d4838b03"
       },
       {
         "input_sha256": "40ccb3268e6bd5585fd3fae30774145f5df3b9197e2587575c17f0b95605d629",
         "map_id": "map:project",
+        "operand_sources": {
+          "y": {
+            "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
+          }
+        },
         "outputs": {
           "y": {
             "origin": {
-              "execution_sha256": "56aaef0c39778037636a03e83bad237dbf5b9a1a2def91edc470f4ebfc936adc",
+              "execution_sha256": "dffb54c01e9b94cd1bbb19ecb812aae0e2221e0f213508eba321377b2e347dd4",
               "inputs": {
                 "hidden": {
                   "origin": {
@@ -1171,7 +1163,7 @@
                   "reason": "declared algebraic parameter, no device",
                   "status": "not_applicable"
                 },
-                "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+                "code_sha256": "d548965f11b529c2a52f4d323fff75c7c64585f8559e88924ee1e2b5333fcffa",
                 "codomain": [
                   {
                     "bounds": [
@@ -1229,64 +1221,58 @@
                   }
                 ],
                 "error": {
-                  "arithmetic": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "calibration": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no calibration operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "comparison": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no comparison operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "model_discrepancy": {
-                    "kind": "unknown",
-                    "provenance": "model:finite",
-                    "reason": "no physical observation model supplied",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "propagation": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "resolution": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no resolution operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
-                  },
-                  "solver": {
-                    "kind": "exact",
-                    "provenance": "model:finite",
-                    "reason": "exact rational operation",
-                    "scope": "declared finite example",
-                    "unit": "1",
-                    "value": "0"
-                  },
-                  "window": {
-                    "kind": "not_applicable",
-                    "provenance": "model:finite",
-                    "reason": "no window operation in this example",
-                    "scope": "declared finite example",
-                    "unit": "1"
+                  "y": {
+                    "arithmetic": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "calibration": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no calibration operation in this example",
+                      "unit": "1"
+                    },
+                    "comparison": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no comparison operation in this example",
+                      "unit": "1"
+                    },
+                    "model_discrepancy": {
+                      "included_sources": {},
+                      "kind": "unknown",
+                      "reason": "no physical observation model supplied",
+                      "unit": "1"
+                    },
+                    "propagation": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "resolution": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no resolution operation in this example",
+                      "unit": "1"
+                    },
+                    "solver": {
+                      "included_sources": {},
+                      "kind": "exact",
+                      "reason": "exact rational operation",
+                      "unit": "1",
+                      "value": "0"
+                    },
+                    "window": {
+                      "included_sources": {},
+                      "kind": "not_applicable",
+                      "reason": "no window operation in this example",
+                      "unit": "1"
+                    }
                   }
                 },
                 "id": "map:project",
@@ -1319,7 +1305,7 @@
                     "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
                   }
                 ],
-                "spec_sha256": "36e34e09d0f2ef7c1a4bd010b11b4588e62fc13e8a3a4052dc9f61e285c6fdf9",
+                "spec_sha256": "dddb4d3cd5739611a96ef6c704c8de4149255b221beba4494938ac52d4838b03",
                 "status": {
                   "arithmetic": "exact within declared domain",
                   "physical_applicability": "unknown"
@@ -1328,7 +1314,7 @@
                   "injective": false,
                   "invariance": "changing hidden coordinate preserves output"
                 },
-                "version": "1"
+                "version": "2"
               },
               "output": "y"
             },
@@ -1351,14 +1337,14 @@
             "provenance": {
               "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
             },
-            "sha256": "6b6abddb19b0a8a65bb3fe89f64d45cf362407475c416b67d098ac9a2019319c",
+            "sha256": "dec6ab8d616b2a816635324e7f751e021dcf1bfd34c7ced5a86adb0ab5af3518",
             "value": "3"
           }
         },
         "provenance": {
           "model:scale": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
         },
-        "spec_sha256": "36e34e09d0f2ef7c1a4bd010b11b4588e62fc13e8a3a4052dc9f61e285c6fdf9"
+        "spec_sha256": "dddb4d3cd5739611a96ef6c704c8de4149255b221beba4494938ac52d4838b03"
       }
     ]
   },
@@ -1511,7 +1497,7 @@
         "reason": "declared algebraic parameter, no device",
         "status": "not_applicable"
       },
-      "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+      "code_sha256": "d548965f11b529c2a52f4d323fff75c7c64585f8559e88924ee1e2b5333fcffa",
       "codomain": [
         {
           "bounds": [
@@ -1553,64 +1539,58 @@
         }
       ],
       "error": {
-        "arithmetic": {
-          "kind": "exact",
-          "provenance": "model:finite",
-          "reason": "exact rational operation",
-          "scope": "declared finite example",
-          "unit": "1",
-          "value": "0"
-        },
-        "calibration": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no calibration operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "comparison": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no comparison operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "model_discrepancy": {
-          "kind": "unknown",
-          "provenance": "model:finite",
-          "reason": "no physical observation model supplied",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "propagation": {
-          "kind": "exact",
-          "provenance": "model:finite",
-          "reason": "exact rational operation",
-          "scope": "declared finite example",
-          "unit": "1",
-          "value": "0"
-        },
-        "resolution": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no resolution operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "solver": {
-          "kind": "exact",
-          "provenance": "model:finite",
-          "reason": "exact rational operation",
-          "scope": "declared finite example",
-          "unit": "1",
-          "value": "0"
-        },
-        "window": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no window operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
+        "y": {
+          "arithmetic": {
+            "included_sources": {},
+            "kind": "exact",
+            "reason": "exact rational operation",
+            "unit": "1",
+            "value": "0"
+          },
+          "calibration": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no calibration operation in this example",
+            "unit": "1"
+          },
+          "comparison": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no comparison operation in this example",
+            "unit": "1"
+          },
+          "model_discrepancy": {
+            "included_sources": {},
+            "kind": "unknown",
+            "reason": "no physical observation model supplied",
+            "unit": "1"
+          },
+          "propagation": {
+            "included_sources": {},
+            "kind": "exact",
+            "reason": "exact rational operation",
+            "unit": "1",
+            "value": "0"
+          },
+          "resolution": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no resolution operation in this example",
+            "unit": "1"
+          },
+          "solver": {
+            "included_sources": {},
+            "kind": "exact",
+            "reason": "exact rational operation",
+            "unit": "1",
+            "value": "0"
+          },
+          "window": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no window operation in this example",
+            "unit": "1"
+          }
         }
       },
       "id": "map:scale",
@@ -1662,7 +1642,7 @@
           "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
         }
       ],
-      "spec_sha256": "044def75e6089759116070a8ecfe3fe00fab16f5aef9c80ef5f715860c795186",
+      "spec_sha256": "cca28e2378df8c609084021a314a439f5927255f89c0620310926ef3363eaa41",
       "status": {
         "arithmetic": "exact within declared domain",
         "physical_applicability": "unknown"
@@ -1671,14 +1651,14 @@
         "injective": true,
         "invariance": "retains input identity in provenance"
       },
-      "version": "1"
+      "version": "2"
     },
     {
       "calibration": {
         "reason": "declared algebraic parameter, no device",
         "status": "not_applicable"
       },
-      "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+      "code_sha256": "d548965f11b529c2a52f4d323fff75c7c64585f8559e88924ee1e2b5333fcffa",
       "codomain": [
         {
           "bounds": [
@@ -1720,64 +1700,58 @@
         }
       ],
       "error": {
-        "arithmetic": {
-          "kind": "exact",
-          "provenance": "model:finite",
-          "reason": "exact rational operation",
-          "scope": "declared finite example",
-          "unit": "1",
-          "value": "0"
-        },
-        "calibration": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no calibration operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "comparison": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no comparison operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "model_discrepancy": {
-          "kind": "unknown",
-          "provenance": "model:finite",
-          "reason": "no physical observation model supplied",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "propagation": {
-          "kind": "exact",
-          "provenance": "model:finite",
-          "reason": "exact rational operation",
-          "scope": "declared finite example",
-          "unit": "1",
-          "value": "0"
-        },
-        "resolution": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no resolution operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "solver": {
-          "kind": "exact",
-          "provenance": "model:finite",
-          "reason": "exact rational operation",
-          "scope": "declared finite example",
-          "unit": "1",
-          "value": "0"
-        },
-        "window": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no window operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
+        "y": {
+          "arithmetic": {
+            "included_sources": {},
+            "kind": "exact",
+            "reason": "exact rational operation",
+            "unit": "1",
+            "value": "0"
+          },
+          "calibration": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no calibration operation in this example",
+            "unit": "1"
+          },
+          "comparison": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no comparison operation in this example",
+            "unit": "1"
+          },
+          "model_discrepancy": {
+            "included_sources": {},
+            "kind": "unknown",
+            "reason": "no physical observation model supplied",
+            "unit": "1"
+          },
+          "propagation": {
+            "included_sources": {},
+            "kind": "exact",
+            "reason": "exact rational operation",
+            "unit": "1",
+            "value": "0"
+          },
+          "resolution": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no resolution operation in this example",
+            "unit": "1"
+          },
+          "solver": {
+            "included_sources": {},
+            "kind": "exact",
+            "reason": "exact rational operation",
+            "unit": "1",
+            "value": "0"
+          },
+          "window": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no window operation in this example",
+            "unit": "1"
+          }
         }
       },
       "id": "map:scale-again",
@@ -1829,7 +1803,7 @@
           "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
         }
       ],
-      "spec_sha256": "59fdd8c79007d729e738c6bed61b2aa4bf82cb221802a0e032ce90bfe8093dd1",
+      "spec_sha256": "8c7fb204f8e24cd806a2af09beada2cc992e6dbef7bb75ca4e4a602bdbdde699",
       "status": {
         "arithmetic": "exact within declared domain",
         "physical_applicability": "unknown"
@@ -1838,14 +1812,14 @@
         "injective": true,
         "invariance": "retains input identity in provenance"
       },
-      "version": "1"
+      "version": "2"
     },
     {
       "calibration": {
         "reason": "declared algebraic parameter, no device",
         "status": "not_applicable"
       },
-      "code_sha256": "9f308c5f77bae417b0d57180347c3558c263d84175cbdb40bcbbf096bb0819b2",
+      "code_sha256": "d548965f11b529c2a52f4d323fff75c7c64585f8559e88924ee1e2b5333fcffa",
       "codomain": [
         {
           "bounds": [
@@ -1903,64 +1877,58 @@
         }
       ],
       "error": {
-        "arithmetic": {
-          "kind": "exact",
-          "provenance": "model:finite",
-          "reason": "exact rational operation",
-          "scope": "declared finite example",
-          "unit": "1",
-          "value": "0"
-        },
-        "calibration": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no calibration operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "comparison": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no comparison operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "model_discrepancy": {
-          "kind": "unknown",
-          "provenance": "model:finite",
-          "reason": "no physical observation model supplied",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "propagation": {
-          "kind": "exact",
-          "provenance": "model:finite",
-          "reason": "exact rational operation",
-          "scope": "declared finite example",
-          "unit": "1",
-          "value": "0"
-        },
-        "resolution": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no resolution operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
-        },
-        "solver": {
-          "kind": "exact",
-          "provenance": "model:finite",
-          "reason": "exact rational operation",
-          "scope": "declared finite example",
-          "unit": "1",
-          "value": "0"
-        },
-        "window": {
-          "kind": "not_applicable",
-          "provenance": "model:finite",
-          "reason": "no window operation in this example",
-          "scope": "declared finite example",
-          "unit": "1"
+        "y": {
+          "arithmetic": {
+            "included_sources": {},
+            "kind": "exact",
+            "reason": "exact rational operation",
+            "unit": "1",
+            "value": "0"
+          },
+          "calibration": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no calibration operation in this example",
+            "unit": "1"
+          },
+          "comparison": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no comparison operation in this example",
+            "unit": "1"
+          },
+          "model_discrepancy": {
+            "included_sources": {},
+            "kind": "unknown",
+            "reason": "no physical observation model supplied",
+            "unit": "1"
+          },
+          "propagation": {
+            "included_sources": {},
+            "kind": "exact",
+            "reason": "exact rational operation",
+            "unit": "1",
+            "value": "0"
+          },
+          "resolution": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no resolution operation in this example",
+            "unit": "1"
+          },
+          "solver": {
+            "included_sources": {},
+            "kind": "exact",
+            "reason": "exact rational operation",
+            "unit": "1",
+            "value": "0"
+          },
+          "window": {
+            "included_sources": {},
+            "kind": "not_applicable",
+            "reason": "no window operation in this example",
+            "unit": "1"
+          }
         }
       },
       "id": "map:project",
@@ -1993,7 +1961,7 @@
           "sha256": "33c367025ddb48f2cf7fb2ad5e22309c1e3fde85723be1b36507410feb000b60"
         }
       ],
-      "spec_sha256": "36e34e09d0f2ef7c1a4bd010b11b4588e62fc13e8a3a4052dc9f61e285c6fdf9",
+      "spec_sha256": "dddb4d3cd5739611a96ef6c704c8de4149255b221beba4494938ac52d4838b03",
       "status": {
         "arithmetic": "exact within declared domain",
         "physical_applicability": "unknown"
@@ -2002,7 +1970,7 @@
         "injective": false,
         "invariance": "changing hidden coordinate preserves output"
       },
-      "version": "1"
+      "version": "2"
     }
   ],
   "near_cancelled_product_control": {
@@ -2090,6 +2058,6 @@
     "status": "partial; realization uncertainty unknown",
     "variance": null
   },
-  "schema": "aod.m3.mapping-error.v1",
+  "schema": "aod.m3.mapping-error.v2",
   "scope": "exact declared finite models; physical model discrepancy remains unknown"
 }

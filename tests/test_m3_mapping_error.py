@@ -20,6 +20,26 @@ def setup_map():
     return record,registry,values
 
 
+def budget_fixture():
+    record,registry,_=setup_map()
+    output=record['codomain'][0]
+    return record['error']['y'],output,registry,m.model_sha256(record)
+
+
+def quantify(budget, output, registry, fingerprint, *, component='calibration',
+             kind='bound', amount='1', included=None, law=None, role='model', identity='evidence:error'):
+    """An independent trusted fixture binds an output-error claim before validation."""
+    included={} if included is None else included
+    payload={'model_sha256':fingerprint,'output':output['name'],'component':component,
+             'kind':kind,'unit':output['unit'],'value':amount,'included_sources':included}
+    if kind=='standard_uncertainty':payload['joint_law']=law
+    evidence=m.source(identity,role,{'result':payload});registry[identity]=evidence
+    budget[component]={'kind':kind,'unit':output['unit'],'reason':'declared output-error evidence',
+        'value':amount,'included_sources':included,
+        'evidence':{'source_id':identity,'payload_key':'result','sha256':evidence['sha256']}}
+    return evidence
+
+
 @pytest.mark.parametrize('field',m.FIELDS)
 def test_map_rejects_missing_contract_field(field):
     record,registry,_=setup_map();del record[field]
@@ -95,18 +115,21 @@ def test_exact_projection_loses_reconstruction_without_numerical_error():
 
 @pytest.mark.parametrize('component',m.ERROR_COMPONENTS)
 def test_missing_budget_component_and_unknown_to_zero_fail(component):
-    budget=m.default_budget();del budget[component]
-    with pytest.raises(m.ContractError,match='components'):m.validate_budget(budget)
-    budget=m.default_budget();budget['model_discrepancy']['value']='0'
-    with pytest.raises(m.ContractError,match='unknown'):m.validate_budget(budget)
+    budget,output,registry,fingerprint=budget_fixture();del budget[component]
+    with pytest.raises(m.ContractError,match='components'):m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+    budget=m.default_budget(output);budget['model_discrepancy']['value']='0'
+    with pytest.raises(m.ContractError,match='unknown'):m.validate_budget(budget,output,registry,model_sha256=fingerprint)
 
 
 def test_bound_is_not_sigma_and_sources_cannot_be_counted_twice():
-    budget=m.default_budget();budget['calibration'].update(kind='standard_uncertainty',value='1')
-    with pytest.raises(m.ContractError,match='joint law'):m.validate_budget(budget)
-    budget=m.default_budget();budget['calibration']['included_sources']=['clock'];budget['window']['included_sources']=['clock']
-    with pytest.raises(m.ContractError,match='twice'):m.validate_budget(budget)
-    assert m.validate_budget(m.default_budget())['status']=='partial'
+    budget,output,registry,fingerprint=budget_fixture()
+    quantify(budget,output,registry,fingerprint,kind='standard_uncertainty')
+    with pytest.raises(m.ContractError,match='joint law'):m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+    budget=m.default_budget(output)
+    for name in ('calibration','window'):
+        budget[name].update(kind='unknown',included_sources={'model:scale':registry['model:scale']['sha256']})
+    with pytest.raises(m.ContractError,match='twice'):m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+    assert m.validate_budget(m.default_budget(output),output,registry,model_sha256=fingerprint)['status']=='partial'
 
 
 @pytest.mark.parametrize('matrix',[[[1,2],[2,1]],[[0,1],[1,1]],[[1,0],[1,1]],[[1,None],[None,1]]])
@@ -216,12 +239,14 @@ def test_projection_cannot_promote_injectivity_by_flipping_boolean():
 
 
 def test_standard_uncertainty_requires_actual_law_and_matches_variance():
-    budget=m.default_budget();budget['calibration'].update(kind='standard_uncertainty',value='1',joint_law=[('1/2',{'error':'-1'}),('1/2',{'error':'1'})])
-    assert m.validate_budget(budget)['status']=='partial'
-    budget['calibration']['value']='2'
-    with pytest.raises(m.ContractError,match='disagrees'):m.validate_budget(budget)
-    budget['calibration']['joint_law']='assume Gaussian silently'
-    with pytest.raises(m.ContractError,match='joint law'):m.validate_budget(budget)
+    budget,output,registry,fingerprint=budget_fixture()
+    law=[('1/2',{'error':'-1'}),('1/2',{'error':'1'})]
+    quantify(budget,output,registry,fingerprint,kind='standard_uncertainty',law=law)
+    assert m.validate_budget(budget,output,registry,model_sha256=fingerprint)['status']=='partial'
+    quantify(budget,output,registry,fingerprint,kind='standard_uncertainty',amount='2',law=law)
+    with pytest.raises(m.ContractError,match='disagrees'):m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+    quantify(budget,output,registry,fingerprint,kind='standard_uncertainty',law='assume Gaussian silently')
+    with pytest.raises(m.ContractError,match='joint law'):m.validate_budget(budget,output,registry,model_sha256=fingerprint)
 
 
 def test_exact_definition_and_unknown_realization_are_distinct():
@@ -257,8 +282,8 @@ def test_resealed_upstream_output_requires_actual_execution():
 def test_free_status_string_cannot_promote_physical_applicability():
     record,registry,_=setup_map();record['status']['physical_applicability']='complete';record=m.seal(record)
     with pytest.raises(m.ContractError,match='physical applicability'):m.validate_map(record,registry)
-    record,registry,_=setup_map();record['error']['model_discrepancy'].update(kind='exact',value='0');record=m.seal(record)
-    with pytest.raises(m.ContractError,match='discrepancy'):m.validate_map(record,registry)
+    record,registry,_=setup_map();record['error']['y']['model_discrepancy'].update(kind='exact',value='0');record=m.seal(record)
+    with pytest.raises(m.ContractError,match='computational'):m.validate_map(record,registry)
 
 
 def test_full_discrete_law_can_exist_when_linearization_point_is_outside_domain():
@@ -286,10 +311,10 @@ def test_calibration_source_cannot_hide_behind_declared_parameter_origin():
     record=m.example_map(source_record=s)
     with pytest.raises(m.ContractError,match='calibration applicable'):m.validate_map(record,{s['id']:s})
     record['calibration']={'status':'unknown','reason':'realization not characterized'}
-    record['error']['calibration']={'kind':'unknown','reason':'realization unknown','unit':'1','scope':'parameter','provenance':s['id']}
+    record['error']['y']['calibration']={'kind':'unknown','reason':'realization unknown','unit':'1','included_sources':{s['id']:s['sha256']}}
     m.validate_map(m.seal(record),{s['id']:s})
-    record['error']['calibration'].update(kind='exact',value='0')
-    with pytest.raises(m.ContractError,match='real calibration'):m.validate_map(m.seal(record),{s['id']:s})
+    record['error']['y']['calibration'].update(kind='exact',value='0',included_sources={})
+    with pytest.raises(m.ContractError,match='computational'):m.validate_map(m.seal(record),{s['id']:s})
 
 
 def test_calibration_provenance_and_raw_source_hash_are_checked_even_outside_map_sources():
@@ -300,3 +325,243 @@ def test_calibration_provenance_and_raw_source_hash_are_checked_even_outside_map
     s=m.source('raw:input','model',{'x':'3'});registry[s['id']]=s;s['payload']['x']='4'
     values['x']=m.value(record['domain'][0],4,{s['id']:s['sha256']},{'kind':'source','source_id':s['id'],'payload_key':'x'})
     with pytest.raises(m.ContractError,match='source content hash'):m.run_map(record,values,registry)
+
+
+@pytest.mark.parametrize('injective',['unknown',1,0,1.0,0.0,'true',None])
+def test_unique_reconstruction_requires_strict_boolean_and_rank_proof(injective):
+    record=m.report()['maps'][2];registry={s['id']:s for s in record['sources']}
+    record['structure']['injective']=injective
+    record['information_loss']['reconstruction']='unique'
+    with pytest.raises(m.ContractError,match='injectivity'):
+        m.validate_map(m.seal(record),registry)
+
+
+def test_unknown_injectivity_remains_valid_without_unique_reconstruction():
+    record=m.report()['maps'][2];registry={s['id']:s for s in record['sources']}
+    record['structure']['injective']='unknown'
+    m.validate_map(m.seal(record),registry)
+
+
+@pytest.mark.parametrize('mutation',['flat','missing','extra'])
+def test_error_budgets_match_the_output_set(mutation):
+    record,registry,_=setup_map()
+    if mutation=='flat':record['error']=record['error']['y']
+    if mutation=='missing':record['error']={}
+    if mutation=='extra':record['error']['other']=deepcopy(record['error']['y'])
+    with pytest.raises(m.ContractError):m.validate_map(m.seal(record),registry)
+
+
+@pytest.mark.parametrize('mutation',['unit','free_provenance','missing_evidence','unknown_evidence',
+                                    'reference_hash','source_content','payload_key','evaluation'])
+def test_quantified_errors_require_output_units_and_trusted_evidence(mutation):
+    budget,output,registry,fingerprint=budget_fixture()
+    evidence=quantify(budget,output,registry,fingerprint,component='propagation')
+    component=budget['propagation']
+    if mutation=='unit':component['unit']='s'
+    if mutation=='free_provenance':component['provenance']='does-not-exist'
+    if mutation=='missing_evidence':del component['evidence']
+    if mutation=='unknown_evidence':component['evidence']['source_id']='does-not-exist'
+    if mutation=='reference_hash':component['evidence']['sha256']='0'*64
+    if mutation=='source_content':evidence['payload']['result']['value']='2'
+    if mutation=='payload_key':component['evidence']['payload_key']='does-not-exist'
+    if mutation=='evaluation':evidence['role']='evaluation'
+    with pytest.raises(m.ContractError):m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+
+
+@pytest.mark.parametrize('field',['model_sha256','output','component','kind','unit','value','included_sources'])
+def test_evidence_cannot_be_reused_for_a_different_claim(field):
+    budget,output,registry,fingerprint=budget_fixture()
+    evidence=quantify(budget,output,registry,fingerprint)
+    changed=deepcopy(evidence['payload'])
+    changed['result'][field]={'ghost':'0'*64} if field=='included_sources' else 'different'
+    changed=m.source(evidence['id'],evidence['role'],changed)
+    registry[changed['id']]=changed
+    budget['calibration']['evidence']['sha256']=changed['sha256']
+    with pytest.raises(m.ContractError,match='evidence disagrees'):
+        m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+
+
+@pytest.mark.parametrize('field',['code_sha256','id','version','domain','codomain','law','parameters'])
+def test_model_fingerprint_binds_every_computational_field(field):
+    record,_,_=setup_map();original=m.model_sha256(record)
+    record[field]={'changed':record[field]}
+    assert m.model_sha256(record)!=original
+
+
+@pytest.mark.parametrize('change',['id','version','domain','codomain','law','parameter'])
+def test_retained_bound_evidence_rejects_an_otherwise_valid_changed_model(change):
+    record,registry,_=setup_map()
+    evidence=quantify(record['error']['y'],record['codomain'][0],registry,m.model_sha256(record))
+    record['sources'].append(evidence)
+    m.validate_map(m.seal(record),registry)
+    if change=='id':record['id']='map:renamed'
+    if change=='version':record['version']='3'
+    if change=='domain':record['domain'][0]['bounds']=['-9','9']
+    if change=='codomain':record['codomain'][0]['bounds']=['-30','30']
+    if change=='law':record['law']['y']=['mul',['parameter','factor'],['input','x']]
+    if change=='parameter':
+        record['parameters']['factor']['value']='3'
+        revised=m.source('model:scale','model',{'factor':'3','input':'3'})
+        registry[revised['id']]=revised;record['sources'][0]=revised
+    changed=m.seal(record)
+    with pytest.raises(m.ContractError,match='evidence disagrees'):m.validate_map(changed,registry)
+    # Replacing only the obsolete error claim restores an admissible map.
+    changed['error']['y']=m.default_budget(changed['codomain'][0])
+    m.validate_map(m.seal(changed),registry)
+
+
+def test_evidence_and_full_specification_are_outside_computational_fingerprint():
+    record,registry,_=setup_map();original=m.model_sha256(record)
+    evidence=quantify(record['error']['y'],record['codomain'][0],registry,original)
+    record['sources'].append(evidence)
+    revised=m.seal(record)
+    assert m.model_sha256(revised)==original and revised['spec_sha256']!=record['spec_sha256']
+    m.validate_map(revised,registry)
+
+
+@pytest.mark.parametrize('kind',['unknown','not_applicable'])
+def test_unresolved_or_inapplicable_error_has_no_hidden_numeric_claim(kind):
+    budget,output,registry,fingerprint=budget_fixture()
+    budget['window'].update(kind=kind,value='0')
+    with pytest.raises(m.ContractError,match='unknown/inapplicable'):
+        m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+
+
+@pytest.mark.parametrize('component',['resolution','window','calibration','comparison'])
+def test_unproved_exact_zero_is_not_an_observation_error_certificate(component):
+    budget,output,registry,fingerprint=budget_fixture()
+    budget[component].update(kind='exact',value='0')
+    with pytest.raises(m.ContractError,match='computational'):
+        m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+
+
+def test_zero_standard_uncertainty_can_follow_from_a_trusted_constant_law():
+    budget,output,registry,fingerprint=budget_fixture()
+    quantify(budget,output,registry,fingerprint,kind='standard_uncertainty',amount='0',law=[('1',{'error':'0'})])
+    assert m.validate_budget(budget,output,registry,model_sha256=fingerprint)['status']=='partial'
+
+
+def test_joint_law_must_be_inside_the_evidence_and_is_hashed():
+    budget,output,registry,fingerprint=budget_fixture()
+    evidence=quantify(budget,output,registry,fingerprint,kind='standard_uncertainty',
+        law=[('1/2',{'error':'-1'}),('1/2',{'error':'1'})])
+    budget['calibration']['joint_law']=[('1',{'error':'0'})]
+    with pytest.raises(m.ContractError,match='fields'):m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+    del budget['calibration']['joint_law']
+    evidence['payload']['result']['joint_law']=[('1',{'error':'0'})]
+    with pytest.raises(m.ContractError,match='hash'):m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+
+
+def test_evidence_sources_are_retained_but_do_not_become_calibration_operands():
+    record,registry,values=setup_map()
+    evidence=quantify(record['error']['y'],record['codomain'][0],registry,m.model_sha256(record),
+        component='propagation',role='calibration',included={'model:scale':registry['model:scale']['sha256']})
+    record['sources'].append(evidence);record=m.seal(record)
+    result=m.run_map(record,values,registry)
+    assert result['outputs']['y']['value']=='6'
+    assert result['operand_sources']=={'y':{'model:scale':registry['model:scale']['sha256']}}
+    assert result['provenance'][evidence['id']]==evidence['sha256']
+    assert record['calibration']['status']=='not_applicable'
+    second,_,_=setup_map();second['id']='downstream'
+    second['domain'][0]['bounds']=['-20','20'];second['codomain'][0]['bounds']=['-40','40']
+    downstream=m.run_map(m.seal(second),{'x':result['outputs']['y']},registry)
+    assert downstream['outputs']['y']['value']=='12'
+    assert downstream['operand_sources']==result['operand_sources']
+    assert evidence['id'] in downstream['provenance']
+
+
+def test_evidence_must_be_in_map_sources_and_included_sources_must_be_operands():
+    record,registry,values=setup_map()
+    evidence=quantify(record['error']['y'],record['codomain'][0],registry,m.model_sha256(record))
+    with pytest.raises(m.ContractError,match='retained'):m.validate_map(m.seal(record),registry)
+    unused=m.source('unused','model',{'reading':'1'});registry[unused['id']]=unused
+    evidence=quantify(record['error']['y'],record['codomain'][0],registry,m.model_sha256(record),
+        included={unused['id']:unused['sha256']})
+    record['sources'].append(evidence)
+    with pytest.raises(m.ContractError,match='not an output operand'):m.run_map(m.seal(record),values,registry)
+
+
+def test_evidence_cannot_double_as_a_raw_operand_source():
+    record,registry,values=setup_map()
+    evidence=quantify(record['error']['y'],record['codomain'][0],registry,m.model_sha256(record))
+    payload=deepcopy(evidence['payload']);payload['input']='3'
+    evidence=m.source(evidence['id'],evidence['role'],payload);registry[evidence['id']]=evidence
+    record['error']['y']['calibration']['evidence']['sha256']=evidence['sha256']
+    record['sources'].append(evidence)
+    values['x']=m.value(record['domain'][0],3,{evidence['id']:evidence['sha256']},
+        {'kind':'source','source_id':evidence['id'],'payload_key':'input'})
+    with pytest.raises(m.ContractError,match='also be an operand'):m.run_map(m.seal(record),values,registry)
+
+
+def test_calibration_operand_bindings_are_required_through_upstream_replay():
+    record,registry,values=setup_map()
+    calibration=m.source('cal:input','calibration',{'reading':'3'});registry[calibration['id']]=calibration
+    values['x']=m.value(record['domain'][0],3,{calibration['id']:calibration['sha256']},
+        {'kind':'source','source_id':calibration['id'],'payload_key':'reading'})
+    record['calibration']={'status':'unknown','reason':'uncharacterized instrument'}
+    record['error']['y']['calibration'].update(kind='unknown')
+    with pytest.raises(m.ContractError,match='inclusion'):m.run_map(m.seal(record),values,registry)
+    record['error']['y']['calibration']['included_sources']={calibration['id']:calibration['sha256']}
+    result=m.run_map(m.seal(record),values,registry)
+    second,_,_=setup_map();second['id']='downstream'
+    second['domain'][0]['bounds']=['-20','20'];second['codomain'][0]['bounds']=['-40','40']
+    with pytest.raises(m.ContractError,match='calibration applicable'):
+        m.run_map(m.seal(second),{'x':result['outputs']['y']},registry)
+    second['calibration']=deepcopy(record['calibration'])
+    second['error']['y']['calibration']=deepcopy(record['error']['y']['calibration'])
+    replay=m.run_map(m.seal(second),{'x':result['outputs']['y']},registry)
+    assert replay['operand_sources']['y'][calibration['id']]==calibration['sha256']
+
+
+def test_reused_uncertainty_source_is_valid_for_distinct_outputs():
+    record,registry,values=setup_map()
+    record['codomain'].append(m.port('z',bounds=('-20','20')))
+    record['law']['z']=['input','x'];record['error']['z']=m.default_budget(record['codomain'][1])
+    record=m.seal(record)
+    included={'model:scale':registry['model:scale']['sha256']}
+    for output in record['codomain']:
+        evidence=quantify(record['error'][output['name']],output,registry,m.model_sha256(record),
+            included=included,identity='evidence:'+output['name'])
+        record['sources'].append(evidence)
+    result=m.run_map(m.seal(record),values,registry)
+    assert result['outputs']['y']['value']=='6' and result['outputs']['z']['value']=='3'
+
+
+def test_quantified_calibration_binds_actual_operands_without_evidence_self_reference():
+    calibration=m.source('cal:scale','calibration',{'factor':'2','input':'3'})
+    registry={calibration['id']:calibration}
+    record=m.example_map(source_record=calibration)
+    record['calibration']={'status':'specified','reason':'declared finite calibration model'}
+    evidence=quantify(record['error']['y'],record['codomain'][0],registry,m.model_sha256(record),
+        role='calibration',included={calibration['id']:calibration['sha256']})
+    record['sources'].append(evidence);record=m.seal(record)
+    values={'x':m.value(record['domain'][0],3,{calibration['id']:calibration['sha256']},
+        {'kind':'source','source_id':calibration['id'],'payload_key':'input'})}
+    result=m.run_map(record,values,registry)
+    assert result['outputs']['y']['value']=='6'
+    assert set(result['provenance'])=={calibration['id'],evidence['id']}
+    assert result['operand_sources']['y']=={calibration['id']:calibration['sha256']}
+    # Reissued, internally consistent evidence still cannot omit a real operand.
+    omitted=quantify(record['error']['y'],record['codomain'][0],registry,m.model_sha256(record),role='calibration')
+    record['sources'][-1]=omitted
+    with pytest.raises(m.ContractError,match='inclusion'):m.run_map(m.seal(record),values,registry)
+
+
+@pytest.mark.parametrize('included',[['model:scale'],{'missing':'0'*64},{'model:scale':'0'*64}])
+def test_included_uncertainty_sources_require_trusted_identity_hash_bindings(included):
+    budget,output,registry,fingerprint=budget_fixture()
+    budget['window'].update(kind='unknown',included_sources=included)
+    with pytest.raises(m.ContractError):m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+
+
+def test_unused_input_provenance_does_not_create_a_calibration_operand():
+    record=m.report()['maps'][2];registry={s['id']:s for s in record['sources']}
+    calibration=m.source('cal:unused','calibration',{'hidden':'1'});registry[calibration['id']]=calibration
+    model=record['sources'][0]
+    values={p['name']:m.value(p,3 if p['name']=='x' else 1,
+        {model['id']:model['sha256']} if p['name']=='x' else {calibration['id']:calibration['sha256']},
+        {'kind':'source','source_id':model['id'] if p['name']=='x' else calibration['id'],
+         'payload_key':'input' if p['name']=='x' else 'hidden'}) for p in record['domain']}
+    result=m.run_map(record,values,registry)
+    assert calibration['id'] in result['provenance']
+    assert calibration['id'] not in result['operand_sources']['y']

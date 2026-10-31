@@ -20,6 +20,7 @@ FIELDS = ('id', 'version', 'code_sha256', 'spec_sha256', 'domain', 'codomain',
           'resolution', 'error', 'calibration', 'comparison', 'status')
 ERROR_COMPONENTS = ('arithmetic', 'resolution', 'window', 'model_discrepancy',
                     'calibration', 'propagation', 'solver', 'comparison')
+MODEL_FIELDS = ('code_sha256', 'id', 'version', 'domain', 'codomain', 'law', 'parameters')
 
 class ContractError(ValueError):
     pass
@@ -149,13 +150,42 @@ def seal(record):
     record['spec_sha256'] = digest({k: v for k, v in record.items() if k != 'spec_sha256'})
     return record
 
-def require_calibration_applicability(record, identities):
-    if identities:
-        require(record['calibration'].get('status') in ('specified','unknown'), 'calibration source makes calibration applicable')
-        component = record['error']['calibration']
-        require(component.get('kind') in ('unknown','bound','standard_uncertainty'), 'real calibration uncertainty cannot be omitted or asserted exact')
-        if component['kind'] != 'unknown':
-            require(set(identities) <= set(component.get('included_sources', [])), 'quantified calibration source inclusion required')
+def model_sha256(record):
+    """Computational identity excludes evidence, preventing a self-referential hash."""
+    return digest({k: record[k] for k in MODEL_FIELDS})
+
+def validate_output_budgets(record, trusted, operand_sources=None):
+    outputs = {p['name']: p for p in record['codomain']}
+    require(isinstance(record['error'], dict) and set(record['error']) == set(outputs),
+            'error budgets must match output ports')
+    complete_operands = operand_sources is not None
+    if operand_sources is None:
+        operand_sources = {name: {record['parameters'][key]['source_id']:
+            trusted[record['parameters'][key]['source_id']]['sha256']
+            for key in expression_refs(expr, 'parameter')}
+            for name, expr in record['law'].items()}
+    evidence_ids, statuses = set(), {}
+    for name, output in outputs.items():
+        budget = record['error'][name]
+        calibration = {identity: binding for identity, binding in operand_sources[name].items()
+                       if trusted[identity]['role'] == 'calibration'}
+        if calibration:
+            require(record['calibration'].get('status') in ('specified', 'unknown'),
+                    'calibration source makes calibration applicable')
+        statuses[name] = validate_budget(budget, output, trusted,
+            model_sha256=model_sha256(record), calibration_sources=calibration)
+        require(budget['arithmetic']['kind'] == 'exact', 'rational adapter arithmetic is exact')
+        require(budget['model_discrepancy']['kind'] == 'unknown', 'physical discrepancy cannot be resolved by finite arithmetic')
+        for component in budget.values():
+            if 'evidence' in component:
+                evidence_ids.add(component['evidence']['source_id'])
+            if complete_operands:
+                require(set(component['included_sources']) <= set(operand_sources[name]),
+                        'included uncertainty source is not an output operand')
+    require(evidence_ids <= {s['id'] for s in record['sources']}, 'evidence must be retained in map sources')
+    all_operands = set().union(*(set(sources) for sources in operand_sources.values()))
+    require(not evidence_ids & all_operands, 'evidence source cannot also be an operand source')
+    return statuses
 
 def validate_map(record, trusted):
     require(set(record) == set(FIELDS), 'map requires all contract fields')
@@ -170,7 +200,6 @@ def validate_map(record, trusted):
     require(set(record['law']) == set(outputs), 'law output ports differ')
     sources = validate_sources(record['sources'], trusted)
     require(not any(s['role'] == 'evaluation' for s in sources.values()), 'evaluation input leaks into prediction')
-    require_calibration_applicability(record, [s['id'] for s in sources.values() if s['role'] == 'calibration'])
     params = record['parameters']
     for name, p in params.items():
         require(set(p) == {'value', 'dimension', 'source_id', 'origin', 'payload_key'}, 'parameter origin required')
@@ -180,7 +209,7 @@ def validate_map(record, trusted):
         require(len(p['dimension']) == 3 and all(type(x) is int for x in p['dimension']), 'parameter dimension')
         if p['origin'] == 'fitted':
             require(sources[p['source_id']]['role'] == 'calibration' and name in record['calibration'].get('fitted_parameters', []), 'hidden fitted parameter')
-            require(record['calibration'].get('status') == 'specified' and record['error']['calibration']['kind'] != 'not_applicable', 'fitted calibration uncertainty is applicable')
+            require(record['calibration'].get('status') == 'specified', 'fitted calibration uncertainty is applicable')
         if p['origin'] == 'definition':
             require(sources[p['source_id']]['role'] == 'definition', 'definition parameter requires definition source')
     used_inputs, used_parameters = set(), set()
@@ -195,8 +224,9 @@ def validate_map(record, trusted):
     for name in ('resolution', 'calibration'):
         item = record[name]
         require(item.get('status') in ('specified', 'unknown', 'not_applicable') and bool(item.get('reason')), 'unknown/not-applicable require a reason')
-    require(record['structure'].get('injective') in (True, False, 'unknown'), 'injectivity status')
-    if record['structure']['injective'] != 'unknown':
+    injective = record['structure'].get('injective')
+    require(type(injective) is bool or injective == 'unknown', 'injectivity must be a boolean or unknown')
+    if injective != 'unknown':
         require(all(affine(expr) for expr in record['law'].values()), 'injectivity of nonlinear map is not certified by this adapter')
         order = list(inputs)
         midpoint = {k:(rational(p['bounds'][0])+rational(p['bounds'][1]))/2 for k,p in inputs.items()}
@@ -205,19 +235,18 @@ def validate_map(record, trusted):
             require(rank == len(inputs), 'unique reconstruction requires full column rank')
         else:
             require(rank < len(inputs) and all(rational(p['bounds'][0]) < rational(p['bounds'][1]) for p in inputs.values()), 'noninjectivity requires a nontrivial kernel within a full-dimensional box')
-    if record['structure']['injective'] is False:
-        require(record['information_loss'].get('reconstruction') != 'unique', 'many-to-one projection cannot claim unique reconstruction')
+    if record['information_loss'].get('reconstruction') == 'unique':
+        require(injective is True, 'unique reconstruction requires proven injectivity')
+    if injective is False:
         require(record['information_loss'].get('equivalence') and record['information_loss'].get('task'), 'loss needs equivalence and reconstruction task')
     require(record['status'] == {'arithmetic':'exact within declared domain','physical_applicability':'unknown'}, 'adapter only supports declared exact arithmetic and unknown physical applicability')
-    require(record['error']['arithmetic']['kind'] == 'exact', 'rational adapter arithmetic is exact')
-    require(record['error']['model_discrepancy']['kind'] == 'unknown', 'physical discrepancy cannot be resolved by finite arithmetic')
-    validate_budget(record['error'])
+    validate_output_budgets(record, trusted)
     return record
 
 def run_map(record, values, trusted):
     validate_map(record, trusted)
     require(set(values) == {p['name'] for p in record['domain']}, 'input port mismatch')
-    input_values, provenance = {}, {}
+    input_values, provenance, input_sources = {}, {}, {}
     for p in record['domain']:
         v = values[p['name']]
         require(typed_equal(v['port'], p), 'incompatible input type/dimension/unit/scope/lineage')
@@ -231,10 +260,12 @@ def run_map(record, values, trusted):
             require(origin['source_id'] in trusted and origin['source_id'] in v['provenance'], 'raw input source unbound')
             payload = trusted[origin['source_id']]['payload']
             require(origin['payload_key'] in payload and rational(payload[origin['payload_key']]) == q, 'input value differs from bound source payload')
+            input_sources[p['name']] = {origin['source_id']: trusted[origin['source_id']]['sha256']}
         else:
             require(origin.get('kind') == 'map_output' and set(origin) == {'kind','map','inputs','output','execution_sha256'}, 'validated upstream execution required')
             upstream = run_map(origin['map'], origin['inputs'], trusted)
             require(upstream['outputs'].get(origin['output']) == v, 'upstream execution/output identity mismatch')
+            input_sources[p['name']] = upstream['operand_sources'][origin['output']]
         for identity, binding in v['provenance'].items():
             require(identity not in provenance or provenance[identity] == binding, 'shared source has conflicting bindings')
             require(identity in trusted and trusted[identity]['sha256'] == binding, 'input provenance unbound')
@@ -245,16 +276,25 @@ def run_map(record, values, trusted):
     for s in record['sources']:
         require(s['id'] not in provenance or provenance[s['id']] == s['sha256'], 'shared source mismatch')
         provenance[s['id']] = s['sha256']
-    require_calibration_applicability(record, [identity for identity in provenance if trusted[identity]['role'] == 'calibration'])
+    operand_sources = {}
+    for name, expr in record['law'].items():
+        operands = {record['parameters'][key]['source_id']:
+                    trusted[record['parameters'][key]['source_id']]['sha256']
+                    for key in expression_refs(expr, 'parameter')}
+        for key in expression_refs(expr, 'input'):
+            operands.update(input_sources[key])
+        operand_sources[name] = operands
+    validate_output_budgets(record, trusted, operand_sources)
     outputs = {}
     for p in record['codomain']:
         q = evaluate(record['law'][p['name']], input_values, record['parameters'])
         require(rational(p['bounds'][0]) <= q <= rational(p['bounds'][1]), 'output outside declared codomain')
-        execution = {'map_spec_sha256':record['spec_sha256'],'inputs_sha256':digest(values),'output':p['name'],'value':str(q),'provenance':provenance}
+        execution = {'map_spec_sha256':record['spec_sha256'],'inputs_sha256':digest(values),'output':p['name'],'value':str(q),
+                     'provenance':provenance,'operand_sources':operand_sources[p['name']]}
         origin = {'kind':'map_output','map':deepcopy(record),'inputs':deepcopy(values),'output':p['name'],'execution_sha256':digest(execution)}
         outputs[p['name']] = value(p, q, provenance, origin)
     return {'map_id': record['id'], 'spec_sha256': record['spec_sha256'], 'input_sha256': digest(values), 'outputs': outputs,
-            'provenance': provenance}
+            'provenance': provenance, 'operand_sources': operand_sources}
 
 def value(p, q, provenance, origin=None):
     result = {'port': deepcopy(p), 'value': str(rational(q)), 'provenance': dict(provenance), 'origin':deepcopy(origin)}
@@ -271,28 +311,70 @@ def compose(first, second, initial, trusted):
     return {'stages': [one, two], 'shared_sources': sorted(set(one['provenance']) & {s['id'] for s in second['sources']}),
             'provenance': two['provenance']}
 
-def validate_budget(budget):
-    require(set(budget) == set(ERROR_COMPONENTS), 'all applicable error components must be explicit')
+def validate_budget(budget, output_port, trusted, *, model_sha256, calibration_sources=()):
+    """Bind each output error to its unit and a separately trusted evidence payload.
+
+    A bound remains a conditional source declaration. A standard uncertainty is
+    checked against the finite output-error law in that same evidence payload.
+    """
+    validate_port(output_port)
+    require(isinstance(budget, dict) and set(budget) == set(ERROR_COMPONENTS), 'all applicable error components must be explicit')
+    calibration_sources = dict(calibration_sources)
     covered = set()
     for name, component in budget.items():
         require(isinstance(component, dict), 'typed error component required')
-        require({'kind', 'scope', 'unit', 'provenance', 'reason'} <= set(component), 'error type/unit/scope/provenance required')
-        kind = component['kind']
+        kind = component.get('kind')
         require(kind in ('exact', 'bound', 'standard_uncertainty', 'unknown', 'not_applicable'), 'error kind')
-        require(all(component[k] for k in ('scope', 'unit', 'provenance', 'reason')), 'error binding/reason missing')
+        fields = {'kind', 'unit', 'reason', 'included_sources'}
+        if kind == 'exact': fields.add('value')
+        if kind in ('bound', 'standard_uncertainty'): fields |= {'value', 'evidence'}
+        require(set(component) == fields, 'error component fields; unknown/inapplicable is not zero')
+        require(component['unit'] == output_port['unit'], 'error unit differs from output unit')
+        require(isinstance(component['reason'], str) and bool(component['reason'].strip()), 'error reason required')
+        included = component['included_sources']
+        require(isinstance(included, dict), 'included sources require identity/hash bindings')
+        for identity, binding in included.items():
+            require(identity in trusted and trusted[identity]['sha256'] == binding, 'included source binding mismatch')
+            validate_sources([trusted[identity]], trusted)
+            require(trusted[identity]['role'] != 'evaluation', 'evaluation evidence cannot certify prediction')
+            require(identity not in covered, 'uncertainty source counted twice')
+            covered.add(identity)
+        if kind in ('exact', 'not_applicable'):
+            require(not included, 'exact/inapplicable component cannot absorb uncertain sources')
         if kind in ('unknown', 'not_applicable'):
-            require('value' not in component, 'unknown/inapplicable is not zero')
+            continue
+        require(rational(component['value']) >= 0, 'nonnegative error value required')
+        if kind == 'exact':
+            require(name in ('arithmetic', 'propagation', 'solver') and rational(component['value']) == 0,
+                    'evidence-free exact zero is restricted to computational components')
         else:
-            require('value' in component and rational(component['value']) >= 0, 'nonnegative error value required')
-            if kind == 'exact': require(rational(component['value']) == 0, 'exact arithmetic error is zero')
+            ref = component['evidence']
+            require(isinstance(ref, dict) and set(ref) == {'source_id', 'payload_key', 'sha256'}, 'trusted evidence reference required')
+            require(ref['source_id'] in trusted, 'unbound evidence source')
+            item = trusted[ref['source_id']]
+            validate_sources([item], trusted)
+            require(item['role'] != 'evaluation', 'evaluation evidence cannot certify prediction')
+            require(ref['sha256'] == item['sha256'], 'evidence source hash mismatch')
+            require(ref['source_id'] not in included, 'evidence source cannot include itself')
+            require(isinstance(item['payload'], dict) and ref['payload_key'] in item['payload'], 'evidence payload key absent')
+            payload = item['payload'][ref['payload_key']]
+            expected = {'model_sha256': model_sha256, 'output': output_port['name'],
+                        'component': name, 'kind': kind, 'unit': component['unit'],
+                        'value': component['value'], 'included_sources': included}
+            payload_fields = set(expected) | ({'joint_law'} if kind == 'standard_uncertainty' else set())
+            require(isinstance(payload, dict) and set(payload) == payload_fields, 'evidence payload fields')
+            require(all(payload[key] == val for key, val in expected.items()), 'evidence disagrees with output/component/model/value/source binding')
             if kind == 'standard_uncertainty':
-                law = component.get('joint_law')
+                law = payload['joint_law']
                 require(isinstance(law, list) and law, 'standard uncertainty needs joint law')
                 rows, mean, cov = joint_moments(law, ['error'])
                 require(rational(component['value'])**2 == cov[0][0], 'standard uncertainty disagrees with supplied law')
-        for identity in component.get('included_sources', []):
-            require(identity not in covered, 'uncertainty source counted twice')
-            covered.add(identity)
+    if calibration_sources:
+        component = budget['calibration']
+        require(component['kind'] in ('unknown', 'bound', 'standard_uncertainty'),
+                'real calibration uncertainty cannot be omitted or asserted exact')
+        require(all(component['included_sources'].get(identity) == binding
+                    for identity, binding in calibration_sources.items()), 'calibration source inclusion required')
     return {'status': 'partial' if any(c['kind'] == 'unknown' for c in budget.values()) else 'specified'}
 
 def validate_psd(matrix):
@@ -413,24 +495,25 @@ def reference_uncertainty(kind, variance=None):
     require(rational(variance) >= 0, 'nonnegative realized variance required')
     return {'kind':kind,'variance':str(rational(variance)),'status':'declared realization input; other budget components remain applicable'}
 
-def default_budget():
+def default_budget(output_port):
+    validate_port(output_port)
     result = {}
     for name in ERROR_COMPONENTS:
         kind = 'exact' if name in ('arithmetic', 'propagation', 'solver') else 'not_applicable'
         if name == 'model_discrepancy': kind = 'unknown'
-        result[name] = {'kind':kind, 'scope':'declared finite example', 'unit':'1', 'provenance':'model:finite',
+        result[name] = {'kind':kind, 'unit':output_port['unit'], 'included_sources':{},
                         'reason':'exact rational operation' if kind == 'exact' else ('no physical observation model supplied' if kind == 'unknown' else 'no '+name+' operation in this example')}
         if kind == 'exact': result[name]['value'] = '0'
     return result
 
 def example_map(identity='map:scale', factor='2', source_record=None):
     s = source_record or source('model:scale','model',{'factor':factor,'input':'3'})
-    return seal({'id':identity, 'version':'1', 'domain':[port('x',bounds=('-10','10'))],
+    return seal({'id':identity, 'version':'2', 'domain':[port('x',bounds=('-10','10'))],
         'codomain':[port('y',bounds=('-20','20'))], 'law':{'y':['mul',['input','x'],['parameter','factor']]},
         'parameters':{'factor':{'value':factor, 'dimension':[0,0,0], 'source_id':s['id'], 'payload_key':'factor','origin':'declared'}},
         'sources':[s], 'structure':{'injective':rational(factor)!=0, 'invariance':'retains input identity in provenance'},
         'information_loss':{'task':'recover x from y', 'reconstruction':'unique' if rational(factor)!=0 else 'nonunique', 'equivalence':'x values with equal output'},
-        'resolution':{'status':'not_applicable','reason':'exact finite rational input'}, 'error':default_budget(),
+        'resolution':{'status':'not_applicable','reason':'exact finite rational input'}, 'error':{'y':default_budget(port('y'))},
         'calibration':{'status':'not_applicable','reason':'declared algebraic parameter, no device'},
         'comparison':{'evaluation_sources':[], 'prediction_frozen':True},
         'status':{'arithmetic':'exact within declared domain','physical_applicability':'unknown'}})
@@ -464,7 +547,7 @@ def report():
         v={p['name']:value(p,'3' if p['name']=='x' else hidden,{s['id']:s['sha256']},
            {'kind':'source','source_id':s['id'],'payload_key':'input' if p['name']=='x' else 'hidden'+hidden}) for p in projection['domain']}
         witnesses.append(run_map(projection,v,trusted))
-    return {'schema':'aod.m3.mapping-error.v1', 'scope':'exact declared finite models; physical model discrepancy remains unknown',
+    return {'schema':'aod.m3.mapping-error.v2', 'scope':'exact declared finite models; physical model discrepancy remains unknown',
       'contracts':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT/'contracts/scientific/MAP_CONTRACT.json',ROOT/'contracts/scientific/ERROR_BUDGET.json')},
       'maps':[f,g,projection], 'composition':chain, 'exact_lossy_projection':{'witnesses':witnesses,'arithmetic_error':'0','hidden_coordinate_reconstruction':'nonunique; no scalar reconstruction error asserted'},
       'interval_zero_linear_control':propagate(interval_expr,['cycles','ratio','frequency'],{},support=interval_law),
@@ -483,7 +566,7 @@ def report():
       'reference_realization':reference_uncertainty('realized_reference'),
       'printed_precision':{'zero_unknown':parse_printed('0.0E-34','Hz^2','unknown'),'zero_documented':parse_printed('0.0E-34','Hz^2','documented_exact_zero'),
                            'nonzero':parse_printed('1.234E-4','Hz^2','unknown'),'scope':'synthetic parser controls; no new BIPM-source interpretation'},
-      'error_budget':default_budget(), 'error_budget_status':validate_budget(default_budget())}
+      'error_budget':deepcopy(f['error']), 'error_budget_status':validate_output_budgets(f, trusted)}
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)

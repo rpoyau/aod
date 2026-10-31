@@ -61,8 +61,8 @@ SCIENTIFIC_CONTRACT_SCHEMAS = {
     'OPERATIVE_SELF_SCHEMA.json': 'aod.operative.self.r04',
     'ROUND_TRIP_PHASE_FACTOR_SPEC.json': 'aod.scientific.round-trip-phase-factor.v1',
     'CELL_MEASURE_SPEC.json': 'aod.scientific.cell-measure.v1',
-    'MAP_CONTRACT.json': 'aod.scientific.map-contract.v1',
-    'ERROR_BUDGET.json': 'aod.scientific.error-budget.v1',
+    'MAP_CONTRACT.json': 'aod.scientific.map-contract.v2',
+    'ERROR_BUDGET.json': 'aod.scientific.error-budget.v2',
     'M3_MATHEMATICAL_BINDINGS.json': 'aod.scientific.m3-mathematics.v1',
 }
 SCIENTIFIC_SCOPE_FILES = {

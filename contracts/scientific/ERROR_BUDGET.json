@@ -1,5 +1,5 @@
 {
-  "schema": "aod.scientific.error-budget.v1",
+  "schema": "aod.scientific.error-budget.v2",
   "scope": "Exact finite rational propagation and explicitly conditional deterministic bounds.",
   "mathematical_anchors": [
     "prop:m3-composed-bound",
@@ -19,10 +19,9 @@
   ],
   "component_fields": [
     "kind",
-    "scope",
     "unit",
-    "provenance",
-    "reason"
+    "reason",
+    "included_sources"
   ],
   "kinds": [
     "exact",
@@ -32,6 +31,13 @@
     "not_applicable"
   ],
   "unknown": "An unknown applicable component carries no value; missing or zero substitution is rejected. Exact finite arithmetic does not resolve physical discrepancy.",
+  "outputs": "The map error record is keyed by exactly its codomain port names. Each output has the eight required components, each in that output's unit. Parameter uncertainties require propagation to an output before becoming numerical output components.",
+  "exact": "Evidence-free exact zero is restricted to arithmetic, propagation and solver components for deterministic rational evaluation. Other numerical components require bound or finite-law evidence; physical model discrepancy remains unknown.",
+  "evidence_reference": ["source_id", "payload_key", "sha256"],
+  "quantitative_evidence": "Bounds and standard uncertainties have a value and a reference to a trusted source payload. The payload binds model_sha256, output, component, kind, unit, value and included_sources; standard uncertainty also supplies joint_law. Validate source identity, payload hash and every included source digest; evaluation-role evidence is rejected. Binding a declared bound does not prove it for an arbitrary model.",
+  "model_fingerprint": ["code_sha256", "id", "version", "domain", "codomain", "law", "parameters"],
+  "evidence_dependencies": "Evidence records use the existing source registry and remain in execution provenance. Evidence source identities are distinct from actual operand identities; included_sources maps contributing operand identities to trusted hashes. Evidence-only records do not create calibration obligations or include their own digest.",
+  "source_accounting": "Reject duplicate source inclusion across components within one output. Reuse across output budgets records shared dependence; it neither assumes independence nor supplies cross-output covariance.",
   "dependence": "Joint support has named input identities, positive rational probabilities summing to one and all coordinates at every atom. Shared covariance is retained; supplied means/covariance must agree with the full law.",
   "covariance": "Exact symmetry and rational Schur-complement PSD validation, including singular matrices and zero covariance pivots.",
   "linearization": "J Sigma J^T is a diagnostic unless structural affine proof or the supplied full joint law establishes the output uncertainty. Small marginals and a nonzero diagnostic do not certify nonlinear adequacy.",

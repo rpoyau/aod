@@ -13,9 +13,9 @@ CONTRACT_ROOT = 'contracts/scientific/'
 # These independent byte bindings are reviewed with the checker. Loading a
 # modified contract never changes an expected digest or authorizes new sources.
 CONTRACT_SHA256 = {
-    "MAP_CONTRACT.json": "140d1141bdd4e109a6327929eec11105106842dbdefc9f5f8f83e8dbc96b564b",
-    "M3_MATHEMATICAL_BINDINGS.json": "00b7fec2cac1425a0a9c5fa4426edc1652df65420affa7c86e74b7bd18335fa0",
-    "ERROR_BUDGET.json": "a3193ad92103b0a915ec2085a65f48c78b7b7aecf2668ef03b352f6ebee62d80",
+    "MAP_CONTRACT.json": "8aaf2820643fcab6414264d2eae553921b58fc09300c226fdce8e0dd87a492bf",
+    "M3_MATHEMATICAL_BINDINGS.json": "7048264c2faed6ca6ea3af449bf2f07ccb447648a78bec132c99b059b52055ab",
+    "ERROR_BUDGET.json": "4d7f8fc7209b09cbb9903bc13ce08bd3b4a90dee0b15f6e4de75fa67bd30bea6",
     "CELL_MEASURE_SPEC.json": "701e895e4e85c03b35daada7d75c9a21a1cb46a8afe52e05ab125b58adb9c2ce",
     "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "a4e530314d03ff2a695a5d9f6d59f20f18ab8ae4c388a594b99fcf0996c5cf05",
     "CANONICAL_BINDINGS.json": "421c8effcee9ccaa7b756ab1d5be3a44a0d6e985f3ac5c78dae2b4bc2f2792cc",

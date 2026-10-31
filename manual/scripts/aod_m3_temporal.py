@@ -115,14 +115,13 @@ def _si_contract_for_validated_record(adapted, compared_gain='1', reference_gain
                              'equivalence':'admitted histories with identical endpoint increments under the fixed gains'}
     f['resolution'] = {'status':'specified','reason':'fixed native cut window with committed endpoint phases and all contact records; no stationarity inference'}
     f['calibration'] = {'status':'not_applicable', 'reason':'declared exact observation gains and defining second only; no instrument realization', 'fitted_parameters':[]}
-    f['error'] = m.default_budget()
-    for item in f['error'].values():
-        item['scope']='conditional finite-window cycle-equivalent SI outputs'
-        item['provenance']='native:temporal;observation:declared;si:second'
-    for key in ('window','calibration'):
-        f['error'][key] = {'kind':'unknown','scope':'physical interpretation','unit':'s or Hz by output',
-                           'provenance':'observation:declared','reason':'physical endpoint phase, missed cycles, slips, drift, realization and temporal covariance not supplied'}
-    f['error']['propagation']['reason'] = 'exact rational evaluation of deterministic declared operands; no physical probability law'
+    f['error'] = {p['name']:m.default_budget(p) for p in f['codomain']}
+    for p in f['codomain']:
+        budget = f['error'][p['name']]
+        for key in ('window','calibration'):
+            budget[key] = {'kind':'unknown', 'unit':p['unit'], 'included_sources':{},
+                           'reason':'physical endpoint phase, missed cycles, slips, drift, realization and temporal covariance not supplied'}
+        budget['propagation']['reason'] = 'exact rational evaluation of deterministic declared operands; no physical probability law'
     f['status'] = {'arithmetic':'exact within declared domain', 'physical_applicability':'unknown'}
     return m.seal(f), {s['id']:s for s in f['sources']}
 
@@ -146,10 +145,13 @@ def predict(record, compared_gain='1', reference_gain='1', epoch='0', coordinate
             'atomic_prediction':None, 'exposure':'known_H_previously_exposed; no_blind_claim'}
 
 
-def evaluate(prediction, target):
+def evaluate(prediction, target, *, original_record, compared_gain, reference_gain, epoch, coordinate):
+    """Compare only an artifact replayed from caller-supplied original context."""
     require(set(target)=={'id','frequency_hz','exposure','prediction_cross_covariance'}, 'evaluation target fields')
     require(target['exposure']=='retrospective', 'known hydrogen cannot become blind by freezing a later artifact')
-    rate = Q(prediction['mapped']['outputs']['average_rate_hz']['value'])
+    replayed = predict(original_record, compared_gain, reference_gain, epoch, coordinate)
+    require(m.canonical(prediction)==m.canonical(replayed), 'prediction differs from replayed original context')
+    rate = Q(replayed['mapped']['outputs']['average_rate_hz']['value'])
     return {'prediction_sha256':m.digest(prediction), 'evaluation_sha256':m.digest(target),
             'diagnostic_residual_hz':str(rate-Q(target['frequency_hz'])),
             'combined_uncertainty':None, 'status':'diagnostic_only_missing_atomic_law_and_cross_covariance'}
@@ -223,16 +225,17 @@ def consumer_integration(root):
 
 def report():
     r=example(); p=predict(r)
+    context={'original_record':r,'compared_gain':'1','reference_gain':'1','epoch':'0','coordinate':'stipulated:local'}
     target={'id':'known-H','frequency_hz':'1420405751.768','exposure':'retrospective','prediction_cross_covariance':None}
     changed={**target,'frequency_hz':'1420405752.768'}
-    c1,c2=evaluate(p,target),evaluate(p,changed)
+    c1,c2=evaluate(p,target,**context),evaluate(p,changed,**context)
     require(c1['prediction_sha256']==c2['prediction_sha256'] and c1['diagnostic_residual_hz']!=c2['diagnostic_residual_hz'],'target separation')
     witnesses=[]
     for lam in (Q(0),Q(1)):
         w=predict(r,compared_gain=str(1+lam))
         witnesses.append({'lambda':str(lam),'Cs_gain':'1','H_gain':str(1+lam),
                           'conditional_rate_hz':w['mapped']['outputs']['average_rate_hz']['value']})
-    return {'schema_version':1,'prediction':p,'comparison':c1,'evaluation_only_mutation':c2,
+    return {'schema_version':2,'prediction':p,'comparison':c1,'evaluation_only_mutation':c2,
             'gain_countermodels':witnesses,
             'gain_family':'g_lambda(Z)=1+lambda*(55-Z)/54; lambda>-1; Cs fixed and H free',
             'countermodel_scope':'hypothetical species assignment only; no member selected or fitted',

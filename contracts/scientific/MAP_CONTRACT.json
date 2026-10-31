@@ -1,5 +1,5 @@
 {
-  "schema": "aod.scientific.map-contract.v1",
+  "schema": "aod.scientific.map-contract.v2",
   "scope": "Declared exact finite rational maps; no native geometric or physical observation law is inferred.",
   "mathematical_anchor": "def:m3-map",
   "implementation": "manual/scripts/aod_mapping_error.py",
@@ -39,9 +39,11 @@
   "executable_law": "Closed AST: input, parameter, add, sub, mul, div; no arbitrary code evaluation.",
   "source_binding": "Independent trusted registry must match identities, roles, canonical payload bytes and hashes. Raw scalar inputs bind exact values to source payload keys; upstream outputs retain and recursively reproduce the actual map/input execution and digest. Canonical payload hashing is distinct from external raw-file hashing.",
   "parameters": "Every used parameter binds its value, dimension, payload key, source identity and declared/definition/fitted origin. Fitted parameters require calibration exposure.",
-  "composition": "Retain each stage's specification and input digest plus shared source identity; shared sources are one dependency, not independent copies.",
-  "information_loss": "Exact many-to-one maps must identify equivalence and reconstruction task; unique reconstruction is rejected. Loss alone is not a scalar numerical error.",
-  "calibration_and_evaluation": "Evaluation-role sources cannot enter a frozen prediction directly or through upstream provenance. Unknown and inapplicable records carry separate reasons.",
+  "composition": "Retain each stage's specification, input digest and source provenance. Track actual operand sources separately from error-evidence sources through replayed upstream executions; shared sources are one dependency, not independent copies.",
+  "information_loss": "Injectivity is a strict Boolean or unknown. Unique reconstruction requires true injectivity established by the affine rank check. Exact many-to-one maps identify equivalence and reconstruction task. Loss alone is not a scalar numerical error.",
+  "error": "Exactly one eight-component budget per output port, with that output's units and independently bound quantitative evidence as specified by ERROR_BUDGET.json.",
+  "calibration_and_evaluation": "Evaluation-role sources cannot enter a frozen prediction directly or through upstream provenance. Calibration obligations follow actual operand sources, not evidence-only records. Quantified calibration components include their contributing source identities and hashes; unknown and inapplicable records carry separate reasons.",
+  "temporal_evaluation": "Comparison requires the caller's original admitted temporal record and explicit gains, epoch and coordinate. Regenerate the prediction from that context and require canonical equality of the complete received artifact before using its rate. A self-computed artifact hash alone does not validate its derivation.",
   "claim_status": "Only exact arithmetic within the declared domain and unknown physical applicability are admitted by this adapter; finite arithmetic cannot set physical model discrepancy to exact.",
   "limitations": "The validator checks typing, binding and evaluation of the restricted expression language, and affine injectivity by exact rank. Nonlinear injectivity remains unknown. Arbitrary symmetry assertions and physical calibration certificates are not established by this adapter."
 }
