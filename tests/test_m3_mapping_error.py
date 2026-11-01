@@ -377,8 +377,73 @@ def test_evidence_cannot_be_reused_for_a_different_claim(field):
     changed=m.source(evidence['id'],evidence['role'],changed)
     registry[changed['id']]=changed
     budget['calibration']['evidence']['sha256']=changed['sha256']
-    with pytest.raises(m.ContractError,match='evidence disagrees'):
+    with pytest.raises(m.ContractError,match='invalid rational' if field=='value' else 'evidence disagrees'):
         m.validate_budget(budget,output,registry,model_sha256=fingerprint)
+
+
+def persisted_evidence_map(tmp_path, kind, amount, evidence_value, *, law=None):
+    """Reissue all bindings, persist JSON, and reload the full executable claim."""
+    record,registry,values=setup_map()
+    if kind=='standard_uncertainty' and law is None:
+        q=m.rational(amount)
+        law=[('1',{'error':'0'})] if q==0 else [('1/2',{'error':str(-q)}),('1/2',{'error':str(q)})]
+    evidence=quantify(record['error']['y'],record['codomain'][0],registry,
+        m.model_sha256(record),kind=kind,amount=amount,law=law)
+    payload=deepcopy(evidence['payload']);payload['result']['value']=evidence_value
+    evidence=m.source(evidence['id'],evidence['role'],payload)
+    registry[evidence['id']]=evidence
+    record['error']['y']['calibration']['evidence']['sha256']=evidence['sha256']
+    record['sources'].append(evidence)
+    path=tmp_path/'execution.json'
+    path.write_text(json.dumps({'record':m.seal(record),'registry':registry,'values':values}))
+    saved=json.loads(path.read_text())
+    # Numeric mutations must reach the evidence guard rather than a stale hash.
+    m.validate_sources(saved['record']['sources'],saved['registry'])
+    assert saved['record']['spec_sha256']==m.digest({k:v for k,v in saved['record'].items() if k!='spec_sha256'})
+    return saved['record'],saved['registry'],saved['values']
+
+
+@pytest.mark.parametrize('kind',['bound','standard_uncertainty'])
+@pytest.mark.parametrize('evidence_value',[False,True,0.0,1.0])
+def test_persisted_evidence_rejects_boolean_and_float_aliases(tmp_path,kind,evidence_value):
+    record,registry,values=persisted_evidence_map(tmp_path,kind,int(evidence_value),evidence_value)
+    with pytest.raises(m.ContractError,match='exact rational required; floats and booleans are forbidden'):
+        m.run_map(record,values,registry)
+
+
+@pytest.mark.parametrize('kind',['bound','standard_uncertainty'])
+@pytest.mark.parametrize('amount',[0,1,'0','1/2'])
+def test_persisted_evidence_accepts_matching_exact_numbers(tmp_path,kind,amount):
+    record,registry,values=persisted_evidence_map(tmp_path,kind,amount,amount)
+    result=m.run_map(record,values,registry)
+    assert result['outputs']['y']['value']=='6'
+    assert result['outputs']['y']['origin']['map']['error']['y']['calibration']['value']==amount
+
+
+@pytest.mark.parametrize('kind',['bound','standard_uncertainty'])
+@pytest.mark.parametrize('evidence_value,diagnostic',[
+    (-1,'nonnegative evidence'),('-1/2','nonnegative evidence'),
+    ('invalid','invalid rational'),('1/0','invalid rational'),
+])
+def test_persisted_evidence_rejects_negative_and_malformed_numbers(tmp_path,kind,evidence_value,diagnostic):
+    record,registry,values=persisted_evidence_map(tmp_path,kind,0,evidence_value)
+    with pytest.raises(m.ContractError,match=diagnostic):
+        m.run_map(record,values,registry)
+
+
+@pytest.mark.parametrize('kind',['bound','standard_uncertainty'])
+@pytest.mark.parametrize('amount,evidence_value',[(1,'1'),('1',1),('2/4','1/2'),('1/2','2/4'),(0,1)])
+def test_persisted_evidence_preserves_exact_claim_representation(tmp_path,kind,amount,evidence_value):
+    record,registry,values=persisted_evidence_map(tmp_path,kind,amount,evidence_value)
+    with pytest.raises(m.ContractError,match='evidence disagrees'):
+        m.run_map(record,values,registry)
+
+
+def test_persisted_standard_uncertainty_still_requires_matching_variance(tmp_path):
+    record,registry,values=persisted_evidence_map(tmp_path,'standard_uncertainty',1,1,
+        law=[('1/2',{'error':'-1/2'}),('1/2',{'error':'1/2'})])
+    with pytest.raises(m.ContractError,match='standard uncertainty disagrees with supplied law'):
+        m.run_map(record,values,registry)
 
 
 @pytest.mark.parametrize('field',['code_sha256','id','version','domain','codomain','law','parameters'])

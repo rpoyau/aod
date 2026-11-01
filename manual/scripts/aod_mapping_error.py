@@ -363,6 +363,7 @@ def validate_budget(budget, output_port, trusted, *, model_sha256, calibration_s
                         'value': component['value'], 'included_sources': included}
             payload_fields = set(expected) | ({'joint_law'} if kind == 'standard_uncertainty' else set())
             require(isinstance(payload, dict) and set(payload) == payload_fields, 'evidence payload fields')
+            require(rational(payload['value']) >= 0, 'nonnegative evidence error value required')
             require(all(payload[key] == val for key, val in expected.items()), 'evidence disagrees with output/component/model/value/source binding')
             if kind == 'standard_uncertainty':
                 law = payload['joint_law']
