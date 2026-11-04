@@ -81,9 +81,25 @@ python3 scripts/sync_zenodo_references.py
 ```bash
 python3 manual/scripts/aod_native_closure_wave.py --check-data
 python3 manual/scripts/aod_awareness.py --check-data
+python3 manual/scripts/aod_cell_measures.py --check-data
+python3 manual/scripts/aod_mapping_error.py --check
+python3 manual/scripts/aod_m3_temporal.py --check
+python3 manual/scripts/aod_m3_anchor.py --check-data
 python3 scripts/sync_zenodo_references.py --check
 ```
 
 Generated fixture results are run reports. They are validated against the unchanged runner and canonical inputs; they are not scientific specifications. The registered current scientific contracts remain in `contracts/scientific/`.
 
 The source packager uses the complete tracked source in a Git checkout and the documented source surfaces in an unpacked archive. Both paths include the tests and scientific contracts, preserve executable file modes, and omit generated build products and temporary output. Place detached logs and release bundles outside the source tree when comparing independent builds.
+
+The M3 mapping report includes authenticated original MAP-21/22 finite laws.
+The anchor check replays the supplied historical experiment and four declared
+population/exposure cases from retained engine inputs. The two ZIP files in
+`manual/data/m3/historical_metrology/` and `manual/data/m3/temporal_anchor/`
+are immutable source dependencies and are included in the source archive.
+
+Temporal predictions use `ObservationContext`; evaluation requires the independent
+`original_context`. The active temporal report is schema 3, governed by
+`contracts/scientific/TEMPORAL_OBSERVATION.json`. Generic map and error-budget
+contracts remain version 2. Recreate callers from their original complete histories
+and preparation; a scalar-count record cannot be migrated into native admission.

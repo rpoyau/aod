@@ -64,6 +64,7 @@ SCIENTIFIC_CONTRACT_SCHEMAS = {
     'MAP_CONTRACT.json': 'aod.scientific.map-contract.v2',
     'ERROR_BUDGET.json': 'aod.scientific.error-budget.v2',
     'M3_MATHEMATICAL_BINDINGS.json': 'aod.scientific.m3-mathematics.v1',
+    'TEMPORAL_OBSERVATION.json': 'aod_temporal_observation_v1',
 }
 SCIENTIFIC_SCOPE_FILES = {
     'README.md', 'FOURIER_SCOPE.md', 'METROLOGY_BOUNDARY.md',

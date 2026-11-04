@@ -15,6 +15,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 REPORT = ROOT / 'manual/data/m3/mapping_error.json'
+HISTORICAL = ROOT / 'manual/data/m3/historical_metrology'
+HISTORICAL_BINDING_SHA256 = '0ede1681a3dabe41b3d844d59d6d69c30aad42e554076adafa1ab069dfe2cc67'
 FIELDS = ('id', 'version', 'code_sha256', 'spec_sha256', 'domain', 'codomain',
           'law', 'parameters', 'sources', 'structure', 'information_loss',
           'resolution', 'error', 'calibration', 'comparison', 'status')
@@ -519,6 +521,173 @@ def example_map(identity='map:scale', factor='2', source_record=None):
         'comparison':{'evaluation_sources':[], 'prediction_frozen':True},
         'status':{'arithmetic':'exact within declared domain','physical_applicability':'unknown'}})
 
+def historical_sources(root=HISTORICAL):
+    """Bind recovered bytes to an independent digest, not a resealable manifest."""
+    import io
+    import zipfile
+    root = Path(root)
+    path = root / 'source_bindings.json'
+    require(hashlib.sha256(path.read_bytes()).hexdigest() == HISTORICAL_BINDING_SHA256,
+            'historical source binding changed')
+    binding = json.loads(path.read_text())
+    require({str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()} ==
+            set(binding['files']) | {'source_bindings.json'}, 'historical source inventory changed')
+    for name, item in binding['files'].items():
+        data = (root/name).read_bytes()
+        require(len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'],
+                'historical source bytes changed: '+name)
+    probe = (root/binding['probe']['path']).read_bytes()
+    with zipfile.ZipFile(root/binding['recovery_archive']['path']) as recovered:
+        lines = recovered.read(binding['recovery_archive']['manifest']).decode().splitlines()
+        require(len(lines) == binding['recovery_archive']['members'], 'recovery archive inventory differs')
+        for line in lines:
+            expected, name = line.split(None,1)
+            require(hashlib.sha256(recovered.read(name)).hexdigest() == expected, 'recovery archive member changed')
+        nested = [(archive, recovered.read('archives/'+archive['archive']))
+                  for archive in binding['archive_provenance']]
+    for archive, data in nested:
+        require(hashlib.sha256(data).hexdigest() == archive['sha256'], 'original archive changed')
+        with zipfile.ZipFile(io.BytesIO(data)) as z:
+            require(z.read(archive['probe_member']) == probe, 'archive probe differs')
+            manifest = 'MANIFEST.sha256' if 'MANIFEST.sha256' in z.namelist() else 'MANIFEST_SHA256.txt'
+            count = 0
+            for line in z.read(manifest).decode().splitlines():
+                if not line.strip() or line.startswith('#'): continue
+                expected, name = line.split(None, 1)
+                require(hashlib.sha256(z.read(name.lstrip('*'))).hexdigest() == expected,
+                        'historical archive member changed')
+                count += 1
+            require(count == archive['entries_verified'], 'historical archive inventory differs')
+    return binding
+
+def historical_parameters(root=HISTORICAL):
+    """Read the three rational constants from the authenticated original program."""
+    import ast
+    historical_sources(root)
+    tree = ast.parse((Path(root)/'probe_metrology_edges.py').read_text())
+    main = next(node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == 'main')
+    def literal(node):
+        require(isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                and node.func.id == 'Q' and not node.keywords
+                and all(isinstance(n, ast.Constant) and type(n.value) is int for n in node.args),
+                'historical rational assignment differs')
+        return Q(*(n.value for n in node.args))
+    values = {}
+    for node in main.body:
+        if not isinstance(node, ast.Assign) or len(node.targets) != 1: continue
+        target = node.targets[0]
+        if isinstance(target, ast.Name) and target.id == 'a': values['a'] = literal(node.value)
+        if isinstance(target, ast.Tuple) and [n.id for n in target.elts] == ['eps', 'delta']:
+            values.update(zip(['eps', 'delta'], map(literal, node.value.elts)))
+    require(set(values) == {'a', 'eps', 'delta'}, 'original parameters absent')
+    return values
+
+def historical_law(criterion, root=HISTORICAL):
+    """Original normalized finite law, including its dependent support and units."""
+    params = historical_parameters(root)
+    if criterion == 'MAP-21':
+        a = params['a']
+        propagation = {'expr':['add', ['div', ['parameter','one'],
+            ['add', ['parameter','one'], ['input','y']]], ['input','d']],
+            'order':['y','d'], 'parameters':{'one':{'value':'1'}},
+            'support':[['1/2',{'y':str(x),'d':str(x)}] for x in [-a,a]]}
+        units = {'y':'1','d':'s/s','output':'s/s'}
+        domain = {'y': [str(-a),str(a)], 'd':[str(-a),str(a)], 'denominator':'1+y != 0'}
+        dependence = 'd/s = y almost surely; C/f_Cs = 1 s exactly'
+    else:
+        require(criterion == 'MAP-22', 'unknown historical law')
+        eps, delta = params['eps'], params['delta']
+        propagation = {'expr':['mul',['input','ratio'],['input','frequency']],
+            'order':['ratio','frequency'], 'parameters':{},
+            'support':[[str(p),{'ratio':str(1+x),'frequency':str(1-(1-delta)*x)}]
+                       for x,p in zip([-eps,Q(0),eps],[Q(1,4),Q(1,2),Q(1,4)])]}
+        units = {'ratio':'1','frequency':'Hz/Hz','output':'Hz/Hz'}
+        domain = {'latent_x':[str(-eps),str(eps)],'delta':str(delta)}
+        dependence = 'ratio = 1+x; frequency/Hz = 1-(1-delta)*x; one shared latent x'
+    return {'criterion':criterion, 'law_id':'original-probe:'+criterion+':v1',
+            'source_bindings_sha256':HISTORICAL_BINDING_SHA256,
+            'units':units,'domain':domain,'dependence':dependence,'propagation':propagation}
+
+def historical_closed_form(criterion, root=HISTORICAL):
+    """Independent closed-form moments; does not call the expression evaluator."""
+    p = historical_parameters(root)
+    if criterion == 'MAP-21':
+        a = p['a']
+        mean, variance, linear = 1/(1-a*a), a**6/(1-a*a)**2, Q(0)
+    else:
+        require(criterion == 'MAP-22', 'unknown historical law')
+        eps, delta = p['eps'], p['delta']
+        b = 1-delta
+        mean, linear = 1-b*eps**2/2, delta**2*eps**2/2
+        variance = linear+b*b*eps**4/4
+    return {'output_mean':str(mean),'output_variance':str(variance),
+            'linearized_variance_diagnostic':str(linear),'mean_shift':str(mean-1)}
+
+def certify_historical_law(criterion, law, result, root=HISTORICAL):
+    """Compare the whole law/result against bound original context, not just moments."""
+    original = historical_law(criterion, root)
+    require(canonical(law) == canonical(original), 'historical joint law changed')
+    expected = propagate(**original['propagation'])
+    require(canonical(result) == canonical(expected), 'historical result differs from replay')
+    require(all(result[k] == v for k,v in historical_closed_form(criterion,root).items()),
+            'historical independent moments differ')
+    return True
+
+def replay_historical_probe(root=HISTORICAL):
+    """Execute the unchanged legacy code: its unsafe completeness claim must recur."""
+    import subprocess
+    import sys
+    import tempfile
+    import zipfile
+    binding = historical_sources(root)
+    root = Path(root).resolve()
+    with tempfile.TemporaryDirectory(prefix='aod-historical-replay-') as tmp:
+        target = Path(tmp)/'historical_target'
+        with zipfile.ZipFile(root/binding['recovery_archive']['path']) as z:
+            require({n.removeprefix('historical_target/') for n in z.namelist() if n.startswith('historical_target/')} ==
+                    set(binding['historical_target_files']), 'historical dependency inventory changed')
+            for name, item in binding['historical_target_files'].items():
+                data = z.read('historical_target/'+name)
+                require(hashlib.sha256(data).hexdigest() == item['sha256'], 'historical dependency changed')
+                destination = target/name
+                require(destination.resolve().is_relative_to(target.resolve()), 'invalid dependency path')
+                destination.parent.mkdir(parents=True,exist_ok=True)
+                destination.write_bytes(data)
+        command = [sys.executable,'-B'] + ([] if __debug__ else ['-O']) + [
+            str(root/'probe_metrology_edges.py'),'--repo',str(target)]
+        actual = subprocess.run(command, cwd=tmp, capture_output=True, timeout=30)
+        require(actual.returncode == 0 and not actual.stderr, 'historical execution failed')
+        require(actual.stdout == (root/'original-output.json').read_bytes(), 'historical output changed')
+        negative = subprocess.run(command+['--expect-repaired'], cwd=tmp, capture_output=True, timeout=30)
+        require(negative.returncode == 1 and b'Uncertainty completeness defects remain' in negative.stderr,
+                'historical false-completeness negative control did not fail')
+    historical_sources(root)
+    original = json.loads(actual.stdout)
+    require(original['read_only'] is True, 'historical execution changed its source')
+    return {'status':'original_output_byte_identical', 'probe_sha256':binding['probe']['sha256'],
+            'probe_bytes':binding['probe']['bytes'],
+            'original_output_sha256':binding['files']['original-output.json']['sha256'],
+            'historical_dependency_commit':binding['historical_target_commit'],
+            'source_bindings_sha256':HISTORICAL_BINDING_SHA256,
+            'legacy_complete_claim_negative_control':'rejected_as_expected',
+            'scope':'Original synthetic completeness defects reproduced; the BIPM subprobe is historical output identity only, not MAP-28 acceptance'}
+
+def historical_report(root=HISTORICAL):
+    replay = replay_historical_probe(root)
+    cases = {}
+    for criterion in ('MAP-21','MAP-22'):
+        law = historical_law(criterion,root)
+        result = propagate(**law['propagation'])
+        certify_historical_law(criterion,law,result,root)
+        args = {k:v for k,v in law['propagation'].items() if k != 'support'}
+        partial = propagate(**args,means=result['input_mean'],covariance=result['input_covariance'])
+        cases[criterion] = {'law':law,'result':result,'independent_closed_form':historical_closed_form(criterion,root),
+                            'covariance_only':partial,'status':'verified_original_synthetic_finite_law'}
+    return {'replay':replay,'cases':cases,
+            'scope':'MAP-21/MAP-22 original synthetic finite laws only; no physical calibration or native admission',
+            'unchanged_obligations':['MAP-07 source-supported extraction linking admitted native closures to higher cells',
+                                     'MAP-28 source precision','G6 sphere extension not opened']}
+
 def report():
     s = source('model:scale','model',{'factor':'2','input':'3','hidden0':'0','hidden1':'1'})
     trusted = {s['id']:s}
@@ -527,7 +696,7 @@ def report():
     g['domain'][0]['bounds'] = ['-20','20']; g['codomain'][0]['bounds'] = ['-40','40']; g = seal(g)
     x = value(f['domain'][0], '3', {s['id']:s['sha256']}, {'kind':'source','source_id':s['id'],'payload_key':'input'})
     chain = compose(f,g,{'x':x},trusted)
-    # New exact rational controls. The unavailable R01 bytes are NOT reconstructed by naming these historic.
+    # Separate additional controls; neither replaces an original MAP-21/22 law.
     points = [(Q(1,4),Q(-1,100)),(Q(1,2),Q(0)),(Q(1,4),Q(1,100))]
     interval_expr = ['div',['input','cycles'],['mul',['input','ratio'],['input','frequency']]]
     interval_law = [(str(p),{'cycles':'1','ratio':str(1+d),'frequency':str(1-d)}) for p,d in points]
@@ -554,9 +723,12 @@ def report():
       'interval_zero_linear_control':propagate(interval_expr,['cycles','ratio','frequency'],{},support=interval_law),
       'near_cancelled_product_control':propagate(product_expr,['ratio','frequency'],{},support=product_law),
       'historical_product_regression':propagate(product_expr,['ratio','frequency'],{},support=old_product_law),
-      'historical_probe_status':{'r01_probe':'unavailable in supplied R02 archive or local filename/text search',
+      'original_historical_laws':historical_report(),
+      'historical_probe_status':{'r01_probe':'authenticated original replayed against bound historical dependencies/output',
         'expected_file':'probe_metrology_edges.py','expected_sha256':'685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e',
-        'fidelity':'MAP-21/MAP-22 historical exact replay remains partial; new controls do not replace the missing original law',
+        'fidelity':'MAP-21/MAP-22 original synthetic finite laws verified; additional controls remain distinct',
+        'evidence_directory':'manual/data/m3/historical_metrology',
+        'source_bindings_sha256':HISTORICAL_BINDING_SHA256,
         'recovered_product':'separate historical consumer test: delta=-1/2,0,1/2; probabilities 1/4,1/2,1/4; mean 7/8 and variance 1/64'},
       'legitimate_common_offset_cancellation':offset, 'constant_on_declared_support':constant,
       'covariance_only_nonlinear':propagate(product_expr,['ratio','frequency'],{},means={'ratio':'1','frequency':'1'},covariance=[['1/20000','-1/20000'],['-1/20000','1/20000']]),

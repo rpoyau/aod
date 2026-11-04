@@ -33,9 +33,21 @@
   "unknown": "An unknown applicable component carries no value; missing or zero substitution is rejected. Exact finite arithmetic does not resolve physical discrepancy.",
   "outputs": "The map error record is keyed by exactly its codomain port names. Each output has the eight required components, each in that output's unit. Parameter uncertainties require propagation to an output before becoming numerical output components.",
   "exact": "Evidence-free exact zero is restricted to arithmetic, propagation and solver components for deterministic rational evaluation. Other numerical components require bound or finite-law evidence; physical model discrepancy remains unknown.",
-  "evidence_reference": ["source_id", "payload_key", "sha256"],
+  "evidence_reference": [
+    "source_id",
+    "payload_key",
+    "sha256"
+  ],
   "quantitative_evidence": "Bounds and standard uncertainties have a value and a reference to a trusted source payload. The payload binds model_sha256, output, component, kind, unit, value and included_sources; standard uncertainty also supplies joint_law. Validate source identity, payload hash and every included source digest; evaluation-role evidence is rejected. Binding a declared bound does not prove it for an arbitrary model.",
-  "model_fingerprint": ["code_sha256", "id", "version", "domain", "codomain", "law", "parameters"],
+  "model_fingerprint": [
+    "code_sha256",
+    "id",
+    "version",
+    "domain",
+    "codomain",
+    "law",
+    "parameters"
+  ],
   "evidence_dependencies": "Evidence records use the existing source registry and remain in execution provenance. Evidence source identities are distinct from actual operand identities; included_sources maps contributing operand identities to trusted hashes. Evidence-only records do not create calibration obligations or include their own digest.",
   "source_accounting": "Reject duplicate source inclusion across components within one output. Reuse across output budgets records shared dependence; it neither assumes independence nor supplies cross-output covariance.",
   "dependence": "Joint support has named input identities, positive rational probabilities summing to one and all coordinates at every atom. Shared covariance is retained; supplied means/covariance must agree with the full law.",
@@ -46,12 +58,12 @@
   "bounds": "Composition uses b_g + L_g b_f given nonnegative uniform bounds and true plus approximate images contained in the outer domain. Implemented outer laws are affine and reciprocal; reciprocal domains exclude zero.",
   "ratios": "A denominator interval containing zero returns undefined_or_unbounded with no finite symmetric interval.",
   "source_precision": "Printed-decimal half-last-place bounds are conditional on nearest rounding to the printed precision, separate from raw-file SHA-256. Printed zero needs an explicit exact-source, rounded, or unknown policy; no physical uncertainty is inferred from its exponent.",
-  "historical_oracle_limit": "Original R01 probe_metrology_edges.py SHA-256 685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e is unavailable. The new interval and near-cancelled product controls are not claimed as exact historical replay. A separate recovered consumer product law is reproduced algebraically.",
+  "historical_oracle_limit": "The authentic 6837-byte R01 probe_metrology_edges.py (SHA-256 685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e), original dependencies and original failing output are retained in manual/data/m3/historical_metrology. Exact replay of the original reciprocal MAP-21 and near-cancelled MAP-22 finite laws is separate from the three existing additional controls. Covariance-only nonlinear input remains incomplete; this replay supplies no physical realization budget.",
   "physical_limit": "No real-clock realization budget or new external BIPM uncertainty interpretation is certified by this finite-model module.",
   "recovered_product_regression": {
     "source_path": "manual2/tests/test_matter1_metrology.py",
     "observed_sha256": "38c25ad34b5ecc0862a2a48544953553f6cbf53d59c8013ac748afba38a405dc",
     "law": "delta=-1/2,0,1/2 with probabilities 1/4,1/2,1/4; (1+delta)(1-delta)",
-    "scope": "Separate recovered consumer regression, not the missing R01 probe; no consumer modification or full consumer test rerun is claimed."
+    "scope": "Separate recovered consumer regression, distinct from the authenticated R01 probe; no consumer modification or full consumer test rerun is claimed by this regression."
   }
 }

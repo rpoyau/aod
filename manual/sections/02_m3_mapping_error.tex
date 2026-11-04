@@ -64,6 +64,34 @@ at \(\delta=(-1/2,0,1/2)\). It reproduces
 \(\mathbb E[Rf]=7/8\), \(\operatorname{Var}(Rf)=1/64\), and zero
 first-order variance.
 
+\paragraph{Original reciprocal and near-cancelled laws.}
+For the original interval example, let \(y=d/s=\pm a\) with equal
+probabilities, \(a=1/1000\), and \(U=T/s=1/(1+y)+y\). Direct enumeration gives
+\begin{equation}
+ \mathbb E[U]=\frac{1}{1-a^2}=\frac{1000000}{999999},\qquad
+ \operatorname{Var}(U)=\frac{a^6}{(1-a^2)^2}
+ =\frac{1}{999998000001000000}.
+ \label{eq:manual-m3-original-interval}
+\end{equation}
+Its linearized variance is zero because the two input corrections are
+the same random variable.
+For the original product, let \(x=(-\epsilon,0,\epsilon)\) have probabilities
+\((1/4,1/2,1/4)\), with \(\epsilon=1/1000\), \(\delta=1/1000000\),
+\(b=1-\delta\), and \(V=F/\mathrm{Hz}=(1+x)(1-bx)\). Then
+\begin{equation}
+ \mathbb E[V]=1-\frac{b\epsilon^2}{2},\qquad
+ \operatorname{Var}(V)=\frac{\delta^2\epsilon^2}{2}
+                       +\frac{b^2\epsilon^4}{4}.
+ \label{eq:manual-m3-original-product}
+\end{equation}
+The first term is the linearized variance; the full variance is
+\(500000.0000005\) times as large. These joint laws retain the input
+dependence. They are distinct from the three controls above.
+The authenticated original probe and its unchanged failing historical
+implementation are retained with their source and output bindings.
+The successor computes exact finite-law moments; covariance alone still
+leaves nonlinear output moments unresolved.
+
 \paragraph{Legitimate cancellation and limits of moments.}
 For an affine endpoint difference with means \((7,2)\) and covariance
 \(\left(\begin{smallmatrix}4&4\\4&4\end{smallmatrix}\right)\), the mean is

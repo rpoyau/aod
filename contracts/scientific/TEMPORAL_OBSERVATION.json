@@ -1,0 +1,55 @@
+{
+  "api": {
+    "cycles": "compare_cycles(prediction,observed_source,original_context=context)",
+    "evaluate": "evaluate(prediction,target,original_context=context)",
+    "input": "ObservationContext(record,population,couplings,preparation,pending,source_dependencies,observation,previous_comparison)",
+    "predict": "predict(context)"
+  },
+  "calibration": "reference gain equals independently supplied corrected_cycles/reference_reclosures on a frozen calibration window; calibration uncertainty remains applicable and unknown",
+  "independence": "duplicate full reference records or shared calibration payloads cannot supply independent evidence; absence of collision is not proof of independence",
+  "law": "fixed positive compared and reference cycle equivalents per reclosure; no physical gain selected",
+  "limits": [
+    "pending payload meaning requires producer original-engine replay",
+    "population preparation is declared, not physical nuclear identification",
+    "SI defining-frequency division is separate from closure-to-cycle observation",
+    "unknown physical calibration/discrepancy and dependence are not numerical zero",
+    "no physical hydrogen frequency or isotope half-life",
+    "calibration/evaluation overlap cannot validate transfer"
+  ],
+  "main_anchors": [
+    "eq:temporal-sadar-burden",
+    "eq:closure-residual",
+    "eq:shedding-excess",
+    "eq:causal-update"
+  ],
+  "output_error_components": [
+    "arithmetic",
+    "resolution",
+    "window",
+    "model_discrepancy",
+    "calibration",
+    "propagation",
+    "solver",
+    "comparison"
+  ],
+  "owner": "M3 temporal observation application contract",
+  "replay": "complete artifact regenerated from independently supplied typed original context, not the artifact embedded context",
+  "required_context": [
+    "actual admitted population waves and committed prefixes",
+    "complete operative directed contact history",
+    "explicit preparation parameters",
+    "declared pending/incomplete payloads with retained prefix",
+    "native comparison window and initial-closure exclusion",
+    "actual prior comparison for nonzero prior lag",
+    "frozen observation domains, gains, coordinate and epoch",
+    "separate calibration and evaluation sources"
+  ],
+  "schema": "aod_temporal_observation_v1",
+  "units": {
+    "average_rate_hz": "Hz",
+    "elapsed_seconds": "s",
+    "reference_corrected_cycle_prediction": "cycle"
+  },
+  "validation_domain": "exact population identities/scopes, preparation digest, directed graph and permitted cut envelope",
+  "version": 1
+}

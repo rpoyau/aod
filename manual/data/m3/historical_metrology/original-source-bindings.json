@@ -1,0 +1,230 @@
+{
+  "created_at": "2026-10-26T18:25:47+01:00",
+  "binding_scope": "Dated planning references and current supplied bytes; no current accepted repository commit/tree has been selected.",
+  "local_reference_files": [
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/project_sources/11-AOD_M1_CLOSURE_WAVE_RELATIONAL_TIME_SINGLE_PLAN.md",
+      "bundle_path": "reference/OWNER_CLOSURE_WAVE_RELATIONAL_TIME_PLAN.md",
+      "size_bytes": 52549,
+      "sha256": "d3ed657888a6a3c63b13dd34b92a38557189aaccda81775144598267c053859c",
+      "role": "Later owner-amended constructive order; historical commit locks require reconciliation, not automatic reuse."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/matter1-v2-execution-feedback-r01/REPORT.md",
+      "bundle_path": "reference/MATTER_I_V2_REVIEW.md",
+      "size_bytes": 9736,
+      "sha256": "d87f4f327a4f423ca0c07ff76f6b5d9fcd2090e6f9eeacd28ebec8a1568834dc",
+      "role": "Historical independent review at f2dcf014; no claim of current live head or repaired status."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/matter1-v2-execution-feedback-r01/probe_metrology_edges.py",
+      "bundle_path": "reference/probe_metrology_edges.py",
+      "size_bytes": 6837,
+      "sha256": "685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e",
+      "role": "Historical read-only synthetic probes; not run as part of this plan."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/review-work/r24-source/manual-2/sections/01_circle_relational_geometry_audit_records.tex",
+      "bundle_path": "reference/circle/01_circle_relational_geometry_audit_records.tex",
+      "size_bytes": 2770,
+      "sha256": "bb0602847d451ca44903d65908638244107451afe3fd19de8965becd081da09d",
+      "role": "Historical audit contract/scaffolding."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/review-work/r24-source/manual-2/sections/02_circle_finite_trace_tau_pi_error_audit.tex",
+      "bundle_path": "reference/circle/02_circle_finite_trace_tau_pi_error_audit.tex",
+      "size_bytes": 3345,
+      "sha256": "1e29f13e2d132cc0bb4804f56530a4922ee7fd373ba70389c8699d3ca6962bbb",
+      "role": "Historical finite shared-coefficient consistency example, not native coefficient proof."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/review-work/r24-source/manual-2/scripts/build_circle_finite_trace_tau_pi_error_audit.py",
+      "bundle_path": "reference/circle/build_circle_finite_trace_tau_pi_error_audit.py",
+      "size_bytes": 8324,
+      "sha256": "a7fc34f21306bc4490114e66d6345c3027be8c993d56aa9d7ab0ac49b648c3fe",
+      "role": "Historical generator explicitly stipulates the finite coefficient."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/review-work/r24-source/manual-2/data/circle_geometry/circle_finite_trace_audit_records.csv",
+      "bundle_path": "reference/circle/circle_finite_trace_audit_records.csv",
+      "size_bytes": 996,
+      "sha256": "0390a544937f96f8c375f34535793ca6741cff56e0dc99ee49e8d5b9df5eb3be",
+      "role": "Historical finite symbolic trace row."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/review-work/r24-source/manual-2/data/circle_geometry/circle_rational_tau_pi_error_audit.csv",
+      "bundle_path": "reference/circle/circle_rational_tau_pi_error_audit.csv",
+      "size_bytes": 818,
+      "sha256": "0bc61b8a1b7c306c0f483455c2fe26e66dc8d025d95a48d531d1a8308d2d4630",
+      "role": "Historical rational approximation error interval."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/matter1-v2-implementation-review-r01/.agents/skills/axiomatic-fundamentalism/SKILL.md",
+      "bundle_path": "reference/skills/axiomatic-fundamentalism.md",
+      "size_bytes": 3219,
+      "sha256": "7c0f03a5264fd4b9a89a2d92cdceb6da03a6eca2288ce25d041551fedde74cec",
+      "role": "Unmodified repository skill snapshot. Reconcile with actual installed skills at implementation entry."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/matter1-v2-implementation-review-r01/.agents/skills/aod-style-and-format/SKILL.md",
+      "bundle_path": "reference/skills/aod-style-and-format.md",
+      "size_bytes": 19789,
+      "sha256": "a0396af933fcd6ab62825cd184fc478cdffc727050effbf16e330180a14b86bf",
+      "role": "Unmodified repository skill snapshot. Reconcile with actual installed skills at implementation entry."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/matter1-v2-implementation-review-r01/.agents/skills/general-mechanics-style/SKILL.md",
+      "bundle_path": "reference/skills/general-mechanics-style.md",
+      "size_bytes": 2528,
+      "sha256": "1625ec510763c6d080050719641a8584be0b1069feba2084a57d452e005cecfb",
+      "role": "Unmodified repository skill snapshot. Reconcile with actual installed skills at implementation entry."
+    },
+    {
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/matter1-v2-implementation-review-r01/.agents/skills/aod-ontology-compaction/SKILL.md",
+      "bundle_path": "reference/skills/aod-ontology-compaction.md",
+      "size_bytes": 5821,
+      "sha256": "13195be85c8a0863d2226e9a2c024272becd8c09081abc8f87da30aba86a91ff",
+      "role": "Unmodified repository skill snapshot. Reconcile with actual installed skills at implementation entry."
+    }
+  ],
+  "available_source_archives": [
+    {
+      "name": "01-afc-main.zip",
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/project_sources/01-afc-main.zip",
+      "size_bytes": 18786,
+      "sha256": "24587c1ddd7dd5b7673795adf97954a3b40e6480fef54a9d8917e6d77ac0b950",
+      "included": true,
+      "status": "SUPPLIED_BYTES_VERIFIED; CURRENT_BASE_NOT_SELECTED; SCIENTIFIC_SUITE_NOT_RERUN",
+      "bundle_location": "reference/authority/afc-main.zip"
+    },
+    {
+      "name": "02-general-mechanics-1.0.5.0.zip",
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/project_sources/02-general-mechanics-1.0.5.0.zip",
+      "size_bytes": 178479,
+      "sha256": "5d9171e1b4518d975ad3486aaa6d09a781cc60877a950cc0a23da157c37c4736",
+      "included": true,
+      "status": "SUPPLIED_BYTES_VERIFIED; CURRENT_BASE_NOT_SELECTED; SCIENTIFIC_SUITE_NOT_RERUN",
+      "bundle_location": "reference/authority/general-mechanics-1.0.5.0.zip"
+    },
+    {
+      "name": "03-bundle.zip",
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/project_sources/03-bundle.zip",
+      "size_bytes": 10016813,
+      "sha256": "feac40dc21f9e47ff1d8a4c8ebdbac6340de7ac2a9f168a4cfe4c2d67c25b13b",
+      "included": true,
+      "status": "SUPPLIED_BYTES_VERIFIED; CURRENT_BASE_NOT_SELECTED; SCIENTIFIC_SUITE_NOT_RERUN",
+      "bundle_location": "reference/releases/aod-v40.01r10-bundle.zip"
+    },
+    {
+      "name": "09-source.zip",
+      "source_workspace_path": "/workspace/scratch/27f6ced90fa9/project_sources/09-source.zip",
+      "size_bytes": 5795909,
+      "sha256": "a178a5bf06d51c8ab8852e9cabfb6c5eb61456f70739d7391582c08c524f34c7",
+      "included": true,
+      "status": "SUPPLIED_BYTES_VERIFIED; CURRENT_BASE_NOT_SELECTED; SCIENTIFIC_SUITE_NOT_RERUN",
+      "bundle_location": "reference/releases/aod-v40.01r10-bundle.zip!source.zip"
+    }
+  ],
+  "historical_program": {
+    "name": "AOD Native Phase-Cycle Program Plan r02 — Reviewed",
+    "library_file_id": "libfile_612c1e031b6481918f6b6f91e4b8f25f",
+    "file_id": "file_000000001bac71f6acc0745d8c6b1644",
+    "url": "https://chatgpt.com/library?file_id=libfile_612c1e031b6481918f6b6f91e4b8f25f&account_id=personal",
+    "read_in_preceding_discussion": true,
+    "included_form": "Recovery note, not the original 29538-byte file.",
+    "work_request": "WR_v41_0_0_native_phase_cell_closure",
+    "historical_status": "MODIFY / SCIENTIFIC HOLD",
+    "latest_recovered_discussion": "18 July 2026: source-definition progress; no geometry/projection completion recovered.",
+    "direct_chat_url": null
+  },
+  "owner_plan": {
+    "library_file_id": "libfile_d78510a9367c8191b61845689cf726be",
+    "source_date": "2026-08-25"
+  },
+  "last_independently_reviewed_consumer": {
+    "repository": "rpoyau/aod-manual-volume-2",
+    "pr_number": 1,
+    "commit": "f2dcf01450d5443ba83d207adfade9a27d3d2a7f",
+    "tree": "4f3c5486e987558ff712c3aa4acf98a926ba2213",
+    "role": "Historical context, not a current-head assertion or selected implementation base."
+  },
+  "external_references": [
+    {
+      "name": "NIST DLMF §3.12",
+      "url": "https://dlmf.nist.gov/3.12"
+    },
+    {
+      "name": "BIPM SI second definition",
+      "url": "https://www.bipm.org/en/si-base-units/second"
+    },
+    {
+      "name": "BIPM/CCTF practical realization of the second",
+      "url": "https://www.bipm.org/documents/20126/41489667/SI-App2-second.pdf/3c76fec8-04d9-f484-5c3c-a2e280a0f248"
+    },
+    {
+      "name": "JCGM 100:2008/Amd.1:2026",
+      "url": "https://www.bipm.org/documents/20126/2071204/JCGM_100_Amd1_2026.pdf/"
+    },
+    {
+      "name": "JCGM 101:2008",
+      "url": "https://www.bipm.org/documents/20126/2071204/JCGM_101_2008_E.pdf"
+    },
+    {
+      "name": "JCGM GUM-6:2020",
+      "url": "https://www.bipm.org/documents/20126/2071204/JCGM_GUM_6_2020.pdf"
+    }
+  ],
+  "external_reference_status": "Consulted in preceding discussion on 2026-10-26; URLs recorded here, no new dataset validation.",
+  "scientific_acceptance_executed": false,
+  "repository_mutations": false,
+  "remote_mutations": false,
+  "m3_designation_date": "2026-10-26",
+  "original_source_bindings": "reference/history/original_plan_r01.zip!SOURCE_BINDINGS.json",
+  "old_workspace_paths": "Historical provenance only; use bundle_path or nested_bundle_path to resolve packaged references.",
+  "new_reference_bindings": [
+    {
+      "bundle_path": "reference/history/original_plan_r01.zip",
+      "size_bytes": 74580,
+      "sha256": "773f198b1e79817f4b38d9fa11b06dd6966d970dff25b1235e0d79b167566703",
+      "role": "Original plan snapshot"
+    },
+    {
+      "bundle_path": "reference/authority/afc-main.zip",
+      "size_bytes": 18786,
+      "sha256": "24587c1ddd7dd5b7673795adf97954a3b40e6480fef54a9d8917e6d77ac0b950",
+      "role": "Supplied dated reference; not a selected current execution base"
+    },
+    {
+      "bundle_path": "reference/authority/general-mechanics-1.0.5.0.zip",
+      "size_bytes": 178479,
+      "sha256": "5d9171e1b4518d975ad3486aaa6d09a781cc60877a950cc0a23da157c37c4736",
+      "role": "Supplied dated reference; not a selected current execution base"
+    },
+    {
+      "bundle_path": "reference/releases/aod-v40.01r10-bundle.zip",
+      "size_bytes": 10016813,
+      "sha256": "feac40dc21f9e47ff1d8a4c8ebdbac6340de7ac2a9f168a4cfe4c2d67c25b13b",
+      "role": "Supplied dated reference; not a selected current execution base"
+    },
+    {
+      "bundle_path": "reference/releases/supplied-SHA256.txt",
+      "size_bytes": 559,
+      "sha256": "0b7133ddfa96340c068d56c2b22456dad01e4391d78f71acaa44524a8e1e4a00",
+      "role": "Supplied dated reference; not a selected current execution base"
+    }
+  ],
+  "supplied_release_consistency": {
+    "canonical_version": "v40.01r10",
+    "canonical_version_source": "reference/releases/aod-v40.01r10-bundle.zip!source.zip!CANONICAL_VERSION.txt",
+    "separately_supplied_matching_members": [
+      "main.pdf",
+      "manual.pdf",
+      "source.zip",
+      "tests.txt",
+      "patch_summary.txt",
+      "BUNDLE_CONTENTS_SHA256.txt"
+    ],
+    "historical_tests_status": "The nested release log reports 202 passed. Those tests were not rerun and are not M3 acceptance.",
+    "owner_plan_matches_separate_attachment": true
+  }
+}

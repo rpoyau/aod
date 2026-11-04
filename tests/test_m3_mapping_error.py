@@ -170,7 +170,7 @@ def test_recovered_separate_historical_product_regression():
     result=m.report()['historical_product_regression']
     assert result['output_mean']=='7/8' and result['output_variance']=='1/64'
     assert result['linearized_variance_diagnostic']=='0'
-    assert 'partial' in m.report()['historical_probe_status']['fidelity']
+    assert 'original synthetic finite laws verified' in m.report()['historical_probe_status']['fidelity']
 
 
 def test_covariance_alone_does_not_certify_nonlinear_adequacy():
