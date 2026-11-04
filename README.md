@@ -129,6 +129,8 @@ References are synchronized from `refs.bib` and `manual/refs.bib`.
 - Norris, J. R. (1997). Markov Chains. Cambridge University Press.
 - Levin, D. A., Peres, Y., and Wilmer, E. L. (2009). Markov Chains and Mixing Times. American Mathematical Society.
 - Lawler, G. F., and Limic, V. (2010). Random Walk: A Modern Introduction. Cambridge University Press. https://doi.org/10.1017/CBO9780511750854.
+- Bureau International des Poids et Mesures. SI base unit: second (s). https://www.bipm.org/en/si-base-units/second, n.d.
+- National Institute of Standards and Technology. Fountains of Atoms: Exquisite Timekeepers. https://www.nist.gov/atomic-clocks/how-atomic-clocks-work/fountains-atoms-exquisite-timekeepers, 2025.
 - Bureau International des Poids et Mesures. The International System of Units: Defining Constants. BIPM, https://www.bipm.org/en/measurement-units/si-defining-constants, n.d.
 - National Institute of Standards and Technology. CODATA Value: Inverse Fine-Structure Constant. NIST CODATA, https://physics.nist.gov/cgi-bin/cuu/Value?alphinv, 2022.
 - National Institute of Standards and Technology. CODATA Value: Proton Mass Energy Equivalent in MeV. NIST CODATA, https://physics.nist.gov/cgi-bin/cuu/Value?mpc2mev, 2022.
