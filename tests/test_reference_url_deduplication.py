@@ -124,15 +124,17 @@ def test_explicit_references_and_note_fallback_are_preserved(bib_fields):
     )
 
 
-def test_canonical_generation_keeps_43_references_and_existing_order(bib_fields):
+def test_canonical_generation_keeps_45_references_and_existing_order(bib_fields):
     references = formatter.generated_references()
-    assert len(references) == 43
+    assert len(references) == 45
     # These source positions span both bibliographies and their shared entries.
+    # The two temporal metrology sources precede the existing Manual entries.
     for index, key in [
         (0, "afc"), (1, "reginald2025af"), (2, "weissteinHypercubeGraph"),
-        (9, "lawlerLimic"), (10, "bipm-si-defining-constants"),
-        (11, "nist-alpha-inverse"), (14, "base-cyclotron-relation"),
-        (33, "sparc-database"), (37, "nasa-moon-by-numbers"),
-        (42, "atlas-higgs-diphoton-2023"),
+        (9, "lawlerLimic"), (10, "bipm-second"), (11, "nist-fountain"),
+        (12, "bipm-si-defining-constants"),
+        (13, "nist-alpha-inverse"), (16, "base-cyclotron-relation"),
+        (35, "sparc-database"), (39, "nasa-moon-by-numbers"),
+        (44, "atlas-higgs-diphoton-2023"),
     ]:
         assert references[index] == formatter.reference_from_fields(bib_fields[key])

@@ -1,0 +1,55 @@
+{
+  "schema": "aod.scientific.cell-measure.v1",
+  "status": "declared_verification_model",
+  "native_premise": "Q4 graph supplies vertices and H1 edges; higher faces and fillings here are explicit conditional completions",
+  "main_anchors": ["def:m3-cell-complex", "prop:m3-cell-boundary", "prop:m3-fold-support", "prop:m3-staircase"],
+  "cell_domain": {
+    "ambient_dimension": "positive integer",
+    "generators": "elementary integer axis boxes, each span [a,a] or [a,a+1]",
+    "dimension": "number of active spans",
+    "orientation": "increasing order of active coordinate axes",
+    "incidence": "alternating upper minus lower faces in active-axis order",
+    "equivalence": "equal spans within a declared scope denote shared support; projection equality does not identify source scopes",
+    "history": "finite closure of declared top-cell support; construction lineages retained by fold records",
+    "boundary_window": "all exposed codimension-one faces of fixed finite support"
+  },
+  "measures": {
+    "occupancy": "unsigned union of occupied cells, including cells with zero weight",
+    "repeated_visits": "same cell identity counted once",
+    "shared_faces": "cancel only in signed boundary, remain in full complex and provenance",
+    "overlap": "coordinate-identical support within a scope is one occupied cell; distinct source scopes remain recorded before quotient projection",
+    "quotient": "fold image support counts target cell once, while retained preimages and oriented multiplicities remain separately available",
+    "weights": "nonnegative exact rationals for support; report metric uses positive rational axis lengths",
+    "units": "u^d with dimension d; u is a declared report coordinate, not an SI length",
+    "independence": "interior sums occupied top-cell weights; boundary cancels oriented incidences; independent exposed-face oracle tests absent top-cell neighbours"
+  },
+  "tesseract": {"edge_length": "3/2", "interior_dimension": 4, "boundary_dimension": 3},
+  "disk": {
+    "object": "closed unit disk x^2+y^2<=1 in declared Euclidean report coordinates",
+    "levels": [1, 2, 4, 8, 16, 32],
+    "refinement": "dyadic grid; cells keep rational geometric coordinates by scaling integer vertices by 1/n",
+    "outer_rule": "minimum corner squared radius < n^2 on integer cells in [-n,n]^2",
+    "inner_rule": "maximum corner squared radius <= n^2",
+    "boundary_estimator": "sum exposed axial edge lengths with side 1/n, fixed at every level",
+    "interior_estimator": "occupied-cell area sum with weight 1/n^2, fixed at every level",
+    "radius_estimator": "maximum absolute vertex coordinate in each axis, requiring equality",
+    "reference_independence": "integer selection, weights, radius and refinement do not read pi/tau or evaluation values",
+    "area_error": "inner/outer inclusion is a deterministic enclosure; gap <= 8/n by quarter-column floor telescoping and ceiling correction; no distribution or sigma supplied",
+    "limit_claim": "same-disk area enclosure converges by gap <= 8/n; axial perimeter is exactly 8 at every level; no physical continuum claim"
+  },
+  "fold": {
+    "domain": "two adjacent occupied unit squares and every face",
+    "codomain": "one occupied unit square and every face",
+    "law": "x maps to min(x,2-x), y fixed; active reversal changes chain orientation",
+    "claims": ["commutes with boundary", "retains source identities, scopes and construction lineage"],
+    "not_claimed": ["injectivity", "unsigned measure preservation", "native closure admission"]
+  },
+  "pi_reference": {
+    "role": "evaluation only, after frozen geometry",
+    "identity": "pi = 16 arctan(1/5) - 4 arctan(1/239)",
+    "numerical_bound": "alternating partial sum and next partial sum enclose each arctangent; interval arithmetic combines them",
+    "terms": [4, 8, 16]
+  },
+  "native_semantics": "No new native events or certificates are fabricated or admitted. Conditional cells and construction lineages do not replace closure, wave, temporal or directional coupling records.",
+  "scope_limits": ["physical length/area/volume not derived", "no AOD native higher-cell admission established", "G6 sphere extension not opened"]
+}

@@ -1,0 +1,146 @@
+\section{Temporal records and SI mapping}
+\label{manual:m3-temporal}
+\paragraph{Constructed input.}
+The adapter consumes the admitted recurrent waves and repeated coupled returns of
+\mainequation{main:eq:wave-update-trace},
+\mainequation{main:eq:coupling-trace} and
+\mainequation{main:eq:rcd-additive-realization}.
+It retains each complete trace, certificate, lineage, contact prefix, integer
+window endpoint, signed phase bias, lag and directional reflection count.
+The worked pair has four compared closures at cuts \(2,10,18,26\) and three
+reference closures at cuts \(2,12,22\). Over \((0,30]\), excluding the first
+closure of each recurrent lineage, its increments are \((3,2)\).
+The comparison ratio is \(3/2\), its reverse is \(2/3\), and the two
+additive directional durations are \(5\) and \(7\) in their declared native
+count domain. Biases \((1/4,-1/4)\) give lag \(3/2\) and reverse lag \(-3/2\).
+
+\paragraph{Observation domain.}
+The mapping binds the population, preparation, directed couplings, complete
+committed prefixes, pending returns and window convention. Directional RCD, bias, lag and drift are recomputed from those records.
+Structural RD belongs to each retained support. Duration participation requires
+a compatible window map; a reclosure count alone does not supply it. Displacement traversals, hinges, dwells, emitted ticks and
+returned clicks retain their separate counts. A window with positive reclosure
+counts can still lack the repeated cross-returns needed for RCD.
+
+\paragraph{Declared observation and units.}
+An observation law first maps reference history \(\Gamma_R\), window
+\(\omega\), population \(\mathcal P\), coupling history \(E\) and preparation
+to corrected Cs-referenced cycle equivalents:
+\begin{equation}
+ \widehat C_{\mathrm{Cs}}
+   =g_\theta(\Gamma_R,\omega,\mathcal P,E,\mathrm{preparation}),
+ \qquad
+ \widehat T=\frac{\widehat C_{\mathrm{Cs}}}{\Delta\nu_{\mathrm{Cs}}}.
+ \label{eq:manual-m3-cycle-bridge}
+\end{equation}
+The conversion uses the exact defining frequency; the first map requires
+its own observation and calibration evidence.
+Let \(a_c,a_r>0\) be stipulated cycle-equivalent gains per native return.
+Let \(f_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{Hz}\) denote the defining
+reference, without a clock realization. For the fixed window define
+\[
+ T=\frac{a_rN_r}{f_{\mathrm{Cs}}},\qquad
+ \bar\nu_c=\frac{a_cN_c}{T},\qquad
+ t_1=t_0+T.
+\]
+The mapping binds both gains, the time coordinate and epoch, the complete
+input records, the defining reference and the executable mapping specification.
+At \(a_c=a_r=1\), \(T=2/f_{\mathrm{Cs}}\) seconds and
+\(\bar\nu_c=3f_{\mathrm{Cs}}/2\).
+The result is a finite-window average.
+The reciprocal \(1/\bar\nu_c\) is a derived period, distinct from \(T\)
+and from an independent validation. Physical realization and uncertainties from
+drift, endpoint phase, cycle slips and temporal dependence remain unspecified.
+The gains are stipulated without fitting hydrogen.
+
+\paragraph{Identifiability and separated evaluation.}
+The family \(g_\lambda(Z)=1+\lambda(55-Z)/54\), \(\lambda>-1\), has
+\(g_\lambda(55)=1\) and \(g_\lambda(1)=1+\lambda\).
+The \(\lambda=0,1\) countermodels preserve the native records and Cs anchor
+while producing different reports. The relative gain therefore remains free.
+The known hydrogen value remains retrospectively exposed. Evaluation validates
+the frozen prediction against the original model inputs before comparison,
+then binds separate prediction and target hashes. Changing only the
+target changes its diagnostic residual and leaves prediction bytes unchanged.
+An atomic point prediction and its complete uncertainty remain unresolved.
+
+\paragraph{Frozen transfer test.}
+The retained direct-coupling experiment calibrates on its first half and
+validates on the second. Each half contains \(32\) reference reclosures.
+With \(k_i=32/N_{i,\mathrm{cal}}\) frozen, the predicted validation count is
+\(\widehat N_{0,\mathrm{val}}=k_iN_{i,\mathrm{val}}\).
+\begin{table}[ht]
+\centering
+\caption{Frozen gains and subsequent reference-count transfer.}
+\label{tab:manual-m3-anchor-transfer}
+\begin{tabular}{lrrrr}
+\toprule
+Field & \(N_{i,\mathrm{cal}}\) & \(N_{i,\mathrm{val}}\) &
+ \(\widehat N_{0,\mathrm{val}}\) & \((\widehat N_{0,\mathrm{val}}-32)/32\)\\
+\midrule
+A & 58 & 48 & \(768/29\) & \(-5/29\)\\
+B & 151 & 102 & \(3264/151\) & \(-49/151\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+These residuals reject this constant-transfer specialization. They are
+count-transfer discrepancies, not measured Cs-frequency errors or standard
+uncertainties. Refitting on each validation window would remove the test.
+Identical synchronized reference histories do not provide independent
+evidence. Overlapping windows and shared calibration sources retain their
+dependence.
+
+\paragraph{Population and reference controls.}
+Four retained executions use two recurring \(3{:}4{:}6\) background supports
+and the same frozen counting windows.
+The baseline compares \(3{:}3{:}6\) with \(1{:}2{:}6\); a second construction compares
+\(3{:}2{:}6\) with \(3{:}3{:}6\). Its A counts change from \(99\) to \(72\), while
+its reference changes from \(31\) to \(30\). Two separate interventions
+activate a prepared \(3{:}4{:}6\) local support after the common committed prefix.
+Coupling it only to A gives A counts \(45\) then \(42\), with reference
+counts \(32\) in both windows. Coupling it only to the reference gives A
+counts \(57\) then \(47\), with reference counts \(23\) in both windows.
+Complete histories retain directed reflections and pending returns; short
+count projections do not acquire RCD admission. These are finite-model
+controls, without measured cycle calibration.
+
+For a physical test, corrected observed cycle increments must be supplied
+separately and compared using a justified tolerance fixed before evaluation.
+The oscillator, counter, interrogation, realization corrections, endpoint
+resolution and missed-cycle model belong to that observation record.
+No isotope retention parameter absorbs the residual.
+Each seconds or hertz output keeps its own eight-component budget; missing
+physical calibration and discrepancy remain unknown.
+
+\paragraph{Consumer and causal control.}
+The separately bound Matter I v2 replay preserves its declared-model status:
+its native atomic admission remains pending. The baseline and capacity
+intervention share committed history through cut 39. The intervention at 40
+causes retention loss at 41, changing observed increments from \((6,5)\) to
+\((2,5)\). Applying the same stipulated gain one in both cases leaves
+\(T=5/f_{\mathrm{Cs}}\) fixed and changes the average from
+\(6f_{\mathrm{Cs}}/5\) to \(2f_{\mathrm{Cs}}/5\).
+A hostile mutation disconnects the loss response from the next state while
+retaining the intervention inputs. The effect disappears and the original
+replay validator rejects that trace.
+
+\paragraph{Reproduction and source precision.}
+\texttt{manual/scripts/aod\_m3\_temporal.py --check} reconstructs the native
+adapter and mapping report; \texttt{--consumer-root} selects the
+separately bound Matter I replay.
+\texttt{aod\_m3\_anchor.py --check-data} replays the original anchor and
+the four population controls. The tests reject changed scopes, aliases,
+uncoupled records, invalid windows, scheduler substitutions, nonpositive gains,
+and evaluation leakage. The consumer preserves historical v1/v2 fixture bytes
+and identifies its two active Main amendments separately.
+The BIPM comparison retains raw hashes, tests nearest rounding for nonzero
+entries and uses conditional point-zero covariance transcriptions.
+Its source documents do not specify zero formatting or underflow, so zero
+precision remains unresolved.
+
+\aodliteraturenote{The BIPM defines the second through
+\(\Delta\nu_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{Hz}\)~\cite{bipm-second}.
+In a fountain clock, microwave interrogation and detected atomic-state
+populations guide oscillator tuning; an electronic counter counts microwave
+cycles~\cite{nist-fountain}. These measured quantities require an observation
+map before comparison with native reclosures.}

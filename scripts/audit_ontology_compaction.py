@@ -13,14 +13,19 @@ CONTRACT_ROOT = 'contracts/scientific/'
 # These independent byte bindings are reviewed with the checker. Loading a
 # modified contract never changes an expected digest or authorizes new sources.
 CONTRACT_SHA256 = {
+    "TEMPORAL_OBSERVATION.json": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
+    "MAP_CONTRACT.json": "8aaf2820643fcab6414264d2eae553921b58fc09300c226fdce8e0dd87a492bf",
+    "M3_MATHEMATICAL_BINDINGS.json": "7048264c2faed6ca6ea3af449bf2f07ccb447648a78bec132c99b059b52055ab",
+    "ERROR_BUDGET.json": "1e57d18157a49c5a8740aa28711cc81f7039b2c02d9220770a6abdad290c94fc",
+    "CELL_MEASURE_SPEC.json": "701e895e4e85c03b35daada7d75c9a21a1cb46a8afe52e05ab125b58adb9c2ce",
     "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "a4e530314d03ff2a695a5d9f6d59f20f18ab8ae4c388a594b99fcf0996c5cf05",
-    "CANONICAL_BINDINGS.json": "55900dde344466f7ba07db08bb4c07dcf2f629b8f3765d504ed346db6fcfa5ac",
+    "CANONICAL_BINDINGS.json": "d5b8245c465488d33d208033031f841f854df826d888f87eb294b8dbb0739981",
     "FOURIER_SCOPE.md": "0bb855f5666a97a285d4e2ded98adf9cb70dc372b9039c33bcaeb43b38435328",
     "HISTORICAL_TOY_SOURCE_STATUS.csv": "dc0f1b94afc71f930929e64caef8d9f9cb49386035706aa2b79b8b9cc0de42d4",
     "METROLOGY_BOUNDARY.md": "553609db18f523faae6d2a53c3465c56ceb9034c6ba1ae3b7a6cff77fdf678af",
     "OPERATIVE_SELF_SCHEMA.json": "0fba87a85c542a5a9b74f2242724bf334ecb1a0c39886a20c9298309d3005ecd",
     "OWNERSHIP_AND_FIXTURES.json": "b86ef3d495a0b689da77307ad8facb945dd75bd603c0485bbcd88028c31e69d8",
-    "README.md": "86ff326ce8faf75f26231599cfef3d312a5f3b461229a63f3ed0e7e441f948e3",
+    "README.md": "addd002dc60ce9dbbdea382d216e2880203f0794b4249b58d0f914f50feedc32",
     "ROUND_TRIP_PHASE_FACTOR_SPEC.json": "a7f7c6aea4a373655e9031515d95cc19569557ad35357665e1e56d8b81777ed5",
     "UPDATE_CAUSAL_ORDER.md": "879fe4fce9ec09b8640ca31eea28c09a3a6d2047f6d58eeafe463ece055315bd"
 }
@@ -114,6 +119,25 @@ def validate_dependencies(groups):
     return sum(len(row['depends_on']) for row in groups.values())
 
 
+def audit_m3(root, maps, eqs):
+    """Check the explicit additional mathematics without changing old duties."""
+    record = json.loads(_check_contract(root, 'M3_MATHEMATICAL_BINDINGS.json'))
+    _require(record['schema'] == 'aod.scientific.m3-mathematics.v1',
+             'unknown M3 mathematical binding schema')
+    _require(set(record['sources']) == {'sections/07_cell_measures_mappings.tex'},
+             'M3 mathematical source inventory changed')
+    _require(len(record['equations']) == 7, 'M3 equation inventory changed')
+    for label, binding in record['equations'].items():
+        _require(maps['main'].get(label, {}).get('path') == binding['path'] and
+                 label in eqs['main'] and
+                 _formula(eqs['main'][label]) == binding['formula'],
+                 'M3 mathematical statement or owner changed ' + label)
+    for path, digest in record['sources'].items():
+        _require(hashlib.sha256((root / path).read_bytes()).hexdigest() == digest,
+                 'M3 mathematical source changed ' + path)
+    return {'equations': len(record['equations']), 'sources': len(record['sources'])}
+
+
 def audit(root, main_files, main_parts, labels, equations, manual_files, manual_labels,
           manual_parts, manual_equations):
     root = Path(root)
@@ -178,6 +202,7 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
     # source-protection entries. Deleting or rebinding an entry cannot pass.
     for name in CONTRACT_SHA256:
         _check_contract(root, name)
+    m3_result = audit_m3(root, maps, eqs)
     for path, wanted in contract['frozen_sha256'].items():
         _require((root / path).is_file() and
                  hashlib.sha256((root / path).read_bytes()).hexdigest() == wanted,
@@ -187,4 +212,4 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
             'declared_dependencies': edges,
             'unique_defining_signatures': len(contract['unique_signatures']),
             'manual_example_families': len(contract['manual_families']),
-            'frozen_files': len(contract['frozen_sha256'])}
+            'frozen_files': len(contract['frozen_sha256']), 'm3': m3_result}
