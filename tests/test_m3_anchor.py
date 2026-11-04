@@ -4,16 +4,33 @@ from dataclasses import asdict, replace
 from fractions import Fraction as Q
 import gzip
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'manual/scripts'))
 import aod_m3_anchor as a
+
+
+class AnchorLoaderTests(unittest.TestCase):
+    def test_replaced_global_module_does_not_change_admission_classes(self):
+        name='anchor_test_foreign_native'
+        spec=importlib.util.spec_from_file_location(name,a.n.__file__)
+        foreign=importlib.util.module_from_spec(spec)
+        with patch.dict(sys.modules,{name:foreign}):
+            spec.loader.exec_module(foreign)
+            self.assertIsNot(foreign.Wave,a.n.Wave)
+            with patch.dict(sys.modules,{'aod_native_closure_wave':foreign}):
+                with a.source_modules() as (modules,_):
+                    self.assertIs(modules['population'].n,a.n)
+                    self.assertIsInstance(modules['population'].Node('loader-regression',1,2).wave(),a.n.Wave)
+                    self.assertIs(sys.modules['aod_native_closure_wave'],foreign)
 
 
 class AnchorEvidenceTests(unittest.TestCase):

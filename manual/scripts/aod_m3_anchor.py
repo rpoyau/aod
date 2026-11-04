@@ -90,6 +90,9 @@ def source_modules(root=ROOT):
                 sys.modules[key] = module
                 spec.loader.exec_module(module)
                 modules[key] = module
+            # A later import may replace the global name with another class
+            # instance from the same source. Bind the verified admission module.
+            modules['population'].n = n
             modules['population'].check_sources()
             yield modules, folder
         finally:

@@ -12,7 +12,7 @@
             "residual": "-160/29"
           },
           "prediction": {
-            "frozen_sha256": "27ad76f6c513b52ac0ffd25ed9ab4d45ab5aec4b674745e2e3aca8c0cd319f0c",
+            "frozen_sha256": "c760bb13228f69857d4e39896a8c589446242ede885a665cb147b4a2df7427e1",
             "operand_count": 48,
             "predicted_reference_bips": "768/29",
             "validation_window": [
@@ -30,7 +30,7 @@
             "residual": "-1568/151"
           },
           "prediction": {
-            "frozen_sha256": "e05c3a3691f4e0f5a4ca9fb48af3b995ccc651c27a54b8b9ecf8d89e91fbd4fd",
+            "frozen_sha256": "dced6bada1712e3f2257434efbc6e97256827af4fb0caf472ea56ac8ec3ecf9e",
             "operand_count": 102,
             "predicted_reference_bips": "3264/151",
             "validation_window": [
@@ -40,7 +40,7 @@
           }
         }
       },
-      "case_sha256": "3c75801b0e6f28d93ddbf7cec7f97f76e82e53040cd76fae77802eeb5fc0ad56",
+      "case_sha256": "b7dfea7ec2e1f616f2a1a6e75ddf534946f73f2b619cdc3cad657a9bf849e3ef",
       "common_prefix_sha256": "35a90799e348c06d29dd97f2495182c74cf5683c50bd247422b7f9261dd336b4",
       "directional_durations": {
         "A|B": 9,
@@ -159,7 +159,7 @@
             "residual": "-256/29"
           },
           "prediction": {
-            "frozen_sha256": "27ad76f6c513b52ac0ffd25ed9ab4d45ab5aec4b674745e2e3aca8c0cd319f0c",
+            "frozen_sha256": "c760bb13228f69857d4e39896a8c589446242ede885a665cb147b4a2df7427e1",
             "operand_count": 42,
             "predicted_reference_bips": "672/29",
             "validation_window": [
@@ -177,7 +177,7 @@
             "residual": "-1600/151"
           },
           "prediction": {
-            "frozen_sha256": "e05c3a3691f4e0f5a4ca9fb48af3b995ccc651c27a54b8b9ecf8d89e91fbd4fd",
+            "frozen_sha256": "dced6bada1712e3f2257434efbc6e97256827af4fb0caf472ea56ac8ec3ecf9e",
             "operand_count": 101,
             "predicted_reference_bips": "3232/151",
             "validation_window": [
@@ -187,7 +187,7 @@
           }
         }
       },
-      "case_sha256": "b3880d246b51011aa91ccfaf7b3674d9f9d35c71799cf6b0c7b04422677ae68f",
+      "case_sha256": "f44074c565c5b9e1d5a6bdc4e7ee7fefaa65f6927cb8f61b087a45c43f98ad4e",
       "common_prefix_sha256": "35a90799e348c06d29dd97f2495182c74cf5683c50bd247422b7f9261dd336b4",
       "directional_durations": {
         "A|B": 9,
@@ -306,7 +306,7 @@
             "residual": "85/29"
           },
           "prediction": {
-            "frozen_sha256": "27ad76f6c513b52ac0ffd25ed9ab4d45ab5aec4b674745e2e3aca8c0cd319f0c",
+            "frozen_sha256": "c760bb13228f69857d4e39896a8c589446242ede885a665cb147b4a2df7427e1",
             "operand_count": 47,
             "predicted_reference_bips": "752/29",
             "validation_window": [
@@ -324,7 +324,7 @@
             "residual": "-273/151"
           },
           "prediction": {
-            "frozen_sha256": "e05c3a3691f4e0f5a4ca9fb48af3b995ccc651c27a54b8b9ecf8d89e91fbd4fd",
+            "frozen_sha256": "dced6bada1712e3f2257434efbc6e97256827af4fb0caf472ea56ac8ec3ecf9e",
             "operand_count": 100,
             "predicted_reference_bips": "3200/151",
             "validation_window": [
@@ -334,7 +334,7 @@
           }
         }
       },
-      "case_sha256": "37da53cdd540d79cb764193186ea683db42b992af10a6ceffa840049ca2f343c",
+      "case_sha256": "e18d09b2680db461703ff36ee1ac35ab039c4c518f569ce5c6190146e3838b43",
       "common_prefix_sha256": "35a90799e348c06d29dd97f2495182c74cf5683c50bd247422b7f9261dd336b4",
       "directional_durations": {
         "A|B": 9,
@@ -453,7 +453,7 @@
             "residual": "282/29"
           },
           "prediction": {
-            "frozen_sha256": "27ad76f6c513b52ac0ffd25ed9ab4d45ab5aec4b674745e2e3aca8c0cd319f0c",
+            "frozen_sha256": "c760bb13228f69857d4e39896a8c589446242ede885a665cb147b4a2df7427e1",
             "operand_count": 72,
             "predicted_reference_bips": "1152/29",
             "validation_window": [
@@ -471,7 +471,7 @@
             "residual": "-2994/151"
           },
           "prediction": {
-            "frozen_sha256": "e05c3a3691f4e0f5a4ca9fb48af3b995ccc651c27a54b8b9ecf8d89e91fbd4fd",
+            "frozen_sha256": "dced6bada1712e3f2257434efbc6e97256827af4fb0caf472ea56ac8ec3ecf9e",
             "operand_count": 48,
             "predicted_reference_bips": "1536/151",
             "validation_window": [
@@ -481,7 +481,7 @@
           }
         }
       },
-      "case_sha256": "555d9a876467d1fbac049c4003f649c4171faf6d19866237878d188fe5824f21",
+      "case_sha256": "35112e04123b1b723fe94f3b86c13f898c982ab7b475848964aaa8b8c50c96c5",
       "common_prefix_sha256": "968f631a86fa48667e3a414285ffd7d84959bf467ac9f388c97682e7902b4816",
       "directional_durations": {
         "A|B": 3997,
@@ -594,7 +594,7 @@
     "A": {
       "field": "A",
       "reference_bips_per_closure": "16/29",
-      "training_context_sha256": "db93c7e4a2e0110d5f5f03d3ecaee47a3fda56a3d37367f1a660a6a8058685d9",
+      "training_context_sha256": "671ef0fa921de9aa3a22ad1b8532b030e196ca2bc56b8dd0dad7d590b8b5d468",
       "training_window": [
         300000,
         1808096
@@ -603,7 +603,7 @@
     "B": {
       "field": "B",
       "reference_bips_per_closure": "32/151",
-      "training_context_sha256": "db93c7e4a2e0110d5f5f03d3ecaee47a3fda56a3d37367f1a660a6a8058685d9",
+      "training_context_sha256": "671ef0fa921de9aa3a22ad1b8532b030e196ca2bc56b8dd0dad7d590b8b5d468",
       "training_window": [
         300000,
         1808096
@@ -612,7 +612,7 @@
     "F1": {
       "field": "F1",
       "reference_bips_per_closure": "1",
-      "training_context_sha256": "db93c7e4a2e0110d5f5f03d3ecaee47a3fda56a3d37367f1a660a6a8058685d9",
+      "training_context_sha256": "671ef0fa921de9aa3a22ad1b8532b030e196ca2bc56b8dd0dad7d590b8b5d468",
       "training_window": [
         300000,
         1808096
@@ -638,7 +638,7 @@
   },
   "matched_prefix_preserved": true,
   "model_id": "m3:anchor-context-controls:v1",
-  "original_inputs_sha256": "6d07e3180c7996ddcb38e35e29dcd63bd22bd73467392a00887f013205d25234",
+  "original_inputs_sha256": "f43c6859564f2ed18969823b78e990fe212d8663467750ce931b20dc9e2420c9",
   "physical_Cs_observation_law": null,
   "physical_SI_prediction": null,
   "physical_tolerance": null,
