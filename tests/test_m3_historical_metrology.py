@@ -48,8 +48,11 @@ class HistoricalMetrologyTests(unittest.TestCase):
 
     def test_HMAP_03_original_executed_points_and_weights_equal_adapter(self):
         """Instrument only the moment collector; unchanged main still executes."""
+        m.historical_sources()
         spec = importlib.util.spec_from_file_location('original_probe_capture',m.HISTORICAL/'probe_metrology_edges.py')
-        original = importlib.util.module_from_spec(spec); spec.loader.exec_module(original)
+        original = importlib.util.module_from_spec(spec)
+        # Execute authenticated bytes without caching inside the frozen evidence.
+        exec(compile(Path(spec.origin).read_bytes(), spec.origin, 'exec'), original.__dict__)
         sampled, method = [], original.moments
         def capture(values, weights):
             sampled.append((list(values),list(weights)))
