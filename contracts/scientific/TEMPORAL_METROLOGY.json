@@ -1,0 +1,117 @@
+{
+  "schema": "aod.scientific.temporal-metrology.v1",
+  "version": 1,
+  "owner": "Manual M3 temporal metrology companion",
+  "scope": "Exact declared observer reductions and experiment-specific provenance; physical calibration is separately evidenced",
+  "dependencies": {
+    "native_observation_contract": "contracts/scientific/TEMPORAL_OBSERVATION.json",
+    "prediction_schema_version": 3,
+    "map_contract": "contracts/scientific/MAP_CONTRACT.json",
+    "error_contract": "contracts/scientific/ERROR_BUDGET.json",
+    "whole_artifact_replay": "aod_m3_temporal.replay_prediction(prediction, original_context)"
+  },
+  "observation_kinds": [
+    "native_reclosure_count",
+    "shed_packet_event",
+    "oscillator_phase_advance",
+    "fluorescence_population_estimate",
+    "nuclear_event_timestamp"
+  ],
+  "required_observation_fields": [
+    "id",
+    "evidence_class",
+    "kind",
+    "scope",
+    "sources",
+    "preparation",
+    "apparatus",
+    "detector",
+    "estimator",
+    "coordinate",
+    "epoch",
+    "window",
+    "calibration",
+    "corrections",
+    "uncertainty",
+    "selection"
+  ],
+  "exact_serialization": {
+    "integers": "JSON integer excluding bool",
+    "rationals": "canonical integer or numerator/denominator string",
+    "printed_values": "original decimal string with source precision retained",
+    "float_inputs": "reject"
+  },
+  "phase": {
+    "unit": "turn",
+    "endpoint_domain": "[0,1)",
+    "winding": "signed integer net phase wraps",
+    "advance": "winding + phase_end - phase_start",
+    "native_phase_definition_changed": false,
+    "required": [
+      "coordinate",
+      "epoch",
+      "window",
+      "orientation",
+      "unwrapping_convention",
+      "source_ids"
+    ],
+    "optional_angle_report": "tau * phase_turns"
+  },
+  "conditional_si": {
+    "defining_integer_hz": 9192631770,
+    "duration_seconds": "corrected_Cs_equivalent_advance / defining_integer_hz",
+    "mean_frequency_hz": "defining_integer_hz * compared_advance / corrected_Cs_equivalent_advance",
+    "requirements": [
+      "matched coordinate, epoch and window",
+      "positive corrected reference advance",
+      "independent reference realization and observation map",
+      "unresolved physical correspondence explicitly typed"
+    ]
+  },
+  "apparatus_profiles": {
+    "hydrogen": "continuous maser heterodyne and source-bound correction chain",
+    "cesium": "driven fountain, two interactions, calibrated fluorescence population estimator",
+    "nuclear_event": "generic timestamp/origin/selection interface; dynamics downstream"
+  },
+  "source_roles": [
+    "model",
+    "calibration",
+    "evaluation",
+    "definition"
+  ],
+  "evidence_classes": [
+    "exact_mathematical_fixture",
+    "declared_model_prediction",
+    "measured_input_reduction",
+    "calibration_identity",
+    "independent_prediction"
+  ],
+  "source_reported_uncertainty": {
+    "requires": [
+      "source",
+      "campaign_or_measurement",
+      "unit",
+      "reported_value_or_bound",
+      "category_or_coverage_status",
+      "reporting_precision"
+    ],
+    "finite_distribution_inferred": false,
+    "eligible_for_existing_standard_uncertainty_validator_without_joint_model": false
+  },
+  "invariants": [
+    "whole artifact replay for every native-linked product",
+    "observer passivity and no future cut access",
+    "calibration frozen before evaluation",
+    "canonical uncertainty source counted once",
+    "source aggregates excluded when their components already enter same budget",
+    "unknown physical components remain unknown",
+    "no packet/cycle/closure identification without observation map"
+  ],
+  "limits": [
+    "No universal seconds per bip",
+    "No independent atomic frequency from SI normalization",
+    "No nuclear kernel or lifetime fit",
+    "No promotion of printed-input replay to raw experiment reproduction",
+    "No new awareness, path-integral or universal complexity premise"
+  ]
+}

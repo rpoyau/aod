@@ -85,6 +85,7 @@ python3 manual/scripts/aod_cell_measures.py --check-data
 python3 manual/scripts/aod_mapping_error.py --check
 python3 manual/scripts/aod_m3_temporal.py --check
 python3 manual/scripts/aod_m3_anchor.py --check-data
+python3 manual/scripts/aod_m3_metrology.py --check
 python3 scripts/sync_zenodo_references.py --check
 ```
 
@@ -103,3 +104,12 @@ Temporal predictions use `ObservationContext`; evaluation requires the independe
 `contracts/scientific/TEMPORAL_OBSERVATION.json`. Generic map and error-budget
 contracts remain version 2. Recreate callers from their original complete histories
 and preparation; a scalar-count record cannot be migrated into native admission.
+
+The additive metrology companion uses `contracts/scientific/TEMPORAL_METROLOGY.json`
+and frozen profiles in `manual/data/m3/temporal_metrology/`. Its `--check` command
+is read-only; `--write-data` intentionally regenerates only its new report.
+Run `tests/test_m3_metrology.py` normally and under `python3 -O -m pytest` when
+changing that interface, together with the inherited scientific and consumer
+checks. Phase fixtures, historical input reductions and source-reported
+uncertainties retain distinct evidence classes; their replay is not a physical
+frequency or lifetime prediction.

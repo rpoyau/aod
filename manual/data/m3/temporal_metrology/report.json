@@ -1,0 +1,555 @@
+{
+  "cesium": {
+    "August2013": {
+      "Cs_SI_frequency_role": "calibration_identity",
+      "campaign_id": "August2013",
+      "complete_covariance": {
+        "kind": "unknown",
+        "reason": "Complete physical observation/model uncertainty not established"
+      },
+      "evidence_class": "measured_input_reduction",
+      "independent_atomic_prediction": false,
+      "method": "Laser-cooled atomic fountain; two Ramsey interactions with applied microwave field; optical population readout; line servo",
+      "missing_raw_inputs": [
+        "campaign-resolved initial state populations and all laser controls",
+        "time-stamped per-cycle population/fluorescence samples",
+        "complete servo logs",
+        "campaign-specific field,temperature,density streams and covariances",
+        "fullupdatedAugust2013componentbudget"
+      ],
+      "nominal_synthesis_is_exact_carrier": false,
+      "profile_sha256": "727c293115f4ec81bd901d7dd5f4bfb26ec96045f235525eeb490321b5233b6d",
+      "raw_population_and_servo_replay": false,
+      "reported_entries": [],
+      "source_reported_uncertainty": {
+        "TypeA": {
+          "campaign_or_measurement": "August2013",
+          "category_or_coverage_status": "published TypeA standard uncertainty",
+          "finite_distribution_inferred": false,
+          "printed_fractional_times_1e15": "0.44",
+          "reported_value_or_bound": "10111894947/2500000000000000",
+          "reporting_precision": "preserved printed token",
+          "source": "10.1088/0026-1394/51/3/174",
+          "unit": "Hz"
+        },
+        "TypeB": {
+          "campaign_or_measurement": "August2013",
+          "category_or_coverage_status": "published TypeB standard uncertainty",
+          "finite_distribution_inferred": false,
+          "printed_fractional_times_1e15": "0.16",
+          "reported_value_or_bound": "919263177/625000000000000",
+          "reporting_precision": "preserved printed token",
+          "source": "10.1088/0026-1394/51/3/174",
+          "unit": "Hz"
+        }
+      },
+      "spin_exchange_statistics_already_in_TypeA": true
+    },
+    "typical_Table1": {
+      "Cs_SI_frequency_role": "calibration_identity",
+      "campaign_id": "typical_Table1",
+      "complete_covariance": {
+        "kind": "unknown",
+        "reason": "Complete physical observation/model uncertainty not established"
+      },
+      "evidence_class": "measured_input_reduction",
+      "independent_atomic_prediction": false,
+      "method": "Laser-cooled atomic fountain; two Ramsey interactions with applied microwave field; optical population readout; line servo",
+      "missing_raw_inputs": [
+        "campaign-resolved initial state populations and all laser controls",
+        "time-stamped per-cycle population/fluorescence samples",
+        "complete servo logs",
+        "campaign-specific field,temperature,density streams and covariances",
+        "fullupdatedAugust2013componentbudget"
+      ],
+      "nominal_synthesis_is_exact_carrier": false,
+      "profile_sha256": "727c293115f4ec81bd901d7dd5f4bfb26ec96045f235525eeb490321b5233b6d",
+      "raw_population_and_servo_replay": false,
+      "reported_entries": [
+        {
+          "effect": "gravity_and_second_order_Doppler",
+          "magnitude": "179.87",
+          "standard_uncertainty": "0.03"
+        },
+        {
+          "effect": "second_order_Zeeman_typical",
+          "magnitude": "286.06",
+          "standard_uncertainty": "0.02"
+        },
+        {
+          "effect": "blackbody_radiation",
+          "magnitude": "-0.087",
+          "standard_uncertainty": "0.005"
+        },
+        {
+          "effect": "spin_exchange_low_density",
+          "included_in_TypeB_total": false,
+          "magnitude": "-0.71",
+          "role": "informational; statistical component in TypeA",
+          "standard_uncertainty": "0.24"
+        },
+        {
+          "effect": "spin_exchange_nonlinearity",
+          "magnitude": "0",
+          "standard_uncertainty": "0.02"
+        },
+        {
+          "effect": "distributed_cavity_phase_m0",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "distributed_cavity_phase_m1",
+          "magnitude": "0",
+          "standard_uncertainty": "0.028"
+        },
+        {
+          "effect": "distributed_cavity_phase_m2",
+          "magnitude": "0",
+          "standard_uncertainty": "0.02"
+        },
+        {
+          "effect": "microwave_power",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty": "0.08"
+        },
+        {
+          "effect": "microwave_spurious",
+          "magnitude": "0",
+          "standard_uncertainty": "0.05"
+        },
+        {
+          "effect": "cavity_pulling",
+          "magnitude": "0.015",
+          "standard_uncertainty": "0.015"
+        },
+        {
+          "effect": "Rabi_pulling",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "Ramsey_pulling",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "Majorana_transitions",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "fluorescence_light_shift",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "dc_Stark",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "background_gas_collisions",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "Bloch_Siegert",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "integrator_offset",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        }
+      ],
+      "source_reported_uncertainty": {
+        "TypeB": {
+          "campaign_or_measurement": "typical_Table1",
+          "category_or_coverage_status": "published TypeB standard uncertainty",
+          "finite_distribution_inferred": false,
+          "printed_fractional_times_1e15": "0.11",
+          "reported_value_or_bound": "10111894947/10000000000000000",
+          "reporting_precision": "preserved printed token",
+          "source": "10.1088/0026-1394/51/3/174",
+          "unit": "Hz"
+        }
+      },
+      "spin_exchange_statistics_already_in_TypeA": true
+    }
+  },
+  "claim_status": {
+    "SI_anchor": "conditional_calibration_identity",
+    "closure_to_physical_cycle_map": "missing_premise",
+    "complete_physical_uncertainty": "missing_premise",
+    "exact_fixtures": "supported",
+    "independent_atomic_prediction": "not_established",
+    "native_model_prediction": "conditional",
+    "nuclear_dynamics": "not_implemented",
+    "physical_prepared_state_assignment": "missing_premise",
+    "printed_input_reductions": "supported"
+  },
+  "ensemble": {
+    "atomic_transition_model": false,
+    "correlated_window_mean_variance": "1/4",
+    "evidence_class": "exact_mathematical_fixture",
+    "opposite_source_residual_variance": "1",
+    "shared_source_residual_variance": "0",
+    "threshold": {
+      "exact_variance": "1/4",
+      "local_approximation_adequate": false,
+      "local_linearized_variance": "0",
+      "support": [
+        {
+          "input": "-1",
+          "output": 0,
+          "p": "1/2"
+        },
+        {
+          "input": "2",
+          "output": 1,
+          "p": "1/2"
+        }
+      ]
+    },
+    "total_variance": {
+      "between": "1",
+      "total": "2",
+      "within": "1"
+    }
+  },
+  "hydrogen": {
+    "published_mean": {
+      "apparatus": "published combination of two continuous maser reductions",
+      "complete_physical_uncertainty": {
+        "kind": "unknown",
+        "reason": "Complete physical observation/model uncertainty not established"
+      },
+      "corrected_frequency_hz": "14204057517679/10000",
+      "correction_chain": [
+        {
+          "frequency_hz": "14204057517679/10000",
+          "measurements": [
+            "table_iv",
+            "table_vi"
+          ],
+          "operation": "arithmetic_mean"
+        }
+      ],
+      "correction_ownership": {
+        "combined": "No new correction added to corrected estimates"
+      },
+      "evidence_class": "measured_input_reduction",
+      "independent_atomic_prediction": false,
+      "measurement_id": "published_mean",
+      "method": "continuous_active_maser_heterodyne",
+      "missing_raw_inputs": [
+        "Four individual cavity/flux measurements for each tuned beat",
+        "Unrounded bulb diameters and fit inputs",
+        "1970 apparatus-specific preparation parameters",
+        "Emitted microwave phase/amplitude time series"
+      ],
+      "profile_sha256": "428bcdd706881032274bdf1bf339915e4c6df692ea8a231f9f4494e2abc2e462",
+      "published_rounded_frequency_hz": "1420405751.768",
+      "raw_phase_stream_available": false,
+      "source_id": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+      "source_reported_uncertainty": {
+        "campaign_or_measurement": "published_mean",
+        "category_or_coverage_status": "published standard uncertainty",
+        "combination_scope": "printed component arithmetic; source convention, not complete physical covariance",
+        "component_square_sum_hz2": null,
+        "components_hz": {},
+        "finite_distribution_inferred": false,
+        "reported_value_or_bound": "0.002",
+        "reporting_precision": "preserved decimal token",
+        "source": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+        "unit": "Hz"
+      }
+    },
+    "table_iv": {
+      "apparatus": "SAO portable hydrogen maser",
+      "complete_physical_uncertainty": {
+        "kind": "unknown",
+        "reason": "Complete physical observation/model uncertainty not established"
+      },
+      "corrected_frequency_hz": "14204057517691/10000",
+      "correction_chain": [
+        {
+          "frequency_hz": "1420000000",
+          "term": "nominal_reference_multiple",
+          "value_token": "5000000"
+        },
+        {
+          "frequency_hz": "71020289721/50",
+          "source_locator": "p205 TableIV nu_S; p204 setting",
+          "term": "synthesizer",
+          "value_token": "405794.4200"
+        },
+        {
+          "frequency_hz": "14204057943007/10000",
+          "source_locator": "p205 TableIV nu_B; electronic-counter beat-period measurement",
+          "term": "beat",
+          "value_token": "-0.1193"
+        },
+        {
+          "frequency_hz": "3551014379223/2500",
+          "source_locator": "p205 TableIV delta_UTC; nominal UTC offset",
+          "term": "UTC_to_atomic_time",
+          "value_token": "-42.6115"
+        },
+        {
+          "frequency_hz": "14204057516877/10000",
+          "source_locator": "p205 TableIV delta_N; p204 discussion/Fig2",
+          "term": "NP3_reference_offset",
+          "value_token": "-0.0015"
+        },
+        {
+          "frequency_hz": "14204057517079/10000",
+          "source_locator": "p205 TableIV delta_W; p201 HU transfer 20.19 mHz rounded in table",
+          "term": "wall",
+          "value_token": "0.0202"
+        },
+        {
+          "frequency_hz": "7102028758853/5000",
+          "source_locator": "p205 TableIV delta_D; measured bulb 320.15 K",
+          "term": "second_order_Doppler",
+          "value_token": "0.0627"
+        },
+        {
+          "frequency_hz": "14204057517691/10000",
+          "source_locator": "p205 TableIV delta_Z; measured Zeeman 1020 Hz",
+          "term": "Zeeman",
+          "value_token": "-0.0015"
+        }
+      ],
+      "correction_ownership": {
+        "already_in_input": [],
+        "applied": [
+          "UTC",
+          "NP3",
+          "wall",
+          "Doppler",
+          "Zeeman"
+        ],
+        "zero_correction_does_not_remove_uncertainty": true
+      },
+      "evidence_class": "measured_input_reduction",
+      "independent_atomic_prediction": false,
+      "measurement_id": "table_iv",
+      "method": "continuous_active_maser_heterodyne",
+      "missing_raw_inputs": [
+        "Four individual cavity/flux measurements for each tuned beat",
+        "Unrounded bulb diameters and fit inputs",
+        "1970 apparatus-specific preparation parameters",
+        "Emitted microwave phase/amplitude time series"
+      ],
+      "profile_sha256": "428bcdd706881032274bdf1bf339915e4c6df692ea8a231f9f4494e2abc2e462",
+      "published_rounded_frequency_hz": null,
+      "raw_phase_stream_available": false,
+      "source_id": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+      "source_reported_uncertainty": {
+        "campaign_or_measurement": "table_iv",
+        "category_or_coverage_status": "published standard uncertainty",
+        "combination_scope": "printed component arithmetic; source convention, not complete physical covariance",
+        "component_square_sum_hz2": "14651/2500000000",
+        "components_hz": {
+          "Doppler": "0.0001",
+          "Zeeman": "0.00002",
+          "beat": "0.0004",
+          "reference_offset": "0.0013",
+          "wall": "0.0020"
+        },
+        "finite_distribution_inferred": false,
+        "reported_value_or_bound": "0.0024",
+        "reporting_precision": "preserved decimal token",
+        "source": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+        "unit": "Hz"
+      }
+    },
+    "table_vi": {
+      "apparatus": "NBS-H2; successive TFE-Teflon storage bulbs",
+      "complete_physical_uncertainty": {
+        "kind": "unknown",
+        "reason": "Complete physical observation/model uncertainty not established"
+      },
+      "corrected_frequency_hz": "14204057517667/10000",
+      "correction_chain": [
+        {
+          "frequency_hz": "1420000000",
+          "term": "nominal_reference_multiple",
+          "value_token": "5000000"
+        },
+        {
+          "frequency_hz": "1420405795",
+          "source_locator": "p207 TableVI nu_S; p206 setting",
+          "term": "synthesizer",
+          "value_token": "405795.0000"
+        },
+        {
+          "frequency_hz": "7102028971601/5000",
+          "source_locator": "p207 TableVI corrected nu_B; p206 TableV regression intercept; delta_N already included",
+          "term": "zero_wall_corrected_beat",
+          "value_token": "-0.6798"
+        },
+        {
+          "frequency_hz": "14204057517087/10000",
+          "source_locator": "p207 TableVI delta_UTC",
+          "term": "UTC_to_atomic_time",
+          "value_token": "-42.6115"
+        },
+        {
+          "frequency_hz": "3551014379417/2500",
+          "source_locator": "p207 TableVI delta_D; mean bulb 297.05 K",
+          "term": "second_order_Doppler",
+          "value_token": "0.0581"
+        },
+        {
+          "frequency_hz": "14204057517667/10000",
+          "source_locator": "p207 TableVI delta_Z; mean Zeeman 245 Hz",
+          "term": "Zeeman",
+          "value_token": "-0.0001"
+        }
+      ],
+      "correction_ownership": {
+        "already_in_input": [
+          "NP3",
+          "wall"
+        ],
+        "applied": [
+          "UTC",
+          "Doppler",
+          "Zeeman"
+        ],
+        "zero_correction_does_not_remove_uncertainty": true
+      },
+      "evidence_class": "measured_input_reduction",
+      "independent_atomic_prediction": false,
+      "measurement_id": "table_vi",
+      "method": "continuous_active_maser_heterodyne",
+      "missing_raw_inputs": [
+        "Four individual cavity/flux measurements for each tuned beat",
+        "Unrounded bulb diameters and fit inputs",
+        "1970 apparatus-specific preparation parameters",
+        "Emitted microwave phase/amplitude time series"
+      ],
+      "profile_sha256": "428bcdd706881032274bdf1bf339915e4c6df692ea8a231f9f4494e2abc2e462",
+      "published_rounded_frequency_hz": null,
+      "raw_phase_stream_available": false,
+      "source_id": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+      "source_reported_uncertainty": {
+        "campaign_or_measurement": "table_vi",
+        "category_or_coverage_status": "published standard uncertainty",
+        "combination_scope": "printed component arithmetic; source convention, not complete physical covariance",
+        "component_square_sum_hz2": "7851/2500000000",
+        "components_hz": {
+          "Doppler": "0.0001",
+          "Zeeman": "0.00002",
+          "corrected_zero_wall_intercept": "0.0012",
+          "reference_offset": "0.0013"
+        },
+        "finite_distribution_inferred": false,
+        "reported_value_or_bound": "0.0018",
+        "reporting_precision": "preserved decimal token",
+        "source": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+        "unit": "Hz"
+      }
+    }
+  },
+  "inputs_sha256": {
+    "companion_code": "72f032ddf0ea513663558bcbac3071cb0997f32869a8094845ed563eb3bdd0e7",
+    "contract": "c6aeadc56055156ad825fc73527778de4ab550c8b8c02e38254258f19eeb8241",
+    "data/cesium/notes.md": "bbc24fe904dc150251a5c0e980d6803d6bf8e3bf76cded5e16c34684491e59a4",
+    "data/cesium/protocol.json": "0de1e3b3dd57eafd5fa0cfd590e32dcc92ace51c140e3127cd68079e4effa34d",
+    "data/exact_fixtures.json": "27d0f802b8fdd445624211aa334d33b6600f812f2d4547680cefa142dcbbff87",
+    "data/hydrogen/notes.md": "9214d1ff25f559612ba22ca4b4426c6d6f94cc0d159b4f9ceaf513215569fa56",
+    "data/hydrogen/protocol.json": "35871c597e922ce18831f004ac03e06236b424cf1547adbc15cce96ce8708940",
+    "data/hydrogen/reported_uncertainty.json": "71e2bf4c2891b28f1076fcc9e2b7266943cc330be394585172ed264119a38560",
+    "generic_mapping_error_code": "77afd00aac413fbaf7b4386d40f79be318d7d813081c6db17ffce1cb6c41f480",
+    "native_temporal_code": "0927a69145bd6eae4550bd57528bbfe1f29b2e0dcff46cc1a9eeaa6c9359f004"
+  },
+  "limits": [
+    "No universal seconds per bip",
+    "No raw experimental phase reconstruction",
+    "No new finite uncertainty law inferred from paper summaries",
+    "No independent lifetime or atomic-frequency prediction"
+  ],
+  "native_binding": {
+    "classification": "conditional_model_prediction_not_atomic_prediction",
+    "complete_physical_uncertainty": {
+      "kind": "unknown",
+      "reason": "Complete physical observation/model uncertainty not established"
+    },
+    "native_schema_version": 3,
+    "original_context_sha256": "237266b357007eddfac9f8a967f84697889b02e48eb619367e225bed06d65965",
+    "physical_correspondence": "unestablished",
+    "prediction_sha256": "581f54aa31a82ccfcf2dafcb1d43c140b5a7a2f70f752c3355eff867135407b3"
+  },
+  "phase": {
+    "compared_advance_turns": "7/2",
+    "complete_physical_uncertainty": {
+      "kind": "unknown",
+      "reason": "Complete physical observation/model uncertainty not established"
+    },
+    "coordinate": "fixture-cut",
+    "duration_seconds": "17/18385263540",
+    "epoch": "fixture-origin",
+    "evidence_class": "exact_mathematical_fixture",
+    "independent_atomic_prediction": false,
+    "mean_frequency_hz": "64348422390/17",
+    "physical_correspondence": "unestablished",
+    "ratio": "7/17",
+    "reference_advance_turns": "17/2",
+    "reference_realization_sha256": "e3159a9dae2230abe7767e287b4e1d0ef81d426c6bd1af39e80234116cbd919c",
+    "status": "conditional_on_declared_reference_realization",
+    "universal_seconds_per_bip": false,
+    "window": [
+      10,
+      22
+    ]
+  },
+  "schema": "aod.m3.temporal-metrology-report.v1",
+  "shared_input": {
+    "adequacy": "full finite-support propagation",
+    "arithmetic": "exact rational",
+    "input_covariance": [
+      [
+        "1/4"
+      ]
+    ],
+    "input_mean": {
+      "X": "1/2"
+    },
+    "input_order": [
+      "X"
+    ],
+    "jacobian": [
+      "2"
+    ],
+    "linearized_variance_diagnostic": "1",
+    "linearized_variance_difference": "0",
+    "mean_shift": "0",
+    "nominal": "1",
+    "output_mean": "1",
+    "output_variance": "1",
+    "support": [
+      {
+        "output": "0",
+        "p": "1/2"
+      },
+      {
+        "output": "2",
+        "p": "1/2"
+      }
+    ],
+    "uncertainty_status": "exact_for_declared_joint_law"
+  },
+  "transport": {
+    "arrived": 1,
+    "emitted": 1,
+    "net": 0,
+    "pending_end": 1,
+    "pending_start": 1,
+    "scope": "committed_record_only; observer introduces no kernel update"
+  }
+}

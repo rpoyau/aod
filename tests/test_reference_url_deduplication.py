@@ -124,9 +124,9 @@ def test_explicit_references_and_note_fallback_are_preserved(bib_fields):
     )
 
 
-def test_canonical_generation_keeps_45_references_and_existing_order(bib_fields):
+def test_canonical_generation_keeps_47_references_and_existing_order(bib_fields):
     references = formatter.generated_references()
-    assert len(references) == 45
+    assert len(references) == 47
     # These source positions span both bibliographies and their shared entries.
     # The two temporal metrology sources precede the existing Manual entries.
     for index, key in [
@@ -136,5 +136,6 @@ def test_canonical_generation_keeps_45_references_and_existing_order(bib_fields)
         (13, "nist-alpha-inverse"), (16, "base-cyclotron-relation"),
         (35, "sparc-database"), (39, "nasa-moon-by-numbers"),
         (44, "atlas-higgs-diphoton-2023"),
+        (45, "hellwig-hydrogen-1970"), (46, "heavner-nist-f2-2014"),
     ]:
         assert references[index] == formatter.reference_from_fields(bib_fields[key])

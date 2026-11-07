@@ -73,6 +73,9 @@ def expected_source_inventory(root):
         'temporal_anchor/cases/second_support_pair.json.gz',
         'temporal_anchor/cases/compared_population.json.gz',
         'temporal_anchor/cases/reference_exposure.json.gz'))
+    paths.update(root / 'manual/data/m3/temporal_metrology' / name for name in (
+        'report.json', 'exact_fixtures.json', 'hydrogen/protocol.json',
+        'hydrogen/reported_uncertainty.json', 'cesium/protocol.json'))
     for name, suffixes in SOURCE_DIRECTORY_TYPES.items():
         for path in (root / name).rglob("*"):
             rel = path.relative_to(root / name)

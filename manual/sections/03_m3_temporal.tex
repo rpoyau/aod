@@ -138,6 +138,121 @@ entries and uses conditional point-zero covariance transcriptions.
 Its source documents do not specify zero formatting or underflow, so zero
 precision remains unresolved.
 
+\subsection{Observed cycles and experimental reductions}
+\label{manual:m3-metrology}
+\paragraph{Setup.}
+Relational cadence compares retained closures over the same bip window.
+Its observation map must distinguish current reclosures, shed packet events,
+oscillator cycles, estimated state populations and detector timestamps.
+A wavelet group can retain its source history without each packet representing
+one measured microwave cycle. Preparation, lineage, coordinate, epoch,
+window and detector response belong to the map.
+The recurring \(3{:}4{:}6\) construction retains its own reflection-duration
+conditions; \(2x=6n\) in a restricted fold does not set a universal atomic period.
+
+\paragraph{Derivation.}
+For an observer coordinate measured in turns on \(W=(k_0,k_1]\), let
+\(C(W)\in\mathbb Z\) be the net winding and let
+\(0\leq\phi_0,\phi_1<1\) be the endpoint fractions. Then
+\begin{equation}
+ A(W)=C(W)+\phi_1-\phi_0.
+ \label{eq:manual-m3-observed-advance}
+\end{equation}
+This coordinate is downstream of Main's closure phase.
+At a shared cut, the endpoint terms cancel, so adjacent advances add;
+reversing the orientation changes the signed advance consistently.
+Turns and ratios remain exact. An angular display, when required, uses
+\(\theta=\tau\phi\), with \(\tau\) the full-turn angular constant.
+For a passive lossless transport example, event identities also give
+\(N_{\rm emitted}-N_{\rm arrived}=P_1-P_0\), where \(P_i\) counts pending
+packets at the endpoints. Arrival separation equals emission separation plus
+the change in transit delay. Loss and detector inefficiency require their own
+counts. Observing these events does not change the source dynamics.
+
+\paragraph{Specialization and calibration.}
+On \((10,22]\), choose compared winding \(4\) and endpoints
+\(2/3,1/6\), and reference winding \(8\) and endpoints \(1/4,3/4\).
+Equation~\eqref{eq:manual-m3-observed-advance} gives advances
+\(A=7/2\) and \(A_R=17/2\). Splitting the compared winding as \(2+2\)
+at phase \(5/6\) gives \(13/6+4/3=7/2\).
+If an independently justified realization identifies \(A_R>0\) as corrected
+Cs-equivalent cycles on that same coordinate, epoch and window, then
+\begin{equation}
+ \frac{A}{A_R}=\frac7{17},\qquad
+ T=\frac{A_R}{f_{\rm Cs}}=\frac{17}{2f_{\rm Cs}},\qquad
+ \bar\nu=\frac{A}{T}=\frac{7f_{\rm Cs}}{17}.
+ \label{eq:manual-m3-accumulated-si}
+\end{equation}
+These are conditional finite-window results from declared mathematical inputs.
+The exact defining frequency supplies the unit; measured realization and
+phase uncertainty remain separate. A universal seconds-per-bip conversion,
+or a limiting resonance frequency, needs additional premises.
+
+\paragraph{Hydrogen reduction.}
+Hellwig et al. used continuous active masers and a signed heterodyne beat,
+with the convention
+\begin{equation}
+ \nu_H=284\nu_R+\nu_S+\nu_B+
+ \delta_{\rm UTC}+\delta_N+\delta_W+\delta_D+\delta_Z.
+ \label{eq:manual-m3-hydrogen-reduction}
+\end{equation}
+Here \(\nu_R\) is nominally \(5\,000\,000\,\mathrm{Hz}\), \(\nu_S\) is the
+synthesizer setting, and the corrections account for reference transfer,
+wall collisions, second-order Doppler and Zeeman effects.
+Their Tables IV and VI give \(1\,420\,405\,751.7691\,\mathrm{Hz}\) and
+\(1\,420\,405\,751.7667\,\mathrm{Hz}\).
+The second uses an NP3-corrected zero-wall intercept: adding \(\delta_N\)
+or \(\delta_W\) again counts it twice. The exact printed-input mean is
+\(1\,420\,405\,751.7679\,\mathrm{Hz}\); the paper reports
+\(1\,420\,405\,751.768\,\mathrm{Hz}\) with uncertainty
+\(0.002\,\mathrm{Hz}\)~\cite{hellwig-hydrogen-1970}.
+This reproduces the published reduction. Unavailable raw phase records,
+tuning crossings and unrounded fit inputs are not reconstructed from the mean.
+
+\paragraph{Caesium reduction.}
+A fountain interrogates prepared atoms with an applied microwave field.
+With compatible calibrated population estimates and \(N_3+N_4>0\),
+\(p=N_4/(N_3+N_4)\) supplies a population response for line-centre estimation.
+The August 2013 NIST-F2 evaluation reports fractional uncertainties
+\(u_A=0.44\times10^{-15}\) and \(u_B=0.16\times10^{-15}\);
+Table 1's typical \(u_B=0.11\times10^{-15}\) belongs to a different budget.
+Multiplication by \(f_{\rm Cs}\) converts each printed value to hertz.
+The spin-exchange statistical contribution is already included in \(u_A\).
+Quoted upper bounds remain bounds, and rounded synthesizer settings do not
+specify the exact carrier~\cite{heavner-nist-f2-2014}.
+Campaign populations, servo records and covariance are needed for raw replay.
+The experiment's gravity and Doppler corrections retain their source roles;
+they do not become A\(\Omega\)D dynamical premises.
+
+\paragraph{Dependence and event timing.}
+An exact conditional trace can have nonzero ensemble spread.
+For model output \(A\) and comparison \(E\) in the same units, a specified
+finite joint distribution gives
+\begin{equation}
+ \operatorname{Var}(A-E)=\operatorname{Var}(A)+\operatorname{Var}(E)
+       -2\operatorname{Cov}(A,E).
+ \label{eq:manual-m3-residual-dependence}
+\end{equation}
+Repeated use of one uncertain source retains that identity. Thus \(A=E=X\)
+cancels, whereas \(A=X,E=-X\) gives \(4\operatorname{Var}(X)\).
+A published uncertainty does not specify a finite probability distribution.
+Its category, coverage and provenance therefore remain distinct from an exact
+finite-model propagation. Shared windows and reference data retain their
+correlations; the defining Cs integer itself has no uncertainty.
+For isotope-event comparison, timestamps must additionally identify formation,
+implantation or detection as their origin, with transport, selection and
+censoring conditions. Sampling resolution alone is not timing uncertainty.
+This interface supplies no nuclear retention or decay dynamics.
+
+\paragraph{Falsification.}
+Dropping endpoint fractions fails the \(7/2\) advance; mismatched windows
+invalidate the ratio; double-applied corrections fail the historical reduction.
+An independent physical test instead requires frozen state dynamics and an
+observation map, followed by a held-out measurement and a justified tolerance.
+Reproducing the Cs definition is a calibration identity. Replaying measured
+inputs is a reduction. Neither establishes the missing physical H/Cs
+correspondence or an isotope lifetime prediction.
+
 \aodliteraturenote{The BIPM defines the second through
 \(\Delta\nu_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{Hz}\)~\cite{bipm-second}.
 In a fountain clock, microwave interrogation and detected atomic-state

@@ -1,0 +1,92 @@
+{
+  "schema": "aod.m3.anchoring-request-fixtures.v1",
+  "scope": "Exact finite mathematical controls; no proposed atomic transition distribution",
+  "phase": {
+    "window": [
+      10,
+      22
+    ],
+    "endpoint_convention": "(start,end]",
+    "coordinate": "fixture-cut",
+    "epoch": "fixture-origin",
+    "compared": {
+      "winding": 4,
+      "phase_start": "2/3",
+      "phase_end": "1/6",
+      "advance": "7/2"
+    },
+    "reference": {
+      "winding": 8,
+      "phase_start": "1/4",
+      "phase_end": "3/4",
+      "advance": "17/2"
+    },
+    "partition": {
+      "midpoint": 16,
+      "phase_midpoint": "5/6",
+      "windings": [
+        2,
+        2
+      ],
+      "advances": [
+        "13/6",
+        "4/3"
+      ]
+    },
+    "expected_ratio": "7/17",
+    "expected_duration_seconds": "17/18385263540",
+    "expected_frequency_hz": "64348422390/17"
+  },
+  "shared_source": {
+    "X": {
+      "support": [
+        "0",
+        "1"
+      ],
+      "weights": [
+        "1/2",
+        "1/2"
+      ],
+      "variance": "1/4"
+    },
+    "Y_equals_X_plus_X_variance": "1",
+    "A_equals_E_equals_X_residual_variance": "0",
+    "A_equals_X_E_equals_negative_X_residual_variance": "1",
+    "perfectly_correlated_two_window_mean_variance": "1/4"
+  },
+  "total_variance": {
+    "joint_support": [
+      {
+        "X": 0,
+        "Y": 0,
+        "p": "1/4"
+      },
+      {
+        "X": 0,
+        "Y": 2,
+        "p": "1/4"
+      },
+      {
+        "X": 1,
+        "Y": 2,
+        "p": "1/4"
+      },
+      {
+        "X": 1,
+        "Y": 4,
+        "p": "1/4"
+      }
+    ],
+    "mean_conditional_variance": "1",
+    "variance_conditional_mean": "1",
+    "total_variance": "2"
+  },
+  "published_budget_arithmetic": {
+    "scope": "Printed component square-sums and exact unit conversion only; no finite joint law inferred",
+    "H_Table_IV_component_square_sum_hz2": "14651/2500000000",
+    "H_Table_VI_component_square_sum_hz2": "7851/2500000000",
+    "Cs_Aug2013_TypeA_Hz": "10111894947/2500000000000000",
+    "Cs_Aug2013_TypeB_Hz": "919263177/625000000000000",
+    "Cs_typical_TypeB_Hz": "10111894947/10000000000000000"
+  }
+}

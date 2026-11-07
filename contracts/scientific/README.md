@@ -19,3 +19,12 @@ Source hashes establish the reviewed version. Mathematical checks separately ver
 The worked records in `manual/data/m3/` are reproduced by `aod_cell_measures.py`, `aod_mapping_error.py` and `aod_m3_temporal.py` in `manual/scripts/`. Their tests exercise rejected inputs and mathematical counterexamples as well as positive cases. A declared cubical metric, exact finite probability law or conditional SI observation map is not an independent physical prediction.
 
 `TEMPORAL_OBSERVATION.json` binds the temporal observation context and frozen calibration domain. Historical metrology replay and temporal-anchor records retain their original source archives separately from current executable results. Their finite-law and count-transfer checks do not establish a physical clock calibration.
+
+`TEMPORAL_METROLOGY.json` governs the additive observation companion. It distinguishes
+reclosures, shed-packet events, oscillator phase advances, calibrated population
+estimates and nuclear timestamps. `aod_m3_metrology.py --check` replays exact
+finite-window phase fixtures and source-bound H/Cs reductions. Published
+uncertainties retain their experimental provenance; they do not supply a finite
+joint probability model. Existing temporal schema 3 and generic map/error
+version 2 remain unchanged. The companion does not establish a physical
+closure-to-cycle map or isotope-specific dynamics.

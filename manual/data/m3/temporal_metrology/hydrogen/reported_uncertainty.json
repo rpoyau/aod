@@ -1,0 +1,24 @@
+{
+  "source": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+  "locator": "Tables IV and VI; source paper reported component convention; request evidence R16",
+  "unit": "Hz",
+  "scope": "Printed reported components; no joint law inferred",
+  "table_iv": {
+    "beat": "0.0004",
+    "reference_offset": "0.0013",
+    "wall": "0.0020",
+    "Doppler": "0.0001",
+    "Zeeman": "0.00002"
+  },
+  "table_vi": {
+    "corrected_zero_wall_intercept": "0.0012",
+    "reference_offset": "0.0013",
+    "Doppler": "0.0001",
+    "Zeeman": "0.00002"
+  },
+  "quoted": {
+    "table_iv": "0.0024",
+    "table_vi": "0.0018",
+    "published_mean": "0.002"
+  }
+}
