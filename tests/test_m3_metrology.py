@@ -269,6 +269,7 @@ def test_report_replays_and_check_is_read_only():
 def test_corrections_bind_value_ownership_and_window_to_source_payload():
     x,r,c=a.phase_fixture()
     payload={'corrections':{'offset':{'value_turns':'1/2','already_applied':False,
+        'observation_id':x['id'],
         'coordinate':x['coordinate'],'epoch':x['epoch'],'window':x['window']}}}
     src=m.source('correction:A','calibration',payload)
     x['sources'].append(src);c['trusted_sources'][src['id']]=src
@@ -356,4 +357,9 @@ def test_nuclear_observation_cannot_install_its_own_untrusted_nested_registry():
     x,_,c=a.phase_fixture();x['kind']='nuclear_event_timestamp';x['event_timing']=event()
     with pytest.raises(ValueError,match='outer observation'):a.validate_observation(x,c['trusted_sources'])
     src=x['event_timing']['source'];x['sources'].append(src);c['trusted_sources'][src['id']]=src
+    with pytest.raises(ValueError,match='extractor/type'):a.validate_observation(x,c['trusted_sources'])
+    payload={k:deepcopy(x[k]) for k in ('kind','scope','coordinate','epoch','window','preparation')}
+    payload.update(event_source_id=src['id'],event_source_sha256=src['sha256'])
+    outer=m.source('declared:event-observation','model',{'observations':{x['id']:payload}})
+    x['sources'].append(outer);c['trusted_sources'][outer['id']]=outer
     assert a.validate_observation(x,c['trusted_sources'])['kind']=='nuclear_event_timestamp'

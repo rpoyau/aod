@@ -13,7 +13,7 @@ CONTRACT_ROOT = 'contracts/scientific/'
 # These independent byte bindings are reviewed with the checker. Loading a
 # modified contract never changes an expected digest or authorizes new sources.
 CONTRACT_SHA256 = {
-    "TEMPORAL_METROLOGY.json": "6e891f30f9e0fb114fdec99a82bd85ce5d65c3f5e2fbc066cb2fcf386e74caca",
+    "TEMPORAL_METROLOGY.json": "4726ecf3667c9c54dffd2dd25dffeaacf005f55b18430ae419481240cc9b7e95",
     "TEMPORAL_OBSERVATION.json": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
     "MAP_CONTRACT.json": "8aaf2820643fcab6414264d2eae553921b58fc09300c226fdce8e0dd87a492bf",
     "M3_MATHEMATICAL_BINDINGS.json": "7048264c2faed6ca6ea3af449bf2f07ccb447648a78bec132c99b059b52055ab",

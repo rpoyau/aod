@@ -241,14 +241,16 @@ finite-model propagation. Shared windows and reference data retain their
 correlations; the defining Cs integer itself has no uncertainty.
 For isotope-event comparison, timestamps must additionally identify formation,
 implantation or detection as their origin, with transport, selection and
-censoring conditions. Sampling resolution alone is not timing uncertainty.
+censoring conditions. The event evidence is bound to the containing observation
+context. Sampling resolution alone is not timing uncertainty.
 This interface supplies no nuclear retention or decay dynamics.
 
 \paragraph{Comparison conditions.}
 Each influence records its location in the input, apparatus or output; its
 mechanism, source, applicable interval, correction ownership, remaining
 uncertainty and unresolved conditions. A correction already included in an
-input stays there. Its magnitude is distinct from the uncertainty remaining
+input stays there. Its trusted correction record identifies the owning observation.
+Its magnitude is distinct from the uncertainty remaining
 after correction. Type A and Type B identify uncertainty evaluation methods,
 not kinds of error~\cite{nist-tn1297-comparison}.
 Ambient temperature or Earth's field does not specify the conditions at the

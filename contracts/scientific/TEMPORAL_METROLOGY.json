@@ -1,6 +1,6 @@
 {
   "schema": "aod.scientific.temporal-metrology.v1",
-  "version": 1,
+  "version": 2,
   "owner": "Manual M3 temporal metrology companion",
   "scope": "Exact declared observer reductions and experiment-specific provenance; physical calibration is separately evidenced",
   "dependencies": {
@@ -40,6 +40,33 @@
     "rationals": "canonical integer or numerator/denominator string",
     "printed_values": "original decimal string with source precision retained",
     "float_inputs": "reject"
+  },
+  "evidence_authentication": "Trusted payloads and nested source records are compared in their canonical JSON representation; booleans, integers and strings are not interchangeable",
+  "correction_binding": {
+    "source_payload": "corrections[correction_id]",
+    "required_evidence_fields": [
+      "observation_id",
+      "coordinate",
+      "epoch",
+      "window",
+      "value_turns",
+      "already_applied"
+    ],
+    "ownership": "observation_id must identify the observation receiving the correction; moving a correction to another observation requires new trusted evidence"
+  },
+  "nuclear_observation_binding": {
+    "source_payload": "observations[observation_id]",
+    "required_evidence_fields": [
+      "kind",
+      "scope",
+      "coordinate",
+      "epoch",
+      "window",
+      "preparation",
+      "event_source_id",
+      "event_source_sha256"
+    ],
+    "scope": "The enclosing observation context is bound to the separately validated event source; standalone event timing fields and numerical reductions are unchanged"
   },
   "phase": {
     "unit": "turn",
@@ -116,8 +143,9 @@
   ],
   "comparison_assessment": {
     "interface": "aod_m3_metrology.assess_comparison(record, trusted_sources)",
-    "compatibility": "Additive declared-assessment interface; existing observation records and reductions unchanged",
-    "authentication": "Complete assessment declaration and endpoint quantities are separately bound to supplied trusted sources",
+    "compatibility": "Schema family and numerical laws are unchanged. Contract version 2 requires observation-specific correction evidence and an authenticated enclosing nuclear observation context, and rejects type-mismatched evidence or malformed comparison metadata previously accepted. Fully bound records retain their numerical results",
+    "authentication": "Complete assessment declaration and endpoint quantities are separately bound to supplied trusted sources using canonical JSON equality",
+    "count_endpoints": "native_reclosure_count and shed_packet_event require nonnegative integral values on both sides: JSON integers or canonical integer strings accepted by exact(); boolean, float, negative, fractional and noncanonical representations are rejected. The native observation extractor still requires a JSON integer",
     "influence_fields": [
       "id",
       "stage",
@@ -148,7 +176,7 @@
       "detector"
     ],
     "condition_transfer": "An applied effect inferred at a different location requires independently bound transfer scope; an external ambient field is not the internal apparatus field",
-    "windows": "Observation cuts retain coordinate and epoch; a separately declared reflection duration has its own coordinate and no implicit observation or SI map",
+    "windows": "Observation cuts retain coordinate and epoch; a separately declared reflection duration has its own nonblank string coordinate and unit, with no implicit observation or SI map",
     "reference_roles": [
       "calibration_anchor",
       "evaluation",

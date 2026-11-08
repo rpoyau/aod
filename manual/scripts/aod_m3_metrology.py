@@ -41,6 +41,14 @@ def require(condition, message):
         raise ValueError(message)
 
 
+def _same_evidence(left, right):
+    """Compare evidence in the canonical JSON representation used for its hash."""
+    try:
+        return m.canonical(left) == m.canonical(right)
+    except (TypeError, ValueError, OverflowError, RecursionError):
+        return False
+
+
 def exact(value):
     """Canonical JSON integer/rational, never decimal or binary floating input."""
     require(type(value) in (int, str), 'canonical exact integer/rational required')
@@ -125,14 +133,14 @@ def validate_observation(record, trusted_sources):
             'category_or_coverage_status','reporting_precision'},'source reported uncertainty fields')
         require(u['source'] in registry and all(type(v) is str and v for v in u.values()),
                 'source reported uncertainty provenance/precision')
-        require(registry[u['source']]['payload'].get('reported_uncertainty',{}).get(record['id'])==u,
+        require(_same_evidence(registry[u['source']]['payload'].get('reported_uncertainty',{}).get(record['id']),u),
                 'reported uncertainty differs from trusted source')
     else:
         u=record['uncertainty']
         require(set(u)=={'kind','source_id','order','support'} and u['source_id'] in registry,
                 'declared finite uncertainty law fields')
         require(registry[u['source_id']]['role'] in ('model','calibration') and
-                registry[u['source_id']]['payload'].get('joint_law')=={'order':u['order'],'support':u['support']},
+                _same_evidence(registry[u['source_id']]['payload'].get('joint_law'),{'order':u['order'],'support':u['support']}),
                 'finite law differs from trusted model source')
         _exact_support(u['support']);m.joint_moments(u['support'],u['order'])
     # This version deliberately cannot certify an independent atomic prediction.
@@ -142,7 +150,7 @@ def validate_observation(record, trusted_sources):
         phase_advance(record)
         require(set(record['source_ids'])<=set(registry),'phase source lineage absent')
         require(any(isinstance(registry[i]['payload'],dict) and
-                    registry[i]['payload'].get('observations',{}).get(record['id'])==phase_payload(record)
+                    _same_evidence(registry[i]['payload'].get('observations',{}).get(record['id']),phase_payload(record))
                     for i in record['source_ids']),'phase extractor differs from source-bound observation')
     elif record['kind']=='native_reclosure_count':
         require(integer(record.get('count'),'reclosure count')>=0,'nonnegative reclosure count')
@@ -156,7 +164,7 @@ def validate_observation(record, trusted_sources):
                 'native observation window/scope differs from replayed context')
         require(record['coordinate']==record['prediction']['coordinate'] and
                 record['epoch']==record['prediction']['epoch_seconds'] and
-                record['preparation']==record['original_context'].preparation,
+                _same_evidence(record['preparation'],record['original_context'].preparation),
                 'native observation coordinate/epoch/preparation differs from replayed context')
         payload={k:deepcopy(record[k]) for k in ('kind','coordinate','epoch','window','scope','preparation','count','channel')}
         payload.update(prediction_sha256=binding['prediction_sha256'],original_context_sha256=binding['original_context_sha256'])
@@ -173,15 +181,18 @@ def validate_observation(record, trusted_sources):
             ('kind','coordinate','epoch','window','populations')})
     else:
         event=record['event_timing']
-        require(all(registry.get(key)==value for key,value in event['trusted_sources'].items()),
+        require(all(_same_evidence(registry.get(key),value) for key,value in event['trusted_sources'].items()),
                 'event evidence not bound by outer observation trust registry')
         validate_event_timing(event)
+        payload={k:deepcopy(record[k]) for k in ('kind','scope','coordinate','epoch','window','preparation')}
+        payload.update(event_source_id=event['source']['id'],event_source_sha256=event['source']['sha256'])
+        _bind_extractor(record,registry,payload)
     return deepcopy(record)
 
 
 def _bind_extractor(record,registry,payload,roles=('model','calibration','evaluation')):
     require(any(s['role'] in roles and isinstance(s['payload'],dict) and
-                s['payload'].get('observations',{}).get(record['id'])==payload for s in registry.values()),
+                _same_evidence(s['payload'].get('observations',{}).get(record['id']),payload) for s in registry.values()),
             'observable extractor/type differs from trusted observation source')
 
 
@@ -215,9 +226,9 @@ def _corrections(corrections,registry,context):
         require(c['id'] not in seen and type(c['already_applied']) is bool,'duplicate correction or ambiguous ownership')
         require(c['source_id'] in registry,'correction source absent')
         evidence={k:deepcopy(context[k]) for k in ('coordinate','epoch','window')}
-        evidence.update(value_turns=c['value_turns'],already_applied=c['already_applied'])
+        evidence.update(observation_id=context['id'],value_turns=c['value_turns'],already_applied=c['already_applied'])
         require(isinstance(registry[c['source_id']]['payload'],dict) and
-                registry[c['source_id']]['payload'].get('corrections',{}).get(c['id'])==evidence,
+                _same_evidence(registry[c['source_id']]['payload'].get('corrections',{}).get(c['id']),evidence),
                 'correction value/ownership/scope differs from trusted source')
         seen.add(c['id']);v=exact(c['value_turns'])
         require(not c['already_applied'],'correction already included; cannot apply twice')
@@ -236,9 +247,9 @@ def compare_accumulations(compared, reference, reference_realization):
             reference_realization['kind']=='Cs133_equivalent_reference','reference identity/type')
     src=reference_realization['source'];m.validate_sources([src],trusted)
     require(src['role'] in ('model','calibration'),'reference realization needs separate model/calibration evidence')
-    require(src['payload']=={'reference_id':reference['id'],'coordinate':reference['coordinate'],
+    require(_same_evidence(src['payload'],{'reference_id':reference['id'],'coordinate':reference['coordinate'],
             'epoch':reference['epoch'],'window':reference['window'],'defining_integer_hz':CS,
-            'physical_correspondence':reference_realization['physical_correspondence']},'reference realization scope mismatch')
+            'physical_correspondence':reference_realization['physical_correspondence']}),'reference realization scope mismatch')
     require(reference_realization['physical_correspondence'] in ('unestablished','declared_fixture'),
             'this companion does not certify a physical Cs realization')
     reg={s['id']:s for s in compared['sources']+reference['sources']}
@@ -393,7 +404,7 @@ def validate_error_dependencies(record):
         require(item['source_id'] in registry and registry[item['source_id']]['role'] in ('model','calibration','definition'),
                 'parameter source role')
         expected={k:item[k] for k in ('value','unit','dimension')}
-        require(registry[item['source_id']]['payload'].get('parameters',{}).get(item['quantity_id'])==expected,
+        require(_same_evidence(registry[item['source_id']]['payload'].get('parameters',{}).get(item['quantity_id']),expected),
                 'parameter differs from trusted source')
     dimension=m.expression_dimension(record['expression'],inputs,record['parameters'])
     require(list(dimension)==record['output_dimension'],'output dimension mismatch')
@@ -410,7 +421,7 @@ def validate_error_dependencies(record):
             for value in row: exact(value)
     # The exact joint law must occur in a separately supplied source payload.
     law={'order':active,'support':record['support']}
-    require(any(s['payload'].get('joint_law')==law for s in registry.values()
+    require(any(_same_evidence(s['payload'].get('joint_law'),law) for s in registry.values()
                 if isinstance(s['payload'],dict) and s['role'] in ('model','calibration')),'joint law absent from trusted source payload')
     return m.propagate(record['expression'],active,record['parameters'],record['means'],record['covariance'],record['support'])
 
@@ -422,7 +433,7 @@ def validate_event_timing(record):
     no_floats(record)
     source=record['source'];m.validate_sources([source],record['trusted_sources'])
     payload={k:deepcopy(record[k]) for k in required-{'source','trusted_sources'}}
-    require(source['payload'].get('event_timing')==payload,'event timing differs from trusted origin/timebase evidence')
+    require(_same_evidence(source['payload'].get('event_timing'),payload),'event timing differs from trusted origin/timebase evidence')
     require(record['origin'] in ('formation','implantation','detection') and record['timestamp_origin']==record['origin'],
             'event origin cannot be silently renamed')
     exact(record['timestamp']);require(exact(record['resolution'])>0,'positive timestamp resolution')
@@ -440,8 +451,8 @@ def validate_event_timing(record):
                 'source-bound timebase calibration evidence')
         bound=record['trusted_sources'][calibration['source_id']]
         m.validate_sources([bound],record['trusted_sources'])
-        require(bound['role'] in ('model','calibration') and bound['payload'].get(calibration['payload_key'])==
-                {'timebase_id':clock['id'],'unit':clock['unit']},'timebase calibration scope differs')
+        require(bound['role'] in ('model','calibration') and _same_evidence(bound['payload'].get(calibration['payload_key']),
+                {'timebase_id':clock['id'],'unit':clock['unit']}),'timebase calibration scope differs')
     require(record['status'] in ('accepted','rejected','censored'),'event selection status')
     require(all(record[k] for k in ('conditioning','transport','selection')),'event transport/selection required')
     u=record['uncertainty'];require(isinstance(u,dict),'typed timing uncertainty')
@@ -454,8 +465,8 @@ def validate_event_timing(record):
                 'timing uncertainty needs independently bound evidence and unit')
         bound=record['trusted_sources'][u['evidence_source_id']]
         m.validate_sources([bound],record['trusted_sources'])
-        require(bound['payload'].get('timing_uncertainty')=={'timebase_id':clock['id'],
-                'kind':u['kind'],'value':u['value'],'unit':u['unit']},'timing uncertainty evidence mismatch')
+        require(_same_evidence(bound['payload'].get('timing_uncertainty'),{'timebase_id':clock['id'],
+                'kind':u['kind'],'value':u['value'],'unit':u['unit']}),'timing uncertainty evidence mismatch')
     return {'status':'valid_event_metadata','origin':record['origin'],'selection_status':record['status'],
             'timebase_calibration_status':calibration['kind'],'nuclear_dynamics':'not_implemented','lifetime_prediction':None}
 
@@ -476,7 +487,7 @@ def assess_comparison(record, trusted_sources):
         require(type(record[key]) is str and record[key].strip(),'comparison identity/scope')
     require(record['source_id'] in registry,'comparison declaration source absent')
     declaration={k:deepcopy(v) for k,v in record.items() if k not in ('source_id','sources')}
-    require(registry[record['source_id']]['payload'].get('comparison_assessment')==declaration,
+    require(_same_evidence(registry[record['source_id']]['payload'].get('comparison_assessment'),declaration),
             'comparison assessment differs from trusted declaration')
     units={'native_reclosure_count':{'count','1'},'shed_packet_event':{'count','1'},
            'oscillator_phase_advance':{'turn','Hz','1'},'fluorescence_population_estimate':{'1'},
@@ -491,8 +502,9 @@ def assess_comparison(record, trusted_sources):
                 'unknown reflection duration is not zero')
     else:
         require(set(duration)=={'kind','coordinate','value','unit','observation_map'} and
-                duration['kind']=='declared_separate' and duration['coordinate'] and duration['unit'],
-                'reflection duration needs its separate coordinate')
+                duration['kind']=='declared_separate' and
+                all(type(duration[k]) is str and duration[k].strip() for k in ('coordinate','unit')),
+                'reflection duration needs its separate coordinate and unit as nonblank strings')
         require(exact(duration['value'])>=0,'nonnegative reflection duration')
         observation_map=duration['observation_map']
         require(isinstance(observation_map,dict) and set(observation_map)=={'kind','reason'} and
@@ -507,6 +519,9 @@ def assess_comparison(record, trusted_sources):
         require(isinstance(item,dict) and set(item)=={'value','source_id','quantity_id','dependency_ids'},
                 'comparison endpoint fields')
         values[side]=exact(item['value'])
+        if record['kind'] in ('native_reclosure_count','shed_packet_event'):
+            require(values[side]>=0 and values[side].denominator==1,
+                    'count endpoint must be an exact nonnegative integer')
         require(item['source_id'] in registry and type(item['quantity_id']) is str and item['quantity_id'],
                 'comparison endpoint source')
         allowed=('model','calibration','definition') if side=='prediction' else ('evaluation','calibration')
@@ -520,7 +535,7 @@ def assess_comparison(record, trusted_sources):
             require(all(registry[i]['role'] in allowed for i in ids),
                     'evaluation source cannot enter prediction dependencies')
         payload={'kind':record['kind'],'unit':record['unit'],'value':item['value']}
-        require(registry[item['source_id']]['payload'].get('comparison_quantities',{}).get(item['quantity_id'])==payload,
+        require(_same_evidence(registry[item['source_id']]['payload'].get('comparison_quantities',{}).get(item['quantity_id']),payload),
                 'comparison endpoint differs from trusted quantity')
         dependencies[side]={registry[i]['sha256'] for i in [item['source_id'],*ids]}
     shared=sorted(dependencies['prediction']&dependencies['comparison'])
@@ -586,7 +601,7 @@ def assess_comparison(record, trusted_sources):
                         transfer['source_id'] in ids,'condition transfer source fields')
                 expected={'input_location':condition['input_location'],'effect_location':condition['effect_location'],
                           'coordinate':record['coordinate'],'epoch':record['epoch'],'window':record['window']}
-                require(registry[transfer['source_id']]['payload'].get(transfer['payload_key'])==expected,
+                require(_same_evidence(registry[transfer['source_id']]['payload'].get(transfer['payload_key']),expected),
                         'condition transfer differs from trusted scope')
         materiality=item['materiality'];require(isinstance(materiality,dict),'typed materiality assessment')
         if materiality.get('kind')=='bounded_below_tolerance':
@@ -597,7 +612,7 @@ def assess_comparison(record, trusted_sources):
             require(0<=bound<tolerance,'materiality requires nonnegative bound below positive tolerance')
             expected={k:materiality[k] for k in ('bound','tolerance','unit')}
             expected.update(influence_id=identity,coordinate=record['coordinate'],epoch=record['epoch'],window=record['window'])
-            require(registry[materiality['source_id']]['payload'].get(materiality['payload_key'])==expected,
+            require(_same_evidence(registry[materiality['source_id']]['payload'].get(materiality['payload_key']),expected),
                     'materiality bound differs from trusted scope')
             bounded.append(identity)
         else:

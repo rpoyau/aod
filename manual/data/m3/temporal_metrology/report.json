@@ -483,8 +483,8 @@
     }
   },
   "inputs_sha256": {
-    "companion_code": "7ac8d65ca3280a0016d10f0a9609e42c2a20dc4ed6e80647acd1da2e8b72fcfd",
-    "contract": "6e891f30f9e0fb114fdec99a82bd85ce5d65c3f5e2fbc066cb2fcf386e74caca",
+    "companion_code": "7c6e34faa891ce293f390ad63242ce31023243c132cdf036b8cc6764627c22f0",
+    "contract": "4726ecf3667c9c54dffd2dd25dffeaacf005f55b18430ae419481240cc9b7e95",
     "data/cesium/notes.md": "bbc24fe904dc150251a5c0e980d6803d6bf8e3bf76cded5e16c34684491e59a4",
     "data/cesium/protocol.json": "0de1e3b3dd57eafd5fa0cfd590e32dcc92ace51c140e3127cd68079e4effa34d",
     "data/exact_fixtures.json": "27d0f802b8fdd445624211aa334d33b6600f812f2d4547680cefa142dcbbff87",
