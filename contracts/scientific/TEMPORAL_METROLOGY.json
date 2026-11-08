@@ -113,5 +113,55 @@
     "No nuclear kernel or lifetime fit",
     "No promotion of printed-input replay to raw experiment reproduction",
     "No new awareness, path-integral or universal complexity premise"
-  ]
+  ],
+  "comparison_assessment": {
+    "interface": "aod_m3_metrology.assess_comparison(record, trusted_sources)",
+    "compatibility": "Additive declared-assessment interface; existing observation records and reductions unchanged",
+    "authentication": "Complete assessment declaration and endpoint quantities are separately bound to supplied trusted sources",
+    "influence_fields": [
+      "id",
+      "stage",
+      "mechanism",
+      "source_ids",
+      "correction",
+      "residual_uncertainty",
+      "evaluation_method",
+      "conditions",
+      "materiality"
+    ],
+    "stages": [
+      "input",
+      "setup",
+      "output"
+    ],
+    "correction_status": [
+      "applied",
+      "included_in_input",
+      "not_applied",
+      "unknown"
+    ],
+    "evaluation_method": "Type_A and Type_B describe methods of uncertainty evaluation, not random or systematic error classes",
+    "condition_locations": [
+      "internal_apparatus",
+      "external_environment",
+      "reference",
+      "detector"
+    ],
+    "condition_transfer": "An applied effect inferred at a different location requires independently bound transfer scope; an external ambient field is not the internal apparatus field",
+    "windows": "Observation cuts retain coordinate and epoch; a separately declared reflection duration has its own coordinate and no implicit observation or SI map",
+    "reference_roles": [
+      "calibration_anchor",
+      "evaluation",
+      "reference_dependent_evaluation"
+    ],
+    "dependency_identity": "Shared source payload digests remain shared under identifier aliases; absence of detected overlap does not establish independence",
+    "materiality": "A bound below a positive tolerance requires authenticated influence, window, coordinate, epoch and common output unit; it does not certify a complete physical budget",
+    "arithmetic": "Exact supplied prediction minus supplied comparison; previously applied corrections are never applied again",
+    "limits": [
+      "Metadata consistency only",
+      "No inferred probability distribution or physical acceptance score",
+      "No certification of independent physical validation",
+      "Unknown residual uncertainty and applicability remain explicit"
+    ]
+  }
 }

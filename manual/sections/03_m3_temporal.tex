@@ -244,6 +244,41 @@ implantation or detection as their origin, with transport, selection and
 censoring conditions. Sampling resolution alone is not timing uncertainty.
 This interface supplies no nuclear retention or decay dynamics.
 
+\paragraph{Comparison conditions.}
+Each influence records its location in the input, apparatus or output; its
+mechanism, source, applicable interval, correction ownership, remaining
+uncertainty and unresolved conditions. A correction already included in an
+input stays there. Its magnitude is distinct from the uncertainty remaining
+after correction. Type A and Type B identify uncertainty evaluation methods,
+not kinds of error~\cite{nist-tn1297-comparison}.
+Ambient temperature or Earth's field does not specify the conditions at the
+atoms. The comparison needs the applicable internal temperature or field,
+including control, shielding and bias-field evidence, or an explicit unresolved
+transfer. Unknown contributions retain that status.
+
+\paragraph{Intervals and reference dependence.}
+The acquisition gate, interrogation interval, model observation window and
+directional reflection duration have separate domains and units. Equating
+them requires a declared map. Scaling both accumulated advances by the same
+positive factor leaves their ratio unchanged; a window-dependent frequency
+therefore requires changed dynamics, phase endpoints or readout weights.
+For each comparison, retain the calibration and evaluation source identities
+and any shared reference. A target reduced using hydrogen remains dependent
+on that hydrogen reference when used in a cross-isotope comparison.
+A Cs-normalized equality retains its calibration role. A nuclear-event delay
+instead uses the timestamp-origin and selection conditions above.
+
+\paragraph{Scoped assessment.}
+The comparison assessment authenticates these declarations separately from
+the physical evidence they describe. It applies no additional correction and
+does not combine uncertainty components. An influence may be screened against
+a stated tolerance only with a source-bound bound in the output unit and an
+applicable window. Such a screen concerns that influence alone; the joint
+budget still accounts for their combination and dependence.
+A missing bound remains unresolved. A discrepancy between a model output and
+a corrected measurement is a comparison residual; assigning it to an
+apparatus effect requires the corresponding calculation and evidence.
+
 \paragraph{Falsification.}
 Dropping endpoint fractions fails the \(7/2\) advance; mismatched windows
 invalidate the ratio; double-applied corrections fail the historical reduction.

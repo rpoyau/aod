@@ -28,3 +28,10 @@ uncertainties retain their experimental provenance; they do not supply a finite
 joint probability model. Existing temporal schema 3 and generic map/error
 version 2 remain unchanged. The companion does not establish a physical
 closure-to-cycle map or isotope-specific dynamics.
+
+The additive comparison assessment records each influence's input/setup/output
+location, correction ownership, residual uncertainty, interval, environmental
+transfer and shared-reference dependencies. It validates source-bound
+declarations without applying corrections, constructing a joint uncertainty
+model or certifying an independent physical prediction. A materiality bound
+screens one influence only; unresolved inputs stay unresolved.

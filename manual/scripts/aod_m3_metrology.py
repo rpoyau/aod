@@ -460,6 +460,191 @@ def validate_event_timing(record):
             'timebase_calibration_status':calibration['kind'],'nuclear_dynamics':'not_implemented','lifetime_prediction':None}
 
 
+def assess_comparison(record, trusted_sources):
+    """Audit a declared comparison; do not apply corrections or certify physics.
+
+    Endpoint values, dependency declarations and influence metadata are bound to
+    supplied trusted sources. A passing record establishes metadata consistency,
+    not completeness of the physical model, budget or source declaration.
+    """
+    fields={'id','source_id','sources','measurand','kind','unit','coordinate','epoch','window',
+            'reflection_duration','prediction','comparison','reference_role','influences'}
+    require(isinstance(record,dict) and set(record)==fields,'comparison assessment fields')
+    no_floats(record)
+    registry=m.validate_sources(record['sources'],trusted_sources)
+    for key in ('id','source_id','measurand','coordinate','epoch'):
+        require(type(record[key]) is str and record[key].strip(),'comparison identity/scope')
+    require(record['source_id'] in registry,'comparison declaration source absent')
+    declaration={k:deepcopy(v) for k,v in record.items() if k not in ('source_id','sources')}
+    require(registry[record['source_id']]['payload'].get('comparison_assessment')==declaration,
+            'comparison assessment differs from trusted declaration')
+    units={'native_reclosure_count':{'count','1'},'shed_packet_event':{'count','1'},
+           'oscillator_phase_advance':{'turn','Hz','1'},'fluorescence_population_estimate':{'1'},
+           'nuclear_event_timestamp':{'s'}}
+    require(record['kind'] in units and record['unit'] in units[record['kind']],
+            'comparison observable/unit mismatch')
+    window(record['window'])
+    duration=record['reflection_duration']
+    require(isinstance(duration,dict),'typed reflection duration required')
+    if duration.get('kind')=='unknown':
+        require(set(duration)=={'kind','reason'} and duration['reason'],
+                'unknown reflection duration is not zero')
+    else:
+        require(set(duration)=={'kind','coordinate','value','unit','observation_map'} and
+                duration['kind']=='declared_separate' and duration['coordinate'] and duration['unit'],
+                'reflection duration needs its separate coordinate')
+        require(exact(duration['value'])>=0,'nonnegative reflection duration')
+        observation_map=duration['observation_map']
+        require(isinstance(observation_map,dict) and set(observation_map)=={'kind','reason'} and
+                observation_map['kind']=='unknown' and observation_map['reason'],
+                'this assessment does not equate reflection duration with the observation window')
+    role=record['reference_role']
+    require(role in ('calibration_anchor','evaluation','reference_dependent_evaluation'),
+            'comparison reference role')
+    dependencies={};values={}
+    for side in ('prediction','comparison'):
+        item=record[side]
+        require(isinstance(item,dict) and set(item)=={'value','source_id','quantity_id','dependency_ids'},
+                'comparison endpoint fields')
+        values[side]=exact(item['value'])
+        require(item['source_id'] in registry and type(item['quantity_id']) is str and item['quantity_id'],
+                'comparison endpoint source')
+        allowed=('model','calibration','definition') if side=='prediction' else ('evaluation','calibration')
+        require(registry[item['source_id']]['role'] in allowed,'comparison endpoint source role')
+        if side=='comparison' and role=='calibration_anchor':
+            require(registry[item['source_id']]['role']=='calibration','anchor requires calibration source')
+        ids=item['dependency_ids']
+        require(isinstance(ids,list) and len(set(ids))==len(ids) and set(ids)<=set(registry),
+                'comparison dependency source identities')
+        if side=='prediction':
+            require(all(registry[i]['role'] in allowed for i in ids),
+                    'evaluation source cannot enter prediction dependencies')
+        payload={'kind':record['kind'],'unit':record['unit'],'value':item['value']}
+        require(registry[item['source_id']]['payload'].get('comparison_quantities',{}).get(item['quantity_id'])==payload,
+                'comparison endpoint differs from trusted quantity')
+        dependencies[side]={registry[i]['sha256'] for i in [item['source_id'],*ids]}
+    shared=sorted(dependencies['prediction']&dependencies['comparison'])
+    influences=record['influences'];require(isinstance(influences,list),'comparison influences list')
+    seen=set();unresolved=[];bounded=[];ownership={}
+    for item in influences:
+        required={'id','stage','mechanism','source_ids','correction','residual_uncertainty',
+                  'evaluation_method','conditions','materiality'}
+        require(isinstance(item,dict) and set(item)==required,'comparison influence fields')
+        identity=item['id']
+        require(type(identity) is str and identity and identity not in seen,'duplicate influence identity')
+        seen.add(identity)
+        require(item['stage'] in ('input','setup','output') and type(item['mechanism']) is str and item['mechanism'],
+                'influence stage/mechanism')
+        ids=item['source_ids']
+        require(isinstance(ids,list) and ids and len(ids)==len(set(ids)) and set(ids)<=set(registry),
+                'influence source identities')
+        correction=item['correction'];require(isinstance(correction,dict),'typed correction required')
+        status=correction.get('kind')
+        if status in ('applied','included_in_input'):
+            require(set(correction)=={'kind','value','unit'} and correction['unit']==record['unit'],
+                    'correction value/unit/ownership')
+            exact(correction['value'])
+        else:
+            require(status in ('not_applied','unknown') and set(correction)=={'kind','reason'} and correction['reason'],
+                    'unapplied/unknown correction needs reason without a value')
+            if status=='unknown':unresolved.append(identity)
+        ownership[identity]=status
+        uncertainty=item['residual_uncertainty'];require(isinstance(uncertainty,dict),'typed residual uncertainty')
+        if uncertainty.get('kind')=='unknown':
+            require(set(uncertainty)=={'kind','reason'} and uncertainty['reason'],'unknown residual uncertainty is not zero')
+            unresolved.append(identity)
+        else:
+            require(uncertainty.get('kind') in ('source_reported_uncertainty','bound') and
+                    set(uncertainty)=={'kind','value','unit','category_or_coverage_status'} and
+                    uncertainty['unit']==record['unit'] and uncertainty['category_or_coverage_status'],
+                    'residual uncertainty needs separate value/unit/category')
+            require(exact(uncertainty['value'])>=0,'nonnegative residual uncertainty')
+        require(item['evaluation_method'] in ('Type_A','Type_B','unknown','not_applicable'),
+                'evaluation method is Type A/B, not random/systematic')
+        condition=item['conditions'];require(isinstance(condition,dict),'typed influence conditions')
+        if condition.get('kind')=='unknown':
+            require(set(condition)=={'kind','reason'} and condition['reason'],'unknown conditions need reason')
+            require(status not in ('applied','included_in_input'),'applied correction requires declared applicability conditions')
+            unresolved.append(identity)
+        else:
+            require(set(condition)=={'kind','input_location','effect_location','transfer'} and
+                    condition['kind']=='specified','influence condition fields')
+            locations={'internal_apparatus','external_environment','reference','detector'}
+            require(condition['input_location'] in locations and condition['effect_location'] in locations,
+                    'influence condition location')
+            transfer=condition['transfer']
+            require(isinstance(transfer,dict),'typed condition transfer')
+            if condition['input_location']==condition['effect_location']:
+                require(transfer=={'kind':'not_needed'},'same-location condition needs no transfer')
+            elif transfer.get('kind')=='unknown':
+                require(set(transfer)=={'kind','reason'} and transfer['reason'] and
+                        status not in ('applied','included_in_input'),
+                        'external/internal correction requires transfer evidence')
+                unresolved.append(identity)
+            else:
+                require(set(transfer)=={'kind','source_id','payload_key'} and transfer['kind']=='source_bound' and
+                        transfer['source_id'] in ids,'condition transfer source fields')
+                expected={'input_location':condition['input_location'],'effect_location':condition['effect_location'],
+                          'coordinate':record['coordinate'],'epoch':record['epoch'],'window':record['window']}
+                require(registry[transfer['source_id']]['payload'].get(transfer['payload_key'])==expected,
+                        'condition transfer differs from trusted scope')
+        materiality=item['materiality'];require(isinstance(materiality,dict),'typed materiality assessment')
+        if materiality.get('kind')=='bounded_below_tolerance':
+            require(set(materiality)=={'kind','bound','tolerance','unit','source_id','payload_key'} and
+                    materiality['unit']==record['unit'] and materiality['source_id'] in ids,
+                    'materiality bound/tolerance evidence and common output unit')
+            bound,tolerance=exact(materiality['bound']),exact(materiality['tolerance'])
+            require(0<=bound<tolerance,'materiality requires nonnegative bound below positive tolerance')
+            expected={k:materiality[k] for k in ('bound','tolerance','unit')}
+            expected.update(influence_id=identity,coordinate=record['coordinate'],epoch=record['epoch'],window=record['window'])
+            require(registry[materiality['source_id']]['payload'].get(materiality['payload_key'])==expected,
+                    'materiality bound differs from trusted scope')
+            bounded.append(identity)
+        else:
+            require(materiality.get('kind') in ('retained','unresolved') and
+                    set(materiality)=={'kind','reason'} and materiality['reason'],'materiality needs a bound or explicit unresolved/retained reason')
+            if materiality['kind']=='unresolved':unresolved.append(identity)
+    interpretation=('calibration_anchor_check' if role=='calibration_anchor' else
+                    'reference_dependent_comparison' if shared or role=='reference_dependent_evaluation' else
+                    'comparison_with_independence_unestablished')
+    residual=values['prediction']-values['comparison']
+    return {'status':'consistent_declared_comparison_metadata','assessment_sha256':m.digest(declaration),
+            'residual':str(residual),'unit':record['unit'],'interpretation':interpretation,
+            'anchor_equality':residual==0 if role=='calibration_anchor' else None,
+            'shared_source_payload_sha256':shared,'correction_ownership':ownership,
+            'unresolved_influences':sorted(set(unresolved)),'bounded_influences':bounded,
+            'reflection_to_observation_map_status':'unknown',
+            'corrections_applied_by_assessment':False,'finite_distribution_inferred':False,
+            'independent_physical_validation':False,'complete_physical_uncertainty':deepcopy(UNKNOWN)}
+
+
+def comparison_fixture():
+    """Declared fixture for comparison metadata, not an atomic measurement."""
+    source=m.source('fixture:comparison-values','calibration',{'comparison_quantities':{
+        'prediction':{'kind':'oscillator_phase_advance','unit':'Hz','value':'101'},
+        'comparison':{'kind':'oscillator_phase_advance','unit':'Hz','value':'100'}}})
+    record={'id':'fixture-comparison','source_id':'fixture:comparison-assessment','sources':[source],
+            'measurand':'declared observer frequency','kind':'oscillator_phase_advance','unit':'Hz',
+            'coordinate':'fixture-cut','epoch':'fixture-origin','window':[0,12],
+            'reflection_duration':{'kind':'declared_separate','coordinate':'directional-reflection-duration',
+                'value':'8','unit':'duration-count','observation_map':{
+                    'kind':'unknown','reason':'No duration-to-observation map supplied'}},
+            'prediction':{'value':'101','source_id':source['id'],'quantity_id':'prediction','dependency_ids':[]},
+            'comparison':{'value':'100','source_id':source['id'],'quantity_id':'comparison','dependency_ids':[]},
+            'reference_role':'reference_dependent_evaluation','influences':[{
+                'id':'internal-field','stage':'setup','mechanism':'declared residual field response',
+                'source_ids':[source['id']],'correction':{'kind':'included_in_input','value':'-2','unit':'Hz'},
+                'residual_uncertainty':{'kind':'unknown','reason':'Residual field uncertainty not supplied'},
+                'evaluation_method':'unknown','conditions':{'kind':'specified',
+                    'input_location':'internal_apparatus','effect_location':'internal_apparatus',
+                    'transfer':{'kind':'not_needed'}},
+                'materiality':{'kind':'retained','reason':'Effect retained with unresolved uncertainty'}}]}
+    declaration={k:deepcopy(v) for k,v in record.items() if k not in ('source_id','sources')}
+    bound=m.source(record['source_id'],'model',{'comparison_assessment':declaration})
+    record['sources'].append(bound)
+    return record,{s['id']:s for s in record['sources']}
+
+
 def phase_fixture():
     source=m.source('fixture:phase','model',{'scope':'exact declared phase endpoints; no atomic experiment'})
     def observation(identity,winding,start,end):
@@ -527,6 +712,7 @@ def build_report():
         'hydrogen':{key:reduce_hydrogen(hydrogen,key) for key in ('table_iv','table_vi','published_mean')},
         'cesium':{key:reduce_cesium(cesium,key) for key in ('August2013','typical_Table1')},
         'shared_input':validate_error_dependencies(finite_dependency_fixture()),'ensemble':ensemble_fixtures(),
+        'comparison_assessment':assess_comparison(*comparison_fixture()),
         'transport':validate_transport_ledger({'window':[0,5],'packets':[
             {'id':'p0','emitted':-1,'arrived':2},{'id':'p1','emitted':3,'arrived':None}],
             'pending_start':1,'pending_end':1}),

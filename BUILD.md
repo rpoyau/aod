@@ -113,3 +113,10 @@ changing that interface, together with the inherited scientific and consumer
 checks. Phase fixtures, historical input reductions and source-reported
 uncertainties retain distinct evidence classes; their replay is not a physical
 frequency or lifetime prediction.
+
+The same companion also validates the additive comparison assessment. Run
+`tests/test_m3_comparison.py` in both interpreter modes when changing its
+influence, interval, environment or reference-dependency checks. The existing
+observation interface and historical source profiles remain valid. Downstream
+consumers pinned to an earlier producer identity require an explicit source
+rebind before their strict integration command can accept this candidate.

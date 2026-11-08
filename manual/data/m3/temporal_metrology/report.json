@@ -190,6 +190,32 @@
     "physical_prepared_state_assignment": "missing_premise",
     "printed_input_reductions": "supported"
   },
+  "comparison_assessment": {
+    "anchor_equality": null,
+    "assessment_sha256": "4789668126bb902df531003902ada8a1d9920d3a7671c8c5b4de0372a9bba938",
+    "bounded_influences": [],
+    "complete_physical_uncertainty": {
+      "kind": "unknown",
+      "reason": "Complete physical observation/model uncertainty not established"
+    },
+    "correction_ownership": {
+      "internal-field": "included_in_input"
+    },
+    "corrections_applied_by_assessment": false,
+    "finite_distribution_inferred": false,
+    "independent_physical_validation": false,
+    "interpretation": "reference_dependent_comparison",
+    "reflection_to_observation_map_status": "unknown",
+    "residual": "1",
+    "shared_source_payload_sha256": [
+      "50f49d5847bbe71a7786f7be91403dc23c0a31dd27afe6aced32e6421f95229b"
+    ],
+    "status": "consistent_declared_comparison_metadata",
+    "unit": "Hz",
+    "unresolved_influences": [
+      "internal-field"
+    ]
+  },
   "ensemble": {
     "atomic_transition_model": false,
     "correlated_window_mean_variance": "1/4",
@@ -457,8 +483,8 @@
     }
   },
   "inputs_sha256": {
-    "companion_code": "72f032ddf0ea513663558bcbac3071cb0997f32869a8094845ed563eb3bdd0e7",
-    "contract": "c6aeadc56055156ad825fc73527778de4ab550c8b8c02e38254258f19eeb8241",
+    "companion_code": "7ac8d65ca3280a0016d10f0a9609e42c2a20dc4ed6e80647acd1da2e8b72fcfd",
+    "contract": "6e891f30f9e0fb114fdec99a82bd85ce5d65c3f5e2fbc066cb2fcf386e74caca",
     "data/cesium/notes.md": "bbc24fe904dc150251a5c0e980d6803d6bf8e3bf76cded5e16c34684491e59a4",
     "data/cesium/protocol.json": "0de1e3b3dd57eafd5fa0cfd590e32dcc92ace51c140e3127cd68079e4effa34d",
     "data/exact_fixtures.json": "27d0f802b8fdd445624211aa334d33b6600f812f2d4547680cefa142dcbbff87",

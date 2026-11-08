@@ -166,6 +166,7 @@ References are synchronized from `refs.bib` and `manual/refs.bib`.
 - ATLAS Collaboration. ATLAS measures Higgs boson mass with unprecedented precision. ATLAS briefing, https://atlas.cern/Updates/Briefing/Run2-Higgs-Mass, 2023.
 - Hellwig, H., Vessot, R. F. C., Levine, M. W., Zitzewitz, P. W., Allan, D. W., and Glaze, D. J. (1970). Measurement of the Unperturbed Hydrogen Hyperfine Transition Frequency. IEEE Transactions on Instrumentation and Measurement IM-19(4), 200–209. https://tf.nist.gov/general/pdf/13.pdf.
 - Heavner, T. P., et al. (2014). First accuracy evaluation of NIST-F2. Metrologia 51(3), 174–182. https://doi.org/10.1088/0026-1394/51/3/174.
+- Taylor, B. N., and Kuyatt, C. E. (1994). Guidelines for Evaluating and Expressing the Uncertainty of NIST Measurement Results. NIST Technical Note 1297. https://www.nist.gov/pml/nist-technical-note-1297.
 
 
 ## Version

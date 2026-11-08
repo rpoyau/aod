@@ -978,7 +978,7 @@
     "tests/test_title_and_table_layout.py": "dedb37c2aee7aeaa664958b4233b9c0dd7a381b992f64c723d0d86d6379b1097",
     "tests/test_yro_tritrioseptyro.py": "deb75157001900f0ec00826bf07ebae4cc6653b6b41d56adc30fcaaa2a658215",
     "tests/test_zenodo_assets_metadata.py": "fb753146869f7f9a6cf806dcf998b6646384754256f60606dd5ebf236c5f3c6b",
-    "tests/test_zenodo_metadata.py": "0776976b528a474ed4b156dc82ccef3c21b86e1474dd1cb0101fb86892017bf1",
+    "tests/test_zenodo_metadata.py": "c4025c34bdf213a38c7df87e946f6c58e8fbfccf69090143729d7767ce5c7c1b",
     "figures_jpg/field_dynamics_layered_main.png": "d7b6118b8f4a0e018336da23f596b70653eeb5db9bb5d70c249465d0c6a0f5b9",
     "figures_jpg/cycle_disturbance_shedding_fixture.png": "cda868137826a61f74b1b22a45f55556bbcf2dd155ff2b1d35d04f747589ed04",
     "manual/scripts/generate_cycle_shedding_fixture.py": "593f5023461e0b999398d3d99c7074f4b750740d3c26cac03d8423df5ece8326",
