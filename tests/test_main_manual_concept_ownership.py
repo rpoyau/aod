@@ -34,6 +34,49 @@ def test_reviewed_ownership_preserves_formulas_and_operation_bindings():
     assert 'eq:action-return-retention' not in by_id['R04-NEW-027']['manual_model_equations']
 
 
+def test_inherited_worked_equations_have_one_complete_manual_owner():
+    record = json.loads((ROOT/'contracts/scientific/OWNERSHIP_AND_FIXTURES.json').read_text())
+    owners = {binding['label']: binding for binding in record['anchor_owners']}
+    main, manual = a.equations(ROOT), a.equations(ROOT, 'manual')
+    for label in ('eq:sadar-rational-response', 'eq:double-colon-parse-example',
+                  'app:rd:eq:three-four-rd'):
+        assert owners[label]['surface'] == 'manual'
+        assert owners[label]['equation'] is True
+        assert label in manual and label not in main
+    # Moving examples must not reclassify the symbolic constructions they use.
+    for label in ('eq:causal-update', 'eq:fractal-tesseract-cycle-range',
+                  'eq:beat-count', 'app:rd:eq:path-support',
+                  'eq:single-hinge-symmetric-fixture'):
+        assert label in main and label not in manual
+
+
+@pytest.mark.parametrize('label,mutation,reason', [
+    ('eq:sadar-rational-response', 'label-only', 'owned mathematical body absent'),
+    ('eq:double-colon-parse-example', 'hidden', 'inactive or wrong typed owner'),
+    ('app:rd:eq:three-four-rd', 'altered', 'owned mathematical statement changed'),
+    ('eq:sadar-rational-response', 'duplicate', 'duplicate cross-document active owner'),
+])
+def test_relocated_inherited_examples_cannot_leave_empty_or_competing_owners(
+        tmp_path, label, mutation, reason):
+    root = copy_source(tmp_path)
+    path = root/a.label_map(root, 'manual')[label]['path']
+    body = a.equations(root, 'manual')[label]
+    if mutation == 'label-only':
+        replacement = r'\label{' + label + '}'
+    elif mutation == 'hidden':
+        replacement = r'\iffalse' + body + r'\fi'
+    elif mutation == 'altered':
+        replacement = body.replace('68', '69')
+        assert replacement != body
+    else:
+        replacement = body
+        main = root/'sections/06_field.tex'
+        main.write_text(main.read_text() + '\n' + body + '\n')
+    path.write_text(path.read_text().replace(body, replacement, 1))
+    with pytest.raises(ValueError, match=reason):
+        a.audit(root)
+
+
 @pytest.mark.parametrize('mutation, reason', [
     ('unincluded-model', 'Manual example family not rendered|Active scientific source anchor ownership mismatch'),
     ('label-without-body', 'canonical mathematical body absent'),

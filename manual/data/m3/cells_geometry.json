@@ -2815,6 +2815,6 @@
   },
   "physical_metric_status": "unknown; declared Euclidean and axial report models only",
   "schema": "aod-m3-cells-geometry-v1",
-  "spec_sha256": "701e895e4e85c03b35daada7d75c9a21a1cb46a8afe52e05ab125b58adb9c2ce",
+  "spec_sha256": "75fc35552c419d831d8fcd5dfe1ee1b46dffa4e862535d4b74029f3c2018c9ea",
   "status": "conditional_verification_executed"
 }

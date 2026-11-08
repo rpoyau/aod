@@ -2,7 +2,8 @@
   "schema": "aod.scientific.cell-measure.v1",
   "status": "declared_verification_model",
   "native_premise": "Q4 graph supplies vertices and H1 edges; higher faces and fillings here are explicit conditional completions",
-  "main_anchors": ["def:m3-cell-complex", "prop:m3-cell-boundary", "prop:m3-fold-support", "prop:m3-staircase"],
+  "main_anchors": ["def:m3-cell-complex", "prop:m3-cell-boundary", "prop:m3-fold-support"],
+  "manual_anchors": ["prop:m3-staircase"],
   "cell_domain": {
     "ambient_dimension": "positive integer",
     "generators": "elementary integer axis boxes, each span [a,a] or [a,a+1]",

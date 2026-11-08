@@ -967,7 +967,7 @@
     "tests/test_manual_zenodo_wording_polish.py": "0a4f65dc3032689a1530265491d1ba101dfd60a7b76601e1f35b937ba91f95ba",
     "tests/test_native_awareness.py": "a80240a90f9e955f12993b2ed46962193cecfbdda2356eef91e13414f07a4ae3",
     "tests/test_native_closure_wave.py": "1bcd170745b2de5e01baebf2fa2b8e1f383b5c9729d7e65ffadee15e9aa68b10",
-    "tests/test_release_naming_hygiene.py": "e47c8d543c06813f2cb7f56b0a0c41d249b36c134c3fabf9c67befd178cb4b73",
+    "tests/test_release_naming_hygiene.py": "b3f565d494eafbf06b7acad323035d0edf149be65a3ccd98d013ac25b8f2168c",
     "tests/test_release_primary_artifact.py": "1d2ffc01c01a7271d82c432f28efe72e91af45368de2d4ab516807376595e5d0",
     "tests/test_sadar_pressure_targets.py": "8b4f4f7b8ffcc3835167e71c26770d6282438a376800acee51a4d095b15d2e79",
     "tests/test_sadar_rcd_pressure.py": "2ecbfb332f624a2c4c59a18e297e3b4e9cadee6481a801ec7021f08eda1e3573",

@@ -25,16 +25,37 @@ in coordinate units \(u\), literal enumeration gives
 These are the four-volume \(a^4\) and boundary three-measure \(8a^3\).
 
 \paragraph{Circle comparison.}
+\label{prop:m3-staircase}
+Use the full-turn constant \(\tau=2\pi\): a Euclidean circle has
+circumference \(\tau r\) and disk area \((\tau/2)r^2\).
+A monotone axial quarter path with coordinate displacements \(r,r\),
+\(r>0\), has length \(2r\) when its length is the sum of axial displacements.
+Four quarters therefore have length \(8r\) at every subdivision, retaining
+the discrepancy \((8-\tau)r\). Increasing numerical precision does not
+change this axial length.
+
 The fixed comparison object is the unit disk \(x^2+y^2\leq1\).
 At resolution \(n\), square cells have side \(1/n\).
 The outer staircase includes cells whose minimum squared corner radius is
 strictly below one. The inner staircase includes cells whose maximum squared
 corner radius is at most one. Integer inequalities select both supports before
-any evaluation of \(\pi\). An independent quarter-column calculation uses
-integer square roots. The radius report is the common maximum absolute
+any evaluation of \(\tau\). The radius report is the common maximum absolute
 vertex coordinate on the two axes.
-\mainequation{main:eq:m3-disk-enclosure} supplies the inclusion bound
-\(A_n^-\leq\pi\leq A_n^+\) and \(A_n^+-A_n^-\leq8/n\),
+
+An independent quarter-column calculation defines upper and lower
+rectangle heights
+\(u_i=\lceil\sqrt{n^2-i^2}\rceil\) and
+\(\ell_i=\lfloor\sqrt{n^2-(i+1)^2}\rfloor\), \(0\le i<n\).
+Monotonicity of the circle graph encloses its area between the two rectangle
+sums. Writing each ceiling as its floor plus a number in \([0,1]\), the
+floor differences telescope to \(n\). Consequently
+\begin{equation}
+ A_n^-\le A_{\mathrm{disk}}\le A_n^+,\qquad
+ A_n^+-A_n^-=\frac{4}{n^2}\sum_{i=0}^{n-1}(u_i-\ell_i)
+ \le \frac{8}{n}.
+ \label{eq:m3-disk-enclosure}
+\end{equation}
+Thus \(A_n^-\leq\tau/2\leq A_n^+\),
 while the exposed axial boundary has length \(C_n=8\) at every level.
 
 \begin{center}
@@ -54,13 +75,14 @@ while the exposed axial boundary has length \(C_n=8\) at every level.
 Area and the last column use \(u^2\), length uses \(u\), and \(r_n=1u\).
 The area enclosure narrows while the axial perimeter stays fixed.
 Rational alternating-series enclosures for
-\(16\arctan(1/5)-4\arctan(1/239)\), with 4, 8 and 16 terms per series,
+\(\tau/2=16\arctan(1/5)-4\arctan(1/239)\), with 4, 8 and 16 terms per series,
 separately bound numerical reference error. Their lower bound for
-\(C_n-2\pi r_n\) remains positive.
+\(C_n-\tau r_n\) remains positive.
 The shared-coefficient controls \(C=2qr\), \(A=qr^2\), with
 \(q\in\{2,3,355/113,7/2\}\), all give \(Cr-2A=0\).
 Each fails comparison with the independently computed finite measures.
-Thus that zero residual cannot identify a common coefficient.
+The identity holds for every \(q\), so that zero residual cannot identify
+a common coefficient.
 
 \paragraph{Fold and projection.}
 \mainequation{main:eq:m3-chain-map} is instantiated by two
@@ -70,6 +92,7 @@ boundary; the oriented top image is zero. The input occupied area remains
 \(2u^2\) and the image support has area \(1u^2\). Every source cell retains
 its inner scope, identity, construction lineage and outer image. Distinct
 projected event identities cannot be merged to certify native closure.
+Retaining both occurrences on the image gives multiplicity two.
 For a two-by-one rectangle with axis weights \((2,1)\), the boundary measure
 is \(10u\). Swapping only its coordinates gives \(8u\); swapping the metric
 with the coordinates restores \(10u\).
@@ -79,7 +102,10 @@ The contract is \texttt{contracts/scientific/CELL\_MEASURE\_SPEC.json}.
 The command
 \texttt{python3} \path{manual/scripts/aod_cell_measures.py} \texttt{--check-data}
 reproduces \path{manual/data/m3/cells_geometry.json} from the declared
-construction. It executes mutations of incidence, fold orientation, integer
+construction. Reversing one face incidence while retaining its endpoint
+incidences can make \(\partial^2c\ne0\). Reversing a folded face without
+its induced edge map can violate \mainequation{main:eq:m3-chain-map}.
+The implementation executes mutations of incidence, fold orientation, integer
 chain coefficients, duplicate
 occupancy, dimension, native metric promotion, projection reconstruction,
 projected closure and refinement inputs. The companion tests also mutate face

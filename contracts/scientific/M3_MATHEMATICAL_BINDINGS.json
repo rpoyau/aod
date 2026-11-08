@@ -2,7 +2,8 @@
   "schema": "aod.scientific.m3-mathematics.v1",
   "scope": "Conditional finite cell, mapping and uncertainty mathematics; no physical metric or atomic observation law inferred",
   "sources": {
-    "sections/07_cell_measures_mappings.tex": "c3cb4e5a8e8c435e741bd040b84674c7786ecb47b6852bbe8198c4e8674eae22"
+    "sections/07_cell_measures_mappings.tex": "759a6a8cae5f02bd1ddaf6c28057dbd7c4e87440ef49a0a5559e75f2b137c2e5",
+    "manual/sections/01_m3_cells.tex": "dbd526dd84b3fd19b17fe759c28a92f3e5c4a95de006969420f4713a061a8c3c"
   },
   "equations": {
     "eq:m3-support-measure": {
@@ -18,7 +19,8 @@
       "formula": "\\begin{equation}B_d^LF_d=F_{d-1}B_d^K.\\end{equation}"
     },
     "eq:m3-disk-enclosure": {
-      "path": "sections/07_cell_measures_mappings.tex",
+      "surface": "manual",
+      "path": "manual/sections/01_m3_cells.tex",
       "formula": "\\begin{equation}A_n^-\\leA_{\\mathrm{disk}}\\leA_n^+,\\qquadA_n^+-A_n^-=\\frac{4}{n^2}\\sum_{i=0}^{n-1}(u_i-\\ell_i)\\le\\frac{8}{n}.\\end{equation}"
     },
     "eq:m3-composed-bound": {

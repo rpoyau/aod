@@ -31,6 +31,7 @@ Affine injectivity is checked by exact matrix rank.
 Unproved nonlinear injectivity remains unknown.
 
 \paragraph{Joint laws and linearized diagnostics.}
+The probabilities in these finite examples are declared model inputs.
 For each stated finite joint law the implementation enumerates all atoms and
 computes the exact mean and variance of
 \mainequation{main:eq:m3-finite-law}. It also reports the distinct first-order
@@ -93,6 +94,14 @@ The successor computes exact finite-law moments; covariance alone still
 leaves nonlinear output moments unresolved.
 
 \paragraph{Legitimate cancellation and limits of moments.}
+Let \(X\) take \(-\epsilon,0,\epsilon\) with probabilities
+\(1/4,1/2,1/4\), \(\epsilon>0\). For \(h(X)=X^2\), the linearized
+variance at zero vanishes, but the exact mean and variance are
+\(\epsilon^2/2\) and \(\epsilon^4/4\). Treating the zero derivative as a
+proof of zero spread contradicts \mainequation{main:eq:m3-finite-law}.
+
+A shared offset cancels in \((a+X)-(b+X)=a-b\). Replacing it by two
+independent copies changes the joint law.
 For an affine endpoint difference with means \((7,2)\) and covariance
 \(\left(\begin{smallmatrix}4&4\\4&4\end{smallmatrix}\right)\), the mean is
 \(5\) and the exact variance is zero. The model \(x/x\) is constant on the
@@ -106,12 +115,15 @@ respectively. Input means and covariances do not determine nonlinear output
 uncertainty.
 
 \paragraph{Bounds, domains and source precision.}
+For \(g(y)=1/y\) on a positive interval with lower endpoint \(a>0\),
+\(L_g=a^{-2}\) suffices.
 The composed-bound example instantiates
 \mainequation{main:eq:m3-composed-bound}. Assume uniform bounds
 \(b_f=1/100\) and \(b_g=1/1000\), an inner image in \([1,2]\), and the
 outer reciprocal law on \([1/2,3]\). The enlarged image remains in the outer
 domain. Its Lipschitz constant is \(4\), giving the bound \(41/1000\).
-A denominator domain containing zero returns an undefined-or-unbounded status,
+As admissible intermediate values approach zero, no finite uniform bound
+follows. A denominator domain containing zero returns an undefined-or-unbounded status,
 with no finite symmetric interval. A discrete joint law can still be evaluated
 when its actual denominator support excludes zero, even if its mean lies at an
 invalid linearization point; the first-order diagnostic is then unavailable.

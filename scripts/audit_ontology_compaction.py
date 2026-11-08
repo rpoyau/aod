@@ -16,16 +16,16 @@ CONTRACT_SHA256 = {
     "TEMPORAL_METROLOGY.json": "4726ecf3667c9c54dffd2dd25dffeaacf005f55b18430ae419481240cc9b7e95",
     "TEMPORAL_OBSERVATION.json": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
     "MAP_CONTRACT.json": "8aaf2820643fcab6414264d2eae553921b58fc09300c226fdce8e0dd87a492bf",
-    "M3_MATHEMATICAL_BINDINGS.json": "7048264c2faed6ca6ea3af449bf2f07ccb447648a78bec132c99b059b52055ab",
+    "M3_MATHEMATICAL_BINDINGS.json": "daa89f9692062303c9ce02e137e956806ab7c4723acc6486cb54c1384a8a62cf",
     "ERROR_BUDGET.json": "1e57d18157a49c5a8740aa28711cc81f7039b2c02d9220770a6abdad290c94fc",
-    "CELL_MEASURE_SPEC.json": "701e895e4e85c03b35daada7d75c9a21a1cb46a8afe52e05ab125b58adb9c2ce",
+    "CELL_MEASURE_SPEC.json": "75fc35552c419d831d8fcd5dfe1ee1b46dffa4e862535d4b74029f3c2018c9ea",
     "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "a4e530314d03ff2a695a5d9f6d59f20f18ab8ae4c388a594b99fcf0996c5cf05",
-    "CANONICAL_BINDINGS.json": "5dd5aa8af7afd806592820bdf9c5f7aa33fc402afc37b234fad3ada0d5d9cf39",
+    "CANONICAL_BINDINGS.json": "447ca3eb4b7dea3ad792ff9cba5a7eddf8d3059813bafa0c9f8c5d422f7402ec",
     "FOURIER_SCOPE.md": "0bb855f5666a97a285d4e2ded98adf9cb70dc372b9039c33bcaeb43b38435328",
     "HISTORICAL_TOY_SOURCE_STATUS.csv": "dc0f1b94afc71f930929e64caef8d9f9cb49386035706aa2b79b8b9cc0de42d4",
     "METROLOGY_BOUNDARY.md": "553609db18f523faae6d2a53c3465c56ceb9034c6ba1ae3b7a6cff77fdf678af",
     "OPERATIVE_SELF_SCHEMA.json": "0fba87a85c542a5a9b74f2242724bf334ecb1a0c39886a20c9298309d3005ecd",
-    "OWNERSHIP_AND_FIXTURES.json": "b86ef3d495a0b689da77307ad8facb945dd75bd603c0485bbcd88028c31e69d8",
+    "OWNERSHIP_AND_FIXTURES.json": "ce3c870c6a5876a9a31e16d12cc5ad563c9147cac6d021fe464876ab3d33c857",
     "README.md": "eefde1d3336668f75a3d9d8f8c040a7efce0c0d97f84cda0a880e72e8cec8294",
     "ROUND_TRIP_PHASE_FACTOR_SPEC.json": "a7f7c6aea4a373655e9031515d95cc19569557ad35357665e1e56d8b81777ed5",
     "UPDATE_CAUSAL_ORDER.md": "879fe4fce9ec09b8640ca31eea28c09a3a6d2047f6d58eeafe463ece055315bd"
@@ -125,14 +125,32 @@ def audit_m3(root, maps, eqs):
     record = json.loads(_check_contract(root, 'M3_MATHEMATICAL_BINDINGS.json'))
     _require(record['schema'] == 'aod.scientific.m3-mathematics.v1',
              'unknown M3 mathematical binding schema')
-    _require(set(record['sources']) == {'sections/07_cell_measures_mappings.tex'},
+    paths = {'main': 'sections/07_cell_measures_mappings.tex',
+             'manual': 'manual/sections/01_m3_cells.tex'}
+    _require(set(record['sources']) == set(paths.values()),
              'M3 mathematical source inventory changed')
     _require(len(record['equations']) == 7, 'M3 equation inventory changed')
     for label, binding in record['equations'].items():
-        _require(maps['main'].get(label, {}).get('path') == binding['path'] and
-                 label in eqs['main'] and
-                 _formula(eqs['main'][label]) == binding['formula'],
+        # The original v1 records implicitly owned their equations in Main.
+        # An explicit surface extends that same binding to a moved example.
+        surface = binding.get('surface', 'main')
+        _require(surface in paths and binding['path'] == paths[surface] and
+                 maps[surface].get(label, {}).get('path') == binding['path'] and
+                 label not in maps['manual' if surface == 'main' else 'main'] and
+                 label in eqs[surface] and
+                 _formula(eqs[surface][label]) == binding['formula'],
                  'M3 mathematical statement or owner changed ' + label)
+    cells = json.loads(_check_contract(root, 'CELL_MEASURE_SPEC.json'))
+    _require(cells['schema'] == 'aod.scientific.cell-measure.v1',
+             'unknown cell measure specification schema')
+    for surface, path in paths.items():
+        anchors = cells.get(surface + '_anchors', [])
+        _require(isinstance(anchors, list) and all(isinstance(a, str) for a in anchors)
+                 and len(anchors) == len(set(anchors)), 'invalid cell measure anchor inventory')
+        for label in anchors:
+            _require(maps[surface].get(label, {}).get('path') == path and
+                     label not in maps['manual' if surface == 'main' else 'main'],
+                     'cell measure anchor owner changed ' + label)
     for path, digest in record['sources'].items():
         _require(hashlib.sha256((root / path).read_bytes()).hexdigest() == digest,
                  'M3 mathematical source changed ' + path)

@@ -31,4 +31,4 @@ The Table V OCR regression is exploratory: eleven accepted rows give an intercep
 
 For cavity settings \(a,b\) and beam intensities \(1,2\), the exact interpolation operator sets \(d_a=f_{a1}-f_{a2}\), \(d_b=f_{b1}-f_{b2}\), \(t=-d_a/(d_b-d_a)\) and \(f_{\rm tuned}=(1-t)f_{a1}+tf_{b1}\). Algebra gives the same result on the second beam-intensity line. A unique crossing must lie within the measured bracket. Unit checks use dimensionless arithmetic fixtures, explicitly separate from experimental data.
 
-Run `python check_protocol.py` or `python -O check_protocol.py`; both use explicit checks that remain active with optimization. Outputs preserve exact integer ratios; decimal displays use Decimal rather than binary floats.
+From the repository root, run `python3 manual/scripts/aod_m3_metrology.py --check` or `python3 -O manual/scripts/aod_m3_metrology.py --check`; both use explicit checks that remain active with optimization. Outputs preserve exact integer ratios; decimal displays use Decimal rather than binary floats.

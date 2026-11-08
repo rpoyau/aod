@@ -27,6 +27,15 @@ witness. An operation-count proxy records work, not operativity.
 
 \subsubsection{Rational response and continuation}
 \paragraph{Setup.}
+The selected rational response model, with \(p_k>0\), is
+\begin{equation}
+J_{k+1}=J_k+\mathbf A_k/p_k.
+\label{eq:sadar-rational-response}
+\end{equation}
+It leaves identity and closure memory fixed unless a separate admissible
+closure transition is witnessed. The generic causal update is
+\mainequation{main:eq:causal-update}.
+
 Consider the following rational response realization on already admitted
 support, with \(p>0\), gain \(g\), available source set \(D_k\), and explicitly
 perturbative query \(q_k\):
@@ -34,7 +43,7 @@ perturbative query \(q_k\):
  J_{k+1}=J_k+\frac{A_k+q_k+g\sum_{e:\,i_e\in D_k}r_e}{p}.
  \label{eq:awareness-response}
 \end{equation}
-The term \(J_k+A_k/p\) specializes \mainequation{main:eq:sadar-rational-response};
+The term \(J_k+A_k/p\) specializes \eqref{eq:sadar-rational-response};
 \(A_k\) is a scalar attention component, separate from \(r_e\).
 Its channel construction and \(AO=-OA\) remain fixed.
 

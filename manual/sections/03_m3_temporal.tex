@@ -34,7 +34,8 @@ to corrected Cs-referenced cycle equivalents:
  \label{eq:manual-m3-cycle-bridge}
 \end{equation}
 The conversion uses the exact defining frequency; the first map requires
-its own observation and calibration evidence.
+its own observation and calibration evidence. This conversion supplies no
+universal duration for a native cut.
 Let \(a_c,a_r>0\) be stipulated cycle-equivalent gains per native return.
 Let \(f_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{Hz}\) denote the defining
 reference, without a clock realization. For the fixed window define
@@ -45,6 +46,8 @@ reference, without a clock realization. For the fixed window define
 \]
 The mapping binds both gains, the time coordinate and epoch, the complete
 input records, the defining reference and the executable mapping specification.
+The interval and average frequency use only the two window reclosure counts,
+stipulated gains and defining reference frequency.
 At \(a_c=a_r=1\), \(T=2/f_{\mathrm{Cs}}\) seconds and
 \(\bar\nu_c=3f_{\mathrm{Cs}}/2\).
 The result is a finite-window average.
@@ -69,7 +72,7 @@ The retained direct-coupling experiment calibrates on its first half and
 validates on the second. Each half contains \(32\) reference reclosures.
 With \(k_i=32/N_{i,\mathrm{cal}}\) frozen, the predicted validation count is
 \(\widehat N_{0,\mathrm{val}}=k_iN_{i,\mathrm{val}}\).
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Frozen gains and subsequent reference-count transfer.}
 \label{tab:manual-m3-anchor-transfer}
