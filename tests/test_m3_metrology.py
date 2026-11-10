@@ -215,6 +215,49 @@ def test_dependency_units_aggregates_and_unknowns_are_not_silently_dropped():
     with pytest.raises(ValueError,match='source'):a.validate_error_dependencies(r)
 
 
+@pytest.mark.parametrize('kind', ['finite_law', 'unknown'])
+@pytest.mark.parametrize('dimension,unit', [([0,0,0], '1'), ([0,1,0], 's'), ([0,-1,0], 'Hz')])
+def test_dependency_output_dimensions_preserve_exact_integer_results(kind, dimension, unit):
+    record=a.finite_dependency_fixture()
+    record['inputs']['X'].update(kind=kind, dimension=deepcopy(dimension), unit=unit)
+    record['output_dimension']=deepcopy(dimension)
+    if kind=='unknown':
+        record['support']=None
+    before=m.canonical(record)
+    result=a.validate_error_dependencies(record)
+    if kind=='finite_law':
+        assert result['output_mean']=='1' and result['output_variance']=='1'
+    else:
+        assert result['status']=='source_metadata_only' and result['output_variance'] is None
+    assert m.canonical(record)==before
+
+
+@pytest.mark.parametrize('kind', ['finite_law', 'unknown'])
+@pytest.mark.parametrize('bad,unit,reason', [
+    ([False,0,0], '1', 'output dimension'),
+    ([0,False,0], '1', 'output dimension'),
+    ([0,0,False], '1', 'output dimension'),
+    ([0,True,0], 's', 'output dimension'),
+    ((0,0,0), '1', 'output dimension'),
+    ([], '1', 'output dimension'),
+    ([0,0], '1', 'output dimension'),
+    ([0,0,0,0], '1', 'output dimension'),
+    (['0',0,0], '1', 'output dimension'),
+    (None, '1', 'output dimension'),
+    (True, '1', 'output dimension'),
+    ({'L':0,'T':0,'N':0}, '1', 'output dimension'),
+    ([0.0,0,0], '1', 'floating value forbidden'),
+])
+def test_dependency_output_dimensions_reject_malformed_types_before_both_paths(kind, bad, unit, reason):
+    record=a.finite_dependency_fixture()
+    record['inputs']['X'].update(kind=kind, unit=unit, dimension=[0,1,0] if unit=='s' else [0,0,0])
+    record['output_dimension']=deepcopy(bad)
+    if kind=='unknown':
+        record['support']=None
+    with pytest.raises(ValueError,match=reason):
+        a.validate_error_dependencies(record)
+
+
 def test_shared_covariance_singular_cancellation_and_total_variance():
     f=a.ensemble_fixtures()
     assert f['total_variance']=={'within':'1','between':'1','total':'2'}

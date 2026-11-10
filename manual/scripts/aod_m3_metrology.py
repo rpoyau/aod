@@ -406,8 +406,12 @@ def validate_error_dependencies(record):
         expected={k:item[k] for k in ('value','unit','dimension')}
         require(_same_evidence(registry[item['source_id']]['payload'].get('parameters',{}).get(item['quantity_id']),expected),
                 'parameter differs from trusted source')
+    output_dimension=record['output_dimension']
+    require(type(output_dimension) is list and len(output_dimension)==3
+            and all(type(value) is int for value in output_dimension),
+            'output dimension requires three integers excluding bool')
     dimension=m.expression_dimension(record['expression'],inputs,record['parameters'])
-    require(list(dimension)==record['output_dimension'],'output dimension mismatch')
+    require(list(dimension)==output_dimension,'output dimension mismatch')
     if any(inputs[name]['kind']!='finite_law' for name in active):
         require(record['support'] is None and record['means'] is None and record['covariance'] is None,
                 'reported/unknown inputs cannot be promoted to a fabricated finite law')
