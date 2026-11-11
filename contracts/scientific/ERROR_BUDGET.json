@@ -65,5 +65,18 @@
     "observed_sha256": "38c25ad34b5ecc0862a2a48544953553f6cbf53d59c8013ac748afba38a405dc",
     "law": "delta=-1/2,0,1/2 with probabilities 1/4,1/2,1/4; (1+delta)(1-delta)",
     "scope": "Separate recovered consumer regression, distinct from the authenticated R01 probe; no consumer modification or full consumer test rerun is claimed by this regression."
+  },
+  "external_quantity_routes": {
+    "implementation": "manual/scripts/aod_m3_metrology.py:propagate_quantities",
+    "input_schema": "aod.m3.quantity-propagation.v1",
+    "routes": [
+      "finite_joint_law",
+      "moments",
+      "bounds",
+      "metadata"
+    ],
+    "semantics": "A finite joint law gives exact output moments; complete moments give exact affine propagation or a partial nonlinear diagnostic; interval arithmetic gives an enclosure; source metadata remains metadata. Cross-output covariance retains source dependence.",
+    "budget": "Each output retains its own kind, dimension, unit, propagation scope and eight components. Unknown physical discrepancy is never supplied by exact arithmetic.",
+    "compatibility": "Legacy finite-law scalar-map budgets remain supported; quantity routes are a separately authenticated additive interface."
   }
 }

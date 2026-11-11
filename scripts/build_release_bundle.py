@@ -46,6 +46,12 @@ SOURCE_ARCHIVES = {
     "manual/data/m3/temporal_anchor/original_anchor_r02.zip",
 }
 
+# Authenticated primary inputs, distinct from generated publication PDFs.
+SOURCE_DOCUMENTS = {
+    "manual/data/m3/temporal_metrology/hydrogen/source/hellwig1970.pdf",
+    "manual/data/m3/temporal_metrology/cesium/source/heavner2014.pdf",
+}
+
 # The same source surfaces apply in a checkout and an extracted source.zip.
 # Git supplies the exact tracked paths; the fallback omits generated files.
 INCLUDE_TOP_LEVEL = [
@@ -83,7 +89,7 @@ def excluded(path: Path) -> bool:
     parts = set(path.parts)
     if parts & EXCLUDE_DIR_NAMES:
         return True
-    if path.as_posix() in SOURCE_ARCHIVES:
+    if path.as_posix() in SOURCE_ARCHIVES | SOURCE_DOCUMENTS:
         return False
     name = path.name
     if any(rx.match(name) for rx in EXCLUDE_FILE_PATTERNS):

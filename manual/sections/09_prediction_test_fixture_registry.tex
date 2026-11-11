@@ -1,4 +1,15 @@
 \section{Prediction-Test Fixture Registry}\label{manual:prediction-test-registry}
+
+\paragraph{Reading the registry.}
+Data support describes the supplied coordinates. Record completeness lists
+the supplied calculation/comparison stages; replay requires their bound
+producer and operands; physical evidence requires source uncertainty and a
+properly classified comparison. These are separate properties. Each row
+below links through its application card to the common method in
+\secref{manual:calculation-spine}; a carried map or aggregate is not promoted
+by a source-only replay.
+
+
 \aodnoteblock{Scope}{This registry records completion fields for manual fixtures and comparisons. Rows carry their data-support class, active fields, required A\(\Omega\) calculation, and audit artifact.}
 
 
@@ -50,6 +61,32 @@ Tritrioseptyro Higgs-support fixture & D0/O0 & AFC trace rows + route detector &
 \end{longtable}
 \normalsize
 
+\begin{center}\small
+\begin{tabularx}{\linewidth}{l*{2}{>{\raggedright\arraybackslash}X}}
+\toprule
+Family & Supplied stages and owner & Remaining evidence\\
+\midrule
+M1 & Exact native constructors and hostile controls,
+\secref{manual:m1-native-fixtures} & Physical acquisition/calibration when used\\
+M2 & Matched exact state, removal/restoration and passive controls,
+\secref{manual:m2-awareness-fixtures} & No empirical awareness claim; historical missing sources retained\\
+M3 & Cells, typed maps and temporal/metrology records & Per-route source, uncertainty, context and reduction obligations\\
+Exact applications & D.E.C., boundary and integer-track fixtures & Physical adapters; slit path generator and surplus route certificates where absent\\
+Rest energy/hydrogen & Exact accessors/ratios and target records & History/rate map, target/source conventions and joint uncertainty\\
+Solar & Carried O0 values and residuals & Native evaluator and source-bound observed targets\\
+SPARC & Source radial rows and replayed map scores & Proxy/model uncertainty; observation-only scores retained\\
+Tau/lensing & Carried scores and aggregate tables; staged gates & Producer/cohort/selection lineage and joint target uncertainty\\
+Neuronal/orbital/L3 & Acquisition and required-input schemas & Actual input, output, residual, uncertainty and replay records\\
+\bottomrule
+\end{tabularx}
+\end{center}
+Source identity, pre-exposure freeze or retrospective exposure, and
+input/output uncertainty belong to each application record. Missing
+information remains an explicit obligation; a support-class label does not
+complete it.
+
+
+
 \aodnoteblock{Data-support registry note}{Registry rows are read together with data-support class. A row carries active fields, an A\(\Omega\) calculation or report map, and an artifact. Residuals are scoped to the declared class.}
 
 \aodliteraturenote{Earth--Moon orbital target: NASA~\cite{nasa-moon-by-numbers};
@@ -57,7 +94,7 @@ Saturn ring/Cassini target: NASA~\cite{nasa-cassini-division};
 SPARC five-galaxy diagnostic: SPARC database and Lelli et al.~\cite{sparc-database,lelli-sparc-2016}.}
 
 \subsection{Neuronal-ring benchmark acquisition}\label{manual:registry:neuronal-benchmark-acquisition}
-This registry subsection supplies a measured acquisition declaration for a field-ring benchmark record. For a biological benchmark acquisition, declare
+This subsection is an uninstantiated acquisition schema for a field-ring benchmark; no measured dataset or completed comparison is supplied. For a biological benchmark acquisition, declare
 \[
 \mathcal S_{\mathrm{neuro}}
 =
@@ -68,15 +105,15 @@ Here
 \mathcal M\in
 \{\text{spike counts},\ \text{calcium bins},\ \text{voltage bins},\ \text{LFP bins}\}
 \]
-is the measurement mode, \(\Delta t\) is the bin width, \(\mathcal B_{\mathrm{spike}}\) is the bin extraction rule, \(\Theta_{\mathrm{stim}}\) is the gate-stimulus declaration, and \(\Omega_{\mathrm{meas}}\) is the measurement window.
+is the measurement mode, \(\Delta t\) is the bin width, \(\mathcal B_{\mathrm{spike}}\) is the bin extraction rule, \(\kappa_k\) is the declared bin observation factor, \(\Theta_{\mathrm{stim}}\) is the gate-stimulus declaration, and \(\Omega_{\mathrm{meas}}\) is the measurement window.
 The fixture comparator is
 \[
 O_k=\mathcal S_{\mathrm{neuro}}(k;\Omega_{\mathrm{meas}}).
 \]
 
 \aodnoteblock{Artifact}{\(\mathcal S_{\mathrm{neuro}}, T_k^0, C_{ab,k}^{\times}(B), T_k^\times, O_k, \Delta_k^{\mathbb Z}, \delta_{3,k}\). If \(O_k\) is continuous or averaged, write \(O_k=x_k\pm\sigma_k\) and treat the comparison as a measured acquisition value map with a decimal precision record.}
-\aodnoteblock{Completion rule}{The neuronal-ring benchmark record is complete when benchmark acquisition is declared before bin comparison, the independent gate-sum value is computed as $T^0_k=S^{(a)}_k+S^{(b)}_k$, and the cross-return row records a declared $C_{ab,k}^{\times}(B)$.}
-\aodremark{This subsection is a benchmark-acquisition record. The A\(\Omega\) calculation is the recurrent ring value; the measured acquisition declaration is supplied before comparison.}
+\aodnoteblock{Completion rule}{A completed neuronal benchmark requires bound acquisition data, input/map uncertainty, the independent gate sum $T^0_k=S^{(a)}_k+S^{(b)}_k$, computed $C_{ab,k}^{\times}(B)$ and $T_k^\times$, observed $O_k$, residuals and their joint uncertainty, with reproducible source records.}
+\aodremark{This schema specifies the recurrent-ring comparison requirements; it becomes a measured benchmark only after the actual acquisition and output stages are supplied.}
 
 
 

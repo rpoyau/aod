@@ -45,5 +45,12 @@
   "calibration_and_evaluation": "Evaluation-role sources cannot enter a frozen prediction directly or through upstream provenance. Calibration obligations follow actual operand sources, not evidence-only records. Quantified calibration components include their contributing source identities and hashes; unknown and inapplicable records carry separate reasons.",
   "temporal_evaluation": "Comparison requires the caller's original admitted temporal record and explicit gains, epoch and coordinate. Regenerate the prediction from that context and require canonical equality of the complete received artifact before using its rate. A self-computed artifact hash alone does not validate its derivation.",
   "claim_status": "Only exact arithmetic within the declared domain and unknown physical applicability are admitted by this adapter; finite arithmetic cannot set physical model discrepancy to exact.",
-  "limitations": "The validator checks typing, binding and evaluation of the restricted expression language, and affine injectivity by exact rank. Nonlinear injectivity remains unknown. Arbitrary symmetry assertions and physical calibration certificates are not established by this adapter."
+  "limitations": "The validator checks typing, binding and evaluation of the restricted expression language, and affine injectivity by exact rank. Nonlinear injectivity remains unknown. Arbitrary symmetry assertions and physical calibration certificates are not established by this adapter.",
+  "experimental_prediction": {
+    "implementation": "manual/scripts/aod_m3_experimental.py",
+    "input_schema": "aod.m3.prediction-plan.v1",
+    "binding": "An independently supplied plan binds full original context, executable versions, quantity propagation, readouts, reduction, selection, stopping, comparison criterion and exposure. Recompute the whole prediction before evaluation.",
+    "scope": "Conditional native fixture and declared uncertain observation; no new atomic dynamics or proof of chronological blindness.",
+    "compatibility": "Additive interface; existing exact scalar map schema and run_map behavior remain unchanged."
+  }
 }

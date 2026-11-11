@@ -483,16 +483,20 @@
     }
   },
   "inputs_sha256": {
-    "companion_code": "ed2eddfca4c49b3bda985c08ef9c71840e57767ad5fbec1cda08e739be15f201",
-    "contract": "4726ecf3667c9c54dffd2dd25dffeaacf005f55b18430ae419481240cc9b7e95",
+    "companion_code": "d2f53146257b1d29939587abc167f87e9e810f904660b3bfd81a5015ef6e9618",
+    "contract": "337e9900c9ec11667a3795827eb6b9059eca85efbc2d488fb77e15da7fe1be33",
     "data/cesium/notes.md": "bbc24fe904dc150251a5c0e980d6803d6bf8e3bf76cded5e16c34684491e59a4",
     "data/cesium/protocol.json": "0de1e3b3dd57eafd5fa0cfd590e32dcc92ace51c140e3127cd68079e4effa34d",
+    "data/cesium/source/heavner2014.pdf": "85482447888dc5524b7ebf3754ea4fdcde3a80d9c36ae927e5d69d9e9f980eb5",
+    "data/cesium/source/source_receipt.json": "43fec317110ec9c033a7da5b3858af15e70132fc1e6af480cbe6bc27182c9298",
     "data/exact_fixtures.json": "27d0f802b8fdd445624211aa334d33b6600f812f2d4547680cefa142dcbbff87",
     "data/hydrogen/notes.md": "a6980808cbea22bc41a10e0ab1777440625db91feaa791436abed3d489a2ea12",
     "data/hydrogen/protocol.json": "35871c597e922ce18831f004ac03e06236b424cf1547adbc15cce96ce8708940",
     "data/hydrogen/reported_uncertainty.json": "71e2bf4c2891b28f1076fcc9e2b7266943cc330be394585172ed264119a38560",
+    "data/hydrogen/source/hellwig1970.pdf": "e8bba435fbb9e6b54f41fa1d60f9c02df8e06b6a73ce8fab323afb3ea7d02dc4",
+    "data/hydrogen/source/source_receipt.json": "397f81e68f5bfa57db0cee5abbf4c2dea5dec6cbc000c99b623e0ef361750bf7",
     "generic_mapping_error_code": "77afd00aac413fbaf7b4386d40f79be318d7d813081c6db17ffce1cb6c41f480",
-    "native_temporal_code": "0927a69145bd6eae4550bd57528bbfe1f29b2e0dcff46cc1a9eeaa6c9359f004"
+    "native_temporal_code": "1cfc0ecebc1d4c5eb0b22184af171f4d60e9630a211dedbd66ae5a12df920aec"
   },
   "limits": [
     "No universal seconds per bip",
@@ -509,7 +513,7 @@
     "native_schema_version": 3,
     "original_context_sha256": "237266b357007eddfac9f8a967f84697889b02e48eb619367e225bed06d65965",
     "physical_correspondence": "unestablished",
-    "prediction_sha256": "581f54aa31a82ccfcf2dafcb1d43c140b5a7a2f70f752c3355eff867135407b3"
+    "prediction_sha256": "c2ea9c534ec69acf49c6033d0f1bdfb227eece4247adf1d93296ef57b5656b18"
   },
   "phase": {
     "compared_advance_turns": "7/2",
@@ -533,6 +537,217 @@
       10,
       22
     ]
+  },
+  "primary_sources": {
+    "cesium": {
+      "bytes": 661185,
+      "checked_pages": [
+        176,
+        179,
+        181
+      ],
+      "doi": "10.1088/0026-1394/51/3/174",
+      "file": "heavner2014.pdf",
+      "method": "Visual inspection of page renderings against the archived PDF; signs, exponents, table entries, footnote and campaign distinction checked against the retained protocol.",
+      "schema": "aod.m3.primary-source-receipt.v1",
+      "scope": "Authentication of published apparatus and uncertainty transcriptions. Not raw-campaign replay, a reconstructed August component budget, a finite probability law, or an AOD clock prediction. Historical protocol bytes remain unchanged.",
+      "sha256": "85482447888dc5524b7ebf3754ea4fdcde3a80d9c36ae927e5d69d9e9f980eb5",
+      "source_id": "Heavner_et_al_2014_NIST_F2",
+      "transcription": {
+        "p176_section2_1": {
+          "C_field_nT": "250",
+          "Ramsey_interval_seconds": "approximately 0.6",
+          "atomic_temperature_microK": "0.46",
+          "cloud_FWHM_cm": "approximately 3",
+          "molasses_load_seconds": "approximately 0.2"
+        },
+        "p176_section3_1": {
+          "combined_gravity_and_second_order_Doppler": "179.87e-15",
+          "quantity_kind": "fractional frequency correction",
+          "scope": "Experimental reduction; no AOD dynamical premise adopted",
+          "standard_uncertainty": "0.03e-15"
+        },
+        "p176_sections2_3_2_4": {
+          "nominal_synthesis_units": "100 MHz; 9.200 GHz; 7.368 MHz; 9.193 GHz",
+          "reference_role": "Hydrogen-maser reference locks quartz and supplies the evaluation flywheel",
+          "rounded_nominal_values_are_exact_carrier": false
+        },
+        "p179_Table1": {
+          "entries": [
+            {
+              "effect": "gravity_and_second_order_Doppler",
+              "magnitude": "179.87",
+              "standard_uncertainty": "0.03"
+            },
+            {
+              "effect": "second_order_Zeeman_typical",
+              "magnitude": "286.06",
+              "standard_uncertainty": "0.02"
+            },
+            {
+              "effect": "blackbody_radiation",
+              "magnitude": "-0.087",
+              "standard_uncertainty": "0.005"
+            },
+            {
+              "effect": "spin_exchange_low_density",
+              "included_in_TypeB_total": false,
+              "magnitude": "-0.71",
+              "role": "informational; statistical component in TypeA",
+              "standard_uncertainty": "0.24"
+            },
+            {
+              "effect": "spin_exchange_nonlinearity",
+              "magnitude": "0",
+              "standard_uncertainty": "0.02"
+            },
+            {
+              "effect": "distributed_cavity_phase_m0",
+              "magnitude_bound": "<0.01",
+              "standard_uncertainty_bound": "<0.01"
+            },
+            {
+              "effect": "distributed_cavity_phase_m1",
+              "magnitude": "0",
+              "standard_uncertainty": "0.028"
+            },
+            {
+              "effect": "distributed_cavity_phase_m2",
+              "magnitude": "0",
+              "standard_uncertainty": "0.02"
+            },
+            {
+              "effect": "microwave_power",
+              "magnitude_bound": "<0.01",
+              "standard_uncertainty": "0.08"
+            },
+            {
+              "effect": "microwave_spurious",
+              "magnitude": "0",
+              "standard_uncertainty": "0.05"
+            },
+            {
+              "effect": "cavity_pulling",
+              "magnitude": "0.015",
+              "standard_uncertainty": "0.015"
+            },
+            {
+              "effect": "Rabi_pulling",
+              "magnitude_bound": "<0.01",
+              "standard_uncertainty_bound": "<0.01"
+            },
+            {
+              "effect": "Ramsey_pulling",
+              "magnitude_bound": "<0.01",
+              "standard_uncertainty_bound": "<0.01"
+            },
+            {
+              "effect": "Majorana_transitions",
+              "magnitude_bound": "<0.01",
+              "standard_uncertainty_bound": "<0.01"
+            },
+            {
+              "effect": "fluorescence_light_shift",
+              "magnitude_bound": "<0.01",
+              "standard_uncertainty_bound": "<0.01"
+            },
+            {
+              "effect": "dc_Stark",
+              "magnitude_bound": "<0.01",
+              "standard_uncertainty_bound": "<0.01"
+            },
+            {
+              "effect": "background_gas_collisions",
+              "magnitude_bound": "<0.01",
+              "standard_uncertainty_bound": "<0.01"
+            },
+            {
+              "effect": "Bloch_Siegert",
+              "magnitude_bound": "<0.01",
+              "standard_uncertainty_bound": "<0.01"
+            },
+            {
+              "effect": "integrator_offset",
+              "magnitude_bound": "<0.01",
+              "standard_uncertainty_bound": "<0.01"
+            }
+          ],
+          "footnote_meaning": "Low-density spin-exchange row is informational and excluded from the displayed total",
+          "low_density_spin_exchange_included_in_TypeB_total": false,
+          "recomputed_total": false,
+          "scope": "Typical thirty-day evaluation; Zeeman and density corrections vary with evaluation",
+          "total_TypeB_standard_uncertainty": "0.11",
+          "units": "fractional frequency times 1e-15"
+        },
+        "p181_section5": {
+          "TypeA_standard_uncertainty": "0.44e-15",
+          "TypeB_standard_uncertainty": "0.16e-15",
+          "campaign": "August 2013",
+          "difference_from_Table1": "Microwave amplitude effects were re-evaluated after the synthesizer was modified",
+          "spin_exchange_statistical_uncertainty_included_in_TypeA": true
+        }
+      },
+      "url": "https://tf.nist.gov/general/pdf/2704.pdf"
+    },
+    "hydrogen": {
+      "bytes": 1716323,
+      "checked_pages": [
+        200,
+        203,
+        205,
+        207
+      ],
+      "file": "hellwig1970.pdf",
+      "method": "Visual inspection of page renderings against the archived PDF; table arithmetic independently reproduced by reduce_hydrogen.",
+      "schema": "aod.m3.primary-source-receipt.v1",
+      "scope": "Printed-input reproduction and transcription authentication, not raw experiment replay or complete covariance. Historical protocol bytes are retained unchanged.",
+      "sha256": "e8bba435fbb9e6b54f41fa1d60f9c02df8e06b6a73ce8fab323afb3ea7d02dc4",
+      "source_id": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+      "transcription": {
+        "p200_abstract": {
+          "mean_frequency_hz": "1420405751.768",
+          "one_sigma_uncertainty_hz": "0.002",
+          "shared_reference": "NBS-III; footnote explicitly restricts independence"
+        },
+        "p203_equation4": {
+          "C1_hz_per_K": "0.00019557",
+          "condition": "Thermal equilibrium with storage-bulb walls; thermalization remains a stated experimental assumption"
+        },
+        "p205_TableIV": {
+          "corrections_hz": [
+            "405794.4200",
+            "-0.1193",
+            "-42.6115",
+            "-0.0015",
+            "0.0202",
+            "0.0627",
+            "-0.0015"
+          ],
+          "frequency_hz": "1420405751.7691",
+          "quoted_uncertainty_hz": "0.0024"
+        },
+        "p207_TableVI": {
+          "corrections_hz": [
+            "405795.0000",
+            "-0.6798",
+            "-42.6115",
+            "0.0581",
+            "-0.0001"
+          ],
+          "frequency_hz": "1420405751.7667",
+          "included_in_corrected_beat": [
+            "NP3_reference_offset",
+            "wall"
+          ],
+          "quoted_uncertainty_hz": "0.0018"
+        },
+        "p207_conclusion": {
+          "mean_frequency_hz": "1420405751.768",
+          "quoted_uncertainty_hz": "0.002"
+        }
+      },
+      "url": "https://tf.nist.gov/general/pdf/13.pdf"
+    }
   },
   "schema": "aod.m3.temporal-metrology-report.v1",
   "shared_input": {

@@ -4,16 +4,16 @@
     "combined_uncertainty": null,
     "diagnostic_residual_hz": "1546067737904/125",
     "evaluation_sha256": "56015b21c89a1a015f22a11c7fffcba2721e327f993f3b2feade709007d01580",
-    "prediction_sha256": "581f54aa31a82ccfcf2dafcb1d43c140b5a7a2f70f752c3355eff867135407b3",
+    "prediction_sha256": "c2ea9c534ec69acf49c6033d0f1bdfb227eece4247adf1d93296ef57b5656b18",
     "status": "diagnostic_only_missing_atomic_law_and_cross_covariance"
   },
-  "context_contract_sha256": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
+  "context_contract_sha256": "e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13",
   "countermodel_scope": "hypothetical species assignment only; no member selected or fitted",
   "evaluation_only_mutation": {
     "combined_uncertainty": null,
     "diagnostic_residual_hz": "1546067737779/125",
     "evaluation_sha256": "07a414b651eac63b1e1bc5ffd9dd6aafc325d17828e845c8f79d0a195c58811a",
-    "prediction_sha256": "581f54aa31a82ccfcf2dafcb1d43c140b5a7a2f70f752c3355eff867135407b3",
+    "prediction_sha256": "c2ea9c534ec69acf49c6033d0f1bdfb227eece4247adf1d93296ef57b5656b18",
     "status": "diagnostic_only_missing_atomic_law_and_cross_covariance"
   },
   "gain_countermodels": [
@@ -640,7 +640,7 @@
       "native_scope": "m3:comparison",
       "observation_context": {
         "applicability": "declared_domain_only_physical_unknown",
-        "contract_sha256": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
+        "contract_sha256": "e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13",
         "counting_convention": "(lo,hi]; initial admitted closure anchors lineage; only later completed returns count",
         "coupling_history_sha256": "991a635beff06ba21d011c154d04e399020029b9def1a45acd204e8a918c706f",
         "directed_graph": [
@@ -717,7 +717,7 @@
             "scope": "m3:comparison"
           }
         ],
-        "predictive_model_sha256": "9d2ea708e8ce9b6e33a69ed8505afac2cad88fb58b62ee0cb37c7732b8a875ad",
+        "predictive_model_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
         "preparation": {
           "id": "m3:declared-recurrence-preparation",
           "parameters": {
@@ -766,24 +766,24 @@
     "epoch_seconds": "0",
     "exposure": "known_H_previously_exposed; no_blind_claim",
     "mapped": {
-      "input_sha256": "dd8091efb022a8cdf020c548e1e1515c3d24272deeecf8fdb5a0b6c5e1f8f323",
+      "input_sha256": "d79ac10765e97b01acce4860931953df8741bb68eb771fddaee6b16af76bc135",
       "map_id": "map:m3:conditional-cycle-time",
       "operand_sources": {
         "average_rate_hz": {
-          "native:temporal": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684",
-          "observation:declared": "535dfd15efbd1416d34149255e79b74a1fa93329665c118a1f5f38294acd10cf",
+          "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2",
+          "observation:declared": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345",
           "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
         },
         "elapsed_seconds": {
-          "native:temporal": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684",
-          "observation:declared": "535dfd15efbd1416d34149255e79b74a1fa93329665c118a1f5f38294acd10cf",
+          "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2",
+          "observation:declared": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345",
           "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
         }
       },
       "outputs": {
         "average_rate_hz": {
           "origin": {
-            "execution_sha256": "0716865728bb65d70ad0a2bd9bca83540f05b1270ca481dc7def7b9c8b3f8a88",
+            "execution_sha256": "e385348eca53ff09ec96dc0c0689a33baa70132b04cfc7d392d560dc9ab4e8cf",
             "inputs": {
               "compared": {
                 "origin": {
@@ -808,9 +808,9 @@
                   "unit": "count"
                 },
                 "provenance": {
-                  "native:temporal": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684"
+                  "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
                 },
-                "sha256": "91ae354cd5f4807e0ca0d4ffe366dc4ac41f01341162621ec638fb448468f80d",
+                "sha256": "c25d2252a20781cdedfd23b01eb9c920753f7fcebf292d92c140e82910fdac9c",
                 "value": "3"
               },
               "reference": {
@@ -836,9 +836,9 @@
                   "unit": "count"
                 },
                 "provenance": {
-                  "native:temporal": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684"
+                  "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
                 },
-                "sha256": "90310c8bd0f2d90de2ce10d4e480be5f6f1200857027d992f459485b4760bced",
+                "sha256": "8efee5947d20a6538791aea2862286471cc111390244046db44215a6884e43c2",
                 "value": "2"
               }
             },
@@ -1737,7 +1737,7 @@
                       "native_scope": "m3:comparison",
                       "observation_context": {
                         "applicability": "declared_domain_only_physical_unknown",
-                        "contract_sha256": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
+                        "contract_sha256": "e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13",
                         "counting_convention": "(lo,hi]; initial admitted closure anchors lineage; only later completed returns count",
                         "coupling_history_sha256": "991a635beff06ba21d011c154d04e399020029b9def1a45acd204e8a918c706f",
                         "directed_graph": [
@@ -1814,7 +1814,7 @@
                             "scope": "m3:comparison"
                           }
                         ],
-                        "predictive_model_sha256": "9d2ea708e8ce9b6e33a69ed8505afac2cad88fb58b62ee0cb37c7732b8a875ad",
+                        "predictive_model_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
                         "preparation": {
                           "id": "m3:declared-recurrence-preparation",
                           "parameters": {
@@ -1860,13 +1860,13 @@
                     "reference": "2"
                   },
                   "role": "model",
-                  "sha256": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684"
+                  "sha256": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
                 },
                 {
                   "id": "observation:declared",
                   "payload": {
                     "compared_gain": "1",
-                    "context_contract_sha256": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
+                    "context_contract_sha256": "e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13",
                     "coordinate": "stipulated:local",
                     "epoch_seconds": "0",
                     "frozen_law": {
@@ -1922,7 +1922,7 @@
                     ]
                   },
                   "role": "model",
-                  "sha256": "535dfd15efbd1416d34149255e79b74a1fa93329665c118a1f5f38294acd10cf"
+                  "sha256": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345"
                 },
                 {
                   "id": "si:second",
@@ -1935,7 +1935,7 @@
                   "sha256": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
                 }
               ],
-              "spec_sha256": "a8d669918142de28535e087d4fa3fb317215c664d5f345de00068a4a4d97ddb8",
+              "spec_sha256": "6a7b60470b3ef15cfd435dda31881883147ef130292d6de8ac96cbf97ffd24d9",
               "status": {
                 "arithmetic": "exact within declared domain",
                 "physical_applicability": "unknown"
@@ -1965,16 +1965,16 @@
             "unit": "Hz"
           },
           "provenance": {
-            "native:temporal": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684",
-            "observation:declared": "535dfd15efbd1416d34149255e79b74a1fa93329665c118a1f5f38294acd10cf",
+            "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2",
+            "observation:declared": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345",
             "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
           },
-          "sha256": "de86f1e630e23cef550b7f3e747113fdb7d9b7848a9355275b7644878bd3e470",
+          "sha256": "11f1aa54030b6c5368bb264f27b597603b00af4f89d9f965738f552e982fc7de",
           "value": "13788947655"
         },
         "elapsed_seconds": {
           "origin": {
-            "execution_sha256": "0903f6470f6923ffb5d0ed2cffae14019847f9cafefe5dfadd67152eabc81fc0",
+            "execution_sha256": "1cac8df599c8d976450836888f281347f57f524e76d09805800892724e6670a5",
             "inputs": {
               "compared": {
                 "origin": {
@@ -1999,9 +1999,9 @@
                   "unit": "count"
                 },
                 "provenance": {
-                  "native:temporal": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684"
+                  "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
                 },
-                "sha256": "91ae354cd5f4807e0ca0d4ffe366dc4ac41f01341162621ec638fb448468f80d",
+                "sha256": "c25d2252a20781cdedfd23b01eb9c920753f7fcebf292d92c140e82910fdac9c",
                 "value": "3"
               },
               "reference": {
@@ -2027,9 +2027,9 @@
                   "unit": "count"
                 },
                 "provenance": {
-                  "native:temporal": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684"
+                  "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
                 },
-                "sha256": "90310c8bd0f2d90de2ce10d4e480be5f6f1200857027d992f459485b4760bced",
+                "sha256": "8efee5947d20a6538791aea2862286471cc111390244046db44215a6884e43c2",
                 "value": "2"
               }
             },
@@ -2928,7 +2928,7 @@
                       "native_scope": "m3:comparison",
                       "observation_context": {
                         "applicability": "declared_domain_only_physical_unknown",
-                        "contract_sha256": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
+                        "contract_sha256": "e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13",
                         "counting_convention": "(lo,hi]; initial admitted closure anchors lineage; only later completed returns count",
                         "coupling_history_sha256": "991a635beff06ba21d011c154d04e399020029b9def1a45acd204e8a918c706f",
                         "directed_graph": [
@@ -3005,7 +3005,7 @@
                             "scope": "m3:comparison"
                           }
                         ],
-                        "predictive_model_sha256": "9d2ea708e8ce9b6e33a69ed8505afac2cad88fb58b62ee0cb37c7732b8a875ad",
+                        "predictive_model_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
                         "preparation": {
                           "id": "m3:declared-recurrence-preparation",
                           "parameters": {
@@ -3051,13 +3051,13 @@
                     "reference": "2"
                   },
                   "role": "model",
-                  "sha256": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684"
+                  "sha256": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
                 },
                 {
                   "id": "observation:declared",
                   "payload": {
                     "compared_gain": "1",
-                    "context_contract_sha256": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
+                    "context_contract_sha256": "e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13",
                     "coordinate": "stipulated:local",
                     "epoch_seconds": "0",
                     "frozen_law": {
@@ -3113,7 +3113,7 @@
                     ]
                   },
                   "role": "model",
-                  "sha256": "535dfd15efbd1416d34149255e79b74a1fa93329665c118a1f5f38294acd10cf"
+                  "sha256": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345"
                 },
                 {
                   "id": "si:second",
@@ -3126,7 +3126,7 @@
                   "sha256": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
                 }
               ],
-              "spec_sha256": "a8d669918142de28535e087d4fa3fb317215c664d5f345de00068a4a4d97ddb8",
+              "spec_sha256": "6a7b60470b3ef15cfd435dda31881883147ef130292d6de8ac96cbf97ffd24d9",
               "status": {
                 "arithmetic": "exact within declared domain",
                 "physical_applicability": "unknown"
@@ -3156,20 +3156,20 @@
             "unit": "s"
           },
           "provenance": {
-            "native:temporal": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684",
-            "observation:declared": "535dfd15efbd1416d34149255e79b74a1fa93329665c118a1f5f38294acd10cf",
+            "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2",
+            "observation:declared": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345",
             "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
           },
-          "sha256": "8b749265724be3945d17a9652cda75ca465a437b00a5bef1ea37f1205c39ba49",
+          "sha256": "ed64b1a5c66834ef85ed0928d727235ed1e08fabf0da90dd3b56ececdbe7bd36",
           "value": "1/4596315885"
         }
       },
       "provenance": {
-        "native:temporal": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684",
-        "observation:declared": "535dfd15efbd1416d34149255e79b74a1fa93329665c118a1f5f38294acd10cf",
+        "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2",
+        "observation:declared": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345",
         "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
       },
-      "spec_sha256": "a8d669918142de28535e087d4fa3fb317215c664d5f345de00068a4a4d97ddb8"
+      "spec_sha256": "6a7b60470b3ef15cfd435dda31881883147ef130292d6de8ac96cbf97ffd24d9"
     },
     "mapping_contract": {
       "calibration": {
@@ -4065,7 +4065,7 @@
               "native_scope": "m3:comparison",
               "observation_context": {
                 "applicability": "declared_domain_only_physical_unknown",
-                "contract_sha256": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
+                "contract_sha256": "e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13",
                 "counting_convention": "(lo,hi]; initial admitted closure anchors lineage; only later completed returns count",
                 "coupling_history_sha256": "991a635beff06ba21d011c154d04e399020029b9def1a45acd204e8a918c706f",
                 "directed_graph": [
@@ -4142,7 +4142,7 @@
                     "scope": "m3:comparison"
                   }
                 ],
-                "predictive_model_sha256": "9d2ea708e8ce9b6e33a69ed8505afac2cad88fb58b62ee0cb37c7732b8a875ad",
+                "predictive_model_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
                 "preparation": {
                   "id": "m3:declared-recurrence-preparation",
                   "parameters": {
@@ -4188,13 +4188,13 @@
             "reference": "2"
           },
           "role": "model",
-          "sha256": "563021bfab7e3e42d7193555a48bc4239daf306bd018ef6dde7ff48d65a97684"
+          "sha256": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
         },
         {
           "id": "observation:declared",
           "payload": {
             "compared_gain": "1",
-            "context_contract_sha256": "6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90",
+            "context_contract_sha256": "e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13",
             "coordinate": "stipulated:local",
             "epoch_seconds": "0",
             "frozen_law": {
@@ -4250,7 +4250,7 @@
             ]
           },
           "role": "model",
-          "sha256": "535dfd15efbd1416d34149255e79b74a1fa93329665c118a1f5f38294acd10cf"
+          "sha256": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345"
         },
         {
           "id": "si:second",
@@ -4263,7 +4263,7 @@
           "sha256": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
         }
       ],
-      "spec_sha256": "a8d669918142de28535e087d4fa3fb317215c664d5f345de00068a4a4d97ddb8",
+      "spec_sha256": "6a7b60470b3ef15cfd435dda31881883147ef130292d6de8ac96cbf97ffd24d9",
       "status": {
         "arithmetic": "exact within declared domain",
         "physical_applicability": "unknown"
@@ -4279,5 +4279,5 @@
     "schema_version": 3
   },
   "schema_version": 3,
-  "source_code_sha256": "0927a69145bd6eae4550bd57528bbfe1f29b2e0dcff46cc1a9eeaa6c9359f004"
+  "source_code_sha256": "1cfc0ecebc1d4c5eb0b22184af171f4d60e9630a211dedbd66ae5a12df920aec"
 }

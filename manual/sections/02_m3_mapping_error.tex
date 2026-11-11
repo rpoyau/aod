@@ -2,6 +2,10 @@
 \label{manual:m3-mapping-error}
 These examples instantiate \mainsection{main:sec:m3-maps} using rational
 addition, subtraction, multiplication and division.
+They follow \secref{manual:calculation-spine}: declare the inputs and map,
+compute exact outputs, and compare under a stated joint uncertainty model.
+The examples below are conditional calculations; the published-input example
+retains its measurement provenance.
 
 \paragraph{Mapping records and composition.}
 Inputs and outputs retain quantity kind, dimension, unit, admissible bounds, scope and
@@ -132,9 +136,10 @@ Each output has a separate budget with matching dimensions and units,
 distinguishing arithmetic, resolution, window, model discrepancy,
 calibration, propagation, solver and comparison contributions. Bounds and
 standard uncertainties bind evidence to that output. Unknown and
-inapplicable components carry reasons and no numerical values. Standard
-uncertainty requires an actual declared finite law and a matching variance;
-a deterministic bound cannot be relabelled as a standard deviation. Defining
+inapplicable components carry reasons and no numerical values. A finite-law
+standard uncertainty binds the declared law and its variance. The affine
+moment route instead binds complete input moments. A deterministic bound
+cannot be relabelled as a standard deviation. Defining
 constants have zero measurement variance, while absent realization uncertainty
 remains unknown. This example has no physical discrepancy model, so its physical
 budget remains partial despite exact finite arithmetic.
@@ -142,6 +147,42 @@ budget remains partial despite exact finite arithmetic.
 Synthetic printed-decimal controls test units and half-last-place bounds under
 nearest rounding. Printed zero requires a source convention or remains unknown.
 Numerical interpretation is checked separately from raw-byte integrity.
+
+\paragraph{Source quantities and worked routes.}
+\label{manual:m3-experimental-inputs}
+A quantity binds its source payload, source locator, kind, dimension, unit,
+domain, meaning and uncertainty category. A separately supplied trusted source
+must agree with that binding. Relabelling a dimensionless input as a frequency
+therefore fails even when its numerical distribution is unchanged. A conversion
+is a declared map with its own source and uncertainty. An aggregate and its
+components cannot both contribute to the same budget.
+
+The reusable record retains the original inputs, operator, intermediate
+moments or intervals, exact outputs and reporting convention. For a declared
+input with mean zero and variance \(2\), affine propagation returns those
+moments exactly. Two uses of this same input give variance zero for their
+difference and \(8\) for their sum. With output laws \(2X\,\mathrm{Hz}\)
+and \(3X\,\mathrm{s}\), the variances are \(8\,\mathrm{Hz}^2\) and
+\(18\,\mathrm{s}^2\), with covariance \(12\,\mathrm{Hz}\,\mathrm{s}\).
+The coefficients and output types are declared conversion parameters.
+For \(X\in[1,3]\), reciprocal interval evaluation returns \([1/3,1]\);
+an interval containing zero cannot give a finite reciprocal enclosure.
+The nonlinear moment-only route retains its diagnostic and leaves the
+uncomputed output moments unresolved. Variances remain rational; a square root
+need not be rounded into a claimed exact standard uncertainty.
+
+The published hydrogen example uses the corrected Table~VI value and keeps
+the reference and wall corrections already included in its input. Its quoted
+uncertainty remains a source report: it supplies neither missing raw campaign
+data nor a joint law. Correction execution and passive comparison assessment
+remain separate. The paper's mean \(1420405751.768\,\mathrm{Hz}\) and
+one-sigma uncertainty \(0.002\,\mathrm{Hz}\)~\cite{hellwig-hydrogen-1970} also give a single-quantity
+moment example: treating the reported value as its mean, the identity map
+retains variance \(1/250000\,\mathrm{Hz}^2\). This aggregate propagation
+does not reconstruct component covariance or a probability distribution.
+These routes and the reduction controls are reproduced by
+\texttt{python3} \path{manual/scripts/aod_m3_experimental.py} \texttt{--check}
+from \path{manual/data/m3/experimental_input_comparison.json}.
 
 \paragraph{Execution and falsification.}
 Run \texttt{python3 manual/scripts/aod\_mapping\_error.py --check} to

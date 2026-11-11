@@ -1,5 +1,16 @@
 \section{Hydrogen-facing Shell Tests}\label{manual:hydrogen-shell-tests}
 
+\paragraph{Calculation card.}
+The declared signed shell ladder gives exact transition differences and
+ratios. The wavelength rows are carried external comparisons, sharing each
+series baseline; their display precision is not a measurement uncertainty.
+This application's source adapter still needs exact source rows, observed
+versus Ritz and line/component conventions, uncertainty semantics and
+covariance. The common method is \secref{manual:calculation-spine}; the
+existing ratio audit checks the stated arithmetic only.
+
+
+
 \subsection{Shared hydrogen-facing shell declaration}\label{manual:hydrogen:scope}
 \aodnoteblock{Scope}{This section declares a signed shell comparison ladder,
 computes its exact transition differences, and then records
@@ -209,6 +220,13 @@ Limit & $\infty\to3$ & $1/9$ & $16/7$ & series limit & $16/7$ & audit record\\
 \end{table}
 
 \subsubsection{Series-ratio audit}\label{manual:hydrogen:series-audit}
+Retain one source identity for the shared denominator when propagating the
+ratios. Air wavelengths require source-bound vacuum conversion or a declared
+model-to-air observation map, including refractive-index applicability and
+uncertainty; \(c/\lambda_{\mathrm{air}}\) is not a vacuum frequency. Until
+those bindings are supplied, the current inverse-wavelength ratios remain
+carried-coordinate diagnostics, with physical uncertainty unresolved.
+
 \aodnoteblock{Audit}{A spectral-series record carries the destination shell \(S_m\), the computed \(\Delta\widehat P^D(n\to m)\), and the inverse-wavelength ratio \(\lambda_{(m+1)\to m}/\lambda_{n\to m}\).}
 \aodprovenance{\secref{subsec:shared-shell-path-declaration};
 \appref{manual:external-comparison}.}

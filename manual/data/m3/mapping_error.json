@@ -729,8 +729,8 @@
     "uncertainty_status": "exact_for_declared_joint_law"
   },
   "contracts": {
-    "ERROR_BUDGET.json": "1e57d18157a49c5a8740aa28711cc81f7039b2c02d9220770a6abdad290c94fc",
-    "MAP_CONTRACT.json": "8aaf2820643fcab6414264d2eae553921b58fc09300c226fdce8e0dd87a492bf"
+    "ERROR_BUDGET.json": "d0e1b02709b32464d95dad29342748702593ea889b201aad71ee9d071bd6a257",
+    "MAP_CONTRACT.json": "8887596e94ff8361bb25dc863716ab2e33e5964d655c4e90a31686e7a2601dd0"
   },
   "covariance_only_nonlinear": {
     "adequacy": "unresolved nonlinear propagation; marginal size is insufficient",

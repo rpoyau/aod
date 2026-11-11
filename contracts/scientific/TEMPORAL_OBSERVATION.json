@@ -1,11 +1,23 @@
 {
+  "additive_product_schemas": [
+    "aod.temporal.readouts.v1",
+    "aod.temporal.window-reduction.v1",
+    "aod.temporal.finite-response-reduction.v1"
+  ],
   "api": {
     "cycles": "compare_cycles(prediction,observed_source,original_context=context)",
     "evaluate": "evaluate(prediction,target,original_context=context)",
+    "finite_response_reduction": "finite_response_reduction(context,states,retained_fields,attention=attention,input_index=input_index)",
     "input": "ObservationContext(record,population,couplings,preparation,pending,source_dependencies,observation,previous_comparison)",
-    "predict": "predict(context)"
+    "predict": "predict(context)",
+    "readout_replay": "replay_readouts(product,original_context=context,definitions=definitions)",
+    "readouts": "readouts(context,definitions)",
+    "response_reduction_replay": "replay_response_reduction(product,original_context=context,states=states,retained_fields=retained_fields,attention=attention,input_index=input_index)",
+    "window_reduction": "window_reduction(context,window)",
+    "window_reduction_replay": "replay_window_reduction(product,original_context=context,window=window)"
   },
   "calibration": "reference gain equals independently supplied corrected_cycles/reference_reclosures on a frozen calibration window; calibration uncertainty remains applicable and unknown",
+  "compatibility": "ObservationContext and aod_temporal_observation_v1 are unchanged; added products require this contract hash and original-context replay. Existing predictions must be regenerated for changed executable bindings.",
   "independence": "duplicate full reference records or shared calibration payloads cannot supply independent evidence; absence of collision is not proof of independence",
   "law": "fixed positive compared and reference cycle equivalents per reclosure; no physical gain selected",
   "limits": [
@@ -33,6 +45,7 @@
     "comparison"
   ],
   "owner": "M3 temporal observation application contract",
+  "reduction_evidence": "Window counts exhaust the listed committed inventory; finite current-response sufficiency covers only the listed states and declared native update. Boundary commutation alone does not preserve occupied area or future response.",
   "replay": "complete artifact regenerated from independently supplied typed original context, not the artifact embedded context",
   "required_context": [
     "actual admitted population waves and committed prefixes",

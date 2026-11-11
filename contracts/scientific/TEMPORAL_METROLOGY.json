@@ -1,6 +1,6 @@
 {
   "schema": "aod.scientific.temporal-metrology.v1",
-  "version": 2,
+  "version": 3,
   "owner": "Manual M3 temporal metrology companion",
   "scope": "Exact declared observer reductions and experiment-specific provenance; physical calibration is separately evidenced",
   "dependencies": {
@@ -191,5 +191,35 @@
       "No certification of independent physical validation",
       "Unknown residual uncertainty and applicability remain explicit"
     ]
+  },
+  "external_quantities": {
+    "binding_schema": "aod.m3.external-quantity.v1",
+    "propagation_schema": "aod.m3.quantity-propagation.v1",
+    "result_schema": "aod.m3.quantity-propagation-result.v1",
+    "interfaces": [
+      "aod_m3_metrology.validate_quantity(binding, trusted_sources)",
+      "aod_m3_metrology.propagate_quantities(record, trusted_sources)"
+    ],
+    "source_payload": "quantities[quantity_id]; uncertainty_models[model_id]",
+    "authentication": "The separately supplied trusted store binds canonical quantity kind, unit, dimension, admissible domain/window, locator, role, value meaning, uncertainty category, components and correction ownership. The uncertainty model binds every quantity identity and parameter, expressions, route and complete uncertainty inputs.",
+    "routes": {
+      "finite_joint_law": "Exact named joint atom evaluation, means and full cross-output covariance; only a declared finite law may take this route.",
+      "moments": "Supplied means and complete PSD covariance. Affine outputs and their covariance are exact conditional moments. Nonlinear output uncertainty remains partial beyond its linearized diagnostic.",
+      "bounds": "Conditional rational interval enclosure; source intervals and expression denominator domains are checked. No probability law inferred.",
+      "metadata": "Preserve the source value, printed uncertainty token and category when covariance, coverage or transformation is insufficient."
+    },
+    "conversion": "An explicit conversion executes its source-bound exact scale using the declared input and output coordinate units. Unit labels alone cannot convert numbers. An uncertain parameter must enter as an uncertain input, never as an exact parameter.",
+    "dependence": "Payload aliases retain one source/quantity identity; aggregates cannot be used with their own components. All outputs share one authenticated input model and retain joint covariance when supported.",
+    "budgets": "Every output retains arithmetic, resolution, window, model_discrepancy, calibration, propagation, solver and comparison. Propagated variance is exact rational with a squared-unit descriptor and symbolic square root; a bound is an interval, never a standard deviation. included_in_propagation is a reference, not an additional component to add. This result budget is distinct from the legacy map-budget v2 serialization.",
+    "comparison": "Prediction propagation rejects evaluation-role quantities. Comparison propagation preserves evaluation role and supplied joint dependence; it does not assert independent validation.",
+    "corrections": "Source correction ownership and included_in_input status remain attached to the quantity. This dispatcher never applies a correction.",
+    "compatibility": "Existing API signatures and numerical laws are retained. Legacy validate_error_dependencies fixtures without quantity payloads remain declared synthetic typing, not authenticated experimental typing; when a trusted quantity payload exists its unit, dimension and uncertainty kind must match. New external usage requires the versioned binding. Distinct source-role wrappers can refer to the same parent paper or primary-file hash; each quantity remains individually named and the joint model retains actual dependence. Mixed calibration/evaluation roles are not packed into one source-role wrapper.",
+    "limits": [
+      "Conditional propagation does not establish empirical adequacy or a physical realization budget",
+      "A source hash establishes binding, not truth",
+      "No inferred normality, missing covariance, coverage factor, independent copy or universal clock",
+      "Published measurement reduction is not raw stream replay"
+    ],
+    "primary_sources": "load_primary_receipt(name) authenticates archived PDF bytes and a fixed transcription receipt separately from historical protocol bytes; published aggregate standard uncertainty can enter the conditional affine moment route without inventing component covariance."
   }
 }

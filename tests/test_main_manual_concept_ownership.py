@@ -78,7 +78,7 @@ def test_relocated_inherited_examples_cannot_leave_empty_or_competing_owners(
 
 
 @pytest.mark.parametrize('mutation, reason', [
-    ('unincluded-model', 'Manual example family not rendered|Active scientific source anchor ownership mismatch'),
+    ('unincluded-model', r'Manual example family not rendered|Active scientific source anchor ownership mismatch|^unresolved manual reference manual:m2-awareness-fixtures in manual/sections/09_prediction_test_fixture_registry\.tex$'),
     ('label-without-body', 'canonical mathematical body absent'),
     ('unrelated-fixture-binding', 'scientific contract integrity changed'),
     ('altered-action-residual', 'canonical mathematical statement changed'),

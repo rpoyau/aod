@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 REPORT = ROOT / 'manual/data/m3/temporal.json'
 CS = Q(9192631770)
 TEMPORAL_CONTRACT = ROOT / 'contracts/scientific/TEMPORAL_OBSERVATION.json'
-TEMPORAL_CONTRACT_SHA256 = '6a984523fe2d01ba8d1045965d7b3014b07e4d0494e8110b10c7507736582f90'
+TEMPORAL_CONTRACT_SHA256 = 'e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13'
 
 
 def require(test, message):
@@ -277,6 +277,139 @@ def project_counts(context, window):
     return {'window':list(window),'counts':{role:sum(window[0]<t.indices[-1]<=window[1] for t in w.returns[1:])
             for role,w in [('compared',context.record.left),('reference',context.record.right)]},
             'directional_rcd_status':'not_admitted_by_count_projection','source_context_sha256':m.digest(plain(asdict(context)))}
+
+
+def readouts(context, definitions):
+    """Named views of one executed context; no new dynamics or independence law."""
+    prediction=predict(context)
+    require(isinstance(definitions,list) and bool(definitions),'readout definitions required')
+    require(all(isinstance(d,dict) and set(d)=={'id','quantity'} for d in definitions),
+            'readout definition fields')
+    require(all(type(d['id']) is str and d['id'] for d in definitions)
+            and len({d['id'] for d in definitions})==len(definitions),'unique readout identities')
+    native=prediction['complete_temporal_record']
+    available={
+        'compared_reclosures':(str(native['counts']['compared']),'count'),
+        'reference_reclosures':(str(native['counts']['reference']),'count'),
+        'forward_lag':(native['forward']['lag'],'native_lag'),
+        'forward_drift':(native['forward']['drift'],'native_lag')}
+    for name in ('average_rate_hz','elapsed_seconds'):
+        output=prediction['mapped']['outputs'][name]
+        available[name]=(output['value'],output['port']['unit'])
+    require(all(type(d['quantity']) is str and d['quantity'] in available for d in definitions),
+            'readout quantity is not supplied by the bound temporal operator')
+    original=plain(asdict(context))
+    return {'schema':'aod.temporal.readouts.v1','definitions':plain(definitions),
+        'original_context_sha256':m.digest(original),'prediction_sha256':m.digest(prediction),
+        'operator_sha256':native['observation_context']['predictive_model_sha256'],
+        'window':list(context.record.window),'coordinate':prediction['coordinate'],
+        'epoch_seconds':prediction['epoch_seconds'],
+        'source_dependencies':plain(context.source_dependencies),
+        'outputs':{d['id']:{'quantity':d['quantity'],'value':available[d['quantity']][0],
+                           'unit':available[d['quantity']][1]} for d in definitions},
+        'dependence':{'kind':'shared_original_context','context_sha256':m.digest(original),
+                      'stochastic_cross_covariance':None,
+                      'reason':'deterministic views of the same declared context; no stochastic law supplied'}}
+
+
+def replay_readouts(product, *, original_context, definitions):
+    replayed=readouts(original_context,definitions)
+    require(m.canonical(product)==m.canonical(replayed),'readouts differ from original-context replay')
+    return replayed
+
+
+def window_reduction(context, window):
+    """Exact count projection on this finite committed inventory, not a dynamics quotient."""
+    projected=project_counts(context,window)
+    selected={role:[t.return_id for t in wave.returns[1:] if window[0]<t.indices[-1]<=window[1]]
+              for role,wave in [('compared',context.record.left),('reference',context.record.right)]}
+    return {'schema':'aod.temporal.window-reduction.v1','projection':projected,
+        'domain':{'source_window':list(context.record.window),'selected_window':list(window),
+                  'population':_population_identity(context.population),
+                  'coordinate':context.observation['coordinate'],
+                  'epoch_seconds':context.observation['epoch_seconds']},
+        'retained':['original context identity','selected return identities','lineage','window endpoints','counts'],
+        'discarded_from_reduced_value':['event ordering','directed contact history','current and lag','pending payloads'],
+        'selected_returns':selected,
+        'property':'exact completed-return count on the declared window',
+        'evidence':{'kind':'exhaustive_finite','domain':'listed committed return inventory',
+                    'checked_returns':sum(len(w.returns)-1 for w in (context.record.left,context.record.right))},
+        'future_response_preservation':'not_claimed','unique_reconstruction':False,
+        'cache_policy':'replay against complete original context and requested window'}
+
+
+def replay_window_reduction(product, *, original_context, window):
+    replayed=window_reduction(original_context,window)
+    require(m.canonical(product)==m.canonical(replayed),'reduction differs from original context/window')
+    return replayed
+
+
+def finite_response_reduction(context, states, retained_fields, *, attention, input_index):
+    """Check the existing declared current update only on the supplied finite states."""
+    validate_observation_context(context)
+    require(isinstance(states,(tuple,list)) and len(states)>=2,'finite original state inventory required')
+    require(isinstance(retained_fields,(tuple,list)) and bool(retained_fields)
+            and len(retained_fields)==len(set(retained_fields)),'retained state fields required')
+    fields=set(n.WaveState.__dataclass_fields__)
+    require(all(type(k) is str and k in fields for k in retained_fields),'unknown retained state field')
+    require(type(input_index) is int,'exact input cut required')
+    attention=m.rational(attention)
+    waves={w.identity:w for w in context.population}
+    groups={};rows=[]
+    for state in states:
+        require(isinstance(state,n.WaveState) and state.identity in waves,'state outside original population')
+        baseline=n.initial_state(waves[state.identity])
+        require(all(getattr(state,k)==getattr(baseline,k) for k in fields-{'pressure','current'}),
+                'state history/boundary differs from admitted population')
+        require(type(state.pressure) in (int,Q) and type(state.current) in (int,Q),
+                'exact declared pressure/current required')
+        result=n.update(state,attention,input_index)
+        coarse=plain({k:getattr(state,k) for k in retained_fields})
+        row={'state':plain(asdict(state)),'coarse_state':coarse,'next_current':str(result.current)}
+        rows.append(row);groups.setdefault(m.canonical(coarse),[]).append(len(rows)-1)
+    collisions=[{'row_indices':indices,'next_currents':[rows[i]['next_current'] for i in indices]}
+                for indices in groups.values() if len({rows[i]['next_current'] for i in indices})>1]
+    return {'schema':'aod.temporal.finite-response-reduction.v1',
+        'original_context_sha256':m.digest(plain(asdict(context))),
+        'operator':'aod_native_closure_wave.update',
+        'operator_code_sha256':hashlib.sha256(Path(n.__file__).read_bytes()).hexdigest(),
+        'domain':{'window':list(context.record.window),'population':_population_identity(context.population),
+                  'attention':str(attention),'input_index':input_index,
+                  'state_model':'declared pressure/current on the listed admitted history and boundary'},
+        'retained_fields':list(retained_fields),'discarded_fields':sorted(fields-set(retained_fields)),
+        'property':'equality of the next committed current for equal coarse states',
+        'evidence':{'kind':'exhaustive_finite','checked_states':len(rows),
+                    'scope':'only the listed states and one declared update; no universal reduced dynamics'},
+        'rows':rows,'counterexamples':collisions,'sufficient_on_checked_states':not collisions,
+        'cache_policy':'replay original context, finite states, retained fields and update inputs'}
+
+
+def replay_response_reduction(product, *, original_context, states, retained_fields, attention, input_index):
+    replayed=finite_response_reduction(original_context,states,retained_fields,
+                                      attention=attention,input_index=input_index)
+    require(m.canonical(product)==m.canonical(replayed),'response reduction differs from original state/domain')
+    return replayed
+
+
+def reduction_fixtures():
+    """Worked controls using existing finite cells and the existing current response."""
+    import aod_cell_measures as cells
+    context=example_context()
+    state=n.initial_state(context.record.left)
+    states=(state,replace(state,pressure=Q(2)),n.initial_state(context.record.right))
+    cut=min(s.committed for s in states)
+    fold=cells.fold_record()
+    return {'shared_readouts':readouts(context,[{'id':'reclosures','quantity':'compared_reclosures'},
+                                               {'id':'conditional_rate','quantity':'average_rate_hz'}]),
+        'window':window_reduction(context,(0,23)),
+        'fold':{'original':fold,'source_occurrences':2,'image_occurrences':2,
+                'property':'boundary commutation with retained source lineage',
+                'evidence':'exhaustive check of every cell in the declared two-square complex',
+                'area_preserved':False,'future_response_preservation':'not_claimed'},
+        'insufficient_current_only':finite_response_reduction(context,states,['current'],
+            attention='1',input_index=cut),
+        'retained_pressure':finite_response_reduction(context,states,['current','pressure'],
+            attention='1',input_index=cut)}
 
 
 def example():

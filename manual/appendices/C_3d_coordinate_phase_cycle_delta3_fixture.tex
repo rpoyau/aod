@@ -1,5 +1,14 @@
 
 \section{3D coordinate phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture specification}\label{manual:app:coordinate-phase-cycle-delta3}
+
+\paragraph{Calculation card.}
+The supplied script generates a fixed integer fixture. Its grid, lag, phase
+scale and comparator produce exact displacement and tally outputs; count
+conservation and transported residuals are the falsifiers. A measured-track
+ingest map and physical uncertainty are not yet instantiated. Its required
+source roles follow \secref{manual:calculation-spine}.
+
+
 This appendix records the active integer 3D coordinate fixture used by time-ordered trajectory records. It gives the coordinate-level specification: integerized trajectory bins, squared displacement counts, phase-cycle counts, octant counts, integer ratios, and exact \(\delta_3\) residuals. Continuous-motion summaries are downstream presentation maps and do not enter the exact fixture.
 The run-tumble tracer-current fixture in \secref{manual:run-tumble-tracer-current-fixture} is an application of this coordinate phase-cycle specification after its mode, accumulated trace, and projection declarations are fixed.
 
@@ -15,7 +24,9 @@ Declare a grid
 \[
 G=(h_x,h_y,h_z,\Delta t).
 \]
-Map measured positions into integer lattice coordinates
+A measured-track adapter must specify origin, positive grid spacings,
+quantization and tie rule, timing alignment and the admissible input set or
+justified joint law before mapping positions into integer lattice coordinates
 \[
 z_i=(X_i,Y_i,Z_i)\in\mathbb Z^3.
 \]
@@ -28,6 +39,12 @@ The active integer displacement is
 Q_i^{(n)}=(a_i^{(n)})^2+(b_i^{(n)})^2+(c_i^{(n)})^2\in\mathbb Z_{\ge0}.
 \]
 This replaces radial-distance fitting in the fixture layer.
+For example, a declared nearest-integer rule with ties upward maps
+\(49/100\) and \(51/100\) to \(0\) and \(1\). An interval crossing that
+boundary admits both states; it does not assign probabilities to them.
+The acquisition owner must propagate the permitted states through the
+actual tally and provide a mass/size-to-\(\beta_a\) map when used.
+
 
 \subsection{Integer displacement counts}
 Declare integer bins
@@ -87,6 +104,13 @@ Against an integer comparator \(\widehat O_\theta^{(n)}\), record
 The phase-cycle fixture is read as: mass/size data may declare \(\beta_a\), and the trajectory tests the phase-cycle counts.
 
 \subsection{Octant direction counts}
+Bind bit order and the treatment of zero coordinates with the track.
+Brownian and run-tumble encodings may differ; any relabelling transports
+both observed and comparator bins, including the integer-balancing remainder
+assignment. Rebalancing the comparator in a new label order changes the
+test. All eight sign patterns and a common permutation must preserve the
+transported residuals before a shared adapter is accepted.
+
 For each displacement vector, declare
 \[
 q_i^{(n)}=\operatorname{octant}(a_i^{(n)},b_i^{(n)},c_i^{(n)})\in\{0,\ldots,7\}.

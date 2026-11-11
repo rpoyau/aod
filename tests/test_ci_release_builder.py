@@ -61,6 +61,7 @@ def expected_source_inventory(root):
     # elsewhere in the Manual does not acquire source status through a suffix.
     paths.update(root / 'manual/data/m3' / name for name in (
         'cells_geometry.json', 'mapping_error.json', 'temporal.json',
+        'experimental_input_comparison.json',
         'historical_metrology/original_replay_r01.zip',
         'historical_metrology/original-output.json',
         'historical_metrology/original-archive-verification.json',
@@ -75,7 +76,9 @@ def expected_source_inventory(root):
         'temporal_anchor/cases/reference_exposure.json.gz'))
     paths.update(root / 'manual/data/m3/temporal_metrology' / name for name in (
         'report.json', 'exact_fixtures.json', 'hydrogen/protocol.json',
-        'hydrogen/reported_uncertainty.json', 'cesium/protocol.json'))
+        'hydrogen/reported_uncertainty.json', 'cesium/protocol.json',
+        'hydrogen/source/hellwig1970.pdf', 'hydrogen/source/source_receipt.json',
+        'cesium/source/heavner2014.pdf', 'cesium/source/source_receipt.json'))
     for name, suffixes in SOURCE_DIRECTORY_TYPES.items():
         for path in (root / name).rglob("*"):
             rel = path.relative_to(root / name)
@@ -145,6 +148,7 @@ def test_source_archive_round_trip_without_git_ignores_generated_files(tmp_path,
     assert not (extracted / ".git").exists()
     generated = ["main.pdf", "main.aux", "main.fls", "main.fdb_latexmk", "tests.txt",
                  "manual/main.pdf", "manual/main.log", "manual/main.synctex.gz",
+                 "manual/data/m3/temporal_metrology/hydrogen/source/unbound.pdf",
                  "manual/main.run.xml", "manual/main.bcf", "manual/main.lof",
                  "scripts/__pycache__/generated.py", "tests/.pytest_cache/README.md",
                  "manual/build/temporary.tex", "dist/source.zip",

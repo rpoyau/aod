@@ -29,6 +29,121 @@ def test_actual_admission_coupling_and_directional_records():
     assert v['complete_input']['left']['certificates']
 
 
+def readout_definitions():
+    return [{'id':'returns','quantity':'compared_reclosures'},
+            {'id':'rate','quantity':'average_rate_hz'}]
+
+
+def test_readouts_share_one_original_context_and_conditional_operator():
+    context=t.example_context();definitions=readout_definitions()
+    product=t.readouts(context,definitions)
+    assert product['outputs']['returns']['value']=='3'
+    assert Q(product['outputs']['rate']['value'])==3*t.CS/2
+    assert product['dependence']['context_sha256']==product['original_context_sha256']
+    assert product['dependence']['stochastic_cross_covariance'] is None
+    assert t.replay_readouts(product,original_context=context,definitions=definitions)==product
+    with pytest.raises(ValueError):t.readouts({'counts':{'compared':3,'reference':2}},definitions)
+
+
+@pytest.mark.parametrize('changed', ['preparation','pending','coordinate','gain','readout','value','trace'])
+def test_readout_replay_rejects_changed_context_or_view(changed):
+    context=t.example_context();definitions=readout_definitions();product=t.readouts(context,definitions)
+    original=context
+    if changed=='preparation':
+        preparation={'id':'other','parameters':{'compared_spacing':8,'reference_spacing':10}}
+        domain=t.domain_for(context.population,context.couplings,preparation,context.record.window)
+        original=replace(context,preparation=preparation,observation=t.observation_law([domain]))
+    elif changed=='pending':
+        pending={'wave_identity':context.record.left.identity,'kind':'incomplete_return',
+                 'committed_cut':context.record.window[1],
+                 'prefix_sha256':n.wave_prefix(context.record.left,context.record.window[1]),
+                 'payload':{'stage':'declared incomplete fixture'}}
+        original=replace(context,pending=(pending,))
+    elif changed=='coordinate':original=t.example_context(coordinate='stipulated:other')
+    elif changed=='gain':original=t.example_context(compared_gain='2')
+    elif changed=='readout':definitions[0]['quantity']='reference_reclosures'
+    elif changed=='value':product['outputs']['returns']['value']='999'
+    else:
+        a=n.recurrent('other:compared',n=4,spacing=8,scope='m3:comparison')
+        b=n.recurrent('other:reference',n=3,spacing=10,scope='m3:comparison')
+        original=t.example_context(t.TemporalInput(a,b,n.contacts(a,b),(0,30)))
+        product['original_context_sha256']=m.digest(t.plain(t.asdict(original)))
+    with pytest.raises(ValueError,match='readouts differ'):
+        t.replay_readouts(product,original_context=original,definitions=definitions)
+
+
+@pytest.mark.parametrize('definitions',[
+    [],[{'id':'x','quantity':'nuclear_rate'}],
+    [{'id':'x','quantity':'forward_lag','dynamics':'other'}],
+    [{'id':'x','quantity':'forward_lag'},{'id':'x','quantity':'forward_drift'}],
+])
+def test_readouts_reject_unbound_laws_and_ambiguous_names(definitions):
+    with pytest.raises(ValueError):t.readouts(t.example_context(),definitions)
+
+
+def test_window_reduction_retains_lineage_counts_and_scoped_evidence():
+    context=t.example_context();product=t.window_reduction(context,(0,23))
+    assert product['projection']['counts']=={'compared':2,'reference':2}
+    assert {k:len(v) for k,v in product['selected_returns'].items()}==product['projection']['counts']
+    assert product['future_response_preservation']=='not_claimed'
+    assert product['evidence']['kind']=='exhaustive_finite'
+    assert t.replay_window_reduction(product,original_context=context,window=(0,23))==product
+    with pytest.raises(ValueError,match='reduction differs'):
+        t.replay_window_reduction(product,original_context=context,window=(0,30))
+    with pytest.raises(ValueError):t.window_reduction(context,(0,31))
+    product['future_response_preservation']='all dynamics'
+    with pytest.raises(ValueError,match='reduction differs'):
+        t.replay_window_reduction(product,original_context=context,window=(0,23))
+
+
+def response_states(context):
+    first=n.initial_state(context.record.left)
+    return (first,replace(first,pressure=Q(2)),n.initial_state(context.record.right))
+
+
+def test_existing_response_operator_falsifies_current_only_coarse_state():
+    context=t.example_context();states=response_states(context);cut=min(s.committed for s in states)
+    poor=t.finite_response_reduction(context,states,['current'],attention='1',input_index=cut)
+    assert poor['sufficient_on_checked_states'] is False
+    assert poor['counterexamples'][0]['next_currents']==['1','1/2','1']
+    rich=t.finite_response_reduction(context,states,['current','pressure'],attention='1',input_index=cut)
+    assert rich['sufficient_on_checked_states'] is True and rich['counterexamples']==[]
+    assert rich['rows'][0]['coarse_state']==rich['rows'][2]['coarse_state']
+    assert rich['evidence']['scope'].startswith('only the listed states')
+
+
+@pytest.mark.parametrize('changed',['current','pressure','population','window','boundary','attention','fields'])
+def test_response_cache_requires_original_state_and_domain(changed):
+    context=t.example_context();states=response_states(context);cut=min(s.committed for s in states)
+    fields=['current','pressure'];attention='1'
+    product=t.finite_response_reduction(context,states,fields,attention=attention,input_index=cut)
+    assert t.replay_response_reduction(product,original_context=context,states=states,
+        retained_fields=fields,attention=attention,input_index=cut)==product
+    if changed in ('current','pressure','boundary'):
+        states=(replace(states[0],**{changed:'other' if changed=='boundary' else Q(3)}),)+states[1:]
+    elif changed=='population':
+        extra=n.recurrent('extra',n=3,spacing=10,scope='m3:comparison')
+        population=context.population+(extra,)
+        domain=t.domain_for(population,context.couplings,context.preparation,context.record.window)
+        context=replace(context,population=population,observation=t.observation_law([domain]))
+    elif changed=='window':
+        context=replace(context,record=replace(context.record,window=(1,30)))
+    elif changed=='attention':attention='2'
+    else:fields=['current']
+    with pytest.raises(ValueError):
+        t.replay_response_reduction(product,original_context=context,states=states,
+            retained_fields=fields,attention=attention,input_index=cut)
+
+
+def test_fold_control_does_not_promote_boundary_commutation_to_area_or_response():
+    controls=t.reduction_fixtures();fold=controls['fold']
+    assert fold['original']['chain_map'] is True
+    assert fold['original']['input_occupancy_area']=='2'
+    assert fold['original']['image_support_area']=='1'
+    assert fold['source_occurrences']==fold['image_occurrences']==2
+    assert fold['area_preserved'] is False and fold['future_response_preservation']=='not_claimed'
+
+
 def test_scheduler_alias_scope_window_and_contact_substitutions_rejected():
     r=t.example()
     bad=[{'left':3,'right':2},replace(r,right=r.left),replace(r,window=(0,10)),
