@@ -120,6 +120,76 @@
       "label": "app:ao-field-fractal-properties:accessors-table",
       "equation": false,
       "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_awareness_fixtures.tex",
+      "label": "eq:sadar-rational-response",
+      "equation": true,
+      "formula_sha256": "88c611c7917daceb308ff3130fe0a31d9942084ac7da8b3f70ca15c779c0dc2f"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "label": "eq:double-colon-parse-example",
+      "equation": true,
+      "formula_sha256": "73b9bfbeb8d84ef7c0d1f90bb09c7f5062b91d979e14bb599690fee1d68322da"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "label": "app:rd:eq:three-four-rd",
+      "equation": true,
+      "formula_sha256": "4b808053565fa2cb724b8bf7d5dbd5a9a906cc97b632a3f7f4df57cbaaad0562"
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "label": "subsec:shared-shell-path-declaration",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "label": "subsec:nested-shell-stack-pattern",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "label": "tab:cc-filled-shared-enclosures",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "label": "fig:fractal-tesseract-beat-family",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "label": "fig:field-count",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "label": "subsec:disoma-declaration",
+      "equation": false,
+      "formula_sha256": null
+    },
+    {
+      "surface": "manual",
+      "path": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
+      "label": "app:rd-tests:support-reductions",
+      "equation": false,
+      "formula_sha256": null
     }
   ],
   "fixture_bindings": [

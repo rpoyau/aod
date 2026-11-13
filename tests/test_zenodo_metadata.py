@@ -72,7 +72,7 @@ def test_zenodo_metadata_present_and_title_has_no_revision():
     assert any(c.get("orcid") == "0009-0007-8303-8627" for c in data["creators"])
     assert data["custom"]["code:codeRepository"] == "https://github.com/rpoyau/aod"
     assert "references" in data
-    assert len(data["references"]) == 43
+    assert len(data["references"]) == 48
     assert "Poyau, R. (2025). Axiomatic Fundamentalism Calculus (AFC) (all versions). Zenodo. https://doi.org/10.5281/zenodo.17795590." in data["references"]
     assert "Poyau, R. (2025). Axiomatic Fundamentalism (AF): A Logical Protocol for Traceable Research (all versions). Zenodo. https://doi.org/10.5281/zenodo.17561186." in data["references"]
     assert not any("Alpha–Omega Dynamics Manual" in r or "Alpha--Omega Dynamics Manual" in r for r in data["references"])

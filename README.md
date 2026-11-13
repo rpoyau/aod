@@ -129,6 +129,8 @@ References are synchronized from `refs.bib` and `manual/refs.bib`.
 - Norris, J. R. (1997). Markov Chains. Cambridge University Press.
 - Levin, D. A., Peres, Y., and Wilmer, E. L. (2009). Markov Chains and Mixing Times. American Mathematical Society.
 - Lawler, G. F., and Limic, V. (2010). Random Walk: A Modern Introduction. Cambridge University Press. https://doi.org/10.1017/CBO9780511750854.
+- Bureau International des Poids et Mesures. SI base unit: second (s). https://www.bipm.org/en/si-base-units/second, n.d.
+- National Institute of Standards and Technology. Fountains of Atoms: Exquisite Timekeepers. https://www.nist.gov/atomic-clocks/how-atomic-clocks-work/fountains-atoms-exquisite-timekeepers, 2025.
 - Bureau International des Poids et Mesures. The International System of Units: Defining Constants. BIPM, https://www.bipm.org/en/measurement-units/si-defining-constants, n.d.
 - National Institute of Standards and Technology. CODATA Value: Inverse Fine-Structure Constant. NIST CODATA, https://physics.nist.gov/cgi-bin/cuu/Value?alphinv, 2022.
 - National Institute of Standards and Technology. CODATA Value: Proton Mass Energy Equivalent in MeV. NIST CODATA, https://physics.nist.gov/cgi-bin/cuu/Value?mpc2mev, 2022.
@@ -162,6 +164,10 @@ References are synchronized from `refs.bib` and `manual/refs.bib`.
 - CMS Collaboration. Measurement of the Higgs boson mass and width using the four-lepton final state in proton-proton collisions at sqrts=13 TeV, 2025. https://doi.org/10.1103/PhysRevD.111.092014.
 - ATLAS Collaboration. Combined measurement of the Higgs boson mass from the H→γγ and H→ ZZ^*→4ℓ decay channels with the ATLAS detector using sqrts=7, 8, and 13 TeV pp collision data, 2023. https://doi.org/10.1103/PhysRevLett.131.251802.
 - ATLAS Collaboration. ATLAS measures Higgs boson mass with unprecedented precision. ATLAS briefing, https://atlas.cern/Updates/Briefing/Run2-Higgs-Mass, 2023.
+- Hellwig, H., Vessot, R. F. C., Levine, M. W., Zitzewitz, P. W., Allan, D. W., and Glaze, D. J. (1970). Measurement of the Unperturbed Hydrogen Hyperfine Transition Frequency. IEEE Transactions on Instrumentation and Measurement IM-19(4), 200–209. https://tf.nist.gov/general/pdf/13.pdf.
+- Heavner, T. P., et al. (2014). First accuracy evaluation of NIST-F2. Metrologia 51(3), 174–182. https://doi.org/10.1088/0026-1394/51/3/174.
+- Taylor, B. N., and Kuyatt, C. E. (1994). Guidelines for Evaluating and Expressing the Uncertainty of NIST Measurement Results. NIST Technical Note 1297. https://www.nist.gov/pml/nist-technical-note-1297.
+
 
 ## Version
 

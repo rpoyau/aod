@@ -40,6 +40,18 @@ EXCLUDE_FILE_PATTERNS = [
     re.compile(r"AOD_Temporal_Dynamics_v.*_tests\.txt$"),
 ]
 
+# Immutable executable evidence inputs, not generated release archives.
+SOURCE_ARCHIVES = {
+    "manual/data/m3/historical_metrology/original_replay_r01.zip",
+    "manual/data/m3/temporal_anchor/original_anchor_r02.zip",
+}
+
+# Authenticated primary inputs, distinct from generated publication PDFs.
+SOURCE_DOCUMENTS = {
+    "manual/data/m3/temporal_metrology/hydrogen/source/hellwig1970.pdf",
+    "manual/data/m3/temporal_metrology/cesium/source/heavner2014.pdf",
+}
+
 # The same source surfaces apply in a checkout and an extracted source.zip.
 # Git supplies the exact tracked paths; the fallback omits generated files.
 INCLUDE_TOP_LEVEL = [
@@ -77,6 +89,8 @@ def excluded(path: Path) -> bool:
     parts = set(path.parts)
     if parts & EXCLUDE_DIR_NAMES:
         return True
+    if path.as_posix() in SOURCE_ARCHIVES | SOURCE_DOCUMENTS:
+        return False
     name = path.name
     if any(rx.match(name) for rx in EXCLUDE_FILE_PATTERNS):
         return True

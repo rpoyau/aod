@@ -1,4 +1,15 @@
 \section{Boundary Current Applications}\label{manual:boundary-current-applications}
+
+\paragraph{Calculation card.}
+The D0 substitution declares \(C_3=3\), \(\rho^D=5\), window length \(4\)
+and \(A_{12}=1/3\): clipping gives \(p^D=12\), flux \(4\), and reverse
+flux \(-4\). The moving-boundary inputs \((8,3,2)\) give \(7\).
+These exact conditional results and their orientation/Stokes comparators
+remain inline below. A wire, fluid or plasma experiment must supply its own
+state and observation adapter with uncertainty; none is instantiated here.
+The common method is \secref{manual:calculation-spine}.
+
+
 \aodnoteblock{Data-support class}{Boundary-current applications are D0 exact scoped-flux fixtures. External report maps carry separate comparison rows. Errors are Stokes residuals, moving-boundary identity residuals, current-split residuals, and sheddic-route conservation residuals.}
 \aodnoteblock{Scope}{This section applies the same scoped A\(\Omega\)D pressure-resolved flux calculation to wire, fluid, plasma, shell-electromagnetic comparison, and phase-fluid SADAR records. The declared boundary selects the application case of the declared-scope calculus.}
 

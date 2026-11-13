@@ -14,6 +14,17 @@ Follow Main in its dependency order: specific distinction, closure and recurring
 
 
 \subsection{Calculation spine}\label{manual:calculation-spine}
+
+The common method has five operations. Declare the setup: retained fields,
+ancestry, window, boundary, coupled and shed currents, and update law. Admit
+source-bound inputs with their roles, acquisition maps and uncertainty.
+Compute on that setup, retaining the state needed by its dynamics. Map the
+outputs with the declared observation, clock and calibration. Finally join
+the frozen comparison evidence, propagate shared dependencies and challenge
+the stated claim. Applications below supply their choices and exact values;
+the M3 chapters own the map and uncertainty calculations.
+
+
 The manual uses one active calculation language. A calculation declares
 \[
 B=(\partial_TF,\omega).
@@ -33,7 +44,12 @@ The boundary value is stored by
 Tables store evaluated values. Tables are not the calculus.
 
 \subsection{Worked-calculation release}\label{manual:worked-calculation-release}
-A manual worked record carries a complete row: setup, declared A\(\Omega\) calculation, comparator or target, residual/error coordinate, and audit.
+A worked record follows one sequence: question, dependencies, cited input,
+declared reduction, local choices, operator chain, exact block, intermediate
+table, exact output row, exact-to-report map, comparison, figure,
+reproducibility, and falsification hook. Its opening calculation card names
+the supplied stages and the unresolved obligations; the detailed calculation
+and authoritative tables remain with the application.
 
 For an exact A\(\Omega\)-internal fixture, form
 \[
@@ -60,7 +76,9 @@ A\leftrightarrow_{\mu}\Omega\text{ calculation}
 \to
 \text{error audit}.
 \]
-The symbols \(\Delta\), \(\epsilon\), \(z\), and \(\sigma\) belong to the external comparison layer. A \(z\)-score is formed only when target uncertainty is declared.
+The symbols \(\Delta\), \(\epsilon\), \(z\), and \(\sigma\) belong to the external comparison layer. A target-only pull uses the declared target standard uncertainty and is
+labelled \(z_{\mathrm{target}}\). A standardized joint residual additionally
+requires the uncertainty of both sides and their dependence.
 
 For a benchmark-dataset calculation, record
 \[
@@ -75,7 +93,7 @@ Registry rows carry benchmark calculations until the declared dataset, required 
 \aodnoteblock{Specification discipline}{A rest or prediction record may use a compact curling-curl specification only after \(HT(K;B)\) is declared or inherited.}
 
 \subsection{Table discipline}\label{manual:table-discipline}
-Tables in this manual store calculated values, target values, residuals, and audit records. Manual rows, ledgers, tables, records, registries, and fixtures are document containers. They record declared values. The calculation is the declared boundary computation
+Tables retain evaluated values, targets, residuals and their provenance. The calculation is the declared boundary computation
 \[
 \mathbf a\vdash(F,R,\partial_T R,\omega),
 \qquad
@@ -139,7 +157,11 @@ Here \(\mathrm{scope}(x)\in\{\text{internal},\text{external},\text{measured},\te
 
 
 \subsection{External-comparison quarantine}\label{manual:external-comparison-quarantine}
-External constants, measured-sector units, and external comparison symbols are quarantined. They can compare against A\(\Omega\) outputs in a comparison record, but they do not enter the A\(\Omega\) calculation and do not set A\(\Omega\) notation. In this manual, an external comparison is written
+Measured preparation or boundary inputs may enter through declared acquisition
+or reduction maps, with their source assumptions and uncertainty retained.
+External laws and constants do not thereby become calculus premises or set
+native notation. Calibration inputs and evaluation targets have separate
+roles; target exposure during selection remains part of the record. In this manual, an external comparison is written
 \[
 \Qext(\nu_{x,\AO};\mathcal T_x),
 \]
@@ -147,6 +169,17 @@ where \(\mathcal T_x\) is a declared measured-sector target record.
 
 
 \subsection{Scoped errors by data-support class}\label{manual:scoped-errors-data-support}
+
+For \(r=y_{\mathrm{model}}-y_{\mathrm{observed}}\), the joint variance in
+\eqref{eq:manual-m3-residual-dependence} retains shared sources across both sides. Exact
+finite laws permit evaluation at every input case; affine maps permit exact
+propagation of complete moments; justified intervals give bounds. A nonlinear
+moment-only calculation is a linearized diagnostic unless its remainder is
+bounded. A source-reported uncertainty alone supplies no probability law.
+Unknown components remain unknown; display rounding and exact conditional
+arithmetic do not establish physical certainty.
+
+
 A simulation or comparison is classified by the declared data support it instantiates. Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals in its declared coordinate. Projection and marginalization maps carry their own comparison coordinates and uncertainty records.
 
 The scoped-error chain is
@@ -167,6 +200,30 @@ Here \(D\) is the declared input data, \(C_{\mathrm{support}}\) is the data-supp
 
 
 \subsection{Manual record forms}\label{manual:record-forms}
+
+Each application card binds its question, fields/window/boundary, inherited
+construction and local choices, input roles, exact calculation, observation
+and clock, comparison, and falsifier. The associated quantity rows use this
+compact form; detailed source identities and covariance remain in the bound
+M3 record.
+\begin{center}\small
+\begin{tabularx}{\linewidth}{l*{4}{>{\raggedright\arraybackslash}X}}
+\toprule
+Quantity/role & Source and unit/domain & Value/state & Uncertainty and shared sources & Map and unresolved input\\
+\midrule
+Preparation & Exact, measured or derived & Admitted input & Law, moments, bound or unknown & Acquisition/reduction\\
+Output & Named conditional law & Computed value & Propagated inputs and map & Model/reduction remainder\\
+Target & Evaluation or development & Source value & Measurement and shared calibration & Observation reduction\\
+Residual & Named comparison & Difference/statistic & Joint result or partial diagnostic & Missing dependence\\
+\bottomrule
+\end{tabularx}
+\end{center}
+An exact fixture specifies exact operands; physical preparation and
+observation uncertainties are uninstantiated until a physical application
+supplies them. Data support, supplied stages, replay and empirical evidence
+are recorded separately in \secref{manual:prediction-test-registry}.
+
+
 \begin{table}[H]
 \centering
 \scriptsize

@@ -1,0 +1,17 @@
+[
+  {
+    "archive": "AOD_MATTER_I_V2_EXECUTION_REVIEW_R01_2026-10-26.zip",
+    "sha256": "2f1df5caab29a9f42fb7ac97107c8d20b44143506ff6c2554b661bebd7c1fa48",
+    "entries_verified": 21
+  },
+  {
+    "archive": "AOD_M3_CELL_MEASURES_MAPPING_ERROR_PLAN_R01_2026-10-26.zip",
+    "sha256": "ac1e587700948fb7b476ea7038f66c5630f756dc16d182fa6ed0200662b1d2b5",
+    "entries_verified": 29
+  },
+  {
+    "archive": "AOD_MATTER_I_M3_REVIEW_EVIDENCE_R01_2026-11-01.zip",
+    "sha256": "99ec0ee952a4fbd85dbf4aca3fa60c0963d43b125c41b20125e35112cd8d04d2",
+    "entries_verified": 38
+  }
+]

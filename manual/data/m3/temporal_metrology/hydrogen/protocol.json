@@ -1,0 +1,99 @@
+{
+  "source_id": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+  "source": {
+    "title": "Measurement of the Unperturbed Hydrogen Hyperfine Transition Frequency",
+    "url": "https://tf.nist.gov/general/pdf/13.pdf",
+    "journal": "IEEE Transactions on Instrumentation and Measurement IM-19, 200-209 (1970)",
+    "retrieval": "NIST-hosted primary paper via web PDF text; table arithmetic checked; scan not visually verified",
+    "web_refs": ["turn46view0", "turn47view0", "turn47view1", "turn48view0"]
+  },
+  "scope": "Published experimental reduction and observation-map contract; not AOD-generated hydrogen frequency or raw-data reconstruction",
+  "transition": {"isotope": "H1", "upper": [1, 0], "lower": [0, 0], "source": "p200 introduction"},
+  "reference_transition": {"isotope": "Cs133", "upper": [4, 0], "lower": [3, 0], "assigned_frequency_hz": "9192631770", "source": "p200 introduction"},
+  "preparation": {
+    "bound": "Hyperfine transition and named SAO/NBS-H2 apparatus",
+    "unbound": ["1970 apparatus-specific post-selector populations", "State-selector field and geometry", "Atomic source distribution", "Velocity-dependent preparation probabilities", "Microscopic cavity/emission kernel"],
+    "general_mechanism_only": "Magnetic state selection, storage bulb in resonant cavity, stimulated microwave emission",
+    "general_mechanism_source": "https://www.nist.gov/pml/time-and-frequency-division/popular-links/time-frequency-z/time-and-frequency-z-h",
+    "general_source_limit": "NIST overview does not reconstruct populations or settings of the 1970 apparatus",
+    "device_references_in_paper": ["SAO: reference 20, Vessot et al., Progress in the development of hydrogen masers (1968)", "NP3: reference 21, Peters et al., Atomic hydrogen standards for NASA tracking stations (1969)", "NBS-H2: general configuration similar to Varian H-10, p201"]
+  },
+  "receiver": {
+    "method": "continuous_active_maser_heterodyne",
+    "source": "pp202-203, Fig1, equation3",
+    "reference_nominal_hz": "5000000",
+    "multiplier": 284,
+    "second_IF": "nu_M-284*nu_R",
+    "signed_final_beat": "nu_B=(nu_M-284*nu_R)-nu_S",
+    "unperturbed_equation8": "nu_H=284*nu_R+nu_S+nu_B+delta_UTC+delta_N+delta_W+delta_D+delta_Z",
+    "reference_chain": ["NASA NP3 synthesized nominal 5 MHz", "UTC(NBS), six commercial Cs clocks", "AT(NBS)", "NBS-III primary Cs beam; May 1969 calibration"],
+    "frequency_scope": "Nominal 5 MHz expression requires UTC and NP3 offsets before physical maser frequency is expressed in the Cs-based unit"
+  },
+  "correction_conditions": {
+    "tuning": {"equation": "delta_C+delta_SE=0", "condition": "Frequency independent of hydrogen beam intensity", "source": "p204 equation7"},
+    "Doppler": {"equation": "delta_D=C1*T_bulb", "C1_hz_per_K": "0.00019557", "condition": "Atoms thermalized with bulb walls", "source": "p203 equation4; exponent OCR ambiguous, consistent with TableIV/VI corrections"},
+    "Zeeman": {"equation": "delta_Z=-2750*mean(B^2)", "B_unit": "gauss", "condition": "Low homogeneous field; mean(B)^2 substitutes mean(B^2) within stated uncertainty", "source": "p204 equations5-6"},
+    "thermalization": {"treatment": "No correction within experiment's uncertainty", "limitation": "Assumption acknowledged unresolved in conclusion", "source": "pp203,207"}
+  },
+  "observation_contracts": {
+    "experiment_1": {
+      "experiment_id": "experiment_1",
+      "source_id": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+      "source_locator": "p205 Table IV",
+      "method": "continuous_active_maser_heterodyne",
+      "transition": {"isotope": "H1", "upper": [1, 0], "lower": [0, 0]},
+      "apparatus": "SAO portable hydrogen maser",
+      "tuning_evidence": "p204: manual/automatic varactor tuning until beam-flux-independent",
+      "wall_evidence": "p201: SAO compared to HU reference with independently evaluated wall shift; TableIV +0.0202 Hz",
+      "reference_evidence": "pp203-204: NP3-to-UTC(NBS)-to-AT(NBS)-to-NBS-III calibration chain",
+      "beat_kind": "raw_signed_heterodyne_beat",
+      "added_corrections": ["UTC", "NP3", "wall", "Doppler", "Zeeman"],
+      "output_kind": "unperturbed_hyperfine_frequency",
+      "temperature_C": "47",
+      "temperature_uncertainty_C": "0.5",
+      "Zeeman_frequency_hz": "1020",
+      "beat_averaging_seconds": [10, 100]
+    },
+    "experiment_2": {
+      "experiment_id": "experiment_2",
+      "source_id": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+      "source_locator": "p207 Table VI",
+      "method": "continuous_active_maser_heterodyne",
+      "transition": {"isotope": "H1", "upper": [1, 0], "lower": [0, 0]},
+      "apparatus": "NBS-H2; successive TFE-Teflon storage bulbs",
+      "tuning_evidence": "p204: two cavity settings by two beam intensities; linear interpolation to beam-flux-independent frequency",
+      "wall_evidence": "pp206-207: weighted regression against inverse bulb diameter; zero-wall intercept",
+      "reference_evidence": "pp203-204: NP3-to-UTC(NBS)-to-AT(NBS)-to-NBS-III calibration chain",
+      "beat_kind": "NP3_corrected_zero_wall_intercept",
+      "added_corrections": ["UTC", "Doppler", "Zeeman"],
+      "output_kind": "unperturbed_hyperfine_frequency",
+      "temperature_mean_C": "23.9",
+      "temperature_uncertainty_C": "0.5",
+      "Zeeman_frequency_mean_hz": "245",
+      "typical_measurement_minutes": 15,
+      "typical_averaging_seconds": 10,
+      "temperature_control": false,
+      "bulb_fates": {"numerical_determinations": 15, "retained": 11, "excluded": ["1*", "5*", "6*", "10*"], "no_oscillation": ["4"]}
+    }
+  },
+  "table_term_provenance": {
+    "Table_IV": {
+      "synthesizer": {"value_hz": "405794.4200", "source": "p205 TableIV nu_S; p204 setting"},
+      "beat": {"value_hz": "-0.1193", "source": "p205 TableIV nu_B; electronic-counter beat-period measurement"},
+      "UTC_to_atomic_time": {"value_hz": "-42.6115", "source": "p205 TableIV delta_UTC; nominal UTC offset"},
+      "NP3_reference_offset": {"value_hz": "-0.0015", "source": "p205 TableIV delta_N; p204 discussion/Fig2"},
+      "wall": {"value_hz": "0.0202", "source": "p205 TableIV delta_W; p201 HU transfer 20.19 mHz rounded in table"},
+      "second_order_Doppler": {"value_hz": "0.0627", "source": "p205 TableIV delta_D; measured bulb 320.15 K"},
+      "Zeeman": {"value_hz": "-0.0015", "source": "p205 TableIV delta_Z; measured Zeeman 1020 Hz"}
+    },
+    "Table_VI": {
+      "synthesizer": {"value_hz": "405795.0000", "source": "p207 TableVI nu_S; p206 setting"},
+      "zero_wall_corrected_beat": {"value_hz": "-0.6798", "source": "p207 TableVI corrected nu_B; p206 TableV regression intercept; delta_N already included"},
+      "UTC_to_atomic_time": {"value_hz": "-42.6115", "source": "p207 TableVI delta_UTC"},
+      "second_order_Doppler": {"value_hz": "0.0581", "source": "p207 TableVI delta_D; mean bulb 297.05 K"},
+      "Zeeman": {"value_hz": "-0.0001", "source": "p207 TableVI delta_Z; mean Zeeman 245 Hz"}
+    }
+  },
+  "missing_raw_inputs": ["Four individual cavity/flux measurements for each tuned beat", "Unrounded bulb diameters and fit inputs", "1970 apparatus-specific preparation parameters", "Emitted microwave phase/amplitude time series"],
+  "comparison_rule": "Choose and independently identify apparatus and measurand before evaluating an AOD output; do not choose source or adjust parameters to force its frequency to the published result"
+}
