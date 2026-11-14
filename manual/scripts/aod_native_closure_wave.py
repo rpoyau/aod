@@ -38,7 +38,7 @@ def digest(value):
 
 
 def hamming(a: int, b: int, width=4):
-    require(isinstance(a,int) and isinstance(b,int), 'integer encoding required')
+    require(type(a) is int and type(b) is int, 'integer encoding required')
     require(0 <= a < 2**width and 0 <= b < 2**width, 'encoding outside support')
     return (a ^ b).bit_count()
 
@@ -114,12 +114,14 @@ def validate_trace(t: Trace, require_closed=True):
     require(len(set(t.event_ids))==len(t.event_ids),'event replay inside trace')
     require(all(a<b for a,b in zip(t.indices,t.indices[1:])),'uncommitted event order')
     require(all(hamming(a,b)==1 for a,b in zip(t.vertices,t.vertices[1:])),'non-H1 atomic traversal')
-    require(len(t.roles)>=3 and t.roles[0] in (-1,1) and
+    require(len(t.roles)>=3 and all(type(x) is int for x in t.roles) and t.roles[0] in (-1,1) and
             t.roles[-1]==-t.roles[0] and all(x==0 for x in t.roles[1:-1]),
             'mandatory hinge and counterbranch required')
     require(0<t.turn<len(t.vertices)-1,'empty directed leg')
     w=t.reflection
     require(w is not None,'missing bound reflection witness')
+    require(type(w.turnaround_committed_at) is int and type(w.committed_at) is int,
+            'reflection commitments must be exact integer native cuts')
     require((w.scope,w.lineage,w.turnaround_id,w.target_start_id)==
             (t.scope,t.lineage,t.event_ids[t.turn],t.event_ids[0]),'wrong reflection lineage or hinge')
     require(w.outbound_ids==t.event_ids[1:t.turn+1] and
@@ -176,25 +178,63 @@ def admitted(t: Trace, c: Certificate, registry: Mapping[str,Certificate]):
     return True
 
 
-def phase_count(records,cut=None):
-    """Legacy accessor: count complete distinct certified closure cycles."""
-    require(cut is None or type(cut) is int,
-            'phase accessor cut must be an integer')
+def _check_retained_bindings(traces):
+    """Check one finite union of individually admitted retained traces."""
+    event_bindings={}
+    terminal_bindings={}
+    for t in traces:
+        terminal_key=(t.scope,t.scale,t.lineage,t.event_ids[-1])
+        require(terminal_key not in terminal_bindings or
+                terminal_bindings[terminal_key]==t.trace_digest,
+                'conflicting trace for immutable terminal return event')
+        terminal_bindings[terminal_key]=t.trace_digest
+        for event_id,vertex,index in zip(t.event_ids,t.vertices,t.indices):
+            key=(t.scope,t.scale,t.lineage,event_id)
+            value=(vertex,index)
+            require(key not in event_bindings or event_bindings[key]==value,
+                    'conflicting coordinates for immutable retained event')
+            event_bindings[key]=value
+
+
+def _wave_retained_traces(waves):
+    """Include admitted motif components and folded inner histories in a union.
+
+    Callers validate each wave first. This traversal does not project away
+    witnesses or count ancestors as additional closures of the outer wave.
+    """
+    for w in waves:
+        yield from w.returns
+        for c in w.certificates:
+            yield from _wave_retained_traces(c.inner_waves)
+        for m in w.motif_witnesses:
+            yield from m.component_traces
+            for c in m.component_certificates:
+                yield from _wave_retained_traces(c.inner_waves)
+
+
+def validate_record_collection(records):
+    """Admit certificates and their finite retained event union together."""
     require(isinstance(records,(list,tuple)),
             'closure-cycle accessor requires certified return records')
-    seen=set()
-    terminal_bindings={}
+    traces=[]
     for record in records:
         require(isinstance(record,tuple) and len(record)==3,
                 'closure-cycle accessor requires certified return records')
         t,c,registry=record
         admitted(t,c,registry)
-        key=(t.scope,t.scale,t.lineage,t.event_ids[-1])
-        require(key not in terminal_bindings or terminal_bindings[key]==t.trace_digest,
-                'conflicting trace for immutable terminal return event')
-        terminal_bindings[key]=t.trace_digest
-        if cut is None or t.indices[-1]<=cut:seen.add(t.return_id)
-    return len(seen)
+        traces.append(t)
+        traces.extend(_wave_retained_traces(c.inner_waves))
+    _check_retained_bindings(traces)
+    return True
+
+
+def phase_count(records,cut=None):
+    """Legacy accessor: count complete distinct certified closure cycles."""
+    require(cut is None or type(cut) is int,
+            'phase accessor cut must be an integer')
+    validate_record_collection(records)
+    return len({t.return_id for t,c,registry in records
+                if cut is None or t.indices[-1]<=cut})
 
 
 def closure_cycle_count(records,cut=None):
@@ -255,8 +295,10 @@ def wave(records,motif_witnesses=()):
             require(m.support_trace==t and m.closure==c,'motif witness belongs to another return')
         require(len({m.core for m in motif_witnesses})==1,'recurrence changed inherited motif type')
         motif=motif_witnesses[0].core
-    return Wave(ts[0].scope,ts[0].scale,ts[0].lineage,motif,
+    result=Wave(ts[0].scope,ts[0].scale,ts[0].lineage,motif,
                 digest((ts[0].scope,ts[0].lineage,motif,ts[0].return_id)),ts,cs,tuple(motif_witnesses))
+    _check_retained_bindings(_wave_retained_traces((result,)))
+    return result
 
 
 def recurrent(lineage='a', n=3, spacing=10, scope='B0',scale=0):
@@ -269,6 +311,11 @@ def validate_wave(w):
     require(wave([(t,c,registry) for t,c in zip(w.returns,w.certificates)],w.motif_witnesses)==w,
             'wave identity or certificate history mismatch')
     return True
+
+
+def _validate_wave_collection(waves):
+    for w in waves:validate_wave(w)
+    _check_retained_bindings(_wave_retained_traces(waves))
 
 
 @dataclass(frozen=True)
@@ -295,12 +342,12 @@ def motif_witness(core,t,construction,component_records,registry,enclosure=6,chi
     ancestral shell IDs. These are declared construction occurrences, not
     a proof of q**p independent graph paths or a new discovered motif family.
     """
-    admitted(t,certify(t),registry)
+    validate_record_collection(((t,certify(t),registry),)+
+                               tuple((component,c,registry) for component,c in component_records))
     require(enclosure>=6 and enclosure%2==0 and chirality in (-1,1),'invalid enclosure/chirality')
     require(bool(component_records),'bound component traces required')
     components=tuple(c for component,c in component_records)
     for component,c in component_records:
-        admitted(component,c,registry)
         require(component.indices[-1]<t.indices[0],'component closure must precede motif construction')
     require(len({c.return_id for c in components})==len(components),'duplicate component return')
     require(all((c.scope,c.lineage,c.scale)==(t.scope,t.lineage,t.scale) for c in components),
@@ -353,7 +400,7 @@ class Field:
 def field(scope, identity, members):
     require(bool(identity) and len(members)>0,'field requires named recurring members')
     require(all(isinstance(w,Wave) and w.scope==scope for w in members),'field cannot admit closure or alias as wave')
-    for w in members:validate_wave(w)
+    _validate_wave_collection(members)
     return Field(scope,identity,tuple(sorted({w.identity for w in members})))
 
 
@@ -363,7 +410,7 @@ def resolve_fields(fields):
 
 def leg_comparison(record, reference, symmetric=False):
     t,c,r=record;tr,cr,rr=reference
-    admitted(t,c,r);admitted(tr,cr,rr)
+    validate_record_collection((record,reference))
     require(t.reflected_comparison and tr.reflected_comparison,
             'retained-return witness lacks declared reflected-comparison model')
     require((t.scope,t.scale)==(tr.scope,tr.scale),'incompatible reference scope')
@@ -394,7 +441,8 @@ def kernel(candidates, weights):
 
 
 def fibre_step(before,after,kind):
-    require(before in (-1,0,1) and after in (-1,0,1),'invalid role')
+    require(type(before) is int and type(after) is int and
+            before in (-1,0,1) and after in (-1,0,1),'invalid role')
     if kind=='additional_dwell':require(before==after==0,'dwell requires existing hinge')
     elif kind=='enter_hinge':require(before in (-1,1) and after==0,'structural hinge entry')
     elif kind=='leave_hinge':require(before==0 and after in (-1,1),'branch must follow hinge')
@@ -427,7 +475,7 @@ def wave_prefix(w,k):
 
 
 def contacts(a,b):
-    validate_wave(a);validate_wave(b)
+    _validate_wave_collection((a,b))
     require(a.identity!=b.identity,'same wave under aliases')
     upper=min(a.returns[-1].indices[-1],b.returns[-1].indices[-1])
     lower=max(a.returns[1].indices[-1],b.returns[1].indices[-1])
@@ -456,7 +504,7 @@ class RCD:
 
 
 def participation(r:RCD,window:int,domain:str):
-    require(domain==r.domain and isinstance(window,int) and window>=0,'incompatible duration/window domain')
+    require(domain==r.domain and type(window) is int and window>=0,'incompatible duration/window domain')
     return min(r.duration(),window)
 
 
@@ -468,7 +516,7 @@ def compare(a:Wave,b:Wave,events,window=(0,100),reverse=False,bias=(Q(0),Q(0)),p
             'contact commitments must be integer native cuts')
     bias=tuple(Q(x) for x in bias)
     require(len(bias)==2,'comparison requires exactly two oriented bias coordinates')
-    validate_wave(a);validate_wave(b)
+    _validate_wave_collection((a,b))
     require(a.identity!=b.identity and (a.scope,a.scale)==(b.scope,b.scale),'distinct common-scope waves required')
     require(len(events)>=2 and len({e.identity for e in events})==len(events),'repeated distinct bound contacts required')
     require(len({e.committed for e in events})==len(events),'contacts must occur at distinct transitions')
@@ -488,6 +536,11 @@ def compare(a:Wave,b:Wave,events,window=(0,100),reverse=False,bias=(Q(0),Q(0)),p
                 e.support_trace.scope==e.scope and e.support_trace.scale==a.scale and
                 e.support_trace.indices[-1]<=e.committed,
                 'unbound or future cross-return support')
+    retained=list(_wave_retained_traces((a,b)))
+    for e in events:
+        retained.append(e.support_trace)
+        retained.extend(_wave_retained_traces(e.support_certificate.inner_waves))
+    _check_retained_bindings(retained)
     def count(w):return sum(window[0]<t.indices[-1]<=window[1] for t in w.returns[1:])
     na,nb=count(a),count(b)
     require(na>0 and nb>0,'positive recurrence denominators required')
@@ -549,7 +602,7 @@ def update(s:WaveState,attention:Fraction,input_index:int):
 
 def fold_proposal(inner,scope,scale):
     require(bool(inner),'admitted inner lineages required')
-    for w in inner:validate_wave(w)
+    _validate_wave_collection(inner)
     require(len({w.identity for w in inner})==len(inner),'duplicate inner lineage aliases')
     require(scale>max(w.scale for w in inner),'outer scope must have higher scale')
     return tuple((w.identity,w.scope,w.scale,scope,scale,
@@ -732,6 +785,7 @@ def standing_organization(a,b,events,states,window=(0,100)):
     relation=compare(a,b,events,window)
     require(len(states)==2,'one committed current state per lineage required')
     for w,state in zip((a,b),states):
+        require(type(state.committed) is int,'standing state commitment must be an exact integer native cut')
         require(state.identity==w.identity and state.boundary==w.scope and
                 max(e.committed for e in events)<=state.committed<=window[1],
                 'standing current state not bound to committed coupled lineages')
@@ -802,6 +856,7 @@ def bind_values(w,states):
     validate_wave(w)
     require(len(states)==len(w.returns),'one declared current readout per committed return')
     for index,(state,t) in enumerate(zip(states,w.returns)):
+        require(type(state.committed) is int,'readout commitment must be an exact integer native cut')
         require((state.identity,state.committed,state.boundary)==(w.identity,t.indices[-1],w.scope),
                 'value readout not bound to wave return')
         expected=tuple(x.return_id for x in w.returns if x.indices[-1]<=state.committed)

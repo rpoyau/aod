@@ -23,7 +23,9 @@ import aod_m3_temporal as t
 ROOT = Path(__file__).resolve().parents[2]
 DATA = Path('manual/data/m3/temporal_anchor')
 ARCHIVE_SHA256 = '2b26210cf0f7f2fa5e510560d5156aebddaa6a7039e1eab4e9a8209500bead25'
-NATIVE_SHA256 = '3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf'
+NATIVE_SHA256 = '562b3eb53ad6dd13c0801c43bd6e918110083ab4d12592c024b3007b634e2554'
+FORMATION_MIGRATION = 'aod.anchor.formation-event-namespace.v1'
+FORMATION_NAMESPACE = 'active-anchor:formation:'
 CASES = ('baseline', 'second_support_pair', 'compared_population', 'reference_exposure')
 HORIZON = 3316192
 INTERVENTION = 300000
@@ -69,6 +71,47 @@ def verify_archive(root=ROOT):
             'input_bindings':len(binding['files']), 'original_source_commit':binding['source_commit']}
 
 
+def _install_formation_migration(population):
+    """Separate archival formation occurrences from its reused return numbers.
+
+    The authenticated legacy constructor names both component j at cut 3*j and
+    target return j at cut >=30 as ``lineage:j:e...``. They are different events.
+    Translate only formation names before the first joint motif admission;
+    leave the archived source, target traces, scheduling and transition law intact.
+    """
+    original_node = population.Node
+
+    class ActiveAnchorNode(original_node):
+        def add_return(self, tr):
+            if not hasattr(self, 'formation_identity_migration'):
+                migrated, bindings = [], []
+                for component, certificate in self.components:
+                    n.admitted(component, certificate, {certificate.certificate_digest:certificate})
+                    require(all(not event.startswith(FORMATION_NAMESPACE) for event in component.event_ids),
+                            'formation migration cannot be applied twice')
+                    names = {event:FORMATION_NAMESPACE+event for event in component.event_ids}
+                    w = component.reflection
+                    active = replace(component, event_ids=tuple(names[event] for event in component.event_ids),
+                        reflection=replace(w, turnaround_id=names[w.turnaround_id],
+                            outbound_ids=tuple(names[event] for event in w.outbound_ids),
+                            return_ids=tuple(names[event] for event in w.return_ids),
+                            target_start_id=names[w.target_start_id]))
+                    active_certificate = n.certify(active)
+                    migrated.append((active, active_certificate))
+                    bindings.append({'event_ids':names,
+                        'original_return_id':component.return_id,'active_return_id':active.return_id,
+                        'original_trace_digest':component.trace_digest,'active_trace_digest':active.trace_digest,
+                        'original_certificate_digest':certificate.certificate_digest,
+                        'active_certificate_digest':active_certificate.certificate_digest})
+                self.components = tuple(migrated)
+                ids = tuple(c.return_id for _,c in self.components)
+                self.construction = (tuple(ids for _ in range(self.p)),ids)
+                self.formation_identity_migration = {'rule':FORMATION_MIGRATION,'bindings':tuple(bindings)}
+            return super().add_return(tr)
+
+    population.Node = ActiveAnchorNode
+
+
 @contextmanager
 def source_modules(root=ROOT):
     """Load authenticated engine/decoder; keep legacy files outside active source."""
@@ -94,6 +137,7 @@ def source_modules(root=ROOT):
             # instance from the same source. Bind the verified admission module.
             modules['population'].n = n
             modules['population'].check_sources()
+            _install_formation_migration(modules['population'])
             yield modules, folder
         finally:
             sys.path[:] = saved_path
@@ -135,7 +179,10 @@ def default_inputs(root=ROOT):
                            'base_first_action':2000, 'initial_contact_starts':[700,1200],
                            'dormant_local':'L0 is prepared in every case; only the intervention activates its recurrence',
                            'counting':'later reclosures in (u,v]; initial closure excluded',
-                           'source_law':'unchanged original population.py; explicit population/topology initialization'},
+                           'source_law':'unchanged archived transition law; explicit population/topology initialization',
+                           'formation_identity_migration':{'rule':FORMATION_MIGRATION,
+                               'namespace':FORMATION_NAMESPACE,
+                               'scope':'formation event names and dependent witnesses only; target events and native coordinates preserved'}},
             'cases':{name:{'support_pair':[[3,2],[3,3]] if name=='second_support_pair' else [[3,3],[1,2]],
                            'backgrounds':[['F0',3,4],['F1',3,4]], 'prepared_local':['L0',3,4],
                            'local_target':{'compared_population':'A','reference_exposure':'F0'}.get(name),
@@ -203,6 +250,7 @@ def run_engine(spec, modules, end=HORIZON):
 
 def engine_payload(engine, spec, end):
     return plain({'model_specification':spec, 'horizon':end,
+                  'formation_identity_migration':{name:node.formation_identity_migration for name,node in engine.nodes.items()},
                   'waves':{name:asdict(node.wave()) for name,node in engine.nodes.items()},
                   'channels':{'|'.join(key):{'contacts':[asdict(c) for c in channel.contacts],
                                            'evidence':channel.evidence}

@@ -32,6 +32,43 @@ class AnchorLoaderTests(unittest.TestCase):
                     self.assertIsInstance(modules['population'].Node('loader-regression',1,2).wave(),a.n.Wave)
                     self.assertIs(sys.modules['aod_native_closure_wave'],foreign)
 
+    def test_active_formation_migration_preserves_coordinates_and_target_returns(self):
+        with a.source_modules() as (modules,_):
+            p=modules['population'];node=p.Node('formation-migration',1,2)
+            self.assertEqual(node.formation_identity_migration['rule'],a.FORMATION_MIGRATION)
+            self.assertEqual(len(node.formation_identity_migration['bindings']),2)
+            for ordinal,((component,certificate),binding) in enumerate(zip(
+                    node.components,node.formation_identity_migration['bindings'])):
+                original=a.n.trace(node.lineage,ordinal,scope=p.SCOPE,start_index=3*ordinal)
+                self.assertEqual(component.vertices,original.vertices)
+                self.assertEqual(component.indices,original.indices)
+                self.assertEqual(component.roles,original.roles)
+                self.assertEqual((component.scope,component.scale,component.lineage,component.ancestor),
+                                 (original.scope,original.scale,original.lineage,original.ancestor))
+                self.assertEqual(component.event_ids,tuple(a.FORMATION_NAMESPACE+e for e in original.event_ids))
+                self.assertEqual(binding['event_ids'],dict(zip(original.event_ids,component.event_ids)))
+                self.assertEqual(binding['original_return_id'],original.return_id)
+                self.assertEqual(binding['active_return_id'],component.return_id)
+                self.assertEqual(binding['original_certificate_digest'],a.n.certify(original).certificate_digest)
+                self.assertEqual(binding['active_certificate_digest'],certificate.certificate_digest)
+            for occurrence,(target,_,_) in enumerate(node.records):
+                expected=p.trace_with_indices(node.lineage,occurrence,node.vertices,
+                    p.support_indices(30+occurrence*(node.rd+3),node.branch),node.branch)
+                self.assertEqual(target,expected)
+            self.assertTrue(a.n.validate_wave(node.wave()))
+            self.assertTrue(a.n.validate_record_collection(tuple(node.records)+
+                tuple((t,c,{c.certificate_digest:c}) for t,c in node.components)))
+
+    def test_historical_wave_is_not_silently_accepted_by_active_decoder(self):
+        with zipfile.ZipFile(ROOT/a.DATA/'original_anchor_r02.zip') as archive:
+            historical=json.loads(gzip.decompress(archive.read('baseline/input/results/direct_pair.histories.json.gz')))
+        with a.source_modules() as (modules,_):
+            decoder=modules['common_reference']
+            with self.assertRaisesRegex(a.n.AdmissionError,'immutable retained event'):
+                decoder.wave(historical['A'])
+            current=modules['population'].Node('active-decoder-control',1,2).wave()
+            self.assertEqual(decoder.wave(a.plain(asdict(current))),current)
+
 
 class AnchorEvidenceTests(unittest.TestCase):
     @classmethod
@@ -57,12 +94,41 @@ class AnchorEvidenceTests(unittest.TestCase):
         self.assertEqual(len(result['output_sha256']),5)
         self.assertEqual(result['direct_pair_residuals'],{'A':'-5/29','B':'-49/151'})
 
-    def test_new_baseline_conserves_original_four_native_histories(self):
+    def test_new_baseline_preserves_native_histories_and_explicitly_migrates_formation(self):
         with zipfile.ZipFile(ROOT/a.DATA/'original_anchor_r02.zip') as archive:
             original=json.loads(gzip.decompress(archive.read('baseline/input/results/direct_pair.histories.json.gz')))
         actual=self.cases['baseline']['complete_execution']['waves']
-        for name in ('A','B','F0','F1'):
-            self.assertEqual(actual[name],original[name])
+        bindings=self.cases['baseline']['complete_execution']['formation_identity_migration']
+        with a.source_modules() as (modules,_):
+            decoder=modules['common_reference']
+            for name in ('A','B','F0','F1'):
+                old,new=original[name],actual[name]
+                self.assertEqual({k:v for k,v in new.items() if k!='motif_witnesses'},
+                                 {k:v for k,v in old.items() if k!='motif_witnesses'})
+                self.assertEqual(bindings[name]['rule'],a.FORMATION_MIGRATION)
+                self.assertEqual(len(new['motif_witnesses']),len(old['motif_witnesses']))
+                for before,after in zip(old['motif_witnesses'],new['motif_witnesses']):
+                    rebound={'identity','witness_digest','component_traces','component_certificates','construction'}
+                    self.assertEqual({k:v for k,v in after.items() if k not in rebound},
+                                     {k:v for k,v in before.items() if k not in rebound})
+                    self.assertEqual(len(after['component_traces']),len(before['component_traces']))
+                    returns={}
+                    for old_trace,new_trace,old_cert,new_cert in zip(before['component_traces'],
+                            after['component_traces'],before['component_certificates'],after['component_certificates']):
+                        restored=deepcopy(new_trace)
+                        def historical_id(event):
+                            self.assertTrue(event.startswith(a.FORMATION_NAMESPACE))
+                            return event[len(a.FORMATION_NAMESPACE):]
+                        restored['event_ids']=[historical_id(e) for e in restored['event_ids']]
+                        reflection=restored['reflection']
+                        for key in ('turnaround_id','target_start_id'):reflection[key]=historical_id(reflection[key])
+                        for key in ('outbound_ids','return_ids'):reflection[key]=[historical_id(e) for e in reflection[key]]
+                        self.assertEqual(restored,old_trace)
+                        self.assertEqual(a.plain(asdict(a.n.certify(decoder.trace(new_trace)))),new_cert)
+                        returns[old_cert['return_id']]=new_cert['return_id']
+                    self.assertEqual(after['construction'],[[[returns[x] for x in block] for block in before['construction'][0]],
+                                                           [returns[x] for x in before['construction'][1]]])
+                self.assertEqual(a.plain(asdict(decoder.wave(new))),new)
 
     def test_distinct_support_pairs_have_distinct_constructions(self):
         expected={'baseline':('3:3','1:2'), 'second_support_pair':('3:2','3:3')}

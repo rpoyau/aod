@@ -4,7 +4,7 @@
     "combined_uncertainty": null,
     "diagnostic_residual_hz": "1546067737904/125",
     "evaluation_sha256": "56015b21c89a1a015f22a11c7fffcba2721e327f993f3b2feade709007d01580",
-    "prediction_sha256": "c2ea9c534ec69acf49c6033d0f1bdfb227eece4247adf1d93296ef57b5656b18",
+    "prediction_sha256": "26c3b76896dd7e2f1ea497ffb119cc432d7eeebb24f3523926489cd2f74bb78b",
     "status": "diagnostic_only_missing_atomic_law_and_cross_covariance"
   },
   "context_contract_sha256": "e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13",
@@ -13,7 +13,7 @@
     "combined_uncertainty": null,
     "diagnostic_residual_hz": "1546067737779/125",
     "evaluation_sha256": "07a414b651eac63b1e1bc5ffd9dd6aafc325d17828e845c8f79d0a195c58811a",
-    "prediction_sha256": "c2ea9c534ec69acf49c6033d0f1bdfb227eece4247adf1d93296ef57b5656b18",
+    "prediction_sha256": "26c3b76896dd7e2f1ea497ffb119cc432d7eeebb24f3523926489cd2f74bb78b",
     "status": "diagnostic_only_missing_atomic_law_and_cross_covariance"
   },
   "gain_countermodels": [
@@ -717,7 +717,7 @@
             "scope": "m3:comparison"
           }
         ],
-        "predictive_model_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
+        "predictive_model_sha256": "c6aa0bef8df8b2c5550da17dccf77e779e332709bc743d8c1b79e6bbab9cb936",
         "preparation": {
           "id": "m3:declared-recurrence-preparation",
           "parameters": {
@@ -766,16 +766,16 @@
     "epoch_seconds": "0",
     "exposure": "known_H_previously_exposed; no_blind_claim",
     "mapped": {
-      "input_sha256": "d79ac10765e97b01acce4860931953df8741bb68eb771fddaee6b16af76bc135",
+      "input_sha256": "7f9687b7623bda597b1d3516499969d70059c6c39a5076835d0ceda5fd6cb31f",
       "map_id": "map:m3:conditional-cycle-time",
       "operand_sources": {
         "average_rate_hz": {
-          "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2",
+          "native:temporal": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177",
           "observation:declared": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345",
           "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
         },
         "elapsed_seconds": {
-          "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2",
+          "native:temporal": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177",
           "observation:declared": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345",
           "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
         }
@@ -783,7 +783,7 @@
       "outputs": {
         "average_rate_hz": {
           "origin": {
-            "execution_sha256": "e385348eca53ff09ec96dc0c0689a33baa70132b04cfc7d392d560dc9ab4e8cf",
+            "execution_sha256": "b128174f2bdab4a7097c9178f53e752931c5baf453a87bf29974e3fdc7835492",
             "inputs": {
               "compared": {
                 "origin": {
@@ -808,9 +808,9 @@
                   "unit": "count"
                 },
                 "provenance": {
-                  "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
+                  "native:temporal": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177"
                 },
-                "sha256": "c25d2252a20781cdedfd23b01eb9c920753f7fcebf292d92c140e82910fdac9c",
+                "sha256": "1acf7da973929410ac10269b21c4c5facab38ea73373c6e1e52125e53477b78c",
                 "value": "3"
               },
               "reference": {
@@ -836,9 +836,9 @@
                   "unit": "count"
                 },
                 "provenance": {
-                  "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
+                  "native:temporal": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177"
                 },
-                "sha256": "8efee5947d20a6538791aea2862286471cc111390244046db44215a6884e43c2",
+                "sha256": "8e455e7411a326dc1e758d24a37c2fbfc022a15c4e08e349e4eb32578014548a",
                 "value": "2"
               }
             },
@@ -1814,7 +1814,7 @@
                             "scope": "m3:comparison"
                           }
                         ],
-                        "predictive_model_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
+                        "predictive_model_sha256": "c6aa0bef8df8b2c5550da17dccf77e779e332709bc743d8c1b79e6bbab9cb936",
                         "preparation": {
                           "id": "m3:declared-recurrence-preparation",
                           "parameters": {
@@ -1860,7 +1860,7 @@
                     "reference": "2"
                   },
                   "role": "model",
-                  "sha256": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
+                  "sha256": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177"
                 },
                 {
                   "id": "observation:declared",
@@ -1935,7 +1935,7 @@
                   "sha256": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
                 }
               ],
-              "spec_sha256": "6a7b60470b3ef15cfd435dda31881883147ef130292d6de8ac96cbf97ffd24d9",
+              "spec_sha256": "a6739209b8a9b9e5a294bb9c48712b522a92bae1fcf7c93a83d0bad80347a4b1",
               "status": {
                 "arithmetic": "exact within declared domain",
                 "physical_applicability": "unknown"
@@ -1965,16 +1965,16 @@
             "unit": "Hz"
           },
           "provenance": {
-            "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2",
+            "native:temporal": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177",
             "observation:declared": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345",
             "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
           },
-          "sha256": "11f1aa54030b6c5368bb264f27b597603b00af4f89d9f965738f552e982fc7de",
+          "sha256": "5c8f36bd2631c8bd2f1a1d75adce1315b6b72986f9fdd62bb38f1e5e5a85b9f9",
           "value": "13788947655"
         },
         "elapsed_seconds": {
           "origin": {
-            "execution_sha256": "1cac8df599c8d976450836888f281347f57f524e76d09805800892724e6670a5",
+            "execution_sha256": "7409b51c07e9fb23724d0fa3d05ecad47d1f6d21983874b79128229c49e2eca9",
             "inputs": {
               "compared": {
                 "origin": {
@@ -1999,9 +1999,9 @@
                   "unit": "count"
                 },
                 "provenance": {
-                  "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
+                  "native:temporal": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177"
                 },
-                "sha256": "c25d2252a20781cdedfd23b01eb9c920753f7fcebf292d92c140e82910fdac9c",
+                "sha256": "1acf7da973929410ac10269b21c4c5facab38ea73373c6e1e52125e53477b78c",
                 "value": "3"
               },
               "reference": {
@@ -2027,9 +2027,9 @@
                   "unit": "count"
                 },
                 "provenance": {
-                  "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
+                  "native:temporal": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177"
                 },
-                "sha256": "8efee5947d20a6538791aea2862286471cc111390244046db44215a6884e43c2",
+                "sha256": "8e455e7411a326dc1e758d24a37c2fbfc022a15c4e08e349e4eb32578014548a",
                 "value": "2"
               }
             },
@@ -3005,7 +3005,7 @@
                             "scope": "m3:comparison"
                           }
                         ],
-                        "predictive_model_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
+                        "predictive_model_sha256": "c6aa0bef8df8b2c5550da17dccf77e779e332709bc743d8c1b79e6bbab9cb936",
                         "preparation": {
                           "id": "m3:declared-recurrence-preparation",
                           "parameters": {
@@ -3051,7 +3051,7 @@
                     "reference": "2"
                   },
                   "role": "model",
-                  "sha256": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
+                  "sha256": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177"
                 },
                 {
                   "id": "observation:declared",
@@ -3126,7 +3126,7 @@
                   "sha256": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
                 }
               ],
-              "spec_sha256": "6a7b60470b3ef15cfd435dda31881883147ef130292d6de8ac96cbf97ffd24d9",
+              "spec_sha256": "a6739209b8a9b9e5a294bb9c48712b522a92bae1fcf7c93a83d0bad80347a4b1",
               "status": {
                 "arithmetic": "exact within declared domain",
                 "physical_applicability": "unknown"
@@ -3156,20 +3156,20 @@
             "unit": "s"
           },
           "provenance": {
-            "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2",
+            "native:temporal": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177",
             "observation:declared": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345",
             "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
           },
-          "sha256": "ed64b1a5c66834ef85ed0928d727235ed1e08fabf0da90dd3b56ececdbe7bd36",
+          "sha256": "8d8026978cf4ff7b8b1fbebdb3d6dda57db8445b8b1a26701fe0a806292dc47d",
           "value": "1/4596315885"
         }
       },
       "provenance": {
-        "native:temporal": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2",
+        "native:temporal": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177",
         "observation:declared": "a9db85a81ba2d702964c698d941647438a45b12882a492582f4cc8cb5b321345",
         "si:second": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
       },
-      "spec_sha256": "6a7b60470b3ef15cfd435dda31881883147ef130292d6de8ac96cbf97ffd24d9"
+      "spec_sha256": "a6739209b8a9b9e5a294bb9c48712b522a92bae1fcf7c93a83d0bad80347a4b1"
     },
     "mapping_contract": {
       "calibration": {
@@ -4142,7 +4142,7 @@
                     "scope": "m3:comparison"
                   }
                 ],
-                "predictive_model_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
+                "predictive_model_sha256": "c6aa0bef8df8b2c5550da17dccf77e779e332709bc743d8c1b79e6bbab9cb936",
                 "preparation": {
                   "id": "m3:declared-recurrence-preparation",
                   "parameters": {
@@ -4188,7 +4188,7 @@
             "reference": "2"
           },
           "role": "model",
-          "sha256": "0e3e36a1df501153c36e29ae81a2b7af56e3119f83ec32e751830a8c7bb902e2"
+          "sha256": "3e76311fc3e6364613b7756755bc05c7af67a862ae188d4a3cb0ce4588ba4177"
         },
         {
           "id": "observation:declared",
@@ -4263,7 +4263,7 @@
           "sha256": "9f66463fb6f0062bc8d87593072789417c28fef8726b7383fb8f4767821fdb21"
         }
       ],
-      "spec_sha256": "6a7b60470b3ef15cfd435dda31881883147ef130292d6de8ac96cbf97ffd24d9",
+      "spec_sha256": "a6739209b8a9b9e5a294bb9c48712b522a92bae1fcf7c93a83d0bad80347a4b1",
       "status": {
         "arithmetic": "exact within declared domain",
         "physical_applicability": "unknown"
