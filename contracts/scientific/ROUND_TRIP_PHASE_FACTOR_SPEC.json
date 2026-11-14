@@ -67,6 +67,6 @@
   "phase_step_count_function_sha256": "66955a2a387824c9e800a436503999e54ff28f7ba495ce5c853d7e17e2e972e7",
   "closure_cycle_count_function_sha256": "ded3e31edcc2a839d4129c464819864277cd00a5baee7c4630db4caadb2dabf1",
   "legacy_phase_count_function_sha256": "807d8b0ed5a6c866309fb3589720572a531a7365de44f3df9a0d56076d0d9d8a",
-  "implementation_script_sha256": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+  "implementation_script_sha256": "562b3eb53ad6dd13c0801c43bd6e918110083ab4d12592c024b3007b634e2554",
   "evidence": "tests/test_native_closure_wave.py::test_reflected_factorization_is_equality_not_just_inequality"
 }

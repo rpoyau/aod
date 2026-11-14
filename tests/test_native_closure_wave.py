@@ -497,3 +497,218 @@ def test_stochastic_history_bins_form_partition_before_average():
     statuses=['omega' if h['returned'] else 'alpha' if h['alpha'] else 'unresolved' for h in histories]
     counts=[statuses.count(s) for s in ('alpha','omega','unresolved')]
     assert sum(counts)==len(histories) and Q(sum([1]*len(histories)),sum(counts))==1
+
+
+# R04 feedback admission contract: owned regressions, independent of its harness.
+def _middle_event(t,event_id):
+    ids=(t.event_ids[0],event_id,t.event_ids[-1])
+    return replace(t,event_ids=ids,reflection=replace(t.reflection,
+                   turnaround_id=event_id,outbound_ids=(event_id,)))
+
+
+def _feedback_contacts(conflicting=False):
+    a,b=n.recurrent('feedback-left',3),n.recurrent('feedback-right',4,spacing=6)
+    events=n.contacts(a,b)
+    assert tuple(e.committed for e in events)==(12,20)
+    if conflicting:
+        altered=_middle_event(replace(events[1].support_trace,vertices=(0,2,0)),
+                              events[0].support_trace.event_ids[1])
+        assert (events[0].support_trace.vertices[1],events[0].support_trace.indices[1])==(1,11)
+        assert (altered.vertices[1],altered.indices[1])==(2,19)
+        events=(events[0],replace(events[1],support_trace=altered,support_certificate=n.certify(altered)))
+    return a,b,events
+
+
+def test_feedback_valid_trace_recurrence_and_contact_results_are_preserved():
+    ordinary=n.certified(n.trace('feedback-positive'))
+    shifted=n.certified(n.trace('feedback-shifted',start_index=-1))
+    assert n.admitted(*ordinary) and n.admitted(*shifted)
+    assert shifted[0].indices==(-1,0,1)
+    a,b,events=_feedback_contacts()
+    assert n.validate_wave(a) and a.bip==2 and a.cadence==(10,10)
+    forward=n.compare(a,b,events,window=(0,23))
+    backward=n.compare(a,b,events,window=(0,23),reverse=True)
+    assert tuple(forward[k] for k in ('ratio','bias','lag','drift','duration'))==(Q(2,3),0,-1,-1,5)
+    assert tuple(backward[k] for k in ('ratio','bias','lag','drift','duration'))==(Q(3,2),0,1,1,7)
+    assert forward['rcd'].contact_ids==tuple(e.identity for e in events)
+
+
+def test_feedback_identical_records_and_identical_shared_events_remain_admissible():
+    first=n.trace('shared-event',0,vertices=(0,1,3,1,0))
+    second=_middle_event(n.trace('shared-event',1,start_index=0),first.event_ids[1])
+    record=n.certified(first)
+    assert n.phase_count((record,record))==1
+    assert n.phase_count((record,n.certified(second)))==2
+
+
+@pytest.mark.parametrize('domain',['scope','scale','lineage'])
+def test_feedback_local_event_names_are_scoped(domain):
+    first=n.trace('scoped-name')
+    if domain=='scope':
+        second=replace(first,scope='B1',reflection=replace(first.reflection,scope='B1'))
+    elif domain=='scale':second=replace(first,scale=1)
+    else:
+        second=replace(first,lineage='other',ancestor='other:ancestor',
+                       reflection=replace(first.reflection,lineage='other'))
+    assert first.event_ids==second.event_ids
+    assert n.phase_count((n.certified(first),n.certified(second)))==2
+
+
+def test_feedback_recurrence_rejects_nonterminal_event_conflict():
+    first=n.trace('event-conflict',0)
+    second=_middle_event(n.trace('event-conflict',1,vertices=(0,2,0)),first.event_ids[1])
+    with pytest.raises(n.AdmissionError,match='immutable retained event'):
+        n.wave((n.certified(first),n.certified(second)))
+
+
+@pytest.mark.parametrize('accessor',['phase_count','compare'])
+def test_feedback_contact_collection_rejects_conflict_through_both_routes(accessor):
+    a,b,events=_feedback_contacts(True)
+    with pytest.raises(n.AdmissionError,match='immutable retained event'):
+        if accessor=='phase_count':
+            n.phase_count(tuple((e.support_trace,e.support_certificate,
+                                {e.support_certificate.certificate_digest:e.support_certificate}) for e in events))
+        else:n.compare(a,b,events,window=(0,23))
+
+
+@pytest.mark.parametrize('boundary',['vertex','chirality','fibre','window'])
+def test_feedback_rejects_original_boolean_boundary_families(boundary):
+    with pytest.raises(n.AdmissionError):
+        if boundary=='vertex':n.certified(n.trace(vertices=(0,True,0)))
+        elif boundary=='chirality':n.certified(n.trace(chirality=True))
+        elif boundary=='fibre':n.fibre_step(True,0,'enter_hinge')
+        else:n.participation(n.RCD('A','B','B0',('c1','c2'),3,(1,1)),True,'native-return-count')
+
+
+class _IntegerAlias(int):
+    pass
+
+
+@pytest.mark.parametrize('alias',[True,1.0,Q(1),_IntegerAlias(1)],ids=['bool','float','fraction','int-subclass'])
+@pytest.mark.parametrize('field',['turnaround_committed_at','committed_at'])
+def test_feedback_reflection_commitments_require_exact_int(field,alias):
+    t=n.trace('reflection-cut',start_index=-1 if field=='committed_at' else 0)
+    assert getattr(t.reflection,field)==1 and type(getattr(t.reflection,field)) is int
+    with pytest.raises(n.AdmissionError,match='exact integer native cuts'):
+        n.certified(replace(t,reflection=replace(t.reflection,**{field:alias})))
+
+
+@pytest.mark.parametrize('missing',[False,True])
+def test_feedback_existing_reflection_rejections_survive(missing):
+    t=n.trace('reflection-negative')
+    bad=replace(t,reflection=None if missing else replace(t.reflection,lineage='wrong'))
+    with pytest.raises(n.AdmissionError,match='reflection'):
+        n.certified(bad)
+
+
+def _member_waves(conflicting=False):
+    ts=[n.trace('member-lineage',k,vertices=(0,1 if k<2 else 2,0)) for k in range(4)]
+    if conflicting:ts[2]=_middle_event(ts[2],ts[0].event_ids[1])
+    records=tuple(n.certified(t) for t in ts)
+    return records,(n.wave(records[:2]),n.wave(records[2:]))
+
+
+@pytest.mark.parametrize('consumer',['field','fold_proposal','contacts'])
+def test_shared_event_consistency_across_member_waves(consumer):
+    _,valid=_member_waves()
+    _,bad=_member_waves(True)
+    def consume(members):
+        if consumer=='field':return n.field('B0','member-field',members)
+        if consumer=='fold_proposal':return n.fold_proposal(members,'B1',1)
+        return n.contacts(*members)
+    assert consume(valid)
+    with pytest.raises(n.AdmissionError,match='immutable retained event'):consume(bad)
+
+
+def test_leg_comparison_cannot_admit_conflicting_event_bindings():
+    first=n.trace('leg-union')
+    second=_middle_event(n.trace('leg-union',1,vertices=(0,2,0)),first.event_ids[1])
+    with pytest.raises(n.AdmissionError,match='immutable retained event'):
+        n.leg_comparison(n.certified(first),n.certified(second))
+
+
+@pytest.mark.parametrize('collision',['component-component','component-support'])
+def test_motif_components_and_support_are_one_admitted_union(collision):
+    first,second=n.trace('motif-union',0),n.trace('motif-union',1)
+    target=n.trace('motif-union',2)
+    def build(a,b,t):
+        ca,cb,ct=(n.certify(x) for x in (a,b,t))
+        ids=(ca.return_id,cb.return_id)
+        reg={c.certificate_digest:c for c in (ca,cb,ct)}
+        return n.motif_witness('1:2',t,((ids,),ids),((a,ca),(b,cb)),reg)
+    assert n.validate_motif(build(first,second,target))
+    if collision=='component-component':second=_middle_event(second,first.event_ids[1])
+    else:target=_middle_event(target,first.event_ids[1])
+    with pytest.raises(n.AdmissionError,match='immutable retained event'):build(first,second,target)
+
+
+def _duon_record(lineage,k,component_event=None):
+    component=n.trace(lineage,2*k)
+    if component_event is not None:component=_middle_event(component,component_event)
+    target=n.trace(lineage,2*k+1)
+    pc,tc=n.certify(component),n.certify(target)
+    registry={c.certificate_digest:c for c in (pc,tc)}
+    motif=n.motif_witness('Duon',target,((1,-1),(pc.certificate_digest,0),(-1,1)),
+                          ((component,pc),),registry)
+    return (target,tc,registry),motif
+
+
+def test_recurrence_checks_components_across_separate_motif_witnesses():
+    left,lm=_duon_record('duon-union',0)
+    right,rm=_duon_record('duon-union',1)
+    assert n.validate_wave(n.wave((left,right),(lm,rm)))
+    bad,bm=_duon_record('duon-union',1,lm.component_traces[0].event_ids[1])
+    assert n.validate_motif(lm) and n.validate_motif(bm)
+    with pytest.raises(n.AdmissionError,match='immutable retained event'):
+        n.wave((left,bad),(lm,bm))
+
+
+def test_field_checks_retained_components_across_motif_waves():
+    items=[_duon_record('field-duon-union',k) for k in range(4)]
+    left=n.wave(tuple(x[0] for x in items[:2]),tuple(x[1] for x in items[:2]))
+    right=n.wave(tuple(x[0] for x in items[2:]),tuple(x[1] for x in items[2:]))
+    assert len(n.field('B0','valid-duons',(left,right)).members)==2
+    items[2]=_duon_record('field-duon-union',2,items[0][1].component_traces[0].event_ids[1])
+    bad=n.wave(tuple(x[0] for x in items[2:]),tuple(x[1] for x in items[2:]))
+    with pytest.raises(n.AdmissionError,match='immutable retained event'):
+        n.field('B0','conflicting-duons',(left,bad))
+
+
+def test_outer_record_and_field_unions_retain_inner_event_consistency():
+    def folded_members(conflicting):
+        _,members=_member_waves(conflicting)
+        waves=[]
+        for j,member in enumerate(members):
+            inner=(member,)
+            records=tuple(n.certified(n.outer_trace(inner,lineage=f'outer-union-{j}',occurrence=k),
+                                      'outer',inner=inner) for k in range(2))
+            waves.append(n.wave(records))
+        return tuple(waves)
+    good=folded_members(False)
+    assert len(n.field('B1','valid-outer',good).members)==2
+    bad=folded_members(True)
+    records=tuple((w.returns[0],w.certificates[0],{w.certificates[0].certificate_digest:w.certificates[0]}) for w in bad)
+    with pytest.raises(n.AdmissionError,match='immutable retained event'):n.phase_count(records)
+    with pytest.raises(n.AdmissionError,match='immutable retained event'):n.field('B1','bad-outer',bad)
+
+
+@pytest.mark.parametrize('alias',[True,1.0,Q(1),_IntegerAlias(1)],ids=['bool','float','fraction','int-subclass'])
+def test_bound_value_states_require_exact_integer_commitments(alias):
+    w=n.wave(tuple(n.certified(n.trace('readout-cuts',k,start_index=-1+10*k)) for k in range(2)))
+    values=n.declared_readout(w,(0,1))
+    assert values.states[0].committed==1
+    with pytest.raises(n.AdmissionError,match='readout commitment'):
+        n.bind_values(w,(replace(values.states[0],committed=alias),values.states[1]))
+
+
+@pytest.mark.parametrize('alias',[True,1.0,Q(1),_IntegerAlias(1)],ids=['bool','float','fraction','int-subclass'])
+@pytest.mark.parametrize('side',[0,1])
+def test_standing_states_require_exact_integer_commitments(alias,side):
+    waves=tuple(n.wave(tuple(n.certified(n.trace(f'standing-{chi}',k,start_index=-21+10*k,chirality=chi))
+                             for k in range(3))) for chi in (1,-1))
+    states=tuple(replace(n.initial_state(w),current=Q(2*w.returns[0].roles[0])) for w in waves)
+    events=n.contacts(*waves)
+    assert n.standing_organization(*waves,events,states,window=(-30,1))['kind']=='standing'
+    bad=list(states);bad[side]=replace(bad[side],committed=alias)
+    with pytest.raises(n.AdmissionError,match='standing state commitment'):
+        n.standing_organization(*waves,events,tuple(bad),window=(-30,1))

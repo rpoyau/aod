@@ -19,11 +19,14 @@ import zipfile
 import aod_native_closure_wave as n
 import aod_mapping_error as m
 import aod_m3_temporal as t
+import aod_trace_digest_cache as digest_cache
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = Path('manual/data/m3/temporal_anchor')
 ARCHIVE_SHA256 = '2b26210cf0f7f2fa5e510560d5156aebddaa6a7039e1eab4e9a8209500bead25'
-NATIVE_SHA256 = '3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf'
+NATIVE_SHA256 = '562b3eb53ad6dd13c0801c43bd6e918110083ab4d12592c024b3007b634e2554'
+FORMATION_MIGRATION = 'aod.anchor.formation-event-namespace.v1'
+FORMATION_NAMESPACE = 'active-anchor:formation:'
 CASES = ('baseline', 'second_support_pair', 'compared_population', 'reference_exposure')
 HORIZON = 3316192
 INTERVENTION = 300000
@@ -69,6 +72,47 @@ def verify_archive(root=ROOT):
             'input_bindings':len(binding['files']), 'original_source_commit':binding['source_commit']}
 
 
+def _install_formation_migration(population):
+    """Separate archival formation occurrences from its reused return numbers.
+
+    The authenticated legacy constructor names both component j at cut 3*j and
+    target return j at cut >=30 as ``lineage:j:e...``. They are different events.
+    Translate only formation names before the first joint motif admission;
+    leave the archived source, target traces, scheduling and transition law intact.
+    """
+    original_node = population.Node
+
+    class ActiveAnchorNode(original_node):
+        def add_return(self, tr):
+            if not hasattr(self, 'formation_identity_migration'):
+                migrated, bindings = [], []
+                for component, certificate in self.components:
+                    n.admitted(component, certificate, {certificate.certificate_digest:certificate})
+                    require(all(not event.startswith(FORMATION_NAMESPACE) for event in component.event_ids),
+                            'formation migration cannot be applied twice')
+                    names = {event:FORMATION_NAMESPACE+event for event in component.event_ids}
+                    w = component.reflection
+                    active = replace(component, event_ids=tuple(names[event] for event in component.event_ids),
+                        reflection=replace(w, turnaround_id=names[w.turnaround_id],
+                            outbound_ids=tuple(names[event] for event in w.outbound_ids),
+                            return_ids=tuple(names[event] for event in w.return_ids),
+                            target_start_id=names[w.target_start_id]))
+                    active_certificate = n.certify(active)
+                    migrated.append((active, active_certificate))
+                    bindings.append({'event_ids':names,
+                        'original_return_id':component.return_id,'active_return_id':active.return_id,
+                        'original_trace_digest':component.trace_digest,'active_trace_digest':active.trace_digest,
+                        'original_certificate_digest':certificate.certificate_digest,
+                        'active_certificate_digest':active_certificate.certificate_digest})
+                self.components = tuple(migrated)
+                ids = tuple(c.return_id for _,c in self.components)
+                self.construction = (tuple(ids for _ in range(self.p)),ids)
+                self.formation_identity_migration = {'rule':FORMATION_MIGRATION,'bindings':tuple(bindings)}
+            return super().add_return(tr)
+
+    population.Node = ActiveAnchorNode
+
+
 @contextmanager
 def source_modules(root=ROOT):
     """Load authenticated engine/decoder; keep legacy files outside active source."""
@@ -94,6 +138,7 @@ def source_modules(root=ROOT):
             # instance from the same source. Bind the verified admission module.
             modules['population'].n = n
             modules['population'].check_sources()
+            _install_formation_migration(modules['population'])
             yield modules, folder
         finally:
             sys.path[:] = saved_path
@@ -105,11 +150,11 @@ def source_modules(root=ROOT):
 
 
 def original_replay(root=ROOT):
-    """Execute the unmodified historical audit and compare every original output."""
+    """Execute historical audit bytes with digest reuse; compare every output."""
     with source_modules(root) as (_, folder):
         out = folder/'replayed'
         optimization = ['-O'] if sys.flags.optimize else []
-        result = subprocess.run([sys.executable, '-B', *optimization, str(folder/'audit_anchor.py'), '--output', str(out)],
+        result = subprocess.run([sys.executable, '-B', *optimization, str(Path(digest_cache.__file__)), str(folder), str(out)],
                                 capture_output=True, text=True)
         require(result.returncode == 0, 'historical anchor replay failed: '+result.stderr)
         files = sorted(p.name for p in (folder/'results').iterdir())
@@ -119,6 +164,9 @@ def original_replay(root=ROOT):
         rows = json.loads((out/'admitted_validation.json').read_text())
         report = json.loads((out/'report.json').read_text())
         return {'classification':'unchanged_retrospective_original_experiment',
+                'execution_adapter':{'kind':'bounded_value_keyed_trace_digest_reuse',
+                                     'sha256':sha(Path(digest_cache.__file__)),
+                                     'audit_source_bytes':'unchanged; interpreter instrumented by the adapter'},
                 'checks':report['check_count'], 'output_sha256':{name:sha(out/name) for name in files},
                 'direct_pair_residuals':{key:rows['direct_pair']['transfers'][key]['comparison']['relative_residual']
                                          for key in ('A','B')},
@@ -129,13 +177,17 @@ def default_inputs(root=ROOT):
     return {'schema':'aod.m3.anchor-input.v1', 'model_id':'m3:anchor-context-controls:v1',
             'archive_sha256':ARCHIVE_SHA256, 'code_sha256':sha(Path(__file__)),
             'native_sha256':NATIVE_SHA256, 'temporal_sha256':sha(Path(t.__file__)),
+            'trace_digest_cache_sha256':sha(Path(digest_cache.__file__)),
             'mapping_sha256':sha(Path(m.__file__)), 'horizon':HORIZON, 'intervention':INTERVENTION,
             'calibration_window':[INTERVENTION,SPLIT], 'validation_window':[SPLIT,HORIZON],
             'preparation':{'initial_returns':'two authenticated support returns per prepared node',
                            'base_first_action':2000, 'initial_contact_starts':[700,1200],
                            'dormant_local':'L0 is prepared in every case; only the intervention activates its recurrence',
                            'counting':'later reclosures in (u,v]; initial closure excluded',
-                           'source_law':'unchanged original population.py; explicit population/topology initialization'},
+                           'source_law':'unchanged archived transition law; explicit population/topology initialization',
+                           'formation_identity_migration':{'rule':FORMATION_MIGRATION,
+                               'namespace':FORMATION_NAMESPACE,
+                               'scope':'formation event names and dependent witnesses only; target events and native coordinates preserved'}},
             'cases':{name:{'support_pair':[[3,2],[3,3]] if name=='second_support_pair' else [[3,3],[1,2]],
                            'backgrounds':[['F0',3,4],['F1',3,4]], 'prepared_local':['L0',3,4],
                            'local_target':{'compared_population':'A','reference_exposure':'F0'}.get(name),
@@ -203,6 +255,7 @@ def run_engine(spec, modules, end=HORIZON):
 
 def engine_payload(engine, spec, end):
     return plain({'model_specification':spec, 'horizon':end,
+                  'formation_identity_migration':{name:node.formation_identity_migration for name,node in engine.nodes.items()},
                   'waves':{name:asdict(node.wave()) for name,node in engine.nodes.items()},
                   'channels':{'|'.join(key):{'contacts':[asdict(c) for c in channel.contacts],
                                            'evidence':channel.evidence}
@@ -356,7 +409,7 @@ def predict_engine(engine, inputs, case):
 def predict_case(inputs, case, root=ROOT):
     validate_inputs(inputs,root)
     require(case in CASES, 'unknown declared anchor case')
-    with source_modules(root) as (modules,_):
+    with digest_cache.trace_digest_cache(n), source_modules(root) as (modules,_):
         return predict_engine(run_engine(inputs['cases'][case],modules),inputs,case)
 
 
@@ -448,7 +501,7 @@ def products(root=ROOT):
     historical=original_replay(root)
     require(historical['direct_pair_residuals']=={'A':'-5/29','B':'-49/151'}, 'original transfer rejection changed')
     cases={}
-    with source_modules(root) as (modules,_):
+    with digest_cache.trace_digest_cache(n), source_modules(root) as (modules,_):
         for name,spec in inputs['cases'].items():
             cases[name]=predict_engine(run_engine(spec,modules),inputs,name)
     report=summarize(cases,historical,inputs)
@@ -460,7 +513,7 @@ def products(root=ROOT):
 def verify(root=ROOT):
     folder=Path(root)/DATA
     bound_files=[path for path in folder.rglob('*') if path.is_file()]
-    bound_files.extend(Path(module.__file__) for module in (n,m,t))
+    bound_files.extend(Path(module.__file__) for module in (n,m,t,digest_cache))
     bound_files.append(Path(__file__))
     before={str(path):sha(path) for path in bound_files}
     expected=products(root)

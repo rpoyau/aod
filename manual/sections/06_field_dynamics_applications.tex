@@ -445,11 +445,15 @@ MAPE_{U,g}=\frac{100}{N_g}\sum_j\left|\frac{\Delta U_{g,j}}{U^{\mathrm{obs}}_{g,
 U^{\mathrm{obs}}_{g,j}>0.
 \]
 Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor.
+The current pooled primary score gives equal weight to each bin with
+\(U^{\mathrm{obs}}_{g,j}>0\), rather than equal weight to galaxy means.
+Its scored and total bin counts, score coordinate, aggregation rule and computed
+value are retained in \texttt{sparc\_primary\_score.csv}.
 \input{data/derived/sparc_summary_table.tex}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\linewidth]{figures/sparc_declaration_controls.png}
-\caption{SPARC carried declaration-control scores. The four values in \texttt{sparc\_declaration\_controls.csv} are frozen comparison records; their variant recipes and aggregation rule are not supplied. Primary per-bin and per-galaxy scores are computed separately by the declared map.}
+\caption{SPARC carried declaration-control scores. The four values in \texttt{sparc\_declaration\_controls.csv} are frozen comparison records; their variant recipes and aggregation rule are not supplied. The historical primary row is preserved separately from the current pooled primary score in \texttt{sparc\_primary\_score.csv} and \tabref{tab:manual-sparc-five-galaxy-scores}.}
 \label{fig:manual-sparc-controls}
 \end{figure}
 \begin{figure}[H]

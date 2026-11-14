@@ -513,7 +513,7 @@
     "native_schema_version": 3,
     "original_context_sha256": "237266b357007eddfac9f8a967f84697889b02e48eb619367e225bed06d65965",
     "physical_correspondence": "unestablished",
-    "prediction_sha256": "c2ea9c534ec69acf49c6033d0f1bdfb227eece4247adf1d93296ef57b5656b18"
+    "prediction_sha256": "26c3b76896dd7e2f1ea497ffb119cc432d7eeebb24f3523926489cd2f74bb78b"
   },
   "phase": {
     "compared_advance_turns": "7/2",

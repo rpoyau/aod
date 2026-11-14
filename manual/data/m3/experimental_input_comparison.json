@@ -8,7 +8,7 @@
     "manual/scripts/aod_m3_metrology.py": "d2f53146257b1d29939587abc167f87e9e810f904660b3bfd81a5015ef6e9618",
     "manual/scripts/aod_m3_temporal.py": "1cfc0ecebc1d4c5eb0b22184af171f4d60e9630a211dedbd66ae5a12df920aec",
     "manual/scripts/aod_mapping_error.py": "77afd00aac413fbaf7b4386d40f79be318d7d813081c6db17ffce1cb6c41f480",
-    "manual/scripts/aod_native_closure_wave.py": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf"
+    "manual/scripts/aod_native_closure_wave.py": "562b3eb53ad6dd13c0801c43bd6e918110083ab4d12592c024b3007b634e2554"
   },
   "freeze": {
     "comparison": {
@@ -18,13 +18,13 @@
       "independent_validation": false,
       "interpretation": "retrospective_comparison",
       "physical_discrepancy": "unresolved",
-      "prediction_sha256": "45d7475fb0981da1dfb7fd5d149d2387e9ee45b11b32425934891bd6d4e44fc4",
+      "prediction_sha256": "9feb723a2af19923cce1527a9a8468ff1848cc07594f06247adff98f2ffba7dd",
       "residual": "0",
       "schema": "aod.m3.frozen-comparison.v1",
       "shared_source_payloads": [],
       "uncertainty": {
         "cross_covariance": "0",
-        "evidence_source_sha256": "2187e37f3a0c6f0987fc7dd87c21c391b5324d39daf86a584d0cc13469145f4d",
+        "evidence_source_sha256": "23cb03c47d80f84dcb30cb95cbfe0d17bb738ebe80732fecf88e5384fcad1b2d",
         "propagation": {
           "covariance_units": [
             [
@@ -278,7 +278,7 @@
             "manual/scripts/aod_m3_metrology.py": "d2f53146257b1d29939587abc167f87e9e810f904660b3bfd81a5015ef6e9618",
             "manual/scripts/aod_m3_temporal.py": "1cfc0ecebc1d4c5eb0b22184af171f4d60e9630a211dedbd66ae5a12df920aec",
             "manual/scripts/aod_mapping_error.py": "77afd00aac413fbaf7b4386d40f79be318d7d813081c6db17ffce1cb6c41f480",
-            "manual/scripts/aod_native_closure_wave.py": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf"
+            "manual/scripts/aod_native_closure_wave.py": "562b3eb53ad6dd13c0801c43bd6e918110083ab4d12592c024b3007b634e2554"
           },
           "comparison_criterion": {
             "kind": "signed_residual",
@@ -440,7 +440,7 @@
         },
         "schema": "aod.m3.prediction-plan.v1",
         "source_id": "fixture:freeze-plan",
-        "source_sha256": "2ec5039e5a4a8555f7a631219be713b467cc11b349764795d8ca38a7aa1b32da"
+        "source_sha256": "7ca4a682749c92443e5fafd49e9c1976201b3e9b2a582eea882717477737d31e"
       },
       "propagation": {
         "covariance_units": [
@@ -643,7 +643,7 @@
           "stochastic_cross_covariance": null
         },
         "epoch_seconds": "0",
-        "operator_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
+        "operator_sha256": "c6aa0bef8df8b2c5550da17dccf77e779e332709bc743d8c1b79e6bbab9cb936",
         "original_context_sha256": "237266b357007eddfac9f8a967f84697889b02e48eb619367e225bed06d65965",
         "outputs": {
           "rate": {
@@ -657,7 +657,7 @@
             "value": "3"
           }
         },
-        "prediction_sha256": "c2ea9c534ec69acf49c6033d0f1bdfb227eece4247adf1d93296ef57b5656b18",
+        "prediction_sha256": "26c3b76896dd7e2f1ea497ffb119cc432d7eeebb24f3523926489cd2f74bb78b",
         "schema": "aod.temporal.readouts.v1",
         "source_dependencies": [],
         "window": [
@@ -745,7 +745,7 @@
       "source_dependencies": {
         "fixture:freeze-inputs": "9bef78918560057c4b64a3ecd5b23289c95e0e2e29c528112b135b89b5470f80",
         "fixture:freeze-moments": "e7ad9d988f83d6630c3da551d1cc0bdfd644573557dcba4b3e61b6126c08c01e",
-        "fixture:freeze-plan": "2ec5039e5a4a8555f7a631219be713b467cc11b349764795d8ca38a7aa1b32da"
+        "fixture:freeze-plan": "7ca4a682749c92443e5fafd49e9c1976201b3e9b2a582eea882717477737d31e"
       }
     },
     "prediction": {
@@ -778,7 +778,7 @@
             "manual/scripts/aod_m3_metrology.py": "d2f53146257b1d29939587abc167f87e9e810f904660b3bfd81a5015ef6e9618",
             "manual/scripts/aod_m3_temporal.py": "1cfc0ecebc1d4c5eb0b22184af171f4d60e9630a211dedbd66ae5a12df920aec",
             "manual/scripts/aod_mapping_error.py": "77afd00aac413fbaf7b4386d40f79be318d7d813081c6db17ffce1cb6c41f480",
-            "manual/scripts/aod_native_closure_wave.py": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf"
+            "manual/scripts/aod_native_closure_wave.py": "562b3eb53ad6dd13c0801c43bd6e918110083ab4d12592c024b3007b634e2554"
           },
           "comparison_criterion": {
             "kind": "signed_residual",
@@ -940,7 +940,7 @@
         },
         "schema": "aod.m3.prediction-plan.v1",
         "source_id": "fixture:freeze-plan",
-        "source_sha256": "fbd5b519c29566661f3f08024034e2c1d01153ec25d750aa0c20f756897fecd7"
+        "source_sha256": "9e5f2e9bda7d8de4280f8df304f6c61bb8eb62d0845808e4d94a46ee3c3dcba2"
       },
       "propagation": {
         "covariance_units": [
@@ -1143,7 +1143,7 @@
           "stochastic_cross_covariance": null
         },
         "epoch_seconds": "0",
-        "operator_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
+        "operator_sha256": "c6aa0bef8df8b2c5550da17dccf77e779e332709bc743d8c1b79e6bbab9cb936",
         "original_context_sha256": "237266b357007eddfac9f8a967f84697889b02e48eb619367e225bed06d65965",
         "outputs": {
           "rate": {
@@ -1157,7 +1157,7 @@
             "value": "3"
           }
         },
-        "prediction_sha256": "c2ea9c534ec69acf49c6033d0f1bdfb227eece4247adf1d93296ef57b5656b18",
+        "prediction_sha256": "26c3b76896dd7e2f1ea497ffb119cc432d7eeebb24f3523926489cd2f74bb78b",
         "schema": "aod.temporal.readouts.v1",
         "source_dependencies": [],
         "window": [
@@ -1245,7 +1245,7 @@
       "source_dependencies": {
         "fixture:freeze-inputs": "c91b1c6102cee330aa39433bb67d711f47b428d419905e81dc1ed8f9777b1f09",
         "fixture:freeze-moments": "fff11f05ff84d9a1ccbfaf84951cba810f39507eb8512f289d981195cf3fd937",
-        "fixture:freeze-plan": "fbd5b519c29566661f3f08024034e2c1d01153ec25d750aa0c20f756897fecd7"
+        "fixture:freeze-plan": "9e5f2e9bda7d8de4280f8df304f6c61bb8eb62d0845808e4d94a46ee3c3dcba2"
       }
     },
     "target": {
@@ -1293,13 +1293,13 @@
       "independent_validation": false,
       "interpretation": "retrospective_comparison",
       "physical_discrepancy": "unresolved",
-      "prediction_sha256": "45d7475fb0981da1dfb7fd5d149d2387e9ee45b11b32425934891bd6d4e44fc4",
+      "prediction_sha256": "9feb723a2af19923cce1527a9a8468ff1848cc07594f06247adff98f2ffba7dd",
       "residual": "-1",
       "schema": "aod.m3.frozen-comparison.v1",
       "shared_source_payloads": [],
       "uncertainty": {
         "cross_covariance": "0",
-        "evidence_source_sha256": "f2252c4ffd7736712fba291ebf7566a6223cb1bd80ca7864a75311c6160c15aa",
+        "evidence_source_sha256": "46315b57ef5e6bf18e4617d9bc63101c802a9113d4ef3ddbaf4cfee73b92e177",
         "propagation": {
           "covariance_units": [
             [
@@ -6481,7 +6481,7 @@
         "scope": "only the listed states and one declared update; no universal reduced dynamics"
       },
       "operator": "aod_native_closure_wave.update",
-      "operator_code_sha256": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+      "operator_code_sha256": "562b3eb53ad6dd13c0801c43bd6e918110083ab4d12592c024b3007b634e2554",
       "original_context_sha256": "237266b357007eddfac9f8a967f84697889b02e48eb619367e225bed06d65965",
       "property": "equality of the next committed current for equal coarse states",
       "retained_fields": [
@@ -6651,7 +6651,7 @@
         "scope": "only the listed states and one declared update; no universal reduced dynamics"
       },
       "operator": "aod_native_closure_wave.update",
-      "operator_code_sha256": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+      "operator_code_sha256": "562b3eb53ad6dd13c0801c43bd6e918110083ab4d12592c024b3007b634e2554",
       "original_context_sha256": "237266b357007eddfac9f8a967f84697889b02e48eb619367e225bed06d65965",
       "property": "equality of the next committed current for equal coarse states",
       "retained_fields": [
@@ -6796,7 +6796,7 @@
         "stochastic_cross_covariance": null
       },
       "epoch_seconds": "0",
-      "operator_sha256": "52ac80246c430c0080693dd4301463d1ed768a946b7866b2d420794e40d5b1c7",
+      "operator_sha256": "c6aa0bef8df8b2c5550da17dccf77e779e332709bc743d8c1b79e6bbab9cb936",
       "original_context_sha256": "237266b357007eddfac9f8a967f84697889b02e48eb619367e225bed06d65965",
       "outputs": {
         "conditional_rate": {
@@ -6810,7 +6810,7 @@
           "value": "3"
         }
       },
-      "prediction_sha256": "c2ea9c534ec69acf49c6033d0f1bdfb227eece4247adf1d93296ef57b5656b18",
+      "prediction_sha256": "26c3b76896dd7e2f1ea497ffb119cc432d7eeebb24f3523926489cd2f74bb78b",
       "schema": "aod.temporal.readouts.v1",
       "source_dependencies": [],
       "window": [

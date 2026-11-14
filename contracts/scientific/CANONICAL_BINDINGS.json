@@ -819,7 +819,7 @@
   "frozen_sha256": {
     "contracts/scientific/FOURIER_SCOPE.md": "0bb855f5666a97a285d4e2ded98adf9cb70dc372b9039c33bcaeb43b38435328",
     "contracts/scientific/METROLOGY_BOUNDARY.md": "553609db18f523faae6d2a53c3465c56ceb9034c6ba1ae3b7a6cff77fdf678af",
-    "contracts/scientific/ROUND_TRIP_PHASE_FACTOR_SPEC.json": "a7f7c6aea4a373655e9031515d95cc19569557ad35357665e1e56d8b81777ed5",
+    "contracts/scientific/ROUND_TRIP_PHASE_FACTOR_SPEC.json": "10f2f6a6f236c0a980fba82ba8afad309c7e66368e9abc011114a314afe05576",
     "contracts/scientific/UPDATE_CAUSAL_ORDER.md": "879fe4fce9ec09b8640ca31eea28c09a3a6d2047f6d58eeafe463ece055315bd",
     "contracts/scientific/AWARENESS_ACTIVE_CAUSAL_SPEC.json": "a4e530314d03ff2a695a5d9f6d59f20f18ab8ae4c388a594b99fcf0996c5cf05",
     "contracts/scientific/HISTORICAL_TOY_SOURCE_STATUS.csv": "dc0f1b94afc71f930929e64caef8d9f9cb49386035706aa2b79b8b9cc0de42d4",
@@ -854,7 +854,7 @@
     "manual/data/derived/sparc_declaration_controls.csv": "e16ef11585c814112e6f19f4cbabee1b5442f6bd1981f9d3d9f70cc76f7afd12",
     "manual/data/derived/sparc_five_galaxy_per_bin.csv": "2ceec667b927d9cc6e1c65ae0980dadfdbb0ca4a0497bbd2fdc8999314b7e2e4",
     "manual/data/derived/sparc_five_galaxy_per_galaxy.csv": "26f0ddb4560d86639386c7ee2ceca9b1e4cb5dcb92d8940c00cf48b3b080f621",
-    "manual/data/derived/sparc_summary_table.tex": "977b15cff45f44da60dac01a95507ded32eacb7f814278ae4f2cf4657412642b",
+    "manual/data/derived/sparc_summary_table.tex": "77030f321beb7c1911b66da1f5488f145ede83429b365d1f3d84c9e201fd55fe",
     "manual/data/derived/tau_declaration_controls.csv": "d1769dd1161a4f12f0be0bd7916f89c708f429560ba2fedbb2ecfd7c24ea5cab",
     "manual/data/derived/tau_ring_diagnostic.csv": "c15898ce88098fbe4086f45f43d9e7323c26d36a863fe2da52ea19edb84a15bd",
     "manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv": "a87e3e915367fe044ddd703d12f4a94f4ad61c509a3d312f91ebf5015c075a2b",
@@ -932,11 +932,11 @@
     "manual/scripts/aod_3d_coordinate_phase_delta3.py": "55ab9a657321282f0560cc031f5baf41087072560840551a932a503ae63e412d",
     "manual/scripts/aod_awareness.py": "6846300c020aca4af2c7fc51c0727dcd0ce7e302453e0a514904ce8aa5331d7b",
     "manual/scripts/aod_brownian_3d_phase_delta3.py": "472b6e490cc8ed12a17364e3fee5559e1d666b15f5ce259b60674ab79d6c16ba",
-    "manual/scripts/aod_native_closure_wave.py": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+    "manual/scripts/aod_native_closure_wave.py": "562b3eb53ad6dd13c0801c43bd6e918110083ab4d12592c024b3007b634e2554",
     "manual/scripts/aod_run_tumble_3d_trace.py": "601f6c6718248219e7f7c3ecc2c52ede0704941822eebc6453bd5af08a6efdd7",
     "manual/scripts/generate_higgs_trace_figures.py": "7c162117d7771ef45219b476ade7b5cde72a6242d4f16a6f6adec04fa41a94f3",
     "manual/scripts/generate_k4_input_gate_figure.py": "3f4f514d7f424919ac1c68b13782b8a511ecb30d73589ad2895773ed818f66cc",
-    "manual/scripts/score_sparc_field_dynamics.py": "568804a535858031a0a6886748e6ef4da357bfb86ffd8d045ef1b1c4ac6f5b89",
+    "manual/scripts/score_sparc_field_dynamics.py": "7a4eaa50487f7acfdb46a711a4ef4c1e5b0bdc1c64b01e75a27ef3d944ec9478",
     "preamble.tex": "a2c8c0b3dbc6eddc6f78dba4791236ce3ab89c5ad264d5975126d33db6ecfca8",
     "refs.bib": "39b6167100ce5c31c544ec65fdb6901f6abe44628fb44ad12eb448c396d7d8e9",
     "scripts/build_release_bundle.py": "edcb89ddb74c4790a894f23885ef79423670c995e6f17bd156fa997f62ac8392",
@@ -966,7 +966,7 @@
     "tests/test_manual_table_grammar_release_polish.py": "b0dcb336d6e496639ff3b19c1074f632aaa982f60bbd74cae7a5b53cbb4ce544",
     "tests/test_manual_zenodo_wording_polish.py": "0a4f65dc3032689a1530265491d1ba101dfd60a7b76601e1f35b937ba91f95ba",
     "tests/test_native_awareness.py": "a80240a90f9e955f12993b2ed46962193cecfbdda2356eef91e13414f07a4ae3",
-    "tests/test_native_closure_wave.py": "1bcd170745b2de5e01baebf2fa2b8e1f383b5c9729d7e65ffadee15e9aa68b10",
+    "tests/test_native_closure_wave.py": "95fc4792a6784dfec1eb1536a1ce43e7df80859d79f5d339a5a059de584aa5d8",
     "tests/test_release_naming_hygiene.py": "b3f565d494eafbf06b7acad323035d0edf149be65a3ccd98d013ac25b8f2168c",
     "tests/test_release_primary_artifact.py": "1d2ffc01c01a7271d82c432f28efe72e91af45368de2d4ab516807376595e5d0",
     "tests/test_sadar_pressure_targets.py": "8b4f4f7b8ffcc3835167e71c26770d6282438a376800acee51a4d095b15d2e79",
@@ -982,6 +982,8 @@
     "figures_jpg/field_dynamics_layered_main.png": "d7b6118b8f4a0e018336da23f596b70653eeb5db9bb5d70c249465d0c6a0f5b9",
     "figures_jpg/cycle_disturbance_shedding_fixture.png": "cda868137826a61f74b1b22a45f55556bbcf2dd155ff2b1d35d04f747589ed04",
     "manual/scripts/generate_cycle_shedding_fixture.py": "593f5023461e0b999398d3d99c7074f4b750740d3c26cac03d8423df5ece8326",
-    "tests/test_cycle_shedding_fixture.py": "0ae07e6186cc453c09c986508493572bfd1843bb23f9fa422867286838249a8a"
+    "tests/test_cycle_shedding_fixture.py": "0ae07e6186cc453c09c986508493572bfd1843bb23f9fa422867286838249a8a",
+    "manual/data/derived/sparc_primary_score.csv": "c69fc776121f38eee02c067cb27bdb0fdf3d455af0c8cd84214ae5676e8aa119",
+    "tests/test_sparc_primary_score.py": "55c1e269dbc9343e6577d00e86eafe08aaf8cecd8aa7653fb857ec1e4f72f342"
   }
 }
