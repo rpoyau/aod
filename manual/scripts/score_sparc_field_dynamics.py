@@ -81,9 +81,42 @@ def compute() -> tuple[pd.DataFrame, pd.DataFrame]:
     return per_bin, pd.DataFrame(per_gal)
 
 
+def primary_score(per_bin: pd.DataFrame) -> dict:
+    """Pool the current primary calculation over its declared positive-U bins."""
+    relative_errors = []
+    for observed, residual in per_bin[["U_obs", "Delta_U"]].itertuples(index=False, name=None):
+        if not math.isfinite(observed) or not math.isfinite(residual):
+            raise ValueError("SPARC score requires finite observations and residuals")
+        # This is the same denominator domain used by the per-galaxy scorer.
+        if observed > 0:
+            relative_error = abs(residual / observed)
+            if not math.isfinite(relative_error):
+                raise ValueError("SPARC score requires a finite computed relative error")
+            relative_errors.append(relative_error)
+    if not relative_errors:
+        raise ValueError("SPARC score requires at least one positive U_obs bin")
+    try:
+        mape = math.fsum(100.0 * value for value in relative_errors) / len(relative_errors)
+    except OverflowError as error:
+        raise ValueError("SPARC score requires a finite computed MAPE") from error
+    if not math.isfinite(mape):
+        raise ValueError("SPARC score requires a finite computed MAPE")
+    return {
+        "record_kind": "computed_current_primary",
+        "quantity": "U=V^2",
+        "aggregation": "equal_weight_per_positive_U_obs_bin",
+        "source": "sparc_five_galaxy_per_bin.csv",
+        "N_total": len(per_bin),
+        "N_scored": len(relative_errors),
+        "MAPE_U_percent": mape,
+    }
+
+
 def write_outputs(per_bin: pd.DataFrame, per_gal: pd.DataFrame) -> None:
+    primary = primary_score(per_bin)
     per_bin.to_csv(DER / "sparc_five_galaxy_per_bin.csv", index=False)
     per_gal.to_csv(DER / "sparc_five_galaxy_per_galaxy.csv", index=False)
+    pd.DataFrame([primary]).to_csv(DER / "sparc_primary_score.csv", index=False)
     # Carried frozen comparison records; variant recipes and aggregation provenance
     # are not supplied. These values are not computed by this script.
     controls = pd.DataFrame([
@@ -97,13 +130,15 @@ def write_outputs(per_bin: pd.DataFrame, per_gal: pd.DataFrame) -> None:
     lines.append(r"\begin{table}[H]")
     lines.append(r"\centering")
     lines.append(r"\scriptsize")
-    lines.append(r"\caption{SPARC five-galaxy scored records. Data-support class is G0 for this radial shell projection lane; the uncertainty policy is observation-only in this release.}")
+    lines.append(r"\caption{SPARC five-galaxy scored records. Data-support class is G0 for this radial shell projection lane; the uncertainty policy is observation-only. The pooled MAPE gives equal weight to each positive-observation bin in the current primary calculation.}")
     lines.append(r"\begin{tabular}{lccrrrrr}")
     lines.append(r"\toprule")
     lines.append(r"$G$ & Class & $\sigma$ policy & $N$ & $\chi^2_U$ & $MAE_U$ & $MSE_U$ & $MAPE_U$ [\%]\\")
     lines.append(r"\midrule")
     for _, row in per_gal.sort_values("galaxy").iterrows():
         lines.append(f"{row['galaxy']} & G0 & obs-only & {int(row['N'])} & {row['chi2_U']:.2f} & {row['MAE_U']:.1f} & {row['MSE_U']:.1f} & {row['MAPE_U']:.2f}\\\\")
+    lines.append(r"\midrule")
+    lines.append(f"Pooled & G0 & obs-only & {primary['N_scored']} & --- & --- & --- & {primary['MAPE_U_percent']:.8f}\\\\")
     lines.append(r"\bottomrule")
     lines.append(r"\end{tabular}")
     lines.append(r"\label{tab:manual-sparc-five-galaxy-scores}")

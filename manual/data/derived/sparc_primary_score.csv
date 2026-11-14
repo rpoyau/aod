@@ -1,0 +1,2 @@
+record_kind,quantity,aggregation,source,N_total,N_scored,MAPE_U_percent
+computed_current_primary,U=V^2,equal_weight_per_positive_U_obs_bin,sparc_five_galaxy_per_bin.csv,209,209,26.570553423860428
