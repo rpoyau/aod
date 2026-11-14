@@ -19,6 +19,7 @@ import zipfile
 import aod_native_closure_wave as n
 import aod_mapping_error as m
 import aod_m3_temporal as t
+import aod_trace_digest_cache as digest_cache
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = Path('manual/data/m3/temporal_anchor')
@@ -149,11 +150,11 @@ def source_modules(root=ROOT):
 
 
 def original_replay(root=ROOT):
-    """Execute the unmodified historical audit and compare every original output."""
+    """Execute historical audit bytes with digest reuse; compare every output."""
     with source_modules(root) as (_, folder):
         out = folder/'replayed'
         optimization = ['-O'] if sys.flags.optimize else []
-        result = subprocess.run([sys.executable, '-B', *optimization, str(folder/'audit_anchor.py'), '--output', str(out)],
+        result = subprocess.run([sys.executable, '-B', *optimization, str(Path(digest_cache.__file__)), str(folder), str(out)],
                                 capture_output=True, text=True)
         require(result.returncode == 0, 'historical anchor replay failed: '+result.stderr)
         files = sorted(p.name for p in (folder/'results').iterdir())
@@ -163,6 +164,9 @@ def original_replay(root=ROOT):
         rows = json.loads((out/'admitted_validation.json').read_text())
         report = json.loads((out/'report.json').read_text())
         return {'classification':'unchanged_retrospective_original_experiment',
+                'execution_adapter':{'kind':'bounded_value_keyed_trace_digest_reuse',
+                                     'sha256':sha(Path(digest_cache.__file__)),
+                                     'audit_source_bytes':'unchanged; interpreter instrumented by the adapter'},
                 'checks':report['check_count'], 'output_sha256':{name:sha(out/name) for name in files},
                 'direct_pair_residuals':{key:rows['direct_pair']['transfers'][key]['comparison']['relative_residual']
                                          for key in ('A','B')},
@@ -173,6 +177,7 @@ def default_inputs(root=ROOT):
     return {'schema':'aod.m3.anchor-input.v1', 'model_id':'m3:anchor-context-controls:v1',
             'archive_sha256':ARCHIVE_SHA256, 'code_sha256':sha(Path(__file__)),
             'native_sha256':NATIVE_SHA256, 'temporal_sha256':sha(Path(t.__file__)),
+            'trace_digest_cache_sha256':sha(Path(digest_cache.__file__)),
             'mapping_sha256':sha(Path(m.__file__)), 'horizon':HORIZON, 'intervention':INTERVENTION,
             'calibration_window':[INTERVENTION,SPLIT], 'validation_window':[SPLIT,HORIZON],
             'preparation':{'initial_returns':'two authenticated support returns per prepared node',
@@ -404,7 +409,7 @@ def predict_engine(engine, inputs, case):
 def predict_case(inputs, case, root=ROOT):
     validate_inputs(inputs,root)
     require(case in CASES, 'unknown declared anchor case')
-    with source_modules(root) as (modules,_):
+    with digest_cache.trace_digest_cache(n), source_modules(root) as (modules,_):
         return predict_engine(run_engine(inputs['cases'][case],modules),inputs,case)
 
 
@@ -496,7 +501,7 @@ def products(root=ROOT):
     historical=original_replay(root)
     require(historical['direct_pair_residuals']=={'A':'-5/29','B':'-49/151'}, 'original transfer rejection changed')
     cases={}
-    with source_modules(root) as (modules,_):
+    with digest_cache.trace_digest_cache(n), source_modules(root) as (modules,_):
         for name,spec in inputs['cases'].items():
             cases[name]=predict_engine(run_engine(spec,modules),inputs,name)
     report=summarize(cases,historical,inputs)
@@ -508,7 +513,7 @@ def products(root=ROOT):
 def verify(root=ROOT):
     folder=Path(root)/DATA
     bound_files=[path for path in folder.rglob('*') if path.is_file()]
-    bound_files.extend(Path(module.__file__) for module in (n,m,t))
+    bound_files.extend(Path(module.__file__) for module in (n,m,t,digest_cache))
     bound_files.append(Path(__file__))
     before={str(path):sha(path) for path in bound_files}
     expected=products(root)

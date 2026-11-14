@@ -265,6 +265,9 @@ class AnchorEvidenceTests(unittest.TestCase):
 class AnchorAdmissionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        cls.digest_cache=a.digest_cache.trace_digest_cache(a.n)
+        cls.digest_cache.__enter__()
+        cls.addClassCleanup(cls.digest_cache.__exit__,None,None,None)
         cls.source=a.source_modules(ROOT)
         cls.modules,_=cls.source.__enter__()
         cls.inputs=a.default_inputs()

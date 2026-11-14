@@ -12,7 +12,7 @@
             "residual": "-160/29"
           },
           "prediction": {
-            "frozen_sha256": "7169e19c2e10077b438c5f15d52d2d4b1989edce67491bd070cb6e437620fecd",
+            "frozen_sha256": "6a0e1858f67232589496c807f0f22d885a56ca0845c63dede8e0e2efe3b63ee7",
             "operand_count": 48,
             "predicted_reference_bips": "768/29",
             "validation_window": [
@@ -30,7 +30,7 @@
             "residual": "-1568/151"
           },
           "prediction": {
-            "frozen_sha256": "cc84ca2b0b3925a91d1add2190eed50c5b79bb1a2047ac0bd0f68bc479e2c469",
+            "frozen_sha256": "e694a033a765bc4e426046af2aaf17795293e6d99d8f02b6babeeb93a1a023e7",
             "operand_count": 102,
             "predicted_reference_bips": "3264/151",
             "validation_window": [
@@ -40,7 +40,7 @@
           }
         }
       },
-      "case_sha256": "691aca182800b4db7d5ab8346cc9b9d0dbe3d0d1e63df0870bf451e1c50bb6c9",
+      "case_sha256": "dad4507a7abe95e548aa710ebd7303eda5e7a348537110e89bbe5504540f5c7d",
       "common_prefix_sha256": "35a90799e348c06d29dd97f2495182c74cf5683c50bd247422b7f9261dd336b4",
       "directional_durations": {
         "A|B": 9,
@@ -159,7 +159,7 @@
             "residual": "-256/29"
           },
           "prediction": {
-            "frozen_sha256": "7169e19c2e10077b438c5f15d52d2d4b1989edce67491bd070cb6e437620fecd",
+            "frozen_sha256": "6a0e1858f67232589496c807f0f22d885a56ca0845c63dede8e0e2efe3b63ee7",
             "operand_count": 42,
             "predicted_reference_bips": "672/29",
             "validation_window": [
@@ -177,7 +177,7 @@
             "residual": "-1600/151"
           },
           "prediction": {
-            "frozen_sha256": "cc84ca2b0b3925a91d1add2190eed50c5b79bb1a2047ac0bd0f68bc479e2c469",
+            "frozen_sha256": "e694a033a765bc4e426046af2aaf17795293e6d99d8f02b6babeeb93a1a023e7",
             "operand_count": 101,
             "predicted_reference_bips": "3232/151",
             "validation_window": [
@@ -187,7 +187,7 @@
           }
         }
       },
-      "case_sha256": "8f68b7ebb341d20096b2bac4acbe82dc5c535baac64f8e1d0cf1d741b9fbe91e",
+      "case_sha256": "a7d02e467a0277dea668242896501226977f151483c095abc1329eb2adb49ab6",
       "common_prefix_sha256": "35a90799e348c06d29dd97f2495182c74cf5683c50bd247422b7f9261dd336b4",
       "directional_durations": {
         "A|B": 9,
@@ -306,7 +306,7 @@
             "residual": "85/29"
           },
           "prediction": {
-            "frozen_sha256": "7169e19c2e10077b438c5f15d52d2d4b1989edce67491bd070cb6e437620fecd",
+            "frozen_sha256": "6a0e1858f67232589496c807f0f22d885a56ca0845c63dede8e0e2efe3b63ee7",
             "operand_count": 47,
             "predicted_reference_bips": "752/29",
             "validation_window": [
@@ -324,7 +324,7 @@
             "residual": "-273/151"
           },
           "prediction": {
-            "frozen_sha256": "cc84ca2b0b3925a91d1add2190eed50c5b79bb1a2047ac0bd0f68bc479e2c469",
+            "frozen_sha256": "e694a033a765bc4e426046af2aaf17795293e6d99d8f02b6babeeb93a1a023e7",
             "operand_count": 100,
             "predicted_reference_bips": "3200/151",
             "validation_window": [
@@ -334,7 +334,7 @@
           }
         }
       },
-      "case_sha256": "f522a8a61dd40ba82add0ea391d264f1449a91000e01cbbc932790a360963b9a",
+      "case_sha256": "7ce8c47f6fd38a560ed71469fdc0224bdc956c83f870d256101ac9cde7525e8a",
       "common_prefix_sha256": "35a90799e348c06d29dd97f2495182c74cf5683c50bd247422b7f9261dd336b4",
       "directional_durations": {
         "A|B": 9,
@@ -453,7 +453,7 @@
             "residual": "282/29"
           },
           "prediction": {
-            "frozen_sha256": "7169e19c2e10077b438c5f15d52d2d4b1989edce67491bd070cb6e437620fecd",
+            "frozen_sha256": "6a0e1858f67232589496c807f0f22d885a56ca0845c63dede8e0e2efe3b63ee7",
             "operand_count": 72,
             "predicted_reference_bips": "1152/29",
             "validation_window": [
@@ -471,7 +471,7 @@
             "residual": "-2994/151"
           },
           "prediction": {
-            "frozen_sha256": "cc84ca2b0b3925a91d1add2190eed50c5b79bb1a2047ac0bd0f68bc479e2c469",
+            "frozen_sha256": "e694a033a765bc4e426046af2aaf17795293e6d99d8f02b6babeeb93a1a023e7",
             "operand_count": 48,
             "predicted_reference_bips": "1536/151",
             "validation_window": [
@@ -481,7 +481,7 @@
           }
         }
       },
-      "case_sha256": "6b322aa299a0259c18d6f834f8957cd510f7ba7d5cebff21e1d61681a65f053d",
+      "case_sha256": "26b07ca8e41c89276aefba762317e5f1de7b0ba360c44d10811c1cebb80aa007",
       "common_prefix_sha256": "968f631a86fa48667e3a414285ffd7d84959bf467ac9f388c97682e7902b4816",
       "directional_durations": {
         "A|B": 3997,
@@ -594,7 +594,7 @@
     "A": {
       "field": "A",
       "reference_bips_per_closure": "16/29",
-      "training_context_sha256": "dcf2b41a42ef262cbdc82f689167c9bedf6078b63bde60d0c1d1103c96b048b1",
+      "training_context_sha256": "b5e4c09f8ca8b953c4df526eb1228a79f32ffde1635e4e8921d18f8d773670e0",
       "training_window": [
         300000,
         1808096
@@ -603,7 +603,7 @@
     "B": {
       "field": "B",
       "reference_bips_per_closure": "32/151",
-      "training_context_sha256": "dcf2b41a42ef262cbdc82f689167c9bedf6078b63bde60d0c1d1103c96b048b1",
+      "training_context_sha256": "b5e4c09f8ca8b953c4df526eb1228a79f32ffde1635e4e8921d18f8d773670e0",
       "training_window": [
         300000,
         1808096
@@ -612,7 +612,7 @@
     "F1": {
       "field": "F1",
       "reference_bips_per_closure": "1",
-      "training_context_sha256": "dcf2b41a42ef262cbdc82f689167c9bedf6078b63bde60d0c1d1103c96b048b1",
+      "training_context_sha256": "b5e4c09f8ca8b953c4df526eb1228a79f32ffde1635e4e8921d18f8d773670e0",
       "training_window": [
         300000,
         1808096
@@ -626,6 +626,11 @@
       "A": "-5/29",
       "B": "-49/151"
     },
+    "execution_adapter": {
+      "audit_source_bytes": "unchanged; interpreter instrumented by the adapter",
+      "kind": "bounded_value_keyed_trace_digest_reuse",
+      "sha256": "0d36febb309f6366d12da54955010e94124581739e0da70660e19192a60eac14"
+    },
     "independent_reference_evidence": false,
     "output_sha256": {
       "admitted_validation.json": "c2d8e9317138721ad94c45d3db111e4844a18a9da554610064d1c67c01883a99",
@@ -638,7 +643,7 @@
   },
   "matched_prefix_preserved": true,
   "model_id": "m3:anchor-context-controls:v1",
-  "original_inputs_sha256": "d4ed7a7db8390add81fb13d0f35f76b36b136952c9481028f84b4ba9772e630c",
+  "original_inputs_sha256": "ad9e7e70fe62eafc4066f7235a71dd888e85c46286f62496152c22a27e30bdfc",
   "physical_Cs_observation_law": null,
   "physical_SI_prediction": null,
   "physical_tolerance": null,
