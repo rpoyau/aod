@@ -72,6 +72,7 @@ def verify_sources(root=ROOT):
         require(path.stat().st_size == item['bytes'] and sha(path) == item['sha256'], 'anchor scientific source changed: '+name)
     require(sha(Path(n.__file__)) == NATIVE_SHA256, 'native admission source differs from bound engine')
     return {'archive_sha256':ARCHIVE_SHA256, 'scientific_members':len(manifest['members']),
+            'adapter_sha256':adapter['sha256'],
             'source_members_sha256':SOURCE_MEMBERS_SHA256,
             'original_source_commit':manifest['original_source_commit']}
 
@@ -111,13 +112,15 @@ def source_modules(root=ROOT):
 
 def original_replay(root=ROOT):
     """Replay original scientific calculations through the separately bound adapter."""
-    verify_sources(root)
+    verified = verify_sources(root)
+    adapter = Path(__file__).with_name('aod_anchor_replay.py')
+    require(sha(adapter) == verified['adapter_sha256'], 'executed anchor replay adapter changed')
     source = Path(root)/DATA/'source'
     with tempfile.TemporaryDirectory(prefix='aod-anchor-scientific-replay-') as directory:
         out = Path(directory)
         optimization = ['-O'] if sys.flags.optimize else []
         result = subprocess.run([sys.executable, '-B', *optimization,
-            str(Path(__file__).with_name('aod_anchor_replay.py')), '--root', str(Path(root).resolve()), '--output', str(out)],
+            str(adapter), '--root', str(Path(root).resolve()), '--output', str(out)],
             capture_output=True, text=True)
         require(result.returncode == 0, 'historical scientific replay failed: '+result.stderr)
         files = ['admitted_validation.json', 'endpoint_perturbations.json',
@@ -135,7 +138,7 @@ def original_replay(root=ROOT):
         require(report == expected, 'scientific diagnostic report changed beyond declared provenance')
         return {'classification':'retrospective_scientific_subset_replay',
                 'checks':report['check_count'], 'output_sha256':{name:sha(out/name) for name in files},
-                'adapter_sha256':sha(Path(__file__).with_name('aod_anchor_replay.py')),
+                'adapter_sha256':sha(adapter),
                 'source_members_sha256':SOURCE_MEMBERS_SHA256,
                 'direct_pair_residuals':{key:rows['direct_pair']['transfers'][key]['comparison']['relative_residual']
                                          for key in ('A','B')},

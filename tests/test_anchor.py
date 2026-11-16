@@ -19,6 +19,34 @@ import aod_temporal_anchor as a
 
 
 class AnchorLoaderTests(unittest.TestCase):
+    def test_alternate_root_rejects_unbound_executed_helper(self):
+        import shutil
+        with tempfile.TemporaryDirectory() as directory:
+            scripts=Path(directory)/'manual/scripts';scripts.mkdir(parents=True)
+            controller=scripts/'aod_temporal_anchor.py'
+            shutil.copy2(a.__file__,controller)
+            (scripts/'aod_anchor_replay.py').write_text('raise RuntimeError("unbound helper executed")\n')
+            name='anchor_test_foreign_controller'
+            spec=importlib.util.spec_from_file_location(name,controller)
+            foreign=importlib.util.module_from_spec(spec)
+            with patch.dict(sys.modules,{name:foreign}):
+                spec.loader.exec_module(foreign)
+                with patch.object(foreign.subprocess,'run',side_effect=AssertionError('unbound helper executed')) as run:
+                    with self.assertRaisesRegex(ValueError,'executed anchor replay adapter changed'):
+                        foreign.original_replay(ROOT)
+                    run.assert_not_called()
+
+    def test_alternate_root_accepts_bound_scientific_subset(self):
+        import shutil
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            shutil.copytree(ROOT/a.DATA/'source',root/a.DATA/'source')
+            shutil.copy2(ROOT/a.DATA/'source_members.json',root/a.DATA/'source_members.json')
+            adapter=root/'manual/scripts/aod_anchor_replay.py'
+            adapter.parent.mkdir(parents=True,exist_ok=True)
+            shutil.copy2(ROOT/'manual/scripts/aod_anchor_replay.py',adapter)
+            self.assertEqual(a.original_replay(root)['checks'],33)
+
     def test_replaced_global_module_does_not_change_admission_classes(self):
         name='anchor_test_foreign_native'
         spec=importlib.util.spec_from_file_location(name,a.n.__file__)

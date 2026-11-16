@@ -12,7 +12,7 @@
             "residual": "-160/29"
           },
           "prediction": {
-            "frozen_sha256": "03f7db8ff5adbd3cf180eee99c5ff69a5327b9809eb3be214cf5fe54f9a68eb2",
+            "frozen_sha256": "58b98e43a53a81678a2a564f529d12a5cf338a92699967152e4010bc9818d649",
             "operand_count": 48,
             "predicted_reference_bips": "768/29",
             "validation_window": [
@@ -30,7 +30,7 @@
             "residual": "-1568/151"
           },
           "prediction": {
-            "frozen_sha256": "9035f508d52a473e0a5d6d5a6540f3db2d0e64e001c107786aa04db2f8e49601",
+            "frozen_sha256": "069ef074f7bc245a67946400c6190cdbd22af73c7fc8515c82281aae0473b5e0",
             "operand_count": 102,
             "predicted_reference_bips": "3264/151",
             "validation_window": [
@@ -40,7 +40,7 @@
           }
         }
       },
-      "case_sha256": "2c485500771152c56d177d02a4c359aad970859e54c5312a53b7641ee21cda93",
+      "case_sha256": "71df043694777ca2cec897a787290512394c7e350ec9ecf78387f6a24717845c",
       "common_prefix_sha256": "35a90799e348c06d29dd97f2495182c74cf5683c50bd247422b7f9261dd336b4",
       "directional_durations": {
         "A|B": 9,
@@ -159,7 +159,7 @@
             "residual": "-256/29"
           },
           "prediction": {
-            "frozen_sha256": "03f7db8ff5adbd3cf180eee99c5ff69a5327b9809eb3be214cf5fe54f9a68eb2",
+            "frozen_sha256": "58b98e43a53a81678a2a564f529d12a5cf338a92699967152e4010bc9818d649",
             "operand_count": 42,
             "predicted_reference_bips": "672/29",
             "validation_window": [
@@ -177,7 +177,7 @@
             "residual": "-1600/151"
           },
           "prediction": {
-            "frozen_sha256": "9035f508d52a473e0a5d6d5a6540f3db2d0e64e001c107786aa04db2f8e49601",
+            "frozen_sha256": "069ef074f7bc245a67946400c6190cdbd22af73c7fc8515c82281aae0473b5e0",
             "operand_count": 101,
             "predicted_reference_bips": "3232/151",
             "validation_window": [
@@ -187,7 +187,7 @@
           }
         }
       },
-      "case_sha256": "30ac7e98a69f6455836ceae97d741b8e305268e9219f25ee38af9ca94d375f52",
+      "case_sha256": "906ba2502f9da581a72642bb360ba886f95f0db32ac52a248d0503d1d18c37ac",
       "common_prefix_sha256": "35a90799e348c06d29dd97f2495182c74cf5683c50bd247422b7f9261dd336b4",
       "directional_durations": {
         "A|B": 9,
@@ -306,7 +306,7 @@
             "residual": "85/29"
           },
           "prediction": {
-            "frozen_sha256": "03f7db8ff5adbd3cf180eee99c5ff69a5327b9809eb3be214cf5fe54f9a68eb2",
+            "frozen_sha256": "58b98e43a53a81678a2a564f529d12a5cf338a92699967152e4010bc9818d649",
             "operand_count": 47,
             "predicted_reference_bips": "752/29",
             "validation_window": [
@@ -324,7 +324,7 @@
             "residual": "-273/151"
           },
           "prediction": {
-            "frozen_sha256": "9035f508d52a473e0a5d6d5a6540f3db2d0e64e001c107786aa04db2f8e49601",
+            "frozen_sha256": "069ef074f7bc245a67946400c6190cdbd22af73c7fc8515c82281aae0473b5e0",
             "operand_count": 100,
             "predicted_reference_bips": "3200/151",
             "validation_window": [
@@ -334,7 +334,7 @@
           }
         }
       },
-      "case_sha256": "bbd8a4a11fca91bcccf209323a5dc66197f9026c5d4802ecde4ef1edeb01429d",
+      "case_sha256": "0c61122b89e72ed83f868f5537a36ca53214046250c854b35623ea0c42ae073a",
       "common_prefix_sha256": "35a90799e348c06d29dd97f2495182c74cf5683c50bd247422b7f9261dd336b4",
       "directional_durations": {
         "A|B": 9,
@@ -453,7 +453,7 @@
             "residual": "282/29"
           },
           "prediction": {
-            "frozen_sha256": "03f7db8ff5adbd3cf180eee99c5ff69a5327b9809eb3be214cf5fe54f9a68eb2",
+            "frozen_sha256": "58b98e43a53a81678a2a564f529d12a5cf338a92699967152e4010bc9818d649",
             "operand_count": 72,
             "predicted_reference_bips": "1152/29",
             "validation_window": [
@@ -471,7 +471,7 @@
             "residual": "-2994/151"
           },
           "prediction": {
-            "frozen_sha256": "9035f508d52a473e0a5d6d5a6540f3db2d0e64e001c107786aa04db2f8e49601",
+            "frozen_sha256": "069ef074f7bc245a67946400c6190cdbd22af73c7fc8515c82281aae0473b5e0",
             "operand_count": 48,
             "predicted_reference_bips": "1536/151",
             "validation_window": [
@@ -481,7 +481,7 @@
           }
         }
       },
-      "case_sha256": "2ea580e1e3781f73fd7dea1c1e1e347f61449fefc6e2f5250f04b965b705c331",
+      "case_sha256": "029327b3e066cde81b14f43fe18e28657b0766ed536f2bed50220185a01c7251",
       "common_prefix_sha256": "968f631a86fa48667e3a414285ffd7d84959bf467ac9f388c97682e7902b4816",
       "directional_durations": {
         "A|B": 3997,
@@ -594,7 +594,7 @@
     "A": {
       "field": "A",
       "reference_bips_per_closure": "16/29",
-      "training_context_sha256": "61cb928b2620cd2abd7b0dd2019d4cb89f8633d4e58e65c00263ebaa9225a540",
+      "training_context_sha256": "9e1c45743270e7497f7027d6b98bbba15211dd6fda58094c68c5208709e792db",
       "training_window": [
         300000,
         1808096
@@ -603,7 +603,7 @@
     "B": {
       "field": "B",
       "reference_bips_per_closure": "32/151",
-      "training_context_sha256": "61cb928b2620cd2abd7b0dd2019d4cb89f8633d4e58e65c00263ebaa9225a540",
+      "training_context_sha256": "9e1c45743270e7497f7027d6b98bbba15211dd6fda58094c68c5208709e792db",
       "training_window": [
         300000,
         1808096
@@ -612,7 +612,7 @@
     "F1": {
       "field": "F1",
       "reference_bips_per_closure": "1",
-      "training_context_sha256": "61cb928b2620cd2abd7b0dd2019d4cb89f8633d4e58e65c00263ebaa9225a540",
+      "training_context_sha256": "9e1c45743270e7497f7027d6b98bbba15211dd6fda58094c68c5208709e792db",
       "training_window": [
         300000,
         1808096
@@ -640,7 +640,7 @@
   },
   "matched_prefix_preserved": true,
   "model_id": "m3:anchor-context-controls:v1",
-  "original_inputs_sha256": "1797b6a5040a1eec5e07eceee68b1ff46354801cd92c06e78e603a2165c6d987",
+  "original_inputs_sha256": "fd2dec7aa5c22fda507cdaf7ebfca94ccdefe6f18ee1fbfdb68368a77ec88e18",
   "physical_Cs_observation_law": null,
   "physical_SI_prediction": null,
   "physical_tolerance": null,
