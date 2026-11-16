@@ -58,7 +58,7 @@
   "bounds": "Composition uses b_g + L_g b_f given nonnegative uniform bounds and true plus approximate images contained in the outer domain. Implemented outer laws are affine and reciprocal; reciprocal domains exclude zero.",
   "ratios": "A denominator interval containing zero returns undefined_or_unbounded with no finite symmetric interval.",
   "source_precision": "Printed-decimal half-last-place bounds are conditional on nearest rounding to the printed precision, separate from raw-file SHA-256. Printed zero needs an explicit exact-source, rounded, or unknown policy; no physical uncertainty is inferred from its exponent.",
-  "historical_oracle_limit": "The authentic 6837-byte R01 probe_metrology_edges.py (SHA-256 685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e), original dependencies and original failing output are retained in manual/data/m3/historical_metrology. Exact replay of the original reciprocal MAP-21 and near-cancelled MAP-22 finite laws is separate from the three existing additional controls. Covariance-only nonlinear input remains incomplete; this replay supplies no physical realization budget.",
+  "historical_oracle_limit": "The authentic 6837-byte R01 probe_metrology_edges.py (SHA-256 685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e), original dependencies and original failing output are retained in manual/data/historical_metrology. Exact replay of the original reciprocal MAP-21 and near-cancelled MAP-22 finite laws is separate from the three existing additional controls. Covariance-only nonlinear input remains incomplete; this replay supplies no physical realization budget.",
   "physical_limit": "No real-clock realization budget or new external BIPM uncertainty interpretation is certified by this finite-model module.",
   "recovered_product_regression": {
     "source_path": "manual2/tests/test_matter1_metrology.py",
@@ -67,7 +67,7 @@
     "scope": "Separate recovered consumer regression, distinct from the authenticated R01 probe; no consumer modification or full consumer test rerun is claimed by this regression."
   },
   "external_quantity_routes": {
-    "implementation": "manual/scripts/aod_m3_metrology.py:propagate_quantities",
+    "implementation": "manual/scripts/aod_temporal_metrology.py:propagate_quantities",
     "input_schema": "aod.m3.quantity-propagation.v1",
     "routes": [
       "finite_joint_law",

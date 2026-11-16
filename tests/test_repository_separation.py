@@ -28,7 +28,7 @@ def test_complete_current_scientific_inventory_is_local():
         'AWARENESS_ACTIVE_CAUSAL_SPEC.json', 'OPERATIVE_SELF_SCHEMA.json',
         'ROUND_TRIP_PHASE_FACTOR_SPEC.json',
         'CELL_MEASURE_SPEC.json', 'MAP_CONTRACT.json', 'ERROR_BUDGET.json',
-        'M3_MATHEMATICAL_BINDINGS.json',
+        'CELL_MAPPING_MATHEMATICAL_BINDINGS.json',
         'TEMPORAL_OBSERVATION.json',
         'TEMPORAL_METROLOGY.json',
     }
@@ -59,7 +59,7 @@ def test_missing_contract_cannot_evade_completeness(contract_root):
 
 def test_run_report_is_not_an_active_scientific_specification(contract_root):
     # Protocol classification only: report content validation is separately
-    # exercised against real CLI execution by test_m25_report_schema.py.
+    # exercised against real CLI execution by test_fixture_report_schema.py.
     report = {'schema': 'aod.fixture-run-report.v1', 'runner': 'manual/scripts/aod_awareness.py',
               'runner_output': {'source_sha256': '0' * 64, 'results': []}}
     (contract_root / 'transient-report.json').write_text(json.dumps(report))

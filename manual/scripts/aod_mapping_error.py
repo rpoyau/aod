@@ -14,9 +14,9 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-REPORT = ROOT / 'manual/data/m3/mapping_error.json'
-HISTORICAL = ROOT / 'manual/data/m3/historical_metrology'
-HISTORICAL_BINDING_SHA256 = '0ede1681a3dabe41b3d844d59d6d69c30aad42e554076adafa1ab069dfe2cc67'
+REPORT = ROOT / 'manual/data/mapping_error/mapping_error.json'
+HISTORICAL = ROOT / 'manual/data/historical_metrology'
+HISTORICAL_BINDING_SHA256 = '4a2d545cb0b7cef68357c926b95bf676f7f3458cbc9b5e4b3e168562c6cd6463'
 FIELDS = ('id', 'version', 'code_sha256', 'spec_sha256', 'domain', 'codomain',
           'law', 'parameters', 'sources', 'structure', 'information_loss',
           'resolution', 'error', 'calibration', 'comparison', 'status')
@@ -522,9 +522,7 @@ def example_map(identity='map:scale', factor='2', source_record=None):
         'status':{'arithmetic':'exact within declared domain','physical_applicability':'unknown'}})
 
 def historical_sources(root=HISTORICAL):
-    """Bind recovered bytes to an independent digest, not a resealable manifest."""
-    import io
-    import zipfile
+    """Admit only the independently pinned scientific source closure."""
     root = Path(root)
     path = root / 'source_bindings.json'
     require(hashlib.sha256(path.read_bytes()).hexdigest() == HISTORICAL_BINDING_SHA256,
@@ -533,32 +531,14 @@ def historical_sources(root=HISTORICAL):
     require({str(p.relative_to(root)) for p in root.rglob('*') if p.is_file()} ==
             set(binding['files']) | {'source_bindings.json'}, 'historical source inventory changed')
     for name, item in binding['files'].items():
-        data = (root/name).read_bytes()
+        member = Path(name)
+        require(not member.is_absolute() and '..' not in member.parts and not (root/member).is_symlink(),
+                'unsafe historical scientific member')
+        data = (root/member).read_bytes()
         require(len(data) == item['bytes'] and hashlib.sha256(data).hexdigest() == item['sha256'],
                 'historical source bytes changed: '+name)
-    probe = (root/binding['probe']['path']).read_bytes()
-    with zipfile.ZipFile(root/binding['recovery_archive']['path']) as recovered:
-        lines = recovered.read(binding['recovery_archive']['manifest']).decode().splitlines()
-        require(len(lines) == binding['recovery_archive']['members'], 'recovery archive inventory differs')
-        for line in lines:
-            expected, name = line.split(None,1)
-            require(hashlib.sha256(recovered.read(name)).hexdigest() == expected, 'recovery archive member changed')
-        nested = [(archive, recovered.read('archives/'+archive['archive']))
-                  for archive in binding['archive_provenance']]
-    for archive, data in nested:
-        require(hashlib.sha256(data).hexdigest() == archive['sha256'], 'original archive changed')
-        with zipfile.ZipFile(io.BytesIO(data)) as z:
-            require(z.read(archive['probe_member']) == probe, 'archive probe differs')
-            manifest = 'MANIFEST.sha256' if 'MANIFEST.sha256' in z.namelist() else 'MANIFEST_SHA256.txt'
-            count = 0
-            for line in z.read(manifest).decode().splitlines():
-                if not line.strip() or line.startswith('#'): continue
-                expected, name = line.split(None, 1)
-                require(hashlib.sha256(z.read(name.lstrip('*'))).hexdigest() == expected,
-                        'historical archive member changed')
-                count += 1
-            require(count == archive['entries_verified'], 'historical archive inventory differs')
     return binding
+
 
 def historical_parameters(root=HISTORICAL):
     """Read the three rational constants from the authenticated original program."""
@@ -643,16 +623,13 @@ def replay_historical_probe(root=HISTORICAL):
     root = Path(root).resolve()
     with tempfile.TemporaryDirectory(prefix='aod-historical-replay-') as tmp:
         target = Path(tmp)/'historical_target'
-        with zipfile.ZipFile(root/binding['recovery_archive']['path']) as z:
-            require({n.removeprefix('historical_target/') for n in z.namelist() if n.startswith('historical_target/')} ==
-                    set(binding['historical_target_files']), 'historical dependency inventory changed')
-            for name, item in binding['historical_target_files'].items():
-                data = z.read('historical_target/'+name)
-                require(hashlib.sha256(data).hexdigest() == item['sha256'], 'historical dependency changed')
-                destination = target/name
-                require(destination.resolve().is_relative_to(target.resolve()), 'invalid dependency path')
-                destination.parent.mkdir(parents=True,exist_ok=True)
-                destination.write_bytes(data)
+        for name, item in binding['historical_target_files'].items():
+            data = (root/'historical_target'/name).read_bytes()
+            require(hashlib.sha256(data).hexdigest() == item['sha256'], 'historical dependency changed')
+            destination = target/name
+            require(destination.resolve().is_relative_to(target.resolve()), 'invalid dependency path')
+            destination.parent.mkdir(parents=True,exist_ok=True)
+            destination.write_bytes(data)
         command = [sys.executable,'-B'] + ([] if __debug__ else ['-O']) + [
             str(root/'probe_metrology_edges.py'),'--repo',str(target)]
         actual = subprocess.run(command, cwd=tmp, capture_output=True, timeout=30)
@@ -727,7 +704,7 @@ def report():
       'historical_probe_status':{'r01_probe':'authenticated original replayed against bound historical dependencies/output',
         'expected_file':'probe_metrology_edges.py','expected_sha256':'685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e',
         'fidelity':'MAP-21/MAP-22 original synthetic finite laws verified; additional controls remain distinct',
-        'evidence_directory':'manual/data/m3/historical_metrology',
+        'evidence_directory':'manual/data/historical_metrology',
         'source_bindings_sha256':HISTORICAL_BINDING_SHA256,
         'recovered_product':'separate historical consumer test: delta=-1/2,0,1/2; probabilities 1/4,1/2,1/4; mean 7/8 and variance 1/64'},
       'legitimate_common_offset_cancellation':offset, 'constant_on_declared_support':constant,

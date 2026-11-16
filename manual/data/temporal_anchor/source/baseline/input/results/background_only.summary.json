@@ -1,0 +1,157 @@
+{
+  "A_closures_per_B_bip": "36/103",
+  "B_closures_per_A_bip": "103/36",
+  "base_prefix_sha256": "35a90799e348c06d29dd97f2495182c74cf5683c50bd247422b7f9261dd336b4",
+  "bip_statistics": {
+    "A|B": {
+      "admitted_bip_windows": 0,
+      "carry_present_but_window_RCD_absent": 0,
+      "compared": "B",
+      "compared_closures_in_complete_bips": 304,
+      "complete_reference_bips": 107,
+      "histogram": {
+        "2": 31,
+        "3": 62,
+        "4": 14
+      },
+      "mean_closures_per_reference_bip": "304/107",
+      "partial_boundary_counts": {
+        "leading": 4,
+        "trailing": 1
+      },
+      "reference": "A"
+    },
+    "B|A": {
+      "admitted_bip_windows": 0,
+      "carry_present_but_window_RCD_absent": 0,
+      "compared": "A",
+      "compared_closures_in_complete_bips": 108,
+      "complete_reference_bips": 308,
+      "histogram": {
+        "0": 200,
+        "1": 108
+      },
+      "mean_closures_per_reference_bip": "27/77",
+      "partial_boundary_counts": {
+        "leading": 0,
+        "trailing": 0
+      },
+      "reference": "B"
+    },
+    "F0|A": {
+      "admitted_bip_windows": 43,
+      "carry_present_but_window_RCD_absent": 20,
+      "compared": "A",
+      "compared_closures_in_complete_bips": 106,
+      "complete_reference_bips": 63,
+      "histogram": {
+        "1": 20,
+        "2": 43
+      },
+      "mean_closures_per_reference_bip": "106/63",
+      "partial_boundary_counts": {
+        "leading": 1,
+        "trailing": 1
+      },
+      "reference": "F0"
+    },
+    "F0|B": {
+      "admitted_bip_windows": 63,
+      "carry_present_but_window_RCD_absent": 0,
+      "compared": "B",
+      "compared_closures_in_complete_bips": 302,
+      "complete_reference_bips": 63,
+      "histogram": {
+        "3": 8,
+        "4": 26,
+        "5": 13,
+        "6": 8,
+        "7": 4,
+        "8": 3,
+        "9": 1
+      },
+      "mean_closures_per_reference_bip": "302/63",
+      "partial_boundary_counts": {
+        "leading": 6,
+        "trailing": 1
+      },
+      "reference": "F0"
+    }
+  },
+  "counts": {
+    "A": 108,
+    "B": 309,
+    "F0": 64,
+    "F1": 64
+  },
+  "history_signature": "8c1b4296ba7466b955ff792951065bd48a9af924da50e27f2565eda45b85b6e5",
+  "last_pressure": {
+    "A": 539,
+    "B": 1565,
+    "F0": 344,
+    "F1": 344
+  },
+  "next_scheduled": {
+    "A": 3316459,
+    "B": 3316342,
+    "F0": 3316510,
+    "F1": 3316510
+  },
+  "pending_return_count": 0,
+  "scenario": "background_only",
+  "support_RD": {
+    "A": 61,
+    "B": 9,
+    "F0": 137,
+    "F1": 137
+  },
+  "trace_rows": 35769,
+  "window": [
+    300000,
+    3316192
+  ],
+  "window_checks": [
+    {
+      "B_closures_per_A_bip": "110/31",
+      "comparisons": {},
+      "counts": {
+        "A": 31,
+        "B": 110,
+        "F0": 16,
+        "F1": 16
+      },
+      "window": [
+        300000,
+        1054048
+      ]
+    },
+    {
+      "B_closures_per_A_bip": "188/59",
+      "comparisons": {},
+      "counts": {
+        "A": 59,
+        "B": 188,
+        "F0": 32,
+        "F1": 32
+      },
+      "window": [
+        300000,
+        1808096
+      ]
+    },
+    {
+      "B_closures_per_A_bip": "103/36",
+      "comparisons": {},
+      "counts": {
+        "A": 108,
+        "B": 309,
+        "F0": 64,
+        "F1": 64
+      },
+      "window": [
+        300000,
+        3316192
+      ]
+    }
+  ]
+}

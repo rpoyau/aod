@@ -14,15 +14,15 @@ Source hashes establish the reviewed version. Mathematical checks separately ver
 
 ## Cell measures and mappings
 
-`CELL_MEASURE_SPEC.json` declares the finite cell completion, incidences, weights and fold properties. `MAP_CONTRACT.json` and `ERROR_BUDGET.json` specify typed mapping records and the distinction between exact results, bounds, uncertainty and unknown applicability. `M3_MATHEMATICAL_BINDINGS.json` binds the new active mathematical statements and their source bytes. All are registered explicitly and have independent checker digests.
+`CELL_MEASURE_SPEC.json` declares the finite cell completion, incidences, weights and fold properties. `MAP_CONTRACT.json` and `ERROR_BUDGET.json` specify typed mapping records and the distinction between exact results, bounds, uncertainty and unknown applicability. `CELL_MAPPING_MATHEMATICAL_BINDINGS.json` binds the new active mathematical statements and their source bytes. All are registered explicitly and have independent checker digests.
 
-The worked records in `manual/data/m3/` are reproduced by `aod_cell_measures.py`, `aod_mapping_error.py` and `aod_m3_temporal.py` in `manual/scripts/`. Their tests exercise rejected inputs and mathematical counterexamples as well as positive cases. A declared cubical metric, exact finite probability law or conditional SI observation map is not an independent physical prediction.
+The worked records in the subject directories under `manual/data/` are reproduced by `aod_cell_measures.py`, `aod_mapping_error.py` and `aod_temporal_observation.py` in `manual/scripts/`. Their tests exercise rejected inputs and mathematical counterexamples as well as positive cases. A declared cubical metric, exact finite probability law or conditional SI observation map is not an independent physical prediction.
 
 `TEMPORAL_OBSERVATION.json` binds the temporal observation context and frozen calibration domain. Historical metrology replay and temporal-anchor records retain their original source archives separately from current executable results. Their finite-law and count-transfer checks do not establish a physical clock calibration.
 
 `TEMPORAL_METROLOGY.json` governs the additive observation companion. It distinguishes
 reclosures, shed-packet events, oscillator phase advances, calibrated population
-estimates and nuclear timestamps. `aod_m3_metrology.py --check` replays exact
+estimates and nuclear timestamps. `aod_temporal_metrology.py --check` replays exact
 finite-window phase fixtures and source-bound H/Cs reductions. Published
 uncertainties retain their experimental provenance; they do not supply a finite
 joint probability model. Existing temporal schema 3 and generic map/error

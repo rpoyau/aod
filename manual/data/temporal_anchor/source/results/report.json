@@ -1,0 +1,374 @@
+{
+  "absolute_SI_anchor_status": "not established",
+  "admitted_directional_comparisons": 18,
+  "admitted_split_windows": 6,
+  "check_count": 33,
+  "checks": [
+    {
+      "name": "constant rational cadence with rounding is admitted",
+      "status": "pass"
+    },
+    {
+      "name": "nonconstant quadratic count control is rejected",
+      "status": "pass"
+    },
+    {
+      "name": "empty strict slope intersection is rejected",
+      "status": "pass"
+    },
+    {
+      "name": "Boolean count sample is rejected",
+      "rejection": "integer count samples required",
+      "status": "pass"
+    },
+    {
+      "name": "background_only: all closure endpoints strictly ordered",
+      "status": "pass"
+    },
+    {
+      "name": "background_only: split counts recover complete window",
+      "status": "pass"
+    },
+    {
+      "name": "background_only: A and B fixed-gain validation has nonzero residual",
+      "status": "pass"
+    },
+    {
+      "name": "background_only: F0 and F1 have distinct identities but identical endpoint sequences",
+      "status": "pass"
+    },
+    {
+      "name": "background_only: matching F1 validation is explained by identical count histories",
+      "status": "pass"
+    },
+    {
+      "name": "background_only: A and B fail the constant-cadence plus count-rounding null",
+      "status": "pass"
+    },
+    {
+      "name": "background_only: identical F1 passes the rounding null",
+      "status": "pass"
+    },
+    {
+      "name": "direct_pair: all closure endpoints strictly ordered",
+      "status": "pass"
+    },
+    {
+      "name": "direct_pair: split counts recover complete window",
+      "status": "pass"
+    },
+    {
+      "name": "direct_pair: A and B fixed-gain validation has nonzero residual",
+      "status": "pass"
+    },
+    {
+      "name": "direct_pair: F0 and F1 have distinct identities but identical endpoint sequences",
+      "status": "pass"
+    },
+    {
+      "name": "direct_pair: matching F1 validation is explained by identical count histories",
+      "status": "pass"
+    },
+    {
+      "name": "direct_pair: A and B fail the constant-cadence plus count-rounding null",
+      "status": "pass"
+    },
+    {
+      "name": "direct_pair: identical F1 passes the rounding null",
+      "status": "pass"
+    },
+    {
+      "name": "recorded_only: all closure endpoints strictly ordered",
+      "status": "pass"
+    },
+    {
+      "name": "recorded_only: split counts recover complete window",
+      "status": "pass"
+    },
+    {
+      "name": "recorded_only: A and B fixed-gain validation has nonzero residual",
+      "status": "pass"
+    },
+    {
+      "name": "recorded_only: F0 and F1 have distinct identities but identical endpoint sequences",
+      "status": "pass"
+    },
+    {
+      "name": "recorded_only: matching F1 validation is explained by identical count histories",
+      "status": "pass"
+    },
+    {
+      "name": "recorded_only: A and B fail the constant-cadence plus count-rounding null",
+      "status": "pass"
+    },
+    {
+      "name": "recorded_only: identical F1 passes the rounding null",
+      "status": "pass"
+    },
+    {
+      "name": "target-only changes preserve prediction bytes and alter comparison",
+      "status": "pass"
+    },
+    {
+      "name": "overlapping training and validation is rejected",
+      "rejection": "training and validation must be disjoint",
+      "status": "pass"
+    },
+    {
+      "name": "Boolean prediction operand is rejected",
+      "rejection": "positive exact operand count required",
+      "status": "pass"
+    },
+    {
+      "name": "one-cut endpoint perturbations obey exact event-count bounds",
+      "status": "pass"
+    },
+    {
+      "name": "all inherited physical SI outputs remain unidentified",
+      "status": "pass"
+    },
+    {
+      "name": "background reference timings unchanged across retained coupling scenarios",
+      "status": "pass"
+    },
+    {
+      "name": "prior transfer percentages reproduce exactly",
+      "status": "pass"
+    },
+    {
+      "name": "input and audit protocol/code remain frozen",
+      "status": "pass"
+    }
+  ],
+  "constant_cadence_count_rounding_claim": "rejected for A and B on complete reference-closure sample series",
+  "endpoint_perturbation_cases": 216,
+  "fixed_transfer_claim": "fails held-out count validation for A and B in every retained scenario",
+  "frozen": {
+    "audit_code_sha256": "9df493720b97a7b978f9c292bd0b8497e5c7d877a88d06d8a3b2a0d7d54a5b25",
+    "input_binding_sha256": "1ce949e6a8e30c80f427f71d22824db18f1aad2782a4e677e95fa091804805c9",
+    "protocol_sha256": "cc1ff46e281fd301afbc9a5a2f98b3c6752486a4050986111d58192ed7949385"
+  },
+  "independent_reference_evidence": false,
+  "physical_Cs_calibration": false,
+  "physical_uncertainty": null,
+  "previous_discrepancies": {
+    "classification": "exact transfer discrepancies, not measured Cs accuracy or standard uncertainties",
+    "stale_baseline_gain": "-1/54",
+    "stale_quarter_gain": "-9/62"
+  },
+  "rolling_count_windows": 588,
+  "rolling_summary": {
+    "background_only": {
+      "16": {
+        "A": {
+          "maximum": "31/16",
+          "minimum": "23/16",
+          "windows": 48
+        },
+        "B": {
+          "maximum": "27/4",
+          "minimum": "57/16",
+          "windows": 48
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 48
+        }
+      },
+      "32": {
+        "A": {
+          "maximum": "59/32",
+          "minimum": "49/32",
+          "windows": 32
+        },
+        "B": {
+          "maximum": "185/32",
+          "minimum": "61/16",
+          "windows": 32
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 32
+        }
+      },
+      "4": {
+        "A": {
+          "maximum": "2",
+          "minimum": "5/4",
+          "windows": 60
+        },
+        "B": {
+          "maximum": "33/4",
+          "minimum": "13/4",
+          "windows": 60
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 60
+        }
+      },
+      "8": {
+        "A": {
+          "maximum": "2",
+          "minimum": "11/8",
+          "windows": 56
+        },
+        "B": {
+          "maximum": "61/8",
+          "minimum": "27/8",
+          "windows": 56
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 56
+        }
+      }
+    },
+    "direct_pair": {
+      "16": {
+        "A": {
+          "maximum": "31/16",
+          "minimum": "23/16",
+          "windows": 48
+        },
+        "B": {
+          "maximum": "85/16",
+          "minimum": "3",
+          "windows": 48
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 48
+        }
+      },
+      "32": {
+        "A": {
+          "maximum": "29/16",
+          "minimum": "3/2",
+          "windows": 32
+        },
+        "B": {
+          "maximum": "37/8",
+          "minimum": "51/16",
+          "windows": 32
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 32
+        }
+      },
+      "4": {
+        "A": {
+          "maximum": "2",
+          "minimum": "5/4",
+          "windows": 60
+        },
+        "B": {
+          "maximum": "25/4",
+          "minimum": "11/4",
+          "windows": 60
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 60
+        }
+      },
+      "8": {
+        "A": {
+          "maximum": "2",
+          "minimum": "11/8",
+          "windows": 56
+        },
+        "B": {
+          "maximum": "47/8",
+          "minimum": "23/8",
+          "windows": 56
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 56
+        }
+      }
+    },
+    "recorded_only": {
+      "16": {
+        "A": {
+          "maximum": "31/16",
+          "minimum": "23/16",
+          "windows": 48
+        },
+        "B": {
+          "maximum": "27/4",
+          "minimum": "57/16",
+          "windows": 48
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 48
+        }
+      },
+      "32": {
+        "A": {
+          "maximum": "59/32",
+          "minimum": "49/32",
+          "windows": 32
+        },
+        "B": {
+          "maximum": "185/32",
+          "minimum": "61/16",
+          "windows": 32
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 32
+        }
+      },
+      "4": {
+        "A": {
+          "maximum": "2",
+          "minimum": "5/4",
+          "windows": 60
+        },
+        "B": {
+          "maximum": "33/4",
+          "minimum": "13/4",
+          "windows": 60
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 60
+        }
+      },
+      "8": {
+        "A": {
+          "maximum": "2",
+          "minimum": "11/8",
+          "windows": 56
+        },
+        "B": {
+          "maximum": "61/8",
+          "minimum": "27/8",
+          "windows": 56
+        },
+        "F1": {
+          "maximum": "1",
+          "minimum": "1",
+          "windows": 56
+        }
+      }
+    }
+  },
+  "scope": "retrospective exact diagnostics of the existing finite run; no future prediction or laboratory validation claimed",
+  "software_validation": "pass"
+}

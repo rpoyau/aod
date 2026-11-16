@@ -7,7 +7,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'manual/scripts'))
 import aod_awareness as a
 n=a.n
-ROWS=[json.loads(t) for t in (ROOT/'manual/data/m2/awareness_cases.jsonl').read_text().splitlines()]
+ROWS=[json.loads(t) for t in (ROOT/'manual/data/awareness/awareness_cases.jsonl').read_text().splitlines()]
 
 @pytest.mark.parametrize('row',ROWS,ids=[r['fixture_id'] for r in ROWS])
 def test_exact_new_witness(row):

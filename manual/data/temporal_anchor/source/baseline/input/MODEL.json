@@ -1,0 +1,23 @@
+{
+  "id": "pair-336-126-coupled-closures-v1",
+  "classification": "declared_finite_model_simulation",
+  "question": "How does adding a direct bidirectional 3:3:6 to 1:2:6 coupling change both generated closure histories and closures per bip?",
+  "fields": {"A": "3:3:6", "B": "1:2:6", "F0": "3:4:6", "F1": "3:4:6"},
+  "retained_background": ["F0", "F1"],
+  "initial_graph": "All directed channels among A, B, F0, F1 except A-to-B and B-to-A. A and B are already connected indirectly through their shared background.",
+  "intervention_cut": 300000,
+  "intervention": "Add both direct A/B channels without changing population, existing histories, initial phases, support or response coefficients.",
+  "scenarios": ["background_only", "direct_pair", "recorded_only"],
+  "recorded_only": "Record the new direct contacts but exclude their RCD terms from pressure. This deliberately changed feedback law is a causal control.",
+  "inherited_dynamics": "The unchanged population.py from the predecessor supplies support enumeration, certified reclosures, committed phase-lag return delays, latest-two-contact RCD and the integer inverse-pressure traversal sequencer. PREDECESSOR_MODEL.json records those declared choices. Only population/topology initialization and the intervention/control are specialized here.",
+  "support": "Enumerate q^p ordered direction words plus q retained shell occurrences; use the declared last-direction Hamming-1 realization, one hinge and the reversed branch. The support chart is a model choice, not a derivation of a unique atomic route.",
+  "returned_contact": "At emission, forward extra reflection is max(0, receiver completed reclosures minus sender completed reclosures). A contact is operative only after actual return; a new channel requires two distinct returned contacts.",
+  "pressure": "Self RD plus all admitted incoming latest-two-contact RCD durations, with unit capacities and no clipping. The recorded-only control omits exactly the direct A/B pressure terms.",
+  "response": "The pressure committed at a traversal schedules the next traversal. Existing deadlines are retained. A completed outward-hinge-return path produces exactly one distinct reclosure; the next route starts one ordered cut later.",
+  "counting": "One distinct reclosure of field i increments its bip count by one. Closures of j per bip of i count j's actual reclosures in each (previous i reclosure, next i reclosure] interval. Partial boundary intervals are reported separately.",
+  "window_RCD": "Within-bip RCD uses only contacts committed in that declared closed contact window and requires at least two. Operative RCD at the endpoint may instead retain two earlier returned contacts as carry-in memory; these are reported separately.",
+  "phase": "Completed closure phases are unwrapped integer counts. Within-route traversal positions are retained as path state; no continuous angle or modulo phase is introduced.",
+  "horizon": "64 times the enumerated 3:4:6 RD times the sum of the four self-support RDs, starting at intervention. Quarter, half and full windows are extracted without rerunning or fitting.",
+  "SI": "No SI conversion or synthetic Cs gain is used in this experiment.",
+  "scope": "Core signatures and enclosure 6 remain fixed. This experiment tests temporal feedback between admitted structures; it does not test core transformation, shedding, photon detection or physical Cs resonance."
+}

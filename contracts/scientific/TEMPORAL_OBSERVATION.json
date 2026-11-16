@@ -44,7 +44,7 @@
     "solver",
     "comparison"
   ],
-  "owner": "M3 temporal observation application contract",
+  "owner": "Temporal observation application contract",
   "reduction_evidence": "Window counts exhaust the listed committed inventory; finite current-response sufficiency covers only the listed states and declared native update. Boundary commutation alone does not preserve occupied area or future response.",
   "replay": "complete artifact regenerated from independently supplied typed original context, not the artifact embedded context",
   "required_context": [

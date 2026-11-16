@@ -1,11 +1,11 @@
 {
   "schema": "aod.scientific.ownership-fixtures.v1",
-  "fixture_path": "manual/data/m2/awareness_cases.jsonl",
-  "fixture_sha256": "f85fbdca3b1c11adba54ef5e7205a8aee5e31db2fb55b2f425e85354c04da693",
+  "fixture_path": "manual/data/awareness/awareness_cases.jsonl",
+  "fixture_sha256": "2c0ccbaf13883cb1000b4b3f880df8fdfdeabcf9e44b78eb8fc8371ceb2ee3b4",
   "fixture_provenance": {
     "original_fixture_sha256": "6ac3bee0475813cc9ea3513c088d43be0e7b6d54b5c9484ccee60fd2fc7de35a",
     "original_source_sha256": "fa5653fa80400af24cc5eaec3ee65818bb7d817b0eccc25390b54fb29a06a03c",
-    "source_sha256": "6846300c020aca4af2c7fc51c0727dcd0ce7e302453e0a514904ce8aa5331d7b",
+    "source_sha256": "d480397d0948513cd7a9f8fc9a1f2c1a0ef82d160f3306a892a7642cc0069a15",
     "scope": "Original row digests identify the unchanged input and expected-result lineage before source-role naming. Current digests bind executable rows directly; historical tags do not determine their current mathematical owner."
   },
   "anchor_owners": [
@@ -214,7 +214,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "26973d30a055e61c66504a95e9ac685e8d10c039693f76e7f8a0c9316bc2144e",
-      "fixture_row_sha256": "7c59ec0dd235ecc22f055a3a4c396a6468abc7eea07508f7a79795e6d56d62a1"
+      "fixture_row_sha256": "1dbaa0d2c3d5e06c59f20478705243b9e415d59a189c3167a26cbf4c761e44eb"
     },
     {
       "fixture_id": "R04-NEW-002",
@@ -237,7 +237,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "62f89d29f6c31d634fd8139af8d27189a1f496ae420a21077562f234a2b13479",
-      "fixture_row_sha256": "57bb57e7fbaf300418113a64b07dfab227e9624a5963db288510a1c6deeb450a"
+      "fixture_row_sha256": "fea3cbf30680e096e3d85b806316d44f988dd48c729f8dbf877418333f8754d7"
     },
     {
       "fixture_id": "R04-NEW-003",
@@ -260,7 +260,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "5d29a02794f1b17f8dc3ac750dd1a44303ddfb42d2409a3f9a29267b23a80c68",
-      "fixture_row_sha256": "3c340df0a9f03ebd99d02ab2d8af05a916ea59c961507ed79953bfbce2985ef7"
+      "fixture_row_sha256": "c5fb3e919bd13619f4c5390c528de854a81bb28ad042a8bc7b776b4500ecbb1d"
     },
     {
       "fixture_id": "R04-NEW-004",
@@ -283,7 +283,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "364262a4e38b8e9fcdf340dd6f72a412301568daf988cb747dd74bf59adb1dff",
-      "fixture_row_sha256": "43323092efe929ae4cf84c21d52a6a3af2f1805ed0c3662e9907a8f3c2d146ba"
+      "fixture_row_sha256": "cd68d5e4f370ba0327825df9b75b5e33118b8330855db2ae83cb3d245d93b72e"
     },
     {
       "fixture_id": "R04-NEW-005",
@@ -306,7 +306,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "00d01b083b78d049d1dbbfe247df1f7a637308615def8541b2ba60b94728352b",
-      "fixture_row_sha256": "afc18d157c038727bb88eb0380823d94f0d24a0a79d0b1569b4c619ff5135275"
+      "fixture_row_sha256": "28d57add9b05bbfc58a05b0749d08a3dc4651c144eafe62424035c9922d78ff7"
     },
     {
       "fixture_id": "R04-NEW-006",
@@ -329,7 +329,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "de2916640825970051e1a55eed9e19618f46f07755526cd81d76b870c3a08f3b",
-      "fixture_row_sha256": "41d2fbaf30ea661ef9c9d6ccfe5d04c32f90e84b527ce1508a36edfc978690d1"
+      "fixture_row_sha256": "3f927ec840ed1f6cb6aab431da0fca283af1e4890a12d43f534229c6a7c509da"
     },
     {
       "fixture_id": "R04-NEW-007",
@@ -352,7 +352,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "4fd4d65b1b151ccaf8e3ca97d6e194e081e22f34688658c0a5a52c28f5996560",
-      "fixture_row_sha256": "8b97d566b115b7cee5bec4282f45e9b683fc2d534f2380a492e2d2064670710b"
+      "fixture_row_sha256": "ee654bde8d8382115c85ffeda5b86e15c852da3d1a68762e002d98cbe703b225"
     },
     {
       "fixture_id": "R04-NEW-008",
@@ -375,7 +375,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "acc09c655d0bf69d9895e7075e3735ce3417d03f4239c83cd80d23392f08bf1a",
-      "fixture_row_sha256": "6d40b1a694d1f6022daaeae21ca3f6fcd868e0a61c3639c2307e5719ec29ca1f"
+      "fixture_row_sha256": "989af316fd83a1c24a15962c345029ccbb20cb83554ee5ef7e215579bd506c15"
     },
     {
       "fixture_id": "R04-NEW-009",
@@ -398,7 +398,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "cfab4862d905df55a5d51fa6b9e1f114e78d86153f8a21ca5e26ecc8bd245f5b",
-      "fixture_row_sha256": "e09d052bb7ebb13c4e42cfd9d0d896975519b7e70d6ee865fd570dbcbbc1c268"
+      "fixture_row_sha256": "6676894e57b96c24f5ce7369036a9e77a52bd1432776a8cfe1201215d1f0f14b"
     },
     {
       "fixture_id": "R04-NEW-010",
@@ -421,7 +421,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "50c9c3b86bed6e3ceedccc52609fbd8e46fabc929b858c2d07881190c261fe55",
-      "fixture_row_sha256": "9e428ff02b7f278fa98ab72a2ba1ea412be8f01c56626d53898f9e4b7b979a6c"
+      "fixture_row_sha256": "335ae7c118aaf700ffebe2d9953e1176aa97b8aa7652ca8ce27cfeda24fc2f8b"
     },
     {
       "fixture_id": "R04-NEW-011",
@@ -444,7 +444,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "9c83ef195178382ce38a6936692249d5a4bd3a7f1f9fdc45a484f3cfd6035698",
-      "fixture_row_sha256": "6a0601475a6aec7d2a2a19ba49700f4e68228a750cd4680717ba75c1af1420e5"
+      "fixture_row_sha256": "fafb81b40696789913b70073415e25f6523354a653ba5969714093a1cac47102"
     },
     {
       "fixture_id": "R04-NEW-012",
@@ -467,7 +467,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "c17b6dab7a972029c9753c7612455fccb57df96242df207cae3407282c66369f",
-      "fixture_row_sha256": "88b49d7ea7394bdedd719150760f202ff9364d2d8b5f090a69c2c6c0d4640f10"
+      "fixture_row_sha256": "e968c2782eb4b5320b8f87a76a06e891dabf9e386d0ff1e70645784a9f9a42c8"
     },
     {
       "fixture_id": "R04-NEW-013",
@@ -490,7 +490,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "110cb6ded4a7bf2d07510bb7e7cc4d6da07a443e26fe8ca64add0105c6ea13a5",
-      "fixture_row_sha256": "0aef9cb671c2854c46788b6cb00c540d432c4e44260167cbd42d6758f0124a0d"
+      "fixture_row_sha256": "486735da35e44ee67d6ece9d94f6f3beb763fdd8fe4a4c54e23a0f4ed4f0f853"
     },
     {
       "fixture_id": "R04-NEW-014",
@@ -513,7 +513,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "ea705f1cf31fe5ba13690c94f7755c6716045b1da2ef96231f572d89d63cdccd",
-      "fixture_row_sha256": "985346ac1b6faa9299041655da006c0e55cc1abf8e855594012a976d4563525a"
+      "fixture_row_sha256": "3970ae305f79dede66d9b1ea03d6fa82c09a271a7f66f255d5a19b794018e236"
     },
     {
       "fixture_id": "R04-NEW-015",
@@ -536,7 +536,7 @@
       "operation": "attention_only",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "e7c8bac353164ec04866f204e0da3a0003393e2af76efd4497bb5f664c8c1951",
-      "fixture_row_sha256": "9e3c837b8bbea8e95c877d1ae21f9c9c3dd1048af17ddad006ca5779b3d1da35"
+      "fixture_row_sha256": "a2e2dd2053a97e2e5d9db5bac7eb43570808297cbd0040359ddf70214d0502d9"
     },
     {
       "fixture_id": "R04-NEW-016",
@@ -560,7 +560,7 @@
       "operation": "self",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "f8af6a32685358fc5f214ac0da8604625d114ddc381fbae3aba51e36ba30c6e1",
-      "fixture_row_sha256": "f969e50ae472f7ca790b5c4519c5231ba32fc65e47d8942e75f033211fde2a8a"
+      "fixture_row_sha256": "644c9de231325988cfddb5670a3ad036862c4a445cb2aec947c24f5e6f4089d0"
     },
     {
       "fixture_id": "R04-NEW-017",
@@ -584,7 +584,7 @@
       "operation": "self",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "e2e1e92fec7f53fadaaeb92f837021fe45c5a4b547a7e66a10d5fa2ad0f86e4e",
-      "fixture_row_sha256": "398aeac9084fd00eefe63f666ec0830562ff651e9170d5ef176fe017475b3d17"
+      "fixture_row_sha256": "015664cbfc29fd7cdb3a50f6501cba7444ba973a2d1e23f60d94f67b4fbad0ea"
     },
     {
       "fixture_id": "R04-NEW-018",
@@ -608,7 +608,7 @@
       "operation": "label",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "045da136c19b294db1eeea97d109b7f5b789b05b784f8cd3fa895e65f5ef4395",
-      "fixture_row_sha256": "3feb231e469a1b7a77066ebd1e864be1566b67a1b9698bc3ee42cc4c27491183"
+      "fixture_row_sha256": "65ae5486e740c1448c1e7f989fd37de85b4ef532c6dd1f07c06cae963ff1269e"
     },
     {
       "fixture_id": "R04-NEW-019",
@@ -632,7 +632,7 @@
       "operation": "label",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "45a0f5c5729d5aaa58c7d878f266dcdf99daaad8547a6f66a5763bcc327d272c",
-      "fixture_row_sha256": "873785c49e88bcd97c83eeafeb4e4e46ffce1106d8c615c6b2daaa88c971b8f0"
+      "fixture_row_sha256": "558fff7d7b863a7f314061f014fddb0adbecb9a7238214fe37a433b707f8f578"
     },
     {
       "fixture_id": "R04-NEW-020",
@@ -656,7 +656,7 @@
       "operation": "cpu",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "b07c7b6819ca4b21d22ff2b25ede6701c278447b7bb27c23fe2edc252f5f38db",
-      "fixture_row_sha256": "a699d3ca3dc14ce2749a86e1bf256faafb78c23438ae87ea931d1b8dea06082a"
+      "fixture_row_sha256": "65499e53b9f2becb88471c2e601b9422c787bbeeb8c41aecff47d39f2f47b902"
     },
     {
       "fixture_id": "R04-NEW-021",
@@ -680,7 +680,7 @@
       "operation": "cpu",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "2a465aa3ecefd1d5c770be11b135b819bcd888bfaaa390d76f9c3e1a9b3ac81b",
-      "fixture_row_sha256": "2c5967492f3c0a1c9695355e3bbf32c03d0b6cdf2377154f5532ae6ec11dc4e5"
+      "fixture_row_sha256": "b2e006a7227db5933586a0668f1bc7aeff771ca76bff5d274dc98fdee7550a79"
     },
     {
       "fixture_id": "R04-NEW-022",
@@ -704,7 +704,7 @@
       "operation": "proprioception",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "5ccb5377abe84d13d3a6668aaed151d082b5a772d5edf561deada13513ad25a3",
-      "fixture_row_sha256": "35c2c78628506ab3d641ff9f39896c1ec22923d062730da7e2349a19499437af"
+      "fixture_row_sha256": "9f71879cf51937b8bf2a23cd40c2f54d8272bf4d63f175a4ed1d3cd7d12e4bb1"
     },
     {
       "fixture_id": "R04-NEW-023",
@@ -728,7 +728,7 @@
       "operation": "proprioception",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "a79c2e9a866568ea1fcf3301e8faa211ed1c36e0cf8c09d8f89b356756c935e0",
-      "fixture_row_sha256": "3a34a225700aa615116d9825f57e670fb9741fb9b97c72906ceac0ec8ee89235"
+      "fixture_row_sha256": "7dee60344a88d8544a3ec70d4959cdb01a4a58f89b4bf58d989b66910eadffa9"
     },
     {
       "fixture_id": "R04-NEW-024",
@@ -752,7 +752,7 @@
       "operation": "proprioception",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "f56124b713e6adb423e7f56e52355f14ad92ce3e5b9c83d51521693f55c0c8b8",
-      "fixture_row_sha256": "f5bf1eb837684e5c06abd6fd8c5288a8a58d3dc99ce1554d96ed8b08bcec28aa"
+      "fixture_row_sha256": "281b4ded340c98257402bc25fbb8e1ba5f4ab08fb31b8b6f6be5076650b4f701"
     },
     {
       "fixture_id": "R04-NEW-025",
@@ -776,7 +776,7 @@
       "operation": "proprioception",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "3abe4d2888b946c18aa9fea433ae6252d4506717264b52e4b2dab47b2717ae64",
-      "fixture_row_sha256": "c681b66525ce6a84d867b5eb386fd68a3195faeaa8a42abdcaeacee25ced0489"
+      "fixture_row_sha256": "424c49286277ea90dbcbfdc10a71188fab84d61721e026f80b55224fd9eca83a"
     },
     {
       "fixture_id": "R04-NEW-026",
@@ -800,7 +800,7 @@
       "operation": "proprioception",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "c5e570f1f6026d2ef4ac959999ce024252d61cd21414893540e4d33c7574be41",
-      "fixture_row_sha256": "a0c77415c347cf7bfd0a12fb8f774d8a935b477ad340635dda4aee2eeb9c28c8"
+      "fixture_row_sha256": "ee3cb25647f623a0e1a6ab6924652f2115ab54af96c0258b762a913865f3b58c"
     },
     {
       "fixture_id": "R04-NEW-027",
@@ -824,7 +824,7 @@
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "operation_note": "learning() uses core() and an already retained relation; no call to action-return acquisition",
       "original_fixture_row_sha256": "0b5c7f6c65ce6fa3f1c398b25d12681a358c45e3c249cd9142ea763b475300fd",
-      "fixture_row_sha256": "2980d484aa9d8ae1e856476f73547eb1f934b132417c725337389e406f387fc3"
+      "fixture_row_sha256": "7b1c9c109b7f6645807b5d6812123abe4413253015e484f2ef57dd5c4de09e8d"
     },
     {
       "fixture_id": "R04-NEW-028",
@@ -847,7 +847,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "086b7503c29690868ed1c21b74769c884ddd2c3e13181b744d9932d4d959389b",
-      "fixture_row_sha256": "745f2b50337d62d388518257028e4480c963d1eaca2ce510eb6bb902125b1fc6"
+      "fixture_row_sha256": "2717bc24f2f88d24ab05f3f2907d6e585d4e1c6d761cda1754d04de977510dd0"
     },
     {
       "fixture_id": "R04-NEW-029",
@@ -870,7 +870,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "9e92270ffc79066ea45736ff3a2c06e4d3a96c0b1dcdddacb83badd1aa092200",
-      "fixture_row_sha256": "e6bca8a9409a5a91cd8f8ca91f0b1a54a7270b4e870b832896a236514add3f20"
+      "fixture_row_sha256": "2c8888faec00b3ee1d823b7759b69d99136c7c2c990638660a3de82496045ca2"
     },
     {
       "fixture_id": "R04-NEW-030",
@@ -895,7 +895,7 @@
       "operation": "crescendo",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "948e7060473b6d8d368430335e0a6a96553e1b8da8567d515ac8b06e973e9ef8",
-      "fixture_row_sha256": "25be43de27651398db50800e565da8c9b3a8eba21c57ceb6c89b9c2680614b7b"
+      "fixture_row_sha256": "0da1703fb0aba45eb835792365188518a969849ee6ac412114c8c79a219f361e"
     },
     {
       "fixture_id": "R04-NEW-031",
@@ -919,7 +919,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "177fa08d5bf8e8df52c408eda85ea22e3cc555ad9d261aadf354d4b01e494d08",
-      "fixture_row_sha256": "40ba83f3a73febe89ddb3965ba5cbabc6c37fa7d921e1c6d2bd8f708af007032"
+      "fixture_row_sha256": "a52ac59fe8769a264de616e396b0a0717d3163e2fa5557fb477ba1cf3027d573"
     },
     {
       "fixture_id": "R04-NEW-032",
@@ -943,7 +943,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "d91aac0252e71bb74d2b4430d9b81189688361b58f71e0a59759aea385a2de6e",
-      "fixture_row_sha256": "74730e8e154d57a9640185a489367dd949c798503bc51cea0f22eb0d00ca46e1"
+      "fixture_row_sha256": "7a11bea338c0caa3b8b19dfa6ba74765ae5710e1bd29a773eee561f08bc3ec47"
     },
     {
       "fixture_id": "R04-NEW-033",
@@ -967,7 +967,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "ecd14d9be0031e5b7ce1dc67feb808b7f94d5c095d582d6936115701e341a7b5",
-      "fixture_row_sha256": "8c9c1528557c2805dc68a00d612f7666e7dafe598714089caea397b9979a8c07"
+      "fixture_row_sha256": "f4533c126ae1ab1d3202023d9f791993b04458cf48666329430447e5921fa712"
     },
     {
       "fixture_id": "R04-NEW-034",
@@ -991,7 +991,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "7ba5de8f1a643eaf5333bbf24ead32fdcd307f1d00729601900a2b05e204e744",
-      "fixture_row_sha256": "d467b1f4691fe28e63efe28ca82651edb8bfc9c8aee420ce7661d1ab642bcec1"
+      "fixture_row_sha256": "6fbd4cc4fca92d64e7903f7e01eb257b1c55aac6a1c8c953cf303429fe6ea243"
     },
     {
       "fixture_id": "R04-NEW-035",
@@ -1015,7 +1015,7 @@
       "operation": "core",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "0886ccfb0bdaa5f8cec955286e2d2335a3b55d035223a0cced32e381bf225c55",
-      "fixture_row_sha256": "ac95ef4fc14fb9539b148337c5752e52bd470eacd73c844c744956fb203f6029"
+      "fixture_row_sha256": "98bff66f0b901c873c0a3af936706cb1a225c2c6d1e9cd4ad59235addd905d49"
     },
     {
       "fixture_id": "R04-NEW-036",
@@ -1039,7 +1039,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "bfb6036ce8212867b46f4cbf1648685acfc7f2894e60026ad553c72bd1631dd2",
-      "fixture_row_sha256": "96aed808b243396c29f188cb35149e7cf2cda7eb6b586d1bfb71bc6dc77bc5d2"
+      "fixture_row_sha256": "faf9213cd41247b690dc9ee1a3daa5dc71d4afbf877b256404d18431fd7548bb"
     },
     {
       "fixture_id": "R04-NEW-037",
@@ -1063,7 +1063,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "d95eea294dbe3ccd101cea5836a63373c27d832a477e0e90132ff73b0b326237",
-      "fixture_row_sha256": "868c6a18efad97d4cbe85bed817164d2501c781a6ae651d4637687605576309c"
+      "fixture_row_sha256": "63f1d2a3b0649a014c598fc87f88d9f163f381261d3e8f611408f475e7834a52"
     },
     {
       "fixture_id": "R04-NEW-038",
@@ -1087,7 +1087,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "7af38596a99e29d972566851a5cfc47a1f5a7608764f680675743d370bdfa1d8",
-      "fixture_row_sha256": "c88c7de0f7528de126b604ca3eedf2afc9971ec1e69d68409aca8fcdac742614"
+      "fixture_row_sha256": "9dcb4c187f21b86d63f2c9c1c5bd9b51f54052a57fd3022819c1faf0d1dd1236"
     },
     {
       "fixture_id": "R04-NEW-039",
@@ -1111,7 +1111,7 @@
       "operation": "matching",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "954ece39f90f436d40909c7ff58f324eeebaa1676d8d0a3cc80b26f487c16d76",
-      "fixture_row_sha256": "ebd92586a7e9fdc24c24f31e82fc4eec3e42b9b86cdbb9047b80ae15ea548123"
+      "fixture_row_sha256": "44eb5c1ddbebc055767f37d218beeea8cffe7f1990f471fb7ae15cb062adb96d"
     },
     {
       "fixture_id": "R04-NEW-040",
@@ -1141,7 +1141,7 @@
       "operation": "chain",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "de5a4109b1624a3ef983c5bbda3cf2bbb5d9b1b72bce209e23cb304379bfb317",
-      "fixture_row_sha256": "a4e17ca87bd324e7c90587a4f4a8c3d944337fafec7a5587c171525b05313eee"
+      "fixture_row_sha256": "3cea244719c26c800a68d408bfcc07c2f81f8f1afc7b7d192016a03a063e6aee"
     },
     {
       "fixture_id": "R04-NEW-041",
@@ -1167,7 +1167,7 @@
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "operation_note": "Local trace supplied to fold rejected before bridge evaluation; carriage tag is broader historical claim provenance",
       "original_fixture_row_sha256": "2e1828af76e2d6f99804ed10ecd5dce5550b84bab3d6d7602352f3d83008c21b",
-      "fixture_row_sha256": "53399b491c44487cca7ee38ad3b030b2641a22f38e03227a598fa55ec7b6dd9a"
+      "fixture_row_sha256": "0073863e629886b80b66a5ea7e6edcef521c4f9911c76eaf25e5354d32f09195"
     },
     {
       "fixture_id": "R04-NEW-042",
@@ -1192,7 +1192,7 @@
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "operation_note": "Ordinary local Prior scope/provenance mutation; no carriage witness or shedding bridge executes",
       "original_fixture_row_sha256": "3d5aeed5054ee82cc77743a168f75e23c8003b3543adaac6a87ef050c9752401",
-      "fixture_row_sha256": "c5c9b7d61c174e62176fbcf052579e0ad83bf2a543a4aaff4e841f986670a2c0"
+      "fixture_row_sha256": "3c21c31c9dce954ab45218ed5609991af4874f19e2e5d81ca03ce451201f7c4f"
     },
     {
       "fixture_id": "R04-NEW-043",
@@ -1215,7 +1215,7 @@
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "operation_note": "Generic q=1 query perturbation, not q=-J stabilization",
       "original_fixture_row_sha256": "f63b14d4d74396b76efb3c9fabc130efe84277cb706abc97ad15b120787989b9",
-      "fixture_row_sha256": "c7ed45466ea41414648a4c4dfe1385d4f3e09cde1dbfdb6b5da5e3d03b147b03"
+      "fixture_row_sha256": "66e3c35d3de5688a949c02d30702d6114cdbc5395c4e3cda0b2b2b09881e071b"
     },
     {
       "fixture_id": "R04-NEW-044",
@@ -1238,7 +1238,7 @@
       "operation": "mindfulness",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "bf61c32e3b1f962916995cd0e7f7f82db2c99ad97cfc9f9a01195b1322989d06",
-      "fixture_row_sha256": "3bb34b218c3efd5dc76be261caf4e44a2a06ecf886dc482f2a3df0c85767df74"
+      "fixture_row_sha256": "ad154397a7cf7a20812508e24e3d084b7336f3a971248bb728c7b9afa1369e78"
     },
     {
       "fixture_id": "R04-NEW-045",
@@ -1261,7 +1261,7 @@
       "operation": "mindfulness",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "a1990921082766b27b5c64256d0fb1496eb7b2a9d42647765216e7ae003c5711",
-      "fixture_row_sha256": "4b2316a7fd5c78a81a8328444b998a34a3b938a2d9bd4728cd4b7bd2381c446d"
+      "fixture_row_sha256": "c2952d3c77b48b7cea88891254466fa805dd3576a218a2378bcea7d2778c9211"
     },
     {
       "fixture_id": "R04-NEW-046",
@@ -1284,7 +1284,7 @@
       "operation": "mindfulness",
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "original_fixture_row_sha256": "0c6a94a0c1b8acfacb77b743d15e5d80d625c33e1c0c5884f119843cc63cbc0f",
-      "fixture_row_sha256": "71d60c8f5775cab2290687f728ca752a157423a24297ebf78e17a7e00ab5fa60"
+      "fixture_row_sha256": "6a23a99d1b7dca1b25a53c06a2069f13b658cdc547adb06e0709469eabc9ab3f"
     },
     {
       "fixture_id": "R04-NEW-047",
@@ -1313,7 +1313,7 @@
       "model_binding_role": "Declared model/premises of the operation; hostile rejection may precede equation evaluation",
       "operation_note": "Antisymmetry/operative-source cancellation; no mindfulness model",
       "original_fixture_row_sha256": "30a38dbcd467a0a5854a3aa953227b4c7911a6454d86831b350579f0b25afa0c",
-      "fixture_row_sha256": "0d29389b63ddaf0a8465d821bef6184a57ec8ab64d6871f1b9dc571b7a1d1c49"
+      "fixture_row_sha256": "46150552cec33ac69c6c7b1790c605a3be0ce1fcbbee65e0f68c8c754aef86f7"
     }
   ]
 }

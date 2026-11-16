@@ -1,0 +1,98 @@
+{
+  "archive_provenance": [
+    {
+      "archive": "AOD_MATTER_I_V2_EXECUTION_REVIEW_R01_2026-10-26.zip",
+      "entries_verified": 21,
+      "probe_member": "probe_metrology_edges.py",
+      "sha256": "2f1df5caab29a9f42fb7ac97107c8d20b44143506ff6c2554b661bebd7c1fa48"
+    },
+    {
+      "archive": "AOD_M3_CELL_MEASURES_MAPPING_ERROR_PLAN_R01_2026-10-26.zip",
+      "entries_verified": 29,
+      "probe_member": "reference/probe_metrology_edges.py",
+      "sha256": "ac1e587700948fb7b476ea7038f66c5630f756dc16d182fa6ed0200662b1d2b5"
+    },
+    {
+      "archive": "AOD_MATTER_I_M3_REVIEW_EVIDENCE_R01_2026-11-01.zip",
+      "entries_verified": 38,
+      "probe_member": "probe_metrology_edges_original.py",
+      "sha256": "99ec0ee952a4fbd85dbf4aca3fa60c0963d43b125c41b20125e35112cd8d04d2"
+    }
+  ],
+  "historical_target_commit": "f2dcf01450d5443ba83d207adfade9a27d3d2a7f",
+  "historical_target_tree": "4f3c5486e987558ff712c3aa4acf98a926ba2213",
+  "probe": {
+    "bytes": 6837,
+    "path": "probe_metrology_edges.py",
+    "sha256": "685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e"
+  },
+  "recovery_archive": {
+    "manifest": "MANIFEST.sha256",
+    "members": 47,
+    "path": "original_replay_r01.zip",
+    "sha256": "b8d6df640eda9e4d7db1e1f4075ab915e32f3b1f61f11ffb3acf5d22f3175deb"
+  },
+  "historical_target_files": {
+    "manual2/data/m1/bipm/raw/ClockOutputCovData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat": {
+      "bytes": 5540,
+      "recovery_member": "historical_target/manual2/data/m1/bipm/raw/ClockOutputCovData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat",
+      "sha256": "97dba2e5e678bb8a0b9ae72162a9cbeb20b4c42fa40bd4b81266692910bc5ddf"
+    },
+    "manual2/data/m1/bipm/raw/ClockOutputData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat": {
+      "bytes": 52179,
+      "recovery_member": "historical_target/manual2/data/m1/bipm/raw/ClockOutputData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat",
+      "sha256": "d4f8dd6961e6044812563a1bdccd81b1e4e1031606c05184f1dffc14830fc94e"
+    },
+    "manual2/scripts/matter1_bipm.py": {
+      "bytes": 10089,
+      "recovery_member": "historical_target/manual2/scripts/matter1_bipm.py",
+      "sha256": "aff1e0fbca46ecfaf3654de0b18263063d0fd4ea59b9f7b8ea664255d6c724f9"
+    },
+    "manual2/scripts/matter1_metrology.py": {
+      "bytes": 34987,
+      "recovery_member": "historical_target/manual2/scripts/matter1_metrology.py",
+      "sha256": "591e64cf77e266762c723ec6cfca5c82510134445fa4f3c7941ff72539464062"
+    },
+    "sections/06_wave_state_relational_time.tex": {
+      "bytes": 11587,
+      "recovery_member": "historical_target/sections/06_wave_state_relational_time.tex",
+      "sha256": "bbe6e0b7917940a6320b79be467ffbe8591ca1ec7b8aa0ffe1626cee320de2bb"
+    }
+  },
+  "schema": "aod.historical-metrology-scientific-members.v1",
+  "scope": "Exact original probe, historical scientific dependencies and expected output; archive digests are provenance, not runtime task dependencies.",
+  "files": {
+    "historical_target/manual2/data/m1/bipm/raw/ClockOutputCovData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat": {
+      "bytes": 5540,
+      "sha256": "97dba2e5e678bb8a0b9ae72162a9cbeb20b4c42fa40bd4b81266692910bc5ddf"
+    },
+    "historical_target/manual2/data/m1/bipm/raw/ClockOutputData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat": {
+      "bytes": 52179,
+      "sha256": "d4f8dd6961e6044812563a1bdccd81b1e4e1031606c05184f1dffc14830fc94e"
+    },
+    "historical_target/manual2/scripts/matter1_bipm.py": {
+      "bytes": 10089,
+      "sha256": "aff1e0fbca46ecfaf3654de0b18263063d0fd4ea59b9f7b8ea664255d6c724f9"
+    },
+    "historical_target/manual2/scripts/matter1_metrology.py": {
+      "bytes": 34987,
+      "sha256": "591e64cf77e266762c723ec6cfca5c82510134445fa4f3c7941ff72539464062"
+    },
+    "historical_target/sections/06_wave_state_relational_time.tex": {
+      "bytes": 11587,
+      "sha256": "bbe6e0b7917940a6320b79be467ffbe8591ca1ec7b8aa0ffe1626cee320de2bb"
+    },
+    "original-output.json": {
+      "bytes": 12155,
+      "sha256": "5f5e7c889f751fe413168f66f6a6ce6c9624757f72b4551245b720d84ca22487"
+    },
+    "probe_metrology_edges.py": {
+      "bytes": 6837,
+      "sha256": "685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e"
+    },
+    "prior_mapping_error.json": {
+      "bytes": 64970,
+      "sha256": "a915a6a46c30a40225c75ffbb6974e974c7afaf185d0ada51c85c2639a2308a4"
+    }
+  }
+}

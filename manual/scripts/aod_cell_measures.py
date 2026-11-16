@@ -18,7 +18,7 @@ from typing import Callable, Mapping
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DATA = ROOT / "manual/data/m3/cells_geometry.json"
+DATA = ROOT / "manual/data/cell_measures/cells_geometry.json"
 SPEC = ROOT / "contracts/scientific/CELL_MEASURE_SPEC.json"
 
 

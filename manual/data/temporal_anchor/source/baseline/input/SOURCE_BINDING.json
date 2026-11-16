@@ -1,0 +1,14 @@
+{
+  "commit": "3ffb3c9984eef95ca4b105ac323d249f30412816",
+  "repository": "https://github.com/rpoyau/aod",
+  "sha256": {
+    "LICENSE": "bcaee0778a5a742463fae8d3bf66d1dfc37d45b2a92962ad415b730b310d5bf7",
+    "appendices/H_combinatorics_rd_tests.tex": "8ba9c388162d31e5a5b3a86b8818a958b909b537bfa13fb807123d564d61adf7",
+    "manual/scripts/aod_m3_temporal.py": "38c3cd6207dcae2b66074a5d68147ca45dde0845cb84d0109ac8b6345de3d393",
+    "manual/scripts/aod_mapping_error.py": "b1d414e32819d3a601834883e112634bdffd7df82d742de9ede5580c96e620fc",
+    "manual/scripts/aod_native_closure_wave.py": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+    "sections/05_curl_closure_duon_current.tex": "6e58c2213d8a11e288915d47d90965787aba148caa3d8f3bc065739216cf00e4",
+    "sections/06_field.tex": "79e16685826aee15273fbcddc0a59d5f14f75dbf3671e43ae261fcd6fc9acf70",
+    "sections/06_wave_state_relational_time.tex": "bbd265de629de74ae43be75ff5146406b5dda80c380bf02507725a98d233404d"
+  }
+}

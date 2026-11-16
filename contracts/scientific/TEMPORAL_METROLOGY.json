@@ -1,14 +1,14 @@
 {
   "schema": "aod.scientific.temporal-metrology.v1",
   "version": 3,
-  "owner": "Manual M3 temporal metrology companion",
+  "owner": "Manual temporal metrology companion",
   "scope": "Exact declared observer reductions and experiment-specific provenance; physical calibration is separately evidenced",
   "dependencies": {
     "native_observation_contract": "contracts/scientific/TEMPORAL_OBSERVATION.json",
     "prediction_schema_version": 3,
     "map_contract": "contracts/scientific/MAP_CONTRACT.json",
     "error_contract": "contracts/scientific/ERROR_BUDGET.json",
-    "whole_artifact_replay": "aod_m3_temporal.replay_prediction(prediction, original_context)"
+    "whole_artifact_replay": "aod_temporal_observation.replay_prediction(prediction, original_context)"
   },
   "observation_kinds": [
     "native_reclosure_count",
@@ -142,7 +142,7 @@
     "No new awareness, path-integral or universal complexity premise"
   ],
   "comparison_assessment": {
-    "interface": "aod_m3_metrology.assess_comparison(record, trusted_sources)",
+    "interface": "aod_temporal_metrology.assess_comparison(record, trusted_sources)",
     "compatibility": "Schema family and numerical laws are unchanged. Contract version 2 requires observation-specific correction evidence and an authenticated enclosing nuclear observation context, and rejects type-mismatched evidence or malformed comparison metadata previously accepted. Fully bound records retain their numerical results",
     "authentication": "Complete assessment declaration and endpoint quantities are separately bound to supplied trusted sources using canonical JSON equality",
     "count_endpoints": "native_reclosure_count and shed_packet_event require nonnegative integral values on both sides: JSON integers or canonical integer strings accepted by exact(); boolean, float, negative, fractional and noncanonical representations are rejected. The native observation extractor still requires a JSON integer",
@@ -197,8 +197,8 @@
     "propagation_schema": "aod.m3.quantity-propagation.v1",
     "result_schema": "aod.m3.quantity-propagation-result.v1",
     "interfaces": [
-      "aod_m3_metrology.validate_quantity(binding, trusted_sources)",
-      "aod_m3_metrology.propagate_quantities(record, trusted_sources)"
+      "aod_temporal_metrology.validate_quantity(binding, trusted_sources)",
+      "aod_temporal_metrology.propagate_quantities(record, trusted_sources)"
     ],
     "source_payload": "quantities[quantity_id]; uncertainty_models[model_id]",
     "authentication": "The separately supplied trusted store binds canonical quantity kind, unit, dimension, admissible domain/window, locator, role, value meaning, uncertainty category, components and correction ownership. The uncertainty model binds every quantity identity and parameter, expressions, route and complete uncertainty inputs.",

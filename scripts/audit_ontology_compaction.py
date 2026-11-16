@@ -13,21 +13,21 @@ CONTRACT_ROOT = 'contracts/scientific/'
 # These independent byte bindings are reviewed with the checker. Loading a
 # modified contract never changes an expected digest or authorizes new sources.
 CONTRACT_SHA256 = {
-    "TEMPORAL_METROLOGY.json": "337e9900c9ec11667a3795827eb6b9059eca85efbc2d488fb77e15da7fe1be33",
-    "TEMPORAL_OBSERVATION.json": "e6ef0e7e9c1a25da52dafa1234b49806796a068c2ad88ba4e9441951eb9d9f13",
-    "MAP_CONTRACT.json": "8887596e94ff8361bb25dc863716ab2e33e5964d655c4e90a31686e7a2601dd0",
-    "M3_MATHEMATICAL_BINDINGS.json": "9ad94e47e841cda6d715bcc385c186629b7ae44b8027721c2fed70d86dd14bce",
-    "ERROR_BUDGET.json": "d0e1b02709b32464d95dad29342748702593ea889b201aad71ee9d071bd6a257",
+    "TEMPORAL_METROLOGY.json": "a81b261fca3be6202a1fb02d6334e60751b25d1e0c9ff5ef89bb50ba44145da9",
+    "TEMPORAL_OBSERVATION.json": "b02344dcaa98c3de1b7453d868b332b2bd537f08c9c2e92de048e337c6747e69",
+    "MAP_CONTRACT.json": "3d6766979397c7732e6cd88793cf6befb9fa48fa69267598cfcf0d781a300aea",
+    "CELL_MAPPING_MATHEMATICAL_BINDINGS.json": "a971cb597a9879c433b37184ba81c2b60f25ff35b011363862eb43602e1bf1b7",
+    "ERROR_BUDGET.json": "8ea33dabcf681e01d459f170b31c10b59fdf9e63ea708c64ac6ed7c1be62a57f",
     "CELL_MEASURE_SPEC.json": "75fc35552c419d831d8fcd5dfe1ee1b46dffa4e862535d4b74029f3c2018c9ea",
-    "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "a4e530314d03ff2a695a5d9f6d59f20f18ab8ae4c388a594b99fcf0996c5cf05",
-    "CANONICAL_BINDINGS.json": "628031e2304e352b1fd0e06df968e7b49f458a9afd92f7ded4a25f1fd96c092b",
+    "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "ad4070efbdc8ca584812a1a947d083d2f6f4676f2aef22638dfb7f5854da4f27",
+    "CANONICAL_BINDINGS.json": "83dc51baa669e551a248c621d7070f8f48147042119cd87c7f5fe1b675c1943a",
     "FOURIER_SCOPE.md": "0bb855f5666a97a285d4e2ded98adf9cb70dc372b9039c33bcaeb43b38435328",
     "HISTORICAL_TOY_SOURCE_STATUS.csv": "dc0f1b94afc71f930929e64caef8d9f9cb49386035706aa2b79b8b9cc0de42d4",
     "METROLOGY_BOUNDARY.md": "553609db18f523faae6d2a53c3465c56ceb9034c6ba1ae3b7a6cff77fdf678af",
     "OPERATIVE_SELF_SCHEMA.json": "0fba87a85c542a5a9b74f2242724bf334ecb1a0c39886a20c9298309d3005ecd",
-    "OWNERSHIP_AND_FIXTURES.json": "ce3c870c6a5876a9a31e16d12cc5ad563c9147cac6d021fe464876ab3d33c857",
-    "README.md": "eefde1d3336668f75a3d9d8f8c040a7efce0c0d97f84cda0a880e72e8cec8294",
-    "ROUND_TRIP_PHASE_FACTOR_SPEC.json": "a7f7c6aea4a373655e9031515d95cc19569557ad35357665e1e56d8b81777ed5",
+    "OWNERSHIP_AND_FIXTURES.json": "935d97f71f9127195febebb276cf43b5355f3b09a59d5d60d02b9c09be484ca4",
+    "README.md": "6156f7bcf91c51c2824982b53782ee55b5fecb6114b91db5384e93a3860c1296",
+    "ROUND_TRIP_PHASE_FACTOR_SPEC.json": "a54b0a8b799228c11b60b88c706824045aaefae2000c1cf081e838582dcba11e",
     "UPDATE_CAUSAL_ORDER.md": "879fe4fce9ec09b8640ca31eea28c09a3a6d2047f6d58eeafe463ece055315bd"
 }
 
@@ -74,7 +74,7 @@ def audit_ownership(root, maps, eqs, parts):
                      'owned mathematical statement changed ' + binding['label'])
     fixture = root / record['fixture_path']
     fixture_bytes = fixture.read_bytes()
-    _require(record['fixture_path'] == 'manual/data/m2/awareness_cases.jsonl' and
+    _require(record['fixture_path'] == 'manual/data/awareness/awareness_cases.jsonl' and
              hashlib.sha256(fixture_bytes).hexdigest() == record['fixture_sha256'],
              'immutable fixture file changed')
     rows = fixture_bytes.decode().splitlines()
@@ -122,11 +122,11 @@ def validate_dependencies(groups):
 
 def audit_m3(root, maps, eqs):
     """Check the explicit additional mathematics without changing old duties."""
-    record = json.loads(_check_contract(root, 'M3_MATHEMATICAL_BINDINGS.json'))
+    record = json.loads(_check_contract(root, 'CELL_MAPPING_MATHEMATICAL_BINDINGS.json'))
     _require(record['schema'] == 'aod.scientific.m3-mathematics.v1',
              'unknown M3 mathematical binding schema')
     paths = {'main': 'sections/07_cell_measures_mappings.tex',
-             'manual': 'manual/sections/01_m3_cells.tex'}
+             'manual': 'manual/sections/01_cell_measures.tex'}
     _require(set(record['sources']) == set(paths.values()),
              'M3 mathematical source inventory changed')
     _require(len(record['equations']) == 7, 'M3 equation inventory changed')
