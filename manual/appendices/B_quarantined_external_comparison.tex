@@ -1,5 +1,15 @@
 \section{Quarantined External Comparison}\label{manual:external-comparison}
 
+\paragraph{Calculation card.}
+The candidate rate, measured target energy and measured normalizer have
+separate roles; \(h_{\mathrm{ext}}\) and \(e\) are defining constants.
+The declared unit/rate maps produce the inline Tau target coordinates.
+Their normalizer is shared across forward and inverse maps. The audit below
+checks comparison order and units; physical prediction still needs a bound
+candidate and its uncertainty under \secref{manual:calculation-spine}.
+
+
+
 \subsection{Scope}\label{manual:external-comparison:scope}
 This appendix compares A\(\Omega\) outputs against external comparison coordinates. It does not import external units, constants, or symbols into the A\(\Omega\) calculation. The active calculation produces a candidate such as
 \[
@@ -146,7 +156,8 @@ The contribution from the measured external normalizer is
 =
 4.80460322389\times10^{11}\ \mathrm{s}^{-1}.
 \]
-The combined external target-rate uncertainty is
+At first order, assuming zero covariance between the target energy and
+measured normalizer, the combined external target-rate uncertainty is
 \[
 \sigma_{\nu,\mathrm{comb}}
 =
@@ -161,7 +172,7 @@ The combined external target-rate uncertainty is
 \caption{Tau target record in the quarantined external-comparison coordinate.}
 \begin{tabularx}{\textwidth}{>{$}c<{$} >{\raggedright\arraybackslash}X >{$}c<{$} >{$}c<{$}}
 \toprule
-x & \(\operatorname{def}(x)\) & \operatorname{val}(x) & u(x) \\
+x & \(\operatorname{def}(x)\) & \operatorname{val}(x) & \operatorname{unit}(x) \\
 \midrule
 E_\tau^{\mathrm{tar}} & declared measured target & 1776.86 & \mathrm{MeV} \\
 \sigma_E & declared uncertainty & 0.12 & \mathrm{MeV} \\
@@ -179,6 +190,13 @@ K_{\mathrm{ext}} & \(h_{\mathrm{ext}}\eta_{\mathrm{ext}}/(10^6e)\) & 5.667353551
 \end{table}
 
 \subsection{Audit}\label{manual:external-comparison:falsification}
+The same normalizer identity must be retained in a round trip:
+\(K_{\mathrm{ext}}\nu_{\tau,\mathrm{tar}}=E_\tau^{\mathrm{tar}}\).
+Its uncertainty cancels exactly in this algebraic composition. Treating
+the two appearances of \(\eta_{\mathrm{ext}}\) as independent would add a
+spurious contribution; the joint route of
+\secref{manual:scoped-errors-data-support} preserves that dependence.
+
 F1. External-comparison audit records the active \(\nu_{x,\AO}\) candidate before the external comparison.
 
 F2. Speed-comparison audit records integer \(\Delta q\), integer positive \(\Delta n\), and \(\Delta q\le\Delta n\).

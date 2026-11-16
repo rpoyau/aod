@@ -1,16 +1,33 @@
 
 \clearpage
 \section{Field Dynamics Applications}\label{manual:field-dynamics-applications}
+
+\paragraph{Calculation card.}
+The coordinate examples use fixed exact tracks and integer comparators;
+SPARC uses source radial rows and declared component proxies, with an
+observation-only square-speed diagnostic. Tau retains carried score records,
+and the orbital-retention path remains a required-input plan. Each subsection
+keeps its scope, operator chain, output and falsifier. Source assumptions,
+shared calibration and missing model uncertainty follow
+\secref{manual:calculation-spine}; these evidence classes are distinct.
+
+
 \aodnoteblock{Scope}{This section uses the main-note field dynamics calculus as an application layer. SPARC uses the square-speed coordinate \(U=V^2\). The Tau ring fixture uses \(S_\tau\) and missing-burden diagnostics. Each score coordinate is declared inside its own support class.}
 
 \aodremark{Field-dynamics simulations are finite compressions of the A\(\Omega\)D ontology. A macroscopic field is simulated by declared clustering, finite boundary windows, support families, and value maps. Output residuals are read against the declared data support: boundary placement, density resolution, time-flow data, angular/radial momentum inputs, slosh windows, capacity seating, and sheddic-route declarations.}
 
 A large field-dynamics system is handled by declared clustering. A cluster records a retained family of distinctions and relations over a boundary/window. The cluster records its support expression, construction trace or inherited trace, capacity rule, coupling family, and route status. The cluster is a finite calculation container recording a declared A\(\Omega\)D form.
+A reduction declares its retained and discarded state, lineage and memory,
+then tests the intended readout, error bound or future boundary response on
+matched windows and interventions. Equal present summaries do not establish
+future sufficiency; two histories with that summary and different next
+responses refute it. No Markov closure follows from clustering alone.
+
 
 
 
 \subsection{Data-support classes for manual simulations and comparisons}\label{manual:field-dynamics-data-support-classes}
-Dataset resolution selects the data-support class: radial rows instantiate G0; radial rows plus proxy density/current fields instantiate G1; three-dimensional density/velocity/current fields instantiate G2; time-ordered tracer positions/velocities instantiate G3. Each class reports residuals only in its declared coordinate. \tabref{tab:manual-data-support-classes} records the manual classes used by this release.
+The support rule in \secref{manual:scoped-errors-data-support} selects the comparison coordinate; it does not certify replay or physical validation. \tabref{tab:manual-data-support-classes} records the manual classes used by this release.
 
 \scriptsize
 \begin{longtable}{@{}p{0.07\textwidth}p{0.17\textwidth}p{0.27\textwidth}p{0.22\textwidth}p{0.12\textwidth}@{}}
@@ -99,7 +116,8 @@ U^{\mathrm{obs}}_{g,j}=(V^{\mathrm{obs}}_{g,j})^2,
 \qquad
 \Delta U_{g,j}=U^{A\Omega}_{g,j}-U^{\mathrm{obs}}_{g,j}.
 \]
-If projection or input uncertainty is declared, the total uncertainty is recorded by
+When observation, projection and input contributions form a justified joint
+moment model with zero cross-covariances, their residual variance reduces to
 \[
 \sigma^2_{\mathrm{total},g,j}
 =
@@ -188,7 +206,7 @@ This fixture uses integerized three-dimensional trajectory data. A bacterium or 
 \[
 Q_i^{(n)}=(a_i^{(n)})^2+(b_i^{(n)})^2+(c_i^{(n)})^2\in\mathbb Z_{\ge0}.
 \]
-Mass and size supply a candidate monon-beat scale \(\beta_a\). The trajectory is tested by displacement-bin counts, phase-cycle counts \(Q_i^{(n)}\bmod\beta_a\), octant direction counts, integer ratios, and exact \(\delta_3\) residuals. The full 3D coordinate phase-cycle specification is given in \appref{manual:app:coordinate-phase-cycle-delta3}.
+A declared mass/size adapter may supply a candidate monon-beat scale \(\beta_a\); the fixed fixture does not instantiate measured acquisition. The trajectory is tested by displacement-bin counts, phase-cycle counts \(Q_i^{(n)}\bmod\beta_a\), octant direction counts, integer ratios, and exact \(\delta_3\) residuals. The full 3D coordinate phase-cycle specification is given in \appref{manual:app:coordinate-phase-cycle-delta3}.
 
 The exact fixture path is
 \[
@@ -324,7 +342,13 @@ U^{\mathrm{obs}}_{g,j}=(V^{\mathrm{obs}}_{g,j})^2,
 \qquad
 \sigma_{U,g,j}=2V^{\mathrm{obs}}_{g,j}\sigma_{V,g,j}.
 \]
-The uncertainty propagation is external benchmark arithmetic. The declared score target is \(U^{\mathrm{obs}}_{g,j}\), and benchmark input columns remain input data until the report map is evaluated. This G0 diagnostic uses nonnegative component proxies
+The displayed \(\sigma_U=2V^{\mathrm{obs}}\sigma_V\) is first-order
+propagation about a positive measured speed, appropriate only where its
+nonlinear remainder is negligible for the claimed precision. It is not an
+exact square-map uncertainty. The present scores use this observation-only
+diagnostic; input-proxy, distance, inclination, map and shared-source
+contributions are not thereby zero. Exact finite laws or justified bounds
+use the M3 routes in \secref{manual:scoped-errors-data-support}. The declared score target is \(U^{\mathrm{obs}}_{g,j}\), and benchmark input columns remain input data until the report map is evaluated. This G0 diagnostic uses nonnegative component proxies
 \[
 U^k_{g,j}:=(V^k_{g,j})^2,
 \qquad k\in\{\mathrm{gas},\mathrm{disk},\mathrm{bulge}\}.
@@ -600,4 +624,9 @@ No. & Sheet & Purpose\\
 \aodremark{The SPARC square-speed lane is a G0 radial projection diagnostic. The orbital-retention fixture is the G2/G3 retention-first simulation path. Projection to \(U\) follows retention, capacity seating, and \(\delta_3\) tallies.}
 
 \subsection{Completion requirements}\label{manual:field-dynamics-completion-requirements}
-A SPARC scored record is complete when the data file, declaration constants, square-speed target, residuals, and score metrics are present. A Tau ring fixture is complete when the candidate set, scores, missing fraction, and precision note are present. Display speed is a presentation view only. The orbital-retention field-dynamics fixture is complete when it records medium setup, flip/fizz classification, range-prioritized SADAR, capacity seating, retention class, and \(\delta_3\) tallies.
+A SPARC score record is arithmetically complete when the data file, declaration constants, square-speed target, residuals, and score metrics are present. A Tau ring fixture is complete when the candidate set, scores, missing fraction, and precision note are present. Display speed is a presentation view only. The orbital-retention field-dynamics fixture is complete when it records medium setup, flip/fizz classification, range-prioritized SADAR, capacity seating, retention class, and \(\delta_3\) tallies.
+These are record-completeness conditions. Replay also requires the bound
+producer and all operands; physical validation additionally requires the
+source/uncertainty and independent-comparison evidence in
+\secref{manual:prediction-test-registry}. Carried Tau scores and unsupported
+declaration-control recipes remain carried records.

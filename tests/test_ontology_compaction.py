@@ -62,7 +62,7 @@ def test_manual_awareness_inclusion_is_an_active_coverage_obligation(tmp_path):
     root = copy_source(tmp_path)
     path = root / 'manual/main.tex'
     path.write_text(path.read_text().replace('\\input{sections/00_awareness_fixtures.tex}', ''))
-    with pytest.raises(ValueError, match='Manual example family not rendered|Active scientific source anchor ownership mismatch'):
+    with pytest.raises(ValueError, match=r'Manual example family not rendered|Active scientific source anchor ownership mismatch|^unresolved manual reference manual:m2-awareness-fixtures in manual/sections/09_prediction_test_fixture_registry\.tex$'):
         a.audit(root)
 
 

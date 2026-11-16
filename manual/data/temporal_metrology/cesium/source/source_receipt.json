@@ -1,0 +1,150 @@
+{
+  "schema": "aod.m3.primary-source-receipt.v1",
+  "source_id": "Heavner_et_al_2014_NIST_F2",
+  "url": "https://tf.nist.gov/general/pdf/2704.pdf",
+  "doi": "10.1088/0026-1394/51/3/174",
+  "file": "heavner2014.pdf",
+  "sha256": "85482447888dc5524b7ebf3754ea4fdcde3a80d9c36ae927e5d69d9e9f980eb5",
+  "bytes": 661185,
+  "checked_pages": [
+    176,
+    179,
+    181
+  ],
+  "method": "Visual inspection of page renderings against the archived PDF; signs, exponents, table entries, footnote and campaign distinction checked against the retained protocol.",
+  "transcription": {
+    "p176_section2_1": {
+      "molasses_load_seconds": "approximately 0.2",
+      "atomic_temperature_microK": "0.46",
+      "cloud_FWHM_cm": "approximately 3",
+      "Ramsey_interval_seconds": "approximately 0.6",
+      "C_field_nT": "250"
+    },
+    "p176_sections2_3_2_4": {
+      "reference_role": "Hydrogen-maser reference locks quartz and supplies the evaluation flywheel",
+      "nominal_synthesis_units": "100 MHz; 9.200 GHz; 7.368 MHz; 9.193 GHz",
+      "rounded_nominal_values_are_exact_carrier": false
+    },
+    "p176_section3_1": {
+      "quantity_kind": "fractional frequency correction",
+      "combined_gravity_and_second_order_Doppler": "179.87e-15",
+      "standard_uncertainty": "0.03e-15",
+      "scope": "Experimental reduction; no AOD dynamical premise adopted"
+    },
+    "p179_Table1": {
+      "units": "fractional frequency times 1e-15",
+      "scope": "Typical thirty-day evaluation; Zeeman and density corrections vary with evaluation",
+      "entries": [
+        {
+          "effect": "gravity_and_second_order_Doppler",
+          "magnitude": "179.87",
+          "standard_uncertainty": "0.03"
+        },
+        {
+          "effect": "second_order_Zeeman_typical",
+          "magnitude": "286.06",
+          "standard_uncertainty": "0.02"
+        },
+        {
+          "effect": "blackbody_radiation",
+          "magnitude": "-0.087",
+          "standard_uncertainty": "0.005"
+        },
+        {
+          "effect": "spin_exchange_low_density",
+          "magnitude": "-0.71",
+          "standard_uncertainty": "0.24",
+          "included_in_TypeB_total": false,
+          "role": "informational; statistical component in TypeA"
+        },
+        {
+          "effect": "spin_exchange_nonlinearity",
+          "magnitude": "0",
+          "standard_uncertainty": "0.02"
+        },
+        {
+          "effect": "distributed_cavity_phase_m0",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "distributed_cavity_phase_m1",
+          "magnitude": "0",
+          "standard_uncertainty": "0.028"
+        },
+        {
+          "effect": "distributed_cavity_phase_m2",
+          "magnitude": "0",
+          "standard_uncertainty": "0.02"
+        },
+        {
+          "effect": "microwave_power",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty": "0.08"
+        },
+        {
+          "effect": "microwave_spurious",
+          "magnitude": "0",
+          "standard_uncertainty": "0.05"
+        },
+        {
+          "effect": "cavity_pulling",
+          "magnitude": "0.015",
+          "standard_uncertainty": "0.015"
+        },
+        {
+          "effect": "Rabi_pulling",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "Ramsey_pulling",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "Majorana_transitions",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "fluorescence_light_shift",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "dc_Stark",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "background_gas_collisions",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "Bloch_Siegert",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        },
+        {
+          "effect": "integrator_offset",
+          "magnitude_bound": "<0.01",
+          "standard_uncertainty_bound": "<0.01"
+        }
+      ],
+      "total_TypeB_standard_uncertainty": "0.11",
+      "low_density_spin_exchange_included_in_TypeB_total": false,
+      "footnote_meaning": "Low-density spin-exchange row is informational and excluded from the displayed total",
+      "recomputed_total": false
+    },
+    "p181_section5": {
+      "campaign": "August 2013",
+      "TypeA_standard_uncertainty": "0.44e-15",
+      "TypeB_standard_uncertainty": "0.16e-15",
+      "difference_from_Table1": "Microwave amplitude effects were re-evaluated after the synthesizer was modified",
+      "spin_exchange_statistical_uncertainty_included_in_TypeA": true
+    }
+  },
+  "scope": "Authentication of published apparatus and uncertainty transcriptions. Not raw-campaign replay, a reconstructed August component budget, a finite probability law, or an AOD clock prediction. Historical protocol bytes remain unchanged."
+}

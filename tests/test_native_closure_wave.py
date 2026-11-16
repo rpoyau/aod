@@ -1,14 +1,14 @@
-import csv,importlib.util,json,sys
+import csv,json,sys
 from dataclasses import replace
 from fractions import Fraction as Q
 from pathlib import Path
 import pytest
 
 ROOT=Path(__file__).resolve().parents[1]
-spec=importlib.util.spec_from_file_location('aod_native_closure_wave',ROOT/'manual/scripts/aod_native_closure_wave.py')
-n=importlib.util.module_from_spec(spec);sys.modules[spec.name]=n;spec.loader.exec_module(n)
+sys.path.insert(0,str(ROOT/'manual/scripts'))
+import aod_native_closure_wave as n
 ROWS=[]
-for p in sorted((ROOT/'manual/data/m1').glob('*.csv')):
+for p in sorted((ROOT/'manual/data/native_closure_wave').glob('*.csv')):
     with p.open() as f:ROWS.extend(csv.DictReader(f))
 
 @pytest.mark.parametrize('row',ROWS,ids=[r['fixture_id'] for r in ROWS])

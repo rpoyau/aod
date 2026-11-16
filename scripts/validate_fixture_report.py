@@ -15,7 +15,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNNER = 'manual/scripts/aod_awareness.py'
-FIXTURES = 'manual/data/m2/awareness_cases.jsonl'
+FIXTURES = 'manual/data/awareness/awareness_cases.jsonl'
 SCHEMA = 'aod.fixture-run-report.v1'
 
 

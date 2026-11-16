@@ -141,7 +141,7 @@ def test_supplemental_formula_removal_is_rejected(source):
 
 
 def test_fixture_input_mutation_is_rejected(source):
-    path = source / "manual/data/m2/awareness_cases.jsonl"
+    path = source / "manual/data/awareness/awareness_cases.jsonl"
     rows = path.read_text().splitlines()
     row = json.loads(rows[0]);row["fixture_id"] += "-changed"
     rows[0] = json.dumps(row)

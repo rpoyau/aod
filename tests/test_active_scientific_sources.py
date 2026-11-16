@@ -15,7 +15,7 @@ def test_rendered_scientific_authority_and_equations():
 def test_manual_rows_bind_active_main_and_manual_constructs():
     import csv
     main=a.label_map(ROOT);manual=a.label_map(ROOT,'manual');rows=[]
-    for p in (ROOT/'manual/data/m1').glob('*.csv'):
+    for p in (ROOT/'manual/data/native_closure_wave').glob('*.csv'):
         with p.open() as f:rows.extend(csv.DictReader(f))
     assert len({r['fixture_id'] for r in rows})==len(rows)>=80
     for row in rows:
@@ -107,7 +107,7 @@ def test_m2_canonical_science_and_manual_fixture_are_rendered():
 
 def test_m2_data_rows_bind_active_definitions_and_exact_source():
     import hashlib
-    rows=[json.loads(t) for t in (ROOT/'manual/data/m2/awareness_cases.jsonl').read_text().splitlines()]
+    rows=[json.loads(t) for t in (ROOT/'manual/data/awareness/awareness_cases.jsonl').read_text().splitlines()]
     assert len(rows)==47 and len({x['fixture_id'] for x in rows})==47
     maps = {s: a.label_map(ROOT, s) for s in ('main', 'manual')}
     bindings = json.loads((ROOT/'contracts/scientific/OWNERSHIP_AND_FIXTURES.json').read_text())['fixture_bindings']

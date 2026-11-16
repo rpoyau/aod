@@ -191,7 +191,7 @@ def test_canonical_metadata_and_no_stale_lensing_plan_manifests():
 
 def test_introduction_uses_records_not_setup_key_proposes():
     text = active_text()
-    assert "A compact expression" in text and "curling-curl specification" in text
+    assert "A compact support expression" in text and "curling-curl specification" in text
     assert r"\label{eq:motif-admission}" in text
     assert "A core signature is" in text and "construction witness is bound" in text
 

@@ -1,4 +1,14 @@
 \section{Galactic Lensing Diagnostic Plan}\label{manual:galactic-lensing-diagnostic-plan}
+
+\paragraph{Calculation card.}
+Toy bins, SPARC medium proxies, SWELLS targets and L3 input requirements have
+separate roles. The inline aggregate tables retain their historical results;
+per-system inputs, cohort membership, exclusions and evaluator/gate lineage
+are still needed for replay. Shared target reductions and uncertainty enter
+one joint comparison under \secref{manual:calculation-spine}, not additional
+independent medium evidence. The L3 gate below states the missing stages.
+
+
 \aodnoteblock{Scope}{This section applies the current A\(\Omega\)D field-ring and \(\delta_3\) notation to a staged galactic-lensing diagnostic plan. It is a manual/application plan with an explicit L3 data-package gate.}
 \aodprovenance{\mainsection{main:subsec:fractal-field-ring-gate};
 \mainsection{main:sec:field-dynamics};
@@ -114,7 +124,10 @@ SPARC5 instantiates a radial lens-medium data-support class. It supplies radial 
 SWELLS supplies target-side acquisition fields for the lensing lane.
 \input{data/lensing/swells_k0_target_tallies_table.tex}
 \input{data/lensing/swells_k1_k2_k3_comparison_table.tex}
-K1 is retained as the baseline. K2 and K3 are audit diagnostics.
+K1 is retained as a target-selected development baseline: target residuals
+influenced its selection. K2 and K3 remain audit diagnostics. Independent
+evaluation requires the full selection/exposure history and a locked recipe
+before a new cohort is joined; it cannot reselect on that cohort's targets.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.82\linewidth]{figures/lensing/05_swells_k_comparison_delta3.png}
@@ -139,6 +152,13 @@ K4 is the higher-resolution lensing input-manifest row for independent 3D and ti
 \end{figure}
 
 \subsection{Target-side quarantine and release gate}\label{manual:lensing-release-gate}
+A derived \(\sigma_{\mathrm{SIE}}\) shares the Einstein radius and distance
+inputs of its target construction. Its derivation, source assumptions and
+covariance/likelihood must travel with those inputs; it is not an independent
+medium measurement. The lensing application next needs per-system
+input/output and gate records that regenerate the K0/K1 cohort denominators.
+Aggregate agreement alone does not supply that evaluator.
+
 The A\(\Omega\) input side carries medium fields, gate values, and declared prediction values. The target side carries image-position, Einstein-radius, and image-count targets after prediction values freeze.
 \begin{figure}[H]
 \centering

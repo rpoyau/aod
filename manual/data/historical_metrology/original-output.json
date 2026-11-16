@@ -1,0 +1,374 @@
+{
+  "R1a_interval": {
+    "distribution": "C=f_Cs exactly; y=d/s equally +/-0.001; T/s=1/(1+y)+y",
+    "exact_mean_seconds": "1000000/999999",
+    "exact_standard_uncertainty_seconds": "1.0000010000010000010000010000010000E-9",
+    "exact_variance_seconds2": "1/999998000001000000",
+    "input_record": {
+      "acquisition": {
+        "cycle_slip_alternatives": [
+          0
+        ],
+        "cycle_slip_status": "resolved_by_synthetic_setup",
+        "dead_time_seconds": "0",
+        "dead_time_status": "none_by_synthetic_setup",
+        "extrapolation_model": null,
+        "noise_model": "declared_joint_covariance_not_independent_samples"
+      },
+      "binding": {
+        "comparison_cut": 12,
+        "contact_cuts": [
+          4,
+          8,
+          12
+        ],
+        "lineages": [
+          {
+            "id": "synthetic:reference",
+            "prefix_sha256": "ce0c79a3c9e375c8586c4eedd5e780064d27d5d2c562a03b04996b387f83f804",
+            "returns": [
+              {
+                "cut": 0,
+                "id": "synthetic:reference:return:0"
+              },
+              {
+                "cut": 3,
+                "id": "synthetic:reference:return:1"
+              },
+              {
+                "cut": 6,
+                "id": "synthetic:reference:return:2"
+              },
+              {
+                "cut": 9,
+                "id": "synthetic:reference:return:3"
+              },
+              {
+                "cut": 12,
+                "id": "synthetic:reference:return:4"
+              }
+            ]
+          },
+          {
+            "id": "synthetic:compared",
+            "prefix_sha256": "a6f7444107ac2dd0cb7c2612b3f794f30578aa120b0a785a880802614301e6b4",
+            "returns": [
+              {
+                "cut": 0,
+                "id": "synthetic:compared:return:0"
+              },
+              {
+                "cut": 4,
+                "id": "synthetic:compared:return:1"
+              },
+              {
+                "cut": 8,
+                "id": "synthetic:compared:return:2"
+              },
+              {
+                "cut": 12,
+                "id": "synthetic:compared:return:3"
+              }
+            ]
+          }
+        ],
+        "native_certificate_status": "not_claimed",
+        "reference_increment": 4,
+        "reference_lineage": "synthetic:reference",
+        "scope": "synthetic:common-window",
+        "window": [
+          0,
+          12
+        ]
+      },
+      "budget": [
+        {
+          "correction_status": "applied_or_zero_by_setup",
+          "covariance_group": "synthetic_joint_budget",
+          "covers": [
+            "physical_cycles"
+          ],
+          "distribution": "declared_local_covariance",
+          "evaluation": "synthetic_Type_B",
+          "id": "physical_cycles",
+          "included": true,
+          "included_in_aggregate": null,
+          "source": "R02_declared_example_not_device_data",
+          "standard_uncertainty": "0",
+          "unit": "cycle"
+        },
+        {
+          "correction_status": "applied_or_zero_by_setup",
+          "covariance_group": "synthetic_joint_budget",
+          "covers": [
+            "fractional_offset"
+          ],
+          "distribution": "declared_local_covariance",
+          "evaluation": "synthetic_Type_B",
+          "id": "fractional_offset",
+          "included": true,
+          "included_in_aggregate": null,
+          "source": "R02_declared_example_not_device_data",
+          "standard_uncertainty": "1/1000",
+          "unit": "1"
+        },
+        {
+          "correction_status": "applied_or_zero_by_setup",
+          "covariance_group": "synthetic_joint_budget",
+          "covers": [
+            "endpoint_correction"
+          ],
+          "distribution": "declared_local_covariance",
+          "evaluation": "synthetic_Type_B",
+          "id": "endpoint_correction",
+          "included": true,
+          "included_in_aggregate": null,
+          "source": "R02_declared_example_not_device_data",
+          "standard_uncertainty": "1/1000",
+          "unit": "s"
+        }
+      ],
+      "calibration": {
+        "available_at_cut": 0,
+        "evidence_id": "synthetic:calibration",
+        "exposed_targets": [
+          "H-1",
+          "Rb-87"
+        ],
+        "fitted_targets": [],
+        "mode": "online",
+        "prediction_class": "not_an_atomic_prediction",
+        "traceability": "synthetic_setup_not_physical_traceability",
+        "validity_cuts": [
+          0,
+          12
+        ]
+      },
+      "covariance": {
+        "matrix": [
+          [
+            "0",
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "1/1000000",
+            "1/1000000"
+          ],
+          [
+            "0",
+            "1/1000000",
+            "1/1000000"
+          ]
+        ],
+        "matrix_units": [
+          [
+            "cycle*cycle",
+            "cycle*1",
+            "cycle*s"
+          ],
+          [
+            "1*cycle",
+            "1*1",
+            "1*s"
+          ],
+          [
+            "s*cycle",
+            "s*1",
+            "s*s"
+          ]
+        ],
+        "rounding_policy": "exact_rational_no_tolerance",
+        "status": "complete",
+        "units": [
+          "cycle",
+          "1",
+          "s"
+        ],
+        "variables": [
+          "physical_cycles",
+          "fractional_offset",
+          "endpoint_correction"
+        ]
+      },
+      "coverage": {
+        "coverage_basis": null,
+        "expanded_factor": null,
+        "standard": true
+      },
+      "endpoint_correction_seconds": "0",
+      "measurand": {
+        "coordinate_status": "declared_synthetic",
+        "epoch_seconds": "0",
+        "global_gravitational_correction_seconds": null,
+        "kind": "elapsed_interval",
+        "point_or_scale": "synthetic:connector",
+        "time_coordinate": "local_proper_time",
+        "transfer_model": null
+      },
+      "model_id": "m1:synthetic-si-map:v2",
+      "observation": {
+        "calibration_record": "synthetic:stipulated-alpha",
+        "cycles_per_return": "4596315885/2",
+        "endpoint_phase_cycles": [
+          "0",
+          "0"
+        ],
+        "kind": "synthetic_affine_cycle_map",
+        "map_status": "declared_synthetic_only",
+        "observed_cycles": "9192631770",
+        "reference_lineage": "synthetic:reference",
+        "window": [
+          0,
+          12
+        ]
+      },
+      "reference": {
+        "effective_window": [
+          0,
+          12
+        ],
+        "fractional_offset": "0",
+        "kind": "synthetic_realization",
+        "nominal_hz": "9192631770",
+        "nominal_ratio": "1",
+        "offset_status": "stipulated_synthetic",
+        "realization_status": "synthetic_not_device"
+      },
+      "schema_version": 2,
+      "source_binding": {
+        "external_sources": {
+          "SI_definition": "https://www.bipm.org/en/si-base-units/second",
+          "realization": "https://www.bipm.org/documents/20126/41489667/SI-App2-second.pdf/3c76fec8-04d9-f484-5c3c-a2e280a0f248",
+          "uncertainty": "https://www.bipm.org/documents/20126/2071204/JCGM_100_2008_E.pdf"
+        },
+        "labels": [
+          "eq:cadence-ratio",
+          "eq:count-comparator-realization",
+          "eq:relational-time"
+        ],
+        "path": "sections/06_wave_state_relational_time.tex",
+        "sha256": "bbe6e0b7917940a6320b79be467ffbe8591ca1ec7b8aa0ffe1626cee320de2bb"
+      },
+      "statuses": {
+        "atomic_prediction": "not_performed",
+        "device_calibration": "not_performed",
+        "native_admission": "not_claimed",
+        "record_class": "synthetic_declared_metrology"
+      }
+    },
+    "output": {
+      "bound_window": [
+        0,
+        12
+      ],
+      "classification": "synthetic_calibrated_interval",
+      "conditional_interval_alternatives_seconds": [
+        "1"
+      ],
+      "coverage_basis": null,
+      "coverage_factor": null,
+      "device_calibration": "not_performed",
+      "elapsed_seconds": "1",
+      "expanded_uncertainty_seconds_display": null,
+      "input_sha256": "5208fd517a29983fb3f12aa141cbd7f72107114dcabf10ec8946a86a541bfba2",
+      "jacobian": [
+        "1/9192631770",
+        "-1",
+        "1"
+      ],
+      "native_admission": "not_claimed",
+      "physical_reference_cycles": "9192631770",
+      "quantity_kind": "elapsed_interval",
+      "reference_increment": 4,
+      "standard_uncertainty_seconds_display": "0",
+      "time_coordinate": "local_proper_time",
+      "uncertainty_status": "complete_first_order_synthetic",
+      "unit": "s",
+      "unresolved_uncertainty": [],
+      "variance_seconds2": "0"
+    },
+    "unsafe_complete_first_order_result_reproduced": true
+  },
+  "R1b_near_cancelled_product": {
+    "distribution": "x={-0.001,0,0.001}, p={1/4,1/2,1/4}; R=1+x; f/Hz=1-(1-1e-6)*x",
+    "exact_mean_hz": "1999999000001/2000000000000",
+    "exact_variance_hz2": "1000000000001/4000000000000000000000000",
+    "linearized_variance_hz2": "1/2000000000000000000",
+    "output": {
+      "classification": "conditional_unit_conversion_not_ratio_derivation",
+      "covariance": {
+        "matrix": [
+          [
+            "1/2000000",
+            "-999999/2000000000000"
+          ],
+          [
+            "-999999/2000000000000",
+            "999998000001/2000000000000000000"
+          ]
+        ],
+        "matrix_units": [
+          [
+            "1*1",
+            "1*Hz"
+          ],
+          [
+            "Hz*1",
+            "Hz*Hz"
+          ]
+        ],
+        "rounding_policy": "exact_rational_no_tolerance",
+        "status": "complete",
+        "units": [
+          "1",
+          "Hz"
+        ],
+        "variables": [
+          "ratio",
+          "reference_frequency"
+        ]
+      },
+      "first_order_frequency_variance_hz2": "1/2000000000000000000",
+      "frequency_hz": "1",
+      "frequency_variance_hz2": "1/2000000000000000000",
+      "linearity_scope": "Local first-order approximation; marginal guards are not distribution-free error bounds.",
+      "native_admission": "not_asserted",
+      "period_propagation": "conditional_first_order; marginal_and_output_relative_standard_uncertainties_at_most_1_percent",
+      "quantity_kind": "transition_period",
+      "ratio": "1",
+      "reference_hz": "1",
+      "reference_kind": "realized_reference",
+      "standard_uncertainty_hz_display": "7.0710678118654752440084436210484904E-10",
+      "standard_uncertainty_seconds_display": "7.0710678118654752440084436210484904E-10",
+      "transition_period_seconds": "1",
+      "transition_period_variance_s2": "1/2000000000000000000",
+      "uncertainty_status": "complete_first_order_conditional",
+      "unresolved_uncertainty": []
+    },
+    "unsafe_complete_first_order_result_reproduced": true,
+    "variance_ratio_exact_to_linearized": "1000000000001/2000000"
+  },
+  "R2_BIPM_zero_cell": {
+    "altered_sigma": "4.272e-10",
+    "altered_sigma_accepted_by_numerical_helper": true,
+    "limit": "Raw-source hash guard still rejects a modified delivered file. Clarify/justify the source zero-format convention; this probe does not establish a new physical covariance.",
+    "original_105_pass_with_zero_exact_control": true,
+    "original_sigma": "4.188e-10",
+    "printed_zero_cell": [
+      "-1/200000",
+      "1/200000"
+    ],
+    "ratio": "9/14",
+    "zero_exact_control_rejects_mutation": true
+  },
+  "read_only": true,
+  "scope": "accepted synthetic API inputs and a numerical source-data helper; not physical measurements or a frozen-fixture verifier bypass",
+  "source_sha256": {
+    "manual2/data/m1/bipm/raw/ClockOutputCovData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat": "97dba2e5e678bb8a0b9ae72162a9cbeb20b4c42fa40bd4b81266692910bc5ddf",
+    "manual2/data/m1/bipm/raw/ClockOutputData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat": "d4f8dd6961e6044812563a1bdccd81b1e4e1031606c05184f1dffc14830fc94e",
+    "manual2/scripts/matter1_bipm.py": "aff1e0fbca46ecfaf3654de0b18263063d0fd4ea59b9f7b8ea664255d6c724f9",
+    "manual2/scripts/matter1_metrology.py": "591e64cf77e266762c723ec6cfca5c82510134445fa4f3c7941ff72539464062"
+  }
+}

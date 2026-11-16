@@ -981,7 +981,7 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--check-data',action='store_true')
     opts=parser.parse_args()
     if opts.check_data:
-        root=Path(__file__).resolve().parents[1]/'data/m1'
+        root=Path(__file__).resolve().parents[1]/'data/native_closure_wave'
         results=[]
         for p in sorted(root.glob('*.csv')):
             with p.open() as f:results.extend(execute_row(row) for row in csv.DictReader(f))

@@ -63,10 +63,12 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
         ('mainequation', 'eq:cumulative-closure-counts'),
         ('mainequation', 'eq:expose-inner-lineage'),
         ('mainequation', 'eq:field-organization'),
+        ('mainequation', 'eq:field-count-term'),
         ('mainequation', 'eq:first-anchor'),
         ('mainequation', 'eq:flux-types'),
         ('mainequation', 'eq:fold-outer-closure'),
         ('mainequation', 'eq:fourier-transform'),
+        ('mainequation', 'eq:fractal-tesseract-cycle-range'),
         ('mainequation', 'eq:hinge-grammar'),
         ('mainequation', 'eq:hinge-saturation'),
         ('mainequation', 'eq:hinge-saturation-weighted'),
@@ -79,7 +81,6 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
         ('mainequation', 'eq:relational-time'),
         ('mainequation', 'eq:retained-rebalancing'),
         ('mainequation', 'eq:return-identity'),
-        ('mainequation', 'eq:sadar-rational-response'),
         ('mainequation', 'eq:shedding-excess'),
         ('mainequation', 'eq:wave-identity'),
         ('mainequation', 'eq:wave-update-trace'),
@@ -92,7 +93,8 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
     local = audit.equations(ROOT, 'manual')
     moved = {'eq:awareness-response', 'eq:awareness-causal-difference',
              'eq:action-return-retention', 'eq:awareness-shedding-bridge',
-             'eq:awareness-conditioned-shedding', 'eq:mindfulness-stability'}
+             'eq:awareness-conditioned-shedding', 'eq:mindfulness-stability',
+             'eq:sadar-rational-response'}
     text = (ROOT / TARGETS[0]).read_text()
     for key in moved:
         assert key in local and key not in equations

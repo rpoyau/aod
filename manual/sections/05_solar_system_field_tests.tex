@@ -1,5 +1,16 @@
 
 \section{Solar Observable-Map Fixtures}\label{manual:solar-system-field-tests}
+
+\paragraph{Calculation card.}
+The Sun/body/window declarations and carried O0 values below give residual
+arithmetic, not a replayed native solar evaluator. The \(42.98\) perihelion
+and \(1.75\) bending references are theory benchmarks. The redshift record
+separately identifies a reference prediction and a measured estimate with
+uncertainty. This application must supply its native construction, observable
+map, source certificates and uncertainty before physical prediction; see
+\secref{manual:calculation-spine}.
+
+
 \aodnoteblock{Scope}{This section carries solar-system observable-map comparison fixtures. Each record declares its solar-system scope, names the observable map, carries a comparison value, attaches an external reference target, and records residual, percent error, source citation, and audit.}
 \aodnoteblock{Data-support class}{Solar records are O0 observable-map fixtures. Each row records map value, target, residual/error, and citation inside the declared observable-map support class.}
 
@@ -80,6 +91,11 @@ J^D_{\partial R}(\omega_{\mathrm{red}};B_{\mathrm{red}})
 \right].
 \]
 The rows below carry O0 comparison values and residual arithmetic. Map definitions and evaluated native \(\SADARop_B\) input certificates are not supplied for these records.
+The Mercury physical-prediction gate therefore remains unevaluated. Its
+future native derivation must not take the general-relativistic benchmark
+as a premise; a measured comparison also needs its estimator, source locator,
+reduction assumptions and uncertainty.
+
 
 \subsection{Observable-map comparison table}\label{manual:solar:observable-map-table}
 
@@ -124,7 +140,7 @@ The observable-map value is
 \[
 \Delta\varpi_{\mathrm{Hg},\AO}=42.9799\ \mathrm{arcsec/century}.
 \]
-The target is
+The theoretical reference target is
 \[
 \Delta\varpi_{\mathrm{Hg}}^{\mathrm{tar}}=42.98\ \mathrm{arcsec/century}.
 \]
@@ -147,7 +163,7 @@ The observable-map value is
 \[
 \delta_{\odot,\AO}=1.75001\ \mathrm{arcsec}.
 \]
-The target is
+The theoretical reference target is
 \[
 \delta_{\odot}^{\mathrm{tar}}=1.75\ \mathrm{arcsec}.
 \]
@@ -198,7 +214,7 @@ v_z^{\mathrm{meas}}=638\pm6\ \mathrm{m/s}.
 \item Input audit: target values are cited in the record where they are used; residuals are computed from the declared observable-map value and declared target.
 \end{itemize}
 
-\aodprovenance{\mainsection{main:subsec:disoma-declaration};
+\aodprovenance{\secref{subsec:disoma-declaration};
 \mainequation{main:eq:b-scoped-flux};
 \mainequation{main:eq:sadar-attention-vector};
 \mainequation{main:eq:window-clipped-rho};

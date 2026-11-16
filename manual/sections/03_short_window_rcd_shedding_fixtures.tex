@@ -1,6 +1,16 @@
 
 
 \section{Exact Internal Fixtures}\label{manual:cross-return-short-window}
+
+\paragraph{Calculation card.}
+Declared gates, windows and signed integer bins give the slit accounting
+identity and exact residuals; declared support, capacity and closure target
+give clipped pressure, pending overhang and surplus. Their uncertainty is
+conditional fixture arithmetic. The tables supply the comparators and
+falsifiers, not a measured probability law or a routed lifetime prediction.
+Use the common method in \secref{manual:calculation-spine}.
+
+
 \aodnoteblock{Scope}{This section carries exact A\(\Omega\)-internal fixtures: cross-return, duration-clipping, exact \(\delta_3\) residual tally, and sheddic route audit.}
 \aodnoteblock{Data-support class}{These are D0 exact internal fixtures. Input data are declared integer gates, channels, windows, and comparator bins. Comparator fixtures record \(O_k,\Delta^{\mathbb Z}_k,\delta_{3,k}\). Route-audit fixtures record \(\Delta_{\mathrm{close}}\), \(X_{\mathrm{shedding}}\), and \(\operatorname{SheddicPath}\).}
 
@@ -183,6 +193,14 @@ $\delta_{3,k}(T^\times,O)$ & exact ternary signed residual tally\\
 \end{table}
 
 \aodnoteblock{Status}{Released A\(\leftrightarrow\Omega\)-internal field-ring fixture.}
+The signed-bin identity preserves total baseline \(410\) and cross contribution
+\(38\), giving \(448\). The application still needs a frozen nested-path
+generator binding gates, coupling, window and observation/exposure rules
+before these bins are a generated prediction. Signed contributions are not
+probabilities. A probability comparison must distinguish expected counts,
+unconditional detection including loss, and detected-bin conditional
+normalization; normalization must not erase throughput.
+
 \aodprovenance{\mainsection{main:subsec:fractal-field-ring-gate};
 \mainequation{main:eq:b-scoped-flux};
 \mainequation{main:eq:frg-cross-return-contribution};
@@ -339,10 +357,15 @@ The sheddic path audit uses
 \in
 \{E_2,\mathsf C_6,\mathsf C_8,\mathsf C_{10},\ldots,\mathsf C_{2n}\}.
 \]
-A surplus fixture must declare where the positive \(X_{\mathrm{shedding}}\) is routed. A deficit fixture may remain an open check or may be paired with a declared closure completion.
+The four pressure tuples above supply amounts. The short-window application
+must additionally bind route identity, allocated amount and conservation,
+then a retained-form and lifetime/window witness when retention is claimed.
+Those certificates are not supplied by a positive surplus alone. A missing
+route leaves only that stage incomplete; a deficit remains an open check or
+requires a declared closure completion.
 
 \subsection{Audit hooks}\label{manual:short-window:audit-hooks}
-\aodnoteblock{Audit}{A short-window fixture records \(\rho^D_\omega\), \(Q^D\), \(\Delta^{\mathrm{close}}\), and \(X_{\mathrm{shedding}}\) separately. Sheddic surplus is positive only, and every positive \(X_{\mathrm{shedding}}\) carries a declared sheddic path.}
+\aodnoteblock{Audit}{A short-window fixture records \(\rho^D_\omega\), \(Q^D\), \(\Delta^{\mathrm{close}}\), and \(X_{\mathrm{shedding}}\) separately. Sheddic surplus is positive only; completed routing additionally requires a declared sheddic path and its conservation witness.}
 \aodprovenance{\mainequation{main:eq:window-clipped-rho};
 \mainequation{main:eq:burden-overhang};
 \mainequation{main:eq:sheddic-path};

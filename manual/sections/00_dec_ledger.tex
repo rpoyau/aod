@@ -1,5 +1,14 @@
 
 \section{Pen-and-Paper AFC Raw Execution and D.E.C. Ledger}\label{manual:dec-ledger}
+
+\paragraph{Calculation card.}
+The declared edge slots, integer weights, admissibility and boundary/window
+are exact inputs. Normalization, clipping and oriented flux produce the
+inline fractions and values, compared with kernel, reversal and boundary
+identities. This is a conditional D0 fixture with no measured target or
+physical uncertainty model; see \secref{manual:calculation-spine}.
+
+
 \aodnoteblock{Scope}{This section gives a hand-calculation path from one declared AFC edge computation into the A\(\Omega\)D motif names used later in the manual. It is a manual ledger section: it records exact edge weights, kernel fractions, route status, and boundary values.}
 \aodprovenance{\mainsection{main:sec:afc-stokes-seed};
 \mainsection{main:subsec:q4-four-edge-implementation};
@@ -123,6 +132,8 @@ An admitted dwell assigned weight zero instead remains in the structural
 family and satisfies only the positive-support statement
 \mainequation{main:eq:hinge-saturation-weighted}; the blocking example below
 uses zero admissibility.
+A dwell of weight zero and two branches of weights one and two satisfy
+the weighted condition while the admitted dwell family remains nonempty.
 \begin{table}[H]
 \centering
 \scriptsize
@@ -228,18 +239,20 @@ For each slide-compatible successor,
 \qquad
 p^D_{s_i}(B)=C_{3,s_i}\rho^D_{\omega,s_i}(B).
 \]
-The scalar tunnel contribution is
+Let \(\operatorname{Out}_{\mu}(B|t)\subseteq
+\operatorname{Slide}_{\mu}(B|t)\) contain the declared outgoing successors.
+The scalar tunnel contribution is their projection,
 \[
 T^D_{\mathrm{tunnel}}(B|t)
 =
-\sum_{s_i\in\operatorname{Slide}_{\mu}(B|t)}
+\sum_{s_i\in\operatorname{Out}_{\mu}(B|t)}
 P_{\mathrm{slide}}(s_i;B|t)\,p^D_{s_i}(B).
 \]
 When oriented attention is declared, the oriented tunnel flux is
 \[
 \Phi^D_{\mathrm{tunnel}}(B|t)
 =
-\sum_{s_i\in\operatorname{Slide}_{\mu}(B|t)}
+\sum_{s_i\in\operatorname{Out}_{\mu}(B|t)}
 P_{\mathrm{slide}}(s_i;B|t)\,p^D_{s_i}(B)\,A_{s_i}(B).
 \]
 Using the hinge-slide pool from \secref{manual:dec-ledger:hinge-slide}, declare the tunnel branch
@@ -267,6 +280,10 @@ and
 T^D_{\mathrm{tunnel}}=(1/7)\cdot6=6/7.
 \]
 The tunnel contribution is the window-clipped pressure carried by the slide-compatible outgoing successor.
+If all three successors have pressure \(6\), their total expected pressure
+is \((3/7+3/7+1/7)6=6\); the outgoing projection remains \(6/7\).
+The same normalized kernel is used in both sums.
+
 \begin{table}[H]
 \centering
 \scriptsize
@@ -327,7 +344,7 @@ Then
 \qquad
 X_{\mathrm{shedding}}=\max(0,\Delta_{\mathrm{close}})=3.
 \]
-This is the positive surplus route audit used in the Dimonnanyro row:
+This is the positive surplus amount used in the Dimonnanyro row; a route and retained-form witness are separate obligations:
 \[
 1{:}2{:}9_{\mathrm{yro}}=\mathrm{Dimonnanyro}.
 \]

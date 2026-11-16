@@ -1,0 +1,96 @@
+{
+  "record_id": "NIST_F2_2014_Aug2013",
+  "scope": "Historical apparatus and uncertainty source binding; not a new AOD prediction or current clock performance claim",
+  "primary": {
+    "title": "First accuracy evaluation of NIST-F2",
+    "authors_first": "Thomas P Heavner",
+    "publication_date": "2014-05-01",
+    "doi": "10.1088/0026-1394/51/3/174",
+    "url": "https://tf.nist.gov/general/pdf/2704.pdf",
+    "method": "Web PDF text; source line anchors; no visual scan verification",
+    "evaluation_of_interest": "August 2013"
+  },
+  "clock_transition": {
+    "isotope": "Cs133",
+    "lower": {"F":3,"mF":0},
+    "upper": {"F":4,"mF":0},
+    "clock_pair_source": "F2 uses F1 architecture; F1 2005 section5.2 explicitly identifies the pair; F2 field-mapping discussion identifies prepared |3,0> population",
+    "exact_SI_assigned_unperturbed_frequency_hz": 9192631770,
+    "definition_source": "https://www.bipm.org/en/si-base-units/second"
+  },
+  "method": "Laser-cooled atomic fountain; two Ramsey interactions with applied microwave field; optical population readout; line servo",
+  "measurement_stages": [
+    {"stage":"cool_launch","source":"F2 section2.1,2.2","binding":"Six cooling/launching beams in (1,1,1) geometry"},
+    {"stage":"state_select","source":"F2 section2.1,3.6.2 and related F1 papers","binding":"State-selection microwave cavity in shielded region; mF=0 clock preparation, residual populations evaluated"},
+    {"stage":"interrogate","source":"F2 sections2.1,3.5","binding":"Ramsey cavity crossed on ascent and descent; nominal pulse area tau/4 radians"},
+    {"stage":"detect","source":"F2 section2.1; F1 2005 section2.4","binding":"Two optical detection zones; collected fluorescence, photodiodes, amplifiers; F=4/F=3 populations","qualification":"Physical population estimates need detector/background calibration; not automatically exact integer atom counts"},
+    {"stage":"estimate","source":"F2 section3.2 square-wave servo; F1 2002 section2.4 detailed architecture","binding":"Difference of normalized populations on two sides of resonance gives line-centre error signal"},
+    {"stage":"reduce","source":"F2 Table1,section3,section5","binding":"Experiment-specific shifts, density extrapolation, reference/time-transfer handling"}
+  ],
+  "nominal_settings": {
+    "interrogation_temperature_K": {"value":"80","approximate":true,"source":"F2 section2,3.4"},
+    "atomic_temperature_microK": {"value":"0.46","approximate":true,"source":"F2 section2.1"},
+    "molasses_load_seconds": {"value":"0.2","approximate":true,"source":"F2 section2.1"},
+    "cloud_FWHM_cm": {"value":"3","approximate":true,"source":"F2 section2.1"},
+    "Ramsey_interval_seconds": {"value":"0.6","approximate":true,"source":"F2 section2.1"},
+    "C_field_nT": {"value":"250","approximate":true,"source":"F2 section2.1"},
+    "low_density_detected_atoms": {"value":7500,"approximate":true,"source":"F2 section3.3"},
+    "high_density_detected_atoms": {"value":20000,"approximate":true,"source":"F2 Figure1"},
+    "Ramsey_cavity_Q": {"relation":">","value":50000,"source":"F2 abstract"},
+    "LN2_fill_interval_hours": {"value":"10","approximate":true,"source":"F2 section2.1; operation paused a few minutes"},
+    "campaign_duration_days": {"lower":10,"upper":30,"source":"F2 section4"}
+  },
+  "reference_chain": {
+    "H_maser_role": "Reference for phase-locked synthesis and flywheel during long evaluations",
+    "quartz_lock_time_constant_seconds": {"value":"10","approximate":true},
+    "chain_nominal": ["H-maser reference","locked quartz","100 MHz multiplier chain","9.200 GHz DRO","single-sideband mixer with nominal7.368 MHz computer-controlled synthesizer","approximately9.193 GHz clock drive"],
+    "source":"F2 section2.3,2.4",
+    "rounded_chain_numbers_determine_exact_carrier":false
+  },
+  "uncertainty_budgets": {
+    "typical_Table1": {
+      "units":"fractional frequency times 1e-15",
+      "source":"F2 Table1,p179; typical30dayevaluation, some inputs measured earlier",
+      "entries":[
+        {"effect":"gravity_and_second_order_Doppler","magnitude":"179.87","standard_uncertainty":"0.03"},
+        {"effect":"second_order_Zeeman_typical","magnitude":"286.06","standard_uncertainty":"0.02"},
+        {"effect":"blackbody_radiation","magnitude":"-0.087","standard_uncertainty":"0.005"},
+        {"effect":"spin_exchange_low_density","magnitude":"-0.71","standard_uncertainty":"0.24","included_in_TypeB_total":false,"role":"informational; statistical component in TypeA"},
+        {"effect":"spin_exchange_nonlinearity","magnitude":"0","standard_uncertainty":"0.02"},
+        {"effect":"distributed_cavity_phase_m0","magnitude_bound":"<0.01","standard_uncertainty_bound":"<0.01"},
+        {"effect":"distributed_cavity_phase_m1","magnitude":"0","standard_uncertainty":"0.028"},
+        {"effect":"distributed_cavity_phase_m2","magnitude":"0","standard_uncertainty":"0.02"},
+        {"effect":"microwave_power","magnitude_bound":"<0.01","standard_uncertainty":"0.08"},
+        {"effect":"microwave_spurious","magnitude":"0","standard_uncertainty":"0.05"},
+        {"effect":"cavity_pulling","magnitude":"0.015","standard_uncertainty":"0.015"},
+        {"effect":"Rabi_pulling","magnitude_bound":"<0.01","standard_uncertainty_bound":"<0.01"},
+        {"effect":"Ramsey_pulling","magnitude_bound":"<0.01","standard_uncertainty_bound":"<0.01"},
+        {"effect":"Majorana_transitions","magnitude_bound":"<0.01","standard_uncertainty_bound":"<0.01"},
+        {"effect":"fluorescence_light_shift","magnitude_bound":"<0.01","standard_uncertainty_bound":"<0.01"},
+        {"effect":"dc_Stark","magnitude_bound":"<0.01","standard_uncertainty_bound":"<0.01"},
+        {"effect":"background_gas_collisions","magnitude_bound":"<0.01","standard_uncertainty_bound":"<0.01"},
+        {"effect":"Bloch_Siegert","magnitude_bound":"<0.01","standard_uncertainty_bound":"<0.01"},
+        {"effect":"integrator_offset","magnitude_bound":"<0.01","standard_uncertainty_bound":"<0.01"}
+      ],
+      "quoted_TypeB_standard_uncertainty":"0.11",
+      "recomputed_total":false
+    },
+    "August2013": {
+      "units":"fractional frequency times 1e-15",
+      "TypeA_standard_uncertainty":"0.44",
+      "TypeB_standard_uncertainty":"0.16",
+      "source":"F2 conclusion section5,p181,web lines689–705",
+      "reason_differs_from_Table1":"Microwave synthesizer modified; amplitude effects re-evaluated over shorter interval",
+      "spin_exchange_statistical_uncertainty_included_in_TypeA":true,
+      "full_updated_component_Table_available_here":false
+    }
+  },
+  "calibration_and_prediction_scope": {
+    "Cs_frequency_after_Cs_SI_anchor":"calibration_identity",
+    "additional_testable_observables":["prepared-state response","fringe contrast/shape","frequency and phase response","field/density dependence","window and servo response","held-out H/Cs ratio"],
+    "covariance":"Track shared uncertain maser/reference/transfer data; exact Cs definition itself creates no covariance",
+    "GR_boundary":"Paper's gravity/Doppler reduction is recorded as experimental methodology, not adopted as an AOD dynamical premise"
+  },
+  "missing_for_raw_replay":["campaign-resolved initial state populations and all laser controls","time-stamped per-cycle population/fluorescence samples","complete servo logs","campaign-specific field,temperature,density streams and covariances","fullupdatedAugust2013componentbudget"],
+  "AOD_simulation_executed":false
+}

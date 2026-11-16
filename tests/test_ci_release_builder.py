@@ -57,6 +57,24 @@ SOURCE_DIRECTORY_TYPES = {
 def expected_source_inventory(root):
     import hashlib
     paths = {root / name for name in SOURCE_ROOT_FILES}
+    # Published scientific records are explicitly selected; task archives are absent.
+    import json
+    paths.update(root/'manual/data'/name for name in (
+        'cell_measures/cells_geometry.json', 'mapping_error/mapping_error.json',
+        'temporal_observation/temporal.json', 'experimental_comparison/experimental_input_comparison.json',
+        'historical_metrology/source_bindings.json', 'temporal_anchor/source_members.json',
+        'temporal_anchor/inputs.json', 'temporal_anchor/report.json',
+        'temporal_anchor/cases/baseline.json.gz', 'temporal_anchor/cases/second_support_pair.json.gz',
+        'temporal_anchor/cases/compared_population.json.gz', 'temporal_anchor/cases/reference_exposure.json.gz'))
+    historical=root/'manual/data/historical_metrology'
+    paths.update(historical/name for name in json.loads((historical/'source_bindings.json').read_text())['files'])
+    anchor=root/'manual/data/temporal_anchor'
+    paths.update(anchor/'source'/name for name in json.loads((anchor/'source_members.json').read_text())['members'])
+    paths.update(root/'manual/data/temporal_metrology'/name for name in (
+        'report.json', 'exact_fixtures.json', 'hydrogen/protocol.json',
+        'hydrogen/reported_uncertainty.json', 'cesium/protocol.json',
+        'hydrogen/source/hellwig1970.pdf', 'hydrogen/source/source_receipt.json',
+        'cesium/source/heavner2014.pdf', 'cesium/source/source_receipt.json'))
     for name, suffixes in SOURCE_DIRECTORY_TYPES.items():
         for path in (root / name).rglob("*"):
             rel = path.relative_to(root / name)
@@ -126,6 +144,7 @@ def test_source_archive_round_trip_without_git_ignores_generated_files(tmp_path,
     assert not (extracted / ".git").exists()
     generated = ["main.pdf", "main.aux", "main.fls", "main.fdb_latexmk", "tests.txt",
                  "manual/main.pdf", "manual/main.log", "manual/main.synctex.gz",
+                 "manual/data/temporal_metrology/hydrogen/source/unbound.pdf",
                  "manual/main.run.xml", "manual/main.bcf", "manual/main.lof",
                  "scripts/__pycache__/generated.py", "tests/.pytest_cache/README.md",
                  "manual/build/temporary.tex", "dist/source.zip",

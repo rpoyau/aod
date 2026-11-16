@@ -1,0 +1,3146 @@
+[
+  {
+    "base_counts": {
+      "A": 16,
+      "B": 61,
+      "F0": 8,
+      "F1": 8
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 8,
+    "scenario": "background_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      331902,
+      708934
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 31,
+      "B": 108,
+      "F0": 16,
+      "F1": 16
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 16,
+    "scenario": "background_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      331902,
+      1085966
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 59,
+      "B": 185,
+      "F0": 32,
+      "F1": 32
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 32,
+    "scenario": "background_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      331902,
+      1840030
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 15,
+      "B": 41,
+      "F0": 8,
+      "F1": 8
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 8,
+    "scenario": "background_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1085966,
+      1462998
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 28,
+      "B": 77,
+      "F0": 16,
+      "F1": 16
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 16,
+    "scenario": "background_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1085966,
+      1840030
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 53,
+      "B": 141,
+      "F0": 32,
+      "F1": 32
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 32,
+    "scenario": "background_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1085966,
+      2594094
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 13,
+      "B": 33,
+      "F0": 8,
+      "F1": 8
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 8,
+    "scenario": "background_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1840030,
+      2217062
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 25,
+      "B": 64,
+      "F0": 16,
+      "F1": 16
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 16,
+    "scenario": "background_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1840030,
+      2594094
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 16,
+      "B": 47,
+      "F0": 8,
+      "F1": 8
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 8,
+    "scenario": "direct_pair",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 16,
+          "B": 47,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 47,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 47,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 47,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 47,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 47,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 47,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 47,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 47,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      331902,
+      708934
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 31,
+      "B": 85,
+      "F0": 16,
+      "F1": 16
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 16,
+    "scenario": "direct_pair",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 31,
+          "B": 85,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 85,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 85,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 85,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 85,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 85,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 85,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 85,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 85,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      331902,
+      1085966
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 58,
+      "B": 148,
+      "F0": 32,
+      "F1": 32
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 32,
+    "scenario": "direct_pair",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 58,
+          "B": 148,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 58,
+          "B": 148,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 58,
+          "B": 148,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 58,
+          "B": 148,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 58,
+          "B": 148,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 58,
+          "B": 148,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 58,
+          "B": 148,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 58,
+          "B": 148,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 58,
+          "B": 148,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      331902,
+      1840030
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 14,
+      "B": 33,
+      "F0": 8,
+      "F1": 8
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 8,
+    "scenario": "direct_pair",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 14,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 14,
+          "B": 33,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 14,
+          "B": 33,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 14,
+          "B": 33,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 14,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 14,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 14,
+          "B": 33,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 14,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 14,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1085966,
+      1462998
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 27,
+      "B": 63,
+      "F0": 16,
+      "F1": 16
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 16,
+    "scenario": "direct_pair",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 27,
+          "B": 63,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 27,
+          "B": 63,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 27,
+          "B": 63,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 27,
+          "B": 63,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 27,
+          "B": 63,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 27,
+          "B": 63,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 27,
+          "B": 63,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 27,
+          "B": 63,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 27,
+          "B": 63,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1085966,
+      1840030
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 52,
+      "B": 116,
+      "F0": 32,
+      "F1": 32
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 32,
+    "scenario": "direct_pair",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 52,
+          "B": 116,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 52,
+          "B": 116,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 52,
+          "B": 116,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 52,
+          "B": 116,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 52,
+          "B": 116,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 52,
+          "B": 116,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 52,
+          "B": 116,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 52,
+          "B": 116,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 52,
+          "B": 116,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1085966,
+      2594094
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 13,
+      "B": 28,
+      "F0": 8,
+      "F1": 8
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 8,
+    "scenario": "direct_pair",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 13,
+          "B": 28,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 28,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 28,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 28,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 28,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 28,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 28,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 28,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 28,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1840030,
+      2217062
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 25,
+      "B": 53,
+      "F0": 16,
+      "F1": 16
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 16,
+    "scenario": "direct_pair",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 25,
+          "B": 53,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 53,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 53,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 53,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 53,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 53,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 53,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 53,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 53,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1840030,
+      2594094
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 16,
+      "B": 61,
+      "F0": 8,
+      "F1": 8
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 8,
+    "scenario": "recorded_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 16,
+          "B": 61,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      331902,
+      708934
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 31,
+      "B": 108,
+      "F0": 16,
+      "F1": 16
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 16,
+    "scenario": "recorded_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 31,
+          "B": 108,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      331902,
+      1085966
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 59,
+      "B": 185,
+      "F0": 32,
+      "F1": 32
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 32,
+    "scenario": "recorded_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 59,
+          "B": 185,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      331902,
+      1840030
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 15,
+      "B": 41,
+      "F0": 8,
+      "F1": 8
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 8,
+    "scenario": "recorded_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 15,
+          "B": 41,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1085966,
+      1462998
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 28,
+      "B": 77,
+      "F0": 16,
+      "F1": 16
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 16,
+    "scenario": "recorded_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 28,
+          "B": 77,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1085966,
+      1840030
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 53,
+      "B": 141,
+      "F0": 32,
+      "F1": 32
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 32,
+    "scenario": "recorded_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 33,
+          "F1": 33
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 31,
+          "F1": 31
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 53,
+          "B": 141,
+          "F0": 32,
+          "F1": 32
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1085966,
+      2594094
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 13,
+      "B": 33,
+      "F0": 8,
+      "F1": 8
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 8,
+    "scenario": "recorded_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 9,
+          "F1": 9
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 7,
+          "F1": 7
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 13,
+          "B": 33,
+          "F0": 8,
+          "F1": 8
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1840030,
+      2217062
+    ]
+  },
+  {
+    "base_counts": {
+      "A": 25,
+      "B": 64,
+      "F0": 16,
+      "F1": 16
+    },
+    "endpoint_event_bounds": {
+      "A": 0,
+      "B": 0,
+      "F0": 2,
+      "F1": 2
+    },
+    "reference_bips": 16,
+    "scenario": "recorded_only",
+    "scope": "count projection; one ordering cut is not a time unit",
+    "variants": [
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          -1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 17,
+          "F1": 17
+        },
+        "offsets": [
+          -1,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          0,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          0,
+          1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 15,
+          "F1": 15
+        },
+        "offsets": [
+          1,
+          -1
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          0
+        ]
+      },
+      {
+        "counts": {
+          "A": 25,
+          "B": 64,
+          "F0": 16,
+          "F1": 16
+        },
+        "offsets": [
+          1,
+          1
+        ]
+      }
+    ],
+    "window": [
+      1840030,
+      2594094
+    ]
+  }
+]

@@ -13,15 +13,21 @@ CONTRACT_ROOT = 'contracts/scientific/'
 # These independent byte bindings are reviewed with the checker. Loading a
 # modified contract never changes an expected digest or authorizes new sources.
 CONTRACT_SHA256 = {
-    "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "a4e530314d03ff2a695a5d9f6d59f20f18ab8ae4c388a594b99fcf0996c5cf05",
-    "CANONICAL_BINDINGS.json": "55900dde344466f7ba07db08bb4c07dcf2f629b8f3765d504ed346db6fcfa5ac",
+    "TEMPORAL_METROLOGY.json": "a81b261fca3be6202a1fb02d6334e60751b25d1e0c9ff5ef89bb50ba44145da9",
+    "TEMPORAL_OBSERVATION.json": "b02344dcaa98c3de1b7453d868b332b2bd537f08c9c2e92de048e337c6747e69",
+    "MAP_CONTRACT.json": "3d6766979397c7732e6cd88793cf6befb9fa48fa69267598cfcf0d781a300aea",
+    "CELL_MAPPING_MATHEMATICAL_BINDINGS.json": "a971cb597a9879c433b37184ba81c2b60f25ff35b011363862eb43602e1bf1b7",
+    "ERROR_BUDGET.json": "8ea33dabcf681e01d459f170b31c10b59fdf9e63ea708c64ac6ed7c1be62a57f",
+    "CELL_MEASURE_SPEC.json": "75fc35552c419d831d8fcd5dfe1ee1b46dffa4e862535d4b74029f3c2018c9ea",
+    "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "ad4070efbdc8ca584812a1a947d083d2f6f4676f2aef22638dfb7f5854da4f27",
+    "CANONICAL_BINDINGS.json": "83dc51baa669e551a248c621d7070f8f48147042119cd87c7f5fe1b675c1943a",
     "FOURIER_SCOPE.md": "0bb855f5666a97a285d4e2ded98adf9cb70dc372b9039c33bcaeb43b38435328",
     "HISTORICAL_TOY_SOURCE_STATUS.csv": "dc0f1b94afc71f930929e64caef8d9f9cb49386035706aa2b79b8b9cc0de42d4",
     "METROLOGY_BOUNDARY.md": "553609db18f523faae6d2a53c3465c56ceb9034c6ba1ae3b7a6cff77fdf678af",
     "OPERATIVE_SELF_SCHEMA.json": "0fba87a85c542a5a9b74f2242724bf334ecb1a0c39886a20c9298309d3005ecd",
-    "OWNERSHIP_AND_FIXTURES.json": "b86ef3d495a0b689da77307ad8facb945dd75bd603c0485bbcd88028c31e69d8",
-    "README.md": "86ff326ce8faf75f26231599cfef3d312a5f3b461229a63f3ed0e7e441f948e3",
-    "ROUND_TRIP_PHASE_FACTOR_SPEC.json": "a7f7c6aea4a373655e9031515d95cc19569557ad35357665e1e56d8b81777ed5",
+    "OWNERSHIP_AND_FIXTURES.json": "935d97f71f9127195febebb276cf43b5355f3b09a59d5d60d02b9c09be484ca4",
+    "README.md": "6156f7bcf91c51c2824982b53782ee55b5fecb6114b91db5384e93a3860c1296",
+    "ROUND_TRIP_PHASE_FACTOR_SPEC.json": "a54b0a8b799228c11b60b88c706824045aaefae2000c1cf081e838582dcba11e",
     "UPDATE_CAUSAL_ORDER.md": "879fe4fce9ec09b8640ca31eea28c09a3a6d2047f6d58eeafe463ece055315bd"
 }
 
@@ -68,7 +74,7 @@ def audit_ownership(root, maps, eqs, parts):
                      'owned mathematical statement changed ' + binding['label'])
     fixture = root / record['fixture_path']
     fixture_bytes = fixture.read_bytes()
-    _require(record['fixture_path'] == 'manual/data/m2/awareness_cases.jsonl' and
+    _require(record['fixture_path'] == 'manual/data/awareness/awareness_cases.jsonl' and
              hashlib.sha256(fixture_bytes).hexdigest() == record['fixture_sha256'],
              'immutable fixture file changed')
     rows = fixture_bytes.decode().splitlines()
@@ -112,6 +118,43 @@ def validate_dependencies(groups):
     for concept in groups:
         visit(concept)
     return sum(len(row['depends_on']) for row in groups.values())
+
+
+def audit_m3(root, maps, eqs):
+    """Check the explicit additional mathematics without changing old duties."""
+    record = json.loads(_check_contract(root, 'CELL_MAPPING_MATHEMATICAL_BINDINGS.json'))
+    _require(record['schema'] == 'aod.scientific.m3-mathematics.v1',
+             'unknown M3 mathematical binding schema')
+    paths = {'main': 'sections/07_cell_measures_mappings.tex',
+             'manual': 'manual/sections/01_cell_measures.tex'}
+    _require(set(record['sources']) == set(paths.values()),
+             'M3 mathematical source inventory changed')
+    _require(len(record['equations']) == 7, 'M3 equation inventory changed')
+    for label, binding in record['equations'].items():
+        # The original v1 records implicitly owned their equations in Main.
+        # An explicit surface extends that same binding to a moved example.
+        surface = binding.get('surface', 'main')
+        _require(surface in paths and binding['path'] == paths[surface] and
+                 maps[surface].get(label, {}).get('path') == binding['path'] and
+                 label not in maps['manual' if surface == 'main' else 'main'] and
+                 label in eqs[surface] and
+                 _formula(eqs[surface][label]) == binding['formula'],
+                 'M3 mathematical statement or owner changed ' + label)
+    cells = json.loads(_check_contract(root, 'CELL_MEASURE_SPEC.json'))
+    _require(cells['schema'] == 'aod.scientific.cell-measure.v1',
+             'unknown cell measure specification schema')
+    for surface, path in paths.items():
+        anchors = cells.get(surface + '_anchors', [])
+        _require(isinstance(anchors, list) and all(isinstance(a, str) for a in anchors)
+                 and len(anchors) == len(set(anchors)), 'invalid cell measure anchor inventory')
+        for label in anchors:
+            _require(maps[surface].get(label, {}).get('path') == path and
+                     label not in maps['manual' if surface == 'main' else 'main'],
+                     'cell measure anchor owner changed ' + label)
+    for path, digest in record['sources'].items():
+        _require(hashlib.sha256((root / path).read_bytes()).hexdigest() == digest,
+                 'M3 mathematical source changed ' + path)
+    return {'equations': len(record['equations']), 'sources': len(record['sources'])}
 
 
 def audit(root, main_files, main_parts, labels, equations, manual_files, manual_labels,
@@ -178,6 +221,7 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
     # source-protection entries. Deleting or rebinding an entry cannot pass.
     for name in CONTRACT_SHA256:
         _check_contract(root, name)
+    m3_result = audit_m3(root, maps, eqs)
     for path, wanted in contract['frozen_sha256'].items():
         _require((root / path).is_file() and
                  hashlib.sha256((root / path).read_bytes()).hexdigest() == wanted,
@@ -187,4 +231,4 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
             'declared_dependencies': edges,
             'unique_defining_signatures': len(contract['unique_signatures']),
             'manual_example_families': len(contract['manual_families']),
-            'frozen_files': len(contract['frozen_sha256'])}
+            'frozen_files': len(contract['frozen_sha256']), 'm3': m3_result}

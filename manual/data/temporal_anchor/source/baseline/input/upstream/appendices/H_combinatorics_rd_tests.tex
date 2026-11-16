@@ -1,0 +1,106 @@
+\section{Reflection Duration on \texorpdfstring{\(Q_4\)}{Q4}}
+\label{app:combinatorics-rd-tests}
+
+\subsection{Scope}\label{app:rd-tests:scope}
+This appendix states graph support, ternary fibre, Markov kernels, path histories,
+RD/RCD and integer support reductions for A\(\Omega\)-internal SADAR pressure.
+
+\subsection{Setup}\label{app:rd-tests:setup}
+Use \eqref{eq:atomic-h1} for the finite graph and
+\eqref{eq:hinge-grammar} for the distinct ternary fibre
+\(\sigma_t(e)\in\{-1,0,+1\}\).
+
+\subsection{Choice: Markov kernel}\label{app:rd-tests:markov-kernel}
+The downstream kernel \eqref{eq:admitted-kernel} is normalized only for
+positive total weight on admitted H1 support. Equal weights give the isotropic
+\(1/N_B\); unequal weights, including dependence on committed lag, orientation
+and reflection, give its anisotropic specialization. Outside that support its
+probability is zero. Additional dwell uses the separate fibre family
+\eqref{eq:continuation-domain-split}; an empty positive-weight support supplies
+no normalized kernel.
+
+\subsection{Path histories and reflected duration}\label{app:rd-tests:statements}
+A path history is
+\[
+h=((e_0,\sigma_0),\ldots,(e_m,\sigma_m)).
+\]
+Equation \eqref{eq:branch-hinge-rd} specializes to this history:
+\begin{equation}
+RD_h(B)
+=
+\Pi^-_h(B)
++
+H_{\mu,h}(B)
++
+\Pi^+_h(B).
+\label{app:rd:eq:branch-hinge-rd}
+\end{equation}
+If the window contains each support occurrence exactly once, the full-trace
+specialization is
+\[
+RD_h(B)=
+\sum_{t\in\omega}
+\mathbf 1[h\text{ retained, pending, or returning at }t].
+\]
+Outside that full-trace specialization the indicator sum is window participation, not full RD. Couple with \eqref{eq:rcd-coupling} and project duration by
+\eqref{eq:rcd-duration-participation}. In a common ordered count domain,
+\eqref{eq:window-clipped-rho} clips participation, while
+\eqref{eq:duration-overhang} and \eqref{eq:burden-overhang} record pending excess.
+
+\subsection{Walk support corollaries}\label{app:rd-tests:corollaries}
+The declared model \eqref{eq:curling-support-model} has the walk accounting
+\begin{equation}
+\Pi(p{:}q)=q^p+q.
+\label{app:rd:eq:path-support}
+\end{equation}
+Here \(q^p\) is the memoryless \(q\)-direction walk count and \(q\) is the retained Hamming--1 edge-shell term. The branch/hinge/branch reflected-return support is
+\begin{equation}
+RD(p{:}q;B)=2\Pi(p{:}q)+H_\mu(B)
+\label{app:rd:eq:reflected-return}
+\end{equation}
+when the branch supports are symmetric. The single-hinge reduction is
+\begin{equation}
+H_\mu(B)=1
+\quad\Longrightarrow\quad
+RD(p{:}q)=2\Pi(p{:}q)+1.
+\label{app:rd:eq:single-hinge-return}
+\end{equation}
+For \(3{:}4\), under the single-hinge reduction,
+\begin{equation}
+\Pi(3{:}4)=4^3+4=68,
+\qquad
+RD(3{:}4)=2\cdot68+1=137.
+\label{app:rd:eq:three-four-rd}
+\end{equation}
+The added \(4\) is retained edge-shell support. Symmetry invokes
+\eqref{eq:branch-hinge-rd-symmetric}; the unit hinge is an extra hypothesis,
+not the general rule.
+
+\subsection{Integer support reductions}\label{app:rd-tests:support-reductions}
+The declared integer reductions are
+\[
+1{:}2{:}6,
+\quad
+1{:}2{:}7,
+\quad
+1{:}2{:}8,
+\quad
+1{:}2{:}9,
+\quad
+1{:}2{:}10,
+\quad
+3{:}3{:}6,
+\quad
+3{:}4{:}6.
+\]
+
+
+\aodremark{The cited combinatorics is introduced at the first \(Q_4\) / Hamming--1 derivation in \secref{subsec:four-edge-x-witness}. This appendix uses that support to state A\(\Omega\)D's retained edge-shell term \(+q\) and branch/hinge/branch reflected-return closure \(\Pi^-+H_\mu+\Pi^+\). The ternary hinge fibre is carried on the finite tesseract witness; it is not identical with the tesseract support.}
+
+\aodliteraturenote{Dyck/Catalan path combinatorics: Stanley~\cite{stanleyCatalan}, Flajolet--Sedgewick~\cite{flajoletSedgewick}.\\
+Markov kernels and random walks: Norris~\cite{norrisMarkov}, Levin--Peres--Wilmer~\cite{levinPeresWilmer}, Lawler--Limic~\cite{lawlerLimic}.}
+
+\subsection{Walk-support audit}\label{app:rd-tests:audit}
+A walk-support reduction records declared first-branch support, hinge recurrence, reflected return-branch support, the retained edge-shell term, and the A\(\Omega\)D branch/hinge/branch closure. The single-hinge accessor \(2\Pi+1\) is used when the single-hinge symmetric reduction is declared. A kernel reduction records a normalized probability family over admissible Hamming--1 continuations.
+
+\aodprovenance{\secref{subsec:four-edge-x-witness}, \eqref{eq:tesseract-admissible-boundary}, \eqnref{eq:branch-hinge-rd}, \eqnref{eq:branch-hinge-rd-symmetric}, \appref{app:rd-tests:corollaries}.}

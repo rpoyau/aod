@@ -1,4 +1,4 @@
-"""Executable controls for the scoped M2.5 proof and intervention repairs.
+"""Executable controls for weighted support and awareness interventions.
 
 Fibre events and atomic H1 transitions use their existing, separate APIs.  The
 weighted claim is read from Main, then evaluated on exact finite witnesses;

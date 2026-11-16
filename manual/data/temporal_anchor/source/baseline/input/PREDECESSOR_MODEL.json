@@ -1,0 +1,23 @@
+{
+  "id": "declared-coupled-population-pressure-response-v1",
+  "classification": "new_explicit_finite_realization_not_a_derived_atomic_or_Cs_law",
+  "background": ["B0=3:4:6", "B1=3:4:6"],
+  "probe": "P=3:2:6",
+  "reference": "R=3:3:6",
+  "support_catalogue": "q^p ordered direction words plus q retained shell occurrences; each counted occurrence carries a chosen last-direction Hamming-1 realization and its full word identifier. This chart is a declared realization of support accounting, not a proof that every p-step word equals one primitive traversal.",
+  "route": "Traverse the catalogue once, one explicit hinge, and the exactly reversed catalogue; each support occurrence has a distinct event key.",
+  "admission": "Bound q primitive component closures, p ordered blocks of q component return IDs, q retained shell IDs, actual support trace, core p:q, enclosure 6, lineage and certificates.",
+  "channel_support": "RD of the sender's declared returned route, derived by enumerating its two branches and one hinge; receiver and sender identities are retained.",
+  "reflection_rule": "At emission, lag = receiver completed reclosures minus sender completed reclosures. The forward extra reflection count is max(0,lag); the reverse count is max(0,-lag). These are declared directional delay choices from committed phase counts, not physical laws.",
+  "transport": "A new return emitted at k begins its cross-return route at k+1; its arrival is k+1+RD+forward_reflection. The contact trace and phase prefixes are bound at arrival.",
+  "RCD": "After two actual returned contacts on a directed channel: rho = RD + sum(forward_reflection of latest two contacts), the existing additive-count specialization.",
+  "participation": "Full duration is retained in this trial; no clipping or equality of enclosure 6 with observation duration is imposed.",
+  "capacity": "C3=1 for every channel, a fixed declared unit-capacity trial choice.",
+  "pressure": "P_i = self RD_i + sum of admitted incoming channel durations. Nonnegative individual terms are retained even when signed currents cancel.",
+  "response": "A support traversal committed at k schedules its next traversal at k+P_i using only contacts committed through k. A scheduled traversal keeps its already-committed deadline. Later arrivals affect the next scheduling decision. This integer inverse-pressure sequencer is a new declared update choice.",
+  "closure": "Only completion of the whole outward-hinge-return route with a valid certificate adds a reclosure. The next route starts at the following ordered cut.",
+  "calibration": "One frozen synthetic observation gain of 2 Cs-cycle equivalents per reference reclosure; calibrated on the shared pre-intervention reference history. Frequency is the exact defining 9192631770 Hz. No physical Cs realization is supplied.",
+  "metrology_scope": "Ordered update cuts are not seconds. SI intervals use only the generated reference reclosure count and the frozen synthetic calibration.",
+  "causal_controls": ["same background prefix", "extra coupled 3:4:6", "same count with 3:3:6", "two extra coupled 3:4:6", "uncoupled 3:4:6", "recorded contact with disabled feedback", "exact replay restoration", "tracing on/off"],
+  "background_scope": "The two retained 3:4:6 fields are a finite background model. No black-hole input law or universal environmental completeness is claimed."
+}

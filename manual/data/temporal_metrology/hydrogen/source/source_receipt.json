@@ -1,0 +1,59 @@
+{
+  "schema": "aod.m3.primary-source-receipt.v1",
+  "source_id": "Hellwig_Vessot_Levine_Zitzewitz_Allan_Glaze_1970",
+  "url": "https://tf.nist.gov/general/pdf/13.pdf",
+  "file": "hellwig1970.pdf",
+  "sha256": "e8bba435fbb9e6b54f41fa1d60f9c02df8e06b6a73ce8fab323afb3ea7d02dc4",
+  "bytes": 1716323,
+  "checked_pages": [
+    200,
+    203,
+    205,
+    207
+  ],
+  "method": "Visual inspection of page renderings against the archived PDF; table arithmetic independently reproduced by reduce_hydrogen.",
+  "transcription": {
+    "p200_abstract": {
+      "mean_frequency_hz": "1420405751.768",
+      "one_sigma_uncertainty_hz": "0.002",
+      "shared_reference": "NBS-III; footnote explicitly restricts independence"
+    },
+    "p203_equation4": {
+      "C1_hz_per_K": "0.00019557",
+      "condition": "Thermal equilibrium with storage-bulb walls; thermalization remains a stated experimental assumption"
+    },
+    "p205_TableIV": {
+      "frequency_hz": "1420405751.7691",
+      "quoted_uncertainty_hz": "0.0024",
+      "corrections_hz": [
+        "405794.4200",
+        "-0.1193",
+        "-42.6115",
+        "-0.0015",
+        "0.0202",
+        "0.0627",
+        "-0.0015"
+      ]
+    },
+    "p207_TableVI": {
+      "frequency_hz": "1420405751.7667",
+      "quoted_uncertainty_hz": "0.0018",
+      "corrections_hz": [
+        "405795.0000",
+        "-0.6798",
+        "-42.6115",
+        "0.0581",
+        "-0.0001"
+      ],
+      "included_in_corrected_beat": [
+        "NP3_reference_offset",
+        "wall"
+      ]
+    },
+    "p207_conclusion": {
+      "mean_frequency_hz": "1420405751.768",
+      "quoted_uncertainty_hz": "0.002"
+    }
+  },
+  "scope": "Printed-input reproduction and transcription authentication, not raw experiment replay or complete covariance. Historical protocol bytes are retained unchanged."
+}

@@ -550,7 +550,7 @@ def execute_row(row):
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--check-data',action='store_true');args=parser.parse_args()
-    path=Path(__file__).resolve().parents[1]/'data/m2/awareness_cases.jsonl'
+    path=Path(__file__).resolve().parents[1]/'data/awareness/awareness_cases.jsonl'
     rows=[json.loads(t) for t in path.read_text().splitlines() if t.strip()]
     results=[execute_row(row) for row in rows];print(json.dumps({'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'results':results},indent=2))
     return 0 if all(x['expected_matched'] for x in results) else 1
