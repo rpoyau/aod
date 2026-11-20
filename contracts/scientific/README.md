@@ -35,3 +35,15 @@ transfer and shared-reference dependencies. It validates source-bound
 declarations without applying corrections, constructing a joint uncertainty
 model or certifying an independent physical prediction. A materiality bound
 screens one influence only; unresolved inputs stay unresolved.
+
+## Wavelet compaction and conditional SI interface
+
+`M3_WAVELET_COMPACTION_BINDINGS.json` is an additive Main-only scientific
+binding covering the compacted Duon/Duad seating identity, derived finite
+localized AOmegaD wavelets, overlap occurrence-ID deduplication, cancellation
+history retention, shed continuation witness and four-stage recipient event
+lattice, reference-window timing and the conditional SI/Cs-133/`tau`
+observation interface, together with the two figures relocated into Section 5.
+It preserves all inherited `CANONICAL_BINDINGS.json`,
+`OWNERSHIP_AND_FIXTURES.json` and `CELL_MAPPING_MATHEMATICAL_BINDINGS.json`
+obligations without adding new primitives or independent physical claims.

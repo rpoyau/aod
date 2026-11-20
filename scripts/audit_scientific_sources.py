@@ -66,6 +66,7 @@ SCIENTIFIC_CONTRACT_SCHEMAS = {
     'CELL_MAPPING_MATHEMATICAL_BINDINGS.json': 'aod.scientific.m3-mathematics.v1',
     'TEMPORAL_OBSERVATION.json': 'aod_temporal_observation_v1',
     'TEMPORAL_METROLOGY.json': 'aod.scientific.temporal-metrology.v1',
+    'M3_WAVELET_COMPACTION_BINDINGS.json': 'aod.scientific.m3-wavelet-compaction.v1',
 }
 SCIENTIFIC_SCOPE_FILES = {
     'README.md', 'FOURIER_SCOPE.md', 'METROLOGY_BOUNDARY.md',

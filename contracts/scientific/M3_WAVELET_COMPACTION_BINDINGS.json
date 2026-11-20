@@ -1,0 +1,185 @@
+{
+  "schema": "aod.scientific.m3-wavelet-compaction.v1",
+  "scope": "Additive Phase 1 ontology compaction, derived AOmegaD wavelet continuation, overlap deduplication, cancellation history retention, shed-recipient event lattice, reference-window timing and conditional SI observation interface in Main; preserves all inherited canonical, ownership, fixture and M3 cell/mapping obligations without introducing new primitives or independent physical claims",
+  "sources": {
+    "appendices/E_glossary.tex": "dabb7a48c5d004f27ddb139382b5e10245183d1b6f78bad1b8cbc5ea3a9f4102",
+    "sections/04_cut_running_fractal_tesseract.tex": "c225ae8fcc8b93a805533dff18c1a66d2c81e17f10e91b7f0efe9e7037bedfd2",
+    "sections/05_curl_closure_duon_current.tex": "db5d3097aa17ce890e1ef5a09e527ce86109715add344f54139eeea3c36f28a9",
+    "sections/06_field.tex": "264e1d252a661d8264ef51c807e562abb7848a195a8da325a3c4aab6269e4864",
+    "sections/06_wave_state_relational_time.tex": "424f52d5e83008c2aa7b60fdaaa8e5a34cdd2ac1097dedb1f23ca6488b6fb836",
+    "sections/07_cell_measures_mappings.tex": "8fde8d889830250c3a20d48ba1a2fff63bbc7dc04e931ce5f14a196fb1eabedf"
+  },
+  "equations": {
+    "eq:duon-current": {
+      "surface": "main",
+      "path": "sections/05_curl_closure_duon_current.tex",
+      "obligation": "PO-1",
+      "formula": "\\begin{equation}D_i\\mu_MD_j,\\qquadD_i,D_j\\in\\{D_\\alpha,D_\\Omega\\},\\qquad\\mu_M\\in\\{-1,0,+1\\}.\\end{equation}",
+      "depends_on": [
+        "eq:hinge-grammar",
+        "eq:atomic-h1",
+        "subsec:dion"
+      ]
+    },
+    "eq:duad-same-current": {
+      "surface": "main",
+      "path": "sections/05_curl_closure_duon_current.tex",
+      "obligation": "PO-1",
+      "formula": "\\begin{equation}E_2^{\\pm}=\\mathrm{Duad},\\qquad\\operatorname{id}\\!\\left(\\operatorname{Seat}(u)\\right)=\\operatorname{id}(u),\\qquad\\sigma_{\\mathrm{seat}}(u):\\mathrm{open\\_seat}\\longmapsto\\mathrm{seated\\_duad}.\\end{equation}",
+      "depends_on": [
+        "eq:duon-current",
+        "eq:closure-certificate"
+      ]
+    },
+    "eq:aod-wavelet-continuation": {
+      "surface": "main",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "obligation": "PO-2",
+      "formula": "\\begin{equation}\\begin{split}w_{B,i}&=\\bigl(\\operatorname{id}_w,W_{\\mathrm{parent}},\\operatorname{anc}_w,\\operatorname{supp}_w,B,\\sigma_{\\mathrm{seat}},\\Gamma_w,\\mathcalW_w\\bigr),\\\\\\sigma_{\\mathrm{seat}}&\\in\\{\\mathrm{open\\_duon},\\mathrm{seated\\_duad},\\mathrm{coupled\\_segment},\\mathrm{shed\\_continuation}\\}.\\end{split}\\end{equation}",
+      "depends_on": [
+        "eq:return-identity",
+        "eq:beat-reclosure",
+        "eq:wave-identity",
+        "eq:duon-current",
+        "eq:duad-same-current",
+        "eq:complete-wave-state",
+        "eq:coupling-trace"
+      ]
+    },
+    "eq:wavelet-overlap-dedup": {
+      "surface": "main",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "obligation": "PO-3",
+      "formula": "\\begin{equation}q_i\\!\\left(\\bigcup_{a=1}^m\\omega_a\\right)=\\#\\bigcup_{a=1}^m\\bigl\\{\\operatorname{id}_{\\mathrm{return}}(C):C\\in\\mathcalW_{w_a}^{\\mathrm{ret}},\\j\\ge1\\bigr\\}\\le\\sum_{a=1}^mq_i(\\omega_a).\\end{equation}",
+      "depends_on": [
+        "eq:aod-wavelet-continuation",
+        "eq:return-identity",
+        "eq:beat-reclosure"
+      ]
+    },
+    "eq:wavelet-cancellation-retention": {
+      "surface": "main",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "obligation": "PO-3",
+      "formula": "\\begin{equation}J(w_+)+J(w_-)=0\\quad\\Longrightarrow\\quad\\operatorname{Hist}(w_+\\oplusw_-)=\\bigl\\{(\\operatorname{anc}_{w_+},\\Gamma_{w_+}),\\,(\\operatorname{anc}_{w_-},\\Gamma_{w_-})\\bigr\\}.\\end{equation}",
+      "depends_on": [
+        "eq:aod-wavelet-continuation",
+        "eq:afc-stokes-used"
+      ]
+    },
+    "eq:wavelet-reference-timing": {
+      "surface": "main",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "obligation": "PO-6",
+      "formula": "\\begin{equation}q_i(\\omega):=\\Delta\\operatorname{bip}_i(\\omega),\\qquadr_{a|r}(\\omega):=\\operatorname{biz}^{TF}_{a|r}(\\omega)=\\frac{q_a(\\omega)}{q_r(\\omega)},\\qquadq_r(\\omega)>0,\\quadq_a(\\omega)\\in\\mathbbZ_{\\ge0}.\\end{equation}",
+      "depends_on": [
+        "eq:aod-wavelet-continuation",
+        "eq:cadence-ratio",
+        "eq:relational-time"
+      ]
+    },
+    "eq:shed-continuation-witness": {
+      "surface": "main",
+      "path": "sections/06_field.tex",
+      "obligation": "PO-4",
+      "formula": "\\begin{equation}w_{\\mathrm{shed}}=\\bigl(W_{\\mathrm{parent}},\\partial_TR_{\\mathrm{emit}},k_{\\mathrm{emit}},\\mathrm{route}\\in\\{\\mathrm{endo},\\mathrm{exo},\\mathrm{redir},\\mathrm{open}\\},X_{\\mathrm{route}},S^W_{\\mathrm{post}}\\bigr).\\end{equation}",
+      "depends_on": [
+        "eq:aod-wavelet-continuation",
+        "eq:shedding-excess",
+        "eq:sheddic-path",
+        "eq:shedding-route-partition"
+      ]
+    },
+    "eq:recipient-event-lattice": {
+      "surface": "main",
+      "path": "sections/06_field.tex",
+      "obligation": "PO-4",
+      "formula": "\\begin{equation}\\mathrm{emitted}\\longrightarrow\\mathrm{delivered}\\longrightarrow\\begin{cases}\\mathrm{accepted}\\longrightarrow\\begin{cases}\\mathrm{seated}\\xrightarrow{\\operatorname{Cert}}\\mathrm{reclosed},\\\\\\mathrm{pending\\_unseated},\\end{cases}\\\\\\mathrm{unaccepted\\_pass}.\\end{cases}\\end{equation}",
+      "depends_on": [
+        "eq:shed-continuation-witness",
+        "eq:closure-certificate"
+      ]
+    },
+    "eq:m3-observation-map": {
+      "surface": "main",
+      "path": "sections/07_cell_measures_mappings.tex",
+      "obligation": "PO-8",
+      "formula": "\\begin{equation}C_i=\\mathcalO_i(\\Gamma^W_i,\\Gamma^\\times,\\omega,\\mathrm{preparation},\\mathrm{apparatus})=g_iq_i(\\omega)+\\delta_{\\mathrm{end},i}.\\end{equation}",
+      "depends_on": [
+        "eq:wavelet-reference-timing",
+        "prop:m3-atomic-gain"
+      ]
+    },
+    "eq:m3-conditional-si-anchor": {
+      "surface": "main",
+      "path": "sections/07_cell_measures_mappings.tex",
+      "obligation": "PO-8",
+      "formula": "\\begin{equation}T_\\omega=\\frac{C_r}{\\barf^{\\mathrm{SI}}_r},\\qquad\\barf^{\\mathrm{SI}}_a=\\frac{C_a}{C_r}\\barf^{\\mathrm{SI}}_r,\\qquadC_r>0,\\\\barf^{\\mathrm{SI}}_r>0.\\end{equation}",
+      "depends_on": [
+        "eq:m3-observation-map",
+        "eq:cadence-ratio"
+      ]
+    },
+    "eq:m3-cs133-tau-interface": {
+      "surface": "main",
+      "path": "sections/07_cell_measures_mappings.tex",
+      "obligation": "PO-8",
+      "formula": "\\begin{equation}T_\\omega=\\frac{C_{\\mathrm{Cs}}}{\\Delta\\nu_{\\mathrm{Cs}}},\\qquad\\barf_a=\\Delta\\nu_{\\mathrm{Cs}}\\frac{C_a}{C_{\\mathrm{Cs}}},\\qquad\\Delta\\theta_a=\\tauC_a,\\qquad\\bar\\Omega_a=\\tau\\barf_a.\\end{equation}",
+      "depends_on": [
+        "eq:m3-conditional-si-anchor"
+      ]
+    }
+  },
+  "relocated_figures": {
+    "fig:curl-to-duon-current-support": {
+      "surface": "main",
+      "previous_path": "sections/06_field.tex",
+      "path": "sections/05_curl_closure_duon_current.tex"
+    },
+    "fig:closure-ladder": {
+      "surface": "main",
+      "previous_path": "sections/06_field.tex",
+      "path": "sections/05_curl_closure_duon_current.tex"
+    }
+  },
+  "retained_anchors": {
+    "subsec:localized-wavelet": {
+      "surface": "main",
+      "path": "sections/04_cut_running_fractal_tesseract.tex"
+    },
+    "subsec:duon": {
+      "surface": "main",
+      "path": "sections/05_curl_closure_duon_current.tex"
+    },
+    "subsec:duad": {
+      "surface": "main",
+      "path": "sections/05_curl_closure_duon_current.tex"
+    },
+    "subsec:aod-wavelet-continuation": {
+      "surface": "main",
+      "path": "sections/06_wave_state_relational_time.tex"
+    },
+    "subsec:temporal-cycle-group": {
+      "surface": "main",
+      "path": "sections/06_field.tex"
+    },
+    "subsec:e2-duon": {
+      "surface": "main",
+      "path": "sections/06_field.tex"
+    },
+    "subsec:e2-duad": {
+      "surface": "main",
+      "path": "sections/06_field.tex"
+    },
+    "subsec:m3-conditional-si-interface": {
+      "surface": "main",
+      "path": "sections/07_cell_measures_mappings.tex"
+    }
+  },
+  "limits": [
+    "Native AOmegaD wavelets precede any analytical wavelet or finite harmonic readout",
+    "Localization, delivery, acceptance and seating do not establish certified reclosure or wave admission",
+    "Structural fold/enclosure scale, window extent, native cadence and measured SI frequency carry distinct types",
+    "Conditional SI and Cs-133 anchoring does not select a physical observation gain or constitute independent empirical validation"
+  ]
+}

@@ -72,7 +72,12 @@ Commutation sends cycles to cycles, since \(B^Kz=0\) implies
 
 \paragraph{Falsification.}
 Identify distinct preimages through their equal projected coordinates:
-unique reconstruction fails.
+unique reconstruction fails. Cubical incidence (\(f=(16,32,24,8,1)\),
+\(\partial^2=0\)), 4D-to-3D trace projections, FRG ring fixtures and downstream
+Euclidean \(\tau=2\pi\) report coordinates remain separate declared
+representations; structural fold/enclosure scale, localization-window extent,
+native cadence and measured frequency carry distinct types so a scale label
+alone never asserts a frequency law.
 \aodprovenance{\eqref{eq:fold-outer-closure}; \eqref{eq:expose-inner-lineage};
 \eqref{eq:m3-support-measure}; \eqref{eq:m3-chain-map}.}
 
@@ -157,3 +162,71 @@ ratio a calibration. Changing evaluation data alone must leave a previously
 fixed model output unchanged.
 \aodprovenance{\eqref{eq:relational-time}; \eqref{eq:cadence-ratio};
 \eqref{eq:complete-wave-state}; \eqref{eq:complete-coupling-state}.}
+
+\subsection{Conditional SI observation interface}
+\label{subsec:m3-conditional-si-interface}
+\paragraph{Setup.}
+On a common compatible native window \(\omega\), bind physical turns through
+an explicit apparatus observation map \(\mathcal O_i\) consuming the committed
+current, lineage, contact, preparation and apparatus records, with explicit
+positive cycle-equivalent gain \(g_i>0\) and endpoint-phase correction
+\(\delta_{\mathrm{end},i}=\phi_{i,1}-\phi_{i,0}\) (\(\phi_{i,0},\phi_{i,1}\in[0,1)\)):
+\begin{equation}
+ C_i=\mathcal O_i(\Gamma^W_i,\Gamma^\times,\omega,\mathrm{preparation},\mathrm{apparatus})
+ =g_i q_i(\omega)+\delta_{\mathrm{end},i}.
+ \label{eq:m3-observation-map}
+\end{equation}
+No physical gain is selected by this interface; distinct apparatuses carry
+distinct maps \(\mathcal O_i\) and keep calibration uncertainty and shared-source
+dependence explicit.
+
+\paragraph{Derivation.}
+Given a calibrated reference mean frequency \(\bar f^{\mathrm{SI}}_r>0\) over
+the same physical interval with \(C_r>0\), conditional interval duration and
+compared mean frequency are
+\begin{equation}
+ T_\omega=\frac{C_r}{\bar f^{\mathrm{SI}}_r},
+ \qquad
+ \bar f^{\mathrm{SI}}_a=\frac{C_a}{C_r}\bar f^{\mathrm{SI}}_r,
+ \qquad C_r>0,\ \bar f^{\mathrm{SI}}_r>0.
+ \label{eq:m3-conditional-si-anchor}
+\end{equation}
+When \(\mathcal O_i\) establishes one physical turn per certified native
+reclosure with aligned endpoints (\(g_a=g_r=1\), \(\delta_{\mathrm{end},a}=\delta_{\mathrm{end},r}=0\)),
+\(C_i=q_i(\omega)\) and \eqref{eq:m3-conditional-si-anchor} specializes to
+\(T_\omega=q_r(\omega)/\bar f^{\mathrm{SI}}_r\) and
+\(\bar f^{\mathrm{SI}}_a=r_{a|r}(\omega)\bar f^{\mathrm{SI}}_r\) via
+\eqref{eq:wavelet-reference-timing}. Whenever \(C_i\ne q_i(\omega)\), gain and
+endpoint terms remain explicit. A nonrecurrent shed wavelet with
+\(q_a(\omega)=0\) and \(\delta_{\mathrm{end},a}=0\) still receives window
+duration \(T_\omega>0\) and zero mean rate without acquiring an intrinsic
+resonance frequency.
+
+\paragraph{Specialization.}
+Under the exact SI defining Cs-133 hyperfine anchor
+\(\Delta\nu_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{s}^{-1}\) and corrected
+Cs-equivalent reference advance \(C_{\mathrm{Cs}}>0\), with full-turn angular
+constant \(\tau=2\pi\), \eqref{eq:m3-conditional-si-anchor} specializes to
+\begin{equation}
+ T_\omega=\frac{C_{\mathrm{Cs}}}{\Delta\nu_{\mathrm{Cs}}},
+ \qquad
+ \bar f_a=\Delta\nu_{\mathrm{Cs}}\frac{C_a}{C_{\mathrm{Cs}}},
+ \qquad
+ \Delta\theta_a=\tau C_a,
+ \qquad
+ \bar\Omega_a=\tau\bar f_a.
+ \label{eq:m3-cs133-tau-interface}
+\end{equation}
+Conditional SI anchoring is a typed mapping interface; independent empirical
+frequency validation and physical realization budgets remain separate
+evidenced claims.
+
+\paragraph{Falsification.}
+Setting \(C_r\le 0\) or \(C_{\mathrm{Cs}}\le 0\), hiding nonzero endpoint
+corrections or gain factors inside \(q_i\), treating reproducing
+\(\Delta\nu_{\mathrm{Cs}}\) as an independent prediction, or fitting \(g_a/g_r\)
+from evaluation data violates \eqref{eq:m3-observation-map}--\eqref{eq:m3-cs133-tau-interface}
+and \secref{prop:m3-atomic-gain}.
+\aodprovenance{\eqref{eq:cadence-ratio}; \eqref{eq:wavelet-reference-timing};
+\secref{prop:m3-atomic-gain}; \eqref{eq:m3-observation-map};
+\eqref{eq:m3-conditional-si-anchor}; \eqref{eq:m3-cs133-tau-interface}.}

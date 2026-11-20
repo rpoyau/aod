@@ -16,7 +16,8 @@ CONTRACT_SHA256 = {
     "TEMPORAL_METROLOGY.json": "a81b261fca3be6202a1fb02d6334e60751b25d1e0c9ff5ef89bb50ba44145da9",
     "TEMPORAL_OBSERVATION.json": "b02344dcaa98c3de1b7453d868b332b2bd537f08c9c2e92de048e337c6747e69",
     "MAP_CONTRACT.json": "3d6766979397c7732e6cd88793cf6befb9fa48fa69267598cfcf0d781a300aea",
-    "CELL_MAPPING_MATHEMATICAL_BINDINGS.json": "a971cb597a9879c433b37184ba81c2b60f25ff35b011363862eb43602e1bf1b7",
+    "CELL_MAPPING_MATHEMATICAL_BINDINGS.json": "71f8e63b02dce889c2c17afc60cbc717ea6b378b30f43b57f0cde9b20ac1f2e5",
+    "M3_WAVELET_COMPACTION_BINDINGS.json": "b809ae150523a28f181d07a9701330d74cc176757e4d564056bc43b4ba48e2a6",
     "ERROR_BUDGET.json": "8ea33dabcf681e01d459f170b31c10b59fdf9e63ea708c64ac6ed7c1be62a57f",
     "CELL_MEASURE_SPEC.json": "75fc35552c419d831d8fcd5dfe1ee1b46dffa4e862535d4b74029f3c2018c9ea",
     "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "ad4070efbdc8ca584812a1a947d083d2f6f4676f2aef22638dfb7f5854da4f27",
@@ -26,7 +27,7 @@ CONTRACT_SHA256 = {
     "METROLOGY_BOUNDARY.md": "553609db18f523faae6d2a53c3465c56ceb9034c6ba1ae3b7a6cff77fdf678af",
     "OPERATIVE_SELF_SCHEMA.json": "0fba87a85c542a5a9b74f2242724bf334ecb1a0c39886a20c9298309d3005ecd",
     "OWNERSHIP_AND_FIXTURES.json": "935d97f71f9127195febebb276cf43b5355f3b09a59d5d60d02b9c09be484ca4",
-    "README.md": "6156f7bcf91c51c2824982b53782ee55b5fecb6114b91db5384e93a3860c1296",
+    "README.md": "d98ff38f7ea13674c8cb603deee1f5f00a15bbe8cbee7b43a8b2f22387a17682",
     "ROUND_TRIP_PHASE_FACTOR_SPEC.json": "a54b0a8b799228c11b60b88c706824045aaefae2000c1cf081e838582dcba11e",
     "UPDATE_CAUSAL_ORDER.md": "879fe4fce9ec09b8640ca31eea28c09a3a6d2047f6d58eeafe463ece055315bd"
 }
@@ -157,6 +158,67 @@ def audit_m3(root, maps, eqs):
     return {'equations': len(record['equations']), 'sources': len(record['sources'])}
 
 
+def audit_m3_wavelet_compaction(root, maps, eqs):
+    """Check additive Phase 1 wavelet-compaction and conditional SI bindings."""
+    record = json.loads(_check_contract(root, 'M3_WAVELET_COMPACTION_BINDINGS.json'))
+    _require(record['schema'] == 'aod.scientific.m3-wavelet-compaction.v1',
+             'unknown M3 wavelet compaction schema')
+    eq_map = record['equations']
+    _require(len(eq_map) == 11, 'M3 wavelet compaction equation inventory changed')
+    for label, binding in eq_map.items():
+        surface = binding.get('surface', 'main')
+        _require(surface == 'main' and binding['path'] in record['sources'] and
+                 maps['main'].get(label, {}).get('path') == binding['path'] and
+                 label not in maps['manual'] and
+                 label in eqs['main'] and
+                 _formula(eqs['main'][label]) == binding['formula'],
+                 'M3 wavelet compaction statement or owner changed ' + label)
+        deps = binding.get('depends_on', [])
+        _require(isinstance(deps, list) and len(deps) > 0 and len(deps) == len(set(deps)),
+                 'M3 wavelet compaction invalid prerequisites ' + label)
+        for dep in deps:
+            _require(dep in maps['main'], 'M3 wavelet compaction unknown prerequisite ' + dep)
+    visiting, complete = set(), set()
+
+    def visit(label):
+        _require(label not in visiting, 'M3 wavelet compaction cyclic prerequisite ' + label)
+        if label in complete:
+            return
+        visiting.add(label)
+        for dep in eq_map[label]['depends_on']:
+            if dep in eq_map:
+                visit(dep)
+        visiting.remove(label)
+        complete.add(label)
+
+    for label in eq_map:
+        visit(label)
+    figures = record['relocated_figures']
+    _require(len(figures) == 2, 'M3 wavelet compaction relocated figure inventory changed')
+    for label, binding in figures.items():
+        _require(binding.get('surface') == 'main' and
+                 maps['main'].get(label, {}).get('path') == binding['path'] and
+                 label not in maps['manual'],
+                 'M3 wavelet compaction figure owner changed ' + label)
+    retained = record['retained_anchors']
+    _require(len(retained) == 8, 'M3 wavelet compaction retained anchor inventory changed')
+    for label, binding in retained.items():
+        _require(binding.get('surface') == 'main' and
+                 maps['main'].get(label, {}).get('path') == binding['path'] and
+                 label not in maps['manual'],
+                 'M3 wavelet compaction retained anchor changed ' + label)
+    _require(len(record['sources']) == 6, 'M3 wavelet compaction source inventory changed')
+    for path, digest in record['sources'].items():
+        _require(hashlib.sha256((root / path).read_bytes()).hexdigest() == digest,
+                 'M3 wavelet compaction source changed ' + path)
+    return {
+        'equations': len(eq_map),
+        'relocated_figures': len(figures),
+        'retained_anchors': len(retained),
+        'sources': len(record['sources']),
+    }
+
+
 def audit(root, main_files, main_parts, labels, equations, manual_files, manual_labels,
           manual_parts, manual_equations):
     root = Path(root)
@@ -222,6 +284,7 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
     for name in CONTRACT_SHA256:
         _check_contract(root, name)
     m3_result = audit_m3(root, maps, eqs)
+    m3_wavelet_result = audit_m3_wavelet_compaction(root, maps, eqs)
     for path, wanted in contract['frozen_sha256'].items():
         _require((root / path).is_file() and
                  hashlib.sha256((root / path).read_bytes()).hexdigest() == wanted,
@@ -231,4 +294,5 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
             'declared_dependencies': edges,
             'unique_defining_signatures': len(contract['unique_signatures']),
             'manual_example_families': len(contract['manual_families']),
-            'frozen_files': len(contract['frozen_sha256']), 'm3': m3_result}
+            'frozen_files': len(contract['frozen_sha256']), 'm3': m3_result,
+            'm3_wavelet_compaction': m3_wavelet_result}

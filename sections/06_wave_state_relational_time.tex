@@ -50,6 +50,68 @@ B,\omega,\mathrm{direction},\mathrm{contact},\mathrm{reflection},\\
 Comparison requires both recurrent lineages, their common committed window
 and repeated distinct bound contacts; one contact supplies only a stage.
 
+\subsection{Localized wavelets, overlap aggregation and retained history}
+\label{subsec:aod-wavelet-continuation}
+\paragraph{Setup.}
+Consolidating \secref{subsec:localized-wavelet} and the temporal cycle group
+of \secref{subsec:temporal-cycle-group}, define an A\(\Omega\)D wavelet on a
+declared support and boundary/window \(B=(\partial_T R,\omega)\) as a finite,
+localized, lineage-bearing current continuation retaining its seating state,
+ordered committed construction records \(\Gamma_w\), and relevant closure,
+coupling, and route witnesses \(\mathcal W_w=(\mathcal W_w^{\mathrm{ret}},\Gamma^\times_w,\mathcal W_w^{\mathrm{route}})\):
+\begin{equation}
+\begin{split}
+w_{B,i}&=\bigl(\operatorname{id}_w,W_{\mathrm{parent}},\operatorname{anc}_w,\operatorname{supp}_w,B,\sigma_{\mathrm{seat}},\Gamma_w,\mathcal W_w\bigr),\\
+\sigma_{\mathrm{seat}}&\in\{\mathrm{open\_duon},\mathrm{seated\_duad},\mathrm{coupled\_segment},\mathrm{shed\_continuation}\}.
+\end{split}
+\label{eq:aod-wavelet-continuation}
+\end{equation}
+Restricting an admitted recurrent wave \(W_{B,i}\) of \eqref{eq:wave-identity}
+to a finite window \(\omega=(u,v]\) yields its recurrent-wave wavelet
+specialization with \(W_{\mathrm{parent}}=W^{\mathrm{id}}_{B,i}\), preserving
+parent identity, ancestry and ordered prefix records; finite window selection
+does not terminate the underlying continuation beyond \(v\). A finite or shed
+wavelet may carry zero local certified returns (\(q_w(\omega)=0\)) while
+retaining parent ancestry and bound phase/lag provenance; localization never
+promotes an open wavelet or an isolated monon into a recurring wave
+\eqref{eq:wave-identity}.
+
+\paragraph{Derivation.}
+For a finite family of same-lineage wavelets \(\{w_a\}_{a=1}^m\) over
+potentially overlapping windows \(\omega_1,\ldots,\omega_m\), counting distinct
+immutable return identities \eqref{eq:return-identity} across the union
+prevents double-counting any certified return shared in an overlap:
+\begin{equation}
+q_i\!\left(\bigcup_{a=1}^m\omega_a\right)
+=\#\bigcup_{a=1}^m\bigl\{\operatorname{id}_{\mathrm{return}}(C):C\in\mathcal W_{w_a}^{\mathrm{ret}},\ j\ge 1\bigr\}
+\le\sum_{a=1}^m q_i(\omega_a).
+\label{eq:wavelet-overlap-dedup}
+\end{equation}
+For oppositely oriented wavelets \(w_+,w_-\) whose signed window currents
+cancel to zero, aggregate cancellation removes the summed scalar while
+retaining both contributing histories distinctly:
+\begin{equation}
+J(w_+)+J(w_-)=0
+\quad\Longrightarrow\quad
+\operatorname{Hist}(w_+\oplus w_-)=\bigl\{(\operatorname{anc}_{w_+},\Gamma_{w_+}),\,(\operatorname{anc}_{w_-},\Gamma_{w_-})\bigr\}.
+\label{eq:wavelet-cancellation-retention}
+\end{equation}
+
+\paragraph{Falsification.}
+Summing per-window return counts across overlapping windows without
+\(\operatorname{id}_{\mathrm{return}}\) deduplication, erasing either
+contributing history when \(J(w_+)+J(w_-)=0\), detaching \(W_{\mathrm{parent}}\)
+or \(\Gamma_w\), or promoting a \(q_w(\omega)=0\) open continuation into
+\eqref{eq:wave-identity} violates \eqref{eq:aod-wavelet-continuation}--\eqref{eq:wavelet-cancellation-retention}.
+
+\aodprovenance{\eqref{eq:return-identity},
+\eqref{eq:beat-reclosure},
+\eqref{eq:wave-identity},
+\eqref{eq:duon-current},
+\eqref{eq:duad-same-current},
+\eqref{eq:complete-wave-state},
+\eqref{eq:coupling-trace}.}
+
 \subsection{Directional RCD and duration}
 \label{sec:boundary-accounting}
 \label{subsec:boundary-scope}
@@ -153,6 +215,25 @@ reconstructed. Three or more waves form an edge-labelled comparison structure.
 No global scalar clock is required. Equal temporal coordinates may coexist
 with unequal pressure, closure condition or retained context in
 \eqref{eq:complete-wave-state}.
+
+\paragraph{Reference-window timing of localized and open continuations.}
+Write \(q_i(\omega):=\Delta\operatorname{bip}_i(\omega)\) for the distinct
+certified reclosure count on compatible window \(\omega\). Whenever a coupled
+reference wave \(r\) supplies \(q_r(\omega)>0\) with repeated bound contacts,
+the native cadence ratio extends cleanly to localized wavelets \eqref{eq:aod-wavelet-continuation}:
+\begin{equation}
+q_i(\omega):=\Delta\operatorname{bip}_i(\omega),
+\qquad
+r_{a|r}(\omega):=\operatorname{biz}^{TF}_{a|r}(\omega)=\frac{q_a(\omega)}{q_r(\omega)},
+\qquad
+q_r(\omega)>0,\quad q_a(\omega)\in\mathbb Z_{\ge 0}.
+\label{eq:wavelet-reference-timing}
+\end{equation}
+A short, open or shed wavelet with \(q_a(\omega)=0\) retains its parent's bound
+phase/lag reference and may be localized or timed against the bound reference
+window \(q_r(\omega)>0\) (yielding \(r_{a|r}(\omega)=0\)), without promoting
+that fragment into an independent clock or permitting \(q_r(\omega)=0\) in the
+denominator.
 
 \paragraph{Falsification.}
 Aliased wave identities, an uncoupled pair, one contact, zero denominator,
