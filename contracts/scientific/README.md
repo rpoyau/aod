@@ -39,11 +39,16 @@ screens one influence only; unresolved inputs stay unresolved.
 ## Wavelet compaction and conditional SI interface
 
 `M3_WAVELET_COMPACTION_BINDINGS.json` is an additive Main-only scientific
-binding covering the compacted Duon/Duad seating identity, derived finite
-localized AOmegaD wavelets, overlap occurrence-ID deduplication, cancellation
-history retention, shed continuation witness and four-stage recipient event
-lattice, reference-window timing and the conditional SI/Cs-133/`tau`
-observation interface, together with the two figures relocated into Section 5.
+binding covering 11 equations (10 new Phase 1 equations plus the inherited
+`eq:duon-current` anchor), 8 tracked anchors (6 retained inherited anchors plus
+2 new canonical subsection anchors) and the two figures relocated into Section 5.
+It tracks the same-current Duad seating identity, finite localized AOmegaD
+wavelets with separate seating and coupling/route coordinates, eligible
+in-window reclosure sets distinct from retained support witnesses, cancellation
+history retention, shed continuation witness, origin-qualified recipient event
+lattice, repeated-contact reference-window timing (separating any one-contact
+stage association from `biz^{TF}`) and the conditional SI/Cs-133/`tau`
+interface supporting signed compared advance with positive reference.
 It preserves all inherited `CANONICAL_BINDINGS.json`,
 `OWNERSHIP_AND_FIXTURES.json` and `CELL_MAPPING_MATHEMATICAL_BINDINGS.json`
 obligations without adding new primitives or independent physical claims.

@@ -671,24 +671,23 @@ w_{\mathrm{shed}}
 X_{\mathrm{route}},S^W_{\mathrm{post}}\bigr).
 \label{eq:shed-continuation-witness}
 \end{equation}
-At any downstream recipient scope \(B_{\mathrm{rec}}\), delivery, acceptance,
-seating and certified reclosure are strictly distinct, witness-ordered events:
+At any downstream recipient scope \(B_{\mathrm{rec}}=(\partial_T R_{\mathrm{rec}},\omega_{\mathrm{rec}})\) of recipient lineage \(i_{\mathrm{rec}}\), delivery, acceptance, seating, initial origin closure, and later compatible reclosure are strictly distinct, witness-ordered passive observations at the cut:
 \begin{equation}
-\mathrm{emitted}\longrightarrow\mathrm{delivered}
-\longrightarrow
+\begin{split}
+&\mathrm{emitted}\longrightarrow\mathrm{delivered}\longrightarrow
 \begin{cases}
-\mathrm{accepted}\longrightarrow
-\begin{cases}
-\mathrm{seated}\xrightarrow{\operatorname{Cert}}\mathrm{reclosed},\\
-\mathrm{pending\_unseated},
+\mathrm{accepted}\longrightarrow\{\mathrm{seated},\,\mathrm{pending\_unseated}\},\\
+\mathrm{unaccepted\_pass},
 \end{cases}\\
-\mathrm{unaccepted\_pass}.
+&\mathrm{seated}\xrightarrow{\operatorname{Cert}(C_{i_{\mathrm{rec}},j})}
+\begin{cases}
+\mathrm{closed\_origin}\ (\Delta\Phi=1_C,\ \Delta\operatorname{bip}=0), & j=0,\\
+\mathrm{reclosed}\ (\text{distinct compatible }\operatorname{id}_{\mathrm{return}},\ k_j\in\omega_{\mathrm{rec}},\ \Delta\operatorname{bip}=1), & j\ge 1.
 \end{cases}
+\end{split}
 \label{eq:recipient-event-lattice}
 \end{equation}
-No earlier stage implies a later stage; delivery, acceptance and seating alone
-contribute \(\Delta\operatorname{bip}=0\) until a full closure certificate
-\eqref{eq:closure-certificate} at \(B_{\mathrm{rec}}\) establishes reclosure.
+No earlier stage implies a later stage, and recording \(\mathrm{pending\_unseated}\) or \(\mathrm{seated}\) at a cut states the observed record without imposing a future execution ban. Delivery, acceptance and seating contribute \(\Delta\operatorname{bip}=0\). A full closure certificate \eqref{eq:closure-certificate} establishes completion (\(\Delta\Phi=1_C\)): when it is the recipient lineage's initial closure \(C_{i_{\mathrm{rec}},0}\) (\(N^C_{i_{\mathrm{rec}}}=1\)), \eqref{eq:cumulative-closure-counts} gives \(\mathrm{bip}^{\le}_{i_{\mathrm{rec}}}=\max(1-1,0)=0\) beats; a reclosure beat (\(\Delta\operatorname{bip}=+1\)) is awarded only relative to an existing compatible recipient origin \(C_{i_{\mathrm{rec}},0}\) via a later completion \(C_{i_{\mathrm{rec}},j}\) (\(j\ge 1\), \(k_j\in\omega_{\mathrm{rec}}\)) of compatible lineage and scope whose immutable return identity \(\operatorname{id}_{\mathrm{return}}(C_{i_{\mathrm{rec}},j})\) \eqref{eq:return-identity} has not already been counted on \(\omega_{\mathrm{rec}}\) (replay adds \(0\) beats, and a mismatched lineage or scope confers no recipient closure claim).
 
 
 \subsubsection{Yro odd-window route-status suffix}\label{subsec:yro-odd-window-route-status}
@@ -728,7 +727,12 @@ current family. Coherent continuity can accumulate the unresolved lead--lag burd
 \label{fig:v39-cycle-disturbance-shedding}
 \end{figure}
 
-\aodprovenance{\eqnref{eq:duon-current},
+\aodprovenance{\eqnref{eq:closure-certificate},
+\eqnref{eq:return-identity},
+\eqnref{eq:beat-reclosure},
+\eqnref{eq:cumulative-closure-counts},
+\eqnref{eq:closure-phase-window},
+\eqnref{eq:duon-current},
 \eqnref{eq:aod-wavelet-continuation},
 \eqnref{eq:returned-duration},
 \eqnref{eq:temporal-sadar-burden},

@@ -168,32 +168,42 @@ fixed model output unchanged.
 \paragraph{Setup.}
 On a common compatible native window \(\omega\), bind physical turns through
 an explicit apparatus observation map \(\mathcal O_i\) consuming the committed
-current, lineage, contact, preparation and apparatus records, with explicit
-positive cycle-equivalent gain \(g_i>0\) and endpoint-phase correction
-\(\delta_{\mathrm{end},i}=\phi_{i,1}-\phi_{i,0}\) (\(\phi_{i,0},\phi_{i,1}\in[0,1)\)):
+current, lineage, contact, preparation and apparatus records, with exact
+rational output \(C_i\in\mathbb Q\) (allowing signed compared advance under a
+signed net-winding plus endpoint-phase convention
+\(\delta_{\mathrm{end},i}=\phi_{i,1}-\phi_{i,0}\), \(\phi_{i,0},\phi_{i,1}\in[0,1)\)):
 \begin{equation}
- C_i=\mathcal O_i(\Gamma^W_i,\Gamma^\times,\omega,\mathrm{preparation},\mathrm{apparatus})
- =g_i q_i(\omega)+\delta_{\mathrm{end},i}.
+ C_i=\mathcal O_i(\Gamma^W_i,\Gamma^\times,\omega,\mathrm{preparation},\mathrm{apparatus})\in\mathbb Q,
+ \qquad
+ C_i^{\mathrm{aff}}=g_i q_i(\omega)+\delta_{\mathrm{end},i}\quad (g_i>0).
  \label{eq:m3-observation-map}
 \end{equation}
-No physical gain is selected by this interface; distinct apparatuses carry
-distinct maps \(\mathcal O_i\) and keep calibration uncertainty and shared-source
-dependence explicit.
+The affine form \(C_i^{\mathrm{aff}}\) is an explicit specialization used only
+when an independently bound apparatus model establishes a positive gain \(g_i>0\)
+and endpoint-phase correction on native reclosures \(q_i(\omega)\); no physical
+gain is selected by this interface, and distinct apparatuses keep calibration
+uncertainty and shared-source dependence explicit.
 
 \paragraph{Derivation.}
-Given a calibrated reference mean frequency \(\bar f^{\mathrm{SI}}_r>0\) over
-the same physical interval with \(C_r>0\), conditional interval duration and
-compared mean frequency are
+Given a strictly positive calibrated reference advance \(C_r>0\) and calibrated
+reference mean frequency \(\bar f^{\mathrm{SI}}_r>0\) over the same physical
+interval, conditional interval duration \(T_\omega>0\) and signed compared mean
+rate \(\bar f^{\mathrm{SI}}_a\in\mathbb Q\ \mathrm{s}^{-1}\) are
 \begin{equation}
  T_\omega=\frac{C_r}{\bar f^{\mathrm{SI}}_r},
  \qquad
  \bar f^{\mathrm{SI}}_a=\frac{C_a}{C_r}\bar f^{\mathrm{SI}}_r,
- \qquad C_r>0,\ \bar f^{\mathrm{SI}}_r>0.
+ \qquad C_r>0,\ \bar f^{\mathrm{SI}}_r>0,\ C_a\in\mathbb Q.
  \label{eq:m3-conditional-si-anchor}
 \end{equation}
-When \(\mathcal O_i\) establishes one physical turn per certified native
-reclosure with aligned endpoints (\(g_a=g_r=1\), \(\delta_{\mathrm{end},a}=\delta_{\mathrm{end},r}=0\)),
-\(C_i=q_i(\omega)\) and \eqref{eq:m3-conditional-si-anchor} specializes to
+Here \(\bar f^{\mathrm{SI}}_a\) is a signed mean phase-advance rate over
+\(\omega\); any unsigned or positive atomic resonance-frequency interpretation
+additionally requires restricting to the narrower nonnegative specialization
+\(C_a\ge 0\) (or \(C_a>0\)) and separate physical-realization premises. When
+the affine specialization applies with one physical turn per certified native
+reclosure and aligned endpoints (\(g_a=g_r=1\),
+\(\delta_{\mathrm{end},a}=\delta_{\mathrm{end},r}=0\)), \(C_i=q_i(\omega)\ge 0\)
+and \eqref{eq:m3-conditional-si-anchor} specializes to
 \(T_\omega=q_r(\omega)/\bar f^{\mathrm{SI}}_r\) and
 \(\bar f^{\mathrm{SI}}_a=r_{a|r}(\omega)\bar f^{\mathrm{SI}}_r\) via
 \eqref{eq:wavelet-reference-timing}. Whenever \(C_i\ne q_i(\omega)\), gain and
@@ -204,9 +214,10 @@ resonance frequency.
 
 \paragraph{Specialization.}
 Under the exact SI defining Cs-133 hyperfine anchor
-\(\Delta\nu_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{s}^{-1}\) and corrected
-Cs-equivalent reference advance \(C_{\mathrm{Cs}}>0\), with full-turn angular
-constant \(\tau=2\pi\), \eqref{eq:m3-conditional-si-anchor} specializes to
+\(\Delta\nu_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{s}^{-1}\) and strictly
+positive corrected Cs-equivalent reference advance \(C_{\mathrm{Cs}}>0\), with
+full-turn angular constant \(\tau=2\pi\), \eqref{eq:m3-conditional-si-anchor}
+specializes for signed \(C_a\in\mathbb Q\) to
 \begin{equation}
  T_\omega=\frac{C_{\mathrm{Cs}}}{\Delta\nu_{\mathrm{Cs}}},
  \qquad
@@ -222,7 +233,10 @@ frequency validation and physical realization budgets remain separate
 evidenced claims.
 
 \paragraph{Falsification.}
-Setting \(C_r\le 0\) or \(C_{\mathrm{Cs}}\le 0\), hiding nonzero endpoint
+Setting \(C_r\le 0\) or \(C_{\mathrm{Cs}}\le 0\), equating a signed phase-advance
+rate with an unsigned atomic resonance frequency without the nonnegative
+domain and realization premises, claiming the affine form \(C_i^{\mathrm{aff}}\)
+for a nonlinear apparatus without independent binding, hiding nonzero endpoint
 corrections or gain factors inside \(q_i\), treating reproducing
 \(\Delta\nu_{\mathrm{Cs}}\) as an independent prediction, or fitting \(g_a/g_r\)
 from evaluation data violates \eqref{eq:m3-observation-map}--\eqref{eq:m3-cs133-tau-interface}

@@ -98,19 +98,40 @@ def check_po1_duon_duad_same_current():
     return {'resolved_variants': len(variants), 'same_current_seating': True}
 
 
-# --- PO-2 & PO-3: AOmegaD wavelet continuation, overlap dedup & cancellation history ---
+# --- PO-2 & PO-3 (F02, F04): Wavelet seating/role separation & eligible window returns ---
 
-VALID_WAVELET_SEAT_STATES = frozenset({
-    'open_duon', 'seated_duad', 'coupled_segment', 'shed_continuation',
-})
+VALID_WAVELET_SEAT_STATES = frozenset({'open_duon', 'seated_duad'})
+VALID_WAVELET_ROLES = frozenset({'local_segment', 'coupled_segment', 'shed_continuation'})
 
 
-def make_wavelet(wavelet_id, parent_id, ancestry, window, sigma_seat, records,
-                 return_ids=(), signed_current=0, is_admitted_wave=False):
+def make_return_witness(return_id, occurrence_j, completion_cut, lineage_id, scope_id,
+                        compatible=True, scope_mapped=True):
+    if not return_id or not lineage_id or not scope_id:
+        raise ValueError('return witness requires return_id, lineage_id, and scope_id')
+    j = _require_exact_int(occurrence_j, 'occurrence_j')
+    cut = _require_exact_int(completion_cut, 'completion_cut')
+    if j < 0:
+        raise ValueError('occurrence index j must be non-negative')
+    return {
+        'return_id': return_id,
+        'occurrence_j': j,
+        'completion_cut': cut,
+        'lineage_id': lineage_id,
+        'scope_id': scope_id,
+        'compatible': bool(compatible),
+        'scope_mapped': bool(scope_mapped),
+    }
+
+
+def make_wavelet(wavelet_id, parent_id, ancestry, window, sigma_seat, sigma_role,
+                 records, return_witnesses=(), signed_current=0, is_admitted_wave=False,
+                 scope_id='B:main', witnesses_complete=True):
     if not parent_id or not ancestry:
         raise ValueError('wavelet must preserve parent_id and ancestry')
     if sigma_seat not in VALID_WAVELET_SEAT_STATES:
-        raise ValueError('invalid wavelet seat state')
+        raise ValueError('invalid independent seating state')
+    if sigma_role not in VALID_WAVELET_ROLES:
+        raise ValueError('invalid wavelet coupling/route role')
     u, v = window
     _require_exact_int(u, 'window start')
     _require_exact_int(v, 'window end')
@@ -118,28 +139,68 @@ def make_wavelet(wavelet_id, parent_id, ancestry, window, sigma_seat, records,
         raise ValueError('window must satisfy u < v')
     if not records:
         raise ValueError('wavelet must retain committed construction records')
-    return_tuple = tuple(return_ids)
-    if is_admitted_wave and (sigma_seat in {'open_duon', 'shed_continuation'} or len(set(return_tuple)) < 1):
-        raise ValueError('open/shed wavelet or zero-return fragment cannot be promoted to an admitted wave')
-    return {
+    w = {
         'id_w': wavelet_id,
         'parent_id': parent_id,
         'ancestry': tuple(ancestry),
+        'scope_id': scope_id,
         'window': (u, v),
         'sigma_seat': sigma_seat,
+        'sigma_role': sigma_role,
         'records': tuple(records),
-        'return_ids': return_tuple,
+        'return_witnesses': tuple(return_witnesses),
+        'witnesses_complete': bool(witnesses_complete),
         'signed_current': _require_exact_int(signed_current, 'signed_current'),
         'is_admitted_wave': bool(is_admitted_wave),
     }
+    eligible = eligible_return_ids(w, target_lineage=parent_id, target_scope=scope_id)
+    if is_admitted_wave and (sigma_role == 'shed_continuation' or sigma_seat == 'open_duon' or len(eligible) < 1):
+        raise ValueError('open/shed wavelet or zero-eligible-return fragment cannot be promoted to an admitted wave')
+    return w
 
 
-def deduplicated_return_count(wavelets, target_lineage):
+def eligible_return_ids(wavelet, target_lineage=None, target_scope=None):
+    if not wavelet['witnesses_complete']:
+        raise ValueError('complete eligible return records required for window count')
+    lineage = wavelet['parent_id'] if target_lineage is None else target_lineage
+    scope = wavelet['scope_id'] if target_scope is None else target_scope
+    if wavelet['parent_id'] != lineage:
+        raise ValueError('incompatible parent lineage')
+    u, v = wavelet['window']
+    eligible = set()
+    for item in wavelet['return_witnesses']:
+        if item['lineage_id'] != lineage:
+            raise ValueError('return witness lineage mismatch')
+        if item['scope_id'] != scope and not item['scope_mapped']:
+            raise ValueError('return witness lacks identity-preserving scope map')
+        if item['compatible'] and item['occurrence_j'] >= 1 and (u < item['completion_cut'] <= v):
+            eligible.add(item['return_id'])
+    return eligible
+
+
+def in_window_closure_phase_presence(wavelet, target_lineage=None, target_scope=None):
+    lineage = wavelet['parent_id'] if target_lineage is None else target_lineage
+    scope = wavelet['scope_id'] if target_scope is None else target_scope
+    u, v = wavelet['window']
+    origins = {
+        item['return_id']
+        for item in wavelet['return_witnesses']
+        if (item['lineage_id'] == lineage and (item['scope_id'] == scope or item['scope_mapped'])
+            and item['compatible'] and item['occurrence_j'] == 0 and u < item['completion_cut'] <= v)
+    }
+    reclosures = eligible_return_ids(wavelet, target_lineage=lineage, target_scope=scope)
+    return {
+        'origin_indicator': 1 if origins else 0,
+        'reclosure_bips': len(reclosures),
+        'closure_phase_cycles': len(reclosures) + (1 if origins else 0),
+        'retained_support_witnesses': len(wavelet['return_witnesses']),
+    }
+
+
+def deduplicated_return_count(wavelets, target_lineage, target_scope='B:main'):
     seen = set()
     for w in wavelets:
-        if w['parent_id'] != target_lineage:
-            raise ValueError('lineage mismatch across wavelet overlap union')
-        seen.update(w['return_ids'])
+        seen.update(eligible_return_ids(w, target_lineage=target_lineage, target_scope=target_scope))
     return len(seen)
 
 
@@ -154,65 +215,161 @@ def combine_signed_wavelets(w_pos, w_neg):
 
 def check_po2_po3_wavelet_dedup_and_cancellation():
     parent_state = {'id': 'W_B_1', 'active_beyond_v': True}
+    # F04: Independent seating & coupling/route coordinates (seated + coupled, shed retaining seating)
+    c0_at_0 = make_return_witness('C0', 0, 0, 'W_B_1', 'B:main')
+    c1_at_2 = make_return_witness('C1', 1, 2, 'W_B_1', 'B:main')
+    c2_at_6 = make_return_witness('C2', 2, 6, 'W_B_1', 'B:main')
+    c3_at_8 = make_return_witness('C3', 3, 8, 'W_B_1', 'B:main')
+    c4_at_10 = make_return_witness('C4', 4, 10, 'W_B_1', 'B:main')
+
+    # Out-of-window prefix witnesses (C0@0, C1@2) on window (3, 5] must stay retained as support while giving q = 0
+    w_prefix = make_wavelet(
+        'w_prefix', 'W_B_1', ('lin:1', 'seg:prefix'), (3, 5),
+        sigma_seat='seated_duad', sigma_role='coupled_segment',
+        records=('rec:C0@0', 'rec:C1@2'),
+        return_witnesses=(c0_at_0, c1_at_2),
+        signed_current=0, is_admitted_wave=False,
+    )
+    _check(w_prefix['sigma_seat'] == 'seated_duad' and w_prefix['sigma_role'] == 'coupled_segment',
+           'coupled_segment must preserve independent seated_duad state (F04)')
+    _check(len(w_prefix['return_witnesses']) == 2, 'full supporting witnesses must remain retained')
+    _check(deduplicated_return_count((w_prefix,), 'W_B_1') == 0,
+           'out-of-window supporting return must contribute 0 local reclosures (F02)')
+
+    # Initial origin C0 at cut 0 inside (-1, 2] gives 1 closure phase cycle, 0 reclosure bips; cut=2 included (right endpoint)
+    w_origin_only = make_wavelet(
+        'w_origin', 'W_B_1', ('lin:1', 'seg:origin'), (-1, 1),
+        sigma_seat='seated_duad', sigma_role='local_segment',
+        records=('rec:C0@0',),
+        return_witnesses=(c0_at_0,),
+        signed_current=0, is_admitted_wave=False,
+    )
+    origin_info = in_window_closure_phase_presence(w_origin_only)
+    _check(origin_info['origin_indicator'] == 1 and origin_info['reclosure_bips'] == 0
+           and origin_info['closure_phase_cycles'] == 1,
+           'initial origin in window contributes closure phase without reclosure bip (F02)')
+
+    # Half-open window endpoints: (2, 6] excludes C1@2 (left endpoint) and includes C2@6 (right endpoint)
+    w_half_open = make_wavelet(
+        'w_half_open', 'W_B_1', ('lin:1', 'seg:half_open'), (2, 6),
+        sigma_seat='seated_duad', sigma_role='coupled_segment',
+        records=('rec:C1@2', 'rec:C2@6'),
+        return_witnesses=(c1_at_2, c2_at_6),
+        signed_current=1, is_admitted_wave=True,
+    )
+    _check(eligible_return_ids(w_half_open) == {'C2'},
+           'half-open (2, 6] must exclude left endpoint cut 2 and include right endpoint cut 6')
+
+    # Overlapping windows: (0, 8] has {C1@2, C2@6, C3@8}? Let's test (1, 8] -> {C1@2, C2@6, C3@8} and (5, 10] -> {C2@6, C3@8, C4@10}
     w1 = make_wavelet(
         'w1', parent_state['id'], ('lin:1', 'seg:1'), (0, 8),
-        'coupled_segment', ('r1', 'r2'), return_ids=('occ_01', 'occ_02'),
+        sigma_seat='seated_duad', sigma_role='coupled_segment',
+        records=('rec:C0@0', 'rec:C1@2', 'rec:C2@6'),
+        return_witnesses=(c0_at_0, c1_at_2, c2_at_6),
         signed_current=1, is_admitted_wave=True,
     )
     w2 = make_wavelet(
         'w2', parent_state['id'], ('lin:1', 'seg:2'), (4, 10),
-        'coupled_segment', ('r2', 'r3'), return_ids=('occ_02',),
+        sigma_seat='seated_duad', sigma_role='coupled_segment',
+        records=('rec:C1@2', 'rec:C2@6', 'rec:C3@8'),
+        return_witnesses=(c1_at_2, c2_at_6, c3_at_8),
         signed_current=-1, is_admitted_wave=True,
     )
     w_shed = make_wavelet(
-        'w_shed', parent_state['id'], ('lin:1', 'shed:1'), (8, 12),
-        'shed_continuation', ('r3',), return_ids=(), signed_current=0,
+        'w_shed', parent_state['id'], ('lin:1', 'shed:1'), (10, 14),
+        sigma_seat='seated_duad', sigma_role='shed_continuation',
+        records=('rec:C3@8',), return_witnesses=(c3_at_8,), signed_current=0,
         is_admitted_wave=False,
     )
     _check(parent_state['active_beyond_v'] is True, 'window restriction must not terminate parent wave')
-    _check(len(w_shed['return_ids']) == 0, 'shed wavelet may carry zero local returns')
+    _check(w_shed['sigma_seat'] == 'seated_duad' and w_shed['sigma_role'] == 'shed_continuation',
+           'shed continuation must retain its seating state independently (F04)')
+    _check(len(eligible_return_ids(w_shed)) == 0 and len(w_shed['return_witnesses']) == 1,
+           'zero-local-return shed wavelet retains parent admission witness as support')
+
     _reject(
         lambda: make_wavelet(
-            'bad_promo', 'W_B_1', ('lin:1',), (0, 2), 'open_duon', ('r0',),
-            return_ids=(), is_admitted_wave=True,
+            'bad_promo', 'W_B_1', ('lin:1',), (0, 2), 'open_duon', 'local_segment', ('r0',),
+            return_witnesses=(c1_at_2,), is_admitted_wave=True,
         ),
         ValueError, 'cannot be promoted',
     )
     _reject(
         lambda: make_wavelet(
-            'bad_detached', '', (), (0, 2), 'open_duon', ('r0',),
+            'bad_shed_promo', 'W_B_1', ('lin:1',), (4, 8), 'seated_duad', 'shed_continuation', ('r0',),
+            return_witnesses=(c2_at_6,), is_admitted_wave=True,
+        ),
+        ValueError, 'cannot be promoted',
+    )
+    _reject(
+        lambda: make_wavelet(
+            'bad_detached', '', (), (0, 2), 'open_duon', 'local_segment', ('r0',),
         ),
         ValueError, 'parent_id',
     )
-    naive_sum = len(w1['return_ids']) + len(w2['return_ids'])
-    dedup = deduplicated_return_count((w1, w2), 'W_B_1')
-    _check(dedup == 2 and dedup < naive_sum, 'overlapping windows must deduplicate shared return IDs')
-    w_other = make_wavelet('w_other', 'W_B_2', ('lin:2',), (4, 10), 'coupled_segment', ('r9',), return_ids=('occ_09',))
-    _reject(lambda: deduplicated_return_count((w1, w_other), 'W_B_1'), ValueError, 'lineage mismatch')
+
+    single_window_sum = len(eligible_return_ids(w1)) + len(eligible_return_ids(w2))  # {C1,C2} + {C2,C3} -> 2 + 2 = 4
+    dedup = deduplicated_return_count((w1, w2), 'W_B_1')  # {C1, C2, C3} -> 3
+    _check(dedup == 3 and single_window_sum == 4 and dedup < single_window_sum,
+           'overlapping windows must deduplicate shared eligible in-window return IDs')
+
+    w_other = make_wavelet(
+        'w_other', 'W_B_2', ('lin:2',), (4, 10),
+        sigma_seat='seated_duad', sigma_role='coupled_segment',
+        records=('rec:D1@9',),
+        return_witnesses=(make_return_witness('D1', 1, 9, 'W_B_2', 'B:main'),),
+    )
+    _reject(lambda: deduplicated_return_count((w1, w_other), 'W_B_1'), ValueError, 'lineage')
+
+    _reject(
+        lambda: make_wavelet(
+            'w_bad_scope', 'W_B_1', ('lin:1',), (4, 10),
+            sigma_seat='seated_duad', sigma_role='coupled_segment',
+            records=('rec:bad_scope',),
+            return_witnesses=(make_return_witness('C9', 1, 9, 'W_B_1', 'B:other', scope_mapped=False),),
+        ),
+        ValueError, 'scope map',
+    )
+    w_other_scope = make_wavelet(
+        'w_other_scope', 'W_B_1', ('lin:1',), (4, 10),
+        sigma_seat='seated_duad', sigma_role='coupled_segment',
+        records=('rec:other_scope',),
+        return_witnesses=(make_return_witness('C9', 1, 9, 'W_B_1', 'B:other', scope_mapped=False),),
+        scope_id='B:other',
+    )
+    _reject(lambda: eligible_return_ids(w_other_scope, target_scope='B:main'), ValueError, 'scope map')
 
     combined = combine_signed_wavelets(w1, w2)
     _check(combined['net_current'] == 0, 'opposing signed currents should cancel to zero')
     _check(len(combined['retained_histories']) == 2, 'cancellation must retain both histories')
     _check(combined['retained_histories'][0] != combined['retained_histories'][1], 'retained histories must stay distinct')
-    return {'deduplicated_returns': dedup, 'naive_sum': naive_sum, 'retained_histories': 2}
+    return {
+        'deduplicated_returns': dedup,
+        'single_window_sum': single_window_sum,
+        'out_of_window_prefix_count': deduplicated_return_count((w_prefix,), 'W_B_1'),
+        'retained_histories': 2,
+        'independent_seating_and_role': True,
+    }
 
 
-# --- PO-4: Shed continuation witness & four-stage recipient event lattice ---
+# --- PO-4 (F01): Shed continuation witness & origin/reclosure-qualified recipient event lattice ---
 
 ALLOWED_RECIPIENT_TRANSITIONS = {
     'emitted': frozenset({'delivered'}),
     'delivered': frozenset({'accepted', 'unaccepted_pass'}),
     'accepted': frozenset({'seated', 'pending_unseated'}),
-    'seated': frozenset({'reclosed'}),
+    'seated': frozenset({'closed_origin', 'reclosed'}),
     'unaccepted_pass': frozenset(),
     'pending_unseated': frozenset(),
+    'closed_origin': frozenset(),
     'reclosed': frozenset(),
 }
 
 
-def validate_recipient_chain(witness, stages, has_closure_certificate=False):
+def evaluate_recipient_observation(witness, recipient_context, stages, closure_witness=None):
+    """Evaluate passive recipient-event observation at a cut under F01 premises."""
     required_keys = ('parent_id', 'emit_boundary', 'emit_cut', 'route', 'X_route', 'post_shed_parent_state')
-    if any(not witness.get(k) for k in required_keys):
+    if any(witness.get(k) in (None, '') for k in required_keys):
         raise ValueError('shed continuation witness missing required provenance field')
     if witness['route'] not in {'endo', 'exo', 'redir', 'open'}:
         raise ValueError('invalid shed route tag')
@@ -221,12 +378,71 @@ def validate_recipient_chain(witness, stages, has_closure_certificate=False):
     for cur, nxt in zip(stages, stages[1:]):
         if nxt not in ALLOWED_RECIPIENT_TRANSITIONS.get(cur, frozenset()):
             raise ValueError(f'illegal stage transition {cur} -> {nxt}')
+
     terminal = stages[-1]
-    if terminal == 'reclosed':
-        if not has_closure_certificate:
-            raise ValueError('reclosed stage requires a full closure certificate')
-        return 1
-    return 0
+    rec_lineage = recipient_context['recipient_lineage']
+    rec_scope = recipient_context['recipient_scope']
+    u, v = recipient_context['window']
+    _require_exact_int(u, 'recipient window start')
+    _require_exact_int(v, 'recipient window end')
+    origin_id = recipient_context.get('origin_return_id')
+    seen_ids = frozenset(recipient_context.get('seen_return_ids', ()))
+
+    if terminal not in {'closed_origin', 'reclosed'}:
+        return {
+            'stage': terminal,
+            'closure_phase_delta': 0,
+            'reclosure_bip_delta': 0,
+            'blocks_later_seating': False,
+        }
+
+    if closure_witness is None or not closure_witness.get('has_certificate'):
+        raise ValueError(f'{terminal} requires a full closure certificate (eq:closure-certificate)')
+    if closure_witness.get('lineage_id') != rec_lineage:
+        raise ValueError('recipient closure certificate lineage mismatch: no admitted recipient claim')
+    if closure_witness.get('scope_id') != rec_scope and not closure_witness.get('scope_mapped', False):
+        raise ValueError('recipient closure certificate scope mismatch: no admitted recipient claim')
+    cut = _require_exact_int(closure_witness['completion_cut'], 'completion_cut')
+    ret_id = closure_witness.get('return_id')
+    j = _require_exact_int(closure_witness['occurrence_j'], 'occurrence_j')
+    if not ret_id:
+        raise ValueError('closure witness requires immutable return_id')
+
+    if terminal == 'closed_origin':
+        if origin_id is not None or j != 0:
+            raise ValueError('closed_origin applies only to recipient lineage initial closure (j=0, no prior origin)')
+        in_win = int(u < cut <= v)
+        return {
+            'stage': 'closed_origin',
+            'closure_phase_delta': in_win,
+            'reclosure_bip_delta': 0,  # N_i^C = 1 -> max(1 - 1, 0) = 0
+            'origin_return_id': ret_id,
+        }
+
+    # terminal == 'reclosed': requires pre-existing compatible origin, j >= 1, in-window, distinct unseen return_id
+    if not origin_id:
+        raise ValueError('initial closure establishes origin with 0 bips; reclosure requires existing recipient origin')
+    if j < 1:
+        raise ValueError('reclosure requires occurrence index j >= 1 beyond initial origin')
+    if ret_id in seen_ids or ret_id == origin_id:
+        # Replay or re-observation of an already counted immutable return identity contributes 0 new beats
+        return {
+            'stage': 'reclosed_replay',
+            'closure_phase_delta': 0,
+            'reclosure_bip_delta': 0,
+        }
+    if not (u < cut <= v):
+        return {
+            'stage': 'reclosed_out_of_window',
+            'closure_phase_delta': 0,
+            'reclosure_bip_delta': 0,
+        }
+    return {
+        'stage': 'reclosed',
+        'closure_phase_delta': 1,
+        'reclosure_bip_delta': 1,
+        'return_id': ret_id,
+    }
 
 
 def check_po4_recipient_event_lattice():
@@ -238,30 +454,114 @@ def check_po4_recipient_event_lattice():
         'X_route': Fraction(1, 2),
         'post_shed_parent_state': 'S_W_post_12',
     }
-    _check(validate_recipient_chain(witness, ('emitted', 'delivered', 'unaccepted_pass')) == 0,
-           'unaccepted_pass must contribute 0 reclosures')
-    _check(validate_recipient_chain(witness, ('emitted', 'delivered', 'accepted', 'pending_unseated')) == 0,
-           'pending_unseated must contribute 0 reclosures')
-    _check(validate_recipient_chain(witness, ('emitted', 'delivered', 'accepted', 'seated')) == 0,
-           'seated without reclosure must contribute 0 reclosures')
-    _check(validate_recipient_chain(witness, ('emitted', 'delivered', 'accepted', 'seated', 'reclosed'),
-                                    has_closure_certificate=True) == 1,
-           'certified reclosed chain must contribute 1 reclosure')
-    _reject(lambda: validate_recipient_chain(witness, ('emitted', 'delivered', 'reclosed'), True),
-            ValueError, 'illegal stage transition')
-    _reject(lambda: validate_recipient_chain(witness, ('emitted', 'delivered', 'accepted', 'reclosed'), True),
-            ValueError, 'illegal stage transition')
-    _reject(lambda: validate_recipient_chain(witness, ('emitted', 'delivered', 'accepted', 'seated', 'reclosed'), False),
-            ValueError, 'closure certificate')
+    ctx_fresh = {
+        'recipient_lineage': 'R_1',
+        'recipient_scope': 'B_rec:1',
+        'window': (10, 20),
+        'origin_return_id': None,
+        'seen_return_ids': (),
+    }
+    r_unacc = evaluate_recipient_observation(witness, ctx_fresh, ('emitted', 'delivered', 'unaccepted_pass'))
+    _check(r_unacc['reclosure_bip_delta'] == 0, 'unaccepted_pass must contribute 0 reclosures')
+    r_pend = evaluate_recipient_observation(witness, ctx_fresh, ('emitted', 'delivered', 'accepted', 'pending_unseated'))
+    _check(r_pend['reclosure_bip_delta'] == 0 and r_pend['blocks_later_seating'] is False,
+           'pending_unseated contributes 0 bips and never blocks later witnessed seating')
+    r_seated = evaluate_recipient_observation(witness, ctx_fresh, ('emitted', 'delivered', 'accepted', 'seated'))
+    _check(r_seated['reclosure_bip_delta'] == 0, 'seated without completion certificate must contribute 0 bips')
+
+    # F01 case 1: First certified closure -> closure phase 1, ZERO reclosure beats
+    c0_wit = {
+        'has_certificate': True, 'lineage_id': 'R_1', 'scope_id': 'B_rec:1',
+        'return_id': 'ret:R0', 'occurrence_j': 0, 'completion_cut': 14,
+    }
+    r_first = evaluate_recipient_observation(
+        witness, ctx_fresh, ('emitted', 'delivered', 'accepted', 'seated', 'closed_origin'), c0_wit,
+    )
+    _check(r_first['closure_phase_delta'] == 1 and r_first['reclosure_bip_delta'] == 0,
+           'first certified closure contributes 1 closure phase and 0 reclosure bips')
+    _reject(
+        lambda: evaluate_recipient_observation(
+            witness, ctx_fresh, ('emitted', 'delivered', 'accepted', 'seated', 'reclosed'), c0_wit,
+        ),
+        ValueError, 'origin',
+    )
+
+    # F01 case 2: Replay of an already counted return identity -> ZERO additional beats
+    ctx_after_c1 = {
+        'recipient_lineage': 'R_1',
+        'recipient_scope': 'B_rec:1',
+        'window': (10, 20),
+        'origin_return_id': 'ret:R0',
+        'seen_return_ids': ('ret:R1',),
+    }
+    c1_wit = {
+        'has_certificate': True, 'lineage_id': 'R_1', 'scope_id': 'B_rec:1',
+        'return_id': 'ret:R1', 'occurrence_j': 1, 'completion_cut': 16,
+    }
+    r_replay = evaluate_recipient_observation(
+        witness, ctx_after_c1, ('emitted', 'delivered', 'accepted', 'seated', 'reclosed'), c1_wit,
+    )
+    _check(r_replay['reclosure_bip_delta'] == 0 and r_replay['closure_phase_delta'] == 0,
+           'replay of already counted return identity must contribute 0 additional beats')
+
+    # F01 case 3: Genuine new compatible reclosure relative to existing origin -> ONE bip
+    c2_wit = {
+        'has_certificate': True, 'lineage_id': 'R_1', 'scope_id': 'B_rec:1',
+        'return_id': 'ret:R2', 'occurrence_j': 2, 'completion_cut': 18,
+    }
+    r_reclosed = evaluate_recipient_observation(
+        witness, ctx_after_c1, ('emitted', 'delivered', 'accepted', 'seated', 'reclosed'), c2_wit,
+    )
+    _check(r_reclosed['reclosure_bip_delta'] == 1 and r_reclosed['closure_phase_delta'] == 1,
+           'new compatible reclosure relative to origin must contribute 1 bip')
+
+    # F01 case 4: Wrong lineage or wrong scope -> no admitted reclosure claim
+    wrong_lin = dict(c2_wit, lineage_id='R_WRONG')
+    wrong_scope = dict(c2_wit, scope_id='B_WRONG', scope_mapped=False)
+    _reject(
+        lambda: evaluate_recipient_observation(
+            witness, ctx_after_c1, ('emitted', 'delivered', 'accepted', 'seated', 'reclosed'), wrong_lin,
+        ),
+        ValueError, 'lineage mismatch',
+    )
+    _reject(
+        lambda: evaluate_recipient_observation(
+            witness, ctx_after_c1, ('emitted', 'delivered', 'accepted', 'seated', 'reclosed'), wrong_scope,
+        ),
+        ValueError, 'scope mismatch',
+    )
+
+    # Transition & certificate negative controls
+    _reject(
+        lambda: evaluate_recipient_observation(witness, ctx_after_c1, ('emitted', 'delivered', 'reclosed'), c2_wit),
+        ValueError, 'illegal stage transition',
+    )
+    _reject(
+        lambda: evaluate_recipient_observation(
+            witness, ctx_after_c1, ('emitted', 'delivered', 'accepted', 'reclosed'), c2_wit,
+        ),
+        ValueError, 'illegal stage transition',
+    )
+    _reject(
+        lambda: evaluate_recipient_observation(
+            witness, ctx_after_c1, ('emitted', 'delivered', 'accepted', 'seated', 'reclosed'),
+            dict(c2_wit, has_certificate=False),
+        ),
+        ValueError, 'closure certificate',
+    )
     bad_witness = dict(witness, parent_id='')
-    _reject(lambda: validate_recipient_chain(bad_witness, ('emitted', 'delivered')), ValueError, 'provenance')
-    return {'recipient_stages_verified': True}
+    _reject(lambda: evaluate_recipient_observation(bad_witness, ctx_fresh, ('emitted', 'delivered')), ValueError, 'provenance')
+    return {
+        'recipient_stages_verified': True,
+        'first_closure_bips': r_first['reclosure_bip_delta'],
+        'replay_bips': r_replay['reclosure_bip_delta'],
+        'fresh_reclosure_bips': r_reclosed['reclosure_bip_delta'],
+    }
 
 
 # --- PO-5 & PO-7: Inner/outer disjointness, Q_4 cubical partial^2=0 & FOURIER_SCOPE overtone ---
 
 def q4_cubical_cells_and_boundary(flip_sign_edge=False):
-    # Cubical cells in Q_4 encoded as 4-tuples over {'0', '1', '*'} where '*' is an interval coordinate.
     cells = {d: [] for d in range(5)}
     for tup in itertools.product(('0', '1', '*'), repeat=4):
         d = tup.count('*')
@@ -311,9 +611,6 @@ def check_po5_po7_cubical_disjointness_and_fourier_overtone():
     _check(bad_b2(('*', '*', '0', '0')) != {}, 'flipped incidence sign must break partial^2 = 0')
     _check(len(bad_cells[2]) == 24, 'sanity check on 2-cell count')
 
-    # FOURIER_SCOPE exact overtone check: N=12, l_min=4 pulse train at {0, 4, 8}.
-    # At m=3 (> N/(2*l_min) = 3/2), m*g = 0 mod 12 for every g in {0, 4, 8},
-    # so chi_3(g) = 1 identically and v_hat(3) = (1 + 1 + 1) / 12 = 1/4 != 0 exactly.
     n_order = 12
     l_min = 4
     pulses = (0, 4, 8)
@@ -325,7 +622,7 @@ def check_po5_po7_cubical_disjointness_and_fourier_overtone():
     return {'q4_f_vector': f_vec, 'fourier_v_hat_3': str(v_hat_3)}
 
 
-# --- PO-6 & PO-8: Reference-window timing & conditional SI / Cs-133 / tau anchoring ---
+# --- PO-6 & PO-8 (F03, F05): Repeated-contact cadence, separate 1-contact stage & signed SI ---
 
 def native_cadence_ratio(id_a, q_a, id_r, q_r, coupled, bound_contacts):
     if id_a == id_r:
@@ -339,14 +636,36 @@ def native_cadence_ratio(id_a, q_a, id_r, q_r, coupled, bound_contacts):
         raise ValueError('q_a must be non-negative')
     if q_r <= 0:
         raise ValueError('reference denominator q_r must be strictly positive')
-    if q_a > 0 and bound_contacts < 2:
-        raise ValueError('recurrent cadence comparison requires at least 2 bound contacts')
-    if q_a == 0 and bound_contacts < 1:
-        raise ValueError('localized/shed fragment timing requires a bound reference contact')
+    if bound_contacts < 2:
+        raise ValueError('repeated bound contacts (at least 2) required for biz^{TF} cadence ratio even when q_a == 0')
     return Fraction(q_a, q_r)
 
 
+def single_contact_interval_association(wavelet_id, parent_id, ref_id, window, bound_contacts=1):
+    """Separate passive single-contact stage localization; distinct from biz^{TF} cadence."""
+    if wavelet_id == ref_id or parent_id == ref_id:
+        raise ValueError('aliased wave identities rejected')
+    u, v = window
+    _require_exact_int(u, 'window start')
+    _require_exact_int(v, 'window end')
+    _require_exact_int(bound_contacts, 'bound_contacts')
+    if not (u < v):
+        raise ValueError('ordered window required')
+    if bound_contacts != 1:
+        raise ValueError('single_contact_interval_association applies specifically to 1 delivered contact')
+    return {
+        'kind': 'single_contact_stage_association',
+        'wavelet_id': wavelet_id,
+        'parent_id': parent_id,
+        'reference_id': ref_id,
+        'window': (u, v),
+        'is_cadence_ratio': False,
+        'biz_tf': None,
+    }
+
+
 def observation_turns(q_i, gain_i=1, phi_0=0, phi_1=0):
+    """Affine + endpoint specialization C_i^{aff} = g_i * q_i + (phi_1 - phi_0) in Q (signed)."""
     q_val = _require_exact_int(q_i, 'q_i')
     g_val = _require_exact_rational(gain_i, 'gain_i')
     p0 = _require_exact_rational(phi_0, 'phi_0')
@@ -362,30 +681,42 @@ def observation_turns(q_i, gain_i=1, phi_0=0, phi_1=0):
 
 
 def conditional_cs133_anchor(c_a, c_cs, delta_nu_cs=CS133_DELTA_NU_HZ):
+    """Conditional SI anchoring allowing signed compared advance C_a in Q with strictly positive C_Cs > 0."""
     ca = _require_exact_rational(c_a, 'C_a')
     ccs = _require_exact_rational(c_cs, 'C_Cs')
     dnu = _require_exact_int(delta_nu_cs, 'Delta_nu_Cs')
     if ccs <= 0 or dnu <= 0:
         raise ValueError('C_Cs and Delta_nu_Cs must be strictly positive')
-    if ca < 0:
-        raise ValueError('C_a must be non-negative')
     t_omega = ccs / Fraction(dnu)
     f_bar_a = Fraction(dnu) * (ca / ccs)
-    # Angular coefficients over tau = 2*pi stay exact rationals: Delta_theta/tau = C_a, Omega_bar/tau = f_bar_a.
     return {
         'T_omega_s': t_omega,
         'f_bar_a_hz': f_bar_a,
         'delta_theta_over_tau': ca,
         'omega_bar_over_tau_hz': f_bar_a,
+        'rate_kind': 'signed_mean_phase_rate',
+        'atomic_resonance_certified': False,
     }
 
 
+def conditional_cs133_nonnegative_rate(c_a, c_cs, delta_nu_cs=CS133_DELTA_NU_HZ):
+    """Explicit narrower nonnegative specialization (C_a >= 0) still separate from physical resonance validation."""
+    ca = _require_exact_rational(c_a, 'C_a')
+    if ca < 0:
+        raise ValueError('nonnegative SI rate specialization requires C_a >= 0')
+    out = conditional_cs133_anchor(ca, c_cs, delta_nu_cs=delta_nu_cs)
+    out['rate_kind'] = 'nonnegative_mean_phase_rate_specialization'
+    return out
+
+
 def check_po6_po8_timing_and_conditional_si():
-    # PO-6 positive and negative controls
+    # PO-6 / F03 positive and negative controls
     _check(native_cadence_ratio('Wa', 3, 'Wr', 5, coupled=True, bound_contacts=2) == Fraction(3, 5),
            'coupled recurrent cadence ratio must equal 3/5')
     _check(native_cadence_ratio('Wshed', 0, 'Wr', 10, coupled=True, bound_contacts=2) == Fraction(0, 1),
-           'shed fragment timed on bound reference window must yield 0')
+           'shed fragment with repeated bound contacts (2) yields 0 cadence ratio')
+    _reject(lambda: native_cadence_ratio('Wshed', 0, 'Wr', 10, coupled=True, bound_contacts=1),
+            ValueError, 'at least 2')
     _reject(lambda: native_cadence_ratio('Wa', 3, 'Wr', 0, coupled=True, bound_contacts=2), ValueError, 'strictly positive')
     _reject(lambda: native_cadence_ratio('Wa', 3, 'Wr', 5, coupled=False, bound_contacts=2), ValueError, 'uncoupled')
     _reject(lambda: native_cadence_ratio('Wa', 3, 'Wr', 5, coupled=True, bound_contacts=1), ValueError, 'at least 2')
@@ -393,7 +724,11 @@ def check_po6_po8_timing_and_conditional_si():
     _reject(lambda: native_cadence_ratio('Wa', True, 'Wr', 5, coupled=True, bound_contacts=2), TypeError, 'exact int')
     _reject(lambda: native_cadence_ratio('Wa', 3.0, 'Wr', 5, coupled=True, bound_contacts=2), TypeError, 'exact int')
 
-    # PO-8 positive and negative controls
+    assoc = single_contact_interval_association('Wshed', 'W_B_1', 'Wr', (10, 20), bound_contacts=1)
+    _check(assoc['is_cadence_ratio'] is False and assoc['biz_tf'] is None,
+           'single-contact interval association must remain separate from biz^{TF}')
+
+    # PO-8 / F05 positive, signed, and negative controls
     c_a_aligned = observation_turns(3, gain_i=1, phi_0=0, phi_1=0)
     c_cs_aligned = observation_turns(5, gain_i=1, phi_0=0, phi_1=0)
     res_aligned = conditional_cs133_anchor(c_a_aligned, c_cs_aligned)
@@ -402,7 +737,19 @@ def check_po6_po8_timing_and_conditional_si():
     _check(res_aligned['delta_theta_over_tau'] == Fraction(3), 'Delta_theta/tau must equal C_a')
     _check(res_aligned['omega_bar_over_tau_hz'] == res_aligned['f_bar_a_hz'], 'Omega_bar/tau must equal f_bar_a')
 
-    # Nonzero endpoint fraction strictly shifts frequency
+    # F05 exact signed compared-advance case: q_a=0, g_a=1, phi_0=3/4, phi_1=1/4 -> C_a=-1/2
+    c_a_signed = observation_turns(0, gain_i=1, phi_0=Fraction(3, 4), phi_1=Fraction(1, 4))
+    _check(c_a_signed == Fraction(-1, 2), 'signed endpoint difference 1/4 - 3/4 must equal -1/2')
+    res_signed = conditional_cs133_anchor(c_a_signed, Fraction(1))
+    _check(res_signed['T_omega_s'] == Fraction(1, CS133_DELTA_NU_HZ), 'C_Cs=1 duration mismatch')
+    _check(res_signed['f_bar_a_hz'] == Fraction(-CS133_DELTA_NU_HZ, 2), 'signed mean phase rate must equal -Delta_nu_Cs/2')
+    _check(res_signed['rate_kind'] == 'signed_mean_phase_rate' and res_signed['atomic_resonance_certified'] is False,
+           'signed rate must remain typed separately from atomic resonance')
+    _reject(lambda: conditional_cs133_nonnegative_rate(c_a_signed, Fraction(1)), ValueError, 'C_a >= 0')
+    res_nonneg = conditional_cs133_nonnegative_rate(c_a_aligned, c_cs_aligned)
+    _check(res_nonneg['f_bar_a_hz'] == res_aligned['f_bar_a_hz'], 'nonnegative specialization mismatch')
+
+    # Nonzero positive endpoint fraction strictly shifts frequency
     c_a_shifted = observation_turns(3, gain_i=1, phi_0=Fraction(1, 4), phi_1=Fraction(1, 2))
     _check(c_a_shifted == Fraction(13, 4), 'endpoint shift must add 1/4 turn')
     res_shifted = conditional_cs133_anchor(c_a_shifted, c_cs_aligned)
@@ -418,7 +765,12 @@ def check_po6_po8_timing_and_conditional_si():
     _reject(lambda: observation_turns(3, gain_i=0), ValueError, 'strictly positive')
     _reject(lambda: observation_turns(3, gain_i=1.5), TypeError, 'exact int or Fraction')
     _reject(lambda: observation_turns(3, phi_1=1), ValueError, r'\[0, 1\)')
-    return {'aligned_f_bar_a_hz': str(res_aligned['f_bar_a_hz']), 'shed_T_omega_s': str(res_shed['T_omega_s'])}
+    return {
+        'aligned_f_bar_a_hz': str(res_aligned['f_bar_a_hz']),
+        'signed_f_bar_a_hz': str(res_signed['f_bar_a_hz']),
+        'shed_T_omega_s': str(res_shed['T_omega_s']),
+        'zero_count_one_contact_rejected': True,
+    }
 
 
 def check_contract_and_provenance_dag():
@@ -429,10 +781,16 @@ def check_contract_and_provenance_dag():
            'inherited canonical counts changed')
     _check(comp['m3'] == {'equations': 7, 'sources': 2}, 'inherited M3 cell/mapping counts changed')
     _check(comp['m3_wavelet_compaction'] == {
-        'equations': 11, 'relocated_figures': 2, 'retained_anchors': 8, 'sources': 6,
+        'equations': 11,
+        'new_equations': 10,
+        'inherited_equations': 1,
+        'relocated_figures': 2,
+        'retained_anchors': 6,
+        'new_anchors': 2,
+        'sources': 6,
     }, 'unexpected m3_wavelet_compaction summary')
 
-    # Verify zero non-appendix forward provenance inversions across rendered Main
+    # Scoped syntax check for non-appendix forward provenance references in rendered Main
     _, parts = audit.include_graph(ROOT, 'main')
     offset = 0
     label_pos = {}
@@ -452,29 +810,31 @@ def check_contract_and_provenance_dag():
                         inversions.append((path, ref, rpath))
         offset += len(text)
     _check(not inversions, f'forward provenance inversions detected: {inversions}')
-    return {'m3_wavelet_compaction': comp['m3_wavelet_compaction'], 'forward_provenance_inversions': 0}
+    return {'m3_wavelet_compaction': comp['m3_wavelet_compaction'], 'forward_provenance_syntax_hits': 0}
 
 
 def run_all_standalone_checks():
     return {
         'po1': check_po1_duon_duad_same_current(),
-        'po2_po3': check_po2_po3_wavelet_dedup_and_cancellation(),
-        'po4': check_po4_recipient_event_lattice(),
+        'po2_po3_f02_f04': check_po2_po3_wavelet_dedup_and_cancellation(),
+        'po4_f01': check_po4_recipient_event_lattice(),
         'po5_po7': check_po5_po7_cubical_disjointness_and_fourier_overtone(),
-        'po6_po8': check_po6_po8_timing_and_conditional_si(),
+        'po6_po8_f03_f05': check_po6_po8_timing_and_conditional_si(),
         'contract_and_dag': check_contract_and_provenance_dag(),
     }
 
 
-# --- Pytest test functions & isolated mutation negative controls ---
-
 def test_standalone_exact_checks():
     summary = run_all_standalone_checks()
     assert summary['po1']['resolved_variants'] == 12
-    assert summary['po2_po3']['deduplicated_returns'] == 2
-    assert summary['po4']['recipient_stages_verified'] is True
+    assert summary['po2_po3_f02_f04']['deduplicated_returns'] == 3
+    assert summary['po2_po3_f02_f04']['out_of_window_prefix_count'] == 0
+    assert summary['po4_f01']['first_closure_bips'] == 0
+    assert summary['po4_f01']['replay_bips'] == 0
+    assert summary['po4_f01']['fresh_reclosure_bips'] == 1
     assert summary['po5_po7']['q4_f_vector'] == (16, 32, 24, 8, 1)
-    assert summary['contract_and_dag']['forward_provenance_inversions'] == 0
+    assert summary['po6_po8_f03_f05']['zero_count_one_contact_rejected'] is True
+    assert summary['contract_and_dag']['forward_provenance_syntax_hits'] == 0
 
 
 if pytest is not None:
@@ -539,9 +899,9 @@ if pytest is not None:
         label = r'\label{subsec:e2-duad}'
         assert label in s6.read_text()
         s6.write_text(s6.read_text().replace(label, '', 1))
-        with pytest.raises(ValueError, match='M3 wavelet compaction retained anchor changed subsec:e2-duad'):
+        with pytest.raises(ValueError, match='M3 wavelet compaction tracked anchor changed subsec:e2-duad'):
             check_m3_wavelet_compaction(isolated)
-        with pytest.raises(ValueError, match='unresolved main reference subsec:e2-duad|M3 wavelet compaction retained anchor changed'):
+        with pytest.raises(ValueError, match='unresolved main reference subsec:e2-duad|M3 wavelet compaction tracked anchor changed'):
             audit.audit(isolated)
 
 
