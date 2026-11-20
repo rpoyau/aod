@@ -236,7 +236,7 @@ def check_po2_po3_wavelet_dedup_and_cancellation():
     _check(deduplicated_return_count((w_prefix,), 'W_B_1') == 0,
            'out-of-window supporting return must contribute 0 local reclosures (F02)')
 
-    # Initial origin C0 at cut 0 inside (-1, 2] gives 1 closure phase cycle, 0 reclosure bips; cut=2 included (right endpoint)
+    # Initial origin C0 at cut 0 inside (-1, 1] gives 1 closure phase cycle and 0 reclosure bips
     w_origin_only = make_wavelet(
         'w_origin', 'W_B_1', ('lin:1', 'seg:origin'), (-1, 1),
         sigma_seat='seated_duad', sigma_role='local_segment',
@@ -260,16 +260,16 @@ def check_po2_po3_wavelet_dedup_and_cancellation():
     _check(eligible_return_ids(w_half_open) == {'C2'},
            'half-open (2, 6] must exclude left endpoint cut 2 and include right endpoint cut 6')
 
-    # Overlapping windows: (0, 8] has {C1@2, C2@6, C3@8}? Let's test (1, 8] -> {C1@2, C2@6, C3@8} and (5, 10] -> {C2@6, C3@8, C4@10}
+    # Complete overlapping windows: (0, 6] has {C1@2, C2@6}; (4, 8] has {C2@6, C3@8}
     w1 = make_wavelet(
-        'w1', parent_state['id'], ('lin:1', 'seg:1'), (0, 8),
+        'w1', parent_state['id'], ('lin:1', 'seg:1'), (0, 6),
         sigma_seat='seated_duad', sigma_role='coupled_segment',
         records=('rec:C0@0', 'rec:C1@2', 'rec:C2@6'),
         return_witnesses=(c0_at_0, c1_at_2, c2_at_6),
         signed_current=1, is_admitted_wave=True,
     )
     w2 = make_wavelet(
-        'w2', parent_state['id'], ('lin:1', 'seg:2'), (4, 10),
+        'w2', parent_state['id'], ('lin:1', 'seg:2'), (4, 8),
         sigma_seat='seated_duad', sigma_role='coupled_segment',
         records=('rec:C1@2', 'rec:C2@6', 'rec:C3@8'),
         return_witnesses=(c1_at_2, c2_at_6, c3_at_8),
@@ -307,6 +307,15 @@ def check_po2_po3_wavelet_dedup_and_cancellation():
         ),
         ValueError, 'parent_id',
     )
+
+    # Same-lineage/scope fixture consistency: a known return cannot be omitted
+    # from an asserted-complete window containing its completion cut.
+    shared_returns = {r['return_id']: r for w in (w1, w2) for r in w['return_witnesses']}
+    for w in (w1, w2):
+        known_eligible = {r['return_id'] for r in shared_returns.values()
+                          if r['occurrence_j'] >= 1 and w['window'][0] < r['completion_cut'] <= w['window'][1]}
+        _check(eligible_return_ids(w) == known_eligible,
+               'complete overlap fixture window omitted a known eligible return')
 
     single_window_sum = len(eligible_return_ids(w1)) + len(eligible_return_ids(w2))  # {C1,C2} + {C2,C3} -> 2 + 2 = 4
     dedup = deduplicated_return_count((w1, w2), 'W_B_1')  # {C1, C2, C3} -> 3
