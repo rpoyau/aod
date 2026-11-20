@@ -1,0 +1,207 @@
+{
+  "schema": "aod.scientific.m3-wavelet-compaction.v1",
+  "scope": "Additive Phase 1 ontology compaction, derived AOmegaD wavelet continuation with independent seating and coupling/route coordinates, eligible in-window return sets distinct from retained support witnesses, cancellation history retention, shed continuation witness, qualified recipient origin/reclosure lattice, repeated-contact reference-window timing and conditional signed SI observation interface in Main (10 new equations plus 1 inherited equation; 6 retained anchors plus 2 new anchors); preserves all inherited canonical, ownership, fixture and M3 cell/mapping obligations without introducing new primitives or independent physical claims",
+  "sources": {
+    "appendices/E_glossary.tex": "76dfa08644d8865c3f0ee98590f35f8cb4692cb6254f22957b345fef4efb2f6a",
+    "sections/04_cut_running_fractal_tesseract.tex": "c225ae8fcc8b93a805533dff18c1a66d2c81e17f10e91b7f0efe9e7037bedfd2",
+    "sections/05_curl_closure_duon_current.tex": "db5d3097aa17ce890e1ef5a09e527ce86109715add344f54139eeea3c36f28a9",
+    "sections/06_field.tex": "8cfc96e46d7492bfec4687b6fa77495b5fbca054474d103b78348cebe022d802",
+    "sections/06_wave_state_relational_time.tex": "a0db3c5c2d3c51c117efe6e7c5a139bc757839d508bfa981c773fdd3d7061917",
+    "sections/07_cell_measures_mappings.tex": "d1d8d44ada5516da9f6081dc90c565f5151c35d8bbbcdd9e74602c740f17b60c"
+  },
+  "equations": {
+    "eq:duon-current": {
+      "status": "inherited_reference",
+      "surface": "main",
+      "path": "sections/05_curl_closure_duon_current.tex",
+      "obligation": "PO-1",
+      "formula": "\\begin{equation}D_i\\mu_MD_j,\\qquadD_i,D_j\\in\\{D_\\alpha,D_\\Omega\\},\\qquad\\mu_M\\in\\{-1,0,+1\\}.\\end{equation}",
+      "depends_on": [
+        "eq:hinge-grammar",
+        "eq:atomic-h1",
+        "subsec:dion"
+      ]
+    },
+    "eq:duad-same-current": {
+      "status": "new",
+      "surface": "main",
+      "path": "sections/05_curl_closure_duon_current.tex",
+      "obligation": "PO-1",
+      "formula": "\\begin{equation}E_2^{\\pm}=\\mathrm{Duad},\\qquad\\operatorname{id}\\!\\left(\\operatorname{Seat}(u)\\right)=\\operatorname{id}(u),\\qquad\\sigma_{\\mathrm{seat}}(u):\\mathrm{open\\_seat}\\longmapsto\\mathrm{seated\\_duad}.\\end{equation}",
+      "depends_on": [
+        "eq:duon-current",
+        "eq:closure-certificate"
+      ]
+    },
+    "eq:aod-wavelet-continuation": {
+      "status": "new",
+      "surface": "main",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "obligation": "PO-2",
+      "formula": "\\begin{equation}\\begin{split}w_{B,i}&=\\bigl(\\operatorname{id}_w,W_{\\mathrm{parent}},\\operatorname{anc}_w,\\operatorname{supp}_w,B,\\sigma_{\\mathrm{seat}},\\sigma_{\\mathrm{role}},\\Gamma_w,\\mathcalW_w\\bigr),\\\\\\sigma_{\\mathrm{seat}}&\\in\\{\\mathrm{open\\_duon},\\mathrm{seated\\_duad}\\},\\qquad\\sigma_{\\mathrm{role}}\\in\\{\\mathrm{local\\_segment},\\mathrm{coupled\\_segment},\\mathrm{shed\\_continuation}\\}.\\end{split}\\end{equation}",
+      "depends_on": [
+        "eq:return-identity",
+        "eq:beat-reclosure",
+        "eq:wave-identity",
+        "eq:duon-current",
+        "eq:duad-same-current",
+        "eq:complete-wave-state",
+        "eq:coupling-trace"
+      ]
+    },
+    "eq:wavelet-overlap-dedup": {
+      "status": "new",
+      "surface": "main",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "obligation": "PO-3",
+      "formula": "\\begin{equation}\\begin{split}R_i(\\omega_a)&:=\\bigl\\{\\operatorname{id}_{\\mathrm{return}}(C_{i,j}):C_{i,j}\\in\\mathcalW_{w_a}^{\\mathrm{ret}},\\j\\ge1,\\k_j\\in(u_a,v_a],\\C_{i,j}\\text{compatibleon}B\\bigr\\},\\\\q_i(\\Omega)&:=\\#\\bigcup_{a=1}^mR_i(\\omega_a)\\le\\sum_{a=1}^mq_i(\\omega_a).\\end{split}\\end{equation}",
+      "depends_on": [
+        "eq:aod-wavelet-continuation",
+        "eq:return-identity",
+        "eq:beat-reclosure",
+        "eq:cumulative-closure-counts",
+        "eq:closure-phase-window"
+      ]
+    },
+    "eq:wavelet-cancellation-retention": {
+      "status": "new",
+      "surface": "main",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "obligation": "PO-3",
+      "formula": "\\begin{equation}J(w_+)+J(w_-)=0\\quad\\Longrightarrow\\quad\\operatorname{Hist}(w_+\\oplusw_-)=\\bigl\\{(\\operatorname{anc}_{w_+},\\Gamma_{w_+}),\\,(\\operatorname{anc}_{w_-},\\Gamma_{w_-})\\bigr\\}.\\end{equation}",
+      "depends_on": [
+        "eq:aod-wavelet-continuation",
+        "eq:afc-stokes-used"
+      ]
+    },
+    "eq:wavelet-reference-timing": {
+      "status": "new",
+      "surface": "main",
+      "path": "sections/06_wave_state_relational_time.tex",
+      "obligation": "PO-6",
+      "formula": "\\begin{equation}q_i(\\omega):=\\Delta\\operatorname{bip}_i(\\omega),\\qquadr_{a|r}(\\omega):=\\operatorname{biz}^{TF}_{a|r}(\\omega)=\\frac{q_a(\\omega)}{q_r(\\omega)},\\qquadq_r(\\omega)>0,\\quadq_a(\\omega)\\in\\mathbbZ_{\\ge0}.\\end{equation}",
+      "depends_on": [
+        "eq:aod-wavelet-continuation",
+        "eq:wavelet-overlap-dedup",
+        "eq:cadence-ratio",
+        "eq:relational-time"
+      ]
+    },
+    "eq:shed-continuation-witness": {
+      "status": "new",
+      "surface": "main",
+      "path": "sections/06_field.tex",
+      "obligation": "PO-4",
+      "formula": "\\begin{equation}w_{\\mathrm{shed}}=\\bigl(W_{\\mathrm{parent}},\\partial_TR_{\\mathrm{emit}},k_{\\mathrm{emit}},\\mathrm{route}\\in\\{\\mathrm{endo},\\mathrm{exo},\\mathrm{redir},\\mathrm{open}\\},X_{\\mathrm{route}},S^W_{\\mathrm{post}}\\bigr).\\end{equation}",
+      "depends_on": [
+        "eq:aod-wavelet-continuation",
+        "eq:shedding-excess",
+        "eq:sheddic-path",
+        "eq:shedding-route-partition"
+      ]
+    },
+    "eq:recipient-event-lattice": {
+      "status": "new",
+      "surface": "main",
+      "path": "sections/06_field.tex",
+      "obligation": "PO-4",
+      "formula": "\\begin{equation}\\begin{split}&\\mathrm{emitted}\\longrightarrow\\mathrm{delivered}\\longrightarrow\\begin{cases}\\mathrm{accepted}\\longrightarrow\\{\\mathrm{seated},\\,\\mathrm{pending\\_unseated}\\},\\\\\\mathrm{unaccepted\\_pass},\\end{cases}\\\\&\\mathrm{seated}\\xrightarrow{\\operatorname{Cert}(C_{i_{\\mathrm{rec}},j})}\\begin{cases}\\mathrm{closed\\_origin}\\(\\Delta\\Phi=1_C,\\\\Delta\\operatorname{bip}=0),&j=0,\\\\\\mathrm{reclosed}\\(\\text{distinctcompatible}\\operatorname{id}_{\\mathrm{return}},\\k_j\\in\\omega_{\\mathrm{rec}},\\\\Delta\\operatorname{bip}=1),&j\\ge1.\\end{cases}\\end{split}\\end{equation}",
+      "depends_on": [
+        "eq:shed-continuation-witness",
+        "eq:closure-certificate",
+        "eq:return-identity",
+        "eq:beat-reclosure",
+        "eq:cumulative-closure-counts",
+        "eq:closure-phase-window"
+      ]
+    },
+    "eq:m3-observation-map": {
+      "status": "new",
+      "surface": "main",
+      "path": "sections/07_cell_measures_mappings.tex",
+      "obligation": "PO-8",
+      "formula": "\\begin{equation}C_i=\\mathcalO_i(\\Gamma^W_i,\\Gamma^\\times,\\omega,\\mathrm{preparation},\\mathrm{apparatus})\\in\\mathbbQ,\\qquadC_i^{\\mathrm{aff}}=g_iq_i(\\omega)+\\delta_{\\mathrm{end},i}\\quad(g_i>0).\\end{equation}",
+      "depends_on": [
+        "eq:wavelet-reference-timing",
+        "prop:m3-atomic-gain"
+      ]
+    },
+    "eq:m3-conditional-si-anchor": {
+      "status": "new",
+      "surface": "main",
+      "path": "sections/07_cell_measures_mappings.tex",
+      "obligation": "PO-8",
+      "formula": "\\begin{equation}T_\\omega=\\frac{C_r}{\\barf^{\\mathrm{SI}}_r},\\qquad\\barf^{\\mathrm{SI}}_a=\\frac{C_a}{C_r}\\barf^{\\mathrm{SI}}_r,\\qquadC_r>0,\\\\barf^{\\mathrm{SI}}_r>0,\\C_a\\in\\mathbbQ.\\end{equation}",
+      "depends_on": [
+        "eq:m3-observation-map",
+        "eq:cadence-ratio"
+      ]
+    },
+    "eq:m3-cs133-tau-interface": {
+      "status": "new",
+      "surface": "main",
+      "path": "sections/07_cell_measures_mappings.tex",
+      "obligation": "PO-8",
+      "formula": "\\begin{equation}T_\\omega=\\frac{C_{\\mathrm{Cs}}}{\\Delta\\nu_{\\mathrm{Cs}}},\\qquad\\barf_a=\\Delta\\nu_{\\mathrm{Cs}}\\frac{C_a}{C_{\\mathrm{Cs}}},\\qquad\\Delta\\theta_a=\\tauC_a,\\qquad\\bar\\Omega_a=\\tau\\barf_a.\\end{equation}",
+      "depends_on": [
+        "eq:m3-conditional-si-anchor"
+      ]
+    }
+  },
+  "relocated_figures": {
+    "fig:curl-to-duon-current-support": {
+      "surface": "main",
+      "previous_path": "sections/06_field.tex",
+      "path": "sections/05_curl_closure_duon_current.tex"
+    },
+    "fig:closure-ladder": {
+      "surface": "main",
+      "previous_path": "sections/06_field.tex",
+      "path": "sections/05_curl_closure_duon_current.tex"
+    }
+  },
+  "retained_anchors": {
+    "subsec:localized-wavelet": {
+      "surface": "main",
+      "path": "sections/04_cut_running_fractal_tesseract.tex"
+    },
+    "subsec:duon": {
+      "surface": "main",
+      "path": "sections/05_curl_closure_duon_current.tex"
+    },
+    "subsec:duad": {
+      "surface": "main",
+      "path": "sections/05_curl_closure_duon_current.tex"
+    },
+    "subsec:temporal-cycle-group": {
+      "surface": "main",
+      "path": "sections/06_field.tex"
+    },
+    "subsec:e2-duon": {
+      "surface": "main",
+      "path": "sections/06_field.tex"
+    },
+    "subsec:e2-duad": {
+      "surface": "main",
+      "path": "sections/06_field.tex"
+    }
+  },
+  "new_anchors": {
+    "subsec:aod-wavelet-continuation": {
+      "surface": "main",
+      "path": "sections/06_wave_state_relational_time.tex"
+    },
+    "subsec:m3-conditional-si-interface": {
+      "surface": "main",
+      "path": "sections/07_cell_measures_mappings.tex"
+    }
+  },
+  "limits": [
+    "Native AOmegaD wavelets precede any analytical wavelet or finite harmonic readout; seating and coupling/route role remain separate coordinates",
+    "Retained support witnesses outside the window and initial origin completions (j=0, N=1, bip=0) contribute zero reclosure beats",
+    "Delivery, acceptance, seating and initial origin closure do not establish a reclosure beat; replay contributes zero beats and incompatible lineage/scope confers no recipient closure claim",
+    "Repeated bound contacts (>= 2) are required for biz^{TF} even when q_a=0; a single-contact interval association is a separate passive stage record",
+    "Structural fold/enclosure scale, window extent, native cadence and measured SI frequency carry distinct types",
+    "Conditional SI and Cs-133 anchoring keeps C_r > 0 and signed C_a in Q distinct from nonnegative atomic-resonance claims and selects neither physical gain nor independent empirical validation"
+  ]
+}

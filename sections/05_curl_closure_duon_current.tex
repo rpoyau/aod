@@ -32,7 +32,7 @@ D_\alpha=(+1,-1),\qquad D_\Omega=(-1,+1).
 
 \subsection{Duon}\label{subsec:duon}
 \begin{definition}[Duon. \appref{app:cc-duon-duad-cycle}]
-A duon is Dion--hinge--Dion returned-current support. A compact unresolved form is
+A duon is Dion--hinge--Dion returned-current support. In seat-compatibility notation, write \(E_2=\mathrm{duon}\) and \(E_2^0=\text{open-seat duon}\). A compact unresolved form is
 \[
 \mathrm{duon}=D_i\Box D_j,
 \qquad D_i,D_j\in\{D_\alpha,D_\Omega\}.
@@ -90,6 +90,15 @@ This support accessor precedes directional coupling and scalar duration in
 \begin{definition}[Duad. \appref{app:cc-duad}]
 A duad is the seat-taken state of the same duon current.
 \end{definition}
+Seating changes state from open-seat \(E_2^0\) to seated \(E_2^{\pm}\) while preserving the identical Duon current, lineage, committed prefix and structural hinge \(0_H\):
+\begin{equation}
+E_2^{\pm}=\mathrm{Duad},
+\qquad
+\operatorname{id}\!\left(\operatorname{Seat}(u)\right)=\operatorname{id}(u),
+\qquad
+\sigma_{\mathrm{seat}}(u):\mathrm{open\_seat}\longmapsto\mathrm{seated\_duad}.
+\label{eq:duad-same-current}
+\end{equation}
 
 
 \paragraph{Admission binding.}
@@ -119,6 +128,46 @@ temporal branch reversal. Duad names a seated state of the same Duon current;
 a generic two-cycle \(C_2\) supplies neither the Duon grammar nor its witness.
 Standalone trion names the threefold core unit; \(3:j\) composes \(j\) such
 units with inherited construction provenance.
+
+\begin{figure}[H]
+\centering
+\setlength{\fboxsep}{8pt}
+\fbox{%
+\begin{minipage}{0.90\linewidth}
+\centering
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{c}
+Branch--hinge--counterbranch: \eqref{eq:hinge-grammar}\\
+\(\Downarrow\)\\
+Curl\\
+\(\Downarrow\)\\
+Dion \(D_\alpha=(+1,-1),\;D_\Omega=(-1,+1)\)\\
+\(\Downarrow\)\\
+Duon current \(D_i\mu_M D_j\)\\
+\(\Downarrow\)\\
+Certified distinct reclosure and cadence: \(W^{\mathrm{id}}_{B,i}\)\\
+\(\Downarrow\)\\
+Scoped field organization \(F_{B,\lambda}\), scope \(B=(\partial_TF,\omega)\)
+\end{tabular}
+\end{minipage}%
+}
+\caption{Curl-to-duon-current support.}
+\label{fig:curl-to-duon-current-support}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\fbox{\begin{minipage}{0.88\linewidth}\centering
+Monon: primitive completed branch--hinge--counterbranch closure\\[0.3em]
+Dion: two-position support \((+1,-1)\) or \((-1,+1)\)\\
+Every temporal realization retains the structural hinge.\\[0.3em]
+Dimonon: two Monon closures; Duon current: \(D_i\mu_M D_j\)\\
+Duad: seated state of that Duon current\\[0.3em]
+Distinct compatible reclosures and cadence admit a running Duon wave.
+\end{minipage}}
+\caption{Primitive closure ladder.}
+\label{fig:closure-ladder}
+\end{figure}
 
 \subsection{Curling-curl support forms}\label{subsec:curling-curl-support-forms}
 
@@ -160,7 +209,7 @@ comparison values follow that trace; a specification alone supplies none.
 The downstream value construction is given in \eqref{eq:support-trace-spine}, after its duration, pressure and response interfaces.
 
 
-\aodprovenance{\eqnref{eq:cycle-valued-field-compression}, \eqnref{eq:branch-hinge-rd}, \eqnref{eq:sadar-operator-cycle}.}
+\aodprovenance{\eqnref{eq:duon-current}, \eqnref{eq:duad-same-current}, \eqnref{eq:branch-hinge-rd}, \eqnref{eq:motif-admission}, \eqnref{eq:curling-support-model}.}
 
 \subsection{Scoped field organization}
 \label{sec:field}
@@ -274,8 +323,11 @@ outer reclosures are required for an outer wave and then field organization.
 \end{equation}
 For an outer wave the same exposure additionally returns each inner wave,
 cadence, self-separation, current and memory. Outer shedding preserves
-surviving certified inner closures and waves. Inner beats cannot be reused as
-new outer returns. Fusion applies this closure construction to a folded
+surviving certified inner closures and waves. Outer and inner return-identity sets
+remain strictly disjoint (\(\operatorname{id}_{\mathrm{return}}(C^{\mathrm{outer}})\ne\operatorname{id}_{\mathrm{return}}(C^{\mathrm{inner}})\)):
+inner beats cannot be reused as new outer returns, and separate cubical
+chain-map commutation (\secref{prop:m3-fold-support}) supplies no outer closure
+admission. Fusion applies this closure construction to a folded
 complex; its pressure-resolved routing model is derived in Section~\ref{sec:fusion-closure-chain-reclosure}.
 
 Specialize \eqref{eq:branch-hinge-rd} to the certified single-support object:

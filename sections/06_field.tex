@@ -63,7 +63,8 @@ In the remaining pressure formulas \(\phi\) abbreviates \(\phi^{\mathrm{AOD}}\).
 breaks the finite identity.
 
 \aodprovenance{\eqref{eq:rcd-coupling},
-\eqref{eq:b-scoped-channel-attention}.}
+\eqref{eq:flux-types},
+\eqref{eq:afc-stokes-used}.}
 % AFC binding: choice:memory-state, choice:kernel, choice:flux,
 % choice:divergence, choice:region, cor:afc-stokes, eq:afc-stokes-cor.
 \aodliteraturenote{AFC Choices (memory, stochastic kernel, flux) and
@@ -324,7 +325,7 @@ Shell/enclosure routing fixes
 
 \aodprovenance{\eqnref{eq:field-count},
 \eqnref{eq:field-count-term},
-\eqnref{eq:sadar-field}.}
+\eqnref{eq:field-organization}.}
 
 \subsection{Duonic pressure}\label{sec:duonic-pressure-inertia}
 
@@ -354,7 +355,8 @@ Duonic pressure resists change of attention orientation. In the declared inverse
 \frac{\Delta J_{\mathrm{duon}}^{(q)}}{P^D_F(B)}.
 \]
 
-\aodprovenance{\eqnref{eq:entropic-duon-current},
+\aodprovenance{\eqnref{eq:b-scoped-channel-pressure},
+\eqnref{eq:window-clipped-rho},
 \eqnref{eq:duonic-pressure}.}
 
 
@@ -580,14 +582,13 @@ Component projections select declared components of the already-fixed SADAR atte
 \eqnref{eq:causal-update},
 \eqnref{eq:incident-return-shift},
 \eqnref{eq:matched-return-cancellation},
-\eqnref{eq:sheddic-path},
 \appref{app:curling-curls}.}
 
 \subsection{Cycle-shedding and temporal SADAR burden}\label{sec:cycle-shedding-temporal-sadar-burden}
 
 \subsubsection{Temporal cycle group}\label{subsec:temporal-cycle-group}
 \begin{definition}[Temporal cycle group]
-A temporal cycle group is a carried segment of duon current participating in the wave continuity of \appref{app:wave}.
+A temporal cycle group is the recurrent-wave specialization of the A\(\Omega\)D wavelet \eqref{eq:aod-wavelet-continuation} (\secref{subsec:aod-wavelet-continuation}): a carried segment of duon current participating in the admitted wave continuity of \eqref{eq:wave-identity} and \appref{app:wave}.
 \end{definition}
 
 \subsubsection{Lead-lag burden}\label{subsec:lead-lag-burden}
@@ -658,6 +659,36 @@ X_W^{\mathrm{out}}=X_{\mathrm{exo}}+X_{\mathrm{redir}}+X_{\mathrm{open}}.
 \]
 A sheddic path may reclose, continue outward, or carry decay status according to seat-compatible retention and support-enclosure compatibility.
 
+\paragraph{Shed continuation witness and recipient stages.}
+When \(X_{\mathrm{shedding}}(\partial F,\omega)>0\) emits a shed wavelet continuation
+\eqref{eq:aod-wavelet-continuation}, the shed continuation binds its parent identity,
+emission boundary, cut, route tag, routed surplus and post-shed parent state:
+\begin{equation}
+w_{\mathrm{shed}}
+=
+\bigl(W_{\mathrm{parent}},\partial_T R_{\mathrm{emit}},k_{\mathrm{emit}},
+\mathrm{route}\in\{\mathrm{endo},\mathrm{exo},\mathrm{redir},\mathrm{open}\},
+X_{\mathrm{route}},S^W_{\mathrm{post}}\bigr).
+\label{eq:shed-continuation-witness}
+\end{equation}
+At any downstream recipient scope \(B_{\mathrm{rec}}=(\partial_T R_{\mathrm{rec}},\omega_{\mathrm{rec}})\) of recipient lineage \(i_{\mathrm{rec}}\), delivery, acceptance, seating, initial origin closure, and later compatible reclosure are strictly distinct, witness-ordered passive observations at the cut:
+\begin{equation}
+\begin{split}
+&\mathrm{emitted}\longrightarrow\mathrm{delivered}\longrightarrow
+\begin{cases}
+\mathrm{accepted}\longrightarrow\{\mathrm{seated},\,\mathrm{pending\_unseated}\},\\
+\mathrm{unaccepted\_pass},
+\end{cases}\\
+&\mathrm{seated}\xrightarrow{\operatorname{Cert}(C_{i_{\mathrm{rec}},j})}
+\begin{cases}
+\mathrm{closed\_origin}\ (\Delta\Phi=1_C,\ \Delta\operatorname{bip}=0), & j=0,\\
+\mathrm{reclosed}\ (\text{distinct compatible }\operatorname{id}_{\mathrm{return}},\ k_j\in\omega_{\mathrm{rec}},\ \Delta\operatorname{bip}=1), & j\ge 1.
+\end{cases}
+\end{split}
+\label{eq:recipient-event-lattice}
+\end{equation}
+No earlier stage implies a later stage, and recording \(\mathrm{pending\_unseated}\) or \(\mathrm{seated}\) at a cut states the observed record without imposing a future execution ban. Delivery, acceptance and seating contribute \(\Delta\operatorname{bip}=0\). A full closure certificate \eqref{eq:closure-certificate} establishes completion (\(\Delta\Phi=1_C\)): when it is the recipient lineage's initial closure \(C_{i_{\mathrm{rec}},0}\) (\(N^C_{i_{\mathrm{rec}}}=1\)), \eqref{eq:cumulative-closure-counts} gives \(\mathrm{bip}^{\le}_{i_{\mathrm{rec}}}=\max(1-1,0)=0\) beats; a reclosure beat (\(\Delta\operatorname{bip}=+1\)) is awarded only relative to an existing compatible recipient origin \(C_{i_{\mathrm{rec}},0}\) via a later completion \(C_{i_{\mathrm{rec}},j}\) (\(j\ge 1\), \(k_j\in\omega_{\mathrm{rec}}\)) of compatible lineage and scope whose immutable return identity \(\operatorname{id}_{\mathrm{return}}(C_{i_{\mathrm{rec}},j})\) \eqref{eq:return-identity} has not already been counted on \(\omega_{\mathrm{rec}}\) (replay adds \(0\) beats, and a mismatched lineage or scope confers no recipient closure claim).
+
 
 \subsubsection{Yro odd-window route-status suffix}\label{subsec:yro-odd-window-route-status}
 For an odd declared window length \(L=2k+1\), write
@@ -696,15 +727,22 @@ current family. Coherent continuity can accumulate the unresolved lead--lag burd
 \label{fig:v39-cycle-disturbance-shedding}
 \end{figure}
 
-\aodprovenance{\eqnref{eq:duon-current},
+\aodprovenance{\eqnref{eq:closure-certificate},
+\eqnref{eq:return-identity},
+\eqnref{eq:beat-reclosure},
+\eqnref{eq:cumulative-closure-counts},
+\eqnref{eq:closure-phase-window},
+\eqnref{eq:duon-current},
+\eqnref{eq:aod-wavelet-continuation},
 \eqnref{eq:returned-duration},
 \eqnref{eq:temporal-sadar-burden},
 \eqnref{eq:shedding-excess},
 \eqnref{eq:sheddic-path},
+\eqnref{eq:shed-continuation-witness},
+\eqnref{eq:recipient-event-lattice},
 \eqnref{eq:sadar-attention-vector},
 \eqnref{eq:entropic-duon-current},
 \eqnref{eq:sadar-field},
-\eqnref{eq:support-enclosure-excess},
 \appref{app:wave},
 \appref{app:curling-curls}.}
 
@@ -714,17 +752,12 @@ current family. Coherent continuity can accumulate the unresolved lead--lag burd
 The even sequence separates the current-side double form, the inner enclosure, and the outer enclosures.
 
 \subsubsection{E2 duon}\label{subsec:e2-duon}
-\[
-E_2=\mathrm{duon},
-\qquad
-E_2^0=\text{open-seat duon}.
-\]
+In seat-compatibility routing, \(E_2\) and \(E_2^0\) invoke the canonical Duon
+support owned in \secref{subsec:duon} (\eqref{eq:duon-current}).
 
 \subsubsection{E2\texorpdfstring{\(^{\pm}\)}{±} duad}\label{subsec:e2-duad}
-\[
-E_2^{\pm}=\mathrm{duad}.
-\]
-Duad is the seated state of \(E_2\).
+In seat-compatibility routing, \(E_2^{\pm}\) invokes the canonical same-current
+Duad seating state owned in \secref{subsec:duad} (\eqref{eq:duad-same-current}).
 
 \subsubsection{E4 tetron}\label{subsec:e4-tetron}
 \[
@@ -1086,6 +1119,7 @@ Under the specialization of \eqnref{eq:frg-cross-return-two-gate},
 T_k^\times-T_k^0=C_{ab,k}^{\times}(B).
 \tag{RG9}\label{eq:frg-identity-two-gate}
 \end{equation*}
+(The exact-fixture residual tag \(\mathrm{RG10}\) belongs to the downstream Manual fixture layer.)
 
 
 \subsubsection{FRG value package}\label{subsec:frg-value-package}
@@ -1142,13 +1176,9 @@ Let
 =
 \operatorname{cycle}\langle a,r\rangle(\Sigma_{\mathrm{support}}),
 \]
-where \(\Sigma_{\mathrm{support}}\) is the declared support-expression family. The structural support multiplicity is
-\[
-N_{\mathrm{support}}(a,r,\Sigma;B)
-=
-\left|\operatorname{Sec}^{(r)}_{T,\mathrm{ret}}(a;B)\right|
-\left|\Sigma_{\mathrm{support}}\right|.
-\]
+where \(\Sigma_{\mathrm{support}}\) is the declared support-expression family,
+with structural support multiplicity \(N_{\mathrm{support}}(a,r,\Sigma;B)\)
+defined by \eqref{eq:beat-count}.
 The monitored reflection-duration accessor is selected by the declared rule
 \[
 RD_{\mathrm{mon}}(a,r,\Sigma;B)
@@ -1253,7 +1283,9 @@ Boundary accumulation & \(\downarrow\) & \(\Phi^D_{\partial_T R}=\sum_{e\in\part
 \end{minipage}}
 \caption{Fractal-cycle calculus spine.}
 \label{fig:fractal-calculus-spine}
-\end{figure}\subsection{SADAR value trace of admitted recurrence}
+\end{figure}
+
+\subsection{SADAR value trace of admitted recurrence}
 \label{subsec:cycle-wave-identity}
 For an already admitted wave \(W\) of \eqref{eq:wave-identity}, let \(C_t\)
 denote its bound retained cycle on each committed cut. This closure/current
@@ -1381,7 +1413,7 @@ In the explicitly periodic RD-as-period specialization, its display coordinate i
 \label{eq:polyrhythm-phase-coordinate}
 \end{equation}
 The display period is a model choice. On the declared \(E_{\SADARop}(B)\),
-\eqref{eq:sadar-operator-beat-coupling} supplies
+\eqref{eq:sadar-operator-beat-coupling} specializes directly to
 \begin{equation}
 \SADARop_B(C_u,C_v)
 =
@@ -1394,49 +1426,10 @@ The polyrhythm SADAR value is the finite accumulation in \eqnref{eq:fractal-cycl
 
 \aodremark{A scalar duration projection of a retained cycle omits branch/hinge/branch information needed by later coupling, seat compatibility, shedding, or SADAR calculations.}
 
-\begin{figure}[H]
-\centering
-\setlength{\fboxsep}{8pt}
-\fbox{%
-\begin{minipage}{0.90\linewidth}
-\centering
-\renewcommand{\arraystretch}{1.35}
-\begin{tabular}{c}
-Branch--hinge--counterbranch: \eqref{eq:hinge-grammar}\\
-\(\Downarrow\)\\
-Curl\\
-\(\Downarrow\)\\
-Dion \(D_\alpha=(+1,-1),\;D_\Omega=(-1,+1)\)\\
-\(\Downarrow\)\\
-Duon current \(D_i\mu_M D_j\)\\
-\(\Downarrow\)\\
-Certified distinct reclosure and cadence: \(W^{\mathrm{id}}_{B,i}\)\\
-\(\Downarrow\)\\
-Scoped field organization \(F_{B,\lambda}\), scope \(B=(\partial_TF,\omega)\)
-\end{tabular}
-\end{minipage}%
-}
-\caption{Curl-to-duon-current support.}
-\label{fig:curl-to-duon-current-support}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\fbox{\begin{minipage}{0.88\linewidth}\centering
-Monon: primitive completed branch--hinge--counterbranch closure\\[0.3em]
-Dion: two-position support \((+1,-1)\) or \((-1,+1)\)\\
-Every temporal realization retains the structural hinge.\\[0.3em]
-Dimonon: two Monon closures; Duon current: \(D_i\mu_M D_j\)\\
-Duad: seated state of that Duon current\\[0.3em]
-Distinct compatible reclosures and cadence admit a running Duon wave.
-\end{minipage}}
-\caption{Primitive closure ladder.}
-\label{fig:closure-ladder}
-\end{figure}
-
 \aodprovenance{\eqnref{eq:cut-running-form},
 \eqnref{eq:monon-cycle},
 \eqnref{eq:duon-current},
+\eqnref{eq:sadar-operator-beat-coupling},
 \appref{app:curling-curls}.}
 \subsection{Finite harmonic coordinates of admitted recurrence}
 \label{sec:finite-harmonics}
@@ -1446,8 +1439,11 @@ Let \(G\) be a declared finite abelian index group of order \(N>0\), and
 satisfies \(\chi(g+h)=\chi(g)\chi(h)\) and \(|\chi(g)|=1\).
 Fix an admitted recurrent lineage and a value trace \(v:G\to\mathbb C\)
 bound to its committed history. Translation means \(T_a v(g)=v(g-a)\).
-Using \(G\) to index a finite record is a representation choice; periodic
-extension of that record supplies no proof of periodic dynamics.
+Native A\(\Omega\)D wavelets \eqref{eq:aod-wavelet-continuation} precede any
+analytical wavelet or finite harmonic readout; using \(G\) to index a finite
+record is a downstream representation choice whose analyzing family,
+normalization, and subgroup or aliasing hypotheses supply no proof of periodic
+dynamics or native wave admission.
 
 \subsubsection{Definition and normalization}
 \paragraph{Setup.}
