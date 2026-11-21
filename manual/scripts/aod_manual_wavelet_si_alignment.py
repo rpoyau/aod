@@ -157,7 +157,7 @@ def tau_angular_report(comparison: dict) -> dict:
     }
 
 
-# --- F01 & F02: Canonical occurrence binding, native passive projection & explicit scope maps ---
+# --- F01, F02, F04 & F05: Parent descriptors, canonical occurrence binding, registry authority & scope maps ---
 
 
 def seat_duon_same_current(duon: dict, new_duon_id=None, keep_hinge: bool = True) -> dict:
@@ -177,13 +177,281 @@ def seat_duon_same_current(duon: dict, new_duon_id=None, keep_hinge: bool = True
     }
 
 
+def describe_admitted_parent(wave_obj: native.Wave) -> dict:
+    """Derive a complete immutable parent descriptor from an admitted native.Wave."""
+    native.validate_wave(wave_obj)
+    t0 = wave_obj.returns[0]
+    c0 = wave_obj.certificates[0]
+    inner_origins = tuple((iw.identity, iw.scope, iw.scale) for iw in c0.inner_waves)
+    mw_core = wave_obj.motif_witnesses[0].core if wave_obj.motif_witnesses else None
+    return {
+        "kind": "admitted_native_parent",
+        "admitted_recurring_wave": True,
+        "wave_identity": wave_obj.identity,
+        "scope_id": wave_obj.scope,
+        "scale": wave_obj.scale,
+        "lineage_id": wave_obj.lineage,
+        "motif": wave_obj.motif,
+        "origin_return_id": t0.return_id,
+        "origin_ancestor": t0.ancestor,
+        "inner_wave_origins": inner_origins,
+        "motif_core": mw_core,
+        "source_scope": None,
+        "scope_map_id": None,
+    }
+
+
+def _describe_admitted_origin_closure(
+    t0: native.Trace,
+    c0: native.Certificate,
+    reg0: Mapping[str, native.Certificate],
+    *,
+    motif_witness=None,
+) -> dict:
+    native.admitted(t0, c0, reg0)
+    if motif_witness is not None:
+        native.validate_motif(motif_witness)
+        require(
+            motif_witness.support_trace == t0 and motif_witness.closure == c0,
+            "motif_witness does not match origin closure",
+        )
+        eff_motif = motif_witness.core
+        mw_core = motif_witness.core
+    else:
+        eff_motif = c0.motif
+        mw_core = None
+    inner_origins = tuple((iw.identity, iw.scope, iw.scale) for iw in c0.inner_waves)
+    return {
+        "kind": "admitted_origin_closure",
+        "admitted_recurring_wave": False,
+        "wave_identity": None,
+        "scope_id": t0.scope,
+        "scale": t0.scale,
+        "lineage_id": t0.lineage,
+        "motif": eff_motif,
+        "origin_return_id": t0.return_id,
+        "origin_ancestor": t0.ancestor,
+        "inner_wave_origins": inner_origins,
+        "motif_core": mw_core,
+        "source_scope": None,
+        "scope_map_id": None,
+    }
+
+
+def declare_synthetic_parent(
+    lineage_id: str,
+    scope_id: str,
+    *,
+    scale: int = 0,
+    motif: str = "declared_synthetic",
+    origin_return_id: str | None = None,
+    origin_ancestor: str | None = None,
+) -> dict:
+    """Declare a bounded finite-model parent descriptor (never authenticated as a native Wave)."""
+    lin = require_nonempty_str(lineage_id, "lineage_id")
+    scp = require_nonempty_str(scope_id, "scope_id")
+    scl = require_exact_int(scale, "scale")
+    require(scl >= 0, "scale must be non-negative")
+    mot = require_nonempty_str(motif, "motif")
+    orig_rid = (
+        None
+        if origin_return_id is None
+        else require_nonempty_str(origin_return_id, "origin_return_id")
+    )
+    orig_anc = (
+        f"syn-ancestor:{lin}"
+        if origin_ancestor is None
+        else require_nonempty_str(origin_ancestor, "origin_ancestor")
+    )
+    wid = f"syn-parent:{scp}:s{scl}:{lin}:{mot}:{orig_rid or 'unanchored'}"
+    return {
+        "kind": "declared_synthetic_parent",
+        "admitted_recurring_wave": False,
+        "wave_identity": wid,
+        "scope_id": scp,
+        "scale": scl,
+        "lineage_id": lin,
+        "motif": mot,
+        "origin_return_id": orig_rid,
+        "origin_ancestor": orig_anc,
+        "inner_wave_origins": (),
+        "motif_core": None,
+        "source_scope": None,
+        "scope_map_id": None,
+    }
+
+
+def validate_parent_descriptor(pdesc: Mapping) -> dict:
+    """Validate an immutable single-parent identity descriptor."""
+    require(isinstance(pdesc, Mapping), "parent_descriptor must be a mapping")
+    kind = pdesc.get("kind")
+    require(
+        kind
+        in {
+            "admitted_native_parent",
+            "admitted_origin_closure",
+            "declared_synthetic_parent",
+            "mapped_conditional_parent",
+        },
+        f"invalid parent_descriptor kind: {kind!r}",
+    )
+    scp = require_nonempty_str(pdesc.get("scope_id"), "parent_descriptor.scope_id")
+    scl = require_exact_int(pdesc.get("scale"), "parent_descriptor.scale")
+    require(scl >= 0, "parent_descriptor.scale must be non-negative")
+    lin = require_nonempty_str(pdesc.get("lineage_id"), "parent_descriptor.lineage_id")
+    mot = require_nonempty_str(pdesc.get("motif"), "parent_descriptor.motif")
+    adm_rec = require_exact_bool(
+        pdesc.get("admitted_recurring_wave"), "parent_descriptor.admitted_recurring_wave"
+    )
+    raw_inners = pdesc.get("inner_wave_origins", ())
+    require(isinstance(raw_inners, (tuple, list)), "inner_wave_origins must be a sequence")
+    inner_origins = tuple(
+        (
+            require_nonempty_str(item[0], "inner_wave.identity"),
+            require_nonempty_str(item[1], "inner_wave.scope"),
+            require_exact_int(item[2], "inner_wave.scale"),
+        )
+        for item in raw_inners
+    )
+    mw_core = (
+        None
+        if pdesc.get("motif_core") is None
+        else require_nonempty_str(pdesc.get("motif_core"), "parent_descriptor.motif_core")
+    )
+    src_scope = None
+    smap_id = None
+
+    if kind == "admitted_native_parent":
+        require(adm_rec is True, "admitted_native_parent requires admitted_recurring_wave=True")
+        orig_rid = require_nonempty_str(
+            pdesc.get("origin_return_id"), "parent_descriptor.origin_return_id"
+        )
+        orig_anc = require_nonempty_str(
+            pdesc.get("origin_ancestor"), "parent_descriptor.origin_ancestor"
+        )
+        wid = require_nonempty_str(pdesc.get("wave_identity"), "parent_descriptor.wave_identity")
+        expected_wid = native.digest((scp, lin, mot, orig_rid))
+        require(
+            wid == expected_wid,
+            "admitted_native_parent wave_identity does not match (scope, lineage, motif, origin) digest",
+        )
+    elif kind == "admitted_origin_closure":
+        require(
+            adm_rec is False and pdesc.get("wave_identity") is None,
+            "admitted_origin_closure cannot claim a recurring wave_identity",
+        )
+        orig_rid = require_nonempty_str(
+            pdesc.get("origin_return_id"), "parent_descriptor.origin_return_id"
+        )
+        orig_anc = require_nonempty_str(
+            pdesc.get("origin_ancestor"), "parent_descriptor.origin_ancestor"
+        )
+        wid = None
+    elif kind == "declared_synthetic_parent":
+        require(
+            adm_rec is False,
+            "declared_synthetic_parent cannot claim authenticated native recurrence",
+        )
+        orig_rid = (
+            None
+            if pdesc.get("origin_return_id") is None
+            else require_nonempty_str(
+                pdesc.get("origin_return_id"), "parent_descriptor.origin_return_id"
+            )
+        )
+        orig_anc = require_nonempty_str(
+            pdesc.get("origin_ancestor"), "parent_descriptor.origin_ancestor"
+        )
+        wid = require_nonempty_str(pdesc.get("wave_identity"), "parent_descriptor.wave_identity")
+        expected_wid = f"syn-parent:{scp}:s{scl}:{lin}:{mot}:{orig_rid or 'unanchored'}"
+        require(wid == expected_wid, "declared_synthetic_parent wave_identity mismatch")
+    else:
+        src_scope = require_nonempty_str(
+            pdesc.get("source_scope"), "parent_descriptor.source_scope"
+        )
+        smap_id = require_nonempty_str(
+            pdesc.get("scope_map_id"), "parent_descriptor.scope_map_id"
+        )
+        require(src_scope != scp, "mapped_conditional_parent requires distinct source/target scopes")
+        orig_rid = (
+            None
+            if pdesc.get("origin_return_id") is None
+            else require_nonempty_str(
+                pdesc.get("origin_return_id"), "parent_descriptor.origin_return_id"
+            )
+        )
+        orig_anc = require_nonempty_str(
+            pdesc.get("origin_ancestor"), "parent_descriptor.origin_ancestor"
+        )
+        wid = require_nonempty_str(pdesc.get("wave_identity"), "parent_descriptor.wave_identity")
+        require(
+            wid.startswith(f"mapped:{smap_id}:{scp}:"),
+            "mapped_conditional_parent wave_identity prefix mismatch",
+        )
+
+    return {
+        "kind": kind,
+        "admitted_recurring_wave": adm_rec,
+        "wave_identity": wid,
+        "scope_id": scp,
+        "scale": scl,
+        "lineage_id": lin,
+        "motif": mot,
+        "origin_return_id": orig_rid,
+        "origin_ancestor": orig_anc,
+        "inner_wave_origins": inner_origins,
+        "motif_core": mw_core,
+        "source_scope": src_scope,
+        "scope_map_id": smap_id,
+    }
+
+
+def _parent_root_key(pdesc: Mapping) -> tuple:
+    """Invariant root identity key preserved from origin j=0 across compatible recurrences."""
+    d = validate_parent_descriptor(pdesc)
+    if d["kind"] in {"admitted_native_parent", "admitted_origin_closure"}:
+        family = "native"
+    elif d["kind"] == "declared_synthetic_parent":
+        family = "synthetic"
+    else:
+        family = f"mapped:{d['scope_map_id']}:{d['source_scope']}"
+    return (
+        family,
+        d["scope_id"],
+        d["scale"],
+        d["lineage_id"],
+        d["motif"],
+        d["origin_return_id"],
+        d["origin_ancestor"],
+        d["inner_wave_origins"],
+        d["motif_core"],
+    )
+
+
+def _wavelet_parent_key(pdesc: Mapping) -> tuple:
+    """Complete wavelet parent key distinguishing recurring parents, origins, scales, and scopes."""
+    d = validate_parent_descriptor(pdesc)
+    return (d["kind"], d["wave_identity"], *_parent_root_key(d))
+
+
+def _parent_matches_wavelet(item_pdesc: Mapping, wavelet_pdesc: Mapping) -> bool:
+    ip = validate_parent_descriptor(item_pdesc)
+    wp = validate_parent_descriptor(wavelet_pdesc)
+    if ip["kind"] == "admitted_origin_closure" and wp["kind"] == "admitted_native_parent":
+        return _parent_root_key(ip) == _parent_root_key(wp)
+    return _wavelet_parent_key(ip) == _wavelet_parent_key(wp)
+
+
 def _make_admitted_return_witness(
     trace_obj: native.Trace,
     cert_obj: native.Certificate,
     cert_registry: Mapping[str, native.Certificate],
     occurrence_j: int,
+    parent_descriptor: Mapping,
+    lineage_prefix_ids: Sequence[str],
     lineage_prefix_digest: str,
     *,
+    motif_witness=None,
     cut_coordinate: str = "native_cut",
     compatible: bool = True,
     display_label: str | None = None,
@@ -195,9 +463,38 @@ def _make_admitted_return_witness(
     )
     require(isinstance(cert_registry, Mapping), "certificate registry mapping required")
     native.admitted(trace_obj, cert_obj, cert_registry)
+    if motif_witness is not None:
+        native.validate_motif(motif_witness)
+        require(
+            motif_witness.support_trace == trace_obj and motif_witness.closure == cert_obj,
+            "motif_witness does not match bound Trace/Certificate",
+        )
+    pdesc = validate_parent_descriptor(parent_descriptor)
+    require(
+        pdesc["kind"] in {"admitted_native_parent", "admitted_origin_closure"},
+        "admitted native witness requires an admitted parent_descriptor",
+    )
     j = require_exact_int(occurrence_j, "occurrence_j")
     require(j >= 0, "occurrence_j must be non-negative")
+    require(
+        isinstance(lineage_prefix_ids, (tuple, list)) and len(lineage_prefix_ids) == j + 1,
+        "lineage_prefix_ids length must equal occurrence_j + 1",
+    )
+    prefix_tuple = tuple(require_nonempty_str(x, "lineage_prefix_id") for x in lineage_prefix_ids)
+    require(len(set(prefix_tuple)) == len(prefix_tuple), "duplicate return_id in lineage_prefix_ids")
+    require(
+        prefix_tuple[0] == pdesc["origin_return_id"] and prefix_tuple[-1] == trace_obj.return_id,
+        "lineage_prefix_ids must start at parent origin_return_id and end at Trace.return_id",
+    )
+    require(
+        (j == 0) == (trace_obj.return_id == pdesc["origin_return_id"]),
+        "occurrence_j==0 iff Trace.return_id equals parent origin_return_id",
+    )
     pref = require_nonempty_str(lineage_prefix_digest, "lineage_prefix_digest")
+    require(
+        pref == native.digest(prefix_tuple),
+        "lineage_prefix_digest does not match bound lineage_prefix_ids",
+    )
     coord = require_nonempty_str(cut_coordinate, "cut_coordinate")
     comp = require_exact_bool(compatible, "compatible")
     label = None if display_label is None else require_nonempty_str(display_label, "display_label")
@@ -219,9 +516,13 @@ def _make_admitted_return_witness(
         "cut_coordinate": coord,
         "compatible": comp,
         "ancestor": trace_obj.ancestor,
+        "origin_return_id": pdesc["origin_return_id"],
+        "parent_descriptor": pdesc,
+        "lineage_prefix_ids": prefix_tuple,
         "lineage_prefix_digest": pref,
         "trace_digest": trace_obj.trace_digest,
         "certificate_digest": cert_obj.certificate_digest,
+        "motif_witness": motif_witness,
         "trace": trace_obj,
         "certificate": cert_obj,
         "certificate_registry": dict(cert_registry),
@@ -231,6 +532,7 @@ def _make_admitted_return_witness(
 def project_admitted_lineage_occurrences(
     certified_records: Sequence[tuple],
     *,
+    motif_witnesses: Sequence = (),
     cut_coordinate: str = "native_cut",
     display_prefix: str = "C",
 ) -> tuple[dict, ...]:
@@ -238,6 +540,11 @@ def project_admitted_lineage_occurrences(
     require(
         isinstance(certified_records, (tuple, list)) and len(certified_records) > 0,
         "certified_records must be a non-empty sequence",
+    )
+    mw_tuple = tuple(motif_witnesses)
+    require(
+        not mw_tuple or len(mw_tuple) == len(certified_records),
+        "motif_witnesses length must match certified_records length",
     )
     prefix = require_nonempty_str(display_prefix, "display_prefix")
     if len(certified_records) == 1:
@@ -249,23 +556,33 @@ def project_admitted_lineage_occurrences(
             native.closure_cycle_count([item]) == 1,
             "origin closure failed closure_cycle_count==1 check",
         )
-        pref_digest = native.digest((t0.return_id,))
+        mw0 = mw_tuple[0] if mw_tuple else None
+        pdesc = _describe_admitted_origin_closure(t0, c0, reg0, motif_witness=mw0)
+        prefix_ids = (t0.return_id,)
+        pref_digest = native.digest(prefix_ids)
         return (
             _make_admitted_return_witness(
                 t0,
                 c0,
                 reg0,
                 0,
+                pdesc,
+                prefix_ids,
                 pref_digest,
+                motif_witness=mw0,
                 cut_coordinate=cut_coordinate,
                 compatible=True,
                 display_label=f"{prefix}0",
             ),
         )
 
-    w_obj = native.wave(certified_records)
-    native.validate_wave(w_obj)
+    w_obj = native.wave(certified_records, motif_witnesses=mw_tuple)
+    pdesc = describe_admitted_parent(w_obj)
     merged_reg = {c.certificate_digest: c for c in w_obj.certificates}
+    if w_obj.motif_witnesses:
+        for mw in w_obj.motif_witnesses:
+            for cc in mw.component_certificates:
+                merged_reg[cc.certificate_digest] = cc
     norm_records = [(t, c, merged_reg) for t, c in zip(w_obj.returns, w_obj.certificates)]
     require(
         native.closure_cycle_count(norm_records) == len(w_obj.returns),
@@ -273,14 +590,19 @@ def project_admitted_lineage_occurrences(
     )
     out = []
     for idx, (t, c) in enumerate(zip(w_obj.returns, w_obj.certificates)):
-        pref_digest = native.digest(tuple(x.return_id for x in w_obj.returns[: idx + 1]))
+        mw = w_obj.motif_witnesses[idx] if w_obj.motif_witnesses else None
+        prefix_ids = tuple(x.return_id for x in w_obj.returns[: idx + 1])
+        pref_digest = native.digest(prefix_ids)
         out.append(
             _make_admitted_return_witness(
                 t,
                 c,
                 merged_reg,
                 idx,
+                pdesc,
+                prefix_ids,
                 pref_digest,
+                motif_witness=mw,
                 cut_coordinate=cut_coordinate,
                 compatible=True,
                 display_label=f"{prefix}{idx}",
@@ -298,9 +620,16 @@ def project_admitted_wave_occurrences(
     """Passively project an admitted native Wave into ordered canonical occurrences (origin j=0)."""
     native.validate_wave(wave_obj)
     cert_registry = {c.certificate_digest: c for c in wave_obj.certificates}
+    if wave_obj.motif_witnesses:
+        for mw in wave_obj.motif_witnesses:
+            for cc in mw.component_certificates:
+                cert_registry[cc.certificate_digest] = cc
     records = [(t, c, cert_registry) for t, c in zip(wave_obj.returns, wave_obj.certificates)]
     return project_admitted_lineage_occurrences(
-        records, cut_coordinate=cut_coordinate, display_prefix=display_prefix
+        records,
+        motif_witnesses=wave_obj.motif_witnesses,
+        cut_coordinate=cut_coordinate,
+        display_prefix=display_prefix,
     )
 
 
@@ -318,6 +647,7 @@ def declare_synthetic_lineage_registry(
     scp = require_nonempty_str(scope_id, "scope_id")
     coord = require_nonempty_str(cut_coordinate, "cut_coordinate")
     scl = require_exact_int(scale, "scale")
+    require(scl >= 0, "scale must be non-negative")
     require(
         isinstance(completion_cuts, (tuple, list)) and len(completion_cuts) > 0,
         "completion_cuts must be non-empty",
@@ -335,14 +665,19 @@ def declare_synthetic_lineage_registry(
         labels = [require_nonempty_str(lbl, "display_label") for lbl in display_labels]
     else:
         labels = [f"C{idx}" for idx in range(len(cuts))]
+    rids = [f"syn:{lin}:{scp}:s{scl}:{coord}:j{idx}:k{cut}" for idx, cut in enumerate(cuts)]
+    shared_pdesc = declare_synthetic_parent(lin, scp, scale=scl, origin_return_id=rids[0])
     witnesses = tuple(
         make_return_witness(
-            f"syn:{lin}:{scp}:s{scl}:{coord}:j{idx}:k{cut}",
+            rids[idx],
             idx,
             cut,
             lin,
             scp,
             scale=scl,
+            parent_descriptor=shared_pdesc,
+            lineage_prefix_ids=tuple(rids[: idx + 1]),
+            lineage_prefix_digest=native.digest(tuple(rids[: idx + 1])),
             cut_coordinate=coord,
             compatible=True,
             display_label=labels[idx],
@@ -360,6 +695,10 @@ def make_return_witness(
     scope_id: str,
     *,
     scale: int = 0,
+    motif: str = "declared_synthetic",
+    parent_descriptor: Mapping | None = None,
+    lineage_prefix_ids: Sequence[str] | None = None,
+    lineage_prefix_digest: str | None = None,
     cut_coordinate: str = "native_cut",
     compatible: bool = True,
     display_label: str | None = None,
@@ -375,6 +714,40 @@ def make_return_witness(
     comp = require_exact_bool(compatible, "compatible")
     require(j >= 0, "occurrence_j must be non-negative")
     require(scl >= 0, "scale must be non-negative")
+    pdesc = (
+        declare_synthetic_parent(lin, scp, scale=scl, motif=motif)
+        if parent_descriptor is None
+        else validate_parent_descriptor(parent_descriptor)
+    )
+    require(
+        pdesc["kind"] == "declared_synthetic_parent"
+        and (pdesc["lineage_id"], pdesc["scope_id"], pdesc["scale"]) == (lin, scp, scl),
+        "synthetic witness parent_descriptor mismatch",
+    )
+    if lineage_prefix_ids is not None or lineage_prefix_digest is not None:
+        require(
+            isinstance(lineage_prefix_ids, (tuple, list)) and len(lineage_prefix_ids) == j + 1,
+            "synthetic lineage_prefix_ids length must equal occurrence_j + 1",
+        )
+        prefix_tuple = tuple(require_nonempty_str(x, "lineage_prefix_id") for x in lineage_prefix_ids)
+        require(prefix_tuple[-1] == rid, "synthetic lineage_prefix_ids must end at return_id")
+        if pdesc["origin_return_id"] is not None:
+            require(
+                prefix_tuple[0] == pdesc["origin_return_id"],
+                "synthetic lineage_prefix_ids must start at origin_return_id",
+            )
+        pref_dig = (
+            native.digest(prefix_tuple)
+            if lineage_prefix_digest is None
+            else require_nonempty_str(lineage_prefix_digest, "lineage_prefix_digest")
+        )
+        require(
+            pref_dig == native.digest(prefix_tuple),
+            "synthetic lineage_prefix_digest does not match lineage_prefix_ids",
+        )
+    else:
+        prefix_tuple = None
+        pref_dig = None
     label = rid if display_label is None else require_nonempty_str(display_label, "display_label")
     return {
         "record_kind": "declared_synthetic_occurrence",
@@ -390,7 +763,10 @@ def make_return_witness(
         "cut_coordinate": coord,
         "compatible": comp,
         "ancestor": None,
-        "lineage_prefix_digest": None,
+        "origin_return_id": pdesc["origin_return_id"],
+        "parent_descriptor": pdesc,
+        "lineage_prefix_ids": prefix_tuple,
+        "lineage_prefix_digest": pref_dig,
         "trace_digest": None,
         "certificate_digest": None,
     }
@@ -416,6 +792,7 @@ def _immutable_occurrence_payload(record: Mapping) -> tuple:
     scl = require_exact_int(record.get("scale"), "scale")
     comp = require_exact_bool(record.get("compatible"), "compatible")
     require(j >= 0 and scl >= 0, "occurrence_j and scale must be non-negative")
+    pdesc = validate_parent_descriptor(record.get("parent_descriptor"))
 
     if kind == "admitted_native_trace":
         require(record.get("authenticated_trace") is True, "admitted trace flag mismatch")
@@ -429,6 +806,22 @@ def _immutable_occurrence_payload(record: Mapping) -> tuple:
             "admitted_native_trace missing bound Trace/Certificate/registry",
         )
         native.admitted(t, c, reg)
+        mw = record.get("motif_witness")
+        if mw is not None:
+            native.validate_motif(mw)
+            require(
+                mw.support_trace == t and mw.closure == c,
+                "admitted_native_trace motif_witness mismatch",
+            )
+            eff_motif = mw.core
+            mw_dig = mw.witness_digest
+        else:
+            eff_motif = c.motif
+            mw_dig = None
+        require(
+            pdesc["kind"] in {"admitted_native_parent", "admitted_origin_closure"},
+            "admitted_native_trace requires admitted parent_descriptor",
+        )
         require(
             rid == t.return_id == c.return_id,
             "admitted occurrence return_id does not match Trace.return_id",
@@ -439,6 +832,51 @@ def _immutable_occurrence_payload(record: Mapping) -> tuple:
             "admitted occurrence metadata diverges from bound Trace",
         )
         require(
+            (pdesc["lineage_id"], pdesc["scope_id"], pdesc["scale"], pdesc["motif"])
+            == (t.lineage, t.scope, t.scale, eff_motif),
+            "admitted occurrence parent_descriptor diverges from bound Trace/motif",
+        )
+        if c.motif == "outer":
+            orig_inners = tuple((iw.identity, iw.scope, iw.scale) for iw in c.inner_waves)
+            require(
+                pdesc["inner_wave_origins"] == orig_inners,
+                "outer occurrence inner_wave_origins mismatch",
+            )
+            if j == 0:
+                require(
+                    pdesc["origin_ancestor"] == t.ancestor,
+                    "outer origin_ancestor mismatch",
+                )
+        else:
+            require(
+                pdesc["origin_ancestor"] == t.ancestor and pdesc["inner_wave_origins"] == (),
+                "admitted occurrence origin_ancestor mismatch",
+            )
+        require(
+            record.get("origin_return_id") == pdesc["origin_return_id"],
+            "admitted occurrence origin_return_id diverges from parent_descriptor",
+        )
+        raw_prefix = record.get("lineage_prefix_ids")
+        require(
+            isinstance(raw_prefix, (tuple, list)) and len(raw_prefix) == j + 1,
+            "admitted occurrence lineage_prefix_ids length must equal occurrence_j + 1",
+        )
+        prefix_tuple = tuple(require_nonempty_str(x, "lineage_prefix_id") for x in raw_prefix)
+        require(
+            len(set(prefix_tuple)) == len(prefix_tuple)
+            and prefix_tuple[0] == pdesc["origin_return_id"]
+            and prefix_tuple[-1] == rid
+            and ((j == 0) == (rid == pdesc["origin_return_id"])),
+            "admitted occurrence lineage_prefix_ids or origin index binding invalid",
+        )
+        pref_dig = require_nonempty_str(
+            record.get("lineage_prefix_digest"), "lineage_prefix_digest"
+        )
+        require(
+            pref_dig == native.digest(prefix_tuple),
+            "admitted occurrence lineage_prefix_digest does not match bound lineage_prefix_ids",
+        )
+        require(
             (record.get("trace_digest"), record.get("certificate_digest"))
             == (t.trace_digest, c.certificate_digest),
             "admitted occurrence digests diverge from bound Trace/Certificate",
@@ -446,17 +884,18 @@ def _immutable_occurrence_payload(record: Mapping) -> tuple:
         return (
             kind,
             rid,
-            lin,
-            scp,
-            scl,
+            _parent_root_key(pdesc),
             coord,
             j,
             t.indices[0],
             cut,
             comp,
             t.ancestor,
+            prefix_tuple,
+            pref_dig,
             t.trace_digest,
             c.certificate_digest,
+            mw_dig,
         )
 
     require(
@@ -465,7 +904,54 @@ def _immutable_occurrence_payload(record: Mapping) -> tuple:
         and record.get("certificate_digest") is None,
         "declared_synthetic_occurrence must not claim authenticated trace/certificate digests",
     )
-    return (kind, rid, lin, scp, scl, coord, j, None, cut, comp, None, None, None)
+    require(
+        pdesc["kind"] == "declared_synthetic_parent"
+        and (pdesc["lineage_id"], pdesc["scope_id"], pdesc["scale"]) == (lin, scp, scl)
+        and record.get("origin_return_id") == pdesc["origin_return_id"],
+        "declared_synthetic_occurrence parent_descriptor mismatch",
+    )
+    raw_prefix = record.get("lineage_prefix_ids")
+    raw_pref_dig = record.get("lineage_prefix_digest")
+    if raw_prefix is not None or raw_pref_dig is not None:
+        require(
+            isinstance(raw_prefix, (tuple, list)) and len(raw_prefix) == j + 1,
+            "synthetic lineage_prefix_ids length must equal occurrence_j + 1",
+        )
+        prefix_tuple = tuple(require_nonempty_str(x, "lineage_prefix_id") for x in raw_prefix)
+        require(
+            len(set(prefix_tuple)) == len(prefix_tuple) and prefix_tuple[-1] == rid,
+            "synthetic lineage_prefix_ids invalid",
+        )
+        if pdesc["origin_return_id"] is not None:
+            require(
+                prefix_tuple[0] == pdesc["origin_return_id"]
+                and ((j == 0) == (rid == pdesc["origin_return_id"])),
+                "synthetic origin_return_id/occurrence_j binding invalid",
+            )
+        pref_dig = require_nonempty_str(raw_pref_dig, "lineage_prefix_digest")
+        require(
+            pref_dig == native.digest(prefix_tuple),
+            "synthetic lineage_prefix_digest does not match lineage_prefix_ids",
+        )
+    else:
+        prefix_tuple = None
+        pref_dig = None
+    return (
+        kind,
+        rid,
+        _parent_root_key(pdesc),
+        coord,
+        j,
+        None,
+        cut,
+        comp,
+        None,
+        prefix_tuple,
+        pref_dig,
+        None,
+        None,
+        None,
+    )
 
 
 def build_occurrence_registry(records: Sequence[Mapping] | Mapping[str, Mapping]) -> dict[str, dict]:
@@ -494,7 +980,8 @@ def build_occurrence_registry(records: Sequence[Mapping] | Mapping[str, Mapping]
             )
             continue
 
-        stream_key = (raw["lineage_id"], raw["scope_id"], raw["scale"], raw["cut_coordinate"])
+        root_key = _parent_root_key(raw["parent_descriptor"])
+        stream_key = (*root_key, raw["cut_coordinate"])
         prev_kind = lineage_kinds.get(stream_key)
         require(
             prev_kind is None or prev_kind == raw["record_kind"],
@@ -532,15 +1019,22 @@ def build_occurrence_registry(records: Sequence[Mapping] | Mapping[str, Mapping]
                 f"j={left['occurrence_j']}@{left['completion_cut']} vs "
                 f"j={right['occurrence_j']}@{right['completion_cut']}",
             )
+            if left["lineage_prefix_ids"] is not None and right["lineage_prefix_ids"] is not None:
+                require(
+                    right["lineage_prefix_ids"][: left["occurrence_j"] + 1]
+                    == left["lineage_prefix_ids"],
+                    f"retained prefix history diverged on {stream_key}",
+                )
             if left["record_kind"] == "admitted_native_trace":
                 require(
                     left["trace"].indices[-1] < right["trace"].indices[0],
                     f"admitted native traces overlap or invert causal order on {stream_key}",
                 )
-                require(
-                    left["trace"].ancestor == right["trace"].ancestor,
-                    f"admitted native traces changed retained ancestor on {stream_key}",
-                )
+                if left["certificate"].motif != "outer":
+                    require(
+                        left["trace"].ancestor == right["trace"].ancestor,
+                        f"admitted native traces changed retained ancestor on {stream_key}",
+                    )
         if ordered and ordered[0]["record_kind"] == "admitted_native_trace":
             native_recs = [
                 (r["trace"], r["certificate"], r["certificate_registry"]) for r in ordered
@@ -555,6 +1049,19 @@ def build_occurrence_registry(records: Sequence[Mapping] | Mapping[str, Mapping]
     return by_id
 
 
+def extend_occurrence_registry(
+    registry: Sequence[Mapping] | Mapping[str, Mapping],
+    new_records: Sequence[Mapping],
+) -> dict[str, dict]:
+    """Deliberately extend a canonical occurrence registry without mutating the supplied registry."""
+    base = build_occurrence_registry(registry)
+    require(
+        isinstance(new_records, (tuple, list)) and len(new_records) > 0,
+        "new_records for registry extension must be a non-empty sequence",
+    )
+    return build_occurrence_registry([*base.values(), *new_records])
+
+
 def declare_conditional_scope_map(
     map_id: str,
     source_scope: str,
@@ -564,7 +1071,7 @@ def declare_conditional_scope_map(
     *,
     scale: int = 0,
 ) -> dict:
-    """Declare an explicit conditional identity-preserving cross-scope map for a finite model."""
+    """Declare an explicit conditional identity-preserving cross-scope map for a single parent."""
     mid = require_nonempty_str(map_id, "map_id")
     src = require_nonempty_str(source_scope, "source_scope")
     dst = require_nonempty_str(target_scope, "target_scope")
@@ -575,12 +1082,22 @@ def declare_conditional_scope_map(
     canon = build_occurrence_registry(occurrence_records)
     require(bool(canon), "conditional scope map requires at least one bound occurrence")
     bound_payloads: dict[str, tuple] = {}
+    root_keys: set[tuple] = set()
+    rep_pdesc: dict | None = None
     for rid, rec in canon.items():
         require(
             (rec["lineage_id"], rec["scope_id"], rec["scale"]) == (lin, src, scl),
             "occurrence in conditional scope map does not match declared source scope/lineage/scale",
         )
+        pdesc = validate_parent_descriptor(rec["parent_descriptor"])
+        root_keys.add(_parent_root_key(pdesc))
+        if rep_pdesc is None or pdesc["kind"] == "admitted_native_parent":
+            rep_pdesc = pdesc
         bound_payloads[rid] = _immutable_occurrence_payload(rec)
+    require(
+        len(root_keys) == 1 and rep_pdesc is not None,
+        "conditional scope map must bind occurrences of a single parent identity",
+    )
     return {
         "kind": "declared_conditional_scope_map",
         "authenticated_native_isomorphism": False,
@@ -589,6 +1106,8 @@ def declare_conditional_scope_map(
         "target_scope": dst,
         "lineage_id": lin,
         "scale": scl,
+        "source_parent_descriptor": rep_pdesc,
+        "source_parent_root_key": next(iter(root_keys)),
         "bound_occurrences": bound_payloads,
     }
 
@@ -628,31 +1147,131 @@ def validate_scope_map(
         and scope_map.get("scale") == witness["scale"],
         "scope_map lineage/scale mismatch",
     )
+    payload = _immutable_occurrence_payload(witness)
+    src_root = scope_map.get("source_parent_root_key")
+    require(
+        src_root == _parent_root_key(witness["parent_descriptor"]),
+        "scope_map source parent identity mismatch",
+    )
     bound = scope_map.get("bound_occurrences")
     require(isinstance(bound, Mapping) and bool(bound), "scope_map missing bound_occurrences")
     rid = witness["return_id"]
     require(rid in bound, f"return_id {rid!r} is not bound in supplied scope_map")
     require(
-        bound[rid] == _immutable_occurrence_payload(witness),
+        bound[rid] == payload,
         f"return_id {rid!r} payload conflicts with bound occurrence in scope_map",
     )
     return rid
 
 
+def _map_parent_descriptor_to_scope(
+    src_pdesc: Mapping, scope_map: Mapping, target_scope: str
+) -> dict:
+    p = validate_parent_descriptor(src_pdesc)
+    mid = require_nonempty_str(scope_map.get("map_id"), "scope_map.map_id")
+    require(
+        scope_map.get("source_scope") == p["scope_id"]
+        and scope_map.get("target_scope") == target_scope
+        and scope_map.get("lineage_id") == p["lineage_id"]
+        and scope_map.get("scale") == p["scale"]
+        and scope_map.get("source_parent_root_key") == _parent_root_key(p),
+        "scope_map does not match parent_descriptor",
+    )
+    base_wid = p["wave_identity"] or f"origin:{p['origin_return_id']}"
+    return validate_parent_descriptor(
+        {
+            "kind": "mapped_conditional_parent",
+            "admitted_recurring_wave": p["admitted_recurring_wave"],
+            "wave_identity": f"mapped:{mid}:{target_scope}:{base_wid}",
+            "scope_id": target_scope,
+            "scale": p["scale"],
+            "lineage_id": p["lineage_id"],
+            "motif": p["motif"],
+            "origin_return_id": p["origin_return_id"],
+            "origin_ancestor": p["origin_ancestor"],
+            "inner_wave_origins": p["inner_wave_origins"],
+            "motif_core": p["motif_core"],
+            "source_scope": p["scope_id"],
+            "scope_map_id": mid,
+        }
+    )
+
+
+def _effective_witness_parent(witness: Mapping, target_scope: str, *, scope_map=None) -> dict:
+    _immutable_occurrence_payload(witness)
+    pdesc = validate_parent_descriptor(witness["parent_descriptor"])
+    if witness["scope_id"] == target_scope:
+        return pdesc
+    validate_scope_map(
+        scope_map,
+        witness,
+        target_scope=target_scope,
+        target_lineage=witness["lineage_id"],
+    )
+    src_rep = validate_parent_descriptor(scope_map["source_parent_descriptor"])
+    return _map_parent_descriptor_to_scope(src_rep, scope_map, target_scope)
+
+
+def _coerce_parent_spec(parent_spec) -> tuple[str, dict | None]:
+    if isinstance(parent_spec, native.Wave):
+        pdesc = describe_admitted_parent(parent_spec)
+        return pdesc["lineage_id"], pdesc
+    if isinstance(parent_spec, Mapping):
+        pdesc = validate_parent_descriptor(parent_spec)
+        return pdesc["lineage_id"], pdesc
+    lin = require_nonempty_str(parent_spec, "parent_id")
+    return lin, None
+
+
+def _resolve_target_parent_on_scope(
+    explicit_pdesc: dict, target_scope: str, *, scope_map=None
+) -> dict:
+    if explicit_pdesc["scope_id"] == target_scope:
+        return explicit_pdesc
+    require(
+        scope_map is not None and not isinstance(scope_map, bool),
+        "cross-scope parent_descriptor requires an explicit validated scope_map",
+    )
+    require(
+        isinstance(scope_map, Mapping)
+        and scope_map.get("kind") == "declared_conditional_scope_map",
+        "cross-scope parent_descriptor requires a declared_conditional_scope_map",
+    )
+    return _map_parent_descriptor_to_scope(explicit_pdesc, scope_map, target_scope)
+
+
 def eligible_return_ids(
     wavelet: Mapping,
-    target_lineage: str | None = None,
+    target_lineage: str | native.Wave | Mapping | None = None,
     target_scope: str | None = None,
     *,
     scope_map=None,
     registry: Sequence[Mapping] | Mapping[str, Mapping] | None = None,
 ) -> set[str]:
     require(wavelet["witnesses_complete"], "complete eligible return records required")
-    lineage = wavelet["parent_id"] if target_lineage is None else require_nonempty_str(target_lineage, "target_lineage")
-    scope = wavelet["scope_id"] if target_scope is None else require_nonempty_str(target_scope, "target_scope")
-    require(wavelet["parent_id"] == lineage, "incompatible parent lineage")
+    w_pdesc = validate_parent_descriptor(wavelet.get("parent_descriptor"))
+    scope = (
+        wavelet["scope_id"]
+        if target_scope is None
+        else require_nonempty_str(target_scope, "target_scope")
+    )
+    require(wavelet["scope_id"] == scope, "incompatible wavelet target_scope")
+    require(
+        w_pdesc["scope_id"] == scope and w_pdesc["lineage_id"] == wavelet["parent_id"],
+        "wavelet parent_descriptor mismatches wavelet scope_id or parent_id",
+    )
     if scope_map is not None and isinstance(scope_map, bool):
         raise ValueError("Boolean flag cannot establish cross-scope compatibility")
+
+    if target_lineage is not None:
+        t_lin, t_pdesc = _coerce_parent_spec(target_lineage)
+        require(wavelet["parent_id"] == t_lin, "incompatible parent lineage")
+        if t_pdesc is not None:
+            eff_t_pdesc = _resolve_target_parent_on_scope(t_pdesc, scope, scope_map=scope_map)
+            require(
+                _wavelet_parent_key(w_pdesc) == _wavelet_parent_key(eff_t_pdesc),
+                "wavelet parent_descriptor mismatches target parent lineage/identity",
+            )
 
     local_reg = build_occurrence_registry(wavelet["return_witnesses"])
     canon_reg = None if registry is None else build_occurrence_registry(registry)
@@ -668,20 +1287,18 @@ def eligible_return_ids(
             )
             require(
                 _immutable_occurrence_payload(item) == _immutable_occurrence_payload(canon_reg[rid]),
-                f"selected return witness {rid!r} conflicts with canonical occurrence record",
+                f"selected return witness {rid!r} conflicts with canonical occurrence record "
+                "(return_id collision)",
             )
-        require(item["lineage_id"] == lineage, "return witness lineage mismatch")
+        eff_item_pdesc = _effective_witness_parent(item, scope, scope_map=scope_map)
+        require(
+            _parent_matches_wavelet(eff_item_pdesc, w_pdesc),
+            "return witness parent_descriptor mismatches wavelet parent lineage/identity",
+        )
         require(
             item["cut_coordinate"] == coord,
             "return witness cut_coordinate differs from wavelet window coordinate",
         )
-        if item["scope_id"] != scope:
-            validate_scope_map(
-                scope_map,
-                item,
-                target_scope=scope,
-                target_lineage=lineage,
-            )
         if item["compatible"] and item["occurrence_j"] >= 1 and (u < item["completion_cut"] <= v):
             eligible.add(rid)
     return eligible
@@ -689,7 +1306,7 @@ def eligible_return_ids(
 
 def make_wavelet(
     wavelet_id: str,
-    parent_id: str,
+    parent_id: str | native.Wave | Mapping,
     ancestry: tuple[str, ...],
     window: tuple[int, int],
     sigma_seat: str,
@@ -701,14 +1318,20 @@ def make_wavelet(
     scope_id: str = "B:main",
     witnesses_complete: bool = True,
     *,
+    scale: int | None = None,
     cut_coordinate: str = "native_cut",
     scope_map=None,
     registry: Sequence[Mapping] | Mapping[str, Mapping] | None = None,
 ) -> dict:
     wid = require_nonempty_str(wavelet_id, "wavelet_id")
-    pid = require_nonempty_str(parent_id, "parent_id")
     scp = require_nonempty_str(scope_id, "scope_id")
     coord = require_nonempty_str(cut_coordinate, "cut_coordinate")
+    scl_arg = None if scale is None else require_exact_int(scale, "scale")
+    if scl_arg is not None:
+        require(scl_arg >= 0, "scale must be non-negative")
+    if scope_map is not None and isinstance(scope_map, bool):
+        raise ValueError("Boolean flag cannot establish cross-scope compatibility")
+    lin, explicit_pdesc = _coerce_parent_spec(parent_id)
     require(
         isinstance(ancestry, (tuple, list)) and len(ancestry) > 0,
         "wavelet must retain non-empty ancestry",
@@ -727,10 +1350,88 @@ def make_wavelet(
     rec_tuple = tuple(require_nonempty_str(x, "committed record") for x in records)
     wit_complete = require_exact_bool(witnesses_complete, "witnesses_complete")
     adm_wave = require_exact_bool(is_admitted_wave, "is_admitted_wave")
-    build_occurrence_registry(return_witnesses)
+
+    local_reg = build_occurrence_registry(return_witnesses)
+    canon_reg = None if registry is None else build_occurrence_registry(registry)
+
+    eff_pdescs = [
+        _effective_witness_parent(item, scp, scope_map=scope_map) for item in local_reg.values()
+    ]
+    for ep in eff_pdescs:
+        require(ep["lineage_id"] == lin, "return witness lineage mismatch")
+
+    parent_bound = True
+    if explicit_pdesc is not None:
+        bound_pdesc = _resolve_target_parent_on_scope(explicit_pdesc, scp, scope_map=scope_map)
+        require(
+            scl_arg is None or scl_arg == bound_pdesc["scale"],
+            "wavelet scale mismatches parent_descriptor scale",
+        )
+        for ep in eff_pdescs:
+            require(
+                _parent_matches_wavelet(ep, bound_pdesc),
+                "single-parent wavelet cannot combine witnesses from incompatible parent identities",
+            )
+    elif eff_pdescs:
+        preferred = next(
+            (ep for ep in eff_pdescs if ep["kind"] == "admitted_native_parent"),
+            eff_pdescs[0],
+        )
+        for ep in eff_pdescs:
+            require(
+                _parent_matches_wavelet(ep, preferred),
+                "single-parent wavelet cannot combine distinct parent identities or scales",
+            )
+        require(
+            scl_arg is None or scl_arg == preferred["scale"],
+            "wavelet scale mismatches return witness scale",
+        )
+        bound_pdesc = preferred
+    else:
+        matched_canon_parents: dict[tuple, dict] = {}
+        if canon_reg is not None:
+            for r in canon_reg.values():
+                if r["lineage_id"] != lin:
+                    continue
+                if r["scope_id"] == scp:
+                    ep = validate_parent_descriptor(r["parent_descriptor"])
+                elif (
+                    isinstance(scope_map, Mapping)
+                    and scope_map.get("kind") == "declared_conditional_scope_map"
+                    and scope_map.get("source_scope") == r["scope_id"]
+                    and scope_map.get("target_scope") == scp
+                    and scope_map.get("lineage_id") == lin
+                    and scope_map.get("scale") == r["scale"]
+                ):
+                    ep = _effective_witness_parent(r, scp, scope_map=scope_map)
+                else:
+                    continue
+                if scl_arg is not None and ep["scale"] != scl_arg:
+                    continue
+                matched_canon_parents[_wavelet_parent_key(ep)] = ep
+        require(
+            len(matched_canon_parents) <= 1,
+            "ambiguous parent lineage string across multiple canonical parents; "
+            "supply explicit Wave or parent_descriptor",
+        )
+        if len(matched_canon_parents) == 1:
+            bound_pdesc = next(iter(matched_canon_parents.values()))
+        else:
+            bound_pdesc = declare_synthetic_parent(lin, scp, scale=scl_arg or 0)
+            parent_bound = False
+
+    if bound_pdesc["kind"] in {"admitted_native_parent", "admitted_origin_closure"}:
+        require(
+            bound_pdesc["origin_ancestor"] in anc_tuple,
+            "admitted native wavelet must retain parent origin_ancestor in ancestry",
+        )
+
     w = {
         "id_w": wid,
-        "parent_id": pid,
+        "parent_id": lin,
+        "scale": bound_pdesc["scale"],
+        "parent_bound": parent_bound,
+        "parent_descriptor": bound_pdesc,
         "ancestry": anc_tuple,
         "scope_id": scp,
         "cut_coordinate": coord,
@@ -745,18 +1446,66 @@ def make_wavelet(
     }
     eligible = eligible_return_ids(
         w,
-        target_lineage=pid,
+        target_lineage=bound_pdesc,
         target_scope=scp,
         scope_map=scope_map,
-        registry=registry,
+        registry=canon_reg,
     )
     if adm_wave and (
-        sigma_role == "shed_continuation" or sigma_seat == "open_duon" or len(eligible) < 1
+        sigma_role == "shed_continuation"
+        or sigma_seat == "open_duon"
+        or len(eligible) < 1
+        or bound_pdesc["kind"] == "admitted_origin_closure"
     ):
         raise ValueError(
             "open/shed wavelet or zero-eligible-return fragment cannot be promoted to admitted wave"
         )
     return w
+
+
+def restrict_admitted_wavelet(
+    wave_obj: native.Wave,
+    wavelet_id: str,
+    window: tuple[int, int],
+    *,
+    sigma_seat: str = "seated_duad",
+    sigma_role: str = "local_segment",
+    cut_coordinate: str = "native_cut",
+    retained_occurrences: Sequence[Mapping] | None = None,
+    signed_current: int = 0,
+    is_admitted_wave: bool = False,
+    witnesses_complete: bool = True,
+    registry: Sequence[Mapping] | Mapping[str, Mapping] | None = None,
+) -> dict:
+    """Passively restrict an admitted native.Wave to a finite window preserving full parent identity."""
+    pdesc = describe_admitted_parent(wave_obj)
+    all_occ = project_admitted_wave_occurrences(wave_obj, cut_coordinate=cut_coordinate)
+    u, v = window
+    selected = (
+        tuple(r for r in all_occ if r["completion_cut"] <= v)
+        if retained_occurrences is None
+        else tuple(retained_occurrences)
+    )
+    rec_digests = tuple(r["certificate_digest"] for r in selected) or (
+        wave_obj.certificates[0].certificate_digest,
+    )
+    return make_wavelet(
+        wavelet_id,
+        pdesc,
+        (pdesc["origin_ancestor"], f"window:{u}_{v}"),
+        window,
+        sigma_seat,
+        sigma_role,
+        rec_digests,
+        selected,
+        signed_current=signed_current,
+        is_admitted_wave=is_admitted_wave,
+        scope_id=wave_obj.scope,
+        witnesses_complete=witnesses_complete,
+        scale=wave_obj.scale,
+        cut_coordinate=cut_coordinate,
+        registry=all_occ if registry is None else registry,
+    )
 
 
 def validate_complete_windows(
@@ -769,27 +1518,70 @@ def validate_complete_windows(
     canon = build_occurrence_registry(known_returns)
     require(isinstance(wavelets, (tuple, list)) and len(wavelets) > 0, "non-empty wavelets required")
     for w in wavelets:
+        w_pdesc = validate_parent_descriptor(w.get("parent_descriptor"))
+        parent_bound = require_exact_bool(w.get("parent_bound", True), "parent_bound")
         actual = eligible_return_ids(
             w,
-            target_lineage=w["parent_id"],
+            target_lineage=w_pdesc,
             target_scope=w["scope_id"],
             scope_map=scope_map,
             registry=canon,
         )
+        eff_w_pdesc = w_pdesc
+        if not parent_bound:
+            matched_canon_parents: dict[tuple, dict] = {}
+            for r in canon.values():
+                if r["lineage_id"] != w["parent_id"] or r["cut_coordinate"] != w["cut_coordinate"]:
+                    continue
+                if r["scope_id"] == w["scope_id"]:
+                    ep = validate_parent_descriptor(r["parent_descriptor"])
+                elif (
+                    isinstance(scope_map, Mapping)
+                    and scope_map.get("kind") == "declared_conditional_scope_map"
+                    and scope_map.get("source_scope") == r["scope_id"]
+                    and scope_map.get("target_scope") == w["scope_id"]
+                    and scope_map.get("lineage_id") == r["lineage_id"]
+                    and scope_map.get("scale") == r["scale"]
+                ):
+                    ep = _effective_witness_parent(r, w["scope_id"], scope_map=scope_map)
+                else:
+                    continue
+                matched_canon_parents[_wavelet_parent_key(ep)] = ep
+            require(
+                len(matched_canon_parents) <= 1,
+                "ambiguous parent lineage string across multiple canonical parents; "
+                "supply explicit Wave or parent_descriptor",
+            )
+            if len(matched_canon_parents) == 1:
+                eff_w_pdesc = next(iter(matched_canon_parents.values()))
+                if eff_w_pdesc["kind"] in {"admitted_native_parent", "admitted_origin_closure"}:
+                    require(
+                        eff_w_pdesc["origin_ancestor"] in w["ancestry"],
+                        "admitted native wavelet must retain parent origin_ancestor in ancestry",
+                    )
+
         u, v = w["window"]
         expected: set[str] = set()
         for rid, r in canon.items():
-            if r["lineage_id"] != w["parent_id"] or r["cut_coordinate"] != w["cut_coordinate"]:
+            if r["cut_coordinate"] != w["cut_coordinate"]:
                 continue
             if r["scope_id"] != w["scope_id"]:
                 if scope_map is None:
                     continue
-                validate_scope_map(
-                    scope_map,
-                    r,
-                    target_scope=w["scope_id"],
-                    target_lineage=w["parent_id"],
-                )
+                if not (
+                    isinstance(scope_map, Mapping)
+                    and scope_map.get("kind") == "declared_conditional_scope_map"
+                    and scope_map.get("source_scope") == r["scope_id"]
+                    and scope_map.get("target_scope") == w["scope_id"]
+                    and scope_map.get("lineage_id") == r["lineage_id"]
+                    and scope_map.get("scale") == r["scale"]
+                ):
+                    continue
+                eff_r_pdesc = _effective_witness_parent(r, w["scope_id"], scope_map=scope_map)
+            else:
+                eff_r_pdesc = validate_parent_descriptor(r["parent_descriptor"])
+            if not _parent_matches_wavelet(eff_r_pdesc, eff_w_pdesc):
+                continue
             if r["compatible"] and r["occurrence_j"] >= 1 and (u < r["completion_cut"] <= v):
                 expected.add(rid)
         require(
@@ -802,37 +1594,59 @@ def validate_complete_windows(
 
 def deduplicated_return_count(
     wavelets: tuple[dict, ...],
-    target_lineage: str,
+    target_lineage: str | native.Wave | Mapping | None = None,
     target_scope: str = "B:main",
     *,
     scope_map=None,
     registry: Sequence[Mapping] | Mapping[str, Mapping] | None = None,
 ) -> int:
+    """Count deduplicated eligible returns of ONE bound parent; never silently expand a supplied registry."""
     require(isinstance(wavelets, (tuple, list)) and len(wavelets) > 0, "non-empty wavelets required")
-    combined_records: list[Mapping] = []
-    if registry is not None:
-        combined_records.extend(
-            registry.values() if isinstance(registry, Mapping) else list(registry)
-        )
+    scp = require_nonempty_str(target_scope, "target_scope")
+    if scope_map is not None and isinstance(scope_map, bool):
+        raise ValueError("Boolean flag cannot establish cross-scope compatibility")
+
+    selected_witnesses = [r for w in wavelets for r in w["return_witnesses"]]
+    conditional_selected_reg = build_occurrence_registry(selected_witnesses)
+    active_registry = (
+        conditional_selected_reg if registry is None else build_occurrence_registry(registry)
+    )
+
+    w_pdescs = [validate_parent_descriptor(w.get("parent_descriptor")) for w in wavelets]
     for w in wavelets:
-        combined_records.extend(w["return_witnesses"])
-    joint_canon = build_occurrence_registry(combined_records)
+        require(w["scope_id"] == scp, "wavelet scope_id mismatches target_scope")
+    first_pdesc = w_pdescs[0]
+    for other_pdesc in w_pdescs[1:]:
+        require(
+            _wavelet_parent_key(other_pdesc) == _wavelet_parent_key(first_pdesc),
+            "cannot aggregate wavelets from incompatible parent lineages/identities as one current",
+        )
+
+    if target_lineage is not None:
+        t_lin, t_pdesc = _coerce_parent_spec(target_lineage)
+        require(first_pdesc["lineage_id"] == t_lin, "incompatible target parent lineage")
+        if t_pdesc is not None:
+            eff_t_pdesc = _resolve_target_parent_on_scope(t_pdesc, scp, scope_map=scope_map)
+            require(
+                _wavelet_parent_key(first_pdesc) == _wavelet_parent_key(eff_t_pdesc),
+                "wavelet parent_descriptor mismatches target parent lineage/identity",
+            )
 
     seen: set[str] = set()
     for w in wavelets:
         seen.update(
             eligible_return_ids(
                 w,
-                target_lineage=target_lineage,
-                target_scope=target_scope,
+                target_lineage=first_pdesc,
+                target_scope=scp,
                 scope_map=scope_map,
-                registry=joint_canon,
+                registry=active_registry,
             )
         )
     return len(seen)
 
 
-# --- F03: Recipient chronology, stage-event evidence & admitted closure certificate ---
+# --- F03 & F06: Recipient chronology, stage-event evidence, admitted closure & mapped replay ---
 
 
 def make_stage_event(
@@ -949,7 +1763,7 @@ def evaluate_recipient_stage(
     stage_events: Mapping[str, Mapping] | None = None,
     recipient_scope_map=None,
 ) -> dict:
-    """Validate passive recipient-stage observations, chronology, and admitted closure certificates."""
+    """Validate passive recipient-stage observations, chronology, admitted certificates, and replay."""
     require(isinstance(witness, Mapping), "shed continuation witness mapping required")
     for key in ("parent_id", "emit_boundary", "cut_coordinate", "post_shed_parent_state"):
         require_nonempty_str(witness.get(key), f"witness.{key}")
@@ -1042,10 +1856,17 @@ def evaluate_recipient_stage(
     ):
         validate_scope_map(
             recipient_scope_map,
-            {"scope_id": t_rec.scope, "lineage_id": t_rec.lineage, "scale": t_rec.scale, "return_id": t_rec.return_id},
+            {
+                "scope_id": t_rec.scope,
+                "lineage_id": t_rec.lineage,
+                "scale": t_rec.scale,
+                "return_id": t_rec.return_id,
+            },
             target_scope=rec_scope,
             target_lineage=rec_lineage,
         )
+    elif t_rec.scope == rec_scope and recipient_scope_map is not None:
+        raise ValueError("same-scope recipient closure must not attach a cross-scope map")
 
     raw_prior = recipient_context.get("prior_certified_returns", ())
     require(
@@ -1053,48 +1874,32 @@ def evaluate_recipient_stage(
         "prior_certified_returns must be a sequence of admitted (Trace, Certificate, registry) tuples",
     )
     prior_records = tuple(_unpack_admitted_closure_record(item) for item in raw_prior)
-    for idx, (pt, pc, _) in enumerate(prior_records):
+    for idx, (pt, _, _) in enumerate(prior_records):
         require(
             (pt.lineage, pt.scope, pt.scale) == (t_rec.lineage, t_rec.scope, t_rec.scale),
             f"prior recipient record {idx} mismatches closure lineage/scope/scale",
         )
-    for (lt, _, _), (rt, _, _) in zip(prior_records, prior_records[1:]):
-        require(lt.indices[-1] < rt.indices[0], "prior recipient records violate causal order")
-        require(lt.ancestor == rt.ancestor, "prior recipient records changed ancestor")
-
-    if t_rec.scope != rec_scope:
-        chain_for_scope = (
-            ((t_rec, c_rec, reg_rec),)
-            if not prior_records or t_rec.return_id in {pt.return_id for pt, _, _ in prior_records}
-            else prior_records + ((t_rec, c_rec, reg_rec),)
-        )
-        wit_rec = project_admitted_lineage_occurrences(
-            chain_for_scope, cut_coordinate=rec_coord
-        )[-1]
-        validate_scope_map(
-            recipient_scope_map,
-            wit_rec,
-            target_scope=rec_scope,
-            target_lineage=rec_lineage,
-        )
-    elif recipient_scope_map is not None:
-        raise ValueError("same-scope recipient closure must not attach a cross-scope map")
 
     completion_cut = t_rec.indices[-1]
-    require(
-        eff_emit_cut <= prev_cut <= completion_cut,
-        f"recipient completion at cut {completion_cut} precedes {prev_stage!r} at cut {prev_cut} "
-        f"(effective emission cut {eff_emit_cut}) on coordinate {rec_coord!r}",
-    )
-
     if terminal == "closed_origin":
         require(
             len(prior_records) == 0,
             "closed_origin applies only to initial recipient closure (no prior origin)",
         )
+        wit_origin = project_admitted_lineage_occurrences(
+            ((t_rec, c_rec, reg_rec),), cut_coordinate=rec_coord
+        )[0]
+        if t_rec.scope != rec_scope:
+            validate_scope_map(
+                recipient_scope_map,
+                wit_origin,
+                target_scope=rec_scope,
+                target_lineage=rec_lineage,
+            )
         require(
-            native.closure_cycle_count([(t_rec, c_rec, reg_rec)], cut=completion_cut) == 1,
-            "initial closure certificate failed closure_cycle_count==1 check",
+            eff_emit_cut <= prev_cut <= completion_cut,
+            f"recipient completion at cut {completion_cut} precedes {prev_stage!r} at cut {prev_cut} "
+            f"(effective emission cut {eff_emit_cut}) on coordinate {rec_coord!r}",
         )
         return {
             "stage": "closed_origin",
@@ -1108,34 +1913,68 @@ def evaluate_recipient_stage(
         len(prior_records) >= 1,
         "reclosure requires a pre-existing admitted recipient origin closure (j=0)",
     )
+    projected_prior = project_admitted_lineage_occurrences(
+        prior_records, cut_coordinate=rec_coord
+    )
+    prior_occ_by_id = {r["return_id"]: r for r in projected_prior}
     prior_by_id = {pt.return_id: (pt, pc, preg) for pt, pc, preg in prior_records}
     extra_seen = frozenset(
         require_nonempty_str(x, "seen_return_id")
         for x in recipient_context.get("seen_return_ids", ())
     )
+
     if t_rec.return_id in prior_by_id:
         pt, pc, _ = prior_by_id[t_rec.return_id]
         require(
             pt == t_rec and pc == c_rec,
             "replayed return_id payload conflicts with prior admitted recipient record",
         )
+        wit_rec = prior_occ_by_id[t_rec.return_id]
+        if t_rec.scope != rec_scope:
+            validate_scope_map(
+                recipient_scope_map,
+                wit_rec,
+                target_scope=rec_scope,
+                target_lineage=rec_lineage,
+            )
+        require(
+            eff_emit_cut <= prev_cut <= completion_cut,
+            f"recipient completion at cut {completion_cut} precedes {prev_stage!r} at cut {prev_cut} "
+            f"(effective emission cut {eff_emit_cut}) on coordinate {rec_coord!r}",
+        )
         return {
             "stage": "reclosed_replay",
             "closure_phase_delta": 0,
             "reclosure_bip_delta": 0,
             "return_id": t_rec.return_id,
+            "occurrence_j": wit_rec["occurrence_j"],
         }
+
+    projected_full = project_admitted_lineage_occurrences(
+        prior_records + ((t_rec, c_rec, reg_rec),), cut_coordinate=rec_coord
+    )
+    wit_rec = projected_full[-1]
+    if t_rec.scope != rec_scope:
+        validate_scope_map(
+            recipient_scope_map,
+            wit_rec,
+            target_scope=rec_scope,
+            target_lineage=rec_lineage,
+        )
+    require(
+        eff_emit_cut <= prev_cut <= completion_cut,
+        f"recipient completion at cut {completion_cut} precedes {prev_stage!r} at cut {prev_cut} "
+        f"(effective emission cut {eff_emit_cut}) on coordinate {rec_coord!r}",
+    )
+    occ_j = wit_rec["occurrence_j"]
     if t_rec.return_id in extra_seen:
         return {
             "stage": "reclosed_replay",
             "closure_phase_delta": 0,
             "reclosure_bip_delta": 0,
             "return_id": t_rec.return_id,
+            "occurrence_j": occ_j,
         }
-
-    w_rec = native.wave(prior_records + ((t_rec, c_rec, reg_rec),))
-    native.validate_wave(w_rec)
-    occ_j = len(w_rec.returns) - 1
     if not (u < completion_cut <= v):
         return {
             "stage": "reclosed_out_of_window",
@@ -1259,13 +2098,18 @@ def check_p2_01() -> dict:
     )
 
     occ = project_admitted_wave_occurrences(duon_wave)
+    require(
+        occ[0]["parent_descriptor"]["motif"] == "Duon"
+        and occ[0]["parent_descriptor"]["wave_identity"] == duon_wave.identity,
+        "Duon parent_descriptor failed to bind motif and wave_identity",
+    )
     w_coupled = make_wavelet(
-        "w_coupled", "duon_lin", ("duon_lin:anc", "seg:c"), (5, 15),
+        "w_coupled", duon_wave, (t0.ancestor, "seg:c"), (5, 15),
         "seated_duad", "coupled_segment", (c0.certificate_digest, c1.certificate_digest),
         occ, scope_id="B0", is_admitted_wave=True, registry=occ,
     )
     w_shed = make_wavelet(
-        "w_shed", "duon_lin", ("duon_lin:anc", "shed:1"), (15, 25),
+        "w_shed", duon_wave, (t0.ancestor, "shed:1"), (15, 25),
         "seated_duad", "shed_continuation", (c0.certificate_digest, c1.certificate_digest),
         occ, scope_id="B0", is_admitted_wave=False, registry=occ,
     )
@@ -1283,14 +2127,18 @@ def check_p2_01() -> dict:
 def check_p2_02() -> dict:
     w_native = native.recurrent("W_B_1", n=3, spacing=10, scope="B:main", scale=0)
     occ = project_admitted_wave_occurrences(w_native)
+    pdesc = describe_admitted_parent(w_native)
     parent = {"id": "W_B_1", "wave_identity": w_native.identity, "active_beyond_v": True}
-    w = make_wavelet(
-        "w_clip", parent["id"], ("W_B_1:ancestor", "clip:15_19"), (15, 19),
-        "seated_duad", "local_segment",
-        tuple(c.certificate_digest for c in w_native.certificates[:2]),
-        occ[:2], scope_id="B:main", registry=occ,
+    w = restrict_admitted_wavelet(
+        w_native, "w_clip", (15, 19), retained_occurrences=occ[:2], registry=occ
     )
-    require(w["parent_id"] == "W_B_1" and len(w["records"]) == 2, "parent/witnesses lost")
+    require(
+        w["parent_id"] == "W_B_1"
+        and w["parent_descriptor"] == pdesc
+        and len(w["records"]) == 2
+        and eligible_return_ids(w, target_lineage=w_native, registry=occ) == set(),
+        "parent/witnesses lost on localized window",
+    )
     require(parent["active_beyond_v"] is True, "selected window terminated parent")
     reject(
         lambda: make_wavelet("bad", "", ("anc",), (0, 2), "open_duon", "local_segment", ("r0",)),
@@ -1302,7 +2150,15 @@ def check_p2_02() -> dict:
     )
     reject(
         lambda: make_wavelet(
-            "bad_promo", "W_B_1", ("anc",), (5, 15), "open_duon", "local_segment",
+            "bad_anc", w_native, ("wrong:ancestor",), (5, 15), "seated_duad", "local_segment",
+            (w_native.certificates[1].certificate_digest,), occ[:2],
+            scope_id="B:main", registry=occ,
+        ),
+        ValueError, "origin_ancestor",
+    )
+    reject(
+        lambda: make_wavelet(
+            "bad_promo", w_native, ("W_B_1:ancestor",), (5, 15), "open_duon", "local_segment",
             (w_native.certificates[1].certificate_digest,), occ[:2],
             scope_id="B:main", is_admitted_wave=True, registry=occ,
         ),
@@ -1341,7 +2197,7 @@ def check_p2_03_04() -> dict:
     )
 
     w_out = make_wavelet(
-        "w_out", "W_B_1", ("lin:1", "out"), (3, 5),
+        "w_out", c0["parent_descriptor"], ("lin:1", "out"), (3, 5),
         "seated_duad", "coupled_segment", ("rec:C0@0", "rec:C1@2"), (c0, c1), registry=canon_reg,
     )
     require(
@@ -1351,7 +2207,7 @@ def check_p2_03_04() -> dict:
     )
 
     w_origin = make_wavelet(
-        "w_orig", "W_B_1", ("lin:1", "orig"), (-1, 1),
+        "w_orig", c0["parent_descriptor"], ("lin:1", "orig"), (-1, 1),
         "seated_duad", "local_segment", ("rec:C0@0",), (c0,), registry=canon_reg,
     )
     origins_in_win = {
@@ -1364,7 +2220,7 @@ def check_p2_03_04() -> dict:
     )
 
     w_half = make_wavelet(
-        "w_half", "W_B_1", ("lin:1", "half"), (2, 6),
+        "w_half", c0["parent_descriptor"], ("lin:1", "half"), (2, 6),
         "seated_duad", "coupled_segment", ("rec:C1@2", "rec:C2@6"), (c1, c2),
         is_admitted_wave=True, registry=canon_reg,
     )
@@ -1376,12 +2232,12 @@ def check_p2_03_04() -> dict:
     )
 
     w1 = make_wavelet(
-        "w1", "W_B_1", ("lin:1", "w1"), (0, 6),
+        "w1", c0["parent_descriptor"], ("lin:1", "w1"), (0, 6),
         "seated_duad", "coupled_segment", ("rec:C0@0", "rec:C1@2", "rec:C2@6"), (c0, c1, c2),
         signed_current=1, is_admitted_wave=True, registry=canon_reg,
     )
     w2 = make_wavelet(
-        "w2", "W_B_1", ("lin:1", "w2"), (4, 8),
+        "w2", c0["parent_descriptor"], ("lin:1", "w2"), (4, 8),
         "seated_duad", "coupled_segment", ("rec:C1@2", "rec:C2@6", "rec:C3@8"), (c1, c2, c3),
         signed_current=-1, is_admitted_wave=True, registry=canon_reg,
     )
@@ -1389,7 +2245,7 @@ def check_p2_03_04() -> dict:
     naive_sum = len(eligible_return_ids(w1, registry=canon_reg)) + len(
         eligible_return_ids(w2, registry=canon_reg)
     )
-    union_count = deduplicated_return_count((w1, w2), "W_B_1", registry=canon_reg)
+    union_count = deduplicated_return_count((w1, w2), c0["parent_descriptor"], registry=canon_reg)
     require(naive_sum == 4 and union_count == 3, "overlap deduplication must give 2+2 vs 3")
 
     # 2. Passive native-Wave overlap projection via Trace.return_id & closure_cycle_count
@@ -1405,27 +2261,76 @@ def check_p2_03_04() -> dict:
         and [r["occurrence_j"] for r in nat_occ] == [0, 1, 2, 3],
         "native wave occurrence projection mismatch",
     )
-    nw1 = make_wavelet(
-        "nw1", "W_nat", ("W_nat:ancestor", "nw1"), (0, 6),
-        "seated_duad", "coupled_segment",
-        tuple(c.certificate_digest for c in w_nat.certificates[:3]),
-        nat_occ[:3], is_admitted_wave=True, registry=nat_occ,
+    nw1 = restrict_admitted_wavelet(
+        w_nat, "nw1", (0, 6), sigma_role="coupled_segment", is_admitted_wave=True, registry=nat_occ
     )
-    nw2 = make_wavelet(
-        "nw2", "W_nat", ("W_nat:ancestor", "nw2"), (4, 9),
-        "seated_duad", "coupled_segment",
-        tuple(c.certificate_digest for c in w_nat.certificates[1:]),
-        nat_occ[1:], is_admitted_wave=True, registry=nat_occ,
+    nw2 = restrict_admitted_wavelet(
+        w_nat, "nw2", (4, 9), sigma_role="coupled_segment",
+        retained_occurrences=nat_occ[1:], is_admitted_wave=True, registry=nat_occ,
     )
     validate_complete_windows((nw1, nw2), nat_occ)
-    nat_union = deduplicated_return_count((nw1, nw2), "W_nat", registry=nat_occ)
+    nat_union = deduplicated_return_count((nw1, nw2), w_nat, registry=nat_occ)
     nat_expected_bips = (
         native.closure_cycle_count(native_traces, cut=9)
         - native.closure_cycle_count(native_traces, cut=0)
     )
     require(nat_union == nat_expected_bips == 3, "native Trace.return_id overlap union mismatch")
 
-    # 3. F01 hostile regressions:
+    # 3. F04 controls: complete native parent identity across scales 0/1 & prefix binding
+    w_scale0 = native.recurrent("W", n=3, spacing=10, scope="B:main", scale=0)
+    w_scale1 = native.recurrent("W", n=3, spacing=10, scope="B:main", scale=1)
+    occ_s0 = project_admitted_wave_occurrences(w_scale0)
+    occ_s1 = project_admitted_wave_occurrences(w_scale1)
+    both_canon = build_occurrence_registry((*occ_s0, *occ_s1))
+    sw0 = restrict_admitted_wavelet(w_scale0, "sw0", (2, 12), registry=both_canon)
+    sw1 = restrict_admitted_wavelet(w_scale1, "sw1", (2, 12), registry=both_canon)
+    validate_complete_windows((sw0, sw1), both_canon)
+    require(
+        deduplicated_return_count((sw0,), w_scale0, registry=both_canon) == 1
+        and deduplicated_return_count((sw1,), w_scale1, registry=both_canon) == 1,
+        "scale-0 and scale-1 parents must each contribute 1 reclosure in (2, 12]",
+    )
+    reject(
+        lambda: make_wavelet(
+            "w_mixed_scales", "W", ("W:ancestor",), (2, 12), "seated_duad", "local_segment",
+            tuple(r["trace_digest"] for r in (*occ_s0[:2], *occ_s1[:2])),
+            (*occ_s0[:2], *occ_s1[:2]), registry=both_canon,
+        ),
+        ValueError, "parent",
+    )
+    reject(
+        lambda: deduplicated_return_count((sw0, sw1), "W", registry=both_canon),
+        ValueError, "incompatible parent",
+    )
+    reject(
+        lambda: deduplicated_return_count((sw1,), w_scale0, registry=both_canon),
+        ValueError, "parent_descriptor",
+    )
+    bad_pref = deepcopy(occ_s0[1])
+    bad_pref["lineage_prefix_digest"] = "0" * 64
+    reject(
+        lambda: build_occurrence_registry((occ_s0[0], bad_pref)),
+        ValueError, "lineage_prefix_digest",
+    )
+
+    # 4. F05 controls: supplied canonical registry remains authoritative (no silent expansion)
+    origin_only_reg = build_occurrence_registry((occ_s0[0],))
+    before_keys = tuple(origin_only_reg.keys())
+    reject(lambda: eligible_return_ids(sw0, registry=origin_only_reg), ValueError, "absent")
+    reject(lambda: validate_complete_windows((sw0,), origin_only_reg), ValueError, "absent")
+    reject(
+        lambda: deduplicated_return_count((sw0,), w_scale0, registry=origin_only_reg),
+        ValueError, "absent",
+    )
+    require(tuple(origin_only_reg.keys()) == before_keys, "supplied registry was mutated")
+    extended_reg = extend_occurrence_registry(origin_only_reg, (occ_s0[1],))
+    require(
+        tuple(origin_only_reg.keys()) == before_keys
+        and deduplicated_return_count((sw0,), w_scale0, registry=extended_reg) == 1,
+        "explicit upstream registry extension failed",
+    )
+
+    # 5. F01 hostile regressions:
     # (a) Canonical payload conflict under same ID 'C1' against unchanged canonical registry
     c1_canon = make_return_witness("C1", 1, 2, "W", "B:main")
     c1_mutated = make_return_witness("C1", 2, 6, "W", "B:main")
@@ -1439,7 +2344,7 @@ def check_p2_03_04() -> dict:
     )
     reject(
         lambda: deduplicated_return_count((w_mut,), "W", registry=(c1_canon,)),
-        ValueError, "collision",
+        ValueError, "conflicts with canonical occurrence record",
     )
     # Swapped payloads preserving ID set {'C1', 'C2'} inside (0, 8] also rejected
     c2_canon = make_return_witness("C2", 2, 6, "W", "B:main")
@@ -1481,14 +2386,13 @@ def check_p2_03_04() -> dict:
     )
     # (d) Omitted known eligible return C3@8 in asserted-complete (0, 8]
     w_incomplete = make_wavelet(
-        "w_inc", "W_B_1", ("lin:1", "inc"), (0, 8),
+        "w_inc", c0["parent_descriptor"], ("lin:1", "inc"), (0, 8),
         "seated_duad", "coupled_segment", ("rec:C1@2", "rec:C2@6"), (c1, c2),
     )
     reject(lambda: validate_complete_windows((w_incomplete,), canon_reg), ValueError, "omitted")
 
-    # 4. F02 hostile & positive scope-map controls:
+    # 6. F02 hostile & positive scope-map controls:
     c_other_scope = make_return_witness("C_ext", 1, 4, "W_B_1", "B:other")
-    # Omitted scope_map rejected
     reject(
         lambda: make_wavelet(
             "w_noscope", "W_B_1", ("lin:1",), (0, 8),
@@ -1496,7 +2400,6 @@ def check_p2_03_04() -> dict:
         ),
         ValueError, "explicit validated scope_map",
     )
-    # Boolean scope_map=False and scope_map=True rejected
     for flag in (False, True):
         reject(
             lambda flag=flag: make_wavelet(
@@ -1506,7 +2409,6 @@ def check_p2_03_04() -> dict:
             ),
             ValueError, "Boolean flag",
         )
-    # Specialized cross-scale fold_proposal rejected as generic scope-isomorphism map
     fold_prop = native.fold_proposal([w_nat], "B:outer", 1)
     nat_other = project_admitted_wave_occurrences(
         native.recurrent("W_nat", n=3, spacing=10, scope="B:other", scale=0)
@@ -1519,7 +2421,6 @@ def check_p2_03_04() -> dict:
         ),
         ValueError, "declared_conditional_scope_map",
     )
-    # Explicit declared conditional scope map succeeds only for exact bound occurrence payload
     cond_map = declare_conditional_scope_map(
         "map:other_to_main", "B:other", "B:main", "W_B_1", (c_other_scope,)
     )
@@ -1556,6 +2457,8 @@ def check_p2_03_04() -> dict:
         "overlap_naive_sum": naive_sum,
         "overlap_deduplicated_union": union_count,
         "native_trace_overlap_union": nat_union,
+        "scale_separated_parent_counts": [1, 1],
+        "supplied_registry_authoritative": True,
         "omitted_return_rejected": True,
         "payload_conflict_collision_alias_rejected": True,
         "unmapped_cross_scope_rejected": True,
@@ -1676,6 +2579,55 @@ def check_p2_05_06() -> dict:
         stage_events=ev_seat,
     )
     require(r_oow["reclosure_bip_delta"] == 0, "out-of-window completion must add 0 bips")
+
+    # F06 control: mapped cross-scope fresh return (j=2) followed by latest (j=2) & earlier (j=1) replay
+    src_s0 = native.certified(native.trace("R_1", 0, scope="B_src:1", start_index=1))    # ends 3
+    src_s1 = native.certified(native.trace("R_1", 1, scope="B_src:1", start_index=13))   # ends 15
+    src_s2 = native.certified(native.trace("R_1", 2, scope="B_src:1", start_index=16))   # ends 18
+    src_proj = project_admitted_lineage_occurrences(
+        (src_s0, src_s1, src_s2), cut_coordinate="shared_committed_k"
+    )
+    rec_smap = declare_conditional_scope_map(
+        "map:src_to_rec", "B_src:1", "B_rec:1", "R_1", src_proj
+    )
+    r_mapped_fresh = evaluate_recipient_stage(
+        witness,
+        dict(ctx_after, prior_certified_returns=(src_s0, src_s1)),
+        ("emitted", "delivered", "accepted", "seated", "reclosed"),
+        src_s2,
+        stage_events=ev_seat,
+        recipient_scope_map=rec_smap,
+    )
+    ctx_mapped_replay = dict(ctx_after, prior_certified_returns=(src_s0, src_s1, src_s2))
+    r_mapped_rep2 = evaluate_recipient_stage(
+        witness,
+        ctx_mapped_replay,
+        ("emitted", "delivered", "accepted", "seated", "reclosed"),
+        src_s2,
+        stage_events=ev_seat,
+        recipient_scope_map=rec_smap,
+    )
+    r_mapped_rep1 = evaluate_recipient_stage(
+        witness,
+        ctx_mapped_replay,
+        ("emitted", "delivered", "accepted", "seated", "reclosed"),
+        src_s1,
+        stage_events=ev_seat,
+        recipient_scope_map=rec_smap,
+    )
+    require(
+        r_mapped_fresh["reclosure_bip_delta"] == 1
+        and r_mapped_fresh["occurrence_j"] == 2
+        and r_mapped_rep2["stage"] == "reclosed_replay"
+        and r_mapped_rep2["closure_phase_delta"] == 0
+        and r_mapped_rep2["reclosure_bip_delta"] == 0
+        and r_mapped_rep2["occurrence_j"] == 2
+        and r_mapped_rep1["stage"] == "reclosed_replay"
+        and r_mapped_rep1["closure_phase_delta"] == 0
+        and r_mapped_rep1["reclosure_bip_delta"] == 0
+        and r_mapped_rep1["occurrence_j"] == 1,
+        "mapped recipient replay must preserve original occurrence_j and return 0 bips",
+    )
 
     # F03 hostile regressions:
     # 1. Shared-coordinate completion at cut 18 BEFORE emission at cut 19 (exact review counterexample)
@@ -1848,6 +2800,10 @@ def check_p2_05_06() -> dict:
     return {
         "closed_origin_bips": r_orig["reclosure_bip_delta"],
         "replay_bips": r_rep["reclosure_bip_delta"],
+        "mapped_replay_bips": [
+            r_mapped_rep2["reclosure_bip_delta"],
+            r_mapped_rep1["reclosure_bip_delta"],
+        ],
         "fresh_reclosure_bips": r_fresh["reclosure_bip_delta"],
         "out_of_window_bips": r_oow["reclosure_bip_delta"],
         "pre_emission_completion_rejected": True,

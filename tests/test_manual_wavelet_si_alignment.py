@@ -378,6 +378,351 @@ def test_f03_recipient_chronology_and_certificate_regressions():
     _check(ok["reclosure_bip_delta"] == 1 and ok["occurrence_j"] == 2, "valid post-emission reclosure failed")
 
 
+def test_f04_complete_native_parent_identity_and_prefix_binding_regressions():
+    mod = _load_alignment_module()
+    n = mod.native
+
+    # 1. Two separately admitted native.recurrent parents sharing lineage/scope strings at scales 0 and 1
+    w0 = n.recurrent("W", n=3, spacing=10, scope="B:main", scale=0)
+    w1 = n.recurrent("W", n=3, spacing=10, scope="B:main", scale=1)
+    _check(w0.identity != w1.identity, "native Wave identities at scales 0 and 1 must differ")
+
+    occ0 = mod.project_admitted_wave_occurrences(w0)
+    occ1 = mod.project_admitted_wave_occurrences(w1)
+    both_canonical = mod.build_occurrence_registry((*occ0, *occ1))
+
+    sw0 = mod.restrict_admitted_wavelet(w0, "sw0", (2, 12), registry=both_canonical)
+    sw1 = mod.restrict_admitted_wavelet(w1, "sw1", (2, 12), registry=both_canonical)
+    mod.validate_complete_windows((sw0, sw1), both_canonical)
+    _check(
+        mod.deduplicated_return_count((sw0,), w0, registry=both_canonical) == 1
+        and mod.deduplicated_return_count((sw1,), w1, registry=both_canonical) == 1
+        and mod.deduplicated_return_count((sw0,), "W", registry=both_canonical) == 1
+        and mod.deduplicated_return_count((sw1,), "W", registry=both_canonical) == 1,
+        "each admitted scale parent must contribute 1 reclosure in (2, 12]",
+    )
+
+    # Combining distinct scale parents in one single-parent wavelet must fail
+    _reject(
+        lambda: mod.make_wavelet(
+            "w_mixed",
+            "W",
+            ("W:ancestor",),
+            (2, 12),
+            "seated_duad",
+            "local_segment",
+            tuple(r["trace_digest"] for r in (*occ0[:2], *occ1[:2])),
+            (*occ0[:2], *occ1[:2]),
+            registry=both_canonical,
+        ),
+        ValueError,
+        "parent",
+    )
+    # Forged dict bypass into eligibility, completeness, and union counting must also fail
+    forged_mixed = dict(sw0, return_witnesses=(*occ0[:2], *occ1[:2]))
+    _reject(
+        lambda: mod.eligible_return_ids(forged_mixed, registry=both_canonical),
+        ValueError,
+        "parent_descriptor",
+    )
+    _reject(
+        lambda: mod.validate_complete_windows((forged_mixed,), both_canonical),
+        ValueError,
+        "parent_descriptor",
+    )
+    _reject(
+        lambda: mod.deduplicated_return_count((forged_mixed,), w0, registry=both_canonical),
+        ValueError,
+        "parent_descriptor",
+    )
+
+    # Aggregating two separately created wavelets from distinct parents as one current must fail
+    _reject(
+        lambda: mod.deduplicated_return_count((sw0, sw1), "W", registry=both_canonical),
+        ValueError,
+        "incompatible parent",
+    )
+    _reject(
+        lambda: mod.deduplicated_return_count((sw0, sw1), w0, registry=both_canonical),
+        ValueError,
+        "incompatible parent",
+    )
+    _reject(
+        lambda: mod.deduplicated_return_count((sw1,), w0, registry=both_canonical),
+        ValueError,
+        "parent_descriptor",
+    )
+
+    # Same-scale distinct admitted parents (different origin return) also reject mixing/aggregation
+    w0_shifted = n.wave(
+        [n.certified(n.trace("W", k, start_index=1 + k * 10, scope="B:main", scale=0)) for k in range(3)]
+    )
+    occ0_shifted = mod.project_admitted_wave_occurrences(w0_shifted)
+    same_scale_both = mod.build_occurrence_registry((*occ0, *occ0_shifted))
+    sw0_shifted = mod.restrict_admitted_wavelet(
+        w0_shifted, "sw0_shifted", (3, 13), registry=same_scale_both
+    )
+    _reject(
+        lambda: mod.deduplicated_return_count((sw0, sw0_shifted), "W", registry=same_scale_both),
+        ValueError,
+        "incompatible parent",
+    )
+
+    # Ambiguous bare lineage string on empty window across multiple canonical parents rejects
+    _reject(
+        lambda: mod.make_wavelet(
+            "w_ambig", "W", ("W:ancestor",), (15, 19),
+            "seated_duad", "local_segment", ("rec:0",), (), registry=both_canonical,
+        ),
+        ValueError,
+        "ambiguous parent lineage string",
+    )
+    w_unbound_empty = mod.make_wavelet(
+        "w_unbound_empty", "W", ("W:ancestor",), (2, 12),
+        "seated_duad", "local_segment", ("rec:0",), (),
+    )
+    _reject(
+        lambda: mod.validate_complete_windows((w_unbound_empty,), occ0),
+        ValueError,
+        "omitted",
+    )
+
+    # Same admitted parent overlapping windows deduplicate and preserve out-of-window support
+    sw0_left = mod.restrict_admitted_wavelet(w0, "sw0_left", (2, 12), registry=occ0)
+    sw0_right = mod.restrict_admitted_wavelet(w0, "sw0_right", (5, 22), registry=occ0)
+    mod.validate_complete_windows((sw0_left, sw0_right), occ0)
+    _check(
+        len(mod.eligible_return_ids(sw0_left, registry=occ0))
+        + len(mod.eligible_return_ids(sw0_right, registry=occ0))
+        == 3
+        and mod.deduplicated_return_count((sw0_left, sw0_right), w0, registry=occ0) == 2,
+        "same-parent overlapping windows must deduplicate shared return",
+    )
+
+    # Prefix digest substitution & origin index promotion rejected
+    bad_prefix = deepcopy(occ0[1])
+    bad_prefix["lineage_prefix_digest"] = "0" * 64
+    _reject(
+        lambda: mod.make_wavelet(
+            "w_bad_pref", w0, ("W:ancestor",), (2, 12),
+            "seated_duad", "local_segment", (occ0[1]["trace_digest"],), (occ0[0], bad_prefix),
+        ),
+        ValueError,
+        "lineage_prefix_digest",
+    )
+    _reject(
+        lambda: mod.deduplicated_return_count(
+            (dict(sw0, return_witnesses=(occ0[0], bad_prefix)),), w0, registry=occ0
+        ),
+        ValueError,
+        "lineage_prefix_digest",
+    )
+    promoted_origin = deepcopy(occ0[0])
+    promoted_origin["occurrence_j"] = 1
+    _reject(
+        lambda: mod.build_occurrence_registry((promoted_origin,)),
+        ValueError,
+        "lineage_prefix_ids",
+    )
+
+
+def test_f05_supplied_registry_authority_and_explicit_extension_regressions():
+    mod = _load_alignment_module()
+    w0 = mod.native.recurrent("W", n=3, spacing=10, scope="B:main", scale=0)
+    occ = mod.project_admitted_wave_occurrences(w0)
+    full_reg = mod.build_occurrence_registry(occ)
+    selected = mod.restrict_admitted_wavelet(
+        w0, "w_sel", (2, 12), retained_occurrences=occ[:2], registry=full_reg
+    )
+
+    fixed_origin_only = mod.build_occurrence_registry((occ[0],))
+    snapshot_keys = tuple(fixed_origin_only.keys())
+
+    # Eligibility, completeness, and union aggregation must all reject the absent first reclosure
+    _reject(
+        lambda: mod.eligible_return_ids(selected, registry=fixed_origin_only),
+        ValueError,
+        "absent from canonical occurrence registry",
+    )
+    _reject(
+        lambda: mod.validate_complete_windows((selected,), fixed_origin_only),
+        ValueError,
+        "absent from canonical occurrence registry",
+    )
+    _reject(
+        lambda: mod.deduplicated_return_count((selected,), w0, registry=fixed_origin_only),
+        ValueError,
+        "absent from canonical occurrence registry",
+    )
+    _reject(
+        lambda: mod.deduplicated_return_count((selected,), "W", registry=fixed_origin_only),
+        ValueError,
+        "absent from canonical occurrence registry",
+    )
+    _check(tuple(fixed_origin_only.keys()) == snapshot_keys, "supplied registry was mutated")
+
+    # Explicit empty registry rejects absent witnesses, whereas registry=None performs conditional union
+    _reject(
+        lambda: mod.deduplicated_return_count((selected,), w0, registry=()),
+        ValueError,
+        "absent from canonical occurrence registry",
+    )
+    _check(
+        mod.deduplicated_return_count((selected, selected), w0, registry=None) == 1,
+        "explicit no-registry conditional union failed",
+    )
+
+    # Deliberate upstream extension permits the selected return without mutating fixed_origin_only
+    extended = mod.extend_occurrence_registry(fixed_origin_only, (occ[1],))
+    _check(tuple(fixed_origin_only.keys()) == snapshot_keys, "extend_occurrence_registry mutated input")
+    _check(
+        len(mod.eligible_return_ids(selected, registry=extended)) == 1
+        and len(mod.validate_complete_windows((selected,), extended)) == 2
+        and mod.deduplicated_return_count((selected,), w0, registry=extended) == 1,
+        "deliberate upstream registry extension did not validate selected return",
+    )
+
+
+def test_f06_mapped_recipient_replay_preserves_index_and_prefix_regressions():
+    mod = _load_alignment_module()
+    n = mod.native
+
+    witness = {
+        "parent_id": "P",
+        "emit_boundary": "boundary:P",
+        "cut_coordinate": "K",
+        "emit_cut": 12,
+        "route": "exo",
+        "X_route": Fraction(1, 2),
+        "post_shed_parent_state": "P:post12",
+    }
+    stage_events = {
+        "delivered": mod.make_stage_event("ev:d:12", "delivered", "B:recipient", "K", 12),
+        "accepted": mod.make_stage_event("ev:a:13", "accepted", "B:recipient", "K", 13),
+        "seated": mod.make_stage_event("ev:s:14", "seated", "B:recipient", "K", 14),
+    }
+    path = ("emitted", "delivered", "accepted", "seated", "reclosed")
+
+    s0 = n.certified(n.trace("R", 0, start_index=1, scope="B:source"))
+    s1 = n.certified(n.trace("R", 1, start_index=13, scope="B:source"))
+    s2 = n.certified(n.trace("R", 2, start_index=16, scope="B:source"))
+    projected = mod.project_admitted_lineage_occurrences((s0, s1, s2), cut_coordinate="K")
+    scope_map = mod.declare_conditional_scope_map(
+        "map:source-to-recipient", "B:source", "B:recipient", "R", projected
+    )
+    map_snapshot = deepcopy(scope_map)
+
+    # Fresh C2 at j=2 succeeds and contributes 1 bip
+    fresh_ctx = {
+        "recipient_lineage": "R",
+        "recipient_scope": "B:recipient",
+        "cut_coordinate": "K",
+        "window": (10, 25),
+        "prior_certified_returns": (s0, s1),
+    }
+    fresh_res = mod.evaluate_recipient_stage(
+        witness, fresh_ctx, path, s2, stage_events=stage_events, recipient_scope_map=scope_map
+    )
+    _check(
+        fresh_res["stage"] == "reclosed"
+        and fresh_res["closure_phase_delta"] == 1
+        and fresh_res["reclosure_bip_delta"] == 1
+        and fresh_res["occurrence_j"] == 2,
+        "mapped fresh C2 evaluation failed",
+    )
+
+    # Append exact certified s2 to prior history; replay s2 (j=2) and s1 (j=1) with unchanged map
+    replay_ctx = dict(fresh_ctx, prior_certified_returns=(s0, s1, s2))
+    rep_c2 = mod.evaluate_recipient_stage(
+        witness, replay_ctx, path, s2, stage_events=stage_events, recipient_scope_map=scope_map
+    )
+    rep_c1 = mod.evaluate_recipient_stage(
+        witness, replay_ctx, path, s1, stage_events=stage_events, recipient_scope_map=scope_map
+    )
+    _check(
+        rep_c2["stage"] == "reclosed_replay"
+        and rep_c2["closure_phase_delta"] == 0
+        and rep_c2["reclosure_bip_delta"] == 0
+        and rep_c2["occurrence_j"] == 2
+        and rep_c1["stage"] == "reclosed_replay"
+        and rep_c1["closure_phase_delta"] == 0
+        and rep_c1["reclosure_bip_delta"] == 0
+        and rep_c1["occurrence_j"] == 1
+        and scope_map == map_snapshot,
+        "mapped replay failed to preserve original occurrence_j and zero-bip result",
+    )
+
+    # Mapped initial origin (j=0) and subsequent origin replay using one unchanged multi-return map
+    o0 = n.certified(n.trace("R", 0, start_index=14, scope="B:source"))  # ends 16 >= 14
+    o1 = n.certified(n.trace("R", 1, start_index=18, scope="B:source"))  # ends 20
+    o_proj = mod.project_admitted_lineage_occurrences((o0, o1), cut_coordinate="K")
+    o_map = mod.declare_conditional_scope_map(
+        "map:origin-and-next", "B:source", "B:recipient", "R", o_proj
+    )
+    orig_res = mod.evaluate_recipient_stage(
+        witness,
+        dict(fresh_ctx, prior_certified_returns=()),
+        path[:-1] + ("closed_origin",),
+        o0,
+        stage_events=stage_events,
+        recipient_scope_map=o_map,
+    )
+    orig_rep = mod.evaluate_recipient_stage(
+        witness,
+        dict(fresh_ctx, prior_certified_returns=(o0,)),
+        path,
+        o0,
+        stage_events=stage_events,
+        recipient_scope_map=o_map,
+    )
+    _check(
+        orig_res["stage"] == "closed_origin"
+        and orig_res["closure_phase_delta"] == 1
+        and orig_res["reclosure_bip_delta"] == 0
+        and orig_res["occurrence_j"] == 0
+        and orig_rep["stage"] == "reclosed_replay"
+        and orig_rep["closure_phase_delta"] == 0
+        and orig_rep["reclosure_bip_delta"] == 0
+        and orig_rep["occurrence_j"] == 0,
+        "mapped origin and origin replay failed",
+    )
+
+    # Wrong map, payload mismatch on replay, and chronology inversion on replay still reject
+    wrong_target_map = dict(scope_map, target_scope="B:other")
+    _reject(
+        lambda: mod.evaluate_recipient_stage(
+            witness, replay_ctx, path, s2,
+            stage_events=stage_events, recipient_scope_map=wrong_target_map,
+        ),
+        ValueError,
+        "scope_map",
+    )
+    corrupted_bound_map = deepcopy(scope_map)
+    corrupted_bound_map["bound_occurrences"][s2[0].return_id] = ("corrupted",)
+    _reject(
+        lambda: mod.evaluate_recipient_stage(
+            witness, replay_ctx, path, s2,
+            stage_events=stage_events, recipient_scope_map=corrupted_bound_map,
+        ),
+        ValueError,
+        "conflicts with bound occurrence in scope_map",
+    )
+    late_emit = dict(witness, emit_cut=19)
+    late_events = {
+        "delivered": mod.make_stage_event("ev:d:19", "delivered", "B:recipient", "K", 19),
+        "accepted": mod.make_stage_event("ev:a:19", "accepted", "B:recipient", "K", 19),
+        "seated": mod.make_stage_event("ev:s:19", "seated", "B:recipient", "K", 19),
+    }
+    _reject(
+        lambda: mod.evaluate_recipient_stage(
+            late_emit, replay_ctx, path, s2,
+            stage_events=late_events, recipient_scope_map=scope_map,
+        ),
+        ValueError,
+        "precedes",
+    )
+
+
 def test_cli_runner_parity_and_standalone_mode_metadata():
     # N01: CLI runner JSON is byte-identical across normal and -O modes;
     # standalone test runner passes in both modes with intentional optimized_mode metadata difference.
@@ -418,6 +763,9 @@ def run_standalone() -> dict:
         test_f01_canonical_occurrence_binding_collision_and_alias_regressions,
         test_f02_explicit_cross_scope_map_regressions,
         test_f03_recipient_chronology_and_certificate_regressions,
+        test_f04_complete_native_parent_identity_and_prefix_binding_regressions,
+        test_f05_supplied_registry_authority_and_explicit_extension_regressions,
+        test_f06_mapped_recipient_replay_preserves_index_and_prefix_regressions,
         test_cli_runner_parity_and_standalone_mode_metadata,
     )
     for fn in fns:
