@@ -24,3 +24,13 @@ Unpacked from `AOD_TYPST_S1_S4_PLAN_AF_REVIEW_BUNDLE_R01.zip` (`16,880` B, outer
 - [`m4-typst-cutover/CORRECTED_S1_S4_MASTER_PLAN.md`](m4-typst-cutover/CORRECTED_S1_S4_MASTER_PLAN.md) — corrected `S0 -> S4` master roadmap preserving M3 stack discipline, zero-float ontology boundaries, and frozen provenance
 - [`m4-typst-cutover/S1_TYPST_CUTOVER_REQUEST_REVISED.md`](m4-typst-cutover/S1_TYPST_CUTOVER_REQUEST_REVISED.md) — bounded `S1a` Typst pilot dispatch request
 - [`m4-typst-cutover/FINDINGS_AND_AUDIT.md`](m4-typst-cutover/FINDINGS_AND_AUDIT.md) — verbatim `SHA256.txt`, `FINDINGS.json`, and `TOOLCHAIN_AND_ASSET_AUDIT.json` from the verified R01 bundle
+
+
+## Current first objective — R02
+
+The owner clarification of 21 November 2026 makes the first M4 objective the plan and stacked PR for a native Typst Main/Manual migration, keeping the existing LaTeX source unchanged as the scientific comparison baseline.
+
+- [Objective 1 Typst plan R02](m4-typst-cutover/OBJECTIVE_1_TYPST_PLAN_R02.md) governs the immediate migration scope, preserved baseline and parity gates.
+- [Stacked Typst implementation PR request R02](m4-typst-cutover/STACKED_TYPST_PR_REQUEST_R02.md) specifies the proposed `m4-typst-s1a` child branch and PR targeting `m4`.
+
+The R01 proposal/review files and their embedded manifest remain unchanged historical records. R02 narrows the first dispatch; later figure, engine, model and acceleration work remains in the broader roadmap. No new child PR or implementation result is implied by this planning amendment.
