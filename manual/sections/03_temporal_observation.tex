@@ -28,9 +28,13 @@ window and count readout. Changing the population, current or window requires
 replay; a cached scalar cannot authenticate that change.
 
 \paragraph{Declared observation and units.}
-An observation law first maps reference history \(\Gamma_R\), window
-\(\omega\), population \(\mathcal P\), coupling history \(E\) and preparation
-to corrected Cs-referenced cycle equivalents:
+Under \mainsection{main:subsec:m3-conditional-si-interface}, an explicit apparatus
+observation map \(\mathcal O_i\) (\mainequation{main:eq:m3-observation-map})
+first maps reference history \(\Gamma_R\), window \(\omega\), population
+\(\mathcal P\), coupling history \(E\) and preparation to corrected
+Cs-referenced cycle equivalents, anchoring conditional duration via
+\mainequation{main:eq:m3-conditional-si-anchor} and
+\mainequation{main:eq:m3-cs133-tau-interface}:
 \begin{equation}
  \widehat C_{\mathrm{Cs}}
    =g_\theta(\Gamma_R,\omega,\mathcal P,E,\mathrm{preparation}),
@@ -40,7 +44,12 @@ to corrected Cs-referenced cycle equivalents:
 \end{equation}
 The conversion uses the exact defining frequency; the first map requires
 its own observation and calibration evidence. This conversion supplies no
-universal duration for a native cut.
+universal duration for a native cut. The general apparatus map \(\mathcal O_i\)
+remains distinct from its explicit affine specialization
+\(C_i^{\mathrm{aff}}=g_i q_i(\omega)+\delta_{\mathrm{end},i}\) (\(g_i>0\)),
+and structural support scale, window extent, native cadence
+(\mainequation{main:eq:wavelet-reference-timing}), observed turns and SI
+frequency retain separate types.
 Let \(a_c,a_r>0\) be stipulated cycle-equivalent gains per native return.
 Let \(f_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{Hz}\) denote the defining
 reference, without a clock realization. For the fixed window define
@@ -142,7 +151,10 @@ replay validator rejects that trace.
 adapter and mapping report; \texttt{--consumer-root} selects the
 separately bound Matter I replay.
 \texttt{aod\_temporal\_anchor.py --check-data} replays the original scientific anchor calculations and
-the four population controls. The tests reject changed scopes, aliases,
+the four population controls; \texttt{aod\_manual\_wavelet\_si\_alignment.py --check}
+verifies the aligned wavelet, nonrecurrent localization, signed-advance and
+\(\tau\)-angular specializations passively without altering native transitions.
+The tests reject changed scopes, aliases,
 uncoupled records, invalid windows, scheduler substitutions, nonpositive gains,
 and evaluation leakage. The consumer preserves historical v1/v2 fixture bytes
 and identifies its two active Main amendments separately.
@@ -154,8 +166,13 @@ precision remains unresolved.
 \subsection{Observed cycles and experimental reductions}
 \label{manual:m3-metrology}
 \paragraph{Setup.}
-Relational cadence compares retained closures over the same bip window.
-Its observation map must distinguish current reclosures, shed packet events,
+Relational cadence compares retained closures over the same bip window
+(\mainequation{main:eq:wavelet-reference-timing}).
+Its observation map (\mainequation{main:eq:m3-observation-map}) must distinguish
+current reclosures, shed continuation and recipient stages
+(\mainequation{main:eq:aod-wavelet-continuation},
+\mainequation{main:eq:shed-continuation-witness},
+\mainequation{main:eq:recipient-event-lattice}),
 oscillator cycles, estimated state populations and detector timestamps.
 A wavelet group can retain its source history without each packet representing
 one measured microwave cycle. Preparation, lineage, coordinate, epoch,
@@ -180,7 +197,9 @@ For a passive lossless transport example, event identities also give
 \(N_{\rm emitted}-N_{\rm arrived}=P_1-P_0\), where \(P_i\) counts pending
 packets at the endpoints. Arrival separation equals emission separation plus
 the change in transit delay. Loss and detector inefficiency require their own
-counts. Observing these events does not change the source dynamics.
+counts. Observing these events does not change the source dynamics; routed
+packets alone supply neither recipient seating nor a reclosure beat
+(\mainequation{main:eq:recipient-event-lattice}).
 
 \paragraph{Specialization and calibration.}
 On \((10,22]\), choose compared winding \(4\) and endpoints
@@ -190,16 +209,44 @@ Equation~\eqref{eq:manual-m3-observed-advance} gives advances
 at phase \(5/6\) gives \(13/6+4/3=7/2\).
 If an independently justified realization identifies \(A_R>0\) as corrected
 Cs-equivalent cycles on that same coordinate, epoch and window, then
+\mainequation{main:eq:m3-conditional-si-anchor} and
+\mainequation{main:eq:m3-cs133-tau-interface} give
 \begin{equation}
  \frac{A}{A_R}=\frac7{17},\qquad
  T=\frac{A_R}{f_{\rm Cs}}=\frac{17}{2f_{\rm Cs}},\qquad
  \bar\nu=\frac{A}{T}=\frac{7f_{\rm Cs}}{17}.
  \label{eq:manual-m3-accumulated-si}
 \end{equation}
+In full-turn angular reporting (\(\tau=2\pi\)), the same matched window gives
+\(\Delta\theta_a=\frac{7}{2}\tau\) and
+\(\bar\Omega_a=\frac{7}{17}\tau f_{\rm Cs}\).
+Two boundary specializations of \mainequation{main:eq:m3-observation-map}
+through \mainequation{main:eq:m3-cs133-tau-interface} stay explicit under the
+same reference anchor:
+\begin{itemize}[leftmargin=1.6em,itemsep=2pt]
+\item \emph{Nonrecurrent or clipped localization.} A fragment with
+\(q_a(\omega)=0\) and \(\delta_{\mathrm{end},a}=0\) localized on a bound
+positive reference window with \(C_{\mathrm{Cs}}=10\) yields
+\(T_\omega=10/f_{\rm Cs}\) and \(\bar f_a=0\), \(\Delta\theta_a=0\),
+\(\bar\Omega_a=0\); \(q_a=0\) supplies no intrinsic frequency or phase lag,
+and no integer cut becomes a universal second.
+\item \emph{Signed compared advance against positive reference advance.}
+Under \eqref{eq:manual-m3-observed-advance} and the explicit affine
+specialization \(C_a^{\mathrm{aff}}=g_a q_a+\phi_1-\phi_0\) with
+\(q_a=0\), \(g_a=1\), \(\phi_0=3/4\) and \(\phi_1=1/4\), the compared advance
+is signed, \(C_a=-1/2\), while the reference advance remains strictly positive,
+\(C_{\mathrm{Cs}}=1\). Then \mainequation{main:eq:m3-cs133-tau-interface}
+yields \(T_\omega=1/f_{\rm Cs}\), signed mean phase-advance rate
+\(\bar f_a=-f_{\rm Cs}/2\), angular advance \(\Delta\theta_a=-\tau/2\) and
+\(\bar\Omega_a=-\tau f_{\rm Cs}/2\). This signed rate is distinct from a
+nonnegative atomic resonance frequency, which requires restricting to
+\(C_a\ge 0\) (or \(C_a>0\)) together with separate physical-realization premises.
+\end{itemize}
 These are conditional finite-window results from declared mathematical inputs.
 The exact defining frequency supplies the unit; measured realization and
-phase uncertainty remain separate. A universal seconds-per-bip conversion,
-or a limiting resonance frequency, needs additional premises.
+phase uncertainty remain separate, and choosing gains from a target value
+cannot produce an independent prediction. A universal seconds-per-bip
+conversion, or a limiting resonance frequency, needs additional premises.
 
 \paragraph{Hydrogen reduction.}
 Hellwig et al. used continuous active masers and a signed heterodyne beat,
@@ -303,6 +350,13 @@ observation map, followed by a held-out measurement and a justified tolerance.
 Reproducing the Cs definition is a calibration identity. Replaying measured
 inputs is a reduction. Neither establishes the missing physical H/Cs
 correspondence or an isotope lifetime prediction.
+
+\aodprovenance{\mainsection{main:subsec:m3-conditional-si-interface};
+\mainequation{main:eq:wave-update-trace}; \mainequation{main:eq:coupling-trace};
+\mainequation{main:eq:rcd-additive-realization}; \mainequation{main:eq:aod-wavelet-continuation};
+\mainequation{main:eq:wavelet-reference-timing}; \mainequation{main:eq:shed-continuation-witness};
+\mainequation{main:eq:recipient-event-lattice}; \mainequation{main:eq:m3-observation-map};
+\mainequation{main:eq:m3-conditional-si-anchor}; \mainequation{main:eq:m3-cs133-tau-interface}.}
 
 \aodliteraturenote{The BIPM defines the second through
 \(\Delta\nu_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{Hz}\)~\cite{bipm-second}.
