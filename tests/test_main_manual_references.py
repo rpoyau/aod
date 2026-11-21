@@ -23,6 +23,7 @@ SECTION_TARGETS = {
     "subsec:q4-four-edge-implementation": "sections/03_afc_basis.tex",
     "subsec:hinge-slide": "sections/06_wave_state_relational_time.tex",
     "subsec:sadar": "sections/06_field.tex",
+    "subsec:aod-wavelet-continuation": "sections/06_wave_state_relational_time.tex",
 }
 
 
@@ -47,6 +48,7 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
                 assert key in SECTION_TARGETS
                 assert labels[key]["path"] == SECTION_TARGETS[key]
     assert set(references) == {
+        ('mainequation', 'eq:aod-wavelet-continuation'),
         ('mainequation', 'eq:atomic-h1'),
         ('mainequation', 'eq:awareness-active'),
         ('mainequation', 'eq:awareness-carriage'),
@@ -61,6 +63,7 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
         ('mainequation', 'eq:closure-residual'),
         ('mainequation', 'eq:coupling-trace'),
         ('mainequation', 'eq:cumulative-closure-counts'),
+        ('mainequation', 'eq:duad-same-current'),
         ('mainequation', 'eq:expose-inner-lineage'),
         ('mainequation', 'eq:field-organization'),
         ('mainequation', 'eq:field-count-term'),
@@ -77,14 +80,20 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
         ('mainequation', 'eq:operative-source-removal'),
         ('mainequation', 'eq:rcd-additive-realization'),
         ('mainequation', 'eq:rcd-coupling'),
+        ('mainequation', 'eq:recipient-event-lattice'),
         ('mainequation', 'eq:reflected-leg-bound'),
         ('mainequation', 'eq:relational-time'),
         ('mainequation', 'eq:retained-rebalancing'),
         ('mainequation', 'eq:return-identity'),
+        ('mainequation', 'eq:shed-continuation-witness'),
         ('mainequation', 'eq:shedding-excess'),
         ('mainequation', 'eq:wave-identity'),
         ('mainequation', 'eq:wave-update-trace'),
+        ('mainequation', 'eq:wavelet-cancellation-retention'),
+        ('mainequation', 'eq:wavelet-overlap-dedup'),
+        ('mainequation', 'eq:wavelet-reference-timing'),
         ('mainsection', 'sec:afc-stokes-seed'),
+        ('mainsection', 'subsec:aod-wavelet-continuation'),
         ('mainsection', 'subsec:hinge-slide'),
         ('mainsection', 'subsec:q4-four-edge-implementation'),
         ('mainsection', 'subsec:q4-hamming-ternary-kernel'),

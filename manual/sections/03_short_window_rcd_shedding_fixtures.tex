@@ -360,14 +360,20 @@ The sheddic path audit uses
 The four pressure tuples above supply amounts. The short-window application
 must additionally bind route identity, allocated amount and conservation,
 then a retained-form and lifetime/window witness when retention is claimed.
-Those certificates are not supplied by a positive surplus alone. A missing
-route leaves only that stage incomplete; a deficit remains an open check or
-requires a declared closure completion.
+Those certificates are not supplied by a positive surplus alone. When a routed
+surplus emits a shed continuation (\mainequation{main:eq:shed-continuation-witness}),
+downstream delivery, acceptance, seating, initial recipient origin closure and
+later compatible reclosure remain separate witness-ordered stages
+(\mainequation{main:eq:recipient-event-lattice}); routed surplus alone proves
+no recipient reclosure. A missing route leaves only that stage incomplete; a
+deficit remains an open check or requires a declared closure completion.
 
 \subsection{Audit hooks}\label{manual:short-window:audit-hooks}
 \aodnoteblock{Audit}{A short-window fixture records \(\rho^D_\omega\), \(Q^D\), \(\Delta^{\mathrm{close}}\), and \(X_{\mathrm{shedding}}\) separately. Sheddic surplus is positive only; completed routing additionally requires a declared sheddic path and its conservation witness.}
 \aodprovenance{\mainequation{main:eq:window-clipped-rho};
 \mainequation{main:eq:burden-overhang};
 \mainequation{main:eq:sheddic-path};
+\mainequation{main:eq:shed-continuation-witness};
+\mainequation{main:eq:recipient-event-lattice};
 \secref{manual:short-window:scope}.}
 \aodremark{This section is A\(\Omega\)-internal. It prepares the mechanics used by rest-energy records and boundary-current records without adding an external comparison target.}
