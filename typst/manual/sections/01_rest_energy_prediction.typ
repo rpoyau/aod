@@ -227,7 +227,7 @@ The A$Omega$ field-map table lists the manual mapping from measured-sector names
 
 
 
-#aod-provenance[#mainappendix("main:app:ao-field-fractal-properties"); #mainsection("main:subsec:curling-curl-support-forms").]
+#aod-provenance[#mainappendix("main:app:ao-field-fractal-properties")\; #mainsection("main:subsec:curling-curl-support-forms").]
 
 
 #aod-remark[The manual declares measured-sector maps such as $e^(-) arrow.r.bar 00 bar.v -$ Dimonhexon. These maps are carried by manual comparison records; #tabref("tab:ao-field-fractal-properties") lists the A$Omega$ field-property calculations.]
@@ -306,7 +306,7 @@ External comparison is quarantined. For records with declared targets,
 
 
 
-#aod-provenance[#mainappendix("main:app:ao-field-fractal-properties");
+#aod-provenance[#mainappendix("main:app:ao-field-fractal-properties")\;
 #appref("manual:external-comparison").]
 
 
@@ -513,7 +513,7 @@ Table #bare-ref("tab:manual-higgs-lhc-comparison") records the declared Higgs m
 
 
 
-#aod-provenance[#mainsection("main:subsec:yro-odd-window-route-status"); #mainappendix("main:app:ao-field-fractal-properties"); #tabref("tab:manual-higgs-internal-candidates"); #tabref("tab:manual-higgs-external-map").]
+#aod-provenance[#mainsection("main:subsec:yro-odd-window-route-status")\; #mainappendix("main:app:ao-field-fractal-properties")\; #tabref("tab:manual-higgs-internal-candidates")\; #tabref("tab:manual-higgs-external-map").]
 
 
 #aod-literature-note[ATLAS+CMS Run-1 combined mass #aod-cite("atlas-cms-higgs-run1"). CMS $H arrow.r 4 ell$ mass #aod-cite("cms-hig-21-019"). ATLAS combined Run-1+Run-2 mass #aod-cite("atlas-higgs-mass-combined-2023"). ATLAS diphoton mass #aod-cite("atlas-higgs-diphoton-2023").]

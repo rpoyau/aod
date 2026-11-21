@@ -55,7 +55,7 @@ Counting $S inter T$ twice changes the support
 measure whenever its weight is positive. A zero-weight shared face still
 participates in #eqref("eq:m3-cubical-boundary").
 
-#aod-provenance[#eqref("eq:atomic-h1"); #eqref("eq:afc-stokes-used");
+#aod-provenance[#eqref("eq:atomic-h1")\; #eqref("eq:afc-stokes-used")\;
 #eqref("eq:m3-support-measure").]
 
 
@@ -87,8 +87,8 @@ representations; structural fold/enclosure scale, localization-window extent,
 native cadence and measured frequency carry distinct types so a scale label
 alone never asserts a frequency law.
 
-#aod-provenance[#eqref("eq:fold-outer-closure"); #eqref("eq:expose-inner-lineage");
-#eqref("eq:m3-support-measure"); #eqref("eq:m3-chain-map").]
+#aod-provenance[#eqref("eq:fold-outer-closure")\; #eqref("eq:expose-inner-lineage")\;
+#eqref("eq:m3-support-measure")\; #eqref("eq:m3-chain-map").]
 
 
 
@@ -122,7 +122,7 @@ An approximation taking an intermediate value outside $E$ violates the
 composition hypotheses even if its error is small.
 
 #aod-provenance[The declared domains and norm inequalities of
-#secref("sec:m3-maps"); #eqref("eq:m3-composed-bound").]
+#secref("sec:m3-maps")\; #eqref("eq:m3-composed-bound").]
 
 
 
@@ -154,7 +154,7 @@ the specified joint law. A constant output on the entire supplied support
 has zero variance, since every deviation in #eqref("eq:m3-finite-law") vanishes.
 
 
-#aod-provenance[#eqref("eq:m3-finite-law"); #eqref("eq:m3-linear-covariance").]
+#aod-provenance[#eqref("eq:m3-finite-law")\; #eqref("eq:m3-linear-covariance").]
 
 
 
@@ -180,8 +180,8 @@ Selecting $g_i$ from an evaluation value of $R$ makes the resulting
 ratio a calibration. Changing evaluation data alone must leave a previously
 fixed model output unchanged.
 
-#aod-provenance[#eqref("eq:relational-time"); #eqref("eq:cadence-ratio");
-#eqref("eq:complete-wave-state"); #eqref("eq:complete-coupling-state").]
+#aod-provenance[#eqref("eq:relational-time")\; #eqref("eq:cadence-ratio")\;
+#eqref("eq:complete-wave-state")\; #eqref("eq:complete-coupling-state").]
 
 
 
@@ -254,6 +254,6 @@ $Delta nu_(upright("Cs"))$ as an independent prediction, or fitting $g_a slash g
 from evaluation data violates #eqref("eq:m3-observation-map")–#eqref("eq:m3-cs133-tau-interface")
 and #secref("prop:m3-atomic-gain").
 
-#aod-provenance[#eqref("eq:cadence-ratio"); #eqref("eq:wavelet-reference-timing");
-#secref("prop:m3-atomic-gain"); #eqref("eq:m3-observation-map");
-#eqref("eq:m3-conditional-si-anchor"); #eqref("eq:m3-cs133-tau-interface").]
+#aod-provenance[#eqref("eq:cadence-ratio")\; #eqref("eq:wavelet-reference-timing")\;
+#secref("prop:m3-atomic-gain")\; #eqref("eq:m3-observation-map")\;
+#eqref("eq:m3-conditional-si-anchor")\; #eqref("eq:m3-cs133-tau-interface").]

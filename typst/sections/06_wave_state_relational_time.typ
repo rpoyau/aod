@@ -332,8 +332,8 @@ such distribution. This scoped role entropy differs from
 #eqref("eq:ternary-capacity") and general channel capacity.
 
 
-#aod-literature-note[Hypercube support: Weisstein #aod-cite("weissteinHypercubeGraph");
-adjacency walks: MIT OCW #aod-cite("mitAdjacencyWalks"), Duncan #aod-cite("duncanAdjacencyWalks");
+#aod-literature-note[Hypercube support: Weisstein #aod-cite("weissteinHypercubeGraph")\;
+adjacency walks: MIT OCW #aod-cite("mitAdjacencyWalks"), Duncan #aod-cite("duncanAdjacencyWalks")\;
 random walks: Norris #aod-cite("norrisMarkov").
 Dyck/Catalan context: Stanley #aod-cite("stanleyCatalan"),
 Flajolet–Sedgewick #aod-cite("flajoletSedgewick").]

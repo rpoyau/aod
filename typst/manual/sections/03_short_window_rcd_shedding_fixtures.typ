@@ -28,7 +28,7 @@ Use the common method in #secref("manual:calculation-spine").
 #aod-noteblock("Scope")[This subsection is a boundary-restriction test. A stable Dimonhexon closure enters a slit boundary, becomes a duon-cycle handoff across the restricted boundary/window, and recloses into target bins.]
 
 
-#aod-provenance[#mainsection("main:subsec:fractal-field-ring-gate");
+#aod-provenance[#mainsection("main:subsec:fractal-field-ring-gate")\;
 #mainequation("main:eq:sadar-operator-cycle").]
 
 
@@ -208,9 +208,9 @@ unconditional detection including loss, and detected-bin conditional
 normalization; normalization must not erase throughput.
 
 
-#aod-provenance[#mainsection("main:subsec:fractal-field-ring-gate");
-#mainequation("main:eq:b-scoped-flux");
-#mainequation("main:eq:frg-cross-return-contribution");
+#aod-provenance[#mainsection("main:subsec:fractal-field-ring-gate")\;
+#mainequation("main:eq:b-scoped-flux")\;
+#mainequation("main:eq:frg-cross-return-contribution")\;
 #secref("manual:cross-return:dimonhexon-slit").]
 
 
@@ -390,11 +390,11 @@ deficit remains an open check or requires a declared closure completion.
 #aod-noteblock("Audit")[A short-window fixture records $rho^D_(omega)$, $Q^D$, $Delta^(upright("close"))$, and $X_(upright("shedding"))$ separately. Sheddic surplus is positive only; completed routing additionally requires a declared sheddic path and its conservation witness.]
 
 
-#aod-provenance[#mainequation("main:eq:window-clipped-rho");
-#mainequation("main:eq:burden-overhang");
-#mainequation("main:eq:sheddic-path");
-#mainequation("main:eq:shed-continuation-witness");
-#mainequation("main:eq:recipient-event-lattice");
+#aod-provenance[#mainequation("main:eq:window-clipped-rho")\;
+#mainequation("main:eq:burden-overhang")\;
+#mainequation("main:eq:sheddic-path")\;
+#mainequation("main:eq:shed-continuation-witness")\;
+#mainequation("main:eq:recipient-event-lattice")\;
 #secref("manual:short-window:scope").]
 
 

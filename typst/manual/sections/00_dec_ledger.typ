@@ -17,11 +17,11 @@ physical uncertainty model; see #secref("manual:calculation-spine").
 #aod-noteblock("Scope")[This section gives a hand-calculation path from one declared AFC edge computation into the A$Omega$D motif names used later in the manual. It is a manual ledger section: it records exact edge weights, kernel fractions, route status, and boundary values.]
 
 
-#aod-provenance[#mainsection("main:sec:afc-stokes-seed");
-#mainsection("main:subsec:q4-four-edge-implementation");
-#mainsection("main:subsec:hinge-slide");
-#mainsection("main:subsec:sadar");
-#secref("manual:exact-arithmetic-presentation");
+#aod-provenance[#mainsection("main:sec:afc-stokes-seed")\;
+#mainsection("main:subsec:q4-four-edge-implementation")\;
+#mainsection("main:subsec:hinge-slide")\;
+#mainsection("main:subsec:sadar")\;
+#secref("manual:exact-arithmetic-presentation")\;
 #secref("manual:cross-return-short-window").]
 
 
@@ -138,7 +138,7 @@ Blocking is zero admissibility. Once same-resolution hinge dwell is blocked on t
 This structural removal instantiates #mainequation("main:eq:hinge-saturation").
 An admitted dwell assigned weight zero instead remains in the structural
 family and satisfies only the positive-support statement
-#mainequation("main:eq:hinge-saturation-weighted"); the blocking example below
+#mainequation("main:eq:hinge-saturation-weighted")\; the blocking example below
 uses zero admissibility.
 A dwell of weight zero and two branches of weights one and two satisfy
 the weighted condition while the admitted dwell family remains nonempty.

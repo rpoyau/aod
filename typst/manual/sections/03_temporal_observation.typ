@@ -290,7 +290,7 @@ With compatible calibrated population estimates and $N_3 + N_4 > 0$,
 $p = N_4 slash (N_3 + N_4 )$ supplies a population response for line-centre estimation.
 The August 2013 NIST-F2 evaluation reports fractional uncertainties
 $u_A = 0.44 times 10^(- 15)$ and $u_B = 0.16 times 10^(- 15)$;
-Table 1's typical $u_B = 0.11 times 10^(- 15)$ belongs to a different budget.
+Table 1’s typical $u_B = 0.11 times 10^(- 15)$ belongs to a different budget.
 Multiplication by $f_(upright("Cs"))$ converts each printed value to hertz.
 The spin-exchange statistical contribution is already included in $u_A$.
 Quoted upper bounds remain bounds, and rounded synthesizer settings do not
@@ -370,12 +370,12 @@ inputs is a reduction. Neither establishes the missing physical H/Cs
 correspondence or an isotope lifetime prediction.
 
 
-#aod-provenance[#mainsection("main:subsec:m3-conditional-si-interface");
-#mainequation("main:eq:wave-update-trace"); #mainequation("main:eq:coupling-trace");
-#mainequation("main:eq:rcd-additive-realization"); #mainequation("main:eq:aod-wavelet-continuation");
-#mainequation("main:eq:wavelet-reference-timing"); #mainequation("main:eq:shed-continuation-witness");
-#mainequation("main:eq:recipient-event-lattice"); #mainequation("main:eq:m3-observation-map");
-#mainequation("main:eq:m3-conditional-si-anchor"); #mainequation("main:eq:m3-cs133-tau-interface").]
+#aod-provenance[#mainsection("main:subsec:m3-conditional-si-interface")\;
+#mainequation("main:eq:wave-update-trace")\; #mainequation("main:eq:coupling-trace")\;
+#mainequation("main:eq:rcd-additive-realization")\; #mainequation("main:eq:aod-wavelet-continuation")\;
+#mainequation("main:eq:wavelet-reference-timing")\; #mainequation("main:eq:shed-continuation-witness")\;
+#mainequation("main:eq:recipient-event-lattice")\; #mainequation("main:eq:m3-observation-map")\;
+#mainequation("main:eq:m3-conditional-si-anchor")\; #mainequation("main:eq:m3-cs133-tau-interface").]
 
 
 

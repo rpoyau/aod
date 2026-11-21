@@ -82,6 +82,33 @@ def compute_main_sources_digest(root: Path) -> tuple[str, list[str]]:
     return h.hexdigest(), rel_list
 
 
+def compute_manual_sources_digest(root: Path) -> tuple[str, list[str]]:
+    """Compute deterministic SHA-256 over all active Manual Typst, bibliography, registry, and image inputs."""
+    files: list[Path] = [
+        root / "typst" / "manual" / "main.typ",
+        root / "typst" / "manual" / "preamble.typ",
+        root / "typst" / "lib" / "aod_schema.typ",
+        root / "typst" / "lib" / "main_registry.json",
+        root / "manual" / "refs.bib",
+    ]
+    files.extend(sorted((root / "typst" / "manual" / "sections").glob("*.typ")))
+    files.extend(sorted((root / "typst" / "manual" / "appendices").glob("*.typ")))
+    files.extend(sorted((root / "typst" / "manual" / "tables").glob("*.typ")))
+    files.extend(sorted((root / "figures_jpg").glob("*")))
+    files.extend(sorted((root / "manual" / "figures").glob("*")))
+
+    h = hashlib.sha256()
+    rel_list: list[str] = []
+    for p in sorted({f for f in files if f.is_file()}, key=lambda x: x.relative_to(root).as_posix()):
+        rel = p.relative_to(root).as_posix()
+        rel_list.append(rel)
+        h.update(rel.encode("utf-8"))
+        h.update(b"\0")
+        h.update(sha256_file(p).encode("ascii"))
+        h.update(b"\n")
+    return h.hexdigest(), rel_list
+
+
 def run_typst_eval(typst_bin: str, root: Path, doc_path: Path, selector: str, inputs: dict[str, str] | None = None) -> list[dict]:
     cmd = [typst_bin, "eval", "--root", str(root), f"query({selector})", "--in", str(doc_path)]
     for k, v in (inputs or {}).items():
@@ -92,7 +119,12 @@ def run_typst_eval(typst_bin: str, root: Path, doc_path: Path, selector: str, in
     return json.loads(proc.stdout)
 
 
-def extract_registry(main_entries_raw: list[dict], main_digest: str, main_inputs: list[str]) -> dict:
+def extract_registry(
+    main_entries_raw: list[dict],
+    main_digest: str,
+    main_inputs: list[str],
+    main_pdf_filename: str = "main_typst.pdf",
+) -> dict:
     entries: dict[str, dict] = {}
     for item in main_entries_raw:
         val = item.get("value")
@@ -109,6 +141,7 @@ def extract_registry(main_entries_raw: list[dict], main_digest: str, main_inputs
         }
     return {
         "schema": "aod.typst.main-registry.v1",
+        "main_pdf_filename": main_pdf_filename,
         "main_sources_sha256": main_digest,
         "main_input_count": len(main_inputs),
         "entry_count": len(entries),
@@ -118,7 +151,12 @@ def extract_registry(main_entries_raw: list[dict], main_digest: str, main_inputs
 
 def compile_doc(typst_bin: str, root: Path, src: Path, out_pdf: Path, inputs: dict[str, str] | None = None) -> None:
     out_pdf.parent.mkdir(parents=True, exist_ok=True)
-    cmd = [typst_bin, "compile", "--root", str(root), str(src), str(out_pdf)]
+    creation_ts = os.environ.get("SOURCE_DATE_EPOCH", "0")
+    cmd = [
+        typst_bin, "compile", "--root", str(root),
+        "--creation-timestamp", str(creation_ts),
+        str(src), str(out_pdf),
+    ]
     for k, v in (inputs or {}).items():
         cmd.extend(["--input", f"{k}={v}"])
     proc = subprocess.run(cmd, cwd=root, capture_output=True, text=True)
@@ -147,9 +185,14 @@ def build_all(
     # 1. Compile Main
     compile_doc(typst_bin, root, main_src, main_pdf)
 
-    # 2. Export deterministic Main reference registry
+    # 2. Export deterministic Main reference registry bound to delivered peer filename
     main_ref_entries = run_typst_eval(typst_bin, root, main_src, "<aod-ref-entry>")
-    registry = extract_registry(main_ref_entries, main_digest, main_inputs)
+    registry = extract_registry(
+        main_ref_entries,
+        main_digest,
+        main_inputs,
+        main_pdf_filename=main_pdf.name,
+    )
     registry_path = root / "typst" / "lib" / "main_registry.json"
     registry_text = json.dumps(registry, indent=2, sort_keys=True) + "\n"
 
@@ -161,28 +204,28 @@ def build_all(
     elif write_registry:
         registry_path.write_text(registry_text, encoding="utf-8")
 
-    # 3. Compile Manual with strict Main digest freshness check
-    compile_doc(
-        typst_bin,
-        root,
-        manual_src,
-        manual_pdf,
-        inputs={"expected_main_digest": main_digest},
-    )
+    manual_digest, _ = compute_manual_sources_digest(root)
+    manual_inputs = {
+        "expected_main_digest": main_digest,
+        "expected_main_pdf_filename": main_pdf.name,
+    }
+
+    # 3. Compile Manual with strict Main digest + companion filename freshness checks
+    compile_doc(typst_bin, root, manual_src, manual_pdf, inputs=manual_inputs)
 
     manual_ref_entries = run_typst_eval(
-        typst_bin, root, manual_src, "<aod-ref-entry>",
-        inputs={"expected_main_digest": main_digest},
+        typst_bin, root, manual_src, "<aod-ref-entry>", inputs=manual_inputs
     )
     manual_mainrefs = run_typst_eval(
-        typst_bin, root, manual_src, "<aod-mainref-use>",
-        inputs={"expected_main_digest": main_digest},
+        typst_bin, root, manual_src, "<aod-mainref-use>", inputs=manual_inputs
     )
 
     report = {
         "schema": "aod.typst.build-report.v1",
         "typst_version": typst_version,
+        "creation_timestamp": os.environ.get("SOURCE_DATE_EPOCH", "0"),
         "main_sources_sha256": main_digest,
+        "manual_sources_sha256": manual_digest,
         "main_pdf": main_pdf.name,
         "main_pdf_sha256": sha256_file(main_pdf),
         "main_pdf_bytes": main_pdf.stat().st_size,

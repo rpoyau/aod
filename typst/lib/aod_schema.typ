@@ -312,6 +312,14 @@
   [#_emit-ref-use("ref", id, e.kind, e.number)#link(label(id))[#e.number]]
 }
 
+// Advance the table figure counter for uncaptioned LaTeX longtables (which
+// increment LaTeX's table counter even without a \caption), preserving exact
+// baseline table numbering across subsequent captioned tables.
+#let aod-uncaptioned-longtable(body) = {
+  counter(figure.where(kind: table)).step()
+  body
+}
+
 // --- Native Main-to-Manual cross-reference resolution (strict registry + type + freshness guard) ---
 #let aod-load-main-registry(registry-path, expected-digest: none) = {
   let reg = json(registry-path)
@@ -328,6 +336,19 @@
         + ". Build Main before Manual."
       )
     }
+  }
+  let reg-pdf = reg.at("main_pdf_filename", default: "")
+  if reg-pdf == "" {
+    panic("Main reference registry missing main_pdf_filename in " + registry-path)
+  }
+  let expected-pdf = sys.inputs.at("expected_main_pdf_filename", default: "")
+  if expected-pdf != "" and reg-pdf != expected-pdf {
+    panic(
+      "Main companion filename mismatch: registry specifies "
+      + reg-pdf
+      + " != expected "
+      + expected-pdf
+    )
   }
   aod-main-registry.update(reg)
 }
@@ -354,14 +375,18 @@
       panic("Wrong Main RG tag format for " + id + ": " + entry.number)
     }
   }
-  (entry: entry, digest: reg.at("main_sources_sha256", default: ""))
+  (
+    entry: entry,
+    digest: reg.at("main_sources_sha256", default: ""),
+    peer_pdf: reg.at("main_pdf_filename", default: "main_typst.pdf"),
+  )
 }
 
 #let _render-main-ref(id, allowed-kinds, macro-name, formatter) = context {
   let res = _lookup-main-ref(id, allowed-kinds, macro-name)
   let entry = res.entry
   let disp = formatter(entry)
-  let dest = "main.pdf#page=" + str(entry.page)
+  let dest = res.peer_pdf + "#page=" + str(entry.page)
   [#metadata((
     macro: macro-name,
     ref_id: id,
@@ -370,6 +395,7 @@
     resolved_number: entry.number,
     resolved_display: disp,
     target_page: entry.page,
+    peer_pdf: res.peer_pdf,
     pdf_destination: dest,
     registry_digest: res.digest,
   )) <aod-mainref-use>#link(dest)[#disp]]
@@ -582,8 +608,53 @@
   (display: lead + ", and " + parts.last().display, sort: sort-key)
 }
 
+// Implement BibTeX plain.bst `change.case$("t")`: preserve the first character
+// and the first non-space character after a colon, preserve characters inside
+// {...} braces or $...$ math, and lowercase all other top-level ASCII letters.
+#let _bibtex-sentence-case(s) = {
+  let chars = s.clusters()
+  let out = ""
+  let depth = 0
+  let in-math = false
+  let at-start = true
+  let after-colon = false
+  for ch in chars {
+    if ch == "{" {
+      depth += 1
+      out += ch
+      at-start = false
+      after-colon = false
+    } else if ch == "}" {
+      if depth > 0 { depth -= 1 }
+      out += ch
+    } else if ch == "$" {
+      in-math = not in-math
+      out += ch
+      at-start = false
+      after-colon = false
+    } else if depth > 0 or in-math {
+      out += ch
+    } else {
+      if ch == ":" {
+        out += ch
+        at-start = false
+        after-colon = true
+      } else if ch in (" ", "\t", "\n", "\r") {
+        out += ch
+      } else if at-start or after-colon {
+        out += ch
+        at-start = false
+        after-colon = false
+      } else {
+        out += lower(ch)
+      }
+    }
+  }
+  out
+}
+
 #let _clean-bib-str(s) = {
-  s.replace("{", "").replace("}", "").replace("---", "—").replace("--", "–").replace("~", "\u{00a0}")
+  s.replace("{", "").replace("}", "").replace("---", "—").replace("--", "–").replace("~", "\u{00a0}").replace("'", "’")
 }
 
 // Render BibTeX string supporting \url{...} and the inline math snippets used in refs.bib / manual/refs.bib
@@ -695,6 +766,7 @@
       let etype = item.type
       let author = item.author
       let raw-title = f.at("title", default: "")
+      let cased-title = if etype == "book" { raw-title } else { _bibtex-sentence-case(raw-title) }
       let journal = f.at("journal", default: "")
       let volume = f.at("volume", default: "")
       let number = f.at("number", default: "")
@@ -710,7 +782,7 @@
         key: item.key,
         num: item.num,
         author: author,
-        title: _clean-bib-str(raw-title),
+        title: _clean-bib-str(cased-title),
         year: year,
         page: loc.page(),
       )) <aod-bib-entry>]
@@ -723,20 +795,25 @@
           [
             #if author != "" [#_ensure-period(author) ]
             #if etype == "book" [
-              #emph[#_render-bib-text(_ensure-period(raw-title))]
-            ] else [
-              #_render-bib-text(_ensure-period(raw-title))
-            ]
-            #if etype == "article" [
+              #emph[#_render-bib-text(_ensure-period(cased-title))]
+              #if publisher != "" [ #_render-bib-text(publisher)#if year != "" [, #_ensure-period(year)] else [.] ] else if year != "" [ #_ensure-period(year)]
+            ] else if etype == "article" [
+              #_render-bib-text(_ensure-period(cased-title))
               #if journal != "" [ #emph[#_render-bib-text(journal)]#if volume != "" or pages != "" or year != "" [, ] else [.] ]
               #if volume != "" [#volume#if number != "" [(#number)]#if pages != "" [:#_clean-bib-str(pages)]#if year != "" [, #_ensure-period(year)] else [.]] else if year != "" [#_ensure-period(year)]
-            ] else if etype == "book" [
-              #if publisher != "" [ #_render-bib-text(publisher)#if year != "" [, #_ensure-period(year)] else [.] ] else if year != "" [ #_ensure-period(year)]
             ] else if etype == "techreport" [
+              #_render-bib-text(_ensure-period(cased-title))
               #if number != "" [ Technical Report #_render-bib-text(number)#if institution != "" [, ] ]
               #if institution != "" [#_render-bib-text(institution)#if year != "" [, #_ensure-period(year)] else [.]] else if year != "" [ #_ensure-period(year)]
             ] else [
-              #if howpub != "" [ #_render-bib-text(howpub)#if year != "" [, #_ensure-period(year)] else [.] ] else if publisher != "" [ #_render-bib-text(publisher)#if year != "" [, #_ensure-period(year)] else [.] ] else if year != "" [ #_ensure-period(year)]
+              // BibTeX plain.bst @misc ignores publisher and separates title from year with ", " when howpublished is absent.
+              #if howpub != "" [
+                #_render-bib-text(_ensure-period(cased-title)) #_render-bib-text(howpub)#if year != "" [, #_ensure-period(year)] else [.]
+              ] else if year != "" [
+                #_render-bib-text(cased-title.trim()), #_ensure-period(year)
+              ] else [
+                #_render-bib-text(_ensure-period(cased-title))
+              ]
             ]
             #if note != "" [ #_render-bib-text(_ensure-period(note))]
           ]
@@ -801,9 +878,9 @@
     if it.has("label") {
       let lbl = str(it.label)
       context {
-        let loc = here()
-        let is-app = aod-in-appendix.get()
-        let nums = counter(heading).at(loc)
+        let el-loc = it.location()
+        let is-app = aod-in-appendix.at(el-loc)
+        let nums = counter(heading).at(el-loc)
         let fmt = _fmt-heading-num(nums, is-app)
         let kind = _heading-kind(it.level, is-app)
         [#metadata((
@@ -817,7 +894,7 @@
           kind: kind,
           number: fmt,
           display: fmt,
-          page: loc.page(),
+          page: el-loc.page(),
         )) <aod-ref-entry>]
       }
     }
@@ -829,8 +906,8 @@
     if it.numbering != none and it.has("label") {
       let lbl = str(it.label)
       context {
-        let loc = here()
-        let num = counter(math.equation).at(loc).at(0)
+        let el-loc = it.location()
+        let num = counter(math.equation).at(el-loc).at(0)
         [#metadata((
           id: lbl,
           kind: "equation",
@@ -842,7 +919,7 @@
           kind: "equation",
           number: str(num),
           display: "(" + str(num) + ")",
-          page: loc.page(),
+          page: el-loc.page(),
         )) <aod-ref-entry>]
       }
     }
@@ -855,8 +932,8 @@
       let lbl = str(it.label)
       let fkind = if it.kind == table { "table" } else { "figure" }
       context {
-        let loc = here()
-        let num = counter(figure.where(kind: it.kind)).at(loc).at(0)
+        let el-loc = it.location()
+        let num = counter(figure.where(kind: it.kind)).at(el-loc).at(0)
         [#metadata((
           id: lbl,
           kind: fkind,
@@ -868,7 +945,7 @@
           kind: fkind,
           number: str(num),
           display: str(num),
-          page: loc.page(),
+          page: el-loc.page(),
         )) <aod-ref-entry>]
       }
     }

@@ -12,7 +12,7 @@ the later current, continuation or routed-shedding output; all operands and
 comparators are conditional fixture values. Passive observation leaves the
 execution unchanged, while an active query is a separate perturbation.
 No physical uncertainty model is instantiated. The common method is
-#secref("manual:calculation-spine"); the falsifiers are stated with each model.
+#secref("manual:calculation-spine")\; the falsifiers are stated with each model.
 
 
 
@@ -23,10 +23,10 @@ criterion in #mainequation("main:eq:awareness-state-factorization"),
 #mainequation("main:eq:retained-rebalancing") and
 #mainequation("main:eq:awareness-active"). They are operational finite models. All inputs and
 expected results are in
-#raw("manual/data/awareness/awareness_cases.jsonl"); the shared runner is
+#raw("manual/data/awareness/awareness_cases.jsonl")\; the shared runner is
 #raw("manual/scripts/aod_awareness.py"). From the source root, run
 
-#pad(left: 1.5em, right: 1.5em)[#set text(font: ("Latin Modern Mono", "DejaVu Sans Mono"), size: 9.5pt); python3 manual/scripts/aod\_awareness.py –check-data]
+#pad(left: 1.5em, right: 1.5em)[#set text(size: 9.5pt); #raw("python3 manual/scripts/aod_awareness.py --check-data")]
 
 Actual state and outcome traces are separate execution evidence. Expected
 answers, row names and passive observations are never arguments of the
@@ -60,7 +60,7 @@ perturbative query $q_k$:
 
 $ J_(k + 1) = J_k + frac(A_k + q_k + g sum_(e: thin i_e in D_k) r_e, p). $ <eq:awareness-response>
 
-The term $J_k + A_k slash p$ specializes #eqref("eq:sadar-rational-response");
+The term $J_k + A_k slash p$ specializes #eqref("eq:sadar-rational-response")\;
 $A_k$ is a scalar attention component, separate from $r_e$.
 Its channel construction and $A O = - O A$ remain fixed.
 
@@ -98,11 +98,11 @@ phase type, or allowing a same-cut effect also fails the criterion.
 A label attached to either execution cannot change $cal(U)$.
 
 
-#aod-provenance[#mainequation("main:eq:hinge-grammar");
-#mainequation("main:eq:atomic-h1");
-#mainequation("main:eq:wave-update-trace");
-#mainequation("main:eq:causal-update");
-#eqref("eq:awareness-response");
+#aod-provenance[#mainequation("main:eq:hinge-grammar")\;
+#mainequation("main:eq:atomic-h1")\;
+#mainequation("main:eq:wave-update-trace")\;
+#mainequation("main:eq:causal-update")\;
+#eqref("eq:awareness-response")\;
 #eqref("eq:awareness-causal-difference").]
 
 
@@ -236,8 +236,8 @@ A surviving record with no later behavioral change is persistence alone.
 A changed stimulus cannot be attributed to memory by an unmatched comparison.
 
 
-#aod-provenance[#mainequation("main:eq:closure-certificate");
-#mainequation("main:eq:retained-rebalancing");
+#aod-provenance[#mainequation("main:eq:closure-certificate")\;
+#mainequation("main:eq:retained-rebalancing")\;
 #eqref("eq:awareness-causal-difference").]
 
 
@@ -308,8 +308,8 @@ causal witnesses of #mainequation("main:eq:fold-outer-closure"),
 #mainequation("main:eq:awareness-carriage").
 
 
-#aod-provenance[#mainequation("main:eq:closure-residual");
-#mainequation("main:eq:shedding-excess");
+#aod-provenance[#mainequation("main:eq:closure-residual")\;
+#mainequation("main:eq:shedding-excess")\;
 #eqref("eq:awareness-shedding-bridge").]
 
 
@@ -384,8 +384,8 @@ A query without a committed observation is incomplete. Stability alone
 does not establish provenance or the earlier causal operativity witness.
 
 
-#aod-provenance[#eqref("eq:awareness-response");
-#mainequation("main:eq:causal-update");
+#aod-provenance[#eqref("eq:awareness-response")\;
+#mainequation("main:eq:causal-update")\;
 #eqref("eq:mindfulness-stability").]
 
 
@@ -417,7 +417,7 @@ The original A0–A18 examples share the constructors of
 #raw("manual/scripts/aod_awareness.py"). Their required
 roles remain explicit in the following crosswalk.
 
-#{
+#aod-uncaptioned-longtable[#{
   set text(size: 8.5pt)
   set par(justify: false)
   table(
@@ -449,7 +449,7 @@ roles remain explicit in the following crosswalk.
     [A18], [Recurrent other/subnet], [Separate admitted peer and repeated contact prefixes],
     bottomrule,
   )
-}
+}]
 
 
 The forty-seven new input rows have identities #raw("R04-NEW-001") through
@@ -462,13 +462,13 @@ from a basename or a former runtime, and these new executions do not satisfy
 historical rerun rows.
 
 
-#aod-provenance[#mainequation("main:eq:awareness-state-factorization");
-#mainequation("main:eq:retained-rebalancing"); #mainequation("main:eq:awareness-active");
-#mainequation("main:eq:awareness-operative-set");
-#eqref("eq:awareness-response"); #eqref("eq:awareness-causal-difference");
-#mainequation("main:eq:operative-self"); #eqref("eq:action-return-retention");
-#eqref("eq:awareness-shedding-bridge");
-#eqref("eq:awareness-conditioned-shedding");
-#mainequation("main:eq:awareness-carriage"); #eqref("eq:mindfulness-stability");
-#mainequation("main:eq:closure-phase"); #mainequation("main:eq:wave-identity"); #mainequation("main:eq:relational-time");
-#mainequation("main:eq:fold-outer-closure"); #mainequation("main:eq:expose-inner-lineage").]
+#aod-provenance[#mainequation("main:eq:awareness-state-factorization")\;
+#mainequation("main:eq:retained-rebalancing")\; #mainequation("main:eq:awareness-active")\;
+#mainequation("main:eq:awareness-operative-set")\;
+#eqref("eq:awareness-response")\; #eqref("eq:awareness-causal-difference")\;
+#mainequation("main:eq:operative-self")\; #eqref("eq:action-return-retention")\;
+#eqref("eq:awareness-shedding-bridge")\;
+#eqref("eq:awareness-conditioned-shedding")\;
+#mainequation("main:eq:awareness-carriage")\; #eqref("eq:mindfulness-stability")\;
+#mainequation("main:eq:closure-phase")\; #mainequation("main:eq:wave-identity")\; #mainequation("main:eq:relational-time")\;
+#mainequation("main:eq:fold-outer-closure")\; #mainequation("main:eq:expose-inner-lineage").]

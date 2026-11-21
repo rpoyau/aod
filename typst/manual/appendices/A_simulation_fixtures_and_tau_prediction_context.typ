@@ -87,7 +87,7 @@ If the computed values violate the stated recurrences on the declared ticks, the
 
 Manual fixtures and comparisons are read together with their declared data-support class. The compact class list is:
 
-#math.equation(block: true, numbering: none, $ mat(delim: #none, align: #left, D 0, "exact internal fixture",; O 0, "observable-map fixture",; G 0, "radial shell projection",; G 1, "radial-medium projection",; G 2, "three-dimensional field-dynamics retention",; G 3, "time-resolved tracer-current simulation",; L 0, "exact lensing toy fixture",; L 1, "radial lens-medium diagnostic",; L 2, "target-acquisition lane",; L 3, "full lensing release class".) $)
+#math.equation(block: true, numbering: none, $ mat(delim: #none, align: #left, D 0, "exact internal fixture" ","; O 0, "observable-map fixture" ","; G 0, "radial shell projection" ","; G 1, "radial-medium projection" ","; G 2, "three-dimensional field-dynamics retention" ","; G 3, "time-resolved tracer-current simulation" ","; L 0, "exact lensing toy fixture" ","; L 1, "radial lens-medium diagnostic" ","; L 2, "target-acquisition lane" ","; L 3, "full lensing release class".) $)
 
 Errors and residuals are scoped to the class: $delta_3$ for exact internal comparators, observable-map residuals for O0, radial square-speed residuals for G0/G1, retention and field residuals for G2/G3, and target-side residuals for L2/L3 after prediction values freeze.
 
@@ -97,7 +97,7 @@ Errors and residuals are scoped to the class: $delta_3$ for exact internal compa
 Fixture audit records signed direction, scalar pressure, scope cancellation inside its declared boundary/window, and $cal(E)(R,B)$ for a declared Stokes-valid scope.
 
 
-#aod-provenance[#mainequation("main:eq:b-scoped-flux"); #mainequation("main:eq:sadar-attention-vector"); #mainequation("main:eq:stokes-audit-residual"); #mainappendix("main:app:scoped-flux-cancellation"); #mainappendix("main:app:combinatorics-rd-tests").]
+#aod-provenance[#mainequation("main:eq:b-scoped-flux")\; #mainequation("main:eq:sadar-attention-vector")\; #mainequation("main:eq:stokes-audit-residual")\; #mainappendix("main:app:scoped-flux-cancellation")\; #mainappendix("main:app:combinatorics-rd-tests").]
 
 
 

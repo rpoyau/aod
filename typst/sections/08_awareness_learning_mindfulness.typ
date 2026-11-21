@@ -74,7 +74,7 @@ the retained coordinates themselves, role labels and intervention verdicts.
 Define channel
 operativity on this matched intervention by
 
-$ op("Op")^(O,H)_e (S_k^(+) ) = 1 quad arrow.l.r.double.long quad R_e "is valid" quad and quad exists t > k, t lt.eq k + H: quad O(cal(U)^(t - k) (S_k^(+) ;E)) eq.not O(cal(U)^(t - k) (S_k^(+ , - e) ;E)). $ <eq:awareness-active>
+$ op("Op")^(O,H)_e (S_k^(+) ) = 1 quad arrow.l.r.double.long quad R_e "is valid" quad and \ exists t > k, t lt.eq k + H: quad O(cal(U)^(t - k) (S_k^(+) ;E)) eq.not O(cal(U)^(t - k) (S_k^(+ , - e) ;E)). $ <eq:awareness-active>
 
 The operative retained-relation set in that declared context is
 

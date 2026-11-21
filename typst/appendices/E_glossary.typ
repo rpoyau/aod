@@ -5,7 +5,7 @@
 
 
 
-#{
+#aod-uncaptioned-longtable[#{
   set text(size: 8.5pt)
   set par(justify: false)
   table(
@@ -18,7 +18,7 @@
     ),
     [Null symmetry], [Undistinguished presentation; #eqref("eq:null-axiom").],
     [Cut-running], [Running relation; #eqref("eq:cut-running-form").],
-    [Hinge triad], [Sided support; crown roles in #eqref("eq:hinge-triad"); #eqref("eq:hinge-grammar").],
+    [Hinge triad], [Sided support; crown roles in #eqref("eq:hinge-triad")\; #eqref("eq:hinge-grammar").],
     [Fractal tesseract], [Recursive support and its finite chart; #secref("subsec:fractal-tesseract").],
     [Four-edge $x$ witness], [Degree and ancestry; fibre remains separate; #secref("subsec:four-edge-x-witness").],
     [Fractal address], [Octal address and first anchor; #eqref("eq:first-anchor").],
@@ -29,12 +29,12 @@
     [Phase-bearing step], [Committed traversal count; #eqref("eq:closure-phase-step-count").],
     [Closure-phase cycle], [Completion accessor; #eqref("eq:closure-phase").],
     [Accumulated closure cycles], [Cumulative count; #eqref("eq:cumulative-closure-counts").],
-    [Beat], [Reclosure count; window origin in #eqref("eq:closure-phase-window"); #eqref("eq:beat-reclosure").],
+    [Beat], [Reclosure count; window origin in #eqref("eq:closure-phase-window")\; #eqref("eq:beat-reclosure").],
     [Cadence], [Ordered separations; #eqref("eq:beat-reclosure").],
     [Wave], [Admitted identity and growing history; #eqref("eq:wave-identity").],
     [Wave continuity], [Admitted-lineage presentation; #appref("app:wave:cycle-wave-identity").],
     [Field], [Scoped membership; #eqref("eq:field-organization").],
-    [Relational comparison], [Native projection; comparator #eqref("eq:native-comparator"); #eqref("eq:relational-time").],
+    [Relational comparison], [Native projection; comparator #eqref("eq:native-comparator")\; #eqref("eq:relational-time").],
     [Memorum], [Member roles and retained organization; #secref("subsec:field-memorum").],
     [Region], [Retained field part; #secref("subsec:field-region").],
     [Boundary], [Retained interface; #secref("subsec:field-boundary").],
@@ -53,10 +53,10 @@
     [Field-count term], [Declared logarithmic count model; #eqref("eq:field-count-term").],
     [Polychiral shell dressing], [Oriented outer dressing; #secref("subsec:polychiral-shell-dressing").],
     [Dion], [Oriented two-position pattern; #secref("subsec:dion").],
-    [Duon current], [Resolved support; current #eqref("eq:window-current"); #eqref("eq:duon-current").],
-    [Duad], [Same-current seated state; #eqref("eq:duad-same-current"); #secref("subsec:duad").],
-    [Wavelet], [Finite localized lineage-bearing continuation; overlap #eqref("eq:wavelet-overlap-dedup"); #eqref("eq:aod-wavelet-continuation").],
-    [Temporal cycle group], [Recurrent wavelet segment; #eqref("eq:aod-wavelet-continuation"); #secref("subsec:temporal-cycle-group").],
+    [Duon current], [Resolved support; current #eqref("eq:window-current")\; #eqref("eq:duon-current").],
+    [Duad], [Same-current seated state; #eqref("eq:duad-same-current")\; #secref("subsec:duad").],
+    [Wavelet], [Finite localized lineage-bearing continuation; overlap #eqref("eq:wavelet-overlap-dedup")\; #eqref("eq:aod-wavelet-continuation").],
+    [Temporal cycle group], [Recurrent wavelet segment; #eqref("eq:aod-wavelet-continuation")\; #secref("subsec:temporal-cycle-group").],
     [Lead–lag disturbance], [Asymmetric return span; #secref("subsec:lead-lag-burden").],
     [Shed], [Verb; #secref("subsec:shedding").],
     [Shedding], [Computed surplus; #eqref("eq:shedding-excess").],
@@ -70,15 +70,15 @@
     [Tetron], [Four-seat inner enclosure; #secref("subsec:e4-tetron").],
     [Support enclosure], [Outer even orders; #secref("subsec:outer-enclosures").],
     [Tetratrion], [Core family name; #appref("app:cc-families").],
-    [Dimonon], [Two Monons; family #appref("app:cc-families"); #eqref("eq:motif-grammar").],
+    [Dimonon], [Two Monons; family #appref("app:cc-families")\; #eqref("eq:motif-grammar").],
     [Trio], [Core family name; #appref("app:cc-families").],
     [Ditrion], [Core family name; #appref("app:cc-families").],
     [Tritrion], [Core family name; #appref("app:cc-families").],
     [Dimonhexon], [Proposed enclosed specification $1:2:6$; #secref("subsec:curling-curl-support-forms").],
     [Tritriohexon], [Proposed enclosed specification $3:3:6$; #secref("subsec:curling-curl-support-forms").],
     [Tetratriohexon], [Proposed enclosed specification $3:4:6$; #secref("subsec:curling-curl-support-forms").],
-    [Dimonocton], [Lifted name $1:2:8$; support #secref("subsec:curling-curl-support-forms"); enclosure #secref("subsec:octon").],
-    [Dimondecon], [Lifted name $1:2:10$; support #secref("subsec:curling-curl-support-forms"); enclosure #secref("subsec:decon").],
+    [Dimonocton], [Lifted name $1:2:8$; support #secref("subsec:curling-curl-support-forms")\; enclosure #secref("subsec:octon").],
+    [Dimondecon], [Lifted name $1:2:10$; support #secref("subsec:curling-curl-support-forms")\; enclosure #secref("subsec:decon").],
     [Hexon], [First outer enclosure; #secref("subsec:hexon").],
     [Octon], [Higher outer enclosure; #secref("subsec:octon").],
     [Decon], [Higher outer enclosure; #secref("subsec:decon").],
@@ -87,17 +87,17 @@
     [$bowtie_B$], [Scoped reflection constructor; #eqref("eq:rcd-coupling").],
     [RCD], [Directional coupled object; #eqref("eq:rcd-coupling").],
     [$rho^D$], [Scalar duration interface; #eqref("eq:rcd-duration-participation").],
-    [$rho^D_(omega)$], [Compatible participation clip; TTL #eqref("eq:support-enclosure-retention"); #eqref("eq:window-clipped-rho").],
+    [$rho^D_(omega)$], [Compatible participation clip; TTL #eqref("eq:support-enclosure-retention")\; #eqref("eq:window-clipped-rho").],
     [$Q^D$], [Pending overhang burden; #eqref("eq:burden-overhang").],
-    [Duonic pressure], [Clipped field burden; pending #eqref("eq:burden-overhang"); #eqref("eq:duonic-pressure").],
+    [Duonic pressure], [Clipped field burden; pending #eqref("eq:burden-overhang")\; #eqref("eq:duonic-pressure").],
     [Entropic duon current], [Retained unresolved burden; #eqref("eq:entropic-duon-current").],
     [ADAR], [Local returned-channel tuple; #eqref("eq:adar-channel").],
-    [SADAR], [Returned-channel family; value #eqref("eq:sadar-operator-cycle"); #eqref("eq:sadar-field").],
+    [SADAR], [Returned-channel family; value #eqref("eq:sadar-operator-cycle")\; #eqref("eq:sadar-field").],
     [SADAR attention vector], [Pressure-bearing response input; #eqref("eq:sadar-attention-vector").],
     [Field symmetry], [Scoped relative balance; #secref("subsec:sadar-balance").],
     [Motion], [Realized later transition; #eqref("eq:causal-update").],
     [Seat compatibility], [Declared reseating support; #secref("sec:seat-shell-enclosure-routing").],
-    [Crowning], [Committed role advance; observation #appref("app:stoch-crowning"); #eqref("eq:crown-advance").],
+    [Crowning], [Committed role advance; observation #appref("app:stoch-crowning")\; #eqref("eq:crown-advance").],
     [Alpha advantage], [Scoped current-status statistic; #eqref("app:stochastic:eq:alpha-advantage").],
     [Entropic carrier], [Continuity pattern carrying coherent distinction-information and unresolved burden beyond cycle compatibility.],
     [Markovian continuity], [Present-state realization; #secref("subsec:duon-continuity").],
@@ -109,7 +109,7 @@
     [Support condition], [Relation-continuation capacity for a declared cycle or SADAR presentation.],
     bottomrule,
   )
-}
+}]
 
 
 #aod-paragraph[Closure roles.]#aod-anchor(<app:closure-role-separation>)

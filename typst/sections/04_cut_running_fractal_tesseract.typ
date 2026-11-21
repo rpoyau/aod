@@ -131,7 +131,7 @@ positive local separation. Localization selects a segment of retained recurrence
 it does not promote an isolated monon or an arbitrary scalar pulse into a wave.
 Its general localized continuation family (covering both recurrent-wave segments
 and finite/shed continuations) is constructed in #secref("subsec:aod-wavelet-continuation")
-by #eqref("eq:aod-wavelet-continuation"); this paragraph is its recurrent-wave
+by #eqref("eq:aod-wavelet-continuation")\; this paragraph is its recurrent-wave
 specialization. Its later harmonic representation, when used, binds that same
 finite segment.
 

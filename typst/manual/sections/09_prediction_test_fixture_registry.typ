@@ -11,7 +11,7 @@ the supplied calculation/comparison stages; replay requires their bound
 producer and operands; physical evidence requires source uncertainty and a
 properly classified comparison. These are separate properties. Each row
 below links through its application card to the common method in
-#secref("manual:calculation-spine"); a carried map or aggregate is not promoted
+#secref("manual:calculation-spine")\; a carried map or aggregate is not promoted
 by a source-only replay.
 
 
@@ -118,8 +118,8 @@ complete it.
 
 
 
-#aod-literature-note[Earth–Moon orbital target: NASA #aod-cite("nasa-moon-by-numbers");
-Saturn ring/Cassini target: NASA #aod-cite("nasa-cassini-division");
+#aod-literature-note[Earth–Moon orbital target: NASA #aod-cite("nasa-moon-by-numbers")\;
+Saturn ring/Cassini target: NASA #aod-cite("nasa-cassini-division")\;
 SPARC five-galaxy diagnostic: SPARC database and Lelli et al. #aod-cite("sparc-database,lelli-sparc-2016").]
 
 

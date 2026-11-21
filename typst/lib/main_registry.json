@@ -436,7 +436,7 @@
       "display": "(180)",
       "kind": "equation",
       "number": "180",
-      "page": 58
+      "page": 57
     },
     "app:wave:falsification": {
       "display": "F.5",
@@ -568,7 +568,7 @@
       "display": "(84)",
       "kind": "equation",
       "number": "84",
-      "page": 24
+      "page": 23
     },
     "eq:b-scoped-channel-pressure": {
       "display": "(83)",
@@ -766,7 +766,7 @@
       "display": "(41)",
       "kind": "equation",
       "number": "41",
-      "page": 17
+      "page": 16
     },
     "eq:directed-leg-operands": {
       "display": "(25)",
@@ -910,7 +910,7 @@
       "display": "(155)",
       "kind": "equation",
       "number": "155",
-      "page": 44
+      "page": 43
     },
     "eq:fourier-running-standing": {
       "display": "(154)",
@@ -1036,7 +1036,7 @@
       "display": "(131)",
       "kind": "equation",
       "number": "131",
-      "page": 36
+      "page": 35
     },
     "eq:frg-value-map": {
       "display": "(RG12)",
@@ -1180,7 +1180,7 @@
       "display": "(170)",
       "kind": "equation",
       "number": "170",
-      "page": 49
+      "page": 48
     },
     "eq:m3-composed-bound": {
       "display": "(171)",
@@ -1618,7 +1618,7 @@
       "display": "4",
       "kind": "figure",
       "number": "4",
-      "page": 15
+      "page": 14
     },
     "fig:curl-to-duon-current-support": {
       "display": "3",
@@ -1642,7 +1642,7 @@
       "display": "11",
       "kind": "figure",
       "number": "11",
-      "page": 40
+      "page": 39
     },
     "fig:fractal-calculus-spine": {
       "display": "12",
@@ -1654,7 +1654,7 @@
       "display": "1",
       "kind": "figure",
       "number": "1",
-      "page": 9
+      "page": 8
     },
     "fig:sadar-b-scoped-afc-flux": {
       "display": "6",
@@ -2716,7 +2716,7 @@
       "display": "3",
       "kind": "table",
       "number": "3",
-      "page": 53
+      "page": 52
     },
     "tab:cc-families": {
       "display": "1",
@@ -2733,6 +2733,7 @@
   },
   "entry_count": 455,
   "main_input_count": 29,
-  "main_sources_sha256": "b79681bcf0e0743406e70d9a42e004bfb26e21ab777dcc0239c65d4e753bf803",
+  "main_pdf_filename": "main_typst.pdf",
+  "main_sources_sha256": "46e332a1af4617562dc8d9fc0f286a34a4aeec41cb8ee4bf465c022a39ec1bb5",
   "schema": "aod.typst.main-registry.v1"
 }

@@ -225,8 +225,8 @@ with the measured comparison
 
 
 
-#aod-provenance[#secref("subsec:disoma-declaration");
-#mainequation("main:eq:b-scoped-flux");
-#mainequation("main:eq:sadar-attention-vector");
-#mainequation("main:eq:window-clipped-rho");
+#aod-provenance[#secref("subsec:disoma-declaration")\;
+#mainequation("main:eq:b-scoped-flux")\;
+#mainequation("main:eq:sadar-attention-vector")\;
+#mainequation("main:eq:window-clipped-rho")\;
 #appref("manual:external-comparison").]

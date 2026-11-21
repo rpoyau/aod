@@ -11,7 +11,7 @@ ratios. The wavelength rows are carried external comparisons, sharing each
 series baseline; their display precision is not a measurement uncertainty.
 This application's source adapter still needs exact source rows, observed
 versus Ritz and line/component conventions, uncertainty semantics and
-covariance. The common method is #secref("manual:calculation-spine"); the
+covariance. The common method is #secref("manual:calculation-spine")\; the
 existing ratio audit checks the stated arithmetic only.
 
 
@@ -298,11 +298,11 @@ carried-coordinate diagnostics, with physical uncertainty unresolved.
 #aod-noteblock("Audit")[A spectral-series record carries the destination shell $S_m$, the computed $Delta hat(P)^D (n arrow.r m)$, and the inverse-wavelength ratio $lambda_((m + 1) arrow.r m) slash lambda_(n arrow.r m)$.]
 
 
-#aod-provenance[#secref("subsec:shared-shell-path-declaration");
+#aod-provenance[#secref("subsec:shared-shell-path-declaration")\;
 #appref("manual:external-comparison").]
 
 
-#aod-literature-note[Hydrogen spectral-line targets: NIST Atomic Spectra Database #aod-cite("nist-asd"); Paschen Pa$alpha$, Pa$beta$, Pa$epsilon$ air rows: NIST Hydrogen Handbook #aod-cite("nist-hydrogen-handbook").]
+#aod-literature-note[Hydrogen spectral-line targets: NIST Atomic Spectra Database #aod-cite("nist-asd")\; Paschen Pa$alpha$, Pa$beta$, Pa$epsilon$ air rows: NIST Hydrogen Handbook #aod-cite("nist-hydrogen-handbook").]
 
 
 
@@ -322,8 +322,8 @@ The ratio audits in #tabref("tab:manual-hydrogen-pressure-ratios"), #tabref("tab
 #aod-noteblock("Audit")[A hydrogen-facing shell record carries the released-pressure magnitude before external comparison, its ratio record, and the wavelength target with its declared source-medium binding.]
 
 
-#aod-provenance[#secref("subsec:shared-shell-path-declaration");
-#appref("manual:external-comparison");
+#aod-provenance[#secref("subsec:shared-shell-path-declaration")\;
+#appref("manual:external-comparison")\;
 #secref("manual:hydrogen:scope").]
 
 

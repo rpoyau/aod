@@ -14,7 +14,7 @@
 AFC begins with Null sameness. A finite distinction supplies its relata;
 A$Omega$D retains their branch, hinge and counterbranch relation at each
 admitted scale. Its return and recurrence are constructed in
-#secref("sec:closure-phase-wave"); model values follow their admitted support.
+#secref("sec:closure-phase-wave")\; model values follow their admitted support.
 
 #aod-anchor(<subsec:null-presentation>)
 

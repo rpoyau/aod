@@ -14,7 +14,7 @@ $mono("00")_8$, and its declared scope remain distinct types.
 
 == Setup <app:fractal-address:setup>
 
-The first anchor is co-created by the distinction in #eqref("eq:first-anchor"); it
+The first anchor is co-created by the distinction in #eqref("eq:first-anchor")\; it
 is not selected from a prior coordinate set. A later retained calculation may
 bind its already admitted wave lineages and comparison window by
 

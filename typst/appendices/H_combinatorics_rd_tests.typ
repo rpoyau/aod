@@ -25,7 +25,7 @@ positive total weight on admitted H1 support. Equal weights give the isotropic
 $1 slash N_B$; unequal weights, including dependence on committed lag, orientation
 and reflection, give its anisotropic specialization. Outside that support its
 probability is zero. Additional dwell uses the separate fibre family
-#eqref("eq:continuation-domain-split"); an empty positive-weight support supplies
+#eqref("eq:continuation-domain-split")\; an empty positive-weight support supplies
 no normalized kernel.
 
 
@@ -65,7 +65,7 @@ when the branch supports are symmetric. The single-hinge reduction is
 $ H_(mu) (B) = 1 quad arrow.r.double.long quad R D(p":"q) = 2 Pi (p":"q) + 1. $ <app:rd:eq:single-hinge-return>
 
 The added $q$ is retained edge-shell support. Symmetry invokes
-#eqref("eq:branch-hinge-rd-symmetric"); the unit hinge is an extra hypothesis,
+#eqref("eq:branch-hinge-rd-symmetric")\; the unit hinge is an extra hypothesis,
 not the general rule.
 
 

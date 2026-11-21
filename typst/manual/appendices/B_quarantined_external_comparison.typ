@@ -96,11 +96,11 @@ inside this appendix only. This symbol is external and does not set active A$Ome
 
 Define the external comparison coefficient
 
-#math.equation(block: true, numbering: none, $ K_(upright("ext")) = frac(h_(upright("ext")) eta_(upright("ext")), 10^6 e) = 5.6673535511200 times 10^(- 19) upright(M e V thin s). $)
+#math.equation(block: true, numbering: none, $ K_(upright("ext")) = frac(h_(upright("ext")) eta_(upright("ext")), 10^6 e) = 5.6673535511200 times 10^(- 19) upright("MeV") thin upright("s"). $)
 
 The uncertainty inherited from $eta_(upright("ext"))$ is
 
-#math.equation(block: true, numbering: none, $ sigma_(K, eta) = 8.68490216354 times 10^(- 29) upright(M e V thin s). $)
+#math.equation(block: true, numbering: none, $ sigma_(K, eta) = 8.68490216354 times 10^(- 29) upright("MeV") thin upright("s"). $)
 
 Here $h_(upright("ext"))$ and $e$ are external exact defining constants, while $eta_(upright("ext"))$ is measured. The active A$Omega$ calculation does not use them.
 
@@ -165,8 +165,8 @@ measured normalizer, the combined external target-rate uncertainty is
     [$sigma_(nu ,E)$], [energy uncertainty contribution], [$2.11739039955 times 10^(17)$], [$upright("s")^(- 1)$],
     [$sigma_(nu , eta)$], [normalizer uncertainty contribution], [$4.80460322389 times 10^(11)$], [$upright("s")^(- 1)$],
     [$sigma_(nu ,upright("comb"))$], [combined uncertainty], [$2.11739039956 times 10^(17)$], [$upright("s")^(- 1)$],
-    [$K_(upright("ext"))$], [$h_(upright("ext")) eta_(upright("ext")) slash (10^6 e)$], [$5.6673535511200 times 10^(- 19)$], [$upright(M e V thin s)$],
-    [$sigma_(K, eta)$], [normalizer contribution to $K_(upright("ext"))$], [$8.68490216354 times 10^(- 29)$], [$upright(M e V thin s)$],
+    [$K_(upright("ext"))$], [$h_(upright("ext")) eta_(upright("ext")) slash (10^6 e)$], [$5.6673535511200 times 10^(- 19)$], [$upright("MeV") thin upright("s")$],
+    [$sigma_(K, eta)$], [normalizer contribution to $K_(upright("ext"))$], [$8.68490216354 times 10^(- 29)$], [$upright("MeV") thin upright("s")$],
     bottomrule,
   )
 }
@@ -196,9 +196,9 @@ F4. Charge-comparison audit records integer orientation before the external char
 F5. Quarantine audit records external constants, units, and measured-sector symbols only after the active A$Omega$ calculation.
 
 
-#aod-provenance[#mainequation("main:eq:b-scoped-flux");
-#mainequation("main:eq:sadar-attention-vector");
-#secref("manual:exact-arithmetic-presentation");
+#aod-provenance[#mainequation("main:eq:b-scoped-flux")\;
+#mainequation("main:eq:sadar-attention-vector")\;
+#secref("manual:exact-arithmetic-presentation")\;
 #secref("manual:external-comparison-quarantine").]
 
 

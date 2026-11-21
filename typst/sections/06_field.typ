@@ -163,7 +163,7 @@ $ sum_(i in R) op("div")(i;B) = sum_(i in R \ j in.not R) phi.alt_(i j) (B). $ <
 
 
 
-#aod-provenance[#eqnref("eq:afc-stokes-used"); #eqnref("eq:afc-flux-ao-resolution"); #eqnref("eq:b-scoped-flux"); #eqnref("eq:b-scoped-stokes").]
+#aod-provenance[#eqnref("eq:afc-stokes-used")\; #eqnref("eq:afc-flux-ao-resolution")\; #eqnref("eq:b-scoped-flux")\; #eqnref("eq:b-scoped-stokes").]
 
 
 
@@ -338,7 +338,7 @@ Shell/enclosure routing fixes
 
 #aod-definition(title: [Channel pressure])[
 Channel pressure is #eqref("eq:b-scoped-channel-pressure") on the declared
-compression. Duration participation is #eqref("eq:window-clipped-rho");
+compression. Duration participation is #eqref("eq:window-clipped-rho")\;
 seat retention has the distinct interface #eqref("eq:support-enclosure-retention").
 ]
 
@@ -447,7 +447,7 @@ $ bold(A)_F (B) = sum_((i,j) in F(B)) C_(3,i j) rho^D_(omega ,i j) (B) Delta chi
 
 ]
 
-The expanded sum substitutes #eqref("eq:b-scoped-flux-expanded"); pressure and
+The expanded sum substitutes #eqref("eq:b-scoped-flux-expanded")\; pressure and
 orientation retain their separate channel types.
 
 
@@ -972,7 +972,7 @@ Declare
 
 $ frak(a) subset cal(A)^(upright("ret"))_8 , wide B = ( partial_T F, omega ). $ <eq:frg-scope>
 
-The AF recurrence is typed here: the distinctions are declared in #eqnref("eq:frg-distinctions"); the relations are declared in #eqnref("eq:frg-ring-adjacency")–#eqnref("eq:frg-return-relation"); the retained relation family is the FRG; $SADARop_B$ forms the A$Omega$ value.
+The AF recurrence is typed here: the distinctions are declared in #eqnref("eq:frg-distinctions")\; the relations are declared in #eqnref("eq:frg-ring-adjacency")–#eqnref("eq:frg-return-relation")\; the retained relation family is the FRG; $SADARop_B$ forms the A$Omega$ value.
 
 
 === Distinctions <subsec:frg-distinctions>
@@ -1208,7 +1208,7 @@ construct the higher closure, and their iteration gives chain reclosure.
 === Finite SADAR moving-boundary dictionary <subsec:finite-sadar-moving-boundary-dictionary>
 
 On $B_c bar.v t$, substitute $phi.alt_e = SADARop (C_e )$ into
-#eqref("eq:slice-flux"); sum with #eqref("eq:window-current") and retain the
+#eqref("eq:slice-flux")\; sum with #eqref("eq:window-current") and retain the
 crossing/sweep/shedding split of #eqref("eq:moving-boundary").
 This finite dictionary expresses bobbing as signed sweep/shedding modulation
 on the declared moving or nested cell boundary.
@@ -1256,7 +1256,7 @@ projection is
 
 $ v_B (W) = brace.l (t, SADARop_(B bar.v t) (C_t )):t in omega brace.r . $ <eq:wave-sadar-presentation>
 
-The wave's admission and lineage are those of #eqref("eq:wave-identity"); this
+The wave's admission and lineage are those of #eqref("eq:wave-identity")\; this
 projection records their SADAR values.
 
 The hinge $mu$ implicitly supports chirality: it carries the handed return of the branch/hinge/branch package. The chiral cycle presentation is

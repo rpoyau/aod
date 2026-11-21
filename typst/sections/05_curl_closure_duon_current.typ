@@ -300,7 +300,7 @@ A polychiral shell dressing is field outer dressing. It carries Capital-Alpha/Om
 ]
 
 
-Support expressions follow #secref("subsec:curling-curl-support-forms");
+Support expressions follow #secref("subsec:curling-curl-support-forms")\;
 shared enclosure naming follows #appref("app:cc-count-compression").
 
 
@@ -324,7 +324,7 @@ proposes an outer return. Conditional on its successful trace and certificate,
 $upright("monon")_(cal(F))$ is the enclosing instance of
 #eqref("eq:monon-cycle"), carrying the internal curls, shells, cycle presentations,
 duration, pressure and SADAR. This certified outer object is the premise of the
-compression #eqref("eq:cycle-valued-field-compression"); the full fold and exposure
+compression #eqref("eq:cycle-valued-field-compression")\; the full fold and exposure
 witnesses are #eqref("eq:fold-outer-closure") and #eqref("eq:expose-inner-lineage").
 
 

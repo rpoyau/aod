@@ -57,7 +57,7 @@ python3 -O scripts/verify_typst_parity.py --outdir _build/typst_parity_opt --bas
 cmp _build/typst_parity/parity_report.json _build/typst_parity_opt/parity_report.json
 ```
 
-`scripts/build_typst.py` exports `typst/lib/main_registry.json` from `typst/main.typ` with a SHA-256 binding over active Main inputs and passes `--input expected_main_digest=...` when compiling `typst/manual/main.typ`, rejecting stale Main registries, unknown labels, and wrong Main reference types. Both publication paths are packaged into `source.zip` and reconstruct outside Git.
+`scripts/build_typst.py` compiles deterministic PDFs (`--creation-timestamp`, honoring `SOURCE_DATE_EPOCH` and defaulting to `0`) under unambiguous native filenames (`main_typst.pdf`, `manual_typst.pdf`) alongside the retained LaTeX pair (`main.pdf`, `manual.pdf`). It exports `typst/lib/main_registry.json` from `typst/main.typ` with both `main_sources_sha256` and `main_pdf_filename` (`main_typst.pdf`), and passes `--input expected_main_digest=...` and `--input expected_main_pdf_filename=main_typst.pdf` when compiling `typst/manual/main.typ`, rejecting stale Main registries, companion filename mismatches, unknown labels, and wrong Main reference types. Both publication paths are packaged into `source.zip` and reconstruct outside Git.
 
 ## Artifact order
 

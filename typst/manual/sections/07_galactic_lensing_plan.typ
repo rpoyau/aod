@@ -18,9 +18,9 @@ independent medium evidence. The L3 gate below states the missing stages.
 #aod-noteblock("Scope")[This section applies the current A$Omega$D field-ring and $delta_3$ notation to a staged galactic-lensing diagnostic plan. It is a manual/application plan with an explicit L3 data-package gate.]
 
 
-#aod-provenance[#mainsection("main:subsec:fractal-field-ring-gate");
-#mainsection("main:sec:field-dynamics");
-#secref("manual:cross-return-short-window");
+#aod-provenance[#mainsection("main:subsec:fractal-field-ring-gate")\;
+#mainsection("main:sec:field-dynamics")\;
+#secref("manual:cross-return-short-window")\;
 #secref("manual:prediction-test-registry").]
 
 

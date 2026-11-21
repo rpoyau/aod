@@ -11,7 +11,7 @@
 
 === Hinge triad <app:cc-hinge-triad>
 
-The support relation and its ternary roles are #eqref("eq:hinge-grammar");
+The support relation and its ternary roles are #eqref("eq:hinge-grammar")\;
 committed predecessor/crown/successor-horizon roles are #eqref("eq:hinge-triad").
 
 
@@ -47,13 +47,13 @@ Two oriented signatures: #secref("subsec:dion").
 
 === Duon <app:cc-duon-duad-cycle>
 
-Resolved constructor: #eqref("eq:duon-current"); twelve-variant count:
+Resolved constructor: #eqref("eq:duon-current")\; twelve-variant count:
 #secref("subsec:duon-current-cell").
 
 
 === Duad <app:cc-duad>
 
-Seating: #secref("subsec:duad"); open/closed notation:
+Seating: #secref("subsec:duad")\; open/closed notation:
 #secref("subsec:e2-duon") and #secref("subsec:e2-duad").
 
 

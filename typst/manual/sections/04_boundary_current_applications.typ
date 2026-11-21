@@ -213,7 +213,7 @@ The boundary-current application record carries the declared scope, antisymmetry
 marks a window-current audit residual on the declared scope.
 
 
-#aod-provenance[#mainequation("main:eq:b-scoped-flux"); #mainequation("main:eq:rcd-coupling"); #mainequation("main:eq:window-clipped-rho"); #mainequation("main:eq:sadar-attention-vector"); #mainequation("main:eq:moving-boundary").]
+#aod-provenance[#mainequation("main:eq:b-scoped-flux")\; #mainequation("main:eq:rcd-coupling")\; #mainequation("main:eq:window-clipped-rho")\; #mainequation("main:eq:sadar-attention-vector")\; #mainequation("main:eq:moving-boundary").]
 
 
 

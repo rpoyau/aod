@@ -15,7 +15,7 @@ observation-only square-speed diagnostic. Tau retains carried score records,
 and the orbital-retention path remains a required-input plan. Each subsection
 keeps its scope, operator chain, output and falsifier. Source assumptions,
 shared calibration and missing model uncertainty follow
-#secref("manual:calculation-spine"); these evidence classes are distinct.
+#secref("manual:calculation-spine")\; these evidence classes are distinct.
 
 
 

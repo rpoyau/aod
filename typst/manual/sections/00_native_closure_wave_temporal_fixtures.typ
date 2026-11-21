@@ -34,7 +34,7 @@ engine-schema break; it never counts edges, dwell, or Fourier coefficient phase.
 
 #aod-paragraph[Record class and execution.]
 These are native exact witnesses or explicitly declared models. The shared
-runner is #raw("manual/scripts/aod_native_closure_wave.py"); its five CSV
+runner is #raw("manual/scripts/aod_native_closure_wave.py")\; its five CSV
 inputs preserve trace, scope, lineage, expected exact result and hostile case.
 The command #raw("python3 manual/scripts/aod_native_closure_wave.py --check-data")
 executes the rows. An expected rejection is a successful hostile check only
@@ -42,7 +42,7 @@ when the actual law rejects the supplied input. Actual results are recorded
 separately from these immutable inputs.
 
 
-#{
+#aod-uncaptioned-longtable[#{
   set text(size: 8.5pt)
   set par(justify: false)
   table(
@@ -70,7 +70,7 @@ separately from these immutable inputs.
     [Report], [$N n = 3(2 slash 3) = 2$, $4(2 slash 3) = 8 slash 3$], [Missing calibration; $3 n$ used for $N = 4$],
     bottomrule,
   )
-}
+}]
 
 
 
@@ -132,7 +132,7 @@ an existing construction; it cannot originate distinction or recurrence.
 An implementation declares its update law and admissible input domain before
 executing #mainequation("main:eq:wave-update-trace"). The additive duration
 implementation stores $(R D,r_1 , dots.h ,r_m )$, with $r_s gt.eq 0$, then applies
-#mainequation("main:eq:rcd-additive-realization"); reversal recomputes the
+#mainequation("main:eq:rcd-additive-realization")\; reversal recomputes the
 reflection counts. A polyrhythm calculation follows cycle provenance first,
 then stores scalar A$Omega$ accessors. A raw duration cannot replace the
 branch/hinge/branch data needed by later coupling, seat compatibility or shedding.
@@ -325,14 +325,14 @@ registry consistency rather than authenticating absent external traces). Execute
 #raw("tests/test_manual_wavelet_si_alignment.py").
 
 
-#aod-provenance[#mainequation("main:eq:first-anchor"); #mainequation("main:eq:atomic-h1");
-#mainequation("main:eq:closure-certificate"); #mainequation("main:eq:closure-phase"); #mainequation("main:eq:return-identity");
-#mainequation("main:eq:cumulative-closure-counts"); #mainequation("main:eq:closure-phase-window");
-#mainequation("main:eq:wave-identity"); #mainequation("main:eq:reflected-leg-bound"); #mainequation("main:eq:motif-admission");
-#mainequation("main:eq:duad-same-current");
-#mainequation("main:eq:field-organization"); #mainequation("main:eq:fold-outer-closure");
-#mainequation("main:eq:aod-wavelet-continuation"); #mainequation("main:eq:wavelet-overlap-dedup");
-#mainequation("main:eq:wavelet-cancellation-retention"); #mainequation("main:eq:wavelet-reference-timing");
-#mainequation("main:eq:shed-continuation-witness"); #mainequation("main:eq:recipient-event-lattice");
-#mainequation("main:eq:relational-time"); #mainequation("main:eq:rcd-coupling"); #mainequation("main:eq:flux-types");
-#mainequation("main:eq:causal-update"); #mainequation("main:eq:fourier-transform").]
+#aod-provenance[#mainequation("main:eq:first-anchor")\; #mainequation("main:eq:atomic-h1")\;
+#mainequation("main:eq:closure-certificate")\; #mainequation("main:eq:closure-phase")\; #mainequation("main:eq:return-identity")\;
+#mainequation("main:eq:cumulative-closure-counts")\; #mainequation("main:eq:closure-phase-window")\;
+#mainequation("main:eq:wave-identity")\; #mainequation("main:eq:reflected-leg-bound")\; #mainequation("main:eq:motif-admission")\;
+#mainequation("main:eq:duad-same-current")\;
+#mainequation("main:eq:field-organization")\; #mainequation("main:eq:fold-outer-closure")\;
+#mainequation("main:eq:aod-wavelet-continuation")\; #mainequation("main:eq:wavelet-overlap-dedup")\;
+#mainequation("main:eq:wavelet-cancellation-retention")\; #mainequation("main:eq:wavelet-reference-timing")\;
+#mainequation("main:eq:shed-continuation-witness")\; #mainequation("main:eq:recipient-event-lattice")\;
+#mainequation("main:eq:relational-time")\; #mainequation("main:eq:rcd-coupling")\; #mainequation("main:eq:flux-types")\;
+#mainequation("main:eq:causal-update")\; #mainequation("main:eq:fourier-transform").]
