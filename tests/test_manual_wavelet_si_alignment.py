@@ -723,6 +723,217 @@ def test_f06_mapped_recipient_replay_preserves_index_and_prefix_regressions():
     )
 
 
+def test_f07_mapped_completeness_unrelated_canonical_parent_regressions():
+    mod = _load_alignment_module()
+    n = mod.native
+
+    # Exact R03 construction: Parent A and independent Parent B share W / B:source / scale 0
+    parent_a = n.recurrent("W", n=3, spacing=10, scope="B:source", scale=0)
+    parent_b = n.wave(
+        [
+            n.certified(n.trace("W", 100 + k, start_index=1 + 10 * k, scope="B:source", scale=0))
+            for k in range(3)
+        ]
+    )
+    # Also include an unrelated parent C with an occurrence completing strictly inside (2, 12]
+    parent_c = n.wave(
+        [
+            n.certified(n.trace("W", 200 + k, start_index=1 + 8 * k, scope="B:source", scale=0))
+            for k in range(3)
+        ]
+    )
+    _check(
+        parent_a.identity != parent_b.identity and parent_a.identity != parent_c.identity,
+        "distinct native parents must have distinct identities",
+    )
+
+    occ_a = mod.project_admitted_wave_occurrences(parent_a)
+    occ_b = mod.project_admitted_wave_occurrences(parent_b)
+    occ_c = mod.project_admitted_wave_occurrences(parent_c)
+    own_a = mod.build_occurrence_registry(occ_a)
+    combined_ab = mod.build_occurrence_registry((*occ_a, *occ_b))
+    combined_abc = mod.build_occurrence_registry((*occ_a, *occ_b, *occ_c))
+    _check(
+        len(combined_ab) == 6
+        and n.closure_cycle_count(
+            [(r["trace"], r["certificate"], r["certificate_registry"]) for r in combined_ab.values()]
+        )
+        == 6,
+        "combined A+B native closure count must be 6",
+    )
+
+    smap = mod.declare_conditional_scope_map("map-W-only", "B:source", "B:main", "W", occ_a)
+    w_mapped = mod.make_wavelet(
+        "mapped-W",
+        parent_a,
+        ("W:ancestor",),
+        (2, 12),
+        "seated_duad",
+        "local_segment",
+        tuple(r["trace_digest"] for r in occ_a[:2]),
+        occ_a[:2],
+        scope_id="B:main",
+        scope_map=smap,
+        registry=combined_ab,
+    )
+
+    # Positive controls: own-only, A+B combined, A+B+C (in-window unrelated completion), and local combined
+    _check(
+        len(mod.eligible_return_ids(w_mapped, scope_map=smap, registry=combined_ab)) == 1
+        and mod.deduplicated_return_count((w_mapped,), parent_a, scope_map=smap, registry=combined_ab)
+        == 1
+        and len(mod.validate_complete_windows((w_mapped,), own_a, scope_map=smap)) == 3
+        and len(mod.validate_complete_windows((w_mapped,), combined_ab, scope_map=smap)) == 6
+        and len(mod.validate_complete_windows((w_mapped,), combined_abc, scope_map=smap)) == 9,
+        "F07 mapped completeness must succeed with unrelated canonical parents and preserve count 1",
+    )
+    local_a = mod.restrict_admitted_wavelet(parent_a, "local-W", (2, 12), registry=combined_ab)
+    _check(
+        len(mod.validate_complete_windows((local_a,), combined_ab)) == 6
+        and mod.deduplicated_return_count(
+            (local_a,), parent_a, target_scope="B:source", registry=combined_ab
+        )
+        == 1,
+        "local combined-registry completeness regression failed",
+    )
+
+    # Parent-discovery loops on empty mapped wavelets also classify by full source_parent_root_key
+    w_empty_between = mod.make_wavelet(
+        "mapped-W-empty-15-19",
+        "W",
+        ("W:ancestor",),
+        (15, 19),
+        "seated_duad",
+        "local_segment",
+        ("retained-prefix",),
+        (),
+        scope_id="B:main",
+        scope_map=smap,
+        registry=combined_abc,
+    )
+    _check(
+        len(mod.validate_complete_windows((w_empty_between,), combined_abc, scope_map=smap)) == 9
+        and mod.deduplicated_return_count(
+            (w_empty_between,), parent_a, scope_map=smap, registry=combined_abc
+        )
+        == 0,
+        "empty mapped wavelet between returns failed on multi-parent registry",
+    )
+    # Empty mapped wavelet on (2, 12] omitting A's return @12 rejects completeness; absent/wrong map rejects
+    w_empty_omitting = mod.make_wavelet(
+        "mapped-W-empty-2-12",
+        parent_a,
+        ("W:ancestor",),
+        (2, 12),
+        "seated_duad",
+        "local_segment",
+        ("retained-prefix",),
+        (),
+        scope_id="B:main",
+        scope_map=smap,
+        registry=combined_ab,
+    )
+    _reject(
+        lambda: mod.validate_complete_windows((w_empty_omitting,), combined_ab, scope_map=smap),
+        ValueError,
+        "omitted",
+    )
+    _reject(
+        lambda: mod.validate_complete_windows((w_empty_omitting,), combined_ab, scope_map=None),
+        ValueError,
+        "explicit validated scope_map",
+    )
+
+    # Retained strict negatives against combined multi-parent registry:
+    # 1. Relevant own-parent return omitted from asserted-complete window (2, 22]
+    w_omit = mod.make_wavelet(
+        "mapped-W-omit",
+        parent_a,
+        ("W:ancestor",),
+        (2, 22),
+        "seated_duad",
+        "local_segment",
+        tuple(r["trace_digest"] for r in occ_a[:2]),
+        occ_a[:2],
+        scope_id="B:main",
+        scope_map=smap,
+        registry=combined_ab,
+    )
+    _reject(
+        lambda: mod.validate_complete_windows((w_omit,), combined_ab, scope_map=smap),
+        ValueError,
+        "omitted",
+    )
+    # 2. Relevant own-parent return (@22) absent from supplied partial map (must not be filtered away)
+    partial_map = mod.declare_conditional_scope_map(
+        "map-W-only", "B:source", "B:main", "W", occ_a[:2]
+    )
+    _reject(
+        lambda: mod.validate_complete_windows((w_omit,), combined_ab, scope_map=partial_map),
+        ValueError,
+        "is not bound in supplied scope_map",
+    )
+    # 3. Selected witness payload conflict with bound map
+    bad_map = deepcopy(smap)
+    bad_map["bound_occurrences"][occ_a[1]["return_id"]] = ("corrupted-payload",)
+    _reject(
+        lambda: mod.eligible_return_ids(w_mapped, scope_map=bad_map, registry=combined_ab),
+        ValueError,
+        "payload conflicts",
+    )
+    _reject(
+        lambda: mod.validate_complete_windows((w_mapped,), combined_ab, scope_map=bad_map),
+        ValueError,
+        "payload conflicts",
+    )
+    # 4. Selected witness belonging to unrelated parent B still rejects strictly
+    _reject(
+        lambda: mod.make_wavelet(
+            "wrong-parent-selected",
+            parent_a,
+            ("W:ancestor",),
+            (2, 12),
+            "seated_duad",
+            "local_segment",
+            tuple(r["trace_digest"] for r in (*occ_a[:2], *occ_b[:2])),
+            (*occ_a[:2], *occ_b[:2]),
+            scope_id="B:main",
+            scope_map=smap,
+            registry=combined_ab,
+        ),
+        ValueError,
+        "source parent identity mismatch",
+    )
+    # 5. Absent, Boolean, and wrong-domain maps reject
+    _reject(
+        lambda: mod.validate_complete_windows((w_mapped,), combined_ab, scope_map=None),
+        ValueError,
+        "explicit validated scope_map",
+    )
+    for flag in (False, True):
+        _reject(
+            lambda flag=flag: mod.validate_complete_windows(
+                (w_mapped,), combined_ab, scope_map=flag
+            ),
+            ValueError,
+            "Boolean flag",
+        )
+    wrong_domain_map = dict(smap, target_scope="B:other")
+    _reject(
+        lambda: mod.validate_complete_windows((w_mapped,), combined_ab, scope_map=wrong_domain_map),
+        ValueError,
+        "scope_map",
+    )
+    # 6. Selected return absent from explicitly supplied registry rejects (F05 preserved)
+    _reject(
+        lambda: mod.deduplicated_return_count(
+            (w_mapped,), parent_a, scope_map=smap, registry=(occ_a[0],)
+        ),
+        ValueError,
+        "absent from canonical occurrence registry",
+    )
+
+
 def test_cli_runner_parity_and_standalone_mode_metadata():
     # N01: CLI runner JSON is byte-identical across normal and -O modes;
     # standalone test runner passes in both modes with intentional optimized_mode metadata difference.
@@ -766,6 +977,7 @@ def run_standalone() -> dict:
         test_f04_complete_native_parent_identity_and_prefix_binding_regressions,
         test_f05_supplied_registry_authority_and_explicit_extension_regressions,
         test_f06_mapped_recipient_replay_preserves_index_and_prefix_regressions,
+        test_f07_mapped_completeness_unrelated_canonical_parent_regressions,
         test_cli_runner_parity_and_standalone_mode_metadata,
     )
     for fn in fns:

@@ -1153,6 +1153,11 @@ def validate_scope_map(
         src_root == _parent_root_key(witness["parent_descriptor"]),
         "scope_map source parent identity mismatch",
     )
+    src_pdesc = validate_parent_descriptor(scope_map.get("source_parent_descriptor"))
+    require(
+        src_root == _parent_root_key(src_pdesc),
+        "scope_map source parent identity mismatch (conflicts with source_parent_descriptor)",
+    )
     bound = scope_map.get("bound_occurrences")
     require(isinstance(bound, Mapping) and bool(bound), "scope_map missing bound_occurrences")
     rid = witness["return_id"]
@@ -1210,6 +1215,53 @@ def _effective_witness_parent(witness: Mapping, target_scope: str, *, scope_map=
     )
     src_rep = validate_parent_descriptor(scope_map["source_parent_descriptor"])
     return _map_parent_descriptor_to_scope(src_rep, scope_map, target_scope)
+
+
+def _canonical_record_in_scope_map_domain(
+    record: Mapping,
+    scope_map,
+    *,
+    target_scope: str,
+    lineage_id: str | None = None,
+) -> bool:
+    """Classify whether a canonical record belongs to a single-parent scope_map's source domain.
+
+    Matches full source_parent_root_key (not coarse scope/lineage/scale strings and not
+    bound_occurrences membership) so unrelated canonical parents are skipped while relevant
+    own-parent records that are unbound or conflicting still undergo strict map validation.
+    """
+    if scope_map is None:
+        return False
+    if isinstance(scope_map, bool):
+        raise ValueError("Boolean flag cannot establish cross-scope compatibility")
+    if not (
+        isinstance(scope_map, Mapping)
+        and scope_map.get("kind") == "declared_conditional_scope_map"
+    ):
+        return False
+    src_scope = scope_map.get("source_scope")
+    dst_scope = scope_map.get("target_scope")
+    map_lin = scope_map.get("lineage_id")
+    map_scale = scope_map.get("scale")
+    if src_scope == dst_scope:
+        return False
+    if (src_scope, dst_scope, map_lin, map_scale) != (
+        record["scope_id"],
+        target_scope,
+        record["lineage_id"],
+        record["scale"],
+    ):
+        return False
+    if lineage_id is not None and record["lineage_id"] != lineage_id:
+        return False
+    src_pdesc = validate_parent_descriptor(scope_map.get("source_parent_descriptor"))
+    src_root = scope_map.get("source_parent_root_key")
+    require(
+        src_root == _parent_root_key(src_pdesc),
+        "scope_map source_parent_root_key conflicts with source_parent_descriptor",
+    )
+    rec_root = _parent_root_key(record["parent_descriptor"])
+    return rec_root == src_root
 
 
 def _coerce_parent_spec(parent_spec) -> tuple[str, dict | None]:
@@ -1301,6 +1353,23 @@ def eligible_return_ids(
         )
         if item["compatible"] and item["occurrence_j"] >= 1 and (u < item["completion_cut"] <= v):
             eligible.add(rid)
+
+    if w_pdesc["kind"] == "mapped_conditional_parent":
+        require(
+            scope_map is not None,
+            "mapped_conditional_parent wavelet requires an explicit validated scope_map",
+        )
+        require(
+            isinstance(scope_map, Mapping)
+            and scope_map.get("kind") == "declared_conditional_scope_map",
+            "mapped_conditional_parent wavelet requires a declared_conditional_scope_map",
+        )
+        src_rep = validate_parent_descriptor(scope_map.get("source_parent_descriptor"))
+        mapped_from_smap = _map_parent_descriptor_to_scope(src_rep, scope_map, scope)
+        require(
+            _wavelet_parent_key(mapped_from_smap) == _wavelet_parent_key(w_pdesc),
+            "supplied scope_map does not match wavelet mapped_conditional_parent identity",
+        )
     return eligible
 
 
@@ -1395,15 +1464,12 @@ def make_wavelet(
                     continue
                 if r["scope_id"] == scp:
                     ep = validate_parent_descriptor(r["parent_descriptor"])
-                elif (
-                    isinstance(scope_map, Mapping)
-                    and scope_map.get("kind") == "declared_conditional_scope_map"
-                    and scope_map.get("source_scope") == r["scope_id"]
-                    and scope_map.get("target_scope") == scp
-                    and scope_map.get("lineage_id") == lin
-                    and scope_map.get("scale") == r["scale"]
+                elif _canonical_record_in_scope_map_domain(
+                    r, scope_map, target_scope=scp, lineage_id=lin
                 ):
-                    ep = _effective_witness_parent(r, scp, scope_map=scope_map)
+                    ep = _map_parent_descriptor_to_scope(
+                        scope_map["source_parent_descriptor"], scope_map, scp
+                    )
                 else:
                     continue
                 if scl_arg is not None and ep["scale"] != scl_arg:
@@ -1535,15 +1601,12 @@ def validate_complete_windows(
                     continue
                 if r["scope_id"] == w["scope_id"]:
                     ep = validate_parent_descriptor(r["parent_descriptor"])
-                elif (
-                    isinstance(scope_map, Mapping)
-                    and scope_map.get("kind") == "declared_conditional_scope_map"
-                    and scope_map.get("source_scope") == r["scope_id"]
-                    and scope_map.get("target_scope") == w["scope_id"]
-                    and scope_map.get("lineage_id") == r["lineage_id"]
-                    and scope_map.get("scale") == r["scale"]
+                elif _canonical_record_in_scope_map_domain(
+                    r, scope_map, target_scope=w["scope_id"], lineage_id=w["parent_id"]
                 ):
-                    ep = _effective_witness_parent(r, w["scope_id"], scope_map=scope_map)
+                    ep = _map_parent_descriptor_to_scope(
+                        scope_map["source_parent_descriptor"], scope_map, w["scope_id"]
+                    )
                 else:
                     continue
                 matched_canon_parents[_wavelet_parent_key(ep)] = ep
@@ -1565,16 +1628,13 @@ def validate_complete_windows(
         for rid, r in canon.items():
             if r["cut_coordinate"] != w["cut_coordinate"]:
                 continue
+            if not (r["compatible"] and r["occurrence_j"] >= 1 and (u < r["completion_cut"] <= v)):
+                continue
             if r["scope_id"] != w["scope_id"]:
-                if scope_map is None:
+                if eff_w_pdesc["kind"] != "mapped_conditional_parent":
                     continue
-                if not (
-                    isinstance(scope_map, Mapping)
-                    and scope_map.get("kind") == "declared_conditional_scope_map"
-                    and scope_map.get("source_scope") == r["scope_id"]
-                    and scope_map.get("target_scope") == w["scope_id"]
-                    and scope_map.get("lineage_id") == r["lineage_id"]
-                    and scope_map.get("scale") == r["scale"]
+                if not _canonical_record_in_scope_map_domain(
+                    r, scope_map, target_scope=w["scope_id"]
                 ):
                     continue
                 eff_r_pdesc = _effective_witness_parent(r, w["scope_id"], scope_map=scope_map)
@@ -1582,8 +1642,7 @@ def validate_complete_windows(
                 eff_r_pdesc = validate_parent_descriptor(r["parent_descriptor"])
             if not _parent_matches_wavelet(eff_r_pdesc, eff_w_pdesc):
                 continue
-            if r["compatible"] and r["occurrence_j"] >= 1 and (u < r["completion_cut"] <= v):
-                expected.add(rid)
+            expected.add(rid)
         require(
             actual == expected,
             f"complete window {w['window']} omitted or mismatched eligible returns: "
@@ -2443,6 +2502,74 @@ def check_p2_03_04() -> dict:
         ValueError, "conflicts with bound occurrence in scope_map",
     )
 
+    # 7. F07 control: mapped completeness passes on a combined multi-parent canonical registry
+    #    sharing coarse (scope, lineage, scale) while still rejecting relevant omissions & unbound rows
+    parent_a = native.recurrent("W", n=3, spacing=10, scope="B:source", scale=0)
+    parent_b = native.wave(
+        [
+            native.certified(
+                native.trace("W", 100 + k, start_index=1 + 10 * k, scope="B:source", scale=0)
+            )
+            for k in range(3)
+        ]
+    )
+    occ_a = project_admitted_wave_occurrences(parent_a)
+    occ_b = project_admitted_wave_occurrences(parent_b)
+    combined_ab = build_occurrence_registry((*occ_a, *occ_b))
+    require(
+        native.closure_cycle_count(
+            [(r["trace"], r["certificate"], r["certificate_registry"]) for r in combined_ab.values()]
+        )
+        == 6,
+        "F07 combined native closure count must equal 6",
+    )
+    map_a = declare_conditional_scope_map("map:W-parentA", "B:source", "B:main", "W", occ_a)
+    w_mapped_a = make_wavelet(
+        "w_mapped_a",
+        parent_a,
+        ("W:ancestor",),
+        (2, 12),
+        "seated_duad",
+        "local_segment",
+        tuple(r["trace_digest"] for r in occ_a[:2]),
+        occ_a[:2],
+        scope_id="B:main",
+        scope_map=map_a,
+        registry=combined_ab,
+    )
+    require(
+        len(validate_complete_windows((w_mapped_a,), combined_ab, scope_map=map_a)) == 6
+        and deduplicated_return_count((w_mapped_a,), parent_a, scope_map=map_a, registry=combined_ab)
+        == 1,
+        "F07 mapped completeness must accept valid A window with unrelated canonical parent B",
+    )
+    w_mapped_a_omit = make_wavelet(
+        "w_mapped_a_omit",
+        parent_a,
+        ("W:ancestor",),
+        (2, 22),
+        "seated_duad",
+        "local_segment",
+        tuple(r["trace_digest"] for r in occ_a[:2]),
+        occ_a[:2],
+        scope_id="B:main",
+        scope_map=map_a,
+        registry=combined_ab,
+    )
+    reject(
+        lambda: validate_complete_windows((w_mapped_a_omit,), combined_ab, scope_map=map_a),
+        ValueError,
+        "omitted",
+    )
+    partial_map_a = declare_conditional_scope_map(
+        "map:W-parentA", "B:source", "B:main", "W", occ_a[:2]
+    )
+    reject(
+        lambda: validate_complete_windows((w_mapped_a_omit,), combined_ab, scope_map=partial_map_a),
+        ValueError,
+        "is not bound in supplied scope_map",
+    )
+
     # Cross-lineage union rejected
     w_other_lin = make_wavelet(
         "w_ol", "W_B_2", ("lin:2",), (4, 10), "seated_duad", "coupled_segment",
@@ -2459,6 +2586,7 @@ def check_p2_03_04() -> dict:
         "native_trace_overlap_union": nat_union,
         "scale_separated_parent_counts": [1, 1],
         "supplied_registry_authoritative": True,
+        "mapped_completeness_multi_parent_registry": True,
         "omitted_return_rejected": True,
         "payload_conflict_collision_alias_rejected": True,
         "unmapped_cross_scope_rejected": True,
