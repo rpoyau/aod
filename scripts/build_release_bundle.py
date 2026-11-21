@@ -56,7 +56,7 @@ INCLUDE_TOP_LEVEL = [
     "CANONICAL_VERSION.txt", "LICENSE", "README.md", "appendices", "contracts",
     "cycle_shedding_summary.tex", "figures_jpg", "main.tex", "manual",
     "preamble.tex", "refs.bib", "requirements-ci.txt", "scripts", "sections",
-    "tests", "wavelet_shedding_simulation.csv", "wavelet_shedding_summary.tex",
+    "tests", "typst", "wavelet_shedding_simulation.csv", "wavelet_shedding_summary.tex",
 ]
 
 

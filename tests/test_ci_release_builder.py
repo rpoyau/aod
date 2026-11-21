@@ -51,6 +51,7 @@ SOURCE_DIRECTORY_TYPES = {
     "scripts": {".py"},
     "sections": {".tex"},
     "tests": {".py"},
+    "typst": {".typ", ".json"},
 }
 
 
@@ -120,7 +121,9 @@ def test_source_archive_exactly_preserves_detached_candidate(tmp_path):
     actual = archive_inventory(archive)
     assert actual == wanted
     for name in (".zenodo_doi", "requirements-ci.txt", "wavelet_shedding_simulation.csv",
-                 "wavelet_shedding_summary.tex", "CHANGELOG.md"):
+                 "wavelet_shedding_summary.tex", "CHANGELOG.md",
+                 "typst/main.typ", "typst/manual/main.typ", "typst/lib/aod_schema.typ",
+                 "typst/lib/main_registry.json", "typst/manifest.json"):
         assert name in actual
     assert all(not name.startswith(("evidence/", "projects/", "skills/")) for name in actual)
 

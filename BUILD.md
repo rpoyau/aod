@@ -44,6 +44,21 @@ A canonical display stored in an uninvoked macro cannot satisfy this gate.
 
 The release tests artifact is `tests.txt`. It is produced by the pytest suite; SymPy exact-arithmetic checks are part of that suite. The release builder consumes `tests.txt` directly.
 
+## Additive native Typst publication and parity checks (M4 Objective 1)
+
+Native Typst sources live under `typst/` alongside the retained LaTeX baseline (`main.tex`, `manual/main.tex`, `refs.bib`, `manual/refs.bib`, figures, and `manual/data/` remain unchanged). Canonical release promotion is separate from this additive migration.
+
+Build the native Typst pair (`typst 0.15.1`, Latin Modern fonts) and verify direct parity against the retained LaTeX baseline:
+
+```bash
+python3 scripts/build_typst.py --outdir _build/typst --check-registry
+python3 scripts/verify_typst_parity.py --outdir _build/typst_parity --baseline-main-pdf main.pdf --baseline-manual-pdf manual.pdf
+python3 -O scripts/verify_typst_parity.py --outdir _build/typst_parity_opt --baseline-main-pdf main.pdf --baseline-manual-pdf manual.pdf
+cmp _build/typst_parity/parity_report.json _build/typst_parity_opt/parity_report.json
+```
+
+`scripts/build_typst.py` exports `typst/lib/main_registry.json` from `typst/main.typ` with a SHA-256 binding over active Main inputs and passes `--input expected_main_digest=...` when compiling `typst/manual/main.typ`, rejecting stale Main registries, unknown labels, and wrong Main reference types. Both publication paths are packaged into `source.zip` and reconstruct outside Git.
+
 ## Artifact order
 
 For Zenodo or other repositories with a default preview/display file, use the main note PDF as the primary artifact and upload/place it first:

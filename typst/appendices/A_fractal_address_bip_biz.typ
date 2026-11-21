@@ -1,0 +1,45 @@
+// Native Typst port of appendices/A_fractal_address_bip_biz.tex (verbatim scientific content).
+#import "../preamble.typ": *
+
+= Fractal address, bip and biz <app:fractal-address-bip-biz>
+
+
+
+== Scope <app:fractal-address:scope>
+
+A retained calculation declares a fractal address only after the first finite
+distinction. Null, fibre zero, the encoded vertex, the anchor
+$mono("00")_8$, and its declared scope remain distinct types.
+
+
+== Setup <app:fractal-address:setup>
+
+The first anchor is co-created by the distinction in #eqref("eq:first-anchor"); it
+is not selected from a prior coordinate set. A later retained calculation may
+bind its already admitted wave lineages and comparison window by
+
+#math.equation(block: true, numbering: none, $ bold(a) tack.r (B, brace.l W_(B,i)^(upright("id")) brace.r_(i in I) , omega ). $)
+
+Addresses below $mono("00")_8$ remain out of scope and unbound.
+
+
+== Bound bip and biz accessors <app:fractal-address:statements>
+
+For a bound lineage, $upright("bip")_i ( omega )$ counts distinct certified
+reclosures as defined by #eqref("eq:beat-reclosure"). For two admitted recurrent
+lineages, $upright("biz")^(T F)_(i bar.v j) ( omega )$ is defined only on the common
+committed repeated-contact window required by #eqref("eq:relational-time").
+Neither accessor creates the anchor, admits a motif, supplies a wave, or
+defines a master clock.
+
+
+#aod-provenance[#eqnref("eq:first-anchor"),
+#eqnref("eq:atomic-h1"),
+#eqnref("eq:beat-reclosure"),
+#eqnref("eq:relational-time"),
+#secref("subsec:afc-fractal-address").]
+
+
+
+#aod-remark[Fractal addressing binds provenance; it does not replace the
+closure, recurrence, or coupling witnesses.]
