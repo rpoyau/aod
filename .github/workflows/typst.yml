@@ -54,6 +54,8 @@ jobs:
             --baseline-manual-pdf manual.pdf > /dev/null
           cmp dist_typst/parity_norm/parity_report.json dist_typst/parity_opt/parity_report.json
           cp dist_typst/parity_norm/parity_report.json dist_typst/parity_report.json
+          cp main.pdf dist_typst/baseline_main.pdf
+          cp manual.pdf dist_typst/baseline_manual.pdf
 
       - name: Run Typst parity and release-builder tests (normal and -O)
         run: |
@@ -103,7 +105,7 @@ jobs:
 
       - name: Record artifact SHA-256 manifest
         run: |
-          (cd dist_typst && sha256sum main_typst.pdf manual_typst.pdf build_report.json parity_report.json > SHA256_TYPST.txt)
+          (cd dist_typst && sha256sum main_typst.pdf manual_typst.pdf build_report.json parity_report.json baseline_main.pdf baseline_manual.pdf > SHA256_TYPST.txt)
           cat dist_typst/SHA256_TYPST.txt
 
       - name: Upload native Typst publication and parity artifacts
@@ -115,4 +117,6 @@ jobs:
             dist_typst/manual_typst.pdf
             dist_typst/build_report.json
             dist_typst/parity_report.json
+            dist_typst/baseline_main.pdf
+            dist_typst/baseline_manual.pdf
             dist_typst/SHA256_TYPST.txt

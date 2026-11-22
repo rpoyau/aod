@@ -54,6 +54,62 @@ def test_typst_complete_active_graph_equations_tables_prose_and_qualifiers():
     assert res["unsupported_math_constructs"] == 0
     assert len(res["immutable_tables_verified_cell_by_cell"]) == 7
     assert res["labeled_equations_verified_structurally"] == {"main": 198, "manual": 20}
+    assert res["figure_image_bindings_verified"] == 34
+
+
+def test_typst_evaluation_policy_pins_templates_and_constrains_content():
+    vp = _load_module("aod_verify_typst_parity", "scripts/verify_typst_parity.py")
+    manifest = json.loads((ROOT / "typst/manifest.json").read_text(encoding="utf-8"))
+    res = vp.verify_typst_evaluation_policy(ROOT, manifest)
+    assert res["trusted_template_files_pinned"] == 5
+    assert res["manifest_typst_digests_enforced"] == 48
+    assert res["content_files_policy_checked"] == 44
+    assert res["content_policy_violations"] == 0
+
+    head = '#import "../preamble.typ": *\n'
+    rejected = {
+        "show_string": '#show "19": "91"\nText 19.\n',
+        "show_in_code_block": '#{ show "a": "b"; [x] }\n',
+        "white_text": "#text(fill: white)[no] physical.\n",
+        "hide": "#hide[no] physical\n",
+        "math_hide": "$ hide(x) + 1 $\n",
+        "math_recolour": "$ text(fill: white, -) x $\n",
+        "let_binding": "#let x = 3\n",
+        "set_page_fill": "#set page(fill: red)\n",
+        "set_text_fill": "#set text(fill: white)\n",
+        "negative_space": "#v(-2em) text\n",
+        "tiny_text": "#text(size: 1pt)[no] text\n",
+        "place_overlay": "#place(top)[x]\n",
+        "rect_overlay": "#box(stroke: 0.5pt + black, inset: 4pt)[#rect(fill: white)]\n",
+        "foreign_import": '#import "evil.typ": *\n',
+        "context": "#context [x]\n",
+        "eval": '#eval("1+1")\n',
+        "hide_in_nested_math": "$ #box(stroke: 0.5pt + black, inset: 4pt)[$ x #hide[y] $] $\n",
+    }
+    for name, body in rejected.items():
+        violations, _ = vp._content_policy_violations("typst/sections/x.typ", head + body, set())
+        assert violations, name
+    accepted = {
+        "figure_image": '#figure(image("/figures/a.png", width: 80%), caption: [A])\n',
+        "prose_math_ref": 'Some *strong* text with $a_(b)^2 = sum_(i) x_i$ and #eqref("eq:x").\n',
+        "boxed_nested_math": "#math.equation(block: true, numbering: none, "
+        "$ #box(stroke: 0.5pt + black, inset: 4pt)[$ K_(tau)^(star) = 1 $] $)\n",
+    }
+    for name, body in accepted.items():
+        violations, _ = vp._content_policy_violations("typst/sections/x.typ", head + body, set())
+        assert violations == [], (name, violations)
+
+
+def test_typst_rendered_gate_helpers():
+    vp = _load_module("aod_verify_typst_parity", "scripts/verify_typst_parity.py")
+    vocab = {"retention", "line", "break", "phase", "type", "phasetype"}
+    assert vp._dehyphenate_with_vocab("reten-\ntion", vocab) == "retention"
+    assert vp._dehyphenate_with_vocab("line-\nbreak", vocab) == "line break"
+    assert vp._dehyphenate_with_vocab("phase-\ntype", vocab) == "phasetype"
+    runs = vp._vocab_runs(["line", "break", "x", "phase", "type", "retention", "line"], vocab)
+    assert runs == [["line", "break"], ["phase", "type", "retention", "line"]]
+    assert vp._run_ngrams(runs) == ["phase type retention line"]
+    assert vp._rendered_body("Contents\nReferences\nbody text\nReferences\n[1] x") == "Contents\nReferences\nbody text"
 
 
 def test_typst_source_negative_controls_reject_mutations(tmp_path):
@@ -74,6 +130,8 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
             t_dst = dest / tbl
             t_dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / tbl, t_dst)
+        shutil.copytree(ROOT / "figures_jpg", dest / "figures_jpg")
+        shutil.copytree(ROOT / "manual" / "figures", dest / "manual" / "figures")
         return dest
 
     base = make_tree(tmp_path / "base")
@@ -179,6 +237,37 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch|Unescaped semicolon"):
         vp.verify_source_and_content_parity(t_semi, manifest)
 
+    # R02 R4: two figure image paths swapped (captions unchanged) -> ordered image bindings.
+    t_img = tmp_path / "c_img"
+    shutil.copytree(base, t_img)
+    p = t_img / "typst/manual/sections/01_rest_energy_prediction.typ"
+    a_img = "/manual/figures/higgs/higgs_yro_saddle_signature.png"
+    b_img = "/manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png"
+    txt = p.read_text(encoding="utf-8")
+    p.write_text(txt.replace(a_img, "@@A@@").replace(b_img, a_img).replace("@@A@@", b_img), encoding="utf-8")
+    with pytest.raises(ValueError, match="Ordered content/math parity mismatch"):
+        vp.verify_source_and_content_parity(t_img, manifest)
+
+    # R02 R3: show rule inside an immutable table -> evaluation policy (digest re-pinned).
+    t_r3 = tmp_path / "c_r3"
+    shutil.copytree(base, t_r3)
+    rel = "typst/manual/tables/swells_k0_target_tallies_table.typ"
+    p = t_r3 / rel
+    p.write_text(
+        p.read_text(encoding="utf-8").replace(
+            "  set par(justify: false)\n", '  set par(justify: false)\n  show "19": "91"\n', 1
+        ),
+        encoding="utf-8",
+    )
+    m2 = json.loads(json.dumps(manifest))
+    for e in m2["active_source_map"]:
+        if e["typst_target"] == rel:
+            e["typst_sha256"] = vp.sha256_file(p)
+    with pytest.raises(ValueError, match="forbidden `show`"):
+        vp.verify_typst_evaluation_policy(t_r3, m2)
+    with pytest.raises(ValueError, match="Typst unit digest differs"):
+        vp.verify_typst_evaluation_policy(t_r3, manifest)
+
 
 def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
     typst_bin = _find_typst_or_none()
@@ -205,8 +294,20 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
     assert delivery["all_target_page_anchors_verified"] == 172
     assert delivery["witness_main_eq33"]["pdf_destination"] == "main_typst.pdf#page=14"
 
+    paint = res["rendered_text_paint"]
+    for surf in ("main", "manual"):
+        assert paint[surf]["non_black_or_invisible"] == 0
+        assert paint[surf]["min_font_size"] >= 4.0
+        clauses = res["baseline_pdf_comparison"]["rendered_prose_clauses_typst_only"][surf]
+        assert clauses["unverified"] == 0
+
     neg = vp.run_negative_controls(ROOT, typst_bin)
-    assert all(item["rejected"] is True for item in neg.values())
+    baseline_only = {"11b_R1c_rendered_insertion", "12b_R2b_rendered_glyph_parity", "16b_R6_rendered_clause"}
+    for name, item in neg.items():
+        if name in baseline_only:
+            assert item["rejected"] is None and "baseline" in item["skipped"], name
+        else:
+            assert item["rejected"] is True, name
     assert {
         "1a_changed_table_value",
         "1b_changed_equation_exponent",
@@ -219,7 +320,14 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
         "8_changed_equation_grouping",
         "9_show_rule_rendered_mutation",
         "10_wrong_peer_pdf_filename",
-    } <= set(neg)
+        "11a_R1c_template_pin",
+        "12a_R2b_template_pin",
+        "13_R3_table_show_rule_policy",
+        "14_R4_figure_image_swap",
+        "15a_R5_white_text_policy",
+        "15b_R5_white_text_paint_scan",
+        "16a_R6_content_show_policy",
+    } | baseline_only == set(neg)
 
 
 def test_typst_parity_cli_normal_and_optimized_agree(tmp_path):

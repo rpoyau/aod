@@ -5,6 +5,10 @@ for AOD M4 Objective 1 (native Typst Main and Manual vs unchanged LaTeX baseline
 Enforces all five gates of manual/plans/m4-typst-cutover/OBJECTIVE_1_TYPST_PLAN_R02.md
 and the R01 correction requirements (C1-C4):
   Gate A: Baseline immutability (211 protected scientific files + narrow engineering digests).
+  Gate A2 (R02): Evaluation policy. Manifest typst_sha256 enforced for every unit; template and
+          driver files pinned by verifier-internal digests; no undeclared .typ files; mode-aware
+          allowlist over content files (no show/let/context, no fill/opacity/hide/place/overlay
+          primitives, reviewed text sizes, surface-preamble imports and manifest includes only).
   Gate B: Complete ordered source-bound content parity across all 48 active files:
           - Ordered prose words (length >= 1, case-exact, preserving short negations like
             'no', 'a', 'if', 'not', 'only'), meaningful punctuation (simulating Typst's
@@ -14,6 +18,7 @@ and the R01 correction requirements (C1-C4):
             spans (inline + unlabeled display + labeled display) while preserving explicit
             grouping, fractions, roots, accents, indices, exponents, integers, decimals,
             and matrix/cases shape; fail-closed on unsupported math constructs.
+          - Figure image bindings in order, each bound to a protected baseline image digest.
   Gate C: Evaluated & rendered PDF parity:
           - Deterministic Typst build (--creation-timestamp) with strict committed registry.
           - Delivered peer-PDF link integrity (main_typst.pdf#page=N, zero stale main.pdf
@@ -21,10 +26,16 @@ and the R01 correction requirements (C1-C4):
           - Complete semantic ID (kind, number, display) & Table/Figure/Definition numbering
             matched directly against retained XeLaTeX baseline PDFs.
           - Complete case-sensitive rendered bibliography comparison (10 Main + 43 Manual).
-          - Complete rendered prose-clause, literal-command, semicolon, short-negation, and
-            decimal comparison directly against baseline PDFs (defeating #show-rule mutations).
-  Gate D: Mandatory negative controls (11 isolated mutations: original 6 + 4 review
-          counterexamples + peer-PDF delivery control).
+          - Every source prose clause count-matched against the baseline PDF (vocabulary-bound
+            de-hyphenation), Typst-rendering fallback, unverified clauses => PARTIAL verdict.
+          - Insertion detection: rendered word 4-grams must occur in the baseline or the source
+            (explicit 17-entry layout allowlist) and out-of-source words (>= 4 letters) may not
+            exceed their baseline count (explicit per-word allowlist); relation-glyph parity
+            (+ < > <= >= <-> x inf ==);
+            decimals; PDF text-paint scan (opaque black fill, render mode 0, size >= 4pt).
+  Gate D: Mandatory negative controls (21 isolated mutations: original 6 + 4 R01 review
+          counterexamples + peer-PDF delivery control + 10 R02 sub-controls), each required to
+          be rejected by its intended check (expected diagnostic substring).
   Gate E: Honest coverage, cryptographic bindings (Main + Manual sources, verifier,
           baseline & candidate PDFs), and explicit non-acceptance verdict on partial runs.
 
@@ -34,18 +45,21 @@ invocations execute identical checks and emit byte-identical JSON reports.
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import difflib
 import hashlib
 import importlib.util
 import json
 import os
 from pathlib import Path
+import posixpath
 import re
 import shutil
 import subprocess
 import sys
 import tempfile
 import unicodedata
+import zlib
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -1106,6 +1120,16 @@ def parse_typst_math_ast(expr: str) -> tuple[tuple, list[str]]:
 # verbatim CLI commands, refs, citations, and ALL inline/display Math ASTs.
 # =============================================================================
 
+def _norm_image_path(path: str, base_dir: str) -> str:
+    """Repository-root-relative POSIX path of an included image (TeX relative to its driver dir; Typst root-absolute)."""
+    p = path.strip().replace("\\", "/")
+    if p.startswith("/"):
+        p = p.lstrip("/")
+    elif base_dir:
+        p = base_dir + "/" + p
+    return posixpath.normpath(p)
+
+
 def _emit_prose_tokens(text: str, tokens: list[tuple]) -> None:
     t = norm_prose_typography(text)
     for m in re.finditer(r"[A-Za-z0-9]+(?:['][A-Za-z]+)?|[;:.,?!]", t):
@@ -1410,7 +1434,18 @@ def extract_tex_ordered(tex_raw: str, fname: str = "", emit_boundaries: bool = F
                     if supp:
                         _emit_prose_tokens(re.sub(r"\\S", " ", supp), tokens)
                     continue
-                if cmd in ("label", "input", "include", "includegraphics", "vspace", "hspace",
+                if cmd == "includegraphics":
+                    flush_buf()
+                    while i < n and t[i] in " \t\n\r":
+                        i += 1
+                    if i < n and t[i] == "[":
+                        _, i = read_balanced_group(t, i, "[", "]")
+                    gpath = ""
+                    if i < n and t[i] == "{":
+                        gpath, i = read_balanced_group(t, i)
+                    tokens.append(("IMG", _norm_image_path(gpath.strip(), "manual" if fname.startswith("manual/") else "")))
+                    continue
+                if cmd in ("label", "input", "include", "vspace", "hspace",
                            "setlength", "addtolength", "renewcommand", "newcommand", "captionsetup",
                            "pagestyle", "thispagestyle", "setcounter", "addtocounter", "phantomsection",
                            "hypersetup", "bibliographystyle", "bibliography", "documentclass", "usepackage"):
@@ -1623,6 +1658,14 @@ def extract_typst_ordered(typ_raw: str, fname: str = "") -> tuple[list[tuple], l
                         if p_s.startswith('"'):
                             val, _ = parse_typ_str_lit(p_s, 0)
                             tokens.append(("CODE", val))
+                        continue
+                    if name == "image" and paren_arg is not None:
+                        flush_buf()
+                        p_s = paren_arg.strip()
+                        img_path = None
+                        if p_s.startswith('"'):
+                            img_path, _ = parse_typ_str_lit(p_s, 0)
+                        tokens.append(("IMG", _norm_image_path(img_path or "<non-literal-image-path>", "")))
                         continue
                     if name == "link" and paren_arg is not None:
                         flush_buf()
@@ -2006,6 +2049,458 @@ def verify_baseline_immutability(root: Path, manifest: dict) -> dict:
 
 
 # =============================================================================
+# Gate A2: Evaluation Policy (trusted template pins, manifest digests, and a
+# mode-aware allowlist for every Typst content file). Typst show rules, local
+# definitions, styling and overlays can change the evaluated publication without
+# changing source tokens; content files may therefore only use the reviewed,
+# content-neutral vocabulary below, and the files that define evaluation
+# semantics are pinned byte-for-byte by this verifier.
+# =============================================================================
+
+TRUSTED_TEMPLATE_SHA256 = {
+    "typst/lib/aod_schema.typ": "a9fa4285654de1a161e7dbe59273429f3f42ec37bd627bdcd43fd39f57872f28",
+    "typst/preamble.typ": "7a9c255c2411bc4bd3487be0196f10ac453eefa240f6c16095d426f210b4f112",
+    "typst/manual/preamble.typ": "2b7deae2f0fa3d7011edabd8d7299b835290fb60e47990c7fe861e55bd914196",
+    "typst/main.typ": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70",
+    "typst/manual/main.typ": "d09237ee38263daf33162e8afc00ba04b4e813df4203d0aad75df01609cc6fb9",
+}
+
+# Callable -> permitted named arguments, for code / `#`-introduced calls in content files.
+CONTENT_CALL_ALLOWLIST: dict[str, frozenset] = {
+    "align": frozenset(), "aod-anchor": frozenset(), "aod-cite": frozenset({"supplement"}),
+    "aod-definition": frozenset({"title"}), "aod-flowchart": frozenset({"height", "width"}),
+    "aod-literature-note": frozenset(), "aod-noteblock": frozenset(), "aod-panel": frozenset({"width"}),
+    "aod-paragraph": frozenset(), "aod-provenance": frozenset(), "aod-remark": frozenset(),
+    "aod-uncaptioned-longtable": frozenset(), "appref": frozenset(), "bare-ref": frozenset(),
+    "block": frozenset({"above", "below", "width"}), "box": frozenset({"inset", "stroke"}),
+    "counter": frozenset(), "counter().update": frozenset(), "emph": frozenset(), "eqnref": frozenset(),
+    "eqref": frozenset(), "figure": frozenset({"caption", "kind"}), "image": frozenset({"width"}),
+    "link": frozenset(), "mainappendix": frozenset(), "mainequation": frozenset(), "mainsection": frozenset(),
+    "math.equation": frozenset({"block", "numbering"}), "pad": frozenset({"left", "right"}),
+    "page": frozenset({"numbering"}), "pagebreak": frozenset({"weak"}), "par": frozenset({"justify"}),
+    "raw": frozenset(), "secref": frozenset(), "strong": frozenset(), "table": frozenset({"align", "columns"}),
+    "table.header": frozenset(), "tabref": frozenset(), "tagged-eq": frozenset(),
+    "text": frozenset({"size", "style"}), "upright": frozenset(), "v": frozenset(),
+}
+CONTENT_SET_ALLOWLIST: dict[str, frozenset] = {"text": frozenset({"size"}), "par": frozenset({"justify"})}
+CONTENT_FORBIDDEN_KEYWORDS = frozenset({"show", "let", "context", "if", "for", "while", "return"})
+# Functions that can hide, overlay, recolour, transform or synthesize evaluated content.
+EVALUATION_FORBIDDEN_CALLS = frozenset({
+    "hide", "place", "scale", "move", "rotate", "skew", "eval", "read", "json", "yaml", "toml", "csv",
+    "xml", "cbor", "plugin", "regex", "upper", "lower", "smallcaps", "highlight", "strike", "underline",
+    "state", "metadata", "query", "locate", "here", "layout", "measure", "rect", "square", "circle",
+    "ellipse", "polygon", "path", "curve", "line", "stack", "columns", "repeat", "rgb", "luma", "cmyk",
+    "color", "oklab", "oklch", "gradient", "tiling", "text", "box", "block", "str", "repr", "label",
+    "selector", "numbering", "sys",
+})
+EVALUATION_FORBIDDEN_ARGS = frozenset({
+    "fill", "opacity", "clip", "tracking", "spacing", "dx", "dy", "outset", "hidden", "font", "fallback",
+    "top-edge", "bottom-edge", "baseline", "cover", "overhang", "costs", "features", "lang", "region",
+})
+CONTENT_TEXT_SIZES = frozenset({"8.5pt", "9.5pt", "10pt", "12pt", "14pt", "17pt"})
+CONTENT_BOX_STROKES = frozenset({"0.5pt + black"})
+
+_TYP_IDENT = re.compile(r"[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z_][A-Za-z0-9_-]*)*")
+_TYP_KEYWORDS = frozenset({
+    "show", "let", "set", "import", "include", "context", "if", "else", "for", "while", "return",
+    "break", "continue", "in", "not", "and", "or", "none", "auto", "true", "false",
+})
+
+
+def _typ_skip_string(s: str, i: int) -> int:
+    j = i + 1
+    while j < len(s) and s[j] != '"':
+        j += 2 if s[j] == "\\" else 1
+    return j + 1
+
+
+def _typ_skip_raw(s: str, i: int) -> int:
+    fence = re.match(r"`+", s[i:]).group(0)
+    if len(fence) == 2:
+        return i + 2
+    j = s.find(fence, i + len(fence))
+    return len(s) if j < 0 else j + len(fence)
+
+
+def _typ_balanced(s: str, i: int, op: str, cl: str) -> int:
+    """Index just after the bracket matching s[i] == op (strings, raw spans and comments honoured)."""
+    depth, j, n = 0, i, len(s)
+    while j < n:
+        c = s[j]
+        if c == "\\":
+            j += 2
+            continue
+        if c == '"' and op != "[":
+            j = _typ_skip_string(s, j)
+            continue
+        if c == "`":
+            j = _typ_skip_raw(s, j)
+            continue
+        if s.startswith("//", j) and (j == 0 or s[j - 1] != ":"):
+            k = s.find("\n", j)
+            j = n if k < 0 else k
+            continue
+        if s.startswith("/*", j):
+            k = s.find("*/", j + 2)
+            j = n if k < 0 else k + 2
+            continue
+        if c == op:
+            depth += 1
+        elif c == cl:
+            depth -= 1
+            if depth == 0:
+                return j + 1
+        j += 1
+    return n
+
+
+def _typ_math_end(s: str, i: int, limit: int | None = None) -> int:
+    """Index of the `$` closing a math span whose body starts at s[i] (nested `#code[$..$]` honoured)."""
+    limit = len(s) if limit is None else limit
+    j = i
+    while j < limit:
+        c = s[j]
+        if c == "\\":
+            j += 2
+            continue
+        if c == '"':
+            j = _typ_skip_string(s, j)
+            continue
+        if c == "$":
+            return j
+        if c == "#":
+            m = _TYP_IDENT.match(s, j + 1)
+            k = m.end() if m else j + 1
+            while k < limit and s[k] in "([{":
+                op = s[k]
+                k = _typ_balanced(s, k, op, {"(": ")", "[": "]", "{": "}"}[op])
+            j = max(k, j + 1)
+            continue
+        j += 1
+    return limit
+
+
+def _typ_split_args(args: str) -> tuple[dict[str, str], list[str]]:
+    """Top-level named arguments (name -> raw value) and positional arguments of a call."""
+    parts: list[str] = []
+    depth, cur, i = 0, [], 0
+    while i < len(args):
+        c = args[i]
+        if c == '"':
+            j = _typ_skip_string(args, i)
+            cur.append(args[i:j])
+            i = j
+            continue
+        if c == "$":
+            j = min(_typ_math_end(args, i + 1) + 1, len(args))
+            cur.append(args[i:j])
+            i = j
+            continue
+        if c in "([{":
+            depth += 1
+        elif c in ")]}":
+            depth -= 1
+        if c == "," and depth == 0:
+            parts.append("".join(cur))
+            cur = []
+            i += 1
+            continue
+        cur.append(c)
+        i += 1
+    if "".join(cur).strip():
+        parts.append("".join(cur))
+    named: dict[str, str] = {}
+    positional: list[str] = []
+    for p in parts:
+        m = re.match(r"\s*([a-z][a-z0-9-]*)\s*:(?!:)", p)
+        if m:
+            named[m.group(1)] = p[m.end():].strip()
+        else:
+            positional.append(p.strip())
+    return named, positional
+
+
+def scan_typst_events(text: str) -> list[tuple]:
+    """Mode-aware scan of Typst source: (mode, kind, name, named_args, positional_args, line).
+
+    mode: 'markup#' / 'math#' (code introduced by '#'), 'code' (inside code arguments/blocks),
+    'math' (bare math-mode function call). kind: 'call', 'ref', 'kw' (keyword statement) or 'set'.
+    """
+    events: list[tuple] = []
+    n_text = len(text)
+
+    def line_of(i: int) -> int:
+        return text.count("\n", 0, i) + 1
+
+    def code_expr(i: int, mode: str) -> int:
+        m = _TYP_IDENT.match(text, i)
+        if not m:
+            if i < n_text and text[i] in "{(":
+                op, cl = ("{", "}") if text[i] == "{" else ("(", ")")
+                j = _typ_balanced(text, i, op, cl)
+                code_block(i + 1, j - 1)
+                return j
+            return i
+        name = m.group(0)
+        j = m.end()
+        head = name.split(".")[0]
+        if head in _TYP_KEYWORDS:
+            k, depth = j, 0
+            while k < n_text:
+                c = text[k]
+                if c == '"':
+                    k = _typ_skip_string(text, k)
+                    continue
+                if c in "([{":
+                    depth += 1
+                elif c in ")]}":
+                    if depth == 0:
+                        break
+                    depth -= 1
+                elif depth == 0 and c in "\n;":
+                    break
+                k += 1
+            stmt = text[j:k]
+            if head == "set":
+                ms = _TYP_IDENT.match(stmt.lstrip())
+                named: dict[str, str] = {}
+                pos: list[str] = []
+                pa = stmt.find("(")
+                if pa >= 0:
+                    pe = _typ_balanced(stmt, pa, "(", ")")
+                    named, pos = _typ_split_args(stmt[pa + 1:pe - 1])
+                events.append((mode, "set", ms.group(0) if ms else "", named, pos, line_of(i)))
+            elif head not in ("none", "auto", "true", "false", "in", "not", "and", "or", "else"):
+                events.append((mode, "kw", head, {}, [stmt.strip()[:200]], line_of(i)))
+            code_block(j, k)
+            return k
+        named, pos = {}, []
+        called = False
+        while j < n_text and text[j] in "([":
+            if text[j] == "(":
+                e = _typ_balanced(text, j, "(", ")")
+                n2, p2 = _typ_split_args(text[j + 1:e - 1])
+                named.update(n2)
+                pos += p2
+                code_block(j + 1, e - 1)
+            else:
+                e = _typ_balanced(text, j, "[", "]")
+                markup(j + 1, e - 1)
+            j = e
+            called = True
+            mm = re.match(r"\.([A-Za-z_][A-Za-z0-9_-]*)", text[j:])
+            if mm and j + mm.end() < n_text and text[j + mm.end()] in "([":
+                events.append((mode, "call", name, named, pos, line_of(i)))
+                name = name + "()." + mm.group(1)
+                named, pos = {}, []
+                j += mm.end()
+        events.append((mode, "call" if called else "ref", name, named, pos, line_of(i)))
+        return j
+
+    def code_block(a: int, b: int) -> None:
+        i = a
+        while i < b:
+            c = text[i]
+            if c == '"':
+                i = _typ_skip_string(text, i)
+                continue
+            if c == "`":
+                i = _typ_skip_raw(text, i)
+                continue
+            if text.startswith("//", i) and (i == 0 or text[i - 1] != ":"):
+                k = text.find("\n", i)
+                i = b if k < 0 or k > b else k
+                continue
+            if text.startswith("/*", i):
+                k = text.find("*/", i + 2)
+                i = b if k < 0 else k + 2
+                continue
+            if c == "[":
+                e = _typ_balanced(text, i, "[", "]")
+                markup(i + 1, e - 1)
+                i = e
+                continue
+            if c == "$":
+                e = _typ_math_end(text, i + 1, b)
+                math(i + 1, e)
+                i = e + 1
+                continue
+            ml = re.match(r"<[A-Za-z0-9_:.-]+>", text[i:])
+            if c == "<" and ml:
+                i += ml.end()
+                continue
+            m = _TYP_IDENT.match(text, i)
+            if m and (i == 0 or not (text[i - 1].isalnum() or text[i - 1] in "_-.")):
+                i = code_expr(i, "code")
+                continue
+            i += 1
+
+    def math(a: int, b: int) -> None:
+        i = a
+        while i < b:
+            c = text[i]
+            if c == "\\":
+                i += 2
+                continue
+            if c == '"':
+                i = _typ_skip_string(text, i)
+                continue
+            if c == "#":
+                i = code_expr(i + 1, "math#")
+                continue
+            m = _TYP_IDENT.match(text, i)
+            if m and (i == 0 or not (text[i - 1].isalnum() or text[i - 1] == "_")):
+                j = m.end()
+                if j < b and text[j] == "(":
+                    e = _typ_balanced(text, j, "(", ")")
+                    named, pos = _typ_split_args(text[j + 1:e - 1])
+                    events.append(("math", "call", m.group(0), named, pos, line_of(i)))
+                    math(j + 1, e - 1)
+                    i = e
+                    continue
+                i = j
+                continue
+            i += 1
+
+    def markup(a: int, b: int) -> None:
+        i = a
+        while i < b:
+            c = text[i]
+            if c == "\\":
+                i += 2
+                continue
+            if c == "`":
+                i = _typ_skip_raw(text, i)
+                continue
+            if text.startswith("//", i) and (i == 0 or text[i - 1] != ":"):
+                k = text.find("\n", i)
+                i = b if k < 0 or k > b else k
+                continue
+            if text.startswith("/*", i):
+                k = text.find("*/", i + 2)
+                i = b if k < 0 else k + 2
+                continue
+            if c == "$":
+                e = _typ_math_end(text, i + 1, b)
+                math(i + 1, e)
+                i = e + 1
+                continue
+            if c == "#":
+                i = code_expr(i + 1, "markup#")
+                continue
+            i += 1
+
+    markup(0, n_text)
+    return events
+
+
+def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> tuple[list[str], int]:
+    violations: list[str] = []
+    events = scan_typst_events(text)
+    base_dir = posixpath.dirname(rel)
+    for mode, kind, name, named, pos, line in events:
+        where = f"{rel}:{line}"
+        if kind == "kw":
+            if name in CONTENT_FORBIDDEN_KEYWORDS:
+                violations.append(f"{where}: forbidden `{name}` in content file ({pos[0][:80]!r})")
+            elif name == "import":
+                m_imp = re.fullmatch(r'"([^"]+)"\s*:\s*\*', pos[0].strip())
+                tgt = posixpath.normpath(posixpath.join(base_dir, m_imp.group(1))) if m_imp else ""
+                if tgt not in ("typst/preamble.typ", "typst/manual/preamble.typ"):
+                    violations.append(f"{where}: import other than the surface preamble ({pos[0][:80]!r})")
+            elif name == "include":
+                m_inc = re.fullmatch(r'"([^"]+)"', pos[0].strip())
+                tgt = posixpath.normpath(posixpath.join(base_dir, m_inc.group(1))) if m_inc else ""
+                if tgt not in typst_targets:
+                    violations.append(f"{where}: include of a file outside the manifest ({pos[0][:80]!r})")
+            else:
+                violations.append(f"{where}: unexpected keyword `{name}` in content file")
+            continue
+        if kind == "set":
+            allowed = CONTENT_SET_ALLOWLIST.get(name)
+            if allowed is None or not set(named) <= allowed or pos:
+                violations.append(f"{where}: set rule `set {name}({', '.join(sorted(named))})` is not content-neutral")
+            if name == "text" and named.get("size") not in CONTENT_TEXT_SIZES:
+                violations.append(f"{where}: set text size {named.get('size')!r} outside the reviewed sizes")
+            continue
+        bad_args = sorted(set(named) & EVALUATION_FORBIDDEN_ARGS)
+        if bad_args:
+            violations.append(f"{where}: forbidden styling argument(s) {bad_args} on `{name}`")
+        if kind != "call":
+            if name in ("hide", "place", "eval", "regex", "read"):
+                violations.append(f"{where}: reference to evaluation-altering function `{name}`")
+            continue
+        if mode == "math":
+            if name.rstrip("_") in EVALUATION_FORBIDDEN_CALLS:
+                violations.append(f"{where}: forbidden math-mode call `{name}(...)`")
+            continue
+        allowed = CONTENT_CALL_ALLOWLIST.get(name)
+        if allowed is None:
+            violations.append(f"{where}: call `{name}` is not in the content allowlist")
+            continue
+        extra = sorted(set(named) - allowed)
+        if extra:
+            violations.append(f"{where}: `{name}` with non-allowlisted argument(s) {extra}")
+        if name == "text" and named.get("size") not in CONTENT_TEXT_SIZES:
+            violations.append(f"{where}: text size {named.get('size')!r} outside the reviewed sizes")
+        if name == "box" and named.get("stroke") not in CONTENT_BOX_STROKES:
+            violations.append(f"{where}: box stroke {named.get('stroke')!r} is not the reviewed equation frame")
+        if name == "v" and not all(re.fullmatch(r"\d+(?:\.\d+)?(?:em|pt|fr)", p) for p in pos):
+            violations.append(f"{where}: vertical spacing {pos!r} is not a non-negative literal length")
+        if name in ("counter", "counter().update") and pos not in (["page"], ["1"]):
+            violations.append(f"{where}: counter manipulation {pos!r} is not the reviewed page reset")
+    return violations, len(events)
+
+
+def verify_typst_evaluation_policy(root: Path, manifest: dict) -> dict:
+    """Gate A2: pin evaluation-defining files and constrain every Typst content file."""
+    targets = {e["typst_target"] for e in manifest["active_source_map"]}
+    # 1. Every active Typst unit matches its manifest digest.
+    for e in manifest["active_source_map"]:
+        p = root / e["typst_target"]
+        require(p.is_file(), f"Manifest Typst target missing: {e['typst_target']}")
+        require(
+            sha256_file(p) == e["typst_sha256"],
+            f"Typst unit digest differs from typst/manifest.json: {e['typst_target']}",
+        )
+    # 2. Evaluation-defining template/driver files are pinned by this verifier.
+    for rel, digest in sorted(TRUSTED_TEMPLATE_SHA256.items()):
+        p = root / rel
+        require(p.is_file(), f"Trusted Typst template file missing: {rel}")
+        require(
+            sha256_file(p) == digest,
+            f"Trusted Typst template/driver changed (evaluation semantics are pinned by the verifier): {rel}",
+        )
+    # 3. The Typst file set is exactly the manifest units plus the pinned template library.
+    on_disk = {str(p.relative_to(root)).replace(os.sep, "/") for p in (root / "typst").rglob("*.typ")}
+    declared = targets | set(TRUSTED_TEMPLATE_SHA256)
+    require(
+        on_disk == declared,
+        f"Undeclared or missing Typst files: extra={sorted(on_disk - declared)}, missing={sorted(declared - on_disk)}",
+    )
+    # 4. Mode-aware allowlist over content files.
+    violations: list[str] = []
+    files_checked = 0
+    events_checked = 0
+    for rel in sorted(targets - set(TRUSTED_TEMPLATE_SHA256)):
+        v_list, n_ev = _content_policy_violations(rel, (root / rel).read_text(encoding="utf-8"), targets)
+        violations += v_list
+        files_checked += 1
+        events_checked += n_ev
+    require(
+        not violations,
+        "Typst evaluation policy violation(s) in content files:\n  " + "\n  ".join(violations[:25]),
+    )
+    return {
+        "trusted_template_files_pinned": len(TRUSTED_TEMPLATE_SHA256),
+        "manifest_typst_digests_enforced": len(targets),
+        "content_files_policy_checked": files_checked,
+        "content_events_checked": events_checked,
+        "content_policy_violations": 0,
+    }
+
+
+# =============================================================================
 # Gate B: Ordered Source-Bound Prose, Punctuation, Code, & All-Math AST Parity
 # =============================================================================
 
@@ -2078,6 +2573,7 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
     total_ordered_tokens = 0
     total_math_asts = 0
     total_code_tokens = 0
+    total_image_bindings = 0
     qualifier_totals: dict[str, int] = {q: 0 for q in SCIENTIFIC_QUALIFIERS}
     prose_clauses_by_surface: dict[str, list[tuple[str, str]]] = {"main": [], "manual": []}
     cli_commands_by_surface: dict[str, list[str]] = {"main": [], "manual": []}
@@ -2110,6 +2606,13 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
         total_ordered_tokens += len(t_toks)
         total_math_asts += sum(1 for tk in t_toks if tk[0] == "MATH")
         total_code_tokens += sum(1 for tk in t_toks if tk[0] == "CODE")
+        for tk in t_toks:
+            if tk[0] == "IMG":
+                require(
+                    tk[1] in manifest["baseline_protected_sha256"] and (root / tk[1]).is_file(),
+                    f"Figure image binding {tk[1]!r} in {typ_rel} is not a protected baseline image",
+                )
+                total_image_bindings += 1
 
         surf = entry["surface"]
         for tk in t_toks:
@@ -2175,6 +2678,7 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
         "labeled_equations_verified_structurally": eq_counts,
         "immutable_tables_verified_cell_by_cell": table_stats,
         "unsupported_math_constructs": 0,
+        "figure_image_bindings_verified": total_image_bindings,
         "qualifier_token_totals": qualifier_totals,
         "_prose_clauses": prose_clauses_by_surface,
         "_cli_commands": cli_commands_by_surface,
@@ -2191,7 +2695,7 @@ def _pdftotext(pdf_path: Path, raw: bool = False) -> str:
     return proc.stdout
 
 
-def _norm_rendered_text_tokens(raw_pdf_text: str, is_typst: bool) -> str:
+def _norm_rendered_text_tokens(raw_pdf_text: str, is_typst: bool, vocab: set[str] | None = None) -> str:
     """Normalize extracted PDF text for ordered clause comparison.
 
     Preserves ALL words (including 1- and 2-letter words like 'No', 'no', 'a', 'if'),
@@ -2209,7 +2713,13 @@ def _norm_rendered_text_tokens(raw_pdf_text: str, is_typst: bool) -> str:
     # real compound hyphens remain ASCII '-' and split cleanly into words.
     t = t.replace("\u00ad\n", "").replace("\u00ad ", "").replace("\u00ad", "")
     if not is_typst:
-        t = re.sub(r"([A-Za-z])-\n([a-z])", r"\1\2", t)
+        if vocab is not None:
+            t = _dehyphenate_with_vocab(t, vocab)
+        else:
+            t = re.sub(r"([A-Za-z])-\n([a-z])", r"\1\2", t)
+    else:
+        # \SADARop renders as Fraktur U+1D516 in Typst; pdftotext reads the XeLaTeX glyph as 'S'.
+        t = t.replace("\U0001d516", "S")
     t = norm_prose_typography(t)
     t = t.replace("\u2032", "'")
     toks = [m.group(0) for m in re.finditer(r"[A-Za-z0-9]+(?:['][A-Za-z]+)?|[;:.,?!]", t)]
@@ -2400,6 +2910,161 @@ def _split_sentence_clauses(clause: str) -> list[str]:
     return out
 
 
+# --- R02: vocabulary-bound de-hyphenation, insertion detection, glyph parity, paint scan ---
+
+# Rendered math/relation glyphs whose occurrence counts agree exactly between the retained
+# XeLaTeX PDF and the native Typst PDF on the clean candidate. '−', '=', '∈', '·', '∂', '∑'
+# are linearised differently by the two engines and are covered by the source math AST
+# (Gate B) plus the evaluation policy (Gate A2) instead.
+RENDERED_GLYPH_PARITY_SET = ("+", "<", ">", "\u2264", "\u2265", "\u2194", "\u00d7", "\u221e", "\u2261")
+INSERTION_NGRAM = 4
+# Exact Typst 4-grams that are absent from the baseline only because pdftotext linearises
+# table cells / side notes in a different order. Every other novel 4-gram fails the gate.
+RENDERED_LAYOUT_NGRAM_ALLOWLIST: dict[str, frozenset] = {
+    "main": frozenset({
+        "open seat seated duad", "and its exact character", "in this note Fixed",
+        "this note Fixed boundary", "note Fixed boundary window", "in this note Duonic",
+        "this note Duonic pressure", "note Duonic pressure Clipped",
+    }),
+    "manual": frozenset({
+        "signed residual tally Status", "proxy required momentum fields",
+        "required momentum fields angular", "quarantined target required Input",
+        "target required Input group", "Source status Gate audit", "status Gate audit controls",
+        "Gate audit controls null", "side quarantine table Record",
+    }),
+}
+# Out-of-source-vocabulary words (>= 4 letters) may not occur more often in the Typst body than
+# in the retained baseline body, except for these exact excesses (math/table-header linearisation
+# and the Typst table-of-contents 'References' entry), measured on the clean candidate.
+OOV_WORD_MIN_LEN = 4
+RENDERED_OOV_EXCESS_ALLOWLIST: dict[str, dict[str, int]] = {
+    "main": {"Anchor": 1, "Category": 1, "Entries": 1, "References": 1, "asym": 6, "decl": 1, "prop": 1},
+    "manual": {
+        "Artifact": 1, "Class": 1, "Jobs": 2, "Purpose": 1, "References": 1, "Sheet": 1, "bench": 1,
+        "bend": 1, "neuro": 4, "peri": 1, "spike": 2,
+    },
+}
+MIN_RENDERED_TEXT_SIZE = 4.0
+
+
+def _source_prose_vocab(gate_b_info: dict) -> set[str]:
+    vocab: set[str] = set()
+    for surf in ("main", "manual"):
+        for _, clause in gate_b_info["_prose_clauses"][surf]:
+            vocab.update(w for w in clause.split() if w.isalpha())
+    return vocab
+
+
+def _dehyphenate_with_vocab(t: str, vocab: set[str]) -> str:
+    """Undo XeLaTeX line-break hyphenation, bound to the source prose vocabulary."""
+    def rep(m: re.Match) -> str:
+        a, b = m.group(1), m.group(2)
+        if (a + b) in vocab or not (a in vocab and b in vocab):
+            return a + b
+        return a + " " + b
+    return re.sub(r"([A-Za-z]+)-\n([a-z]+)", rep, t)
+
+
+def _rendered_body(raw_pdf_text: str) -> str:
+    """Text before the LAST 'References' heading (the first match is the table of contents)."""
+    ms = list(re.finditer(r"\nReferences\s*\n", raw_pdf_text))
+    return raw_pdf_text[:ms[-1].start()] if ms else raw_pdf_text
+
+
+def _vocab_runs(tokens: list[str], vocab: set[str]) -> list[list[str]]:
+    runs: list[list[str]] = []
+    cur: list[str] = []
+    for x in tokens:
+        if x.isalpha() and len(x) >= 2 and x in vocab:
+            cur.append(x)
+        elif cur:
+            runs.append(cur)
+            cur = []
+    if cur:
+        runs.append(cur)
+    return runs
+
+
+def _run_ngrams(runs: list[list[str]], n: int = INSERTION_NGRAM) -> list[str]:
+    out: list[str] = []
+    for r in runs:
+        for i in range(len(r) - n + 1):
+            out.append(" ".join(r[i:i + n]))
+    return out
+
+
+_PDF_TOK = re.compile(
+    rb"\((?:\\.|[^\\)])*\)|<[0-9A-Fa-f\s]*>|\[|\]|/[^\s/\[\]()<>]+|[-+]?\d*\.?\d+|[A-Za-z'\"*]+"
+)
+_PDF_NUM = re.compile(rb"[-+]?\d*\.?\d+")
+
+
+def _pdf_text_streams(data: bytes):
+    for m in re.finditer(rb"<<(.{0,400}?)>>\s*stream\r?\n", data, re.S):
+        d = m.group(1)
+        start = m.end()
+        lm = re.search(rb"/Length (\d+)(?! \d+ R)", d)
+        end = start + int(lm.group(1)) if lm else data.find(b"endstream", start)
+        raw = data[start:end]
+        if b"/FlateDecode" in d:
+            try:
+                raw = zlib.decompress(raw)
+            except zlib.error:
+                continue
+        if b"BT" in raw and b"ET" in raw and (b"Tj" in raw or b"TJ" in raw):
+            yield raw
+
+
+def _scan_pdf_text_paint(pdf_path: Path) -> dict:
+    """Every text-showing operator must paint opaque black fill, render mode 0, size >= 4pt."""
+    black = {("g", (0.0,)), ("sc", (0.0,)), ("scn", (0.0,)), ("rg", (0.0, 0.0, 0.0)), ("k", (0.0, 0.0, 0.0, 1.0))}
+    data = pdf_path.read_bytes()
+    text_ops = 0
+    bad: list[str] = []
+    min_size = None
+    for s in _pdf_text_streams(data):
+        fill: tuple = ("g", (0.0,))
+        tr, size = 0, None
+        gs: list[tuple] = []
+        operands: list[bytes] = []
+        for t in _PDF_TOK.findall(s):
+            if t[:1] in b"(<[]/" or _PDF_NUM.fullmatch(t):
+                operands.append(t)
+                continue
+            op = t.decode("latin1")
+            nums: list[float] = []
+            for x in reversed(operands):
+                if not _PDF_NUM.fullmatch(x):
+                    break
+                nums.insert(0, float(x))
+            if op == "q":
+                gs.append((fill, tr, size))
+            elif op == "Q" and gs:
+                fill, tr, size = gs.pop()
+            elif op in ("g", "rg", "k"):
+                fill = (op, tuple(nums[-{"g": 1, "rg": 3, "k": 4}[op]:]))
+            elif op in ("sc", "scn"):
+                fill = (op, tuple(nums))
+            elif op == "Tr" and nums:
+                tr = int(nums[-1])
+            elif op == "Tf" and nums:
+                size = nums[-1]
+            elif op in ("Tj", "TJ", "'", '"'):
+                text_ops += 1
+                if size is not None:
+                    min_size = size if min_size is None else min(min_size, size)
+                if fill not in black or tr != 0 or (size is not None and size < MIN_RENDERED_TEXT_SIZE):
+                    if len(bad) < 10:
+                        bad.append(f"fill={fill} Tr={tr} size={size}")
+            operands = []
+    require(text_ops > 0, f"No text-showing operators found in {pdf_path.name}")
+    require(
+        not bad,
+        f"Rendered text in {pdf_path.name} is not opaque black/visible (hidden or recoloured text): {bad}",
+    )
+    return {"text_show_operators": text_ops, "non_black_or_invisible": 0, "min_font_size": min_size}
+
+
 def verify_evaluated_and_rendered(
     root: Path,
     typst_bin: str,
@@ -2493,10 +3158,63 @@ def verify_evaluated_and_rendered(
     require("(32); the unit hinge is an extra hypothesis" in re.sub(r"\s+", " ", typ_main_stream),
             "Missing literal semicolon in Appendix H.5 ((32); the unit hinge...)")
 
+    vocab = _source_prose_vocab(gate_b_info)
     typ_norm_by_surf = {
         "main": " " + _norm_rendered_text_tokens(typ_main_stream, is_typst=True) + " ",
         "manual": " " + _norm_rendered_text_tokens(typ_manual_stream, is_typst=True) + " ",
     }
+
+    # C3: rendered text paint (hidden / recoloured / microscopic text is rejected).
+    paint = {
+        "main": _scan_pdf_text_paint(typ_main_pdf),
+        "manual": _scan_pdf_text_paint(typ_manual_pdf),
+    }
+
+    def clause_variants(sent: str) -> list[str]:
+        out = [" " + sent + " "]
+        if " SADAR " in out[0]:
+            out.append(out[0].replace(" SADAR ", " S "))
+        return out
+
+    def check_clauses(surf: str, b_norm: str | None) -> dict:
+        """Every source prose clause is verified against the baseline PDF (count parity) or,
+        failing a baseline anchor, against the evaluated Typst rendering; others are reported."""
+        t_norm = typ_norm_by_surf[surf]
+        total = anchored = typst_only = 0
+        unverified: list[str] = []
+        for src_rel, clause in gate_b_info["_prose_clauses"][surf]:
+            for sent in _split_sentence_clauses(clause):
+                total += 1
+                variants = clause_variants(sent)
+                hit = None
+                if b_norm is not None:
+                    hit = next((v for v in variants if b_norm.count(v) >= 1), None)
+                if hit is not None:
+                    bc, tc = b_norm.count(hit), t_norm.count(hit)
+                    require(
+                        tc >= bc,
+                        f"Rendered prose mismatch in {surf}_typst.pdf (from {src_rel}): "
+                        f"clause {sent!r} count base={bc} vs typst={tc}",
+                    )
+                    anchored += 1
+                    continue
+                if b_norm is None and any(w.lower() in SCIENTIFIC_QUALIFIERS for w in sent.split()):
+                    require(
+                        any(v in t_norm for v in variants),
+                        f"Rendered prose clause missing in {surf}_typst.pdf (possible #show rule mutation, "
+                        f"from {src_rel}): {sent!r}",
+                    )
+                if any(v in t_norm for v in variants):
+                    typst_only += 1
+                else:
+                    unverified.append(f"{src_rel}: {sent[:120]}")
+        return {
+            "source_clauses_total": total,
+            "baseline_anchored": anchored,
+            "typst_rendering_verified_only": typst_only,
+            "unverified": len(unverified),
+            "unverified_samples": unverified[:10],
+        }
 
     baseline_pdf_report: dict[str, object] = {"performed": False}
     if baseline_main_pdf is not None and baseline_manual_pdf is not None:
@@ -2508,8 +3226,8 @@ def verify_evaluated_and_rendered(
         base_manual_stream = _pdftotext(baseline_manual_pdf, raw=True)
 
         base_norm_by_surf = {
-            "main": " " + _norm_rendered_text_tokens(base_main_stream, is_typst=False) + " ",
-            "manual": " " + _norm_rendered_text_tokens(base_manual_stream, is_typst=False) + " ",
+            "main": " " + _norm_rendered_text_tokens(base_main_stream, is_typst=False, vocab=vocab) + " ",
+            "manual": " " + _norm_rendered_text_tokens(base_manual_stream, is_typst=False, vocab=vocab) + " ",
         }
 
         per_doc: dict[str, dict] = {}
@@ -2559,23 +3277,49 @@ def verify_evaluated_and_rendered(
                     f"  BASE: {b_bib[idx]}\n  TYP : {t_bib[idx]}",
                 )
 
-            # (c) Complete rendered sentence-level prose comparison using stream-order `pdftotext -raw`
-            #     (case-exact, preserving short words 'No'/'no'/'a'/'not'/'only' and punctuation — defeats ALL #show rules!)
-            b_norm = base_norm_by_surf[surf]
-            t_norm = typ_norm_by_surf[surf]
-            anchored_clauses = 0
-            for src_rel, clause in gate_b_info["_prose_clauses"][surf]:
-                for sent in _split_sentence_clauses(clause):
-                    needle = " " + sent + " "
-                    bc = b_norm.count(needle)
-                    if bc >= 1:
-                        tc = t_norm.count(needle)
-                        require(
-                            tc >= bc,
-                            f"Rendered prose mismatch in {surf}_typst.pdf (from {src_rel}): "
-                            f"clause {sent!r} count base={bc} vs typst={tc}",
-                        )
-                        anchored_clauses += 1
+            # (c) Source clause -> rendered prose, in order-free count parity against the retained
+            #     XeLaTeX PDF (vocabulary-bound de-hyphenation), with Typst-rendering fallback.
+            clause_report = check_clauses(surf, base_norm_by_surf[surf])
+
+            # (c2) Bidirectional: every 4-gram of source-vocabulary words in the rendered Typst
+            #      body must occur in the retained baseline body or in the source clauses, so
+            #      evaluation-time insertions (show/figure/caption rules) are rejected.
+            src_words = [w for _, c in gate_b_info["_prose_clauses"][surf] for w in c.split()]
+            src_grams = set(_run_ngrams(_vocab_runs(src_words, vocab)))
+            b_tokens = _norm_rendered_text_tokens(_rendered_body(b_stream), is_typst=False, vocab=vocab).split()
+            t_tokens = _norm_rendered_text_tokens(_rendered_body(t_stream), is_typst=True).split()
+            base_grams = set(_run_ngrams(_vocab_runs(b_tokens, vocab)))
+            t_grams = _run_ngrams(_vocab_runs(t_tokens, vocab))
+            layout_allow = RENDERED_LAYOUT_NGRAM_ALLOWLIST[surf]
+            novel = [g for g in t_grams if g not in base_grams and g not in src_grams and g not in layout_allow]
+            # Words outside the source vocabulary (>= 4 letters) must not exceed their baseline count.
+            b_alpha = Counter(x for x in b_tokens if x.isalpha())
+            t_alpha = Counter(x for x in t_tokens if x.isalpha())
+            oov_allow = RENDERED_OOV_EXCESS_ALLOWLIST[surf]
+            oov_excess = sorted(
+                f"{w}(+{t_alpha[w] - b_alpha[w]})"
+                for w in t_alpha
+                if len(w) >= OOV_WORD_MIN_LEN and w not in vocab
+                and t_alpha[w] - b_alpha[w] > oov_allow.get(w, 0)
+            )
+            require(
+                not novel and not oov_excess,
+                f"Rendered insertion in {surf}_typst.pdf: out-of-source words exceeding the baseline "
+                f"{oov_excess[:8]}; {len(novel)} word 4-gram(s) absent from the retained baseline and "
+                f"the source, e.g. {sorted(set(novel))[:6]}",
+            )
+            layout_hits = sorted({g for g in t_grams if g in layout_allow and g not in base_grams and g not in src_grams})
+
+            # (c3) Rendered relation/operator glyph parity against the retained baseline body.
+            b_body_s, t_body_s = _rendered_body(b_stream), _rendered_body(t_stream)
+            glyphs = {}
+            for g in RENDERED_GLYPH_PARITY_SET:
+                bcount, tcount = b_body_s.count(g), t_body_s.count(g)
+                require(
+                    bcount == tcount,
+                    f"Rendered glyph {g!r} count differs in {surf}_typst.pdf: base={bcount} vs typst={tcount}",
+                )
+                glyphs[g] = tcount
 
             # (d) Rendered body decimal check (References already verified char-for-char in step (b))
             m_bref = re.search(r"\nReferences\s*\n", b_raw)
@@ -2591,7 +3335,13 @@ def verify_evaluated_and_rendered(
                 "rendered_tables_matched": len(re.findall(r"\bTable\s+\d+\s*:", t_flat)),
                 "rendered_figures_matched": len(re.findall(r"\bFigure\s+\d+\s*:", t_flat)),
                 "rendered_bib_entries_exact": len(t_bib),
-                "rendered_prose_clauses_verified": anchored_clauses,
+                "rendered_prose_clauses": clause_report,
+                "rendered_insertion_ngrams_checked": len(t_grams),
+                "rendered_insertion_novel_ngrams": 0,
+                "rendered_oov_words_checked": sum(1 for w in t_alpha if len(w) >= OOV_WORD_MIN_LEN and w not in vocab),
+                "rendered_oov_excess_beyond_allowlist": 0,
+                "rendered_layout_allowlisted_ngrams": layout_hits,
+                "rendered_glyph_parity": glyphs,
                 "rendered_decimals_matched": len(b_decs),
             }
 
@@ -2614,17 +3364,12 @@ def verify_evaluated_and_rendered(
             },
         }
     else:
-        # Even without baseline PDFs (non-acceptance partial run), verify source prose clauses
-        # appear in rendered Typst PDF so #show-rule mutations are caught in standalone tests too.
-        for surf in ("main", "manual"):
-            t_norm = typ_norm_by_surf[surf]
-            for src_rel, clause in gate_b_info["_prose_clauses"][surf]:
-                for sent in _split_sentence_clauses(clause):
-                    if any(w.lower() in SCIENTIFIC_QUALIFIERS for w in sent.split()):
-                        require(
-                            f" {sent} " in t_norm,
-                            f"Rendered prose clause missing in {surf}_typst.pdf (possible #show rule mutation, from {src_rel}): {sent!r}",
-                        )
+        # Non-acceptance partial run: source clauses are checked against the Typst rendering only
+        # (qualifier-bearing clauses must be present); insertion and glyph checks need the baseline.
+        baseline_pdf_report = {
+            "performed": False,
+            "rendered_prose_clauses_typst_only": {s: check_clauses(s, None) for s in ("main", "manual")},
+        }
 
     return {
         "typst_version": build_report["typst_version"],
@@ -2648,6 +3393,7 @@ def verify_evaluated_and_rendered(
             "main": delivery["main_stats"],
             "manual": delivery["manual_stats"],
         },
+        "rendered_text_paint": paint,
         "baseline_pdf_comparison": baseline_pdf_report,
     }
 
@@ -2655,6 +3401,22 @@ def verify_evaluated_and_rendered(
 # =============================================================================
 # Gate D: Mandatory Negative Controls (Original 6 + 4 Review Mutations + Peer PDF)
 # =============================================================================
+
+# Intended diagnostic of each original / R01 control (a rejection by any other check fails Gate D).
+CONTROL_EXPECTED_DIAGNOSTICS = {
+    "1a_changed_table_value": "Table cell parity mismatch for manual/data/derived/sparc_summary_table.tex",
+    "1b_changed_equation_exponent": "Equation structure mismatch for eq:hinge-reflection-involution",
+    "2_removed_qualification": "Ordered content/math parity mismatch in sections/04_cut_running_fractal_tesseract.tex",
+    "3_omitted_active_table": "not included by typst/manual/main.typ: typst/manual/tables/sparc_summary_table.typ",
+    "4_wrong_reference_target_type": "Wrong Main reference type for mainequation(main:sec:m3-maps)",
+    "5_stale_main_registry": "Stale Main registry",
+    "6_removed_short_negation": "Ordered content/math parity mismatch in manual/sections/02_mapping_error.tex",
+    "7_changed_inline_integer": "Ordered content/math parity mismatch in manual/sections/02_mapping_error.tex",
+    "8_changed_equation_grouping": "Equation structure mismatch for eq:manual-m3-original-interval",
+    "9_show_rule_rendered_mutation": "No physical uncertainty model is instantiated",
+    "10_wrong_peer_pdf_filename": "Main companion filename mismatch",
+}
+
 
 def run_negative_controls(
     root: Path,
@@ -2665,7 +3427,7 @@ def run_negative_controls(
     manifest = json.loads((root / "typst/manifest.json").read_text(encoding="utf-8"))
     results: dict[str, dict] = {}
 
-    def make_sandbox(tmp: Path, include_figures: bool = False) -> Path:
+    def make_sandbox(tmp: Path, include_figures: bool = True) -> Path:
         sb = tmp / "repo"
         sb.mkdir()
         for d in ("sections", "appendices", "typst", "scripts", "contracts"):
@@ -2686,17 +3448,53 @@ def run_negative_controls(
             shutil.copytree(root / "manual" / "figures", sb / "manual" / "figures")
         return sb
 
-    def expect_rejection(name: str, fn) -> None:
+    def expect_rejection(name: str, fn, expect: str = "") -> None:
+        """The mutation must be rejected, and by the intended gate (diagnostic contains `expect`)."""
+        expect = expect or CONTROL_EXPECTED_DIAGNOSTICS[name]
         try:
             fn()
         except Exception as exc:
             msg = str(exc)
+            if expect not in msg:
+                raise ValueError(
+                    f"Negative control {name} was rejected by an unintended check "
+                    f"(expected diagnostic containing {expect!r}): {msg.splitlines()[0][:300] if msg else type(exc).__name__}"
+                ) from exc
             m_panic = re.search(r"error: panicked with: [^\n]+", msg)
-            summary = m_panic.group(0) if m_panic else msg.splitlines()[0]
+            lines = msg.splitlines()
+            summary = m_panic.group(0) if m_panic else lines[0]
+            if not m_panic and summary.endswith(":") and len(lines) > 1:
+                summary += " " + lines[1].strip()
             summary = re.sub(r"/tmp/[^\s:\"']+", "<sandbox>", summary)
-            results[name] = {"rejected": True, "error": summary[:180]}
+            results[name] = {"rejected": True, "expected_diagnostic": expect, "error": summary[:180]}
             return
         raise ValueError(f"Negative control FAILED to reject mutation: {name}")
+
+    has_baselines = baseline_main_pdf is not None and baseline_manual_pdf is not None
+
+    def repin(sb: Path, rel: str) -> dict:
+        """Sandbox manifest whose digest for `rel` matches the mutated file, so the policy gate
+        (not the digest pin) is the check that must reject a content-file mutation."""
+        m2 = json.loads(json.dumps(manifest))
+        hits = 0
+        for e in m2["active_source_map"]:
+            if e["typst_target"] == rel:
+                e["typst_sha256"] = sha256_file(sb / rel)
+                hits += 1
+        require(hits == 1, f"Control re-pin target not in manifest: {rel}")
+        return m2
+
+    def mutate(sb: Path, rel: str, old: str, new: str) -> None:
+        p = sb / rel
+        txt = p.read_text(encoding="utf-8")
+        require(txt.count(old) == 1, f"Control preimage not unique in {rel}: {old!r}")
+        p.write_text(txt.replace(old, new, 1), encoding="utf-8")
+
+    def rendered(sb: Path, out: Path, gate_b_sb: dict) -> None:
+        verify_evaluated_and_rendered(
+            sb, typst_bin, out, gate_b_sb,
+            baseline_main_pdf=baseline_main_pdf, baseline_manual_pdf=baseline_manual_pdf,
+        )
 
     # 1a. Changed exact table value
     with tempfile.TemporaryDirectory() as td:
@@ -2846,6 +3644,95 @@ def run_negative_controls(
             ),
         )
 
+    # --- R02 review mutations: each must be rejected by its intended gate. ---
+    gate_b_clean = verify_source_and_content_parity(root, manifest)
+    man_pre = "typst/manual/preamble.typ"
+    man_drv = "typst/manual/main.typ"
+    fixtures = "typst/manual/sections/00_awareness_fixtures.typ"
+
+    def needs_baselines(name: str) -> None:
+        results[name] = {"rejected": None, "skipped": "requires retained baseline PDFs"}
+
+    # 11. R1c: template show rule appends an unsupported claim after every image figure.
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td), include_figures=True)
+        mutate(sb, man_pre, "  body,\n)", "  { show figure.where(kind: image): it => { it; parbreak(); "
+               "[This figure establishes a physical fifth force.]; parbreak() }; body },\n)")
+        expect_rejection("11a_R1c_template_pin", lambda: verify_typst_evaluation_policy(sb, repin(sb, man_pre)),
+                         "Trusted Typst template/driver changed")
+        if has_baselines:
+            expect_rejection("11b_R1c_rendered_insertion", lambda: rendered(sb, Path(td) / "o", gate_b_clean),
+                             "'fifth(+34)'")
+        else:
+            needs_baselines("11b_R1c_rendered_insertion")
+
+    # 12. R2b: template show rule flips the rendered minus sign in display math.
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td), include_figures=True)
+        mutate(sb, man_pre, "  body,\n)", '  { show math.equation.where(block: true): it => '
+               '{ show "\u2212": "+"; it }; body },\n)')
+        expect_rejection("12a_R2b_template_pin", lambda: verify_typst_evaluation_policy(sb, repin(sb, man_pre)),
+                         "Trusted Typst template/driver changed")
+        if has_baselines:
+            expect_rejection("12b_R2b_rendered_glyph_parity", lambda: rendered(sb, Path(td) / "o", gate_b_clean),
+                             "Rendered glyph '+'")
+        else:
+            needs_baselines("12b_R2b_rendered_glyph_parity")
+
+    # 13. R3: show rule inside an immutable table changes a rendered integer (digest re-pinned).
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td))
+        tbl = "typst/manual/tables/swells_k0_target_tallies_table.typ"
+        mutate(sb, tbl, "  set par(justify: false)\n", '  set par(justify: false)\n  show "19": "91"\n')
+        expect_rejection("13_R3_table_show_rule_policy",
+                         lambda: verify_typst_evaluation_policy(sb, repin(sb, tbl)), "forbidden `show`")
+
+    # 14. R4: two Higgs figure image paths swapped (captions unchanged).
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td))
+        rel = "typst/manual/sections/01_rest_energy_prediction.typ"
+        a_img = "/manual/figures/higgs/higgs_yro_saddle_signature.png"
+        b_img = "/manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png"
+        p = sb / rel
+        txt = p.read_text(encoding="utf-8")
+        require(txt.count(a_img) == 1 and txt.count(b_img) == 1, "Control 14 preimage missing")
+        p.write_text(txt.replace(a_img, "@@A@@").replace(b_img, a_img).replace("@@A@@", b_img), encoding="utf-8")
+        expect_rejection("14_R4_figure_image_swap", lambda: verify_source_and_content_parity(sb, manifest),
+                         "('IMG', 'manual/figures/higgs/")
+
+    # 15. R5: negation painted white (content-file policy; driver variant via PDF paint scan).
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td))
+        mutate(sb, fixtures, "No physical uncertainty model is instantiated.",
+               "#text(fill: white)[No] physical uncertainty model is instantiated.")
+        expect_rejection("15a_R5_white_text_policy",
+                         lambda: verify_typst_evaluation_policy(sb, repin(sb, fixtures)),
+                         "forbidden styling argument(s) ['fill']")
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td), include_figures=True)
+        mutate(sb, man_drv, "#show: aod-manual-doc\n",
+               '#show: aod-manual-doc\n#show "No physical uncertainty model": it => text(fill: white, it)\n')
+        expect_rejection("15b_R5_white_text_paint_scan", lambda: rendered(sb, Path(td) / "o", gate_b_clean),
+                         "is not opaque black/visible")
+
+    # 16. R6: show rule negates a clause (content-file policy; driver variant via rendered clauses).
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td))
+        mutate(sb, fixtures, "No physical uncertainty model is instantiated.",
+               '#show "invalidates a retention": "validates a retention"\n'
+               "No physical uncertainty model is instantiated.")
+        expect_rejection("16a_R6_content_show_policy",
+                         lambda: verify_typst_evaluation_policy(sb, repin(sb, fixtures)), "forbidden `show`")
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td), include_figures=True)
+        mutate(sb, man_drv, "#show: aod-manual-doc\n",
+               '#show: aod-manual-doc\n#show "invalidates a retention": "validates a retention"\n')
+        if has_baselines:
+            expect_rejection("16b_R6_rendered_clause", lambda: rendered(sb, Path(td) / "o", gate_b_clean),
+                             "Rendered prose mismatch")
+        else:
+            needs_baselines("16b_R6_rendered_clause")
+
     return results
 
 
@@ -2880,6 +3767,7 @@ def main() -> int:
     base_manual = Path(args.baseline_manual_pdf).resolve() if args.baseline_manual_pdf else None
 
     gate_a = verify_baseline_immutability(root, manifest)
+    gate_a2 = verify_typst_evaluation_policy(root, manifest)
     gate_b_raw = verify_source_and_content_parity(root, manifest)
     gate_c = verify_evaluated_and_rendered(
         root, typst_bin, outdir, gate_b_raw,
@@ -2897,18 +3785,25 @@ def main() -> int:
 
     has_baselines = bool(base_main and base_manual)
     all_controls_ran = not args.skip_negative_controls
-    if has_baselines and all_controls_ran:
-        verdict = "PASS"
-    elif not has_baselines:
+    unverified_clauses = 0
+    if has_baselines:
+        for surf in ("main", "manual"):
+            unverified_clauses += gate_c["baseline_pdf_comparison"]["results"][surf]["rendered_prose_clauses"]["unverified"]
+    if not has_baselines:
         verdict = "PARTIAL_NON_ACCEPTANCE_MISSING_BASELINE_PDFS"
-    else:
+    elif not all_controls_ran:
         verdict = "PARTIAL_NON_ACCEPTANCE_SKIPPED_CONTROLS"
+    elif unverified_clauses:
+        verdict = "PARTIAL_NON_ACCEPTANCE_UNVERIFIED_CLAUSES"
+    else:
+        verdict = "PASS"
 
     report = {
         "schema": "aod.typst.parity-report.v2",
         "scientific_baseline_commit": SCIENTIFIC_BASELINE_COMMIT,
         "verifier_sha256": sha256_file(Path(__file__).resolve()),
         "gate_a_baseline_immutability": gate_a,
+        "gate_a2_typst_evaluation_policy": gate_a2,
         "gate_b_scientific_content_parity": gate_b,
         "gate_c_evaluated_and_rendered": gate_c,
         "gate_d_negative_controls": gate_d,
@@ -2920,7 +3815,18 @@ def main() -> int:
             "delivered_peer_pdf_links_and_landings": True,
             "rendered_bib_case_sensitive": has_baselines,
             "rendered_prose_clauses_vs_baseline_pdf": has_baselines,
-            "negative_controls_executed": 0 if args.skip_negative_controls else len(gate_d),
+            "rendered_prose_clauses_unverified": unverified_clauses if has_baselines else "NOT_ASSESSED_WITHOUT_BASELINE",
+            "rendered_insertion_ngrams_vs_baseline_pdf": has_baselines,
+            "rendered_relation_glyph_parity_vs_baseline_pdf": has_baselines,
+            "rendered_minus_equals_membership_glyphs": "SOURCE_MATH_AST_AND_EVALUATION_POLICY_ONLY",
+            "rendered_text_paint_scan": True,
+            "typst_evaluation_policy_and_template_pins": True,
+            "figure_image_bindings_to_protected_digests": gate_b["figure_image_bindings_verified"],
+            "figure_pixels_visual_comparison": "NOT_PERFORMED_BOUND_BY_PROTECTED_DIGEST",
+            "overlay_primitives": "FORBIDDEN_BY_POLICY_NOT_DETECTED_IN_PDF",
+            "negative_controls_executed": 0 if args.skip_negative_controls else sum(
+                1 for v in gate_d.values() if v.get("rejected") is True
+            ),
             "human_visual_layout_review": "SEPARATE_RECORDED_OUTSIDE_AUTOMATED_SCRIPT",
         },
         "typ2tex_compatibility_status": "SEPARATELY_TRACKED_NOT_IMPLEMENTED_IN_S1A_NATIVE_PORT",

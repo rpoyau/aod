@@ -59,6 +59,33 @@ cmp _build/typst_parity/parity_report.json _build/typst_parity_opt/parity_report
 
 `scripts/build_typst.py` compiles deterministic PDFs (`--creation-timestamp`, honoring `SOURCE_DATE_EPOCH` and defaulting to `0`) under unambiguous native filenames (`main_typst.pdf`, `manual_typst.pdf`) alongside the retained LaTeX pair (`main.pdf`, `manual.pdf`). It exports `typst/lib/main_registry.json` from `typst/main.typ` with both `main_sources_sha256` and `main_pdf_filename` (`main_typst.pdf`), and passes `--input expected_main_digest=...` and `--input expected_main_pdf_filename=main_typst.pdf` when compiling `typst/manual/main.typ`, rejecting stale Main registries, companion filename mismatches, unknown labels, and wrong Main reference types. Both publication paths are packaged into `source.zip` and reconstruct outside Git.
 
+`scripts/verify_typst_parity.py` reports `PASS` only when both retained baseline PDFs are supplied, every negative control runs, and every source prose clause is verified in the rendering; otherwise it emits an explicit `PARTIAL_NON_ACCEPTANCE_*` verdict. Its gates are:
+
+- **A** — the 211 protected baseline files are unchanged.
+- **A2** — evaluation policy:
+  - every Typst unit matches its `typst/manifest.json` digest;
+  - the template and driver files (`typst/lib/aod_schema.typ`, both preambles, both `main.typ`) are pinned by digest inside the verifier;
+  - no undeclared `.typ` files exist;
+  - content files pass a mode-aware allowlist with no `show`/`let`/`context`, no fill/opacity/hide/place/overlay, reviewed text sizes only, and only surface-preamble imports and manifest includes.
+- **B** — ordered source parity: prose, punctuation, literal commands, the full math AST, the seven immutable tables cell by cell, and figure image bindings to protected baseline images.
+- **C** — rendered parity against the retained PDFs:
+  - labels and peer links;
+  - bibliography;
+  - source prose clauses, each count-matched against the baseline;
+  - insertion detection: word 4-grams (17-entry layout allowlist) and out-of-source words of at least 4 letters that exceed their baseline count (explicit per-word allowlist);
+  - relation-glyph parity for `+ < > ≤ ≥ ↔ × ∞ ≡`;
+  - decimals;
+  - a PDF text-paint scan requiring opaque black fill, render mode 0 and text of at least 4 pt.
+- **D** — 21 negative controls. Each must be rejected by its intended check; the 3 that depend on the baseline are recorded as skipped when no baseline PDFs are given.
+
+Residual limits:
+
+- Rendered `−`, `=`, `∈`, `·`, `∂` and `∑` counts differ between the engines. They are covered by the source math AST and the evaluation policy, not by rendered counts.
+- Rendered insertion of fewer than four consecutive source-vocabulary words with no new out-of-source word is below the rendered detectors' resolution. That class is excluded by the template pins and content policy (Gate A2) together with source parity (Gate B), not detected in the PDF.
+- Overlay primitives are forbidden by the policy, not detected in the PDF.
+- Raster figure pixels are bound by protected file digest, not compared visually.
+- Layout and visual review remain separate human checks.
+
 ## Artifact order
 
 For Zenodo or other repositories with a default preview/display file, use the main note PDF as the primary artifact and upload/place it first:
