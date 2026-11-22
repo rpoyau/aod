@@ -10,13 +10,13 @@
     #v(0.45em)
     #text(size: 12pt, style: "italic")[The Art Of The Leprechaun: Fractal Calculus – #SADARop]
     #v(0.65em)
-    #text(size: 12pt)[43 $""^circle.tiny upright("c")$]
+    #text(size: 12pt)[43 $""^(circle.tiny)upright("c")$]
     #v(0.45em)
     #text(size: 12pt)[#AODDocumentAuthor]
     #v(0.25em)
     #text(size: 10pt)[#AODDocumentDate]
     #v(0.55em)
-    #math.equation(block: true, numbering: none, $ A arrow.l.r_mu Omega med arrow.l.r.long med Omega arrow.l.r_mu A $)
+    #math.equation(block: true, numbering: none, $ A scripts(arrow.l.r)_mu Omega med arrow.l.r.long med Omega scripts(arrow.l.r)_mu A $)
     #v(1.35em)
     #text(size: 10pt, style: "italic")[Epitaph]
     #v(0.2em)

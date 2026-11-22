@@ -56,16 +56,16 @@ Let $a_c ,a_r > 0$ be stipulated cycle-equivalent gains per native return.
 Let $f_(upright("Cs")) = 9 thin 192 thin 631 thin 770 thin upright("Hz")$ denote the defining
 reference, without a clock realization. For the fixed window define
 
-#math.equation(block: true, numbering: none, $ T = frac(a_r N_r, f_(upright("Cs"))), wide overline(nu)_c = frac(a_c N_c, T), wide t_1 = t_0 + T. $)
+#math.equation(block: true, numbering: none, $ T = frac(a_r N_r, f_(upright("Cs"))), wide macron(nu)_c = frac(a_c N_c, T), wide t_1 = t_0 + T. $)
 
 The mapping binds both gains, the time coordinate and epoch, the complete
 input records, the defining reference and the executable mapping specification.
 The interval and average frequency use only the two window reclosure counts,
 stipulated gains and defining reference frequency.
 At $a_c = a_r = 1$, $T = 2 slash f_(upright("Cs"))$ seconds and
-$overline(nu)_c = 3 f_(upright("Cs")) slash 2$.
+$macron(nu)_c = 3 f_(upright("Cs")) slash 2$.
 The result is a finite-window average.
-The reciprocal $1 slash overline(nu)_c$ is a derived period, distinct from $T$
+The reciprocal $1 slash macron(nu)_c$ is a derived period, distinct from $T$
 and from an independent validation. Physical realization and uncertainties from
 drift, endpoint phase, cycle slips and temporal dependence remain unspecified.
 The gains are stipulated without fitting hydrogen.
@@ -229,11 +229,11 @@ Cs-equivalent cycles on that same coordinate, epoch and window, then
 #mainequation("main:eq:m3-conditional-si-anchor") and
 #mainequation("main:eq:m3-cs133-tau-interface") give
 
-$ frac(A, A_R) = frac(7, 17), wide T = frac(A_R, f_(upright("Cs"))) = frac(17, 2 f_(upright("Cs"))), wide overline(nu) = frac(A, T) = frac(7 f_(upright("Cs")), 17). $ <eq:manual-m3-accumulated-si>
+$ frac(A, A_R) = frac(7, 17), wide T = frac(A_R, f_(upright("Cs"))) = frac(17, 2 f_(upright("Cs"))), wide macron(nu) = frac(A, T) = frac(7 f_(upright("Cs")), 17). $ <eq:manual-m3-accumulated-si>
 
 In full-turn angular reporting ($tau = 2 pi$), the same matched window gives
 $Delta theta_a = frac(7, 2) tau$ and
-$overline(Omega)_a = frac(7, 17) tau f_(upright("Cs"))$.
+$macron(Omega)_a = frac(7, 17) tau f_(upright("Cs"))$.
 Two boundary specializations of #mainequation("main:eq:m3-observation-map")
 through #mainequation("main:eq:m3-cs133-tau-interface") stay explicit under the
 same reference anchor:
@@ -241,8 +241,8 @@ same reference anchor:
 - #emph[Nonrecurrent or clipped localization.] A fragment with
 $q_a ( omega ) = 0$ and $delta_(upright("end"),a) = 0$ localized on a bound
 positive reference window with $C_(upright("Cs")) = 10$ yields
-$T_(omega) = 10 slash f_(upright("Cs"))$ and $overline(f)_a = 0$, $Delta theta_a = 0$,
-$overline(Omega)_a = 0$; $q_a = 0$ supplies no intrinsic frequency or phase lag,
+$T_(omega) = 10 slash f_(upright("Cs"))$ and $macron(f)_a = 0$, $Delta theta_a = 0$,
+$macron(Omega)_a = 0$; $q_a = 0$ supplies no intrinsic frequency or phase lag,
 and no integer cut becomes a universal second.
 - #emph[Signed compared advance against positive reference advance.]
 Under #eqref("eq:manual-m3-observed-advance") and the explicit affine
@@ -251,8 +251,8 @@ $q_a = 0$, $g_a = 1$, $phi.alt_0 = 3 slash 4$ and $phi.alt_1 = 1 slash 4$, the c
 is signed, $C_a = - 1 slash 2$, while the reference advance remains strictly positive,
 $C_(upright("Cs")) = 1$. Then #mainequation("main:eq:m3-cs133-tau-interface")
 yields $T_(omega) = 1 slash f_(upright("Cs"))$, signed mean phase-advance rate
-$overline(f)_a = - f_(upright("Cs")) slash 2$, angular advance $Delta theta_a = - tau slash 2$ and
-$overline(Omega)_a = - tau f_(upright("Cs")) slash 2$. This signed rate is distinct from a
+$macron(f)_a = - f_(upright("Cs")) slash 2$, angular advance $Delta theta_a = - tau slash 2$ and
+$macron(Omega)_a = - tau f_(upright("Cs")) slash 2$. This signed rate is distinct from a
 nonnegative atomic resonance frequency, which requires restricting to
 $C_a gt.eq 0$ (or $C_a > 0$) together with separate physical-realization premises.
 

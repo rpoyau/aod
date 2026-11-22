@@ -21,7 +21,7 @@ and source roles are in #secref("manual:calculation-spine").
 
 Rest-energy records are split into two tables. The A$Omega$ field-map table records support, carried cycle, and A$Omega$ accessor values. The measured-data comparison table records declared measured-sector target rows.
 
-#math.equation(block: true, numbering: none, $ bold(a) tack.r (F,R, partial_T R, omega ), wide B = ( partial_T F, omega ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a)) tack.r (F,R, partial_T R, omega ), wide B = ( partial_T F, omega ). $)
 
 The calculation spine is
 

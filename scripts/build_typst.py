@@ -94,8 +94,8 @@ def compute_manual_sources_digest(root: Path) -> tuple[str, list[str]]:
     files.extend(sorted((root / "typst" / "manual" / "sections").glob("*.typ")))
     files.extend(sorted((root / "typst" / "manual" / "appendices").glob("*.typ")))
     files.extend(sorted((root / "typst" / "manual" / "tables").glob("*.typ")))
-    files.extend(sorted((root / "figures_jpg").glob("*")))
-    files.extend(sorted((root / "manual" / "figures").glob("*")))
+    files.extend(sorted((root / "figures_jpg").rglob("*")))
+    files.extend(sorted((root / "manual" / "figures").rglob("*")))
 
     h = hashlib.sha256()
     rel_list: list[str] = []

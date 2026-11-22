@@ -66,17 +66,18 @@ cmp _build/typst_parity/parity_report.json _build/typst_parity_opt/parity_report
   - every Typst unit matches its `typst/manifest.json` digest;
   - the template and driver files (`typst/lib/aod_schema.typ`, both preambles, both `main.typ`) are pinned by digest inside the verifier;
   - no undeclared `.typ` files exist;
-  - content files pass a mode-aware allowlist with no `show`/`let`/`context`, no fill/opacity/hide/place/overlay, reviewed text sizes only, and only surface-preamble imports and manifest includes.
-- **B** — ordered source parity: prose, punctuation, literal commands, the full math AST, the seven immutable tables cell by cell, and figure image bindings to protected baseline images.
+  - content files pass a mode-aware allowlist with no `show`/`let`/`context`, no argument spreads (`..`) or parenthesized callees, no fill/opacity/hide/place/overlay primitives, positive literal layout lengths, in-bounds `#aod-flowchart` geometry, reviewed text sizes only, and only surface-preamble imports and manifest includes.
+- **B** — ordered source parity: prose, punctuation, literal commands, the full math AST (preserving explicit grouping, matrix/array delimiters and augment bars, distinct `bar`/`macron` vs `overline`, upright bold vs bold-italic, and exact `emptyset` without aliasing `diameter`), all four TikZ vs `#aod-flowchart` diagrams (ordered node prose/math ASTs and directed edge topology), the seven immutable tables cell by cell, and figure image bindings to protected baseline images.
 - **C** — rendered parity against the retained PDFs:
-  - labels and peer links;
+  - labels, exact numbered block-equation counts (zero unintended unlabeled numbered equations) and per-label equation numbers matched against LaTeX sequential numbering/tags, and peer links;
+  - clickable external `/URI` destination sets and exact inline citation bracket sequences;
   - bibliography;
-  - source prose clauses, each count-matched against the baseline;
+  - source prose clauses, each count-matched against the baseline (any non-baseline-anchored or unverified clause emits a non-acceptance partial verdict);
   - insertion detection: word 4-grams (17-entry layout allowlist) and out-of-source words of at least 4 letters that exceed their baseline count (explicit per-word allowlist). Latin ligatures are decomposed on both sides. Because pdftotext versions space math runs differently (poppler 22, 24 and 26 were tested), the word check excludes Typst words containing Unicode mathematical alphanumerics, and it counts a word inside a longer out-of-vocabulary baseline token (for example `tAdmfib` from `⊔Admﬁb`) as a baseline occurrence;
-  - relation-glyph parity for `+ < > ≤ ≥ ↔ × ∞ ≡`;
+  - relation and symbol glyph parity for `+ < > ≤ ≥ ↔ × ∞ ≡ ∅` (and zero `⌀`);
   - decimals;
-  - a PDF text-paint scan requiring opaque black fill, render mode 0 and text of at least 4 pt.
-- **D** — 21 negative controls. Each must be rejected by its intended check; the 3 that depend on the baseline are recorded as skipped when no baseline PDFs are given.
+  - a PDF text-paint scan requiring opaque black fill (`ExtGState /ca == 1`), no zero-area clipping path (`W`/`W*`), render mode 0 and text of at least 4 pt.
+- **D** — 29 negative controls. Each must be rejected by its intended check; the 3 that depend on the baseline are recorded as skipped when no baseline PDFs are given.
 
 Residual limits:
 

@@ -18,7 +18,7 @@ The first anchor is co-created by the distinction in #eqref("eq:first-anchor")\;
 is not selected from a prior coordinate set. A later retained calculation may
 bind its already admitted wave lineages and comparison window by
 
-#math.equation(block: true, numbering: none, $ bold(a) tack.r (B, brace.l W_(B,i)^(upright("id")) brace.r_(i in I) , omega ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a)) tack.r (B, brace.l W_(B,i)^(upright("id")) brace.r_(i in I) , omega ). $)
 
 Addresses below $mono("00")_8$ remain out of scope and unbound.
 

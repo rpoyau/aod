@@ -27,7 +27,7 @@ The common method is #secref("manual:calculation-spine").
 
 Declare an application scope
 
-#math.equation(block: true, numbering: none, $ bold(a) tack.r (F,R, partial R, omega ), wide B = ( partial F, omega ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a)) tack.r (F,R, partial R, omega ), wide B = ( partial F, omega ). $)
 
 The scoped A$Omega$D pressure-resolved flux is
 
@@ -53,7 +53,7 @@ For moving boundaries use
 
 The directional SADAR quantity remains
 
-#math.equation(block: true, numbering: none, $ bold(A)_F (B) = sum_((i,j) in F(B)) phi.alt_(i j) (B), wide op("motion")_(F,k + 1) (B) = (S^W_(F,k) ,S^W_(F,k + 1) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(A))_F (B) = sum_((i,j) in F(B)) phi.alt_(i j) (B), wide op("motion")_(F,k + 1) (B) = (S^W_(F,k) ,S^W_(F,k + 1) ). $)
 
 
 
@@ -63,12 +63,12 @@ The directional SADAR quantity remains
   width: 14.2cm,
   height: 7.5cm,
   (
-    (id: "scope", x: 7.1cm, y: 0.65cm, w: 5.8cm, h: 1.0cm, body: [declared scope \ $bold(a) tack.r (F, R, partial R, omega)$]),
+    (id: "scope", x: 7.1cm, y: 0.65cm, w: 5.8cm, h: 1.0cm, body: [declared scope \ $bold(upright(a)) tack.r (F, R, partial R, omega)$]),
     (id: "flux", x: 7.1cm, y: 2.05cm, w: 5.8cm, h: 1.0cm, body: [scoped flux \ $phi.alt_(i j)(B) = p_(i j)^D (B) A_(i j)(B)$]),
     (id: "slice", x: 3.4cm, y: 3.5cm, w: 5.4cm, h: 1.0cm, body: [slice flux \ $Phi_(partial R)^D (t; B|_t)$]),
     (id: "moving", x: 10.6cm, y: 3.5cm, w: 6.4cm, h: 1.0cm, body: [moving boundary \ $Phi_(upright("cross"))^D - Phi_(upright("sweep"))^D + Phi_(upright("shedding"))^D$]),
     (id: "window", x: 7.1cm, y: 5.0cm, w: 5.4cm, h: 1.0cm, body: [window current \ $J_(partial R)^D (omega; B)$]),
-    (id: "sadar", x: 7.1cm, y: 6.5cm, w: 6.0cm, h: 1.0cm, body: [SADAR attention \ $bold(A)_F (B) = sum phi.alt_(i j)(B)$]),
+    (id: "sadar", x: 7.1cm, y: 6.5cm, w: 6.0cm, h: 1.0cm, body: [SADAR attention \ $bold(upright(A))_F (B) = sum phi.alt_(i j)(B)$]),
   ),
   (
     (from: "scope", to: "flux"),
@@ -146,12 +146,12 @@ Then
 
 Declare
 
-#math.equation(block: true, numbering: none, $ bold(a)_(upright("wire")) tack.r (F_(upright("wire")) ,R_(upright("core")) , partial R_(upright("shell")) , omega_(upright("wire")) ), wide B_(upright("wire")) = ( partial F_(upright("wire")) , omega_(upright("wire")) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_(upright("wire")) tack.r (F_(upright("wire")) ,R_(upright("core")) , partial R_(upright("shell")) , omega_(upright("wire")) ), wide B_(upright("wire")) = ( partial F_(upright("wire")) , omega_(upright("wire")) ). $)
 
 Here $F_(upright("wire"))$ is the conductor plus retained field shell, $R_(upright("core"))$ is the conductor/core region, and $partial R_(upright("shell"))$ is the shell boundary.
 The wire record computes
 
-#math.equation(block: true, numbering: none, $ Phi^D_(partial R) (t;B bar.v_t ), quad J^D_(partial R) ( omega ;B), quad P^D_F (B), quad bold(A)_F (B), quad X_(upright("shedding")) (B). $)
+#math.equation(block: true, numbering: none, $ Phi^D_(partial R) (t;B bar.v_t ), quad J^D_(partial R) ( omega ;B), quad P^D_F (B), quad bold(upright(A))_F (B), quad X_(upright("shedding")) (B). $)
 
 
 #aod-remark[The wire case is a boundary-duon-current example. The surrounding field shell carries returned-current duration, pressure, and SADAR attention balance.]
@@ -162,7 +162,7 @@ The wire record computes
 
 Declare
 
-#math.equation(block: true, numbering: none, $ bold(a)_(upright("fluid")) tack.r (F_(upright("fluid")) ,R_(upright("water")) , partial R_(upright("interface")) , omega_(upright("fluid")) ), wide B_(upright("fluid")) = ( partial F_(upright("fluid")) , omega_(upright("fluid")) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_(upright("fluid")) tack.r (F_(upright("fluid")) ,R_(upright("water")) , partial R_(upright("interface")) , omega_(upright("fluid")) ), wide B_(upright("fluid")) = ( partial F_(upright("fluid")) , omega_(upright("fluid")) ). $)
 
 The moving interface uses
 
@@ -176,7 +176,7 @@ The output record carries interface current, interface pressure, SADAR attention
 
 Declare
 
-#math.equation(block: true, numbering: none, $ bold(a)_(upright("plasma")) tack.r (F_(upright("plasma")) ,R_(upright("core")) , partial R_(upright("magnetic")) , omega_(upright("plasma")) ), wide B_(upright("plasma")) = ( partial F_(upright("plasma")) , omega_(upright("plasma")) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_(upright("plasma")) tack.r (F_(upright("plasma")) ,R_(upright("core")) , partial R_(upright("magnetic")) , omega_(upright("plasma")) ), wide B_(upright("plasma")) = ( partial F_(upright("plasma")) , omega_(upright("plasma")) ). $)
 
 The plasma case uses the same scoped-flux calculation as the fluid interface, with the declared boundary now a shell boundary. The calculation changes by boundary declaration, not by introducing a new current object.
 
@@ -185,7 +185,7 @@ The plasma case uses the same scoped-flux calculation as the fluid interface, wi
 
 The shell electromagnetic record is a downstream comparison record. It computes A$Omega$ quantities first:
 
-#math.equation(block: true, numbering: none, $ J^D_(partial R) ( omega ;B), wide P^D_F (B), wide bold(A)_F (B), wide X_(upright("shedding")) (B). $)
+#math.equation(block: true, numbering: none, $ J^D_(partial R) ( omega ;B), wide P^D_F (B), wide bold(upright(A))_F (B), wide X_(upright("shedding")) (B). $)
 
 Only after these A$Omega$ quantities are declared may a measured-sector comparison be attached.
 
@@ -199,7 +199,7 @@ field to its committed SADAR attention input:
 
 The local sequence is
 
-#math.equation(block: true, numbering: none, $ "phase bias" arrow.r.long bold(A)_F (B) arrow.r.long "SADAR balance" arrow.r.long "shedding / reclosure". $)
+#math.equation(block: true, numbering: none, $ "phase bias" arrow.r.long bold(upright(A))_F (B) arrow.r.long "SADAR balance" arrow.r.long "shedding / reclosure". $)
 
 Push and pull are signed phase-biased components of the same vector.
 

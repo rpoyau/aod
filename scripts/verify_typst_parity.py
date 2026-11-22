@@ -1,41 +1,52 @@
 #!/usr/bin/env python3
-"""Direct scientific-content, structural-math, and rendered-PDF parity verifier
+"""Direct scientific-content, structural-math, diagram, and rendered-PDF parity verifier
 for AOD M4 Objective 1 (native Typst Main and Manual vs unchanged LaTeX baseline).
 
 Enforces all five gates of manual/plans/m4-typst-cutover/OBJECTIVE_1_TYPST_PLAN_R02.md
-and the R01 correction requirements (C1-C4):
+and the R01-R03 correction requirements:
   Gate A: Baseline immutability (211 protected scientific files + narrow engineering digests).
-  Gate A2 (R02): Evaluation policy. Manifest typst_sha256 enforced for every unit; template and
+  Gate A2: Evaluation policy. Manifest typst_sha256 enforced for every unit; template and
           driver files pinned by verifier-internal digests; no undeclared .typ files; mode-aware
-          allowlist over content files (no show/let/context, no fill/opacity/hide/place/overlay
-          primitives, reviewed text sizes, surface-preamble imports and manifest includes only).
+          allowlist over content files (no show/let/context, no argument spreads or parenthesized
+          callees, no fill/opacity/hide/place/overlay primitives, positive literal layout lengths,
+          in-bounds flowchart node geometry, reviewed text sizes, surface-preamble imports and
+          manifest includes only).
   Gate B: Complete ordered source-bound content parity across all 48 active files:
           - Ordered prose words (length >= 1, case-exact, preserving short negations like
             'no', 'a', 'if', 'not', 'only'), meaningful punctuation (simulating Typst's
             semicolon consumption after content calls), verbatim literal commands/paths,
             references, citations, and 7 immutable table cell-by-cell comparisons.
           - Bounded recursive-descent TeX and Typst Math AST parsers comparing ALL math
-            spans (inline + unlabeled display + labeled display) while preserving explicit
-            grouping, fractions, roots, accents, indices, exponents, integers, decimals,
-            and matrix/cases shape; fail-closed on unsupported math constructs.
+            spans (inline + unlabeled display + labeled display + boxed displays) while preserving
+            explicit grouping, fractions, roots, distinct bar/overline accents, upright bold vs
+            bold-italic, exact emptyset (rejecting diameter), indices, exponents, integers,
+            decimals, and matrix/array delimiters, augment bars, and cases shape; fail-closed on
+            unsupported math constructs.
+          - All 4 Manual TikZ vs native #aod-flowchart diagrams compared on exact ordered node
+            prose/math ASTs and directed edge topology.
           - Figure image bindings in order, each bound to a protected baseline image digest.
   Gate C: Evaluated & rendered PDF parity:
           - Deterministic Typst build (--creation-timestamp) with strict committed registry.
           - Delivered peer-PDF link integrity (main_typst.pdf#page=N, zero stale main.pdf
             links, SHA-256 peer identity, and 172/172 exact target-page anchor landings).
-          - Complete semantic ID (kind, number, display) & Table/Figure/Definition numbering
-            matched directly against retained XeLaTeX baseline PDFs.
+          - Exact numbered block-equation count (0 unlabeled numbered equations) and exact
+            per-label equation numbering vs LaTeX sequential numbers / tags, plus Table/Figure/
+            Heading numbering matched directly against retained XeLaTeX baseline PDFs.
+          - Clickable external /URI destination set parity and exact inline citation sequence
+            parity against retained XeLaTeX baseline PDFs.
           - Complete case-sensitive rendered bibliography comparison (10 Main + 43 Manual).
           - Every source prose clause count-matched against the baseline PDF (vocabulary-bound
-            de-hyphenation), Typst-rendering fallback, unverified clauses => PARTIAL verdict.
+            de-hyphenation); any non-baseline-anchored or unverified clause => PARTIAL verdict.
           - Insertion detection: rendered word 4-grams must occur in the baseline or the source
             (explicit 17-entry layout allowlist) and out-of-source words (>= 4 letters) may not
-            exceed their baseline count (explicit per-word allowlist); relation-glyph parity
-            (+ < > <= >= <-> x inf ==);
-            decimals; PDF text-paint scan (opaque black fill, render mode 0, size >= 4pt).
-  Gate D: Mandatory negative controls (21 isolated mutations: original 6 + 4 R01 review
-          counterexamples + peer-PDF delivery control + 10 R02 sub-controls), each required to
-          be rejected by its intended check (expected diagnostic substring).
+            exceed their baseline count (explicit per-word allowlist); relation & symbol glyph
+            parity (+ < > <= >= <-> x inf == emptyset, zero diameter); decimals; PDF text-paint
+            scan (opaque black fill, ExtGState /ca == 1, no zero-area clip, render mode 0,
+            size >= 4pt).
+  Gate D: Mandatory negative controls (29 isolated mutations covering original 6, R01/R02
+          counterexamples, spurious boxed equation numbers, emptyset->diameter, matrix augment
+          removal, flowchart edge reversal/math edit/overlay, argument spread, and transparent
+          luma(0, 0%) /ca=0 text), each required to be rejected by its intended check.
   Gate E: Honest coverage, cryptographic bindings (Main + Manual sources, verifier,
           baseline & candidate PDFs), and explicit non-acceptance verdict on partial runs.
 
@@ -287,7 +298,7 @@ TYP_MATH_SYMS = {
     "subset.neq": "subsetneq", "supset": "supset", "supset.eq": "supseteq",
     "union": "cup", "inter": "cap", "union.sq": "sqcup",
     "union.big": "bigcup", "inter.big": "bigcap", "union.sq.big": "bigsqcup", "without": "setminus",
-    "emptyset": "emptyset", "diameter": "emptyset",
+    "emptyset": "emptyset",
     "times": "times", "dot.op": "cdot", "dots.c": "dots", "dots.h": "dots", "dots": "dots", "dots.v": "vdots", "dots.down": "ddots",
     "plus.minus": "pm", "minus.plus": "mp", "circle.small": "circ", "circle.tiny": "circ", "compose": "circ",
     "bullet": "bullet", "star.op": "star", "star": "star", "ast.op": "*",
@@ -340,13 +351,13 @@ FONT_MAP_TYP = {
     "cal": "cal", "bb": "bb", "frak": "frak", "italic": "it",
 }
 ACCENT_TEX = {
-    "hat": "hat", "widehat": "hat", "bar": "bar", "overline": "bar",
+    "hat": "hat", "widehat": "hat", "bar": "bar", "overline": "overline",
     "tilde": "tilde", "widetilde": "tilde", "vec": "vec", "dot": "dot", "ddot": "ddot",
     "underline": "underline", "cancel": "cancel",
     "overbrace": "overbrace", "underbrace": "underbrace", "mathring": "ring",
 }
 ACCENT_TYP = {
-    "hat": "hat", "macron": "bar", "overline": "bar", "tilde": "tilde", "arrow": "vec",
+    "hat": "hat", "macron": "bar", "overline": "overline", "tilde": "tilde", "arrow": "vec",
     "dot": "dot", "dot.double": "ddot", "underline": "underline", "cancel": "cancel",
     "overbrace": "overbrace", "underbrace": "underbrace", "circle": "ring",
 }
@@ -483,9 +494,49 @@ def _normalize_ast(node):
         return ("accent", node[1], _normalize_ast(node[2]))
     if tag == "arrow_labeled":
         return ("arrow_labeled", node[1], _normalize_ast(node[2]))
-    if tag in ("cases", "matrix"):
-        return (tag, tuple(tuple(_normalize_ast(c) for c in r) for r in node[1]))
+    if tag == "cases":
+        return ("cases", tuple(tuple(_normalize_ast(c) for c in r) for r in node[1]))
+    if tag == "matrix":
+        return ("matrix", node[1], node[2], tuple(tuple(_normalize_ast(c) for c in r) for r in node[3]))
     return node
+
+
+TEX_MATRIX_DELIMS: dict[str, str | None] = {
+    "pmatrix": "(",
+    "bmatrix": "[",
+    "vmatrix": "|",
+    "Bmatrix": "{",
+    "matrix": None,
+    "smallmatrix": None,
+    "array": None,
+}
+
+
+def _parse_latex_array_augment(col_spec: str) -> int | tuple[int, ...] | None:
+    """Return column index (or tuple of indices) of vertical rule(s) `|` in LaTeX array col_spec."""
+    bars: list[int] = []
+    col_idx = 0
+    i = 0
+    n = len(col_spec)
+    while i < n:
+        c = col_spec[i]
+        if c in " \t\n\r":
+            i += 1
+        elif c == "|":
+            bars.append(col_idx)
+            i += 1
+        elif c in "lcr":
+            col_idx += 1
+            i += 1
+        elif c in "pbm@><!":
+            _, i = read_balanced_group(col_spec, i + 1, "{", "}")
+            if c in "pbm":
+                col_idx += 1
+        else:
+            i += 1
+    if not bars:
+        return None
+    return bars[0] if len(bars) == 1 else tuple(bars)
 
 
 class TexMathParser:
@@ -725,9 +776,9 @@ class TexMathParser:
     def parse_env(self, env: str):
         end_tag = f"\\end{{{env}}}"
         if env in ("cases", "dcases", "pmatrix", "bmatrix", "vmatrix", "matrix", "Bmatrix", "smallmatrix", "array"):
-            if env == "array":
-                self.read_raw_brace_text()
+            augment = _parse_latex_array_augment(self.read_raw_brace_text()) if env == "array" else None
             kind = "cases" if env in ("cases", "dcases") else "matrix"
+            delim = TEX_MATRIX_DELIMS.get(env)
             rows = []
             while self.i < self.n and not self.s.startswith(end_tag, self.i):
                 row_parts = []
@@ -747,7 +798,9 @@ class TexMathParser:
                             self.i = eb + 1
             if self.s.startswith(end_tag, self.i):
                 self.i += len(end_tag)
-            return (kind, tuple(rows))
+            if kind == "cases":
+                return ("cases", tuple(rows))
+            return ("matrix", delim, augment, tuple(rows))
         end_idx = self.s.find(end_tag, self.i)
         if end_idx >= 0:
             self.i = end_idx + len(end_tag)
@@ -825,7 +878,8 @@ class TypMathParser:
             return inner
         return self.parse_atom(()) or ("seq", ())
 
-    def _skip_kw_value(self) -> None:
+    def _read_kw_value(self) -> str:
+        start = self.i
         depth = 0
         while self.i < self.n:
             ch = self.s[self.i]
@@ -839,9 +893,11 @@ class TypMathParser:
                     break
                 depth -= 1
             elif ch == "," and depth == 0:
+                val = self.s[start:self.i]
                 self.i += 1
-                break
+                return val.strip()
             self.i += 1
+        return self.s[start:self.i].strip()
 
     def parse_call_args(self) -> list:
         self.i += 1
@@ -854,7 +910,7 @@ class TypMathParser:
             m_kw = re.match(r"[A-Za-z][A-Za-z0-9_-]*\s*:", self.s[self.i:])
             if m_kw:
                 self.i += m_kw.end()
-                self._skip_kw_value()
+                self._read_kw_value()
                 continue
             args.append(self.parse_seq(stop_chars=(",", ")")))
             self.skip_ws()
@@ -867,6 +923,8 @@ class TypMathParser:
 
     def parse_mat_or_cases(self, kind: str) -> tuple:
         self.i += 1
+        delim: str | None = "(" if kind == "matrix" else None
+        augment: int | str | None = None
         rows = []
         cur_row = []
         while self.i < self.n:
@@ -874,10 +932,25 @@ class TypMathParser:
             if self.i < self.n and self.s[self.i] == ")":
                 self.i += 1
                 break
-            m_kw = re.match(r"[A-Za-z][A-Za-z0-9_-]*\s*:", self.s[self.i:])
+            m_kw = re.match(r"([A-Za-z][A-Za-z0-9_-]*)\s*:", self.s[self.i:])
             if m_kw:
+                kw_name = m_kw.group(1)
                 self.i += m_kw.end()
-                self._skip_kw_value()
+                raw_v = self._read_kw_value().strip().lstrip("#").strip()
+                if kind == "matrix" and kw_name == "delim":
+                    if raw_v == "none":
+                        delim = None
+                    elif len(raw_v) >= 2 and raw_v[0] == '"' and raw_v[-1] == '"':
+                        delim = raw_v[1:-1]
+                    else:
+                        delim = raw_v
+                elif kind == "matrix" and kw_name == "augment":
+                    if raw_v == "none":
+                        augment = None
+                    elif raw_v.isdigit():
+                        augment = int(raw_v)
+                    else:
+                        augment = raw_v
                 continue
             if kind == "cases":
                 cur_row.append(self.parse_seq(stop_chars=("&", ",", ")")))
@@ -909,7 +982,9 @@ class TypMathParser:
                     break
         if cur_row and not (len(cur_row) == 1 and cur_row[0] == ("seq", ())):
             rows.append(tuple(cur_row))
-        return (kind, tuple(rows))
+        if kind == "cases":
+            return ("cases", tuple(rows))
+        return ("matrix", delim, augment, tuple(rows))
 
     def parse_atom(self, stop_chars: tuple[str, ...] = ()):
         self.skip_ws()
@@ -1072,7 +1147,9 @@ class TypMathParser:
                     return ("accent", ACCENT_TYP[ident], args[0] if args else ("seq", ()))
                 if ident in FONT_MAP_TYP:
                     role = FONT_MAP_TYP[ident]
+                    raw_arg_start = self.i
                     args = self.parse_call_args()
+                    raw_arg = self.s[raw_arg_start:self.i]
                     arg0 = args[0] if args else ("seq", ())
                     if role in ("text", "op"):
                         if isinstance(arg0, tuple) and arg0[0] in ("text", "sym"):
@@ -1080,6 +1157,15 @@ class TypMathParser:
                         if role == "op":
                             return arg0
                         return ("text", str(arg0))
+                    if (
+                        ident == "bold"
+                        and isinstance(arg0, tuple)
+                        and arg0[0] == "sym"
+                        and len(arg0[1]) == 1
+                        and arg0[1].isalpha()
+                        and "upright(" not in raw_arg
+                    ):
+                        return ("font", "bf_it", arg0)
                     return ("font", role, arg0)
                 if ident in ("limits", "scripts", "display", "inline", "accent"):
                     args = self.parse_call_args()
@@ -1176,28 +1262,112 @@ def _parse_latex_col_math_flags(col_spec: str) -> list[bool]:
     return flags
 
 
-def _strip_typst_flowcharts(t: str) -> str:
-    out = []
+def _is_escaped(s: str, idx: int) -> bool:
+    """Return True iff character at s[idx] is preceded by an odd number of backslashes."""
+    bs = 0
+    k = idx - 1
+    while k >= 0 and s[k] == "\\":
+        bs += 1
+        k -= 1
+    return (bs % 2) == 1
+
+
+def _extract_tex_flowchart(tikz_body: str, fname: str) -> tuple[tuple, list[str]]:
+    """Parse a TikZ schematic into ordered node token tuples + index-mapped directed edges."""
+    node_ids: dict[str, int] = {}
+    nodes: list[tuple] = []
+    edges: list[tuple[int, int]] = []
+    unsup: list[str] = []
     i = 0
-    while i < len(t):
-        idx = t.find("#aod-flowchart", i)
-        if idx < 0:
-            out.append(t[i:])
-            break
-        out.append(t[i:idx])
-        j = idx + len("#aod-flowchart")
-        while j < len(t) and t[j] in " \t\n\r":
-            j += 1
-        if j < len(t) and t[j] == "(":
-            _, i = read_balanced_group(t, j, "(", ")")
-        else:
+    n = len(tikz_body)
+    while i < n:
+        if tikz_body.startswith(r"\node", i):
+            j = i + len(r"\node")
+            while j < n and tikz_body[j] in " \t\n\r":
+                j += 1
+            if j < n and tikz_body[j] == "[":
+                _, j = read_balanced_group(tikz_body, j, "[", "]")
+            while j < n and tikz_body[j] in " \t\n\r":
+                j += 1
+            nid, j = read_balanced_group(tikz_body, j, "(", ")")
+            nid = nid.strip()
+            body, j = read_balanced_group(tikz_body, j, "{", "}")
+            ntoks, nunsup = extract_tex_ordered(body, fname)
+            unsup.extend(nunsup)
+            require(nid not in node_ids, f"Duplicate TikZ node id {nid!r} in {fname}")
+            node_ids[nid] = len(nodes)
+            nodes.append(tuple(ntoks))
             i = j
-    return "".join(out)
+            continue
+        if tikz_body.startswith(r"\draw", i):
+            j = i + len(r"\draw")
+            while j < n and tikz_body[j] in " \t\n\r":
+                j += 1
+            opts = ""
+            if j < n and tikz_body[j] == "[":
+                opts, j = read_balanced_group(tikz_body, j, "[", "]")
+            semi = tikz_body.find(";", j)
+            require(semi >= 0, f"Unterminated \\draw in {fname}")
+            stmt = tikz_body[j:semi]
+            m_edge = re.fullmatch(r"\s*\(\s*([^)]+?)\s*\)\s*--\s*\(\s*([^)]+?)\s*\)\s*", stmt)
+            require(m_edge is not None, f"Unsupported TikZ \\draw statement in {fname}: {stmt!r}")
+            src, dst = m_edge.group(1).strip(), m_edge.group(2).strip()
+            require(src in node_ids and dst in node_ids, f"Unknown TikZ edge endpoint ({src!r}, {dst!r}) in {fname}")
+            if "-{Latex}" in opts or "->" in opts:
+                edges.append((node_ids[src], node_ids[dst]))
+            elif "{Latex}-" in opts or "<-" in opts:
+                edges.append((node_ids[dst], node_ids[src]))
+            else:
+                raise ValueError(f"Unsupported TikZ arrow direction {opts!r} in {fname}")
+            i = semi + 1
+            continue
+        i += 1
+    require(len(nodes) > 0 and len(edges) > 0, f"Empty TikZ flowchart parsed in {fname}")
+    return ("FLOWCHART", tuple(nodes), tuple(edges)), unsup
+
+
+def _extract_typst_flowchart(paren_arg: str, fname: str) -> tuple[tuple, list[str]]:
+    """Parse #aod-flowchart(...) into ordered node token tuples + index-mapped directed edges."""
+    _, pos = _typ_split_args(paren_arg)
+    require(len(pos) == 2, f"Expected 2 positional arguments (nodes, edges) in #aod-flowchart in {fname}, got {len(pos)}")
+    nodes_raw, edges_raw = pos[0].strip(), pos[1].strip()
+    require(nodes_raw.startswith("(") and nodes_raw.endswith(")"), f"Malformed flowchart nodes tuple in {fname}")
+    require(edges_raw.startswith("(") and edges_raw.endswith(")"), f"Malformed flowchart edges tuple in {fname}")
+    _, node_entries = _typ_split_args(nodes_raw[1:-1])
+    _, edge_entries = _typ_split_args(edges_raw[1:-1])
+
+    node_ids: dict[str, int] = {}
+    nodes: list[tuple] = []
+    edges: list[tuple[int, int]] = []
+    unsup: list[str] = []
+    for entry in node_entries:
+        e = entry.strip()
+        require(e.startswith("(") and e.endswith(")"), f"Malformed flowchart node dict in {fname}: {e[:60]!r}")
+        nd, npos = _typ_split_args(e[1:-1])
+        require(not npos and "id" in nd and "body" in nd, f"Flowchart node missing id/body in {fname}")
+        nid, _ = parse_typ_str_lit(nd["id"].strip(), 0)
+        b_raw = nd["body"].strip()
+        require(b_raw.startswith("[") and b_raw.endswith("]"), f"Flowchart node body must be [...] in {fname}")
+        ntoks, nunsup = extract_typst_ordered(b_raw[1:-1], fname)
+        unsup.extend(nunsup)
+        require(nid not in node_ids, f"Duplicate flowchart node id {nid!r} in {fname}")
+        node_ids[nid] = len(nodes)
+        nodes.append(tuple(ntoks))
+    for entry in edge_entries:
+        e = entry.strip()
+        require(e.startswith("(") and e.endswith(")"), f"Malformed flowchart edge dict in {fname}: {e[:60]!r}")
+        ed, epos = _typ_split_args(e[1:-1])
+        require(not epos and "from" in ed and "to" in ed, f"Flowchart edge missing from/to in {fname}")
+        src, _ = parse_typ_str_lit(ed["from"].strip(), 0)
+        dst, _ = parse_typ_str_lit(ed["to"].strip(), 0)
+        require(src in node_ids and dst in node_ids, f"Unknown flowchart edge endpoint ({src!r}, {dst!r}) in {fname}")
+        edges.append((node_ids[src], node_ids[dst]))
+    require(len(nodes) > 0 and len(edges) > 0, f"Empty #aod-flowchart parsed in {fname}")
+    return ("FLOWCHART", tuple(nodes), tuple(edges)), unsup
 
 
 def extract_tex_ordered(tex_raw: str, fname: str = "", emit_boundaries: bool = False) -> tuple[list[tuple], list[str]]:
     t = strip_tex_comments(tex_raw)
-    t = re.sub(r"\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}", " ", t, flags=re.S)
     t = re.sub(r"\\endfirsthead.*?\\endhead", "", t, flags=re.S)
     tokens: list[tuple] = []
     unsup_math: list[str] = []
@@ -1239,7 +1409,7 @@ def extract_tex_ordered(tex_raw: str, fname: str = "", emit_boundaries: bool = F
             emit_math(t[i + 2:end_i])
             i = end_i + 2
             continue
-        if c == "$" and (i == 0 or t[i - 1] != "\\"):
+        if c == "$" and not _is_escaped(t, i):
             flush_buf()
             if i + 1 < n and t[i + 1] == "$":
                 end_i = t.find("$$", i + 2)
@@ -1286,6 +1456,19 @@ def extract_tex_ordered(tex_raw: str, fname: str = "", emit_boundaries: bool = F
                 i += m.end()
                 if cmd == "begin":
                     env, i = read_balanced_group(t, i)
+                    if env == "tikzpicture":
+                        flush_buf()
+                        end_tag = r"\end{tikzpicture}"
+                        end_i = t.find(end_tag, i)
+                        require(end_i >= 0, f"Unclosed tikzpicture in {fname}")
+                        if not emit_boundaries:
+                            fc_tok, fc_unsup = _extract_tex_flowchart(t[i:end_i], fname)
+                            tokens.append(fc_tok)
+                            unsup_math.extend(fc_unsup)
+                        else:
+                            emit_br()
+                        i = end_i + len(end_tag)
+                        continue
                     if env in ("equation", "equation*", "align", "align*", "gather", "gather*"):
                         flush_buf()
                         end_tag = f"\\end{{{env}}}"
@@ -1550,7 +1733,7 @@ def extract_tex_ordered(tex_raw: str, fname: str = "", emit_boundaries: bool = F
 
 
 def extract_typst_ordered(typ_raw: str, fname: str = "") -> tuple[list[tuple], list[str]]:
-    t = _strip_typst_flowcharts(strip_typst_comments(typ_raw))
+    t = strip_typst_comments(typ_raw)
     tokens: list[tuple] = []
     unsup_math: list[str] = []
     buf: list[str] = []
@@ -1694,6 +1877,22 @@ def extract_typst_ordered(typ_raw: str, fname: str = "") -> tuple[list[tuple], l
                         if ms:
                             supp, _ = read_balanced_group(p_s, pos2 + ms.end() - 1, "[", "]")
                             scan_markup(supp)
+                        continue
+                    if name == "aod-flowchart" and paren_arg is not None:
+                        flush_buf()
+                        fc_tok, fc_unsup = _extract_typst_flowchart(paren_arg, fname)
+                        tokens.append(fc_tok)
+                        unsup_math.extend(fc_unsup)
+                        continue
+                    if name == "aod-boxed" and paren_arg is not None:
+                        flush_buf()
+                        m_d = paren_arg.find("$")
+                        require(m_d >= 0, f"Malformed #aod-boxed without math span in {fname}")
+                        end_d = paren_arg.rfind("$")
+                        require(end_d > m_d, f"Unclosed math span in #aod-boxed in {fname}")
+                        ast_m, u = parse_typst_math_ast(paren_arg[m_d + 1:end_d])
+                        unsup_math.extend(u)
+                        tokens.append(("MATH", ("boxed", ast_m)))
                         continue
                     if name in ("tagged-eq", "math.equation") and paren_arg is not None:
                         flush_buf()
@@ -2058,21 +2257,22 @@ def verify_baseline_immutability(root: Path, manifest: dict) -> dict:
 # =============================================================================
 
 TRUSTED_TEMPLATE_SHA256 = {
-    "typst/lib/aod_schema.typ": "a9fa4285654de1a161e7dbe59273429f3f42ec37bd627bdcd43fd39f57872f28",
+    "typst/lib/aod_schema.typ": "603f26b85ddec0ead70f19c8ed1ab194015664fb8cd8d47b3e68cb932ec49706",
     "typst/preamble.typ": "7a9c255c2411bc4bd3487be0196f10ac453eefa240f6c16095d426f210b4f112",
     "typst/manual/preamble.typ": "2b7deae2f0fa3d7011edabd8d7299b835290fb60e47990c7fe861e55bd914196",
     "typst/main.typ": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70",
-    "typst/manual/main.typ": "d09237ee38263daf33162e8afc00ba04b4e813df4203d0aad75df01609cc6fb9",
+    "typst/manual/main.typ": "c3d6a18bb6a8020481259a6771611e41c50f188190e35e1c9b5ec58848d8760a",
 }
 
 # Callable -> permitted named arguments, for code / `#`-introduced calls in content files.
 CONTENT_CALL_ALLOWLIST: dict[str, frozenset] = {
-    "align": frozenset(), "aod-anchor": frozenset(), "aod-cite": frozenset({"supplement"}),
+    "align": frozenset(), "aod-anchor": frozenset(), "aod-boxed": frozenset(),
+    "aod-cite": frozenset({"supplement"}),
     "aod-definition": frozenset({"title"}), "aod-flowchart": frozenset({"height", "width"}),
     "aod-literature-note": frozenset(), "aod-noteblock": frozenset(), "aod-panel": frozenset({"width"}),
     "aod-paragraph": frozenset(), "aod-provenance": frozenset(), "aod-remark": frozenset(),
     "aod-uncaptioned-longtable": frozenset(), "appref": frozenset(), "bare-ref": frozenset(),
-    "block": frozenset({"above", "below", "width"}), "box": frozenset({"inset", "stroke"}),
+    "block": frozenset({"above", "below", "width"}),
     "counter": frozenset(), "counter().update": frozenset(), "emph": frozenset(), "eqnref": frozenset(),
     "eqref": frozenset(), "figure": frozenset({"caption", "kind"}), "image": frozenset({"width"}),
     "link": frozenset(), "mainappendix": frozenset(), "mainequation": frozenset(), "mainsection": frozenset(),
@@ -2098,7 +2298,15 @@ EVALUATION_FORBIDDEN_ARGS = frozenset({
     "top-edge", "bottom-edge", "baseline", "cover", "overhang", "costs", "features", "lang", "region",
 })
 CONTENT_TEXT_SIZES = frozenset({"8.5pt", "9.5pt", "10pt", "12pt", "14pt", "17pt"})
-CONTENT_BOX_STROKES = frozenset({"0.5pt + black"})
+POSITIVE_LENGTH_ARGS: dict[str, frozenset] = {
+    "pad": frozenset({"left", "right"}),
+    "block": frozenset({"above", "below", "width"}),
+    "image": frozenset({"width"}),
+    "aod-panel": frozenset({"width"}),
+    "aod-flowchart": frozenset({"width", "height"}),
+}
+FLOWCHART_NODE_KEYS = frozenset({"id", "x", "y", "w", "h", "body", "dy-in", "dy-out"})
+FLOWCHART_EDGE_KEYS = frozenset({"from", "to"})
 
 _TYP_IDENT = re.compile(r"[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z_][A-Za-z0-9_-]*)*")
 _TYP_KEYWORDS = frozenset({
@@ -2220,11 +2428,80 @@ def _typ_split_args(args: str) -> tuple[dict[str, str], list[str]]:
     return named, positional
 
 
+def _parse_positive_length(val: str, units: tuple[str, ...] = ("%", "em", "pt", "cm", "mm", "in")) -> float | None:
+    m = re.fullmatch(r"(\d+(?:\.\d+)?)([A-Za-z%]+)", val.strip())
+    if not m or m.group(2) not in units:
+        return None
+    num = float(m.group(1))
+    return num if num > 0.0 else None
+
+
+def _validate_flowchart_policy(where: str, named: dict[str, str], pos: list[str]) -> list[str]:
+    """Validate #aod-flowchart dimensions and ensure every node box stays strictly inside [0,W]x[0,H]."""
+    errs: list[str] = []
+    w_cm = _parse_positive_length(named.get("width", ""), ("cm",))
+    h_cm = _parse_positive_length(named.get("height", ""), ("cm",))
+    if w_cm is None or h_cm is None:
+        errs.append(f"{where}: flowchart width/height must be positive literal cm lengths")
+        return errs
+    if len(pos) != 2 or not (pos[0].startswith("(") and pos[0].endswith(")")) or not (pos[1].startswith("(") and pos[1].endswith(")")):
+        errs.append(f"{where}: flowchart expects (nodes, edges) literal tuples")
+        return errs
+    _, node_entries = _typ_split_args(pos[0][1:-1])
+    _, edge_entries = _typ_split_args(pos[1][1:-1])
+    node_ids: set[str] = set()
+    for entry in node_entries:
+        e = entry.strip()
+        if not (e.startswith("(") and e.endswith(")")):
+            errs.append(f"{where}: malformed flowchart node entry")
+            continue
+        nd, npos = _typ_split_args(e[1:-1])
+        extra_k = sorted(set(nd) - FLOWCHART_NODE_KEYS)
+        if npos or extra_k:
+            errs.append(f"{where}: non-allowlisted flowchart node keys/args {extra_k}")
+            continue
+        if "id" not in nd or not nd["id"].startswith('"'):
+            errs.append(f"{where}: flowchart node id must be a string literal")
+            continue
+        nid, _ = parse_typ_str_lit(nd["id"], 0)
+        node_ids.add(nid)
+        x = _parse_positive_length(nd.get("x", ""), ("cm",))
+        y = _parse_positive_length(nd.get("y", ""), ("cm",))
+        nw = _parse_positive_length(nd.get("w", "4.8cm"), ("cm",))
+        nh = _parse_positive_length(nd.get("h", "1.05cm"), ("cm",))
+        if x is None or y is None or nw is None or nh is None:
+            errs.append(f"{where}: flowchart node {nid!r} geometry must use positive literal cm lengths")
+            continue
+        if x - nw / 2.0 < -0.05 or x + nw / 2.0 > w_cm + 0.05 or y - nh / 2.0 < -0.05 or y + nh / 2.0 > h_cm + 0.05:
+            errs.append(
+                f"{where}: flowchart node {nid!r} box ({x}±{nw/2:.2f}, {y}±{nh/2:.2f}) "
+                f"exceeds flowchart bounds [0, {w_cm}] x [0, {h_cm}]"
+            )
+    for entry in edge_entries:
+        e = entry.strip()
+        if not (e.startswith("(") and e.endswith(")")):
+            errs.append(f"{where}: malformed flowchart edge entry")
+            continue
+        ed, epos = _typ_split_args(e[1:-1])
+        extra_k = sorted(set(ed) - FLOWCHART_EDGE_KEYS)
+        if epos or extra_k or "from" not in ed or "to" not in ed:
+            errs.append(f"{where}: non-allowlisted flowchart edge keys/args {extra_k}")
+            continue
+        if not ed["from"].startswith('"') or not ed["to"].startswith('"'):
+            errs.append(f"{where}: flowchart edge endpoints must be string literals")
+            continue
+        src, _ = parse_typ_str_lit(ed["from"], 0)
+        dst, _ = parse_typ_str_lit(ed["to"], 0)
+        if src not in node_ids or dst not in node_ids:
+            errs.append(f"{where}: flowchart edge references undeclared node ({src!r} -> {dst!r})")
+    return errs
+
+
 def scan_typst_events(text: str) -> list[tuple]:
     """Mode-aware scan of Typst source: (mode, kind, name, named_args, positional_args, line).
 
     mode: 'markup#' / 'math#' (code introduced by '#'), 'code' (inside code arguments/blocks),
-    'math' (bare math-mode function call). kind: 'call', 'ref', 'kw' (keyword statement) or 'set'.
+    'math' (bare math-mode function call). kind: 'call', 'ref', 'kw', 'set', or 'forbidden_expr'.
     """
     events: list[tuple] = []
     n_text = len(text)
@@ -2238,6 +2515,8 @@ def scan_typst_events(text: str) -> list[tuple]:
             if i < n_text and text[i] in "{(":
                 op, cl = ("{", "}") if text[i] == "{" else ("(", ")")
                 j = _typ_balanced(text, i, op, cl)
+                if op == "(":
+                    events.append((mode, "forbidden_expr", "(", {}, [], line_of(i)))
                 code_block(i + 1, j - 1)
                 return j
             return i
@@ -2315,6 +2594,13 @@ def scan_typst_events(text: str) -> list[tuple]:
                 k = text.find("*/", i + 2)
                 i = b if k < 0 else k + 2
                 continue
+            if c == "(":
+                e = _typ_balanced(text, i, "(", ")")
+                if e < b and text[e] in "([":
+                    events.append(("code", "forbidden_expr", "(", {}, [], line_of(i)))
+                code_block(i + 1, min(e - 1, b))
+                i = e
+                continue
             if c == "[":
                 e = _typ_balanced(text, i, "[", "]")
                 markup(i + 1, e - 1)
@@ -2331,6 +2617,13 @@ def scan_typst_events(text: str) -> list[tuple]:
                 continue
             m = _TYP_IDENT.match(text, i)
             if m and (i == 0 or not (text[i - 1].isalnum() or text[i - 1] in "_-.")):
+                # Skip named-argument / dictionary keys (`key: value`, not `::`).
+                k_after = m.end()
+                while k_after < b and text[k_after] in " \t":
+                    k_after += 1
+                if k_after < b and text[k_after] == ":" and (k_after + 1 >= b or text[k_after + 1] != ":"):
+                    i = k_after + 1
+                    continue
                 i = code_expr(i, "code")
                 continue
             i += 1
@@ -2394,12 +2687,19 @@ def scan_typst_events(text: str) -> list[tuple]:
     return events
 
 
+def _has_forbidden_segment(name: str) -> bool:
+    return any(seg.rstrip("_") in EVALUATION_FORBIDDEN_CALLS for seg in name.split("."))
+
+
 def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> tuple[list[str], int]:
     violations: list[str] = []
     events = scan_typst_events(text)
     base_dir = posixpath.dirname(rel)
     for mode, kind, name, named, pos, line in events:
         where = f"{rel}:{line}"
+        if kind == "forbidden_expr":
+            violations.append(f"{where}: parenthesized expression/callee `{name}...` is forbidden in content files")
+            continue
         if kind == "kw":
             if name in CONTENT_FORBIDDEN_KEYWORDS:
                 violations.append(f"{where}: forbidden `{name}` in content file ({pos[0][:80]!r})")
@@ -2416,6 +2716,8 @@ def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> 
             else:
                 violations.append(f"{where}: unexpected keyword `{name}` in content file")
             continue
+        if any(p.startswith("..") for p in pos):
+            violations.append(f"{where}: argument spread `..` is forbidden on `{name}` in content files")
         if kind == "set":
             allowed = CONTENT_SET_ALLOWLIST.get(name)
             if allowed is None or not set(named) <= allowed or pos:
@@ -2427,11 +2729,11 @@ def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> 
         if bad_args:
             violations.append(f"{where}: forbidden styling argument(s) {bad_args} on `{name}`")
         if kind != "call":
-            if name in ("hide", "place", "eval", "regex", "read"):
+            if _has_forbidden_segment(name):
                 violations.append(f"{where}: reference to evaluation-altering function `{name}`")
             continue
         if mode == "math":
-            if name.rstrip("_") in EVALUATION_FORBIDDEN_CALLS:
+            if _has_forbidden_segment(name):
                 violations.append(f"{where}: forbidden math-mode call `{name}(...)`")
             continue
         allowed = CONTENT_CALL_ALLOWLIST.get(name)
@@ -2443,8 +2745,12 @@ def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> 
             violations.append(f"{where}: `{name}` with non-allowlisted argument(s) {extra}")
         if name == "text" and named.get("size") not in CONTENT_TEXT_SIZES:
             violations.append(f"{where}: text size {named.get('size')!r} outside the reviewed sizes")
-        if name == "box" and named.get("stroke") not in CONTENT_BOX_STROKES:
-            violations.append(f"{where}: box stroke {named.get('stroke')!r} is not the reviewed equation frame")
+        if name in POSITIVE_LENGTH_ARGS:
+            for arg_k in POSITIVE_LENGTH_ARGS[name]:
+                if arg_k in named and _parse_positive_length(named[arg_k]) is None:
+                    violations.append(f"{where}: `{name}` argument `{arg_k}={named[arg_k]!r}` must be a positive literal length")
+        if name == "aod-flowchart":
+            violations.extend(_validate_flowchart_policy(where, named, pos))
         if name == "v" and not all(re.fullmatch(r"\d+(?:\.\d+)?(?:em|pt|fr)", p) for p in pos):
             violations.append(f"{where}: vertical spacing {pos!r} is not a non-negative literal length")
         if name in ("counter", "counter().update") and pos not in (["page"], ["1"]):
@@ -2574,6 +2880,7 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
     total_math_asts = 0
     total_code_tokens = 0
     total_image_bindings = 0
+    total_flowcharts = 0
     qualifier_totals: dict[str, int] = {q: 0 for q in SCIENTIFIC_QUALIFIERS}
     prose_clauses_by_surface: dict[str, list[tuple[str, str]]] = {"main": [], "manual": []}
     cli_commands_by_surface: dict[str, list[str]] = {"main": [], "manual": []}
@@ -2606,6 +2913,7 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
         total_ordered_tokens += len(t_toks)
         total_math_asts += sum(1 for tk in t_toks if tk[0] == "MATH")
         total_code_tokens += sum(1 for tk in t_toks if tk[0] == "CODE")
+        total_flowcharts += sum(1 for tk in t_toks if tk[0] == "FLOWCHART")
         for tk in t_toks:
             if tk[0] == "IMG":
                 require(
@@ -2667,6 +2975,8 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
         f"Manual driver title/epitaph content mismatch:\n  TeX={mdt_clean}\n  Typ={mdy_clean}",
     )
 
+    require(total_flowcharts == 4, f"Expected 4 verified TikZ/Typst flowcharts, got {total_flowcharts}")
+
     return {
         "active_main_tex_files": len(active_tex_main),
         "active_manual_tex_files": len(active_tex_manual),
@@ -2677,12 +2987,52 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
         "literal_code_tokens_verified": total_code_tokens,
         "labeled_equations_verified_structurally": eq_counts,
         "immutable_tables_verified_cell_by_cell": table_stats,
+        "flowcharts_verified": total_flowcharts,
         "unsupported_math_constructs": 0,
         "figure_image_bindings_verified": total_image_bindings,
         "qualifier_token_totals": qualifier_totals,
         "_prose_clauses": prose_clauses_by_surface,
         "_cli_commands": cli_commands_by_surface,
     }
+
+
+def extract_tex_equation_numbers(parts: list[tuple[str, str]]) -> tuple[dict[str, str], int]:
+    """Compute exact sequential LaTeX equation numbers / explicit \\tag labels and numbered count."""
+    env_pat = re.compile(r"\\begin\{(equation\*?|align\*?|gather\*?)\}(.*?)\\end\{\1\}", re.S)
+    counter = 0
+    mapping: dict[str, str] = {}
+    for _, raw in parts:
+        cleaned = strip_tex_comments(raw)
+        for m in env_pat.finditer(cleaned):
+            env, body = m.group(1), m.group(2)
+            if env.endswith("*"):
+                tag_m = re.search(r"\\tag\{([^}]+)\}", body)
+                if tag_m:
+                    for lbl in re.findall(r"\\label\{([^}]+)\}", body):
+                        mapping[lbl] = tag_m.group(1)
+                continue
+            if env == "equation":
+                tag_m = re.search(r"\\tag\{([^}]+)\}", body)
+                if tag_m:
+                    num = tag_m.group(1)
+                else:
+                    counter += 1
+                    num = str(counter)
+                for lbl in re.findall(r"\\label\{([^}]+)\}", body):
+                    mapping[lbl] = num
+            else:
+                for row in re.split(r"\\\\(?:\[[^\]]*\])?", body):
+                    if not row.strip() or re.search(r"\\(?:nonumber|notag)\b", row):
+                        continue
+                    tag_m = re.search(r"\\tag\{([^}]+)\}", row)
+                    if tag_m:
+                        num = tag_m.group(1)
+                    else:
+                        counter += 1
+                        num = str(counter)
+                    for lbl in re.findall(r"\\label\{([^}]+)\}", row):
+                        mapping[lbl] = num
+    return mapping, counter
 
 
 # =============================================================================
@@ -2792,6 +3142,7 @@ def _inspect_pdf_links(pdf_path: Path, expected_peer_pdf: str | None = None) -> 
     peer_pdf_links: list[tuple[int, str, int]] = []
     stale_main_pdf_links: list[tuple[int, str]] = []
     uri_links = 0
+    external_uris: set[str] = set()
     for page_idx, page in enumerate(reader.pages, 1):
         annots = page.get("/Annots") or []
         for annot_ref in annots:
@@ -2807,7 +3158,10 @@ def _inspect_pdf_links(pdf_path: Path, expected_peer_pdf: str | None = None) -> 
             act_obj = action.get_object() if hasattr(action, "get_object") else action
             if "/URI" in act_obj:
                 uri = str(act_obj["/URI"])
-                if uri.startswith("main.pdf#"):
+                if uri.startswith(("http://", "https://", "mailto:")):
+                    uri_links += 1
+                    external_uris.add(uri)
+                elif uri.startswith("main.pdf#"):
                     stale_main_pdf_links.append((page_idx, uri))
                 elif expected_peer_pdf and uri.startswith(f"{expected_peer_pdf}#page="):
                     m = re.fullmatch(re.escape(expected_peer_pdf) + r"#page=(\d+)", uri)
@@ -2817,6 +3171,7 @@ def _inspect_pdf_links(pdf_path: Path, expected_peer_pdf: str | None = None) -> 
                     stale_main_pdf_links.append((page_idx, uri))
                 else:
                     uri_links += 1
+                    external_uris.add(uri)
             elif act_obj.get("/S") == "/GoTo":
                 internal_links += 1
     return {
@@ -2825,6 +3180,7 @@ def _inspect_pdf_links(pdf_path: Path, expected_peer_pdf: str | None = None) -> 
         "peer_pdf_links": peer_pdf_links,
         "stale_main_pdf_links": stale_main_pdf_links,
         "uri_links": uri_links,
+        "unique_external_uris": sorted(external_uris),
     }
 
 
@@ -2945,7 +3301,9 @@ def _split_sentence_clauses(clause: str) -> list[str]:
 # XeLaTeX PDF and the native Typst PDF on the clean candidate. '−', '=', '∈', '·', '∂', '∑'
 # are linearised differently by the two engines and are covered by the source math AST
 # (Gate B) plus the evaluation policy (Gate A2) instead.
-RENDERED_GLYPH_PARITY_SET = ("+", "<", ">", "\u2264", "\u2265", "\u2194", "\u00d7", "\u221e", "\u2261")
+RENDERED_GLYPH_PARITY_SET = (
+    "+", "<", ">", "\u2264", "\u2265", "\u2194", "\u00d7", "\u221e", "\u2261", "\u2205", "\u2300",
+)
 INSERTION_NGRAM = 4
 # Exact Typst 4-grams that are absent from the baseline only because pdftotext linearises
 # table cells / side notes in a different order. Every other novel 4-gram fails the gate.
@@ -3028,35 +3386,54 @@ _PDF_TOK = re.compile(
 _PDF_NUM = re.compile(rb"[-+]?\d*\.?\d+")
 
 
-def _pdf_text_streams(data: bytes):
-    for m in re.finditer(rb"<<(.{0,400}?)>>\s*stream\r?\n", data, re.S):
-        d = m.group(1)
-        start = m.end()
-        lm = re.search(rb"/Length (\d+)(?! \d+ R)", d)
-        end = start + int(lm.group(1)) if lm else data.find(b"endstream", start)
-        raw = data[start:end]
-        if b"/FlateDecode" in d:
-            try:
-                raw = zlib.decompress(raw)
-            except zlib.error:
-                continue
-        if b"BT" in raw and b"ET" in raw and (b"Tj" in raw or b"TJ" in raw):
-            yield raw
+def _extract_extgstate_ca(resources) -> dict[str, float]:
+    out: dict[str, float] = {}
+    if not resources:
+        return out
+    res_obj = resources.get_object() if hasattr(resources, "get_object") else resources
+    egs = res_obj.get("/ExtGState")
+    if not egs:
+        return out
+    egs_obj = egs.get_object() if hasattr(egs, "get_object") else egs
+    for k, v in egs_obj.items():
+        vo = v.get_object() if hasattr(v, "get_object") else v
+        if isinstance(vo, dict) and "/ca" in vo:
+            out[str(k)] = float(vo["/ca"])
+    return out
 
 
 def _scan_pdf_text_paint(pdf_path: Path) -> dict:
-    """Every text-showing operator must paint opaque black fill, render mode 0, size >= 4pt."""
+    """Every text-showing operator must paint opaque black fill (ca == 1), no zero-area clip,
+    render mode 0, and font size >= 4pt."""
+    from pypdf import PdfReader
+
     black = {("g", (0.0,)), ("sc", (0.0,)), ("scn", (0.0,)), ("rg", (0.0, 0.0, 0.0)), ("k", (0.0, 0.0, 0.0, 1.0))}
-    data = pdf_path.read_bytes()
+    reader = PdfReader(str(pdf_path))
     text_ops = 0
     bad: list[str] = []
-    min_size = None
-    for s in _pdf_text_streams(data):
-        fill: tuple = ("g", (0.0,))
-        tr, size = 0, None
+    min_size: float | None = None
+
+    def scan_stream(
+        raw: bytes,
+        resources,
+        init_state: tuple = (("g", (0.0,)), 0, None, 1.0, False),
+        depth: int = 0,
+    ) -> None:
+        nonlocal text_ops, min_size
+        if depth > 6:
+            return
+        ext_ca = _extract_extgstate_ca(resources)
+        res_obj = resources.get_object() if (resources and hasattr(resources, "get_object")) else (resources or {})
+        xobjs_raw = res_obj.get("/XObject") if isinstance(res_obj, dict) else None
+        xobjs = xobjs_raw.get_object() if (xobjs_raw and hasattr(xobjs_raw, "get_object")) else (xobjs_raw or {})
+
+        fill, tr, size, ca, zero_clip = init_state
         gs: list[tuple] = []
         operands: list[bytes] = []
-        for t in _PDF_TOK.findall(s):
+        path_pts: list[tuple[float, float]] = []
+        pending_zero_clip = False
+
+        for t in _PDF_TOK.findall(raw):
             if t[:1] in b"(<[]/" or _PDF_NUM.fullmatch(t):
                 operands.append(t)
                 continue
@@ -3067,9 +3444,33 @@ def _scan_pdf_text_paint(pdf_path: Path) -> dict:
                     break
                 nums.insert(0, float(x))
             if op == "q":
-                gs.append((fill, tr, size))
+                gs.append((fill, tr, size, ca, zero_clip))
             elif op == "Q" and gs:
-                fill, tr, size = gs.pop()
+                fill, tr, size, ca, zero_clip = gs.pop()
+            elif op == "gs" and operands and operands[-1].startswith(b"/"):
+                gs_name = operands[-1].decode("latin1")
+                if gs_name in ext_ca:
+                    ca = ext_ca[gs_name]
+            elif op in ("m", "l") and len(nums) >= 2:
+                path_pts.append((nums[-2], nums[-1]))
+            elif op == "c" and len(nums) >= 6:
+                path_pts.extend([(nums[-6], nums[-5]), (nums[-4], nums[-3]), (nums[-2], nums[-1])])
+            elif op in ("v", "y") and len(nums) >= 4:
+                path_pts.extend([(nums[-4], nums[-3]), (nums[-2], nums[-1])])
+            elif op == "re" and len(nums) >= 4:
+                rx, ry, rw, rh = nums[-4], nums[-3], nums[-2], nums[-1]
+                path_pts.extend([(rx, ry), (rx + rw, ry), (rx + rw, ry + rh), (rx, ry + rh)])
+            elif op in ("W", "W*"):
+                if path_pts:
+                    xs = [pt[0] for pt in path_pts]
+                    ys = [pt[1] for pt in path_pts]
+                    if (max(xs) - min(xs)) < 1e-4 or (max(ys) - min(ys)) < 1e-4:
+                        pending_zero_clip = True
+            elif op in ("n", "S", "s", "f", "F", "f*", "B", "B*", "b", "b*"):
+                if pending_zero_clip:
+                    zero_clip = True
+                    pending_zero_clip = False
+                path_pts.clear()
             elif op in ("g", "rg", "k"):
                 fill = (op, tuple(nums[-{"g": 1, "rg": 3, "k": 4}[op]:]))
             elif op in ("sc", "scn"):
@@ -3078,20 +3479,49 @@ def _scan_pdf_text_paint(pdf_path: Path) -> dict:
                 tr = int(nums[-1])
             elif op == "Tf" and nums:
                 size = nums[-1]
+            elif op == "Do" and operands and operands[-1].startswith(b"/"):
+                xname = operands[-1].decode("latin1")
+                if isinstance(xobjs, dict) and xname in xobjs:
+                    xo = xobjs[xname].get_object()
+                    if xo.get("/Subtype") == "/Form":
+                        scan_stream(
+                            xo.get_data(),
+                            xo.get("/Resources") or resources,
+                            (fill, tr, size, ca, zero_clip),
+                            depth + 1,
+                        )
             elif op in ("Tj", "TJ", "'", '"'):
                 text_ops += 1
                 if size is not None:
                     min_size = size if min_size is None else min(min_size, size)
-                if fill not in black or tr != 0 or (size is not None and size < MIN_RENDERED_TEXT_SIZE):
+                if (
+                    fill not in black
+                    or tr != 0
+                    or ca < 0.999
+                    or zero_clip
+                    or (size is not None and size < MIN_RENDERED_TEXT_SIZE)
+                ):
                     if len(bad) < 10:
-                        bad.append(f"fill={fill} Tr={tr} size={size}")
+                        bad.append(f"fill={fill} ca={ca} clip0={zero_clip} Tr={tr} size={size}")
             operands = []
+
+    for page in reader.pages:
+        contents = page.get_contents()
+        if contents is None:
+            continue
+        scan_stream(contents.get_data(), page.get("/Resources"))
+
     require(text_ops > 0, f"No text-showing operators found in {pdf_path.name}")
     require(
         not bad,
         f"Rendered text in {pdf_path.name} is not opaque black/visible (hidden or recoloured text): {bad}",
     )
-    return {"text_show_operators": text_ops, "non_black_or_invisible": 0, "min_font_size": min_size}
+    return {
+        "text_show_operators": text_ops,
+        "non_black_or_invisible": 0,
+        "min_font_size": min_size,
+        "alpha_and_clip_checked": True,
+    }
 
 
 def verify_evaluated_and_rendered(
@@ -3130,6 +3560,15 @@ def verify_evaluated_and_rendered(
     manual_mainrefs_raw = builder.run_typst_eval(typst_bin, root, manual_src, "<aod-mainref-use>", inputs=manual_inputs)
     main_bib_raw = builder.run_typst_eval(typst_bin, root, main_src, "<aod-bib-entry>")
     manual_bib_raw = builder.run_typst_eval(typst_bin, root, manual_src, "<aod-bib-entry>", inputs=manual_inputs)
+    main_block_eqs_raw = builder.run_typst_eval(typst_bin, root, main_src, "math.equation.where(block: true)")
+    manual_block_eqs_raw = builder.run_typst_eval(
+        typst_bin, root, manual_src, "math.equation.where(block: true)", inputs=manual_inputs
+    )
+
+    _, main_parts = audit_mod.include_graph(root, "main")
+    _, manual_parts = audit_mod.include_graph(root, "manual")
+    tex_main_eq_nums, exp_main_numbered = extract_tex_equation_numbers(main_parts)
+    tex_manual_eq_nums, exp_manual_numbered = extract_tex_equation_numbers(manual_parts)
 
     tex_main_labels = set(audit_mod.label_map(root, "main"))
     tex_manual_labels = set(audit_mod.label_map(root, "manual"))
@@ -3140,6 +3579,35 @@ def verify_evaluated_and_rendered(
             f"Main label set mismatch: missing={sorted(tex_main_labels - set(typ_main_map))}, extra={sorted(set(typ_main_map) - tex_main_labels)}")
     require(set(typ_manual_map) == tex_manual_labels,
             f"Manual label set mismatch: missing={sorted(tex_manual_labels - set(typ_manual_map))}, extra={sorted(set(typ_manual_map) - tex_manual_labels)}")
+
+    eq_numbering_report: dict[str, dict[str, int]] = {}
+    for surf, block_eqs, exp_cnt, tex_eq_nums, typ_map in (
+        ("main", main_block_eqs_raw, exp_main_numbered, tex_main_eq_nums, typ_main_map),
+        ("manual", manual_block_eqs_raw, exp_manual_numbered, tex_manual_eq_nums, typ_manual_map),
+    ):
+        numbered_blocks = [e for e in block_eqs if e.get("numbering") is not None]
+        unlabeled_numbered = [e for e in numbered_blocks if not e.get("label")]
+        require(
+            len(unlabeled_numbered) == 0,
+            f"{surf} contains {len(unlabeled_numbered)} unintended unlabeled numbered block equation(s) "
+            f"(numbered={len(numbered_blocks)}, expected={exp_cnt})",
+        )
+        require(
+            len(numbered_blocks) == exp_cnt,
+            f"{surf} numbered block equation count mismatch: typst={len(numbered_blocks)} vs latex={exp_cnt}",
+        )
+        for lbl, exp_num in sorted(tex_eq_nums.items()):
+            got = typ_map.get(lbl, {}).get("number")
+            require(
+                got == exp_num,
+                f"{surf} equation numbering mismatch for {lbl}: typst={got!r} vs latex={exp_num!r}",
+            )
+        eq_numbering_report[surf] = {
+            "block_equations_total": len(block_eqs),
+            "numbered_block_equations": len(numbered_blocks),
+            "unlabeled_numbered_equations": 0,
+            "labeled_equation_numbers_exact": len(tex_eq_nums),
+        }
 
     main_reg = json.loads((root / "typst/lib/main_registry.json").read_text(encoding="utf-8"))
     require(main_reg["main_sources_sha256"] == main_digest, "Committed Main registry digest mismatch")
@@ -3260,9 +3728,9 @@ def verify_evaluated_and_rendered(
         }
 
         per_doc: dict[str, dict] = {}
-        for surf, b_raw, t_raw, b_stream, t_stream, entries_map in (
-            ("main", base_main_raw, typ_main_raw, base_main_stream, typ_main_stream, typ_main_map),
-            ("manual", base_manual_raw, typ_manual_raw, base_manual_stream, typ_manual_stream, typ_manual_map),
+        for surf, b_pdf, t_pdf, b_raw, t_raw, b_stream, t_stream, entries_map in (
+            ("main", baseline_main_pdf, typ_main_pdf, base_main_raw, typ_main_raw, base_main_stream, typ_main_stream, typ_main_map),
+            ("manual", baseline_manual_pdf, typ_manual_pdf, base_manual_raw, typ_manual_raw, base_manual_stream, typ_manual_stream, typ_manual_map),
         ):
             # (a) Exact Table & Figure & Label resolved numbers vs retained XeLaTeX PDF
             b_flat = re.sub(r"\s+", " ", b_raw.replace("\xa0", " "))
@@ -3386,10 +3854,32 @@ def verify_evaluated_and_rendered(
             missing_decs = [d for d in set(b_decs) if t_decs.count(d) < b_decs.count(d)]
             require(not missing_decs, f"{surf} rendered decimals missing vs baseline PDF: {missing_decs[:15]}")
 
+            # (d2) Clickable external /URI destination set parity vs retained baseline PDF
+            b_uris = _inspect_pdf_links(b_pdf, expected_peer_pdf=None)["unique_external_uris"]
+            t_uris = _inspect_pdf_links(
+                t_pdf, expected_peer_pdf="main_typst.pdf" if surf == "manual" else None
+            )["unique_external_uris"]
+            require(
+                b_uris == t_uris,
+                f"{surf} clickable external /URI destination mismatch vs baseline PDF: "
+                f"missing={sorted(set(b_uris) - set(t_uris))}, extra={sorted(set(t_uris) - set(b_uris))}",
+            )
+
+            # (d3) Exact inline citation bracket sequence parity vs retained baseline PDF
+            b_cites = re.findall(r"\[\d+(?:,\s*\d+)*\]", b_body_s)
+            t_cites = re.findall(r"\[\d+(?:,\s*\d+)*\]", t_body_s)
+            require(
+                b_cites == t_cites,
+                f"{surf} rendered inline citation sequence mismatch vs baseline PDF: "
+                f"base={len(b_cites)} vs typst={len(t_cites)}",
+            )
+
             per_doc[surf] = {
                 "rendered_tables_matched": len(re.findall(r"\bTable\s+\d+\s*:", t_flat)),
                 "rendered_figures_matched": len(re.findall(r"\bFigure\s+\d+\s*:", t_flat)),
                 "rendered_bib_entries_exact": len(t_bib),
+                "rendered_inline_citations_exact": len(t_cites),
+                "rendered_external_uris_exact": len(t_uris),
                 "rendered_prose_clauses": clause_report,
                 "rendered_insertion_ngrams_checked": len(t_grams),
                 "rendered_insertion_novel_ngrams": 0,
@@ -3439,6 +3929,7 @@ def verify_evaluated_and_rendered(
         },
         "main_labels_verified": len(typ_main_map),
         "manual_labels_verified": len(typ_manual_map),
+        "equation_numbering": eq_numbering_report,
         "manual_mainrefs_verified": len(manual_mainrefs_raw),
         "main_bib_entries": len(main_bib_raw),
         "manual_bib_entries": len(manual_bib_raw),
@@ -3788,6 +4279,99 @@ def run_negative_controls(
         else:
             needs_baselines("16b_R6_rendered_clause")
 
+    # 17. R03 F1: nested display equation inside boxed math creates a spurious equation number.
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td), include_figures=True)
+        shed = "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ"
+        mutate(
+            sb, shed,
+            '#aod-boxed($ display(T^(times)_k - T^0_k = C^(times)_k .) $)',
+            '#math.equation(block: true, numbering: none, $ #box(stroke: 0.5pt + black, inset: 4pt)[$ T^(times)_k - T^0_k = C^(times)_k . $] $)',
+        )
+        expect_rejection(
+            "17_spurious_boxed_eq_number",
+            lambda: rendered(sb, Path(td) / "o", gate_b_clean),
+            "unintended unlabeled numbered block equation(s)",
+        )
+
+    # 18. Symbol fidelity: empty set ∅ replaced by diameter sign ⌀ (`diameter`).
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td))
+        aware = "typst/sections/08_awareness_learning_mindfulness.typ"
+        p = sb / aware
+        orig = p.read_text(encoding="utf-8")
+        require("emptyset" in orig, "Control 18 preimage missing")
+        p.write_text(orig.replace("emptyset", "diameter", 1), encoding="utf-8")
+        expect_rejection(
+            "18_symbol_emptyset_to_diameter",
+            lambda: verify_source_and_content_parity(sb, manifest),
+            "typ=['diameter']",
+        )
+
+    # 19. Matrix fidelity: removal of vertical augment bar (`augment: #1`) in Appendix A array.
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td))
+        appa = "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ"
+        mutate(sb, appa, "mat(delim: #none, augment: #1, align: #left,", "mat(delim: #none, align: #left,")
+        expect_rejection(
+            "19_matrix_augment_removed",
+            lambda: verify_source_and_content_parity(sb, manifest),
+            "Ordered content/math parity mismatch",
+        )
+
+    # 20. Flowchart fidelity & bounds (R03 F2): edge reversal, node math edit, out-of-bounds overlay.
+    h2 = "typst/manual/sections/02_hydrogen_facing_shell_tests.typ"
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td))
+        mutate(sb, h2, '(from: "scope", to: "shells")', '(from: "shells", to: "scope")')
+        expect_rejection(
+            "20a_flowchart_edge_reversed",
+            lambda: verify_source_and_content_parity(sb, manifest),
+            "'FLOWCHART'",
+        )
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td))
+        mutate(sb, h2, "-1 slash n^2", "-2 slash n^2")
+        expect_rejection(
+            "20b_flowchart_math_mutated",
+            lambda: verify_source_and_content_parity(sb, manifest),
+            "'FLOWCHART'",
+        )
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td))
+        mutate(sb, h2, '(id: "scope", x: 7.1cm, y: 0.7cm,', '(id: "scope", x: 7.1cm, y: 12.0cm,')
+        expect_rejection(
+            "20c_flowchart_out_of_bounds_overlay",
+            lambda: verify_typst_evaluation_policy(sb, repin(sb, h2)),
+            "exceeds flowchart bounds",
+        )
+
+    # 21. R03 F3: argument spread bypass (Gate A2) & transparent black luma(0, 0%) /ca=0 (Gate C).
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td))
+        mutate(
+            sb, fixtures,
+            "No physical uncertainty model is instantiated.",
+            "#block(..(clip: true, height: 0pt))[No] physical uncertainty model is instantiated.",
+        )
+        expect_rejection(
+            "21a_spread_hidden_block_policy",
+            lambda: verify_typst_evaluation_policy(sb, repin(sb, fixtures)),
+            "argument spread `..`",
+        )
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td), include_figures=True)
+        mutate(
+            sb, man_drv,
+            "#show: aod-manual-doc\n",
+            '#show: aod-manual-doc\n#show "No physical uncertainty model": it => text(fill: luma(0, 0%), it)\n',
+        )
+        expect_rejection(
+            "21b_transparent_luma_paint_scan",
+            lambda: rendered(sb, Path(td) / "o", gate_b_clean),
+            "ca=0.0",
+        )
+
     return results
 
 
@@ -3841,14 +4425,17 @@ def main() -> int:
     has_baselines = bool(base_main and base_manual)
     all_controls_ran = not args.skip_negative_controls
     unverified_clauses = 0
+    typst_only_clauses = 0
     if has_baselines:
         for surf in ("main", "manual"):
-            unverified_clauses += gate_c["baseline_pdf_comparison"]["results"][surf]["rendered_prose_clauses"]["unverified"]
+            cr = gate_c["baseline_pdf_comparison"]["results"][surf]["rendered_prose_clauses"]
+            unverified_clauses += cr["unverified"]
+            typst_only_clauses += cr["typst_rendering_verified_only"]
     if not has_baselines:
         verdict = "PARTIAL_NON_ACCEPTANCE_MISSING_BASELINE_PDFS"
     elif not all_controls_ran:
         verdict = "PARTIAL_NON_ACCEPTANCE_SKIPPED_CONTROLS"
-    elif unverified_clauses:
+    elif unverified_clauses or typst_only_clauses:
         verdict = "PARTIAL_NON_ACCEPTANCE_UNVERIFIED_CLAUSES"
     else:
         verdict = "PASS"
@@ -3865,16 +4452,24 @@ def main() -> int:
         "coverage": {
             "ordered_prose_and_short_words": True,
             "all_inline_and_display_math_ast": True,
+            "matrix_delimiters_and_augment_bars": True,
+            "bar_vs_overline_and_upright_bold": True,
+            "flowcharts_nodes_and_edges_verified": gate_b["flowcharts_verified"],
+            "exact_equation_numbering_and_block_count": True,
             "unsupported_math_constructs": gate_b["unsupported_math_constructs"],
             "immutable_tables_cell_by_cell": True,
             "delivered_peer_pdf_links_and_landings": True,
+            "clickable_external_uris_vs_baseline_pdf": has_baselines,
+            "inline_citation_sequence_vs_baseline_pdf": has_baselines,
             "rendered_bib_case_sensitive": has_baselines,
             "rendered_prose_clauses_vs_baseline_pdf": has_baselines,
-            "rendered_prose_clauses_unverified": unverified_clauses if has_baselines else "NOT_ASSESSED_WITHOUT_BASELINE",
+            "rendered_prose_clauses_unverified": (
+                unverified_clauses + typst_only_clauses
+            ) if has_baselines else "NOT_ASSESSED_WITHOUT_BASELINE",
             "rendered_insertion_ngrams_vs_baseline_pdf": has_baselines,
             "rendered_relation_glyph_parity_vs_baseline_pdf": has_baselines,
             "rendered_minus_equals_membership_glyphs": "SOURCE_MATH_AST_AND_EVALUATION_POLICY_ONLY",
-            "rendered_text_paint_scan": True,
+            "rendered_text_paint_scan_alpha_and_clip": True,
             "typst_evaluation_policy_and_template_pins": True,
             "figure_image_bindings_to_protected_digests": gate_b["figure_image_bindings_verified"],
             "figure_pixels_visual_comparison": "NOT_PERFORMED_BOUND_BY_PROTECTED_DIGEST",

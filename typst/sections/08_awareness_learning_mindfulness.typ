@@ -121,7 +121,7 @@ effect with individual removal effects.
 Specialize the same outcome projection, world, law and future inputs to
 $H = 1$. Within this model, operative self names the recurrent coupled subgraph:
 
-$ I^(upright("op"))_k & = brace.l i:O(cal(U)(S_k^(+) ;E)) eq.not O(cal(U)(S_k^(+ , - i) ;E)) brace.r , \ V^(upright("op"))_k & = cases(I^(upright("op"))_k union brace.l j brace.r "," & I^(upright("op"))_k eq.not emptyset ",", emptyset "," & I^(upright("op"))_k = emptyset ",") \ E^(upright("op"))_k & = brace.l (i,j):i in I^(upright("op"))_k brace.r . $ <eq:operative-self>
+$ I^(upright("op"))_k & = brace.l i:O(cal(U)(S_k^(+) ;E)) eq.not O(cal(U)(S_k^(+ , - i) ;E)) brace.r , \ V^(upright("op"))_k & = cases(I^(upright("op"))_k union brace.l j brace.r\, & I^(upright("op"))_k eq.not emptyset\,, emptyset\, & I^(upright("op"))_k = emptyset\,) \ E^(upright("op"))_k & = brace.l (i,j):i in I^(upright("op"))_k brace.r . $ <eq:operative-self>
 
 Every edge retains its coupling witness; the target enters only with an
 operative source. A source unavailable at the next cut may be nonoperative

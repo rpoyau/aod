@@ -30,7 +30,7 @@ wavelength/frequency/energy comparisons.]
 
 The shared declaration is
 
-#math.equation(block: true, numbering: none, $ bold(a)_H tack.r (F_H ,R_H , partial R_H , omega_H ), wide B_H = ( partial F_H , omega_H ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_H tack.r (F_H ,R_H , partial R_H , omega_H ), wide B_H = ( partial F_H , omega_H ). $)
 
 The shell family is indexed by an integer shell number
 
@@ -48,7 +48,7 @@ The signed state change is $hat(P)^D_(S_m) - hat(P)^D_(S_n) = - Delta hat(P)^D (
 
 
 
-#math.equation(block: true, numbering: none, $ #box(stroke: 0.5pt + black, inset: 4pt)[$ "Hydrogen shell tests use a declared signed comparison ladder." $] $)
+#aod-boxed($ "Hydrogen shell tests use a declared signed comparison ladder." $)
 
 
 #aod-noteblock("Remark")[The normalized ladder is a manual comparison choice. The main-note pressure definition remains $p^D = C_3 rho^D_(omega)$.]
@@ -66,7 +66,7 @@ The signed state change is $hat(P)^D_(S_m) - hat(P)^D_(S_n) = - Delta hat(P)^D (
   width: 14.2cm,
   height: 6.0cm,
   (
-    (id: "scope", x: 7.1cm, y: 0.7cm, w: 6.2cm, h: 1.05cm, body: [Hydrogen-facing scope \ $bold(a)_H tack.r (F_H, R_H, partial R_H, omega_H)$]),
+    (id: "scope", x: 7.1cm, y: 0.7cm, w: 6.2cm, h: 1.05cm, body: [Hydrogen-facing scope \ $bold(upright(a))_H tack.r (F_H, R_H, partial R_H, omega_H)$]),
     (id: "shells", x: 7.1cm, y: 2.2cm, w: 5.8cm, h: 1.05cm, body: [Shell ladder \ $S_n, quad hat(P)_(S_n)^D = -1 slash n^2$]),
     (id: "partial", x: 3.5cm, y: 3.75cm, w: 6.0cm, h: 1.05cm, body: [Released shell-pressure magnitude \ $Delta hat(P)^D (n arrow.r m) > 0$]),
     (id: "targets", x: 10.7cm, y: 3.75cm, w: 6.0cm, h: 1.05cm, body: [Measured comparison \ $lambda, med f = c slash lambda, med E = h f$]),

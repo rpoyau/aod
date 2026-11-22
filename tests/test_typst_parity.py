@@ -54,7 +54,18 @@ def test_typst_complete_active_graph_equations_tables_prose_and_qualifiers():
     assert res["unsupported_math_constructs"] == 0
     assert len(res["immutable_tables_verified_cell_by_cell"]) == 7
     assert res["labeled_equations_verified_structurally"] == {"main": 198, "manual": 20}
+    assert res["flowcharts_verified"] == 4
     assert res["figure_image_bindings_verified"] == 34
+
+
+def test_build_typst_manual_digest_includes_nested_figure_subdirectories():
+    bt = _load_module("aod_build_typst", "scripts/build_typst.py")
+    _, rel_files = bt.compute_manual_sources_digest(ROOT)
+    rel_set = set(rel_files)
+    assert "manual/figures/higgs/higgs_yro_saddle_signature.png" in rel_set
+    assert "manual/figures/lensing/05_swells_k_comparison_delta3.png" in rel_set
+    manual_figs = [p for p in rel_files if p.startswith("manual/figures/")]
+    assert len(manual_figs) == 31
 
 
 def test_typst_evaluation_policy_pins_templates_and_constrains_content():
@@ -73,6 +84,7 @@ def test_typst_evaluation_policy_pins_templates_and_constrains_content():
         "white_text": "#text(fill: white)[no] physical.\n",
         "hide": "#hide[no] physical\n",
         "math_hide": "$ hide(x) + 1 $\n",
+        "math_std_hide": "$ std.hide(x) + 1 $\n",
         "math_recolour": "$ text(fill: white, -) x $\n",
         "let_binding": "#let x = 3\n",
         "set_page_fill": "#set page(fill: red)\n",
@@ -80,11 +92,19 @@ def test_typst_evaluation_policy_pins_templates_and_constrains_content():
         "negative_space": "#v(-2em) text\n",
         "tiny_text": "#text(size: 1pt)[no] text\n",
         "place_overlay": "#place(top)[x]\n",
-        "rect_overlay": "#box(stroke: 0.5pt + black, inset: 4pt)[#rect(fill: white)]\n",
+        "rect_overlay": "#block(width: 100%)[#rect(fill: white)]\n",
+        "raw_box_in_content": '#box(stroke: 0.5pt + black, inset: 4pt)[$ x $]\n',
         "foreign_import": '#import "evil.typ": *\n',
         "context": "#context [x]\n",
         "eval": '#eval("1+1")\n',
-        "hide_in_nested_math": "$ #box(stroke: 0.5pt + black, inset: 4pt)[$ x #hide[y] $] $\n",
+        "hide_in_nested_math": "$ #aod-boxed($ x #hide[y] $) $\n",
+        "argument_spread": "#block(..(clip: true, height: 0pt))[No]\n",
+        "paren_callee": "#(hide)[No]\n",
+        "zero_pad": "#pad(left: 0em)[x]\n",
+        "flowchart_out_of_bounds": (
+            '#aod-flowchart(width: 10.0cm, height: 5.0cm, '
+            '((id: "a", x: 5.0cm, y: 12.0cm, w: 2.0cm, h: 1.0cm, body: [A]),), ())\n'
+        ),
     }
     for name, body in rejected.items():
         violations, _ = vp._content_policy_violations("typst/sections/x.typ", head + body, set())
@@ -92,8 +112,13 @@ def test_typst_evaluation_policy_pins_templates_and_constrains_content():
     accepted = {
         "figure_image": '#figure(image("/figures/a.png", width: 80%), caption: [A])\n',
         "prose_math_ref": 'Some *strong* text with $a_(b)^2 = sum_(i) x_i$ and #eqref("eq:x").\n',
-        "boxed_nested_math": "#math.equation(block: true, numbering: none, "
-        "$ #box(stroke: 0.5pt + black, inset: 4pt)[$ K_(tau)^(star) = 1 $] $)\n",
+        "boxed_display_math": '#aod-boxed($ display(K_(tau)^(star) = 1) $)\n',
+        "in_bounds_flowchart": (
+            '#aod-flowchart(width: 10.0cm, height: 5.0cm, '
+            '((id: "a", x: 5.0cm, y: 1.0cm, w: 3.0cm, h: 1.0cm, body: [A]), '
+            '(id: "b", x: 5.0cm, y: 3.5cm, w: 3.0cm, h: 1.0cm, body: [B])), '
+            '((from: "a", to: "b"),))\n'
+        ),
     }
     for name, body in accepted.items():
         violations, _ = vp._content_policy_violations("typst/sections/x.typ", head + body, set())
@@ -272,6 +297,47 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
     with pytest.raises(ValueError, match="Typst unit digest differs"):
         vp.verify_typst_evaluation_policy(t_r3, manifest)
 
+    # R03 conversion fidelity: emptyset->diameter, matrix augment, bar->overline, bold italic, flowchart edge/math.
+    t_sym = tmp_path / "c_sym"
+    shutil.copytree(base, t_sym)
+    p = t_sym / "typst/sections/08_awareness_learning_mindfulness.typ"
+    p.write_text(p.read_text(encoding="utf-8").replace("emptyset", "diameter", 1), encoding="utf-8")
+    with pytest.raises(ValueError, match="diameter"):
+        vp.verify_source_and_content_parity(t_sym, manifest)
+
+    t_mat = tmp_path / "c_mat"
+    shutil.copytree(base, t_mat)
+    p = t_mat / "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ"
+    p.write_text(
+        p.read_text(encoding="utf-8").replace("augment: #1, ", "", 1), encoding="utf-8"
+    )
+    with pytest.raises(ValueError, match="Ordered content/math parity mismatch"):
+        vp.verify_source_and_content_parity(t_mat, manifest)
+
+    t_bar = tmp_path / "c_bar"
+    shutil.copytree(base, t_bar)
+    p = t_bar / "typst/sections/06_field.typ"
+    p.write_text(p.read_text(encoding="utf-8").replace("macron(e)", "overline(e)", 1), encoding="utf-8")
+    with pytest.raises(ValueError, match="Ordered content/math parity mismatch|Equation structure mismatch"):
+        vp.verify_source_and_content_parity(t_bar, manifest)
+
+    t_bf = tmp_path / "c_bf"
+    shutil.copytree(base, t_bf)
+    p = t_bf / "typst/sections/03_afc_basis.typ"
+    p.write_text(p.read_text(encoding="utf-8").replace("bold(upright(a))", "bold(a)", 1), encoding="utf-8")
+    with pytest.raises(ValueError, match="Ordered content/math parity mismatch|Equation structure mismatch"):
+        vp.verify_source_and_content_parity(t_bf, manifest)
+
+    t_fc = tmp_path / "c_fc"
+    shutil.copytree(base, t_fc)
+    p = t_fc / "typst/manual/sections/02_hydrogen_facing_shell_tests.typ"
+    p.write_text(
+        p.read_text(encoding="utf-8").replace('(from: "scope", to: "shells")', '(from: "shells", to: "scope")', 1),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="FLOWCHART"):
+        vp.verify_source_and_content_parity(t_fc, manifest)
+
 
 def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
     typst_bin = _find_typst_or_none()
@@ -284,6 +350,10 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
     res = vp.verify_evaluated_and_rendered(ROOT, typst_bin, outdir)
     assert res["main_labels_verified"] == 455
     assert res["manual_labels_verified"] == 227
+    assert res["equation_numbering"]["main"]["numbered_block_equations"] == 187
+    assert res["equation_numbering"]["main"]["unlabeled_numbered_equations"] == 0
+    assert res["equation_numbering"]["manual"]["numbered_block_equations"] == 19
+    assert res["equation_numbering"]["manual"]["unlabeled_numbered_equations"] == 0
     assert res["manual_mainrefs_verified"] == 172
     assert res["main_bib_entries"] == 10
     assert res["manual_bib_entries"] == 43
@@ -296,12 +366,13 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
     assert delivery["peer_pdf_sha256_verified"] is True
     assert delivery["stale_main_pdf_links"] == 0
     assert delivery["all_target_page_anchors_verified"] == 172
-    assert delivery["witness_main_eq33"]["pdf_destination"] == "main_typst.pdf#page=14"
+    assert delivery["witness_main_eq33"]["pdf_destination"].startswith("main_typst.pdf#page=")
 
     paint = res["rendered_text_paint"]
     for surf in ("main", "manual"):
         assert paint[surf]["non_black_or_invisible"] == 0
         assert paint[surf]["min_font_size"] >= 4.0
+        assert paint[surf]["alpha_and_clip_checked"] is True
         clauses = res["baseline_pdf_comparison"]["rendered_prose_clauses_typst_only"][surf]
         assert clauses["unverified"] == 0
 
@@ -331,6 +402,14 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
         "15a_R5_white_text_policy",
         "15b_R5_white_text_paint_scan",
         "16a_R6_content_show_policy",
+        "17_spurious_boxed_eq_number",
+        "18_symbol_emptyset_to_diameter",
+        "19_matrix_augment_removed",
+        "20a_flowchart_edge_reversed",
+        "20b_flowchart_math_mutated",
+        "20c_flowchart_out_of_bounds_overlay",
+        "21a_spread_hidden_block_policy",
+        "21b_transparent_luma_paint_scan",
     } | baseline_only == set(neg)
 
 

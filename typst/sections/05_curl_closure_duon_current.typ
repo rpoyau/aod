@@ -123,7 +123,7 @@ $ E_2^(plus.minus) = upright("Duad"), wide op("id") ( op("Seat")(u) ) = op("id")
 #aod-paragraph[Admission binding.]
 The complete admitted motif record is
 
-$ K_(upright("adm")) (B,i;upright("cert")) = & paren.l i,s_(upright("core")) ,cal(C)_L , chi_(mu) ,bold(a),r, sigma^C_B , \ & H T(K;i,B),op("Cert")(K;i,B) paren.r . $ <eq:motif-admission>
+$ K_(upright("adm")) (B,i;upright("cert")) = & paren.l i,s_(upright("core")) ,cal(C)_L , chi_(mu) ,bold(upright(a)),r, sigma^C_B , \ & H T(K;i,B),op("Cert")(K;i,B) paren.r . $ <eq:motif-admission>
 
 Admission binds identity, scope, lineage, exact trace, certificate and closure
 witness. An absent or mismatched binding excludes model or harmonic use. A core signature is syntax until its construction witness is bound.
@@ -380,22 +380,22 @@ $C_f [ Sigma ]_(AO)$; none replaces that certified object.
 #aod-definition(title: [Alpha–Omega hinge kernel])[
 The explicit hinge presentations are
 
-#math.equation(block: true, numbering: none, $ A arrow.l.r_(mu) Omega & := "Alpha/Omega branch order through hinge " mu , \ Omega arrow.l.r_(mu) A & := "Omega/Alpha branch order through hinge " mu . $)
+#math.equation(block: true, numbering: none, $ A scripts(arrow.l.r)_(mu) Omega & := "Alpha/Omega branch order through hinge " mu , \ Omega scripts(arrow.l.r)_(mu) A & := "Omega/Alpha branch order through hinge " mu . $)
 
 For a retained cycle $C$, define the compact branch/hinge/branch operators
 
-$ sans("AO")_(mu) (C) := op(A arrow.l.r_(mu) Omega)(C) = chevron.l Pi_(alpha) (C), H_(mu) (C), Pi_(Omega) (C) chevron.r . $ <eq:ao-kernel>
+$ sans("AO")_(mu) (C) := op(A scripts(arrow.l.r)_(mu) Omega)(C) = chevron.l Pi_(alpha) (C), H_(mu) (C), Pi_(Omega) (C) chevron.r . $ <eq:ao-kernel>
 
 
-$ sans("OA")_(mu) (C) := op(Omega arrow.l.r_(mu) A)(C) = chevron.l Pi_(Omega) (C), H_(mu) (C), Pi_(alpha) (C) chevron.r . $ <eq:omega-alpha-hinge-kernel>
+$ sans("OA")_(mu) (C) := op(Omega scripts(arrow.l.r)_(mu) A)(C) = chevron.l Pi_(Omega) (C), H_(mu) (C), Pi_(alpha) (C) chevron.r . $ <eq:omega-alpha-hinge-kernel>
 
 The hinge $mu$ supports handed return. The chirality tag records the branch-order orientation:
 
-$ chi_(mu) (C) = + 1 arrow.l.r.double.long C:A arrow.l.r_(mu) Omega , wide chi_(mu) (C) = - 1 arrow.l.r.double.long C: Omega arrow.l.r_(mu) A. $ <eq:hinge-chirality-tag>
+$ chi_(mu) (C) = + 1 arrow.l.r.double.long C:A scripts(arrow.l.r)_(mu) Omega , wide chi_(mu) (C) = - 1 arrow.l.r.double.long C: Omega scripts(arrow.l.r)_(mu) A. $ <eq:hinge-chirality-tag>
 
 The hinge flip exchanges the branch order:
 
-$ op("flip")_(mu) (A arrow.l.r_(mu) Omega ) = Omega arrow.l.r_(mu) A, wide op("flip")_(mu) ( Omega arrow.l.r_(mu) A) = A arrow.l.r_(mu) Omega . $ <eq:hinge-chirality-flip>
+$ op("flip")_(mu) (A scripts(arrow.l.r)_(mu) Omega ) = Omega scripts(arrow.l.r)_(mu) A, wide op("flip")_(mu) ( Omega scripts(arrow.l.r)_(mu) A) = A scripts(arrow.l.r)_(mu) Omega . $ <eq:hinge-chirality-flip>
 
 The compact qualifier $AO$ marks the Alpha–Omega hinge presentation in subscripts, as in $C_f [ Sigma ]_(AO)$. The forms $A Omega$ and $Omega A$ are implicit-hinge shorthand only after the explicit hinge presentation has been declared.
 The $Omega$-branch is closure-subservient:

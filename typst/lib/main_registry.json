@@ -1312,7 +1312,7 @@
       "display": "(49)",
       "kind": "equation",
       "number": "49",
-      "page": 18
+      "page": 17
     },
     "eq:operative-self": {
       "display": "(166)",
@@ -2734,6 +2734,6 @@
   "entry_count": 455,
   "main_input_count": 29,
   "main_pdf_filename": "main_typst.pdf",
-  "main_sources_sha256": "46e332a1af4617562dc8d9fc0f286a34a4aeec41cb8ee4bf465c022a39ec1bb5",
+  "main_sources_sha256": "1eddb466f1e14548f589a0ffa3b3905fbfceab372b4eadd9ecbd334d851ac646",
   "schema": "aod.typst.main-registry.v1"
 }

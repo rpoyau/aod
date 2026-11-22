@@ -41,7 +41,7 @@ The Fractal Field Ring Gate (FRG) is constructed in #secref("subsec:fractal-fiel
 The first distinction co-creates its start and finite addressability. Write
 its inevitable anchor as
 
-$ a_0 = mono("00")_8 , wide bold(a) in cal(A)^(upright("ret"))_8 subset.eq brace.l 0,1, dots.h ,7 brace.r^(< omega) . $ <eq:first-anchor>
+$ a_0 = mono("00")_8 , wide bold(upright(a)) in cal(A)^(upright("ret"))_8 subset.eq brace.l 0,1, dots.h ,7 brace.r^(< omega) . $ <eq:first-anchor>
 
 Octal notation encodes retained address:
 $mono("00")_8 ,mono("01")_8 , dots.h ,mono("07")_8 ,mono("10")_8 , dots.h$.
@@ -157,7 +157,7 @@ $ C_3 (k) = log_3 (3^k ) = k. $ <eq:ternary-capacity>
 == Common retained records <subsec:afc-boundary-accounting>
 
 A scope $B = ( partial_T R, omega )$ binds an induced retained interface and
-a finite committed comparison window. Write $bold(a) tack.r (R, partial_T R, omega )$ when the address must be explicit. Each event has immutable
+a finite committed comparison window. Write $bold(upright(a)) tack.r (R, partial_T R, omega )$ when the address must be explicit. Each event has immutable
 identity, lineage, scope, scale, predecessor, role and committed order.
 The trace prefix consists of those events in that order. Each construction
 binds its exact prefix and witness; that binding cannot originate its

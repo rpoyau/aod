@@ -70,7 +70,7 @@ $ Delta_(alpha) ( omega ) = frac(N_(alpha) - N_(Omega), N_(upright("tot"))). $ <
 
 For channel $e$, the retained-window indicator is
 
-#math.equation(block: true, numbering: none, $ bold(1)_(upright("ret")) (e, omega ) = cases(1 "," & upright("TTL")_e ( omega ) gt.eq bar.v omega bar.v_e ",", 0 "," & upright("TTL")_e ( omega ) < bar.v omega bar.v_e .) $)
+#math.equation(block: true, numbering: none, $ bold(1)_(upright("ret")) (e, omega ) = cases(1\, & upright("TTL")_e ( omega ) gt.eq bar.v omega bar.v_e\,, 0\, & upright("TTL")_e ( omega ) < bar.v omega bar.v_e .) $)
 
 The history retention indicator is
 

@@ -13,13 +13,13 @@
 #let SADAR = $upright("SADAR")$
 #let ADAR = $upright("ADAR")$
 #let AO = $A arrow.l.r Omega$
-#let AOpkg = $op(A arrow.l.r_mu Omega)$
-#let OAop = $op(Omega arrow.l.r_mu A)$
+#let AOpkg = $op(A scripts(arrow.l.r)_mu Omega)$
+#let OAop = $op(Omega scripts(arrow.l.r)_mu A)$
 #let AOh = $sans("AO")_mu$
 #let OAh = $sans("OA")_mu$
-#let AOcycle = $A arrow.l.r_mu Omega thin arrow.l.r.long thin Omega arrow.l.r_mu A$
+#let AOcycle = $A scripts(arrow.l.r)_mu Omega thin arrow.l.r.long thin Omega scripts(arrow.l.r)_mu A$
 #let SADARop = $frak(S)$
-#let Qext = $sans(Q)_upright("ext")$
+#let Qext = $sans("Q")_upright("ext")$
 #let leadsto = $arrow.r.squiggly$
 
 // --- Document states & counters ---
@@ -72,7 +72,7 @@
 // --- Secondary / paragraph anchor preserving exact LaTeX alias & phantomsection labels ---
 #let aod-anchor(lbl) = {
   let id = str(lbl)
-  [#box(width: 0pt, height: 0pt)[] #lbl]
+  [#box(width: 0pt, height: 0pt)[]#lbl]
   context {
     let loc = here()
     let is-app = aod-in-appendix.get()
@@ -85,7 +85,7 @@
       number: fmt,
       display: fmt,
       alias: true,
-    )) <aod-ref-meta>]
+    ))<aod-ref-meta>]
     [#metadata((
       id: id,
       kind: kind,
@@ -93,7 +93,7 @@
       display: fmt,
       page: loc.page(),
       alias: true,
-    )) <aod-ref-entry>]
+    ))<aod-ref-entry>]
   }
 }
 
@@ -105,7 +105,7 @@
       columns: (1fr, auto, 1fr),
       align: (left, center + horizon, right + horizon),
       [],
-      [#math.equation(block: true, numbering: none, body) #lbl],
+      [#math.equation(block: true, numbering: none, body)#lbl],
       [(#tag)],
     )
   ]
@@ -114,7 +114,7 @@
     kind: "rg-equation",
     number: tag,
     display: "(" + tag + ")",
-  )) <aod-ref-meta>]
+  ))<aod-ref-meta>]
   context {
     let loc = here()
     [#metadata((
@@ -123,7 +123,7 @@
       number: tag,
       display: "(" + tag + ")",
       page: loc.page(),
-    )) <aod-ref-entry>]
+    ))<aod-ref-entry>]
   }
 }
 
@@ -174,6 +174,13 @@
     ]
   ]
 }
+
+// --- Unnumbered tight framed display math matching LaTeX \[\boxed{...}\] ---
+#let aod-boxed(body) = align(center)[
+  #block(above: 0.7em, below: 0.7em, breakable: false)[
+    #box(stroke: 0.5pt + black, inset: 4.5pt)[#math.equation(block: false, numbering: none, body)]
+  ]
+]
 
 // --- Zero-dependency native Typst flowchart for the 4 Manual TikZ schematics ---
 #let aod-flowchart(nodes, edges, width: 14.5cm, height: 8.5cm) = {
@@ -258,7 +265,7 @@
     target: id,
     resolved_kind: resolved-kind,
     resolved_display: resolved-display,
-  )) <aod-ref-use>]
+  ))<aod-ref-use>]
 }
 
 #let eqref(id) = context {
@@ -398,7 +405,7 @@
     peer_pdf: res.peer_pdf,
     pdf_destination: dest,
     registry_digest: res.digest,
-  )) <aod-mainref-use>#link(dest)[#disp]]
+  ))<aod-mainref-use>#link(dest)[#disp]]
 }
 
 #let mainequation(id) = _render-main-ref(
@@ -734,13 +741,12 @@
     }
     nums.push((key: k, num: found.at(0).num))
   }
-  let nums-sorted = nums.sorted(key: x => x.num)
   [#metadata((
     keys: keys,
-    numbers: nums-sorted.map(x => x.num),
+    numbers: nums.map(x => x.num),
     has_supplement: supplement != none,
-  )) <aod-cite-use>\[]
-  for (i, item) in nums-sorted.enumerate() {
+  ))<aod-cite-use>\[]
+  for (i, item) in nums.enumerate() {
     if i > 0 { [, ] }
     link(label("bib:" + item.key))[#item.num]
   }
@@ -785,7 +791,7 @@
         title: _clean-bib-str(cased-title),
         year: year,
         page: loc.page(),
-      )) <aod-bib-entry>]
+      ))<aod-bib-entry>]
       block(width: 100%, above: 0.45em, below: 0.45em, breakable: false)[
         #grid(
           columns: (2.6em, 1fr),
@@ -865,7 +871,11 @@
   show figure.where(kind: table): set block(breakable: true)
   show figure.caption: it => {
     set text(size: 10pt)
-    it
+    if it.position == top {
+      block(sticky: true, it)
+    } else {
+      it
+    }
   }
 
   // Heading typography & automatic reference registry metadata
@@ -888,14 +898,14 @@
           kind: kind,
           number: fmt,
           display: fmt,
-        )) <aod-ref-meta>]
+        ))<aod-ref-meta>]
         [#metadata((
           id: lbl,
           kind: kind,
           number: fmt,
           display: fmt,
           page: el-loc.page(),
-        )) <aod-ref-entry>]
+        ))<aod-ref-entry>]
       }
     }
   }
@@ -913,14 +923,14 @@
           kind: "equation",
           number: str(num),
           display: "(" + str(num) + ")",
-        )) <aod-ref-meta>]
+        ))<aod-ref-meta>]
         [#metadata((
           id: lbl,
           kind: "equation",
           number: str(num),
           display: "(" + str(num) + ")",
           page: el-loc.page(),
-        )) <aod-ref-entry>]
+        ))<aod-ref-entry>]
       }
     }
   }
@@ -939,14 +949,14 @@
           kind: fkind,
           number: str(num),
           display: str(num),
-        )) <aod-ref-meta>]
+        ))<aod-ref-meta>]
         [#metadata((
           id: lbl,
           kind: fkind,
           number: str(num),
           display: str(num),
           page: el-loc.page(),
-        )) <aod-ref-entry>]
+        ))<aod-ref-entry>]
       }
     }
   }

@@ -118,7 +118,7 @@ open continuation into #eqref("eq:wave-identity") violates
 == Directional RCD and duration <sec:boundary-accounting>
 #aod-anchor(<subsec:boundary-scope>)
 
-The scoped address binder is $bold(a) tack.r (cal(F),R, partial R, omega )$.
+The scoped address binder is $bold(upright(a)) tack.r (cal(F),R, partial R, omega )$.
 The field resolves to its wave members before a channel is evaluated.
 
 
@@ -264,7 +264,7 @@ $ op("Adm")_B = op("Adm")^(upright("H1"))_B union.sq op("Adm")^(upright("fib"))_
 the first part contains atomic base traversals and the second contains
 zero-base-traversal hinge-fibre continuations. Define the atomic kernel by
 
-$ P_B (e', sigma ' mid(|) e, sigma ) = cases(w_B (e', sigma ') slash Z_B "," & (e', sigma ') in op("Adm")^(upright("H1"))_B "," Z_B > 0 ",", 0 "," & (e', sigma ') in.not op("Adm")^(upright("H1"))_B ",") quad Z_B = sum_(a in op("Adm")^(upright("H1"))_B) w_B (a). $ <eq:admitted-kernel>
+$ P_B (e', sigma ' mid(|) e, sigma ) = cases(w_B (e', sigma ') slash Z_B\, & (e', sigma ') in op("Adm")^(upright("H1"))_B\, Z_B > 0\,, 0\, & (e', sigma ') in.not op("Adm")^(upright("H1"))_B\,) quad Z_B = sum_(a in op("Adm")^(upright("H1"))_B) w_B (a). $ <eq:admitted-kernel>
 
 For $Z_B = 0$, report empty positive-weight support; distinguish it from an empty structural admissible set. Neither case is normalized. Equal
 positive weights give $1 slash N_B$; unequal weights give the anisotropic model.

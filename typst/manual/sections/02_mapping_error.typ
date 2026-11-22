@@ -83,7 +83,7 @@ Its linearized variance is zero because the two input corrections are
 the same random variable.
 For the original product, let $x = ( - epsilon ,0, epsilon )$ have probabilities
 $(1 slash 4,1 slash 2,1 slash 4)$, with $epsilon = 1 slash 1000$, $delta = 1 slash 1000000$,
-$b = 1 - delta$, and $V = F slash upright("Hz") = (1 + x)(1 - b x)$. Then
+$b = 1 - delta$, and $V = F\/upright("Hz") = (1 + x)(1 - b x)$. Then
 
 $ bb(E)[V] = 1 - frac(b epsilon^2, 2), wide op("Var")(V) = frac(delta^2 epsilon^2, 2) + frac(b^2 epsilon^4, 4). $ <eq:manual-m3-original-product>
 

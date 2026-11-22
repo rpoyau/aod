@@ -288,7 +288,7 @@ The accumulated trace is
 
 with update
 
-#math.equation(block: true, numbering: none, $ h_t = h_(t - 1) + sigma_t bold(e)_(j_t) , wide j_t in brace.l 1,2,3,4 brace.r , wide sigma_t in brace.l - 1, + 1 brace.r . $)
+#math.equation(block: true, numbering: none, $ h_t = h_(t - 1) + sigma_t bold(upright(e))_(j_t) , wide j_t in brace.l 1,2,3,4 brace.r , wide sigma_t in brace.l - 1, + 1 brace.r . $)
 
 The run/tumble mode is
 
@@ -493,7 +493,7 @@ The Tau ring fixture carries frozen $S_(tau)$, $S_(tau ,upright("ring"))$, missi
 
 Winner lookup in the supplied diagnostic selects
 
-#math.equation(block: true, numbering: none, $ #box(stroke: 0.5pt + black, inset: 4pt)[$ K_(tau)^(star) = 1":"2":"9_(upright("yro")) = upright("Dimonnanyro"). $] $)
+#aod-boxed($ display(K_(tau)^(star) = 1":"2":"9_(upright("yro")) = upright("Dimonnanyro").) $)
 
 For the primary lane,
 

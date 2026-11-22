@@ -361,7 +361,7 @@ and the renormalized branch-continuation kernel. Blocking is zero admissibility.
 
 A SADAR row records an oriented ADAR pair and satisfies
 
-#math.equation(block: true, numbering: none, $ SADARop_B (C_(overline(e)) ) = - SADARop_B (C_e ). $)
+#math.equation(block: true, numbering: none, $ SADARop_B (C_(macron(e)) ) = - SADARop_B (C_e ). $)
 
 
 Fixture-comparator rows form exact $delta_3$ tallies. A Tau missing-burden row carries integer provenance

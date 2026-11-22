@@ -48,7 +48,7 @@ witness. An operation-count proxy records work, not operativity.
 #aod-paragraph[Setup.]
 The selected rational response model, with $p_k > 0$, is
 
-$ J_(k + 1) = J_k + bold(A)_k slash p_k . $ <eq:sadar-rational-response>
+$ J_(k + 1) = J_k + bold(upright(A))_k slash p_k . $ <eq:sadar-rational-response>
 
 It leaves identity and closure memory fixed unless a separate admissible
 closure transition is witnessed. The generic causal update is

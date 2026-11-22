@@ -24,7 +24,7 @@ This manual appendix preserves simulation fixtures and prediction-test placement
 
 Required outputs are
 
-#math.equation(block: true, numbering: none, $ R D, wide rho^D , wide rho^D_(omega) , wide Q^D , wide p^D , wide phi.alt , wide P^D_F (B), wide bold(A)_F (B), wide cal(E)(R,B). $)
+#math.equation(block: true, numbering: none, $ R D, wide rho^D , wide rho^D_(omega) , wide Q^D , wide p^D , wide phi.alt , wide P^D_F (B), wide bold(upright(A))_F (B), wide cal(E)(R,B). $)
 
 #aod-anchor(<app:rd-tests:support-reductions>)
 Fixtures include
@@ -87,7 +87,7 @@ If the computed values violate the stated recurrences on the declared ticks, the
 
 Manual fixtures and comparisons are read together with their declared data-support class. The compact class list is:
 
-#math.equation(block: true, numbering: none, $ mat(delim: #none, align: #left, D 0, "exact internal fixture" ","; O 0, "observable-map fixture" ","; G 0, "radial shell projection" ","; G 1, "radial-medium projection" ","; G 2, "three-dimensional field-dynamics retention" ","; G 3, "time-resolved tracer-current simulation" ","; L 0, "exact lensing toy fixture" ","; L 1, "radial lens-medium diagnostic" ","; L 2, "target-acquisition lane" ","; L 3, "full lensing release class".) $)
+#math.equation(block: true, numbering: none, $ mat(delim: #none, augment: #1, align: #left, D 0, "exact internal fixture"\,; O 0, "observable-map fixture"\,; G 0, "radial shell projection"\,; G 1, "radial-medium projection"\,; G 2, "three-dimensional field-dynamics retention"\,; G 3, "time-resolved tracer-current simulation"\,; L 0, "exact lensing toy fixture"\,; L 1, "radial lens-medium diagnostic"\,; L 2, "target-acquisition lane"\,; L 3, "full lensing release class".) $)
 
 Errors and residuals are scoped to the class: $delta_3$ for exact internal comparators, observable-map residuals for O0, radial square-speed residuals for G0/G1, retention and field residuals for G2/G3, and target-side residuals for L2/L3 after prediction values freeze.
 

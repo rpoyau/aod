@@ -27,7 +27,7 @@ map, source certificates and uncertainty before physical prediction; see
 
 Declare a solar field scope
 
-#math.equation(block: true, numbering: none, $ bold(a)_(dot.o) tack.r (F_(dot.o) ,R_(dot.o) , partial R_(dot.o) , omega_(dot.o) ), wide B_(dot.o) = ( partial F_(dot.o) , omega_(dot.o) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_(dot.o) tack.r (F_(dot.o) ,R_(dot.o) , partial R_(dot.o) , omega_(dot.o) ), wide B_(dot.o) = ( partial F_(dot.o) , omega_(dot.o) ). $)
 
 For a body, signal, or transfer record $x$, declare a comparison boundary/window
 
@@ -63,7 +63,7 @@ Each record carries a frozen O0 map-value comparison and its external reference 
 
 
 
-#math.equation(block: true, numbering: none, $ #box(stroke: 0.5pt + black, inset: 4pt)[$ "Solar-system records carry O0 observable-map comparisons." $] $)
+#aod-boxed($ "Solar-system records carry O0 observable-map comparisons." $)
 
 
 
@@ -71,17 +71,17 @@ Each record carries a frozen O0 map-value comparison and its external reference 
 
 Native solar-system evaluation requires a Sun-field cycle family evaluated by $SADARop_B$ and a declared observable comparison map with signature
 
-#math.equation(block: true, numbering: none, $ cal(O)_(x, AO) = cal(G)_x [ R C D, rho^D , rho^D_(omega) ,p^D , phi.alt ,bold(A)_F ,J^D_(partial R) ;B_x ] . $)
+#math.equation(block: true, numbering: none, $ cal(O)_(x, AO) = cal(G)_x [ R C D, rho^D , rho^D_(omega) ,p^D , phi.alt ,bold(upright(A))_F ,J^D_(partial R) ;B_x ] . $)
 
 The three observable-map comparison fixtures record the following map signatures:
 
-#math.equation(block: true, numbering: none, $ Delta pi.alt_(upright("Hg"), AO) = cal(G)_(upright("peri")) [ bold(A)_(F_(dot.o)) (B_(upright("Hg")) ), J^D_(partial R) ( omega_(upright("cy")) ;B_(upright("Hg")) ) ] , $)
+#math.equation(block: true, numbering: none, $ Delta pi.alt_(upright("Hg"), AO) = cal(G)_(upright("peri")) [ bold(upright(A))_(F_(dot.o)) (B_(upright("Hg")) ), J^D_(partial R) ( omega_(upright("cy")) ;B_(upright("Hg")) ) ] , $)
 
 
-#math.equation(block: true, numbering: none, $ delta_(dot.o , AO) = cal(G)_(upright("bend")) [ bold(A)_(F_(dot.o)) (B_(upright("bend")) ), J^D_(partial R) ( omega_(upright("bend")) ;B_(upright("bend")) ) ] , $)
+#math.equation(block: true, numbering: none, $ delta_(dot.o , AO) = cal(G)_(upright("bend")) [ bold(upright(A))_(F_(dot.o)) (B_(upright("bend")) ), J^D_(partial R) ( omega_(upright("bend")) ;B_(upright("bend")) ) ] , $)
 
 
-#math.equation(block: true, numbering: none, $ z_(dot.o , AO) = cal(G)_(upright("red")) [ bold(A)_(F_(dot.o)) (B_(upright("red")) ), J^D_(partial R) ( omega_(upright("red")) ;B_(upright("red")) ) ] . $)
+#math.equation(block: true, numbering: none, $ z_(dot.o , AO) = cal(G)_(upright("red")) [ bold(upright(A))_(F_(dot.o)) (B_(upright("red")) ), J^D_(partial R) ( omega_(upright("red")) ;B_(upright("red")) ) ] . $)
 
 The rows below carry O0 comparison values and residual arithmetic. Map definitions and evaluated native $SADARop_B$ input certificates are not supplied for these records.
 The Mercury physical-prediction gate therefore remains unevaluated. Its
@@ -142,7 +142,7 @@ reduction assumptions and uncertainty.
 
 Declare
 
-#math.equation(block: true, numbering: none, $ bold(a)_(upright("Hg")) tack.r (F_(upright("Hg")) ,R_(upright("orbit")) , partial R_(upright("peri")) , omega_(upright("cy")) ), wide B_(upright("Hg")) = ( partial F_(upright("Hg")) , omega_(upright("cy")) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_(upright("Hg")) tack.r (F_(upright("Hg")) ,R_(upright("orbit")) , partial R_(upright("peri")) , omega_(upright("cy")) ), wide B_(upright("Hg")) = ( partial F_(upright("Hg")) , omega_(upright("cy")) ). $)
 
 The observable-map value is
 
@@ -165,7 +165,7 @@ The theoretical reference target is
 
 Declare
 
-#math.equation(block: true, numbering: none, $ bold(a)_(upright("bend")) tack.r (F_(upright("signal")) ,R_(upright("path")) , partial R_(dot.o upright("limb")) , omega_(upright("bend")) ), wide B_(upright("bend")) = ( partial F_(upright("signal")) , omega_(upright("bend")) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_(upright("bend")) tack.r (F_(upright("signal")) ,R_(upright("path")) , partial R_(dot.o upright("limb")) , omega_(upright("bend")) ), wide B_(upright("bend")) = ( partial F_(upright("signal")) , omega_(upright("bend")) ). $)
 
 The observable-map value is
 
@@ -188,7 +188,7 @@ The theoretical reference target is
 
 Declare
 
-#math.equation(block: true, numbering: none, $ bold(a)_(upright("red")) tack.r (F_(upright("line")) ,R_(upright("surface")) , partial R_(upright("transfer")) , omega_(upright("red")) ), wide B_(upright("red")) = ( partial F_(upright("line")) , omega_(upright("red")) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_(upright("red")) tack.r (F_(upright("line")) ,R_(upright("surface")) , partial R_(upright("transfer")) , omega_(upright("red")) ), wide B_(upright("red")) = ( partial F_(upright("line")) , omega_(upright("red")) ). $)
 
 The observable-map value is
 
@@ -218,7 +218,7 @@ with the measured comparison
 == Audit hooks <manual:solar:audit-hooks>
 
 
-- Scope audit: each record declares $bold(a) tack.r (F,R, partial R, omega )$ and $B = ( partial F, omega )$.
+- Scope audit: each record declares $bold(upright(a)) tack.r (F,R, partial R, omega )$ and $B = ( partial F, omega )$.
 - Comparison-fixture audit: each record includes observable-map value, target, residual, percent error, and status.
 - Input audit: target values are cited in the record where they are used; residuals are computed from the declared observable-map value and declared target.
 

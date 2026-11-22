@@ -18,7 +18,7 @@
       "surface": "manual",
       "tex_sha256": "d8791ecfb6a95c60f8585b68094cb55704535dcc01e1f92cb5f64f07aab96de9",
       "tex_source": "manual/main.tex",
-      "typst_sha256": "d09237ee38263daf33162e8afc00ba04b4e813df4203d0aad75df01609cc6fb9",
+      "typst_sha256": "c3d6a18bb6a8020481259a6771611e41c50f188190e35e1c9b5ec58848d8760a",
       "typst_target": "typst/manual/main.typ"
     },
     {
@@ -32,7 +32,7 @@
       "surface": "main",
       "tex_sha256": "c86e23a01c95c43c2cb3603afc2d3c574d36f44360da626ebe86f734ad4ce4d4",
       "tex_source": "sections/00_title.tex",
-      "typst_sha256": "c528fa96e497aaa046fc2192e7ba0541ce5efc5d7421fe70f6325f63f6dbf57c",
+      "typst_sha256": "bc84ca2a2ec90cf6419661cccee913e9ffdf1cb04499348486f14cf811693b5a",
       "typst_target": "typst/sections/00_title.typ"
     },
     {
@@ -46,7 +46,7 @@
       "surface": "main",
       "tex_sha256": "d5b648c0c74afe8c34a344d5069e78b5be5d9a98851ce1abcc6c0f9d1df8c6d3",
       "tex_source": "sections/03_afc_basis.tex",
-      "typst_sha256": "651edd2bf0f800a7cb0b03b57b1ef9ae9b71c0626d9b4b462cfdd2aed446c7fc",
+      "typst_sha256": "d9ba585086847920deb3e3336c5cc7c8db801b173332a25a38427a8f46d22fa5",
       "typst_target": "typst/sections/03_afc_basis.typ"
     },
     {
@@ -60,42 +60,42 @@
       "surface": "main",
       "tex_sha256": "db5d3097aa17ce890e1ef5a09e527ce86109715add344f54139eeea3c36f28a9",
       "tex_source": "sections/05_curl_closure_duon_current.tex",
-      "typst_sha256": "f0dfd9aeadbf2c57070bf2cdbc0174fec458631d625f898d7ce0a6608207c8f5",
+      "typst_sha256": "2dd068fbbca3d52bf1ed0c891be29c425923813090a666e7f837638baf62e93e",
       "typst_target": "typst/sections/05_curl_closure_duon_current.typ"
     },
     {
       "surface": "main",
       "tex_sha256": "a0db3c5c2d3c51c117efe6e7c5a139bc757839d508bfa981c773fdd3d7061917",
       "tex_source": "sections/06_wave_state_relational_time.tex",
-      "typst_sha256": "8e6dc53a2a0f231cbeffb2463522d70302da8457d0ad1ce87520ec1443e6f84c",
+      "typst_sha256": "155a37eff9ecbf87a3aadd5aef22c9337de64ddb02660228ccde216afb582bba",
       "typst_target": "typst/sections/06_wave_state_relational_time.typ"
     },
     {
       "surface": "main",
       "tex_sha256": "8cfc96e46d7492bfec4687b6fa77495b5fbca054474d103b78348cebe022d802",
       "tex_source": "sections/06_field.tex",
-      "typst_sha256": "40ef7172d60a9214c41b841aaca594cf40a341bbd046f2e7ebc4bb7987468708",
+      "typst_sha256": "1ab534ab598c2b50c6d9cc50cbddf5b70d7a487a10c4b10dafb0687c8d3a962b",
       "typst_target": "typst/sections/06_field.typ"
     },
     {
       "surface": "main",
       "tex_sha256": "310b4860c1710b8191725d9c40ff1fc05bd45a7ed818f0891e1fbd8fa58feae1",
       "tex_source": "sections/08_awareness_learning_mindfulness.tex",
-      "typst_sha256": "5dc5a77964cd3af8a96da1065e7ba727db990b96bc551e2ad58ee066eb6e7413",
+      "typst_sha256": "5e9ea82291bf2c60e4aef0e7078bad010d4eb51334ff7bedeca283697f9c51e9",
       "typst_target": "typst/sections/08_awareness_learning_mindfulness.typ"
     },
     {
       "surface": "main",
       "tex_sha256": "d1d8d44ada5516da9f6081dc90c565f5151c35d8bbbcdd9e74602c740f17b60c",
       "tex_source": "sections/07_cell_measures_mappings.tex",
-      "typst_sha256": "c1c2d7eb9cb37efd9b5e9737411f080918a5fffcc539f74d667938762f02b7a5",
+      "typst_sha256": "e3f922a7396ddcdf51f4d5e445c33a50a9d11ebb17989542628bd869fde9ee4e",
       "typst_target": "typst/sections/07_cell_measures_mappings.typ"
     },
     {
       "surface": "main",
       "tex_sha256": "422d585b3f317ea52ebe8f7401119ad3e0be526dadd8d9fcd26ec72bdccce8d7",
       "tex_source": "appendices/A_fractal_address_bip_biz.tex",
-      "typst_sha256": "071b4a7f9ad85351e9e8aae7469c48f82dabff61485fe54ef3da154a832cb56a",
+      "typst_sha256": "28d9883a1898364ce3284983e3c395ec60eb665a2f479a1299c9688e3a72b33d",
       "typst_target": "typst/appendices/A_fractal_address_bip_biz.typ"
     },
     {
@@ -109,7 +109,7 @@
       "surface": "main",
       "tex_sha256": "4fba7d700d717e096d1bbf72770841199e0958ba0d3939e89c0b82e68858043a",
       "tex_source": "appendices/C_stochastic_crowning.tex",
-      "typst_sha256": "fbe72d989b28fff8068744280af34dc672b7054a9512000df10f39913c2d5546",
+      "typst_sha256": "fac320a60e8637a1957bf5f71a632b0e03ca91a455f60f5987b25d47aa308bd2",
       "typst_target": "typst/appendices/C_stochastic_crowning.typ"
     },
     {
@@ -165,7 +165,7 @@
       "surface": "manual",
       "tex_sha256": "8e5d10ce8eee0afab0be9e32458408d67cd0facd52ef4a3fc209d7cbbb269b09",
       "tex_source": "manual/sections/00_scope.tex",
-      "typst_sha256": "f88d5b2874a03de3da379df0ae70ab1119ab75d02707e3c0978c3c1218762587",
+      "typst_sha256": "ccfbeb7980a86fff8a94d4e6f98711c55fb0f982f707460f10f28e36902f2a27",
       "typst_target": "typst/manual/sections/00_scope.typ"
     },
     {
@@ -179,14 +179,14 @@
       "surface": "manual",
       "tex_sha256": "e2df403490df0f1b3d940c39d37436b8267281034b6f7adcc15808c572859e33",
       "tex_source": "manual/sections/00_awareness_fixtures.tex",
-      "typst_sha256": "f981734fbb197ba673cc36084ca1f696d00658af284bb680547b9e12ee03e06a",
+      "typst_sha256": "36385cc9c3685d9147861c6d4bdcb0da580d96cf45da4b8503225bcf73edb706",
       "typst_target": "typst/manual/sections/00_awareness_fixtures.typ"
     },
     {
       "surface": "manual",
       "tex_sha256": "934828daf766319e71eda3c4b89411b9a53dfc59d9d6774debbc7aa0657d3277",
       "tex_source": "manual/sections/00_dec_ledger.tex",
-      "typst_sha256": "76dde523b15b1773af9584c0ee8cdfcf40a0f78bcccaabfcf0536eb8919d1ff1",
+      "typst_sha256": "4e759e48ed70160bcbb97892d865618f3dfb5d24d07d18be81bb146334ab32e2",
       "typst_target": "typst/manual/sections/00_dec_ledger.typ"
     },
     {
@@ -200,56 +200,56 @@
       "surface": "manual",
       "tex_sha256": "baf71f4d4d17b5504e5d973a9579ad8b8f3005b283fcfbf41aad12a5d82a66e1",
       "tex_source": "manual/sections/02_mapping_error.tex",
-      "typst_sha256": "943a8d9348926b8af16047c2ac2794c9282ba5e35d817f08f51aa825af6ca3a1",
+      "typst_sha256": "65d7fe4177bcdb9c45d5cb8d83075adce057a0c3cf64447aa2e8b525ce68aca4",
       "typst_target": "typst/manual/sections/02_mapping_error.typ"
     },
     {
       "surface": "manual",
       "tex_sha256": "108647cd1111432bc7c6f00c331de22663bc9b5db90eeed56c3906f45b4e5e1d",
       "tex_source": "manual/sections/03_temporal_observation.tex",
-      "typst_sha256": "2e631a4c466d33fb65eb610004e94da866f4b0e2e0f61541238c97af7686b371",
+      "typst_sha256": "4d9498200933621aa49921516780f43e643ef6251cfb55e470c9382916b8adb5",
       "typst_target": "typst/manual/sections/03_temporal_observation.typ"
     },
     {
       "surface": "manual",
       "tex_sha256": "bf5ee4dc041b0fdc163a023761c46efbab5a95848e73b3f7be73d827e56d4fe4",
       "tex_source": "manual/sections/03_short_window_rcd_shedding_fixtures.tex",
-      "typst_sha256": "717def69cbf95b9ebf2969619eac34ce21c2ff4a7764d29af1ebba83cf878762",
+      "typst_sha256": "3012212bdc7893a814ce84ab5c122b5a9770ab81d5f0e6b81c5dd2980e949b90",
       "typst_target": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ"
     },
     {
       "surface": "manual",
       "tex_sha256": "40e6af142bfca8d4d97f8f48c50337f7c7d0099954d4e349dea09a9a76c40469",
       "tex_source": "manual/sections/01_rest_energy_prediction.tex",
-      "typst_sha256": "f9db2f74405cd77497b19149b878d8f0af446a3c6e1a61eae95cc05dd6f6c776",
+      "typst_sha256": "d4b5510c9c3e298f1bc7ebbf5d65175e0daa199c4fe5d52644e34dc90d81a1db",
       "typst_target": "typst/manual/sections/01_rest_energy_prediction.typ"
     },
     {
       "surface": "manual",
       "tex_sha256": "e1fd2981fcd3030da2d64aa976339389ec890818092153ef4c3b34f5c2bd586e",
       "tex_source": "manual/sections/02_hydrogen_facing_shell_tests.tex",
-      "typst_sha256": "107cd0291d9048c56b1010b54d023a9344f4d059e767c1f81ddc5cb69476a45d",
+      "typst_sha256": "f8a26c34166ca33ffe8ebbe3a90c9143f597e9e61819f58944cdd7cf1e450000",
       "typst_target": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ"
     },
     {
       "surface": "manual",
       "tex_sha256": "6d517127cb599c502cbeb06deed09451495e4a824f2c93eaaa5a7076a72c37b6",
       "tex_source": "manual/sections/04_boundary_current_applications.tex",
-      "typst_sha256": "611119a78ad40d1329c4f4c02769768ea2b65df284596a89d3ed62aa0a801492",
+      "typst_sha256": "130853df624bd66e5131bbcd2cb4e6989bfe4b70a168f54fa9edc2079d8cc0c7",
       "typst_target": "typst/manual/sections/04_boundary_current_applications.typ"
     },
     {
       "surface": "manual",
       "tex_sha256": "2a98a1bbc46c8721812da6a1c6e1b78fd2f961124d768e0563d8b3699e0a552b",
       "tex_source": "manual/sections/05_solar_system_field_tests.tex",
-      "typst_sha256": "82302d8966cbd7eecadbdcce5ee58a2ef455aa01e1889cf3168365c4e38b8d69",
+      "typst_sha256": "b87eb4481444b7cbc8eb6161c2e48e74834bd6db9d0ee33287d3eeab9e3e5a28",
       "typst_target": "typst/manual/sections/05_solar_system_field_tests.typ"
     },
     {
       "surface": "manual",
       "tex_sha256": "45b7316cb3e49a14f4dc62ac664a82114c2273438ffafd27aa3c5b302d6acb04",
       "tex_source": "manual/sections/06_field_dynamics_applications.tex",
-      "typst_sha256": "da9d64364ade9ff392cb968c6815718af235bffcf212a0af6c90bb9e3e68eb35",
+      "typst_sha256": "24777d2b7d35460c9b0ef689caeffa21e4bc13c347ee94d69a48ee59e5a20256",
       "typst_target": "typst/manual/sections/06_field_dynamics_applications.typ"
     },
     {
@@ -305,14 +305,14 @@
       "surface": "manual",
       "tex_sha256": "60ad7f188f2a6a1c43fda9e589f942c9dcda04543383217fb9225a671baed08e",
       "tex_source": "manual/sections/09_prediction_test_fixture_registry.tex",
-      "typst_sha256": "adb9c4a6cf1b5143b1b9e03d205ffd052d9b1fc2dc0558c28896c5d9173b92c9",
+      "typst_sha256": "3d6b16748b8e3c8ca6ab367fd44c93602d7d3a6d1258124eb7c5b82d42569b07",
       "typst_target": "typst/manual/sections/09_prediction_test_fixture_registry.typ"
     },
     {
       "surface": "manual",
       "tex_sha256": "f106ee80779e1b535a64e9e1fe673f5242f73a48a754b848c5534956a9fd66c3",
       "tex_source": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
-      "typst_sha256": "66992527a3fd2aaccbcaddc6a472f5cacbdc97bc5426f3a3fe650ad72a9a4430",
+      "typst_sha256": "827a959e381faebfa7f6ca38d03548ad7ea025f5bf8f3b7e358e5b277784570d",
       "typst_target": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ"
     },
     {

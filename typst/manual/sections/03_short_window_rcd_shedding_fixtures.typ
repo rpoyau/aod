@@ -34,7 +34,7 @@ Use the common method in #secref("manual:calculation-spine").
 
 Declare the slit scope
 
-#math.equation(block: true, numbering: none, $ bold(a)_(upright("slit")) tack.r (F_(1":"2":"6) ,R_(upright("slit")) , partial R_(upright("slit")) , omega_(upright("slit")) ), wide B_(upright("slit")) = ( partial F_(1":"2":"6) , omega_(upright("slit")) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_(upright("slit")) tack.r (F_(1":"2":"6) ,R_(upright("slit")) , partial R_(upright("slit")) , omega_(upright("slit")) ), wide B_(upright("slit")) = ( partial F_(1":"2":"6) , omega_(upright("slit")) ). $)
 
 The carried form is
 
@@ -42,7 +42,7 @@ The carried form is
 
 The boundary-restricted handoff is recorded as
 
-#math.equation(block: true, numbering: none, $ upright("Dimonhexon") arrow.r.long W_(omega) [D_i mu D_j ] arrow.r.long Delta^(chi upright("lag")) arrow.r.long bold(A)_F (B_(upright("slit")) ) arrow.r.long "local reclosure bins". $)
+#math.equation(block: true, numbering: none, $ upright("Dimonhexon") arrow.r.long W_(omega) [D_i mu D_j ] arrow.r.long Delta^(chi upright("lag")) arrow.r.long bold(upright(A))_F (B_(upright("slit")) ) arrow.r.long "local reclosure bins". $)
 
 
 For one gate $g_a$, the target-bin contribution is
@@ -63,7 +63,7 @@ For a second gate $g_b$, define $S^(lr((b)))_k$ analogously.
 
 Declare a recurrent ring field
 
-#math.equation(block: true, numbering: none, $ bold(a)_(upright("ring")) tack.r (F_(upright("ring")) ,R_(upright("ring")) , partial R_(upright("ring")) , omega_(upright("ring")) ), wide B_(upright("ring")) = ( partial_T F_(upright("ring")) , omega_(upright("ring")) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_(upright("ring")) tack.r (F_(upright("ring")) ,R_(upright("ring")) , partial R_(upright("ring")) , omega_(upright("ring")) ), wide B_(upright("ring")) = ( partial_T F_(upright("ring")) , omega_(upright("ring")) ). $)
 
 Let
 
@@ -106,7 +106,7 @@ The recurrent ring value is
 
 Thus the audit identity is
 
-#math.equation(block: true, numbering: none, $ #box(stroke: 0.5pt + black, inset: 4pt)[$ T^(times)_k - T^0_k = C^(times)_k . $] $)
+#aod-boxed($ display(T^(times)_k - T^0_k = C^(times)_k .) $)
 
 
 
@@ -226,7 +226,7 @@ normalization; normalization must not erase throughput.
 
 Declare the short-window fixture scope
 
-#math.equation(block: true, numbering: none, $ bold(a)_(upright("sw")) tack.r (F_(upright("sw")) ,R_(upright("sw")) , partial R_(upright("sw")) , omega_(upright("sw")) ), wide B_(upright("sw")) = ( partial F_(upright("sw")) , omega_(upright("sw")) ). $)
+#math.equation(block: true, numbering: none, $ bold(upright(a))_(upright("sw")) tack.r (F_(upright("sw")) ,R_(upright("sw")) , partial R_(upright("sw")) , omega_(upright("sw")) ), wide B_(upright("sw")) = ( partial F_(upright("sw")) , omega_(upright("sw")) ). $)
 
 
 

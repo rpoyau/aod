@@ -135,18 +135,18 @@ $p_s gt.eq 0$, $sum_s p_s = 1$, and let every $x_s$ be in the domain
 of $h$. Shared coordinates refer to the same input variable throughout
 a composition. The output moments are
 
-$ overline(y) = sum_s p_s h(x_s ), wide Sigma_y = sum_s p_s (h(x_s ) - overline(y))(h(x_s ) - overline(y))^T . $ <eq:m3-finite-law>
+$ macron(y) = sum_s p_s h(x_s ), wide Sigma_y = sum_s p_s (h(x_s ) - macron(y))(h(x_s ) - macron(y))^T . $ <eq:m3-finite-law>
 
 
 #aod-paragraph[Derivation.]
 Finite expectation gives #eqref("eq:m3-finite-law") directly. For any vector
-$v$, $v^T Sigma_y v = sum_s p_s [v^T (h(x_s ) - overline(y))]^2 gt.eq 0$, so
+$v$, $v^T Sigma_y v = sum_s p_s [v^T (h(x_s ) - macron(y))]^2 gt.eq 0$, so
 singular positive-semidefinite covariance is admissible. If $h$ is affine,
 $h(x) = A x + b$, substitution gives $Sigma_y = A Sigma_x A^T$ exactly.
-If a nonlinear $h$ is differentiable at the input mean $overline(x)$,
+If a nonlinear $h$ is differentiable at the input mean $macron(x)$,
 its Jacobian gives the first-order covariance:
 
-$ Sigma_(y,upright("lin")) = J(overline(x)) Sigma_x J(overline(x))^T . $ <eq:m3-linear-covariance>
+$ Sigma_(y,upright("lin")) = J(macron(x)) Sigma_x J(macron(x))^T . $ <eq:m3-linear-covariance>
 
 Adequacy for a specified output requires control of the omitted remainder
 or a comparison with the full joint law. The exact output moments use
@@ -207,13 +207,13 @@ uncertainty and shared-source dependence explicit.
 
 #aod-paragraph[Derivation.]
 Given a strictly positive calibrated reference advance $C_r > 0$ and calibrated
-reference mean frequency $overline(f)^(upright("SI"))_r > 0$ over the same physical
+reference mean frequency $macron(f)^(upright("SI"))_r > 0$ over the same physical
 interval, conditional interval duration $T_(omega) > 0$ and signed compared mean
-rate $overline(f)^(upright("SI"))_a in bb(Q) upright("s")^(- 1)$ are
+rate $macron(f)^(upright("SI"))_a in bb(Q) upright("s")^(- 1)$ are
 
-$ T_(omega) = frac(C_r, overline(f)^(upright("SI"))_r), wide overline(f)^(upright("SI"))_a = frac(C_a, C_r)overline(f)^(upright("SI"))_r , wide C_r > 0, overline(f)^(upright("SI"))_r > 0, C_a in bb(Q). $ <eq:m3-conditional-si-anchor>
+$ T_(omega) = frac(C_r, macron(f)^(upright("SI"))_r), wide macron(f)^(upright("SI"))_a = frac(C_a, C_r)macron(f)^(upright("SI"))_r , wide C_r > 0, macron(f)^(upright("SI"))_r > 0, C_a in bb(Q). $ <eq:m3-conditional-si-anchor>
 
-Here $overline(f)^(upright("SI"))_a$ is a signed mean phase-advance rate over
+Here $macron(f)^(upright("SI"))_a$ is a signed mean phase-advance rate over
 $omega$; any unsigned or positive atomic resonance-frequency interpretation
 additionally requires restricting to the narrower nonnegative specialization
 $C_a gt.eq 0$ (or $C_a > 0$) and separate physical-realization premises. When
@@ -221,8 +221,8 @@ the affine specialization applies with one physical turn per certified native
 reclosure and aligned endpoints ($g_a = g_r = 1$,
 $delta_(upright("end"),a) = delta_(upright("end"),r) = 0$), $C_i = q_i ( omega ) gt.eq 0$
 and #eqref("eq:m3-conditional-si-anchor") specializes to
-$T_(omega) = q_r ( omega ) slash overline(f)^(upright("SI"))_r$ and
-$overline(f)^(upright("SI"))_a = r_(a bar.v r) ( omega )overline(f)^(upright("SI"))_r$ via
+$T_(omega) = q_r ( omega ) slash macron(f)^(upright("SI"))_r$ and
+$macron(f)^(upright("SI"))_a = r_(a bar.v r) ( omega )macron(f)^(upright("SI"))_r$ via
 #eqref("eq:wavelet-reference-timing"). Whenever $C_i eq.not q_i ( omega )$, gain and
 endpoint terms remain explicit. A nonrecurrent shed wavelet with
 $q_a ( omega ) = 0$ and $delta_(upright("end"),a) = 0$ still receives window
@@ -237,7 +237,7 @@ positive corrected Cs-equivalent reference advance $C_(upright("Cs")) > 0$, with
 full-turn angular constant $tau = 2 pi$, #eqref("eq:m3-conditional-si-anchor")
 specializes for signed $C_a in bb(Q)$ to
 
-$ T_(omega) = frac(C_(upright("Cs")), Delta nu_(upright("Cs"))), wide overline(f)_a = Delta nu_(upright("Cs")) frac(C_a, C_(upright("Cs"))), wide Delta theta_a = tau C_a , wide overline(Omega)_a = tau overline(f)_a . $ <eq:m3-cs133-tau-interface>
+$ T_(omega) = frac(C_(upright("Cs")), Delta nu_(upright("Cs"))), wide macron(f)_a = Delta nu_(upright("Cs")) frac(C_a, C_(upright("Cs"))), wide Delta theta_a = tau C_a , wide macron(Omega)_a = tau macron(f)_a . $ <eq:m3-cs133-tau-interface>
 
 Conditional SI anchoring is a typed mapping interface; independent empirical
 frequency validation and physical realization budgets remain separate

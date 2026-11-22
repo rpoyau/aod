@@ -60,12 +60,12 @@ and authoritative tables remain with the application.
 
 For an exact A$Omega$-internal fixture, form
 
-#math.equation(block: true, numbering: none, $ "setup" arrow.r A arrow.l.r_(mu) Omega " calculation" arrow.r "fixture comparator" arrow.r Delta^(bb(Z)) , delta_3 arrow.r "audit". $)
+#math.equation(block: true, numbering: none, $ "setup" arrow.r A scripts(arrow.l.r)_(mu) Omega " calculation" arrow.r "fixture comparator" arrow.r Delta^(bb(Z)) , delta_3 arrow.r "audit". $)
 
 
 For an external comparison calculation, form
 
-#math.equation(block: true, numbering: none, $ "setup" arrow.r A arrow.l.r_(mu) Omega " calculation" arrow.r "observable / target record" arrow.r Delta , epsilon ,z, sigma arrow.r "error audit". $)
+#math.equation(block: true, numbering: none, $ "setup" arrow.r A scripts(arrow.l.r)_(mu) Omega " calculation" arrow.r "observable / target record" arrow.r Delta , epsilon ,z, sigma arrow.r "error audit". $)
 
 The symbols $Delta$, $epsilon$, $z$, and $sigma$ belong to the external comparison layer. A target-only pull uses the declared target standard uncertainty and is
 labelled $z_(upright("target"))$. A standardized joint residual additionally
@@ -73,7 +73,7 @@ requires the uncertainty of both sides and their dependence.
 
 For a benchmark-dataset calculation, record
 
-#math.equation(block: true, numbering: none, $ bold(a) tack.r (F,R, partial_T R, omega ), quad cal(D)_(upright("bench")) , quad cal(Q)_(upright("required")) , quad cal(S) = "benchmark manifest". $)
+#math.equation(block: true, numbering: none, $ bold(upright(a)) tack.r (F,R, partial_T R, omega ), quad cal(D)_(upright("bench")) , quad cal(Q)_(upright("required")) , quad cal(S) = "benchmark manifest". $)
 
 Registry rows carry benchmark calculations until the declared dataset, required coordinate, report map, and audit fields are supplied.
 
@@ -89,7 +89,7 @@ Registry rows carry benchmark calculations until the declared dataset, required 
 
 Tables retain evaluated values, targets, residuals and their provenance. The calculation is the declared boundary computation
 
-#math.equation(block: true, numbering: none, $ bold(a) tack.r (F,R, partial_T R, omega ), wide B = ( partial_T F, omega ), $)
+#math.equation(block: true, numbering: none, $ bold(upright(a)) tack.r (F,R, partial_T R, omega ), wide B = ( partial_T F, omega ), $)
 
 followed by the A$Omega$ and SADAR calculation on that boundary.
 
