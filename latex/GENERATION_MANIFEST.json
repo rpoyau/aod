@@ -2,7 +2,7 @@
   "schema": "aod.typ2tex.manifest.v1",
   "generator": "scripts/typ2tex.py",
   "generator_version": "1.0.0",
-  "generator_sha256": "abdcad90f6d68952b8a9f7f69bc5bd069c0e16509719a9afb3be192a040ce394",
+  "generator_sha256": "1d1c4c0f47a961b3b4f08f53116db830e1d7db1ed3c6780aa66aaeb3bce04ef4",
   "figure_exporter_sha256": "a21219fc2936279c2025bd065bd3ba1e6f06f6d2918f824c99577d06e8d3193b",
   "figure_format": "pdf",
   "figure_ppi": null,
@@ -596,8 +596,8 @@
       "path": "main.tex",
       "kind": "rendered_tex",
       "source": "typst/main.typ",
-      "sha256": "9796f57379415d95a391eda35907aa918d01f9385e714100ed2367fc46ed23fe",
-      "bytes": 1211
+      "sha256": "16bba0fb8a8814fb87920fe104117f9221e872ae8f11d83c8a8341fd5db06553",
+      "bytes": 1222
     },
     {
       "path": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
@@ -890,8 +890,8 @@
       "path": "manual/main.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/main.typ",
-      "sha256": "89fb40df29d5822b47e420ef81d88337997013e7d622458e3e093f7aab073c08",
-      "bytes": 2229
+      "sha256": "2dbc98835b05552710acda8166e88b3f735b1162624fcd5c622ce040f0dd7c4d",
+      "bytes": 2240
     },
     {
       "path": "manual/preamble.tex",

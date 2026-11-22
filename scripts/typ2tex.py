@@ -1689,7 +1689,7 @@ class TypstToLatexConverter:
             return r"\appendix", pos
 
         if name == "aod-render-bibliography":
-            return "\\bibliographystyle{plain}\n\\bibliography{refs}", pos
+            return "\\nocite{*}\n\\bibliographystyle{plain}\n\\bibliography{refs}", pos
 
         raise Typ2TexError(f"{loc}: Unsupported Typst construct: #{name}")
 

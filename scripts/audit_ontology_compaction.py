@@ -333,8 +333,6 @@ def audit_m3_wavelet_compaction(root, maps, eqs, base_eqs=None):
 def audit(root, main_files, main_parts, labels, equations, manual_files, manual_labels,
           manual_parts, manual_equations):
     root = Path(root)
-    for name in CONTRACT_SHA256:
-        _check_contract(root, name)
     base_eqs = _baseline_eqs(root)
     contract = json.loads((root / CONTRACT_ROOT / 'CANONICAL_BINDINGS.json').read_text())
     _require(contract['schema'] == 'aod.scientific.canonical.v1', 'unknown canonical schema')
@@ -360,6 +358,11 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
             _require(maps[surface][anchor]['path'] == row['path'], 'canonical owner changed ' + anchor)
             _require(anchor not in maps['manual' if surface == 'main' else 'main'], 'duplicate canonical owner ' + anchor)
             _require(anchor in eqs[surface], 'canonical mathematical body absent ' + anchor)
+    for name in CONTRACT_SHA256:
+        _check_contract(root, name)
+    for row in groups.values():
+        surface = row['surface']
+        for anchor in row['anchors']:
             _check_equation_matches_contract(
                 root, base_eqs, surface, anchor, eqs[surface][anchor],
                 expected_formula=contract['formulas'][anchor],
