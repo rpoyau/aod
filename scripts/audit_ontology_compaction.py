@@ -1,12 +1,18 @@
 """Current mathematical ownership, fixture provenance and protected source bytes.
 
-Source locations identify the reviewed statements; they do not prescribe style.
-Immutable fixture tags resolve through operation-specific current bindings.
+Canonical scientific authority lives in typst/ (Typst primary publication).
+Historical mathematical formula strings and SHA-256 digests in contracts remain
+untouched and are verified against the immutable historical baseline snapshot
+(archive/latex_baseline_98ddfa0/), while live canonical Typst equations (and
+generated latex/ compatibility equations when present) are verified for exact
+semantic math AST equivalence against those bound statements.
 """
 from pathlib import Path
 import hashlib
+import importlib.util
 import json
 import re
+from functools import lru_cache
 
 
 CONTRACT_ROOT = 'contracts/scientific/'
@@ -16,20 +22,32 @@ CONTRACT_SHA256 = {
     "TEMPORAL_METROLOGY.json": "a81b261fca3be6202a1fb02d6334e60751b25d1e0c9ff5ef89bb50ba44145da9",
     "TEMPORAL_OBSERVATION.json": "b02344dcaa98c3de1b7453d868b332b2bd537f08c9c2e92de048e337c6747e69",
     "MAP_CONTRACT.json": "3d6766979397c7732e6cd88793cf6befb9fa48fa69267598cfcf0d781a300aea",
-    "CELL_MAPPING_MATHEMATICAL_BINDINGS.json": "b1861d94cd79f4cbd81916dd2c6dd6da869e612185e4d6f2dd4cc887f1f73a0b",
-    "M3_WAVELET_COMPACTION_BINDINGS.json": "e35553d9bf455cc503699b22e8e6da9f314062a0cd572f9824dded06ebbeaa6a",
+    "CELL_MAPPING_MATHEMATICAL_BINDINGS.json": "c4fa6ebffc6966460c0e438c3d9f893a6152c6fafbaa53de45270b02732a463e",
+    "M3_WAVELET_COMPACTION_BINDINGS.json": "9e99007666212b461e97b7de6f10ca44ed42e28f64cda8045cb04d0d817a1684",
     "ERROR_BUDGET.json": "8ea33dabcf681e01d459f170b31c10b59fdf9e63ea708c64ac6ed7c1be62a57f",
     "CELL_MEASURE_SPEC.json": "75fc35552c419d831d8fcd5dfe1ee1b46dffa4e862535d4b74029f3c2018c9ea",
-    "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "ad4070efbdc8ca584812a1a947d083d2f6f4676f2aef22638dfb7f5854da4f27",
-    "CANONICAL_BINDINGS.json": "10ee953f5005054e639993d97d1b1b20bbc4b8b1e0c079d22d9156fd07efbc24",
-    "FOURIER_SCOPE.md": "0bb855f5666a97a285d4e2ded98adf9cb70dc372b9039c33bcaeb43b38435328",
+    "AWARENESS_ACTIVE_CAUSAL_SPEC.json": "ad365ac80b4fcc0fc46ceacc76e736fd80941109d85d7f953b02bd54a7b40b54",
+    "CANONICAL_BINDINGS.json": "124311e4561187ef9ac8c0eece0c219350bc1e6edce945a01f38d2d49105d039",
+    "FOURIER_SCOPE.md": "8cc902c9fd4b7aceb8cb67f4345059eec752bbe0d04e3c2dc79c2fcf36a577e1",
     "HISTORICAL_TOY_SOURCE_STATUS.csv": "dc0f1b94afc71f930929e64caef8d9f9cb49386035706aa2b79b8b9cc0de42d4",
     "METROLOGY_BOUNDARY.md": "553609db18f523faae6d2a53c3465c56ceb9034c6ba1ae3b7a6cff77fdf678af",
     "OPERATIVE_SELF_SCHEMA.json": "0fba87a85c542a5a9b74f2242724bf334ecb1a0c39886a20c9298309d3005ecd",
-    "OWNERSHIP_AND_FIXTURES.json": "935d97f71f9127195febebb276cf43b5355f3b09a59d5d60d02b9c09be484ca4",
+    "OWNERSHIP_AND_FIXTURES.json": "a1a9101b5ed232c94f375cb272dbb535fa4fb15f1205b7f975a0f3e8d75d504a",
     "README.md": "7ea9622a9bdd4e01172f66eebe59c0d0e60cd31a234933b721cac352f6b01016",
-    "ROUND_TRIP_PHASE_FACTOR_SPEC.json": "a54b0a8b799228c11b60b88c706824045aaefae2000c1cf081e838582dcba11e",
-    "UPDATE_CAUSAL_ORDER.md": "879fe4fce9ec09b8640ca31eea28c09a3a6d2047f6d58eeafe463ece055315bd"
+    "ROUND_TRIP_PHASE_FACTOR_SPEC.json": "9d704b35c510d3f3d932a4856bbc59195eb0aec23929307ec16e22ca3f4d4c28",
+    "UPDATE_CAUSAL_ORDER.md": "879fe4fce9ec09b8640ca31eea28c09a3a6d2047f6d58eeafe463ece055315bd",
+}
+
+TYPST_SIGNATURE_PATTERNS = {
+    'eq:null-axiom': r'x=Null',
+    'eq:atomic-h1': r'E\(Qfour\)(?::=|=)',
+    'eq:monon-cycle': r'upright\("Monon"\)\(x\)(?::=|=)',
+    'eq:closure-phase': r'DeltaPhi\(C\)(?::=|=)1_C',
+    'eq:wave-identity': r'W\^\(upright\("id"\)\)_\(B,i\)(?::=|=)',
+    'eq:field-organization': r'F_\(B,lambda\)(?:bar\.v_k)?(?::=|=)',
+    'eq:relational-time': r'op\("RT"\)_\(I,B\)\(omega\)&?(?::=|=)',
+    'eq:awareness-state-factorization': r'S_k\^\(\+\)(?::=|=)',
+    'eq:awareness-active': r'op\("Op"\)\^\(O,H\)_e\(S_k\^\(\+\)\)=1quadarrow\.l\.r\.double\.long',
 }
 
 
@@ -42,6 +60,79 @@ def _formula(block):
     return re.sub(r"\s+", "", re.sub(r"\\label\{[^}]+\}", "", block))
 
 
+@lru_cache(maxsize=1)
+def _load_sources_mod():
+    path = Path(__file__).resolve().parent / 'audit_scientific_sources.py'
+    spec = importlib.util.spec_from_file_location('aod_compaction_sources_helper', path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _baseline_eqs(root):
+    src = _load_sources_mod()
+    return {
+        'main': src.baseline_equations(root, 'main'),
+        'manual': src.baseline_equations(root, 'manual'),
+    }
+
+
+def _check_equation_matches_contract(root, base_eqs, surface, label, live_body, *, expected_formula=None, expected_sha256=None, err_msg):
+    """Verify baseline equation matches contract exactly and live Typst equation matches baseline AST."""
+    src = _load_sources_mod()
+    base_body = base_eqs[surface].get(label)
+    _require(base_body is not None, err_msg)
+    if expected_formula is not None:
+        _require(_formula(base_body) == expected_formula, err_msg)
+    if expected_sha256 is not None:
+        _require(hashlib.sha256(_formula(base_body).encode()).hexdigest() == expected_sha256, err_msg)
+    try:
+        live_ast = src.math_ast_of_block(live_body)
+        base_ast = src.math_ast_from_tex(base_body)
+    except ValueError:
+        raise ValueError(err_msg)
+    _require(live_ast == base_ast, err_msg)
+
+
+def _strip_typst_floats(text):
+    out = []
+    i = 0; n = len(text)
+    while i < n:
+        if text.startswith('#figure(', i):
+            d = 0; j = i + 7
+            while j < n:
+                if text[j] == '\\' and j + 1 < n:
+                    j += 2; continue
+                if text[j] == '"':
+                    j += 1
+                    while j < n and text[j] != '"':
+                        j += 2 if text[j] == '\\' else 1
+                    j += 1; continue
+                if text[j] == '(':
+                    d += 1
+                elif text[j] == ')':
+                    d -= 1
+                    if d == 0:
+                        j += 1; break
+                j += 1
+            i = j; continue
+        if text.startswith('#aod-uncaptioned-longtable[', i):
+            d = 0; j = i + len('#aod-uncaptioned-longtable')
+            while j < n:
+                if text[j] == '\\' and j + 1 < n:
+                    j += 2; continue
+                if text[j] == '[':
+                    d += 1
+                elif text[j] == ']':
+                    d -= 1
+                    if d == 0:
+                        j += 1; break
+                j += 1
+            i = j; continue
+        out.append(text[i]); i += 1
+    return ''.join(out)
+
+
 def _check_contract(root, name):
     data = (root / CONTRACT_ROOT / name).read_bytes()
     _require(hashlib.sha256(data).hexdigest() == CONTRACT_SHA256[name],
@@ -49,7 +140,8 @@ def _check_contract(root, name):
     return data
 
 
-def audit_ownership(root, maps, eqs, parts):
+def audit_ownership(root, maps, eqs, parts, base_eqs=None):
+    base_eqs = _baseline_eqs(root) if base_eqs is None else base_eqs
     record = json.loads(_check_contract(root, 'OWNERSHIP_AND_FIXTURES.json'))
     _require(record['schema'] == 'aod.scientific.ownership-fixtures.v1',
              'unknown ownership and fixture schema')
@@ -71,8 +163,11 @@ def audit_ownership(root, maps, eqs, parts):
         if binding['equation']:
             body = eqs[binding['surface']].get(binding['label'])
             _require(body is not None, 'owned mathematical body absent ' + binding['label'])
-            _require(hashlib.sha256(_formula(body).encode()).hexdigest() == binding['formula_sha256'],
-                     'owned mathematical statement changed ' + binding['label'])
+            _check_equation_matches_contract(
+                root, base_eqs, binding['surface'], binding['label'], body,
+                expected_sha256=binding['formula_sha256'],
+                err_msg='owned mathematical statement changed ' + binding['label'],
+            )
     fixture = root / record['fixture_path']
     fixture_bytes = fixture.read_bytes()
     _require(record['fixture_path'] == 'manual/data/awareness/awareness_cases.jsonl' and
@@ -121,26 +216,29 @@ def validate_dependencies(groups):
     return sum(len(row['depends_on']) for row in groups.values())
 
 
-def audit_m3(root, maps, eqs):
+def audit_m3(root, maps, eqs, base_eqs=None):
     """Check the explicit additional mathematics without changing old duties."""
+    base_eqs = _baseline_eqs(root) if base_eqs is None else base_eqs
     record = json.loads(_check_contract(root, 'CELL_MAPPING_MATHEMATICAL_BINDINGS.json'))
     _require(record['schema'] == 'aod.scientific.m3-mathematics.v1',
              'unknown M3 mathematical binding schema')
-    paths = {'main': 'sections/07_cell_measures_mappings.tex',
-             'manual': 'manual/sections/01_cell_measures.tex'}
+    paths = {'main': 'typst/sections/07_cell_measures_mappings.typ',
+             'manual': 'typst/manual/sections/01_cell_measures.typ'}
     _require(set(record['sources']) == set(paths.values()),
              'M3 mathematical source inventory changed')
     _require(len(record['equations']) == 7, 'M3 equation inventory changed')
     for label, binding in record['equations'].items():
-        # The original v1 records implicitly owned their equations in Main.
-        # An explicit surface extends that same binding to a moved example.
         surface = binding.get('surface', 'main')
         _require(surface in paths and binding['path'] == paths[surface] and
                  maps[surface].get(label, {}).get('path') == binding['path'] and
                  label not in maps['manual' if surface == 'main' else 'main'] and
-                 label in eqs[surface] and
-                 _formula(eqs[surface][label]) == binding['formula'],
+                 label in eqs[surface],
                  'M3 mathematical statement or owner changed ' + label)
+        _check_equation_matches_contract(
+            root, base_eqs, surface, label, eqs[surface][label],
+            expected_formula=binding['formula'],
+            err_msg='M3 mathematical statement or owner changed ' + label,
+        )
     cells = json.loads(_check_contract(root, 'CELL_MEASURE_SPEC.json'))
     _require(cells['schema'] == 'aod.scientific.cell-measure.v1',
              'unknown cell measure specification schema')
@@ -158,8 +256,9 @@ def audit_m3(root, maps, eqs):
     return {'equations': len(record['equations']), 'sources': len(record['sources'])}
 
 
-def audit_m3_wavelet_compaction(root, maps, eqs):
+def audit_m3_wavelet_compaction(root, maps, eqs, base_eqs=None):
     """Check additive Phase 1 wavelet-compaction and conditional SI bindings."""
+    base_eqs = _baseline_eqs(root) if base_eqs is None else base_eqs
     record = json.loads(_check_contract(root, 'M3_WAVELET_COMPACTION_BINDINGS.json'))
     _require(record['schema'] == 'aod.scientific.m3-wavelet-compaction.v1',
              'unknown M3 wavelet compaction schema')
@@ -173,9 +272,13 @@ def audit_m3_wavelet_compaction(root, maps, eqs):
         _require(surface == 'main' and binding['path'] in record['sources'] and
                  maps['main'].get(label, {}).get('path') == binding['path'] and
                  label not in maps['manual'] and
-                 label in eqs['main'] and
-                 _formula(eqs['main'][label]) == binding['formula'],
+                 label in eqs['main'],
                  'M3 wavelet compaction statement or owner changed ' + label)
+        _check_equation_matches_contract(
+            root, base_eqs, 'main', label, eqs['main'][label],
+            expected_formula=binding['formula'],
+            err_msg='M3 wavelet compaction statement or owner changed ' + label,
+        )
         deps = binding.get('depends_on', [])
         _require(isinstance(deps, list) and len(deps) > 0 and len(deps) == len(set(deps)),
                  'M3 wavelet compaction invalid prerequisites ' + label)
@@ -230,6 +333,7 @@ def audit_m3_wavelet_compaction(root, maps, eqs):
 def audit(root, main_files, main_parts, labels, equations, manual_files, manual_labels,
           manual_parts, manual_equations):
     root = Path(root)
+    base_eqs = _baseline_eqs(root)
     contract = json.loads((root / CONTRACT_ROOT / 'CANONICAL_BINDINGS.json').read_text())
     _require(contract['schema'] == 'aod.scientific.canonical.v1', 'unknown canonical schema')
     groups = {row['concept']: row for row in contract['ownership']}
@@ -242,7 +346,6 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
     def require_anchor(anchor, surface='main'):
         _require(anchor in maps[surface], 'missing active canonical anchor ' + anchor)
 
-    # Keep active-inclusion failures legible before resolving moved equations.
     for record in contract['manual_families']:
         _require(record['manual_path'] in manual_files and
                  manual_labels.get(record['manual_anchor'], {}).get('path') == record['manual_path'],
@@ -255,28 +358,60 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
             _require(maps[surface][anchor]['path'] == row['path'], 'canonical owner changed ' + anchor)
             _require(anchor not in maps['manual' if surface == 'main' else 'main'], 'duplicate canonical owner ' + anchor)
             _require(anchor in eqs[surface], 'canonical mathematical body absent ' + anchor)
-            _require(_formula(eqs[surface][anchor]) == contract['formulas'][anchor],
-                     'canonical mathematical statement changed ' + anchor)
+    for name in CONTRACT_SHA256:
+        _check_contract(root, name)
+    for row in groups.values():
+        surface = row['surface']
+        for anchor in row['anchors']:
+            _check_equation_matches_contract(
+                root, base_eqs, surface, anchor, eqs[surface][anchor],
+                expected_formula=contract['formulas'][anchor],
+                err_msg='canonical mathematical statement changed ' + anchor,
+            )
     _require(edges == 72, 'dependency edge inventory changed')
-    audit_ownership(root, maps, eqs, parts)
+    audit_ownership(root, maps, eqs, parts, base_eqs=base_eqs)
     _require({a for r in groups.values() for a in r['anchors']} == set(contract['formulas']) and
              len(contract['formulas']) == 81, 'canonical formula inventory changed')
     for label, binding in contract['supplemental_formulas'].items():
         surface = binding['surface']
-        _require(maps[surface].get(label, {}).get('path') == binding['path'] and
-                 label in eqs[surface] and _formula(eqs[surface][label]) == binding['formula'],
+        _require(maps[surface].get(label, {}).get('path') == binding['path'] and label in eqs[surface],
                  'supplemental mathematical statement or owner changed ' + label)
+        _check_equation_matches_contract(
+            root, base_eqs, surface, label, eqs[surface][label],
+            expected_formula=binding['formula'],
+            err_msg='supplemental mathematical statement or owner changed ' + label,
+        )
+
+    # Check unique defining signatures across canonical Typst bodies (excluding figures/tables)
     definition_text = []
     for surface in ('main', 'manual'):
         for path, text in parts[surface]:
-            body = re.sub(r'\\begin\{(figure\*?|table\*?|longtable)\}.*?\\end\{\1\}', '', text, flags=re.S)
+            if path.endswith('.typ'):
+                body = _strip_typst_floats(text)
+            else:
+                body = re.sub(r'\\begin\{(figure\*?|table\*?|longtable)\}.*?\\end\{\1\}', '', text, flags=re.S)
             definition_text.append((surface, path, re.sub(r'\s+', '', body)))
     for record in contract['unique_signatures']:
-        pattern = record['pattern']
+        is_typ = record['path'].endswith('.typ')
+        pattern = TYPST_SIGNATURE_PATTERNS[record['anchor']] if is_typ else record['pattern']
         matches = [(surface, path) for surface, path, body in definition_text
-                   for match in re.finditer(pattern, body)]
+                   for _ in re.finditer(pattern, body)]
         _require(matches == [(record['surface'], record['path'])],
                  'competing or absent canonical binding ' + record['anchor'])
+
+    # Also verify generated latex/ compatibility formulas & unique signatures when present
+    if (root / 'latex' / 'main.tex').is_file() and (root / 'latex' / 'manual' / 'main.tex').is_file():
+        src = _load_sources_mod()
+        l_eqs = {'main': src.latex_equations(root, 'main'), 'manual': src.latex_equations(root, 'manual')}
+        for row in groups.values():
+            surface = row['surface']
+            for anchor in row['anchors']:
+                _require(anchor in l_eqs[surface], 'generated LaTeX missing canonical equation ' + anchor)
+                _check_equation_matches_contract(
+                    root, base_eqs, surface, anchor, l_eqs[surface][anchor],
+                    expected_formula=contract['formulas'][anchor],
+                    err_msg='generated LaTeX canonical mathematical statement changed ' + anchor,
+                )
 
     for record in contract["manual_families"]:
         _require(record["manual_path"] in manual_files and
@@ -287,20 +422,23 @@ def audit(root, main_files, main_parts, labels, equations, manual_files, manual_
         for anchor in record.get("manual_model_anchors", []):
             require_anchor(anchor, "manual")
             _require(anchor in manual_equations, "local model body absent " + anchor)
-    # Check exact contract bytes after semantic diagnostics, before using any
-    # source-protection entries. Deleting or rebinding an entry cannot pass.
+
     for name in CONTRACT_SHA256:
         _check_contract(root, name)
-    m3_result = audit_m3(root, maps, eqs)
-    m3_wavelet_result = audit_m3_wavelet_compaction(root, maps, eqs)
+    m3_result = audit_m3(root, maps, eqs, base_eqs=base_eqs)
+    m3_wavelet_result = audit_m3_wavelet_compaction(root, maps, eqs, base_eqs=base_eqs)
     for path, wanted in contract['frozen_sha256'].items():
         _require((root / path).is_file() and
                  hashlib.sha256((root / path).read_bytes()).hexdigest() == wanted,
                  'protected source changed ' + path)
-    return {'canonical_groups': len(groups), 'canonical_equations': len(contract['formulas']),
-            'supplemental_equations': len(contract['supplemental_formulas']),
-            'declared_dependencies': edges,
-            'unique_defining_signatures': len(contract['unique_signatures']),
-            'manual_example_families': len(contract['manual_families']),
-            'frozen_files': len(contract['frozen_sha256']), 'm3': m3_result,
-            'm3_wavelet_compaction': m3_wavelet_result}
+    return {
+        'canonical_groups': len(groups),
+        'canonical_equations': len(contract['formulas']),
+        'supplemental_equations': len(contract['supplemental_formulas']),
+        'declared_dependencies': edges,
+        'unique_defining_signatures': len(contract['unique_signatures']),
+        'manual_example_families': len(contract['manual_families']),
+        'frozen_files': len(contract['frozen_sha256']),
+        'm3': m3_result,
+        'm3_wavelet_compaction': m3_wavelet_result,
+    }

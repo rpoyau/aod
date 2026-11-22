@@ -33,6 +33,8 @@ def source_template(tmp_path_factory):
                             ("tests", "*.py")]:
         paths.update(p.relative_to(ROOT).as_posix()
                      for p in (ROOT / folder).glob(pattern) if p.is_file())
+    paths.update(p.relative_to(ROOT).as_posix()
+                 for p in (ROOT / "archive/latex_baseline_98ddfa0").rglob("*") if p.is_file())
     for relative in sorted(paths):
         destination = result / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -70,7 +72,7 @@ def test_current_contract_preserves_canonical_and_supplemental_obligations(sourc
 def test_unrelated_canonical_formula_mutation_is_rejected(source):
     label = "eq:odd-support-index"
     block = audit.equations(source)[label]
-    changed = block.replace(r'2\ell+1', r'2\ell+3', 1)
+    changed = block.replace("2 ell + 1", "2 ell + 3", 1)
     assert changed != block
     path = source / audit.label_map(source)[label]["path"]
     path.write_text(path.read_text().replace(block, changed, 1))
@@ -120,7 +122,8 @@ def test_contract_cannot_authorize_its_own_source_mutation(source):
 def test_contract_cannot_authorize_its_own_formula_mutation(source):
     label = "eq:odd-support-index"
     block = audit.equations(source)[label]
-    changed = block.replace(r'2\ell+1', r'2\ell+3', 1)
+    changed = block.replace("2 ell + 1", "2 ell + 3", 1)
+    assert changed != block
     path = source / audit.label_map(source)[label]["path"]
     path.write_text(path.read_text().replace(block, changed, 1))
     path = source / CONTRACT
@@ -135,7 +138,7 @@ def test_supplemental_formula_removal_is_rejected(source):
     label = "eq:hinge-positive-support"
     block = audit.equations(source)[label]
     path = source / audit.label_map(source)[label]["path"]
-    path.write_text(path.read_text().replace(block, r'\label{' + label + "}", 1))
+    path.write_text(path.read_text().replace(block, f"<{label}>", 1))
     with pytest.raises(ValueError, match="supplemental mathematical statement or owner changed " + label):
         audit.audit(source)
 

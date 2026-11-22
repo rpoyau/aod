@@ -1,0 +1,277 @@
+{
+  "schema": "aod.m4.phase2.representation-change-ledger.v1",
+  "historical_scientific_baseline_commit": "98ddfa0ebb38293adfa99c8c11da5a15cdd9eea3",
+  "phase1_accepted_commit": "e6f20970c8ac63713c112000e3fe83b9695c7ffc",
+  "policy": "Representation paths, source-format digests, and build/test path bindings only; zero scientific prose, equations, definitions, data values, models, qualifications, or historical provenance altered.",
+  "contract_amendments": [
+    {
+      "contract": "contracts/scientific/AWARENESS_ACTIVE_CAUSAL_SPEC.json",
+      "old_sha256": "ad4070efbdc8ca584812a1a947d083d2f6f4676f2aef22638dfb7f5854da4f27",
+      "new_sha256": "ad365ac80b4fcc0fc46ceacc76e736fd80941109d85d7f953b02bd54a7b40b54",
+      "scope": "representation_path_only",
+      "fields_amended": [
+        "source_anchor_bindings[*].path (8 entries remapped to typst/)"
+      ],
+      "scientific_substance_changed": false
+    },
+    {
+      "contract": "contracts/scientific/ROUND_TRIP_PHASE_FACTOR_SPEC.json",
+      "old_sha256": "a54b0a8b799228c11b60b88c706824045aaefae2000c1cf081e838582dcba11e",
+      "new_sha256": "9d704b35c510d3f3d932a4856bbc59195eb0aec23929307ec16e22ca3f4d4c28",
+      "scope": "representation_path_only",
+      "fields_amended": [
+        "path (remapped to typst/sections/04_cut_running_fractal_tesseract.typ)"
+      ],
+      "scientific_substance_changed": false
+    },
+    {
+      "contract": "contracts/scientific/CELL_MAPPING_MATHEMATICAL_BINDINGS.json",
+      "old_sha256": "b1861d94cd79f4cbd81916dd2c6dd6da869e612185e4d6f2dd4cc887f1f73a0b",
+      "new_sha256": "c4fa6ebffc6966460c0e438c3d9f893a6152c6fafbaa53de45270b02732a463e",
+      "scope": "representation_path_and_source_digest_only",
+      "fields_amended": [
+        "sources (2 typst/ paths + SHA-256s)",
+        "equations[*].path (7 entries; all formulas unchanged)"
+      ],
+      "scientific_substance_changed": false
+    },
+    {
+      "contract": "contracts/scientific/M3_WAVELET_COMPACTION_BINDINGS.json",
+      "old_sha256": "e35553d9bf455cc503699b22e8e6da9f314062a0cd572f9824dded06ebbeaa6a",
+      "new_sha256": "9e99007666212b461e97b7de6f10ca44ed42e28f64cda8045cb04d0d817a1684",
+      "scope": "representation_path_and_source_digest_only",
+      "fields_amended": [
+        "sources (6 typst/ paths + SHA-256s)",
+        "equations[*].path (11 entries; all formulas/status/dependencies unchanged)",
+        "relocated_figures[*].path (2 entries; historical previous_path preserved)",
+        "retained_anchors[*].path (6 entries)",
+        "new_anchors[*].path (2 entries)"
+      ],
+      "scientific_substance_changed": false
+    },
+    {
+      "contract": "contracts/scientific/OWNERSHIP_AND_FIXTURES.json",
+      "old_sha256": "935d97f71f9127195febebb276cf43b5355f3b09a59d5d60d02b9c09be484ca4",
+      "new_sha256": "a1a9101b5ed232c94f375cb272dbb535fa4fb15f1205b7f975a0f3e8d75d504a",
+      "scope": "representation_path_only",
+      "fields_amended": [
+        "anchor_owners[*].path (26 entries; all formula_sha256 unchanged)",
+        "fixture_bindings[*].current_construct.path (47 entries; all fixture/provenance digests unchanged)"
+      ],
+      "scientific_substance_changed": false
+    },
+    {
+      "contract": "contracts/scientific/FOURIER_SCOPE.md",
+      "old_sha256": "0bb855f5666a97a285d4e2ded98adf9cb70dc372b9039c33bcaeb43b38435328",
+      "new_sha256": "8cc902c9fd4b7aceb8cb67f4345059eec752bbe0d04e3c2dc79c2fcf36a577e1",
+      "scope": "representation_path_only",
+      "fields_amended": [
+        "Canonical source path reference updated from sections/06_field.tex to typst/sections/06_field.typ"
+      ],
+      "scientific_substance_changed": false
+    },
+    {
+      "contract": "contracts/scientific/CANONICAL_BINDINGS.json",
+      "old_sha256": "10ee953f5005054e639993d97d1b1b20bbc4b8b1e0c079d22d9156fd07efbc24",
+      "new_sha256": "124311e4561187ef9ac8c0eece0c219350bc1e6edce945a01f38d2d49105d039",
+      "scope": "representation_path_and_frozen_ledger_only",
+      "fields_amended": [
+        "ownership[*].path (44 entries; concepts, anchors, depends_on unchanged)",
+        "unique_signatures[*].path (9 entries; anchors, patterns unchanged)",
+        "manual_families[*].manual_path (9 entries; anchors unchanged)",
+        "supplemental_formulas[*].path (5 entries; all formula strings unchanged)",
+        "formulas (81 entries): UNCHANGED",
+        "frozen_sha256: 6 relocated to archive/latex_baseline_98ddfa0/, 6 canonical typst/ counterparts added, 18 representation/tooling/test digests updated"
+      ],
+      "scientific_substance_changed": false
+    }
+  ],
+  "frozen_sha256_relocations": [
+    {
+      "old_path": "main.tex",
+      "new_path": "archive/latex_baseline_98ddfa0/main.tex",
+      "sha256": "1648c6a5d8afebf4a94e8761b2e4faa6efb2632f9e719dd5c407409f3751d93a",
+      "reason": "Retired root editorial TeX preserved byte-for-byte in archive/latex_baseline_98ddfa0/"
+    },
+    {
+      "old_path": "manual/main.tex",
+      "new_path": "archive/latex_baseline_98ddfa0/manual/main.tex",
+      "sha256": "d8791ecfb6a95c60f8585b68094cb55704535dcc01e1f92cb5f64f07aab96de9",
+      "reason": "Retired root editorial TeX preserved byte-for-byte in archive/latex_baseline_98ddfa0/"
+    },
+    {
+      "old_path": "manual/preamble.tex",
+      "new_path": "archive/latex_baseline_98ddfa0/manual/preamble.tex",
+      "sha256": "3f9700a9ed234b7402fae87d5de11f7d246e0e3d01d62b2c5e1ca0f43e19a3f1",
+      "reason": "Retired root editorial TeX preserved byte-for-byte in archive/latex_baseline_98ddfa0/"
+    },
+    {
+      "old_path": "preamble.tex",
+      "new_path": "archive/latex_baseline_98ddfa0/preamble.tex",
+      "sha256": "a2c8c0b3dbc6eddc6f78dba4791236ce3ab89c5ad264d5975126d33db6ecfca8",
+      "reason": "Retired root editorial TeX preserved byte-for-byte in archive/latex_baseline_98ddfa0/"
+    },
+    {
+      "old_path": "sections/00_title.tex",
+      "new_path": "archive/latex_baseline_98ddfa0/sections/00_title.tex",
+      "sha256": "c86e23a01c95c43c2cb3603afc2d3c574d36f44360da626ebe86f734ad4ce4d4",
+      "reason": "Retired root editorial TeX preserved byte-for-byte in archive/latex_baseline_98ddfa0/"
+    },
+    {
+      "old_path": "sections/01_abstract.tex",
+      "new_path": "archive/latex_baseline_98ddfa0/sections/01_abstract.tex",
+      "sha256": "a42ebe256def1106badff156f495206d39fe32a984b97e9fe2ed07ba12c1803c",
+      "reason": "Retired root editorial TeX preserved byte-for-byte in archive/latex_baseline_98ddfa0/"
+    }
+  ],
+  "frozen_sha256_additions": [
+    {
+      "path": "typst/main.typ",
+      "sha256": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70",
+      "reason": "Canonical Typst authority counterpart for relocated baseline main.tex"
+    },
+    {
+      "path": "typst/manual/main.typ",
+      "sha256": "c3d6a18bb6a8020481259a6771611e41c50f188190e35e1c9b5ec58848d8760a",
+      "reason": "Canonical Typst authority counterpart for relocated baseline manual/main.tex"
+    },
+    {
+      "path": "typst/manual/preamble.typ",
+      "sha256": "2b7deae2f0fa3d7011edabd8d7299b835290fb60e47990c7fe861e55bd914196",
+      "reason": "Canonical Typst authority counterpart for relocated baseline manual/preamble.tex"
+    },
+    {
+      "path": "typst/preamble.typ",
+      "sha256": "7a9c255c2411bc4bd3487be0196f10ac453eefa240f6c16095d426f210b4f112",
+      "reason": "Canonical Typst authority counterpart for relocated baseline preamble.tex"
+    },
+    {
+      "path": "typst/sections/00_title.typ",
+      "sha256": "bc84ca2a2ec90cf6419661cccee913e9ffdf1cb04499348486f14cf811693b5a",
+      "reason": "Canonical Typst authority counterpart for relocated baseline sections/00_title.tex"
+    },
+    {
+      "path": "typst/sections/01_abstract.typ",
+      "sha256": "567d74bd51d4198f264d43dcb5781767a66fd6c9b0627e5031299f29ea3875cd",
+      "reason": "Canonical Typst authority counterpart for relocated baseline sections/01_abstract.tex"
+    }
+  ],
+  "frozen_sha256_amendments": [
+    {
+      "path": "contracts/scientific/AWARENESS_ACTIVE_CAUSAL_SPEC.json",
+      "old_sha256": "ad4070efbdc8ca584812a1a947d083d2f6f4676f2aef22638dfb7f5854da4f27",
+      "new_sha256": "ad365ac80b4fcc0fc46ceacc76e736fd80941109d85d7f953b02bd54a7b40b54",
+      "reason": "Scientific contract representation-only path update (Typst primary authority; scientific formulas/values unchanged)"
+    },
+    {
+      "path": "contracts/scientific/FOURIER_SCOPE.md",
+      "old_sha256": "0bb855f5666a97a285d4e2ded98adf9cb70dc372b9039c33bcaeb43b38435328",
+      "new_sha256": "8cc902c9fd4b7aceb8cb67f4345059eec752bbe0d04e3c2dc79c2fcf36a577e1",
+      "reason": "Scientific contract representation-only path update (Typst primary authority; scientific formulas/values unchanged)"
+    },
+    {
+      "path": "contracts/scientific/ROUND_TRIP_PHASE_FACTOR_SPEC.json",
+      "old_sha256": "a54b0a8b799228c11b60b88c706824045aaefae2000c1cf081e838582dcba11e",
+      "new_sha256": "9d704b35c510d3f3d932a4856bbc59195eb0aec23929307ec16e22ca3f4d4c28",
+      "reason": "Scientific contract representation-only path update (Typst primary authority; scientific formulas/values unchanged)"
+    },
+    {
+      "path": "scripts/build_release_bundle.py",
+      "old_sha256": "b263140c7e04fc05d2eb2a1787aed9474d8b14603f6f3cd038c25706eaa11092",
+      "new_sha256": "9c63dcab8b563ba09a3197b48650873ff800c1aad0efa692aca7c22741fc0a8f",
+      "reason": "Release archive updated to stage archive/, latex/, and 4 exported diagram PDFs after retiring root editorial TeX"
+    },
+    {
+      "path": "tests/test_active_scientific_sources.py",
+      "old_sha256": "bafff3c6d541902172415a3d72051d03fc40e427f183c564d5cdbd4ce0ce8a6a",
+      "new_sha256": "7a3cfb69fa35621aa9e0c21c73c063f2023210ef82419a9fb1e39df5357f4283",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_ci_release_builder.py",
+      "old_sha256": "7c19def3130f8c43a3e82a144ab9a4d2b9a320e131c6837b4f29a0d45ea31da9",
+      "new_sha256": "5ae22d399cae1ba8c0228296c2c0d517198ca8cec38e8d7757090fa519ea728c",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_main_container_language_minimalism.py",
+      "old_sha256": "002dcc2d854a5bd7bd13cc2a912d969facff4946461140e815b9021c5748f7ad",
+      "new_sha256": "f7b1797718825a2140be3a9afbed6826516852fc8137c2cffa029312748f88bb",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_manual_brownian_phase_delta3.py",
+      "old_sha256": "f7aec8d26bd9eacbe63600a2b624cc7aaba666a5b74eea25ade706c47aa3f556",
+      "new_sha256": "a30f5d8eed6eb5fb3b28a07f55cb78297d81e44a7538f6da3a0d39eeb57c568f",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_manual_dec_ledger.py",
+      "old_sha256": "f37b5533c39526edddaa78a19c7eaf3c0c6d9b905ec5d493aef8b06191763849",
+      "new_sha256": "29bca90b4897f478fb6b5d072222c0a7e4a57d795ffff80630b01e6ba5820c0f",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_manual_field_tunnelling.py",
+      "old_sha256": "f499e27f050e6a100772bfca665cdea0510416049d2b01408f40803b3a314f7d",
+      "new_sha256": "2d98b6319e16a3eb621a286cf26ad7cedc22a0b06d4ac52cde7f3eb30808e493",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_manual_run_tumble_tracer_current.py",
+      "old_sha256": "6be2de1c44176917784a24bf01a23ecb3d873c720fff2876d17b0fd2e3c55b53",
+      "new_sha256": "7a1c8bfee54f8df7c55f0325f6ee67d0ed32df073d02091c66d4ee889502e3d7",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_manual_sparc_protocol.py",
+      "old_sha256": "3115dd4c359615581b838b49e2f8e8fc14816a748da622364dcd0c39cd6ead22",
+      "new_sha256": "068dde6b55259902674712c33201da4d83db56ff1e793b4b2930613a1de50d88",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_manual_table_grammar_release_polish.py",
+      "old_sha256": "b0dcb336d6e496639ff3b19c1074f632aaa982f60bbd74cae7a5b53cbb4ce544",
+      "new_sha256": "f6c7d580d03ce61022481b1ca25749f251dc07fbf309b8f7443459a2d3b68176",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_manual_zenodo_wording_polish.py",
+      "old_sha256": "0a4f65dc3032689a1530265491d1ba101dfd60a7b76601e1f35b937ba91f95ba",
+      "new_sha256": "4aa36f13798919ee8b7e38ed7a38e3fc4858c9f4b21c1a1e252e2bf566113cf2",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_release_naming_hygiene.py",
+      "old_sha256": "b3f565d494eafbf06b7acad323035d0edf149be65a3ccd98d013ac25b8f2168c",
+      "new_sha256": "81659285587729003e698f144f33d57b5fb1314758ef941c95abf042234f3e91",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_sheddic_route_naming.py",
+      "old_sha256": "a4595ef26be81423f5f351c4ade24c872ed00dd4720c95a31975089c2ee96ee4",
+      "new_sha256": "ffe2e6d05dd81d8ca5591824aee528e80ea5ecab49b248915fe0b7b9054386a6",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_title_and_table_layout.py",
+      "old_sha256": "dedb37c2aee7aeaa664958b4233b9c0dd7a381b992f64c723d0d86d6379b1097",
+      "new_sha256": "aba7c25bcf32b7196fc5b8206460bbdee65ddc3ff967097740ecde3ed0278681",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    },
+    {
+      "path": "tests/test_yro_tritrioseptyro.py",
+      "old_sha256": "deb75157001900f0ec00826bf07ebae4cc6653b6b41d56adc30fcaaa2a658215",
+      "new_sha256": "f6c733ed140f6bf41bfad34e893b9f1be356211e7c9c307d4a023455671af146",
+      "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
+    }
+  ],
+  "summary": {
+    "contracts_amended": 7,
+    "contracts_untouched": 10,
+    "frozen_relocations": 6,
+    "frozen_additions": 6,
+    "frozen_amendments": 18,
+    "frozen_total_after": 172
+  }
+}

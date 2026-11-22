@@ -1,0 +1,2133 @@
+{
+  "schema": "aod.latex-baseline-snapshot.v1",
+  "historical_scientific_baseline_commit": "98ddfa0ebb38293adfa99c8c11da5a15cdd9eea3",
+  "phase1_accepted_commit": "e6f20970c8ac63713c112000e3fe83b9695c7ffc",
+  "phase1_accepted_tree": "b4df64481b4f1d53b7b2d0fff1c0fd29ab007659",
+  "planning_parent_commit": "83188dc9dc5f2897f194ca0b60fc7986f0c61054",
+  "counts": {
+    "total_baseline_protected": 211,
+    "archived_editorial_tex": 41,
+    "preserved_in_place": 170,
+    "by_role": {
+      "archived_editorial_tex": 41,
+      "preserved_historical_tex_snapshot": 5,
+      "preserved_immutable_data_table_tex": 7,
+      "preserved_shared_bib": 2,
+      "preserved_shared_data": 106,
+      "preserved_shared_raster": 49,
+      "preserved_unincluded_historical_tex": 1
+    }
+  },
+  "entries": [
+    {
+      "original_path": "appendices/A_fractal_address_bip_biz.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/appendices/A_fractal_address_bip_biz.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "422d585b3f317ea52ebe8f7401119ad3e0be526dadd8d9fcd26ec72bdccce8d7",
+      "bytes": 1506,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/appendices/A_fractal_address_bip_biz.typ",
+      "generated_latex_counterpart": "latex/appendices/A_fractal_address_bip_biz.tex"
+    },
+    {
+      "original_path": "appendices/B_curling_curls.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/appendices/B_curling_curls.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "c47c04f45b584dc284a576301a8af43507725c207f8fd5a0bda583ab17822e04",
+      "bytes": 5550,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/appendices/B_curling_curls.typ",
+      "generated_latex_counterpart": "latex/appendices/B_curling_curls.tex"
+    },
+    {
+      "original_path": "appendices/C_stochastic_crowning.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/appendices/C_stochastic_crowning.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "4fba7d700d717e096d1bbf72770841199e0958ba0d3939e89c0b82e68858043a",
+      "bytes": 4210,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/appendices/C_stochastic_crowning.typ",
+      "generated_latex_counterpart": "latex/appendices/C_stochastic_crowning.tex"
+    },
+    {
+      "original_path": "appendices/D_cycle_shedding_demonstration.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/appendices/D_cycle_shedding_demonstration.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "f13d9d66140fb5b3e4a65dd626f9341c8be666f29fd8e26d040d19be152f314e",
+      "bytes": 1470,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/appendices/D_cycle_shedding_demonstration.typ",
+      "generated_latex_counterpart": "latex/appendices/D_cycle_shedding_demonstration.tex"
+    },
+    {
+      "original_path": "appendices/E_glossary.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/appendices/E_glossary.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "76dfa08644d8865c3f0ee98590f35f8cb4692cb6254f22957b345fef4efb2f6a",
+      "bytes": 9326,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/appendices/E_glossary.typ",
+      "generated_latex_counterpart": "latex/appendices/E_glossary.tex"
+    },
+    {
+      "original_path": "appendices/F_wave.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/appendices/F_wave.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "0cbc2e18f2036ca05e188dff445377bba7ddc945ad54c6c40414129c5442cfe6",
+      "bytes": 1936,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/appendices/F_wave.typ",
+      "generated_latex_counterpart": "latex/appendices/F_wave.tex"
+    },
+    {
+      "original_path": "appendices/G_symbolic_cancellation_check.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/appendices/G_symbolic_cancellation_check.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "29c9bcb1359639548f3d25e35ca7b3e50454f5f17d37f57bfad877b26a5f5f77",
+      "bytes": 1418,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/appendices/G_symbolic_cancellation_check.typ",
+      "generated_latex_counterpart": "latex/appendices/G_symbolic_cancellation_check.tex"
+    },
+    {
+      "original_path": "appendices/H_combinatorics_rd_tests.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/appendices/H_combinatorics_rd_tests.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "4a2dc17b601c85e84fac6ea215f99f072227c7600500c0faf305bae53739e03f",
+      "bytes": 4118,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/appendices/H_combinatorics_rd_tests.typ",
+      "generated_latex_counterpart": "latex/appendices/H_combinatorics_rd_tests.tex"
+    },
+    {
+      "original_path": "appendices/I_path_complexity_prototype_quarantine.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/appendices/I_path_complexity_prototype_quarantine.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "531e83d989969c81089a09c0f7bbab56cc02e3f35495f7b5701958160ac6a704",
+      "bytes": 1758,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/appendices/I_path_complexity_prototype_quarantine.typ",
+      "generated_latex_counterpart": "latex/appendices/I_path_complexity_prototype_quarantine.tex"
+    },
+    {
+      "original_path": "appendices/J_ao_field_fractal_properties.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/appendices/J_ao_field_fractal_properties.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "793eff4bfb043a988e69dd89b1b103661a1fbf462aae0de8350ae5d54c932648",
+      "bytes": 1321,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/appendices/J_ao_field_fractal_properties.typ",
+      "generated_latex_counterpart": "latex/appendices/J_ao_field_fractal_properties.tex"
+    },
+    {
+      "original_path": "cycle_shedding_summary.tex",
+      "retained_location": "cycle_shedding_summary.tex",
+      "role": "preserved_immutable_data_table_tex",
+      "sha256": "a422ad8364d9a1e2c3983d137d329a8935fd764e7275289ebb778ca206d105f6",
+      "bytes": 304,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/tables/cycle_shedding_summary.typ",
+      "generated_latex_counterpart": "latex/cycle_shedding_summary.tex"
+    },
+    {
+      "original_path": "figures_jpg/attention_phase_bias_pressure.jpg",
+      "retained_location": "figures_jpg/attention_phase_bias_pressure.jpg",
+      "role": "preserved_shared_raster",
+      "sha256": "cfc56c0777f1fe14e5c75fde9b98c412983ff6dff9109acd2c73130ed8dc2139",
+      "bytes": 296103,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/closure_ladder_monon_dion_duon.jpg",
+      "retained_location": "figures_jpg/closure_ladder_monon_dion_duon.jpg",
+      "role": "preserved_shared_raster",
+      "sha256": "85dca95a121d9b94fda9fef74d37220fecdbc18439d4c24316813fcd28812d47",
+      "bytes": 56288,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/curl_to_duon_current_support.png",
+      "retained_location": "figures_jpg/curl_to_duon_current_support.png",
+      "role": "preserved_shared_raster",
+      "sha256": "d1c44eac8eec563b60a64f0beb90dd0ab77134a0e956ec3c66cf6dfc52057261",
+      "bytes": 288058,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/curling_curl_layers.png",
+      "retained_location": "figures_jpg/curling_curl_layers.png",
+      "role": "preserved_shared_raster",
+      "sha256": "f9b7ff99375ae2a41bee2142b3b8d85d010841bae1537ab276cee9e72f73c3c4",
+      "bytes": 271431,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/figures_jpg/curling_curl_layers.png"
+    },
+    {
+      "original_path": "figures_jpg/cycle_disturbance_shedding.png",
+      "retained_location": "figures_jpg/cycle_disturbance_shedding.png",
+      "role": "preserved_shared_raster",
+      "sha256": "64e5559ad3f2a6ed1d8933e328923634be8871367958d4723e2d293a6ef7c1be",
+      "bytes": 199209,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/figures_jpg/cycle_disturbance_shedding.png"
+    },
+    {
+      "original_path": "figures_jpg/cycle_disturbance_shedding_fixture.png",
+      "retained_location": "figures_jpg/cycle_disturbance_shedding_fixture.png",
+      "role": "preserved_shared_raster",
+      "sha256": "cda868137826a61f74b1b22a45f55556bbcf2dd155ff2b1d35d04f747589ed04",
+      "bytes": 232822,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/figures_jpg/cycle_disturbance_shedding_fixture.png"
+    },
+    {
+      "original_path": "figures_jpg/cycle_disturbance_shedding_simulation.png",
+      "retained_location": "figures_jpg/cycle_disturbance_shedding_simulation.png",
+      "role": "preserved_shared_raster",
+      "sha256": "e57cdc99319fb4aae9ba2852e09965de19e0c965872aa4b9bda6f7cd0fabda92",
+      "bytes": 240153,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/field_dynamics_layered.png",
+      "retained_location": "figures_jpg/field_dynamics_layered.png",
+      "role": "preserved_shared_raster",
+      "sha256": "163c0460532bc6ca9e8b698ab838014d0901159c148852fdcaa64f74ced4c60a",
+      "bytes": 483755,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/field_dynamics_layered_main.png",
+      "retained_location": "figures_jpg/field_dynamics_layered_main.png",
+      "role": "preserved_shared_raster",
+      "sha256": "d7b6118b8f4a0e018336da23f596b70653eeb5db9bb5d70c249465d0c6a0f5b9",
+      "bytes": 442846,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/figures_jpg/field_dynamics_layered_main.png"
+    },
+    {
+      "original_path": "figures_jpg/fixed_scope_field_count.png",
+      "retained_location": "figures_jpg/fixed_scope_field_count.png",
+      "role": "preserved_shared_raster",
+      "sha256": "ee53dc23c84a0be170ed4c8c7ecb8ea9dea0e1095870d5d5bc771ea0fc2e6ea3",
+      "bytes": 259417,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/fractal_tesseract_q4_witness.jpg",
+      "retained_location": "figures_jpg/fractal_tesseract_q4_witness.jpg",
+      "role": "preserved_shared_raster",
+      "sha256": "313146c288ffa53f23be25103547e88590bf83b12faa4a0ca13a83f4ca6e968e",
+      "bytes": 210175,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/figures_jpg/fractal_tesseract_q4_witness.jpg"
+    },
+    {
+      "original_path": "figures_jpg/null_four_edge_x_witness.png",
+      "retained_location": "figures_jpg/null_four_edge_x_witness.png",
+      "role": "preserved_shared_raster",
+      "sha256": "7b446097b578068cb77b2b3b80844f446a31ff42d708160bef997f3b5bf19ac2",
+      "bytes": 235729,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/figures_jpg/null_four_edge_x_witness.png"
+    },
+    {
+      "original_path": "figures_jpg/rcd_pending_return_duration.jpg",
+      "retained_location": "figures_jpg/rcd_pending_return_duration.jpg",
+      "role": "preserved_shared_raster",
+      "sha256": "3fa6d2b13cb68e0c959dabb0429576df537bca440c94838fbb447e029d0ed4c4",
+      "bytes": 233841,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/rcd_reflection_duration_coupling.jpg",
+      "retained_location": "figures_jpg/rcd_reflection_duration_coupling.jpg",
+      "role": "preserved_shared_raster",
+      "sha256": "cbf46dbc8b463247933b18edf4b5f7c01f630cd3934a63d56b0ee3957abc5340",
+      "bytes": 229625,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/sadar_b_scoped_afc_flux.png",
+      "retained_location": "figures_jpg/sadar_b_scoped_afc_flux.png",
+      "role": "preserved_shared_raster",
+      "sha256": "caa66f9b96e7020ef1cf3f04452ea84d13008e274e66b3a161f482aafa80f906",
+      "bytes": 177032,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/sadar_boundary_relative_balance.png",
+      "retained_location": "figures_jpg/sadar_boundary_relative_balance.png",
+      "role": "preserved_shared_raster",
+      "sha256": "ce8ae530b64196747b188981f8afce9748a3bf0c560d486d807bf671803e1083",
+      "bytes": 279514,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/sadar_rcd_b_scoped_afc_flux.png",
+      "retained_location": "figures_jpg/sadar_rcd_b_scoped_afc_flux.png",
+      "role": "preserved_shared_raster",
+      "sha256": "aaa5536ab8b2230e0655c40076ba46332141827b645b148501ae896395f5bd52",
+      "bytes": 145359,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "figures_jpg/support_enclosure_retention.png",
+      "retained_location": "figures_jpg/support_enclosure_retention.png",
+      "role": "preserved_shared_raster",
+      "sha256": "d868abf47b42dbbe056cb92bb0163aa41e1901bdc25c18c50f8c8f180d7a97aa",
+      "bytes": 219942,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/figures_jpg/support_enclosure_retention.png"
+    },
+    {
+      "original_path": "main.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/main.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "1648c6a5d8afebf4a94e8761b2e4faa6efb2632f9e719dd5c407409f3751d93a",
+      "bytes": 1032,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/main.typ",
+      "generated_latex_counterpart": "latex/main.tex"
+    },
+    {
+      "original_path": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "f106ee80779e1b535a64e9e1fe673f5242f73a48a754b848c5534956a9fd66c3",
+      "bytes": 5709,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
+      "generated_latex_counterpart": "latex/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex"
+    },
+    {
+      "original_path": "manual/appendices/B_quarantined_external_comparison.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/appendices/B_quarantined_external_comparison.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "2a4730702a7f1aa7889f297ef58d3f15573ade2b4ce4b89a3631720b5ee10cb1",
+      "bytes": 8388,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/appendices/B_quarantined_external_comparison.typ",
+      "generated_latex_counterpart": "latex/manual/appendices/B_quarantined_external_comparison.tex"
+    },
+    {
+      "original_path": "manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "1d125ab97ad5e383f43467e56cd6e9e9297c95d9fe2c06bbe9b5f4c6d92c41bd",
+      "bytes": 7819,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
+      "generated_latex_counterpart": "latex/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex"
+    },
+    {
+      "original_path": "manual/data/awareness/awareness_cases.jsonl",
+      "retained_location": "manual/data/awareness/awareness_cases.jsonl",
+      "role": "preserved_shared_data",
+      "sha256": "2c0ccbaf13883cb1000b4b3f880df8fdfdeabcf9e44b78eb8fc8371ceb2ee3b4",
+      "bytes": 59830,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/brownian/brownian_displacements.csv",
+      "retained_location": "manual/data/brownian/brownian_displacements.csv",
+      "role": "preserved_shared_data",
+      "sha256": "c3729725d1fa4bb1a1e68cf9092f5a55fe54a6f9c2d8cc0c63f77a6f7de3c80e",
+      "bytes": 448,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/brownian/brownian_sample_track.csv",
+      "retained_location": "manual/data/brownian/brownian_sample_track.csv",
+      "role": "preserved_shared_data",
+      "sha256": "96280533fb6c26a13b1914dbd939919234754ec3da94b6a2b0d720a668cb59d3",
+      "bytes": 126,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/brownian/displacement_q_counts.csv",
+      "retained_location": "manual/data/brownian/displacement_q_counts.csv",
+      "role": "preserved_shared_data",
+      "sha256": "0d02e4bc951ee26100943dc788618f67e32f420e3295ab32ad9cb3d14c80556c",
+      "bytes": 52,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/brownian/integer_motion_ratios.csv",
+      "retained_location": "manual/data/brownian/integer_motion_ratios.csv",
+      "role": "preserved_shared_data",
+      "sha256": "f5757760602671566117af80c84b1cff3bb5995442f7397011abc01751313fd9",
+      "bytes": 301,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/brownian/octant_delta3.csv",
+      "retained_location": "manual/data/brownian/octant_delta3.csv",
+      "role": "preserved_shared_data",
+      "sha256": "46af0e42928b9250de099bfb5f638984f07f2e0ad3c6d9d10cdf81f01c7df878",
+      "bytes": 273,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/brownian/phase_cycle_delta3.csv",
+      "retained_location": "manual/data/brownian/phase_cycle_delta3.csv",
+      "role": "preserved_shared_data",
+      "sha256": "768395563ac52c766c3967d0288f239ab7c8ef0833c4ccf66187fec659b41a21",
+      "bytes": 153,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/cell_measures/cells_geometry.json",
+      "retained_location": "manual/data/cell_measures/cells_geometry.json",
+      "role": "preserved_shared_data",
+      "sha256": "f941856c7bc86356bdb461e44ecaa34ae399597e7abb76ed61178b20b8232ef0",
+      "bytes": 58548,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/dec/dec_hinge_slide_example.csv",
+      "retained_location": "manual/data/dec/dec_hinge_slide_example.csv",
+      "role": "preserved_shared_data",
+      "sha256": "36060f271ee910faae2a62400f060462c33ede68cd25dfd73b6ff3a7ac0b8271",
+      "bytes": 134,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/dec/dec_one_node_ledger_example.csv",
+      "retained_location": "manual/data/dec/dec_one_node_ledger_example.csv",
+      "role": "preserved_shared_data",
+      "sha256": "d4278a3212709e28e44553e624883f36e64891ad017ee0e2beec37c5043121e6",
+      "bytes": 271,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/dec/field_tunnelling_hinge_slide_window_clip.csv",
+      "retained_location": "manual/data/dec/field_tunnelling_hinge_slide_window_clip.csv",
+      "role": "preserved_shared_data",
+      "sha256": "c736065782521b55b6817c995faed6e7aba2bd2c03424125eeae38d7bcaeb847",
+      "bytes": 309,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/dec/tau_missing_burden_exact_ratio_patch.csv",
+      "retained_location": "manual/data/dec/tau_missing_burden_exact_ratio_patch.csv",
+      "role": "preserved_shared_data",
+      "sha256": "ee90703644a41d7568bb1f4ebaaa5ff56fa111df0a77ee96ba0f44c74137c1e1",
+      "bytes": 123,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/derived/sparc_declaration_controls.csv",
+      "retained_location": "manual/data/derived/sparc_declaration_controls.csv",
+      "role": "preserved_shared_data",
+      "sha256": "e16ef11585c814112e6f19f4cbabee1b5442f6bd1981f9d3d9f70cc76f7afd12",
+      "bytes": 172,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/derived/sparc_five_galaxy_per_bin.csv",
+      "retained_location": "manual/data/derived/sparc_five_galaxy_per_bin.csv",
+      "role": "preserved_shared_data",
+      "sha256": "2ceec667b927d9cc6e1c65ae0980dadfdbb0ca4a0497bbd2fdc8999314b7e2e4",
+      "bytes": 48245,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/derived/sparc_five_galaxy_per_galaxy.csv",
+      "retained_location": "manual/data/derived/sparc_five_galaxy_per_galaxy.csv",
+      "role": "preserved_shared_data",
+      "sha256": "26f0ddb4560d86639386c7ee2ceca9b1e4cb5dcb92d8940c00cf48b3b080f621",
+      "bytes": 447,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/derived/sparc_summary_table.tex",
+      "retained_location": "manual/data/derived/sparc_summary_table.tex",
+      "role": "preserved_immutable_data_table_tex",
+      "sha256": "977b15cff45f44da60dac01a95507ded32eacb7f814278ae4f2cf4657412642b",
+      "bytes": 773,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/tables/sparc_summary_table.typ",
+      "generated_latex_counterpart": "latex/manual/data/derived/sparc_summary_table.tex"
+    },
+    {
+      "original_path": "manual/data/derived/tau_declaration_controls.csv",
+      "retained_location": "manual/data/derived/tau_declaration_controls.csv",
+      "role": "preserved_shared_data",
+      "sha256": "d1769dd1161a4f12f0be0bd7916f89c708f429560ba2fedbb2ecfd7c24ea5cab",
+      "bytes": 96,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/derived/tau_ring_diagnostic.csv",
+      "retained_location": "manual/data/derived/tau_ring_diagnostic.csv",
+      "role": "preserved_shared_data",
+      "sha256": "c15898ce88098fbe4086f45f43d9e7323c26d36a863fe2da52ea19edb84a15bd",
+      "bytes": 271,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/experimental_comparison/experimental_input_comparison.json",
+      "retained_location": "manual/data/experimental_comparison/experimental_input_comparison.json",
+      "role": "preserved_shared_data",
+      "sha256": "4fb7bfdcbad9dde5e17ea7b659605347f6c923bbcc5397762fc8621cf94219ae",
+      "bytes": 222923,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv",
+      "retained_location": "manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv",
+      "role": "preserved_shared_data",
+      "sha256": "a87e3e915367fe044ddd703d12f4a94f4ad61c509a3d312f91ebf5015c075a2b",
+      "bytes": 497,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/higgs/higgs_external_map_after_candidate_freeze.csv",
+      "retained_location": "manual/data/higgs/higgs_external_map_after_candidate_freeze.csv",
+      "role": "preserved_shared_data",
+      "sha256": "18403c7ad4344b278fcc9f9c2d35e5f609c41e5daf100267846cd24be94a225f",
+      "bytes": 232,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/higgs/higgs_trace_internal_candidates_selection.csv",
+      "retained_location": "manual/data/higgs/higgs_trace_internal_candidates_selection.csv",
+      "role": "preserved_shared_data",
+      "sha256": "462885db9b133fde44c9cd887da1be427da0595462336ae41eabd7755e585bf5",
+      "bytes": 823,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/higgs/higgs_trace_score_formula.md",
+      "retained_location": "manual/data/higgs/higgs_trace_score_formula.md",
+      "role": "preserved_shared_data",
+      "sha256": "e10b4c80ae531c9ab716d5f789f19df8c2e209561215f763c4a49a07d8223d83",
+      "bytes": 1079,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/higgs/yro_aliases_and_renames.csv",
+      "retained_location": "manual/data/higgs/yro_aliases_and_renames.csv",
+      "role": "preserved_shared_data",
+      "sha256": "02f964314f30405de624080b14da3e4e9b5b24732d3c05b335e470f0d19c79e5",
+      "bytes": 466,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/historical_metrology/historical_target/manual2/data/m1/bipm/raw/ClockOutputCovData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat",
+      "retained_location": "manual/data/historical_metrology/historical_target/manual2/data/m1/bipm/raw/ClockOutputCovData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat",
+      "role": "preserved_shared_data",
+      "sha256": "97dba2e5e678bb8a0b9ae72162a9cbeb20b4c42fa40bd4b81266692910bc5ddf",
+      "bytes": 5540,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/historical_metrology/historical_target/manual2/data/m1/bipm/raw/ClockOutputData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat",
+      "retained_location": "manual/data/historical_metrology/historical_target/manual2/data/m1/bipm/raw/ClockOutputData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat",
+      "role": "preserved_shared_data",
+      "sha256": "d4f8dd6961e6044812563a1bdccd81b1e4e1031606c05184f1dffc14830fc94e",
+      "bytes": 52179,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/historical_metrology/historical_target/manual2/scripts/matter1_bipm.py",
+      "retained_location": "manual/data/historical_metrology/historical_target/manual2/scripts/matter1_bipm.py",
+      "role": "preserved_shared_data",
+      "sha256": "aff1e0fbca46ecfaf3654de0b18263063d0fd4ea59b9f7b8ea664255d6c724f9",
+      "bytes": 10089,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/historical_metrology/historical_target/manual2/scripts/matter1_metrology.py",
+      "retained_location": "manual/data/historical_metrology/historical_target/manual2/scripts/matter1_metrology.py",
+      "role": "preserved_shared_data",
+      "sha256": "591e64cf77e266762c723ec6cfca5c82510134445fa4f3c7941ff72539464062",
+      "bytes": 34987,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/historical_metrology/historical_target/sections/06_wave_state_relational_time.tex",
+      "retained_location": "manual/data/historical_metrology/historical_target/sections/06_wave_state_relational_time.tex",
+      "role": "preserved_historical_tex_snapshot",
+      "sha256": "bbe6e0b7917940a6320b79be467ffbe8591ca1ec7b8aa0ffe1626cee320de2bb",
+      "bytes": 11587,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/historical_metrology/original-output.json",
+      "retained_location": "manual/data/historical_metrology/original-output.json",
+      "role": "preserved_shared_data",
+      "sha256": "5f5e7c889f751fe413168f66f6a6ce6c9624757f72b4551245b720d84ca22487",
+      "bytes": 12155,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/historical_metrology/prior_mapping_error.json",
+      "retained_location": "manual/data/historical_metrology/prior_mapping_error.json",
+      "role": "preserved_shared_data",
+      "sha256": "a915a6a46c30a40225c75ffbb6974e974c7afaf185d0ada51c85c2639a2308a4",
+      "bytes": 64970,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/historical_metrology/probe_metrology_edges.py",
+      "retained_location": "manual/data/historical_metrology/probe_metrology_edges.py",
+      "role": "preserved_shared_data",
+      "sha256": "685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e",
+      "bytes": 6837,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/historical_metrology/source_bindings.json",
+      "retained_location": "manual/data/historical_metrology/source_bindings.json",
+      "role": "preserved_shared_data",
+      "sha256": "4a2d545cb0b7cef68357c926b95bf676f7f3458cbc9b5e4b3e168562c6cd6463",
+      "bytes": 4508,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/lensing/k4_3d_timeflow_input_gate.csv",
+      "retained_location": "manual/data/lensing/k4_3d_timeflow_input_gate.csv",
+      "role": "preserved_shared_data",
+      "sha256": "0bd0f3422b4f66a9547898d56486372ce0458fff5c9a907a5ceee945493e21b6",
+      "bytes": 1052,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/lensing/k4_3d_timeflow_input_gate_table.tex",
+      "retained_location": "manual/data/lensing/k4_3d_timeflow_input_gate_table.tex",
+      "role": "preserved_immutable_data_table_tex",
+      "sha256": "b972211294ba5e7205a2e258b3d1e6ab1b9e3126861e540c624aa0735e779e05",
+      "bytes": 1267,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/tables/k4_3d_timeflow_input_gate_table.typ",
+      "generated_latex_counterpart": "latex/manual/data/lensing/k4_3d_timeflow_input_gate_table.tex"
+    },
+    {
+      "original_path": "manual/data/lensing/sparc5_lensing_class_tallies.csv",
+      "retained_location": "manual/data/lensing/sparc5_lensing_class_tallies.csv",
+      "role": "preserved_shared_data",
+      "sha256": "3256c12827e38bde89691303c467e3f19401b7caf5b37501f6388dd73bf2f5a2",
+      "bytes": 228,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/lensing/sparc5_medium_diagnostic_summary.csv",
+      "retained_location": "manual/data/lensing/sparc5_medium_diagnostic_summary.csv",
+      "role": "preserved_shared_data",
+      "sha256": "678e38efdf95445722acc661c420fdd863bfab756e56357360cb2fd70aa1807f",
+      "bytes": 543,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/lensing/sparc5_medium_diagnostic_summary_table.tex",
+      "retained_location": "manual/data/lensing/sparc5_medium_diagnostic_summary_table.tex",
+      "role": "preserved_immutable_data_table_tex",
+      "sha256": "eaebd5869923a9e825c323c3364e4c9bed46de889294bb11742fc1d1ec03f61b",
+      "bytes": 1039,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/tables/sparc5_medium_diagnostic_summary_table.typ",
+      "generated_latex_counterpart": "latex/manual/data/lensing/sparc5_medium_diagnostic_summary_table.tex"
+    },
+    {
+      "original_path": "manual/data/lensing/swells_k0_target_tallies_delta3_acquisition.csv",
+      "retained_location": "manual/data/lensing/swells_k0_target_tallies_delta3_acquisition.csv",
+      "role": "preserved_shared_data",
+      "sha256": "1785bef29b2abf3d466b533d9dbeb9a71cffaa54ea2da05a0964d7afe2164291",
+      "bytes": 322,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/lensing/swells_k0_target_tallies_table.tex",
+      "retained_location": "manual/data/lensing/swells_k0_target_tallies_table.tex",
+      "role": "preserved_immutable_data_table_tex",
+      "sha256": "9d489a2b33b54017434fafefa57ab9804b43a507245cca7fc9451c47e8dc4c6b",
+      "bytes": 743,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/tables/swells_k0_target_tallies_table.typ",
+      "generated_latex_counterpart": "latex/manual/data/lensing/swells_k0_target_tallies_table.tex"
+    },
+    {
+      "original_path": "manual/data/lensing/swells_k1_k2_k3_comparison_table.tex",
+      "retained_location": "manual/data/lensing/swells_k1_k2_k3_comparison_table.tex",
+      "role": "preserved_immutable_data_table_tex",
+      "sha256": "813626c32c9a3dda9327884965c5aeae7da05b1118f2bddab87d72413bde9573",
+      "bytes": 975,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/tables/swells_k1_k2_k3_comparison_table.typ",
+      "generated_latex_counterpart": "latex/manual/data/lensing/swells_k1_k2_k3_comparison_table.tex"
+    },
+    {
+      "original_path": "manual/data/lensing/swells_k1_k2_k3_delta3_comparison.csv",
+      "retained_location": "manual/data/lensing/swells_k1_k2_k3_delta3_comparison.csv",
+      "role": "preserved_shared_data",
+      "sha256": "10af49ec35953722e275cbf22bb94fd56dcf4e8535251ddd38b8b00a3ab7790d",
+      "bytes": 439,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/lensing/swells_k1_thetaE_delta3_scores.csv",
+      "retained_location": "manual/data/lensing/swells_k1_thetaE_delta3_scores.csv",
+      "role": "preserved_shared_data",
+      "sha256": "ae1081cdd1834c92d40c87f689a564fbece85db2f1470b0494074afc5a21c65d",
+      "bytes": 148,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/lensing/toy1_delta3_class_tallies.csv",
+      "retained_location": "manual/data/lensing/toy1_delta3_class_tallies.csv",
+      "role": "preserved_shared_data",
+      "sha256": "e6c21ebc81511ea7dbc6d1d2a94e4f483350016854422756f121e528d9b4c983",
+      "bytes": 233,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/lensing/toy1_verification_checks.csv",
+      "retained_location": "manual/data/lensing/toy1_verification_checks.csv",
+      "role": "preserved_shared_data",
+      "sha256": "eb9065222a9efbc6dbd0edecd0d19b551a044cc5efec58fdca3a648eea3f7c28",
+      "bytes": 617,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/mapping_error/mapping_error.json",
+      "retained_location": "manual/data/mapping_error/mapping_error.json",
+      "role": "preserved_shared_data",
+      "sha256": "70b73da7fc198ab4172c59b73c5e6e0d058a65063071a7353365dcb4537e1ace",
+      "bytes": 74400,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/native_closure_wave/closure_phase_reclosure.csv",
+      "retained_location": "manual/data/native_closure_wave/closure_phase_reclosure.csv",
+      "role": "preserved_shared_data",
+      "sha256": "a958f0caba18c4dfe9b71e2c1aea8df3ab54e47fab23b1a7019470ddcf22ed69",
+      "bytes": 10031,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/native_closure_wave/h1_composite_paths.csv",
+      "retained_location": "manual/data/native_closure_wave/h1_composite_paths.csv",
+      "role": "preserved_shared_data",
+      "sha256": "71bce7160edd7100a0b2a9da3172637a4e4e9544cf8289a689199de0b35cf457",
+      "bytes": 6935,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/native_closure_wave/harmonic_reconstruction.csv",
+      "retained_location": "manual/data/native_closure_wave/harmonic_reconstruction.csv",
+      "role": "preserved_shared_data",
+      "sha256": "cfe53a31c2d1c13f187bbba80e4ad7861f36027d052741d6a09bcd8dd39517f7",
+      "bytes": 1525,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/native_closure_wave/motif_fold_fusion.csv",
+      "retained_location": "manual/data/native_closure_wave/motif_fold_fusion.csv",
+      "role": "preserved_shared_data",
+      "sha256": "c5c77ede4d7a4178d52678e20c246a1b8cb50eeb99d4036d08375d28c2f3e3cd",
+      "bytes": 6372,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/native_closure_wave/relational_time_coupling.csv",
+      "retained_location": "manual/data/native_closure_wave/relational_time_coupling.csv",
+      "role": "preserved_shared_data",
+      "sha256": "64fe791a91a9c9e7a30360db82514e98a0678b4a6bdba2a396bb37e078137b9c",
+      "bytes": 9686,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/run_tumble/run_tumble_integer_motion_ratios.csv",
+      "retained_location": "manual/data/run_tumble/run_tumble_integer_motion_ratios.csv",
+      "role": "preserved_shared_data",
+      "sha256": "89a2da2d6223a2e12923a2eab3903bd48ea87534c1ca9c02766b74cb3e2f4b26",
+      "bytes": 110,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/run_tumble/run_tumble_octant_delta3.csv",
+      "retained_location": "manual/data/run_tumble/run_tumble_octant_delta3.csv",
+      "role": "preserved_shared_data",
+      "sha256": "eb7fff97653233a68c01ad7551477f6d7239ae47d48ff82ac00b236202089568",
+      "bytes": 137,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/run_tumble/run_tumble_phase_cycle_delta3.csv",
+      "retained_location": "manual/data/run_tumble/run_tumble_phase_cycle_delta3.csv",
+      "role": "preserved_shared_data",
+      "sha256": "19ec7d8e75b916b8bdbf610c439ced726b756b9ab93da8045b65abf2ef4b7009",
+      "bytes": 113,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/run_tumble/run_tumble_trace_20_ticks.csv",
+      "retained_location": "manual/data/run_tumble/run_tumble_trace_20_ticks.csv",
+      "role": "preserved_shared_data",
+      "sha256": "67fe77c99d57a0de0841ac5f023ae2443a422257963b1ff6b8b0728a147f20b7",
+      "bytes": 891,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/run_tumble/run_tumble_trace_table.tex",
+      "retained_location": "manual/data/run_tumble/run_tumble_trace_table.tex",
+      "role": "preserved_immutable_data_table_tex",
+      "sha256": "f942b7f23a3e988014c311c9e2cc55ab51ef81261ec43ab0d7210d8b7a862921",
+      "bytes": 2100,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/tables/run_tumble_trace_table.typ",
+      "generated_latex_counterpart": "latex/manual/data/run_tumble/run_tumble_trace_table.tex"
+    },
+    {
+      "original_path": "manual/data/sparc/DDO154_rotmod.dat",
+      "retained_location": "manual/data/sparc/DDO154_rotmod.dat",
+      "role": "preserved_shared_data",
+      "sha256": "2458c2c392ab2314abc92725b7d0ccee22d9b666a15377e13a1c69d5f5d67ac7",
+      "bytes": 622,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/sparc/NGC2403_rotmod.dat",
+      "retained_location": "manual/data/sparc/NGC2403_rotmod.dat",
+      "role": "preserved_shared_data",
+      "sha256": "9be193eccc5c363e74d04270290d831738f41ec9225a3b2c95353fd3812170b8",
+      "bytes": 3384,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/sparc/NGC2841_rotmod.dat",
+      "retained_location": "manual/data/sparc/NGC2841_rotmod.dat",
+      "role": "preserved_shared_data",
+      "sha256": "3182e398c3325cb7d43dcda432e150e55a06be8d74b2e95fd92e094e291b4e5f",
+      "bytes": 2532,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/sparc/NGC3198_rotmod.dat",
+      "retained_location": "manual/data/sparc/NGC3198_rotmod.dat",
+      "role": "preserved_shared_data",
+      "sha256": "17b774ad11e7dd745a067073b76f1909d4de32fa87616df12b64da3f225cf953",
+      "bytes": 2075,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/sparc/NGC6503_rotmod.dat",
+      "retained_location": "manual/data/sparc/NGC6503_rotmod.dat",
+      "role": "preserved_shared_data",
+      "sha256": "82015340fa6465db44e6375cf3a7745d49d916dca21a56fbcbe758809e66e27c",
+      "bytes": 1509,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/tau/aod_tau_fractal_ring_baseline_compatible.csv",
+      "retained_location": "manual/data/tau/aod_tau_fractal_ring_baseline_compatible.csv",
+      "role": "preserved_shared_data",
+      "sha256": "b6fdf97b8998381c81ce850278aebf7382fd9ece79f181a80db814e516a83d35",
+      "bytes": 3373,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/tau/aod_tau_fractal_ring_comparison.csv",
+      "retained_location": "manual/data/tau/aod_tau_fractal_ring_comparison.csv",
+      "role": "preserved_shared_data",
+      "sha256": "cc022faec55a0dc1863cfa123f0b8a5d9599415b0cca62b6929ff9c8fff5b74a",
+      "bytes": 2991,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/tau/aod_tau_fractal_ring_primary_lane_audit.csv",
+      "retained_location": "manual/data/tau/aod_tau_fractal_ring_primary_lane_audit.csv",
+      "role": "preserved_shared_data",
+      "sha256": "f045f9bc16e71b8d9531c6fd39632fb1653f9483496b4d8079738b56799dfba8",
+      "bytes": 959,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/tau/aod_tau_fractal_ring_summary.csv",
+      "retained_location": "manual/data/tau/aod_tau_fractal_ring_summary.csv",
+      "role": "preserved_shared_data",
+      "sha256": "7aceb1d12cf39bbabf0153d10ab35d0307be6be6c4258ea4231acd2fe05f066b",
+      "bytes": 5584,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/tau/aod_tau_fractal_ring_top_cells.csv",
+      "retained_location": "manual/data/tau/aod_tau_fractal_ring_top_cells.csv",
+      "role": "preserved_shared_data",
+      "sha256": "8baedf575d8c435f4f4a58c0c69a5c5af0c89e78c7ba2fec07fd316afb2440f2",
+      "bytes": 16247,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/tau/aod_tau_fractal_ring_verification.csv",
+      "retained_location": "manual/data/tau/aod_tau_fractal_ring_verification.csv",
+      "role": "preserved_shared_data",
+      "sha256": "aa5149ccc0a31189ba83d7126fed892b0f95161ef4d739329e0c3585a9a8ad01",
+      "bytes": 314,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/cases/baseline.json.gz",
+      "retained_location": "manual/data/temporal_anchor/cases/baseline.json.gz",
+      "role": "preserved_shared_data",
+      "sha256": "b1009ba8cf39597bf3492a3fa39d400d1f1944fa2a5e3e3051b4d36901c4a787",
+      "bytes": 9219180,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/cases/compared_population.json.gz",
+      "retained_location": "manual/data/temporal_anchor/cases/compared_population.json.gz",
+      "role": "preserved_shared_data",
+      "sha256": "025246435f1397079babe9feb00ac5c31e308d975baa3cbe1d53b9ee2a54c090",
+      "bytes": 9476440,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/cases/reference_exposure.json.gz",
+      "retained_location": "manual/data/temporal_anchor/cases/reference_exposure.json.gz",
+      "role": "preserved_shared_data",
+      "sha256": "38a8a86aa76caa4abf5fd92e43881b19592691c263c6d8e1a55085544dc19c0b",
+      "bytes": 8926757,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/cases/second_support_pair.json.gz",
+      "retained_location": "manual/data/temporal_anchor/cases/second_support_pair.json.gz",
+      "role": "preserved_shared_data",
+      "sha256": "0fe8da4c2057763a9969e1be9f9f82efa595f43a72733a0384dbd3afe6664d9d",
+      "bytes": 8908290,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/inputs.json",
+      "retained_location": "manual/data/temporal_anchor/inputs.json",
+      "role": "preserved_shared_data",
+      "sha256": "ba2b90c2071701858b7d9817a9fda87c9ebe7b6761c0827eb038fd3f5f23f0af",
+      "bytes": 1809,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/report.json",
+      "retained_location": "manual/data/temporal_anchor/report.json",
+      "role": "preserved_shared_data",
+      "sha256": "fc44bd8f447a8bb1a7431692dcef972a546c67200496f3fa603e1c6f12aef657",
+      "bytes": 22548,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/MODEL.json",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/MODEL.json",
+      "role": "preserved_shared_data",
+      "sha256": "66fcc89044bf8d33515b6bac8d11a491f24ee368fc4c126cea2ff677349ebdbd",
+      "bytes": 3428,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/PREDECESSOR_BINDING.json",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/PREDECESSOR_BINDING.json",
+      "role": "preserved_shared_data",
+      "sha256": "0d362e36541ffb87dbdeb0edbfcee77e7d1e961969827ccd9c0e5602e5c6d4af",
+      "bytes": 430,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/PREDECESSOR_MODEL.json",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/PREDECESSOR_MODEL.json",
+      "role": "preserved_shared_data",
+      "sha256": "312ec9ccd5a51af7bdcdebdfdf2c287695a15803b1d00f0ee8820170dec94b8a",
+      "bytes": 3390,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/SOURCE_BINDING.json",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/SOURCE_BINDING.json",
+      "role": "preserved_shared_data",
+      "sha256": "f1d97c9024c0fcd5f6c989f41b577c2344c8f2da5d4866a204d5c96a38959ea4",
+      "bytes": 993,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/common_reference.py",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/common_reference.py",
+      "role": "preserved_shared_data",
+      "sha256": "27cfadcf19e33cfa9d2ba3ebaec1525fd3d52f333b54992870c47a57cbcadcb4",
+      "bytes": 4411,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/pair_trial.py",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/pair_trial.py",
+      "role": "preserved_shared_data",
+      "sha256": "9eb4f51855c329f1ffbe61da6d398597d832fbc834d1a1f75c059899560df1bb",
+      "bytes": 15320,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/population.py",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/population.py",
+      "role": "preserved_shared_data",
+      "sha256": "240a517cad639beb4afc919ef77b7ea973e4d7960092c4325d092c3e3cdf631f",
+      "bytes": 18564,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/results/background_only.couplings.json.gz",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/results/background_only.couplings.json.gz",
+      "role": "preserved_shared_data",
+      "sha256": "ef2e4120acb778d59b09a1b04a674bdce4344754398c9e0277bd82820f3d8bb2",
+      "bytes": 1294834,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/results/background_only.histories.json.gz",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/results/background_only.histories.json.gz",
+      "role": "preserved_shared_data",
+      "sha256": "b6fa2ef30ee46b015ee1d1768ea5d527e43e880abc0aef66120910396ac895a1",
+      "bytes": 716785,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/results/background_only.summary.json",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/results/background_only.summary.json",
+      "role": "preserved_shared_data",
+      "sha256": "968b341202458471e1ad80878ed51d9fde8938070108208507399c33d6b0f150",
+      "bytes": 3320,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/results/direct_pair.couplings.json.gz",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/results/direct_pair.couplings.json.gz",
+      "role": "preserved_shared_data",
+      "sha256": "89c3c0108ba31f6fdc1e0b6d3fe0c77593c3bbb15ecfb1d309e6f47914594f88",
+      "bytes": 1452166,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/results/direct_pair.histories.json.gz",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/results/direct_pair.histories.json.gz",
+      "role": "preserved_shared_data",
+      "sha256": "55e021fe0724b9e78d715cc0494733f527c5f4efcc7ce60241a2e298d7ac09ee",
+      "bytes": 680787,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/results/direct_pair.summary.json",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/results/direct_pair.summary.json",
+      "role": "preserved_shared_data",
+      "sha256": "6ab3d6df7649104fbe6e82f115f3c30cf5d3f0ca495a368e6026c4a409909a0f",
+      "bytes": 41074,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/results/recorded_only.couplings.json.gz",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/results/recorded_only.couplings.json.gz",
+      "role": "preserved_shared_data",
+      "sha256": "55214555f92b61fe0ead3606a5f30aacd5418a68583566d581736d4541449a24",
+      "bytes": 1530875,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/results/recorded_only.histories.json.gz",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/results/recorded_only.histories.json.gz",
+      "role": "preserved_shared_data",
+      "sha256": "b6fa2ef30ee46b015ee1d1768ea5d527e43e880abc0aef66120910396ac895a1",
+      "bytes": 716785,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/results/recorded_only.summary.json",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/results/recorded_only.summary.json",
+      "role": "preserved_shared_data",
+      "sha256": "3bc658b2d2cc508ae844ac7e4f8ed0aaede1cab2f41ea9775cd1ebddc7c9869e",
+      "bytes": 46975,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/upstream/LICENSE",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/upstream/LICENSE",
+      "role": "preserved_shared_data",
+      "sha256": "bcaee0778a5a742463fae8d3bf66d1dfc37d45b2a92962ad415b730b310d5bf7",
+      "bytes": 1071,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/upstream/appendices/H_combinatorics_rd_tests.tex",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/upstream/appendices/H_combinatorics_rd_tests.tex",
+      "role": "preserved_historical_tex_snapshot",
+      "sha256": "8ba9c388162d31e5a5b3a86b8818a958b909b537bfa13fb807123d564d61adf7",
+      "bytes": 4522,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/upstream/manual/scripts/aod_m3_temporal.py",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/upstream/manual/scripts/aod_m3_temporal.py",
+      "role": "preserved_shared_data",
+      "sha256": "38c3cd6207dcae2b66074a5d68147ca45dde0845cb84d0109ac8b6345de3d393",
+      "bytes": 16590,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/upstream/manual/scripts/aod_mapping_error.py",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/upstream/manual/scripts/aod_mapping_error.py",
+      "role": "preserved_shared_data",
+      "sha256": "b1d414e32819d3a601834883e112634bdffd7df82d742de9ede5580c96e620fc",
+      "bytes": 39429,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/upstream/manual/scripts/aod_native_closure_wave.py",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/upstream/manual/scripts/aod_native_closure_wave.py",
+      "role": "preserved_shared_data",
+      "sha256": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+      "bytes": 48996,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/upstream/sections/05_curl_closure_duon_current.tex",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/upstream/sections/05_curl_closure_duon_current.tex",
+      "role": "preserved_historical_tex_snapshot",
+      "sha256": "6e58c2213d8a11e288915d47d90965787aba148caa3d8f3bc065739216cf00e4",
+      "bytes": 16648,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/upstream/sections/06_field.tex",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/upstream/sections/06_field.tex",
+      "role": "preserved_historical_tex_snapshot",
+      "sha256": "79e16685826aee15273fbcddc0a59d5f14f75dbf3671e43ae261fcd6fc9acf70",
+      "bytes": 71756,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/input/upstream/sections/06_wave_state_relational_time.tex",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/input/upstream/sections/06_wave_state_relational_time.tex",
+      "role": "preserved_historical_tex_snapshot",
+      "sha256": "bbd265de629de74ae43be75ff5146406b5dda80c380bf02507725a98d233404d",
+      "bytes": 13005,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/results/window_records.json",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/results/window_records.json",
+      "role": "preserved_shared_data",
+      "sha256": "27f8725865c1ac142be2cc9e706d3bd4963612431fb787dcfb1ac437085eac9b",
+      "bytes": 351952,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/baseline/si_bridge.py",
+      "retained_location": "manual/data/temporal_anchor/source/baseline/si_bridge.py",
+      "role": "preserved_shared_data",
+      "sha256": "86b5f0e04d49e7d86fd5ad329ff77dabdc0c22a95d2f1a36f3ae06ae3fde4284",
+      "bytes": 5659,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/results/admitted_validation.json",
+      "retained_location": "manual/data/temporal_anchor/source/results/admitted_validation.json",
+      "role": "preserved_shared_data",
+      "sha256": "c2d8e9317138721ad94c45d3db111e4844a18a9da554610064d1c67c01883a99",
+      "bytes": 75034,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/results/endpoint_perturbations.json",
+      "retained_location": "manual/data/temporal_anchor/source/results/endpoint_perturbations.json",
+      "role": "preserved_shared_data",
+      "sha256": "e1ffe798af1f5f77e017a360c0277802eb4c35e71a70d78e92f7ec8bf66a9d46",
+      "bytes": 48650,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/results/report.json",
+      "retained_location": "manual/data/temporal_anchor/source/results/report.json",
+      "role": "preserved_shared_data",
+      "sha256": "168b0cd97f2e9d10737534f829e7c3ee3cfe9cad27b8149e537774fa68ea7527",
+      "bytes": 9343,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source/results/rolling_count_windows.json",
+      "retained_location": "manual/data/temporal_anchor/source/results/rolling_count_windows.json",
+      "role": "preserved_shared_data",
+      "sha256": "4f3361db42c343a34eabfd6e5551b1477017b062e3acf06b7d4b6516b9f8a40a",
+      "bytes": 352959,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_anchor/source_members.json",
+      "retained_location": "manual/data/temporal_anchor/source_members.json",
+      "role": "preserved_shared_data",
+      "sha256": "7d861b14748173f50a0e3f6ec2c96ab4af93aab5db1b3afb421cccdc7c576977",
+      "bytes": 5521,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/cesium/notes.md",
+      "retained_location": "manual/data/temporal_metrology/cesium/notes.md",
+      "role": "preserved_shared_data",
+      "sha256": "99d12d78e94a10cc4238aede61c557a0928f32fe1e996106f18346651a63e6e1",
+      "bytes": 5008,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/cesium/protocol.json",
+      "retained_location": "manual/data/temporal_metrology/cesium/protocol.json",
+      "role": "preserved_shared_data",
+      "sha256": "0de1e3b3dd57eafd5fa0cfd590e32dcc92ace51c140e3127cd68079e4effa34d",
+      "bytes": 7464,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/cesium/source/heavner2014.pdf",
+      "retained_location": "manual/data/temporal_metrology/cesium/source/heavner2014.pdf",
+      "role": "preserved_shared_data",
+      "sha256": "85482447888dc5524b7ebf3754ea4fdcde3a80d9c36ae927e5d69d9e9f980eb5",
+      "bytes": 661185,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/cesium/source/source_receipt.json",
+      "retained_location": "manual/data/temporal_metrology/cesium/source/source_receipt.json",
+      "role": "preserved_shared_data",
+      "sha256": "43fec317110ec9c033a7da5b3858af15e70132fc1e6af480cbe6bc27182c9298",
+      "bytes": 5287,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/exact_fixtures.json",
+      "retained_location": "manual/data/temporal_metrology/exact_fixtures.json",
+      "role": "preserved_shared_data",
+      "sha256": "27d0f802b8fdd445624211aa334d33b6600f812f2d4547680cefa142dcbbff87",
+      "bytes": 2137,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/hydrogen/notes.md",
+      "retained_location": "manual/data/temporal_metrology/hydrogen/notes.md",
+      "role": "preserved_shared_data",
+      "sha256": "d68b4fc1b488cec58bfc1c9b89ff9a3c990e1acf4a1af50573b0e65c57d5e521",
+      "bytes": 3145,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/hydrogen/protocol.json",
+      "retained_location": "manual/data/temporal_metrology/hydrogen/protocol.json",
+      "role": "preserved_shared_data",
+      "sha256": "a23711aff19ee6e2e3952b2d43730580c5c96446fd70fae05e37380ecc8e337c",
+      "bytes": 7358,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/hydrogen/reported_uncertainty.json",
+      "retained_location": "manual/data/temporal_metrology/hydrogen/reported_uncertainty.json",
+      "role": "preserved_shared_data",
+      "sha256": "71e2bf4c2891b28f1076fcc9e2b7266943cc330be394585172ed264119a38560",
+      "bytes": 647,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/hydrogen/source/hellwig1970.pdf",
+      "retained_location": "manual/data/temporal_metrology/hydrogen/source/hellwig1970.pdf",
+      "role": "preserved_shared_data",
+      "sha256": "e8bba435fbb9e6b54f41fa1d60f9c02df8e06b6a73ce8fab323afb3ea7d02dc4",
+      "bytes": 1716323,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/hydrogen/source/source_receipt.json",
+      "retained_location": "manual/data/temporal_metrology/hydrogen/source/source_receipt.json",
+      "role": "preserved_shared_data",
+      "sha256": "397f81e68f5bfa57db0cee5abbf4c2dea5dec6cbc000c99b623e0ef361750bf7",
+      "bytes": 1818,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_metrology/report.json",
+      "retained_location": "manual/data/temporal_metrology/report.json",
+      "role": "preserved_shared_data",
+      "sha256": "a80bd8381effc6be03c516cb6f9ba22cd769a803589fd4c1f11cdcdf57f3cada",
+      "bytes": 29762,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/data/temporal_observation/temporal.json",
+      "retained_location": "manual/data/temporal_observation/temporal.json",
+      "role": "preserved_shared_data",
+      "sha256": "fbb2c38c1bb2ad7151a4d261ba975799a1aa2657716594f439d7d895dfc09554",
+      "bytes": 192223,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/figures/brownian_phase_delta3_wireframe.png",
+      "retained_location": "manual/figures/brownian_phase_delta3_wireframe.png",
+      "role": "preserved_shared_raster",
+      "sha256": "436b288118627da6d6bb9b82f2196e04072d816fbb85579684e7abb791c21e7a",
+      "bytes": 274052,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/figures/coordinate_phase_delta3_wireframe.png",
+      "retained_location": "manual/figures/coordinate_phase_delta3_wireframe.png",
+      "role": "preserved_shared_raster",
+      "sha256": "b3ae1f69dc01631d6d67fac8ec67e5d34b6e3ca1d974144c5240752a47d0d953",
+      "bytes": 273493,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/coordinate_phase_delta3_wireframe.png"
+    },
+    {
+      "original_path": "manual/figures/double_slit_cross_return_setup.png",
+      "retained_location": "manual/figures/double_slit_cross_return_setup.png",
+      "role": "preserved_shared_raster",
+      "sha256": "a3fb47d9bfbfa8174282e8229c331efc6c034392cc7c5d77f72d48879d43eddc",
+      "bytes": 102920,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/double_slit_cross_return_setup.png"
+    },
+    {
+      "original_path": "manual/figures/double_slit_reclosure_fixture.png",
+      "retained_location": "manual/figures/double_slit_reclosure_fixture.png",
+      "role": "preserved_shared_raster",
+      "sha256": "998892233c9ff3ac2bcbbf87bf67d2f61db14ed4214b8895977c8b359ee08504",
+      "bytes": 118977,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/double_slit_reclosure_fixture.png"
+    },
+    {
+      "original_path": "manual/figures/higgs/higgs_mass_comparison.png",
+      "retained_location": "manual/figures/higgs/higgs_mass_comparison.png",
+      "role": "preserved_shared_raster",
+      "sha256": "a801efba81e384ca0e1a09bb0b443368f195096414f91678e3f869bf7eba3b54",
+      "bytes": 96461,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/higgs/higgs_mass_comparison.png"
+    },
+    {
+      "original_path": "manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png",
+      "retained_location": "manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png",
+      "role": "preserved_shared_raster",
+      "sha256": "54fd6d25942d8e671b6ead0517a4f8c94194022d1fe470d863d8c1c75e5ce9ba",
+      "bytes": 106480,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png"
+    },
+    {
+      "original_path": "manual/figures/higgs/higgs_yro_saddle_signature.png",
+      "retained_location": "manual/figures/higgs/higgs_yro_saddle_signature.png",
+      "role": "preserved_shared_raster",
+      "sha256": "2e1419b70144491b962b0e328e31700a6652ca2f948647cf08e5e9ce0ce0f288",
+      "bytes": 42399,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/higgs/higgs_yro_saddle_signature.png"
+    },
+    {
+      "original_path": "manual/figures/lensing/00_corrected_spine_equations.png",
+      "retained_location": "manual/figures/lensing/00_corrected_spine_equations.png",
+      "role": "preserved_shared_raster",
+      "sha256": "7f1ff2bbbfa5d764dcb960c6a7826fb2d0bd175933925b6e3f942f204237a809",
+      "bytes": 29776,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/figures/lensing/01_toy1_delta3_class_tallies.png",
+      "retained_location": "manual/figures/lensing/01_toy1_delta3_class_tallies.png",
+      "role": "preserved_shared_raster",
+      "sha256": "115908e2576dbb52deb53f420e85c2d9212d027eacb49b3ac2c25f83be067cb3",
+      "bytes": 76099,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/lensing/01_toy1_delta3_class_tallies.png"
+    },
+    {
+      "original_path": "manual/figures/lensing/02_frg_value_identity_delta3.png",
+      "retained_location": "manual/figures/lensing/02_frg_value_identity_delta3.png",
+      "role": "preserved_shared_raster",
+      "sha256": "09c68be4dfaa270c81a49e575ae5934f069946f53d4d3eb66811e4c344238ba8",
+      "bytes": 53529,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/lensing/02_frg_value_identity_delta3.png"
+    },
+    {
+      "original_path": "manual/figures/lensing/03_sparc5_lens_medium_phase_proxy.png",
+      "retained_location": "manual/figures/lensing/03_sparc5_lens_medium_phase_proxy.png",
+      "role": "preserved_shared_raster",
+      "sha256": "c716f30bc2f84129891ee5ced4c6553a7f437530a8c1346d4f830907e2e767a1",
+      "bytes": 44105,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/lensing/03_sparc5_lens_medium_phase_proxy.png"
+    },
+    {
+      "original_path": "manual/figures/lensing/04_sparc5_class_tally_heatmap.png",
+      "retained_location": "manual/figures/lensing/04_sparc5_class_tally_heatmap.png",
+      "role": "preserved_shared_raster",
+      "sha256": "0abd311f29096328e499f52ce6fbb51995d2641bc92ad34039f8bdc98c00772b",
+      "bytes": 97480,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/lensing/04_sparc5_class_tally_heatmap.png"
+    },
+    {
+      "original_path": "manual/figures/lensing/05_swells_k_comparison_delta3.png",
+      "retained_location": "manual/figures/lensing/05_swells_k_comparison_delta3.png",
+      "role": "preserved_shared_raster",
+      "sha256": "444b91e394289d453c4a7bfbed3a596e0d804b050f284403deb549ff022b0f95",
+      "bytes": 33699,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/lensing/05_swells_k_comparison_delta3.png"
+    },
+    {
+      "original_path": "manual/figures/lensing/06_swells_k1_thetaE_delta3_tallies.png",
+      "retained_location": "manual/figures/lensing/06_swells_k1_thetaE_delta3_tallies.png",
+      "role": "preserved_shared_raster",
+      "sha256": "fb5cfa962466722252b7e30cf1ed842f26698cb8dfa42f40a77f09903e8b97d1",
+      "bytes": 47379,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/lensing/06_swells_k1_thetaE_delta3_tallies.png"
+    },
+    {
+      "original_path": "manual/figures/lensing/07_k4_3d_timeflow_input_gate.png",
+      "retained_location": "manual/figures/lensing/07_k4_3d_timeflow_input_gate.png",
+      "role": "preserved_shared_raster",
+      "sha256": "84d06ac8c62c626f653e68bfb045eccb32914bf49e20bdd0a656ee40688179d5",
+      "bytes": 65480,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/lensing/07_k4_3d_timeflow_input_gate.png"
+    },
+    {
+      "original_path": "manual/figures/lensing/08_target_quarantine.png",
+      "retained_location": "manual/figures/lensing/08_target_quarantine.png",
+      "role": "preserved_shared_raster",
+      "sha256": "8dd4a633807d0d13efedd3cec302fc931d8643be0cf3f7031d76dc6091f5b97f",
+      "bytes": 35603,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/lensing/08_target_quarantine.png"
+    },
+    {
+      "original_path": "manual/figures/lensing/09_staged_lensing_lane.png",
+      "retained_location": "manual/figures/lensing/09_staged_lensing_lane.png",
+      "role": "preserved_shared_raster",
+      "sha256": "ccfd26c58ca326048620e32cd88abf53ab3c9b9ba2cee61b465bfa718f7b260f",
+      "bytes": 36739,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/lensing/09_staged_lensing_lane.png"
+    },
+    {
+      "original_path": "manual/figures/lensing/10_lensing_calculation_spine.png",
+      "retained_location": "manual/figures/lensing/10_lensing_calculation_spine.png",
+      "role": "preserved_shared_raster",
+      "sha256": "6fd82b24252cded79270931a6f8bc295651b28cd1623385e5f5b7083323870d4",
+      "bytes": 30966,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/lensing/10_lensing_calculation_spine.png"
+    },
+    {
+      "original_path": "manual/figures/run_tumble_trace_3d_projection.png",
+      "retained_location": "manual/figures/run_tumble_trace_3d_projection.png",
+      "role": "preserved_shared_raster",
+      "sha256": "249355364c3ac29213afeba6dd61dd87f0e23414b16a443d1e02d715e3953c3d",
+      "bytes": 102693,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/run_tumble_trace_3d_projection.png"
+    },
+    {
+      "original_path": "manual/figures/solar_calculated_vs_target.png",
+      "retained_location": "manual/figures/solar_calculated_vs_target.png",
+      "role": "preserved_shared_raster",
+      "sha256": "2df323ecf99dbcf828a318259dffbfeb043eb0ae1364afb30701fd679b6dddf3",
+      "bytes": 80330,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/solar_calculated_vs_target.png"
+    },
+    {
+      "original_path": "manual/figures/solar_percent_error.png",
+      "retained_location": "manual/figures/solar_percent_error.png",
+      "role": "preserved_shared_raster",
+      "sha256": "40e1aba659d280aebd4e6ff65df4e4774e13413eab2dc8b519e44affe714cae5",
+      "bytes": 72455,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/solar_percent_error.png"
+    },
+    {
+      "original_path": "manual/figures/sparc_declaration_controls.png",
+      "retained_location": "manual/figures/sparc_declaration_controls.png",
+      "role": "preserved_shared_raster",
+      "sha256": "dbaf9c68c9f3ff6c2840315c6a77d402a4e20a53bf793e0a0f82fd97599ebf4a",
+      "bytes": 64939,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/sparc_declaration_controls.png"
+    },
+    {
+      "original_path": "manual/figures/sparc_display_speed_view.png",
+      "retained_location": "manual/figures/sparc_display_speed_view.png",
+      "role": "preserved_shared_raster",
+      "sha256": "c1847fa3fb6f92059e7d268ca018dd50d8c815771c9f191e580cf5dff9620957",
+      "bytes": 73807,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/sparc_display_speed_view.png"
+    },
+    {
+      "original_path": "manual/figures/sparc_square_speed_comparison.png",
+      "retained_location": "manual/figures/sparc_square_speed_comparison.png",
+      "role": "preserved_shared_raster",
+      "sha256": "fbd8b3a9371a82c54dd65fec942832eaae1971fb78390ac325642d022fc1baf7",
+      "bytes": 70554,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/sparc_square_speed_comparison.png"
+    },
+    {
+      "original_path": "manual/figures/sparc_square_speed_residuals.png",
+      "retained_location": "manual/figures/sparc_square_speed_residuals.png",
+      "role": "preserved_shared_raster",
+      "sha256": "849eb1637c57a7cf44599249b4316a6c1bde0a5eae6506202ab21b2e775974a2",
+      "bytes": 62092,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/sparc_square_speed_residuals.png"
+    },
+    {
+      "original_path": "manual/figures/tau_declaration_controls.png",
+      "retained_location": "manual/figures/tau_declaration_controls.png",
+      "role": "preserved_shared_raster",
+      "sha256": "2079c070499370107b74db1dabb414e3dfae79e72c8fd0f22f0912002a81fcc8",
+      "bytes": 48983,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/tau_declaration_controls.png"
+    },
+    {
+      "original_path": "manual/figures/tau_missing_burden_diagnostic.png",
+      "retained_location": "manual/figures/tau_missing_burden_diagnostic.png",
+      "role": "preserved_shared_raster",
+      "sha256": "35ef395570960b9da44708408fdcc1cfc058e5cbbea35d5ecb1aa32b44b4a123",
+      "bytes": 73334,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/tau_missing_burden_diagnostic.png"
+    },
+    {
+      "original_path": "manual/figures/tau_ring_support_score.png",
+      "retained_location": "manual/figures/tau_ring_support_score.png",
+      "role": "preserved_shared_raster",
+      "sha256": "767f7700eaec07048f499a850876f177b8eb61b55709c718235132cec0b53852",
+      "bytes": 87620,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/tau_ring_support_score.png"
+    },
+    {
+      "original_path": "manual/figures/tau_sensor_wall_setup_and_boundary_chain.png",
+      "retained_location": "manual/figures/tau_sensor_wall_setup_and_boundary_chain.png",
+      "role": "preserved_shared_raster",
+      "sha256": "f4a6abf88ce16269feeafcf6a605c625470e9085120b9717a6c288b150b273a0",
+      "bytes": 263699,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/figures/tau_sensor_wall_setup_and_boundary_stack.png",
+      "retained_location": "manual/figures/tau_sensor_wall_setup_and_boundary_stack.png",
+      "role": "preserved_shared_raster",
+      "sha256": "6e17711df76c860b7bf3631b3630683771a2f4557830911f0af8019c182126dd",
+      "bytes": 259625,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "manual/figures/tau_support_residuals.png",
+      "retained_location": "manual/figures/tau_support_residuals.png",
+      "role": "preserved_shared_raster",
+      "sha256": "b8dda0b3fa4576d56ee892bc021b48ea99ba16847c0124ac39726241632c9de2",
+      "bytes": 58524,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/figures/tau_support_residuals.png"
+    },
+    {
+      "original_path": "manual/main.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/main.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "d8791ecfb6a95c60f8585b68094cb55704535dcc01e1f92cb5f64f07aab96de9",
+      "bytes": 1913,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/main.typ",
+      "generated_latex_counterpart": "latex/manual/main.tex"
+    },
+    {
+      "original_path": "manual/preamble.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/preamble.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "3f9700a9ed234b7402fae87d5de11f7d246e0e3d01d62b2c5e1ca0f43e19a3f1",
+      "bytes": 6365,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/preamble.typ",
+      "generated_latex_counterpart": "latex/manual/preamble.tex"
+    },
+    {
+      "original_path": "manual/refs.bib",
+      "retained_location": "manual/refs.bib",
+      "role": "preserved_shared_bib",
+      "sha256": "d24b4ad81f50a9d343d4e2420ae56c169a0b10352a5b553867044e8944ad5afc",
+      "bytes": 19060,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/manual/refs.bib"
+    },
+    {
+      "original_path": "manual/sections/00_awareness_fixtures.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/00_awareness_fixtures.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "e2df403490df0f1b3d940c39d37436b8267281034b6f7adcc15808c572859e33",
+      "bytes": 23271,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/00_awareness_fixtures.typ",
+      "generated_latex_counterpart": "latex/manual/sections/00_awareness_fixtures.tex"
+    },
+    {
+      "original_path": "manual/sections/00_dec_ledger.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/00_dec_ledger.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "934828daf766319e71eda3c4b89411b9a53dfc59d9d6774debbc7aa0657d3277",
+      "bytes": 14428,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/00_dec_ledger.typ",
+      "generated_latex_counterpart": "latex/manual/sections/00_dec_ledger.tex"
+    },
+    {
+      "original_path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "7ef27143a761dda2461cd225fffe818772d4f63a4777b37198dae55ff7676f66",
+      "bytes": 18371,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+      "generated_latex_counterpart": "latex/manual/sections/00_native_closure_wave_temporal_fixtures.tex"
+    },
+    {
+      "original_path": "manual/sections/00_scope.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/00_scope.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "8e5d10ce8eee0afab0be9e32458408d67cd0facd52ef4a3fc209d7cbbb269b09",
+      "bytes": 13424,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/00_scope.typ",
+      "generated_latex_counterpart": "latex/manual/sections/00_scope.tex"
+    },
+    {
+      "original_path": "manual/sections/01_cell_measures.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/01_cell_measures.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "13093b765131abf4bfb74e5333777f93ecb9a19ff9ca349d01a15471c71af24d",
+      "bytes": 5979,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/01_cell_measures.typ",
+      "generated_latex_counterpart": "latex/manual/sections/01_cell_measures.tex"
+    },
+    {
+      "original_path": "manual/sections/01_rest_energy_prediction.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/01_rest_energy_prediction.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "40e6af142bfca8d4d97f8f48c50337f7c7d0099954d4e349dea09a9a76c40469",
+      "bytes": 19248,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/01_rest_energy_prediction.typ",
+      "generated_latex_counterpart": "latex/manual/sections/01_rest_energy_prediction.tex"
+    },
+    {
+      "original_path": "manual/sections/02_hydrogen_facing_shell_tests.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/02_hydrogen_facing_shell_tests.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "e1fd2981fcd3030da2d64aa976339389ec890818092153ef4c3b34f5c2bd586e",
+      "bytes": 11464,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
+      "generated_latex_counterpart": "latex/manual/sections/02_hydrogen_facing_shell_tests.tex"
+    },
+    {
+      "original_path": "manual/sections/02_mapping_error.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/02_mapping_error.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "baf71f4d4d17b5504e5d973a9579ad8b8f3005b283fcfbf41aad12a5d82a66e1",
+      "bytes": 11015,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/02_mapping_error.typ",
+      "generated_latex_counterpart": "latex/manual/sections/02_mapping_error.tex"
+    },
+    {
+      "original_path": "manual/sections/03_short_window_rcd_shedding_fixtures.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/03_short_window_rcd_shedding_fixtures.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "bf5ee4dc041b0fdc163a023761c46efbab5a95848e73b3f7be73d827e56d4fe4",
+      "bytes": 14506,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+      "generated_latex_counterpart": "latex/manual/sections/03_short_window_rcd_shedding_fixtures.tex"
+    },
+    {
+      "original_path": "manual/sections/03_temporal_observation.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/03_temporal_observation.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "108647cd1111432bc7c6f00c331de22663bc9b5db90eeed56c3906f45b4e5e1d",
+      "bytes": 21298,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/03_temporal_observation.typ",
+      "generated_latex_counterpart": "latex/manual/sections/03_temporal_observation.tex"
+    },
+    {
+      "original_path": "manual/sections/04_boundary_current_applications.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/04_boundary_current_applications.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "6d517127cb599c502cbeb06deed09451495e4a824f2c93eaaa5a7076a72c37b6",
+      "bytes": 8500,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/04_boundary_current_applications.typ",
+      "generated_latex_counterpart": "latex/manual/sections/04_boundary_current_applications.tex"
+    },
+    {
+      "original_path": "manual/sections/05_solar_system_field_tests.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/05_solar_system_field_tests.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "2a98a1bbc46c8721812da6a1c6e1b78fd2f961124d768e0563d8b3699e0a552b",
+      "bytes": 8140,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/05_solar_system_field_tests.typ",
+      "generated_latex_counterpart": "latex/manual/sections/05_solar_system_field_tests.tex"
+    },
+    {
+      "original_path": "manual/sections/06_field_dynamics_applications.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/06_field_dynamics_applications.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "45b7316cb3e49a14f4dc62ac664a82114c2273438ffafd27aa3c5b302d6acb04",
+      "bytes": 33461,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "generated_latex_counterpart": "latex/manual/sections/06_field_dynamics_applications.tex"
+    },
+    {
+      "original_path": "manual/sections/07_galactic_lensing_plan.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/07_galactic_lensing_plan.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "4182272f192968d934de308ff3aad7939ab0c9b479b7d2c66999687154157ee8",
+      "bytes": 8449,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "generated_latex_counterpart": "latex/manual/sections/07_galactic_lensing_plan.tex"
+    },
+    {
+      "original_path": "manual/sections/09_prediction_test_fixture_registry.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/sections/09_prediction_test_fixture_registry.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "60ad7f188f2a6a1c43fda9e589f942c9dcda04543383217fb9225a671baed08e",
+      "bytes": 11953,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/manual/sections/09_prediction_test_fixture_registry.typ",
+      "generated_latex_counterpart": "latex/manual/sections/09_prediction_test_fixture_registry.tex"
+    },
+    {
+      "original_path": "preamble.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/preamble.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "a2c8c0b3dbc6eddc6f78dba4791236ce3ab89c5ad264d5975126d33db6ecfca8",
+      "bytes": 2691,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/preamble.typ",
+      "generated_latex_counterpart": "latex/preamble.tex"
+    },
+    {
+      "original_path": "refs.bib",
+      "retained_location": "refs.bib",
+      "role": "preserved_shared_bib",
+      "sha256": "39b6167100ce5c31c544ec65fdb6901f6abe44628fb44ad12eb448c396d7d8e9",
+      "bytes": 4622,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": "latex/refs.bib"
+    },
+    {
+      "original_path": "sections/00_title.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/sections/00_title.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "c86e23a01c95c43c2cb3603afc2d3c574d36f44360da626ebe86f734ad4ce4d4",
+      "bytes": 817,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/sections/00_title.typ",
+      "generated_latex_counterpart": "latex/sections/00_title.tex"
+    },
+    {
+      "original_path": "sections/01_abstract.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/sections/01_abstract.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "a42ebe256def1106badff156f495206d39fe32a984b97e9fe2ed07ba12c1803c",
+      "bytes": 916,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/sections/01_abstract.typ",
+      "generated_latex_counterpart": "latex/sections/01_abstract.tex"
+    },
+    {
+      "original_path": "sections/03_afc_basis.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/sections/03_afc_basis.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "d5b648c0c74afe8c34a344d5069e78b5be5d9a98851ce1abcc6c0f9d1df8c6d3",
+      "bytes": 8603,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/sections/03_afc_basis.typ",
+      "generated_latex_counterpart": "latex/sections/03_afc_basis.tex"
+    },
+    {
+      "original_path": "sections/04_cut_running_fractal_tesseract.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/sections/04_cut_running_fractal_tesseract.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "c225ae8fcc8b93a805533dff18c1a66d2c81e17f10e91b7f0efe9e7037bedfd2",
+      "bytes": 11077,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/sections/04_cut_running_fractal_tesseract.typ",
+      "generated_latex_counterpart": "latex/sections/04_cut_running_fractal_tesseract.tex"
+    },
+    {
+      "original_path": "sections/05_curl_closure_duon_current.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/sections/05_curl_closure_duon_current.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "db5d3097aa17ce890e1ef5a09e527ce86109715add344f54139eeea3c36f28a9",
+      "bytes": 18049,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/sections/05_curl_closure_duon_current.typ",
+      "generated_latex_counterpart": "latex/sections/05_curl_closure_duon_current.tex"
+    },
+    {
+      "original_path": "sections/06_field.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/sections/06_field.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "8cfc96e46d7492bfec4687b6fa77495b5fbca054474d103b78348cebe022d802",
+      "bytes": 70645,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/sections/06_field.typ",
+      "generated_latex_counterpart": "latex/sections/06_field.tex"
+    },
+    {
+      "original_path": "sections/06_wave_state_relational_time.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/sections/06_wave_state_relational_time.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "a0db3c5c2d3c51c117efe6e7c5a139bc757839d508bfa981c773fdd3d7061917",
+      "bytes": 18989,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/sections/06_wave_state_relational_time.typ",
+      "generated_latex_counterpart": "latex/sections/06_wave_state_relational_time.tex"
+    },
+    {
+      "original_path": "sections/07_cell_measures_mappings.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/sections/07_cell_measures_mappings.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "d1d8d44ada5516da9f6081dc90c565f5151c35d8bbbcdd9e74602c740f17b60c",
+      "bytes": 11939,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/sections/07_cell_measures_mappings.typ",
+      "generated_latex_counterpart": "latex/sections/07_cell_measures_mappings.tex"
+    },
+    {
+      "original_path": "sections/08_awareness_learning_mindfulness.tex",
+      "retained_location": "archive/latex_baseline_98ddfa0/sections/08_awareness_learning_mindfulness.tex",
+      "role": "archived_editorial_tex",
+      "sha256": "310b4860c1710b8191725d9c40ff1fc05bd45a7ed818f0891e1fbd8fa58feae1",
+      "bytes": 8941,
+      "mode": "0o100644",
+      "canonical_typst_owner": "typst/sections/08_awareness_learning_mindfulness.typ",
+      "generated_latex_counterpart": "latex/sections/08_awareness_learning_mindfulness.tex"
+    },
+    {
+      "original_path": "wavelet_shedding_simulation.csv",
+      "retained_location": "wavelet_shedding_simulation.csv",
+      "role": "preserved_shared_data",
+      "sha256": "d7b0592997d47b2b550508d663afe8943a98ba9d58d087ce77e9d4d0a0c3ff40",
+      "bytes": 11245,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    },
+    {
+      "original_path": "wavelet_shedding_summary.tex",
+      "retained_location": "wavelet_shedding_summary.tex",
+      "role": "preserved_unincluded_historical_tex",
+      "sha256": "d3002ffc387f1a1ce595f25990c2ee9e86612e58821f514ea3e6f098576fb01e",
+      "bytes": 300,
+      "mode": "0o100644",
+      "canonical_typst_owner": null,
+      "generated_latex_counterpart": null
+    }
+  ]
+}

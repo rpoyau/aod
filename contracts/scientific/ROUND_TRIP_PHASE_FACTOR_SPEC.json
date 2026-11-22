@@ -1,6 +1,6 @@
 {
   "schema": "aod.scientific.round-trip-phase-factor.v1",
-  "path": "sections/04_cut_running_fractal_tesseract.tex",
+  "path": "typst/sections/04_cut_running_fractal_tesseract.typ",
   "label": "eq:reflected-leg-bound",
   "operand_type": "nonnegative integers times formal h in exact ordered additive module",
   "construction": "delta_out=n_out*h; delta_return=n_return*h; counts atomic traversals, excludes hinge dwell and replay",

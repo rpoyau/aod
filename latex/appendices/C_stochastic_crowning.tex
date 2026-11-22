@@ -1,0 +1,134 @@
+% GENERATED FROM typst/appendices/C_stochastic_crowning.typ BY scripts/typ2tex.py (v1.0.0) — DO NOT EDIT.
+% Edit canonical Typst under typst/ and regenerate with: python3 scripts/typ2tex.py --root . --outdir latex
+
+\section{Stochastic crowning}\label{app:stochastic-crowning}
+
+\subsection{Scope}\label{app:stoch-scope}
+
+A$\Omega$D stochastic accounting is count-normalized boundary accounting over a declared field, boundary, window, and fractal address.
+
+\subsection{Setup}\label{app:stoch-setup}
+
+Declare a finite history family on the field and window:
+
+\[
+\mathcal{H}_{\mathcal{F}}(\omega).
+\]
+
+Each history has the form
+
+\[
+h=(h_{\mathrm{past}},h_{\mathrm{present}},h_{\mathrm{future}}).
+\]
+
+\subsection{Crowning and retained-history counts}\label{app:stoch-statements}
+
+\subsubsection{History family}\label{app:stoch-history-family}
+
+The family $\mathcal{H}_{\mathcal{F}}(\omega)$ is the declared finite support for stochastic crowning on the window.
+
+\subsubsection{Crowning}\label{app:stoch-crowning}
+
+The crowning map selects the present:
+
+\[
+\operatorname{Crown}(h)=h_{\mathrm{present}}.
+\]
+
+\subsubsection{Alpha advantage}\label{app:stoch-alpha-advantage}
+
+At one declared observation restriction, partition histories into mutually
+exclusive statuses: crowned-alpha and not yet returned, completed Omega
+return, or unresolved. A history is counted in exactly one current status;
+its earlier alpha event remains in provenance but is not counted again as a
+second current history. With this partition, define
+
+\[
+N_{\alpha}=\#\{h:h\text{ has current alpha status}\},
+\]
+
+\[
+N_{\Omega}=\#\{h:h\text{ has completed-return status}\},
+\]
+
+\[
+N_0=\#\{h:h\text{ remains unresolved}\}.
+\]
+
+The total count is
+
+\[
+N_{\mathrm{tot}}=N_{\alpha}+N_{\Omega}+N_0,\qquad N_{\mathrm{tot}}>0.
+\]
+
+The alpha advantage is
+
+\begin{equation}\label{app:stochastic:eq:alpha-advantage}
+\Delta_{\alpha}(\omega)=\frac{N_{\alpha}-N_{\Omega}}{N_{\mathrm{tot}}}.
+\end{equation}
+
+\subsubsection{Retained-history family}\label{app:stoch-retained-history-family}
+
+For channel $e$, the retained-window indicator is
+
+\[
+\mathbf{1}_{\mathrm{ret}}(e,\omega)=\begin{cases}
+1, & \mathrm{TTL}_e(\omega)\ge|\omega|_e, \\
+0, & \mathrm{TTL}_e(\omega)<|\omega|_e.
+\end{cases}
+\]
+
+The history retention indicator is
+
+\[
+\mathbf{1}_{\mathrm{ret}}(h,\omega)=1
+\]
+
+when every retained channel required by $h$ satisfies the declared TTL policy on $\omega$. The same mutually exclusive status partition is used after filtering. The retained-history family is
+
+\[
+\mathcal{H}_{\mathcal{F}}^{\mathrm{ret}}(\omega)=\{h\in\mathcal{H}_{\mathcal{F}}(\omega):\mathbf{1}_{\mathrm{ret}}(h,\omega)=1\}.
+\]
+
+Define
+
+\[
+N_{\alpha}^{\mathrm{ret}}=\#\{h\in\mathcal{H}_{\mathcal{F}}^{\mathrm{ret}}(\omega):h\text{ has current alpha status}\},
+\]
+
+\[
+N_{\Omega}^{\mathrm{ret}}=\#\{h\in\mathcal{H}_{\mathcal{F}}^{\mathrm{ret}}(\omega):h\text{ has completed-return status}\},
+\]
+
+\[
+N_{\mathrm{tot}}^{\mathrm{ret}}=|\mathcal{H}_{\mathcal{F}}^{\mathrm{ret}}(\omega)|.
+\]
+
+The retained alpha advantage is defined when $N_{\mathrm{tot}}^{\mathrm{ret}}>0$:
+
+\begin{equation}\label{app:stochastic:eq:ret-alpha-advantage}
+\Delta_{\alpha}^{\mathrm{ret}}(\omega)=\frac{N_{\alpha}^{\mathrm{ret}}-N_{\Omega}^{\mathrm{ret}}}{N_{\mathrm{tot}}^{\mathrm{ret}}}.
+\end{equation}
+
+\subsection{Derivation}\label{app:stoch-derivation}
+
+For each history, let $P_W(h)$ be the restriction of
+\eqref{eq:temporal-sadar-burden} to its temporal cycle group.
+The notation $\mathbb{E}_{\mathcal{H}}$ denotes finite arithmetic average over the declared history family $\mathcal{H}_{\mathcal{F}}(\omega)$:
+
+\[
+\mathbb{E}_{\mathcal{H}}[P_W]=\frac{1}{N_{\mathrm{tot}}}\sum_{h\in\mathcal{H}_{\mathcal{F}}(\omega)}P_W(h).
+\]
+
+\subsection{Falsification}\label{app:stoch-falsification}
+
+If a declared history family has $N_{\mathrm{tot}}=0$, the alpha-advantage expression is undefined on that scope. If TTL filtering changes the retained support, retained counts must be recomputed before using $\Delta_{\alpha}^{\mathrm{ret}}$.
+
+\aodprovenance{\secref{subsec:crown},
+\eqnref{app:stochastic:eq:alpha-advantage},
+\eqnref{app:stochastic:eq:ret-alpha-advantage},
+\secref{subsec:support-enclosure-retention-condition}.}
+
+\aodremark{The probability terms are normalized counts on the declared history family.}
+
+\aodliteraturenote{Finite Markov kernels: Norris~\cite{norrisMarkov}, Levin--Peres--Wilmer~\cite{levinPeresWilmer}.}

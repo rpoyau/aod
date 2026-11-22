@@ -1,11 +1,18 @@
-
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def read(rel):
+    p = ROOT / "latex" / rel
+    if p.is_file():
+        return p.read_text()
     return (ROOT / rel).read_text()
+
+
+def _nw(s):
+    return re.sub(r"\s+", "", s)
 
 
 def test_higgs_external_data_comparison_record_wording():
@@ -22,8 +29,7 @@ def test_solar_observable_map_affirmative_scope():
 def test_sparc_scope_and_uncertainty_policy_are_data_scoped():
     text = read('manual/sections/06_field_dynamics_applications.tex')
     assert 'G0 active input fields' in text
-    assert r'\(\sigma_U=2V^{\mathrm{obs}}\sigma_V\)' in text
-    assert 'G0 active input fields' in text
+    assert r'\sigma_U=2V^{\mathrm{obs}}\sigma_V' in _nw(text)
     assert r'G1/G2/G3 packages carry angular, vertical, or time-flow fields through declared source or proxy rows' in text
 
 
@@ -39,6 +45,9 @@ def test_pdf_metadata_declared_in_main_and_manual():
     assert 'The Hidden Temporal Dynamics of Stokes; The Art Of The Leprechaun: Fractal Calculus; AFC/AOD temporal dynamics' in read('preamble.tex')
     assert 'pdftitle={Alpha↔Omega Dynamics (AΩD) - Manual}' in read('manual/preamble.tex')
     assert 'The Hidden Temporal Dynamics of Stokes Manual; The Art Of The Leprechaun: Fractal Calculus; AFC/AOD finite simulation fixtures' in read('manual/preamble.tex')
+    # Canonical Typst preambles declare the same PDF metadata
+    assert 'title: "Alpha↔Omega Dynamics (AΩD)"' in (ROOT / 'typst/preamble.typ').read_text()
+    assert 'title: "Alpha↔Omega Dynamics (AΩD) - Manual"' in (ROOT / 'typst/manual/preamble.typ').read_text()
 
 
 def test_simulation_data_card_present_r59():
@@ -58,13 +67,16 @@ def test_registry_completion_rules_are_affirmative_r59():
 
 
 def test_swells_k0_target_acquisition_fields_only_r61():
-    table = read('manual/data/lensing/swells_k0_target_tallies_table.tex')
-    csv = read('manual/data/lensing/swells_k0_target_tallies_delta3_acquisition.csv')
-    assert 'SWELLS K0 target-side acquisition fields' in table
+    table = (ROOT / 'manual/data/lensing/swells_k0_target_tallies_table.tex').read_text()
+    gen_table = (ROOT / 'latex/manual/data/lensing/swells_k0_target_tallies_table.tex').read_text()
+    csv = (ROOT / 'manual/data/lensing/swells_k0_target_tallies_delta3_acquisition.csv').read_text()
+    for tbl in (table, gen_table):
+        assert 'SWELLS K0 target-side acquisition fields' in tbl
+        for forbidden in ['prediction not joined', 'not scored', 'T^\\times tally', '\\delta_3 status', 'T_cross_predicted_tally', 'delta_3_status']:
+            assert forbidden not in tbl
+        assert 'Target family & Class $k$ & $O$ tally' in tbl
     for forbidden in ['prediction not joined', 'not scored', 'T^\\times tally', '\\delta_3 status', 'T_cross_predicted_tally', 'delta_3_status']:
-        assert forbidden not in table
         assert forbidden not in csv
-    assert 'Target family & Class $k$ & $O$ tally' in table
 
 
 def test_main_walk_support_audit_affirmative_r61():

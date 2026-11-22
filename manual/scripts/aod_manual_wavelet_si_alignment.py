@@ -51,10 +51,16 @@ NON_CLOSURE_RECIPIENT_STAGES = frozenset(
 )
 
 ALIGNED_MANUAL_FILES = (
-    "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
-    "manual/sections/03_temporal_observation.tex",
-    "manual/sections/03_short_window_rcd_shedding_fixtures.tex",
-    "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
+    "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+    "typst/manual/sections/03_temporal_observation.typ",
+    "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+    "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
+)
+ALIGNED_GENERATED_LATEX_FILES = (
+    "latex/manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+    "latex/manual/sections/03_temporal_observation.tex",
+    "latex/manual/sections/03_short_window_rcd_shedding_fixtures.tex",
+    "latex/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
 )
 
 
@@ -3271,23 +3277,23 @@ def check_p2_14() -> dict:
     all_main_sec_refs: set[str] = set()
     for rel in ALIGNED_MANUAL_FILES:
         text = (ROOT / rel).read_text(encoding="utf-8")
-        refs = re.findall(r"\\(mainequation|mainsection|mainappendix)\{main:([^}]+)\}", text)
+        refs = re.findall(r'#(mainequation|mainsection|mainappendix)\("main:([^"]+)"\)', text)
         found_refs[rel] = sorted({f"{k}:{v}" for k, v in refs})
         for kind, key in refs:
             require(key in main_labels, f"unresolved Main label {key} in {rel}")
             if kind == "mainequation":
-                require(key in main_eqs, f"non-equation target {key} in \\mainequation in {rel}")
+                require(key in main_eqs, f"non-equation target {key} in #mainequation in {rel}")
                 all_main_eq_refs.add(key)
             elif kind == "mainsection":
                 require(
-                    main_labels[key]["path"].startswith("sections/"),
-                    f"non-section target {key} in \\mainsection in {rel}",
+                    main_labels[key]["path"].startswith("typst/sections/"),
+                    f"non-section target {key} in #mainsection in {rel}",
                 )
                 all_main_sec_refs.add(key)
             elif kind == "mainappendix":
                 require(
-                    main_labels[key]["path"].startswith("appendices/"),
-                    f"non-appendix target {key} in \\mainappendix in {rel}",
+                    main_labels[key]["path"].startswith("typst/appendices/"),
+                    f"non-appendix target {key} in #mainappendix in {rel}",
                 )
 
     expected_phase1_eqs = {
@@ -3315,8 +3321,19 @@ def check_p2_14() -> dict:
         f"missing Phase 1 Main section references: {sorted(expected_phase1_secs - all_main_sec_refs)}",
     )
 
+    # Verify generated LaTeX compatibility counterparts preserve the same Main references
+    latex_main_labels = auditor.latex_label_map(ROOT)
+    latex_main_eqs = auditor.latex_equations(ROOT)
+    for rel in ALIGNED_GENERATED_LATEX_FILES:
+        text = (ROOT / rel).read_text(encoding="utf-8")
+        refs = re.findall(r"\\(mainequation|mainsection|mainappendix)\{main:([^}]+)\}", text)
+        for kind, key in refs:
+            require(key in latex_main_labels, f"unresolved generated LaTeX Main label {key} in {rel}")
+            if kind == "mainequation":
+                require(key in latex_main_eqs, f"non-equation target {key} in generated \\mainequation in {rel}")
+
     forbidden = re.compile(r"aod[-_]" + r"dec", re.IGNORECASE)
-    for rel in (*ALIGNED_MANUAL_FILES, "manual/scripts/aod_manual_wavelet_si_alignment.py"):
+    for rel in (*ALIGNED_MANUAL_FILES, *ALIGNED_GENERATED_LATEX_FILES, "manual/scripts/aod_manual_wavelet_si_alignment.py"):
         text = (ROOT / rel).read_text(encoding="utf-8")
         require(forbidden.search(text) is None, f"forbidden experimental token in {rel}")
 

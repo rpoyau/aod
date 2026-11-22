@@ -1,21 +1,26 @@
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def read(rel):
-    return (ROOT / rel).read_text()
+    return (ROOT / "latex" / rel).read_text()
+
+
+def _nw(s):
+    return re.sub(r"\s+", "", s)
 
 
 def test_reclosure_split_uses_outward_remainder_not_exo_remainder():
-    text = read('sections/06_field.tex')
+    text = _nw(read('sections/06_field.tex'))
     assert r'X_W^{\mathrm{out}}=(1-\lambda_{\mathrm{reclose}})X_{\mathrm{shedding}}' in text
     assert r'X_W^{\mathrm{exo}}=(1-\lambda_{\mathrm{reclose}})X_{\mathrm{shedding}}' not in text
     assert r'X_W^{\mathrm{out}}=X_{\mathrm{exo}}+X_{\mathrm{redir}}+X_{\mathrm{open}}' in text
 
 
 def test_flip_class_uses_sheddic_route_not_bare_sheddic():
-    text = read('manual/sections/06_field_dynamics_applications.tex')
+    text = _nw(read('manual/sections/06_field_dynamics_applications.tex'))
     assert r'\mathrm{sheddic\_route}' in text
     assert r'\mathrm{early\_coupling},\mathrm{fizz},\mathrm{pending},\mathrm{sheddic}' not in text
 

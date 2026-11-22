@@ -58,42 +58,42 @@
     {
       "label": "eq:awareness-state-factorization",
       "surface": "main",
-      "path": "sections/08_awareness_learning_mindfulness.tex"
+      "path": "typst/sections/08_awareness_learning_mindfulness.typ"
     },
     {
       "label": "eq:retained-rebalancing",
       "surface": "main",
-      "path": "sections/08_awareness_learning_mindfulness.tex"
+      "path": "typst/sections/08_awareness_learning_mindfulness.typ"
     },
     {
       "label": "eq:awareness-active",
       "surface": "main",
-      "path": "sections/08_awareness_learning_mindfulness.tex"
+      "path": "typst/sections/08_awareness_learning_mindfulness.typ"
     },
     {
       "label": "eq:awareness-operative-set",
       "surface": "main",
-      "path": "sections/08_awareness_learning_mindfulness.tex"
+      "path": "typst/sections/08_awareness_learning_mindfulness.typ"
     },
     {
       "label": "eq:awareness-causal-difference",
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex"
+      "path": "typst/manual/sections/00_awareness_fixtures.typ"
     },
     {
       "label": "eq:operative-self",
       "surface": "main",
-      "path": "sections/08_awareness_learning_mindfulness.tex"
+      "path": "typst/sections/08_awareness_learning_mindfulness.typ"
     },
     {
       "label": "eq:awareness-shedding-bridge",
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex"
+      "path": "typst/manual/sections/00_awareness_fixtures.typ"
     },
     {
       "label": "eq:awareness-conditioned-shedding",
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex"
+      "path": "typst/manual/sections/00_awareness_fixtures.typ"
     }
   ],
   "implementation": "Source-bound prior operand commitments, full inherited immutable-state validation, exact native integer cuts, actual action-return projection, and independent second-hop retained intervention enforce this specification. Comparator bias is an exact two-operand tuple. Every declared outer certificate carries its actual inner wave pair and scope map: both B1 comparison operands and the B2 fold. An outer tag without that witness is rejected. Structural removal, zero retention and nonzero cancellation remain distinct. A status label cannot create shedding; the exact bridge and computed record bind operands, surplus, route, commitment and restoration.",

@@ -2,18 +2,18 @@
   "schema": "aod.scientific.m3-wavelet-compaction.v1",
   "scope": "Additive Phase 1 ontology compaction, derived AOmegaD wavelet continuation with independent seating and coupling/route coordinates, eligible in-window return sets distinct from retained support witnesses, cancellation history retention, shed continuation witness, qualified recipient origin/reclosure lattice, repeated-contact reference-window timing and conditional signed SI observation interface in Main (10 new equations plus 1 inherited equation; 6 retained anchors plus 2 new anchors); preserves all inherited canonical, ownership, fixture and M3 cell/mapping obligations without introducing new primitives or independent physical claims",
   "sources": {
-    "appendices/E_glossary.tex": "76dfa08644d8865c3f0ee98590f35f8cb4692cb6254f22957b345fef4efb2f6a",
-    "sections/04_cut_running_fractal_tesseract.tex": "c225ae8fcc8b93a805533dff18c1a66d2c81e17f10e91b7f0efe9e7037bedfd2",
-    "sections/05_curl_closure_duon_current.tex": "db5d3097aa17ce890e1ef5a09e527ce86109715add344f54139eeea3c36f28a9",
-    "sections/06_field.tex": "8cfc96e46d7492bfec4687b6fa77495b5fbca054474d103b78348cebe022d802",
-    "sections/06_wave_state_relational_time.tex": "a0db3c5c2d3c51c117efe6e7c5a139bc757839d508bfa981c773fdd3d7061917",
-    "sections/07_cell_measures_mappings.tex": "d1d8d44ada5516da9f6081dc90c565f5151c35d8bbbcdd9e74602c740f17b60c"
+    "typst/appendices/E_glossary.typ": "1447959e3d008cab98296b56e661738c354bf30485f5120c01ed5f587ed55034",
+    "typst/sections/04_cut_running_fractal_tesseract.typ": "f7202c1aaa8d0c4ebee998985948fbbbf8e3ecbb879a5eeb3a43b52cc7a4c6f5",
+    "typst/sections/05_curl_closure_duon_current.typ": "2dd068fbbca3d52bf1ed0c891be29c425923813090a666e7f837638baf62e93e",
+    "typst/sections/06_field.typ": "1ab534ab598c2b50c6d9cc50cbddf5b70d7a487a10c4b10dafb0687c8d3a962b",
+    "typst/sections/06_wave_state_relational_time.typ": "155a37eff9ecbf87a3aadd5aef22c9337de64ddb02660228ccde216afb582bba",
+    "typst/sections/07_cell_measures_mappings.typ": "e3f922a7396ddcdf51f4d5e445c33a50a9d11ebb17989542628bd869fde9ee4e"
   },
   "equations": {
     "eq:duon-current": {
       "status": "inherited_reference",
       "surface": "main",
-      "path": "sections/05_curl_closure_duon_current.tex",
+      "path": "typst/sections/05_curl_closure_duon_current.typ",
       "obligation": "PO-1",
       "formula": "\\begin{equation}D_i\\mu_MD_j,\\qquadD_i,D_j\\in\\{D_\\alpha,D_\\Omega\\},\\qquad\\mu_M\\in\\{-1,0,+1\\}.\\end{equation}",
       "depends_on": [
@@ -25,7 +25,7 @@
     "eq:duad-same-current": {
       "status": "new",
       "surface": "main",
-      "path": "sections/05_curl_closure_duon_current.tex",
+      "path": "typst/sections/05_curl_closure_duon_current.typ",
       "obligation": "PO-1",
       "formula": "\\begin{equation}E_2^{\\pm}=\\mathrm{Duad},\\qquad\\operatorname{id}\\!\\left(\\operatorname{Seat}(u)\\right)=\\operatorname{id}(u),\\qquad\\sigma_{\\mathrm{seat}}(u):\\mathrm{open\\_seat}\\longmapsto\\mathrm{seated\\_duad}.\\end{equation}",
       "depends_on": [
@@ -36,7 +36,7 @@
     "eq:aod-wavelet-continuation": {
       "status": "new",
       "surface": "main",
-      "path": "sections/06_wave_state_relational_time.tex",
+      "path": "typst/sections/06_wave_state_relational_time.typ",
       "obligation": "PO-2",
       "formula": "\\begin{equation}\\begin{split}w_{B,i}&=\\bigl(\\operatorname{id}_w,W_{\\mathrm{parent}},\\operatorname{anc}_w,\\operatorname{supp}_w,B,\\sigma_{\\mathrm{seat}},\\sigma_{\\mathrm{role}},\\Gamma_w,\\mathcalW_w\\bigr),\\\\\\sigma_{\\mathrm{seat}}&\\in\\{\\mathrm{open\\_duon},\\mathrm{seated\\_duad}\\},\\qquad\\sigma_{\\mathrm{role}}\\in\\{\\mathrm{local\\_segment},\\mathrm{coupled\\_segment},\\mathrm{shed\\_continuation}\\}.\\end{split}\\end{equation}",
       "depends_on": [
@@ -52,7 +52,7 @@
     "eq:wavelet-overlap-dedup": {
       "status": "new",
       "surface": "main",
-      "path": "sections/06_wave_state_relational_time.tex",
+      "path": "typst/sections/06_wave_state_relational_time.typ",
       "obligation": "PO-3",
       "formula": "\\begin{equation}\\begin{split}R_i(\\omega_a)&:=\\bigl\\{\\operatorname{id}_{\\mathrm{return}}(C_{i,j}):C_{i,j}\\in\\mathcalW_{w_a}^{\\mathrm{ret}},\\j\\ge1,\\k_j\\in(u_a,v_a],\\C_{i,j}\\text{compatibleon}B\\bigr\\},\\\\q_i(\\Omega)&:=\\#\\bigcup_{a=1}^mR_i(\\omega_a)\\le\\sum_{a=1}^mq_i(\\omega_a).\\end{split}\\end{equation}",
       "depends_on": [
@@ -66,7 +66,7 @@
     "eq:wavelet-cancellation-retention": {
       "status": "new",
       "surface": "main",
-      "path": "sections/06_wave_state_relational_time.tex",
+      "path": "typst/sections/06_wave_state_relational_time.typ",
       "obligation": "PO-3",
       "formula": "\\begin{equation}J(w_+)+J(w_-)=0\\quad\\Longrightarrow\\quad\\operatorname{Hist}(w_+\\oplusw_-)=\\bigl\\{(\\operatorname{anc}_{w_+},\\Gamma_{w_+}),\\,(\\operatorname{anc}_{w_-},\\Gamma_{w_-})\\bigr\\}.\\end{equation}",
       "depends_on": [
@@ -77,7 +77,7 @@
     "eq:wavelet-reference-timing": {
       "status": "new",
       "surface": "main",
-      "path": "sections/06_wave_state_relational_time.tex",
+      "path": "typst/sections/06_wave_state_relational_time.typ",
       "obligation": "PO-6",
       "formula": "\\begin{equation}q_i(\\omega):=\\Delta\\operatorname{bip}_i(\\omega),\\qquadr_{a|r}(\\omega):=\\operatorname{biz}^{TF}_{a|r}(\\omega)=\\frac{q_a(\\omega)}{q_r(\\omega)},\\qquadq_r(\\omega)>0,\\quadq_a(\\omega)\\in\\mathbbZ_{\\ge0}.\\end{equation}",
       "depends_on": [
@@ -90,7 +90,7 @@
     "eq:shed-continuation-witness": {
       "status": "new",
       "surface": "main",
-      "path": "sections/06_field.tex",
+      "path": "typst/sections/06_field.typ",
       "obligation": "PO-4",
       "formula": "\\begin{equation}w_{\\mathrm{shed}}=\\bigl(W_{\\mathrm{parent}},\\partial_TR_{\\mathrm{emit}},k_{\\mathrm{emit}},\\mathrm{route}\\in\\{\\mathrm{endo},\\mathrm{exo},\\mathrm{redir},\\mathrm{open}\\},X_{\\mathrm{route}},S^W_{\\mathrm{post}}\\bigr).\\end{equation}",
       "depends_on": [
@@ -103,7 +103,7 @@
     "eq:recipient-event-lattice": {
       "status": "new",
       "surface": "main",
-      "path": "sections/06_field.tex",
+      "path": "typst/sections/06_field.typ",
       "obligation": "PO-4",
       "formula": "\\begin{equation}\\begin{split}&\\mathrm{emitted}\\longrightarrow\\mathrm{delivered}\\longrightarrow\\begin{cases}\\mathrm{accepted}\\longrightarrow\\{\\mathrm{seated},\\,\\mathrm{pending\\_unseated}\\},\\\\\\mathrm{unaccepted\\_pass},\\end{cases}\\\\&\\mathrm{seated}\\xrightarrow{\\operatorname{Cert}(C_{i_{\\mathrm{rec}},j})}\\begin{cases}\\mathrm{closed\\_origin}\\(\\Delta\\Phi=1_C,\\\\Delta\\operatorname{bip}=0),&j=0,\\\\\\mathrm{reclosed}\\(\\text{distinctcompatible}\\operatorname{id}_{\\mathrm{return}},\\k_j\\in\\omega_{\\mathrm{rec}},\\\\Delta\\operatorname{bip}=1),&j\\ge1.\\end{cases}\\end{split}\\end{equation}",
       "depends_on": [
@@ -118,7 +118,7 @@
     "eq:m3-observation-map": {
       "status": "new",
       "surface": "main",
-      "path": "sections/07_cell_measures_mappings.tex",
+      "path": "typst/sections/07_cell_measures_mappings.typ",
       "obligation": "PO-8",
       "formula": "\\begin{equation}C_i=\\mathcalO_i(\\Gamma^W_i,\\Gamma^\\times,\\omega,\\mathrm{preparation},\\mathrm{apparatus})\\in\\mathbbQ,\\qquadC_i^{\\mathrm{aff}}=g_iq_i(\\omega)+\\delta_{\\mathrm{end},i}\\quad(g_i>0).\\end{equation}",
       "depends_on": [
@@ -129,7 +129,7 @@
     "eq:m3-conditional-si-anchor": {
       "status": "new",
       "surface": "main",
-      "path": "sections/07_cell_measures_mappings.tex",
+      "path": "typst/sections/07_cell_measures_mappings.typ",
       "obligation": "PO-8",
       "formula": "\\begin{equation}T_\\omega=\\frac{C_r}{\\barf^{\\mathrm{SI}}_r},\\qquad\\barf^{\\mathrm{SI}}_a=\\frac{C_a}{C_r}\\barf^{\\mathrm{SI}}_r,\\qquadC_r>0,\\\\barf^{\\mathrm{SI}}_r>0,\\C_a\\in\\mathbbQ.\\end{equation}",
       "depends_on": [
@@ -140,7 +140,7 @@
     "eq:m3-cs133-tau-interface": {
       "status": "new",
       "surface": "main",
-      "path": "sections/07_cell_measures_mappings.tex",
+      "path": "typst/sections/07_cell_measures_mappings.typ",
       "obligation": "PO-8",
       "formula": "\\begin{equation}T_\\omega=\\frac{C_{\\mathrm{Cs}}}{\\Delta\\nu_{\\mathrm{Cs}}},\\qquad\\barf_a=\\Delta\\nu_{\\mathrm{Cs}}\\frac{C_a}{C_{\\mathrm{Cs}}},\\qquad\\Delta\\theta_a=\\tauC_a,\\qquad\\bar\\Omega_a=\\tau\\barf_a.\\end{equation}",
       "depends_on": [
@@ -152,48 +152,48 @@
     "fig:curl-to-duon-current-support": {
       "surface": "main",
       "previous_path": "sections/06_field.tex",
-      "path": "sections/05_curl_closure_duon_current.tex"
+      "path": "typst/sections/05_curl_closure_duon_current.typ"
     },
     "fig:closure-ladder": {
       "surface": "main",
       "previous_path": "sections/06_field.tex",
-      "path": "sections/05_curl_closure_duon_current.tex"
+      "path": "typst/sections/05_curl_closure_duon_current.typ"
     }
   },
   "retained_anchors": {
     "subsec:localized-wavelet": {
       "surface": "main",
-      "path": "sections/04_cut_running_fractal_tesseract.tex"
+      "path": "typst/sections/04_cut_running_fractal_tesseract.typ"
     },
     "subsec:duon": {
       "surface": "main",
-      "path": "sections/05_curl_closure_duon_current.tex"
+      "path": "typst/sections/05_curl_closure_duon_current.typ"
     },
     "subsec:duad": {
       "surface": "main",
-      "path": "sections/05_curl_closure_duon_current.tex"
+      "path": "typst/sections/05_curl_closure_duon_current.typ"
     },
     "subsec:temporal-cycle-group": {
       "surface": "main",
-      "path": "sections/06_field.tex"
+      "path": "typst/sections/06_field.typ"
     },
     "subsec:e2-duon": {
       "surface": "main",
-      "path": "sections/06_field.tex"
+      "path": "typst/sections/06_field.typ"
     },
     "subsec:e2-duad": {
       "surface": "main",
-      "path": "sections/06_field.tex"
+      "path": "typst/sections/06_field.typ"
     }
   },
   "new_anchors": {
     "subsec:aod-wavelet-continuation": {
       "surface": "main",
-      "path": "sections/06_wave_state_relational_time.tex"
+      "path": "typst/sections/06_wave_state_relational_time.typ"
     },
     "subsec:m3-conditional-si-interface": {
       "surface": "main",
-      "path": "sections/07_cell_measures_mappings.tex"
+      "path": "typst/sections/07_cell_measures_mappings.typ"
     }
   },
   "limits": [

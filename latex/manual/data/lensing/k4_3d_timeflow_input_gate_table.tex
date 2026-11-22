@@ -1,0 +1,25 @@
+% GENERATED FROM typst/manual/tables/k4_3d_timeflow_input_gate_table.typ BY scripts/typ2tex.py (v1.0.0) — DO NOT EDIT.
+% Edit canonical Typst under typst/ and regenerate with: python3 scripts/typ2tex.py --root . --outdir latex
+
+\begin{table}[H]
+\centering
+\caption{K4 independent 3D + time-flow input gate.}
+\label{tab:manual-lensing-k4-gate}
+{\footnotesize
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.160\linewidth}>{\raggedright\arraybackslash}p{0.320\linewidth}>{\raggedright\arraybackslash}p{0.210\linewidth}>{\raggedright\arraybackslash}p{0.150\linewidth}}
+\toprule
+Input group & Required field & Source status & Gate \\
+\midrule
+3D density fields & stellar density $\rho_{\star}(R,z,\theta)$ & external / 3D proxy & required \\
+3D density fields & gas density $\rho_{\mathrm{gas}}(R,z,\theta)$ & external / 3D proxy & required \\
+velocity and flow fields & gas and stellar velocity vector field & IFU / H I / H$\alpha$ & required \\
+velocity and flow fields & line-of-sight flow and bobbing/slosh phase & time / kinematic proxy & required \\
+momentum fields & angular momentum and radial/linear momentum & independent kinematics & required \\
+time-window state & duration/cadence windows for flow transfer & declared pre-score & required \\
+lensing target side & image-position bins & quarantined target & required \\
+lensing target side & Einstein-radius bins and image count classes & quarantined target & required \\
+audit controls & null / permutation controls & declared pre-score & required \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

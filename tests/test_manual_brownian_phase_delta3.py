@@ -1,11 +1,19 @@
 from pathlib import Path
 import csv
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def read(rel):
+    p = ROOT / "latex" / rel
+    if p.is_file():
+        return p.read_text()
     return (ROOT / rel).read_text()
+
+
+def _nw(s):
+    return re.sub(r"\s+", "", s)
 
 
 def brownian_text():
@@ -23,9 +31,10 @@ def test_brownian_section_present_and_manual_only():
 
 def test_brownian_integerized_trajectory_and_q_active():
     text = brownian_text()
-    assert r'z_i=(X_i,Y_i,Z_i)\in\mathbb Z^3' in text
-    assert r'\Delta z_i^{(n)}=z_{i+n}-z_i=(a_i^{(n)},b_i^{(n)},c_i^{(n)})' in text
-    assert r'Q_i^{(n)}=(a_i^{(n)})^2+(b_i^{(n)})^2+(c_i^{(n)})^2\in\mathbb Z_{\ge0}' in text
+    text_nw = _nw(text)
+    assert r'z_i=(X_i,Y_i,Z_i)\in\mathbb{Z}^3' in text_nw
+    assert r'\Deltaz_i^{(n)}=z_{i+n}-z_i=(a_i^{(n)},b_i^{(n)},c_i^{(n)})' in text_nw
+    assert r'Q_i^{(n)}=(a_i^{(n)})^2+(b_i^{(n)})^2+(c_i^{(n)})^2\in\mathbb{Z}_{\ge0}' in text_nw
     assert 'Active coordinate: integerized three-dimensional displacement and phase-cycle count data' in text
     exact_chunk = read('manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex')
     forbidden = ['radial distance fit', 'diffusion coefficient fit', r'\sqrt']
@@ -34,22 +43,22 @@ def test_brownian_integerized_trajectory_and_q_active():
 
 
 def test_brownian_phase_and_octant_delta3_forms_present():
-    text = brownian_text()
-    assert r'\theta_i^{(n)}=Q_i^{(n)}\bmod\beta_a' in text
-    assert r'O_\theta^{(n)}=\#\{i:\theta_i^{(n)}=\theta\}' in text
-    assert r'\delta_{3,\theta}^{(n)}=\left(\operatorname{sgn}(\Delta_\theta^{\mathbb Z,(n)}),|\Delta_\theta^{\mathbb Z,(n)}|\right)' in text
-    assert r'\operatorname{octant}(a_i^{(n)},b_i^{(n)},c_i^{(n)})\in\{0,\ldots,7\}' in text
-    assert r'\widehat O_q^{(n)}=\operatorname{IntBalance}(N_n,8)' in text
-    assert r'\delta_{3,q}^{(n)}=' in text
+    text_nw = _nw(brownian_text())
+    assert r'\theta_i^{(n)}=Q_i^{(n)}\bmod\beta_a' in text_nw
+    assert r'O_{\theta}^{(n)}=\#\{i:\theta_i^{(n)}=\theta\}' in text_nw
+    assert r'\delta_{3,\theta}^{(n)}=(\operatorname{sgn}(\Delta_{\theta}^{\mathbb{Z},(n)}),|\Delta_{\theta}^{\mathbb{Z},(n)}|)' in text_nw
+    assert r'\operatorname{octant}(a_i^{(n)},b_i^{(n)},c_i^{(n)})\in\{0,\dots,7\}' in text_nw
+    assert r'\hat{O}_q^{(n)}=\operatorname{IntBalance}(N_n,8)' in text_nw
+    assert r'\delta_{3,q}^{(n)}=' in text_nw
 
 
 def test_brownian_integer_ratios_present():
-    text = brownian_text()
-    assert r'R_Q^{(n)}=\left(\sum_iQ_i^{(n)}:N_n\right)' in text
-    assert r'R_x^{(n)}=\left(\sum_i(a_i^{(n)})^2:\sum_iQ_i^{(n)}\right)' in text
-    assert r'R_y^{(n)}=\left(\sum_i(b_i^{(n)})^2:\sum_iQ_i^{(n)}\right)' in text
-    assert r'R_z^{(n)}=\left(\sum_i(c_i^{(n)})^2:\sum_iQ_i^{(n)}\right)' in text
-    assert r'R_{\mathrm{oct}}^{(n)}=(O_0^{(n)}:O_1^{(n)}:\cdots:O_7^{(n)})' in text
+    text_nw = _nw(brownian_text())
+    assert r'R_Q^{(n)}=(\sum_iQ_i^{(n)}:N_n)' in text_nw
+    assert r'R_x^{(n)}=(\sum_i(a_i^{(n)})^2:\sum_iQ_i^{(n)})' in text_nw
+    assert r'R_y^{(n)}=(\sum_i(b_i^{(n)})^2:\sum_iQ_i^{(n)})' in text_nw
+    assert r'R_z^{(n)}=(\sum_i(c_i^{(n)})^2:\sum_iQ_i^{(n)})' in text_nw
+    assert r'R_{\mathrm{oct}}^{(n)}=(O_0^{(n)}:O_1^{(n)}:\cdots:O_7^{(n)})' in text_nw
 
 
 def test_brownian_data_outputs_exact_integer_counts():
@@ -84,7 +93,7 @@ def test_brownian_figure_and_registry_present():
 
 
 def test_brownian_script_target_and_continuous_summary_quarantine():
-    script = read('manual/scripts/aod_brownian_3d_phase_delta3.py')
+    script = (ROOT / 'manual/scripts/aod_brownian_3d_phase_delta3.py').read_text()
     assert 'Q=a^2+b^2+c^2' in script
     assert 'phase residues Q mod beta_a' in script
     sec = read('manual/sections/06_field_dynamics_applications.tex')

@@ -799,17 +799,40 @@ def check_contract_and_provenance_dag():
         'sources': 6,
     }, 'unexpected m3_wavelet_compaction summary')
 
-    # Scoped syntax check for non-appendix forward provenance references in rendered Main
-    _, parts = audit.include_graph(ROOT, 'main')
+    # Scoped syntax check for non-appendix forward provenance references in canonical Typst Main
+    _, typ_parts = audit.include_graph(ROOT, 'main')
+    typ_label_pos = {}
+    offset = 0
+    for path, text in typ_parts:
+        for match in re.finditer(r'<([A-Za-z][A-Za-z0-9:._-]*)>', text):
+            lab = match.group(1)
+            if lab not in typ_label_pos:
+                typ_label_pos[lab] = (offset + match.start(), path)
+        offset += len(text)
+    offset = 0
+    typ_inversions = []
+    for path, text in typ_parts:
+        for match in re.finditer(r'#aod-provenance\[((?:[^\[\]]|\[[^\[\]]*\])*)\]', text):
+            prov_pos = offset + match.start()
+            for ref in re.findall(r'#(?:eqref|eqnref|secref|figref|tabref|bare-ref)\(\s*"([^"]+)"\s*\)', match.group(1)):
+                if ref in typ_label_pos:
+                    rpos, rpath = typ_label_pos[ref]
+                    if rpos > prov_pos and not rpath.startswith('typst/appendices/'):
+                        typ_inversions.append((path, ref, rpath))
+        offset += len(text)
+    _check(not typ_inversions, f'canonical Typst forward provenance inversions detected: {typ_inversions}')
+
+    # Same DAG check on generated LaTeX Main
+    _, tex_parts = audit.latex_include_graph(ROOT, 'main')
     offset = 0
     label_pos = {}
-    for path, text in parts:
+    for path, text in tex_parts:
         for match in re.finditer(r'\\label\{([^}]+)\}', text):
             label_pos[match.group(1)] = (offset + match.start(), path)
         offset += len(text)
     offset = 0
     inversions = []
-    for path, text in parts:
+    for path, text in tex_parts:
         for match in re.finditer(r'\\aodprovenance\{((?:[^{}]|\{[^{}]*\})*)\}', text):
             prov_pos = offset + match.start()
             for ref in re.findall(r'\\(?:eqref|eqnref|secref|figref|tabref|ref)\{([^}]+)\}', match.group(1)):
@@ -818,7 +841,7 @@ def check_contract_and_provenance_dag():
                     if rpos > prov_pos and not rpath.startswith('appendices/'):
                         inversions.append((path, ref, rpath))
         offset += len(text)
-    _check(not inversions, f'forward provenance inversions detected: {inversions}')
+    _check(not inversions, f'generated LaTeX forward provenance inversions detected: {inversions}')
     return {'m3_wavelet_compaction': comp['m3_wavelet_compaction'], 'forward_provenance_syntax_hits': 0}
 
 
@@ -866,9 +889,9 @@ if pytest is not None:
 
     def test_wavelet_equation_body_cannot_be_removed_behind_retained_label(isolated):
         audit = _load_module('m3_wc_audit_body', 'scripts/audit_scientific_sources.py')
-        path = isolated / 'sections/06_wave_state_relational_time.tex'
+        path = isolated / 'typst/sections/06_wave_state_relational_time.typ'
         block = audit.equations(isolated)['eq:aod-wavelet-continuation']
-        path.write_text(path.read_text().replace(block, r'\label{eq:aod-wavelet-continuation}', 1))
+        path.write_text(path.read_text().replace(block, '#aod-anchor(<eq:aod-wavelet-continuation>)', 1))
         with pytest.raises(ValueError, match='M3 wavelet compaction statement or owner changed eq:aod-wavelet-continuation'):
             check_m3_wavelet_compaction(isolated)
         with pytest.raises(ValueError, match='M3 wavelet compaction statement or owner changed eq:aod-wavelet-continuation'):
@@ -877,9 +900,9 @@ if pytest is not None:
 
     def test_conditional_si_formula_alteration_is_rejected(isolated):
         audit = _load_module('m3_wc_audit_si', 'scripts/audit_scientific_sources.py')
-        path = isolated / 'sections/07_cell_measures_mappings.tex'
+        path = isolated / 'typst/sections/07_cell_measures_mappings.typ'
         block = audit.equations(isolated)['eq:m3-cs133-tau-interface']
-        altered = block.replace(r'\tau C_a', r'2\tau C_a')
+        altered = block.replace('tau C_a', '2 tau C_a')
         assert altered != block
         path.write_text(path.read_text().replace(block, altered, 1))
         with pytest.raises(ValueError, match='M3 wavelet compaction statement or owner changed eq:m3-cs133-tau-interface'):
@@ -890,12 +913,12 @@ if pytest is not None:
 
     def test_relocated_figure_cannot_drift_back_to_field_section(isolated):
         audit = _load_module('m3_wc_audit_fig', 'scripts/audit_scientific_sources.py')
-        s5 = isolated / 'sections/05_curl_closure_duon_current.tex'
-        s6 = isolated / 'sections/06_field.tex'
-        label = r'\label{fig:closure-ladder}'
+        s5 = isolated / 'typst/sections/05_curl_closure_duon_current.typ'
+        s6 = isolated / 'typst/sections/06_field.typ'
+        label = '<fig:closure-ladder>'
         assert label in s5.read_text()
         s5.write_text(s5.read_text().replace(label, '', 1))
-        s6.write_text(s6.read_text() + '\n' + label + '\n')
+        s6.write_text(s6.read_text() + '\n#aod-anchor(<fig:closure-ladder>)\n')
         with pytest.raises(ValueError, match='M3 wavelet compaction figure owner changed fig:closure-ladder'):
             check_m3_wavelet_compaction(isolated)
         with pytest.raises(ValueError, match='M3 wavelet compaction figure owner changed fig:closure-ladder'):
@@ -904,23 +927,23 @@ if pytest is not None:
 
     def test_retained_stub_anchor_cannot_be_dropped(isolated):
         audit = _load_module('m3_wc_audit_stub', 'scripts/audit_scientific_sources.py')
-        s6 = isolated / 'sections/06_field.tex'
-        label = r'\label{subsec:e2-duad}'
+        s6 = isolated / 'typst/sections/06_field.typ'
+        label = '<subsec:e2-duad>'
         assert label in s6.read_text()
         s6.write_text(s6.read_text().replace(label, '', 1))
         with pytest.raises(ValueError, match='M3 wavelet compaction tracked anchor changed subsec:e2-duad'):
             check_m3_wavelet_compaction(isolated)
-        with pytest.raises(ValueError, match='unresolved main reference subsec:e2-duad|M3 wavelet compaction tracked anchor changed'):
+        with pytest.raises(ValueError, match='unresolved main reference subsec:e2-duad|M3 wavelet compaction tracked anchor changed|generated LaTeX Main label set differs'):
             audit.audit(isolated)
 
 
     def test_wavelet_contract_cannot_self_rebind_changed_source(isolated):
         audit = _load_module('m3_wc_audit_tamper', 'scripts/audit_scientific_sources.py')
-        path = isolated / 'sections/05_curl_closure_duon_current.tex'
-        path.write_text(path.read_text() + '\n% unauthorized edit\n')
+        path = isolated / 'typst/sections/05_curl_closure_duon_current.typ'
+        path.write_text(path.read_text() + '\n// unauthorized edit\n')
         contract = isolated / 'contracts/scientific/M3_WAVELET_COMPACTION_BINDINGS.json'
         record = json.loads(contract.read_text())
-        record['sources']['sections/05_curl_closure_duon_current.tex'] = hashlib.sha256(path.read_bytes()).hexdigest()
+        record['sources']['typst/sections/05_curl_closure_duon_current.typ'] = hashlib.sha256(path.read_bytes()).hexdigest()
         contract.write_text(json.dumps(record))
         with pytest.raises(ValueError, match='scientific contract integrity changed M3_WAVELET_COMPACTION_BINDINGS.json'):
             check_m3_wavelet_compaction(isolated)

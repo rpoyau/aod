@@ -5,14 +5,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_fractal_origin_anchor_is_octal():
-    text = (ROOT / "appendices" / "A_fractal_address_bip_biz.tex").read_text()
+    text = (ROOT / "latex" / "appendices" / "A_fractal_address_bip_biz.tex").read_text()
     assert r"\mathtt{00}_8" in text
     assert "Addresses below" in text and "out of scope and unbound" in text
     assert r"\mathtt{00}\vdash" not in text
 
 
 def test_sparc_five_galaxy_registry_status_is_scored():
-    text = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
+    text = (ROOT / "latex" / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     assert "SPARC five-galaxy square-speed diagnostic & G0 & SPARC radial rows" in text
     assert "SPARC radical-free square-speed benchmark protocol" not in text or "benchmark dataset pending" not in text.split("SPARC radical-free square-speed benchmark protocol", 1)[1].split("\\", 1)[0]
     assert "SPARC full-sample / extended benchmark & G0/G1 & target data manifest" in text

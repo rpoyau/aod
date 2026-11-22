@@ -1,0 +1,260 @@
+% GENERATED FROM typst/manual/sections/02_hydrogen_facing_shell_tests.typ BY scripts/typ2tex.py (v1.0.0) — DO NOT EDIT.
+% Edit canonical Typst under typst/ and regenerate with: python3 scripts/typ2tex.py --root . --outdir latex
+
+\section{Hydrogen-facing Shell Tests}\label{manual:hydrogen-shell-tests}
+
+\paragraph{Calculation card.}
+The declared signed shell ladder gives exact transition differences and
+ratios. The wavelength rows are carried external comparisons, sharing each
+series baseline; their display precision is not a measurement uncertainty.
+This application's source adapter still needs exact source rows, observed
+versus Ritz and line/component conventions, uncertainty semantics and
+covariance. The common method is \secref{manual:calculation-spine}; the
+existing ratio audit checks the stated arithmetic only.
+
+\subsection{Shared hydrogen-facing shell declaration}\label{manual:hydrogen:scope}
+
+\aodnoteblock{Scope}{This section declares a signed shell comparison ladder,
+computes its exact transition differences, and then records
+wavelength/frequency/energy comparisons.}
+
+\aodnoteblock{Data-support class}{Hydrogen shell tests instantiate D0 exact shell-ratio fixtures and O0 shell observable-map comparisons. Error quantities are shell-ratio or spectral-map residuals.}
+
+The shared declaration is
+
+\[
+\mathbf{a}_H\vdash(F_H,R_H,\partial R_H,\omega_H),\qquad B_H=(\partial F_H,\omega_H).
+\]
+
+The shell family is indexed by an integer shell number
+
+\[
+S_n,\qquad n\in\mathbb{Z}_{\ge1}.
+\]
+
+For the hydrogen-facing comparison records, the normalized shell-pressure ladder is declared by
+
+\[
+\hat{P}^D_{S_n}:=-\frac{1}{n^2}.
+\]
+
+For a downward transition $n\to m$, with $n>m$, declare the released normalized pressure magnitude
+
+\[
+\Delta\hat{P}^D(n\to m):=\hat{P}^D_{S_n}-\hat{P}^D_{S_m}=\frac{1}{m^2}-\frac{1}{n^2}>0.
+\]
+
+The signed state change is $\hat{P}^D_{S_m}-\hat{P}^D_{S_n}=-\Delta\hat{P}^D(n\to m)$.
+
+\[
+\boxed{\text{Hydrogen shell tests use a declared signed comparison ladder.}}
+\]
+
+\aodnoteblock{Remark}{The normalized ladder is a manual comparison choice. The main-note pressure definition remains $p^D=C_3\rho^D_{\omega}$.}
+
+\aodnoteblock{Presentation policy}{The A$\Omega$ ratios in the spectral tables are exact rational values. Decimal target ratios, wavelengths, frequencies, and percent errors are external presentation values. A $z$-score is recorded when the record carries an explicit uncertainty.}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/generated/hydrogen-shell-setup.pdf}
+\caption{Hydrogen-facing shell-cycle ladder. The released shell-pressure magnitude is calculated before measured wavelengths and external energy-coordinate comparisons are attached.}
+\label{fig:manual-hydrogen-shell-setup}
+\end{figure}
+
+\subsection{Shell-radius comparison}\label{manual:hydrogen:radii}
+
+The radius-ratio check records the standard shell scaling
+
+\[
+\frac{r_n}{r_1}=n^2.
+\]
+
+The radius-ratio record is carried as a geometry comparison record.
+
+\begin{table}[H]
+\centering
+\caption{Hydrogen-facing shell-radius ratios.}
+\label{tab:manual-hydrogen-shell-radii}
+{\footnotesize
+\begin{tabular}{cccc}
+\toprule
+Shell & A$\Omega$ shell & Ratio target & Status \\
+\midrule
+1 & $S_1$ & $1$ & baseline \\
+2 & $S_2$ & $4$ & comparison record \\
+3 & $S_3$ & $9$ & comparison record \\
+4 & $S_4$ & $16$ & comparison record \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection{Shell-pressure table}\label{manual:hydrogen:pressure-table}
+
+The Balmer comparison records use downward transitions into $S_2$. The normalized released-pressure magnitudes are
+
+\[
+\Delta\hat{P}^D(n\to2)=\frac{1}{2^2}-\frac{1}{n^2}.
+\]
+
+The ratio to the $3\to2$ record is
+
+\[
+\mathcal{R}_{n\to2}=\frac{\Delta\hat{P}^D(n\to2)}{\Delta\hat{P}^D(3\to2)}.
+\]
+
+\begin{table}[H]
+\centering
+\caption{Hydrogen-facing Balmer released-pressure ratios. Targets are ratio comparisons against cited Balmer wavelengths.}
+\label{tab:manual-hydrogen-pressure-ratios}
+{\footnotesize
+\begin{tabular}{cccccc}
+\toprule
+Line & Transition & $\Delta\hat{P}^D$ & A$\Omega$ ratio & Target ratio & Error [\%] \\
+\midrule
+H$\alpha$ & $3\to2$ & $5/36$ & $1$ & $1.00000000$ & $0.000000$ \\
+H$\beta$ & $4\to2$ & $3/16$ & $27/20$ & $1.34999075$ & $0.000685$ \\
+H$\gamma$ & $5\to2$ & $21/100$ & $189/125$ & $1.51198839$ & $0.000768$ \\
+H$\delta$ & $6\to2$ & $2/9$ & $8/5$ & $1.59999025$ & $0.000609$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection{Shell-energy transitions}\label{manual:hydrogen:energy-transitions}
+
+The measured comparison is downstream. Given a cited vacuum wavelength $\lambda$, the comparison sequence is
+
+\[
+f=\frac{c}{\lambda},\qquad E=h_{\mathrm{ext}}f.
+\]
+
+This sequence uses the quarantine of \appref{manual:external-comparison}.
+
+\begin{table}[H]
+\centering
+\caption{Hydrogen Balmer comparison targets. Wavelength records follow the NIST Atomic Spectra Database target convention.}
+\label{tab:manual-hydrogen-balmer-targets}
+{\footnotesize
+\begin{tabular}{ccccc}
+\toprule
+Line & Transition & $\lambda_{\mathrm{vac}}$ [nm] & $f$ [Hz] & $E$ [eV] \\
+\midrule
+H$\alpha$ & $3\to2$ & $656.46$ & $4.56680465\times10^{14}$ & $1.88867865$ \\
+H$\beta$ & $4\to2$ & $486.27$ & $6.16514401\times10^{14}$ & $2.54969869$ \\
+H$\gamma$ & $5\to2$ & $434.17$ & $6.90495562\times10^{14}$ & $2.85566019$ \\
+H$\delta$ & $6\to2$ & $410.29$ & $7.30684292\times10^{14}$ & $3.02186742$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection{Hydrogen spectral-series extension}\label{manual:hydrogen:spectral-extension}
+
+\aodnoteblock{Choice}{The Lyman and Paschen records use the same normalized shell-pressure ladder as the Balmer records. The destination shell $S_m$ is declared before each transition table. Ratio comparison is performed before wavelength, frequency, or energy export.}
+
+For a fixed destination shell $S_m$ and a transition $n\to m$, with $n>m$, define the A$\Omega$-internal series ratio
+
+\[
+\mathcal{R}_{n\to m,\AO}=\frac{\Delta\hat{P}^D(n\to m)}{\Delta\hat{P}^D((m+1)\to m)}.
+\]
+
+For wavelength comparison, use the inverse-wavelength relation
+
+\[
+\mathcal{R}^{\lambda,\mathrm{tar}}_{n\to m}=\frac{\lambda_{(m+1)\to m}}{\lambda_{n\to m}}.
+\]
+
+Thus the A$\Omega$-internal pressure ratio is compared against the measured inverse-wavelength ratio. external frequency coordinate and energy export remain downstream.
+
+\subsubsection{Lyman series}\label{manual:hydrogen:lyman}
+
+For Lyman records, the destination shell is $S_1$. The baseline is $2\to1$, with
+
+\[
+\Delta\hat{P}^D(2\to1)=1-\frac{1}{4}=\frac{3}{4}.
+\]
+
+\begin{table}[H]
+\centering
+\caption{Hydrogen Lyman released-pressure ratio audit. Vacuum wavelength targets are downstream comparison records carried by the NIST-ASD target convention.}
+\label{tab:manual-hydrogen-lyman-ratios}
+{\footnotesize
+\begin{tabular}{ccccccc}
+\toprule
+Line & Transition & $\Delta\hat{P}^D$ & A$\Omega$ ratio & $\lambda_{\mathrm{vac}}$ [nm] & Target ratio & Error [\%] \\
+\midrule
+Ly$\alpha$ & $2\to1$ & $3/4$ & $1$ & $121.56701$ & $1.00000000$ & $0.000000$ \\
+Ly$\beta$ & $3\to1$ & $8/9$ & $32/27$ & $102.57225$ & $1.18518420$ & $0.000083$ \\
+Ly$\gamma$ & $4\to1$ & $15/16$ & $5/4$ & $97.2537$ & $1.24999882$ & $0.000095$ \\
+Ly$\delta$ & $5\to1$ & $24/25$ & $32/25$ & $94.9740$ & $1.28000305$ & $-0.000239$ \\
+Ly$\epsilon$ & $6\to1$ & $35/36$ & $35/27$ & $93.7803$ & $1.29629581$ & $0.000037$ \\
+Limit & $\infty\to1$ & $1$ & $4/3$ & series limit & $4/3$ & audit record \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsubsection{Paschen series}\label{manual:hydrogen:paschen}
+
+For Paschen records, the destination shell is $S_3$. Pa$\alpha$, Pa$\beta$, and Pa$\epsilon$ carry the NIST Hydrogen Handbook air wavelengths. Pa$\gamma$ and Pa$\delta$ remain carried targets with source-row and medium bindings unverified. The baseline is $4\to3$, with
+
+\[
+\Delta\hat{P}^D(4\to3)=\frac{1}{9}-\frac{1}{16}=\frac{7}{144}.
+\]
+
+\begin{table}[H]
+\centering
+\caption{Hydrogen Paschen released-pressure ratio audit. Wavelengths are carried comparison targets with the source-medium bindings declared in this subsection.}
+\label{tab:manual-hydrogen-paschen-ratios}
+{\footnotesize
+\begin{tabular}{ccccccc}
+\toprule
+Line & Transition & $\Delta\hat{P}^D$ & A$\Omega$ ratio & $\lambda_{\mathrm{tar}}$ [nm] & Target ratio & Error [\%] \\
+\midrule
+Pa$\alpha$ & $4\to3$ & $7/144$ & $1$ & $1875.101$ & $1.00000000$ & $0.000000$ \\
+Pa$\beta$ & $5\to3$ & $16/225$ & $256/175$ & $1281.807$ & $1.46285751$ & $-0.000025$ \\
+Pa$\gamma$ & $6\to3$ & $1/12$ & $12/7$ & $1093.808$ & $1.71428715$ & $-0.000084$ \\
+Pa$\delta$ & $7\to3$ & $40/441$ & $640/343$ & $1004.938$ & $1.86588725$ & $0.000105$ \\
+Pa$\epsilon$ & $8\to3$ & $55/576$ & $55/28$ & $954.597$ & $1.96428545$ & $0.000013$ \\
+Limit & $\infty\to3$ & $1/9$ & $16/7$ & series limit & $16/7$ & audit record \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsubsection{Series-ratio audit}\label{manual:hydrogen:series-audit}
+
+Retain one source identity for the shared denominator when propagating the
+ratios. Air wavelengths require source-bound vacuum conversion or a declared
+model-to-air observation map, including refractive-index applicability and
+uncertainty; $c/\lambda_{\mathrm{air}}$ is not a vacuum frequency. Until
+those bindings are supplied, the current inverse-wavelength ratios remain
+carried-coordinate diagnostics, with physical uncertainty unresolved.
+
+\aodnoteblock{Audit}{A spectral-series record carries the destination shell $S_m$, the computed $\Delta\hat{P}^D(n\to m)$, and the inverse-wavelength ratio $\lambda_{(m+1)\to m}/\lambda_{n\to m}$.}
+
+\aodprovenance{\secref{subsec:shared-shell-path-declaration};
+\appref{manual:external-comparison}.}
+
+\aodliteraturenote{Hydrogen spectral-line targets: NIST Atomic Spectra Database~\cite{nist-asd}; Paschen Pa$\alpha$, Pa$\beta$, Pa$\epsilon$ air rows: NIST Hydrogen Handbook~\cite{nist-hydrogen-handbook}.}
+
+\subsection{Error audit}\label{manual:hydrogen:error-audit}
+
+For a transition record $x$, record
+
+\[
+\Delta\mathcal{R}_x=\mathcal{R}_{x,\AO}-\mathcal{R}_x^{\mathrm{tar}},\qquad\epsilon_x^{\mathrm{sgn}}=100\frac{\Delta\mathcal{R}_x}{\mathcal{R}_x^{\mathrm{tar}}}.
+\]
+
+The ratio audits in \tabref{tab:manual-hydrogen-pressure-ratios}, \tabref{tab:manual-hydrogen-lyman-ratios} and \tabref{tab:manual-hydrogen-paschen-ratios} use this formula. Energy errors may be recorded only after the wavelength target and external conversion are declared.
+
+\subsection{Audit hooks}\label{manual:hydrogen:audit-hooks}
+
+\aodnoteblock{Audit}{A hydrogen-facing shell record carries the released-pressure magnitude before external comparison, its ratio record, and the wavelength target with its declared source-medium binding.}
+
+\aodprovenance{\secref{subsec:shared-shell-path-declaration};
+\appref{manual:external-comparison};
+\secref{manual:hydrogen:scope}.}
+
+\aodliteraturenote{Hydrogen Balmer targets: NIST Atomic Spectra Database~\cite{nist-asd}.}

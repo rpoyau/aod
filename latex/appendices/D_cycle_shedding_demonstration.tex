@@ -1,0 +1,39 @@
+% GENERATED FROM typst/appendices/D_cycle_shedding_demonstration.typ BY scripts/typ2tex.py (v1.0.0) — DO NOT EDIT.
+% Edit canonical Typst under typst/ and regenerate with: python3 scripts/typ2tex.py --root . --outdir latex
+
+\section{Cycle-shedding burden and reclosure model}\label{app:cycle-shedding-demonstration}
+
+\subsection{Scope}\label{app:cycle-shedding-demo-scope}
+
+This declared A$\Omega$D model relates lead--lag span, temporal SADAR
+burden, sheddic excess, outward remainder and local reclosure on one retained
+field. The coefficients are model parameters.
+
+\subsection{Setup}\label{app:cycle-shedding-demo-setup}
+
+For native index $t$, let $L_t$ be the lead component, $G_t$ the lag component, $S_t$ the disturbance span, $P_t$ the burden, $C_t$ local closure compatibility, $X_t$ sheddic excess, $O_t$ outward remainder, and $R_t$ local reclosure.
+
+\subsection{Burden and reclosure recurrence}\label{app:cycle-shedding-demo-statements}
+
+\[
+S_t=|L_t-G_t|,\qquad\tilde{P}_t=\eta_{\mathrm{ret}}P_{t-1}+\gamma_{\mathrm{span}}S_t,
+\]
+
+\[
+X_t=\max(0,\tilde{P}_t-C_t),\qquad P_t=\tilde{P}_t-X_t,
+\]
+
+\[
+O_t=(1-\lambda_{\mathrm{reclose}})X_t,\qquad R_t=\lambda_{\mathrm{reclose}}X_t.
+\]
+
+Here $O_t$ is the non-reclosed outward remainder; route placement may later split it into exoshedding, redirected support routing, and open loss.
+
+\subsection{Falsification}\label{app:cycle-shedding-demo-falsification}
+
+A proposed burden/reclosure sequence that violates any stated recurrence
+for the declared parameters is not a solution of this model.
+
+\aodprovenance{\secref{subsec:temporal-sadar-burden},
+\secref{subsec:shedding},
+\secref{subsec:sheddic-path}.}

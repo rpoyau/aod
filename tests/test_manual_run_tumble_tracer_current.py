@@ -1,11 +1,19 @@
 from pathlib import Path
 import csv
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def read(rel: str) -> str:
+    p = ROOT / "latex" / rel
+    if p.is_file():
+        return p.read_text(encoding="utf-8")
     return (ROOT / rel).read_text(encoding="utf-8")
+
+
+def _nw(s: str) -> str:
+    return re.sub(r"\s+", "", s)
 
 
 def manual_text() -> str:
@@ -14,8 +22,8 @@ def manual_text() -> str:
 
 def main_text() -> str:
     chunks = [read("main.tex")]
-    chunks.extend(p.read_text(encoding="utf-8") for p in sorted((ROOT / "sections").glob("*.tex")))
-    chunks.extend(p.read_text(encoding="utf-8") for p in sorted((ROOT / "appendices").glob("*.tex")))
+    chunks.extend(p.read_text(encoding="utf-8") for p in sorted((ROOT / "latex" / "sections").glob("*.tex")))
+    chunks.extend(p.read_text(encoding="utf-8") for p in sorted((ROOT / "latex" / "appendices").glob("*.tex")))
     return "\n".join(chunks)
 
 
@@ -28,18 +36,19 @@ def test_run_tumble_section_exists():
 
 def test_run_tumble_layer_separation_terms():
     text = manual_text()
-    required = [
-        r"h_t\in\mathbb Z^4",
-        r"\pi_3:\mathbb Z^4\to\mathbb Z^3",
+    text_nw = _nw(text)
+    required_nw = [
+        r"h_t\in\mathbb{Z}^4",
+        r"\pi_3:\mathbb{Z}^4\to\mathbb{Z}^3",
         r"z_t=\pi_3(h_t)",
         r"Q^2_{3D}",
         r"Q^2_4",
         r"m_t\in\{\mathrm{run},\mathrm{tumble}\}",
-        "The fourth trace channel remains part of the \\(Q^2_4\\) audit",
-        "not \\(Q^D\\) pending-overhang notation",
     ]
-    for term in required:
-        assert term in text
+    for term in required_nw:
+        assert term in text_nw
+    assert "The fourth trace channel remains part of the $Q^2_4$ audit" in text
+    assert "not $Q^D$ pending-overhang notation" in text
 
 
 def test_run_tumble_csv_consistency():
@@ -65,8 +74,8 @@ def test_run_tumble_csv_consistency():
             assert h == expected
             assert row["mode"] in {"run", "tumble"}
         assert z == h[:3]
-        q3 = sum(v*v for v in z)
-        q4 = sum(v*v for v in h)
+        q3 = sum(v * v for v in z)
+        q4 = sum(v * v for v in h)
         assert int(row["Q3"]) == q3
         assert int(row["Q4"]) == q4
         assert int(row["theta"]) == q3 % beta
@@ -93,11 +102,12 @@ def test_run_tumble_artifacts_present():
         "manual/data/run_tumble/run_tumble_octant_delta3.csv",
         "manual/data/run_tumble/run_tumble_integer_motion_ratios.csv",
         "manual/data/run_tumble/run_tumble_trace_table.tex",
+        "latex/manual/data/run_tumble/run_tumble_trace_table.tex",
         "manual/figures/run_tumble_trace_3d_projection.png",
     ]
     for rel in files:
         assert (ROOT / rel).exists(), rel
-    script = read("manual/scripts/aod_run_tumble_3d_trace.py")
+    script = (ROOT / "manual/scripts/aod_run_tumble_3d_trace.py").read_text(encoding="utf-8")
     assert "SCHEDULE" in script
     assert "pi3" in script
 
@@ -106,9 +116,10 @@ def test_appendix_c_cross_reference_and_registry_row():
     app = read("manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex")
     assert r"\secref{manual:run-tumble-tracer-current-fixture}" in app
     reg = read("manual/sections/09_prediction_test_fixture_registry.tex")
+    reg_nw = _nw(reg)
     assert "Run-tumble tracer-current fixture" in reg
-    assert r"h_t\in\mathbb Z^4" in reg
-    assert r"\pi_3(h_t)\in\mathbb Z^3" in reg
+    assert r"h_t\in\mathbb{Z}^4" in reg_nw
+    assert r"\pi_3(h_t)\in\mathbb{Z}^3" in reg_nw
     assert "run-tumble trace CSV" in reg
 
 
