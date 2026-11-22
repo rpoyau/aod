@@ -2695,6 +2695,12 @@ def _pdftotext(pdf_path: Path, raw: bool = False) -> str:
     return proc.stdout
 
 
+_LATIN_LIGATURES = str.maketrans({
+    "\ufb00": "ff", "\ufb01": "fi", "\ufb02": "fl", "\ufb03": "ffi",
+    "\ufb04": "ffl", "\ufb05": "st", "\ufb06": "st",
+})
+
+
 def _norm_rendered_text_tokens(raw_pdf_text: str, is_typst: bool, vocab: set[str] | None = None) -> str:
     """Normalize extracted PDF text for ordered clause comparison.
 
@@ -2709,6 +2715,10 @@ def _norm_rendered_text_tokens(raw_pdf_text: str, is_typst: bool, vocab: set[str
             continue
         lines.append(s)
     t = "\n".join(lines)
+    # Latin typographic ligatures (U+FB00..U+FB06) are a font/extractor artefact on either
+    # side ('Adm\ufb01b' vs 'Admfib'); decompose them explicitly rather than via NFKC so
+    # mathematical alphanumerics are left to the shared typography normalizer.
+    t = t.translate(_LATIN_LIGATURES)
     # Typst uses U+00AD soft hyphen exclusively for automatic line-wrap hyphenation;
     # real compound hyphens remain ASCII '-' and split cleanly into words.
     t = t.replace("\u00ad\n", "").replace("\u00ad ", "").replace("\u00ad", "")
@@ -2724,6 +2734,25 @@ def _norm_rendered_text_tokens(raw_pdf_text: str, is_typst: bool, vocab: set[str
     t = t.replace("\u2032", "'")
     toks = [m.group(0) for m in re.finditer(r"[A-Za-z0-9]+(?:['][A-Za-z]+)?|[;:.,?!]", t)]
     return " ".join(toks)
+
+
+_MATH_ALNUM_CLASS = "\U0001d400-\U0001d7ff"
+
+
+def _typst_math_word_counts(raw_pdf_text: str) -> Counter:
+    """Count alphabetic words of the rendered Typst text that contain at least one Unicode
+    mathematical alphanumeric (U+1D400..U+1D7FF), normalized as in the rendered token stream.
+    Typst emits these codepoints only for math letters, never for prose words."""
+    t = raw_pdf_text.translate(_LATIN_LIGATURES).replace("\u00ad\n", "").replace("\u00ad", "")
+    out: Counter = Counter()
+    for m in re.finditer(rf"[A-Za-z0-9{_MATH_ALNUM_CLASS}]+", t):
+        tok = m.group(0)
+        if not re.search(rf"[{_MATH_ALNUM_CLASS}]", tok):
+            continue
+        for w in re.findall(r"[A-Za-z0-9]+", unicodedata.normalize("NFKC", tok)):
+            if w.isalpha():
+                out[w] += 1
+    return out
 
 
 def _extract_rendered_bib_entries(raw_pdf_text: str) -> dict[int, str]:
@@ -3302,12 +3331,31 @@ def verify_evaluated_and_rendered(
                     if all(x.isalpha() for x in win):
                         b_alpha["".join(win)] += 1
             t_alpha = Counter(x for x in t_tokens if x.isalpha())
+            # This is a prose-insertion detector. Typst typesets math letters as Unicode
+            # mathematical alphanumerics (U+1D400..U+1D7FF), which never occur in prose; words
+            # containing them are math tokens, whose content is bound by the source math AST
+            # (Gate B) and the evaluation policy (Gate A2), and whose inter-glyph spacing varies
+            # with the pdftotext version ('supp 𝑣̂' vs 'suppv').
+            t_math = _typst_math_word_counts(_rendered_body(t_stream))
             oov_allow = RENDERED_OOV_EXCESS_ALLOWLIST[surf]
-            oov_excess = sorted(
-                f"{w}(+{t_alpha[w] - b_alpha[w]})"
+            cand = {
+                w: t_alpha[w] - t_math.get(w, 0)
                 for w in t_alpha
                 if len(w) >= OOV_WORD_MIN_LEN and w not in vocab
-                and t_alpha[w] - b_alpha[w] > oov_allow.get(w, 0)
+            }
+            cand = {w: n for w, n in cand.items() if n - b_alpha[w] > oov_allow.get(w, 0)}
+            if cand:
+                # Newer pdftotext versions drop spacing inside baseline math runs and fuse an
+                # adjacent operator glyph ('⊔Admﬁb' -> 'tAdmfib'). An out-of-source word also
+                # counts once per occurrence inside a longer baseline token that is itself
+                # outside the source vocabulary (a math-run artefact, never a prose word).
+                b_oov_tokens = [x for x in b_tokens if x.isalpha() and x not in vocab]
+                for w in cand:
+                    b_alpha[w] += sum(x.count(w) for x in b_oov_tokens if x != w)
+            oov_excess = sorted(
+                f"{w}(+{n - b_alpha[w]})"
+                for w, n in cand.items()
+                if n - b_alpha[w] > oov_allow.get(w, 0)
             )
             require(
                 not novel and not oov_excess,

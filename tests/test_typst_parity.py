@@ -110,6 +110,10 @@ def test_typst_rendered_gate_helpers():
     assert runs == [["line", "break"], ["phase", "type", "retention", "line"]]
     assert vp._run_ngrams(runs) == ["phase type retention line"]
     assert vp._rendered_body("Contents\nReferences\nbody text\nReferences\n[1] x") == "Contents\nReferences\nbody text"
+    # Ligatures decompose on both sides; Typst math-alphanumeric words are counted as math tokens.
+    assert vp._norm_rendered_text_tokens("Adm\ufb01b coe\ufb00icient", is_typst=False) == "Admfib coefficient"
+    counts = vp._typst_math_word_counts("supp\U0001d463\u0302 \u2286 \U0001d43b and support Admfib")
+    assert counts == {"suppv": 1, "H": 1}
 
 
 def test_typst_source_negative_controls_reject_mutations(tmp_path):

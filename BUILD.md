@@ -72,7 +72,7 @@ cmp _build/typst_parity/parity_report.json _build/typst_parity_opt/parity_report
   - labels and peer links;
   - bibliography;
   - source prose clauses, each count-matched against the baseline;
-  - insertion detection: word 4-grams (17-entry layout allowlist) and out-of-source words of at least 4 letters that exceed their baseline count (explicit per-word allowlist);
+  - insertion detection: word 4-grams (17-entry layout allowlist) and out-of-source words of at least 4 letters that exceed their baseline count (explicit per-word allowlist). Latin ligatures are decomposed on both sides. Because pdftotext versions space math runs differently (poppler 22, 24 and 26 were tested), the word check excludes Typst words containing Unicode mathematical alphanumerics, and it counts a word inside a longer out-of-vocabulary baseline token (for example `tAdmfib` from `⊔Admﬁb`) as a baseline occurrence;
   - relation-glyph parity for `+ < > ≤ ≥ ↔ × ∞ ≡`;
   - decimals;
   - a PDF text-paint scan requiring opaque black fill, render mode 0 and text of at least 4 pt.
@@ -82,6 +82,7 @@ Residual limits:
 
 - Rendered `−`, `=`, `∈`, `·`, `∂` and `∑` counts differ between the engines. They are covered by the source math AST and the evaluation policy, not by rendered counts.
 - Rendered insertion of fewer than four consecutive source-vocabulary words with no new out-of-source word is below the rendered detectors' resolution. That class is excluded by the template pins and content policy (Gate A2) together with source parity (Gate B), not detected in the PDF.
+- Words typeset in math alphanumerics are outside the rendered word check. Their content is bound by the source math AST (Gate B) and the evaluation policy (Gate A2).
 - Overlay primitives are forbidden by the policy, not detected in the PDF.
 - Raster figure pixels are bound by protected file digest, not compared visually.
 - Layout and visual review remain separate human checks.
