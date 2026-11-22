@@ -117,6 +117,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.with_latex:
         typ2tex = _load_script(root, "scripts/typ2tex.py", "aod_typ2tex")
+        typ2tex_runtime: dict = {}
         gen_manifest = typ2tex.generate_latex_tree(
             root=root,
             outdir=latex_dir,
@@ -124,11 +125,13 @@ def main(argv: list[str] | None = None) -> int:
             figure_format=args.figure_format,
             ppi=args.ppi,
             typst_bin=typst_bin,
+            runtime_out=typ2tex_runtime,
         )
         latex_pdfs = build_latex_compatibility(latex_dir, outdir / "latex")
         pub_report["latex_compatibility"] = {
             "generation_counts": gen_manifest["counts"],
             "figure_format": args.figure_format,
+            "runtime_diagnostics": typ2tex_runtime,
             **latex_pdfs,
         }
 

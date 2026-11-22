@@ -1,8 +1,18 @@
 {
   "schema": "aod.typst.figure-export.v1",
-  "typst_version": "typst 0.15.1 (9dfd3a08)",
   "format": "pdf",
   "ppi": null,
+  "background": "white",
+  "font_families": {
+    "text": [
+      "Latin Modern Roman",
+      "DejaVu Serif"
+    ],
+    "math": [
+      "Latin Modern Math",
+      "New Computer Modern Math"
+    ]
+  },
   "schema_path": "typst/lib/aod_schema.typ",
   "schema_sha256": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
   "figure_count": 4,
@@ -15,6 +25,17 @@
       "diagram_sha256": "8eb94aa4150eaf43a125c51c9fe04bdacdb0ab4dc1a201bcd8c7b801f5411919",
       "width_cm": 14.2,
       "height_cm": 6.0,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
       "format": "pdf",
       "output_filename": "hydrogen-shell-setup.pdf",
       "output_sha256": "7e1c8d5b744b8a5f528d15e13bc7ea8856d63d956c717ae842d96787b28fffea",
@@ -25,7 +46,7 @@
         170.079
       ],
       "raster_image_xobjects": 0,
-      "extracted_text_chars": 181
+      "has_extractable_text": true
     },
     {
       "slug": "short-window-setup",
@@ -35,6 +56,17 @@
       "diagram_sha256": "3cdb64d913ab775862d82a893550572d4bdfb09e95b6c52e9e18e964a01642c0",
       "width_cm": 14.2,
       "height_cm": 7.4,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
       "format": "pdf",
       "output_filename": "short-window-setup.pdf",
       "output_sha256": "1bd1b28a5b9386d24985047b79708f362b0e90a1b3b4e3fe96e5b1516cbedb16",
@@ -45,7 +77,7 @@
         209.764
       ],
       "raster_image_xobjects": 0,
-      "extracted_text_chars": 203
+      "has_extractable_text": true
     },
     {
       "slug": "boundary-current-spine",
@@ -55,6 +87,17 @@
       "diagram_sha256": "8919cab712a3f357082054b1ea6e574207447f4758b3bc5244deacc78d966756",
       "width_cm": 14.2,
       "height_cm": 7.5,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
       "format": "pdf",
       "output_filename": "boundary-current-spine.pdf",
       "output_sha256": "ec81664d243900bf312589d196e1e583446dd56385f4b0557155106581e2b22b",
@@ -65,7 +108,7 @@
         212.598
       ],
       "raster_image_xobjects": 0,
-      "extracted_text_chars": 190
+      "has_extractable_text": true
     },
     {
       "slug": "solar-system-spine",
@@ -75,6 +118,17 @@
       "diagram_sha256": "fb6418553d4ca17aa3ec4fa3cb23b04a13964c1fb8a422351dc069f0c2e6d04d",
       "width_cm": 14.8,
       "height_cm": 5.2,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
       "format": "pdf",
       "output_filename": "solar-system-spine.pdf",
       "output_sha256": "1cd704189a41fb7b5281905bd9c99636b3514553369b2c123448706d325c3c8e",
@@ -85,7 +139,7 @@
         147.402
       ],
       "raster_image_xobjects": 0,
-      "extracted_text_chars": 203
+      "has_extractable_text": true
     }
   ]
 }

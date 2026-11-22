@@ -49,11 +49,49 @@ import subprocess
 import sys
 import tempfile
 import unicodedata
+import xml.etree.ElementTree as ET
 import zlib
 
 ROOT = Path(__file__).resolve().parents[1]
 
 SCIENTIFIC_BASELINE_COMMIT = "98ddfa0ebb38293adfa99c8c11da5a15cdd9eea3"
+PHASE1_ACCEPTED_COMMIT = "e6f20970c8ac63713c112000e3fe83b9695c7ffc"
+PHASE1_ACCEPTED_TREE = "b4df64481b4f1d53b7b2d0fff1c0fd29ab007659"
+PHASE1_ORIGIN_INVENTORY_REL = "archive/phase1_e6f2097/PHASE1_ORIGIN_INVENTORY.json"
+PHASE1_ORIGIN_INVENTORY_SHA256 = "728df1ba649ba779e8583485ac95ff8927cbec21ddb169b09ef2cae9fd00d60f"
+
+# Bounded R2 generated-LaTeX spacing/unit boundary checks (surface_rel, required_substring, forbidden_glued)
+REQUIRED_GENERATED_TEX_BOUNDARIES = (
+    ("sections/05_curl_closure_duon_current.tex", r"\mathrm{Duon}\ \text{has the support of }", r"\mathrm{Duon}\text{has"),
+    ("sections/08_awareness_learning_mindfulness.tex", r"R_e\ \text{is valid}", r"R_e\text{is valid}"),
+    ("appendices/B_curling_curls.tex", r"\mathrm{tetron}\ \text{is the }E_4\text{ enclosure of }", r"\mathrm{tetron}\text{is the"),
+    ("manual/appendices/B_quarantined_external_comparison.tex", r"10^{-10}\,\mathrm{J}", r"10^{-10}\mathrm{J}"),
+)
+
+# Bounded R3 generated-LaTeX source heading checks (surface_rel, required_texorpdfstring_substring, forbidden_raw_heading)
+REQUIRED_GENERATED_TEX_BOOKMARKS = (
+    ("sections/06_field.tex", r"\subsubsection{E2\texorpdfstring{$^{\pm}$}{±} duad}", r"\subsubsection{E2$^{\pm}$ duad}"),
+    ("appendices/J_ao_field_fractal_properties.tex", r"\section{A\texorpdfstring{$\leftrightarrow\Omega$}{<->Omega} Field Fractal Properties}", r"\section{A$\leftrightarrow\Omega$ Field Fractal Properties}"),
+    ("manual/sections/01_rest_energy_prediction.tex", r"\subsection{A\texorpdfstring{$\Omega$}{Omega} field-map table}", r"\subsection{A$\Omega$ field-map table}"),
+    ("manual/sections/06_field_dynamics_applications.tex", r"\subsection{3D Brownian phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture}", r"\subsection{3D Brownian phase-cycle $\delta_3$ fixture}"),
+    ("manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex", r"\section{3D coordinate phase-cycle \texorpdfstring{$\delta_3$}{delta3} fixture specification}", r"\section{3D coordinate phase-cycle $\delta_3$ fixture specification}"),
+    ("manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex", r"\subsection{AFC/A\texorpdfstring{$\Omega$}{Omega}D mapping}", r"\subsection{AFC/A$\Omega$D mapping}"),
+)
+
+# Bounded R3 restored mathematical bookmark titles (must appear; symbol-stripped counterparts must not)
+REQUIRED_PDF_BOOKMARK_TITLES = {
+    "main": (
+        ("E2\u00b1 duad", ("E2 duad",)),
+        ("A<->Omega Field Fractal Properties", ("A Field Fractal Properties",)),
+    ),
+    "manual": (
+        ("AOmega field-map table", ("A field-map table",)),
+        ("3D Brownian phase-cycle delta3 fixture", ("3D Brownian phase-cycle 3 fixture", "3D Brownian phase-cycle fixture")),
+        ("3D coordinate phase-cycle delta3 fixture specification", ("3D coordinate phase-cycle 3 fixture specification", "3D coordinate phase-cycle fixture specification")),
+        ("AFC/AOmegaD mapping", ("AFC/AD mapping",)),
+    ),
+}
+
 ALLOWED_ENGINEERING_FROZEN_AMENDMENTS = {
     "scripts/build_release_bundle.py",
     "tests/test_ci_release_builder.py",
@@ -2197,6 +2235,19 @@ def _inline_typst_diagram_includes(root: Path, typ_rel: str, text: str) -> str:
 # Gate A: Baseline Immutability (Archived 98ddfa0 Snapshot + Representation Ledger)
 # =============================================================================
 
+def _unique_ledger_map(records: list, key_field: str, section_name: str) -> dict[str, dict]:
+    """Index ledger records by key_field, explicitly rejecting duplicates and malformed rows."""
+    require(isinstance(records, list), f"Representation ledger {section_name} must be a list")
+    out: dict[str, dict] = {}
+    for rec in records:
+        require(isinstance(rec, dict) and isinstance(rec.get(key_field), str) and rec[key_field],
+                f"Malformed entry in representation ledger {section_name}: {rec!r}")
+        k = rec[key_field]
+        require(k not in out, f"Duplicate entry in representation ledger {section_name}: {k}")
+        out[k] = rec
+    return out
+
+
 def verify_baseline_immutability(
     root: Path, manifest: dict, baseline_root: Path | None = None
 ) -> dict:
@@ -2253,16 +2304,41 @@ def verify_baseline_immutability(
             require(actual_sha == expected_sha, f"Protected baseline file modified: {rel}")
             inplace_paths.append(rel)
 
-    git_checked = False
-    ledger_checked = False
-    ledger_frozen_amendments: list[str] = []
+    # Load independently verifier-pinned Phase 1 origin inventory (works in BOTH Git and non-Git source.zip!)
+    origin_inv_path = root / PHASE1_ORIGIN_INVENTORY_REL
+    require(
+        origin_inv_path.is_file(),
+        f"Missing bound accepted Phase 1 origin inventory: {PHASE1_ORIGIN_INVENTORY_REL}",
+    )
+    actual_origin_sha = sha256_file(origin_inv_path)
+    require(
+        actual_origin_sha == PHASE1_ORIGIN_INVENTORY_SHA256,
+        f"Accepted Phase 1 origin inventory digest mismatch ({PHASE1_ORIGIN_INVENTORY_REL}): "
+        f"expected {PHASE1_ORIGIN_INVENTORY_SHA256}, got {actual_origin_sha}",
+    )
+    origin_inv = json.loads(origin_inv_path.read_text(encoding="utf-8"))
+    require(
+        origin_inv.get("schema") == "aod.m4.phase1.origin-inventory.v1"
+        and origin_inv.get("phase1_accepted_commit") == PHASE1_ACCEPTED_COMMIT
+        and origin_inv.get("phase1_accepted_tree") == PHASE1_ACCEPTED_TREE
+        and origin_inv.get("historical_scientific_baseline_commit") == SCIENTIFIC_BASELINE_COMMIT,
+        "Accepted Phase 1 origin inventory metadata mismatch",
+    )
+
+    p1_contracts: dict[str, str] = origin_inv["phase1_contracts_sha256"]
+    p1_cb: dict = origin_inv["phase1_canonical_bindings"]
+    p1_frozen: dict[str, str] = p1_cb["frozen_sha256"]
+
+    # Cross-check against live Git commits when .git is present (both 98ddfa0 and e6f2097)
+    git_hist_checked = False
+    git_p1_checked = False
     if (root / ".git").exists():
-        chk = subprocess.run(
+        chk_hist = subprocess.run(
             ["git", "rev-parse", "--verify", f"{SCIENTIFIC_BASELINE_COMMIT}^{{commit}}"],
             cwd=root, capture_output=True, text=True,
         )
-        if chk.returncode == 0:
-            git_checked = True
+        if chk_hist.returncode == 0:
+            git_hist_checked = True
             if inplace_paths:
                 diff_proc = subprocess.run(
                     ["git", "diff", "--name-only", SCIENTIFIC_BASELINE_COMMIT, "--", *sorted(inplace_paths)],
@@ -2279,102 +2355,246 @@ def verify_baseline_immutability(
                     hashlib.sha256(orig_bytes).hexdigest() == sha256_file(root / retained),
                     f"Archived baseline copy differs from {SCIENTIFIC_BASELINE_COMMIT}:{orig}: {retained}",
                 )
-
-            base_cb = json.loads(subprocess.run(
+            hist_cb_bytes = subprocess.run(
                 ["git", "show", f"{SCIENTIFIC_BASELINE_COMMIT}:contracts/scientific/CANONICAL_BINDINGS.json"],
+                cwd=root, capture_output=True, check=True,
+            ).stdout
+            require(
+                hashlib.sha256(hist_cb_bytes).hexdigest() == origin_inv["historical_canonical_bindings_sha256"],
+                "Historical 98ddfa0 CANONICAL_BINDINGS.json digest disagrees with origin inventory",
+            )
+
+        chk_p1 = subprocess.run(
+            ["git", "rev-parse", "--verify", f"{PHASE1_ACCEPTED_COMMIT}^{{commit}}"],
+            cwd=root, capture_output=True, text=True,
+        )
+        if chk_p1.returncode == 0:
+            git_p1_checked = True
+            p1_tree_actual = subprocess.run(
+                ["git", "rev-parse", f"{PHASE1_ACCEPTED_COMMIT}^{{tree}}"],
                 cwd=root, capture_output=True, text=True, check=True,
-            ).stdout)
-            curr_cb = json.loads((root / "contracts/scientific/CANONICAL_BINDINGS.json").read_text(encoding="utf-8"))
-            tex_to_typ = {e["tex_source"]: e["typst_target"] for e in manifest["active_source_map"]}
+            ).stdout.strip()
+            require(
+                p1_tree_actual == PHASE1_ACCEPTED_TREE,
+                f"Accepted Phase 1 tree mismatch: expected {PHASE1_ACCEPTED_TREE}, got {p1_tree_actual}",
+            )
+            for c_rel, c_sha in sorted(p1_contracts.items()):
+                c_bytes = subprocess.run(
+                    ["git", "show", f"{PHASE1_ACCEPTED_COMMIT}:{c_rel}"],
+                    cwd=root, capture_output=True, check=True,
+                ).stdout
+                require(
+                    hashlib.sha256(c_bytes).hexdigest() == c_sha,
+                    f"Phase 1 contract digest mismatch vs Git {PHASE1_ACCEPTED_COMMIT}:{c_rel}",
+                )
 
-            # Scientific substance in CANONICAL_BINDINGS.json MUST be 100% invariant (paths only may remap)
-            require(curr_cb.get("schema") == base_cb["schema"], "CANONICAL_BINDINGS.json schema changed")
-            require(curr_cb.get("formulas") == base_cb["formulas"],
-                    "Scientific formulas in CANONICAL_BINDINGS.json changed")
-            require(len(curr_cb.get("ownership", [])) == len(base_cb["ownership"]),
-                    "Ownership group count changed in CANONICAL_BINDINGS.json")
-            for b_row, c_row in zip(base_cb["ownership"], curr_cb["ownership"]):
-                exp_row = dict(b_row)
-                if c_row.get("path") != b_row["path"]:
-                    exp_row["path"] = tex_to_typ.get(b_row["path"], b_row["path"])
-                require(c_row == exp_row, f"Ownership scientific content changed for {b_row.get('concept')}")
-            for b_fam, c_fam in zip(base_cb["manual_families"], curr_cb["manual_families"]):
-                exp_fam = dict(b_fam)
-                if c_fam.get("manual_path") != b_fam["manual_path"]:
-                    exp_fam["manual_path"] = tex_to_typ.get(b_fam["manual_path"], b_fam["manual_path"])
-                require(c_fam == exp_fam, f"Manual family scientific content changed for {b_fam.get('id')}")
-            for b_sig, c_sig in zip(base_cb["unique_signatures"], curr_cb["unique_signatures"]):
-                exp_sig = dict(b_sig)
-                if c_sig.get("path") != b_sig["path"]:
-                    exp_sig["path"] = tex_to_typ.get(b_sig["path"], b_sig["path"])
-                require(c_sig == exp_sig, f"Unique signature scientific content changed for {b_sig.get('anchor')}")
-            require(set(curr_cb.get("supplemental_formulas", {})) == set(base_cb["supplemental_formulas"]),
-                    "Supplemental formula keys changed in CANONICAL_BINDINGS.json")
-            for k, b_sup in base_cb["supplemental_formulas"].items():
-                c_sup = curr_cb["supplemental_formulas"][k]
-                exp_sup = dict(b_sup)
-                if c_sup.get("path") != b_sup["path"]:
-                    exp_sup["path"] = tex_to_typ.get(b_sup["path"], b_sup["path"])
-                require(c_sup == exp_sup, f"Supplemental formula content changed for {k}")
+    # -------------------------------------------------------------------------
+    # Relation 1: Historical Scientific Preservation (98ddfa0 -> candidate)
+    # Runs identically in BOTH Git and non-Git source.zip contexts.
+    # -------------------------------------------------------------------------
+    curr_cb = json.loads((root / "contracts/scientific/CANONICAL_BINDINGS.json").read_text(encoding="utf-8"))
+    tex_to_typ = {e["tex_source"]: e["typst_target"] for e in manifest["active_source_map"]}
 
-            ledger_path = root / "typst/representation_change_ledger.json"
-            if ledger_path.is_file():
-                ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
-                require(
-                    ledger.get("schema") == "aod.m4.phase2.representation-change-ledger.v1",
-                    "Invalid representation_change_ledger.json schema",
-                )
-                relocated = {e["old_path"]: e["new_path"] for e in ledger.get("frozen_sha256_relocations", [])}
-                amended = {e["path"]: e for e in ledger.get("frozen_sha256_amendments", [])}
-                added = {e["path"]: e for e in ledger.get("frozen_sha256_additions", [])}
-                for old_k, old_sha in base_cb["frozen_sha256"].items():
-                    if old_k in relocated:
-                        new_k = relocated[old_k]
-                        require(
-                            curr_cb["frozen_sha256"].get(new_k) == old_sha,
-                            f"Relocated frozen_sha256 entry {old_k} -> {new_k} digest mismatch",
-                        )
-                    elif old_k in amended:
-                        require(
-                            curr_cb["frozen_sha256"].get(old_k) == amended[old_k]["new_sha256"]
-                            and amended[old_k]["old_sha256"] == old_sha,
-                            f"Amended frozen_sha256 entry {old_k} disagrees with representation ledger",
-                        )
-                    else:
-                        require(
-                            curr_cb["frozen_sha256"].get(old_k) == old_sha,
-                            f"Undeclared frozen_sha256 change outside representation ledger: {old_k}",
-                        )
-                expected_keys = (
-                    (set(base_cb["frozen_sha256"]) - set(relocated))
-                    | set(relocated.values())
-                    | set(added)
-                )
-                require(
-                    set(curr_cb["frozen_sha256"]) == expected_keys,
-                    f"frozen_sha256 key set disagrees with representation ledger: "
-                    f"extra={sorted(set(curr_cb['frozen_sha256']) - expected_keys)}, "
-                    f"missing={sorted(expected_keys - set(curr_cb['frozen_sha256']))}",
-                )
-                for add_k, add_rec in added.items():
-                    require(
-                        curr_cb["frozen_sha256"].get(add_k) == add_rec["sha256"],
-                        f"Added frozen_sha256 entry {add_k} disagrees with representation ledger",
-                    )
-                ledger_checked = True
-                ledger_frozen_amendments = sorted(amended)
-            else:
-                require(set(curr_cb["frozen_sha256"]) == set(base_cb["frozen_sha256"]),
-                        "frozen_sha256 key set changed in CANONICAL_BINDINGS.json")
-                changed_frozen = {
-                    k for k, v in base_cb["frozen_sha256"].items()
-                    if curr_cb["frozen_sha256"][k] != v
-                }
-                require(
-                    changed_frozen <= ALLOWED_ENGINEERING_FROZEN_AMENDMENTS,
-                    f"Unexpected frozen_sha256 modifications outside planned engineering files: {sorted(changed_frozen)}",
-                )
-                ledger_frozen_amendments = sorted(changed_frozen)
+    require(curr_cb.get("schema") == p1_cb["contract_schema"], "CANONICAL_BINDINGS.json schema changed")
+    require(curr_cb.get("formulas") == p1_cb["formulas"],
+            "Scientific formulas in CANONICAL_BINDINGS.json changed")
+    require(len(curr_cb.get("ownership", [])) == len(p1_cb["ownership"]),
+            "Ownership group count changed in CANONICAL_BINDINGS.json")
+    for b_row, c_row in zip(p1_cb["ownership"], curr_cb["ownership"]):
+        exp_row = dict(b_row)
+        if c_row.get("path") != b_row["path"]:
+            exp_row["path"] = tex_to_typ.get(b_row["path"], b_row["path"])
+        require(c_row == exp_row, f"Ownership scientific content changed for {b_row.get('concept')}")
+    for b_fam, c_fam in zip(p1_cb["manual_families"], curr_cb["manual_families"]):
+        exp_fam = dict(b_fam)
+        if c_fam.get("manual_path") != b_fam["manual_path"]:
+            exp_fam["manual_path"] = tex_to_typ.get(b_fam["manual_path"], b_fam["manual_path"])
+        require(c_fam == exp_fam, f"Manual family scientific content changed for {b_fam.get('id')}")
+    for b_sig, c_sig in zip(p1_cb["unique_signatures"], curr_cb["unique_signatures"]):
+        exp_sig = dict(b_sig)
+        if c_sig.get("path") != b_sig["path"]:
+            exp_sig["path"] = tex_to_typ.get(b_sig["path"], b_sig["path"])
+        require(c_sig == exp_sig, f"Unique signature scientific content changed for {b_sig.get('anchor')}")
+    require(set(curr_cb.get("supplemental_formulas", {})) == set(p1_cb["supplemental_formulas"]),
+            "Supplemental formula keys changed in CANONICAL_BINDINGS.json")
+    for k, b_sup in p1_cb["supplemental_formulas"].items():
+        c_sup = curr_cb["supplemental_formulas"][k]
+        exp_sup = dict(b_sup)
+        if c_sup.get("path") != b_sup["path"]:
+            exp_sup["path"] = tex_to_typ.get(b_sup["path"], b_sup["path"])
+        require(c_sup == exp_sup, f"Supplemental formula content changed for {k}")
+
+    # -------------------------------------------------------------------------
+    # Relation 2: Accepted Phase 1 (e6f2097) -> Phase 2 Representation Transition
+    # Runs identically in BOTH Git and non-Git source.zip contexts.
+    # -------------------------------------------------------------------------
+    ledger_path = root / "typst/representation_change_ledger.json"
+    require(ledger_path.is_file(), f"Missing representation change ledger: {ledger_path}")
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    require(
+        ledger.get("schema") == "aod.m4.phase2.representation-change-ledger.v1",
+        "Invalid representation_change_ledger.json schema",
+    )
+    require(
+        ledger.get("historical_scientific_baseline_commit") == SCIENTIFIC_BASELINE_COMMIT,
+        f"Representation ledger historical_scientific_baseline_commit mismatch: "
+        f"expected {SCIENTIFIC_BASELINE_COMMIT}, got {ledger.get('historical_scientific_baseline_commit')!r}",
+    )
+    require(
+        ledger.get("phase1_accepted_commit") == PHASE1_ACCEPTED_COMMIT,
+        f"Representation ledger declared origin phase1_accepted_commit mismatch: "
+        f"expected {PHASE1_ACCEPTED_COMMIT}, got {ledger.get('phase1_accepted_commit')!r}",
+    )
+
+    # 2a. Complete contracts/scientific/ transition check (all 17 contracts vs Phase 1)
+    contract_amendments = _unique_ledger_map(
+        ledger.get("contract_amendments", []), "contract", "contract_amendments"
+    )
+    contracts_dir = root / "contracts/scientific"
+    on_disk_contracts = {
+        p.relative_to(root).as_posix()
+        for p in contracts_dir.rglob("*")
+        if p.is_file() or p.is_symlink()
+    }
+    require(
+        on_disk_contracts == set(p1_contracts),
+        f"contracts/scientific/ inventory changed vs Phase 1: "
+        f"extra={sorted(on_disk_contracts - set(p1_contracts))}, "
+        f"missing={sorted(set(p1_contracts) - on_disk_contracts)}",
+    )
+    for c_path, rec in sorted(contract_amendments.items()):
+        require(c_path in p1_contracts, f"Contract amendment references unknown Phase 1 contract: {c_path}")
+        require(rec.get("scientific_substance_changed") is False,
+                f"Contract amendment must declare scientific_substance_changed=false: {c_path}")
+        require(
+            rec.get("old_sha256") == p1_contracts[c_path],
+            f"Contract amendment old_sha256 for {c_path} disagrees with accepted Phase 1 ({PHASE1_ACCEPTED_COMMIT}): "
+            f"expected {p1_contracts[c_path]}, got {rec.get('old_sha256')}",
+        )
+        actual_c_sha = sha256_file(root / c_path)
+        require(
+            rec.get("new_sha256") == actual_c_sha,
+            f"Contract amendment new_sha256 for {c_path} disagrees with current file: "
+            f"ledger={rec.get('new_sha256')}, disk={actual_c_sha}",
+        )
+        require(
+            rec.get("old_sha256") != rec.get("new_sha256"),
+            f"No-op contract amendment declared in ledger: {c_path}",
+        )
+    untouched_contracts = 0
+    for c_path, p1_sha in sorted(p1_contracts.items()):
+        if c_path not in contract_amendments:
+            actual_c_sha = sha256_file(root / c_path)
+            require(
+                actual_c_sha == p1_sha,
+                f"Undeclared contract transition outside representation ledger: {c_path} "
+                f"(Phase 1={p1_sha}, current={actual_c_sha})",
+            )
+            untouched_contracts += 1
+
+    # 2b. Complete frozen_sha256 transition check (vs accepted Phase 1 e6f2097, NOT 98ddfa0)
+    rel_by_old = _unique_ledger_map(
+        ledger.get("frozen_sha256_relocations", []), "old_path", "frozen_sha256_relocations(old_path)"
+    )
+    rel_by_new = _unique_ledger_map(
+        ledger.get("frozen_sha256_relocations", []), "new_path", "frozen_sha256_relocations(new_path)"
+    )
+    amended = _unique_ledger_map(
+        ledger.get("frozen_sha256_amendments", []), "path", "frozen_sha256_amendments"
+    )
+    added = _unique_ledger_map(
+        ledger.get("frozen_sha256_additions", []), "path", "frozen_sha256_additions"
+    )
+
+    # Disjointness & domain checks
+    overlap_ra = set(rel_by_old) & set(amended)
+    require(not overlap_ra, f"Path declared as both relocated and amended: {sorted(overlap_ra)}")
+    overlap_add = (set(added) & set(p1_frozen)) | (set(added) & set(rel_by_new))
+    require(not overlap_add, f"Added frozen_sha256 path collides with Phase 1 or relocated path: {sorted(overlap_add)}")
+    unknown_rel = set(rel_by_old) - set(p1_frozen)
+    require(not unknown_rel, f"Relocation references path absent from Phase 1 frozen_sha256: {sorted(unknown_rel)}")
+    unknown_amd = set(amended) - set(p1_frozen)
+    require(not unknown_amd, f"Amendment references path absent from Phase 1 frozen_sha256: {sorted(unknown_amd)}")
+
+    curr_frozen = curr_cb["frozen_sha256"]
+    for p1_k, p1_sha in sorted(p1_frozen.items()):
+        if p1_k in rel_by_old:
+            rel_rec = rel_by_old[p1_k]
+            new_k = rel_rec["new_path"]
+            require(
+                rel_rec.get("sha256") == p1_sha,
+                f"Relocated frozen_sha256 ledger digest mismatch for {p1_k}: "
+                f"Phase 1={p1_sha}, ledger={rel_rec.get('sha256')}",
+            )
+            require(
+                curr_frozen.get(new_k) == p1_sha,
+                f"Relocated frozen_sha256 entry {p1_k} -> {new_k} digest mismatch in CANONICAL_BINDINGS.json",
+            )
+            require(
+                (root / new_k).is_file() and sha256_file(root / new_k) == p1_sha,
+                f"Relocated file on disk disagrees with Phase 1 digest: {new_k}",
+            )
+        elif p1_k in amended:
+            amd_rec = amended[p1_k]
+            require(
+                amd_rec.get("old_sha256") == p1_sha,
+                f"Amended frozen_sha256 old_sha256 for {p1_k} disagrees with accepted Phase 1 "
+                f"({PHASE1_ACCEPTED_COMMIT}): expected {p1_sha}, got {amd_rec.get('old_sha256')}",
+            )
+            require(
+                amd_rec.get("new_sha256") == curr_frozen.get(p1_k),
+                f"Amended frozen_sha256 new_sha256 for {p1_k} disagrees with CANONICAL_BINDINGS.json: "
+                f"ledger={amd_rec.get('new_sha256')}, contract={curr_frozen.get(p1_k)}",
+            )
+            require(
+                (root / p1_k).is_file() and sha256_file(root / p1_k) == amd_rec["new_sha256"],
+                f"Amended file on disk disagrees with ledger new_sha256: {p1_k}",
+            )
+            require(
+                amd_rec["old_sha256"] != amd_rec["new_sha256"],
+                f"No-op frozen_sha256 amendment declared in ledger: {p1_k}",
+            )
+        else:
+            require(
+                curr_frozen.get(p1_k) == p1_sha,
+                f"Undeclared frozen_sha256 transition outside representation ledger: {p1_k} "
+                f"(Phase 1={p1_sha}, current={curr_frozen.get(p1_k)})",
+            )
+            require(
+                (root / p1_k).is_file() and sha256_file(root / p1_k) == p1_sha,
+                f"Untouched frozen_sha256 file on disk disagrees with Phase 1 digest: {p1_k}",
+            )
+
+    expected_keys = (set(p1_frozen) - set(rel_by_old)) | set(rel_by_new) | set(added)
+    require(
+        set(curr_frozen) == expected_keys,
+        f"frozen_sha256 key set disagrees with representation ledger: "
+        f"extra={sorted(set(curr_frozen) - expected_keys)}, "
+        f"missing={sorted(expected_keys - set(curr_frozen))}",
+    )
+    for add_k, add_rec in sorted(added.items()):
+        require(
+            curr_frozen.get(add_k) == add_rec.get("sha256"),
+            f"Added frozen_sha256 entry {add_k} disagrees with CANONICAL_BINDINGS.json",
+        )
+        require(
+            (root / add_k).is_file() and sha256_file(root / add_k) == add_rec["sha256"],
+            f"Added frozen_sha256 file on disk disagrees with ledger: {add_k}",
+        )
+
+    expected_summary = {
+        "contracts_amended": len(contract_amendments),
+        "contracts_untouched": untouched_contracts,
+        "frozen_relocations": len(rel_by_old),
+        "frozen_additions": len(added),
+        "frozen_amendments": len(amended),
+        "frozen_total_after": len(curr_frozen),
+    }
+    require(
+        ledger.get("summary") == expected_summary,
+        f"Representation ledger summary disagrees with actual entries: "
+        f"expected={expected_summary}, got={ledger.get('summary')}",
+    )
 
     return {
         "protected_baseline_files": len(protected),
@@ -2384,9 +2604,15 @@ def verify_baseline_immutability(
         "bib_files_unchanged": bib_count,
         "image_files_unchanged": img_count,
         "manual_data_files_unchanged": data_count,
-        "git_baseline_cross_checked": git_checked,
-        "representation_change_ledger_verified": ledger_checked,
-        "amended_frozen_entries_count": len(ledger_frozen_amendments),
+        "historical_baseline_preservation_verified": True,
+        "phase1_transition_verified": True,
+        "phase1_accepted_commit": PHASE1_ACCEPTED_COMMIT,
+        "phase1_origin_inventory_sha256": PHASE1_ORIGIN_INVENTORY_SHA256,
+        "git_baseline_cross_checked": git_hist_checked,
+        "git_phase1_cross_checked": git_p1_checked,
+        "representation_change_ledger_verified": True,
+        "amended_contracts_count": len(contract_amendments),
+        "amended_frozen_entries_count": len(amended),
     }
 
 
@@ -3208,12 +3434,49 @@ def _verify_source_and_content_parity_impl(
         fig_manifest_p = fig_dir / "FIGURE_MANIFEST.json"
         require(fig_manifest_p.is_file(), "Missing latex/manual/figures/generated/FIGURE_MANIFEST.json")
         fig_manifest = json.loads(fig_manifest_p.read_text(encoding="utf-8"))
+        # R4: committed figure manifest must remain deterministic (no extractor/compiler runtime drift)
+        require(
+            "typst_version" not in fig_manifest and "removed_outputs" not in fig_manifest,
+            "Committed FIGURE_MANIFEST.json must not contain runtime typst_version or removed_outputs",
+        )
+        require(
+            fig_manifest.get("background") == "white" and isinstance(fig_manifest.get("font_families"), dict),
+            "Committed FIGURE_MANIFEST.json must declare deterministic background and font_families",
+        )
         diagrams = fig_manifest.get("figures", [])
         require(len(diagrams) == 4, f"Expected 4 exported diagrams in FIGURE_MANIFEST.json, got {len(diagrams)}")
         for d in diagrams:
+            require(
+                "extracted_text_chars" not in d,
+                f"Committed FIGURE_MANIFEST.json entry {d.get('slug')} must not pin extractor-dependent extracted_text_chars",
+            )
+            require(
+                d.get("has_extractable_text") is True
+                and d.get("page_count") == 1
+                and d.get("raster_image_xobjects") == 0,
+                f"Exported diagram manifest invariant failed for {d.get('slug')}",
+            )
             asset = fig_dir / d["output_filename"]
             require(asset.is_file() and sha256_file(asset) == d["output_sha256"],
                     f"Exported diagram digest mismatch: {asset.relative_to(root)}")
+
+        # R2: bounded source checks for the four demonstrated spacing/unit boundaries
+        for rel_tex, required_sub, forbidden_sub in REQUIRED_GENERATED_TEX_BOUNDARIES:
+            tex_body = (latex_root / rel_tex).read_text(encoding="utf-8")
+            require(
+                required_sub in tex_body and forbidden_sub not in tex_body,
+                f"Generated LaTeX boundary regression in latex/{rel_tex}: "
+                f"expected {required_sub!r}, forbidden {forbidden_sub!r}",
+            )
+
+        # R3: bounded source checks for the six restored mathematical bookmark headings
+        for rel_tex, required_sub, forbidden_sub in REQUIRED_GENERATED_TEX_BOOKMARKS:
+            tex_body = (latex_root / rel_tex).read_text(encoding="utf-8")
+            require(
+                required_sub in tex_body and forbidden_sub not in tex_body,
+                f"Generated LaTeX bookmark regression in latex/{rel_tex}: "
+                f"expected {required_sub!r}, forbidden {forbidden_sub!r}",
+            )
 
         typ2tex_check_passed = False
         if (root / "scripts/typ2tex.py").is_file():
@@ -3238,6 +3501,8 @@ def _verify_source_and_content_parity_impl(
             "labeled_equations_verified_structurally": gen_eq_counts,
             "immutable_tables_verified_cell_by_cell": len(tex_table_rows_cache),
             "exported_diagrams_verified": len(diagrams),
+            "spacing_unit_boundaries_verified": len(REQUIRED_GENERATED_TEX_BOUNDARIES),
+            "math_bookmark_headings_verified": len(REQUIRED_GENERATED_TEX_BOOKMARKS),
             "typ2tex_check_passed": typ2tex_check_passed,
         }
 
@@ -3399,11 +3664,115 @@ def _canon_bib_for_pdf_wrap(s: str) -> str:
     return t
 
 
+def _norm_pdf_dest_name(raw) -> str:
+    """Normalize a PDF named destination object (TextString, ByteString, or NameObject) to str."""
+    if raw is None:
+        return ""
+    if hasattr(raw, "get_object"):
+        raw = raw.get_object()
+    if isinstance(raw, bytes):
+        try:
+            s = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            s = raw.decode("latin-1")
+    else:
+        s = str(raw)
+    # NameObject stringifies with a leading '/' in pypdf
+    if type(raw).__name__ == "NameObject" and s.startswith("/"):
+        s = s[1:]
+    return s
+
+
+def _extract_pdf_named_destinations(reader) -> dict[str, int]:
+    """Return mapping of normalized named destination -> 1-based page number."""
+    dests: dict[str, int] = {}
+    raw_map = reader.named_destinations or {}
+    n_pages = len(reader.pages)
+    for raw_k, dest_obj in raw_map.items():
+        key = _norm_pdf_dest_name(raw_k)
+        if not key:
+            continue
+        try:
+            pg0 = reader.get_destination_page_number(dest_obj)
+        except Exception:
+            pg0 = None
+        if pg0 is not None and 0 <= pg0 < n_pages:
+            dests[key] = pg0 + 1
+            if key.startswith("/"):
+                dests[key[1:]] = pg0 + 1
+    return dests
+
+
+def _extract_pdf_outlines(pdf_path: Path) -> list[tuple[int, str, int | None]]:
+    """Extract full PDF bookmark hierarchy as (depth, normalized_title, target_page_1based)."""
+    from pypdf import PdfReader
+
+    reader = PdfReader(str(pdf_path))
+    n_pages = len(reader.pages)
+    entries: list[tuple[int, str, int | None]] = []
+
+    def _walk(items, depth: int) -> None:
+        for item in items:
+            if isinstance(item, list):
+                _walk(item, depth + 1)
+            else:
+                title = re.sub(r"\s+", " ", str(getattr(item, "title", "") or "")).strip()
+                try:
+                    pg0 = reader.get_destination_page_number(item)
+                except Exception:
+                    pg0 = None
+                pg1 = (pg0 + 1) if (pg0 is not None and 0 <= pg0 < n_pages) else None
+                entries.append((depth, title, pg1))
+
+    _walk(reader.outline or [], 0)
+    return entries
+
+
 def _inspect_pdf_links(pdf_path: Path, expected_peer_pdf: str | None = None) -> dict:
     from pypdf import PdfReader
 
     reader = PdfReader(str(pdf_path))
+    n_pages = len(reader.pages)
+    named_dests = _extract_pdf_named_destinations(reader)
+    page_id_to_num = {id(p): idx for idx, p in enumerate(reader.pages, 1)}
+    page_ind_to_num = {
+        getattr(p, "indirect_reference", None): idx
+        for idx, p in enumerate(reader.pages, 1)
+        if getattr(p, "indirect_reference", None) is not None
+    }
+
+    def _check_local_dest(src_page: int, dest_obj) -> None:
+        if dest_obj is None:
+            broken_local_destinations.append((src_page, "<empty-dest>"))
+            return
+        d = dest_obj.get_object() if hasattr(dest_obj, "get_object") else dest_obj
+        if isinstance(d, list):
+            if not d:
+                broken_local_destinations.append((src_page, "<empty-dest-array>"))
+                return
+            first = d[0]
+            if isinstance(first, int):
+                if not (0 <= first < n_pages):
+                    broken_local_destinations.append((src_page, f"page-index:{first}"))
+                return
+            if first in page_ind_to_num:
+                return
+            try:
+                pg_obj = first.get_object() if hasattr(first, "get_object") else first
+                if id(pg_obj) in page_id_to_num:
+                    return
+                if pg_obj in reader.pages:
+                    return
+            except Exception:
+                pass
+            broken_local_destinations.append((src_page, f"unresolved-page-ref:{first!r}"))
+            return
+        d_name = _norm_pdf_dest_name(d)
+        if not d_name or d_name not in named_dests:
+            broken_local_destinations.append((src_page, f"missing-local-dest:{d_name!r}"))
+
     internal_links = 0
+    broken_local_destinations: list[tuple[int, str]] = []
     peer_pdf_links: list[tuple[int, str, int]] = []
     gotor_peer_links: list[tuple[int, str, str]] = []
     stale_main_pdf_links: list[tuple[int, str]] = []
@@ -3417,6 +3786,7 @@ def _inspect_pdf_links(pdf_path: Path, expected_peer_pdf: str | None = None) -> 
                 continue
             if "/Dest" in annot:
                 internal_links += 1
+                _check_local_dest(page_idx, annot.get("/Dest"))
                 continue
             action = annot.get("/A")
             if not action:
@@ -3438,6 +3808,7 @@ def _inspect_pdf_links(pdf_path: Path, expected_peer_pdf: str | None = None) -> 
                     external_uris.add(uri)
             elif act_obj.get("/S") == "/GoTo":
                 internal_links += 1
+                _check_local_dest(page_idx, act_obj.get("/D"))
             elif act_obj.get("/S") == "/GoToR":
                 f_obj = act_obj.get("/F")
                 if hasattr(f_obj, "get_object"):
@@ -3446,19 +3817,325 @@ def _inspect_pdf_links(pdf_path: Path, expected_peer_pdf: str | None = None) -> 
                     target_file = str(f_obj.get("/UF") or f_obj.get("/F") or "")
                 else:
                     target_file = str(f_obj or "")
-                dest = str(act_obj.get("/D") or "")
+                dest_raw = act_obj.get("/D")
+                dest = _norm_pdf_dest_name(dest_raw)
                 if expected_peer_pdf and target_file == expected_peer_pdf:
                     gotor_peer_links.append((page_idx, target_file, dest))
                 else:
                     stale_main_pdf_links.append((page_idx, f"GoToR:{target_file}#{dest}"))
     return {
-        "pages": len(reader.pages),
+        "pages": n_pages,
         "internal_links": internal_links,
+        "named_destinations": named_dests,
+        "broken_local_destinations": broken_local_destinations,
         "peer_pdf_links": peer_pdf_links,
         "gotor_peer_links": gotor_peer_links,
         "stale_main_pdf_links": stale_main_pdf_links,
         "uri_links": uri_links,
         "unique_external_uris": sorted(external_uris),
+    }
+
+
+def _verify_gotor_peer_destinations(
+    manual_links: dict,
+    main_links: dict,
+    main_pages_txt: list[str],
+    *,
+    baseline_manual_links: dict | None = None,
+    baseline_main_links: dict | None = None,
+    baseline_main_pages_txt: list[str] | None = None,
+) -> dict:
+    """Verify every sibling /GoToR /D destination exists in main.pdf and lands on its semantic target.
+
+    Explicitly accepts legitimate internal destination renames (e.g. hyperref AMS.63 -> AMS.61)
+    provided the destination exists in sibling main.pdf and lands on the same semantic target.
+    """
+    main_dests: dict[str, int] = main_links["named_destinations"]
+    gotor_links: list[tuple[int, str, str]] = manual_links["gotor_peer_links"]
+    missing_dests: list[tuple[int, str]] = []
+    landing_mismatches: list[tuple[int, str, int, str]] = []
+    resolved_pages: dict[str, int] = {}
+
+    def _page_window_text(pages: list[str], pg1: int) -> str:
+        raw = pages[pg1 - 1]
+        return re.sub(r"\s+", " ", raw.replace("\xa0", " "))
+
+    for src_page, target_file, dest_name in gotor_links:
+        if not dest_name or dest_name not in main_dests:
+            missing_dests.append((src_page, dest_name))
+            continue
+        pg1 = main_dests[dest_name]
+        if not (1 <= pg1 <= len(main_pages_txt)):
+            missing_dests.append((src_page, f"{dest_name}->invalid-page:{pg1}"))
+            continue
+        resolved_pages[dest_name] = pg1
+        pg_txt = _page_window_text(main_pages_txt, pg1)
+        # Semantic landing checks by hyperref destination prefix
+        m_eq = re.fullmatch(r"equation\.(?:\d+\.)*(\d+)", dest_name)
+        m_sec = re.fullmatch(r"(?:section|subsection|subsubsection|paragraph)\.([A-Z]|\d+(?:\.\d+)*)", dest_name)
+        m_app = re.fullmatch(r"appendix\.([A-Z](?:\.\d+)*)", dest_name)
+        m_tbl = re.fullmatch(r"table\.(?:caption\.)?(?:\d+\.)*(\d+)", dest_name)
+        m_fig = re.fullmatch(r"figure\.(?:caption\.)?(?:\d+\.)*(\d+)", dest_name)
+        if m_eq:
+            needle = f"({m_eq.group(1)})"
+            nxt_txt = _page_window_text(main_pages_txt, pg1 + 1) if pg1 < len(main_pages_txt) else ""
+            if needle not in pg_txt and needle not in nxt_txt:
+                landing_mismatches.append((src_page, dest_name, pg1, f"expected equation tag {needle!r}"))
+        elif dest_name.startswith("AMS."):
+            nxt_txt = _page_window_text(main_pages_txt, pg1 + 1) if pg1 < len(main_pages_txt) else ""
+            if not re.search(r"\([A-Za-z0-9.\-]+\)", pg_txt) and not re.search(r"\([A-Za-z0-9.\-]+\)", nxt_txt):
+                landing_mismatches.append((src_page, dest_name, pg1, "expected tagged AMS equation on target page"))
+        elif m_sec:
+            needle = m_sec.group(1)
+            if needle not in pg_txt:
+                landing_mismatches.append((src_page, dest_name, pg1, f"expected section number {needle!r}"))
+        elif m_app:
+            needle = m_app.group(1)
+            if needle not in pg_txt:
+                landing_mismatches.append((src_page, dest_name, pg1, f"expected appendix identifier {needle!r}"))
+        elif m_tbl:
+            if "Table" not in pg_txt:
+                landing_mismatches.append((src_page, dest_name, pg1, "expected Table on target page"))
+        elif m_fig:
+            if "Figure" not in pg_txt:
+                landing_mismatches.append((src_page, dest_name, pg1, "expected Figure on target page"))
+
+    require(
+        not missing_dests,
+        f"Generated LaTeX manual.pdf has missing sibling peer /GoToR /D destination(s) in main.pdf: "
+        f"{missing_dests[:10]}",
+    )
+    require(
+        not landing_mismatches,
+        f"Generated LaTeX manual.pdf sibling peer /GoToR /D landing mismatch(es): {landing_mismatches[:10]}",
+    )
+
+    # Compare unique semantic targets against baseline peer links when baseline PDFs are supplied
+    renamed_internal_destinations: list[dict] = []
+    if baseline_manual_links is not None and baseline_main_links is not None and baseline_main_pages_txt is not None:
+        base_dests = baseline_main_links["named_destinations"]
+        base_gotor_set = {d for _, _, d in baseline_manual_links["gotor_peer_links"] if d}
+        gen_gotor_set = {d for _, _, d in gotor_links if d}
+        # Allow legitimate internal AMS.* counter renames when tagged equation landings match
+        base_non_ams = {d for d in base_gotor_set if not d.startswith("AMS.")}
+        gen_non_ams = {d for d in gen_gotor_set if not d.startswith("AMS.")}
+        require(
+            gen_non_ams == base_non_ams,
+            f"Generated LaTeX sibling peer non-AMS destination set mismatch vs baseline: "
+            f"missing={sorted(base_non_ams - gen_non_ams)[:10]}, extra={sorted(gen_non_ams - base_non_ams)[:10]}",
+        )
+        base_ams = sorted(d for d in base_gotor_set if d.startswith("AMS."))
+        gen_ams = sorted(d for d in gen_gotor_set if d.startswith("AMS."))
+        require(
+            len(base_ams) == len(gen_ams),
+            f"Generated LaTeX sibling peer AMS destination count mismatch: base={base_ams}, gen={gen_ams}",
+        )
+        for b_d, g_d in zip(base_ams, gen_ams):
+            b_pg = base_dests.get(b_d)
+            g_pg = main_dests.get(g_d)
+            require(b_pg is not None and g_pg is not None, f"Unresolved AMS peer destination: base={b_d}, gen={g_d}")
+            b_tags = set(re.findall(r"\(RG\d+\)", _page_window_text(baseline_main_pages_txt, b_pg)))
+            g_tags = set(re.findall(r"\(RG\d+\)", _page_window_text(main_pages_txt, g_pg)))
+            if b_tags:
+                require(
+                    bool(b_tags & g_tags),
+                    f"AMS peer destination semantic target mismatch: baseline {b_d} -> {sorted(b_tags)}, "
+                    f"generated {g_d} -> {sorted(g_tags)}",
+                )
+            if b_d != g_d:
+                renamed_internal_destinations.append({
+                    "baseline_dest": b_d,
+                    "generated_dest": g_d,
+                    "shared_semantic_tags": sorted(b_tags & g_tags),
+                })
+
+    return {
+        "gotor_peer_links_checked": len(gotor_links),
+        "unique_peer_destinations_resolved": len(resolved_pages),
+        "missing_peer_destinations": 0,
+        "landing_mismatches": 0,
+        "accepted_internal_destination_renames": renamed_internal_destinations,
+    }
+
+
+def _extract_pdf_bbox_lines(pdf_path: Path) -> list[tuple[int, list[tuple[float, float, float, float, str]]]]:
+    """Extract per-line word bounding boxes (xMin, yMin, xMax, yMax, text) via pdftotext -bbox-layout."""
+    proc = subprocess.run(
+        ["pdftotext", "-bbox-layout", str(pdf_path), "-"],
+        capture_output=True, text=True, errors="replace", check=True,
+    )
+    xml_clean = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", "", proc.stdout)
+    root = ET.fromstring(xml_clean)
+    ns = {"x": "http://www.w3.org/1999/xhtml"}
+    lines_out: list[tuple[int, list[tuple[float, float, float, float, str]]]] = []
+    for p_idx, page in enumerate(root.findall(".//x:page", ns), 1):
+        for line in page.findall(".//x:line", ns):
+            words = [
+                (
+                    float(w.attrib["xMin"]),
+                    float(w.attrib["yMin"]),
+                    float(w.attrib["xMax"]),
+                    float(w.attrib["yMax"]),
+                    w.text or "",
+                )
+                for w in line.findall("x:word", ns)
+            ]
+            if words:
+                lines_out.append((p_idx, words))
+    return lines_out
+
+
+def _verify_rendered_pdf_boundaries(surf: str, gen_pdf: Path, gen_raw: str) -> dict[str, float]:
+    """Verify rendered glyph-position spacing/unit boundaries (R2) via text and pdftotext -bbox-layout."""
+    flat = re.sub(r"\s+", " ", gen_raw.replace("\xa0", " "))
+    bbox_lines = _extract_pdf_bbox_lines(gen_pdf)
+    measured_gaps: dict[str, float] = {}
+
+    if surf == "main":
+        require("Duonhas" not in flat, "Generated LaTeX main.pdf boundary regression: glued 'Duonhas'")
+        duon_dx: float | None = None
+        for _, words in bbox_lines:
+            txts = [w[4] for w in words]
+            if "Duon" in txts and "support" in txts:
+                for i in range(len(words) - 1):
+                    if words[i][4] == "Duon" and words[i + 1][4] == "has":
+                        duon_dx = round(words[i + 1][0] - words[i][2], 2)
+                        break
+            if duon_dx is not None:
+                break
+        require(
+            duon_dx is not None and duon_dx >= 2.0,
+            f"Generated LaTeX main.pdf rendered glyph boundary regression for 'Duon has': dx={duon_dx!r} pt (expected >= 2.0 pt)",
+        )
+        measured_gaps["Duon_has"] = duon_dx
+
+        require("Reis valid" not in flat, "Generated LaTeX main.pdf boundary regression: glued 'Reis valid'")
+        re_dx: float | None = None
+        for _, words in bbox_lines:
+            txts = [w[4] for w in words]
+            if "is" in txts and "valid" in txts:
+                for i in range(len(words) - 2):
+                    if (
+                        i + 3 < len(words)
+                        and words[i][4] == "R"
+                        and words[i + 1][4] == "e"
+                        and words[i + 2][4] == "is"
+                        and words[i + 3][4] == "valid"
+                    ):
+                        re_dx = round(words[i + 2][0] - words[i + 1][2], 2)
+                        break
+                    if (
+                        words[i][4] == "Re"
+                        and words[i + 1][4] == "is"
+                        and words[i + 2][4] == "valid"
+                    ):
+                        re_dx = round(words[i + 1][0] - words[i][2], 2)
+                        break
+            if re_dx is not None:
+                break
+        require(
+            re_dx is not None and re_dx >= 2.0,
+            f"Generated LaTeX main.pdf rendered glyph boundary regression for 'R_e is valid': dx={re_dx!r} pt (expected >= 2.0 pt)",
+        )
+        measured_gaps["Re_is_valid"] = re_dx
+
+        require("tetronis" not in flat, "Generated LaTeX main.pdf boundary regression: glued 'tetronis'")
+        tetron_dx: float | None = None
+        for _, words in bbox_lines:
+            txts = [w[4] for w in words]
+            if "enclosure" in txts and any("5.7.4" in t for t in txts):
+                for i in range(len(words) - 1):
+                    if words[i][4] == "tetron" and words[i + 1][4] == "is":
+                        tetron_dx = round(words[i + 1][0] - words[i][2], 2)
+                        break
+            if tetron_dx is not None:
+                break
+        require(
+            tetron_dx is not None and tetron_dx >= 2.0,
+            f"Generated LaTeX main.pdf rendered glyph boundary regression for 'tetron is': dx={tetron_dx!r} pt (expected >= 2.0 pt)",
+        )
+        measured_gaps["tetron_is"] = tetron_dx
+    else:
+        require(
+            not re.search(r"10[\u2212\-]10J\b", flat),
+            "Generated LaTeX manual.pdf boundary regression: glued '10^-10J'",
+        )
+        joule_dx: float | None = None
+        for _, words in bbox_lines:
+            txts = [w[4] for w in words]
+            if "2.84684357388924" in txts:
+                for i in range(len(words) - 1):
+                    if words[i][4] in ("\u221210", "-10") and words[i + 1][4] in ("J.", "J"):
+                        joule_dx = round(words[i + 1][0] - words[i][2], 2)
+                        break
+            if joule_dx is not None:
+                break
+        require(
+            joule_dx is not None and joule_dx >= 1.5,
+            f"Generated LaTeX manual.pdf rendered glyph boundary regression for '10^-10 J': dx={joule_dx!r} pt (expected >= 1.5 pt)",
+        )
+        measured_gaps["10_minus10_J"] = joule_dx
+
+    return measured_gaps
+
+
+def _verify_pdf_outlines_and_boundaries(
+    surf: str,
+    gen_pdf: Path,
+    gen_raw: str,
+    baseline_pdf: Path | None = None,
+) -> dict:
+    """Verify full PDF outline hierarchy/titles (R3) and rendered glyph-position spacing/unit boundaries (R2)."""
+    gen_outline = _extract_pdf_outlines(gen_pdf)
+    require(len(gen_outline) > 0, f"Generated LaTeX {surf}.pdf has empty PDF outline")
+    broken_outline_targets = [
+        (idx, title) for idx, (_, title, pg) in enumerate(gen_outline) if pg is None
+    ]
+    require(
+        not broken_outline_targets,
+        f"Generated LaTeX {surf}.pdf has outline entries with invalid targets: {broken_outline_targets[:10]}",
+    )
+
+    gen_titles = [title for _, title, _ in gen_outline]
+    gen_title_set = set(gen_titles)
+    for required_title, forbidden_variants in REQUIRED_PDF_BOOKMARK_TITLES[surf]:
+        require(
+            required_title in gen_title_set,
+            f"Generated LaTeX {surf}.pdf missing required mathematical bookmark title: {required_title!r}",
+        )
+        for forbidden_stripped in forbidden_variants:
+            require(
+                forbidden_stripped not in gen_title_set,
+                f"Generated LaTeX {surf}.pdf contains symbol-stripped bookmark title: {forbidden_stripped!r}",
+            )
+
+    baseline_outline_matched = False
+    if baseline_pdf is not None:
+        base_outline = _extract_pdf_outlines(baseline_pdf)
+        base_seq = [(d, t) for d, t, _ in base_outline]
+        gen_seq = [(d, t) for d, t, _ in gen_outline]
+        if gen_seq != base_seq:
+            diff_lines = [
+                f"idx {i}: base={b!r} vs gen={g!r}"
+                for i, (b, g) in enumerate(zip(base_seq, gen_seq))
+                if b != g
+            ][:10]
+            require(
+                False,
+                f"Generated LaTeX {surf}.pdf outline hierarchy/title mismatch vs baseline "
+                f"(base={len(base_seq)}, gen={len(gen_seq)}): {diff_lines}",
+            )
+        baseline_outline_matched = True
+
+    measured_gaps = _verify_rendered_pdf_boundaries(surf, gen_pdf, gen_raw)
+
+    return {
+        "outline_entries": len(gen_outline),
+        "broken_outline_targets": 0,
+        "required_math_bookmarks_verified": len(REQUIRED_PDF_BOOKMARK_TITLES[surf]),
+        "baseline_outline_hierarchy_matched": baseline_outline_matched,
+        "rendered_boundaries_verified": True,
+        "rendered_boundary_gaps_pt": measured_gaps,
     }
 
 
@@ -4239,8 +4916,13 @@ def _verify_evaluated_and_rendered_impl(
             },
         }
 
-    # Optional: verify generated LaTeX compatibility PDFs against the historical baseline PDFs
+    # Verify generated LaTeX compatibility PDFs (local destinations, sibling /GoToR /D landings,
+    # complete outlines, rendered spacing/unit boundaries, and baseline parity).
     generated_latex_pdf_report: dict[str, object] = {"performed": False}
+    require(
+        (generated_latex_main_pdf is None) == (generated_latex_manual_pdf is None),
+        "Both --generated-latex-main-pdf and --generated-latex-manual-pdf must be supplied together",
+    )
     if generated_latex_main_pdf is not None and generated_latex_manual_pdf is not None:
         require(generated_latex_main_pdf.is_file(), f"Generated LaTeX Main PDF not found: {generated_latex_main_pdf}")
         require(generated_latex_manual_pdf.is_file(), f"Generated LaTeX Manual PDF not found: {generated_latex_manual_pdf}")
@@ -4265,6 +4947,16 @@ def _verify_evaluated_and_rendered_impl(
 
         gen_main_links = _inspect_pdf_links(generated_latex_main_pdf, expected_peer_pdf=None)
         gen_manual_links = _inspect_pdf_links(generated_latex_manual_pdf, expected_peer_pdf="main.pdf")
+        require(
+            not gen_main_links["broken_local_destinations"],
+            f"Generated LaTeX main.pdf has broken local link destination(s): "
+            f"{gen_main_links['broken_local_destinations'][:10]}",
+        )
+        require(
+            not gen_manual_links["broken_local_destinations"],
+            f"Generated LaTeX manual.pdf has broken local link destination(s): "
+            f"{gen_manual_links['broken_local_destinations'][:10]}",
+        )
         gen_peer_total = len(gen_manual_links["peer_pdf_links"]) + len(gen_manual_links["gotor_peer_links"])
         require(
             len(gen_manual_links["stale_main_pdf_links"]) == 0,
@@ -4275,12 +4967,36 @@ def _verify_evaluated_and_rendered_impl(
             f"Generated LaTeX manual.pdf expected >= {len(manual_mainrefs_raw)} peer links to sibling main.pdf, got {gen_peer_total}",
         )
 
+        # Extract per-page text of generated main.pdf for sibling /GoToR /D landing checks
+        gen_main_raw = _pdftotext(generated_latex_main_pdf, raw=False)
+        gen_main_pages_txt = gen_main_raw.split("\x0c")
+        if gen_main_pages_txt and gen_main_pages_txt[-1] == "":
+            gen_main_pages_txt = gen_main_pages_txt[:-1]
+        base_main_links = None
+        base_manual_links = None
+        base_main_pages_txt = None
+        if baseline_main_pdf is not None and baseline_manual_pdf is not None:
+            base_main_links = _inspect_pdf_links(baseline_main_pdf, expected_peer_pdf=None)
+            base_manual_links = _inspect_pdf_links(baseline_manual_pdf, expected_peer_pdf="main.pdf")
+            base_main_pages_txt = base_raw_by_surf["main"].split("\x0c")
+            if base_main_pages_txt and base_main_pages_txt[-1] == "":
+                base_main_pages_txt = base_main_pages_txt[:-1]
+
+        peer_dest_report = _verify_gotor_peer_destinations(
+            gen_manual_links,
+            gen_main_links,
+            gen_main_pages_txt,
+            baseline_manual_links=base_manual_links,
+            baseline_main_links=base_main_links,
+            baseline_main_pages_txt=base_main_pages_txt,
+        )
+
         gen_per_doc: dict[str, dict] = {}
         for surf, g_pdf, b_pdf in (
             ("main", generated_latex_main_pdf, baseline_main_pdf),
             ("manual", generated_latex_manual_pdf, baseline_manual_pdf),
         ):
-            g_raw = _pdftotext(g_pdf, raw=False)
+            g_raw = gen_main_raw if surf == "main" else _pdftotext(g_pdf, raw=False)
             g_stream = _pdftotext(g_pdf, raw=True)
             require(len(g_raw.strip()) > 20000, f"Generated LaTeX {surf}.pdf text unexpectedly short")
             for forbidden in ("columns: (", "table.header(", "aod-definition", "aod-provenance", "aod-flowchart", "??"):
@@ -4289,12 +5005,19 @@ def _verify_evaluated_and_rendered_impl(
             for cmd in sorted(set(gate_b_info["_cli_commands"][surf])):
                 require(cmd in g_flat_cli, f"CLI command missing in generated LaTeX {surf}.pdf: {cmd!r}")
 
+            outline_boundary_report = _verify_pdf_outlines_and_boundaries(surf, g_pdf, g_raw, baseline_pdf=b_pdf)
+
             g_norm = " " + _norm_rendered_text_tokens(g_stream, is_typst=False, vocab=vocab) + " "
             g_flat = re.sub(r"\s+", " ", g_raw.replace("\xa0", " "))
+            g_links = gen_main_links if surf == "main" else gen_manual_links
             entry: dict[str, object] = {
-                "pages": gen_main_links["pages"] if surf == "main" else gen_manual_links["pages"],
+                "pages": g_links["pages"],
                 "pdf_sha256": sha256_file(g_pdf),
                 "pdf_bytes": g_pdf.stat().st_size,
+                "local_links_checked": g_links["internal_links"],
+                "broken_local_destinations": 0,
+                "named_destinations_count": len(g_links["named_destinations"]),
+                "outlines_and_boundaries": outline_boundary_report,
             }
             if b_pdf is not None and base_norm_by_surf is not None:
                 b_raw = base_raw_by_surf[surf]
@@ -4319,8 +5042,8 @@ def _verify_evaluated_and_rendered_impl(
                         f"Generated LaTeX {surf} bibliography [{idx}] mismatch vs baseline:\n"
                         f"  BASE: {b_bib[idx]}\n  GEN : {g_bib[idx]}",
                     )
-                b_uris = _inspect_pdf_links(b_pdf, expected_peer_pdf=None)["unique_external_uris"]
-                g_uris = (gen_main_links if surf == "main" else gen_manual_links)["unique_external_uris"]
+                b_uris = (base_main_links if surf == "main" else base_manual_links)["unique_external_uris"]
+                g_uris = g_links["unique_external_uris"]
                 require(
                     b_uris == g_uris,
                     f"Generated LaTeX {surf} external /URI mismatch vs baseline: "
@@ -4357,6 +5080,7 @@ def _verify_evaluated_and_rendered_impl(
             "performed": True,
             "manual_sibling_peer_links": gen_peer_total,
             "manual_stale_peer_links": 0,
+            "peer_destination_verification": peer_dest_report,
             "results": gen_per_doc,
         }
 
@@ -4415,13 +5139,17 @@ def run_negative_controls(
     baseline_main_pdf: Path | None = None,
     baseline_manual_pdf: Path | None = None,
     baseline_root: Path | None = None,
+    generated_latex_main_pdf: Path | None = None,
+    generated_latex_manual_pdf: Path | None = None,
 ) -> dict:
     manifest = json.loads((root / "typst/manifest.json").read_text(encoding="utf-8"))
     results: dict[str, dict] = {}
     b_root, tmp_base = _resolve_baseline_root(root, baseline_root)
     try:
         return _run_negative_controls_impl(
-            root, typst_bin, manifest, results, b_root, baseline_main_pdf, baseline_manual_pdf
+            root, typst_bin, manifest, results, b_root,
+            baseline_main_pdf, baseline_manual_pdf,
+            generated_latex_main_pdf, generated_latex_manual_pdf,
         )
     finally:
         if tmp_base is not None:
@@ -4436,6 +5164,8 @@ def _run_negative_controls_impl(
     b_root: Path,
     baseline_main_pdf: Path | None,
     baseline_manual_pdf: Path | None,
+    generated_latex_main_pdf: Path | None = None,
+    generated_latex_manual_pdf: Path | None = None,
 ) -> dict:
 
     def make_sandbox(tmp: Path, include_figures: bool = True) -> Path:
@@ -4838,6 +5568,179 @@ def _run_negative_controls_impl(
             "ca=0.0",
         )
 
+    # --- Phase 2 bounded repair controls (R1, R2, R3, R5, R6) ---
+    def make_gate_a_sandbox(tmp: Path) -> Path:
+        sb = tmp / "ga_repo"
+        shutil.copytree(
+            root,
+            sb,
+            ignore=shutil.ignore_patterns(".git", "dist_typst", "_build", "__pycache__", "latex"),
+        )
+        return sb
+
+    # 22a. R1: historical 98ddfa0 old_sha256 in representation ledger for build_release_bundle.py
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_gate_a_sandbox(Path(td))
+        lp = sb / "typst/representation_change_ledger.json"
+        ldata = json.loads(lp.read_text(encoding="utf-8"))
+        for rec in ldata["frozen_sha256_amendments"]:
+            if rec["path"] == "scripts/build_release_bundle.py":
+                rec["old_sha256"] = "960949d90fd37df5f2a996e408313514772202ddbd9103f1aa4d9f160602418a"
+        lp.write_text(json.dumps(ldata, indent=2) + "\n", encoding="utf-8")
+        expect_rejection(
+            "22a_R1_ledger_historical_old_hash",
+            lambda: verify_baseline_immutability(sb, manifest, baseline_root=b_root),
+            "disagrees with accepted Phase 1",
+        )
+
+    # 22b. R1: duplicate entry in representation ledger
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_gate_a_sandbox(Path(td))
+        lp = sb / "typst/representation_change_ledger.json"
+        ldata = json.loads(lp.read_text(encoding="utf-8"))
+        ldata["frozen_sha256_amendments"].append(dict(ldata["frozen_sha256_amendments"][0]))
+        lp.write_text(json.dumps(ldata, indent=2) + "\n", encoding="utf-8")
+        expect_rejection(
+            "22b_R1_ledger_duplicate_entry",
+            lambda: verify_baseline_immutability(sb, manifest, baseline_root=b_root),
+            "Duplicate entry in representation ledger",
+        )
+
+    # 22c. R1: substituted declared Phase 1 origin commit
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_gate_a_sandbox(Path(td))
+        lp = sb / "typst/representation_change_ledger.json"
+        ldata = json.loads(lp.read_text(encoding="utf-8"))
+        ldata["phase1_accepted_commit"] = SCIENTIFIC_BASELINE_COMMIT
+        lp.write_text(json.dumps(ldata, indent=2) + "\n", encoding="utf-8")
+        expect_rejection(
+            "22c_R1_ledger_substituted_origin",
+            lambda: verify_baseline_immutability(sb, manifest, baseline_root=b_root),
+            "phase1_accepted_commit mismatch",
+        )
+
+    # 22d. R1: undeclared transition of an untouched scientific contract
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_gate_a_sandbox(Path(td))
+        cp = sb / "contracts/scientific/CELL_MEASURE_SPEC.json"
+        cp.write_text(cp.read_text(encoding="utf-8") + "\n", encoding="utf-8")
+        expect_rejection(
+            "22d_R1_undeclared_contract_transition",
+            lambda: verify_baseline_immutability(sb, manifest, baseline_root=b_root),
+            "Undeclared contract transition outside representation ledger",
+        )
+
+    # 23a & 23b. R2 & R3: generated LaTeX spacing boundary glue & stripped bookmark heading
+    if (root / "latex/GENERATION_MANIFEST.json").is_file():
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=True)
+            shutil.copytree(root / "latex", sb / "latex")
+            mutate(
+                sb, "latex/sections/05_curl_closure_duon_current.tex",
+                r"\mathrm{Duon}\ \text{has the support of }",
+                r"\mathrm{Duon}\text{has the support of }",
+            )
+            expect_rejection(
+                "23a_R2_generated_boundary_glued",
+                lambda: verify_source_and_content_parity(
+                    sb, manifest, baseline_root=b_root, check_generated_latex=True, typst_bin=typst_bin
+                ),
+                "Generated LaTeX boundary regression",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=True)
+            shutil.copytree(root / "latex", sb / "latex")
+            mutate(
+                sb, "latex/sections/06_field.tex",
+                r"\subsubsection{E2\texorpdfstring{$^{\pm}$}{±} duad}",
+                r"\subsubsection{E2$^{\pm}$ duad}",
+            )
+            expect_rejection(
+                "23b_R3_generated_bookmark_stripped",
+                lambda: verify_source_and_content_parity(
+                    sb, manifest, baseline_root=b_root, check_generated_latex=True, typst_bin=typst_bin
+                ),
+                "Generated LaTeX bookmark regression",
+            )
+
+    # 24. R5: missing sibling peer /GoToR /D destination (__AOD_REVIEW_MISSING_DESTINATION__)
+    with tempfile.TemporaryDirectory() as td:
+        from pypdf import PdfReader, PdfWriter
+        from pypdf.generic import ArrayObject, DictionaryObject, NameObject, NumberObject, TextStringObject
+
+        td_p = Path(td)
+        pair_main = generated_latex_main_pdf or baseline_main_pdf
+        pair_manual = generated_latex_manual_pdf or baseline_manual_pdf
+        if pair_main is not None and pair_manual is not None and pair_main.is_file() and pair_manual.is_file():
+            w = PdfWriter()
+            w.clone_document_from_reader(PdfReader(str(pair_manual)))
+            mutated_dest = False
+            for pg in w.pages:
+                for an in (pg.get("/Annots") or []):
+                    ao = an.get_object().get("/A")
+                    if ao:
+                        ao = ao.get_object()
+                        if str(ao.get("/S") or "") == "/GoToR" and "/D" in ao:
+                            ao[NameObject("/D")] = TextStringObject("__AOD_REVIEW_MISSING_DESTINATION__")
+                            mutated_dest = True
+                            break
+                if mutated_dest:
+                    break
+            require(mutated_dest, "Control 24 preimage missing: no /GoToR /D link found")
+            bad_manual = td_p / "manual.pdf"
+            with bad_manual.open("wb") as fh:
+                w.write(fh)
+            m_links = _inspect_pdf_links(pair_main, expected_peer_pdf=None)
+            man_links = _inspect_pdf_links(bad_manual, expected_peer_pdf="main.pdf")
+            m_pages = _pdftotext(pair_main).split("\x0c")
+            if m_pages and m_pages[-1] == "":
+                m_pages = m_pages[:-1]
+        else:
+            syn_main = td_p / "main.pdf"
+            syn_manual = td_p / "manual.pdf"
+            wm = PdfWriter()
+            wm.add_blank_page(width=612, height=792)
+            with syn_main.open("wb") as fh:
+                wm.write(fh)
+            wman = PdfWriter()
+            pg = wman.add_blank_page(width=612, height=792)
+            annot = DictionaryObject({
+                NameObject("/Type"): NameObject("/Annot"),
+                NameObject("/Subtype"): NameObject("/Link"),
+                NameObject("/Rect"): ArrayObject([NumberObject(10), NumberObject(10), NumberObject(50), NumberObject(20)]),
+                NameObject("/A"): DictionaryObject({
+                    NameObject("/S"): NameObject("/GoToR"),
+                    NameObject("/F"): TextStringObject("main.pdf"),
+                    NameObject("/D"): TextStringObject("__AOD_REVIEW_MISSING_DESTINATION__"),
+                }),
+            })
+            pg[NameObject("/Annots")] = ArrayObject([annot])
+            with syn_manual.open("wb") as fh:
+                wman.write(fh)
+            m_links = _inspect_pdf_links(syn_main, expected_peer_pdf=None)
+            man_links = _inspect_pdf_links(syn_manual, expected_peer_pdf="main.pdf")
+            m_pages = [""]
+        expect_rejection(
+            "24_R5_missing_gotor_peer_destination",
+            lambda: _verify_gotor_peer_destinations(man_links, m_links, m_pages),
+            "missing sibling peer /GoToR /D destination",
+        )
+
+    # 25. R6: unsupported Typst syntax reports real source file:line (not :1)
+    with tempfile.TemporaryDirectory() as td:
+        sb = make_sandbox(Path(td), include_figures=True)
+        t_rel = "typst/sections/03_afc_basis.typ"
+        t_path = sb / t_rel
+        orig_txt = t_path.read_text(encoding="utf-8")
+        expected_line = orig_txt.count("\n") + 2
+        t_path.write_text(orig_txt + "\n#unsupported-phase2-widget(1)\n", encoding="utf-8")
+        t2t = load_module(root, "aod_typ2tex_ctrl25", "scripts/typ2tex.py")
+        expect_rejection(
+            "25_R6_unsupported_syntax_line_number",
+            lambda: t2t.generate_latex_tree(sb, Path(td) / "gen_latex", check_only=False, typst_bin=typst_bin),
+            f"{t_rel}:{expected_line}",
+        )
+
     return results
 
 
@@ -4895,7 +5798,12 @@ def main() -> int:
         gate_d = (
             {"skipped": True}
             if args.skip_negative_controls
-            else run_negative_controls(root, typst_bin, base_main, base_manual, baseline_root=b_root)
+            else run_negative_controls(
+                root, typst_bin, base_main, base_manual,
+                baseline_root=b_root,
+                generated_latex_main_pdf=gen_main,
+                generated_latex_manual_pdf=gen_manual,
+            )
         )
     finally:
         if tmp_base is not None:
@@ -4906,6 +5814,10 @@ def main() -> int:
 
     has_baselines = bool(base_main and base_manual)
     has_gen_latex = bool(gen_main and gen_manual)
+    gen_src_info = gate_b.get("generated_latex_parity", {})
+    gen_src_checked = bool(gen_src_info.get("performed"))
+    gen_fresh_checked = bool(gen_src_info.get("typ2tex_check_passed"))
+    transition_checked = bool(gate_a.get("phase1_transition_verified"))
     all_controls_ran = not args.skip_negative_controls
     unverified_clauses = 0
     typst_only_clauses = 0
@@ -4919,8 +5831,31 @@ def main() -> int:
             for surf in ("main", "manual"):
                 gcr = gate_c["generated_latex_pdf_comparison"]["results"][surf]["rendered_prose_clauses"]
                 gen_unverified_clauses += gcr["unverified"]
+
+    missing_acceptance_requirements: list[str] = []
+    if not transition_checked:
+        missing_acceptance_requirements.append("phase1_transition_verification")
+    if not gen_src_checked:
+        missing_acceptance_requirements.append("generated_latex_source_parity")
+    if not gen_fresh_checked:
+        missing_acceptance_requirements.append("generated_latex_freshness_check")
     if not has_baselines:
+        missing_acceptance_requirements.append("baseline_pdfs")
+    if not has_gen_latex:
+        missing_acceptance_requirements.append("generated_latex_pdfs")
+    if not all_controls_ran:
+        missing_acceptance_requirements.append("negative_controls")
+    if unverified_clauses or typst_only_clauses or gen_unverified_clauses:
+        missing_acceptance_requirements.append("rendered_prose_clauses")
+
+    if not transition_checked:
+        verdict = "PARTIAL_NON_ACCEPTANCE_MISSING_TRANSITION_CHECK"
+    elif not gen_src_checked or not gen_fresh_checked:
+        verdict = "PARTIAL_NON_ACCEPTANCE_MISSING_GENERATED_SOURCE_FRESHNESS"
+    elif not has_baselines:
         verdict = "PARTIAL_NON_ACCEPTANCE_MISSING_BASELINE_PDFS"
+    elif not has_gen_latex:
+        verdict = "PARTIAL_NON_ACCEPTANCE_MISSING_GENERATED_LATEX_PDFS"
     elif not all_controls_ran:
         verdict = "PARTIAL_NON_ACCEPTANCE_SKIPPED_CONTROLS"
     elif unverified_clauses or typst_only_clauses or gen_unverified_clauses:
@@ -4928,9 +5863,23 @@ def main() -> int:
     else:
         verdict = "PASS"
 
+    if verdict == "PASS":
+        typ2tex_status = "VERIFIED_COMPLETE_PHASE_2"
+    elif has_gen_latex and gen_src_checked and gen_fresh_checked:
+        typ2tex_status = "PARTIAL_GENERATED_PDFS_CHECKED_INCOMPLETE_ACCEPTANCE"
+    elif gen_src_checked:
+        typ2tex_status = "PARTIAL_SOURCE_ONLY_GENERATED_PDFS_NOT_VERIFIED"
+    else:
+        typ2tex_status = "UNVERIFIED"
+
+    controls_executed = 0 if args.skip_negative_controls else sum(
+        1 for v in gate_d.values() if v.get("rejected") is True
+    )
+
     report = {
         "schema": "aod.typst.parity-report.v2",
         "scientific_baseline_commit": SCIENTIFIC_BASELINE_COMMIT,
+        "phase1_accepted_commit": PHASE1_ACCEPTED_COMMIT,
         "verifier_sha256": sha256_file(Path(__file__).resolve()),
         "gate_a_baseline_immutability": gate_a,
         "gate_a2_typst_evaluation_policy": gate_a2,
@@ -4938,39 +5887,62 @@ def main() -> int:
         "gate_c_evaluated_and_rendered": gate_c,
         "gate_d_negative_controls": gate_d,
         "coverage": {
-            "ordered_prose_and_short_words": True,
-            "all_inline_and_display_math_ast": True,
-            "matrix_delimiters_and_augment_bars": True,
-            "bar_vs_overline_and_upright_bold": True,
-            "flowcharts_nodes_and_edges_verified": gate_b["flowcharts_verified"],
-            "exact_equation_numbering_and_block_count": True,
-            "unsupported_math_constructs": gate_b["unsupported_math_constructs"],
-            "immutable_tables_cell_by_cell": True,
-            "delivered_peer_pdf_links_and_landings": True,
-            "generated_latex_source_tree_verified": bool(gate_b.get("generated_latex_parity", {}).get("performed")),
-            "generated_latex_pdfs_verified_vs_baseline": has_baselines and has_gen_latex,
-            "clickable_external_uris_vs_baseline_pdf": has_baselines,
-            "inline_citation_sequence_vs_baseline_pdf": has_baselines,
-            "rendered_bib_case_sensitive": has_baselines,
-            "rendered_prose_clauses_vs_baseline_pdf": has_baselines,
-            "rendered_prose_clauses_unverified": (
-                unverified_clauses + typst_only_clauses + gen_unverified_clauses
-            ) if has_baselines else "NOT_ASSESSED_WITHOUT_BASELINE",
-            "rendered_insertion_ngrams_vs_baseline_pdf": has_baselines,
-            "rendered_relation_glyph_parity_vs_baseline_pdf": has_baselines,
-            "rendered_minus_equals_membership_glyphs": "SOURCE_MATH_AST_AND_EVALUATION_POLICY_ONLY",
-            "rendered_text_paint_scan_alpha_and_clip": True,
-            "typst_evaluation_policy_and_template_pins": True,
-            "figure_image_bindings_to_protected_digests": gate_b["figure_image_bindings_verified"],
-            "figure_pixels_visual_comparison": "NOT_PERFORMED_BOUND_BY_PROTECTED_DIGEST",
-            "overlay_primitives": "FORBIDDEN_BY_POLICY_NOT_DETECTED_IN_PDF",
-            "negative_controls_executed": 0 if args.skip_negative_controls else sum(
-                1 for v in gate_d.values() if v.get("rejected") is True
-            ),
-            "human_visual_layout_review": "SEPARATE_RECORDED_OUTSIDE_AUTOMATED_SCRIPT",
+            "native": {
+                "ordered_prose_and_short_words": True,
+                "all_inline_and_display_math_ast": True,
+                "matrix_delimiters_and_augment_bars": True,
+                "bar_vs_overline_and_upright_bold": True,
+                "flowcharts_nodes_and_edges_verified": gate_b["flowcharts_verified"],
+                "exact_equation_numbering_and_block_count": True,
+                "unsupported_math_constructs": gate_b["unsupported_math_constructs"],
+                "immutable_tables_cell_by_cell": True,
+                "delivered_peer_pdf_links_and_landings": True,
+                "clickable_external_uris_vs_baseline_pdf": has_baselines,
+                "inline_citation_sequence_vs_baseline_pdf": has_baselines,
+                "rendered_bib_case_sensitive": has_baselines,
+                "rendered_prose_clauses_vs_baseline_pdf": has_baselines,
+                "rendered_prose_clauses_unverified": (
+                    unverified_clauses + typst_only_clauses
+                ) if has_baselines else "NOT_ASSESSED_WITHOUT_BASELINE",
+                "rendered_insertion_ngrams_vs_baseline_pdf": has_baselines,
+                "rendered_relation_glyph_parity_vs_baseline_pdf": has_baselines,
+                "rendered_minus_equals_membership_glyphs": "SOURCE_MATH_AST_AND_EVALUATION_POLICY_ONLY",
+                "rendered_text_paint_scan_alpha_and_clip": True,
+                "typst_evaluation_policy_and_template_pins": True,
+                "figure_image_bindings_to_protected_digests": gate_b["figure_image_bindings_verified"],
+                "figure_pixels_visual_comparison": "NOT_PERFORMED_BOUND_BY_PROTECTED_DIGEST",
+                "overlay_primitives": "FORBIDDEN_BY_POLICY_NOT_DETECTED_IN_PDF",
+            },
+            "generated_latex": {
+                "source_tree_verified": gen_src_checked,
+                "source_freshness_check_passed": gen_fresh_checked,
+                "spacing_unit_boundaries_source_verified": bool(gen_src_info.get("spacing_unit_boundaries_verified")),
+                "pdfs_supplied_and_verified": has_gen_latex,
+                "pdfs_verified_vs_baseline": has_baselines and has_gen_latex,
+                "local_destinations_verified": has_gen_latex,
+                "sibling_peer_gotor_destinations_and_landings_verified": has_gen_latex,
+                "pdf_outlines_and_math_bookmarks_verified": has_gen_latex,
+                "rendered_spacing_unit_boundaries_verified": has_gen_latex,
+                "rendered_prose_clauses_unverified": (
+                    gen_unverified_clauses
+                    if (has_baselines and has_gen_latex)
+                    else "NOT_ASSESSED_WITHOUT_BASELINE_AND_GENERATED_PDFS"
+                ),
+            },
+            "provenance_and_controls": {
+                "historical_baseline_preservation_verified": bool(gate_a.get("historical_baseline_preservation_verified")),
+                "phase1_transition_verified": transition_checked,
+                "negative_controls_executed": controls_executed,
+                "human_visual_layout_review": "SEPARATE_RECORDED_OUTSIDE_AUTOMATED_SCRIPT",
+            },
+            "missing_acceptance_requirements": missing_acceptance_requirements,
         },
-        "typ2tex_compatibility_status": "IMPLEMENTED_AND_VERIFIED_PHASE_2",
-        "canonical_source_promotion": "TYPST_PRIMARY_LATEX_GENERATED_COMPATIBILITY",
+        "typ2tex_compatibility_status": typ2tex_status,
+        "canonical_source_promotion": (
+            "TYPST_PRIMARY_LATEX_GENERATED_COMPATIBILITY_ACCEPTED"
+            if verdict == "PASS"
+            else "PARTIAL_NOT_ACCEPTED"
+        ),
         "verdict": verdict,
     }
     report_path = outdir / "parity_report.json"

@@ -2,8 +2,8 @@
   "schema": "aod.typ2tex.manifest.v1",
   "generator": "scripts/typ2tex.py",
   "generator_version": "1.0.0",
-  "generator_sha256": "1a88c74edc6f8b4fc6955384c4c7d79d5ff386e9e818c736d1f4aff923d12988",
-  "figure_exporter_sha256": "a21219fc2936279c2025bd065bd3ba1e6f06f6d2918f824c99577d06e8d3193b",
+  "generator_sha256": "2fde27f30aeb43643f78520f353c67b3bdc71a44ddaff6c5e034d637e5fd9674",
+  "figure_exporter_sha256": "9b3cee67f8d032fcfefd0259fe2f856d13dcfbd1f022888d8eb5dbf2de82ff57",
   "figure_format": "pdf",
   "figure_ppi": null,
   "counts": {
@@ -477,8 +477,8 @@
       "path": "appendices/B_curling_curls.tex",
       "kind": "rendered_tex",
       "source": "typst/appendices/B_curling_curls.typ",
-      "sha256": "c58647af5ced81963f3a480725687a261f177d1d51a601f40a78b875ed6c6e9b",
-      "bytes": 5509
+      "sha256": "62aa15723b6015d17e39606cf78f4a52a35f5a2dc351f4387a5e49be10497df8",
+      "bytes": 5511
     },
     {
       "path": "appendices/C_stochastic_crowning.tex",
@@ -519,8 +519,8 @@
       "path": "appendices/H_combinatorics_rd_tests.tex",
       "kind": "rendered_tex",
       "source": "typst/appendices/H_combinatorics_rd_tests.typ",
-      "sha256": "37be09277d5c1570ccdcf0ec51af7bffd92fd4952c17b49b9ffcc96154e9a717",
-      "bytes": 4292
+      "sha256": "6f22454bee3a3c5178df5c60728f489523e165a17e8637e609434435b334a73c",
+      "bytes": 4313
     },
     {
       "path": "appendices/I_path_complexity_prototype_quarantine.tex",
@@ -533,8 +533,8 @@
       "path": "appendices/J_ao_field_fractal_properties.tex",
       "kind": "rendered_tex",
       "source": "typst/appendices/J_ao_field_fractal_properties.typ",
-      "sha256": "6abdad7dac565ff012fcb6946b51599326166313816e61ad636d30ec21aeae55",
-      "bytes": 1510
+      "sha256": "3b180f42040515ae56f456e189dda51f06fc43684935351cb4232e42b44296a3",
+      "bytes": 1537
     },
     {
       "path": "cycle_shedding_summary.tex",
@@ -610,15 +610,15 @@
       "path": "manual/appendices/B_quarantined_external_comparison.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/appendices/B_quarantined_external_comparison.typ",
-      "sha256": "34f7262030a6646b4171b3fdb218b7e3ff6ea966a592fafa749a640b5e4ec4d3",
-      "bytes": 8641
+      "sha256": "8c21f87a330462e6359dc471bf76e4ab9128d8b2aee47797a84bb0a8808e3b54",
+      "bytes": 8643
     },
     {
       "path": "manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
-      "sha256": "37cda6e7357394103f978813f5b614f591c13aae61dddc6ab15990573b19e07a",
-      "bytes": 7880
+      "sha256": "40aafe0d920d4caace965661f7fe743bec62ac67796438778f57ef8dd0791593",
+      "bytes": 7929
     },
     {
       "path": "manual/data/derived/sparc_summary_table.tex",
@@ -687,8 +687,8 @@
       "path": "manual/figures/generated/FIGURE_MANIFEST.json",
       "kind": "figure_manifest",
       "source": "scripts/export_typst_figures.py",
-      "sha256": "e1d63de80ff679e30bfd1dd3f446b2f8d741f1f6fddf4297d6202f1e74855ee4",
-      "bytes": 3292
+      "sha256": "4caa5d6630a0f10a0cc84086d706843649697314fbd6e470a293c8d3f0b11933",
+      "bytes": 4431
     },
     {
       "path": "manual/figures/generated/boundary-current-spine.pdf",
@@ -946,8 +946,8 @@
       "path": "manual/sections/01_rest_energy_prediction.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/01_rest_energy_prediction.typ",
-      "sha256": "3140f86681b49d9c9b466fa8ec691e6d087f3e57f45103219e64c47b32943aba",
-      "bytes": 18692
+      "sha256": "eea6d168801f1fa1122cdc42d233f115719584b34bd297b33ce88c5d04e933be",
+      "bytes": 18737
     },
     {
       "path": "manual/sections/02_hydrogen_facing_shell_tests.tex",
@@ -967,8 +967,8 @@
       "path": "manual/sections/03_short_window_rcd_shedding_fixtures.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
-      "sha256": "9ef1e8704221accf8e47d52785b963ac67c170da6bb7bd20b3bb125aa2384586",
-      "bytes": 13731
+      "sha256": "415a953a1a7a669ab29e9e8cfe07ee0d169e67336c8ca63f71e70e79961690f3",
+      "bytes": 13804
     },
     {
       "path": "manual/sections/03_temporal_observation.tex",
@@ -995,8 +995,8 @@
       "path": "manual/sections/06_field_dynamics_applications.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/06_field_dynamics_applications.typ",
-      "sha256": "965875b67bf373eaabecd1a2fbb0e57f7b69f7ede202a7791657051f68407590",
-      "bytes": 33749
+      "sha256": "590ce716e1e02d216d97f5f5fb7e8c0ce22ec34575d5e489f84eedd2e693bcea",
+      "bytes": 33774
     },
     {
       "path": "manual/sections/07_galactic_lensing_plan.tex",
@@ -1058,15 +1058,15 @@
       "path": "sections/05_curl_closure_duon_current.tex",
       "kind": "rendered_tex",
       "source": "typst/sections/05_curl_closure_duon_current.typ",
-      "sha256": "178ee37017b123c451c6535c56c66258adcda5091b1e58cf57044efba65ab67d",
-      "bytes": 18085
+      "sha256": "8ddeb56ad6c8f13415df619153a9189d8dea61c701c2d1bef314c414824182c3",
+      "bytes": 18087
     },
     {
       "path": "sections/06_field.tex",
       "kind": "rendered_tex",
       "source": "typst/sections/06_field.typ",
-      "sha256": "2c2109b3462d6637545a3678dc6a00fa50009b0f53f8a9da4ba76c2b0bdc3142",
-      "bytes": 70069
+      "sha256": "4d9309306e5b6e7bb0904375fd1863807f36cb6ee9770a54af56d55621a034c4",
+      "bytes": 70110
     },
     {
       "path": "sections/06_wave_state_relational_time.tex",
@@ -1086,8 +1086,8 @@
       "path": "sections/08_awareness_learning_mindfulness.tex",
       "kind": "rendered_tex",
       "source": "typst/sections/08_awareness_learning_mindfulness.typ",
-      "sha256": "365ec97e8c567cc56ffec1f0bd722e4c32b647c7f9eddfdfba7ccf1688117f07",
-      "bytes": 9140
+      "sha256": "3bb49e3c61b453a51b9a109bb3f395ff43b7a7c13bafea7d29c77db1df5ac339",
+      "bytes": 9142
     }
   ]
 }

@@ -544,8 +544,97 @@ MATH_FUNCS = frozenset({
 })
 
 
+SINGLE_LETTER_UNITS = frozenset({
+    "A", "C", "F", "H", "J", "K", "L", "N", "S", "T", "V", "W", "g", "m", "s",
+})
+
+_MATH_SPACING_IDENTIFIERS = frozenset({"thin", "med", "thick", "quad", "wide"})
+
+_MATH_REL_OR_BIN_TEX = frozenset({
+    r"\to", r"\rightarrow", r"\leftarrow", r"\leftrightarrow", r"\iff",
+    r"\implies", r"\impliedby", r"\mapsto", r"\longrightarrow",
+    r"\longleftrightarrow", r"\leadsto", r"\in", r"\notin", r"\subset",
+    r"\subseteq", r"\supset", r"\supseteq", r"\cup", r"\cap", r"\setminus",
+    r"\ne", r"\neq", r"\le", r"\ge", r"\equiv", r"\approx", r"\sim",
+    r"\simeq", r"\cong", r"\propto", r"\pm", r"\mp", r"\times", r"\cdot",
+    r"\circ", r"\otimes", r"\oplus", r"\land", r"\lor", r"\mid", r"\vdash",
+    r"\models", r"\perp", r"\parallel", r"\colon", r"\dots", r"\ldots",
+    r"\cdots", r"\{", r"\}", r"\langle", r"\rangle", r"\lfloor", r"\rfloor",
+    r"\lceil", r"\rceil",
+})
+
+
+class _MathAtom:
+    __slots__ = ("tex", "kind", "had_ws", "raw_text", "has_script")
+
+    def __init__(
+        self,
+        tex: str,
+        kind: str,
+        *,
+        had_ws: bool = False,
+        raw_text: str = "",
+        has_script: bool = False,
+    ) -> None:
+        self.tex = tex
+        self.kind = kind
+        self.had_ws = had_ws
+        self.raw_text = raw_text
+        self.has_script = has_script
+
+
+def _join_math_atoms(atoms: list[_MathAtom]) -> str:
+    """Join parsed math atoms preserving meaningful source whitespace at text and unit boundaries."""
+    filtered = [a for a in atoms if a.tex]
+    if not filtered:
+        return ""
+    out: list[str] = [filtered[0].tex]
+    prev = filtered[0]
+    for curr in filtered[1:]:
+        # 1. Numeric literal or numeric power followed by whitespace + standalone upright unit
+        #    (handles single-letter units such as J without a >= 2-letter heuristic,
+        #    while preserving tight imaginary `2\mathrm{i}` and tight inverse-second `s^{-1}`).
+        if (
+            curr.had_ws
+            and prev.kind == "num"
+            and curr.kind == "upright"
+            and not curr.has_script
+            and re.fullmatch(r"[A-Za-z][A-Za-z/]*", curr.raw_text)
+            and (len(curr.raw_text) >= 2 or curr.raw_text in SINGLE_LETTER_UNITS)
+        ):
+            out.append(r"\," + curr.tex)
+        # 2. Expression/word atom followed by whitespace + prose quoted text lacking leading space/punct
+        elif (
+            curr.had_ws
+            and curr.kind == "text"
+            and curr.raw_text
+            and not curr.raw_text[0].isspace()
+            and curr.raw_text[0] not in ".,;:!?)]}"
+            and prev.kind in ("upright", "math", "num", "ref", "text")
+            and not (prev.kind == "text" and prev.raw_text and prev.raw_text[-1].isspace())
+        ):
+            out.append(r"\ " + curr.tex)
+        # 3. Prose quoted text lacking trailing space followed by whitespace + expression/word atom
+        elif (
+            curr.had_ws
+            and prev.kind == "text"
+            and prev.raw_text
+            and not prev.raw_text[-1].isspace()
+            and prev.raw_text[-1] not in "([{"
+            and curr.kind in ("upright", "math", "num", "ref")
+        ):
+            out.append(r"\ " + curr.tex)
+        # 4. Prevent TeX control-sequence name gluing to an immediately following ASCII letter
+        elif prev.tex and re.search(r"\\[A-Za-z]+$", prev.tex) and re.match(r"^[A-Za-z]", curr.tex):
+            out.append(" " + curr.tex)
+        else:
+            out.append(curr.tex)
+        prev = curr
+    return "".join(out)
+
+
 def _join_math_tokens(tokens: list[str]) -> str:
-    """Join LaTeX math fragments safely so macro names never glue to letters and numeric units keep thin spacing."""
+    """Backward-compatible helper joining raw math string fragments safely."""
     if not tokens:
         return ""
     out: list[str] = [tokens[0]]
@@ -553,14 +642,113 @@ def _join_math_tokens(tokens: list[str]) -> str:
         if not tok:
             continue
         prev = out[-1]
-        m_rm = re.match(r"^\\mathrm\{([A-Za-z][A-Za-z/]+)\}", tok)
-        if m_rm and prev and (re.search(r"\d$", prev) or re.search(r"\d\^\{[^}]+\}$", prev)):
-            out.append(r"\," + tok)
-        elif prev and re.search(r"\\[A-Za-z]+$", prev) and re.match(r"^[A-Za-z]", tok):
+        if prev and re.search(r"\\[A-Za-z]+$", prev) and re.match(r"^[A-Za-z]", tok):
             out.append(" " + tok)
         else:
             out.append(tok)
     return "".join(out)
+
+
+_PDF_STRING_SYMBOLS: dict[str, str] = {
+    "plus.minus": "\u00b1",
+    "minus.plus": "-+",
+    "arrow.l.r": "<->",
+    "arrow.r": "->",
+    "arrow.l": "<-",
+    "arrow.l.r.long": "<->",
+    "arrow.r.long": "->",
+    "arrow.l.r.double.long": "<=>",
+    "arrow.r.double": "=>",
+    "arrow.r.bar": "|->",
+    "bar.v": "|",
+    "eq.not": "!=",
+    "lt.eq": "<=",
+    "gt.eq": ">=",
+    "times": "x",
+    "dot.op": "*",
+    "infinity": "inf",
+    "Alpha": "Alpha", "Beta": "Beta", "Gamma": "Gamma", "Delta": "Delta",
+    "Epsilon": "Epsilon", "Theta": "Theta", "Lambda": "Lambda", "Pi": "Pi",
+    "Sigma": "Sigma", "Phi": "Phi", "Psi": "Psi", "Omega": "Omega",
+    "alpha": "alpha", "beta": "beta", "gamma": "gamma", "delta": "delta",
+    "epsilon": "epsilon", "zeta": "zeta", "eta": "eta", "theta": "theta",
+    "iota": "iota", "kappa": "kappa", "lambda": "lambda", "mu": "mu",
+    "nu": "nu", "xi": "xi", "pi": "pi", "pi.alt": "pi", "rho": "rho",
+    "sigma": "sigma", "tau": "tau", "phi": "phi", "phi.alt": "phi",
+    "chi": "chi", "psi": "psi", "omega": "omega",
+    "Null": "Null", "Qfour": "Q4", "RCD": "RCD", "SADAR": "SADAR",
+    "ADAR": "ADAR", "AO": "A<->Omega",
+    "thin": " ", "med": " ", "thick": " ", "quad": " ", "wide": " ",
+}
+
+
+def _math_to_pdf_string(expr: str, where: str) -> str:
+    """Derive a compatibility PDF-bookmark string directly from canonical Typst math."""
+    out: list[str] = []
+    i = 0
+    n = len(expr)
+    while i < n:
+        ch = expr[i]
+        if ch in " \t\r\n":
+            i += 1
+            continue
+        if ch in ("_", "^"):
+            i += 1
+            while i < n and expr[i] in " \t\r\n":
+                i += 1
+            if i < n and expr[i] == "(":
+                inner, i = scan_balanced(expr, i, "(", ")", where, skip_math=False)
+                out.append(_math_to_pdf_string(inner, where))
+            continue
+        if ch == '"':
+            j = i + 1
+            while j < n:
+                if expr[j] == "\\" and j + 1 < n:
+                    j += 2
+                    continue
+                if expr[j] == '"':
+                    break
+                j += 1
+            _require(j < n, f"{where}: Unclosed string in heading math")
+            val = unquote_typst_string(expr[i : j + 1], where)
+            i = j + 1
+            if val:
+                out.append(val)
+            continue
+        m_num = re.match(r"[0-9]+(?:\.[0-9]+)?", expr[i:])
+        if m_num:
+            out.append(m_num.group(0))
+            i += len(m_num.group(0))
+            continue
+        m_id = re.match(r"[A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z0-9]+)*", expr[i:])
+        if m_id:
+            ident = m_id.group(0)
+            i += len(ident)
+            if i < n and expr[i] == "(" and ident in MATH_FUNCS:
+                arg_str, i = scan_balanced(expr, i, "(", ")", where, skip_math=False)
+                if ident == "frac":
+                    parts = split_top_level(arg_str, ",", where)
+                    out.append("/".join(_math_to_pdf_string(p, where) for p in parts))
+                else:
+                    s = arg_str.strip()
+                    if len(s) >= 2 and s[0] == '"' and s[-1] == '"':
+                        out.append(unquote_typst_string(s, where))
+                    else:
+                        out.append(_math_to_pdf_string(s, where))
+                continue
+            if len(ident) == 1:
+                out.append(ident)
+            elif ident in _PDF_STRING_SYMBOLS:
+                out.append(_PDF_STRING_SYMBOLS[ident])
+            else:
+                out.append(ident)
+            continue
+        if ch in "+-=<>:,;.!?/@*|()[]":
+            out.append(ch)
+            i += 1
+            continue
+        i += 1
+    return re.sub(r"\s+", " ", "".join(out)).strip()
 
 
 class _MathParser:
@@ -571,23 +759,26 @@ class _MathParser:
         self.where = where
         self.inline_prose = inline_prose_converter
 
-    def _skip_ws(self) -> None:
+    def _skip_ws(self) -> bool:
+        start = self.i
         while self.i < self.n and self.s[self.i] in " \t\r\n":
             self.i += 1
+        return self.i > start
 
     def parse_expr(self, stop_chars: str = "") -> str:
-        parts: list[str] = []
+        atoms: list[_MathAtom] = []
         while self.i < self.n:
-            self._skip_ws()
+            had_ws = self._skip_ws()
             if self.i >= self.n:
                 break
             ch = self.s[self.i]
             if stop_chars and ch in stop_chars:
                 break
-            atom = self._parse_atom(stop_chars)
+            atom_tex, atom_kind, raw_text = self._parse_atom(stop_chars)
             # Attach any _ or ^ scripts to this atom in exact source order
             scripts: list[tuple[str, str]] = []
             while True:
+                save_i = self.i
                 self._skip_ws()
                 if self.i < self.n and self.s[self.i] in ("_", "^"):
                     op_ch = self.s[self.i]
@@ -596,14 +787,26 @@ class _MathParser:
                     script_val = self._parse_script_arg()
                     scripts.append((op_ch, script_val))
                 else:
+                    self.i = save_i
                     break
             for op_ch, val in scripts:
                 if len(val) == 1 and (val.isalnum() or val in "+-*"):
-                    atom = f"{atom}{op_ch}{val}"
+                    atom_tex = f"{atom_tex}{op_ch}{val}"
                 else:
-                    atom = f"{atom}{op_ch}{{{val}}}"
-            parts.append(atom)
-        return _join_math_tokens(parts)
+                    atom_tex = f"{atom_tex}{op_ch}{{{val}}}"
+            # Empty base with scripts (e.g. `""^(plus.minus)`) becomes a math atom
+            if atom_kind == "empty" and scripts:
+                atom_kind = "math"
+            atoms.append(
+                _MathAtom(
+                    tex=atom_tex,
+                    kind=atom_kind,
+                    had_ws=had_ws,
+                    raw_text=raw_text,
+                    has_script=bool(scripts),
+                )
+            )
+        return _join_math_atoms(atoms)
 
     def _parse_script_arg(self) -> str:
         """Parse the argument immediately following _ or ^ (strips grouping parens)."""
@@ -616,28 +819,29 @@ class _MathParser:
             if r"\\" in rendered and r"\begin{" not in rendered:
                 return rf"\substack{{{rendered}}}"
             return rendered
-        return self._parse_atom("")
+        tex, _, _ = self._parse_atom("")
+        return tex
 
-    def _parse_atom(self, stop_chars: str) -> str:
+    def _parse_atom(self, stop_chars: str) -> tuple[str, str, str]:
         ch = self.s[self.i]
         # Line break `\` followed by whitespace or EOL, or escaped char `\,` etc.
         if ch == "\\":
             if self.i + 1 >= self.n or self.s[self.i + 1] in " \t\r\n":
                 self.i += 1
-                return r"\\"
+                return r"\\", "break", ""
             nxt = self.s[self.i + 1]
             self.i += 2
             if nxt == ",":
-                return ","
+                return ",", "punct", ","
             if nxt in ("#", "$", "%", "&", "{", "}", "_"):
-                return "\\" + nxt
+                return "\\" + nxt, "punct", nxt
             if nxt == "\\":
-                return r"\\"
-            return nxt
+                return r"\\", "break", ""
+            return nxt, "punct", nxt
         # Alignment tab
         if ch == "&":
             self.i += 1
-            return " & "
+            return " & ", "align", "&"
         # Quoted text inside math
         if ch == '"':
             j = self.i + 1
@@ -652,16 +856,16 @@ class _MathParser:
             val = unquote_typst_string(self.s[self.i : j + 1], self.where)
             self.i = j + 1
             if val == "":
-                return ""
+                return "", "empty", ""
             if val == ":":
-                return ":"
+                return ":", "punct", ":"
             if val == "#":
-                return r"\#"
+                return r"\#", "punct", "#"
             if val == "%":
-                return r"\%"
+                return r"\%", "punct", "%"
             if val == "|":
-                return "|"
-            return r"\text{" + escape_latex_text(val) + "}"
+                return "|", "punct", "|"
+            return r"\text{" + escape_latex_text(val) + "}", "text", val
         # Hash code/content inside math
         if ch == "#":
             if self.i + 1 < self.n and self.s[self.i + 1] == "[":
@@ -682,7 +886,7 @@ class _MathParser:
                         if frag:
                             segs.append(r"\text{" + frag + "}")
                         k = j
-                return _join_math_tokens(segs)
+                return _join_math_tokens(segs), "text", inner
             m = re.match(r"#([A-Za-z_][A-Za-z0-9_-]*)", self.s[self.i:])
             _require(m is not None, f"{self.where}: Unsupported '#' inside math: {self.s[self.i:self.i+20]!r}")
             fname = m.group(1)
@@ -696,27 +900,28 @@ class _MathParser:
                     _require(len(pos) == 1, f"{self.where}: #{fname} in math expects 1 argument")
                     target = unquote_typst_string(pos[0], self.where)
                     tex_cmd = "ref" if fname == "bare-ref" else fname
-                    return rf"\{tex_cmd}{{{target}}}"
+                    return rf"\{tex_cmd}{{{target}}}", "ref", target
                 if fname == "raw":
                     _require(len(pos) == 1, f"{self.where}: #raw in math expects 1 argument")
                     val = unquote_typst_string(pos[0], self.where)
-                    return rf"\texttt{{{escape_latex_text(val, in_texttt=True)}}}"
+                    return rf"\texttt{{{escape_latex_text(val, in_texttt=True)}}}", "upright", val
             raise Typ2TexError(f"{self.where}: Unsupported Typst call #{fname} inside math")
         # Parentheses / brackets (standalone atoms so half-open intervals like (u, v] work)
         if ch in "()[]":
             self.i += 1
-            return ch
+            return ch, "punct", ch
         if ch == "{":
             self.i += 1
-            return r"\{"
+            return r"\{", "punct", "{"
         if ch == "}":
             self.i += 1
-            return r"\}"
+            return r"\}", "punct", "}"
         # Numbers
         m_num = re.match(r"[0-9]+(?:\.[0-9]+)?", self.s[self.i:])
         if m_num:
-            self.i += len(m_num.group(0))
-            return m_num.group(0)
+            num = m_num.group(0)
+            self.i += len(num)
+            return num, "num", num
         # Identifiers (dotted symbols or function calls or single letters)
         m_id = re.match(r"[A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z0-9]+)*", self.s[self.i:])
         if m_id:
@@ -726,22 +931,34 @@ class _MathParser:
             if self.i < self.n and self.s[self.i] == "(" and ident in MATH_FUNCS:
                 arg_str, nxt = scan_balanced(self.s, self.i, "(", ")", self.where)
                 self.i = nxt
-                return self._convert_func(ident, arg_str)
+                rendered = self._convert_func(ident, arg_str)
+                if ident == "upright":
+                    s_arg = arg_str.strip()
+                    raw_u = unquote_typst_string(s_arg, self.where) if (len(s_arg) >= 2 and s_arg[0] == '"' and s_arg[-1] == '"') else s_arg
+                    return rendered, "upright", raw_u
+                if ident == "mid":
+                    return rendered, "punct", ""
+                return rendered, "math", ""
             if len(ident) == 1:
-                return ident
+                return ident, "math", ident
             if ident in TYPST_MATH_SYMBOLS:
-                return TYPST_MATH_SYMBOLS[ident]
+                sym_tex = TYPST_MATH_SYMBOLS[ident]
+                if ident in _MATH_SPACING_IDENTIFIERS:
+                    return sym_tex, "spacer", ident
+                if sym_tex in _MATH_REL_OR_BIN_TEX:
+                    return sym_tex, "punct", ident
+                return sym_tex, "math", ident
             raise Typ2TexError(f"{self.where}: Unsupported Typst math identifier {ident!r}")
         # Single punctuation / operators
         self.i += 1
         if ch == "|":
-            return "|"
+            return "|", "punct", "|"
         if ch == "'":
-            return "'"
+            return "'", "punct", "'"
         if ch == "~":
-            return r"\sim"
+            return r"\sim", "punct", "~"
         if ch in "+-=<>:,;.!?/@*":
-            return ch
+            return ch, "punct", ch
         raise Typ2TexError(f"{self.where}: Unsupported character {ch!r} in Typst math")
 
     def _subparse(self, inner: str) -> str:
@@ -1207,7 +1424,7 @@ class TypstToLatexConverter:
                 return m.group(1), j + len(m.group(0))
         return None, pos
 
-    def convert_inline(self, text: str) -> str:
+    def convert_inline(self, text: str, *, base_line: int = 1, for_heading: bool = False) -> str:
         """Convert inline Typst content (prose, inline math, refs, cites, formatting)."""
         out: list[str] = []
         i = 0
@@ -1238,19 +1455,36 @@ class TypstToLatexConverter:
                 continue
             # Math span $...$
             if ch == "$":
-                mbody, nxt = scan_math_span(text, i, self.where)
+                span_line = base_line + line_at(text, i) - 1
+                span_where = f"{self.where}:{span_line}"
+                mbody, nxt = scan_math_span(text, i, span_where)
                 i = nxt
                 is_display = len(mbody) >= 2 and mbody[0].isspace() and mbody[-1].isspace()
-                tex_math = convert_math(mbody, self.where, self.convert_inline)
+                tex_math = convert_math(
+                    mbody,
+                    span_where,
+                    lambda s, _bl=span_line: self.convert_inline(s, base_line=_bl),
+                )
                 if is_display:
                     lbl, i = self._extract_trailing_label(text, i)
                     out.append(self._wrap_numbered_display(tex_math, lbl))
+                elif for_heading:
+                    pdf_str = _math_to_pdf_string(mbody, span_where)
+                    # Escape braces/backslashes in PDF string if any
+                    pdf_str_safe = (
+                        pdf_str.replace("\\", "")
+                        .replace("{", "")
+                        .replace("}", "")
+                        .replace("#", r"\#")
+                        .replace("%", r"\%")
+                    )
+                    out.append(rf"\texorpdfstring{{${tex_math}$}}{{{pdf_str_safe}}}")
                 else:
                     out.append(f"${tex_math}$")
                 continue
             # Hash call
             if ch == "#":
-                frag, nxt = self._convert_hash(text, i)
+                frag, nxt = self._convert_hash(text, i, base_line=base_line)
                 out.append(frag)
                 i = nxt
                 continue
@@ -1258,14 +1492,24 @@ class TypstToLatexConverter:
             if ch == "*" and i + 1 < n and not text[i + 1].isspace():
                 end_s = self._find_inline_delim(text, i + 1, "*")
                 if end_s is not None:
-                    out.append(r"\textbf{" + self.convert_inline(text[i + 1 : end_s]) + "}")
+                    sub_line = base_line + line_at(text, i + 1) - 1
+                    out.append(
+                        r"\textbf{"
+                        + self.convert_inline(text[i + 1 : end_s], base_line=sub_line, for_heading=for_heading)
+                        + "}"
+                    )
                     i = end_s + 1
                     continue
             # Inline emph _..._ (only at word boundary, not inside snake_case identifiers)
             if ch == "_" and (i == 0 or not text[i - 1].isalnum()) and i + 1 < n and not text[i + 1].isspace():
                 end_e = self._find_inline_delim(text, i + 1, "_")
                 if end_e is not None and (end_e + 1 >= n or not text[end_e + 1].isalnum()):
-                    out.append(r"\emph{" + self.convert_inline(text[i + 1 : end_e]) + "}")
+                    sub_line = base_line + line_at(text, i + 1) - 1
+                    out.append(
+                        r"\emph{"
+                        + self.convert_inline(text[i + 1 : end_e], base_line=sub_line, for_heading=for_heading)
+                        + "}"
+                    )
                     i = end_e + 1
                     continue
             # Plain character
@@ -1349,16 +1593,19 @@ class TypstToLatexConverter:
             return f"\\begin{{align*}}\n{tex_math}\n\\end{{align*}}"
         return f"\\[\n{tex_math}\n\\]"
 
-    def _convert_hash(self, text: str, start: int) -> tuple[str, int]:
+    def _convert_hash(self, text: str, start: int, *, base_line: int = 1) -> tuple[str, int]:
         n = len(text)
-        loc = f"{self.where}:{line_at(text, start)}"
+        cur_line = base_line + line_at(text, start) - 1
+        loc = f"{self.where}:{cur_line}"
         # Code block #{ ... } (tables or inline set text)
         if start + 1 < n and text[start + 1] == "{":
-            blk, nxt = scan_balanced(text, start + 1, "{", "}", self.where)
+            blk, nxt = scan_balanced(text, start + 1, "{", "}", loc)
             tinfo = self._extract_code_block_table("#{" + blk + "}")
             if tinfo is not None:
                 tab, sz = tinfo
-                return _render_table_latex(tab, sz, self.convert_inline), nxt
+                return _render_table_latex(
+                    tab, sz, lambda s, _bl=cur_line: self.convert_inline(s, base_line=_bl)
+                ), nxt
             raise Typ2TexError(f"{loc}: Unsupported Typst code block #{{...}}")
 
         m = re.match(r"#([A-Za-z_][A-Za-z0-9_.-]*)", text[start:])
@@ -1407,18 +1654,23 @@ class TypstToLatexConverter:
 
         # Parse optional (...) and optional [...] trailing content arguments
         paren_arg: str | None = None
+        paren_line = cur_line
         brack_args: list[str] = []
+        brack_lines: list[int] = []
         if pos < n and text[pos] == "(":
-            paren_arg, pos = scan_balanced(text, pos, "(", ")", self.where)
+            paren_line = base_line + line_at(text, pos) - 1
+            paren_arg, pos = scan_balanced(text, pos, "(", ")", loc)
         while pos < n and text[pos] == "[":
-            b_arg, pos = scan_balanced(text, pos, "[", "]", self.where)
+            b_line = base_line + line_at(text, pos) - 1
+            b_arg, pos = scan_balanced(text, pos, "[", "]", loc)
             brack_args.append(b_arg)
+            brack_lines.append(b_line)
 
         # ---- Reference helpers ----
         if name in ("eqref", "eqnref", "secref", "appref", "figref", "tabref",
                     "bare-ref", "mainequation", "mainsection", "mainappendix", "maintable"):
             _require(paren_arg is not None, f"{loc}: #{name} requires (...)")
-            pargs, _ = parse_call_args(paren_arg, self.where)
+            pargs, _ = parse_call_args(paren_arg, loc)
             _require(len(pargs) == 1, f"{loc}: #{name} expects 1 argument")
             target = unquote_typst_string(pargs[0], loc)
             cmd = "ref" if name == "bare-ref" else name
@@ -1427,13 +1679,13 @@ class TypstToLatexConverter:
         # ---- Citations ----
         if name == "aod-cite":
             _require(paren_arg is not None, f"{loc}: #aod-cite requires (...)")
-            pargs, nargs = parse_call_args(paren_arg, self.where)
+            pargs, nargs = parse_call_args(paren_arg, loc)
             _require(len(pargs) == 1, f"{loc}: #aod-cite expects key string")
             keys = ",".join(k.strip() for k in unquote_typst_string(pargs[0], loc).split(",") if k.strip())
             if "supplement" in nargs:
                 sup_raw = nargs["supplement"].strip()
                 if sup_raw.startswith("[") and sup_raw.endswith("]"):
-                    sup_tex = self.convert_inline(sup_raw[1:-1])
+                    sup_tex = self.convert_inline(sup_raw[1:-1], base_line=paren_line)
                 else:
                     sup_tex = escape_latex_text(unquote_typst_string(sup_raw, loc))
                 return rf"\cite[{sup_tex}]{{{keys}}}", pos
@@ -1442,30 +1694,30 @@ class TypstToLatexConverter:
         # ---- Raw literal / link / inline emphasis / strong ----
         if name == "raw":
             _require(paren_arg is not None, f"{loc}: #raw requires (...)")
-            pargs, _ = parse_call_args(paren_arg, self.where)
+            pargs, _ = parse_call_args(paren_arg, loc)
             _require(len(pargs) == 1, f"{loc}: #raw expects 1 string argument")
             val = unquote_typst_string(pargs[0], loc)
             return rf"\texttt{{{escape_latex_text(val, in_texttt=True)}}}", pos
 
         if name == "link":
             _require(paren_arg is not None and len(brack_args) == 1, f"{loc}: #link expects (url)[text]")
-            pargs, _ = parse_call_args(paren_arg, self.where)
+            pargs, _ = parse_call_args(paren_arg, loc)
             url = escape_latex_href_url(unquote_typst_string(pargs[0], loc))
-            body = self.convert_inline(brack_args[0])
+            body = self.convert_inline(brack_args[0], base_line=brack_lines[0])
             return rf"\href{{{url}}}{{{body}}}", pos
 
         if name == "emph":
             _require(len(brack_args) == 1, f"{loc}: #emph expects [...]")
-            return rf"\emph{{{self.convert_inline(brack_args[0])}}}", pos
+            return rf"\emph{{{self.convert_inline(brack_args[0], base_line=brack_lines[0])}}}", pos
 
         if name == "strong":
             _require(len(brack_args) == 1, f"{loc}: #strong expects [...]")
-            return rf"\textbf{{{self.convert_inline(brack_args[0])}}}", pos
+            return rf"\textbf{{{self.convert_inline(brack_args[0], base_line=brack_lines[0])}}}", pos
 
         if name == "text":
             _require(paren_arg is not None and len(brack_args) == 1, f"{loc}: #text expects (...)[...]")
-            _, nargs = parse_call_args(paren_arg, self.where)
-            body = self.convert_inline(brack_args[0])
+            _, nargs = parse_call_args(paren_arg, loc)
+            body = self.convert_inline(brack_args[0], base_line=brack_lines[0])
             prefix = ""
             if "size" in nargs:
                 m_pt = re.match(r"([0-9.]+)pt", nargs["size"].strip())
@@ -1488,7 +1740,7 @@ class TypstToLatexConverter:
         # ---- Structural AOD helpers ----
         if name == "aod-paragraph":
             _require(len(brack_args) == 1, f"{loc}: #aod-paragraph expects [...]")
-            return rf"\paragraph{{{self.convert_inline(brack_args[0]).strip()}}}", pos
+            return rf"\paragraph{{{self.convert_inline(brack_args[0], base_line=brack_lines[0]).strip()}}}", pos
 
         if name == "aod-anchor":
             _require(paren_arg is not None, f"{loc}: #aod-anchor requires (<label>)")
@@ -1501,58 +1753,62 @@ class TypstToLatexConverter:
             _require(len(brack_args) == 1, f"{loc}: #aod-definition expects body [...]")
             title_opt = ""
             if paren_arg:
-                _, nargs = parse_call_args(paren_arg, self.where)
+                _, nargs = parse_call_args(paren_arg, loc)
                 if "title" in nargs:
                     t_raw = nargs["title"].strip()
-                    t_tex = self.convert_inline(t_raw[1:-1]) if t_raw.startswith("[") else escape_latex_text(unquote_typst_string(t_raw, loc))
+                    t_tex = (
+                        self.convert_inline(t_raw[1:-1], base_line=paren_line)
+                        if t_raw.startswith("[")
+                        else escape_latex_text(unquote_typst_string(t_raw, loc))
+                    )
                     title_opt = f"[{t_tex}]"
-            body = self.convert_document_body(brack_args[0]).strip()
+            body = self.convert_document_body(brack_args[0], base_line=brack_lines[0]).strip()
             return f"\\begin{{definition}}{title_opt}\n{body}\n\\end{{definition}}", pos
 
         if name == "aod-provenance":
             _require(len(brack_args) == 1, f"{loc}: #aod-provenance expects [...]")
-            return rf"\aodprovenance{{{self.convert_inline(brack_args[0]).strip()}}}", pos
+            return rf"\aodprovenance{{{self.convert_inline(brack_args[0], base_line=brack_lines[0]).strip()}}}", pos
 
         if name == "aod-literature-note":
             _require(len(brack_args) == 1, f"{loc}: #aod-literature-note expects [...]")
-            return rf"\aodliteraturenote{{{self.convert_inline(brack_args[0]).strip()}}}", pos
+            return rf"\aodliteraturenote{{{self.convert_inline(brack_args[0], base_line=brack_lines[0]).strip()}}}", pos
 
         if name == "aod-remark":
             _require(len(brack_args) == 1, f"{loc}: #aod-remark expects [...]")
-            return rf"\aodremark{{{self.convert_inline(brack_args[0]).strip()}}}", pos
+            return rf"\aodremark{{{self.convert_inline(brack_args[0], base_line=brack_lines[0]).strip()}}}", pos
 
         if name == "aod-noteblock":
             _require(paren_arg is not None and len(brack_args) == 1, f"{loc}: #aod-noteblock expects (title)[body]")
-            pargs, _ = parse_call_args(paren_arg, self.where)
+            pargs, _ = parse_call_args(paren_arg, loc)
             title = escape_latex_text(unquote_typst_string(pargs[0], loc))
-            body = self.convert_inline(brack_args[0]).strip()
+            body = self.convert_inline(brack_args[0], base_line=brack_lines[0]).strip()
             return rf"\aodnoteblock{{{title}}}{{{body}}}", pos
 
         if name == "aod-panel":
             _require(len(brack_args) == 1, f"{loc}: #aod-panel expects [...]")
             width = "0.90\\linewidth"
             if paren_arg:
-                _, nargs = parse_call_args(paren_arg, self.where)
+                _, nargs = parse_call_args(paren_arg, loc)
                 if "width" in nargs:
                     width = self._width_to_latex(nargs["width"])
-            inner = self.convert_document_body(brack_args[0]).strip()
+            inner = self.convert_document_body(brack_args[0], base_line=brack_lines[0]).strip()
             return f"\\fbox{{\\begin{{minipage}}{{{width}}}\\centering\n{inner}\n\\end{{minipage}}}}", pos
 
         if name == "aod-boxed":
             _require(paren_arg is not None, f"{loc}: #aod-boxed requires ($...$)")
             s = paren_arg.strip()
             _require(s.startswith("$") and s.endswith("$"), f"{loc}: #aod-boxed expects math $...$")
-            tex_math = convert_math(s[1:-1], loc, self.convert_inline)
+            tex_math = convert_math(s[1:-1], loc, lambda t, _bl=paren_line: self.convert_inline(t, base_line=_bl))
             return f"\\[\n\\boxed{{{tex_math}}}\n\\]", pos
 
         # ---- Equations ----
         if name == "math.equation":
             _require(paren_arg is not None, f"{loc}: #math.equation requires (...)")
-            pargs, nargs = parse_call_args(paren_arg, self.where)
+            pargs, nargs = parse_call_args(paren_arg, loc)
             _require(len(pargs) == 1, f"{loc}: #math.equation expects 1 positional math body")
             ms = pargs[0].strip()
             _require(ms.startswith("$") and ms.endswith("$"), f"{loc}: #math.equation body must be $...$")
-            tex_math = convert_math(ms[1:-1], loc, self.convert_inline)
+            tex_math = convert_math(ms[1:-1], loc, lambda t, _bl=paren_line: self.convert_inline(t, base_line=_bl))
             if nargs.get("numbering") == "none":
                 return self._wrap_unnumbered_display(tex_math), pos
             lbl, pos = self._extract_trailing_label(text, pos)
@@ -1560,7 +1816,7 @@ class TypstToLatexConverter:
 
         if name == "tagged-eq":
             _require(paren_arg is not None, f"{loc}: #tagged-eq requires (tag, $...$, <lbl>)")
-            pargs, _ = parse_call_args(paren_arg, self.where)
+            pargs, _ = parse_call_args(paren_arg, loc)
             _require(len(pargs) == 3, f"{loc}: #tagged-eq expects 3 arguments")
             tag = unquote_typst_string(pargs[0], loc)
             ms = pargs[1].strip()
@@ -1568,7 +1824,7 @@ class TypstToLatexConverter:
             m_lbl = re.match(r"^<([A-Za-z0-9:._-]+)>$", pargs[2].strip())
             _require(m_lbl is not None, f"{loc}: #tagged-eq label must be <id>")
             lbl = m_lbl.group(1)
-            tex_math = convert_math(ms[1:-1], loc, self.convert_inline)
+            tex_math = convert_math(ms[1:-1], loc, lambda t, _bl=paren_line: self.convert_inline(t, base_line=_bl))
             has_nl, has_amp = self._top_level_math_structure(tex_math)
             if has_nl and has_amp:
                 return f"\\begin{{equation}}\\tag{{{tag}}}\\label{{{lbl}}}\n\\begin{{aligned}}\n{tex_math}\n\\end{{aligned}}\n\\end{{equation}}", pos
@@ -1579,7 +1835,7 @@ class TypstToLatexConverter:
         # ---- Figures, Images, and Tables ----
         if name == "image":
             _require(paren_arg is not None, f"{loc}: #image requires (...)")
-            pargs, nargs = parse_call_args(paren_arg, self.where)
+            pargs, nargs = parse_call_args(paren_arg, loc)
             _require(len(pargs) == 1, f"{loc}: #image expects path string")
             img_tex = self._resolve_image_to_latex(unquote_typst_string(pargs[0], loc))
             w_tex = self._width_to_latex(nargs.get("width"))
@@ -1590,20 +1846,23 @@ class TypstToLatexConverter:
             tinfo = self._extract_code_block_table(brack_args[0])
             _require(tinfo is not None, f"{loc}: #aod-uncaptioned-longtable must contain table(...)")
             tab, sz = tinfo
-            return _render_table_latex(tab, sz, self.convert_inline, as_longtable=True), pos
+            return _render_table_latex(
+                tab, sz, lambda s, _bl=brack_lines[0]: self.convert_inline(s, base_line=_bl), as_longtable=True
+            ), pos
 
         if name == "figure":
             _require(paren_arg is not None, f"{loc}: #figure requires (...)")
-            pargs, nargs = parse_call_args(paren_arg, self.where)
+            pargs, nargs = parse_call_args(paren_arg, loc)
             kind = nargs.get("kind", "image").strip()
             body_raw = pargs[0].strip() if pargs else (brack_args[0] if brack_args else "")
+            body_line = paren_line if pargs else (brack_lines[0] if brack_lines else cur_line)
             if body_raw.startswith("[") and body_raw.endswith("]"):
                 body_raw = body_raw[1:-1]
             cap_raw = nargs.get("caption", "").strip()
             cap_tex = None
             if cap_raw:
                 if cap_raw.startswith("[") and cap_raw.endswith("]"):
-                    cap_tex = self.convert_inline(cap_raw[1:-1]).strip()
+                    cap_tex = self.convert_inline(cap_raw[1:-1], base_line=paren_line).strip()
                 else:
                     cap_tex = escape_latex_text(unquote_typst_string(cap_raw, loc))
             lbl, pos = self._extract_trailing_label(text, pos)
@@ -1616,10 +1875,12 @@ class TypstToLatexConverter:
                 uses_fr = any(c.endswith("fr") for c in tab["cols"])
                 if uses_fr and body_row_cnt >= 24:
                     return _render_table_latex(
-                        tab, sz, self.convert_inline,
+                        tab, sz, lambda s, _bl=body_line: self.convert_inline(s, base_line=_bl),
                         as_longtable=True, caption_tex=cap_tex, label_id=lbl,
                     ), pos
-                inner = _render_table_latex(tab, sz, self.convert_inline, as_longtable=False)
+                inner = _render_table_latex(
+                    tab, sz, lambda s, _bl=body_line: self.convert_inline(s, base_line=_bl), as_longtable=False
+                )
                 lines = [r"\begin{table}[H]", r"\centering"]
                 if cap_tex is not None:
                     lines.append(rf"\caption{{{cap_tex}}}")
@@ -1630,7 +1891,7 @@ class TypstToLatexConverter:
                 return "\n".join(lines), pos
 
             if kind == "image":
-                inner = self.convert_document_body(body_raw).strip()
+                inner = self.convert_document_body(body_raw, base_line=body_line).strip()
                 lines = [r"\begin{figure}[H]", r"\centering", inner]
                 if cap_tex is not None:
                     lines.append(rf"\caption{{{cap_tex}}}")
@@ -1647,28 +1908,30 @@ class TypstToLatexConverter:
             where_a = paren_arg.strip()
             env = {"center": "center", "left": "flushleft", "right": "flushright"}.get(where_a)
             _require(env is not None, f"{loc}: Unsupported #align direction: {where_a!r}")
-            inner = self.convert_document_body(brack_args[0]).strip()
+            inner = self.convert_document_body(brack_args[0], base_line=brack_lines[0]).strip()
             return f"\\begin{{{env}}}\n{inner}\n\\end{{{env}}}", pos
 
         if name == "page":
             _require(len(brack_args) == 1, f"{loc}: #page expects [...]")
-            inner = self.convert_document_body(brack_args[0]).strip()
+            inner = self.convert_document_body(brack_args[0], base_line=brack_lines[0]).strip()
             return f"\\begin{{titlepage}}\n{inner}\n\\end{{titlepage}}", pos
 
         if name == "block":
             _require(len(brack_args) == 1, f"{loc}: #block expects [...]")
             raw_b = brack_args[0]
+            b_line = brack_lines[0]
             # Recognize the canonical Abstract block in 01_abstract.typ
             m_abs = re.search(r"#align\(center\)\[\*Abstract\*\]\s*#pad\([^)]*\)\[", raw_b)
             if m_abs:
-                pad_inner, _ = scan_balanced(raw_b, m_abs.end() - 1, "[", "]", self.where)
-                abs_body = self.convert_document_body(pad_inner).strip()
+                pad_line = b_line + line_at(raw_b, m_abs.end() - 1) - 1
+                pad_inner, _ = scan_balanced(raw_b, m_abs.end() - 1, "[", "]", loc)
+                abs_body = self.convert_document_body(pad_inner, base_line=pad_line).strip()
                 return f"\\begin{{abstract}}\n{abs_body}\n\\end{{abstract}}", pos
-            return self.convert_document_body(raw_b).strip(), pos
+            return self.convert_document_body(raw_b, base_line=b_line).strip(), pos
 
         if name == "pad":
             _require(len(brack_args) == 1, f"{loc}: #pad expects [...]")
-            inner = self.convert_document_body(brack_args[0]).strip()
+            inner = self.convert_document_body(brack_args[0], base_line=brack_lines[0]).strip()
             return f"\\begin{{quote}}\n{inner}\n\\end{{quote}}", pos
 
         if name == "v":
@@ -1696,7 +1959,7 @@ class TypstToLatexConverter:
 
         raise Typ2TexError(f"{loc}: Unsupported Typst construct: #{name}")
 
-    def convert_document_body(self, raw_text: str) -> str:
+    def convert_document_body(self, raw_text: str, *, base_line: int = 1) -> str:
         """Convert block-level Typst document body into clean LaTeX."""
         text = strip_typst_comments(raw_text)
         out: list[str] = []
@@ -1725,16 +1988,17 @@ class TypstToLatexConverter:
             if at_line_start and text[i] == "=":
                 m_h = re.match(r"(=+)\s+([^\n]+)", text[i:])
                 if m_h:
+                    h_line = base_line + line_at(text, i) - 1
                     level = len(m_h.group(1))
                     cmd = {1: "section", 2: "subsection", 3: "subsubsection", 4: "paragraph"}.get(level)
-                    _require(cmd is not None, f"{self.where}:{line_at(text, i)}: Unsupported heading depth {level}")
+                    _require(cmd is not None, f"{self.where}:{h_line}: Unsupported heading depth {level}")
                     raw_title = m_h.group(2).strip()
                     lbl = None
                     m_lbl = re.search(r"\s*<([A-Za-z0-9:._-]+)>\s*$", raw_title)
                     if m_lbl:
                         lbl = m_lbl.group(1)
                         raw_title = raw_title[: m_lbl.start()].strip()
-                    title_tex = self.convert_inline(raw_title)
+                    title_tex = self.convert_inline(raw_title, base_line=h_line, for_heading=True)
                     lbl_tex = rf"\label{{{lbl}}}" if lbl else ""
                     out.append(rf"\{cmd}{{{title_tex}}}{lbl_tex}")
                     i += len(m_h.group(0))
@@ -1747,6 +2011,7 @@ class TypstToLatexConverter:
                 items: list[str] = []
                 while i < n and text[i : i + 2] == marker:
                     i += 2
+                    item_start = i
                     item_lines: list[str] = []
                     # First line of item
                     eol = text.find("\n", i)
@@ -1773,7 +2038,10 @@ class TypstToLatexConverter:
                         else:
                             item_lines.append(text[i:eol2])
                             i = eol2 + 1
-                    items.append(self.convert_inline("\n".join(item_lines).strip()))
+                    raw_item = "\n".join(item_lines)
+                    lead_ws = len(raw_item) - len(raw_item.lstrip())
+                    item_line = base_line + line_at(text, item_start) - 1 + raw_item[:lead_ws].count("\n")
+                    items.append(self.convert_inline(raw_item.strip(), base_line=item_line))
                     # Skip single blank lines between items of the same list
                     j = i
                     while j < n and text[j] in " \t\r\n":
@@ -1798,7 +2066,7 @@ class TypstToLatexConverter:
                 r"outline|include|import|show|set|counter|v|\{)"
             )
             if text[i] == "#" and re.match(_block_hash, text[i:]):
-                frag, nxt = self._convert_hash(text, i)
+                frag, nxt = self._convert_hash(text, i, base_line=base_line)
                 if frag:
                     out.append(frag)
                 i = nxt
@@ -1806,12 +2074,18 @@ class TypstToLatexConverter:
 
             # Standalone display equation $ ... $ <lbl>
             if text[i] == "$":
-                mbody, nxt = scan_math_span(text, i, self.where)
+                eq_line = base_line + line_at(text, i) - 1
+                eq_where = f"{self.where}:{eq_line}"
+                mbody, nxt = scan_math_span(text, i, eq_where)
                 is_display = len(mbody) >= 2 and mbody[0].isspace() and mbody[-1].isspace()
                 if is_display:
                     i = nxt
                     lbl, i = self._extract_trailing_label(text, i)
-                    tex_math = convert_math(mbody, f"{self.where}:{line_at(text, i)}", self.convert_inline)
+                    tex_math = convert_math(
+                        mbody,
+                        eq_where,
+                        lambda s, _bl=eq_line: self.convert_inline(s, base_line=_bl),
+                    )
                     out.append(self._wrap_numbered_display(tex_math, lbl))
                     continue
 
@@ -1832,22 +2106,27 @@ class TypstToLatexConverter:
                     i += 1
                     continue
                 if text[i] == "$":
-                    _, i = scan_math_span(text, i, self.where)
+                    cur_where = f"{self.where}:{base_line + line_at(text, i) - 1}"
+                    _, i = scan_math_span(text, i, cur_where)
                     continue
                 if text[i] == "#" and i + 1 < n:
                     m_hc = re.match(r"#([A-Za-z_][A-Za-z0-9_.-]*)", text[i:])
                     if m_hc:
+                        cur_where = f"{self.where}:{base_line + line_at(text, i) - 1}"
                         p = i + len(m_hc.group(0))
                         if p < n and text[p] == "(":
-                            _, p = scan_balanced(text, p, "(", ")", self.where)
+                            _, p = scan_balanced(text, p, "(", ")", cur_where)
                         while p < n and text[p] == "[":
-                            _, p = scan_balanced(text, p, "[", "]", self.where)
+                            _, p = scan_balanced(text, p, "[", "]", cur_where)
                         i = p
                         continue
                 i += 1
-            chunk = text[para_start:i].strip()
+            raw_chunk = text[para_start:i]
+            lead_ws = len(raw_chunk) - len(raw_chunk.lstrip())
+            chunk = raw_chunk.strip()
             if chunk:
-                out.append(self.convert_inline(chunk))
+                chunk_line = base_line + line_at(text, para_start + lead_ws) - 1
+                out.append(self.convert_inline(chunk, base_line=chunk_line))
 
         result = "".join(out).strip() + "\n"
         # Clean excessive blank lines while preserving clean paragraph separation
@@ -2184,6 +2463,8 @@ def generate_latex_tree(
     figure_format: str = "pdf",
     ppi: int = 300,
     typst_bin: str | None = None,
+    runtime_out: dict | None = None,
+    before_commit_hook=None,
 ) -> dict:
     root = Path(root).resolve()
     outdir = Path(outdir).resolve()
@@ -2194,12 +2475,18 @@ def generate_latex_tree(
     ordered_units, unit_map = discover_active_typst_units(root)
     used_rasters: set[str] = set()
     used_diagrams: set[str] = set()
+    fig_mod = _load_figure_exporter(root)
 
-    with tempfile.TemporaryDirectory(prefix="aod_typ2tex_stage_") as tmp:
-        stage = Path(tmp) / "latex"
-        stage.mkdir(parents=True, exist_ok=True)
+    if check_only:
+        stage = Path(tempfile.mkdtemp(prefix="aod_typ2tex_check_"))
+    else:
+        outdir.parent.mkdir(parents=True, exist_ok=True)
+        stage = Path(tempfile.mkdtemp(prefix=f".{outdir.name}.stage.", dir=str(outdir.parent)))
+
+    try:
         outputs: list[dict] = []
         inputs: dict[str, dict] = {}
+        fig_runtime: dict = {}
 
         def _rec_input(rel: str, role: str) -> None:
             if rel not in inputs:
@@ -2235,7 +2522,7 @@ def generate_latex_tree(
                     used_rasters=used_rasters,
                     used_diagrams=used_diagrams,
                 )
-                body_tex = conv.convert_document_body(src_path.read_text(encoding="utf-8"))
+                body_tex = conv.convert_document_body(src_path.read_text(encoding="utf-8"), base_line=1)
                 if typ_rel in ("typst/main.typ", "typst/manual/main.typ"):
                     content = (
                         _generated_header(typ_rel)
@@ -2295,10 +2582,14 @@ def generate_latex_tree(
 
         # 4. Export authoritative native Typst diagrams via scripts/export_typst_figures.py
         if used_diagrams:
-            fig_mod = _load_figure_exporter(root)
             gen_fig_dir = stage / "manual/figures/generated"
             fig_manifest = fig_mod.export_figures(
-                root, gen_fig_dir, fmt=figure_format, ppi=ppi, typst_bin=typst_bin
+                root,
+                gen_fig_dir,
+                fmt=figure_format,
+                ppi=ppi,
+                typst_bin=typst_bin,
+                runtime_out=fig_runtime,
             )
             for comp_rel in sorted(used_diagrams):
                 _rec_input(comp_rel, "typst_diagram")
@@ -2320,7 +2611,7 @@ def generate_latex_tree(
                 "bytes": fm_path.stat().st_size,
             })
 
-        # 5. Build deterministic GENERATION_MANIFEST.json (zero timestamps / absolute paths)
+        # 5. Build deterministic GENERATION_MANIFEST.json (zero timestamps / absolute paths / removal logs)
         outputs.sort(key=lambda e: e["path"])
         counts_by_kind: dict[str, int] = {}
         for o in outputs:
@@ -2346,16 +2637,28 @@ def generate_latex_tree(
         m_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         os.chmod(m_path, 0o644)
 
+        removed_outputs: list[str] = []
         if check_only:
             _verify_trees_match(stage, outdir)
-            return manifest
+        else:
+            # Rollback-safe same-filesystem swap (preserves previous managed tree on failure)
+            removed_outputs = fig_mod.atomic_replace_directory(
+                stage, outdir, before_commit_hook=before_commit_hook
+            )
 
-        # Atomic replacement of managed generated LaTeX tree (removes obsolete files)
-        outdir.parent.mkdir(parents=True, exist_ok=True)
-        if outdir.exists():
-            shutil.rmtree(outdir)
-        shutil.copytree(stage, outdir)
+        rt_report = {
+            "schema": "aod.typ2tex.runtime.v1",
+            "mode": "check" if check_only else "generate",
+            "removed_outputs": removed_outputs,
+            "figure_export_runtime": fig_runtime if fig_runtime else None,
+        }
+        if runtime_out is not None:
+            runtime_out.clear()
+            runtime_out.update(rt_report)
         return manifest
+    finally:
+        if stage.exists():
+            shutil.rmtree(stage)
 
 
 def _tree_inventory(base: Path) -> dict[str, str]:
@@ -2404,10 +2707,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--figure-format", choices=("pdf", "png"), default="pdf")
     ap.add_argument("--ppi", type=int, default=300, choices=(300, 600))
     ap.add_argument("--typst-bin", default=None)
+    ap.add_argument("--runtime-report", type=Path, default=None, help="Optional JSON path for runtime/removal diagnostics")
     args = ap.parse_args(argv)
 
     root = args.root.resolve()
     outdir = args.outdir if args.outdir.is_absolute() else (root / args.outdir)
+    runtime_diag: dict = {}
     manifest = generate_latex_tree(
         root,
         outdir,
@@ -2415,11 +2720,18 @@ def main(argv: list[str] | None = None) -> int:
         figure_format=args.figure_format,
         ppi=args.ppi,
         typst_bin=args.typst_bin,
+        runtime_out=runtime_diag,
     )
+    if args.runtime_report is not None:
+        rp = args.runtime_report if args.runtime_report.is_absolute() else (root / args.runtime_report)
+        rp.parent.mkdir(parents=True, exist_ok=True)
+        rp.write_text(json.dumps(runtime_diag, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({
         "status": "PASS",
         "mode": "check" if args.check else "generate",
         "counts": manifest["counts"],
+        "removed_outputs": runtime_diag.get("removed_outputs", []),
+        "figure_export_runtime": runtime_diag.get("figure_export_runtime"),
     }, indent=2))
     return 0
 

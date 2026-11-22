@@ -177,7 +177,7 @@
     },
     {
       "path": "scripts/build_release_bundle.py",
-      "old_sha256": "571fd0aa967e6835005ae5681ffd01e1aadd3fb5edcb30abe243c4775822fe7b",
+      "old_sha256": "b263140c7e04fc05d2eb2a1787aed9474d8b14603f6f3cd038c25706eaa11092",
       "new_sha256": "9c63dcab8b563ba09a3197b48650873ff800c1aad0efa692aca7c22741fc0a8f",
       "reason": "Release archive updated to stage archive/, latex/, and 4 exported diagram PDFs after retiring root editorial TeX"
     },
@@ -189,7 +189,7 @@
     },
     {
       "path": "tests/test_ci_release_builder.py",
-      "old_sha256": "aaf254dbf18602a8d3252906c99fde38b8cdc658a5c79900d24a87216d2d2588",
+      "old_sha256": "7c19def3130f8c43a3e82a144ab9a4d2b9a320e131c6837b4f29a0d45ea31da9",
       "new_sha256": "5ae22d399cae1ba8c0228296c2c0d517198ca8cec38e8d7757090fa519ea728c",
       "reason": "Test harness updated to read canonical typst/ and generated latex/ paths instead of retired root editorial TeX"
     },

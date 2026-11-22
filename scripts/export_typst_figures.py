@@ -19,12 +19,20 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_REL = Path("typst/lib/aod_schema.typ")
 DIAGRAMS_REL = Path("typst/lib/diagrams")
 MANIFEST_NAME = "FIGURE_MANIFEST.json"
 MANIFEST_SCHEMA = "aod.typst.figure-export.v1"
+RUNTIME_SCHEMA = "aod.typst.figure-export.runtime.v1"
+
+DECLARED_BACKGROUND = "white"
+DECLARED_FONT_FAMILIES = {
+    "text": ["Latin Modern Roman", "DejaVu Serif"],
+    "math": ["Latin Modern Math", "New Computer Modern Math"],
+}
 
 INCLUDE_DIAGRAM_RE = re.compile(
     r'#include\s+"(?:\.\./)+lib/diagrams/([a-z0-9_]+\.typ)"'
@@ -42,6 +50,57 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: f.read(1024 * 1024), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def _dir_file_inventory(base: Path) -> dict[str, str]:
+    if not base.is_dir():
+        return {}
+    return {
+        p.relative_to(base).as_posix(): sha256_file(p)
+        for p in sorted(base.rglob("*"))
+        if p.is_file()
+    }
+
+
+def atomic_replace_directory(
+    stage_dir: Path,
+    target_dir: Path,
+    *,
+    before_commit_hook=None,
+) -> list[str]:
+    """Atomically swap stage_dir into target_dir on the same filesystem with rollback on failure.
+
+    Returns the sorted list of relative file paths removed from the previous target_dir.
+    """
+    stage_dir = Path(stage_dir).resolve()
+    target_dir = Path(target_dir).resolve()
+    _require(stage_dir.is_dir(), f"Stage directory does not exist: {stage_dir}")
+    _require(
+        stage_dir.parent == target_dir.parent,
+        f"Stage directory {stage_dir} must share parent filesystem with target {target_dir}",
+    )
+
+    prev_inv = _dir_file_inventory(target_dir) if target_dir.is_dir() else {}
+    new_inv = _dir_file_inventory(stage_dir)
+    removed_outputs = sorted(set(prev_inv) - set(new_inv))
+
+    backup_dir: Path | None = None
+    if target_dir.exists():
+        backup_dir = target_dir.parent / f".{target_dir.name}.backup.{os.getpid()}.{uuid.uuid4().hex[:8]}"
+        os.rename(target_dir, backup_dir)
+
+    try:
+        if before_commit_hook is not None:
+            before_commit_hook(stage_dir, target_dir, backup_dir)
+        os.rename(stage_dir, target_dir)
+    except BaseException:
+        if backup_dir is not None and backup_dir.exists() and not target_dir.exists():
+            os.rename(backup_dir, target_dir)
+        raise
+
+    if backup_dir is not None and backup_dir.exists():
+        shutil.rmtree(backup_dir)
+    return removed_outputs
 
 
 def find_typst(explicit: str | None = None) -> str:
@@ -131,7 +190,9 @@ def discover_diagrams(root: Path) -> list[dict]:
     return bindings
 
 
-def _inspect_pdf(pdf_path: Path, expected_w_cm: float, expected_h_cm: float) -> dict:
+def _inspect_pdf(pdf_path: Path, expected_w_cm: float, expected_h_cm: float) -> tuple[dict, dict]:
+    """Validate exported vector PDF invariants and return (deterministic_fields, runtime_diagnostics)."""
+    import pypdf
     from pypdf import PdfReader
 
     reader = PdfReader(str(pdf_path))
@@ -140,14 +201,27 @@ def _inspect_pdf(pdf_path: Path, expected_w_cm: float, expected_h_cm: float) -> 
     text = (page.extract_text() or "").strip()
     _require(bool(text), f"Exported diagram PDF has no extractable text: {pdf_path}")
 
-    # Count raster image XObjects recursively inside page /Resources /XObject
+    # Count raster image XObjects and collect resolved BaseFont identities recursively.
     raster_count = 0
+    resolved_fonts: set[str] = set()
 
-    def _walk_xobjects(resources) -> None:
+    def _walk_resources(resources) -> None:
         nonlocal raster_count
         if resources is None:
             return
         res_obj = resources.get_object() if hasattr(resources, "get_object") else resources
+        fonts = res_obj.get("/Font")
+        if fonts is not None:
+            fonts_dict = fonts.get_object() if hasattr(fonts, "get_object") else fonts
+            for fval in fonts_dict.values():
+                fobj = fval.get_object() if hasattr(fval, "get_object") else fval
+                bf = fobj.get("/BaseFont")
+                if bf is not None:
+                    name = str(bf).lstrip("/")
+                    # Strip deterministic 6-letter subset tag prefix (e.g. ABCDEF+LMRoman10-Regular)
+                    if "+" in name and len(name.split("+", 1)[0]) == 6:
+                        name = name.split("+", 1)[1]
+                    resolved_fonts.add(name)
         xobjs = res_obj.get("/XObject")
         if xobjs is None:
             return
@@ -158,9 +232,9 @@ def _inspect_pdf(pdf_path: Path, expected_w_cm: float, expected_h_cm: float) -> 
             if subtype == "/Image":
                 raster_count += 1
             elif subtype == "/Form":
-                _walk_xobjects(obj.get("/Resources"))
+                _walk_resources(obj.get("/Resources"))
 
-    _walk_xobjects(page.get("/Resources"))
+    _walk_resources(page.get("/Resources"))
     _require(raster_count == 0, f"Exported vector diagram PDF contains {raster_count} raster XObjects: {pdf_path}")
 
     w_pt = round(float(page.mediabox.width), 3)
@@ -171,12 +245,18 @@ def _inspect_pdf(pdf_path: Path, expected_w_cm: float, expected_h_cm: float) -> 
         abs(w_pt - exp_w_pt) <= 0.5 and abs(h_pt - exp_h_pt) <= 0.5,
         f"Exported PDF box [{w_pt}, {h_pt}] pt differs from expected [{exp_w_pt:.2f}, {exp_h_pt:.2f}] pt",
     )
-    return {
+    deterministic = {
         "page_count": 1,
         "page_points": [w_pt, h_pt],
         "raster_image_xobjects": raster_count,
-        "extracted_text_chars": len(text),
+        "has_extractable_text": True,
     }
+    runtime = {
+        "pypdf_version": getattr(pypdf, "__version__", "unknown"),
+        "extracted_text_chars": len(text),
+        "resolved_fonts": sorted(resolved_fonts),
+    }
+    return deterministic, runtime
 
 
 def export_figures(
@@ -186,6 +266,9 @@ def export_figures(
     fmt: str = "pdf",
     ppi: int = 300,
     typst_bin: str | None = None,
+    check_only: bool = False,
+    runtime_out: dict | None = None,
+    before_commit_hook=None,
 ) -> dict:
     root = Path(root).resolve()
     outdir = Path(outdir).resolve()
@@ -204,24 +287,29 @@ def export_figures(
     _require(len(bindings) > 0, "No active native Typst diagrams found to export")
 
     creation_ts = os.environ.get("SOURCE_DATE_EPOCH", "0")
+    text_fonts_typ = ", ".join(f'"{f}"' for f in DECLARED_FONT_FAMILIES["text"])
+    math_fonts_typ = ", ".join(f'"{f}"' for f in DECLARED_FONT_FAMILIES["math"])
 
-    with tempfile.TemporaryDirectory(prefix="aod_fig_export_") as tmp:
-        tmp_path = Path(tmp)
-        stage_out = tmp_path / "out"
-        stage_out.mkdir(parents=True, exist_ok=True)
-        # Keep wrappers under a hidden dir inside tmp; compile with --root=root
-        # by placing temporary wrappers? Typst requires input inside --root, so
-        # we compile via stdin (`-`) with `--root <root>` — zero writes into root!
+    stage_parent = outdir.parent
+    if not check_only:
+        stage_parent.mkdir(parents=True, exist_ok=True)
+        stage_out = Path(tempfile.mkdtemp(prefix=f".{outdir.name}.stage.", dir=str(stage_parent)))
+    else:
+        stage_out = Path(tempfile.mkdtemp(prefix="aod_fig_check_"))
+
+    try:
         results: list[dict] = []
+        runtime_figures: list[dict] = []
+        pypdf_version: str | None = None
         for item in bindings:
             slug = item["slug"]
             out_name = f"{slug}.{fmt}"
             out_file = stage_out / out_name
             wrapper = (
                 f'#set page(width: {item["width_cm"]}cm, height: {item["height_cm"]}cm, '
-                'margin: 0pt, numbering: none, fill: white)\n'
-                '#set text(font: ("Latin Modern Roman", "DejaVu Serif"), size: 11pt, lang: "en")\n'
-                '#show math.equation: set text(font: ("Latin Modern Math", "New Computer Modern Math"))\n'
+                f'margin: 0pt, numbering: none, fill: {DECLARED_BACKGROUND})\n'
+                f'#set text(font: ({text_fonts_typ}), size: 11pt, lang: "en")\n'
+                f'#show math.equation: set text(font: ({math_fonts_typ}))\n'
                 '#set par(leading: 0.6em, spacing: 1.05em, justify: true, first-line-indent: 0pt)\n'
                 '#set math.equation(numbering: none)\n'
                 f'#include "/{item["diagram_component"]}"\n'
@@ -248,22 +336,37 @@ def export_figures(
                 "diagram_sha256": item["diagram_sha256"],
                 "width_cm": item["width_cm"],
                 "height_cm": item["height_cm"],
+                "background": DECLARED_BACKGROUND,
+                "font_families": DECLARED_FONT_FAMILIES,
                 "format": fmt,
                 "output_filename": out_name,
                 "output_sha256": sha256_file(out_file),
                 "output_bytes": out_file.stat().st_size,
             }
+            rt_entry: dict = {
+                "slug": slug,
+                "output_filename": out_name,
+                "output_sha256": entry["output_sha256"],
+            }
             if fmt == "png":
                 entry["ppi"] = ppi
             else:
-                entry.update(_inspect_pdf(out_file, item["width_cm"], item["height_cm"]))
+                det_pdf, rt_pdf = _inspect_pdf(out_file, item["width_cm"], item["height_cm"])
+                entry.update(det_pdf)
+                pypdf_version = rt_pdf["pypdf_version"]
+                rt_entry["extracted_text_chars"] = rt_pdf["extracted_text_chars"]
+                rt_entry["resolved_fonts"] = rt_pdf["resolved_fonts"]
             results.append(entry)
+            runtime_figures.append(rt_entry)
 
+        # Deterministic committed manifest: source/settings/output identities only;
+        # no extractor-version-dependent counts, compiler version banners, or removal logs.
         manifest = {
             "schema": MANIFEST_SCHEMA,
-            "typst_version": typst_version,
             "format": fmt,
             "ppi": ppi if fmt == "png" else None,
+            "background": DECLARED_BACKGROUND,
+            "font_families": DECLARED_FONT_FAMILIES,
             "schema_path": SCHEMA_REL.as_posix(),
             "schema_sha256": schema_sha,
             "figure_count": len(results),
@@ -273,11 +376,40 @@ def export_figures(
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         os.chmod(manifest_path, 0o644)
 
-        # Atomic replacement of managed generated figures directory
-        outdir.parent.mkdir(parents=True, exist_ok=True)
-        if outdir.exists():
-            shutil.rmtree(outdir)
-        shutil.copytree(stage_out, outdir)
+        removed_outputs: list[str] = []
+        if check_only:
+            _require(outdir.is_dir(), f"Exported figure directory does not exist: {outdir}")
+            exp_inv = _dir_file_inventory(stage_out)
+            act_inv = _dir_file_inventory(outdir)
+            missing = sorted(set(exp_inv) - set(act_inv))
+            extra = sorted(set(act_inv) - set(exp_inv))
+            changed = sorted(k for k in set(exp_inv) & set(act_inv) if exp_inv[k] != act_inv[k])
+            if missing or extra or changed:
+                raise ValueError(
+                    f"Exported figure directory differs from fresh export (--check failed): "
+                    f"missing={missing}, extra={extra}, changed={changed}"
+                )
+        else:
+            removed_outputs = atomic_replace_directory(
+                stage_out, outdir, before_commit_hook=before_commit_hook
+            )
+
+        rt_report = {
+            "schema": RUNTIME_SCHEMA,
+            "typst_version": typst_version,
+            "pypdf_version": pypdf_version,
+            "creation_timestamp": str(creation_ts),
+            "background": DECLARED_BACKGROUND,
+            "declared_font_families": DECLARED_FONT_FAMILIES,
+            "removed_outputs": removed_outputs,
+            "figures": runtime_figures,
+        }
+        if runtime_out is not None:
+            runtime_out.clear()
+            runtime_out.update(rt_report)
+    finally:
+        if stage_out.exists():
+            shutil.rmtree(stage_out)
 
     return manifest
 
@@ -289,12 +421,27 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--format", choices=("pdf", "png"), default="pdf")
     ap.add_argument("--ppi", type=int, default=300, choices=(300, 600))
     ap.add_argument("--typst-bin", default=None)
+    ap.add_argument("--check", action="store_true", help="Verify outdir matches fresh export without modifying it")
+    ap.add_argument("--runtime-report", type=Path, default=None, help="Optional JSON path for runtime/extractor diagnostics")
     args = ap.parse_args(argv)
 
     root = args.root.resolve()
     outdir = args.outdir if args.outdir.is_absolute() else (root / args.outdir)
-    manifest = export_figures(root, outdir, fmt=args.format, ppi=args.ppi, typst_bin=args.typst_bin)
-    print(json.dumps(manifest, indent=2))
+    runtime_diag: dict = {}
+    manifest = export_figures(
+        root,
+        outdir,
+        fmt=args.format,
+        ppi=args.ppi,
+        typst_bin=args.typst_bin,
+        check_only=args.check,
+        runtime_out=runtime_diag,
+    )
+    if args.runtime_report is not None:
+        rp = args.runtime_report if args.runtime_report.is_absolute() else (root / args.runtime_report)
+        rp.parent.mkdir(parents=True, exist_ok=True)
+        rp.write_text(json.dumps(runtime_diag, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({"manifest": manifest, "runtime_diagnostics": runtime_diag}, indent=2))
     return 0
 
 
