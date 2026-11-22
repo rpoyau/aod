@@ -37,6 +37,9 @@ jobs:
           latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
           latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
           cp manual/main.pdf manual.pdf
+          mkdir -p dist_typst
+          cp main.pdf dist_typst/baseline_main.pdf
+          cp manual.pdf dist_typst/baseline_manual.pdf
 
       - name: Build native Typst Main and Manual PDFs (strict committed registry check)
         run: |
@@ -54,8 +57,6 @@ jobs:
             --baseline-manual-pdf manual.pdf > /dev/null
           cmp dist_typst/parity_norm/parity_report.json dist_typst/parity_opt/parity_report.json
           cp dist_typst/parity_norm/parity_report.json dist_typst/parity_report.json
-          cp main.pdf dist_typst/baseline_main.pdf
-          cp manual.pdf dist_typst/baseline_manual.pdf
 
       - name: Run Typst parity and release-builder tests (normal and -O)
         run: |
@@ -109,6 +110,7 @@ jobs:
           cat dist_typst/SHA256_TYPST.txt
 
       - name: Upload native Typst publication and parity artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: aod-typst-s1a

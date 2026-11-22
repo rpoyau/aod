@@ -3294,6 +3294,13 @@ def verify_evaluated_and_rendered(
             novel = [g for g in t_grams if g not in base_grams and g not in src_grams and g not in layout_allow]
             # Words outside the source vocabulary (>= 4 letters) must not exceed their baseline count.
             b_alpha = Counter(x for x in b_tokens if x.isalpha())
+            # XeLaTeX/pdftotext may split one math run into adjacent tokens ('supp v' vs 'suppv'):
+            # joined adjacent alphabetic bigrams/trigrams of the baseline also count as occurrences.
+            for k in (2, 3):
+                for i in range(len(b_tokens) - k + 1):
+                    win = b_tokens[i:i + k]
+                    if all(x.isalpha() for x in win):
+                        b_alpha["".join(win)] += 1
             t_alpha = Counter(x for x in t_tokens if x.isalpha())
             oov_allow = RENDERED_OOV_EXCESS_ALLOWLIST[surf]
             oov_excess = sorted(
