@@ -1,0 +1,124 @@
+name: typst
+
+on:
+  push:
+    branches: [ main, m4, m4-typst-s1a ]
+  pull_request:
+
+jobs:
+  typst-parity:
+    runs-on: ubuntu-latest
+    env:
+      TYPST_VERSION: "0.15.1"
+      TYPST_TARBALL: "typst-x86_64-unknown-linux-musl.tar.xz"
+      TYPST_TARBALL_SHA256: "a6d077d0a95eed5a2eba715b2dae06be954f624ccbf85758a03f389ded33118c"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pinned Typst, Latin Modern fonts, XeLaTeX baseline tools, and Python dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y latexmk texlive-xetex texlive-bibtex-extra texlive-latex-extra fonts-lmodern poppler-utils python3 python3-pip
+          curl -fsSL "https://github.com/typst/typst/releases/download/v${TYPST_VERSION}/${TYPST_TARBALL}" -o "/tmp/${TYPST_TARBALL}"
+          echo "${TYPST_TARBALL_SHA256}  /tmp/${TYPST_TARBALL}" | sha256sum -c -
+          tar -xf "/tmp/${TYPST_TARBALL}" -C /tmp
+          mkdir -p "$HOME/.local/bin"
+          install -m 755 "/tmp/typst-x86_64-unknown-linux-musl/typst" "$HOME/.local/bin/typst"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/typst" --version
+          python3 -m pip install --upgrade pip
+          if [ -f requirements-ci.txt ]; then python3 -m pip install -r requirements-ci.txt; fi
+          python3 -m pip install pytest sympy pandas matplotlib pypdf
+
+      - name: Build retained LaTeX baseline PDFs (XeLaTeX)
+        run: |
+          latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex
+          latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex
+          cp manual/main.pdf manual.pdf
+          mkdir -p dist_typst
+          cp main.pdf dist_typst/baseline_main.pdf
+          cp manual.pdf dist_typst/baseline_manual.pdf
+
+      - name: Build native Typst Main and Manual PDFs (strict committed registry check)
+        run: |
+          python3 scripts/build_typst.py --outdir dist_typst --check-registry
+
+      - name: Verify native Typst parity against retained LaTeX baseline (normal and -O)
+        run: |
+          python3 scripts/verify_typst_parity.py \
+            --outdir dist_typst/parity_norm \
+            --baseline-main-pdf main.pdf \
+            --baseline-manual-pdf manual.pdf
+          python3 -O scripts/verify_typst_parity.py \
+            --outdir dist_typst/parity_opt \
+            --baseline-main-pdf main.pdf \
+            --baseline-manual-pdf manual.pdf > /dev/null
+          cmp dist_typst/parity_norm/parity_report.json dist_typst/parity_opt/parity_report.json
+          cp dist_typst/parity_norm/parity_report.json dist_typst/parity_report.json
+
+      - name: Run Typst parity and release-builder tests (normal and -O)
+        run: |
+          python3 -m pytest -q tests/test_typst_parity.py tests/test_ci_release_builder.py
+          python3 -O -m pytest -q tests/test_typst_parity.py tests/test_ci_release_builder.py
+
+      - name: Verify non-Git source.zip reconstruction for both publication paths
+        run: |
+          python3 - <<'EOF'
+          import importlib.util, pathlib, shutil, subprocess, tempfile, zipfile
+          root = pathlib.Path(".").resolve()
+          spec = importlib.util.spec_from_file_location("rb", root / "scripts/build_release_bundle.py")
+          rb = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(rb)
+          with tempfile.TemporaryDirectory() as tmp:
+              tmp_p = pathlib.Path(tmp)
+              src = rb.build_source_tree(tmp_p)
+              zpath = tmp_p / "source.zip"
+              rb.zip_dir(src, zpath)
+              unpacked = tmp_p / "unpacked"
+              with zipfile.ZipFile(zpath) as zf:
+                  zf.extractall(unpacked)
+              assert not (unpacked / ".git").exists()
+              subprocess.run(
+                  ["latexmk", "-xelatex", "-interaction=nonstopmode", "-halt-on-error", "main.tex"],
+                  cwd=unpacked, check=True,
+              )
+              subprocess.run(
+                  ["latexmk", "-cd", "-xelatex", "-interaction=nonstopmode", "-halt-on-error", "manual/main.tex"],
+                  cwd=unpacked, check=True,
+              )
+              shutil.copy2(unpacked / "manual/main.pdf", unpacked / "manual.pdf")
+              subprocess.run(
+                  ["python3", str(unpacked / "scripts/build_typst.py"),
+                   "--root", str(unpacked), "--outdir", str(tmp_p / "out"), "--check-registry"],
+                  cwd=unpacked, check=True,
+              )
+              subprocess.run(
+                  ["python3", str(unpacked / "scripts/verify_typst_parity.py"),
+                   "--root", str(unpacked), "--outdir", str(tmp_p / "parity"),
+                   "--baseline-main-pdf", str(unpacked / "main.pdf"),
+                   "--baseline-manual-pdf", str(unpacked / "manual.pdf"),
+                   "--skip-negative-controls"],
+                  cwd=unpacked, check=True,
+              )
+          EOF
+
+      - name: Record artifact SHA-256 manifest
+        run: |
+          (cd dist_typst && sha256sum main_typst.pdf manual_typst.pdf build_report.json parity_report.json baseline_main.pdf baseline_manual.pdf > SHA256_TYPST.txt)
+          cat dist_typst/SHA256_TYPST.txt
+
+      - name: Upload native Typst publication and parity artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aod-typst-s1a
+          path: |
+            dist_typst/main_typst.pdf
+            dist_typst/manual_typst.pdf
+            dist_typst/build_report.json
+            dist_typst/parity_report.json
+            dist_typst/baseline_main.pdf
+            dist_typst/baseline_manual.pdf
+            dist_typst/SHA256_TYPST.txt

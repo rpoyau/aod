@@ -1,0 +1,605 @@
+{
+  "active_source_map": [
+    {
+      "surface": "main",
+      "tex_sha256": "1648c6a5d8afebf4a94e8761b2e4faa6efb2632f9e719dd5c407409f3751d93a",
+      "tex_source": "main.tex",
+      "typst_sha256": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70",
+      "typst_target": "typst/main.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "a2c8c0b3dbc6eddc6f78dba4791236ce3ab89c5ad264d5975126d33db6ecfca8",
+      "tex_source": "preamble.tex",
+      "typst_sha256": "7a9c255c2411bc4bd3487be0196f10ac453eefa240f6c16095d426f210b4f112",
+      "typst_target": "typst/preamble.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "d8791ecfb6a95c60f8585b68094cb55704535dcc01e1f92cb5f64f07aab96de9",
+      "tex_source": "manual/main.tex",
+      "typst_sha256": "c3d6a18bb6a8020481259a6771611e41c50f188190e35e1c9b5ec58848d8760a",
+      "typst_target": "typst/manual/main.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "3f9700a9ed234b7402fae87d5de11f7d246e0e3d01d62b2c5e1ca0f43e19a3f1",
+      "tex_source": "manual/preamble.tex",
+      "typst_sha256": "2b7deae2f0fa3d7011edabd8d7299b835290fb60e47990c7fe861e55bd914196",
+      "typst_target": "typst/manual/preamble.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "c86e23a01c95c43c2cb3603afc2d3c574d36f44360da626ebe86f734ad4ce4d4",
+      "tex_source": "sections/00_title.tex",
+      "typst_sha256": "bc84ca2a2ec90cf6419661cccee913e9ffdf1cb04499348486f14cf811693b5a",
+      "typst_target": "typst/sections/00_title.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "a42ebe256def1106badff156f495206d39fe32a984b97e9fe2ed07ba12c1803c",
+      "tex_source": "sections/01_abstract.tex",
+      "typst_sha256": "567d74bd51d4198f264d43dcb5781767a66fd6c9b0627e5031299f29ea3875cd",
+      "typst_target": "typst/sections/01_abstract.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "d5b648c0c74afe8c34a344d5069e78b5be5d9a98851ce1abcc6c0f9d1df8c6d3",
+      "tex_source": "sections/03_afc_basis.tex",
+      "typst_sha256": "d9ba585086847920deb3e3336c5cc7c8db801b173332a25a38427a8f46d22fa5",
+      "typst_target": "typst/sections/03_afc_basis.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "c225ae8fcc8b93a805533dff18c1a66d2c81e17f10e91b7f0efe9e7037bedfd2",
+      "tex_source": "sections/04_cut_running_fractal_tesseract.tex",
+      "typst_sha256": "f7202c1aaa8d0c4ebee998985948fbbbf8e3ecbb879a5eeb3a43b52cc7a4c6f5",
+      "typst_target": "typst/sections/04_cut_running_fractal_tesseract.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "db5d3097aa17ce890e1ef5a09e527ce86109715add344f54139eeea3c36f28a9",
+      "tex_source": "sections/05_curl_closure_duon_current.tex",
+      "typst_sha256": "2dd068fbbca3d52bf1ed0c891be29c425923813090a666e7f837638baf62e93e",
+      "typst_target": "typst/sections/05_curl_closure_duon_current.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "a0db3c5c2d3c51c117efe6e7c5a139bc757839d508bfa981c773fdd3d7061917",
+      "tex_source": "sections/06_wave_state_relational_time.tex",
+      "typst_sha256": "155a37eff9ecbf87a3aadd5aef22c9337de64ddb02660228ccde216afb582bba",
+      "typst_target": "typst/sections/06_wave_state_relational_time.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "8cfc96e46d7492bfec4687b6fa77495b5fbca054474d103b78348cebe022d802",
+      "tex_source": "sections/06_field.tex",
+      "typst_sha256": "1ab534ab598c2b50c6d9cc50cbddf5b70d7a487a10c4b10dafb0687c8d3a962b",
+      "typst_target": "typst/sections/06_field.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "310b4860c1710b8191725d9c40ff1fc05bd45a7ed818f0891e1fbd8fa58feae1",
+      "tex_source": "sections/08_awareness_learning_mindfulness.tex",
+      "typst_sha256": "5e9ea82291bf2c60e4aef0e7078bad010d4eb51334ff7bedeca283697f9c51e9",
+      "typst_target": "typst/sections/08_awareness_learning_mindfulness.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "d1d8d44ada5516da9f6081dc90c565f5151c35d8bbbcdd9e74602c740f17b60c",
+      "tex_source": "sections/07_cell_measures_mappings.tex",
+      "typst_sha256": "e3f922a7396ddcdf51f4d5e445c33a50a9d11ebb17989542628bd869fde9ee4e",
+      "typst_target": "typst/sections/07_cell_measures_mappings.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "422d585b3f317ea52ebe8f7401119ad3e0be526dadd8d9fcd26ec72bdccce8d7",
+      "tex_source": "appendices/A_fractal_address_bip_biz.tex",
+      "typst_sha256": "28d9883a1898364ce3284983e3c395ec60eb665a2f479a1299c9688e3a72b33d",
+      "typst_target": "typst/appendices/A_fractal_address_bip_biz.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "c47c04f45b584dc284a576301a8af43507725c207f8fd5a0bda583ab17822e04",
+      "tex_source": "appendices/B_curling_curls.tex",
+      "typst_sha256": "f1bacfdd2b3c8843321e102b0933aa2dfbc34ae50a891c583a2502f280c41f25",
+      "typst_target": "typst/appendices/B_curling_curls.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "4fba7d700d717e096d1bbf72770841199e0958ba0d3939e89c0b82e68858043a",
+      "tex_source": "appendices/C_stochastic_crowning.tex",
+      "typst_sha256": "fac320a60e8637a1957bf5f71a632b0e03ca91a455f60f5987b25d47aa308bd2",
+      "typst_target": "typst/appendices/C_stochastic_crowning.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "f13d9d66140fb5b3e4a65dd626f9341c8be666f29fd8e26d040d19be152f314e",
+      "tex_source": "appendices/D_cycle_shedding_demonstration.tex",
+      "typst_sha256": "669e44f43c769d5ebd3fd231efc913f29c03896d56352e7878dbba7a5d951fd1",
+      "typst_target": "typst/appendices/D_cycle_shedding_demonstration.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "76dfa08644d8865c3f0ee98590f35f8cb4692cb6254f22957b345fef4efb2f6a",
+      "tex_source": "appendices/E_glossary.tex",
+      "typst_sha256": "1447959e3d008cab98296b56e661738c354bf30485f5120c01ed5f587ed55034",
+      "typst_target": "typst/appendices/E_glossary.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "0cbc2e18f2036ca05e188dff445377bba7ddc945ad54c6c40414129c5442cfe6",
+      "tex_source": "appendices/F_wave.tex",
+      "typst_sha256": "ac60bfd7d667935c2e4b9472780953856921a4cd936cd683bf6634e5be482347",
+      "typst_target": "typst/appendices/F_wave.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "29c9bcb1359639548f3d25e35ca7b3e50454f5f17d37f57bfad877b26a5f5f77",
+      "tex_source": "appendices/G_symbolic_cancellation_check.tex",
+      "typst_sha256": "c4f97698b8e56b3f0bfb4358c0f6939c0a74ce7c7910256c84fb3385ca4b41e8",
+      "typst_target": "typst/appendices/G_symbolic_cancellation_check.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "4a2dc17b601c85e84fac6ea215f99f072227c7600500c0faf305bae53739e03f",
+      "tex_source": "appendices/H_combinatorics_rd_tests.tex",
+      "typst_sha256": "e2038574c92000317182854b22e1bb147a77b564dfa2cea1e5856eeb34314236",
+      "typst_target": "typst/appendices/H_combinatorics_rd_tests.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "531e83d989969c81089a09c0f7bbab56cc02e3f35495f7b5701958160ac6a704",
+      "tex_source": "appendices/I_path_complexity_prototype_quarantine.tex",
+      "typst_sha256": "2e162a8b2d61795dc5402956c593fdaa25eca5f92c335c5ceedaca8dc4f86dfc",
+      "typst_target": "typst/appendices/I_path_complexity_prototype_quarantine.typ"
+    },
+    {
+      "surface": "main",
+      "tex_sha256": "793eff4bfb043a988e69dd89b1b103661a1fbf462aae0de8350ae5d54c932648",
+      "tex_source": "appendices/J_ao_field_fractal_properties.tex",
+      "typst_sha256": "55912a2180b18144fa8eb3b580153d3fb42df122e0d66ce59da44de4d050c412",
+      "typst_target": "typst/appendices/J_ao_field_fractal_properties.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "8e5d10ce8eee0afab0be9e32458408d67cd0facd52ef4a3fc209d7cbbb269b09",
+      "tex_source": "manual/sections/00_scope.tex",
+      "typst_sha256": "ccfbeb7980a86fff8a94d4e6f98711c55fb0f982f707460f10f28e36902f2a27",
+      "typst_target": "typst/manual/sections/00_scope.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "7ef27143a761dda2461cd225fffe818772d4f63a4777b37198dae55ff7676f66",
+      "tex_source": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "typst_sha256": "82c71793c7d88f62f496191ee2390f36c04e87da8e32d0be09fdcb09bded1d53",
+      "typst_target": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "e2df403490df0f1b3d940c39d37436b8267281034b6f7adcc15808c572859e33",
+      "tex_source": "manual/sections/00_awareness_fixtures.tex",
+      "typst_sha256": "36385cc9c3685d9147861c6d4bdcb0da580d96cf45da4b8503225bcf73edb706",
+      "typst_target": "typst/manual/sections/00_awareness_fixtures.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "934828daf766319e71eda3c4b89411b9a53dfc59d9d6774debbc7aa0657d3277",
+      "tex_source": "manual/sections/00_dec_ledger.tex",
+      "typst_sha256": "4e759e48ed70160bcbb97892d865618f3dfb5d24d07d18be81bb146334ab32e2",
+      "typst_target": "typst/manual/sections/00_dec_ledger.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "13093b765131abf4bfb74e5333777f93ecb9a19ff9ca349d01a15471c71af24d",
+      "tex_source": "manual/sections/01_cell_measures.tex",
+      "typst_sha256": "48cd10875af76efc8047c0ec0eae36bae5940147c884aff5b39ad90855f0d1c3",
+      "typst_target": "typst/manual/sections/01_cell_measures.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "baf71f4d4d17b5504e5d973a9579ad8b8f3005b283fcfbf41aad12a5d82a66e1",
+      "tex_source": "manual/sections/02_mapping_error.tex",
+      "typst_sha256": "65d7fe4177bcdb9c45d5cb8d83075adce057a0c3cf64447aa2e8b525ce68aca4",
+      "typst_target": "typst/manual/sections/02_mapping_error.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "108647cd1111432bc7c6f00c331de22663bc9b5db90eeed56c3906f45b4e5e1d",
+      "tex_source": "manual/sections/03_temporal_observation.tex",
+      "typst_sha256": "4d9498200933621aa49921516780f43e643ef6251cfb55e470c9382916b8adb5",
+      "typst_target": "typst/manual/sections/03_temporal_observation.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "bf5ee4dc041b0fdc163a023761c46efbab5a95848e73b3f7be73d827e56d4fe4",
+      "tex_source": "manual/sections/03_short_window_rcd_shedding_fixtures.tex",
+      "typst_sha256": "3012212bdc7893a814ce84ab5c122b5a9770ab81d5f0e6b81c5dd2980e949b90",
+      "typst_target": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "40e6af142bfca8d4d97f8f48c50337f7c7d0099954d4e349dea09a9a76c40469",
+      "tex_source": "manual/sections/01_rest_energy_prediction.tex",
+      "typst_sha256": "d4b5510c9c3e298f1bc7ebbf5d65175e0daa199c4fe5d52644e34dc90d81a1db",
+      "typst_target": "typst/manual/sections/01_rest_energy_prediction.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "e1fd2981fcd3030da2d64aa976339389ec890818092153ef4c3b34f5c2bd586e",
+      "tex_source": "manual/sections/02_hydrogen_facing_shell_tests.tex",
+      "typst_sha256": "f8a26c34166ca33ffe8ebbe3a90c9143f597e9e61819f58944cdd7cf1e450000",
+      "typst_target": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "6d517127cb599c502cbeb06deed09451495e4a824f2c93eaaa5a7076a72c37b6",
+      "tex_source": "manual/sections/04_boundary_current_applications.tex",
+      "typst_sha256": "130853df624bd66e5131bbcd2cb4e6989bfe4b70a168f54fa9edc2079d8cc0c7",
+      "typst_target": "typst/manual/sections/04_boundary_current_applications.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "2a98a1bbc46c8721812da6a1c6e1b78fd2f961124d768e0563d8b3699e0a552b",
+      "tex_source": "manual/sections/05_solar_system_field_tests.tex",
+      "typst_sha256": "b87eb4481444b7cbc8eb6161c2e48e74834bd6db9d0ee33287d3eeab9e3e5a28",
+      "typst_target": "typst/manual/sections/05_solar_system_field_tests.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "45b7316cb3e49a14f4dc62ac664a82114c2273438ffafd27aa3c5b302d6acb04",
+      "tex_source": "manual/sections/06_field_dynamics_applications.tex",
+      "typst_sha256": "24777d2b7d35460c9b0ef689caeffa21e4bc13c347ee94d69a48ee59e5a20256",
+      "typst_target": "typst/manual/sections/06_field_dynamics_applications.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "f942b7f23a3e988014c311c9e2cc55ab51ef81261ec43ab0d7210d8b7a862921",
+      "tex_source": "manual/data/run_tumble/run_tumble_trace_table.tex",
+      "typst_sha256": "fc4dcec5fb22e6ff75d82263918d1818032c89bb6338213890d8e0bdff5b2dd5",
+      "typst_target": "typst/manual/tables/run_tumble_trace_table.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "977b15cff45f44da60dac01a95507ded32eacb7f814278ae4f2cf4657412642b",
+      "tex_source": "manual/data/derived/sparc_summary_table.tex",
+      "typst_sha256": "fb61d53a03ef6d282b20830b21c0bc8c8f61ba8e53090a69c9d63565b03291a4",
+      "typst_target": "typst/manual/tables/sparc_summary_table.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "4182272f192968d934de308ff3aad7939ab0c9b479b7d2c66999687154157ee8",
+      "tex_source": "manual/sections/07_galactic_lensing_plan.tex",
+      "typst_sha256": "3a3578c456a2f5f9f96377d2178700770d25f166985c225d83a8d19f22dd6cd3",
+      "typst_target": "typst/manual/sections/07_galactic_lensing_plan.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "eaebd5869923a9e825c323c3364e4c9bed46de889294bb11742fc1d1ec03f61b",
+      "tex_source": "manual/data/lensing/sparc5_medium_diagnostic_summary_table.tex",
+      "typst_sha256": "5cdcba390695dcec98480c39ecd71a1e7e5011ea55cbbe16229461e7cc31917b",
+      "typst_target": "typst/manual/tables/sparc5_medium_diagnostic_summary_table.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "9d489a2b33b54017434fafefa57ab9804b43a507245cca7fc9451c47e8dc4c6b",
+      "tex_source": "manual/data/lensing/swells_k0_target_tallies_table.tex",
+      "typst_sha256": "6d456589b37495f8a180324b2af29b1db84c5ca6358410754bcdf94208ca54e9",
+      "typst_target": "typst/manual/tables/swells_k0_target_tallies_table.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "813626c32c9a3dda9327884965c5aeae7da05b1118f2bddab87d72413bde9573",
+      "tex_source": "manual/data/lensing/swells_k1_k2_k3_comparison_table.tex",
+      "typst_sha256": "f4a6ef521f8388b22d32298b0d4b01b9f7ad7e639bd3f9fdfc00f0d20cd1abec",
+      "typst_target": "typst/manual/tables/swells_k1_k2_k3_comparison_table.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "b972211294ba5e7205a2e258b3d1e6ab1b9e3126861e540c624aa0735e779e05",
+      "tex_source": "manual/data/lensing/k4_3d_timeflow_input_gate_table.tex",
+      "typst_sha256": "947c1f5b1acf410f82044a4e8fda06574efa7f434828cb5e001ee444333b8e60",
+      "typst_target": "typst/manual/tables/k4_3d_timeflow_input_gate_table.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "60ad7f188f2a6a1c43fda9e589f942c9dcda04543383217fb9225a671baed08e",
+      "tex_source": "manual/sections/09_prediction_test_fixture_registry.tex",
+      "typst_sha256": "3d6b16748b8e3c8ca6ab367fd44c93602d7d3a6d1258124eb7c5b82d42569b07",
+      "typst_target": "typst/manual/sections/09_prediction_test_fixture_registry.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "f106ee80779e1b535a64e9e1fe673f5242f73a48a754b848c5534956a9fd66c3",
+      "tex_source": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
+      "typst_sha256": "827a959e381faebfa7f6ca38d03548ad7ea025f5bf8f3b7e358e5b277784570d",
+      "typst_target": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "a422ad8364d9a1e2c3983d137d329a8935fd764e7275289ebb778ca206d105f6",
+      "tex_source": "cycle_shedding_summary.tex",
+      "typst_sha256": "6c5fc0de30290cd72f0ce3f779752af078f57fb5a690195644f952df427f0aaa",
+      "typst_target": "typst/manual/tables/cycle_shedding_summary.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "2a4730702a7f1aa7889f297ef58d3f15573ade2b4ce4b89a3631720b5ee10cb1",
+      "tex_source": "manual/appendices/B_quarantined_external_comparison.tex",
+      "typst_sha256": "4433130128f6b3091b922cb824d9cd1e05cf7b0271883d6001a65f933dbde7d9",
+      "typst_target": "typst/manual/appendices/B_quarantined_external_comparison.typ"
+    },
+    {
+      "surface": "manual",
+      "tex_sha256": "1d125ab97ad5e383f43467e56cd6e9e9297c95d9fe2c06bbe9b5f4c6d92c41bd",
+      "tex_source": "manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex",
+      "typst_sha256": "d8904804289f6eb9fcbfef8c17730c3507e2be311e9666299f344ff38a63f764",
+      "typst_target": "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ"
+    }
+  ],
+  "baseline_protected_counts": {
+    "bib": 2,
+    "images": 49,
+    "manual_data": 116,
+    "tex": 54,
+    "total": 211
+  },
+  "baseline_protected_sha256": {
+    "appendices/A_fractal_address_bip_biz.tex": "422d585b3f317ea52ebe8f7401119ad3e0be526dadd8d9fcd26ec72bdccce8d7",
+    "appendices/B_curling_curls.tex": "c47c04f45b584dc284a576301a8af43507725c207f8fd5a0bda583ab17822e04",
+    "appendices/C_stochastic_crowning.tex": "4fba7d700d717e096d1bbf72770841199e0958ba0d3939e89c0b82e68858043a",
+    "appendices/D_cycle_shedding_demonstration.tex": "f13d9d66140fb5b3e4a65dd626f9341c8be666f29fd8e26d040d19be152f314e",
+    "appendices/E_glossary.tex": "76dfa08644d8865c3f0ee98590f35f8cb4692cb6254f22957b345fef4efb2f6a",
+    "appendices/F_wave.tex": "0cbc2e18f2036ca05e188dff445377bba7ddc945ad54c6c40414129c5442cfe6",
+    "appendices/G_symbolic_cancellation_check.tex": "29c9bcb1359639548f3d25e35ca7b3e50454f5f17d37f57bfad877b26a5f5f77",
+    "appendices/H_combinatorics_rd_tests.tex": "4a2dc17b601c85e84fac6ea215f99f072227c7600500c0faf305bae53739e03f",
+    "appendices/I_path_complexity_prototype_quarantine.tex": "531e83d989969c81089a09c0f7bbab56cc02e3f35495f7b5701958160ac6a704",
+    "appendices/J_ao_field_fractal_properties.tex": "793eff4bfb043a988e69dd89b1b103661a1fbf462aae0de8350ae5d54c932648",
+    "cycle_shedding_summary.tex": "a422ad8364d9a1e2c3983d137d329a8935fd764e7275289ebb778ca206d105f6",
+    "figures_jpg/attention_phase_bias_pressure.jpg": "cfc56c0777f1fe14e5c75fde9b98c412983ff6dff9109acd2c73130ed8dc2139",
+    "figures_jpg/closure_ladder_monon_dion_duon.jpg": "85dca95a121d9b94fda9fef74d37220fecdbc18439d4c24316813fcd28812d47",
+    "figures_jpg/curl_to_duon_current_support.png": "d1c44eac8eec563b60a64f0beb90dd0ab77134a0e956ec3c66cf6dfc52057261",
+    "figures_jpg/curling_curl_layers.png": "f9b7ff99375ae2a41bee2142b3b8d85d010841bae1537ab276cee9e72f73c3c4",
+    "figures_jpg/cycle_disturbance_shedding.png": "64e5559ad3f2a6ed1d8933e328923634be8871367958d4723e2d293a6ef7c1be",
+    "figures_jpg/cycle_disturbance_shedding_fixture.png": "cda868137826a61f74b1b22a45f55556bbcf2dd155ff2b1d35d04f747589ed04",
+    "figures_jpg/cycle_disturbance_shedding_simulation.png": "e57cdc99319fb4aae9ba2852e09965de19e0c965872aa4b9bda6f7cd0fabda92",
+    "figures_jpg/field_dynamics_layered.png": "163c0460532bc6ca9e8b698ab838014d0901159c148852fdcaa64f74ced4c60a",
+    "figures_jpg/field_dynamics_layered_main.png": "d7b6118b8f4a0e018336da23f596b70653eeb5db9bb5d70c249465d0c6a0f5b9",
+    "figures_jpg/fixed_scope_field_count.png": "ee53dc23c84a0be170ed4c8c7ecb8ea9dea0e1095870d5d5bc771ea0fc2e6ea3",
+    "figures_jpg/fractal_tesseract_q4_witness.jpg": "313146c288ffa53f23be25103547e88590bf83b12faa4a0ca13a83f4ca6e968e",
+    "figures_jpg/null_four_edge_x_witness.png": "7b446097b578068cb77b2b3b80844f446a31ff42d708160bef997f3b5bf19ac2",
+    "figures_jpg/rcd_pending_return_duration.jpg": "3fa6d2b13cb68e0c959dabb0429576df537bca440c94838fbb447e029d0ed4c4",
+    "figures_jpg/rcd_reflection_duration_coupling.jpg": "cbf46dbc8b463247933b18edf4b5f7c01f630cd3934a63d56b0ee3957abc5340",
+    "figures_jpg/sadar_b_scoped_afc_flux.png": "caa66f9b96e7020ef1cf3f04452ea84d13008e274e66b3a161f482aafa80f906",
+    "figures_jpg/sadar_boundary_relative_balance.png": "ce8ae530b64196747b188981f8afce9748a3bf0c560d486d807bf671803e1083",
+    "figures_jpg/sadar_rcd_b_scoped_afc_flux.png": "aaa5536ab8b2230e0655c40076ba46332141827b645b148501ae896395f5bd52",
+    "figures_jpg/support_enclosure_retention.png": "d868abf47b42dbbe056cb92bb0163aa41e1901bdc25c18c50f8c8f180d7a97aa",
+    "main.tex": "1648c6a5d8afebf4a94e8761b2e4faa6efb2632f9e719dd5c407409f3751d93a",
+    "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex": "f106ee80779e1b535a64e9e1fe673f5242f73a48a754b848c5534956a9fd66c3",
+    "manual/appendices/B_quarantined_external_comparison.tex": "2a4730702a7f1aa7889f297ef58d3f15573ade2b4ce4b89a3631720b5ee10cb1",
+    "manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex": "1d125ab97ad5e383f43467e56cd6e9e9297c95d9fe2c06bbe9b5f4c6d92c41bd",
+    "manual/data/awareness/awareness_cases.jsonl": "2c0ccbaf13883cb1000b4b3f880df8fdfdeabcf9e44b78eb8fc8371ceb2ee3b4",
+    "manual/data/brownian/brownian_displacements.csv": "c3729725d1fa4bb1a1e68cf9092f5a55fe54a6f9c2d8cc0c63f77a6f7de3c80e",
+    "manual/data/brownian/brownian_sample_track.csv": "96280533fb6c26a13b1914dbd939919234754ec3da94b6a2b0d720a668cb59d3",
+    "manual/data/brownian/displacement_q_counts.csv": "0d02e4bc951ee26100943dc788618f67e32f420e3295ab32ad9cb3d14c80556c",
+    "manual/data/brownian/integer_motion_ratios.csv": "f5757760602671566117af80c84b1cff3bb5995442f7397011abc01751313fd9",
+    "manual/data/brownian/octant_delta3.csv": "46af0e42928b9250de099bfb5f638984f07f2e0ad3c6d9d10cdf81f01c7df878",
+    "manual/data/brownian/phase_cycle_delta3.csv": "768395563ac52c766c3967d0288f239ab7c8ef0833c4ccf66187fec659b41a21",
+    "manual/data/cell_measures/cells_geometry.json": "f941856c7bc86356bdb461e44ecaa34ae399597e7abb76ed61178b20b8232ef0",
+    "manual/data/dec/dec_hinge_slide_example.csv": "36060f271ee910faae2a62400f060462c33ede68cd25dfd73b6ff3a7ac0b8271",
+    "manual/data/dec/dec_one_node_ledger_example.csv": "d4278a3212709e28e44553e624883f36e64891ad017ee0e2beec37c5043121e6",
+    "manual/data/dec/field_tunnelling_hinge_slide_window_clip.csv": "c736065782521b55b6817c995faed6e7aba2bd2c03424125eeae38d7bcaeb847",
+    "manual/data/dec/tau_missing_burden_exact_ratio_patch.csv": "ee90703644a41d7568bb1f4ebaaa5ff56fa111df0a77ee96ba0f44c74137c1e1",
+    "manual/data/derived/sparc_declaration_controls.csv": "e16ef11585c814112e6f19f4cbabee1b5442f6bd1981f9d3d9f70cc76f7afd12",
+    "manual/data/derived/sparc_five_galaxy_per_bin.csv": "2ceec667b927d9cc6e1c65ae0980dadfdbb0ca4a0497bbd2fdc8999314b7e2e4",
+    "manual/data/derived/sparc_five_galaxy_per_galaxy.csv": "26f0ddb4560d86639386c7ee2ceca9b1e4cb5dcb92d8940c00cf48b3b080f621",
+    "manual/data/derived/sparc_summary_table.tex": "977b15cff45f44da60dac01a95507ded32eacb7f814278ae4f2cf4657412642b",
+    "manual/data/derived/tau_declaration_controls.csv": "d1769dd1161a4f12f0be0bd7916f89c708f429560ba2fedbb2ecfd7c24ea5cab",
+    "manual/data/derived/tau_ring_diagnostic.csv": "c15898ce88098fbe4086f45f43d9e7323c26d36a863fe2da52ea19edb84a15bd",
+    "manual/data/experimental_comparison/experimental_input_comparison.json": "4fb7bfdcbad9dde5e17ea7b659605347f6c923bbcc5397762fc8621cf94219ae",
+    "manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv": "a87e3e915367fe044ddd703d12f4a94f4ad61c509a3d312f91ebf5015c075a2b",
+    "manual/data/higgs/higgs_external_map_after_candidate_freeze.csv": "18403c7ad4344b278fcc9f9c2d35e5f609c41e5daf100267846cd24be94a225f",
+    "manual/data/higgs/higgs_trace_internal_candidates_selection.csv": "462885db9b133fde44c9cd887da1be427da0595462336ae41eabd7755e585bf5",
+    "manual/data/higgs/higgs_trace_score_formula.md": "e10b4c80ae531c9ab716d5f789f19df8c2e209561215f763c4a49a07d8223d83",
+    "manual/data/higgs/yro_aliases_and_renames.csv": "02f964314f30405de624080b14da3e4e9b5b24732d3c05b335e470f0d19c79e5",
+    "manual/data/historical_metrology/historical_target/manual2/data/m1/bipm/raw/ClockOutputCovData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat": "97dba2e5e678bb8a0b9ae72162a9cbeb20b4c42fa40bd4b81266692910bc5ddf",
+    "manual/data/historical_metrology/historical_target/manual2/data/m1/bipm/raw/ClockOutputData2025_mod_basis_n=153_TAI_05092025_ExpandUncV1_AdHocCorrV2_2.dat": "d4f8dd6961e6044812563a1bdccd81b1e4e1031606c05184f1dffc14830fc94e",
+    "manual/data/historical_metrology/historical_target/manual2/scripts/matter1_bipm.py": "aff1e0fbca46ecfaf3654de0b18263063d0fd4ea59b9f7b8ea664255d6c724f9",
+    "manual/data/historical_metrology/historical_target/manual2/scripts/matter1_metrology.py": "591e64cf77e266762c723ec6cfca5c82510134445fa4f3c7941ff72539464062",
+    "manual/data/historical_metrology/historical_target/sections/06_wave_state_relational_time.tex": "bbe6e0b7917940a6320b79be467ffbe8591ca1ec7b8aa0ffe1626cee320de2bb",
+    "manual/data/historical_metrology/original-output.json": "5f5e7c889f751fe413168f66f6a6ce6c9624757f72b4551245b720d84ca22487",
+    "manual/data/historical_metrology/prior_mapping_error.json": "a915a6a46c30a40225c75ffbb6974e974c7afaf185d0ada51c85c2639a2308a4",
+    "manual/data/historical_metrology/probe_metrology_edges.py": "685f4b2b077d2cde88f2e275800e088d156ed006aa82b648608743d3b670582e",
+    "manual/data/historical_metrology/source_bindings.json": "4a2d545cb0b7cef68357c926b95bf676f7f3458cbc9b5e4b3e168562c6cd6463",
+    "manual/data/lensing/k4_3d_timeflow_input_gate.csv": "0bd0f3422b4f66a9547898d56486372ce0458fff5c9a907a5ceee945493e21b6",
+    "manual/data/lensing/k4_3d_timeflow_input_gate_table.tex": "b972211294ba5e7205a2e258b3d1e6ab1b9e3126861e540c624aa0735e779e05",
+    "manual/data/lensing/sparc5_lensing_class_tallies.csv": "3256c12827e38bde89691303c467e3f19401b7caf5b37501f6388dd73bf2f5a2",
+    "manual/data/lensing/sparc5_medium_diagnostic_summary.csv": "678e38efdf95445722acc661c420fdd863bfab756e56357360cb2fd70aa1807f",
+    "manual/data/lensing/sparc5_medium_diagnostic_summary_table.tex": "eaebd5869923a9e825c323c3364e4c9bed46de889294bb11742fc1d1ec03f61b",
+    "manual/data/lensing/swells_k0_target_tallies_delta3_acquisition.csv": "1785bef29b2abf3d466b533d9dbeb9a71cffaa54ea2da05a0964d7afe2164291",
+    "manual/data/lensing/swells_k0_target_tallies_table.tex": "9d489a2b33b54017434fafefa57ab9804b43a507245cca7fc9451c47e8dc4c6b",
+    "manual/data/lensing/swells_k1_k2_k3_comparison_table.tex": "813626c32c9a3dda9327884965c5aeae7da05b1118f2bddab87d72413bde9573",
+    "manual/data/lensing/swells_k1_k2_k3_delta3_comparison.csv": "10af49ec35953722e275cbf22bb94fd56dcf4e8535251ddd38b8b00a3ab7790d",
+    "manual/data/lensing/swells_k1_thetaE_delta3_scores.csv": "ae1081cdd1834c92d40c87f689a564fbece85db2f1470b0494074afc5a21c65d",
+    "manual/data/lensing/toy1_delta3_class_tallies.csv": "e6c21ebc81511ea7dbc6d1d2a94e4f483350016854422756f121e528d9b4c983",
+    "manual/data/lensing/toy1_verification_checks.csv": "eb9065222a9efbc6dbd0edecd0d19b551a044cc5efec58fdca3a648eea3f7c28",
+    "manual/data/mapping_error/mapping_error.json": "70b73da7fc198ab4172c59b73c5e6e0d058a65063071a7353365dcb4537e1ace",
+    "manual/data/native_closure_wave/closure_phase_reclosure.csv": "a958f0caba18c4dfe9b71e2c1aea8df3ab54e47fab23b1a7019470ddcf22ed69",
+    "manual/data/native_closure_wave/h1_composite_paths.csv": "71bce7160edd7100a0b2a9da3172637a4e4e9544cf8289a689199de0b35cf457",
+    "manual/data/native_closure_wave/harmonic_reconstruction.csv": "cfe53a31c2d1c13f187bbba80e4ad7861f36027d052741d6a09bcd8dd39517f7",
+    "manual/data/native_closure_wave/motif_fold_fusion.csv": "c5c77ede4d7a4178d52678e20c246a1b8cb50eeb99d4036d08375d28c2f3e3cd",
+    "manual/data/native_closure_wave/relational_time_coupling.csv": "64fe791a91a9c9e7a30360db82514e98a0678b4a6bdba2a396bb37e078137b9c",
+    "manual/data/run_tumble/run_tumble_integer_motion_ratios.csv": "89a2da2d6223a2e12923a2eab3903bd48ea87534c1ca9c02766b74cb3e2f4b26",
+    "manual/data/run_tumble/run_tumble_octant_delta3.csv": "eb7fff97653233a68c01ad7551477f6d7239ae47d48ff82ac00b236202089568",
+    "manual/data/run_tumble/run_tumble_phase_cycle_delta3.csv": "19ec7d8e75b916b8bdbf610c439ced726b756b9ab93da8045b65abf2ef4b7009",
+    "manual/data/run_tumble/run_tumble_trace_20_ticks.csv": "67fe77c99d57a0de0841ac5f023ae2443a422257963b1ff6b8b0728a147f20b7",
+    "manual/data/run_tumble/run_tumble_trace_table.tex": "f942b7f23a3e988014c311c9e2cc55ab51ef81261ec43ab0d7210d8b7a862921",
+    "manual/data/sparc/DDO154_rotmod.dat": "2458c2c392ab2314abc92725b7d0ccee22d9b666a15377e13a1c69d5f5d67ac7",
+    "manual/data/sparc/NGC2403_rotmod.dat": "9be193eccc5c363e74d04270290d831738f41ec9225a3b2c95353fd3812170b8",
+    "manual/data/sparc/NGC2841_rotmod.dat": "3182e398c3325cb7d43dcda432e150e55a06be8d74b2e95fd92e094e291b4e5f",
+    "manual/data/sparc/NGC3198_rotmod.dat": "17b774ad11e7dd745a067073b76f1909d4de32fa87616df12b64da3f225cf953",
+    "manual/data/sparc/NGC6503_rotmod.dat": "82015340fa6465db44e6375cf3a7745d49d916dca21a56fbcbe758809e66e27c",
+    "manual/data/tau/aod_tau_fractal_ring_baseline_compatible.csv": "b6fdf97b8998381c81ce850278aebf7382fd9ece79f181a80db814e516a83d35",
+    "manual/data/tau/aod_tau_fractal_ring_comparison.csv": "cc022faec55a0dc1863cfa123f0b8a5d9599415b0cca62b6929ff9c8fff5b74a",
+    "manual/data/tau/aod_tau_fractal_ring_primary_lane_audit.csv": "f045f9bc16e71b8d9531c6fd39632fb1653f9483496b4d8079738b56799dfba8",
+    "manual/data/tau/aod_tau_fractal_ring_summary.csv": "7aceb1d12cf39bbabf0153d10ab35d0307be6be6c4258ea4231acd2fe05f066b",
+    "manual/data/tau/aod_tau_fractal_ring_top_cells.csv": "8baedf575d8c435f4f4a58c0c69a5c5af0c89e78c7ba2fec07fd316afb2440f2",
+    "manual/data/tau/aod_tau_fractal_ring_verification.csv": "aa5149ccc0a31189ba83d7126fed892b0f95161ef4d739329e0c3585a9a8ad01",
+    "manual/data/temporal_anchor/cases/baseline.json.gz": "b1009ba8cf39597bf3492a3fa39d400d1f1944fa2a5e3e3051b4d36901c4a787",
+    "manual/data/temporal_anchor/cases/compared_population.json.gz": "025246435f1397079babe9feb00ac5c31e308d975baa3cbe1d53b9ee2a54c090",
+    "manual/data/temporal_anchor/cases/reference_exposure.json.gz": "38a8a86aa76caa4abf5fd92e43881b19592691c263c6d8e1a55085544dc19c0b",
+    "manual/data/temporal_anchor/cases/second_support_pair.json.gz": "0fe8da4c2057763a9969e1be9f9f82efa595f43a72733a0384dbd3afe6664d9d",
+    "manual/data/temporal_anchor/inputs.json": "ba2b90c2071701858b7d9817a9fda87c9ebe7b6761c0827eb038fd3f5f23f0af",
+    "manual/data/temporal_anchor/report.json": "fc44bd8f447a8bb1a7431692dcef972a546c67200496f3fa603e1c6f12aef657",
+    "manual/data/temporal_anchor/source/baseline/input/MODEL.json": "66fcc89044bf8d33515b6bac8d11a491f24ee368fc4c126cea2ff677349ebdbd",
+    "manual/data/temporal_anchor/source/baseline/input/PREDECESSOR_BINDING.json": "0d362e36541ffb87dbdeb0edbfcee77e7d1e961969827ccd9c0e5602e5c6d4af",
+    "manual/data/temporal_anchor/source/baseline/input/PREDECESSOR_MODEL.json": "312ec9ccd5a51af7bdcdebdfdf2c287695a15803b1d00f0ee8820170dec94b8a",
+    "manual/data/temporal_anchor/source/baseline/input/SOURCE_BINDING.json": "f1d97c9024c0fcd5f6c989f41b577c2344c8f2da5d4866a204d5c96a38959ea4",
+    "manual/data/temporal_anchor/source/baseline/input/common_reference.py": "27cfadcf19e33cfa9d2ba3ebaec1525fd3d52f333b54992870c47a57cbcadcb4",
+    "manual/data/temporal_anchor/source/baseline/input/pair_trial.py": "9eb4f51855c329f1ffbe61da6d398597d832fbc834d1a1f75c059899560df1bb",
+    "manual/data/temporal_anchor/source/baseline/input/population.py": "240a517cad639beb4afc919ef77b7ea973e4d7960092c4325d092c3e3cdf631f",
+    "manual/data/temporal_anchor/source/baseline/input/results/background_only.couplings.json.gz": "ef2e4120acb778d59b09a1b04a674bdce4344754398c9e0277bd82820f3d8bb2",
+    "manual/data/temporal_anchor/source/baseline/input/results/background_only.histories.json.gz": "b6fa2ef30ee46b015ee1d1768ea5d527e43e880abc0aef66120910396ac895a1",
+    "manual/data/temporal_anchor/source/baseline/input/results/background_only.summary.json": "968b341202458471e1ad80878ed51d9fde8938070108208507399c33d6b0f150",
+    "manual/data/temporal_anchor/source/baseline/input/results/direct_pair.couplings.json.gz": "89c3c0108ba31f6fdc1e0b6d3fe0c77593c3bbb15ecfb1d309e6f47914594f88",
+    "manual/data/temporal_anchor/source/baseline/input/results/direct_pair.histories.json.gz": "55e021fe0724b9e78d715cc0494733f527c5f4efcc7ce60241a2e298d7ac09ee",
+    "manual/data/temporal_anchor/source/baseline/input/results/direct_pair.summary.json": "6ab3d6df7649104fbe6e82f115f3c30cf5d3f0ca495a368e6026c4a409909a0f",
+    "manual/data/temporal_anchor/source/baseline/input/results/recorded_only.couplings.json.gz": "55214555f92b61fe0ead3606a5f30aacd5418a68583566d581736d4541449a24",
+    "manual/data/temporal_anchor/source/baseline/input/results/recorded_only.histories.json.gz": "b6fa2ef30ee46b015ee1d1768ea5d527e43e880abc0aef66120910396ac895a1",
+    "manual/data/temporal_anchor/source/baseline/input/results/recorded_only.summary.json": "3bc658b2d2cc508ae844ac7e4f8ed0aaede1cab2f41ea9775cd1ebddc7c9869e",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/LICENSE": "bcaee0778a5a742463fae8d3bf66d1dfc37d45b2a92962ad415b730b310d5bf7",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/appendices/H_combinatorics_rd_tests.tex": "8ba9c388162d31e5a5b3a86b8818a958b909b537bfa13fb807123d564d61adf7",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/manual/scripts/aod_m3_temporal.py": "38c3cd6207dcae2b66074a5d68147ca45dde0845cb84d0109ac8b6345de3d393",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/manual/scripts/aod_mapping_error.py": "b1d414e32819d3a601834883e112634bdffd7df82d742de9ede5580c96e620fc",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/manual/scripts/aod_native_closure_wave.py": "3ba98c7097bc104aeb6218265b8531f94f2ca5a35239d0df097aba096675dfdf",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/sections/05_curl_closure_duon_current.tex": "6e58c2213d8a11e288915d47d90965787aba148caa3d8f3bc065739216cf00e4",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/sections/06_field.tex": "79e16685826aee15273fbcddc0a59d5f14f75dbf3671e43ae261fcd6fc9acf70",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/sections/06_wave_state_relational_time.tex": "bbd265de629de74ae43be75ff5146406b5dda80c380bf02507725a98d233404d",
+    "manual/data/temporal_anchor/source/baseline/results/window_records.json": "27f8725865c1ac142be2cc9e706d3bd4963612431fb787dcfb1ac437085eac9b",
+    "manual/data/temporal_anchor/source/baseline/si_bridge.py": "86b5f0e04d49e7d86fd5ad329ff77dabdc0c22a95d2f1a36f3ae06ae3fde4284",
+    "manual/data/temporal_anchor/source/results/admitted_validation.json": "c2d8e9317138721ad94c45d3db111e4844a18a9da554610064d1c67c01883a99",
+    "manual/data/temporal_anchor/source/results/endpoint_perturbations.json": "e1ffe798af1f5f77e017a360c0277802eb4c35e71a70d78e92f7ec8bf66a9d46",
+    "manual/data/temporal_anchor/source/results/report.json": "168b0cd97f2e9d10737534f829e7c3ee3cfe9cad27b8149e537774fa68ea7527",
+    "manual/data/temporal_anchor/source/results/rolling_count_windows.json": "4f3361db42c343a34eabfd6e5551b1477017b062e3acf06b7d4b6516b9f8a40a",
+    "manual/data/temporal_anchor/source_members.json": "7d861b14748173f50a0e3f6ec2c96ab4af93aab5db1b3afb421cccdc7c576977",
+    "manual/data/temporal_metrology/cesium/notes.md": "99d12d78e94a10cc4238aede61c557a0928f32fe1e996106f18346651a63e6e1",
+    "manual/data/temporal_metrology/cesium/protocol.json": "0de1e3b3dd57eafd5fa0cfd590e32dcc92ace51c140e3127cd68079e4effa34d",
+    "manual/data/temporal_metrology/cesium/source/heavner2014.pdf": "85482447888dc5524b7ebf3754ea4fdcde3a80d9c36ae927e5d69d9e9f980eb5",
+    "manual/data/temporal_metrology/cesium/source/source_receipt.json": "43fec317110ec9c033a7da5b3858af15e70132fc1e6af480cbe6bc27182c9298",
+    "manual/data/temporal_metrology/exact_fixtures.json": "27d0f802b8fdd445624211aa334d33b6600f812f2d4547680cefa142dcbbff87",
+    "manual/data/temporal_metrology/hydrogen/notes.md": "d68b4fc1b488cec58bfc1c9b89ff9a3c990e1acf4a1af50573b0e65c57d5e521",
+    "manual/data/temporal_metrology/hydrogen/protocol.json": "a23711aff19ee6e2e3952b2d43730580c5c96446fd70fae05e37380ecc8e337c",
+    "manual/data/temporal_metrology/hydrogen/reported_uncertainty.json": "71e2bf4c2891b28f1076fcc9e2b7266943cc330be394585172ed264119a38560",
+    "manual/data/temporal_metrology/hydrogen/source/hellwig1970.pdf": "e8bba435fbb9e6b54f41fa1d60f9c02df8e06b6a73ce8fab323afb3ea7d02dc4",
+    "manual/data/temporal_metrology/hydrogen/source/source_receipt.json": "397f81e68f5bfa57db0cee5abbf4c2dea5dec6cbc000c99b623e0ef361750bf7",
+    "manual/data/temporal_metrology/report.json": "a80bd8381effc6be03c516cb6f9ba22cd769a803589fd4c1f11cdcdf57f3cada",
+    "manual/data/temporal_observation/temporal.json": "fbb2c38c1bb2ad7151a4d261ba975799a1aa2657716594f439d7d895dfc09554",
+    "manual/figures/brownian_phase_delta3_wireframe.png": "436b288118627da6d6bb9b82f2196e04072d816fbb85579684e7abb791c21e7a",
+    "manual/figures/coordinate_phase_delta3_wireframe.png": "b3ae1f69dc01631d6d67fac8ec67e5d34b6e3ca1d974144c5240752a47d0d953",
+    "manual/figures/double_slit_cross_return_setup.png": "a3fb47d9bfbfa8174282e8229c331efc6c034392cc7c5d77f72d48879d43eddc",
+    "manual/figures/double_slit_reclosure_fixture.png": "998892233c9ff3ac2bcbbf87bf67d2f61db14ed4214b8895977c8b359ee08504",
+    "manual/figures/higgs/higgs_mass_comparison.png": "a801efba81e384ca0e1a09bb0b443368f195096414f91678e3f869bf7eba3b54",
+    "manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png": "54fd6d25942d8e671b6ead0517a4f8c94194022d1fe470d863d8c1c75e5ce9ba",
+    "manual/figures/higgs/higgs_yro_saddle_signature.png": "2e1419b70144491b962b0e328e31700a6652ca2f948647cf08e5e9ce0ce0f288",
+    "manual/figures/lensing/00_corrected_spine_equations.png": "7f1ff2bbbfa5d764dcb960c6a7826fb2d0bd175933925b6e3f942f204237a809",
+    "manual/figures/lensing/01_toy1_delta3_class_tallies.png": "115908e2576dbb52deb53f420e85c2d9212d027eacb49b3ac2c25f83be067cb3",
+    "manual/figures/lensing/02_frg_value_identity_delta3.png": "09c68be4dfaa270c81a49e575ae5934f069946f53d4d3eb66811e4c344238ba8",
+    "manual/figures/lensing/03_sparc5_lens_medium_phase_proxy.png": "c716f30bc2f84129891ee5ced4c6553a7f437530a8c1346d4f830907e2e767a1",
+    "manual/figures/lensing/04_sparc5_class_tally_heatmap.png": "0abd311f29096328e499f52ce6fbb51995d2641bc92ad34039f8bdc98c00772b",
+    "manual/figures/lensing/05_swells_k_comparison_delta3.png": "444b91e394289d453c4a7bfbed3a596e0d804b050f284403deb549ff022b0f95",
+    "manual/figures/lensing/06_swells_k1_thetaE_delta3_tallies.png": "fb5cfa962466722252b7e30cf1ed842f26698cb8dfa42f40a77f09903e8b97d1",
+    "manual/figures/lensing/07_k4_3d_timeflow_input_gate.png": "84d06ac8c62c626f653e68bfb045eccb32914bf49e20bdd0a656ee40688179d5",
+    "manual/figures/lensing/08_target_quarantine.png": "8dd4a633807d0d13efedd3cec302fc931d8643be0cf3f7031d76dc6091f5b97f",
+    "manual/figures/lensing/09_staged_lensing_lane.png": "ccfd26c58ca326048620e32cd88abf53ab3c9b9ba2cee61b465bfa718f7b260f",
+    "manual/figures/lensing/10_lensing_calculation_spine.png": "6fd82b24252cded79270931a6f8bc295651b28cd1623385e5f5b7083323870d4",
+    "manual/figures/run_tumble_trace_3d_projection.png": "249355364c3ac29213afeba6dd61dd87f0e23414b16a443d1e02d715e3953c3d",
+    "manual/figures/solar_calculated_vs_target.png": "2df323ecf99dbcf828a318259dffbfeb043eb0ae1364afb30701fd679b6dddf3",
+    "manual/figures/solar_percent_error.png": "40e1aba659d280aebd4e6ff65df4e4774e13413eab2dc8b519e44affe714cae5",
+    "manual/figures/sparc_declaration_controls.png": "dbaf9c68c9f3ff6c2840315c6a77d402a4e20a53bf793e0a0f82fd97599ebf4a",
+    "manual/figures/sparc_display_speed_view.png": "c1847fa3fb6f92059e7d268ca018dd50d8c815771c9f191e580cf5dff9620957",
+    "manual/figures/sparc_square_speed_comparison.png": "fbd8b3a9371a82c54dd65fec942832eaae1971fb78390ac325642d022fc1baf7",
+    "manual/figures/sparc_square_speed_residuals.png": "849eb1637c57a7cf44599249b4316a6c1bde0a5eae6506202ab21b2e775974a2",
+    "manual/figures/tau_declaration_controls.png": "2079c070499370107b74db1dabb414e3dfae79e72c8fd0f22f0912002a81fcc8",
+    "manual/figures/tau_missing_burden_diagnostic.png": "35ef395570960b9da44708408fdcc1cfc058e5cbbea35d5ecb1aa32b44b4a123",
+    "manual/figures/tau_ring_support_score.png": "767f7700eaec07048f499a850876f177b8eb61b55709c718235132cec0b53852",
+    "manual/figures/tau_sensor_wall_setup_and_boundary_chain.png": "f4a6abf88ce16269feeafcf6a605c625470e9085120b9717a6c288b150b273a0",
+    "manual/figures/tau_sensor_wall_setup_and_boundary_stack.png": "6e17711df76c860b7bf3631b3630683771a2f4557830911f0af8019c182126dd",
+    "manual/figures/tau_support_residuals.png": "b8dda0b3fa4576d56ee892bc021b48ea99ba16847c0124ac39726241632c9de2",
+    "manual/main.tex": "d8791ecfb6a95c60f8585b68094cb55704535dcc01e1f92cb5f64f07aab96de9",
+    "manual/preamble.tex": "3f9700a9ed234b7402fae87d5de11f7d246e0e3d01d62b2c5e1ca0f43e19a3f1",
+    "manual/refs.bib": "d24b4ad81f50a9d343d4e2420ae56c169a0b10352a5b553867044e8944ad5afc",
+    "manual/sections/00_awareness_fixtures.tex": "e2df403490df0f1b3d940c39d37436b8267281034b6f7adcc15808c572859e33",
+    "manual/sections/00_dec_ledger.tex": "934828daf766319e71eda3c4b89411b9a53dfc59d9d6774debbc7aa0657d3277",
+    "manual/sections/00_native_closure_wave_temporal_fixtures.tex": "7ef27143a761dda2461cd225fffe818772d4f63a4777b37198dae55ff7676f66",
+    "manual/sections/00_scope.tex": "8e5d10ce8eee0afab0be9e32458408d67cd0facd52ef4a3fc209d7cbbb269b09",
+    "manual/sections/01_cell_measures.tex": "13093b765131abf4bfb74e5333777f93ecb9a19ff9ca349d01a15471c71af24d",
+    "manual/sections/01_rest_energy_prediction.tex": "40e6af142bfca8d4d97f8f48c50337f7c7d0099954d4e349dea09a9a76c40469",
+    "manual/sections/02_hydrogen_facing_shell_tests.tex": "e1fd2981fcd3030da2d64aa976339389ec890818092153ef4c3b34f5c2bd586e",
+    "manual/sections/02_mapping_error.tex": "baf71f4d4d17b5504e5d973a9579ad8b8f3005b283fcfbf41aad12a5d82a66e1",
+    "manual/sections/03_short_window_rcd_shedding_fixtures.tex": "bf5ee4dc041b0fdc163a023761c46efbab5a95848e73b3f7be73d827e56d4fe4",
+    "manual/sections/03_temporal_observation.tex": "108647cd1111432bc7c6f00c331de22663bc9b5db90eeed56c3906f45b4e5e1d",
+    "manual/sections/04_boundary_current_applications.tex": "6d517127cb599c502cbeb06deed09451495e4a824f2c93eaaa5a7076a72c37b6",
+    "manual/sections/05_solar_system_field_tests.tex": "2a98a1bbc46c8721812da6a1c6e1b78fd2f961124d768e0563d8b3699e0a552b",
+    "manual/sections/06_field_dynamics_applications.tex": "45b7316cb3e49a14f4dc62ac664a82114c2273438ffafd27aa3c5b302d6acb04",
+    "manual/sections/07_galactic_lensing_plan.tex": "4182272f192968d934de308ff3aad7939ab0c9b479b7d2c66999687154157ee8",
+    "manual/sections/09_prediction_test_fixture_registry.tex": "60ad7f188f2a6a1c43fda9e589f942c9dcda04543383217fb9225a671baed08e",
+    "preamble.tex": "a2c8c0b3dbc6eddc6f78dba4791236ce3ab89c5ad264d5975126d33db6ecfca8",
+    "refs.bib": "39b6167100ce5c31c544ec65fdb6901f6abe44628fb44ad12eb448c396d7d8e9",
+    "sections/00_title.tex": "c86e23a01c95c43c2cb3603afc2d3c574d36f44360da626ebe86f734ad4ce4d4",
+    "sections/01_abstract.tex": "a42ebe256def1106badff156f495206d39fe32a984b97e9fe2ed07ba12c1803c",
+    "sections/03_afc_basis.tex": "d5b648c0c74afe8c34a344d5069e78b5be5d9a98851ce1abcc6c0f9d1df8c6d3",
+    "sections/04_cut_running_fractal_tesseract.tex": "c225ae8fcc8b93a805533dff18c1a66d2c81e17f10e91b7f0efe9e7037bedfd2",
+    "sections/05_curl_closure_duon_current.tex": "db5d3097aa17ce890e1ef5a09e527ce86109715add344f54139eeea3c36f28a9",
+    "sections/06_field.tex": "8cfc96e46d7492bfec4687b6fa77495b5fbca054474d103b78348cebe022d802",
+    "sections/06_wave_state_relational_time.tex": "a0db3c5c2d3c51c117efe6e7c5a139bc757839d508bfa981c773fdd3d7061917",
+    "sections/07_cell_measures_mappings.tex": "d1d8d44ada5516da9f6081dc90c565f5151c35d8bbbcdd9e74602c740f17b60c",
+    "sections/08_awareness_learning_mindfulness.tex": "310b4860c1710b8191725d9c40ff1fc05bd45a7ed818f0891e1fbd8fa58feae1",
+    "wavelet_shedding_simulation.csv": "d7b0592997d47b2b550508d663afe8943a98ba9d58d087ce77e9d4d0a0c3ff40",
+    "wavelet_shedding_summary.tex": "d3002ffc387f1a1ce595f25990c2ee9e86612e58821f514ea3e6f098576fb01e"
+  },
+  "historical_tex_snapshots_excluded": [
+    "manual/data/historical_metrology/historical_target/sections/06_wave_state_relational_time.tex",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/appendices/H_combinatorics_rd_tests.tex",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/sections/05_curl_closure_duon_current.tex",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/sections/06_field.tex",
+    "manual/data/temporal_anchor/source/baseline/input/upstream/sections/06_wave_state_relational_time.tex"
+  ],
+  "immutable_table_counterparts": [
+    {
+      "tex_source": "manual/data/run_tumble/run_tumble_trace_table.tex",
+      "typst_target": "typst/manual/tables/run_tumble_trace_table.typ"
+    },
+    {
+      "tex_source": "manual/data/derived/sparc_summary_table.tex",
+      "typst_target": "typst/manual/tables/sparc_summary_table.typ"
+    },
+    {
+      "tex_source": "manual/data/lensing/sparc5_medium_diagnostic_summary_table.tex",
+      "typst_target": "typst/manual/tables/sparc5_medium_diagnostic_summary_table.typ"
+    },
+    {
+      "tex_source": "manual/data/lensing/swells_k0_target_tallies_table.tex",
+      "typst_target": "typst/manual/tables/swells_k0_target_tallies_table.typ"
+    },
+    {
+      "tex_source": "manual/data/lensing/swells_k1_k2_k3_comparison_table.tex",
+      "typst_target": "typst/manual/tables/swells_k1_k2_k3_comparison_table.typ"
+    },
+    {
+      "tex_source": "manual/data/lensing/k4_3d_timeflow_input_gate_table.tex",
+      "typst_target": "typst/manual/tables/k4_3d_timeflow_input_gate_table.typ"
+    }
+  ],
+  "parent_m4_commit": "83188dc9dc5f2897f194ca0b60fc7986f0c61054",
+  "parent_m4_tree": "8082676a4a8b331eec89275b7b59f8c4f179ade5",
+  "schema": "aod.typst.manifest.v1",
+  "scientific_baseline_commit": "98ddfa0ebb38293adfa99c8c11da5a15cdd9eea3",
+  "scientific_baseline_tree": "b4a667e3809e4a145580686d439811834b936343",
+  "shared_library_files": [
+    "typst/lib/aod_schema.typ",
+    "typst/lib/main_registry.json"
+  ],
+  "unincluded_repo_tex_files": [
+    "wavelet_shedding_summary.tex"
+  ]
+}
