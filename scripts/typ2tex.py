@@ -545,7 +545,7 @@ MATH_FUNCS = frozenset({
 
 
 def _join_math_tokens(tokens: list[str]) -> str:
-    """Join LaTeX math fragments safely so macro names never glue to letters."""
+    """Join LaTeX math fragments safely so macro names never glue to letters and numeric units keep thin spacing."""
     if not tokens:
         return ""
     out: list[str] = [tokens[0]]
@@ -553,7 +553,10 @@ def _join_math_tokens(tokens: list[str]) -> str:
         if not tok:
             continue
         prev = out[-1]
-        if prev and re.search(r"\\[A-Za-z]+$", prev) and re.match(r"^[A-Za-z]", tok):
+        m_rm = re.match(r"^\\mathrm\{([A-Za-z][A-Za-z/]+)\}", tok)
+        if m_rm and prev and (re.search(r"\d$", prev) or re.search(r"\d\^\{[^}]+\}$", prev)):
+            out.append(r"\," + tok)
+        elif prev and re.search(r"\\[A-Za-z]+$", prev) and re.match(r"^[A-Za-z]", tok):
             out.append(" " + tok)
         else:
             out.append(tok)
@@ -1786,8 +1789,15 @@ class TypstToLatexConverter:
                 )
                 continue
 
-            # Block-level #... construct
-            if text[i] == "#":
+            # Block-level #... construct (inline calls like #raw/#secref stay in prose paragraphs)
+            _block_hash = (
+                r"#(?:aod-definition|aod-provenance|aod-literature-note|aod-remark|"
+                r"aod-noteblock|aod-paragraph|aod-anchor|aod-panel|aod-boxed|"
+                r"aod-uncaptioned-longtable|aod-start-appendix|aod-render-bibliography|"
+                r"figure|math\.equation|tagged-eq|align|block|pad|page|pagebreak|"
+                r"outline|include|import|show|set|counter|v|\{)"
+            )
+            if text[i] == "#" and re.match(_block_hash, text[i:]):
                 frag, nxt = self._convert_hash(text, i)
                 if frag:
                     out.append(frag)
@@ -1811,11 +1821,11 @@ class TypstToLatexConverter:
                 if text[i] == "\n":
                     if i + 1 < n and text[i + 1] == "\n":
                         break
-                    nxt_line = text[i + 1 :]
+                    nxt_line = text[i + 1 :].lstrip(" \t")
                     if (
                         nxt_line.startswith(("- ", "+ "))
                         or re.match(r"=+\s", nxt_line)
-                        or re.match(r"#(?:aod-definition|aod-provenance|aod-literature-note|aod-remark|aod-noteblock|aod-paragraph|aod-anchor|aod-panel|aod-boxed|aod-uncaptioned-longtable|aod-start-appendix|aod-render-bibliography|figure|math\.equation|tagged-eq|align|block|pad|page|pagebreak|outline|include|import|show|set|counter|\{)", nxt_line)
+                        or re.match(_block_hash, nxt_line)
                         or re.match(r"\$ ", nxt_line)
                     ):
                         break
@@ -1835,8 +1845,8 @@ class TypstToLatexConverter:
                         i = p
                         continue
                 i += 1
-            chunk = text[para_start:i]
-            if chunk.strip():
+            chunk = text[para_start:i].strip()
+            if chunk:
                 out.append(self.convert_inline(chunk))
 
         result = "".join(out).strip() + "\n"

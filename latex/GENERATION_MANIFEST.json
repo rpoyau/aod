@@ -2,7 +2,7 @@
   "schema": "aod.typ2tex.manifest.v1",
   "generator": "scripts/typ2tex.py",
   "generator_version": "1.0.0",
-  "generator_sha256": "1d1c4c0f47a961b3b4f08f53116db830e1d7db1ed3c6780aa66aaeb3bce04ef4",
+  "generator_sha256": "1a88c74edc6f8b4fc6955384c4c7d79d5ff386e9e818c736d1f4aff923d12988",
   "figure_exporter_sha256": "a21219fc2936279c2025bd065bd3ba1e6f06f6d2918f824c99577d06e8d3193b",
   "figure_format": "pdf",
   "figure_ppi": null,
@@ -610,8 +610,8 @@
       "path": "manual/appendices/B_quarantined_external_comparison.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/appendices/B_quarantined_external_comparison.typ",
-      "sha256": "5208842883ad0e95bf630c3d8e825d725b8066aa0a1edc566ae72fa167ebd1c8",
-      "bytes": 8629
+      "sha256": "34f7262030a6646b4171b3fdb218b7e3ff6ea966a592fafa749a640b5e4ec4d3",
+      "bytes": 8641
     },
     {
       "path": "manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex",
@@ -652,8 +652,8 @@
       "path": "manual/data/lensing/swells_k1_k2_k3_comparison_table.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/tables/swells_k1_k2_k3_comparison_table.typ",
-      "sha256": "e2acd349f7e7017b7565981f6d011789384554aacc567be9ab66910b712016b2",
-      "bytes": 1111
+      "sha256": "e74917a98ce184c76332862c2e37996444a6aaa4e7752c4ef7ec78cc9c638747",
+      "bytes": 1114
     },
     {
       "path": "manual/data/run_tumble/run_tumble_trace_table.tex",
@@ -925,8 +925,8 @@
       "path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
-      "sha256": "0321ce0a87637367cb43f8b63dbc911a3a4fa11bf0747ff05f6613a869298fce",
-      "bytes": 18449
+      "sha256": "a1723afbdb5b1e90a8671e5f560d64350039e998a9135890fc4f9e250d82e5e5",
+      "bytes": 18450
     },
     {
       "path": "manual/sections/00_scope.tex",
@@ -939,15 +939,15 @@
       "path": "manual/sections/01_cell_measures.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/01_cell_measures.typ",
-      "sha256": "e21b2cc2c69880394532f94b1474f24cbdc18fa10ea324e6de7bd39b842100e4",
-      "bytes": 6144
+      "sha256": "dcaf41c79e9a24b308cb5a106c5af01fabcf525a416d23f111ee10554773c467",
+      "bytes": 6145
     },
     {
       "path": "manual/sections/01_rest_energy_prediction.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/01_rest_energy_prediction.typ",
-      "sha256": "1285fce7249886788244e2cc891c6d72a76c2d23f4974cef7bbf57d1dee74645",
-      "bytes": 18682
+      "sha256": "3140f86681b49d9c9b466fa8ec691e6d087f3e57f45103219e64c47b32943aba",
+      "bytes": 18692
     },
     {
       "path": "manual/sections/02_hydrogen_facing_shell_tests.tex",
@@ -974,8 +974,8 @@
       "path": "manual/sections/03_temporal_observation.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/03_temporal_observation.typ",
-      "sha256": "74937c78d8d3e61fd718412a6ce4bc98cf5fb1e884111570f9b9d4c6cc59c5bf",
-      "bytes": 21285
+      "sha256": "19a30529fac190eb46f2a7ad0d18ce2c6d5380d88a3f2f8996a0cc4cfa7816ad",
+      "bytes": 21286
     },
     {
       "path": "manual/sections/04_boundary_current_applications.tex",
@@ -988,8 +988,8 @@
       "path": "manual/sections/05_solar_system_field_tests.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/05_solar_system_field_tests.typ",
-      "sha256": "8dfcf1b977febc96340c40a110cd4ffe3baa39fa0e491ef9ccc11cdb98bb1e8a",
-      "bytes": 7583
+      "sha256": "9cd6ce91909d8eb65ef5ac2ec4401b6c7697d8b8441b45ff88cd31e73753d530",
+      "bytes": 7603
     },
     {
       "path": "manual/sections/06_field_dynamics_applications.tex",
@@ -1037,8 +1037,8 @@
       "path": "sections/01_abstract.tex",
       "kind": "rendered_tex",
       "source": "typst/sections/01_abstract.typ",
-      "sha256": "1b4650ed88a750e7dd263308cfa6e6b472bb9d354ce30973b8d9747e66c96a7f",
-      "bytes": 1098
+      "sha256": "6b8da93f157abf582c3d55825b26570b6826c06d7ed18e83ee1753f963f6aa66",
+      "bytes": 1099
     },
     {
       "path": "sections/03_afc_basis.tex",
@@ -1065,8 +1065,8 @@
       "path": "sections/06_field.tex",
       "kind": "rendered_tex",
       "source": "typst/sections/06_field.typ",
-      "sha256": "5fbc5a44167d57a8da3bc032a3d074eda6c0a81e0a9b16779d7bd569bc995740",
-      "bytes": 70065
+      "sha256": "2c2109b3462d6637545a3678dc6a00fa50009b0f53f8a9da4ba76c2b0bdc3142",
+      "bytes": 70069
     },
     {
       "path": "sections/06_wave_state_relational_time.tex",

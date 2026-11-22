@@ -3986,37 +3986,45 @@ def _verify_evaluated_and_rendered_impl(
             out.append(out[0].replace(" SADAR ", " S "))
         return out
 
-    def check_clauses_for(surf: str, cand_norm: str, cand_label: str, b_norm: str | None) -> dict:
+    def check_clauses_for(
+        surf: str, cand_norm: str, cand_label: str, b_norm: str | None, *, cap_repeated_headers: bool = False
+    ) -> dict:
         """Every source prose clause is verified against the baseline PDF (count parity) or,
         failing a baseline anchor, against the candidate rendering; others are reported."""
+        all_sents = [
+            (src_rel, sent)
+            for src_rel, clause in gate_b_info["_prose_clauses"][surf]
+            for sent in _split_sentence_clauses(clause)
+        ]
+        sent_src_counts = Counter(sent for _, sent in all_sents)
         total = anchored = typst_only = 0
         unverified: list[str] = []
-        for src_rel, clause in gate_b_info["_prose_clauses"][surf]:
-            for sent in _split_sentence_clauses(clause):
-                total += 1
-                variants = clause_variants(sent)
-                hit = None
-                if b_norm is not None:
-                    hit = next((v for v in variants if b_norm.count(v) >= 1), None)
-                if hit is not None:
-                    bc, tc = b_norm.count(hit), cand_norm.count(hit)
-                    require(
-                        tc >= bc,
-                        f"Rendered prose mismatch in {cand_label} (from {src_rel}): "
-                        f"clause {sent!r} count base={bc} vs candidate={tc}",
-                    )
-                    anchored += 1
-                    continue
-                if b_norm is None and any(w.lower() in SCIENTIFIC_QUALIFIERS for w in sent.split()):
-                    require(
-                        any(v in cand_norm for v in variants),
-                        f"Rendered prose clause missing in {cand_label} (possible #show rule mutation, "
-                        f"from {src_rel}): {sent!r}",
-                    )
-                if any(v in cand_norm for v in variants):
-                    typst_only += 1
-                else:
-                    unverified.append(f"{src_rel}: {sent[:120]}")
+        for src_rel, sent in all_sents:
+            total += 1
+            variants = clause_variants(sent)
+            hit = None
+            if b_norm is not None:
+                hit = next((v for v in variants if b_norm.count(v) >= 1), None)
+            if hit is not None:
+                bc, tc = b_norm.count(hit), cand_norm.count(hit)
+                expected_min = min(bc, sent_src_counts[sent]) if cap_repeated_headers else bc
+                require(
+                    tc >= expected_min,
+                    f"Rendered prose mismatch in {cand_label} (from {src_rel}): "
+                    f"clause {sent!r} count base={bc} (expected>={expected_min}) vs candidate={tc}",
+                )
+                anchored += 1
+                continue
+            if b_norm is None and any(w.lower() in SCIENTIFIC_QUALIFIERS for w in sent.split()):
+                require(
+                    any(v in cand_norm for v in variants),
+                    f"Rendered prose clause missing in {cand_label} (possible #show rule mutation, "
+                    f"from {src_rel}): {sent!r}",
+                )
+            if any(v in cand_norm for v in variants):
+                typst_only += 1
+            else:
+                unverified.append(f"{src_rel}: {sent[:120]}")
         return {
             "source_clauses_total": total,
             "baseline_anchored": anchored,
@@ -4331,7 +4339,9 @@ def _verify_evaluated_and_rendered_impl(
                 g_decs = sorted(re.findall(r"(?<![A-Za-z0-9_.])\d+\.\d+(?![A-Za-z0-9_.])", g_raw[:m_gref.start()] if m_gref else g_raw))
                 missing_decs = [d for d in set(b_decs) if g_decs.count(d) < b_decs.count(d)]
                 require(not missing_decs, f"Generated LaTeX {surf} rendered decimals missing vs baseline: {missing_decs[:15]}")
-                g_clause_report = check_clauses_for(surf, g_norm, f"latex/{surf}.pdf", base_norm_by_surf[surf])
+                g_clause_report = check_clauses_for(
+                    surf, g_norm, f"latex/{surf}.pdf", base_norm_by_surf[surf], cap_repeated_headers=True
+                )
                 entry.update({
                     "rendered_tables_matched": len(re.findall(r"\bTable\s+\d+\s*:", g_flat)),
                     "rendered_figures_matched": len(re.findall(r"\bFigure\s+\d+\s*:", g_flat)),
