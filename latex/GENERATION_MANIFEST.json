@@ -2,192 +2,122 @@
   "schema": "aod.typ2tex.manifest.v1",
   "generator": "scripts/typ2tex.py",
   "generator_version": "1.0.0",
-  "generator_sha256": "2fde27f30aeb43643f78520f353c67b3bdc71a44ddaff6c5e034d637e5fd9674",
-  "figure_exporter_sha256": "9b3cee67f8d032fcfefd0259fe2f856d13dcfbd1f022888d8eb5dbf2de82ff57",
+  "generator_sha256": "053b244c17ab913567b9aa6402183fab961411a2c7b0c5f3b7df62d8d60c47fc",
+  "figure_exporter_sha256": "0d04b7251886b620c912443147fb81850f494be968e5ab8edfd0ea550cbd3912",
   "figure_format": "pdf",
   "figure_ppi": null,
   "counts": {
-    "total_inputs": 89,
-    "total_outputs": 89,
+    "total_inputs": 111,
+    "total_outputs": 90,
     "by_kind": {
       "controlled_preamble": 2,
       "exported_diagram": 4,
-      "figure_manifest": 1,
+      "exported_vector_figure": 34,
+      "figure_manifest": 2,
       "rendered_tex": 46,
-      "staged_bib": 2,
-      "staged_raster": 34
+      "staged_bib": 2
     }
   },
   "inputs": [
     {
-      "path": "figures_jpg/curling_curl_layers.png",
-      "role": "shared_raster",
-      "sha256": "f9b7ff99375ae2a41bee2142b3b8d85d010841bae1537ab276cee9e72f73c3c4"
+      "path": "manual/data/brownian/brownian_sample_track.csv",
+      "role": "figure_data_csv",
+      "sha256": "96280533fb6c26a13b1914dbd939919234754ec3da94b6a2b0d720a668cb59d3"
     },
     {
-      "path": "figures_jpg/cycle_disturbance_shedding.png",
-      "role": "shared_raster",
-      "sha256": "64e5559ad3f2a6ed1d8933e328923634be8871367958d4723e2d293a6ef7c1be"
+      "path": "manual/data/brownian/octant_delta3.csv",
+      "role": "figure_data_csv",
+      "sha256": "46af0e42928b9250de099bfb5f638984f07f2e0ad3c6d9d10cdf81f01c7df878"
     },
     {
-      "path": "figures_jpg/cycle_disturbance_shedding_fixture.png",
-      "role": "shared_raster",
-      "sha256": "cda868137826a61f74b1b22a45f55556bbcf2dd155ff2b1d35d04f747589ed04"
+      "path": "manual/data/brownian/phase_cycle_delta3.csv",
+      "role": "figure_data_csv",
+      "sha256": "768395563ac52c766c3967d0288f239ab7c8ef0833c4ccf66187fec659b41a21"
     },
     {
-      "path": "figures_jpg/field_dynamics_layered_main.png",
-      "role": "shared_raster",
-      "sha256": "d7b6118b8f4a0e018336da23f596b70653eeb5db9bb5d70c249465d0c6a0f5b9"
+      "path": "manual/data/dec/tau_missing_burden_exact_ratio_patch.csv",
+      "role": "figure_data_csv",
+      "sha256": "ee90703644a41d7568bb1f4ebaaa5ff56fa111df0a77ee96ba0f44c74137c1e1"
     },
     {
-      "path": "figures_jpg/fractal_tesseract_q4_witness.jpg",
-      "role": "shared_raster",
-      "sha256": "313146c288ffa53f23be25103547e88590bf83b12faa4a0ca13a83f4ca6e968e"
+      "path": "manual/data/derived/sparc_declaration_controls.csv",
+      "role": "figure_data_csv",
+      "sha256": "e16ef11585c814112e6f19f4cbabee1b5442f6bd1981f9d3d9f70cc76f7afd12"
     },
     {
-      "path": "figures_jpg/null_four_edge_x_witness.png",
-      "role": "shared_raster",
-      "sha256": "7b446097b578068cb77b2b3b80844f446a31ff42d708160bef997f3b5bf19ac2"
+      "path": "manual/data/derived/sparc_five_galaxy_per_bin.csv",
+      "role": "figure_data_csv",
+      "sha256": "2ceec667b927d9cc6e1c65ae0980dadfdbb0ca4a0497bbd2fdc8999314b7e2e4"
     },
     {
-      "path": "figures_jpg/support_enclosure_retention.png",
-      "role": "shared_raster",
-      "sha256": "d868abf47b42dbbe056cb92bb0163aa41e1901bdc25c18c50f8c8f180d7a97aa"
+      "path": "manual/data/derived/tau_declaration_controls.csv",
+      "role": "figure_data_csv",
+      "sha256": "d1769dd1161a4f12f0be0bd7916f89c708f429560ba2fedbb2ecfd7c24ea5cab"
     },
     {
-      "path": "manual/figures/coordinate_phase_delta3_wireframe.png",
-      "role": "shared_raster",
-      "sha256": "b3ae1f69dc01631d6d67fac8ec67e5d34b6e3ca1d974144c5240752a47d0d953"
+      "path": "manual/data/derived/tau_ring_diagnostic.csv",
+      "role": "figure_data_csv",
+      "sha256": "c15898ce88098fbe4086f45f43d9e7323c26d36a863fe2da52ea19edb84a15bd"
     },
     {
-      "path": "manual/figures/double_slit_cross_return_setup.png",
-      "role": "shared_raster",
-      "sha256": "a3fb47d9bfbfa8174282e8229c331efc6c034392cc7c5d77f72d48879d43eddc"
+      "path": "manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv",
+      "role": "figure_data_csv",
+      "sha256": "a87e3e915367fe044ddd703d12f4a94f4ad61c509a3d312f91ebf5015c075a2b"
     },
     {
-      "path": "manual/figures/double_slit_reclosure_fixture.png",
-      "role": "shared_raster",
-      "sha256": "998892233c9ff3ac2bcbbf87bf67d2f61db14ed4214b8895977c8b359ee08504"
+      "path": "manual/data/higgs/higgs_external_map_after_candidate_freeze.csv",
+      "role": "figure_data_csv",
+      "sha256": "18403c7ad4344b278fcc9f9c2d35e5f609c41e5daf100267846cd24be94a225f"
     },
     {
-      "path": "manual/figures/higgs/higgs_mass_comparison.png",
-      "role": "shared_raster",
-      "sha256": "a801efba81e384ca0e1a09bb0b443368f195096414f91678e3f869bf7eba3b54"
+      "path": "manual/data/higgs/higgs_trace_internal_candidates_selection.csv",
+      "role": "figure_data_csv",
+      "sha256": "462885db9b133fde44c9cd887da1be427da0595462336ae41eabd7755e585bf5"
     },
     {
-      "path": "manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png",
-      "role": "shared_raster",
-      "sha256": "54fd6d25942d8e671b6ead0517a4f8c94194022d1fe470d863d8c1c75e5ce9ba"
+      "path": "manual/data/lensing/k4_3d_timeflow_input_gate.csv",
+      "role": "figure_data_csv",
+      "sha256": "0bd0f3422b4f66a9547898d56486372ce0458fff5c9a907a5ceee945493e21b6"
     },
     {
-      "path": "manual/figures/higgs/higgs_yro_saddle_signature.png",
-      "role": "shared_raster",
-      "sha256": "2e1419b70144491b962b0e328e31700a6652ca2f948647cf08e5e9ce0ce0f288"
+      "path": "manual/data/lensing/sparc5_lensing_class_tallies.csv",
+      "role": "figure_data_csv",
+      "sha256": "3256c12827e38bde89691303c467e3f19401b7caf5b37501f6388dd73bf2f5a2"
     },
     {
-      "path": "manual/figures/lensing/01_toy1_delta3_class_tallies.png",
-      "role": "shared_raster",
-      "sha256": "115908e2576dbb52deb53f420e85c2d9212d027eacb49b3ac2c25f83be067cb3"
+      "path": "manual/data/lensing/sparc5_medium_diagnostic_summary.csv",
+      "role": "figure_data_csv",
+      "sha256": "678e38efdf95445722acc661c420fdd863bfab756e56357360cb2fd70aa1807f"
     },
     {
-      "path": "manual/figures/lensing/02_frg_value_identity_delta3.png",
-      "role": "shared_raster",
-      "sha256": "09c68be4dfaa270c81a49e575ae5934f069946f53d4d3eb66811e4c344238ba8"
+      "path": "manual/data/lensing/swells_k1_k2_k3_delta3_comparison.csv",
+      "role": "figure_data_csv",
+      "sha256": "10af49ec35953722e275cbf22bb94fd56dcf4e8535251ddd38b8b00a3ab7790d"
     },
     {
-      "path": "manual/figures/lensing/03_sparc5_lens_medium_phase_proxy.png",
-      "role": "shared_raster",
-      "sha256": "c716f30bc2f84129891ee5ced4c6553a7f437530a8c1346d4f830907e2e767a1"
+      "path": "manual/data/lensing/swells_k1_thetaE_delta3_scores.csv",
+      "role": "figure_data_csv",
+      "sha256": "ae1081cdd1834c92d40c87f689a564fbece85db2f1470b0494074afc5a21c65d"
     },
     {
-      "path": "manual/figures/lensing/04_sparc5_class_tally_heatmap.png",
-      "role": "shared_raster",
-      "sha256": "0abd311f29096328e499f52ce6fbb51995d2641bc92ad34039f8bdc98c00772b"
+      "path": "manual/data/lensing/toy1_delta3_class_tallies.csv",
+      "role": "figure_data_csv",
+      "sha256": "e6c21ebc81511ea7dbc6d1d2a94e4f483350016854422756f121e528d9b4c983"
     },
     {
-      "path": "manual/figures/lensing/05_swells_k_comparison_delta3.png",
-      "role": "shared_raster",
-      "sha256": "444b91e394289d453c4a7bfbed3a596e0d804b050f284403deb549ff022b0f95"
+      "path": "manual/data/run_tumble/run_tumble_octant_delta3.csv",
+      "role": "figure_data_csv",
+      "sha256": "eb7fff97653233a68c01ad7551477f6d7239ae47d48ff82ac00b236202089568"
     },
     {
-      "path": "manual/figures/lensing/06_swells_k1_thetaE_delta3_tallies.png",
-      "role": "shared_raster",
-      "sha256": "fb5cfa962466722252b7e30cf1ed842f26698cb8dfa42f40a77f09903e8b97d1"
+      "path": "manual/data/run_tumble/run_tumble_phase_cycle_delta3.csv",
+      "role": "figure_data_csv",
+      "sha256": "19ec7d8e75b916b8bdbf610c439ced726b756b9ab93da8045b65abf2ef4b7009"
     },
     {
-      "path": "manual/figures/lensing/07_k4_3d_timeflow_input_gate.png",
-      "role": "shared_raster",
-      "sha256": "84d06ac8c62c626f653e68bfb045eccb32914bf49e20bdd0a656ee40688179d5"
-    },
-    {
-      "path": "manual/figures/lensing/08_target_quarantine.png",
-      "role": "shared_raster",
-      "sha256": "8dd4a633807d0d13efedd3cec302fc931d8643be0cf3f7031d76dc6091f5b97f"
-    },
-    {
-      "path": "manual/figures/lensing/09_staged_lensing_lane.png",
-      "role": "shared_raster",
-      "sha256": "ccfd26c58ca326048620e32cd88abf53ab3c9b9ba2cee61b465bfa718f7b260f"
-    },
-    {
-      "path": "manual/figures/lensing/10_lensing_calculation_spine.png",
-      "role": "shared_raster",
-      "sha256": "6fd82b24252cded79270931a6f8bc295651b28cd1623385e5f5b7083323870d4"
-    },
-    {
-      "path": "manual/figures/run_tumble_trace_3d_projection.png",
-      "role": "shared_raster",
-      "sha256": "249355364c3ac29213afeba6dd61dd87f0e23414b16a443d1e02d715e3953c3d"
-    },
-    {
-      "path": "manual/figures/solar_calculated_vs_target.png",
-      "role": "shared_raster",
-      "sha256": "2df323ecf99dbcf828a318259dffbfeb043eb0ae1364afb30701fd679b6dddf3"
-    },
-    {
-      "path": "manual/figures/solar_percent_error.png",
-      "role": "shared_raster",
-      "sha256": "40e1aba659d280aebd4e6ff65df4e4774e13413eab2dc8b519e44affe714cae5"
-    },
-    {
-      "path": "manual/figures/sparc_declaration_controls.png",
-      "role": "shared_raster",
-      "sha256": "dbaf9c68c9f3ff6c2840315c6a77d402a4e20a53bf793e0a0f82fd97599ebf4a"
-    },
-    {
-      "path": "manual/figures/sparc_display_speed_view.png",
-      "role": "shared_raster",
-      "sha256": "c1847fa3fb6f92059e7d268ca018dd50d8c815771c9f191e580cf5dff9620957"
-    },
-    {
-      "path": "manual/figures/sparc_square_speed_comparison.png",
-      "role": "shared_raster",
-      "sha256": "fbd8b3a9371a82c54dd65fec942832eaae1971fb78390ac325642d022fc1baf7"
-    },
-    {
-      "path": "manual/figures/sparc_square_speed_residuals.png",
-      "role": "shared_raster",
-      "sha256": "849eb1637c57a7cf44599249b4316a6c1bde0a5eae6506202ab21b2e775974a2"
-    },
-    {
-      "path": "manual/figures/tau_declaration_controls.png",
-      "role": "shared_raster",
-      "sha256": "2079c070499370107b74db1dabb414e3dfae79e72c8fd0f22f0912002a81fcc8"
-    },
-    {
-      "path": "manual/figures/tau_missing_burden_diagnostic.png",
-      "role": "shared_raster",
-      "sha256": "35ef395570960b9da44708408fdcc1cfc058e5cbbea35d5ecb1aa32b44b4a123"
-    },
-    {
-      "path": "manual/figures/tau_ring_support_score.png",
-      "role": "shared_raster",
-      "sha256": "767f7700eaec07048f499a850876f177b8eb61b55709c718235132cec0b53852"
-    },
-    {
-      "path": "manual/figures/tau_support_residuals.png",
-      "role": "shared_raster",
-      "sha256": "b8dda0b3fa4576d56ee892bc021b48ea99ba16847c0124ac39726241632c9de2"
+      "path": "manual/data/run_tumble/run_tumble_trace_20_ticks.csv",
+      "role": "figure_data_csv",
+      "sha256": "67fe77c99d57a0de0841ac5f023ae2443a422257963b1ff6b8b0728a147f20b7"
     },
     {
       "path": "manual/refs.bib",
@@ -250,6 +180,11 @@
       "sha256": "55912a2180b18144fa8eb3b580153d3fb42df122e0d66ce59da44de4d050c412"
     },
     {
+      "path": "typst/lib/aod_plots.typ",
+      "role": "typst_plots_lib",
+      "sha256": "f5164592b087fe78c719669eabb8eaf5fcf0eb491dc8b4c03a07ae496ec1f542"
+    },
+    {
       "path": "typst/lib/aod_schema.typ",
       "role": "typst_schema",
       "sha256": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46"
@@ -275,6 +210,176 @@
       "sha256": "fb6418553d4ca17aa3ec4fa3cb23b04a13964c1fb8a422351dc069f0c2e6d04d"
     },
     {
+      "path": "typst/lib/figures/main/curling_curl_layers.typ",
+      "role": "typst_vector_figure",
+      "sha256": "d6a175dec5740aaadf3605540fc52828aea324cc55d11dbeb69d3ff34d5b9f9d"
+    },
+    {
+      "path": "typst/lib/figures/main/cycle_disturbance_shedding.typ",
+      "role": "typst_vector_figure",
+      "sha256": "de63f49751d147718ed6bda992a2169f36e35fd02aaabc858594a1819d6b03c5"
+    },
+    {
+      "path": "typst/lib/figures/main/field_dynamics_layered_main.typ",
+      "role": "typst_vector_figure",
+      "sha256": "ed5d76d16e856dd5072c53d66f1496054e636efc769ece4f4569181b7f0a9cc3"
+    },
+    {
+      "path": "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
+      "role": "typst_vector_figure",
+      "sha256": "e60a15e728db3e1e68c5be4a1452c015b6e1b6cdfe73ce1660f905a8abb7d899"
+    },
+    {
+      "path": "typst/lib/figures/main/null_four_edge_x_witness.typ",
+      "role": "typst_vector_figure",
+      "sha256": "92cc869532d1d57096fde4281acacfa8539cbea7c2dbd353b3ad5c3b46bf99dc"
+    },
+    {
+      "path": "typst/lib/figures/main/support_enclosure_retention.typ",
+      "role": "typst_vector_figure",
+      "sha256": "389fa90e2377edf9262bc1442f701fd72e4147a8d6c1c38a1589b81bae9ee2b5"
+    },
+    {
+      "path": "typst/lib/figures/manual/coordinate_phase_delta3_wireframe.typ",
+      "role": "typst_vector_figure",
+      "sha256": "2772d30b060c115402b722f6f6c80f47d66053b507450c9498cebc4ce1cbe6ef"
+    },
+    {
+      "path": "typst/lib/figures/manual/cycle_disturbance_shedding_fixture.typ",
+      "role": "typst_vector_figure",
+      "sha256": "c71df388e2ce3e59edef4abee05624f9230a4e420e379891e0f07eff8aa7e1b2"
+    },
+    {
+      "path": "typst/lib/figures/manual/double_slit_cross_return_setup.typ",
+      "role": "typst_vector_figure",
+      "sha256": "a04e9ef7d2f0ffc02f14e0fa34649a5de554a46cc6870b8e6d1425fb6ec153e8"
+    },
+    {
+      "path": "typst/lib/figures/manual/double_slit_reclosure_fixture.typ",
+      "role": "typst_vector_figure",
+      "sha256": "fc698f113b5d54a2fd8603866ef6d63ddf24b508be1cf0f590615da2f0c1660a"
+    },
+    {
+      "path": "typst/lib/figures/manual/higgs_mass_comparison.typ",
+      "role": "typst_vector_figure",
+      "sha256": "61bcda7671dfbb6de4f38cf4f946674689dd6f904ef4423e138925fddb90c9da"
+    },
+    {
+      "path": "typst/lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ",
+      "role": "typst_vector_figure",
+      "sha256": "2142cbb984f1d0c62bd661db6d52a3dbe932e44af358e3dbaf10eb70b6c21fbc"
+    },
+    {
+      "path": "typst/lib/figures/manual/higgs_yro_saddle_signature.typ",
+      "role": "typst_vector_figure",
+      "sha256": "b67ea65688bd4882784b91a806095f12ac513bc11e1f0598cfca6f45160ece8c"
+    },
+    {
+      "path": "typst/lib/figures/manual/lensing_01_toy1_delta3_class_tallies.typ",
+      "role": "typst_vector_figure",
+      "sha256": "0dc88335bf1d9a473fd1dd49ea93788e4cede76b85e9bc95174a3f103115bc53"
+    },
+    {
+      "path": "typst/lib/figures/manual/lensing_02_frg_value_identity_delta3.typ",
+      "role": "typst_vector_figure",
+      "sha256": "aaf7208c3d8d96474675cf138d803409ce887e9114fb0ed0388722acf67b9dd9"
+    },
+    {
+      "path": "typst/lib/figures/manual/lensing_03_sparc5_lens_medium_phase_proxy.typ",
+      "role": "typst_vector_figure",
+      "sha256": "caf7ce266c8e9789b5070b3950de1b05cbd10c7d225a3682c9ac742f53af425e"
+    },
+    {
+      "path": "typst/lib/figures/manual/lensing_04_sparc5_class_tally_heatmap.typ",
+      "role": "typst_vector_figure",
+      "sha256": "c4db19427b4f03f84a5d04e333141eb6f46c391b6960b3a9f62b123e6088759f"
+    },
+    {
+      "path": "typst/lib/figures/manual/lensing_05_swells_k_comparison_delta3.typ",
+      "role": "typst_vector_figure",
+      "sha256": "ead325673d3cc7924217cfb33bcf3ea3acfd116e75bdc6787cf80ced3c165851"
+    },
+    {
+      "path": "typst/lib/figures/manual/lensing_06_swells_k1_thetae_delta3_tallies.typ",
+      "role": "typst_vector_figure",
+      "sha256": "8cf4b1e4caccd6a6681181ed449a9360e96b14eeb0b2d4518ee670731bbabaab"
+    },
+    {
+      "path": "typst/lib/figures/manual/lensing_07_k4_3d_timeflow_input_gate.typ",
+      "role": "typst_vector_figure",
+      "sha256": "9da2d92171d711cdbdccbe06ef1e956044c5d202878d36b523212cce9b36c5ee"
+    },
+    {
+      "path": "typst/lib/figures/manual/lensing_08_target_quarantine.typ",
+      "role": "typst_vector_figure",
+      "sha256": "769da946010778523fcca2c732fa5b24fe7023c33d18e835c66d2a5999624bcb"
+    },
+    {
+      "path": "typst/lib/figures/manual/lensing_09_staged_lensing_lane.typ",
+      "role": "typst_vector_figure",
+      "sha256": "aecbe8315be026cc00a4c6cb941dad99b1486ed43c893715c7dd6ff93c1777ea"
+    },
+    {
+      "path": "typst/lib/figures/manual/lensing_10_lensing_calculation_spine.typ",
+      "role": "typst_vector_figure",
+      "sha256": "64b22c3232dad6feb0f843ced78e6a30c0d66617c5a66e1de3a7e44f02dd2333"
+    },
+    {
+      "path": "typst/lib/figures/manual/run_tumble_trace_3d_projection.typ",
+      "role": "typst_vector_figure",
+      "sha256": "9e84d6d17e0eba18af34b5d5847611095c90baeed57b08440056b5a56c71bc76"
+    },
+    {
+      "path": "typst/lib/figures/manual/solar_calculated_vs_target.typ",
+      "role": "typst_vector_figure",
+      "sha256": "a21c36d34ddfebac1ca6e6ea98f020e5b0b0685f7798269051e04aa9de8f0227"
+    },
+    {
+      "path": "typst/lib/figures/manual/solar_percent_error.typ",
+      "role": "typst_vector_figure",
+      "sha256": "a1a6314c3de4929131678b80e8481ea01c6ca79aed319b337af510076ed4137e"
+    },
+    {
+      "path": "typst/lib/figures/manual/sparc_declaration_controls.typ",
+      "role": "typst_vector_figure",
+      "sha256": "d39365c67b2126e4c3f81fcbf7a016d9f7684951cdc429bfb7564b1ff07c36d8"
+    },
+    {
+      "path": "typst/lib/figures/manual/sparc_display_speed_view.typ",
+      "role": "typst_vector_figure",
+      "sha256": "c58f005b6e5f81c7ab6d548ae9ff742a8d6ed274003c83ac24b989ba252a2ad0"
+    },
+    {
+      "path": "typst/lib/figures/manual/sparc_square_speed_comparison.typ",
+      "role": "typst_vector_figure",
+      "sha256": "08fc52ab406d8613b64b2df80806c6bc87943f6e7324fe3a5c30572a559d1c2a"
+    },
+    {
+      "path": "typst/lib/figures/manual/sparc_square_speed_residuals.typ",
+      "role": "typst_vector_figure",
+      "sha256": "2f53536d9a216c571383fda14f25363e6a911dcb651f5930a48e504825b7ab32"
+    },
+    {
+      "path": "typst/lib/figures/manual/tau_declaration_controls.typ",
+      "role": "typst_vector_figure",
+      "sha256": "60ab9626fa0e1839d04c3fa2f0fa0d2e0b90eaa4c0907b98c26ea7f714404f2c"
+    },
+    {
+      "path": "typst/lib/figures/manual/tau_missing_burden_diagnostic.typ",
+      "role": "typst_vector_figure",
+      "sha256": "3356427218031a8ada4e6de407c1e40ef25fa9fb1bf9e9baf6c3742393b63489"
+    },
+    {
+      "path": "typst/lib/figures/manual/tau_ring_support_score.typ",
+      "role": "typst_vector_figure",
+      "sha256": "6aa497aa985ffe753c311040f02c18c3bda4b5064752096b95842fa7d959c15e"
+    },
+    {
+      "path": "typst/lib/figures/manual/tau_support_residuals.typ",
+      "role": "typst_vector_figure",
+      "sha256": "783af4774027c86a234ac0388f185903fd8b7bf14b5a115d6b4b8e6f38481646"
+    },
+    {
       "path": "typst/main.typ",
       "role": "typst_source",
       "sha256": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70"
@@ -282,7 +387,7 @@
     {
       "path": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
       "role": "typst_source",
-      "sha256": "827a959e381faebfa7f6ca38d03548ad7ea025f5bf8f3b7e358e5b277784570d"
+      "sha256": "dc838442fd00c23b8b48f0812b3ee06009bf45745043f7b6f5e3d9ddc8b2f238"
     },
     {
       "path": "typst/manual/appendices/B_quarantined_external_comparison.typ",
@@ -292,7 +397,7 @@
     {
       "path": "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
       "role": "typst_source",
-      "sha256": "d8904804289f6eb9fcbfef8c17730c3507e2be311e9666299f344ff38a63f764"
+      "sha256": "845702f93ee68732a87df9129a49f7f0702ff2b589b522122bd3b43a8b6bc7b2"
     },
     {
       "path": "typst/manual/main.typ",
@@ -332,7 +437,7 @@
     {
       "path": "typst/manual/sections/01_rest_energy_prediction.typ",
       "role": "typst_source",
-      "sha256": "d4b5510c9c3e298f1bc7ebbf5d65175e0daa199c4fe5d52644e34dc90d81a1db"
+      "sha256": "cf4c7a405d529f585a154dbfd4ce58f2109f4bac4bde9acda8dcfd329193f7ca"
     },
     {
       "path": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
@@ -347,7 +452,7 @@
     {
       "path": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
       "role": "typst_source",
-      "sha256": "9cf1e1763a67806f78485892a59bbde7333cbad2df14c005769a626857d97b11"
+      "sha256": "1dc42efa0ac3531b40b28fc577ff3c7c5f894fde170ea5adb041e5cafebb9ee1"
     },
     {
       "path": "typst/manual/sections/03_temporal_observation.typ",
@@ -362,17 +467,17 @@
     {
       "path": "typst/manual/sections/05_solar_system_field_tests.typ",
       "role": "typst_source",
-      "sha256": "9efc78b6f599e26c25db90fccdef483d321a5fec43e9b72a933b1f928fa9d872"
+      "sha256": "53a6ffa0177841df53a61f1d505d7947e7982399996b2c5f7c0114145e1cca20"
     },
     {
       "path": "typst/manual/sections/06_field_dynamics_applications.typ",
       "role": "typst_source",
-      "sha256": "24777d2b7d35460c9b0ef689caeffa21e4bc13c347ee94d69a48ee59e5a20256"
+      "sha256": "66d4c975e6a67abe7eccb74398ea9fc2ecb6a05dc3f279932b748dd81ff66327"
     },
     {
       "path": "typst/manual/sections/07_galactic_lensing_plan.typ",
       "role": "typst_source",
-      "sha256": "3a3578c456a2f5f9f96377d2178700770d25f166985c225d83a8d19f22dd6cd3"
+      "sha256": "d267075f6cf8021c14d69b2e21616a53821abad5054398604abc2073b8a64bad"
     },
     {
       "path": "typst/manual/sections/09_prediction_test_fixture_registry.typ",
@@ -432,7 +537,7 @@
     {
       "path": "typst/sections/03_afc_basis.typ",
       "role": "typst_source",
-      "sha256": "d9ba585086847920deb3e3336c5cc7c8db801b173332a25a38427a8f46d22fa5"
+      "sha256": "ec9643c20bfc9b783362c363c2865deafbdfe7bb6fb414b23b72c05fab5ebf24"
     },
     {
       "path": "typst/sections/04_cut_running_fractal_tesseract.typ",
@@ -442,12 +547,12 @@
     {
       "path": "typst/sections/05_curl_closure_duon_current.typ",
       "role": "typst_source",
-      "sha256": "2dd068fbbca3d52bf1ed0c891be29c425923813090a666e7f837638baf62e93e"
+      "sha256": "c4ea09dc59c69d826c0702250b18f7baf289b58d8fa320a79e3620bb3e2face4"
     },
     {
       "path": "typst/sections/06_field.typ",
       "role": "typst_source",
-      "sha256": "1ab534ab598c2b50c6d9cc50cbddf5b70d7a487a10c4b10dafb0687c8d3a962b"
+      "sha256": "7c32e702568b99c616fba5d4a6ec7d671ff528e1486f996858fce4d591aecb77"
     },
     {
       "path": "typst/sections/06_wave_state_relational_time.typ",
@@ -463,6 +568,11 @@
       "path": "typst/sections/08_awareness_learning_mindfulness.typ",
       "role": "typst_source",
       "sha256": "5e9ea82291bf2c60e4aef0e7078bad010d4eb51334ff7bedeca283697f9c51e9"
+    },
+    {
+      "path": "wavelet_shedding_simulation.csv",
+      "role": "figure_data_csv",
+      "sha256": "d7b0592997d47b2b550508d663afe8943a98ba9d58d087ce77e9d4d0a0c3ff40"
     }
   ],
   "outputs": [
@@ -544,53 +654,53 @@
       "bytes": 535
     },
     {
-      "path": "figures_jpg/curling_curl_layers.png",
-      "kind": "staged_raster",
-      "source": "figures_jpg/curling_curl_layers.png",
-      "sha256": "f9b7ff99375ae2a41bee2142b3b8d85d010841bae1537ab276cee9e72f73c3c4",
-      "bytes": 271431
+      "path": "figures/generated/FIGURE_MANIFEST.json",
+      "kind": "figure_manifest",
+      "source": "scripts/export_typst_figures.py",
+      "sha256": "d57f7bcaeb145eb309d341daa71d32152daabc77387a53ef73c75bc2af9e3292",
+      "bytes": 7105
     },
     {
-      "path": "figures_jpg/cycle_disturbance_shedding.png",
-      "kind": "staged_raster",
-      "source": "figures_jpg/cycle_disturbance_shedding.png",
-      "sha256": "64e5559ad3f2a6ed1d8933e328923634be8871367958d4723e2d293a6ef7c1be",
-      "bytes": 199209
+      "path": "figures/generated/curling-curl-layers.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/main/curling_curl_layers.typ",
+      "sha256": "fad37df902f925db1d8da6f107919e9b04e0022165d592194aade2b0ed7f65b8",
+      "bytes": 24057
     },
     {
-      "path": "figures_jpg/cycle_disturbance_shedding_fixture.png",
-      "kind": "staged_raster",
-      "source": "figures_jpg/cycle_disturbance_shedding_fixture.png",
-      "sha256": "cda868137826a61f74b1b22a45f55556bbcf2dd155ff2b1d35d04f747589ed04",
-      "bytes": 232822
+      "path": "figures/generated/cycle-disturbance-shedding.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/main/cycle_disturbance_shedding.typ",
+      "sha256": "be5a4fd8113937665c4b15869195caf992422cabf54943a23a698c008b8ca3f4",
+      "bytes": 27764
     },
     {
-      "path": "figures_jpg/field_dynamics_layered_main.png",
-      "kind": "staged_raster",
-      "source": "figures_jpg/field_dynamics_layered_main.png",
-      "sha256": "d7b6118b8f4a0e018336da23f596b70653eeb5db9bb5d70c249465d0c6a0f5b9",
-      "bytes": 442846
+      "path": "figures/generated/field-dynamics-layered-main.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/main/field_dynamics_layered_main.typ",
+      "sha256": "a6b1d1ae6616e581a009c7a00e2bde6031c1253d263ea6beb17f6956fd4955e2",
+      "bytes": 28262
     },
     {
-      "path": "figures_jpg/fractal_tesseract_q4_witness.jpg",
-      "kind": "staged_raster",
-      "source": "figures_jpg/fractal_tesseract_q4_witness.jpg",
-      "sha256": "313146c288ffa53f23be25103547e88590bf83b12faa4a0ca13a83f4ca6e968e",
-      "bytes": 210175
+      "path": "figures/generated/fractal-tesseract-q4-witness.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
+      "sha256": "c9e676bda379ded67cf2de7071a9917d7fce1182cf42819e8d8f9a32b10388a2",
+      "bytes": 21186
     },
     {
-      "path": "figures_jpg/null_four_edge_x_witness.png",
-      "kind": "staged_raster",
-      "source": "figures_jpg/null_four_edge_x_witness.png",
-      "sha256": "7b446097b578068cb77b2b3b80844f446a31ff42d708160bef997f3b5bf19ac2",
-      "bytes": 235729
+      "path": "figures/generated/null-four-edge-x-witness.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/main/null_four_edge_x_witness.typ",
+      "sha256": "bdd8a34bb0d47184283ec9339bdebdfba41573b56de3018a83b1cf47b623630d",
+      "bytes": 24531
     },
     {
-      "path": "figures_jpg/support_enclosure_retention.png",
-      "kind": "staged_raster",
-      "source": "figures_jpg/support_enclosure_retention.png",
-      "sha256": "d868abf47b42dbbe056cb92bb0163aa41e1901bdc25c18c50f8c8f180d7a97aa",
-      "bytes": 219942
+      "path": "figures/generated/support-enclosure-retention.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/main/support_enclosure_retention.typ",
+      "sha256": "ed44dd4bd2df75a3e775c27fd3cc82295eaecb7bf6546e860145aebf60311b0d",
+      "bytes": 26070
     },
     {
       "path": "main.tex",
@@ -603,8 +713,8 @@
       "path": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
-      "sha256": "bb5a8029e8ea40064d7eb5b555f3c8c8e0da5065933ee0a83b2020be538ead03",
-      "bytes": 5875
+      "sha256": "41ed1002fa747eab1cb5c0b3eb447a68a4ebba585c566b3f50195072e0fb7280",
+      "bytes": 5917
     },
     {
       "path": "manual/appendices/B_quarantined_external_comparison.tex",
@@ -617,8 +727,8 @@
       "path": "manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
-      "sha256": "40aafe0d920d4caace965661f7fe743bec62ac67796438778f57ef8dd0791593",
-      "bytes": 7929
+      "sha256": "f2437376688bf6e871bf7f8a7ca52aa5e8fadd5e30bcbeec2cf32ba43281fcb8",
+      "bytes": 7978
     },
     {
       "path": "manual/data/derived/sparc_summary_table.tex",
@@ -663,32 +773,11 @@
       "bytes": 2229
     },
     {
-      "path": "manual/figures/coordinate_phase_delta3_wireframe.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/coordinate_phase_delta3_wireframe.png",
-      "sha256": "b3ae1f69dc01631d6d67fac8ec67e5d34b6e3ca1d974144c5240752a47d0d953",
-      "bytes": 273493
-    },
-    {
-      "path": "manual/figures/double_slit_cross_return_setup.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/double_slit_cross_return_setup.png",
-      "sha256": "a3fb47d9bfbfa8174282e8229c331efc6c034392cc7c5d77f72d48879d43eddc",
-      "bytes": 102920
-    },
-    {
-      "path": "manual/figures/double_slit_reclosure_fixture.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/double_slit_reclosure_fixture.png",
-      "sha256": "998892233c9ff3ac2bcbbf87bf67d2f61db14ed4214b8895977c8b359ee08504",
-      "bytes": 118977
-    },
-    {
       "path": "manual/figures/generated/FIGURE_MANIFEST.json",
       "kind": "figure_manifest",
       "source": "scripts/export_typst_figures.py",
-      "sha256": "4caa5d6630a0f10a0cc84086d706843649697314fbd6e470a293c8d3f0b11933",
-      "bytes": 4431
+      "sha256": "f3b515d1aa3f1070badf722016b5a57916378ad126a2d604018e8760760eb1b3",
+      "bytes": 41250
     },
     {
       "path": "manual/figures/generated/boundary-current-spine.pdf",
@@ -698,11 +787,137 @@
       "bytes": 18932
     },
     {
+      "path": "manual/figures/generated/coordinate-phase-delta3-wireframe.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/coordinate_phase_delta3_wireframe.typ",
+      "sha256": "1848f508f1fe7ad757b18a61613cb515cd621d1576d87a075b4185e65671da4a",
+      "bytes": 31758
+    },
+    {
+      "path": "manual/figures/generated/cycle-disturbance-shedding-fixture.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/cycle_disturbance_shedding_fixture.typ",
+      "sha256": "5536e217a33de44b788949e69be6d3a769edf0beebb886ec063317534d705063",
+      "bytes": 25437
+    },
+    {
+      "path": "manual/figures/generated/double-slit-cross-return-setup.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/double_slit_cross_return_setup.typ",
+      "sha256": "e9b2d2ac35d882a7405a37d8d72ea8e7142ea12ddea7466e6b51a0ffdcba657f",
+      "bytes": 18501
+    },
+    {
+      "path": "manual/figures/generated/double-slit-reclosure-fixture.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/double_slit_reclosure_fixture.typ",
+      "sha256": "dc43b90e42a5c86577f4a46c8b0c8bc60485e321a94f46137aeb973bd876e7a8",
+      "bytes": 13643
+    },
+    {
+      "path": "manual/figures/generated/higgs-mass-comparison.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/higgs_mass_comparison.typ",
+      "sha256": "a2e0e6aebd00984b12d26883185a0708b61e17aa1742b8bef36b5179c9c90e9a",
+      "bytes": 17977
+    },
+    {
+      "path": "manual/figures/generated/higgs-tritrioseptyro-trace-flow.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ",
+      "sha256": "52ed6f8d262ade45b0773b39cca267311eaa3c3869ea101205d31037b33c5de5",
+      "bytes": 23886
+    },
+    {
+      "path": "manual/figures/generated/higgs-yro-saddle-signature.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/higgs_yro_saddle_signature.typ",
+      "sha256": "6d979734a5b8c69a92b7fa7f863727a4f41d3494036d7b85efc28518b19f69c2",
+      "bytes": 16276
+    },
+    {
       "path": "manual/figures/generated/hydrogen-shell-setup.pdf",
       "kind": "exported_diagram",
       "source": "typst/lib/diagrams/hydrogen_shell_setup.typ",
       "sha256": "7e1c8d5b744b8a5f528d15e13bc7ea8856d63d956c717ae842d96787b28fffea",
       "bytes": 16674
+    },
+    {
+      "path": "manual/figures/generated/lensing-01-toy1-delta3-class-tallies.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_01_toy1_delta3_class_tallies.typ",
+      "sha256": "f2a2e12e2eb7237a205d4e64169843e12539e1af4ce106bcc43e3025661771b6",
+      "bytes": 17204
+    },
+    {
+      "path": "manual/figures/generated/lensing-02-frg-value-identity-delta3.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_02_frg_value_identity_delta3.typ",
+      "sha256": "575963dedb053d8921828fc1c7673e2611dd9a510d634794fee0d0e0ae8e3465",
+      "bytes": 17642
+    },
+    {
+      "path": "manual/figures/generated/lensing-03-sparc5-lens-medium-phase-proxy.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_03_sparc5_lens_medium_phase_proxy.typ",
+      "sha256": "fda7b440a6213a5bebb667e413628ae263faf8e9768b4915778bc37ebddc1324",
+      "bytes": 16462
+    },
+    {
+      "path": "manual/figures/generated/lensing-04-sparc5-class-tally-heatmap.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_04_sparc5_class_tally_heatmap.typ",
+      "sha256": "f9970510ef461a707ecf0a2ce4eaa8581941194bf86caa0cb3e7c5b31c3ce2cc",
+      "bytes": 15898
+    },
+    {
+      "path": "manual/figures/generated/lensing-05-swells-k-comparison-delta3.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_05_swells_k_comparison_delta3.typ",
+      "sha256": "49b13f81eb10d2419ffd34797924413266d258e8426d687da283d3ffdec67723",
+      "bytes": 16244
+    },
+    {
+      "path": "manual/figures/generated/lensing-06-swells-k1-thetae-delta3-tallies.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_06_swells_k1_thetae_delta3_tallies.typ",
+      "sha256": "98acbdb8bd8f0507438381f4f5b5c804895b16071bd863300c3a45d360e9c7ba",
+      "bytes": 17149
+    },
+    {
+      "path": "manual/figures/generated/lensing-07-k4-3d-timeflow-input-gate.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_07_k4_3d_timeflow_input_gate.typ",
+      "sha256": "7114df1c222d7fd87723541e520135ae582fe5d91b72782d87c5f93ae8859dae",
+      "bytes": 13468
+    },
+    {
+      "path": "manual/figures/generated/lensing-08-target-quarantine.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_08_target_quarantine.typ",
+      "sha256": "0631213f00c3c696e6198bdd0d6d1903ed26ad7ad8b14badde1fc6a48cae5339",
+      "bytes": 15975
+    },
+    {
+      "path": "manual/figures/generated/lensing-09-staged-lensing-lane.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_09_staged_lensing_lane.typ",
+      "sha256": "31ca2543a32173e2d7432d4b282c97421b57f81f4dc80f92628cabdba424fe7a",
+      "bytes": 14740
+    },
+    {
+      "path": "manual/figures/generated/lensing-10-lensing-calculation-spine.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_10_lensing_calculation_spine.typ",
+      "sha256": "0274592bf2e237f21044f592f5897d1735fc26705548e571e29fd9c8df98919c",
+      "bytes": 16393
+    },
+    {
+      "path": "manual/figures/generated/run-tumble-trace-3d-projection.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/run_tumble_trace_3d_projection.typ",
+      "sha256": "f91f6f5d09045c451d08643e9c7e6af6301235d77887ee0c7fd46ce7d4f1fe08",
+      "bytes": 21437
     },
     {
       "path": "manual/figures/generated/short-window-setup.pdf",
@@ -712,6 +927,20 @@
       "bytes": 17792
     },
     {
+      "path": "manual/figures/generated/solar-calculated-vs-target.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/solar_calculated_vs_target.typ",
+      "sha256": "4d616f9d1155c8b7dfc2b71180f82729508ff15b42c978d683a079ae324a2f3e",
+      "bytes": 17780
+    },
+    {
+      "path": "manual/figures/generated/solar-percent-error.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/solar_percent_error.typ",
+      "sha256": "f25e78463f387750b65f93b83e4f961c25bd723fc195384642e4bdfc877befd6",
+      "bytes": 17052
+    },
+    {
       "path": "manual/figures/generated/solar-system-spine.pdf",
       "kind": "exported_diagram",
       "source": "typst/lib/diagrams/solar_system_spine.typ",
@@ -719,172 +948,60 @@
       "bytes": 13075
     },
     {
-      "path": "manual/figures/higgs/higgs_mass_comparison.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/higgs/higgs_mass_comparison.png",
-      "sha256": "a801efba81e384ca0e1a09bb0b443368f195096414f91678e3f869bf7eba3b54",
-      "bytes": 96461
+      "path": "manual/figures/generated/sparc-declaration-controls.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/sparc_declaration_controls.typ",
+      "sha256": "c0551d51a84a96d25121dcd71bd96a9dea80843b2d60b7d48f987891ccdbd355",
+      "bytes": 15792
     },
     {
-      "path": "manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png",
-      "sha256": "54fd6d25942d8e671b6ead0517a4f8c94194022d1fe470d863d8c1c75e5ce9ba",
-      "bytes": 106480
+      "path": "manual/figures/generated/sparc-display-speed-view.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/sparc_display_speed_view.typ",
+      "sha256": "88d635c6e24942f303d45b6de6fa760fc34c122b2fceafcbc49158c65d90cd67",
+      "bytes": 16255
     },
     {
-      "path": "manual/figures/higgs/higgs_yro_saddle_signature.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/higgs/higgs_yro_saddle_signature.png",
-      "sha256": "2e1419b70144491b962b0e328e31700a6652ca2f948647cf08e5e9ce0ce0f288",
-      "bytes": 42399
+      "path": "manual/figures/generated/sparc-square-speed-comparison.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/sparc_square_speed_comparison.typ",
+      "sha256": "69e1ed68b7047b8cb9692852ca293881ca4994028993da05e5ce4124db446410",
+      "bytes": 17509
     },
     {
-      "path": "manual/figures/lensing/01_toy1_delta3_class_tallies.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/lensing/01_toy1_delta3_class_tallies.png",
-      "sha256": "115908e2576dbb52deb53f420e85c2d9212d027eacb49b3ac2c25f83be067cb3",
-      "bytes": 76099
+      "path": "manual/figures/generated/sparc-square-speed-residuals.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/sparc_square_speed_residuals.typ",
+      "sha256": "ae1cd0d5e3e0315deccad7890709a037c351baf634a9072f40e141e480a6830e",
+      "bytes": 15955
     },
     {
-      "path": "manual/figures/lensing/02_frg_value_identity_delta3.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/lensing/02_frg_value_identity_delta3.png",
-      "sha256": "09c68be4dfaa270c81a49e575ae5934f069946f53d4d3eb66811e4c344238ba8",
-      "bytes": 53529
+      "path": "manual/figures/generated/tau-declaration-controls.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/tau_declaration_controls.typ",
+      "sha256": "b55a7610c5a74bc257824845ec9881100b89b2358c011a0dd44ae03e3dac460c",
+      "bytes": 11990
     },
     {
-      "path": "manual/figures/lensing/03_sparc5_lens_medium_phase_proxy.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/lensing/03_sparc5_lens_medium_phase_proxy.png",
-      "sha256": "c716f30bc2f84129891ee5ced4c6553a7f437530a8c1346d4f830907e2e767a1",
-      "bytes": 44105
+      "path": "manual/figures/generated/tau-missing-burden-diagnostic.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/tau_missing_burden_diagnostic.typ",
+      "sha256": "a3091ff6ad3a9e5a848ae5bc0164ab808ad723dc765c0606fb7631de118e2f47",
+      "bytes": 15207
     },
     {
-      "path": "manual/figures/lensing/04_sparc5_class_tally_heatmap.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/lensing/04_sparc5_class_tally_heatmap.png",
-      "sha256": "0abd311f29096328e499f52ce6fbb51995d2641bc92ad34039f8bdc98c00772b",
-      "bytes": 97480
+      "path": "manual/figures/generated/tau-ring-support-score.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/tau_ring_support_score.typ",
+      "sha256": "7c691dc971bfbbecf6600fe86b1c3460d07bac898579949acad768fad20a5488",
+      "bytes": 15288
     },
     {
-      "path": "manual/figures/lensing/05_swells_k_comparison_delta3.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/lensing/05_swells_k_comparison_delta3.png",
-      "sha256": "444b91e394289d453c4a7bfbed3a596e0d804b050f284403deb549ff022b0f95",
-      "bytes": 33699
-    },
-    {
-      "path": "manual/figures/lensing/06_swells_k1_thetaE_delta3_tallies.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/lensing/06_swells_k1_thetaE_delta3_tallies.png",
-      "sha256": "fb5cfa962466722252b7e30cf1ed842f26698cb8dfa42f40a77f09903e8b97d1",
-      "bytes": 47379
-    },
-    {
-      "path": "manual/figures/lensing/07_k4_3d_timeflow_input_gate.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/lensing/07_k4_3d_timeflow_input_gate.png",
-      "sha256": "84d06ac8c62c626f653e68bfb045eccb32914bf49e20bdd0a656ee40688179d5",
-      "bytes": 65480
-    },
-    {
-      "path": "manual/figures/lensing/08_target_quarantine.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/lensing/08_target_quarantine.png",
-      "sha256": "8dd4a633807d0d13efedd3cec302fc931d8643be0cf3f7031d76dc6091f5b97f",
-      "bytes": 35603
-    },
-    {
-      "path": "manual/figures/lensing/09_staged_lensing_lane.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/lensing/09_staged_lensing_lane.png",
-      "sha256": "ccfd26c58ca326048620e32cd88abf53ab3c9b9ba2cee61b465bfa718f7b260f",
-      "bytes": 36739
-    },
-    {
-      "path": "manual/figures/lensing/10_lensing_calculation_spine.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/lensing/10_lensing_calculation_spine.png",
-      "sha256": "6fd82b24252cded79270931a6f8bc295651b28cd1623385e5f5b7083323870d4",
-      "bytes": 30966
-    },
-    {
-      "path": "manual/figures/run_tumble_trace_3d_projection.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/run_tumble_trace_3d_projection.png",
-      "sha256": "249355364c3ac29213afeba6dd61dd87f0e23414b16a443d1e02d715e3953c3d",
-      "bytes": 102693
-    },
-    {
-      "path": "manual/figures/solar_calculated_vs_target.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/solar_calculated_vs_target.png",
-      "sha256": "2df323ecf99dbcf828a318259dffbfeb043eb0ae1364afb30701fd679b6dddf3",
-      "bytes": 80330
-    },
-    {
-      "path": "manual/figures/solar_percent_error.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/solar_percent_error.png",
-      "sha256": "40e1aba659d280aebd4e6ff65df4e4774e13413eab2dc8b519e44affe714cae5",
-      "bytes": 72455
-    },
-    {
-      "path": "manual/figures/sparc_declaration_controls.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/sparc_declaration_controls.png",
-      "sha256": "dbaf9c68c9f3ff6c2840315c6a77d402a4e20a53bf793e0a0f82fd97599ebf4a",
-      "bytes": 64939
-    },
-    {
-      "path": "manual/figures/sparc_display_speed_view.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/sparc_display_speed_view.png",
-      "sha256": "c1847fa3fb6f92059e7d268ca018dd50d8c815771c9f191e580cf5dff9620957",
-      "bytes": 73807
-    },
-    {
-      "path": "manual/figures/sparc_square_speed_comparison.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/sparc_square_speed_comparison.png",
-      "sha256": "fbd8b3a9371a82c54dd65fec942832eaae1971fb78390ac325642d022fc1baf7",
-      "bytes": 70554
-    },
-    {
-      "path": "manual/figures/sparc_square_speed_residuals.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/sparc_square_speed_residuals.png",
-      "sha256": "849eb1637c57a7cf44599249b4316a6c1bde0a5eae6506202ab21b2e775974a2",
-      "bytes": 62092
-    },
-    {
-      "path": "manual/figures/tau_declaration_controls.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/tau_declaration_controls.png",
-      "sha256": "2079c070499370107b74db1dabb414e3dfae79e72c8fd0f22f0912002a81fcc8",
-      "bytes": 48983
-    },
-    {
-      "path": "manual/figures/tau_missing_burden_diagnostic.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/tau_missing_burden_diagnostic.png",
-      "sha256": "35ef395570960b9da44708408fdcc1cfc058e5cbbea35d5ecb1aa32b44b4a123",
-      "bytes": 73334
-    },
-    {
-      "path": "manual/figures/tau_ring_support_score.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/tau_ring_support_score.png",
-      "sha256": "767f7700eaec07048f499a850876f177b8eb61b55709c718235132cec0b53852",
-      "bytes": 87620
-    },
-    {
-      "path": "manual/figures/tau_support_residuals.png",
-      "kind": "staged_raster",
-      "source": "manual/figures/tau_support_residuals.png",
-      "sha256": "b8dda0b3fa4576d56ee892bc021b48ea99ba16847c0124ac39726241632c9de2",
-      "bytes": 58524
+      "path": "manual/figures/generated/tau-support-residuals.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/tau_support_residuals.typ",
+      "sha256": "52a5041037afc013b5c8a9026c18a7a29dc25421afaf873d0cafdfb089919111",
+      "bytes": 14227
     },
     {
       "path": "manual/main.tex",
@@ -946,8 +1063,8 @@
       "path": "manual/sections/01_rest_energy_prediction.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/01_rest_energy_prediction.typ",
-      "sha256": "eea6d168801f1fa1122cdc42d233f115719584b34bd297b33ce88c5d04e933be",
-      "bytes": 18737
+      "sha256": "ca96e97d87eddbd27d3a6f40410761145e58b7ec351d4051cb5f2cac1fe6f4ea",
+      "bytes": 18866
     },
     {
       "path": "manual/sections/02_hydrogen_facing_shell_tests.tex",
@@ -967,8 +1084,8 @@
       "path": "manual/sections/03_short_window_rcd_shedding_fixtures.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
-      "sha256": "415a953a1a7a669ab29e9e8cfe07ee0d169e67336c8ca63f71e70e79961690f3",
-      "bytes": 13804
+      "sha256": "6e7902297ad9ce6f94ef2237d34c54126e754b137f46d1b8c354fe198bf7f329",
+      "bytes": 13902
     },
     {
       "path": "manual/sections/03_temporal_observation.tex",
@@ -988,22 +1105,22 @@
       "path": "manual/sections/05_solar_system_field_tests.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/05_solar_system_field_tests.typ",
-      "sha256": "9cd6ce91909d8eb65ef5ac2ec4401b6c7697d8b8441b45ff88cd31e73753d530",
-      "bytes": 7603
+      "sha256": "fc39ef099d7b471600bfd97ebc01d3af75a4f42a47c9c5cbaaf2f0d86ac509b1",
+      "bytes": 7701
     },
     {
       "path": "manual/sections/06_field_dynamics_applications.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/06_field_dynamics_applications.typ",
-      "sha256": "590ce716e1e02d216d97f5f5fb7e8c0ce22ec34575d5e489f84eedd2e693bcea",
-      "bytes": 33774
+      "sha256": "97940cd0880c02b1a2aecd2b1c977eaf5b62c1d9dd75030824806ae560d8015b",
+      "bytes": 34215
     },
     {
       "path": "manual/sections/07_galactic_lensing_plan.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/07_galactic_lensing_plan.typ",
-      "sha256": "4a3a5ea39c8ea9c4826b75dbffacc8f3f2f7112c4ec1b71300bc71792575836b",
-      "bytes": 8756
+      "sha256": "63c588a4a58146dafb44a51b09700b48392a4d8e2bab8f8864b36a8f3f46bb65",
+      "bytes": 9246
     },
     {
       "path": "manual/sections/09_prediction_test_fixture_registry.tex",
@@ -1044,8 +1161,8 @@
       "path": "sections/03_afc_basis.tex",
       "kind": "rendered_tex",
       "source": "typst/sections/03_afc_basis.typ",
-      "sha256": "59d40bcdad59d04822262efdc91b49bf7edc2565a4f4595bb38e53ea5941c1b1",
-      "bytes": 8652
+      "sha256": "2be57ed36fb4cb8c1e68f606e73a8e4a235c8be1ac5cf4a870a1556f1b7b3cbe",
+      "bytes": 8742
     },
     {
       "path": "sections/04_cut_running_fractal_tesseract.tex",
@@ -1058,15 +1175,15 @@
       "path": "sections/05_curl_closure_duon_current.tex",
       "kind": "rendered_tex",
       "source": "typst/sections/05_curl_closure_duon_current.typ",
-      "sha256": "8ddeb56ad6c8f13415df619153a9189d8dea61c701c2d1bef314c414824182c3",
-      "bytes": 18087
+      "sha256": "041bb6fb92e3ce2837dd25d0e56f5d908f928a6135d6194b396d0531e2bb293d",
+      "bytes": 18132
     },
     {
       "path": "sections/06_field.tex",
       "kind": "rendered_tex",
       "source": "typst/sections/06_field.typ",
-      "sha256": "4d9309306e5b6e7bb0904375fd1863807f36cb6ee9770a54af56d55621a034c4",
-      "bytes": 70110
+      "sha256": "cf58170c3613a57f2f031d07626e14ee4fabc032117833d342d54329e5265f87",
+      "bytes": 70245
     },
     {
       "path": "sections/06_wave_state_relational_time.tex",

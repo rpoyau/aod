@@ -42,6 +42,7 @@ TABLE_TARGET_OVERRIDES: dict[str, str] = {
 }
 
 DIAGRAM_INCLUDE_RE = re.compile(r'^(?:\.\./)+lib/diagrams/([a-z0-9_]+\.typ)$')
+FIGURE_INCLUDE_RE = re.compile(r'^(?:\.\./)+lib/figures/(main|manual)/([a-z0-9_]+\.typ)$')
 
 
 class Typ2TexError(ValueError):
@@ -1360,15 +1361,29 @@ class TypstToLatexConverter:
 
     def _resolve_include_to_latex(self, rel_arg: str) -> tuple[str, str]:
         """Resolve a Typst #include path. Returns (kind, target):
-        ('diagram', 'figures/generated/<slug>.<ext>') or ('tex', '<rel_tex_path>').
+        ('diagram', 'figures/generated/<slug>.<ext>'),
+        ('vector_figure', 'figures/generated/<slug>.<ext>'), or
+        ('tex', '<rel_tex_path>').
         """
         m_diag = DIAGRAM_INCLUDE_RE.match(rel_arg)
         if m_diag:
+            _require(self.surface == "manual", f"{self.where}: Diagram include outside manual: {rel_arg}")
             mod = m_diag.group(1)
             comp_rel = f"typst/lib/diagrams/{mod}"
             self.used_diagrams.add(comp_rel)
             slug = mod[:-4].replace("_", "-")
             return "diagram", f"figures/generated/{slug}.{self.diagram_format}"
+        m_fig = FIGURE_INCLUDE_RE.match(rel_arg)
+        if m_fig:
+            fig_surf, mod = m_fig.group(1), m_fig.group(2)
+            _require(
+                fig_surf == self.surface,
+                f"{self.where}: Surface mismatch including {rel_arg} in {self.surface}",
+            )
+            comp_rel = f"typst/lib/figures/{fig_surf}/{mod}"
+            self.used_diagrams.add(comp_rel)
+            slug = mod[:-4].replace("_", "-")
+            return "vector_figure", f"figures/generated/{slug}.{self.diagram_format}"
         resolved = (self.current_typ.parent / rel_arg).resolve()
         _require(resolved.is_relative_to(self.root), f"{self.where}: Include escapes root: {rel_arg}")
         typ_rel = resolved.relative_to(self.root).as_posix()
@@ -1644,6 +1659,8 @@ class TypstToLatexConverter:
             nxt = pos + len(m_inc.group(0))
             if kind == "diagram":
                 return rf"\includegraphics[width=\linewidth]{{{target}}}", nxt
+            if kind == "vector_figure":
+                return rf"\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{{{target}}}", nxt
             return rf"\input{{{target}}}", nxt
 
         # Handle counter(page).update(1)
@@ -2432,7 +2449,7 @@ def discover_active_typst_units(root: Path) -> tuple[list[tuple[str, str]], dict
         clean = strip_typst_comments(typ_path.read_text(encoding="utf-8"))
         for m in re.finditer(r'#include\s+"([^"]+)"', clean):
             arg = m.group(1)
-            if DIAGRAM_INCLUDE_RE.match(arg):
+            if DIAGRAM_INCLUDE_RE.match(arg) or FIGURE_INCLUDE_RE.match(arg):
                 continue
             child = (typ_path.parent / arg).resolve()
             _require(child.is_relative_to(root / "typst"), f"Typst #include escapes typst/: {arg} in {typ_rel}")
@@ -2580,36 +2597,55 @@ def generate_latex_tree(
                 "bytes": dst_r.stat().st_size,
             })
 
-        # 4. Export authoritative native Typst diagrams via scripts/export_typst_figures.py
+        # 4. Export authoritative native Typst diagrams and vector figures via scripts/export_typst_figures.py
         if used_diagrams:
-            gen_fig_dir = stage / "manual/figures/generated"
-            fig_manifest = fig_mod.export_figures(
-                root,
-                gen_fig_dir,
-                fmt=figure_format,
-                ppi=ppi,
-                typst_bin=typst_bin,
-                runtime_out=fig_runtime,
-            )
-            for comp_rel in sorted(used_diagrams):
-                _rec_input(comp_rel, "typst_diagram")
-            for f_entry in fig_manifest["figures"]:
-                rel_out = f"manual/figures/generated/{f_entry['output_filename']}"
+            if (root / "typst/lib/aod_plots.typ").is_file() and any(
+                c.startswith("typst/lib/figures/") for c in used_diagrams
+            ):
+                _rec_input("typst/lib/aod_plots.typ", "typst_plots_lib")
+            used_main_figs = sorted(c for c in used_diagrams if c.startswith("typst/lib/figures/main/"))
+            used_manual_figs = sorted(c for c in used_diagrams if not c.startswith("typst/lib/figures/main/"))
+            export_jobs: list[tuple[str, str, list[str]]] = []
+            if used_main_figs:
+                export_jobs.append(("main", "figures/generated", used_main_figs))
+            if used_manual_figs:
+                export_jobs.append(("manual", "manual/figures/generated", used_manual_figs))
+            for surf, rel_dir, surf_comps in export_jobs:
+                gen_fig_dir = stage / rel_dir
+                surf_rt: dict = {}
+                fig_manifest = fig_mod.export_figures(
+                    root,
+                    gen_fig_dir,
+                    surface=surf,
+                    fmt=figure_format,
+                    ppi=ppi,
+                    typst_bin=typst_bin,
+                    runtime_out=surf_rt,
+                )
+                fig_runtime[surf] = surf_rt
+                for comp_rel in surf_comps:
+                    ckind = "typst_vector_figure" if comp_rel.startswith("typst/lib/figures/") else "typst_diagram"
+                    _rec_input(comp_rel, ckind)
+                for f_entry in fig_manifest["figures"]:
+                    for din in f_entry.get("data_inputs", []):
+                        _rec_input(din["path"], "figure_data_csv")
+                    rel_out = f"{rel_dir}/{f_entry['output_filename']}"
+                    okind = "exported_vector_figure" if f_entry.get("component_kind") == "vector_figure" else "exported_diagram"
+                    outputs.append({
+                        "path": rel_out,
+                        "kind": okind,
+                        "source": f_entry["diagram_component"],
+                        "sha256": f_entry["output_sha256"],
+                        "bytes": f_entry["output_bytes"],
+                    })
+                fm_path = gen_fig_dir / "FIGURE_MANIFEST.json"
                 outputs.append({
-                    "path": rel_out,
-                    "kind": "exported_diagram",
-                    "source": f_entry["diagram_component"],
-                    "sha256": f_entry["output_sha256"],
-                    "bytes": f_entry["output_bytes"],
+                    "path": f"{rel_dir}/FIGURE_MANIFEST.json",
+                    "kind": "figure_manifest",
+                    "source": "scripts/export_typst_figures.py",
+                    "sha256": sha256_file(fm_path),
+                    "bytes": fm_path.stat().st_size,
                 })
-            fm_path = gen_fig_dir / "FIGURE_MANIFEST.json"
-            outputs.append({
-                "path": "manual/figures/generated/FIGURE_MANIFEST.json",
-                "kind": "figure_manifest",
-                "source": "scripts/export_typst_figures.py",
-                "sha256": sha256_file(fm_path),
-                "bytes": fm_path.stat().st_size,
-            })
 
         # 5. Build deterministic GENERATION_MANIFEST.json (zero timestamps / absolute paths / removal logs)
         outputs.sort(key=lambda e: e["path"])

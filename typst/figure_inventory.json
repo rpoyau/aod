@@ -1,0 +1,1316 @@
+{
+  "schema": "aod.m4.s1b.figure-inventory.v1",
+  "phase2_checkpoint_commit": "1a0c345ac8101fe0e047aac7e702af7ab04b6cc7",
+  "phase2_checkpoint_tree": "6deb3219f7a32909708b060497345b0088d61abd",
+  "historical_raster_retention_policy": "All 34 historical rasters under figures_jpg/ and manual/figures/ remain retained byte-for-byte with frozen CANONICAL_BINDINGS.json digests intact.",
+  "summary": {
+    "total_active_rasters": 34,
+    "main_rasters": 6,
+    "manual_rasters": 28,
+    "DATA_BACKED_VERIFIED": 23,
+    "CONCEPTUAL_SCHEMATIC": 11,
+    "UNRESOLVED_RETAINED": 0,
+    "converted_vector": 34,
+    "retained_raster": 0
+  },
+  "figures": [
+    {
+      "slug": "null-four-edge-x-witness",
+      "surface": "main",
+      "typst_section": "typst/sections/03_afc_basis.typ",
+      "label": "fig:null-four-edge-x-witness",
+      "caption_sha256": "f06aeaf878ce0ace9c47099537f4dd94174bf667b40c58016306a1eadfcb8aee",
+      "caption_excerpt": "Finite four-edge encoding of a retained occurrence. The vertex is a post-distinction witness; Null itself has no vertex address.",
+      "raster_path": "figures_jpg/null_four_edge_x_witness.png",
+      "raster_sha256": "7b446097b578068cb77b2b3b80844f446a31ff42d708160bef997f3b5bf19ac2",
+      "raster_bytes": 235729,
+      "raster_dimensions_px": [
+        2671,
+        1307
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "three_panel_topology_schematic",
+      "generator_script": "scripts/generate_null_four_edge.py",
+      "generator_script_sha256": "a86c8b8bb446ea5f6e1a64c00d21acf1c676adcfce445f68cd9e89a9d3b706ae",
+      "data_sources": [],
+      "provenance_notes": "Three-panel schematic of null potential x > x = x, four-edge Q4 Hamming-1 star witness deg_Q4(x_eps)=4, and ternary monon fibre Q4 x {-1,0,+1}_mu.",
+      "target_typst_component": "typst/lib/figures/main/null_four_edge_x_witness.typ",
+      "target_exported_pdf": "latex/figures/generated/null-four-edge-x-witness.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "92cc869532d1d57096fde4281acacfa8539cbea7c2dbd353b3ad5c3b46bf99dc",
+      "exported_pdf_sha256": "bdd8a34bb0d47184283ec9339bdebdfba41573b56de3018a83b1cf47b623630d",
+      "exported_pdf_bytes": 24531,
+      "exported_page_points": [
+        413.858,
+        205.512
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "fractal-tesseract-q4-witness",
+      "surface": "main",
+      "typst_section": "typst/sections/03_afc_basis.typ",
+      "label": "fig:v39-fractal-tesseract-q4-witness",
+      "caption_sha256": "2201e95bbf45311cac1eb37ccc9f20724c31a5f5116428de83a5e0c533d7079e",
+      "caption_excerpt": "The finite tesseract support. Local degree and total closure-word length are distinct quantities; oriented ancestry remains in the trace.",
+      "raster_path": "figures_jpg/fractal_tesseract_q4_witness.jpg",
+      "raster_sha256": "313146c288ffa53f23be25103547e88590bf83b12faa4a0ca13a83f4ca6e968e",
+      "raster_bytes": 210175,
+      "raster_dimensions_px": [
+        3046,
+        1615
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "workflow_and_q4_cube_schematic",
+      "generator_script": "scripts/generate_fractal_tesseract_q4_witness.py",
+      "generator_script_sha256": "c1cf4328978a08db48413488392a8f93ecbef7ea2072ed896044db2b57014a3b",
+      "data_sources": [],
+      "provenance_notes": "Conceptual schematic showing recursive cut-unspooling into finite Q4 witness chart, jittering notes, and duon current D_i mu D_j.",
+      "target_typst_component": "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
+      "target_exported_pdf": "latex/figures/generated/fractal-tesseract-q4-witness.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "e60a15e728db3e1e68c5be4a1452c015b6e1b6cdfe73ce1660f905a8abb7d899",
+      "exported_pdf_sha256": "c9e676bda379ded67cf2de7071a9917d7fce1182cf42819e8d8f9a32b10388a2",
+      "exported_pdf_bytes": 21186,
+      "exported_page_points": [
+        413.858,
+        212.598
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "curling-curl-layers",
+      "surface": "main",
+      "typst_section": "typst/sections/05_curl_closure_duon_current.typ",
+      "label": "fig:curling-curl-shell-families",
+      "caption_sha256": "54ec7c91e624cda633618a91f529851b24ef1e55a0069bde57eb6ba457030f6d",
+      "caption_excerpt": "Curling-curl shell families.",
+      "raster_path": "figures_jpg/curling_curl_layers.png",
+      "raster_sha256": "f9b7ff99375ae2a41bee2142b3b8d85d010841bae1537ab276cee9e72f73c3c4",
+      "raster_bytes": 271431,
+      "raster_dimensions_px": [
+        3080,
+        1870
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "shell_family_hierarchy_schematic",
+      "generator_script": "scripts/generate_curl_support_figures.py",
+      "generator_script_sha256": "185801d68d6fe2e18430670927451edccbd80dd03080f2addf249f86e67e017f",
+      "data_sources": [],
+      "provenance_notes": "Conceptual taxonomy of Tetrion -> Tetron -> Core families (1:2, 3:3, 3:4) -> Outer shell paths (C6 hexon, C8 octon, C10 decon) with concentric seat rings.",
+      "target_typst_component": "typst/lib/figures/main/curling_curl_layers.typ",
+      "target_exported_pdf": "latex/figures/generated/curling-curl-layers.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "d6a175dec5740aaadf3605540fc52828aea324cc55d11dbeb69d3ff34d5b9f9d",
+      "exported_pdf_sha256": "fad37df902f925db1d8da6f107919e9b04e0022165d592194aade2b0ed7f65b8",
+      "exported_pdf_bytes": 24057,
+      "exported_page_points": [
+        413.858,
+        249.449
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "field-dynamics-layered-main",
+      "surface": "main",
+      "typst_section": "typst/sections/06_field.typ",
+      "label": "fig:field-dynamics-layered",
+      "caption_sha256": "6bcd757f4e5d0abbc7f829eadb1d2b023cb44178d0a9434c49e3311b2302939f",
+      "caption_excerpt": "Layered field dynamics. Boundaries separate layers; same-sense circulation remains on each layer; coupling arrows cross declared inter-layer",
+      "raster_path": "figures_jpg/field_dynamics_layered_main.png",
+      "raster_sha256": "d7b6118b8f4a0e018336da23f596b70653eeb5db9bb5d70c249465d0c6a0f5b9",
+      "raster_bytes": 442846,
+      "raster_dimensions_px": [
+        1522,
+        1937
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "concentric_layered_field_schematic",
+      "generator_script": "scripts/generate_field_dynamics_layered.py",
+      "generator_script_sha256": "5cf9a42770aeb52efeaec1ee5e5cdd8ec9147c95eaad0b1e5845c56f66d464cb",
+      "data_sources": [],
+      "provenance_notes": "Conceptual concentric layered field dynamics diagram (core coupling, inter-layer coupling, outer-layer coupling, decoupling/lift, inset A lift/exoshedding view, and arrow key).",
+      "target_typst_component": "typst/lib/figures/main/field_dynamics_layered_main.typ",
+      "target_exported_pdf": "latex/figures/generated/field-dynamics-layered-main.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "ed5d76d16e856dd5072c53d66f1496054e636efc769ece4f4569181b7f0a9cc3",
+      "exported_pdf_sha256": "a6b1d1ae6616e581a009c7a00e2bde6031c1253d263ea6beb17f6956fd4955e2",
+      "exported_pdf_bytes": 28262,
+      "exported_page_points": [
+        391.181,
+        430.866
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "support-enclosure-retention",
+      "surface": "main",
+      "typst_section": "typst/sections/06_field.typ",
+      "label": "fig:support-enclosure-retention",
+      "caption_sha256": "75d07db2656697a5dd7d5b520f86807afb41a4f9a7a28d79e940194c49f307e8",
+      "caption_excerpt": "Seat compatibility and support-retention duration for sheddic paths.",
+      "raster_path": "figures_jpg/support_enclosure_retention.png",
+      "raster_sha256": "d868abf47b42dbbe056cb92bb0163aa41e1901bdc25c18c50f8c8f180d7a97aa",
+      "raster_bytes": 219942,
+      "raster_dimensions_px": [
+        3080,
+        1716
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "enclosure_retention_schematic",
+      "generator_script": "scripts/generate_curl_support_figures.py",
+      "generator_script_sha256": "185801d68d6fe2e18430670927451edccbd80dd03080f2addf249f86e67e017f",
+      "data_sources": [],
+      "provenance_notes": "Conceptual schematic of E4 tetron, C6 hexon, C8 octon, C10 decon seat rings and TTL_C vs window retention branches.",
+      "target_typst_component": "typst/lib/figures/main/support_enclosure_retention.typ",
+      "target_exported_pdf": "latex/figures/generated/support-enclosure-retention.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "389fa90e2377edf9262bc1442f701fd72e4147a8d6c1c38a1589b81bae9ee2b5",
+      "exported_pdf_sha256": "ed44dd4bd2df75a3e775c27fd3cc82295eaecb7bf6546e860145aebf60311b0d",
+      "exported_pdf_bytes": 26070,
+      "exported_page_points": [
+        413.858,
+        232.441
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "cycle-disturbance-shedding",
+      "surface": "main",
+      "typst_section": "typst/sections/06_field.typ",
+      "label": "fig:v39-cycle-disturbance-shedding",
+      "caption_sha256": "c9c9551543319d9ad64e56fe21d82631e98e0768f5c712c974779c825c1a4ed2",
+      "caption_excerpt": "Temporal cycle lead\u2013lag disturbance and shedding. On the declared boundary/window $B = ( partial F, omega )$, the schematic $Delta_e^(chi up",
+      "raster_path": "figures_jpg/cycle_disturbance_shedding.png",
+      "raster_sha256": "64e5559ad3f2a6ed1d8933e328923634be8871367958d4723e2d293a6ef7c1be",
+      "raster_bytes": 199209,
+      "raster_dimensions_px": [
+        2970,
+        1584
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "five_stage_shedding_schematic",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [],
+      "provenance_notes": "Visually audited in S1b-0: pure 5-stage conceptual schematic (Temporal cycle group -> Lead-lag span -> Temporal SADAR burden -> Shedding -> Sheddic path) plus declared equations; no empirical dataset.",
+      "target_typst_component": "typst/lib/figures/main/cycle_disturbance_shedding.typ",
+      "target_exported_pdf": "latex/figures/generated/cycle-disturbance-shedding.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "de63f49751d147718ed6bda992a2169f36e35fd02aaabc858594a1819d6b03c5",
+      "exported_pdf_sha256": "be5a4fd8113937665c4b15869195caf992422cabf54943a23a698c008b8ca3f4",
+      "exported_pdf_bytes": 27764,
+      "exported_page_points": [
+        413.858,
+        215.433
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "cycle-disturbance-shedding-fixture",
+      "surface": "manual",
+      "typst_section": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
+      "label": "fig:v39-cycle-shedding-simulation",
+      "caption_sha256": "b3fc3e017b426d782a2b7a666edee9a4ba24768b2666fd4d5a5e3cfa5abd1395",
+      "caption_excerpt": "Retained temporal-cycle fixture. The burden $P_t$ is post-clipping, with $P_t lt.eq C_t$; the stacked outward and local fractions sum to $X_",
+      "raster_path": "figures_jpg/cycle_disturbance_shedding_fixture.png",
+      "raster_sha256": "cda868137826a61f74b1b22a45f55556bbcf2dd155ff2b1d35d04f747589ed04",
+      "raster_bytes": 232822,
+      "raster_dimensions_px": [
+        1710,
+        1278
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "three_panel_timeseries_and_stackplot",
+      "generator_script": "manual/scripts/generate_cycle_shedding_fixture.py",
+      "generator_script_sha256": "593f5023461e0b999398d3d99c7074f4b750740d3c26cac03d8423df5ece8326",
+      "data_sources": [
+        {
+          "path": "wavelet_shedding_simulation.csv",
+          "sha256": "d7b0592997d47b2b550508d663afe8943a98ba9d58d087ce77e9d4d0a0c3ff40"
+        }
+      ],
+      "provenance_notes": "90-tick deterministic CSV fixture (lead, lag, span, post-clipping burden, compatibility, stacked outward remainder + local fraction + total excess).",
+      "target_typst_component": "typst/lib/figures/manual/cycle_disturbance_shedding_fixture.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/cycle-disturbance-shedding-fixture.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "c71df388e2ce3e59edef4abee05624f9230a4e420e379891e0f07eff8aa7e1b2",
+      "exported_pdf_sha256": "5536e217a33de44b788949e69be6d3a769edf0beebb886ec063317534d705063",
+      "exported_pdf_bytes": 25437,
+      "exported_page_points": [
+        413.858,
+        323.15
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "coordinate-phase-delta3-wireframe",
+      "surface": "manual",
+      "typst_section": "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
+      "label": "fig:manual-coordinate-phase-delta3",
+      "caption_sha256": "e3593766610f776d73b4d433aca9338d3d4be64fab2da70cdc4b106293f76175",
+      "caption_excerpt": "3D coordinate phase-cycle $delta_3$ fixture. The coordinate fixture maps trajectory positions into $bb(Z)^3$, forms integer squared displace",
+      "raster_path": "manual/figures/coordinate_phase_delta3_wireframe.png",
+      "raster_sha256": "b3ae1f69dc01631d6d67fac8ec67e5d34b6e3ca1d974144c5240752a47d0d953",
+      "raster_bytes": 273493,
+      "raster_dimensions_px": [
+        2104,
+        1214
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "3d_trajectory_and_delta3_histograms",
+      "generator_script": "manual/scripts/aod_3d_coordinate_phase_delta3.py",
+      "generator_script_sha256": "55ab9a657321282f0560cc031f5baf41087072560840551a932a503ae63e412d",
+      "data_sources": [
+        {
+          "path": "manual/data/brownian/brownian_sample_track.csv",
+          "sha256": "96280533fb6c26a13b1914dbd939919234754ec3da94b6a2b0d720a668cb59d3"
+        },
+        {
+          "path": "manual/data/brownian/phase_cycle_delta3.csv",
+          "sha256": "768395563ac52c766c3967d0288f239ab7c8ef0833c4ccf66187fec659b41a21"
+        },
+        {
+          "path": "manual/data/brownian/octant_delta3.csv",
+          "sha256": "46af0e42928b9250de099bfb5f638984f07f2e0ad3c6d9d10cdf81f01c7df878"
+        }
+      ],
+      "provenance_notes": "9-point Z^3 track (elev=22, azim=-58), declared equations, phase counts O_theta [0,0,4,4,0], octant counts O_q [6,0,1,0,1,0,0,0], and pipeline strip.",
+      "target_typst_component": "typst/lib/figures/manual/coordinate_phase_delta3_wireframe.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/coordinate-phase-delta3-wireframe.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "2772d30b060c115402b722f6f6c80f47d66053b507450c9498cebc4ce1cbe6ef",
+      "exported_pdf_sha256": "1848f508f1fe7ad757b18a61613cb515cd621d1576d87a075b4185e65671da4a",
+      "exported_pdf_bytes": 31758,
+      "exported_page_points": [
+        413.858,
+        243.78
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "higgs-mass-comparison",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
+      "label": "fig:manual-higgs-mass-comparison",
+      "caption_sha256": "97490fb0e761e79a061a183db80dd7730cf531ec7023a7b824d36c1382079721",
+      "caption_excerpt": "Tritrioseptyro mass comparison. The frozen external map $E_H = R D thin 2^(L + 4)$ MeV sends the selected candidate to $124.928 thin upright",
+      "raster_path": "manual/figures/higgs/higgs_mass_comparison.png",
+      "raster_sha256": "a801efba81e384ca0e1a09bb0b443368f195096414f91678e3f869bf7eba3b54",
+      "raster_bytes": 96461,
+      "raster_dimensions_px": [
+        1936,
+        1034
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "errorbar_comparison_plot",
+      "generator_script": "manual/scripts/generate_higgs_trace_figures.py",
+      "generator_script_sha256": "7c162117d7771ef45219b476ade7b5cde72a6242d4f16a6f6adec04fa41a94f3",
+      "data_sources": [
+        {
+          "path": "manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv",
+          "sha256": "a87e3e915367fe044ddd703d12f4a94f4ad61c509a3d312f91ebf5015c075a2b"
+        }
+      ],
+      "provenance_notes": "Four LHC target mass \u00b1 sigma points vs horizontal dashed frozen external map line at 124.928 GeV.",
+      "target_typst_component": "typst/lib/figures/manual/higgs_mass_comparison.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/higgs-mass-comparison.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "61bcda7671dfbb6de4f38cf4f946674689dd6f904ef4423e138925fddb90c9da",
+      "exported_pdf_sha256": "a2e0e6aebd00984b12d26883185a0708b61e17aa1742b8bef36b5179c9c90e9a",
+      "exported_pdf_bytes": 17977,
+      "exported_page_points": [
+        396.85,
+        215.433
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "higgs-tritrioseptyro-trace-flow",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
+      "label": "fig:manual-higgs-trace-flow",
+      "caption_sha256": "883c37144d5091f0ea6571c60c2a365f4b33cb55bbee4504cb98c085e6af1a63",
+      "caption_excerpt": "Tritrioseptyro trace flow. The AFC run produces $Pi = 30$, $R D = 61$, $rho^D_(omega) = 7$, $P^D_H = 21$, and $Q^D_H = 162$. A$Omega$ names ",
+      "raster_path": "manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png",
+      "raster_sha256": "54fd6d25942d8e671b6ead0517a4f8c94194022d1fe470d863d8c1c75e5ce9ba",
+      "raster_bytes": 106480,
+      "raster_dimensions_px": [
+        1628,
+        1364
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "six_stage_trace_flow_schematic",
+      "generator_script": "manual/scripts/generate_higgs_trace_figures.py",
+      "generator_script_sha256": "7c162117d7771ef45219b476ade7b5cde72a6242d4f16a6f6adec04fa41a94f3",
+      "data_sources": [
+        {
+          "path": "manual/data/higgs/higgs_trace_internal_candidates_selection.csv",
+          "sha256": "462885db9b133fde44c9cd887da1be427da0595462336ae41eabd7755e585bf5"
+        },
+        {
+          "path": "manual/data/higgs/higgs_external_map_after_candidate_freeze.csv",
+          "sha256": "18403c7ad4344b278fcc9f9c2d35e5f609c41e5daf100267846cd24be94a225f"
+        }
+      ],
+      "provenance_notes": "Six-stage vertical calculation flow displaying exact frozen trace values (3:3:7_yro, Pi=30, RD=61, rho^D_omega=7, C_3,H=3, P^D_H=21, Q^D_H=162, C_6:+3/C_8:-3, E^(0)_H=124.928 GeV).",
+      "target_typst_component": "typst/lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/higgs-tritrioseptyro-trace-flow.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "2142cbb984f1d0c62bd661db6d52a3dbe932e44af358e3dbaf10eb70b6c21fbc",
+      "exported_pdf_sha256": "52ed6f8d262ade45b0773b39cca267311eaa3c3869ea101205d31037b33c5de5",
+      "exported_pdf_bytes": 23886,
+      "exported_page_points": [
+        391.181,
+        323.15
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "higgs-yro-saddle-signature",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
+      "label": "fig:manual-higgs-yro-saddle",
+      "caption_sha256": "935a413cf3698ed8e21c13dbe30ba95e11be2cbf9401d1357ef572e67a414d83",
+      "caption_excerpt": "Tritrioseptyro yro saddle signature. The internal AFC trace gives $P^D_H = 21$, placing the selected $3\":\"3\":\"7_(upright(\"yro\"))$ candidate ",
+      "raster_path": "manual/figures/higgs/higgs_yro_saddle_signature.png",
+      "raster_sha256": "2e1419b70144491b962b0e328e31700a6652ca2f948647cf08e5e9ce0ce0f288",
+      "raster_bytes": 42399,
+      "raster_dimensions_px": [
+        1540,
+        814
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "signed_bar_chart",
+      "generator_script": "manual/scripts/generate_higgs_trace_figures.py",
+      "generator_script_sha256": "7c162117d7771ef45219b476ade7b5cde72a6242d4f16a6f6adec04fa41a94f3",
+      "data_sources": [
+        {
+          "path": "manual/data/higgs/higgs_trace_internal_candidates_selection.csv",
+          "sha256": "462885db9b133fde44c9cd887da1be427da0595462336ae41eabd7755e585bf5"
+        }
+      ],
+      "provenance_notes": "Exact integer saddle closure residuals P^D_H - C_6 = +3 and P^D_H - C_8 = -3 for K*_H = 3:3:7_yro (P^D_H = 21).",
+      "target_typst_component": "typst/lib/figures/manual/higgs_yro_saddle_signature.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/higgs-yro-saddle-signature.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "b67ea65688bd4882784b91a806095f12ac513bc11e1f0598cfca6f45160ece8c",
+      "exported_pdf_sha256": "6d979734a5b8c69a92b7fa7f863727a4f41d3494036d7b85efc28518b19f69c2",
+      "exported_pdf_bytes": 16276,
+      "exported_page_points": [
+        391.181,
+        204.094
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "double-slit-reclosure-fixture",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+      "label": "fig:manual-double-slit-reclosure-fixture",
+      "caption_sha256": "5bc88c7a4a2d1736a72c22ff6d01f50f4ed734e3bebe925e3880e5a14a91a5b7",
+      "caption_excerpt": "Dimonhexon double-slit reclosure fixture. Cross-return changes the two-gate distribution; the exact internal comparison is recorded by $delt",
+      "raster_path": "manual/figures/double_slit_reclosure_fixture.png",
+      "raster_sha256": "998892233c9ff3ac2bcbbf87bf67d2f61db14ed4214b8895977c8b359ee08504",
+      "raster_bytes": 118977,
+      "raster_dimensions_px": [
+        1440,
+        864
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "multi_series_line_marker_plot",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+          "anchor": "tab:manual-dimonhexon-double-slit-fixture",
+          "sha256": "1dc42efa0ac3531b40b28fc577ff3c7c5f894fde170ea5adb041e5cafebb9ee1"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 44/44 integer match across bins k=-5..+5 against adjacent table <tab:manual-dimonhexon-double-slit-fixture> (S_k, T^0_k, T^x_k, O_k).",
+      "target_typst_component": "typst/lib/figures/manual/double_slit_reclosure_fixture.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/double-slit-reclosure-fixture.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "fc698f113b5d54a2fd8603866ef6d63ddf24b508be1cf0f590615da2f0c1660a",
+      "exported_pdf_sha256": "dc43b90e42a5c86577f4a46c8b0c8bc60485e321a94f46137aeb973bd876e7a8",
+      "exported_pdf_bytes": 13643,
+      "exported_page_points": [
+        396.85,
+        238.11
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "double-slit-cross-return-setup",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+      "label": "fig:manual-recurrent-ring-double-slit",
+      "caption_sha256": "60e97ea385ce47a0c177dafdc65422a99955b1ce29110b5eb31b9c15b87b1b47",
+      "caption_excerpt": "Recurrent-ring double-slit cross-return setup. Two boundary gates produce independent one-gate contributions; the no-cross baseline is the s",
+      "raster_path": "manual/figures/double_slit_cross_return_setup.png",
+      "raster_sha256": "a3fb47d9bfbfa8174282e8229c331efc6c034392cc7c5d77f72d48879d43eddc",
+      "raster_bytes": 102920,
+      "raster_dimensions_px": [
+        2354,
+        1245
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "two_gate_cross_return_schematic",
+      "generator_script": "scripts/generate_manual_figures.py",
+      "generator_script_sha256": "9e0f18a75f4e95849bb86373b55b5ad1d9f1ef9f5b019ff88baf9e58dbf2ce63",
+      "data_sources": [],
+      "provenance_notes": "Conceptual schematic of boundary gates g_a, g_b with dashed cross-return arc, S^(a)_k and S^(b)_k paths, T^0_k sum, T_cross = T_no + C_cross, and reclosure bins.",
+      "target_typst_component": "typst/lib/figures/manual/double_slit_cross_return_setup.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/double-slit-cross-return-setup.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "a04e9ef7d2f0ffc02f14e0fa34649a5de554a46cc6870b8e6d1425fb6ec153e8",
+      "exported_pdf_sha256": "e9b2d2ac35d882a7405a37d8d72ea8e7142ea12ddea7466e6b51a0ffdcba657f",
+      "exported_pdf_bytes": 18501,
+      "exported_page_points": [
+        413.858,
+        221.102
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "solar-calculated-vs-target",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/05_solar_system_field_tests.typ",
+      "label": "fig:manual-solar-calculated-target",
+      "caption_sha256": "0b3df0c52a3d037ac4806f601137c6c42517578e1e71fe30fd9231d213cc08e3",
+      "caption_excerpt": "Solar-system carried observable-map values versus declared targets. The vertical axis is logarithmic; each record is compared only within it",
+      "raster_path": "manual/figures/solar_calculated_vs_target.png",
+      "raster_sha256": "2df323ecf99dbcf828a318259dffbfeb043eb0ae1364afb30701fd679b6dddf3",
+      "raster_bytes": 80330,
+      "raster_dimensions_px": [
+        1600,
+        900
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "grouped_log_bar_chart",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "typst/manual/sections/05_solar_system_field_tests.typ",
+          "anchor": "tab:manual-solar-observable-map-results",
+          "sha256": "53a6ffa0177841df53a61f1d505d7947e7982399996b2c5f7c0114145e1cca20"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 6/6 value match on log-y scale against adjacent O0 table <tab:manual-solar-observable-map-results> (Mercury perihelion, Light bending, Solar redshift).",
+      "target_typst_component": "typst/lib/figures/manual/solar_calculated_vs_target.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/solar-calculated-vs-target.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "a21c36d34ddfebac1ca6e6ea98f020e5b0b0685f7798269051e04aa9de8f0227",
+      "exported_pdf_sha256": "4d616f9d1155c8b7dfc2b71180f82729508ff15b42c978d683a079ae324a2f3e",
+      "exported_pdf_bytes": 17780,
+      "exported_page_points": [
+        402.52,
+        226.772
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "solar-percent-error",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/05_solar_system_field_tests.typ",
+      "label": "fig:manual-solar-percent-error",
+      "caption_sha256": "c9a1700fef43a5c42f1ee3a9a1d3b889c5b722f30137d89533111c73b1f0c3af",
+      "caption_excerpt": "Solar-system field tests: absolute percent error.",
+      "raster_path": "manual/figures/solar_percent_error.png",
+      "raster_sha256": "40e1aba659d280aebd4e6ff65df4e4774e13413eab2dc8b519e44affe714cae5",
+      "raster_bytes": 72455,
+      "raster_dimensions_px": [
+        1600,
+        900
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "log_bar_chart",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "typst/manual/sections/05_solar_system_field_tests.typ",
+          "anchor": "tab:manual-solar-observable-map-results",
+          "sha256": "53a6ffa0177841df53a61f1d505d7947e7982399996b2c5f7c0114145e1cca20"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 3/3 |percent error| match (0.0002327%, 0.0005714%, 0.001887%) on log-y scale against adjacent O0 table <tab:manual-solar-observable-map-results>.",
+      "target_typst_component": "typst/lib/figures/manual/solar_percent_error.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/solar-percent-error.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "a1a6314c3de4929131678b80e8481ea01c6ca79aed319b337af510076ed4137e",
+      "exported_pdf_sha256": "f25e78463f387750b65f93b83e4f961c25bd723fc195384642e4bdfc877befd6",
+      "exported_pdf_bytes": 17052,
+      "exported_page_points": [
+        402.52,
+        226.772
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "sparc-declaration-controls",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "label": "fig:manual-sparc-controls",
+      "caption_sha256": "4df4a0c4f68f452deea0da8cbcd0bd42e93c31fbad4216720f335aef1a196a4a",
+      "caption_excerpt": "SPARC carried declaration-control scores. The four values in #raw(\"sparc_declaration_controls.csv\") are frozen comparison records; their var",
+      "raster_path": "manual/figures/sparc_declaration_controls.png",
+      "raster_sha256": "dbaf9c68c9f3ff6c2840315c6a77d402a4e20a53bf793e0a0f82fd97599ebf4a",
+      "raster_bytes": 64939,
+      "raster_dimensions_px": [
+        1440,
+        810
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "bar_chart",
+      "generator_script": "manual/scripts/score_sparc_field_dynamics.py",
+      "generator_script_sha256": "568804a535858031a0a6886748e6ef4da357bfb86ffd8d045ef1b1c4ac6f5b89",
+      "data_sources": [
+        {
+          "path": "manual/data/derived/sparc_declaration_controls.csv",
+          "sha256": "e16ef11585c814112e6f19f4cbabee1b5442f6bd1981f9d3d9f70cc76f7afd12"
+        }
+      ],
+      "provenance_notes": "Exact 4/4 match to frozen manual/data/derived/sparc_declaration_controls.csv (carried frozen comparison records as documented in score_sparc_field_dynamics.py).",
+      "target_typst_component": "typst/lib/figures/manual/sparc_declaration_controls.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/sparc-declaration-controls.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "d39365c67b2126e4c3f81fcbf7a016d9f7684951cdc429bfb7564b1ff07c36d8",
+      "exported_pdf_sha256": "c0551d51a84a96d25121dcd71bd96a9dea80843b2d60b7d48f987891ccdbd355",
+      "exported_pdf_bytes": 15792,
+      "exported_page_points": [
+        402.52,
+        226.772
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "sparc-display-speed-view",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "label": "fig:manual-sparc-display-speed",
+      "caption_sha256": "5fd02ea510b6a563cfa53e1ff84cd7da2dc8c7ac2754430b1536c6615d72d9ed",
+      "caption_excerpt": "Display speed view. This presentation view uses $V_(upright(\"disp\")) = sqrt(U)$ after scoring; the score coordinate is $U$.",
+      "raster_path": "manual/figures/sparc_display_speed_view.png",
+      "raster_sha256": "c1847fa3fb6f92059e7d268ca018dd50d8c815771c9f191e580cf5dff9620957",
+      "raster_bytes": 73807,
+      "raster_dimensions_px": [
+        1440,
+        810
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_series_line_plot",
+      "generator_script": "manual/scripts/score_sparc_field_dynamics.py",
+      "generator_script_sha256": "568804a535858031a0a6886748e6ef4da357bfb86ffd8d045ef1b1c4ac6f5b89",
+      "data_sources": [
+        {
+          "path": "manual/data/derived/sparc_five_galaxy_per_bin.csv",
+          "sha256": "2ceec667b927d9cc6e1c65ae0980dadfdbb0ca4a0497bbd2fdc8999314b7e2e4"
+        }
+      ],
+      "provenance_notes": "Exact NGC3198 display speed Vobs vs V_disp = sqrt(max(0, U_AO)) (display-only, not scoring coordinate).",
+      "target_typst_component": "typst/lib/figures/manual/sparc_display_speed_view.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/sparc-display-speed-view.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "c58f005b6e5f81c7ab6d548ae9ff742a8d6ed274003c83ac24b989ba252a2ad0",
+      "exported_pdf_sha256": "88d635c6e24942f303d45b6de6fa760fc34c122b2fceafcbc49158c65d90cd67",
+      "exported_pdf_bytes": 16255,
+      "exported_page_points": [
+        402.52,
+        226.772
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "sparc-square-speed-residuals",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "label": "fig:manual-sparc-residuals",
+      "caption_sha256": "4292283baf1e5d2310dee0fb8e87a1eea3c11110e95f3e39c86de68b89ff95de",
+      "caption_excerpt": "SPARC square-speed residuals for the NGC3198 display record. The residual is $Delta U = U_(AO) - U_(upright(\"obs\"))$.",
+      "raster_path": "manual/figures/sparc_square_speed_residuals.png",
+      "raster_sha256": "849eb1637c57a7cf44599249b4316a6c1bde0a5eae6506202ab21b2e775974a2",
+      "raster_bytes": 62092,
+      "raster_dimensions_px": [
+        1440,
+        810
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "residual_line_plot",
+      "generator_script": "manual/scripts/score_sparc_field_dynamics.py",
+      "generator_script_sha256": "568804a535858031a0a6886748e6ef4da357bfb86ffd8d045ef1b1c4ac6f5b89",
+      "data_sources": [
+        {
+          "path": "manual/data/derived/sparc_five_galaxy_per_bin.csv",
+          "sha256": "2ceec667b927d9cc6e1c65ae0980dadfdbb0ca4a0497bbd2fdc8999314b7e2e4"
+        }
+      ],
+      "provenance_notes": "Exact NGC3198 radial residuals Delta_U = U_AO - U_obs with zero reference line.",
+      "target_typst_component": "typst/lib/figures/manual/sparc_square_speed_residuals.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/sparc-square-speed-residuals.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "2f53536d9a216c571383fda14f25363e6a911dcb651f5930a48e504825b7ab32",
+      "exported_pdf_sha256": "ae1cd0d5e3e0315deccad7890709a037c351baf634a9072f40e141e480a6830e",
+      "exported_pdf_bytes": 15955,
+      "exported_page_points": [
+        402.52,
+        226.772
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "sparc-square-speed-comparison",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "label": "fig:manual-sparc-square-speed-comparison",
+      "caption_sha256": "e617f2bd87fe751acfa5a21f4bccce72e8ed63e0cf7d804019dc159d602a28dd",
+      "caption_excerpt": "SPARC square-speed comparison for the NGC3198 display record. The scored coordinate is $U = V^2$.",
+      "raster_path": "manual/figures/sparc_square_speed_comparison.png",
+      "raster_sha256": "fbd8b3a9371a82c54dd65fec942832eaae1971fb78390ac325642d022fc1baf7",
+      "raster_bytes": 70554,
+      "raster_dimensions_px": [
+        1440,
+        810
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_series_line_plot",
+      "generator_script": "manual/scripts/score_sparc_field_dynamics.py",
+      "generator_script_sha256": "568804a535858031a0a6886748e6ef4da357bfb86ffd8d045ef1b1c4ac6f5b89",
+      "data_sources": [
+        {
+          "path": "manual/data/derived/sparc_five_galaxy_per_bin.csv",
+          "sha256": "2ceec667b927d9cc6e1c65ae0980dadfdbb0ca4a0497bbd2fdc8999314b7e2e4"
+        }
+      ],
+      "provenance_notes": "Exact NGC3198 radial profile (43 bins sorted by R): U_obs vs AOmega boundary-derived U_AO.",
+      "target_typst_component": "typst/lib/figures/manual/sparc_square_speed_comparison.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/sparc-square-speed-comparison.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "08fc52ab406d8613b64b2df80806c6bc87943f6e7324fe3a5c30572a559d1c2a",
+      "exported_pdf_sha256": "69e1ed68b7047b8cb9692852ca293881ca4994028993da05e5ce4124db446410",
+      "exported_pdf_bytes": 17509,
+      "exported_page_points": [
+        402.52,
+        226.772
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "tau-declaration-controls",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "label": "fig:manual-tau-controls",
+      "caption_sha256": "e4810ebd060165fa921c1ac2a31501476aa487422b5556755fa0e0eb5c75526f",
+      "caption_excerpt": "Tau declaration controls. Labels are declaration controls for the internal diagnostic lane.",
+      "raster_path": "manual/figures/tau_declaration_controls.png",
+      "raster_sha256": "2079c070499370107b74db1dabb414e3dfae79e72c8fd0f22f0912002a81fcc8",
+      "raster_bytes": 48983,
+      "raster_dimensions_px": [
+        1440,
+        810
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "bar_chart",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/derived/tau_declaration_controls.csv",
+          "sha256": "d1769dd1161a4f12f0be0bd7916f89c708f429560ba2fedbb2ecfd7c24ea5cab"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 4/4 match to frozen manual/data/derived/tau_declaration_controls.csv (winner margins 161%, 158%, 147%, 166%; carried frozen comparison records).",
+      "target_typst_component": "typst/lib/figures/manual/tau_declaration_controls.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/tau-declaration-controls.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "60ab9626fa0e1839d04c3fa2f0fa0d2e0b90eaa4c0907b98c26ea7f714404f2c",
+      "exported_pdf_sha256": "b55a7610c5a74bc257824845ec9881100b89b2358c011a0dd44ae03e3dac460c",
+      "exported_pdf_bytes": 11990,
+      "exported_page_points": [
+        402.52,
+        226.772
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "tau-missing-burden-diagnostic",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "label": "fig:manual-tau-missing",
+      "caption_sha256": "2a345c2b1a336ea7075415bb21688061716cc609af7f027dd0a271561ba961d3",
+      "caption_excerpt": "Tau missing-burden diagnostic. The plot renders the exact missing-burden ratio $31 slash 50$ as the presentation value $0.62$ for the $1\":\"2",
+      "raster_path": "manual/figures/tau_missing_burden_diagnostic.png",
+      "raster_sha256": "35ef395570960b9da44708408fdcc1cfc058e5cbbea35d5ecb1aa32b44b4a123",
+      "raster_bytes": 73334,
+      "raster_dimensions_px": [
+        1296,
+        756
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "line_marker_with_target_line",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/derived/tau_ring_diagnostic.csv",
+          "sha256": "c15898ce88098fbe4086f45f43d9e7323c26d36a863fe2da52ea19edb84a15bd"
+        },
+        {
+          "path": "manual/data/dec/tau_missing_burden_exact_ratio_patch.csv",
+          "sha256": "ee90703644a41d7568bb1f4ebaaa5ff56fa111df0a77ee96ba0f44c74137c1e1"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 5/5 match: missing_fraction [0.42, 0.62, 0.45, 0.26] vs horizontal target line 31/50 = 0.62.",
+      "target_typst_component": "typst/lib/figures/manual/tau_missing_burden_diagnostic.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/tau-missing-burden-diagnostic.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "3356427218031a8ada4e6de407c1e40ef25fa9fb1bf9e9baf6c3742393b63489",
+      "exported_pdf_sha256": "a3091ff6ad3a9e5a848ae5bc0164ab808ad723dc765c0606fb7631de118e2f47",
+      "exported_pdf_bytes": 15207,
+      "exported_page_points": [
+        396.85,
+        221.102
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "tau-support-residuals",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "label": "fig:manual-tau-residuals",
+      "caption_sha256": "7926a211a57deae70d285f27829418df50e67e3b23098c0d98e6dd9314ac6bd2",
+      "caption_excerpt": "Tau-support residuals against the declared support-score target.",
+      "raster_path": "manual/figures/tau_support_residuals.png",
+      "raster_sha256": "b8dda0b3fa4576d56ee892bc021b48ea99ba16847c0124ac39726241632c9de2",
+      "raster_bytes": 58524,
+      "raster_dimensions_px": [
+        1296,
+        756
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "line_marker_plot",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/derived/tau_ring_diagnostic.csv",
+          "sha256": "c15898ce88098fbe4086f45f43d9e7323c26d36a863fe2da52ea19edb84a15bd"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 4/4 match: S_tau_ring [1.473, -0.105804, 2.14, 1.715] labeled 'Delta S_tau, primary declaration' with zero reference line.",
+      "target_typst_component": "typst/lib/figures/manual/tau_support_residuals.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/tau-support-residuals.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "783af4774027c86a234ac0388f185903fd8b7bf14b5a115d6b4b8e6f38481646",
+      "exported_pdf_sha256": "52a5041037afc013b5c8a9026c18a7a29dc25421afaf873d0cafdfb089919111",
+      "exported_pdf_bytes": 14227,
+      "exported_page_points": [
+        396.85,
+        221.102
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "tau-ring-support-score",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "label": "fig:manual-tau-ring-score",
+      "caption_sha256": "d32bf120ae85794d74ed17604842e266240d054e2747c13f2e97031c6e6cf805",
+      "caption_excerpt": "Tau ring support score. The ring diagnostic preserves $1\":\"2\":\"9_(upright(\"yro\"))$ / Dimonnanyro as the closest candidate.",
+      "raster_path": "manual/figures/tau_ring_support_score.png",
+      "raster_sha256": "767f7700eaec07048f499a850876f177b8eb61b55709c718235132cec0b53852",
+      "raster_bytes": 87620,
+      "raster_dimensions_px": [
+        1440,
+        810
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_series_line_marker_plot",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/derived/tau_ring_diagnostic.csv",
+          "sha256": "c15898ce88098fbe4086f45f43d9e7323c26d36a863fe2da52ea19edb84a15bd"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 8/8 value match to frozen manual/data/derived/tau_ring_diagnostic.csv (S_tau cell score and S_tau_ring ring score across 1:2:8, 1:2:9, 1:2:10, 3:3:8).",
+      "target_typst_component": "typst/lib/figures/manual/tau_ring_support_score.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/tau-ring-support-score.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "6aa497aa985ffe753c311040f02c18c3bda4b5064752096b95842fa7d959c15e",
+      "exported_pdf_sha256": "7c691dc971bfbbecf6600fe86b1c3460d07bac898579949acad768fad20a5488",
+      "exported_pdf_bytes": 15288,
+      "exported_page_points": [
+        396.85,
+        221.102
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "run-tumble-trace-3d-projection",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "label": "fig:run-tumble-tracer-current-projection",
+      "caption_sha256": "5a657c72b52b93cb1cd64729f182ea4cdc3c7485383a0d46f0d8e3d7a77f66db",
+      "caption_excerpt": "Run-tumble tracer-current projection. The plotted path is the declared $bb(Z)^3$ projection of the retained $bb(Z)^4$ accumulated trace. The",
+      "raster_path": "manual/figures/run_tumble_trace_3d_projection.png",
+      "raster_sha256": "249355364c3ac29213afeba6dd61dd87f0e23414b16a443d1e02d715e3953c3d",
+      "raster_bytes": 102693,
+      "raster_dimensions_px": [
+        1259,
+        1051
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "five_panel_3d_step_strip_bar_plot",
+      "generator_script": "manual/scripts/aod_run_tumble_3d_trace.py",
+      "generator_script_sha256": "601f6c6718248219e7f7c3ecc2c52ede0704941822eebc6453bd5af08a6efdd7",
+      "data_sources": [
+        {
+          "path": "manual/data/run_tumble/run_tumble_trace_20_ticks.csv",
+          "sha256": "67fe77c99d57a0de0841ac5f023ae2443a422257963b1ff6b8b0728a147f20b7"
+        },
+        {
+          "path": "manual/data/run_tumble/run_tumble_phase_cycle_delta3.csv",
+          "sha256": "19ec7d8e75b916b8bdbf610c439ced726b756b9ab93da8045b65abf2ef4b7009"
+        },
+        {
+          "path": "manual/data/run_tumble/run_tumble_octant_delta3.csv",
+          "sha256": "eb7fff97653233a68c01ad7551477f6d7239ae47d48ff82ac00b236202089568"
+        }
+      ],
+      "provenance_notes": "Five-panel deterministic 20-tick fixture: 3D pi_3(h_t) path in Z^3, Q^2_3D post-step trace, init/run/tumble mode strip, phase counts O, and octant delta_3 magnitudes m.",
+      "target_typst_component": "typst/lib/figures/manual/run_tumble_trace_3d_projection.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/run-tumble-trace-3d-projection.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "9e84d6d17e0eba18af34b5d5847611095c90baeed57b08440056b5a56c71bc76",
+      "exported_pdf_sha256": "f91f6f5d09045c451d08643e9c7e6af6301235d77887ee0c7fd46ce7d4f1fe08",
+      "exported_pdf_bytes": 21437,
+      "exported_page_points": [
+        408.189,
+        345.827
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-10-lensing-calculation-spine",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-calculation-spine",
+      "caption_sha256": "e6c8ff7906de8c9f87ec7c2c5b0f301c08100b354d09898dd18047b7dd0247d2",
+      "caption_excerpt": "Galactic lensing calculation spine. The $U$-projection and lensing targets remain downstream of declared field-ring values.",
+      "raster_path": "manual/figures/lensing/10_lensing_calculation_spine.png",
+      "raster_sha256": "6fd82b24252cded79270931a6f8bc295651b28cd1623385e5f5b7083323870d4",
+      "raster_bytes": 30966,
+      "raster_dimensions_px": [
+        1744,
+        752
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "seven_stage_spine_flowchart",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [],
+      "provenance_notes": "Visually audited in S1b-0: pure 7-box conceptual lensing calculation spine (B_lens -> T^0_k -> C^x_{ij,k} -> T^x_k -> Delta^Z_k -> delta_{3,k} -> audit) with bottom identity equation; no empirical dataset.",
+      "target_typst_component": "typst/lib/figures/manual/lensing_10_lensing_calculation_spine.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-10-lensing-calculation-spine.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "64b22c3232dad6feb0f843ced78e6a30c0d66617c5a66e1de3a7e44f02dd2333",
+      "exported_pdf_sha256": "0274592bf2e237f21044f592f5897d1735fc26705548e571e29fd9c8df98919c",
+      "exported_pdf_bytes": 16393,
+      "exported_page_points": [
+        413.858,
+        153.071
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-02-frg-value-identity-delta3",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-frg-delta3",
+      "caption_sha256": "fb3239542d1fd590d74853e08c631fa320faf28202a5feda7c3c4a8a8821c35a",
+      "caption_excerpt": "FRG value identity and $delta_3$ audit. Gate values $T^0$, $C^(times)$, and $T^(times)$ are computed before the fixture comparator joins.",
+      "raster_path": "manual/figures/lensing/02_frg_value_identity_delta3.png",
+      "raster_sha256": "09c68be4dfaa270c81a49e575ae5934f069946f53d4d3eb66811e4c344238ba8",
+      "raster_bytes": 53529,
+      "raster_dimensions_px": [
+        1584,
+        703
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "five_box_identity_flowchart",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [],
+      "provenance_notes": "Visually audited in S1b-0: pure 5-box conceptual identity diagram (T^0_k -> C^x_{ij,k}(B_lens) -> T^x_k -> Delta^Z_k -> delta_{3,k}) with top and bottom equations; no empirical dataset.",
+      "target_typst_component": "typst/lib/figures/manual/lensing_02_frg_value_identity_delta3.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-02-frg-value-identity-delta3.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "aaf7208c3d8d96474675cf138d803409ce887e9114fb0ed0388722acf67b9dd9",
+      "exported_pdf_sha256": "575963dedb053d8921828fc1c7673e2611dd9a510d634794fee0d0e0ae8e3465",
+      "exported_pdf_bytes": 17642,
+      "exported_page_points": [
+        408.189,
+        184.252
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-07-k4-3d-timeflow-input-gate",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-k4-gate",
+      "caption_sha256": "482692c3d74467d02c08ad1c18d1feb5ce49e4fdb605755d59dfc1781467e42d",
+      "caption_excerpt": "K4 higher-resolution lensing data-support gate. The L3 input package records independent 3D + time-flow medium data before the target side j",
+      "raster_path": "manual/figures/lensing/07_k4_3d_timeflow_input_gate.png",
+      "raster_sha256": "84d06ac8c62c626f653e68bfb045eccb32914bf49e20bdd0a656ee40688179d5",
+      "raster_bytes": 65480,
+      "raster_dimensions_px": [
+        1270,
+        708
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "grouped_count_gate_card",
+      "generator_script": "manual/scripts/generate_k4_input_gate_figure.py",
+      "generator_script_sha256": "3f4f514d7f424919ac1c68b13782b8a511ecb30d73589ad2895773ed818f66cc",
+      "data_sources": [
+        {
+          "path": "manual/data/lensing/k4_3d_timeflow_input_gate.csv",
+          "sha256": "0bd0f3422b4f66a9547898d56486372ce0458fff5c9a907a5ceee945493e21b6"
+        }
+      ],
+      "provenance_notes": "Exact 6 input groups with field counts (2, 1, 2, 1, 1, 2) aggregated directly from manual/data/lensing/k4_3d_timeflow_input_gate.csv.",
+      "target_typst_component": "typst/lib/figures/manual/lensing_07_k4_3d_timeflow_input_gate.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-07-k4-3d-timeflow-input-gate.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "9da2d92171d711cdbdccbe06ef1e956044c5d202878d36b523212cce9b36c5ee",
+      "exported_pdf_sha256": "7114df1c222d7fd87723541e520135ae582fe5d91b72782d87c5f93ae8859dae",
+      "exported_pdf_bytes": 13468,
+      "exported_page_points": [
+        402.52,
+        221.102
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-04-sparc5-class-tally-heatmap",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-sparc5-classes",
+      "caption_sha256": "3cda1590d956c060dafcdeb37a1e699a04b39beaa065cfdef6b20696d57002ba",
+      "caption_excerpt": "SPARC5 lens-medium class tallies. The dominant diagnostic route class is recorded for audit.",
+      "raster_path": "manual/figures/lensing/04_sparc5_class_tally_heatmap.png",
+      "raster_sha256": "0abd311f29096328e499f52ce6fbb51995d2641bc92ad34039f8bdc98c00772b",
+      "raster_bytes": 97480,
+      "raster_dimensions_px": [
+        1920,
+        960
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "annotated_heatmap_with_colorbar",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/lensing/sparc5_lensing_class_tallies.csv",
+          "sha256": "3256c12827e38bde89691303c467e3f19401b7caf5b37501f6388dd73bf2f5a2"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 35/35 integer cell match (5 galaxies x 7 classes, 0..31 colorbar) against manual/data/lensing/sparc5_lensing_class_tallies.csv.",
+      "target_typst_component": "typst/lib/figures/manual/lensing_04_sparc5_class_tally_heatmap.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-04-sparc5-class-tally-heatmap.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "c4db19427b4f03f84a5d04e333141eb6f46c391b6960b3a9f62b123e6088759f",
+      "exported_pdf_sha256": "f9970510ef461a707ecf0a2ce4eaa8581941194bf86caa0cb3e7c5b31c3ce2cc",
+      "exported_pdf_bytes": 15898,
+      "exported_page_points": [
+        408.189,
+        215.433
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-03-sparc5-lens-medium-phase-proxy",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-sparc5-proxy",
+      "caption_sha256": "2ee3aab31ab2daca2677b4566288c401ee2157b6422115f4a2fb0e72ecb42bad",
+      "caption_excerpt": "SPARC5 radial lens-medium data-support class. The plotted quantities are diagnostic medium proxies; lensing targets are carried by SWELLS or",
+      "raster_path": "manual/figures/lensing/03_sparc5_lens_medium_phase_proxy.png",
+      "raster_sha256": "c716f30bc2f84129891ee5ced4c6553a7f437530a8c1346d4f830907e2e767a1",
+      "raster_bytes": 44105,
+      "raster_dimensions_px": [
+        1760,
+        800
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "grouped_bar_chart",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/lensing/sparc5_medium_diagnostic_summary.csv",
+          "sha256": "678e38efdf95445722acc661c420fdd863bfab756e56357360cb2fd70aa1807f"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 10/10 match (median |Delta A_gamma| and max |Delta A_gamma| for 5 SPARC galaxies) against manual/data/lensing/sparc5_medium_diagnostic_summary.csv.",
+      "target_typst_component": "typst/lib/figures/manual/lensing_03_sparc5_lens_medium_phase_proxy.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-03-sparc5-lens-medium-phase-proxy.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "caf7ce266c8e9789b5070b3950de1b05cbd10c7d225a3682c9ac742f53af425e",
+      "exported_pdf_sha256": "fda7b440a6213a5bebb667e413628ae263faf8e9768b4915778bc37ebddc1324",
+      "exported_pdf_bytes": 16462,
+      "exported_page_points": [
+        408.189,
+        209.764
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-09-staged-lensing-lane",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-staged-lane",
+      "caption_sha256": "50fc9ab5459e29ab3fcf252d2ae75f1a225d564728ac923d94bddfa71d28a67a",
+      "caption_excerpt": "Staged galactic lensing lane. Toy fixtures, SPARC5 diagnostics, SWELLS acquisition, retained baseline, K2/K3 audit diagnostics, and K4 gate ",
+      "raster_path": "manual/figures/lensing/09_staged_lensing_lane.png",
+      "raster_sha256": "ccfd26c58ca326048620e32cd88abf53ab3c9b9ba2cee61b465bfa718f7b260f",
+      "raster_bytes": 36739,
+      "raster_dimensions_px": [
+        1904,
+        592
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "six_stage_pipeline_flowchart",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [],
+      "provenance_notes": "Visually audited in S1b-0: pure 6-box conceptual staged lensing lane (Toy 1 -> SPARC5 -> SWELLS K0 -> K1 -> K2/K3 -> K4); no empirical dataset.",
+      "target_typst_component": "typst/lib/figures/manual/lensing_09_staged_lensing_lane.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-09-staged-lensing-lane.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "aecbe8315be026cc00a4c6cb941dad99b1486ed43c893715c7dd6ff93c1777ea",
+      "exported_pdf_sha256": "31ca2543a32173e2d7432d4b282c97421b57f81f4dc80f92628cabdba424fe7a",
+      "exported_pdf_bytes": 14740,
+      "exported_page_points": [
+        413.858,
+        119.055
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-05-swells-k-comparison-delta3",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-swells-comparison",
+      "caption_sha256": "2f19e057792d074aad52e99ec8d8b1154029020e140c8b8e5f96fe03d7fcbaab",
+      "caption_excerpt": "SWELLS K1/K2/K3 $delta_3$ comparison. K2/K3 are audit diagnostics with $delta_3$ comparison tallies.",
+      "raster_path": "manual/figures/lensing/05_swells_k_comparison_delta3.png",
+      "raster_sha256": "444b91e394289d453c4a7bfbed3a596e0d804b050f284403deb549ff022b0f95",
+      "raster_bytes": 33699,
+      "raster_dimensions_px": [
+        1423,
+        752
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "grouped_bar_chart",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/lensing/swells_k1_k2_k3_delta3_comparison.csv",
+          "sha256": "10af49ec35953722e275cbf22bb94fd56dcf4e8535251ddd38b8b00a3ab7790d"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 6/6 integer match (K1: 8/4, K2: 18/4, K3: 10/12) against manual/data/lensing/swells_k1_k2_k3_delta3_comparison.csv.",
+      "target_typst_component": "typst/lib/figures/manual/lensing_05_swells_k_comparison_delta3.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-05-swells-k-comparison-delta3.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "ead325673d3cc7924217cfb33bcf3ea3acfd116e75bdc6787cf80ced3c165851",
+      "exported_pdf_sha256": "49b13f81eb10d2419ffd34797924413266d258e8426d687da283d3ffdec67723",
+      "exported_pdf_bytes": 16244,
+      "exported_page_points": [
+        402.52,
+        215.433
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-06-swells-k1-thetae-delta3-tallies",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-swells-k1",
+      "caption_sha256": "5c0620311f2742236a44cbf651fb2d8e00e8d5808917f2b120795eaa0dc21fae",
+      "caption_excerpt": "SWELLS K1 retained-baseline $theta_E$ $delta_3$ tallies.",
+      "raster_path": "manual/figures/lensing/06_swells_k1_thetaE_delta3_tallies.png",
+      "raster_sha256": "fb5cfa962466722252b7e30cf1ed842f26698cb8dfa42f40a77f09903e8b97d1",
+      "raster_bytes": 47379,
+      "raster_dimensions_px": [
+        1600,
+        880
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "grouped_bar_with_line_overlay",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/lensing/swells_k1_thetaE_delta3_scores.csv",
+          "sha256": "ae1081cdd1834c92d40c87f689a564fbece85db2f1470b0494074afc5a21c65d"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 9/9 integer match across 3 theta_E bins against manual/data/lensing/swells_k1_thetaE_delta3_scores.csv.",
+      "target_typst_component": "typst/lib/figures/manual/lensing_06_swells_k1_thetae_delta3_tallies.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-06-swells-k1-thetae-delta3-tallies.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "8cf4b1e4caccd6a6681181ed449a9360e96b14eeb0b2d4518ee670731bbabaab",
+      "exported_pdf_sha256": "98acbdb8bd8f0507438381f4f5b5c804895b16071bd863300c3a45d360e9c7ba",
+      "exported_pdf_bytes": 17149,
+      "exported_page_points": [
+        402.52,
+        221.102
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-08-target-quarantine",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-target-quarantine",
+      "caption_sha256": "8006216a25b083f0ebd567337a928460150752cb3cc81a13b2082b3aa13fc46a",
+      "caption_excerpt": "Target-side quarantine. A$Omega$ values freeze before target tallies join.",
+      "raster_path": "manual/figures/lensing/08_target_quarantine.png",
+      "raster_sha256": "8dd4a633807d0d13efedd3cec302fc931d8643be0cf3f7031d76dc6091f5b97f",
+      "raster_bytes": 35603,
+      "raster_dimensions_px": [
+        1584,
+        592
+      ],
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "three_stage_quarantine_flowchart",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [],
+      "provenance_notes": "Visually audited in S1b-0: pure 3-box conceptual quarantine schematic (AO input side -> AO values freeze -> target side quarantine); no empirical dataset.",
+      "target_typst_component": "typst/lib/figures/manual/lensing_08_target_quarantine.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-08-target-quarantine.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "769da946010778523fcca2c732fa5b24fe7023c33d18e835c66d2a5999624bcb",
+      "exported_pdf_sha256": "0631213f00c3c696e6198bdd0d6d1903ed26ad7ad8b14badde1fc6a48cae5339",
+      "exported_pdf_bytes": 15975,
+      "exported_page_points": [
+        402.52,
+        130.394
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-01-toy1-delta3-class-tallies",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-toy-delta3",
+      "caption_sha256": "18d54c18841e7a3512a758fe264139c097669db78cbab922412b58e45608a808",
+      "caption_excerpt": "Toy 1 exact internal $delta_3$ class tallies.",
+      "raster_path": "manual/figures/lensing/01_toy1_delta3_class_tallies.png",
+      "raster_sha256": "115908e2576dbb52deb53f420e85c2d9212d027eacb49b3ac2c25f83be067cb3",
+      "raster_bytes": 76099,
+      "raster_dimensions_px": [
+        1920,
+        960
+      ],
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "grouped_bar_with_marker_overlay",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/lensing/toy1_delta3_class_tallies.csv",
+          "sha256": "e6c21ebc81511ea7dbc6d1d2a94e4f483350016854422756f121e528d9b4c983"
+        }
+      ],
+      "provenance_notes": "S1b-0 verified exact 21/21 integer match across 7 classes against manual/data/lensing/toy1_delta3_class_tallies.csv (T^x predicted, fixture comparator O, m=|Delta^Z|=0).",
+      "target_typst_component": "typst/lib/figures/manual/lensing_01_toy1_delta3_class_tallies.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-01-toy1-delta3-class-tallies.pdf",
+      "conversion_status": "CONVERTED_VECTOR",
+      "typst_component_sha256": "0dc88335bf1d9a473fd1dd49ea93788e4cede76b85e9bc95174a3f103115bc53",
+      "exported_pdf_sha256": "f2a2e12e2eb7237a205d4e64169843e12539e1af4ce106bcc43e3025661771b6",
+      "exported_pdf_bytes": 17204,
+      "exported_page_points": [
+        408.189,
+        221.102
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    }
+  ]
+}

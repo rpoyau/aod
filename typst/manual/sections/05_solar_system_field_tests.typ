@@ -104,7 +104,7 @@ reduction assumptions and uncertainty.
 
 #figure(
   kind: image, [
-#image("/manual/figures/solar_calculated_vs_target.png", width: 82%)
+#include "../../lib/figures/manual/solar_calculated_vs_target.typ"
   ],
   caption: [Solar-system carried observable-map values versus declared targets. The vertical axis is logarithmic; each record is compared only within its own unit/scale.],
 ) <fig:manual-solar-calculated-target>
@@ -113,7 +113,7 @@ reduction assumptions and uncertainty.
 
 #figure(
   kind: image, [
-#image("/manual/figures/solar_percent_error.png", width: 82%)
+#include "../../lib/figures/manual/solar_percent_error.typ"
   ],
   caption: [Solar-system field tests: absolute percent error.],
 ) <fig:manual-solar-percent-error>

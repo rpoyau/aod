@@ -121,7 +121,7 @@ retain the ancestor distinction.
 
 #figure(
   kind: image, [
-#image("/figures_jpg/null_four_edge_x_witness.png", width: 72%)
+#include "../lib/figures/main/null_four_edge_x_witness.typ"
   ],
   caption: [Finite four-edge encoding of a retained occurrence. The vertex is a
 post-distinction witness; Null itself has no vertex address.],
@@ -130,7 +130,7 @@ post-distinction witness; Null itself has no vertex address.],
 
 #figure(
   kind: image, [
-#image("/figures_jpg/fractal_tesseract_q4_witness.jpg", width: 72%)
+#include "../lib/figures/main/fractal_tesseract_q4_witness.typ"
   ],
   caption: [The finite tesseract support. Local degree and total closure-word
 length are distinct quantities; oriented ancestry remains in the trace.],

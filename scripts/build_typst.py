@@ -64,8 +64,14 @@ def compute_main_sources_digest(root: Path) -> tuple[str, list[str]]:
         root / "typst" / "lib" / "aod_schema.typ",
         root / "refs.bib",
     ]
+    for opt in (root / "typst" / "lib" / "aod_plots.typ", root / "typst" / "figure_inventory.json"):
+        if opt.is_file():
+            files.append(opt)
     files.extend(sorted((root / "typst" / "sections").glob("*.typ")))
     files.extend(sorted((root / "typst" / "appendices").glob("*.typ")))
+    main_figs_dir = root / "typst" / "lib" / "figures" / "main"
+    if main_figs_dir.is_dir():
+        files.extend(sorted(main_figs_dir.glob("*.typ")))
     files.extend(root / rel for rel in MAIN_FIGURES)
 
     h = hashlib.sha256()
@@ -83,7 +89,7 @@ def compute_main_sources_digest(root: Path) -> tuple[str, list[str]]:
 
 
 def compute_manual_sources_digest(root: Path) -> tuple[str, list[str]]:
-    """Compute deterministic SHA-256 over all active Manual Typst, bibliography, registry, and image inputs."""
+    """Compute deterministic SHA-256 over all active Manual Typst, bibliography, registry, and figure/data inputs."""
     files: list[Path] = [
         root / "typst" / "manual" / "main.typ",
         root / "typst" / "manual" / "preamble.typ",
@@ -91,10 +97,23 @@ def compute_manual_sources_digest(root: Path) -> tuple[str, list[str]]:
         root / "typst" / "lib" / "main_registry.json",
         root / "manual" / "refs.bib",
     ]
+    for opt in (
+        root / "typst" / "lib" / "aod_plots.typ",
+        root / "typst" / "figure_inventory.json",
+        root / "wavelet_shedding_simulation.csv",
+    ):
+        if opt.is_file():
+            files.append(opt)
     files.extend(sorted((root / "typst" / "manual" / "sections").glob("*.typ")))
     files.extend(sorted((root / "typst" / "manual" / "appendices").glob("*.typ")))
     files.extend(sorted((root / "typst" / "manual" / "tables").glob("*.typ")))
     files.extend(sorted((root / "typst" / "lib" / "diagrams").glob("*.typ")))
+    manual_figs_dir = root / "typst" / "lib" / "figures" / "manual"
+    if manual_figs_dir.is_dir():
+        files.extend(sorted(manual_figs_dir.glob("*.typ")))
+    manual_data_dir = root / "manual" / "data"
+    if manual_data_dir.is_dir():
+        files.extend(sorted(manual_data_dir.rglob("*.csv")))
     files.extend(sorted((root / "figures_jpg").rglob("*")))
     files.extend(sorted((root / "manual" / "figures").rglob("*")))
 

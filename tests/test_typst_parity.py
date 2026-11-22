@@ -72,10 +72,11 @@ def test_typst_evaluation_policy_pins_templates_and_constrains_content():
     vp = _load_module("aod_verify_typst_parity", "scripts/verify_typst_parity.py")
     manifest = json.loads((ROOT / "typst/manifest.json").read_text(encoding="utf-8"))
     res = vp.verify_typst_evaluation_policy(ROOT, manifest)
-    assert res["trusted_template_files_pinned"] == 5
+    assert res["trusted_template_files_pinned"] == 6
     assert res["diagram_components_pinned"] == 4
+    assert res["vector_figure_components_pinned"] == 34
     assert res["manifest_typst_digests_enforced"] == 48
-    assert res["content_files_policy_checked"] == 48
+    assert res["content_files_policy_checked"] == 82
     assert res["content_policy_violations"] == 0
 
     head = '#import "../preamble.typ": *\n'
@@ -268,12 +269,12 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch|Unescaped semicolon"):
         check_src(t_semi)
 
-    # R02 R4: two figure image paths swapped (captions unchanged) -> ordered image bindings.
+    # R02 R4: two figure bindings swapped (captions unchanged) -> ordered image bindings.
     t_img = tmp_path / "c_img"
     shutil.copytree(base, t_img)
     p = t_img / "typst/manual/sections/01_rest_energy_prediction.typ"
-    a_img = "/manual/figures/higgs/higgs_yro_saddle_signature.png"
-    b_img = "/manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png"
+    a_img = "../../lib/figures/manual/higgs_yro_saddle_signature.typ"
+    b_img = "../../lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ"
     txt = p.read_text(encoding="utf-8")
     p.write_text(txt.replace(a_img, "@@A@@").replace(b_img, a_img).replace("@@A@@", b_img), encoding="utf-8")
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch"):
@@ -419,6 +420,8 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
         "23a_R2_generated_boundary_glued",
         "23b_R3_generated_bookmark_stripped",
         "24_R5_missing_gotor_peer_destination",
+        "24a_S1b_vector_figure_show_rule",
+        "24b_S1b_vector_figure_unauthorized_csv",
         "25_R6_unsupported_syntax_line_number",
     } | baseline_only == set(neg)
 
@@ -479,14 +482,14 @@ def test_phase2_export_typst_figures_vector_pdf_determinism_and_png(tmp_path):
     rt2: dict = {}
     m1 = exp.export_figures(ROOT, out1, fmt="pdf", typst_bin=typst_bin, runtime_out=rt1)
     m2 = exp.export_figures(ROOT, out2, fmt="pdf", typst_bin=typst_bin, runtime_out=rt2)
-    assert len(m1["figures"]) == 4
+    assert len(m1["figures"]) == 32
     assert m1 == m2
     assert "typst_version" not in m1
     assert "removed_outputs" not in m1
     assert m1["background"] == "white"
     assert isinstance(m1["font_families"], dict)
     assert rt1["typst_version"] and rt1["pypdf_version"]
-    assert len(rt1["figures"]) == 4
+    assert len(rt1["figures"]) == 32
     for d, rtd in zip(m1["figures"], rt1["figures"]):
         assert d["page_count"] == 1
         assert d["raster_image_xobjects"] == 0
@@ -498,10 +501,21 @@ def test_phase2_export_typst_figures_vector_pdf_determinism_and_png(tmp_path):
         p2 = out2 / d["output_filename"]
         assert p1.read_bytes() == p2.read_bytes()
 
-    # Optional raster PNG export path (300 ppi)
+    # Main vector figure export determinism (6 Main vector figures)
+    out_m1 = tmp_path / "main_pdf1"
+    out_m2 = tmp_path / "main_pdf2"
+    mm1 = exp.export_figures(ROOT, out_m1, surface="main", fmt="pdf", typst_bin=typst_bin)
+    mm2 = exp.export_figures(ROOT, out_m2, surface="main", fmt="pdf", typst_bin=typst_bin)
+    assert len(mm1["figures"]) == 6
+    assert mm1 == mm2
+    for d in mm1["figures"]:
+        assert d["page_count"] == 1 and d["raster_image_xobjects"] == 0
+        assert (out_m1 / d["output_filename"]).read_bytes() == (out_m2 / d["output_filename"]).read_bytes()
+
+    # Optional raster PNG export path (300 ppi) on Main (6 figures)
     out_png = tmp_path / "png300"
-    m_png = exp.export_figures(ROOT, out_png, fmt="png", ppi=300, typst_bin=typst_bin)
-    assert len(m_png["figures"]) == 4
+    m_png = exp.export_figures(ROOT, out_png, surface="main", fmt="png", ppi=300, typst_bin=typst_bin)
+    assert len(m_png["figures"]) == 6
     for d in m_png["figures"]:
         assert d["output_filename"].endswith(".png")
         assert (out_png / d["output_filename"]).read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
@@ -520,8 +534,10 @@ def test_phase2_typ2tex_clean_room_determinism_propagation_and_fail_closed(tmp_p
     sb.mkdir()
     shutil.copytree(ROOT / "typst", sb / "typst")
     shutil.copytree(ROOT / "figures_jpg", sb / "figures_jpg")
+    shutil.copy2(ROOT / "wavelet_shedding_simulation.csv", sb / "wavelet_shedding_simulation.csv")
     (sb / "manual").mkdir()
     shutil.copytree(ROOT / "manual/figures", sb / "manual/figures")
+    shutil.copytree(ROOT / "manual/data", sb / "manual/data", ignore=shutil.ignore_patterns("*.tex"))
     shutil.copy2(ROOT / "refs.bib", sb / "refs.bib")
     shutil.copy2(ROOT / "manual/refs.bib", sb / "manual/refs.bib")
     (sb / "scripts").mkdir()
@@ -720,7 +736,7 @@ def test_phase2_r4_extractor_count_drift_does_not_invalidate_identical_pdfs(tmp_
     rt_drift: dict = {}
     exp.export_figures(ROOT, out_dir, fmt="pdf", typst_bin=typst_bin, check_only=True, runtime_out=rt_drift)
     got_by_file = {f["output_filename"]: f["extracted_text_chars"] for f in rt_drift["figures"]}
-    assert got_by_file == drift_counts
+    assert {k: got_by_file[k] for k in drift_counts} == drift_counts
 
     # Missing text (0 chars) in real _inspect_pdf MUST still fail closed
     monkeypatch.setattr(exp, "_inspect_pdf", orig_inspect)

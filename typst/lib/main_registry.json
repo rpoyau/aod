@@ -520,13 +520,13 @@
       "display": "(50)",
       "kind": "equation",
       "number": "50",
-      "page": 18
+      "page": 17
     },
     "eq:aod-wavelet-continuation": {
       "display": "(57)",
       "kind": "equation",
       "number": "57",
-      "page": 19
+      "page": 18
     },
     "eq:atomic-h1": {
       "display": "(8)",
@@ -556,7 +556,7 @@
       "display": "(164)",
       "kind": "equation",
       "number": "164",
-      "page": 47
+      "page": 46
     },
     "eq:awareness-state-factorization": {
       "display": "(161)",
@@ -586,7 +586,7 @@
       "display": "(85)",
       "kind": "equation",
       "number": "85",
-      "page": 24
+      "page": 23
     },
     "eq:b-scoped-flux-antisymmetry": {
       "display": "(87)",
@@ -610,7 +610,7 @@
       "display": "(140)",
       "kind": "equation",
       "number": "140",
-      "page": 41
+      "page": 40
     },
     "eq:beat-reclosure": {
       "display": "(21)",
@@ -826,7 +826,7 @@
       "display": "(95)",
       "kind": "equation",
       "number": "95",
-      "page": 26
+      "page": 25
     },
     "eq:field-count-term": {
       "display": "(96)",
@@ -964,19 +964,19 @@
       "display": "(RG4)",
       "kind": "rg-equation",
       "number": "RG4",
-      "page": 37
+      "page": 36
     },
     "eq:frg-cross-return-two-gate": {
       "display": "(RG5)",
       "kind": "rg-equation",
       "number": "RG5",
-      "page": 37
+      "page": 36
     },
     "eq:frg-distinctions": {
       "display": "(132)",
       "kind": "equation",
       "number": "132",
-      "page": 36
+      "page": 35
     },
     "eq:frg-gate-contribution": {
       "display": "(RG1)",
@@ -988,7 +988,7 @@
       "display": "(RG8)",
       "kind": "rg-equation",
       "number": "RG8",
-      "page": 37
+      "page": 36
     },
     "eq:frg-identity-two-gate": {
       "display": "(RG9)",
@@ -1006,31 +1006,31 @@
       "display": "(RG3)",
       "kind": "rg-equation",
       "number": "RG3",
-      "page": 37
+      "page": 36
     },
     "eq:frg-recurrent-ring-value": {
       "display": "(RG6)",
       "kind": "rg-equation",
       "number": "RG6",
-      "page": 37
+      "page": 36
     },
     "eq:frg-recurrent-two-gate": {
       "display": "(RG7)",
       "kind": "rg-equation",
       "number": "RG7",
-      "page": 37
+      "page": 36
     },
     "eq:frg-return-relation": {
       "display": "(134)",
       "kind": "equation",
       "number": "134",
-      "page": 36
+      "page": 35
     },
     "eq:frg-ring-adjacency": {
       "display": "(133)",
       "kind": "equation",
       "number": "133",
-      "page": 36
+      "page": 35
     },
     "eq:frg-scope": {
       "display": "(131)",
@@ -1054,7 +1054,7 @@
       "display": "(122)",
       "kind": "equation",
       "number": "122",
-      "page": 35
+      "page": 34
     },
     "eq:fusion-closure": {
       "display": "(121)",
@@ -1066,19 +1066,19 @@
       "display": "(123)",
       "kind": "equation",
       "number": "123",
-      "page": 35
+      "page": 34
     },
     "eq:fusion-rung-residual": {
       "display": "(124)",
       "kind": "equation",
       "number": "124",
-      "page": 35
+      "page": 34
     },
     "eq:fusion-rung-shedding-surplus": {
       "display": "(125)",
       "kind": "equation",
       "number": "125",
-      "page": 35
+      "page": 34
     },
     "eq:higher-scope-fusion": {
       "display": "(128)",
@@ -1090,7 +1090,7 @@
       "display": "(72)",
       "kind": "equation",
       "number": "72",
-      "page": 22
+      "page": 21
     },
     "eq:hinge-chirality-flip": {
       "display": "(48)",
@@ -1360,13 +1360,13 @@
       "display": "(91)",
       "kind": "equation",
       "number": "91",
-      "page": 25
+      "page": 24
     },
     "eq:rcd-additive-realization": {
       "display": "(62)",
       "kind": "equation",
       "number": "62",
-      "page": 20
+      "page": 19
     },
     "eq:rcd-coupling": {
       "display": "(60)",
@@ -1468,7 +1468,7 @@
       "display": "(116)",
       "kind": "equation",
       "number": "116",
-      "page": 31
+      "page": 30
     },
     "eq:sheddic-path": {
       "display": "(114)",
@@ -1600,7 +1600,7 @@
       "display": "(69)",
       "kind": "equation",
       "number": "69",
-      "page": 21
+      "page": 20
     },
     "eq:window-clipped-rho": {
       "display": "(64)",
@@ -1672,7 +1672,7 @@
       "display": "10",
       "kind": "figure",
       "number": "10",
-      "page": 34
+      "page": 33
     },
     "fig:v39-cycle-disturbance-shedding": {
       "display": "9",
@@ -1774,7 +1774,7 @@
       "display": "5.6",
       "kind": "subsection",
       "number": "5.6",
-      "page": 30
+      "page": 29
     },
     "sec:duonic-pressure-inertia": {
       "display": "5.3",
@@ -2044,7 +2044,7 @@
       "display": "5.11.2",
       "kind": "subsubsection",
       "number": "5.11.2",
-      "page": 38
+      "page": 37
     },
     "subsec:cycle-polyrhythm-audit": {
       "display": "5.17.7",
@@ -2146,7 +2146,7 @@
       "display": "5.9.2",
       "kind": "subsubsection",
       "number": "5.9.2",
-      "page": 35
+      "page": 34
     },
     "subsec:external-comparison-quarantine": {
       "display": "5.16.12",
@@ -2212,7 +2212,7 @@
       "display": "5.11.7",
       "kind": "subsubsection",
       "number": "5.11.7",
-      "page": 40
+      "page": 39
     },
     "subsec:four-edge-ancestor": {
       "display": "1.4",
@@ -2248,7 +2248,7 @@
       "display": "4.5.1",
       "kind": "subsubsection",
       "number": "4.5.1",
-      "page": 22
+      "page": 21
     },
     "subsec:fractal-recursive-support": {
       "display": "1.4",
@@ -2272,13 +2272,13 @@
       "display": "5.10.5",
       "kind": "subsubsection",
       "number": "5.10.5",
-      "page": 37
+      "page": 36
     },
     "subsec:frg-distinctions": {
       "display": "5.10.1",
       "kind": "subsubsection",
       "number": "5.10.1",
-      "page": 36
+      "page": 35
     },
     "subsec:frg-gate-contribution": {
       "display": "5.10.3",
@@ -2290,7 +2290,7 @@
       "display": "5.10.7",
       "kind": "subsubsection",
       "number": "5.10.7",
-      "page": 37
+      "page": 36
     },
     "subsec:frg-independent-gate-sum": {
       "display": "5.10.4",
@@ -2302,19 +2302,19 @@
       "display": "5.11.6",
       "kind": "subsubsection",
       "number": "5.11.6",
-      "page": 39
+      "page": 38
     },
     "subsec:frg-recurrent-ring-value": {
       "display": "5.10.6",
       "kind": "subsubsection",
       "number": "5.10.6",
-      "page": 37
+      "page": 36
     },
     "subsec:frg-relations": {
       "display": "5.10.2",
       "kind": "subsubsection",
       "number": "5.10.2",
-      "page": 36
+      "page": 35
     },
     "subsec:frg-value-package": {
       "display": "5.10.8",
@@ -2422,7 +2422,7 @@
       "display": "5.11.3",
       "kind": "subsubsection",
       "number": "5.11.3",
-      "page": 38
+      "page": 37
     },
     "subsec:monon-beat": {
       "display": "2.1",
@@ -2470,7 +2470,7 @@
       "display": "5.7.7",
       "kind": "subsubsection",
       "number": "5.7.7",
-      "page": 33
+      "page": 32
     },
     "subsec:operative-self": {
       "display": "6.3",
@@ -2488,7 +2488,7 @@
       "display": "5.5.4",
       "kind": "subsubsection",
       "number": "5.5.4",
-      "page": 28
+      "page": 27
     },
     "subsec:pin-curl": {
       "display": "3.1.3",
@@ -2578,7 +2578,7 @@
       "display": "5.17.3",
       "kind": "subsubsection",
       "number": "5.17.3",
-      "page": 45
+      "page": 44
     },
     "subsec:sadar-balance": {
       "display": "5.5.2",
@@ -2674,7 +2674,7 @@
       "display": "5.6.1",
       "kind": "subsubsection",
       "number": "5.6.1",
-      "page": 30
+      "page": 29
     },
     "subsec:temporal-sadar-burden": {
       "display": "5.6.3",
@@ -2698,7 +2698,7 @@
       "display": "5.17.11",
       "kind": "subsubsection",
       "number": "5.17.11",
-      "page": 46
+      "page": 45
     },
     "subsec:window-current": {
       "display": "5.1.4",
@@ -2732,8 +2732,8 @@
     }
   },
   "entry_count": 455,
-  "main_input_count": 29,
+  "main_input_count": 37,
   "main_pdf_filename": "main.pdf",
-  "main_sources_sha256": "506abe34eb5eccad9cb267ae66427c422dd1a7ae47eed226ae954d4a00934c59",
+  "main_sources_sha256": "6fe8e0ebae007153ae03f34e89ec88d430ed9d9a447410fb26ca8e18ef0a0d9b",
   "schema": "aod.typst.main-registry.v1"
 }

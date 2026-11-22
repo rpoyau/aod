@@ -351,7 +351,7 @@ Here $Q^2_(3 D)$ and $Q^2_4$ are local squared-displacement audit quantities, no
 
 #figure(
   kind: image, [
-#image("/manual/figures/run_tumble_trace_3d_projection.png", width: 92%)
+#include "../../lib/figures/manual/run_tumble_trace_3d_projection.typ"
   ],
   caption: [Run-tumble tracer-current projection. The plotted path is the declared $bb(Z)^3$ projection of the retained $bb(Z)^4$ accumulated trace. The finite $Q_4$ support remains the Hamming–1 edge-slot support.],
 ) <fig:run-tumble-tracer-current-projection>
@@ -451,7 +451,7 @@ Bins are excluded only by a predeclared data-quality rule or by a predeclared de
 
 #figure(
   kind: image, [
-#image("/manual/figures/sparc_declaration_controls.png", width: 82%)
+#include "../../lib/figures/manual/sparc_declaration_controls.typ"
   ],
   caption: [SPARC carried declaration-control scores. The four values in #raw("sparc_declaration_controls.csv") are frozen comparison records; their variant recipes and aggregation rule are not supplied. Primary per-bin and per-galaxy scores are computed separately by the declared map.],
 ) <fig:manual-sparc-controls>
@@ -459,7 +459,7 @@ Bins are excluded only by a predeclared data-quality rule or by a predeclared de
 
 #figure(
   kind: image, [
-#image("/manual/figures/sparc_square_speed_comparison.png", width: 82%)
+#include "../../lib/figures/manual/sparc_square_speed_comparison.typ"
   ],
   caption: [SPARC square-speed comparison for the NGC3198 display record. The scored coordinate is $U = V^2$.],
 ) <fig:manual-sparc-square-speed-comparison>
@@ -467,7 +467,7 @@ Bins are excluded only by a predeclared data-quality rule or by a predeclared de
 
 #figure(
   kind: image, [
-#image("/manual/figures/sparc_square_speed_residuals.png", width: 82%)
+#include "../../lib/figures/manual/sparc_square_speed_residuals.typ"
   ],
   caption: [SPARC square-speed residuals for the NGC3198 display record. The residual is $Delta U = U_(AO) - U_(upright("obs"))$.],
 ) <fig:manual-sparc-residuals>
@@ -475,7 +475,7 @@ Bins are excluded only by a predeclared data-quality rule or by a predeclared de
 
 #figure(
   kind: image, [
-#image("/manual/figures/sparc_display_speed_view.png", width: 82%)
+#include "../../lib/figures/manual/sparc_display_speed_view.typ"
   ],
   caption: [Display speed view. This presentation view uses $V_(upright("disp")) = sqrt(U)$ after scoring; the score coordinate is $U$.],
 ) <fig:manual-sparc-display-speed>
@@ -512,7 +512,7 @@ The missing-burden diagnostic records the exact ratio
 
 #figure(
   kind: image, [
-#image("/manual/figures/tau_ring_support_score.png", width: 82%)
+#include "../../lib/figures/manual/tau_ring_support_score.typ"
   ],
   caption: [Tau ring support score. The ring diagnostic preserves $1":"2":"9_(upright("yro"))$ / Dimonnanyro as the closest candidate.],
 ) <fig:manual-tau-ring-score>
@@ -520,7 +520,7 @@ The missing-burden diagnostic records the exact ratio
 
 #figure(
   kind: image, [
-#image("/manual/figures/tau_missing_burden_diagnostic.png", width: 82%)
+#include "../../lib/figures/manual/tau_missing_burden_diagnostic.typ"
   ],
   caption: [Tau missing-burden diagnostic. The plot renders the exact missing-burden ratio $31 slash 50$ as the presentation value $0.62$ for the $1":"2":"9_(upright("yro"))$ / Dimonnanyro row.],
 ) <fig:manual-tau-missing>
@@ -528,7 +528,7 @@ The missing-burden diagnostic records the exact ratio
 
 #figure(
   kind: image, [
-#image("/manual/figures/tau_support_residuals.png", width: 82%)
+#include "../../lib/figures/manual/tau_support_residuals.typ"
   ],
   caption: [Tau-support residuals against the declared support-score target.],
 ) <fig:manual-tau-residuals>
@@ -536,7 +536,7 @@ The missing-burden diagnostic records the exact ratio
 
 #figure(
   kind: image, [
-#image("/manual/figures/tau_declaration_controls.png", width: 82%)
+#include "../../lib/figures/manual/tau_declaration_controls.typ"
   ],
   caption: [Tau declaration controls. Labels are declaration controls for the internal diagnostic lane.],
 ) <fig:manual-tau-controls>

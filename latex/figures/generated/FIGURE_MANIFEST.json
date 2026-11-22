@@ -1,0 +1,228 @@
+{
+  "schema": "aod.typst.figure-export.v1",
+  "surface": "main",
+  "format": "pdf",
+  "ppi": null,
+  "background": "white",
+  "font_families": {
+    "text": [
+      "Latin Modern Roman",
+      "DejaVu Serif"
+    ],
+    "math": [
+      "Latin Modern Math",
+      "New Computer Modern Math"
+    ]
+  },
+  "schema_path": "typst/lib/aod_schema.typ",
+  "schema_sha256": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
+  "plots_lib_path": "typst/lib/aod_plots.typ",
+  "plots_lib_sha256": "f5164592b087fe78c719669eabb8eaf5fcf0eb491dc8b4c03a07ae496ec1f542",
+  "figure_count": 6,
+  "figures": [
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "null-four-edge-x-witness",
+      "label": "fig:null-four-edge-x-witness",
+      "typst_section": "typst/sections/03_afc_basis.typ",
+      "diagram_component": "typst/lib/figures/main/null_four_edge_x_witness.typ",
+      "diagram_sha256": "92cc869532d1d57096fde4281acacfa8539cbea7c2dbd353b3ad5c3b46bf99dc",
+      "data_inputs": [],
+      "width_cm": 14.6,
+      "height_cm": 7.25,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "null-four-edge-x-witness.pdf",
+      "output_sha256": "bdd8a34bb0d47184283ec9339bdebdfba41573b56de3018a83b1cf47b623630d",
+      "output_bytes": 24531,
+      "page_count": 1,
+      "page_points": [
+        413.858,
+        205.512
+      ],
+      "raster_image_xobjects": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "fractal-tesseract-q4-witness",
+      "label": "fig:v39-fractal-tesseract-q4-witness",
+      "typst_section": "typst/sections/03_afc_basis.typ",
+      "diagram_component": "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
+      "diagram_sha256": "e60a15e728db3e1e68c5be4a1452c015b6e1b6cdfe73ce1660f905a8abb7d899",
+      "data_inputs": [],
+      "width_cm": 14.6,
+      "height_cm": 7.5,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "fractal-tesseract-q4-witness.pdf",
+      "output_sha256": "c9e676bda379ded67cf2de7071a9917d7fce1182cf42819e8d8f9a32b10388a2",
+      "output_bytes": 21186,
+      "page_count": 1,
+      "page_points": [
+        413.858,
+        212.598
+      ],
+      "raster_image_xobjects": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "curling-curl-layers",
+      "label": "fig:curling-curl-shell-families",
+      "typst_section": "typst/sections/05_curl_closure_duon_current.typ",
+      "diagram_component": "typst/lib/figures/main/curling_curl_layers.typ",
+      "diagram_sha256": "d6a175dec5740aaadf3605540fc52828aea324cc55d11dbeb69d3ff34d5b9f9d",
+      "data_inputs": [],
+      "width_cm": 14.6,
+      "height_cm": 8.8,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "curling-curl-layers.pdf",
+      "output_sha256": "fad37df902f925db1d8da6f107919e9b04e0022165d592194aade2b0ed7f65b8",
+      "output_bytes": 24057,
+      "page_count": 1,
+      "page_points": [
+        413.858,
+        249.449
+      ],
+      "raster_image_xobjects": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "cycle-disturbance-shedding",
+      "label": "fig:v39-cycle-disturbance-shedding",
+      "typst_section": "typst/sections/06_field.typ",
+      "diagram_component": "typst/lib/figures/main/cycle_disturbance_shedding.typ",
+      "diagram_sha256": "de63f49751d147718ed6bda992a2169f36e35fd02aaabc858594a1819d6b03c5",
+      "data_inputs": [],
+      "width_cm": 14.6,
+      "height_cm": 7.6,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "cycle-disturbance-shedding.pdf",
+      "output_sha256": "be5a4fd8113937665c4b15869195caf992422cabf54943a23a698c008b8ca3f4",
+      "output_bytes": 27764,
+      "page_count": 1,
+      "page_points": [
+        413.858,
+        215.433
+      ],
+      "raster_image_xobjects": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "support-enclosure-retention",
+      "label": "fig:support-enclosure-retention",
+      "typst_section": "typst/sections/06_field.typ",
+      "diagram_component": "typst/lib/figures/main/support_enclosure_retention.typ",
+      "diagram_sha256": "389fa90e2377edf9262bc1442f701fd72e4147a8d6c1c38a1589b81bae9ee2b5",
+      "data_inputs": [],
+      "width_cm": 14.6,
+      "height_cm": 8.2,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "support-enclosure-retention.pdf",
+      "output_sha256": "ed44dd4bd2df75a3e775c27fd3cc82295eaecb7bf6546e860145aebf60311b0d",
+      "output_bytes": 26070,
+      "page_count": 1,
+      "page_points": [
+        413.858,
+        232.441
+      ],
+      "raster_image_xobjects": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "field-dynamics-layered-main",
+      "label": "fig:field-dynamics-layered",
+      "typst_section": "typst/sections/06_field.typ",
+      "diagram_component": "typst/lib/figures/main/field_dynamics_layered_main.typ",
+      "diagram_sha256": "ed5d76d16e856dd5072c53d66f1496054e636efc769ece4f4569181b7f0a9cc3",
+      "data_inputs": [],
+      "width_cm": 13.8,
+      "height_cm": 15.2,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "field-dynamics-layered-main.pdf",
+      "output_sha256": "a6b1d1ae6616e581a009c7a00e2bde6031c1253d263ea6beb17f6956fd4955e2",
+      "output_bytes": 28262,
+      "page_count": 1,
+      "page_points": [
+        391.181,
+        430.866
+      ],
+      "raster_image_xobjects": 0,
+      "has_extractable_text": true
+    }
+  ]
+}

@@ -19,7 +19,7 @@ The run-tumble tracer-current fixture in #secref("manual:run-tumble-tracer-curre
 
 #figure(
   kind: image, [
-#image("/manual/figures/coordinate_phase_delta3_wireframe.png", width: 95%)
+#include "../../lib/figures/manual/coordinate_phase_delta3_wireframe.typ"
   ],
   caption: [3D coordinate phase-cycle $delta_3$ fixture. The coordinate fixture maps trajectory positions into $bb(Z)^3$, forms integer squared displacement $Q = a^2 + b^2 + c^2$, records phase residues $Q mod beta_a$, counts octants, and audits integer residuals by $delta_3$. Continuous summaries belong after the exact fixture as presentation or external maps.],
 ) <fig:manual-coordinate-phase-delta3>

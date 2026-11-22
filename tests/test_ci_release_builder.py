@@ -54,19 +54,33 @@ SOURCE_DIRECTORY_TYPES = {
     "tests": {".py"},
     "typst": {".typ", ".json"},
 }
-DECLARED_GENERATED_FIGURE_PDFS = (
-    "latex/manual/figures/generated/hydrogen-shell-setup.pdf",
-    "latex/manual/figures/generated/short-window-setup.pdf",
-    "latex/manual/figures/generated/boundary-current-spine.pdf",
-    "latex/manual/figures/generated/solar-system-spine.pdf",
+GENERATED_FIGURE_MANIFEST_DIRS = (
+    "latex/figures/generated",
+    "latex/manual/figures/generated",
 )
+
+
+def declared_generated_figure_pdfs(root):
+    import json
+    pdfs = []
+    for rel_dir in GENERATED_FIGURE_MANIFEST_DIRS:
+        mf = root / rel_dir / "FIGURE_MANIFEST.json"
+        if mf.is_file():
+            data = json.loads(mf.read_text(encoding="utf-8"))
+            assert data.get("schema") == "aod.typst.figure-export.v1"
+            for item in data.get("figures", []):
+                out_name = item["output_filename"]
+                assert out_name.endswith(".pdf") and "/" not in out_name
+                pdfs.append(f"{rel_dir}/{out_name}")
+    assert len(pdfs) >= 4
+    return tuple(pdfs)
 
 
 def expected_source_inventory(root):
     import hashlib
     import json
     paths = {root / name for name in SOURCE_ROOT_FILES}
-    paths.update(root / name for name in DECLARED_GENERATED_FIGURE_PDFS)
+    paths.update(root / name for name in declared_generated_figure_pdfs(root))
     # Published scientific records are explicitly selected; task archives are absent.
     paths.update(root / 'manual/data' / name for name in (
         'cell_measures/cells_geometry.json', 'mapping_error/mapping_error.json',
@@ -131,8 +145,10 @@ def test_source_archive_exactly_preserves_detached_candidate(tmp_path):
     for name in (".zenodo_doi", "requirements-ci.txt", "wavelet_shedding_simulation.csv",
                  "wavelet_shedding_summary.tex", "CHANGELOG.md",
                  "typst/main.typ", "typst/manual/main.typ", "typst/lib/aod_schema.typ",
+                 "typst/lib/aod_plots.typ", "typst/figure_inventory.json",
                  "typst/lib/main_registry.json", "typst/manifest.json",
                  "latex/main.tex", "latex/manual/main.tex", "latex/GENERATION_MANIFEST.json",
+                 "latex/figures/generated/null-four-edge-x-witness.pdf",
                  "latex/manual/figures/generated/hydrogen-shell-setup.pdf",
                  "archive/latex_baseline_98ddfa0/BASELINE_MANIFEST.json"):
         assert name in actual
@@ -158,6 +174,7 @@ def test_source_archive_round_trip_without_git_ignores_generated_files(tmp_path,
     generated = ["main.pdf", "main.aux", "main.fls", "main.fdb_latexmk", "tests.txt",
                  "manual/main.pdf", "manual/main.log", "manual/main.synctex.gz",
                  "latex/main.pdf", "latex/main.aux", "latex/main.fls",
+                 "latex/figures/generated/unbound.pdf",
                  "latex/manual/main.pdf", "latex/manual/main.log",
                  "latex/manual/figures/generated/unbound.pdf",
                  "manual/data/temporal_metrology/hydrogen/source/unbound.pdf",

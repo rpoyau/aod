@@ -724,7 +724,7 @@ current family. Coherent continuity can accumulate the unresolved lead–lag bur
 
 #figure(
   kind: image, [
-#image("/figures_jpg/cycle_disturbance_shedding.png", width: 96%)
+#include "../lib/figures/main/cycle_disturbance_shedding.typ"
   ],
   caption: [Temporal cycle lead–lag disturbance and shedding. On the declared boundary/window $B = ( partial F, omega )$, the schematic $Delta_e^(chi upright("lag"))$ denotes the signed lag accessor $Delta chi_e^(upright("lag")) (B)$; the absolute-value bars take its magnitude.],
 ) <fig:v39-cycle-disturbance-shedding>
@@ -848,7 +848,7 @@ Retention on the declared window is $upright("TTL")_(cal(C)) ( partial F, omega 
 
 #figure(
   kind: image, [
-#image("/figures_jpg/support_enclosure_retention.png", width: 96%)
+#include "../lib/figures/main/support_enclosure_retention.typ"
   ],
   caption: [Seat compatibility and support-retention duration for sheddic paths.],
 ) <fig:support-enclosure-retention>
@@ -1198,7 +1198,7 @@ construct the higher closure, and their iteration gives chain reclosure.
 
 #figure(
   kind: image, [
-#image("/figures_jpg/field_dynamics_layered_main.png", width: 82%)
+#include "../lib/figures/main/field_dynamics_layered_main.typ"
   ],
   caption: [Layered field dynamics. Boundaries separate layers; same-sense circulation remains on each layer; coupling arrows cross declared inter-layer channels; decoupling/lift arrows indicate exoshedding after closure surplus.],
 ) <fig:field-dynamics-layered>

@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Export authoritative shared native Typst diagrams for generated LaTeX inclusion.
+"""Export authoritative shared native Typst diagrams and vector figures for generated LaTeX.
 
-Reads the single authoritative diagram components under typst/lib/diagrams/
-referenced by the canonical Typst Manual sections, compiles each diagram body
-(without caption or figure number; generated LaTeX owns those) into tightly
+Reads the single authoritative figure components under:
+  - typst/lib/diagrams/*.typ        (Manual flowchart diagrams, #aod-flowchart)
+  - typst/lib/figures/main/*.typ    (Main native vector figures, #aod-canvas)
+  - typst/lib/figures/manual/*.typ  (Manual native vector figures, #aod-canvas)
+referenced by the canonical Typst Main and Manual sections, compiles each figure
+body (without caption or figure number; generated LaTeX owns those) into tightly
 bounded 1-page vector PDFs (default) or optional 300/600 ppi PNGs, verifies
 PDF vector/text invariants, and writes a deterministic FIGURE_MANIFEST.json.
 """
@@ -17,13 +20,14 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
-import sys
 import tempfile
 import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_REL = Path("typst/lib/aod_schema.typ")
+PLOTS_REL = Path("typst/lib/aod_plots.typ")
 DIAGRAMS_REL = Path("typst/lib/diagrams")
+FIGURES_REL = Path("typst/lib/figures")
 MANIFEST_NAME = "FIGURE_MANIFEST.json"
 MANIFEST_SCHEMA = "aod.typst.figure-export.v1"
 RUNTIME_SCHEMA = "aod.typst.figure-export.runtime.v1"
@@ -37,6 +41,10 @@ DECLARED_FONT_FAMILIES = {
 INCLUDE_DIAGRAM_RE = re.compile(
     r'#include\s+"(?:\.\./)+lib/diagrams/([a-z0-9_]+\.typ)"'
 )
+INCLUDE_FIGURE_RE = re.compile(
+    r'#include\s+"(?:\.\./)+lib/figures/(main|manual)/([a-z0-9_]+\.typ)"'
+)
+CSV_REF_RE = re.compile(r'\bcsv\(\s*"/([^"]+)"')
 
 
 def _require(condition: bool, message: str) -> None:
@@ -133,41 +141,105 @@ def _extract_flowchart_dims(component_path: Path) -> tuple[float, float]:
     return w_cm, h_cm
 
 
-def discover_diagrams(root: Path) -> list[dict]:
-    """Discover all active native diagram bindings from canonical typst/ sections."""
+def _extract_vector_figure_dims(component_path: Path) -> tuple[float, float]:
+    text = component_path.read_text(encoding="utf-8")
+    _require(
+        text.count("#aod-canvas(") == 1,
+        f"Expected exactly one #aod-canvas(...) call in {component_path}",
+    )
+    wm = re.search(r"#let\s+fig-width-cm\s*=\s*([0-9]+(?:\.[0-9]+)?)\b", text)
+    hm = re.search(r"#let\s+fig-height-cm\s*=\s*([0-9]+(?:\.[0-9]+)?)\b", text)
+    _require(
+        wm is not None and hm is not None,
+        f"Missing literal #let fig-width-cm / fig-height-cm in {component_path}",
+    )
+    w_cm = float(wm.group(1))
+    h_cm = float(hm.group(1))
+    _require(w_cm > 0 and h_cm > 0, f"Non-positive figure dimensions in {component_path}")
+    return w_cm, h_cm
+
+
+def _extract_csv_inputs(component_path: Path, root: Path) -> list[dict]:
+    text = component_path.read_text(encoding="utf-8")
+    seen: set[str] = set()
+    refs: list[dict] = []
+    for m in CSV_REF_RE.finditer(text):
+        rel = m.group(1)
+        if rel in seen:
+            continue
+        seen.add(rel)
+        p = (root / rel).resolve()
+        _require(
+            p.is_file() and p.is_relative_to(root),
+            f"Missing CSV input {rel} referenced by {component_path}",
+        )
+        refs.append({"path": rel, "sha256": sha256_file(p)})
+    refs.sort(key=lambda d: d["path"])
+    return refs
+
+
+def discover_diagrams(root: Path, *, surface: str | None = None) -> list[dict]:
+    """Discover all active native diagram and vector-figure bindings from canonical typst/ sections."""
     root = Path(root).resolve()
+    if surface is not None:
+        _require(surface in ("main", "manual"), f"Unsupported surface: {surface!r}")
     typst_root = root / "typst"
     _require(typst_root.is_dir(), f"Missing typst/ directory under {root}")
 
     bindings: list[dict] = []
-    seen_slugs: set[str] = set()
+    seen_slugs: set[tuple[str, str]] = set()
     seen_labels: set[str] = set()
 
     for typ_file in sorted(typst_root.rglob("*.typ")):
         rel = typ_file.relative_to(root).as_posix()
         if rel.startswith("typst/lib/"):
             continue
+        sec_surface = "manual" if rel.startswith("typst/manual/") else "main"
         text = typ_file.read_text(encoding="utf-8")
         _require(
             "#aod-flowchart(" not in text,
             f"Inline #aod-flowchart(...) found outside typst/lib/diagrams/: {rel}",
         )
+        _require(
+            "#aod-canvas(" not in text,
+            f"Inline #aod-canvas(...) found outside typst/lib/figures/: {rel}",
+        )
+
+        matches: list[tuple[int, int, str, str, str]] = []
         for m in INCLUDE_DIAGRAM_RE.finditer(text):
             mod_name = m.group(1)
             comp_rel = (DIAGRAMS_REL / mod_name).as_posix()
+            matches.append((m.start(), m.end(), "manual", "flowchart_diagram", comp_rel))
+        for m in INCLUDE_FIGURE_RE.finditer(text):
+            fig_surf, mod_name = m.group(1), m.group(2)
+            comp_rel = (FIGURES_REL / fig_surf / mod_name).as_posix()
+            matches.append((m.start(), m.end(), fig_surf, "vector_figure", comp_rel))
+        matches.sort(key=lambda item: item[0])
+
+        for _, end_pos, comp_surface, comp_kind, comp_rel in matches:
+            _require(
+                comp_surface == sec_surface,
+                f"Surface mismatch: {rel} ({sec_surface}) includes {comp_rel} ({comp_surface})",
+            )
             comp_path = root / comp_rel
-            _require(comp_path.is_file(), f"Missing diagram component {comp_rel} referenced by {rel}")
-            following = text[m.end():]
+            _require(comp_path.is_file(), f"Missing component {comp_rel} referenced by {rel}")
+            following = text[end_pos:]
             lm = re.search(r"<(fig:[^>]+)>", following)
             _require(lm is not None, f"Missing figure label after {comp_rel} in {rel}")
             label = lm.group(1)
-            slug = mod_name[:-4].replace("_", "-")
-            _require(slug not in seen_slugs, f"Duplicate native diagram slug: {slug}")
-            _require(label not in seen_labels, f"Duplicate native diagram label: {label}")
-            seen_slugs.add(slug)
+            slug = Path(comp_rel).stem.replace("_", "-")
+            _require((comp_surface, slug) not in seen_slugs, f"Duplicate slug in {comp_surface}: {slug}")
+            _require(label not in seen_labels, f"Duplicate native figure label: {label}")
+            seen_slugs.add((comp_surface, slug))
             seen_labels.add(label)
-            w_cm, h_cm = _extract_flowchart_dims(comp_path)
+            if comp_kind == "flowchart_diagram":
+                w_cm, h_cm = _extract_flowchart_dims(comp_path)
+            else:
+                w_cm, h_cm = _extract_vector_figure_dims(comp_path)
+            data_inputs = _extract_csv_inputs(comp_path, root)
             bindings.append({
+                "surface": comp_surface,
+                "component_kind": comp_kind,
                 "slug": slug,
                 "label": label,
                 "typst_section": rel,
@@ -175,18 +247,28 @@ def discover_diagrams(root: Path) -> list[dict]:
                 "diagram_sha256": sha256_file(comp_path),
                 "width_cm": w_cm,
                 "height_cm": h_cm,
+                "data_inputs": data_inputs,
             })
 
-    # Ensure every component file under typst/lib/diagrams/ is actively bound.
-    diag_dir = root / DIAGRAMS_REL
-    if diag_dir.is_dir():
-        on_disk = {p.relative_to(root).as_posix() for p in diag_dir.glob("*.typ")}
-        bound = {b["diagram_component"] for b in bindings}
+    # Ensure every component file on disk for the requested surface(s) is actively bound.
+    surfaces_to_check = [surface] if surface is not None else ["main", "manual"]
+    for surf in surfaces_to_check:
+        on_disk: set[str] = set()
+        if surf == "manual":
+            diag_dir = root / DIAGRAMS_REL
+            if diag_dir.is_dir():
+                on_disk.update(p.relative_to(root).as_posix() for p in diag_dir.glob("*.typ"))
+        fig_dir = root / FIGURES_REL / surf
+        if fig_dir.is_dir():
+            on_disk.update(p.relative_to(root).as_posix() for p in fig_dir.glob("*.typ"))
+        bound = {b["diagram_component"] for b in bindings if b["surface"] == surf}
         _require(
             on_disk == bound,
-            f"Unbound or missing diagram components: extra={sorted(on_disk - bound)}, missing={sorted(bound - on_disk)}",
+            f"Unbound or missing {surf} components: extra={sorted(on_disk - bound)}, missing={sorted(bound - on_disk)}",
         )
 
+    if surface is not None:
+        return [b for b in bindings if b["surface"] == surface]
     return bindings
 
 
@@ -218,7 +300,6 @@ def _inspect_pdf(pdf_path: Path, expected_w_cm: float, expected_h_cm: float) -> 
                 bf = fobj.get("/BaseFont")
                 if bf is not None:
                     name = str(bf).lstrip("/")
-                    # Strip deterministic 6-letter subset tag prefix (e.g. ABCDEF+LMRoman10-Regular)
                     if "+" in name and len(name.split("+", 1)[0]) == 6:
                         name = name.split("+", 1)[1]
                     resolved_fonts.add(name)
@@ -263,6 +344,7 @@ def export_figures(
     root: Path,
     outdir: Path,
     *,
+    surface: str = "manual",
     fmt: str = "pdf",
     ppi: int = 300,
     typst_bin: str | None = None,
@@ -272,6 +354,7 @@ def export_figures(
 ) -> dict:
     root = Path(root).resolve()
     outdir = Path(outdir).resolve()
+    _require(surface in ("main", "manual"), f"Unsupported export surface: {surface!r}")
     _require(fmt in ("pdf", "png"), f"Unsupported diagram export format: {fmt!r} (expected 'pdf' or 'png')")
     if fmt == "png":
         _require(ppi in (300, 600), f"PNG diagram export requires --ppi 300 or 600, got {ppi}")
@@ -283,8 +366,11 @@ def export_figures(
     schema_path = root / SCHEMA_REL
     _require(schema_path.is_file(), f"Missing Typst schema: {schema_path}")
     schema_sha = sha256_file(schema_path)
-    bindings = discover_diagrams(root)
-    _require(len(bindings) > 0, "No active native Typst diagrams found to export")
+    plots_path = root / PLOTS_REL
+    plots_sha = sha256_file(plots_path) if plots_path.is_file() else None
+
+    bindings = discover_diagrams(root, surface=surface)
+    _require(len(bindings) > 0, f"No active native Typst {surface} figures found to export")
 
     creation_ts = os.environ.get("SOURCE_DATE_EPOCH", "0")
     text_fonts_typ = ", ".join(f'"{f}"' for f in DECLARED_FONT_FAMILIES["text"])
@@ -329,11 +415,14 @@ def export_figures(
 
             os.chmod(out_file, 0o644)
             entry = {
+                "surface": item["surface"],
+                "component_kind": item["component_kind"],
                 "slug": slug,
                 "label": item["label"],
                 "typst_section": item["typst_section"],
                 "diagram_component": item["diagram_component"],
                 "diagram_sha256": item["diagram_sha256"],
+                "data_inputs": item["data_inputs"],
                 "width_cm": item["width_cm"],
                 "height_cm": item["height_cm"],
                 "background": DECLARED_BACKGROUND,
@@ -361,14 +450,17 @@ def export_figures(
 
         # Deterministic committed manifest: source/settings/output identities only;
         # no extractor-version-dependent counts, compiler version banners, or removal logs.
-        manifest = {
+        manifest: dict = {
             "schema": MANIFEST_SCHEMA,
+            "surface": surface,
             "format": fmt,
             "ppi": ppi if fmt == "png" else None,
             "background": DECLARED_BACKGROUND,
             "font_families": DECLARED_FONT_FAMILIES,
             "schema_path": SCHEMA_REL.as_posix(),
             "schema_sha256": schema_sha,
+            "plots_lib_path": PLOTS_REL.as_posix() if plots_sha else None,
+            "plots_lib_sha256": plots_sha,
             "figure_count": len(results),
             "figures": results,
         }
@@ -396,6 +488,7 @@ def export_figures(
 
         rt_report = {
             "schema": RUNTIME_SCHEMA,
+            "surface": surface,
             "typst_version": typst_version,
             "pypdf_version": pypdf_version,
             "creation_timestamp": str(creation_ts),
@@ -417,7 +510,8 @@ def export_figures(
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", type=Path, default=ROOT)
-    ap.add_argument("--outdir", type=Path, default=Path("latex/manual/figures/generated"))
+    ap.add_argument("--surface", choices=("main", "manual"), default="manual")
+    ap.add_argument("--outdir", type=Path, default=None)
     ap.add_argument("--format", choices=("pdf", "png"), default="pdf")
     ap.add_argument("--ppi", type=int, default=300, choices=(300, 600))
     ap.add_argument("--typst-bin", default=None)
@@ -426,11 +520,14 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     root = args.root.resolve()
-    outdir = args.outdir if args.outdir.is_absolute() else (root / args.outdir)
+    default_out = Path("latex/figures/generated") if args.surface == "main" else Path("latex/manual/figures/generated")
+    out_arg = args.outdir if args.outdir is not None else default_out
+    outdir = out_arg if out_arg.is_absolute() else (root / out_arg)
     runtime_diag: dict = {}
     manifest = export_figures(
         root,
         outdir,
+        surface=args.surface,
         fmt=args.format,
         ppi=args.ppi,
         typst_bin=args.typst_bin,
