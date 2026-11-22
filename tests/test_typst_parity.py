@@ -422,6 +422,8 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
         "24_R5_missing_gotor_peer_destination",
         "24a_S1b_vector_figure_show_rule",
         "24b_S1b_vector_figure_unauthorized_csv",
+        "24c_S1b_vector_figure_dynamic_csv",
+        "24d_S1b_vector_figure_nonwildcard_import",
         "25_R6_unsupported_syntax_line_number",
     } | baseline_only == set(neg)
 

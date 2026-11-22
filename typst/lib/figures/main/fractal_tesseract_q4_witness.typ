@@ -56,7 +56,7 @@
   #aod-curve-arrow(10.40, 4.38, 11.00, 4.46, 11.45, 4.78, stroke: 1.15pt + aod-pal.purple)
   #aod-box-tl(
     11.05, 4.80, 2.65, 0.80,
-    [#text(size: 8.2pt)[duon current \ $D_i \, mu \, D_j$]],
+    [#text(size: 8.2pt)[duon current \ $D_i thin mu thin D_j$]],
     stroke: 1.0pt + aod-pal.purple,
     fill: aod-pal.tint-purple,
   )
@@ -67,8 +67,8 @@
 
   // Bottom lock-in strip
   #aod-box-tl(
-    0.95, 6.62, 12.70, 0.62,
-    [#text(size: 8.0pt, weight: "bold")[Corrected order: recursive cut $->$ fractal tesseract support; duon current $->$ finite carried witness.]],
+    0.40, 6.62, 13.80, 0.62,
+    [#text(size: 7.4pt, weight: "bold")[Corrected order: recursive cut $->$ fractal tesseract support; duon current $->$ finite carried witness.]],
     stroke: 0.9pt + aod-pal.navy,
     fill: aod-pal.tint-blue,
     radius: 3.5pt,

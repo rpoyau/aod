@@ -17,7 +17,7 @@
   "schema_path": "typst/lib/aod_schema.typ",
   "schema_sha256": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
   "plots_lib_path": "typst/lib/aod_plots.typ",
-  "plots_lib_sha256": "f5164592b087fe78c719669eabb8eaf5fcf0eb491dc8b4c03a07ae496ec1f542",
+  "plots_lib_sha256": "ead3822f57c9ffe8150d97485549ff0674044d9b38a96936eddfbc5415a8f4b2",
   "figure_count": 6,
   "figures": [
     {
@@ -61,7 +61,7 @@
       "label": "fig:v39-fractal-tesseract-q4-witness",
       "typst_section": "typst/sections/03_afc_basis.typ",
       "diagram_component": "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
-      "diagram_sha256": "e60a15e728db3e1e68c5be4a1452c015b6e1b6cdfe73ce1660f905a8abb7d899",
+      "diagram_sha256": "cc3ea53aa2942648b37e838f35cabff1a1d6a84a77ee8f2ea8db591f12999097",
       "data_inputs": [],
       "width_cm": 14.6,
       "height_cm": 7.5,
@@ -78,8 +78,8 @@
       },
       "format": "pdf",
       "output_filename": "fractal-tesseract-q4-witness.pdf",
-      "output_sha256": "c9e676bda379ded67cf2de7071a9917d7fce1182cf42819e8d8f9a32b10388a2",
-      "output_bytes": 21186,
+      "output_sha256": "8de8b37543d3043ce82b2cd766b8b69432cda0bbf1f2812f8e94c5582b31f3c9",
+      "output_bytes": 21064,
       "page_count": 1,
       "page_points": [
         413.858,
@@ -95,7 +95,7 @@
       "label": "fig:curling-curl-shell-families",
       "typst_section": "typst/sections/05_curl_closure_duon_current.typ",
       "diagram_component": "typst/lib/figures/main/curling_curl_layers.typ",
-      "diagram_sha256": "d6a175dec5740aaadf3605540fc52828aea324cc55d11dbeb69d3ff34d5b9f9d",
+      "diagram_sha256": "4dcd45168b4de44d2653d562b1759e2df18d1eb376d4340b6d08a71e2ae1f7de",
       "data_inputs": [],
       "width_cm": 14.6,
       "height_cm": 8.8,
@@ -112,8 +112,8 @@
       },
       "format": "pdf",
       "output_filename": "curling-curl-layers.pdf",
-      "output_sha256": "fad37df902f925db1d8da6f107919e9b04e0022165d592194aade2b0ed7f65b8",
-      "output_bytes": 24057,
+      "output_sha256": "b58631099e20e8ca5214bbcae92826f44d13cf73c7015c8c7b9bed1162e4330d",
+      "output_bytes": 24021,
       "page_count": 1,
       "page_points": [
         413.858,

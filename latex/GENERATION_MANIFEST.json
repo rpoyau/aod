@@ -182,7 +182,7 @@
     {
       "path": "typst/lib/aod_plots.typ",
       "role": "typst_plots_lib",
-      "sha256": "f5164592b087fe78c719669eabb8eaf5fcf0eb491dc8b4c03a07ae496ec1f542"
+      "sha256": "ead3822f57c9ffe8150d97485549ff0674044d9b38a96936eddfbc5415a8f4b2"
     },
     {
       "path": "typst/lib/aod_schema.typ",
@@ -212,7 +212,7 @@
     {
       "path": "typst/lib/figures/main/curling_curl_layers.typ",
       "role": "typst_vector_figure",
-      "sha256": "d6a175dec5740aaadf3605540fc52828aea324cc55d11dbeb69d3ff34d5b9f9d"
+      "sha256": "4dcd45168b4de44d2653d562b1759e2df18d1eb376d4340b6d08a71e2ae1f7de"
     },
     {
       "path": "typst/lib/figures/main/cycle_disturbance_shedding.typ",
@@ -227,7 +227,7 @@
     {
       "path": "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
       "role": "typst_vector_figure",
-      "sha256": "e60a15e728db3e1e68c5be4a1452c015b6e1b6cdfe73ce1660f905a8abb7d899"
+      "sha256": "cc3ea53aa2942648b37e838f35cabff1a1d6a84a77ee8f2ea8db591f12999097"
     },
     {
       "path": "typst/lib/figures/main/null_four_edge_x_witness.typ",
@@ -242,7 +242,7 @@
     {
       "path": "typst/lib/figures/manual/coordinate_phase_delta3_wireframe.typ",
       "role": "typst_vector_figure",
-      "sha256": "2772d30b060c115402b722f6f6c80f47d66053b507450c9498cebc4ce1cbe6ef"
+      "sha256": "b780045e120ccd112de818df4c5fe57ca32bd8a3e590636f236d73e4a0ceeae1"
     },
     {
       "path": "typst/lib/figures/manual/cycle_disturbance_shedding_fixture.typ",
@@ -267,7 +267,7 @@
     {
       "path": "typst/lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ",
       "role": "typst_vector_figure",
-      "sha256": "2142cbb984f1d0c62bd661db6d52a3dbe932e44af358e3dbaf10eb70b6c21fbc"
+      "sha256": "abe5883b493a998dbf41022a66b872eea39c7a5f73001a2762d94189ea67c6d4"
     },
     {
       "path": "typst/lib/figures/manual/higgs_yro_saddle_signature.typ",
@@ -282,7 +282,7 @@
     {
       "path": "typst/lib/figures/manual/lensing_02_frg_value_identity_delta3.typ",
       "role": "typst_vector_figure",
-      "sha256": "aaf7208c3d8d96474675cf138d803409ce887e9114fb0ed0388722acf67b9dd9"
+      "sha256": "76da2adb52c6c25fe3c543de1466727fd2ae382be16b8f03cc88a991dbd59e38"
     },
     {
       "path": "typst/lib/figures/manual/lensing_03_sparc5_lens_medium_phase_proxy.typ",
@@ -312,17 +312,17 @@
     {
       "path": "typst/lib/figures/manual/lensing_08_target_quarantine.typ",
       "role": "typst_vector_figure",
-      "sha256": "769da946010778523fcca2c732fa5b24fe7023c33d18e835c66d2a5999624bcb"
+      "sha256": "b76fc28bd085c69d66f7c386229982d28e076c919f5ad1da04058302e7b23638"
     },
     {
       "path": "typst/lib/figures/manual/lensing_09_staged_lensing_lane.typ",
       "role": "typst_vector_figure",
-      "sha256": "aecbe8315be026cc00a4c6cb941dad99b1486ed43c893715c7dd6ff93c1777ea"
+      "sha256": "4cf548d5745b96520b0c311b607e8633030288449c248dedd7ae62295f524836"
     },
     {
       "path": "typst/lib/figures/manual/lensing_10_lensing_calculation_spine.typ",
       "role": "typst_vector_figure",
-      "sha256": "64b22c3232dad6feb0f843ced78e6a30c0d66617c5a66e1de3a7e44f02dd2333"
+      "sha256": "83a140ea29d7aebbb17bcb3fbbb43971665af1a4edd31b6b3635cbb602f01b59"
     },
     {
       "path": "typst/lib/figures/manual/run_tumble_trace_3d_projection.typ",
@@ -367,7 +367,7 @@
     {
       "path": "typst/lib/figures/manual/tau_missing_burden_diagnostic.typ",
       "role": "typst_vector_figure",
-      "sha256": "3356427218031a8ada4e6de407c1e40ef25fa9fb1bf9e9baf6c3742393b63489"
+      "sha256": "8cc81c2de4679517d90064b0b50fd61fd58442d22788bd63c2e94095e421eb7c"
     },
     {
       "path": "typst/lib/figures/manual/tau_ring_support_score.typ",
@@ -657,15 +657,15 @@
       "path": "figures/generated/FIGURE_MANIFEST.json",
       "kind": "figure_manifest",
       "source": "scripts/export_typst_figures.py",
-      "sha256": "d57f7bcaeb145eb309d341daa71d32152daabc77387a53ef73c75bc2af9e3292",
+      "sha256": "5e791fd260449f4c818b1912c6d01c436abb7b695447a9393d777f8b7e0721bd",
       "bytes": 7105
     },
     {
       "path": "figures/generated/curling-curl-layers.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/main/curling_curl_layers.typ",
-      "sha256": "fad37df902f925db1d8da6f107919e9b04e0022165d592194aade2b0ed7f65b8",
-      "bytes": 24057
+      "sha256": "b58631099e20e8ca5214bbcae92826f44d13cf73c7015c8c7b9bed1162e4330d",
+      "bytes": 24021
     },
     {
       "path": "figures/generated/cycle-disturbance-shedding.pdf",
@@ -685,8 +685,8 @@
       "path": "figures/generated/fractal-tesseract-q4-witness.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
-      "sha256": "c9e676bda379ded67cf2de7071a9917d7fce1182cf42819e8d8f9a32b10388a2",
-      "bytes": 21186
+      "sha256": "8de8b37543d3043ce82b2cd766b8b69432cda0bbf1f2812f8e94c5582b31f3c9",
+      "bytes": 21064
     },
     {
       "path": "figures/generated/null-four-edge-x-witness.pdf",
@@ -776,7 +776,7 @@
       "path": "manual/figures/generated/FIGURE_MANIFEST.json",
       "kind": "figure_manifest",
       "source": "scripts/export_typst_figures.py",
-      "sha256": "f3b515d1aa3f1070badf722016b5a57916378ad126a2d604018e8760760eb1b3",
+      "sha256": "b9cd5d39ff6b080dad14d0934b1b2d98861ccfe95f4d04cbd208564d3e424ecc",
       "bytes": 41250
     },
     {
@@ -790,8 +790,8 @@
       "path": "manual/figures/generated/coordinate-phase-delta3-wireframe.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/manual/coordinate_phase_delta3_wireframe.typ",
-      "sha256": "1848f508f1fe7ad757b18a61613cb515cd621d1576d87a075b4185e65671da4a",
-      "bytes": 31758
+      "sha256": "3248d27744665624fe470eb37efeba4f40d788fc33b48f130b844018c752ea81",
+      "bytes": 31747
     },
     {
       "path": "manual/figures/generated/cycle-disturbance-shedding-fixture.pdf",
@@ -916,8 +916,8 @@
       "path": "manual/figures/generated/run-tumble-trace-3d-projection.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/manual/run_tumble_trace_3d_projection.typ",
-      "sha256": "f91f6f5d09045c451d08643e9c7e6af6301235d77887ee0c7fd46ce7d4f1fe08",
-      "bytes": 21437
+      "sha256": "7679f83d46abb44c7f7b4c4625c66fbf656e7b75fac9f9314e780cfdaa3c1c7e",
+      "bytes": 21434
     },
     {
       "path": "manual/figures/generated/short-window-setup.pdf",
@@ -986,8 +986,8 @@
       "path": "manual/figures/generated/tau-missing-burden-diagnostic.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/manual/tau_missing_burden_diagnostic.typ",
-      "sha256": "a3091ff6ad3a9e5a848ae5bc0164ab808ad723dc765c0606fb7631de118e2f47",
-      "bytes": 15207
+      "sha256": "d7958fbb1fac156f4863e86008f877ae5b4e8205a03d5798369f95257d506394",
+      "bytes": 15208
     },
     {
       "path": "manual/figures/generated/tau-ring-support-score.pdf",

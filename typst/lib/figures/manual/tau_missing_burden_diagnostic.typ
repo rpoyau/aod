@@ -11,7 +11,6 @@
 #let target = float(patch.at(0).missing_num) / float(patch.at(0).missing_den)
 #let xs = range(rows.len()).map(i => float(i))
 #let mf = rows.map(r => float(r.missing_fraction))
-#let tgt-line = xs.map(_ => target)
 #let xticks = range(rows.len()).map(i => (float(i), [#rows.at(i).K]))
 
 #aod-canvas(fig-width-cm, fig-height-cm)[
@@ -29,7 +28,7 @@
     yticks: ((0.25, [0.25]), (0.30, [0.30]), (0.35, [0.35]), (0.40, [0.40]), (0.45, [0.45]), (0.50, [0.50]), (0.55, [0.55]), (0.60, [0.60])),
     grid-y: false,
     layers: (
-      (type: "line", xs: xs, ys: tgt-line, stroke: 1.35pt + rgb("#0D2B45")),
+      (type: "hline", y: target, stroke: 1.35pt + rgb("#0D2B45")),
       (type: "line", xs: xs, ys: mf, stroke: 1.35pt + rgb("#C46C2B"), marker: "circle", marker-r: 2.6),
     ),
     legend: (

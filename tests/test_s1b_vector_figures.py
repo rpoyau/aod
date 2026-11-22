@@ -183,12 +183,35 @@ def test_s1b_all_38_exported_vector_pdfs_invariants():
     assert total_pdfs == 38
 
 
+def _parse_typ_num_tuple(src: str, var_name: str) -> list[float]:
+    m = re.search(rf"#let\s+{re.escape(var_name)}\s*=\s*\(([^)]+)\)", src)
+    assert m is not None, f"Missing tuple binding #let {var_name} = (...)"
+    return [float(tok.strip()) for tok in m.group(1).split(",") if tok.strip()]
+
+
+def _parse_xlim_ylim(src: str) -> tuple[tuple[float, float], tuple[float, float]]:
+    mx = re.search(r"\bxlim\s*:\s*\(\s*([^,]+)\s*,\s*([^)]+)\s*\)", src)
+    my = re.search(r"\bylim\s*:\s*\(\s*([^,]+)\s*,\s*([^)]+)\s*\)", src)
+    assert mx is not None and my is not None, "Missing xlim/ylim in plot"
+    return (float(mx.group(1)), float(mx.group(2))), (float(my.group(1)), float(my.group(2)))
+
+
+def _parse_typ_cell_number(cell: str) -> float:
+    cleaned = cell.replace("$", "").replace("−", "-")
+    cleaned = re.sub(r'"%"', "", cleaned)
+    cleaned = re.sub(r"\barcsec(?:/cy)?\b", "", cleaned).strip()
+    m_sci = re.match(r"^(-?\s*[0-9.]+)\s*times\s*10\^\(\s*(-\s*[0-9]+|[0-9]+)\s*\)$", cleaned)
+    if m_sci:
+        return float(f"{m_sci.group(1).replace(' ', '')}e{m_sci.group(2).replace(' ', '')}")
+    return float(cleaned.replace(" ", ""))
+
+
 def test_s1b_all_23_data_backed_figures_match_frozen_sources():
     inv = json.loads((ROOT / "typst/figure_inventory.json").read_text(encoding="utf-8"))
     data_figs = [f for f in inv["figures"] if f["provenance_class"] == "DATA_BACKED_VERIFIED"]
     assert len(data_figs) == 23
 
-    # 1. Verify every declared data source exists byte-for-byte and every csv(...) call is declared.
+    # 1. Verify every declared data source exists byte-for-byte and every csv(...) call is literal and declared.
     for f in data_figs:
         assert f["data_check_verified"] is True
         declared_csvs = set()
@@ -205,84 +228,266 @@ def test_s1b_all_23_data_backed_figures_match_frozen_sources():
             f"CSV mismatch in {f['slug']}: used={sorted(used_csvs)} vs declared={sorted(declared_csvs)}"
         )
 
-    # 2. Exact data checks against frozen CSVs and exact Manual tables:
+    # 2. Exact data, column-binding, axis-bound, and rendered-text checks across ALL 23 DATA_BACKED_VERIFIED figures:
     # (a) 90-tick cycle-shedding fixture
     with (ROOT / "wavelet_shedding_simulation.csv").open(encoding="utf-8") as fh:
         w_rows = list(csv.DictReader(fh))
     assert len(w_rows) == 90
     assert max(float(r["shed_excess"]) for r in w_rows) > 0.06
     t = _extract_pdf_text(ROOT / "latex/manual/figures/generated/cycle-disturbance-shedding-fixture.pdf")
-    assert "90 native ticks" in t and "Outward remainder" in t and "Local fraction" in t
+    for tok in ("90 native ticks", "Lead", "Lag", "Post-clipping burden", "Outward remainder", "Local fraction"):
+        assert tok in t
 
     # (b) Brownian 3D phase-cycle delta_3 fixture
     with (ROOT / "manual/data/brownian/brownian_sample_track.csv").open(encoding="utf-8") as fh:
-        assert len(list(csv.DictReader(fh))) == 9
+        b_track = list(csv.DictReader(fh))
+    assert len(b_track) == 9
+    assert max(int(r["x"]) for r in b_track) == 6 and max(int(r["y"]) for r in b_track) == 5 and max(int(r["z"]) for r in b_track) == 5
     with (ROOT / "manual/data/brownian/phase_cycle_delta3.csv").open(encoding="utf-8") as fh:
         assert [int(r["observed_count"]) for r in csv.DictReader(fh)] == [0, 0, 4, 4, 0]
     with (ROOT / "manual/data/brownian/octant_delta3.csv").open(encoding="utf-8") as fh:
         assert [int(r["observed_count"]) for r in csv.DictReader(fh)] == [6, 0, 1, 0, 1, 0, 0, 0]
     t = _extract_pdf_text(ROOT / "latex/manual/figures/generated/coordinate-phase-delta3-wireframe.pdf")
-    assert "Integerized 3D trajectory" in t and "Phase counts" in t and "Octant counts" in t
+    for tok in ("Integerized 3D trajectory", "Phase counts", "Octant counts", "integer ratios"):
+        assert tok in t
 
-    # (c) Higgs trace flow (strict pre-LHC target quarantine!), saddle signature, and LHC mass comparison
+    # (c) Higgs trace flow (strict pre-LHC target quarantine + q^p + q formula), saddle signature, and LHC mass comparison
     with (ROOT / "manual/data/higgs/higgs_trace_internal_candidates_selection.csv").open(encoding="utf-8") as fh:
-        sel = next(r for r in csv.DictReader(fh) if r["rank"] == "1")
+        h_rows = list(csv.DictReader(fh))
+    sel = next(r for r in h_rows if r["rank"] == "1")
     assert (sel["candidate_K"], int(sel["Pi_qp_plus_q"]), int(sel["RD_accessor"]),
             int(sel["PD_window_pressure"]), int(sel["QD_pending_overhang"]),
             int(sel["delta_lower"]), int(sel["delta_upper"])) == ("3:3:7", 30, 61, 21, 162, 3, -3)
+    # Verify Pi_qp_plus_q == q^p + q across all rows (including p != q)
+    for hr in h_rows:
+        p_i, q_i = int(hr["p"]), int(hr["q"])
+        assert q_i ** p_i + q_i == int(hr["Pi_qp_plus_q"])
     tf_src = (ROOT / "typst/lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ").read_text(encoding="utf-8")
     assert "higgs_external_lhc_mass_comparison_after_freeze.csv" not in tf_src
     assert "higgs_external_map_after_candidate_freeze.csv" in tf_src
+    assert "#sel.q ^#sel.p + #sel.q" in tf_src
     t_tf = _extract_pdf_text(ROOT / "latex/manual/figures/generated/higgs-tritrioseptyro-trace-flow.pdf")
     for tok in ("3:3:7", "30", "61", "21", "162", "124.928"):
         assert tok in t_tf
     t_sad = _extract_pdf_text(ROOT / "latex/manual/figures/generated/higgs-yro-saddle-signature.pdf")
     assert "+3" in t_sad and "21" in t_sad and "3:3:7" in t_sad
+    with (ROOT / "manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv").open(encoding="utf-8") as fh:
+        lhc_rows = list(csv.DictReader(fh))
+    hm_src = (ROOT / "typst/lib/figures/manual/higgs_mass_comparison.typ").read_text(encoding="utf-8")
+    _, (hm_ylo, hm_yhi) = _parse_xlim_ylim(hm_src)
+    for lr in lhc_rows:
+        m_v, s_v = float(lr["mass_GeV"]), float(lr["sigma_GeV"])
+        assert hm_ylo < m_v - s_v and m_v + s_v < hm_yhi
     t_mass = _extract_pdf_text(ROOT / "latex/manual/figures/generated/higgs-mass-comparison.pdf")
     assert "124.928" in t_mass and "ATLAS+CMS" in t_mass and "CMS" in t_mass
 
-    # (d) Double-slit exact 11-bin integer fixture matches <tab:manual-dimonhexon-double-slit-fixture>
+    # (d) Double-slit exact 11-bin integer fixture dynamically cross-checked against <tab:manual-dimonhexon-double-slit-fixture>
+    ds_sec = (ROOT / "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ").read_text(encoding="utf-8")
+    ds_pos = ds_sec.find("<tab:manual-dimonhexon-double-slit-fixture>")
+    ds_tbl_start = ds_sec.rfind("#figure(", 0, ds_pos)
+    ds_tbl = ds_sec[ds_tbl_start:ds_pos]
+    row_re = re.compile(
+        r"\[(\$-?\s*\d+\$|\$\d+\$)\],\s*\[(\d+)\],\s*\[(\d+)\],\s*\[(-?\d+)\],\s*\[(\d+)\],\s*\[(\d+)\],"
+    )
+    parsed_ds = [
+        (int(_parse_typ_cell_number(m.group(1))), int(m.group(2)), int(m.group(3)), int(m.group(5)), int(m.group(6)))
+        for m in row_re.finditer(ds_tbl)
+    ]
+    assert len(parsed_ds) == 11, f"Expected 11 parsed rows from double-slit table, got {len(parsed_ds)}"
     ds_src = (ROOT / "typst/lib/figures/manual/double_slit_reclosure_fixture.typ").read_text(encoding="utf-8")
-    assert "#let ks = (-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5)" in ds_src
-    assert "#let s-single = (4, 9, 16, 25, 31, 35, 31, 25, 16, 9, 4)" in ds_src
-    assert "#let t-no-cross = (8, 18, 32, 50, 62, 70, 62, 50, 32, 18, 8)" in ds_src
-    assert "#let t-cross = (8, 10, 20, 58, 80, 96, 80, 58, 20, 10, 8)" in ds_src
-    assert "#let o-comp = (8, 11, 19, 59, 79, 95, 80, 58, 21, 10, 8)" in ds_src
+    assert [int(x) for x in _parse_typ_num_tuple(ds_src, "ks")] == [r[0] for r in parsed_ds]
+    assert [int(x) for x in _parse_typ_num_tuple(ds_src, "s-single")] == [r[1] for r in parsed_ds]
+    assert [int(x) for x in _parse_typ_num_tuple(ds_src, "t-no-cross")] == [r[2] for r in parsed_ds]
+    assert [int(x) for x in _parse_typ_num_tuple(ds_src, "t-cross")] == [r[3] for r in parsed_ds]
+    assert [int(x) for x in _parse_typ_num_tuple(ds_src, "o-comp")] == [r[4] for r in parsed_ds]
+    t_ds = _extract_pdf_text(ROOT / "latex/manual/figures/generated/double-slit-reclosure-fixture.pdf")
+    for tok in ("Dimonhexon double-slit reclosure fixture", "two/cross calc", "fixture comparator"):
+        assert tok in t_ds
 
-    # (e) Solar-system exact O0 records match <tab:manual-solar-observable-map-results>
+    # (e) Solar-system exact O0 records dynamically cross-checked against <tab:manual-solar-observable-map-results>
+    sol_sec = (ROOT / "typst/manual/sections/05_solar_system_field_tests.typ").read_text(encoding="utf-8")
+    sol_pos = sol_sec.find("<tab:manual-solar-observable-map-results>")
+    sol_tbl = sol_sec[sol_sec.rfind("#figure(", 0, sol_pos):sol_pos]
+    sol_row_re = re.compile(
+        r"\[(Mercury perihelion|Solar light bending|Solar redshift)\],\s*\[([^\]]+)\],\s*\[([^\]]+)\],\s*\[([^\]]+)\],\s*\[([^\]]+)\],"
+    )
+    parsed_sol = [
+        (m.group(1), _parse_typ_cell_number(m.group(2)), _parse_typ_cell_number(m.group(3)), _parse_typ_cell_number(m.group(5)))
+        for m in sol_row_re.finditer(sol_tbl)
+    ]
+    assert len(parsed_sol) == 3, f"Expected 3 parsed rows from solar table, got {len(parsed_sol)}"
     sol1 = (ROOT / "typst/lib/figures/manual/solar_calculated_vs_target.typ").read_text(encoding="utf-8")
     sol2 = (ROOT / "typst/lib/figures/manual/solar_percent_error.typ").read_text(encoding="utf-8")
-    assert "(42.9799, 1.75001, 2.11996e-6)" in sol1
-    assert "(42.98, 1.75, 2.12e-6)" in sol1
-    assert "(0.0002327, 0.0005714, 0.001887)" in sol2
+    assert _parse_typ_num_tuple(sol1, "ao-vals") == [r[1] for r in parsed_sol]
+    assert _parse_typ_num_tuple(sol1, "tgt-vals") == [r[2] for r in parsed_sol]
+    assert _parse_typ_num_tuple(sol2, "errs") == [r[3] for r in parsed_sol]
+    for pdf_name, tok in (
+        ("solar-calculated-vs-target.pdf", "Mercury perihelion"),
+        ("solar-percent-error.pdf", "Solar redshift"),
+    ):
+        assert tok in _extract_pdf_text(ROOT / "latex/manual/figures/generated" / pdf_name)
 
-    # (f) SPARC NGC3198 (43 bins) & declaration controls (4 rows)
+    # (f) SPARC NGC3198 (43 bins) & declaration controls (4 rows): column bindings, axis bounds, and rendered PDF text
     with (ROOT / "manual/data/derived/sparc_five_galaxy_per_bin.csv").open(encoding="utf-8") as fh:
         ngc = [r for r in csv.DictReader(fh) if r["galaxy"] == "NGC3198"]
     assert len(ngc) == 43
+    r_vals = [float(r["R"]) for r in ngc]
     with (ROOT / "manual/data/derived/sparc_declaration_controls.csv").open(encoding="utf-8") as fh:
-        assert len(list(csv.DictReader(fh))) == 4
+        sparc_ctrl = list(csv.DictReader(fh))
+    assert len(sparc_ctrl) == 4
+    sparc_checks = [
+        ("sparc_declaration_controls.typ", "sparc-declaration-controls.pdf", ("MAPE_U_percent",),
+         [float(r["MAPE_U_percent"]) for r in sparc_ctrl], ("SPARC declaration controls", "radial only", "boundary-face slow")),
+        ("sparc_square_speed_comparison.typ", "sparc-square-speed-comparison.pdf", ("r.R", "r.U_obs", "r.U_AO"),
+         [float(r["U_obs"]) for r in ngc] + [float(r["U_AO"]) for r in ngc], ("SPARC square-speed comparison", "R [kpc]")),
+        ("sparc_square_speed_residuals.typ", "sparc-square-speed-residuals.pdf", ("r.R", "r.Delta_U"),
+         [float(r["Delta_U"]) for r in ngc], ("SPARC square-speed residuals", "primary declaration")),
+        ("sparc_display_speed_view.typ", "sparc-display-speed-view.pdf", ("r.R", "r.Vobs", "r.V_disp"),
+         [float(r["Vobs"]) for r in ngc] + [float(r["V_disp"]) for r in ngc], ("Display speed view", "benchmark target speed")),
+    ]
+    for typ_name, pdf_name, cols, yvals, toks in sparc_checks:
+        s_txt = (ROOT / "typst/lib/figures/manual" / typ_name).read_text(encoding="utf-8")
+        for c in cols:
+            assert c in s_txt, f"Missing column binding {c} in {typ_name}"
+        (xlo, xhi), (ylo, yhi) = _parse_xlim_ylim(s_txt)
+        if "r.R" in cols:
+            assert xlo <= min(r_vals) and max(r_vals) <= xhi
+        assert ylo <= min(yvals) and max(yvals) <= yhi, f"Data clipped in {typ_name}: [{min(yvals)}, {max(yvals)}] vs [{ylo}, {yhi}]"
+        p_txt = _extract_pdf_text(ROOT / "latex/manual/figures/generated" / pdf_name)
+        for tok in toks:
+            assert tok in p_txt, f"Missing {tok!r} in {pdf_name}"
 
-    # (g) Tau ring diagnostic, exact 31/50 = 0.62 missing burden ratio, and declaration controls
+    # (g) Tau ring diagnostic (4 rows), exact 31/50 = 0.62 missing burden ratio, and declaration controls (4 rows)
     with (ROOT / "manual/data/derived/tau_ring_diagnostic.csv").open(encoding="utf-8") as fh:
         tau_rows = list(csv.DictReader(fh))
     assert [r["K"] for r in tau_rows] == ["1:2:8", "1:2:9", "1:2:10", "3:3:8"]
     with (ROOT / "manual/data/dec/tau_missing_burden_exact_ratio_patch.csv").open(encoding="utf-8") as fh:
         patch = next(csv.DictReader(fh))
     assert int(patch["missing_num"]) == 31 and int(patch["missing_den"]) == 50
+    with (ROOT / "manual/data/derived/tau_declaration_controls.csv").open(encoding="utf-8") as fh:
+        tau_ctrl = list(csv.DictReader(fh))
+    assert len(tau_ctrl) == 4
+    tau_checks = [
+        ("tau_ring_support_score.typ", "tau-ring-support-score.pdf", ("r.S_tau", "r.S_tau_ring"),
+         [float(r["S_tau"]) for r in tau_rows] + [float(r["S_tau_ring"]) for r in tau_rows],
+         ("Tau ring support score", "1:2:9", "cell score", "ring score")),
+        ("tau_missing_burden_diagnostic.typ", "tau-missing-burden-diagnostic.pdf", ("r.missing_fraction", 'type: "hline"'),
+         [float(r["missing_fraction"]) for r in tau_rows] + [31.0 / 50.0],
+         ("Tau missing-burden diagnostic", "Tau missing-burden target", "1:2:9")),
+        ("tau_support_residuals.typ", "tau-support-residuals.pdf", ("r.S_tau_ring",),
+         [float(r["S_tau_ring"]) for r in tau_rows], ("Tau-support residuals", "primary declaration", "1:2:9")),
+        ("tau_declaration_controls.typ", "tau-declaration-controls.pdf", ("r.winner_margin_percent",),
+         [float(r["winner_margin_percent"]) for r in tau_ctrl], ("Tau declaration controls", "winner margin", "ring d=3")),
+    ]
+    for typ_name, pdf_name, cols, yvals, toks in tau_checks:
+        s_txt = (ROOT / "typst/lib/figures/manual" / typ_name).read_text(encoding="utf-8")
+        for c in cols:
+            assert c in s_txt, f"Missing {c} in {typ_name}"
+        _, (ylo, yhi) = _parse_xlim_ylim(s_txt)
+        assert ylo <= min(yvals) and max(yvals) <= yhi, f"Data clipped in {typ_name}"
+        p_txt = _extract_pdf_text(ROOT / "latex/manual/figures/generated" / pdf_name)
+        for tok in toks:
+            assert tok in p_txt, f"Missing {tok!r} in {pdf_name}"
 
     # (h) Run-tumble 20-tick 5-panel projection
     with (ROOT / "manual/data/run_tumble/run_tumble_trace_20_ticks.csv").open(encoding="utf-8") as fh:
-        assert len(list(csv.DictReader(fh))) == 21
+        rt_rows = list(csv.DictReader(fh))
+    assert len(rt_rows) == 21
     with (ROOT / "manual/data/run_tumble/run_tumble_phase_cycle_delta3.csv").open(encoding="utf-8") as fh:
         assert [int(r["O"]) for r in csv.DictReader(fh)] == [6, 3, 3, 3, 5]
     with (ROOT / "manual/data/run_tumble/run_tumble_octant_delta3.csv").open(encoding="utf-8") as fh:
         assert [int(r["m"]) for r in csv.DictReader(fh)] == [8, 3, 3, 3, 7, 2, 2, 2]
+    t_rt = _extract_pdf_text(ROOT / "latex/manual/figures/generated/run-tumble-trace-3d-projection.pdf")
+    for tok in ("Run-tumble tracer-current projection", "mode strip: init/run/tumble", "phase counts", "magnitudes"):
+        assert tok in t_rt
 
-    # (i) Lensing CSV-backed figures (01, 03, 04 heatmap, 05, 06, 07 gate)
+    # (i) All 6 Lensing CSV-backed figures (01, 03, 04 heatmap, 05, 06, 07 gate)
+    with (ROOT / "manual/data/lensing/toy1_delta3_class_tallies.csv").open(encoding="utf-8") as fh:
+        l1_rows = list(csv.DictReader(fh))
+    l1_src = (ROOT / "typst/lib/figures/manual/lensing_01_toy1_delta3_class_tallies.typ").read_text(encoding="utf-8")
+    _, (l1_lo, l1_hi) = _parse_xlim_ylim(l1_src)
+    assert l1_lo <= 0 and max(float(r["T_cross_predicted_tally"]) for r in l1_rows) <= l1_hi
+    assert "Toy 1 exact internal" in _extract_pdf_text(ROOT / "latex/manual/figures/generated/lensing-01-toy1-delta3-class-tallies.pdf")
+
+    with (ROOT / "manual/data/lensing/sparc5_medium_diagnostic_summary.csv").open(encoding="utf-8") as fh:
+        l3_rows = list(csv.DictReader(fh))
+    l3_src = (ROOT / "typst/lib/figures/manual/lensing_03_sparc5_lens_medium_phase_proxy.typ").read_text(encoding="utf-8")
+    _, (l3_lo, l3_hi) = _parse_xlim_ylim(l3_src)
+    assert l3_lo <= 0 and max(float(r["max_abs_ΔAγ"]) for r in l3_rows) <= l3_hi
+    t_l3 = _extract_pdf_text(ROOT / "latex/manual/figures/generated/lensing-03-sparc5-lens-medium-phase-proxy.pdf")
+    for g in ("NGC2403", "NGC3198", "NGC6503", "NGC2841", "DDO154"):
+        assert g in t_l3
+
     t_hm = _extract_pdf_text(ROOT / "latex/manual/figures/generated/lensing-04-sparc5-class-tally-heatmap.pdf")
     for tok in ("NGC2403", "NGC3198", "NGC6503", "NGC2841", "DDO154", "28", "29", "25", "31", "14"):
         assert tok in t_hm
+
+    with (ROOT / "manual/data/lensing/swells_k1_k2_k3_delta3_comparison.csv").open(encoding="utf-8") as fh:
+        l5_rows = list(csv.DictReader(fh))
+    l5_src = (ROOT / "typst/lib/figures/manual/lensing_05_swells_k_comparison_delta3.typ").read_text(encoding="utf-8")
+    _, (l5_lo, l5_hi) = _parse_xlim_ylim(l5_src)
+    assert l5_lo <= 0 and max(max(float(r["thetaE_delta3_total_m"]), float(r["sigma_delta3_total_m"])) for r in l5_rows) <= l5_hi
+    t_l5 = _extract_pdf_text(ROOT / "latex/manual/figures/generated/lensing-05-swells-k-comparison-delta3.pdf")
+    for tok in ("SWELLS K1/K2/K3", "K1", "K2", "K3"):
+        assert tok in t_l5
+
+    with (ROOT / "manual/data/lensing/swells_k1_thetaE_delta3_scores.csv").open(encoding="utf-8") as fh:
+        l6_rows = list(csv.DictReader(fh))
+    l6_src = (ROOT / "typst/lib/figures/manual/lensing_06_swells_k1_thetae_delta3_tallies.typ").read_text(encoding="utf-8")
+    _, (l6_lo, l6_hi) = _parse_xlim_ylim(l6_src)
+    assert l6_lo <= 0 and max(max(float(r["T_cross_predicted_tally"]), float(r["O_observed_tally"])) for r in l6_rows) <= l6_hi
+    assert "SWELLS K1" in _extract_pdf_text(ROOT / "latex/manual/figures/generated/lensing-06-swells-k1-thetae-delta3-tallies.pdf")
+
     t_k4 = _extract_pdf_text(ROOT / "latex/manual/figures/generated/lensing-07-k4-3d-timeflow-input-gate.pdf")
     for tok in ("3D density fields", "2 fields", "audit controls", "1 field", "velocity and flow fields"):
         assert tok in t_k4
+
+
+def test_s1b_no_math_escape_typos_and_no_phantom_comment_paths():
+    for typ_p in sorted((ROOT / "typst/lib/figures").rglob("*.typ")) + [ROOT / "typst/lib/aod_plots.typ"]:
+        text = typ_p.read_text(encoding="utf-8")
+        assert not re.search(r"\\[,;:!]", text), f"LaTeX math-spacing escape renders literally in Typst: {typ_p}"
+        for idx, line in enumerate(text.splitlines(), 1):
+            if line.strip().startswith("//"):
+                for m in re.finditer(
+                    r"((?:scripts|manual|figures_jpg|typst)/[A-Za-z0-9_./{},-]+\.(?:py|png|jpg|csv|typ))",
+                    line,
+                ):
+                    ref = m.group(1)
+                    if "{" in ref:
+                        continue
+                    assert (ROOT / ref).exists(), f"Phantom repo path in comment {typ_p}:{idx}: {ref}"
+
+
+def test_s1b_vector_figure_policy_rejects_bypass_attempts():
+    vtp = _load_verifier()
+    base_entry = {"data_sources": [{"path": "manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv"}]}
+    base_src = (ROOT / "typst/lib/figures/manual/higgs_mass_comparison.typ").read_text(encoding="utf-8")
+    assert vtp._vector_figure_policy_violations("typst/lib/figures/manual/higgs_mass_comparison.typ", base_src, base_entry) == []
+
+    # Dynamic csv(var) bypass must fail closed
+    dyn_src = base_src.replace(
+        'csv("/manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv"',
+        'csv(secret_path',
+    )
+    v_dyn = vtp._vector_figure_policy_violations("test.typ", dyn_src, base_entry)
+    assert any("dynamic or non-literal csv(" in v for v in v_dyn)
+
+    # Non-wildcard #import bypass must fail closed
+    imp_src = base_src + '\n#import "/typst/lib/aod_schema.typ": aod-boxed\n'
+    v_imp = vtp._vector_figure_policy_violations("test.typ", imp_src, base_entry)
+    assert any("may only contain the single `#import" in v for v in v_imp)
+
+    # #include bypass must fail closed
+    inc_src = base_src + '\n#include "/typst/sections/01_introduction.typ"\n'
+    v_inc = vtp._vector_figure_policy_violations("test.typ", inc_src, base_entry)
+    assert any("forbidden `include`" in v for v in v_inc)
+
+    # Block-comment obfuscated unauthorized csv must fail closed
+    bc_src = base_src.replace(
+        'csv("/manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv"',
+        'csv(/*hi*/"/manual/data/derived/tau_ring_diagnostic.csv"',
+    )
+    v_bc = vtp._vector_figure_policy_violations("test.typ", bc_src, base_entry)
+    assert any("unauthorized csv(" in v for v in v_bc)
+

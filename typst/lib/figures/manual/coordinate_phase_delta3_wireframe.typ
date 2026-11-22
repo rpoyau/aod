@@ -36,17 +36,17 @@
     annotations: (
       (0, 0, 0, 0.16, 0.22, [$z_i$]),
       (3, 2.5, 2.5, 0.45, -0.05, [$Delta z_i^((n))$]),
-      (6, 5, 5, 0.15, -0.34, [$z_(i + n)$]),
+      (6, 5, 5, -0.22, -0.36, [$z_(i + n)$]),
     ),
   )
 
-  // Top-right: Equations + delta_3 badge
+  // Top-right: Equations + delta_3 badge (cleanly separated from Q_i^(n) equation)
   #aod-text(10.8, 0.96, [*Integer squared displacement and phase*], size: 8.8pt, box-w: 7.4, box-h: 0.42)
-  #aod-text(7.25, 1.48, [$Delta z_i^((n)) = (a_i^((n)), b_i^((n)), c_i^((n))) in bb(Z)^3$], size: 7.8pt, anchor: "left", box-w: 5.2, box-h: 0.4)
-  #aod-text(7.25, 1.94, [$Q_i^((n)) = (a_i^((n)))^2 + (b_i^((n)))^2 + (c_i^((n)))^2 in bb(Z)_(>= 0)$], size: 7.8pt, anchor: "left", box-w: 5.8, box-h: 0.4)
-  #aod-text(7.25, 2.38, [$theta_i^((n)) = Q_i^((n)) mod beta_a$], size: 7.8pt, anchor: "left", box-w: 4.5, box-h: 0.4)
-  #aod-box-tl(11.90, 1.32, 2.52, 0.56, [#text(size: 7.4pt)[$delta_(3, k) = (s_k^((3)), m_k)$]], stroke: 0.75pt + aod-pal.axis, fill: white, radius: 3pt, inset: 2pt)
-  #aod-text(7.25, 2.84, [Active fixture: counts on $Q$, phase, and octant bins; no radial-distance fit.], size: 6.7pt, anchor: "left", box-w: 7.3, box-h: 0.42)
+  #aod-text(7.15, 1.44, [$Delta z_i^((n)) = (a_i^((n)), b_i^((n)), c_i^((n))) in bb(Z)^3$], size: 7.4pt, anchor: "left", box-w: 5.8, box-h: 0.4)
+  #aod-text(7.15, 1.90, [$Q_i^((n)) = (a_i^((n)))^2 + (b_i^((n)))^2 + (c_i^((n)))^2 in bb(Z)_(>= 0)$], size: 7.4pt, anchor: "left", box-w: 7.2, box-h: 0.4)
+  #aod-text(7.15, 2.38, [$theta_i^((n)) = Q_i^((n)) mod beta_a$], size: 7.4pt, anchor: "left", box-w: 4.3, box-h: 0.4)
+  #aod-box-tl(11.65, 2.12, 2.75, 0.54, [#text(size: 7.2pt)[$delta_(3, k) = (s_k^((3)), m_k)$]], stroke: 0.75pt + aod-pal.axis, fill: white, radius: 3pt, inset: 2pt)
+  #aod-text(7.15, 2.88, [Active fixture: counts on $Q$, phase, and octant bins; no radial-distance fit.], size: 6.3pt, anchor: "left", box-w: 7.4, box-h: 0.40)
 
   // Bottom-right left: Phase counts O_theta
   #aod-xy-plot(

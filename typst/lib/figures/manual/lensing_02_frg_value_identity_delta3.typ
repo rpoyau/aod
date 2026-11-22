@@ -1,5 +1,5 @@
 // Audited S1b native Typst vector figure: lensing-02-frg-value-identity-delta3 (Manual)
-// Provenance: CONCEPTUAL_SCHEMATIC (manual/scripts/build_lensing_assets.py)
+// Provenance: CONCEPTUAL_SCHEMATIC (visually audited historical schematic; no generator script in repo)
 // Historical raster retained byte-for-byte: manual/figures/lensing/02_frg_value_identity_delta3.png
 #import "/typst/lib/aod_plots.typ": *
 

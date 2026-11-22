@@ -1,5 +1,5 @@
 // Audited S1b native Typst vector figure: lensing-09-staged-lensing-lane (Manual)
-// Provenance: CONCEPTUAL_SCHEMATIC (manual/scripts/build_lensing_assets.py)
+// Provenance: CONCEPTUAL_SCHEMATIC (visually audited historical schematic; no generator script in repo)
 // Historical raster retained byte-for-byte: manual/figures/lensing/09_staged_lensing_lane.png
 #import "/typst/lib/aod_plots.typ": *
 

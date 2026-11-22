@@ -58,13 +58,28 @@ GENERATED_FIGURE_MANIFEST_DIRS = (
 )
 
 
+_DECLARED_FIGURE_CACHE: dict[tuple, frozenset[str]] = {}
+
+
 def declared_generated_figure_assets(root: Path | None = None) -> set[str]:
-    base = ROOT if root is None else root
-    declared: set[str] = set()
+    base = (ROOT if root is None else root).resolve()
+    sig_parts: list[tuple[str, int, int] | None] = []
+    manifest_paths: list[tuple[str, Path]] = []
     for rel_dir in GENERATED_FIGURE_MANIFEST_DIRS:
         manifest_path = base / rel_dir / "FIGURE_MANIFEST.json"
         if not manifest_path.is_file() or manifest_path.is_symlink():
+            sig_parts.append(None)
             continue
+        st = manifest_path.stat()
+        sig_parts.append((rel_dir, st.st_mtime_ns, st.st_size))
+        manifest_paths.append((rel_dir, manifest_path))
+    cache_key = (str(base), tuple(sig_parts))
+    cached = _DECLARED_FIGURE_CACHE.get(cache_key)
+    if cached is not None:
+        return set(cached)
+
+    declared: set[str] = set()
+    for rel_dir, manifest_path in manifest_paths:
         data = json.loads(manifest_path.read_text(encoding="utf-8"))
         if data.get("schema") != "aod.typst.figure-export.v1":
             continue
@@ -78,6 +93,7 @@ def declared_generated_figure_assets(root: Path | None = None) -> set[str]:
                 and ".." not in out_name
             ):
                 declared.add(f"{rel_dir}/{out_name}")
+    _DECLARED_FIGURE_CACHE[cache_key] = frozenset(declared)
     return declared
 
 

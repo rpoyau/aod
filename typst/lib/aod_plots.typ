@@ -847,22 +847,22 @@
 
   for xv in xticks {
     let p = proj(xv, ylo, zlo)
-    aod-text(p.at(0) - 0.08, p.at(1) + 0.22, [#xv], size: 6.8pt, box-w: 0.6, box-h: 0.32)
+    aod-text(p.at(0) - 0.12, p.at(1) + 0.22, [#xv], size: 6.8pt, box-w: 0.6, box-h: 0.32)
   }
   for yv in yticks {
     let p = proj(xhi, yv, zlo)
-    aod-text(p.at(0) + 0.20, p.at(1) + 0.14, [#yv], size: 6.8pt, box-w: 0.6, box-h: 0.32)
+    aod-text(p.at(0) + 0.14, p.at(1) + 0.24, [#yv], size: 6.8pt, anchor: "left", box-w: 0.6, box-h: 0.32)
   }
   for zv in zticks {
     let p = proj(xhi, yhi, zv)
-    aod-text(p.at(0) + 0.24, p.at(1), [#zv], size: 6.8pt, box-w: 0.6, box-h: 0.32)
+    aod-text(p.at(0) + 0.24, p.at(1) - 0.12, [#zv], size: 6.8pt, anchor: "left", box-w: 0.7, box-h: 0.32)
   }
   let lx = proj((xlo + xhi) / 2.0, ylo, zlo)
   let ly = proj(xhi, (ylo + yhi) / 2.0, zlo)
   let lz = proj(xhi, yhi, (zlo + zhi) / 2.0)
-  aod-text(lx.at(0) - 0.12, lx.at(1) + 0.50, [$x$], size: 8pt, box-w: 0.6, box-h: 0.35)
-  aod-text(ly.at(0) + 0.46, ly.at(1) + 0.34, [$y$], size: 8pt, box-w: 0.6, box-h: 0.35)
-  aod-text(lz.at(0) + 0.52, lz.at(1), [$z$], size: 8pt, box-w: 0.6, box-h: 0.35)
+  aod-text(lx.at(0) - 0.16, lx.at(1) + 0.52, [$x$], size: 8pt, box-w: 0.6, box-h: 0.35)
+  aod-text(ly.at(0) + 0.56, ly.at(1) + 0.44, [$y$], size: 8pt, box-w: 0.6, box-h: 0.35)
+  aod-text(lz.at(0) + 0.78, lz.at(1) - 0.08, [$z$], size: 8pt, anchor: "left", box-w: 0.6, box-h: 0.35)
 
   // Optional dashed chord between endpoints
   if chord and points.len() >= 2 {

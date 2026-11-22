@@ -2654,7 +2654,7 @@ def verify_baseline_immutability(
 
 TRUSTED_TEMPLATE_SHA256 = {
     "typst/lib/aod_schema.typ": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
-    "typst/lib/aod_plots.typ": "f5164592b087fe78c719669eabb8eaf5fcf0eb491dc8b4c03a07ae496ec1f542",
+    "typst/lib/aod_plots.typ": "ead3822f57c9ffe8150d97485549ff0674044d9b38a96936eddfbc5415a8f4b2",
     "typst/preamble.typ": "7a9c255c2411bc4bd3487be0196f10ac453eefa240f6c16095d426f210b4f112",
     "typst/manual/preamble.typ": "2b7deae2f0fa3d7011edabd8d7299b835290fb60e47990c7fe861e55bd914196",
     "typst/main.typ": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70",
@@ -3161,18 +3161,27 @@ def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> 
 def _vector_figure_policy_violations(rel: str, text: str, inv_entry: dict) -> list[str]:
     """Enforce strict offline, no-show, no-raster, declared-CSV-only policy on native vector figure components."""
     violations: list[str] = []
-    # Strip line comments before pattern checks
-    stripped = re.sub(r"//[^\n]*", "", text)
+    # Strip block comments and line comments before pattern checks
+    stripped = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
+    stripped = re.sub(r"//[^\n]*", "", stripped)
     if "@preview/" in stripped or "@local/" in stripped:
         violations.append(f"{rel}: external Typst package import is forbidden in offline vector figure")
     if re.search(r"#?\bshow\b", stripped):
         violations.append(f"{rel}: forbidden `show` rule in vector figure component")
+    if re.search(r"(?:^|[\s;{(])#?include\b", stripped):
+        violations.append(f"{rel}: forbidden `include` directive in vector figure component")
     for bad_call in ("eval(", "regex(", "read(", "json(", "toml(", "xml(", "yaml(", "image(", "cbor("):
         if re.search(r"\b" + re.escape(bad_call), stripped):
             violations.append(f"{rel}: forbidden call `{bad_call}` in vector figure component")
-    imports = re.findall(r'#import\s+"([^"]+)"\s*:\s*\*', stripped)
-    if imports != ["/typst/lib/aod_plots.typ"]:
-        violations.append(f"{rel}: vector figure may only import '/typst/lib/aod_plots.typ', got {imports!r}")
+    # Every import directive (wildcard, selective, or bare) must be accounted for;
+    # only the single canonical `/typst/lib/aod_plots.typ` wildcard import is permitted.
+    all_imports = re.findall(r"(?:^|[\s;{(])#?import\b", stripped)
+    wildcard_imports = re.findall(r'#import\s+"([^"]+)"\s*:\s*\*', stripped)
+    if len(all_imports) != 1 or wildcard_imports != ["/typst/lib/aod_plots.typ"]:
+        violations.append(
+            f"{rel}: vector figure may only contain the single `#import \"/typst/lib/aod_plots.typ\": *` "
+            f"(found {len(all_imports)} import directive(s), wildcard={wildcard_imports!r})"
+        )
     if stripped.count("#aod-canvas(") != 1:
         violations.append(f"{rel}: vector figure must invoke #aod-canvas(...) exactly once")
     if not (
@@ -3180,11 +3189,24 @@ def _vector_figure_policy_violations(rel: str, text: str, inv_entry: dict) -> li
         and re.search(r"#let\s+fig-height-cm\s*=\s*[0-9]+(?:\.[0-9]+)?\b", stripped)
     ):
         violations.append(f"{rel}: vector figure must declare literal fig-width-cm and fig-height-cm")
-    declared_csvs = {d["path"] for d in inv_entry.get("data_sources", []) if isinstance(d, dict) and "path" in d}
-    for m_csv in re.finditer(r'\bcsv\(\s*"([^"]+)"', stripped):
-        raw_p = m_csv.group(1)
+    declared_csvs = {
+        d["path"]
+        for d in inv_entry.get("data_sources", [])
+        if isinstance(d, dict) and isinstance(d.get("path"), str) and d["path"].endswith(".csv")
+    }
+    # Fail closed on EVERY csv(...) invocation, including dynamic/variable/concatenated arguments.
+    literal_csv_re = re.compile(r'\s*"(/[^"\n]+)"\s*(?:,|\))')
+    for m_csv in re.finditer(r"\bcsv\s*\(", stripped):
+        m_lit = literal_csv_re.match(stripped, m_csv.end())
+        if m_lit is None:
+            snippet = stripped[m_csv.start():m_csv.start() + 60].replace("\n", " ")
+            violations.append(
+                f"{rel}: dynamic or non-literal csv(...) call is forbidden in vector figure component: {snippet!r}"
+            )
+            continue
+        raw_p = m_lit.group(1)
         rel_csv = raw_p.lstrip("/")
-        if not raw_p.startswith("/") or rel_csv not in declared_csvs:
+        if rel_csv not in declared_csvs:
             violations.append(
                 f"{rel}: unauthorized csv({raw_p!r}) outside declared figure_inventory data_sources {sorted(declared_csvs)}"
             )
@@ -4932,9 +4954,19 @@ def _verify_evaluated_and_rendered_impl(
 
             fig_gen_dir = root / ("latex/figures/generated" if surf == "main" else "latex/manual/figures/generated")
             fig_manifest_path = fig_gen_dir / "FIGURE_MANIFEST.json"
+            expected_vf_prefix = f"typst/lib/figures/{surf}/"
+            vf_manifest = json.loads((root / "typst/manifest.json").read_text(encoding="utf-8"))
+            expected_vf_count = sum(
+                1 for k in vf_manifest.get("vector_figure_components", {}) if k.startswith(expected_vf_prefix)
+            )
             fig_streams: list[str] = []
             t_tokens_non_fig = list(t_tokens)
             vector_figures_verbatim_matched = 0
+            if expected_vf_count > 0:
+                require(
+                    fig_manifest_path.is_file(),
+                    f"Missing required {fig_manifest_path.relative_to(root)} for {expected_vf_count} declared {surf} vector figure(s)",
+                )
             if fig_manifest_path.is_file():
                 fm_data = json.loads(fig_manifest_path.read_text(encoding="utf-8"))
                 for f_entry in fm_data.get("figures", []):
@@ -4948,21 +4980,26 @@ def _verify_evaluated_and_rendered_impl(
                     f_stream = _pdftotext(f_pdf, raw=True)
                     fig_streams.append(f_stream)
                     f_toks = _norm_rendered_text_tokens(f_stream, is_typst=True).split()
-                    if f_toks:
-                        flen = len(f_toks)
-                        matched_idx = None
-                        for idx in range(len(t_tokens_non_fig) - flen + 1):
-                            if t_tokens_non_fig[idx:idx + flen] == f_toks:
-                                matched_idx = idx
-                                break
-                        require(
-                            matched_idx is not None,
-                            f"Pinned exported vector figure {f_entry['slug']} text missing from rendered {surf}.pdf",
-                        )
-                        t_tokens_non_fig = (
-                            t_tokens_non_fig[:matched_idx] + ["|"] + t_tokens_non_fig[matched_idx + flen:]
-                        )
-                        vector_figures_verbatim_matched += 1
+                    require(bool(f_toks), f"Exported vector figure {f_entry['slug']} yielded empty normalized text")
+                    flen = len(f_toks)
+                    matched_idx = None
+                    for idx in range(len(t_tokens_non_fig) - flen + 1):
+                        if t_tokens_non_fig[idx:idx + flen] == f_toks:
+                            matched_idx = idx
+                            break
+                    require(
+                        matched_idx is not None,
+                        f"Pinned exported vector figure {f_entry['slug']} text missing from rendered {surf}.pdf",
+                    )
+                    t_tokens_non_fig = (
+                        t_tokens_non_fig[:matched_idx] + ["|"] + t_tokens_non_fig[matched_idx + flen:]
+                    )
+                    vector_figures_verbatim_matched += 1
+            require(
+                vector_figures_verbatim_matched == expected_vf_count,
+                f"Vector figure verbatim match count mismatch in {surf}.pdf: "
+                f"matched={vector_figures_verbatim_matched} vs declared={expected_vf_count}",
+            )
 
             base_grams = set(_run_ngrams(_vocab_runs(b_tokens, vocab)))
             t_grams = _run_ngrams(_vocab_runs(t_tokens_non_fig, vocab))
@@ -5870,6 +5907,30 @@ def _run_negative_controls_impl(
                 "24b_S1b_vector_figure_unauthorized_csv",
                 lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
                 "unauthorized csv(",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=False)
+            mutate(
+                sb, vf,
+                '#let rows = csv("/manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv", row-type: dictionary)',
+                '#let p = "/manual/data/derived/tau_ring_diagnostic.csv"\n#let rows = csv(p, row-type: dictionary)',
+            )
+            expect_rejection(
+                "24c_S1b_vector_figure_dynamic_csv",
+                lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
+                "dynamic or non-literal csv(",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=False)
+            mutate(
+                sb, vf,
+                '#import "/typst/lib/aod_plots.typ": *',
+                '#import "/typst/lib/aod_plots.typ": *\n#import "/typst/lib/aod_schema.typ": aod-boxed',
+            )
+            expect_rejection(
+                "24d_S1b_vector_figure_nonwildcard_import",
+                lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
+                "may only contain the single `#import",
             )
 
     # 24. R5: missing sibling peer /GoToR /D destination (__AOD_REVIEW_MISSING_DESTINATION__)

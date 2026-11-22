@@ -56,8 +56,8 @@
 
   // Bottom legend strip
   #aod-box-tl(
-    0.45, 7.72, 13.70, 0.74,
-    [#text(size: 7.8pt)[$alpha$ outward dressing  $|$  $Omega$ return dressing  $|$  polychiral return clocks  $|$  field outer dressing  $|$  retention-conditioned shell path]],
+    0.30, 7.72, 14.00, 0.74,
+    [#text(size: 7.0pt)[$alpha$ outward dressing  $|$  $Omega$ return dressing  $|$  polychiral return clocks  $|$  field outer dressing  $|$  retention-conditioned shell path]],
     stroke: 0.85pt + aod-pal.navy,
     fill: aod-pal.tint-blue,
     radius: 3.5pt,

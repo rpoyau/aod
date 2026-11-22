@@ -1,5 +1,5 @@
 // Audited S1b native Typst vector figure: higgs-tritrioseptyro-trace-flow (Manual)
-// Provenance: DATA_BACKED_VERIFIED (manual/data/higgs/higgs_trace_internal_candidates_selection.csv + external comparison CSV)
+// Provenance: DATA_BACKED_VERIFIED (manual/data/higgs/higgs_trace_internal_candidates_selection.csv + manual/data/higgs/higgs_external_map_after_candidate_freeze.csv)
 // Historical raster retained byte-for-byte: manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png
 #import "/typst/lib/aod_plots.typ": *
 
@@ -13,7 +13,7 @@
 
 #let steps = (
   ("1. Candidate", [$#sel.candidate_K _upright("yro")$]),
-  ("2. Branch support", [$Pi = #sel.p ^#sel.q + #sel.q = #sel.Pi_qp_plus_q$ \ $R D = 2 Pi + 1 = #sel.RD_accessor$]),
+  ("2. Branch support", [$Pi = #sel.q ^#sel.p + #sel.q = #sel.Pi_qp_plus_q$ \ $R D = 2 Pi + 1 = #sel.RD_accessor$]),
   ("3. Window", [$rho_omega^D = #sel.rhoD_omega$ \ $C_(3, H) = #sel.C3_H_scoped$]),
   ("4. Pressure", [$P_H^D = #sel.PD_window_pressure$ \ $Q_H^D = #sel.QD_pending_overhang$]),
   ("5. Saddle", [$C_6 : +#sel.delta_lower$ \ $C_8 : -#{int(calc.abs(float(sel.delta_upper)))}$]),
