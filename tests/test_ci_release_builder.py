@@ -8,13 +8,14 @@ def test_workflow_writes_tests_artifact_before_release_builder():
     assert "pytest -q | tee tests.txt" in workflow
     assert "audit_pack" not in workflow
     assert "verifier.log" not in workflow
+    assert "scripts/build_publication.py --outdir _build/pub --check-registry --with-latex --check-latex" in workflow
     assert "scripts/build_release_bundle.py --outdir dist --tests tests.txt --main main.pdf --manual manual.pdf" in workflow
 
 
 def test_executed_science_gate_precedes_release_packaging():
     workflow = (ROOT / ".github/workflows/build.yml").read_text()
-    gate = "python3 scripts/audit_scientific_sources.py . --build-root ."
-    assert workflow.index("cp manual/main.pdf manual.pdf") < workflow.index(gate)
+    gate = "python3 scripts/audit_scientific_sources.py . --build-root latex"
+    assert workflow.index("cp _build/pub/manual.pdf manual.pdf") < workflow.index(gate)
     assert workflow.index(gate) < workflow.index("scripts/build_release_bundle.py --outdir")
 
 
@@ -38,40 +39,47 @@ def test_ci_build_file_names_are_version_free():
 # It works in both the checkout and the published source archive.
 SOURCE_ROOT_FILES = {
     ".zenodo.json", ".zenodo_doi", "BUILD.md", "CHANGELOG.md",
-    "CANONICAL_VERSION.txt", "LICENSE", "README.md", "cycle_shedding_summary.tex",
-    "main.tex", "preamble.tex", "refs.bib", "requirements-ci.txt",
+    "CANONICAL_VERSION.txt", "LICENSE", "README.md",
+    "cycle_shedding_summary.tex", "refs.bib", "requirements-ci.txt",
     "wavelet_shedding_simulation.csv", "wavelet_shedding_summary.tex",
 }
 SOURCE_DIRECTORY_TYPES = {
     ".github": {".yml", ".yaml"},
-    "appendices": {".tex"},
+    "archive": {".tex", ".json"},
     "contracts": {".json", ".md", ".csv"},
     "figures_jpg": {".png", ".jpg"},
+    "latex": {".tex", ".bib", ".png", ".jpg", ".json"},
     "manual": {".tex", ".bib", ".py", ".csv", ".dat", ".jsonl", ".png", ".jpg", ".md"},
     "scripts": {".py"},
-    "sections": {".tex"},
     "tests": {".py"},
     "typst": {".typ", ".json"},
 }
+DECLARED_GENERATED_FIGURE_PDFS = (
+    "latex/manual/figures/generated/hydrogen-shell-setup.pdf",
+    "latex/manual/figures/generated/short-window-setup.pdf",
+    "latex/manual/figures/generated/boundary-current-spine.pdf",
+    "latex/manual/figures/generated/solar-system-spine.pdf",
+)
 
 
 def expected_source_inventory(root):
     import hashlib
-    paths = {root / name for name in SOURCE_ROOT_FILES}
-    # Published scientific records are explicitly selected; task archives are absent.
     import json
-    paths.update(root/'manual/data'/name for name in (
+    paths = {root / name for name in SOURCE_ROOT_FILES}
+    paths.update(root / name for name in DECLARED_GENERATED_FIGURE_PDFS)
+    # Published scientific records are explicitly selected; task archives are absent.
+    paths.update(root / 'manual/data' / name for name in (
         'cell_measures/cells_geometry.json', 'mapping_error/mapping_error.json',
         'temporal_observation/temporal.json', 'experimental_comparison/experimental_input_comparison.json',
         'historical_metrology/source_bindings.json', 'temporal_anchor/source_members.json',
         'temporal_anchor/inputs.json', 'temporal_anchor/report.json',
         'temporal_anchor/cases/baseline.json.gz', 'temporal_anchor/cases/second_support_pair.json.gz',
         'temporal_anchor/cases/compared_population.json.gz', 'temporal_anchor/cases/reference_exposure.json.gz'))
-    historical=root/'manual/data/historical_metrology'
-    paths.update(historical/name for name in json.loads((historical/'source_bindings.json').read_text())['files'])
-    anchor=root/'manual/data/temporal_anchor'
-    paths.update(anchor/'source'/name for name in json.loads((anchor/'source_members.json').read_text())['members'])
-    paths.update(root/'manual/data/temporal_metrology'/name for name in (
+    historical = root / 'manual/data/historical_metrology'
+    paths.update(historical / name for name in json.loads((historical / 'source_bindings.json').read_text())['files'])
+    anchor = root / 'manual/data/temporal_anchor'
+    paths.update(anchor / 'source' / name for name in json.loads((anchor / 'source_members.json').read_text())['members'])
+    paths.update(root / 'manual/data/temporal_metrology' / name for name in (
         'report.json', 'exact_fixtures.json', 'hydrogen/protocol.json',
         'hydrogen/reported_uncertainty.json', 'cesium/protocol.json',
         'hydrogen/source/hellwig1970.pdf', 'hydrogen/source/source_receipt.json',
@@ -123,9 +131,12 @@ def test_source_archive_exactly_preserves_detached_candidate(tmp_path):
     for name in (".zenodo_doi", "requirements-ci.txt", "wavelet_shedding_simulation.csv",
                  "wavelet_shedding_summary.tex", "CHANGELOG.md",
                  "typst/main.typ", "typst/manual/main.typ", "typst/lib/aod_schema.typ",
-                 "typst/lib/main_registry.json", "typst/manifest.json"):
+                 "typst/lib/main_registry.json", "typst/manifest.json",
+                 "latex/main.tex", "latex/manual/main.tex", "latex/GENERATION_MANIFEST.json",
+                 "latex/manual/figures/generated/hydrogen-shell-setup.pdf",
+                 "archive/latex_baseline_98ddfa0/BASELINE_MANIFEST.json"):
         assert name in actual
-    assert all(not name.startswith(("evidence/", "projects/", "skills/")) for name in actual)
+    assert all(not name.startswith(("evidence/", "projects/", "skills/", "manual/plans/")) for name in actual)
 
 
 def test_source_archive_round_trip_without_git_ignores_generated_files(tmp_path, monkeypatch):
@@ -137,7 +148,6 @@ def test_source_archive_round_trip_without_git_ignores_generated_files(tmp_path,
     builder.zip_dir(source, archive)
     assert archive_inventory(archive) == wanted
     extracted = tmp_path / "extracted"
-    # Restore Unix modes as a normal mode-aware unzip implementation does.
     with zipfile.ZipFile(archive) as zipped:
         for info in zipped.infolist():
             target = extracted / info.filename
@@ -147,6 +157,9 @@ def test_source_archive_round_trip_without_git_ignores_generated_files(tmp_path,
     assert not (extracted / ".git").exists()
     generated = ["main.pdf", "main.aux", "main.fls", "main.fdb_latexmk", "tests.txt",
                  "manual/main.pdf", "manual/main.log", "manual/main.synctex.gz",
+                 "latex/main.pdf", "latex/main.aux", "latex/main.fls",
+                 "latex/manual/main.pdf", "latex/manual/main.log",
+                 "latex/manual/figures/generated/unbound.pdf",
                  "manual/data/temporal_metrology/hydrogen/source/unbound.pdf",
                  "manual/main.run.xml", "manual/main.bcf", "manual/main.lof",
                  "scripts/__pycache__/generated.py", "tests/.pytest_cache/README.md",
@@ -165,7 +178,6 @@ def test_source_archive_round_trip_without_git_ignores_generated_files(tmp_path,
 
 def test_detached_source_packaging_does_not_consult_parent_git(tmp_path, monkeypatch):
     import hashlib
-    # Ancestor directory names must not be mistaken for generated directories.
     root = tmp_path / "build" / "release" / "source"
     fixture = {"CHANGELOG.md": ("reader changes", 0o644),
                "contracts/scientific/current.json": ('{"scope":"current"}', 0o644),

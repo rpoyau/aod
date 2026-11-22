@@ -1,0 +1,248 @@
+% GENERATED FROM typst/sections/07_cell_measures_mappings.typ BY scripts/typ2tex.py (v1.0.0) — DO NOT EDIT.
+% Edit canonical Typst under typst/ and regenerate with: python3 scripts/typ2tex.py --root . --outdir latex
+
+\section{Cell measures and mappings}\label{sec:m3-cells}
+
+Wave and coupling histories are governed by \eqref{eq:wave-update-trace}
+and \eqref{eq:coupling-trace}. An observation map selects quantities from
+those histories.
+
+\subsection{Finite cells and weighted support}\label{def:m3-cell-complex}
+
+\paragraph{Setup.}
+Let $K_d$ be a finite set of oriented $d$-cells, with free chain group
+$C_d=\mathbb{Z}[K_d]$, and let $B_d:C_d\to C_{d-1}$ be its
+integer incidence map. A chain complex requires $B_{d-1}B_d=0$.
+The vertices and edges of \eqref{eq:atomic-h1} specify a graph; additional
+cells, their incidences and their admission hypotheses are separate choices.
+For occupied support $S\subseteq K_d$, cell weights $w_d(c)\ge0$, and
+multiplicities $m(c)\in\mathbb{N}$, define
+
+\begin{equation}\label{eq:m3-support-measure}
+\mu_d(S)=\sum_{c\in S}w_d(c),\qquad\mu_d(S,m)=\sum_{c\in S}m(c)w_d(c).
+\end{equation}
+
+Cell identity defines support; zero weight does not remove a cell from it.
+The signed chain $z=\sum_cn_cc$, its boundary $B_dz$, and occupied
+support are distinct objects. A signed coefficient cancelling to zero
+does not imply that either contributing occurrence was absent.
+
+\paragraph{Derivation.}
+For disjoint supports, finite summation in \eqref{eq:m3-support-measure}
+is additive. For overlapping supports it gives
+$\mu_d(S\cup T)=\mu_d(S)+\mu_d(T)-\mu_d(S\cap T)$.
+An occurrence sum instead counts its declared multiplicities. Neither
+identity relates a $d$-measure to a $(d-1)$-measure without additional
+weights and geometric hypotheses.
+
+\paragraph{Cubical boundary.}\label{prop:m3-cell-boundary}
+For an ordered product of vertices and oriented intervals, let
+$i_1<\cdots<i_d$ denote the interval coordinates and $c_{j,\pm}$
+the endpoint faces. Set
+
+\begin{equation}\label{eq:m3-cubical-boundary}
+\partial c=\sum_{j=1}^d(-1)^{j-1}(c_{j,+}-c_{j,-}),\qquad\partial^2c=0.
+\end{equation}
+
+Indeed, fixing two distinct interval coordinates in either order produces
+the same face. Removing the earlier coordinate changes the later index by
+one, so the two incidence products have opposite signs. Each codimension-two
+face cancels exactly once. Including all faces gives a cubical chain complex.
+
+\paragraph{Falsification.}
+Counting $S\cap T$ twice changes the support
+measure whenever its weight is positive. A zero-weight shared face still
+participates in \eqref{eq:m3-cubical-boundary}.
+
+\aodprovenance{\eqref{eq:atomic-h1}; \eqref{eq:afc-stokes-used};
+\eqref{eq:m3-support-measure}.}
+
+\subsection{Folds and projections}\label{prop:m3-fold-support}
+
+\paragraph{Setup.}
+A family of group homomorphisms $F_d:C_d(K)\to C_d(L)$ is a chain map precisely when
+
+\begin{equation}\label{eq:m3-chain-map}
+B_d^LF_d=F_{d-1}B_d^K.
+\end{equation}
+
+Such maps may supplement the retained inner identities and scope maps of
+\eqref{eq:fold-outer-closure}. That construction alone does not assert
+\eqref{eq:m3-chain-map} or preservation of \eqref{eq:m3-support-measure}.
+
+\paragraph{Derivation.}
+Commutation sends cycles to cycles, since $B^Kz=0$ implies
+$B^LFz=FB^Kz=0$.
+
+\paragraph{Falsification.}
+Identify distinct preimages through their equal projected coordinates:
+unique reconstruction fails. Cubical incidence ($f=(16,32,24,8,1)$,
+$\partial^2=0$), 4D-to-3D trace projections, FRG ring fixtures and downstream
+Euclidean $\tau=2\pi$ report coordinates remain separate declared
+representations; structural fold/enclosure scale, localization-window extent,
+native cadence and measured frequency carry distinct types so a scale label
+alone never asserts a frequency law.
+
+\aodprovenance{\eqref{eq:fold-outer-closure}; \eqref{eq:expose-inner-lineage};
+\eqref{eq:m3-support-measure}; \eqref{eq:m3-chain-map}.}
+
+\subsection{Typed mappings and conditional error bounds}\label{sec:m3-maps}
+\label{def:m3-map}
+
+\paragraph{Setup.}
+Let $f:D\subseteq X\to Y$ and $g:E\subseteq Y\to Z$, with specified
+quantity dimensions, units and admissibility conditions. Composition requires
+$f(D)\subseteq E$. A projection may be exact and many-to-one: its fibres
+state the lost distinctions. A reconstruction error requires a specified
+reconstruction map and a comparison metric; it is not implied by noninjectivity.
+
+\paragraph{Derivation.}\label{prop:m3-composed-bound}
+Suppose $Y,Z$ are normed spaces, both $f(D)$ and $\tilde{f}(D)$
+lie in $E$, and on the relevant domains
+$\|\tilde{f}-f\|\le b_f$,
+$\|\tilde{g}-g\|\le b_g$, and
+$\|g(y)-g(y')\|\le L_g\|y-y'\|$.
+Inserting $g(\tilde{f}(x))$ and applying the triangle inequality gives
+
+\begin{equation}\label{eq:m3-composed-bound}
+\|\tilde{g}(\tilde{f}(x))-g(f(x))\|\le b_g+L_gb_f.
+\end{equation}
+
+These are deterministic bounds in the specified output units.
+
+\paragraph{Falsification.}
+An approximation taking an intermediate value outside $E$ violates the
+composition hypotheses even if its error is small.
+
+\aodprovenance{The declared domains and norm inequalities of
+\secref{sec:m3-maps}; \eqref{eq:m3-composed-bound}.}
+
+\subsection{Finite joint laws and approximation scope}\label{prop:m3-finite-law}
+
+\paragraph{Setup.}
+Let a joint input $X$ have finite support $x_s$, probabilities
+$p_s\ge0$, $\sum_sp_s=1$, and let every $x_s$ be in the domain
+of $h$. Shared coordinates refer to the same input variable throughout
+a composition. The output moments are
+
+\begin{equation}\label{eq:m3-finite-law}
+\bar{y}=\sum_sp_sh(x_s),\qquad\Sigma_y=\sum_sp_s(h(x_s)-\bar{y})(h(x_s)-\bar{y})^T.
+\end{equation}
+
+\paragraph{Derivation.}
+Finite expectation gives \eqref{eq:m3-finite-law} directly. For any vector
+$v$, $v^T\Sigma_yv=\sum_sp_s[v^T(h(x_s)-\bar{y})]^2\ge0$, so
+singular positive-semidefinite covariance is admissible. If $h$ is affine,
+$h(x)=Ax+b$, substitution gives $\Sigma_y=A\Sigma_xA^T$ exactly.
+If a nonlinear $h$ is differentiable at the input mean $\bar{x}$,
+its Jacobian gives the first-order covariance:
+
+\begin{equation}\label{eq:m3-linear-covariance}
+\Sigma_{y,\mathrm{lin}}=J(\bar{x})\Sigma_xJ(\bar{x})^T.
+\end{equation}
+
+Adequacy for a specified output requires control of the omitted remainder
+or a comparison with the full joint law. The exact output moments use
+the specified joint law. A constant output on the entire supplied support
+has zero variance, since every deviation in \eqref{eq:m3-finite-law} vanishes.
+
+\aodprovenance{\eqref{eq:m3-finite-law}; \eqref{eq:m3-linear-covariance}.}
+
+\subsection{Observation-map identifiability}\label{prop:m3-atomic-gain}
+
+\paragraph{Setup.}
+Use two already admitted recurrent coupled lineages compared by
+\eqref{eq:relational-time}, with positive window counts $N_i,N_j$.
+Suppose an observation law has free positive gains $g_i,g_j$ and assigns
+equivalent cycles $C_i=g_iN_i$, $C_j=g_jN_j$.
+Fixing a reference scale fixes $g_j$ but supplies no constraint on $g_i/g_j$.
+
+\paragraph{Derivation.}
+For any positive proposed ratio $R$, choosing
+$g_i=Rg_jN_j/N_i$ gives $C_i/C_j=R$, preserving both native
+histories and the reference normalization. Within this free-gain observation
+family, the ratio is underdetermined until an independently specified
+observation law fixes the relative gain.
+
+\paragraph{Falsification.}
+Selecting $g_i$ from an evaluation value of $R$ makes the resulting
+ratio a calibration. Changing evaluation data alone must leave a previously
+fixed model output unchanged.
+
+\aodprovenance{\eqref{eq:relational-time}; \eqref{eq:cadence-ratio};
+\eqref{eq:complete-wave-state}; \eqref{eq:complete-coupling-state}.}
+
+\subsection{Conditional SI observation interface}\label{subsec:m3-conditional-si-interface}
+
+\paragraph{Setup.}
+On a common compatible native window $\omega$, bind physical turns through
+an explicit apparatus observation map $\mathcal{O}_i$ consuming the committed
+current, lineage, contact, preparation and apparatus records, with exact
+rational output $C_i\in\mathbb{Q}$ (allowing signed compared advance under a
+signed net-winding plus endpoint-phase convention
+$\delta_{\mathrm{end},i}=\varphi_{i,1}-\varphi_{i,0}$, $\varphi_{i,0},\varphi_{i,1}\in[0,1)$):
+
+\begin{equation}\label{eq:m3-observation-map}
+C_i=\mathcal{O}_i(\Gamma^W_i,\Gamma^{\times},\omega,\mathrm{preparation},\mathrm{apparatus})\in\mathbb{Q},\qquad C_i^{\mathrm{aff}}=g_iq_i(\omega)+\delta_{\mathrm{end},i}\quad(g_i>0).
+\end{equation}
+
+The affine form $C_i^{\mathrm{aff}}$ is an explicit specialization used only
+when an independently bound apparatus model establishes a positive gain $g_i>0$
+and endpoint-phase correction on native reclosures $q_i(\omega)$; no physical
+gain is selected by this interface, and distinct apparatuses keep calibration
+uncertainty and shared-source dependence explicit.
+
+\paragraph{Derivation.}
+Given a strictly positive calibrated reference advance $C_r>0$ and calibrated
+reference mean frequency $\bar{f}^{\mathrm{SI}}_r>0$ over the same physical
+interval, conditional interval duration $T_{\omega}>0$ and signed compared mean
+rate $\bar{f}^{\mathrm{SI}}_a\in\mathbb{Q}\mathrm{s}^{-1}$ are
+
+\begin{equation}\label{eq:m3-conditional-si-anchor}
+T_{\omega}=\frac{C_r}{\bar{f}^{\mathrm{SI}}_r},\qquad\bar{f}^{\mathrm{SI}}_a=\frac{C_a}{C_r}\bar{f}^{\mathrm{SI}}_r,\qquad C_r>0,\bar{f}^{\mathrm{SI}}_r>0,C_a\in\mathbb{Q}.
+\end{equation}
+
+Here $\bar{f}^{\mathrm{SI}}_a$ is a signed mean phase-advance rate over
+$\omega$; any unsigned or positive atomic resonance-frequency interpretation
+additionally requires restricting to the narrower nonnegative specialization
+$C_a\ge0$ (or $C_a>0$) and separate physical-realization premises. When
+the affine specialization applies with one physical turn per certified native
+reclosure and aligned endpoints ($g_a=g_r=1$,
+$\delta_{\mathrm{end},a}=\delta_{\mathrm{end},r}=0$), $C_i=q_i(\omega)\ge0$
+and \eqref{eq:m3-conditional-si-anchor} specializes to
+$T_{\omega}=q_r(\omega)/\bar{f}^{\mathrm{SI}}_r$ and
+$\bar{f}^{\mathrm{SI}}_a=r_{a|r}(\omega)\bar{f}^{\mathrm{SI}}_r$ via
+\eqref{eq:wavelet-reference-timing}. Whenever $C_i\ne q_i(\omega)$, gain and
+endpoint terms remain explicit. A nonrecurrent shed wavelet with
+$q_a(\omega)=0$ and $\delta_{\mathrm{end},a}=0$ still receives window
+duration $T_{\omega}>0$ and zero mean rate without acquiring an intrinsic
+resonance frequency.
+
+\paragraph{Specialization.}
+Under the exact SI defining Cs-133 hyperfine anchor
+$\Delta\nu_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{s}^{-1}$ and strictly
+positive corrected Cs-equivalent reference advance $C_{\mathrm{Cs}}>0$, with
+full-turn angular constant $\tau=2\pi$, \eqref{eq:m3-conditional-si-anchor}
+specializes for signed $C_a\in\mathbb{Q}$ to
+
+\begin{equation}\label{eq:m3-cs133-tau-interface}
+T_{\omega}=\frac{C_{\mathrm{Cs}}}{\Delta\nu_{\mathrm{Cs}}},\qquad\bar{f}_a=\Delta\nu_{\mathrm{Cs}}\frac{C_a}{C_{\mathrm{Cs}}},\qquad\Delta\theta_a=\tau C_a,\qquad\bar{\Omega}_a=\tau\bar{f}_a.
+\end{equation}
+
+Conditional SI anchoring is a typed mapping interface; independent empirical
+frequency validation and physical realization budgets remain separate
+evidenced claims.
+
+\paragraph{Falsification.}
+Setting $C_r\le0$ or $C_{\mathrm{Cs}}\le0$, equating a signed phase-advance
+rate with an unsigned atomic resonance frequency without the nonnegative
+domain and realization premises, claiming the affine form $C_i^{\mathrm{aff}}$
+for a nonlinear apparatus without independent binding, hiding nonzero endpoint
+corrections or gain factors inside $q_i$, treating reproducing
+$\Delta\nu_{\mathrm{Cs}}$ as an independent prediction, or fitting $g_a/g_r$
+from evaluation data violates \eqref{eq:m3-observation-map}--\eqref{eq:m3-cs133-tau-interface}
+and \secref{prop:m3-atomic-gain}.
+
+\aodprovenance{\eqref{eq:cadence-ratio}; \eqref{eq:wavelet-reference-timing};
+\secref{prop:m3-atomic-gain}; \eqref{eq:m3-observation-map};
+\eqref{eq:m3-conditional-si-anchor}; \eqref{eq:m3-cs133-tau-interface}.}

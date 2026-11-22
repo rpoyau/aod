@@ -1,0 +1,27 @@
+% GENERATED FROM typst/manual/tables/swells_k1_k2_k3_comparison_table.typ BY scripts/typ2tex.py (v1.0.0) — DO NOT EDIT.
+% Edit canonical Typst under typst/ and regenerate with: python3 scripts/typ2tex.py --root . --outdir latex
+
+\begin{table}[H]
+\centering
+\caption{SWELLS K1/K2/K3 diagnostic comparison.}
+\label{tab:manual-lensing-swells-k123}
+{\footnotesize
+\begin{tabularx}{\linewidth}{l>{\raggedright\arraybackslash}p{0.280\linewidth}cccl}
+\toprule
+Run & Input basis & $\theta_E$ $\delta_3$ $m_{\mathrm{tot}}$ & $\theta_E$ match [\%] & $\sigma$ $\delta_3$ $m_{\mathrm{tot}}$ & Decision \\
+\midrule
+K1 & $\sigma_{\mathrm{SDSS}}$ + H$\alpha$ + axis ratio & 8 & 40.0 & 4 & retained baseline \\
+K2 & K1 + redshift geometry context & 18 & 40.0 & 4 & audit diagnostic \\
+K3 & Paper I Table 2 bulge/disk medium fields & 10 & 33.3333 & 12 & audit diagnostic \\
+\bottomrule
+\end{tabularx}
+}
+\end{table}
+
+\par\vspace{0.4em}\par
+
+\emph{K1 reason.}Lowest retained $\delta_3$ residual. 
+
+\emph{K2 reason.}Over-amplified high-$\theta_E$ class. 
+
+\emph{K3 reason.}Under-resolved observable map with current medium data.

@@ -11,182 +11,182 @@
   "anchor_owners": [
     {
       "surface": "manual",
-      "path": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
+      "path": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
       "label": "app:cycle-shedding-demo-demonstration",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex",
+      "path": "typst/manual/sections/00_awareness_fixtures.typ",
       "label": "eq:action-return-retention",
       "equation": true,
       "formula_sha256": "9396ddbe9c308ab7e18bbb036d28f827474b82f11711a0f8988bd8008212603e"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex",
+      "path": "typst/manual/sections/00_awareness_fixtures.typ",
       "label": "eq:awareness-causal-difference",
       "equation": true,
       "formula_sha256": "75ed0a1e5c73ec9d45b4f3e46923d9c577c454d4caaa15ffb1d4d1ba561c1020"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex",
+      "path": "typst/manual/sections/00_awareness_fixtures.typ",
       "label": "eq:awareness-conditioned-shedding",
       "equation": true,
       "formula_sha256": "c60a4e9dc2adbe7d7559709415662ef0c58abea2d9412cee8452fe969c435afc"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex",
+      "path": "typst/manual/sections/00_awareness_fixtures.typ",
       "label": "eq:awareness-response",
       "equation": true,
       "formula_sha256": "834e96632c8af51a903b93dfbb67bacd44c2cbda200f7ecd4334505831b8a7ba"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex",
+      "path": "typst/manual/sections/00_awareness_fixtures.typ",
       "label": "eq:awareness-shedding-bridge",
       "equation": true,
       "formula_sha256": "3c0e74e1be8eaf7f38d7022b99d4cfe4cf53c4608da1d11b2b9ac60d4395e622"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_scope.tex",
+      "path": "typst/manual/sections/00_scope.typ",
       "label": "eq:frg-delta-three",
       "equation": true,
       "formula_sha256": "a6d96be5e1d8af5d2c7d0d14e03df8f106d6d4b958d937f6b8817932c186b2bb"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_scope.tex",
+      "path": "typst/manual/sections/00_scope.typ",
       "label": "eq:frg-delta-three-components",
       "equation": true,
       "formula_sha256": "7e5cd55cfac2cb52fc34c79e7fd0d458daabe347471a9b83537920b7351dfa55"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_scope.tex",
+      "path": "typst/manual/sections/00_scope.typ",
       "label": "eq:frg-delta-three-signed-product",
       "equation": true,
       "formula_sha256": "c47a7be3e6d60511752c1a6a6347cfc67f1d64546e515244e7805389c936a227"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex",
+      "path": "typst/manual/sections/00_awareness_fixtures.typ",
       "label": "eq:mindfulness-stability",
       "equation": true,
       "formula_sha256": "d2bef5956ecbea6cd34f95d04dabacb4a0284b44d43b771aa1a17eaba5acdc54"
     },
     {
       "surface": "manual",
-      "path": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
+      "path": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
       "label": "fig:v39-cycle-shedding-simulation",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_scope.tex",
+      "path": "typst/manual/sections/00_scope.typ",
       "label": "subsec:frg-delta-three-corollary",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex",
+      "path": "typst/manual/sections/00_awareness_fixtures.typ",
       "label": "subsec:proprioception-learning",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex",
+      "path": "typst/manual/sections/00_awareness_fixtures.typ",
       "label": "subsec:query-mindfulness",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "path": "typst/manual/sections/01_rest_energy_prediction.typ",
       "label": "tab:ao-field-fractal-properties",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "path": "typst/manual/sections/01_rest_energy_prediction.typ",
       "label": "app:ao-field-fractal-properties:accessors-table",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_awareness_fixtures.tex",
+      "path": "typst/manual/sections/00_awareness_fixtures.typ",
       "label": "eq:sadar-rational-response",
       "equation": true,
       "formula_sha256": "88c611c7917daceb308ff3130fe0a31d9942084ac7da8b3f70ca15c779c0dc2f"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "path": "typst/manual/sections/01_rest_energy_prediction.typ",
       "label": "eq:double-colon-parse-example",
       "equation": true,
       "formula_sha256": "73b9bfbeb8d84ef7c0d1f90bb09c7f5062b91d979e14bb599690fee1d68322da"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "path": "typst/manual/sections/01_rest_energy_prediction.typ",
       "label": "app:rd:eq:three-four-rd",
       "equation": true,
       "formula_sha256": "4b808053565fa2cb724b8bf7d5dbd5a9a906cc97b632a3f7f4df57cbaaad0562"
     },
     {
       "surface": "manual",
-      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "path": "typst/manual/sections/01_rest_energy_prediction.typ",
       "label": "subsec:shared-shell-path-declaration",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "path": "typst/manual/sections/01_rest_energy_prediction.typ",
       "label": "subsec:nested-shell-stack-pattern",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/01_rest_energy_prediction.tex",
+      "path": "typst/manual/sections/01_rest_energy_prediction.typ",
       "label": "tab:cc-filled-shared-enclosures",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "path": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
       "label": "fig:fractal-tesseract-beat-family",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "path": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
       "label": "fig:field-count",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+      "path": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
       "label": "subsec:disoma-declaration",
       "equation": false,
       "formula_sha256": null
     },
     {
       "surface": "manual",
-      "path": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
+      "path": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
       "label": "app:rd-tests:support-reductions",
       "equation": false,
       "formula_sha256": null
@@ -198,7 +198,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -221,7 +221,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -244,7 +244,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -267,7 +267,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -290,7 +290,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -313,7 +313,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -336,7 +336,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -359,7 +359,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -382,7 +382,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -405,7 +405,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -428,7 +428,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-active",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:awareness-active"
       },
       "main_premises": [
@@ -451,7 +451,7 @@
       "immutable_legacy_main_anchor": "eq:retained-rebalancing",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:retained-rebalancing"
       },
       "main_premises": [
@@ -474,7 +474,7 @@
       "immutable_legacy_main_anchor": "eq:retained-rebalancing",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:retained-rebalancing"
       },
       "main_premises": [
@@ -497,7 +497,7 @@
       "immutable_legacy_main_anchor": "eq:retained-rebalancing",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:retained-rebalancing"
       },
       "main_premises": [
@@ -520,7 +520,7 @@
       "immutable_legacy_main_anchor": "eq:retained-rebalancing",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:retained-rebalancing"
       },
       "main_premises": [
@@ -543,7 +543,7 @@
       "immutable_legacy_main_anchor": "eq:operative-self",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:operative-self"
       },
       "main_premises": [
@@ -567,7 +567,7 @@
       "immutable_legacy_main_anchor": "eq:operative-self",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:operative-self"
       },
       "main_premises": [
@@ -591,7 +591,7 @@
       "immutable_legacy_main_anchor": "eq:operative-self",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:operative-self"
       },
       "main_premises": [
@@ -615,7 +615,7 @@
       "immutable_legacy_main_anchor": "eq:operative-self",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:operative-self"
       },
       "main_premises": [
@@ -639,7 +639,7 @@
       "immutable_legacy_main_anchor": "eq:operative-self",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:operative-self"
       },
       "main_premises": [
@@ -663,7 +663,7 @@
       "immutable_legacy_main_anchor": "eq:operative-self",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:operative-self"
       },
       "main_premises": [
@@ -687,7 +687,7 @@
       "immutable_legacy_main_anchor": "eq:action-return-retention",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:action-return-retention"
       },
       "main_premises": [
@@ -711,7 +711,7 @@
       "immutable_legacy_main_anchor": "eq:action-return-retention",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:action-return-retention"
       },
       "main_premises": [
@@ -735,7 +735,7 @@
       "immutable_legacy_main_anchor": "eq:action-return-retention",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:action-return-retention"
       },
       "main_premises": [
@@ -759,7 +759,7 @@
       "immutable_legacy_main_anchor": "eq:action-return-retention",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:action-return-retention"
       },
       "main_premises": [
@@ -783,7 +783,7 @@
       "immutable_legacy_main_anchor": "eq:action-return-retention",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:action-return-retention"
       },
       "main_premises": [
@@ -807,7 +807,7 @@
       "immutable_legacy_main_anchor": "subsec:proprioception-learning",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "subsec:proprioception-learning"
       },
       "main_premises": [
@@ -831,7 +831,7 @@
       "immutable_legacy_main_anchor": "subsec:proprioception-learning",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -854,7 +854,7 @@
       "immutable_legacy_main_anchor": "subsec:proprioception-learning",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -877,7 +877,7 @@
       "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "sec:m2-crescendo"
       },
       "main_premises": [
@@ -902,7 +902,7 @@
       "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -926,7 +926,7 @@
       "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -950,7 +950,7 @@
       "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -974,7 +974,7 @@
       "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -998,7 +998,7 @@
       "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -1022,7 +1022,7 @@
       "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -1046,7 +1046,7 @@
       "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -1070,7 +1070,7 @@
       "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -1094,7 +1094,7 @@
       "immutable_legacy_main_anchor": "subsec:awareness-crescendo",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-response"
       },
       "main_premises": [
@@ -1118,7 +1118,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-conditioned-shedding",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:awareness-conditioned-shedding"
       },
       "main_premises": [
@@ -1148,7 +1148,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-carriage",
       "current_construct": {
         "surface": "main",
-        "path": "sections/05_curl_closure_duon_current.tex",
+        "path": "typst/sections/05_curl_closure_duon_current.typ",
         "label": "eq:fold-outer-closure"
       },
       "main_premises": [
@@ -1174,7 +1174,7 @@
       "immutable_legacy_main_anchor": "eq:awareness-carriage",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:retained-rebalancing"
       },
       "main_premises": [
@@ -1199,7 +1199,7 @@
       "immutable_legacy_main_anchor": "eq:mindfulness-stability",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "manual:m2-query-mindfulness"
       },
       "main_premises": [
@@ -1222,7 +1222,7 @@
       "immutable_legacy_main_anchor": "eq:mindfulness-stability",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:mindfulness-stability"
       },
       "main_premises": [
@@ -1245,7 +1245,7 @@
       "immutable_legacy_main_anchor": "eq:mindfulness-stability",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:mindfulness-stability"
       },
       "main_premises": [
@@ -1268,7 +1268,7 @@
       "immutable_legacy_main_anchor": "eq:mindfulness-stability",
       "current_construct": {
         "surface": "manual",
-        "path": "manual/sections/00_awareness_fixtures.tex",
+        "path": "typst/manual/sections/00_awareness_fixtures.typ",
         "label": "eq:mindfulness-stability"
       },
       "main_premises": [
@@ -1291,7 +1291,7 @@
       "immutable_legacy_main_anchor": "eq:retained-rebalancing",
       "current_construct": {
         "surface": "main",
-        "path": "sections/08_awareness_learning_mindfulness.tex",
+        "path": "typst/sections/08_awareness_learning_mindfulness.typ",
         "label": "eq:retained-rebalancing"
       },
       "main_premises": [

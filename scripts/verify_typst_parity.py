@@ -1,54 +1,33 @@
 #!/usr/bin/env python3
-"""Direct scientific-content, structural-math, diagram, and rendered-PDF parity verifier
-for AOD M4 Objective 1 (native Typst Main and Manual vs unchanged LaTeX baseline).
+"""Direct scientific-content, structural-math, diagram, generated-LaTeX, and rendered-PDF
+parity verifier for AOD M4 Phase 2 (Typst primary publication + generated LaTeX compatibility
+vs the immutable 98ddfa0 historical LaTeX baseline).
 
-Enforces all five gates of manual/plans/m4-typst-cutover/OBJECTIVE_1_TYPST_PLAN_R02.md
-and the R01-R03 correction requirements:
-  Gate A: Baseline immutability (211 protected scientific files + narrow engineering digests).
-  Gate A2: Evaluation policy. Manifest typst_sha256 enforced for every unit; template and
-          driver files pinned by verifier-internal digests; no undeclared .typ files; mode-aware
-          allowlist over content files (no show/let/context, no argument spreads or parenthesized
-          callees, no fill/opacity/hide/place/overlay primitives, positive literal layout lengths,
-          in-bounds flowchart node geometry, reviewed text sizes, surface-preamble imports and
-          manifest includes only).
-  Gate B: Complete ordered source-bound content parity across all 48 active files:
-          - Ordered prose words (length >= 1, case-exact, preserving short negations like
-            'no', 'a', 'if', 'not', 'only'), meaningful punctuation (simulating Typst's
-            semicolon consumption after content calls), verbatim literal commands/paths,
-            references, citations, and 7 immutable table cell-by-cell comparisons.
-          - Bounded recursive-descent TeX and Typst Math AST parsers comparing ALL math
-            spans (inline + unlabeled display + labeled display + boxed displays) while preserving
-            explicit grouping, fractions, roots, distinct bar/overline accents, upright bold vs
-            bold-italic, exact emptyset (rejecting diameter), indices, exponents, integers,
-            decimals, and matrix/array delimiters, augment bars, and cases shape; fail-closed on
-            unsupported math constructs.
-          - All 4 Manual TikZ vs native #aod-flowchart diagrams compared on exact ordered node
-            prose/math ASTs and directed edge topology.
-          - Figure image bindings in order, each bound to a protected baseline image digest.
+Enforces all five verification gates:
+  Gate A: Historical 98ddfa0 baseline immutability (211 protected scientific files: 41 archived
+          byte-for-byte under archive/latex_baseline_98ddfa0/ and 170 preserved in-place) plus
+          representation-only contract change ledger verification.
+  Gate A2: Evaluation policy. Manifest typst_sha256 enforced for all 48 units + 4 shared diagram
+          components; template and driver files pinned by verifier-internal digests; no undeclared
+          .typ files; mode-aware allowlist over content files and diagram components.
+  Gate B: Complete ordered source-bound content parity across all 48 active files against the
+          materialized 98ddfa0 baseline AND generated latex/ compatibility verification (include
+          graph, 7 immutable tables, 218 labeled equations, 455+227 labels, 4 exported vector
+          diagram PDFs, and typ2tex --check freshness).
   Gate C: Evaluated & rendered PDF parity:
-          - Deterministic Typst build (--creation-timestamp) with strict committed registry.
-          - Delivered peer-PDF link integrity (main_typst.pdf#page=N, zero stale main.pdf
-            links, SHA-256 peer identity, and 172/172 exact target-page anchor landings).
-          - Exact numbered block-equation count (0 unlabeled numbered equations) and exact
-            per-label equation numbering vs LaTeX sequential numbers / tags, plus Table/Figure/
-            Heading numbering matched directly against retained XeLaTeX baseline PDFs.
-          - Clickable external /URI destination set parity and exact inline citation sequence
-            parity against retained XeLaTeX baseline PDFs.
-          - Complete case-sensitive rendered bibliography comparison (10 Main + 43 Manual).
-          - Every source prose clause count-matched against the baseline PDF (vocabulary-bound
-            de-hyphenation); any non-baseline-anchored or unverified clause => PARTIAL verdict.
-          - Insertion detection: rendered word 4-grams must occur in the baseline or the source
-            (explicit 17-entry layout allowlist) and out-of-source words (>= 4 letters) may not
-            exceed their baseline count (explicit per-word allowlist); relation & symbol glyph
-            parity (+ < > <= >= <-> x inf == emptyset, zero diameter); decimals; PDF text-paint
-            scan (opaque black fill, ExtGState /ca == 1, no zero-area clip, render mode 0,
-            size >= 4pt).
-  Gate D: Mandatory negative controls (29 isolated mutations covering original 6, R01/R02
-          counterexamples, spurious boxed equation numbers, emptyset->diameter, matrix augment
-          removal, flowchart edge reversal/math edit/overlay, argument spread, and transparent
-          luma(0, 0%) /ca=0 text), each required to be rejected by its intended check.
-  Gate E: Honest coverage, cryptographic bindings (Main + Manual sources, verifier,
-          baseline & candidate PDFs), and explicit non-acceptance verdict on partial runs.
+          - Deterministic Typst build (--creation-timestamp) producing canonical main.pdf and
+            manual.pdf with strict committed registry.
+          - Delivered peer-PDF link integrity (main.pdf#page=N, zero stale/wrong peer links,
+            SHA-256 peer identity, and 172/172 exact target-page anchor landings).
+          - Exact numbered block-equation count, per-label equation/Table/Figure/Heading numbers,
+            clickable external /URI set, inline citation sequence, case-sensitive bibliography,
+            prose clause count parity, insertion detection, glyph parity, decimals, and PDF
+            text-paint scan against historical 98ddfa0 XeLaTeX baseline PDFs.
+          - Optional generated-LaTeX PDF verification (--generated-latex-main-pdf /
+            --generated-latex-manual-pdf) against the historical baseline PDFs + sibling peer links.
+  Gate D: Mandatory negative controls (29 isolated mutations), each rejected by its intended check.
+  Gate E: Honest coverage, cryptographic bindings, and explicit non-acceptance verdict on partial
+          runs.
 
 Uses no bare `assert` statements so normal (`python3`) and optimized (`python3 -O`)
 invocations execute identical checks and emit byte-identical JSON reports.
@@ -2173,18 +2152,59 @@ def load_module(root: Path, name: str, rel_path: str):
 
 
 # =============================================================================
-# Gate A: Baseline Immutability
+# Helpers: Materialized Historical Baseline & Shared Diagram Include Resolution
 # =============================================================================
 
-def verify_baseline_immutability(root: Path, manifest: dict) -> dict:
+def _resolve_baseline_root(
+    root: Path, baseline_root: Path | None = None
+) -> tuple[Path, tempfile.TemporaryDirectory | None]:
+    """Return a directory containing the historical 98ddfa0 LaTeX tree.
+
+    Uses an explicit --baseline-root if supplied, falls back to `root` if legacy root TeX files
+    are still present (e.g., pre-cutover trees), and otherwise materializes the verified 211-file
+    snapshot from `archive/latex_baseline_98ddfa0/BASELINE_MANIFEST.json` into a temporary directory.
+    """
+    if baseline_root is not None:
+        return Path(baseline_root).resolve(), None
+    if (root / "main.tex").is_file() and (root / "manual/main.tex").is_file():
+        return root.resolve(), None
+    mat = load_module(root, "aod_materialize_latex_baseline", "scripts/materialize_latex_baseline.py")
+    td = tempfile.TemporaryDirectory(prefix="aod_baseline_98ddfa0_")
+    mat.materialize_baseline(root, Path(td.name))
+    return Path(td.name), td
+
+
+def _inline_typst_diagram_includes(root: Path, typ_rel: str, text: str) -> str:
+    """Expand `#include "../../lib/diagrams/<mod>.typ"` for flowchart AST parity verification."""
+    base_dir = posixpath.dirname(typ_rel)
+
+    def _repl(m: re.Match) -> str:
+        rel_inc = m.group(1)
+        resolved = posixpath.normpath(posixpath.join(base_dir, rel_inc))
+        if not resolved.startswith("typst/lib/diagrams/") or not resolved.endswith(".typ"):
+            return m.group(0)
+        p = root / resolved
+        require(p.is_file(), f"Missing included shared Typst diagram component: {resolved} (from {typ_rel})")
+        body = p.read_text(encoding="utf-8")
+        # Strip the component's standalone schema import when inlining inside a section file.
+        body = re.sub(r'^\s*#import\s+"[^"]+"\s*:\s*\*\s*\n?', "", body, flags=re.M)
+        return body
+
+    return re.sub(r'#include\s+"([^"]+)"', _repl, text)
+
+
+# =============================================================================
+# Gate A: Baseline Immutability (Archived 98ddfa0 Snapshot + Representation Ledger)
+# =============================================================================
+
+def verify_baseline_immutability(
+    root: Path, manifest: dict, baseline_root: Path | None = None
+) -> dict:
     protected = manifest["baseline_protected_sha256"]
     require(len(protected) == 211, f"Expected 211 protected baseline files, got {len(protected)}")
+
     tex_count = bib_count = img_count = data_count = 0
-    for rel, expected_sha in sorted(protected.items()):
-        p = root / rel
-        require(p.is_file(), f"Protected baseline file missing: {rel}")
-        actual_sha = sha256_file(p)
-        require(actual_sha == expected_sha, f"Protected baseline file modified: {rel}")
+    for rel in sorted(protected):
         if rel.endswith(".tex"):
             tex_count += 1
         if rel.endswith(".bib"):
@@ -2193,13 +2213,49 @@ def verify_baseline_immutability(root: Path, manifest: dict) -> dict:
             img_count += 1
         if rel.startswith("manual/data/"):
             data_count += 1
-
     require(tex_count == 54, f"Expected 54 protected TeX files, got {tex_count}")
     require(bib_count == 2, f"Expected 2 protected BibTeX files, got {bib_count}")
     require(img_count == 49, f"Expected 49 protected images, got {img_count}")
     require(data_count == 116, f"Expected 116 protected manual/data files, got {data_count}")
 
+    snap_manifest_path = root / "archive/latex_baseline_98ddfa0/BASELINE_MANIFEST.json"
+    archived_rel_map: dict[str, str] = {}
+    inplace_paths: list[str] = []
+    if snap_manifest_path.is_file():
+        mat = load_module(root, "aod_materialize_latex_baseline", "scripts/materialize_latex_baseline.py")
+        base_manifest = mat.load_and_verify_baseline(root)
+        by_orig = {e["original_path"]: e for e in base_manifest["entries"]}
+        require(
+            set(by_orig) == set(protected),
+            f"BASELINE_MANIFEST.json entry set differs from typst/manifest.json: "
+            f"missing={sorted(set(protected) - set(by_orig))}, extra={sorted(set(by_orig) - set(protected))}",
+        )
+        for orig, expected_sha in sorted(protected.items()):
+            entry = by_orig[orig]
+            require(
+                entry["sha256"] == expected_sha,
+                f"Baseline digest mismatch between manifest and archive for {orig}",
+            )
+            if entry["role"] == "archived_editorial_tex":
+                archived_rel_map[orig] = entry["retained_location"]
+            else:
+                inplace_paths.append(orig)
+        if baseline_root is not None:
+            for key_tex in ("main.tex", "manual/main.tex"):
+                p_b = Path(baseline_root) / key_tex
+                require(p_b.is_file() and sha256_file(p_b) == protected[key_tex],
+                        f"Materialized baseline root digest mismatch for {key_tex}")
+    else:
+        for rel, expected_sha in sorted(protected.items()):
+            p = root / rel
+            require(p.is_file(), f"Protected baseline file missing: {rel}")
+            actual_sha = sha256_file(p)
+            require(actual_sha == expected_sha, f"Protected baseline file modified: {rel}")
+            inplace_paths.append(rel)
+
     git_checked = False
+    ledger_checked = False
+    ledger_frozen_amendments: list[str] = []
     if (root / ".git").exists():
         chk = subprocess.run(
             ["git", "rev-parse", "--verify", f"{SCIENTIFIC_BASELINE_COMMIT}^{{commit}}"],
@@ -2207,43 +2263,130 @@ def verify_baseline_immutability(root: Path, manifest: dict) -> dict:
         )
         if chk.returncode == 0:
             git_checked = True
-            diff_proc = subprocess.run(
-                ["git", "diff", "--name-only", SCIENTIFIC_BASELINE_COMMIT, "--", *sorted(protected)],
-                cwd=root, capture_output=True, text=True, check=True,
-            )
-            changed = [ln for ln in diff_proc.stdout.splitlines() if ln.strip()]
-            require(not changed, f"Baseline scientific files differ from {SCIENTIFIC_BASELINE_COMMIT}: {changed}")
+            if inplace_paths:
+                diff_proc = subprocess.run(
+                    ["git", "diff", "--name-only", SCIENTIFIC_BASELINE_COMMIT, "--", *sorted(inplace_paths)],
+                    cwd=root, capture_output=True, text=True, check=True,
+                )
+                changed = [ln for ln in diff_proc.stdout.splitlines() if ln.strip()]
+                require(not changed, f"Preserved baseline files differ from {SCIENTIFIC_BASELINE_COMMIT}: {changed}")
+            for orig, retained in sorted(archived_rel_map.items()):
+                orig_bytes = subprocess.run(
+                    ["git", "show", f"{SCIENTIFIC_BASELINE_COMMIT}:{orig}"],
+                    cwd=root, capture_output=True, check=True,
+                ).stdout
+                require(
+                    hashlib.sha256(orig_bytes).hexdigest() == sha256_file(root / retained),
+                    f"Archived baseline copy differs from {SCIENTIFIC_BASELINE_COMMIT}:{orig}: {retained}",
+                )
 
             base_cb = json.loads(subprocess.run(
                 ["git", "show", f"{SCIENTIFIC_BASELINE_COMMIT}:contracts/scientific/CANONICAL_BINDINGS.json"],
                 cwd=root, capture_output=True, text=True, check=True,
             ).stdout)
             curr_cb = json.loads((root / "contracts/scientific/CANONICAL_BINDINGS.json").read_text(encoding="utf-8"))
-            for section_key in base_cb:
-                if section_key != "frozen_sha256":
+            tex_to_typ = {e["tex_source"]: e["typst_target"] for e in manifest["active_source_map"]}
+
+            # Scientific substance in CANONICAL_BINDINGS.json MUST be 100% invariant (paths only may remap)
+            require(curr_cb.get("schema") == base_cb["schema"], "CANONICAL_BINDINGS.json schema changed")
+            require(curr_cb.get("formulas") == base_cb["formulas"],
+                    "Scientific formulas in CANONICAL_BINDINGS.json changed")
+            require(len(curr_cb.get("ownership", [])) == len(base_cb["ownership"]),
+                    "Ownership group count changed in CANONICAL_BINDINGS.json")
+            for b_row, c_row in zip(base_cb["ownership"], curr_cb["ownership"]):
+                exp_row = dict(b_row)
+                if c_row.get("path") != b_row["path"]:
+                    exp_row["path"] = tex_to_typ.get(b_row["path"], b_row["path"])
+                require(c_row == exp_row, f"Ownership scientific content changed for {b_row.get('concept')}")
+            for b_fam, c_fam in zip(base_cb["manual_families"], curr_cb["manual_families"]):
+                exp_fam = dict(b_fam)
+                if c_fam.get("manual_path") != b_fam["manual_path"]:
+                    exp_fam["manual_path"] = tex_to_typ.get(b_fam["manual_path"], b_fam["manual_path"])
+                require(c_fam == exp_fam, f"Manual family scientific content changed for {b_fam.get('id')}")
+            for b_sig, c_sig in zip(base_cb["unique_signatures"], curr_cb["unique_signatures"]):
+                exp_sig = dict(b_sig)
+                if c_sig.get("path") != b_sig["path"]:
+                    exp_sig["path"] = tex_to_typ.get(b_sig["path"], b_sig["path"])
+                require(c_sig == exp_sig, f"Unique signature scientific content changed for {b_sig.get('anchor')}")
+            require(set(curr_cb.get("supplemental_formulas", {})) == set(base_cb["supplemental_formulas"]),
+                    "Supplemental formula keys changed in CANONICAL_BINDINGS.json")
+            for k, b_sup in base_cb["supplemental_formulas"].items():
+                c_sup = curr_cb["supplemental_formulas"][k]
+                exp_sup = dict(b_sup)
+                if c_sup.get("path") != b_sup["path"]:
+                    exp_sup["path"] = tex_to_typ.get(b_sup["path"], b_sup["path"])
+                require(c_sup == exp_sup, f"Supplemental formula content changed for {k}")
+
+            ledger_path = root / "typst/representation_change_ledger.json"
+            if ledger_path.is_file():
+                ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+                require(
+                    ledger.get("schema") == "aod.m4.phase2.representation-change-ledger.v1",
+                    "Invalid representation_change_ledger.json schema",
+                )
+                relocated = {e["old_path"]: e["new_path"] for e in ledger.get("frozen_sha256_relocations", [])}
+                amended = {e["path"]: e for e in ledger.get("frozen_sha256_amendments", [])}
+                added = {e["path"]: e for e in ledger.get("frozen_sha256_additions", [])}
+                for old_k, old_sha in base_cb["frozen_sha256"].items():
+                    if old_k in relocated:
+                        new_k = relocated[old_k]
+                        require(
+                            curr_cb["frozen_sha256"].get(new_k) == old_sha,
+                            f"Relocated frozen_sha256 entry {old_k} -> {new_k} digest mismatch",
+                        )
+                    elif old_k in amended:
+                        require(
+                            curr_cb["frozen_sha256"].get(old_k) == amended[old_k]["new_sha256"]
+                            and amended[old_k]["old_sha256"] == old_sha,
+                            f"Amended frozen_sha256 entry {old_k} disagrees with representation ledger",
+                        )
+                    else:
+                        require(
+                            curr_cb["frozen_sha256"].get(old_k) == old_sha,
+                            f"Undeclared frozen_sha256 change outside representation ledger: {old_k}",
+                        )
+                expected_keys = (
+                    (set(base_cb["frozen_sha256"]) - set(relocated))
+                    | set(relocated.values())
+                    | set(added)
+                )
+                require(
+                    set(curr_cb["frozen_sha256"]) == expected_keys,
+                    f"frozen_sha256 key set disagrees with representation ledger: "
+                    f"extra={sorted(set(curr_cb['frozen_sha256']) - expected_keys)}, "
+                    f"missing={sorted(expected_keys - set(curr_cb['frozen_sha256']))}",
+                )
+                for add_k, add_rec in added.items():
                     require(
-                        curr_cb.get(section_key) == base_cb[section_key],
-                        f"Scientific contract section changed in CANONICAL_BINDINGS.json: {section_key}",
+                        curr_cb["frozen_sha256"].get(add_k) == add_rec["sha256"],
+                        f"Added frozen_sha256 entry {add_k} disagrees with representation ledger",
                     )
-            require(set(curr_cb["frozen_sha256"]) == set(base_cb["frozen_sha256"]),
-                    "frozen_sha256 key set changed in CANONICAL_BINDINGS.json")
-            changed_frozen = {
-                k for k, v in base_cb["frozen_sha256"].items()
-                if curr_cb["frozen_sha256"][k] != v
-            }
-            require(
-                changed_frozen <= ALLOWED_ENGINEERING_FROZEN_AMENDMENTS,
-                f"Unexpected frozen_sha256 modifications outside planned engineering files: {sorted(changed_frozen)}",
-            )
+                ledger_checked = True
+                ledger_frozen_amendments = sorted(amended)
+            else:
+                require(set(curr_cb["frozen_sha256"]) == set(base_cb["frozen_sha256"]),
+                        "frozen_sha256 key set changed in CANONICAL_BINDINGS.json")
+                changed_frozen = {
+                    k for k, v in base_cb["frozen_sha256"].items()
+                    if curr_cb["frozen_sha256"][k] != v
+                }
+                require(
+                    changed_frozen <= ALLOWED_ENGINEERING_FROZEN_AMENDMENTS,
+                    f"Unexpected frozen_sha256 modifications outside planned engineering files: {sorted(changed_frozen)}",
+                )
+                ledger_frozen_amendments = sorted(changed_frozen)
 
     return {
         "protected_baseline_files": len(protected),
+        "archived_editorial_tex_files": len(archived_rel_map),
+        "preserved_in_place_files": len(inplace_paths),
         "tex_files_unchanged": tex_count,
         "bib_files_unchanged": bib_count,
         "image_files_unchanged": img_count,
         "manual_data_files_unchanged": data_count,
         "git_baseline_cross_checked": git_checked,
-        "engineering_frozen_amendments_only": sorted(ALLOWED_ENGINEERING_FROZEN_AMENDMENTS),
+        "representation_change_ledger_verified": ledger_checked,
+        "amended_frozen_entries_count": len(ledger_frozen_amendments),
     }
 
 
@@ -2257,7 +2400,7 @@ def verify_baseline_immutability(root: Path, manifest: dict) -> dict:
 # =============================================================================
 
 TRUSTED_TEMPLATE_SHA256 = {
-    "typst/lib/aod_schema.typ": "603f26b85ddec0ead70f19c8ed1ab194015664fb8cd8d47b3e68cb932ec49706",
+    "typst/lib/aod_schema.typ": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
     "typst/preamble.typ": "7a9c255c2411bc4bd3487be0196f10ac453eefa240f6c16095d426f210b4f112",
     "typst/manual/preamble.typ": "2b7deae2f0fa3d7011edabd8d7299b835290fb60e47990c7fe861e55bd914196",
     "typst/main.typ": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70",
@@ -2706,7 +2849,10 @@ def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> 
             elif name == "import":
                 m_imp = re.fullmatch(r'"([^"]+)"\s*:\s*\*', pos[0].strip())
                 tgt = posixpath.normpath(posixpath.join(base_dir, m_imp.group(1))) if m_imp else ""
-                if tgt not in ("typst/preamble.typ", "typst/manual/preamble.typ"):
+                allowed_imports = ("typst/preamble.typ", "typst/manual/preamble.typ")
+                if rel.startswith("typst/lib/diagrams/"):
+                    allowed_imports = ("typst/lib/aod_schema.typ",)
+                if tgt not in allowed_imports:
                     violations.append(f"{where}: import other than the surface preamble ({pos[0][:80]!r})")
             elif name == "include":
                 m_inc = re.fullmatch(r'"([^"]+)"', pos[0].strip())
@@ -2761,13 +2907,22 @@ def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> 
 def verify_typst_evaluation_policy(root: Path, manifest: dict) -> dict:
     """Gate A2: pin evaluation-defining files and constrain every Typst content file."""
     targets = {e["typst_target"] for e in manifest["active_source_map"]}
-    # 1. Every active Typst unit matches its manifest digest.
+    diagram_components: dict[str, str] = manifest.get("diagram_components", {})
+    diagram_files = set(diagram_components)
+    # 1. Every active Typst unit and shared diagram component matches its manifest digest.
     for e in manifest["active_source_map"]:
         p = root / e["typst_target"]
         require(p.is_file(), f"Manifest Typst target missing: {e['typst_target']}")
         require(
             sha256_file(p) == e["typst_sha256"],
             f"Typst unit digest differs from typst/manifest.json: {e['typst_target']}",
+        )
+    for rel, expected_sha in sorted(diagram_components.items()):
+        p = root / rel
+        require(p.is_file(), f"Manifest Typst diagram component missing: {rel}")
+        require(
+            sha256_file(p) == expected_sha,
+            f"Typst diagram component digest differs from typst/manifest.json: {rel}",
         )
     # 2. Evaluation-defining template/driver files are pinned by this verifier.
     for rel, digest in sorted(TRUSTED_TEMPLATE_SHA256.items()):
@@ -2777,19 +2932,20 @@ def verify_typst_evaluation_policy(root: Path, manifest: dict) -> dict:
             sha256_file(p) == digest,
             f"Trusted Typst template/driver changed (evaluation semantics are pinned by the verifier): {rel}",
         )
-    # 3. The Typst file set is exactly the manifest units plus the pinned template library.
+    # 3. The Typst file set is exactly the manifest units + shared diagrams + pinned templates.
     on_disk = {str(p.relative_to(root)).replace(os.sep, "/") for p in (root / "typst").rglob("*.typ")}
-    declared = targets | set(TRUSTED_TEMPLATE_SHA256)
+    declared = targets | set(TRUSTED_TEMPLATE_SHA256) | diagram_files
     require(
         on_disk == declared,
         f"Undeclared or missing Typst files: extra={sorted(on_disk - declared)}, missing={sorted(declared - on_disk)}",
     )
-    # 4. Mode-aware allowlist over content files.
+    # 4. Mode-aware allowlist over content files and shared diagram components.
+    allowed_includes = targets | diagram_files
     violations: list[str] = []
     files_checked = 0
     events_checked = 0
-    for rel in sorted(targets - set(TRUSTED_TEMPLATE_SHA256)):
-        v_list, n_ev = _content_policy_violations(rel, (root / rel).read_text(encoding="utf-8"), targets)
+    for rel in sorted((targets - set(TRUSTED_TEMPLATE_SHA256)) | diagram_files):
+        v_list, n_ev = _content_policy_violations(rel, (root / rel).read_text(encoding="utf-8"), allowed_includes)
         violations += v_list
         files_checked += 1
         events_checked += n_ev
@@ -2799,6 +2955,7 @@ def verify_typst_evaluation_policy(root: Path, manifest: dict) -> dict:
     )
     return {
         "trusted_template_files_pinned": len(TRUSTED_TEMPLATE_SHA256),
+        "diagram_components_pinned": len(diagram_files),
         "manifest_typst_digests_enforced": len(targets),
         "content_files_policy_checked": files_checked,
         "content_events_checked": events_checked,
@@ -2810,10 +2967,37 @@ def verify_typst_evaluation_policy(root: Path, manifest: dict) -> dict:
 # Gate B: Ordered Source-Bound Prose, Punctuation, Code, & All-Math AST Parity
 # =============================================================================
 
-def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
+def verify_source_and_content_parity(
+    root: Path,
+    manifest: dict,
+    baseline_root: Path | None = None,
+    check_generated_latex: bool = True,
+    typst_bin: str | None = None,
+) -> dict:
+    b_root, tmp_base = _resolve_baseline_root(root, baseline_root)
+    try:
+        return _verify_source_and_content_parity_impl(
+            root=root,
+            manifest=manifest,
+            b_root=b_root,
+            check_generated_latex=check_generated_latex,
+            typst_bin=typst_bin,
+        )
+    finally:
+        if tmp_base is not None:
+            tmp_base.cleanup()
+
+
+def _verify_source_and_content_parity_impl(
+    root: Path,
+    manifest: dict,
+    b_root: Path,
+    check_generated_latex: bool,
+    typst_bin: str | None,
+) -> dict:
     audit_mod = load_module(root, "aod_audit_scientific_sources", "scripts/audit_scientific_sources.py")
-    active_tex_main, main_parts = audit_mod.include_graph(root, "main")
-    active_tex_manual, manual_parts = audit_mod.include_graph(root, "manual")
+    active_tex_main, main_parts = audit_mod.include_graph(b_root, "main", representation="tex")
+    active_tex_manual, manual_parts = audit_mod.include_graph(b_root, "manual", representation="tex")
     active_tex_all = set(active_tex_main) | set(active_tex_manual)
     require(len(active_tex_main) == 21, f"Expected 21 active Main TeX files, got {len(active_tex_main)}")
     require(len(active_tex_manual) == 27, f"Expected 27 active Manual TeX files, got {len(active_tex_manual)}")
@@ -2833,16 +3017,18 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
 
     # 1. Check all 7 immutable table counterparts cell-by-cell
     table_stats: dict[str, dict[str, int]] = {}
+    tex_table_rows_cache: dict[str, list[list[str]]] = {}
     for tbl_tex in IMMUTABLE_MANUAL_TABLES:
         require(tbl_tex in src_map, f"Immutable table missing from manifest: {tbl_tex}")
         tbl_typ = src_map[tbl_tex]["typst_target"]
         require(tbl_typ in typ_manual_files, f"Immutable table counterpart not included by Manual: {tbl_typ}")
-        tex_rows = extract_tex_table_rows(root / tbl_tex)
+        tex_rows = extract_tex_table_rows(b_root / tbl_tex)
         typ_rows = extract_typst_table_rows(root / tbl_typ)
         require(
             tex_rows == typ_rows,
             f"Table cell parity mismatch for {tbl_tex} vs {tbl_typ}:\n  TeX={tex_rows[:3]}\n  Typ={typ_rows[:3]}",
         )
+        tex_table_rows_cache[tbl_tex] = tex_rows
         table_stats[tbl_tex] = {"rows": len(tex_rows), "cols": len(tex_rows[0]) if tex_rows else 0}
 
     # 2. Check all 218 labeled equations with recursive-descent Math AST (preserving grouping!)
@@ -2852,6 +3038,7 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
     typ_manual_eqs = extract_typst_equations([root / f for f in typ_manual_files])
 
     eq_counts: dict[str, int] = {}
+    base_asts_by_surface: dict[str, dict[str, tuple[tuple, str | None]]] = {"main": {}, "manual": {}}
     for surface, t_eqs, y_eqs in (
         ("main", tex_main_eqs, typ_main_eqs),
         ("manual", tex_manual_eqs, typ_manual_eqs),
@@ -2871,6 +3058,7 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
                 t_ast == y_ast,
                 f"Equation structure mismatch for {lbl}:\n  TeX AST={t_ast}\n  Typ AST={y_ast}",
             )
+            base_asts_by_surface[surface][lbl] = (t_ast, t_tag)
         eq_counts[surface] = len(t_eqs)
 
     # 3. Check ALL 44 active content files (ordered words >= 1 char, case-exact, punctuation,
@@ -2889,8 +3077,10 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
         if tex_rel in ("main.tex", "preamble.tex", "manual/main.tex", "manual/preamble.tex"):
             continue
         typ_rel = entry["typst_target"]
-        tex_text = (root / tex_rel).read_text(encoding="utf-8")
-        typ_text = (root / typ_rel).read_text(encoding="utf-8")
+        tex_text = (b_root / tex_rel).read_text(encoding="utf-8")
+        typ_text = _inline_typst_diagram_includes(
+            root, typ_rel, (root / typ_rel).read_text(encoding="utf-8")
+        )
 
         t_toks, t_unsup = extract_tex_ordered(tex_text, tex_rel)
         y_toks, y_unsup = extract_typst_ordered(typ_text, typ_rel)
@@ -2931,9 +3121,6 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
             elif tk[0] == "CODE" and "--" in tk[1]:
                 cli_commands_by_surface[surf].append(tk[1])
 
-        # Collect contiguous prose/cell clauses (>= 3 words, case-exact, keeping short words & punct)
-        # using structural/table boundaries so clauses never straddle a table row or page break
-        # (verified directly on rendered PDFs in Gate C to defeat #show rules).
         if tex_rel not in IMMUTABLE_MANUAL_TABLES:
             b_toks, _ = extract_tex_ordered(tex_text, tex_rel, emit_boundaries=True)
             cur_clause: list[str] = []
@@ -2947,8 +3134,7 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
             if sum(1 for x in cur_clause if x not in ";:.,?!") >= 3:
                 prose_clauses_by_surface[surf].append((tex_rel, " ".join(cur_clause)))
 
-    # 4. Also check Manual driver title page / epitaph (manual/main.tex vs typst/manual/main.typ)
-    #    and verify zero unescaped semicolons after content calls across all typst files.
+    # 4. Verify zero unescaped semicolons after content calls across all typst files.
     content_call_semi = re.compile(
         r"#(?:mainequation|mainsection|mainappendix|maintable|eqref|eqnref|secref|appref|figref|tabref|bare-ref|aod-cite|raw|link|emph|strong|footnote)\([^()\n]*\);"
     )
@@ -2964,10 +3150,9 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
             )
 
     # Check title/epitaph ordered tokens of manual/main.tex vs typst/manual/main.typ
-    m_driver_tex, m_du_t = extract_tex_ordered((root / "manual/main.tex").read_text(encoding="utf-8"), "manual/main.tex")
+    m_driver_tex, m_du_t = extract_tex_ordered((b_root / "manual/main.tex").read_text(encoding="utf-8"), "manual/main.tex")
     m_driver_typ, m_du_y = extract_typst_ordered((root / "typst/manual/main.typ").read_text(encoding="utf-8"), "typst/manual/main.typ")
     require(not m_du_t and not m_du_y, f"Unsupported math in Manual driver: tex={m_du_t}, typ={m_du_y}")
-    # Filter out "Contents" TOC title difference if present
     mdt_clean = [x for x in m_driver_tex if x != ("W", "Contents")]
     mdy_clean = [x for x in m_driver_typ if x != ("W", "Contents")]
     require(
@@ -2976,6 +3161,85 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
     )
 
     require(total_flowcharts == 4, f"Expected 4 verified TikZ/Typst flowcharts, got {total_flowcharts}")
+
+    # 5. Verify generated latex/ compatibility tree (derived strictly from typst/ via typ2tex.py)
+    gen_latex_report: dict[str, object] = {"performed": False}
+    if check_generated_latex and (root / "latex/GENERATION_MANIFEST.json").is_file():
+        latex_root = root / "latex"
+        gen_main_files, gen_main_parts = audit_mod.include_graph(latex_root, "main", representation="tex")
+        gen_manual_files, gen_manual_parts = audit_mod.include_graph(latex_root, "manual", representation="tex")
+        require(len(gen_main_files) == 21, f"Generated latex/ expected 21 active Main files, got {len(gen_main_files)}")
+        require(len(gen_manual_files) == 27, f"Generated latex/ expected 27 active Manual files, got {len(gen_manual_files)}")
+
+        base_main_labels = set(audit_mod.label_map(b_root, "main", representation="tex"))
+        base_manual_labels = set(audit_mod.label_map(b_root, "manual", representation="tex"))
+        gen_main_labels = set(audit_mod.label_map(latex_root, "main", representation="tex"))
+        gen_manual_labels = set(audit_mod.label_map(latex_root, "manual", representation="tex"))
+        require(gen_main_labels == base_main_labels,
+                f"Generated latex/ Main label set mismatch: missing={sorted(base_main_labels - gen_main_labels)}, extra={sorted(gen_main_labels - base_main_labels)}")
+        require(gen_manual_labels == base_manual_labels,
+                f"Generated latex/ Manual label set mismatch: missing={sorted(base_manual_labels - gen_manual_labels)}, extra={sorted(gen_manual_labels - base_manual_labels)}")
+
+        for tbl_tex, base_rows in tex_table_rows_cache.items():
+            gen_rows = extract_tex_table_rows(latex_root / tbl_tex)
+            require(
+                gen_rows == base_rows,
+                f"Generated latex/ table cell parity mismatch for latex/{tbl_tex}",
+            )
+
+        gen_eq_counts: dict[str, int] = {}
+        for surface, gen_parts in (("main", gen_main_parts), ("manual", gen_manual_parts)):
+            g_eqs = extract_tex_equations(gen_parts)
+            expected_map = base_asts_by_surface[surface]
+            require(set(g_eqs) == set(expected_map),
+                    f"Generated latex/ {surface} labeled equation set mismatch")
+            for lbl, (base_ast, base_tag) in sorted(expected_map.items()):
+                g_body, g_tag = g_eqs[lbl]
+                require(g_tag == base_tag, f"Generated latex/ equation tag mismatch for {lbl}")
+                g_ast, g_unsup = parse_tex_math_ast(g_body)
+                require(not g_unsup, f"Unsupported math construct in generated latex/ {lbl}: {g_unsup}")
+                require(
+                    g_ast == base_ast,
+                    f"Generated latex/ equation AST mismatch for {lbl}:\n  Base={base_ast}\n  Gen ={g_ast}",
+                )
+            gen_eq_counts[surface] = len(g_eqs)
+
+        fig_dir = latex_root / "manual/figures/generated"
+        fig_manifest_p = fig_dir / "FIGURE_MANIFEST.json"
+        require(fig_manifest_p.is_file(), "Missing latex/manual/figures/generated/FIGURE_MANIFEST.json")
+        fig_manifest = json.loads(fig_manifest_p.read_text(encoding="utf-8"))
+        diagrams = fig_manifest.get("figures", [])
+        require(len(diagrams) == 4, f"Expected 4 exported diagrams in FIGURE_MANIFEST.json, got {len(diagrams)}")
+        for d in diagrams:
+            asset = fig_dir / d["output_filename"]
+            require(asset.is_file() and sha256_file(asset) == d["output_sha256"],
+                    f"Exported diagram digest mismatch: {asset.relative_to(root)}")
+
+        typ2tex_check_passed = False
+        if (root / "scripts/typ2tex.py").is_file():
+            builder = load_module(root, "aod_build_typst", "scripts/build_typst.py")
+            tbin = typst_bin
+            if tbin is None:
+                try:
+                    tbin = builder.find_typst(None)
+                except FileNotFoundError:
+                    tbin = None
+            if tbin is not None:
+                t2t = load_module(root, "aod_typ2tex_parity_check", "scripts/typ2tex.py")
+                t2t.generate_latex_tree(root, latex_root, check_only=True, typst_bin=tbin)
+                typ2tex_check_passed = True
+
+        gen_latex_report = {
+            "performed": True,
+            "active_main_tex_files": len(gen_main_files),
+            "active_manual_tex_files": len(gen_manual_files),
+            "main_labels_verified": len(gen_main_labels),
+            "manual_labels_verified": len(gen_manual_labels),
+            "labeled_equations_verified_structurally": gen_eq_counts,
+            "immutable_tables_verified_cell_by_cell": len(tex_table_rows_cache),
+            "exported_diagrams_verified": len(diagrams),
+            "typ2tex_check_passed": typ2tex_check_passed,
+        }
 
     return {
         "active_main_tex_files": len(active_tex_main),
@@ -2991,6 +3255,7 @@ def verify_source_and_content_parity(root: Path, manifest: dict) -> dict:
         "unsupported_math_constructs": 0,
         "figure_image_bindings_verified": total_image_bindings,
         "qualifier_token_totals": qualifier_totals,
+        "generated_latex_parity": gen_latex_report,
         "_prose_clauses": prose_clauses_by_surface,
         "_cli_commands": cli_commands_by_surface,
     }
@@ -3140,6 +3405,7 @@ def _inspect_pdf_links(pdf_path: Path, expected_peer_pdf: str | None = None) -> 
     reader = PdfReader(str(pdf_path))
     internal_links = 0
     peer_pdf_links: list[tuple[int, str, int]] = []
+    gotor_peer_links: list[tuple[int, str, str]] = []
     stale_main_pdf_links: list[tuple[int, str]] = []
     uri_links = 0
     external_uris: set[str] = set()
@@ -3161,23 +3427,35 @@ def _inspect_pdf_links(pdf_path: Path, expected_peer_pdf: str | None = None) -> 
                 if uri.startswith(("http://", "https://", "mailto:")):
                     uri_links += 1
                     external_uris.add(uri)
-                elif uri.startswith("main.pdf#"):
-                    stale_main_pdf_links.append((page_idx, uri))
                 elif expected_peer_pdf and uri.startswith(f"{expected_peer_pdf}#page="):
                     m = re.fullmatch(re.escape(expected_peer_pdf) + r"#page=(\d+)", uri)
                     require(m is not None, f"Malformed peer link URI on page {page_idx}: {uri}")
                     peer_pdf_links.append((page_idx, uri, int(m.group(1))))
-                elif ".pdf#page=" in uri:
+                elif ".pdf#" in uri:
                     stale_main_pdf_links.append((page_idx, uri))
                 else:
                     uri_links += 1
                     external_uris.add(uri)
             elif act_obj.get("/S") == "/GoTo":
                 internal_links += 1
+            elif act_obj.get("/S") == "/GoToR":
+                f_obj = act_obj.get("/F")
+                if hasattr(f_obj, "get_object"):
+                    f_obj = f_obj.get_object()
+                if isinstance(f_obj, dict):
+                    target_file = str(f_obj.get("/UF") or f_obj.get("/F") or "")
+                else:
+                    target_file = str(f_obj or "")
+                dest = str(act_obj.get("/D") or "")
+                if expected_peer_pdf and target_file == expected_peer_pdf:
+                    gotor_peer_links.append((page_idx, target_file, dest))
+                else:
+                    stale_main_pdf_links.append((page_idx, f"GoToR:{target_file}#{dest}"))
     return {
         "pages": len(reader.pages),
         "internal_links": internal_links,
         "peer_pdf_links": peer_pdf_links,
+        "gotor_peer_links": gotor_peer_links,
         "stale_main_pdf_links": stale_main_pdf_links,
         "uri_links": uri_links,
         "unique_external_uris": sorted(external_uris),
@@ -3190,22 +3468,22 @@ def verify_delivered_peer_links(
     main_reg: dict,
     manual_mainrefs: list[dict],
 ) -> dict:
-    """C2: Verify the actual delivered artifact pair (main_typst.pdf + manual_typst.pdf)
+    """C2: Verify the actual delivered canonical artifact pair (main.pdf + manual.pdf)
     and confirm every cross-document link resolves to the delivered peer file and actual target page."""
     expected_peer = main_reg.get("main_pdf_filename", "")
-    require(expected_peer == "main_typst.pdf",
-            f"Main registry peer filename must be 'main_typst.pdf', got {expected_peer!r}")
+    require(expected_peer == "main.pdf",
+            f"Main registry peer filename must be 'main.pdf', got {expected_peer!r}")
     peer_path = outdir / expected_peer
-    manual_path = outdir / "manual_typst.pdf"
+    manual_path = outdir / "manual.pdf"
     require(peer_path.is_file(), f"Delivered native peer PDF missing in {outdir}: {expected_peer}")
-    require(manual_path.is_file(), f"Delivered native Manual PDF missing in {outdir}: manual_typst.pdf")
+    require(manual_path.is_file(), f"Delivered native Manual PDF missing in {outdir}: manual.pdf")
     require(
         sha256_file(peer_path) == build_report["main_pdf_sha256"],
         f"Delivered peer PDF {expected_peer} SHA-256 does not match built Main artifact",
     )
     require(
         sha256_file(manual_path) == build_report["manual_pdf_sha256"],
-        "Delivered manual_typst.pdf SHA-256 does not match built Manual artifact",
+        "Delivered manual.pdf SHA-256 does not match built Manual artifact",
     )
 
     main_links = _inspect_pdf_links(peer_path, expected_peer_pdf=None)
@@ -3226,7 +3504,7 @@ def verify_delivered_peer_links(
         )
 
     main_pages_txt = _pdftotext(peer_path).split("\x0c")
-    require(len(main_pages_txt) >= main_links["pages"], "Failed to extract per-page text of main_typst.pdf")
+    require(len(main_pages_txt) >= main_links["pages"], "Failed to extract per-page text of main.pdf")
     witness_eq33 = None
     for item in manual_mainrefs:
         v = item["value"]
@@ -3264,6 +3542,7 @@ def verify_delivered_peer_links(
     return {
         "delivered_peer_pdf": expected_peer,
         "peer_pdf_sha256_verified": True,
+        "stale_peer_pdf_links": 0,
         "stale_main_pdf_links": 0,
         "peer_pdf_links_count": len(manual_links["peer_pdf_links"]),
         "all_target_page_anchors_verified": len(manual_mainrefs),
@@ -3531,10 +3810,44 @@ def verify_evaluated_and_rendered(
     gate_b_info: dict | None = None,
     baseline_main_pdf: Path | None = None,
     baseline_manual_pdf: Path | None = None,
+    baseline_root: Path | None = None,
+    generated_latex_main_pdf: Path | None = None,
+    generated_latex_manual_pdf: Path | None = None,
+) -> dict:
+    b_root, tmp_base = _resolve_baseline_root(root, baseline_root)
+    try:
+        return _verify_evaluated_and_rendered_impl(
+            root=root,
+            typst_bin=typst_bin,
+            outdir=outdir,
+            gate_b_info=gate_b_info,
+            baseline_main_pdf=baseline_main_pdf,
+            baseline_manual_pdf=baseline_manual_pdf,
+            b_root=b_root,
+            generated_latex_main_pdf=generated_latex_main_pdf,
+            generated_latex_manual_pdf=generated_latex_manual_pdf,
+        )
+    finally:
+        if tmp_base is not None:
+            tmp_base.cleanup()
+
+
+def _verify_evaluated_and_rendered_impl(
+    root: Path,
+    typst_bin: str,
+    outdir: Path,
+    gate_b_info: dict | None,
+    baseline_main_pdf: Path | None,
+    baseline_manual_pdf: Path | None,
+    b_root: Path,
+    generated_latex_main_pdf: Path | None,
+    generated_latex_manual_pdf: Path | None,
 ) -> dict:
     if gate_b_info is None:
         manifest = json.loads((root / "typst/manifest.json").read_text(encoding="utf-8"))
-        gate_b_info = verify_source_and_content_parity(root, manifest)
+        gate_b_info = verify_source_and_content_parity(
+            root, manifest, baseline_root=b_root, typst_bin=typst_bin
+        )
     builder = load_module(root, "aod_build_typst", "scripts/build_typst.py")
     audit_mod = load_module(root, "aod_audit_scientific_sources", "scripts/audit_scientific_sources.py")
 
@@ -3552,7 +3865,7 @@ def verify_evaluated_and_rendered(
     manual_src = root / "typst" / "manual" / "main.typ"
     manual_inputs = {
         "expected_main_digest": main_digest,
-        "expected_main_pdf_filename": "main_typst.pdf",
+        "expected_main_pdf_filename": "main.pdf",
     }
 
     main_entries_raw = builder.run_typst_eval(typst_bin, root, main_src, "<aod-ref-entry>")
@@ -3565,13 +3878,13 @@ def verify_evaluated_and_rendered(
         typst_bin, root, manual_src, "math.equation.where(block: true)", inputs=manual_inputs
     )
 
-    _, main_parts = audit_mod.include_graph(root, "main")
-    _, manual_parts = audit_mod.include_graph(root, "manual")
+    _, main_parts = audit_mod.include_graph(b_root, "main", representation="tex")
+    _, manual_parts = audit_mod.include_graph(b_root, "manual", representation="tex")
     tex_main_eq_nums, exp_main_numbered = extract_tex_equation_numbers(main_parts)
     tex_manual_eq_nums, exp_manual_numbered = extract_tex_equation_numbers(manual_parts)
 
-    tex_main_labels = set(audit_mod.label_map(root, "main"))
-    tex_manual_labels = set(audit_mod.label_map(root, "manual"))
+    tex_main_labels = set(audit_mod.label_map(b_root, "main", representation="tex"))
+    tex_manual_labels = set(audit_mod.label_map(b_root, "manual", representation="tex"))
 
     typ_main_map = {item["value"]["id"]: item["value"] for item in main_entries_raw}
     typ_manual_map = {item["value"]["id"]: item["value"] for item in manual_entries_raw}
@@ -3624,18 +3937,18 @@ def verify_evaluated_and_rendered(
     require(len(main_bib_raw) == 10, f"Expected 10 Main bibliography entries, got {len(main_bib_raw)}")
     require(len(manual_bib_raw) == 43, f"Expected 43 Manual bibliography entries, got {len(manual_bib_raw)}")
 
-    # C2: Verify delivered peer PDF artifact & 172/172 target page anchor landings
+    # C2: Verify delivered canonical peer PDF pair (main.pdf + manual.pdf) & 172/172 target landings
     delivery = verify_delivered_peer_links(outdir, build_report, main_reg, manual_mainrefs_raw)
 
-    typ_main_pdf = outdir / "main_typst.pdf"
-    typ_manual_pdf = outdir / "manual_typst.pdf"
+    typ_main_pdf = outdir / "main.pdf"
+    typ_manual_pdf = outdir / "manual.pdf"
     typ_main_raw = _pdftotext(typ_main_pdf, raw=False)
     typ_manual_raw = _pdftotext(typ_manual_pdf, raw=False)
     typ_main_stream = _pdftotext(typ_main_pdf, raw=True)
     typ_manual_stream = _pdftotext(typ_manual_pdf, raw=True)
 
     # C1.1 & C1.2: Rendered hygiene, literal CLI commands, and restored semicolons
-    for name, txt in (("main_typst.pdf", typ_main_raw), ("manual_typst.pdf", typ_manual_raw)):
+    for name, txt in (("main.pdf", typ_main_raw), ("manual.pdf", typ_manual_raw)):
         require(len(txt.strip()) > 20000, f"Rendered PDF text unexpectedly short in {name}")
         for forbidden in ("columns: (", "table.header(", "aod-definition", "aod-provenance", "aod-flowchart", "??"):
             require(forbidden not in txt, f"Leaked raw syntax or unresolved marker {forbidden!r} in {name}")
@@ -3646,10 +3959,10 @@ def verify_evaluated_and_rendered(
         for cmd in sorted(set(gate_b_info["_cli_commands"][surf])):
             require(
                 cmd in flat_raw,
-                f"Literal CLI command corrupted or missing in rendered {surf}_typst.pdf: {cmd!r}",
+                f"Literal CLI command corrupted or missing in rendered {surf}.pdf: {cmd!r}",
             )
             cli_checked += 1
-    require("–check-data" not in typ_manual_raw, "En-dash corruption '–check-data' detected in manual_typst.pdf")
+    require("–check-data" not in typ_manual_raw, "En-dash corruption '–check-data' detected in manual.pdf")
     require("§2; model values follow their admitted support." in re.sub(r"\s+", " ", typ_main_stream),
             "Missing literal semicolon in opening Main paragraph (§2; model values...)")
     require("(32); the unit hinge is an extra hypothesis" in re.sub(r"\s+", " ", typ_main_stream),
@@ -3673,10 +3986,9 @@ def verify_evaluated_and_rendered(
             out.append(out[0].replace(" SADAR ", " S "))
         return out
 
-    def check_clauses(surf: str, b_norm: str | None) -> dict:
+    def check_clauses_for(surf: str, cand_norm: str, cand_label: str, b_norm: str | None) -> dict:
         """Every source prose clause is verified against the baseline PDF (count parity) or,
-        failing a baseline anchor, against the evaluated Typst rendering; others are reported."""
-        t_norm = typ_norm_by_surf[surf]
+        failing a baseline anchor, against the candidate rendering; others are reported."""
         total = anchored = typst_only = 0
         unverified: list[str] = []
         for src_rel, clause in gate_b_info["_prose_clauses"][surf]:
@@ -3687,21 +3999,21 @@ def verify_evaluated_and_rendered(
                 if b_norm is not None:
                     hit = next((v for v in variants if b_norm.count(v) >= 1), None)
                 if hit is not None:
-                    bc, tc = b_norm.count(hit), t_norm.count(hit)
+                    bc, tc = b_norm.count(hit), cand_norm.count(hit)
                     require(
                         tc >= bc,
-                        f"Rendered prose mismatch in {surf}_typst.pdf (from {src_rel}): "
-                        f"clause {sent!r} count base={bc} vs typst={tc}",
+                        f"Rendered prose mismatch in {cand_label} (from {src_rel}): "
+                        f"clause {sent!r} count base={bc} vs candidate={tc}",
                     )
                     anchored += 1
                     continue
                 if b_norm is None and any(w.lower() in SCIENTIFIC_QUALIFIERS for w in sent.split()):
                     require(
-                        any(v in t_norm for v in variants),
-                        f"Rendered prose clause missing in {surf}_typst.pdf (possible #show rule mutation, "
+                        any(v in cand_norm for v in variants),
+                        f"Rendered prose clause missing in {cand_label} (possible #show rule mutation, "
                         f"from {src_rel}): {sent!r}",
                     )
-                if any(v in t_norm for v in variants):
+                if any(v in cand_norm for v in variants):
                     typst_only += 1
                 else:
                     unverified.append(f"{src_rel}: {sent[:120]}")
@@ -3714,13 +4026,26 @@ def verify_evaluated_and_rendered(
         }
 
     baseline_pdf_report: dict[str, object] = {"performed": False}
+    base_norm_by_surf: dict[str, str] | None = None
+    base_raw_by_surf: dict[str, str] = {}
+    base_stream_by_surf: dict[str, str] = {}
     if baseline_main_pdf is not None and baseline_manual_pdf is not None:
         require(baseline_main_pdf.is_file(), f"Baseline Main PDF not found: {baseline_main_pdf}")
         require(baseline_manual_pdf.is_file(), f"Baseline Manual PDF not found: {baseline_manual_pdf}")
+        require(
+            not os.path.samefile(baseline_main_pdf, typ_main_pdf),
+            "Baseline Main PDF and candidate Typst main.pdf point to the same file",
+        )
+        require(
+            not os.path.samefile(baseline_manual_pdf, typ_manual_pdf),
+            "Baseline Manual PDF and candidate Typst manual.pdf point to the same file",
+        )
         base_main_raw = _pdftotext(baseline_main_pdf, raw=False)
         base_manual_raw = _pdftotext(baseline_manual_pdf, raw=False)
         base_main_stream = _pdftotext(baseline_main_pdf, raw=True)
         base_manual_stream = _pdftotext(baseline_manual_pdf, raw=True)
+        base_raw_by_surf = {"main": base_main_raw, "manual": base_manual_raw}
+        base_stream_by_surf = {"main": base_main_stream, "manual": base_manual_stream}
 
         base_norm_by_surf = {
             "main": " " + _norm_rendered_text_tokens(base_main_stream, is_typst=False, vocab=vocab) + " ",
@@ -3732,7 +4057,7 @@ def verify_evaluated_and_rendered(
             ("main", baseline_main_pdf, typ_main_pdf, base_main_raw, typ_main_raw, base_main_stream, typ_main_stream, typ_main_map),
             ("manual", baseline_manual_pdf, typ_manual_pdf, base_manual_raw, typ_manual_raw, base_manual_stream, typ_manual_stream, typ_manual_map),
         ):
-            # (a) Exact Table & Figure & Label resolved numbers vs retained XeLaTeX PDF
+            # (a) Exact Table & Figure & Label resolved numbers vs historical XeLaTeX PDF
             b_flat = re.sub(r"\s+", " ", b_raw.replace("\xa0", " "))
             t_flat = re.sub(r"\s+", " ", t_raw.replace("\xa0", " "))
             for prefix in ("Table", "Figure"):
@@ -3740,7 +4065,7 @@ def verify_evaluated_and_rendered(
                 t_nums = sorted({int(x) for x in re.findall(rf"\b{prefix}\s+(\d+)\s*:", t_flat)})
                 require(
                     b_nums == t_nums,
-                    f"{surf} rendered {prefix} numbering drift vs retained LaTeX PDF: "
+                    f"{surf} rendered {prefix} numbering drift vs historical LaTeX PDF: "
                     f"base={b_nums} vs typst={t_nums}",
                 )
             for lbl, e in sorted(entries_map.items()):
@@ -3755,7 +4080,7 @@ def verify_evaluated_and_rendered(
                     needle = f"{num} "
                 require(
                     needle in b_flat,
-                    f"{surf} resolved anchor {lbl} ({k} {num}) absent from retained baseline PDF: {needle!r}",
+                    f"{surf} resolved anchor {lbl} ({k} {num}) absent from historical baseline PDF: {needle!r}",
                 )
 
             # (b) Complete case-sensitive rendered bibliography entry-by-entry comparison!
@@ -3770,16 +4095,16 @@ def verify_evaluated_and_rendered(
                 t_can = _canon_bib_for_pdf_wrap(t_bib[idx])
                 require(
                     b_can == t_can,
-                    f"{surf} rendered bibliography [{idx}] text mismatch vs retained LaTeX:\n"
+                    f"{surf} rendered bibliography [{idx}] text mismatch vs historical LaTeX:\n"
                     f"  BASE: {b_bib[idx]}\n  TYP : {t_bib[idx]}",
                 )
 
-            # (c) Source clause -> rendered prose, in order-free count parity against the retained
+            # (c) Source clause -> rendered prose, in order-free count parity against the historical
             #     XeLaTeX PDF (vocabulary-bound de-hyphenation), with Typst-rendering fallback.
-            clause_report = check_clauses(surf, base_norm_by_surf[surf])
+            clause_report = check_clauses_for(surf, typ_norm_by_surf[surf], f"{surf}.pdf", base_norm_by_surf[surf])
 
             # (c2) Bidirectional: every 4-gram of source-vocabulary words in the rendered Typst
-            #      body must occur in the retained baseline body or in the source clauses, so
+            #      body must occur in the historical baseline body or in the source clauses, so
             #      evaluation-time insertions (show/figure/caption rules) are rejected.
             src_words = [w for _, c in gate_b_info["_prose_clauses"][surf] for w in c.split()]
             src_grams = set(_run_ngrams(_vocab_runs(src_words, vocab)))
@@ -3791,19 +4116,12 @@ def verify_evaluated_and_rendered(
             novel = [g for g in t_grams if g not in base_grams and g not in src_grams and g not in layout_allow]
             # Words outside the source vocabulary (>= 4 letters) must not exceed their baseline count.
             b_alpha = Counter(x for x in b_tokens if x.isalpha())
-            # XeLaTeX/pdftotext may split one math run into adjacent tokens ('supp v' vs 'suppv'):
-            # joined adjacent alphabetic bigrams/trigrams of the baseline also count as occurrences.
             for k in (2, 3):
                 for i in range(len(b_tokens) - k + 1):
                     win = b_tokens[i:i + k]
                     if all(x.isalpha() for x in win):
                         b_alpha["".join(win)] += 1
             t_alpha = Counter(x for x in t_tokens if x.isalpha())
-            # This is a prose-insertion detector. Typst typesets math letters as Unicode
-            # mathematical alphanumerics (U+1D400..U+1D7FF), which never occur in prose; words
-            # containing them are math tokens, whose content is bound by the source math AST
-            # (Gate B) and the evaluation policy (Gate A2), and whose inter-glyph spacing varies
-            # with the pdftotext version ('supp 𝑣̂' vs 'suppv').
             t_math = _typst_math_word_counts(_rendered_body(t_stream))
             oov_allow = RENDERED_OOV_EXCESS_ALLOWLIST[surf]
             cand = {
@@ -3813,10 +4131,6 @@ def verify_evaluated_and_rendered(
             }
             cand = {w: n for w, n in cand.items() if n - b_alpha[w] > oov_allow.get(w, 0)}
             if cand:
-                # Newer pdftotext versions drop spacing inside baseline math runs and fuse an
-                # adjacent operator glyph ('⊔Admﬁb' -> 'tAdmfib'). An out-of-source word also
-                # counts once per occurrence inside a longer baseline token that is itself
-                # outside the source vocabulary (a math-run artefact, never a prose word).
                 b_oov_tokens = [x for x in b_tokens if x.isalpha() and x not in vocab]
                 for w in cand:
                     b_alpha[w] += sum(x.count(w) for x in b_oov_tokens if x != w)
@@ -3827,20 +4141,20 @@ def verify_evaluated_and_rendered(
             )
             require(
                 not novel and not oov_excess,
-                f"Rendered insertion in {surf}_typst.pdf: out-of-source words exceeding the baseline "
-                f"{oov_excess[:8]}; {len(novel)} word 4-gram(s) absent from the retained baseline and "
+                f"Rendered insertion in {surf}.pdf: out-of-source words exceeding the baseline "
+                f"{oov_excess[:8]}; {len(novel)} word 4-gram(s) absent from the historical baseline and "
                 f"the source, e.g. {sorted(set(novel))[:6]}",
             )
             layout_hits = sorted({g for g in t_grams if g in layout_allow and g not in base_grams and g not in src_grams})
 
-            # (c3) Rendered relation/operator glyph parity against the retained baseline body.
+            # (c3) Rendered relation/operator glyph parity against the historical baseline body.
             b_body_s, t_body_s = _rendered_body(b_stream), _rendered_body(t_stream)
             glyphs = {}
             for g in RENDERED_GLYPH_PARITY_SET:
                 bcount, tcount = b_body_s.count(g), t_body_s.count(g)
                 require(
                     bcount == tcount,
-                    f"Rendered glyph {g!r} count differs in {surf}_typst.pdf: base={bcount} vs typst={tcount}",
+                    f"Rendered glyph {g!r} count differs in {surf}.pdf: base={bcount} vs typst={tcount}",
                 )
                 glyphs[g] = tcount
 
@@ -3854,10 +4168,10 @@ def verify_evaluated_and_rendered(
             missing_decs = [d for d in set(b_decs) if t_decs.count(d) < b_decs.count(d)]
             require(not missing_decs, f"{surf} rendered decimals missing vs baseline PDF: {missing_decs[:15]}")
 
-            # (d2) Clickable external /URI destination set parity vs retained baseline PDF
+            # (d2) Clickable external /URI destination set parity vs historical baseline PDF
             b_uris = _inspect_pdf_links(b_pdf, expected_peer_pdf=None)["unique_external_uris"]
             t_uris = _inspect_pdf_links(
-                t_pdf, expected_peer_pdf="main_typst.pdf" if surf == "manual" else None
+                t_pdf, expected_peer_pdf="main.pdf" if surf == "manual" else None
             )["unique_external_uris"]
             require(
                 b_uris == t_uris,
@@ -3865,7 +4179,7 @@ def verify_evaluated_and_rendered(
                 f"missing={sorted(set(b_uris) - set(t_uris))}, extra={sorted(set(t_uris) - set(b_uris))}",
             )
 
-            # (d3) Exact inline citation bracket sequence parity vs retained baseline PDF
+            # (d3) Exact inline citation bracket sequence parity vs historical baseline PDF
             b_cites = re.findall(r"\[\d+(?:,\s*\d+)*\]", b_body_s)
             t_cites = re.findall(r"\[\d+(?:,\s*\d+)*\]", t_body_s)
             require(
@@ -3909,11 +4223,131 @@ def verify_evaluated_and_rendered(
             },
         }
     else:
-        # Non-acceptance partial run: source clauses are checked against the Typst rendering only
-        # (qualifier-bearing clauses must be present); insertion and glyph checks need the baseline.
         baseline_pdf_report = {
             "performed": False,
-            "rendered_prose_clauses_typst_only": {s: check_clauses(s, None) for s in ("main", "manual")},
+            "rendered_prose_clauses_typst_only": {
+                s: check_clauses_for(s, typ_norm_by_surf[s], f"{s}.pdf", None)
+                for s in ("main", "manual")
+            },
+        }
+
+    # Optional: verify generated LaTeX compatibility PDFs against the historical baseline PDFs
+    generated_latex_pdf_report: dict[str, object] = {"performed": False}
+    if generated_latex_main_pdf is not None and generated_latex_manual_pdf is not None:
+        require(generated_latex_main_pdf.is_file(), f"Generated LaTeX Main PDF not found: {generated_latex_main_pdf}")
+        require(generated_latex_manual_pdf.is_file(), f"Generated LaTeX Manual PDF not found: {generated_latex_manual_pdf}")
+        require(
+            not os.path.samefile(generated_latex_main_pdf, typ_main_pdf),
+            "Generated LaTeX Main PDF and native Typst main.pdf point to the same file",
+        )
+        require(
+            not os.path.samefile(generated_latex_manual_pdf, typ_manual_pdf),
+            "Generated LaTeX Manual PDF and native Typst manual.pdf point to the same file",
+        )
+        if baseline_main_pdf is not None:
+            require(
+                not os.path.samefile(generated_latex_main_pdf, baseline_main_pdf),
+                "Generated LaTeX Main PDF and historical baseline Main PDF point to the same file",
+            )
+        if baseline_manual_pdf is not None:
+            require(
+                not os.path.samefile(generated_latex_manual_pdf, baseline_manual_pdf),
+                "Generated LaTeX Manual PDF and historical baseline Manual PDF point to the same file",
+            )
+
+        gen_main_links = _inspect_pdf_links(generated_latex_main_pdf, expected_peer_pdf=None)
+        gen_manual_links = _inspect_pdf_links(generated_latex_manual_pdf, expected_peer_pdf="main.pdf")
+        gen_peer_total = len(gen_manual_links["peer_pdf_links"]) + len(gen_manual_links["gotor_peer_links"])
+        require(
+            len(gen_manual_links["stale_main_pdf_links"]) == 0,
+            f"Generated LaTeX manual.pdf has wrong/stale peer links: {gen_manual_links['stale_main_pdf_links'][:5]}",
+        )
+        require(
+            gen_peer_total >= len(manual_mainrefs_raw),
+            f"Generated LaTeX manual.pdf expected >= {len(manual_mainrefs_raw)} peer links to sibling main.pdf, got {gen_peer_total}",
+        )
+
+        gen_per_doc: dict[str, dict] = {}
+        for surf, g_pdf, b_pdf in (
+            ("main", generated_latex_main_pdf, baseline_main_pdf),
+            ("manual", generated_latex_manual_pdf, baseline_manual_pdf),
+        ):
+            g_raw = _pdftotext(g_pdf, raw=False)
+            g_stream = _pdftotext(g_pdf, raw=True)
+            require(len(g_raw.strip()) > 20000, f"Generated LaTeX {surf}.pdf text unexpectedly short")
+            for forbidden in ("columns: (", "table.header(", "aod-definition", "aod-provenance", "aod-flowchart", "??"):
+                require(forbidden not in g_raw, f"Leaked marker {forbidden!r} in generated LaTeX {surf}.pdf")
+            g_flat_cli = re.sub(r"\s+", " ", g_raw.replace("/\n", "/"))
+            for cmd in sorted(set(gate_b_info["_cli_commands"][surf])):
+                require(cmd in g_flat_cli, f"CLI command missing in generated LaTeX {surf}.pdf: {cmd!r}")
+
+            g_norm = " " + _norm_rendered_text_tokens(g_stream, is_typst=False, vocab=vocab) + " "
+            g_flat = re.sub(r"\s+", " ", g_raw.replace("\xa0", " "))
+            entry: dict[str, object] = {
+                "pages": gen_main_links["pages"] if surf == "main" else gen_manual_links["pages"],
+                "pdf_sha256": sha256_file(g_pdf),
+                "pdf_bytes": g_pdf.stat().st_size,
+            }
+            if b_pdf is not None and base_norm_by_surf is not None:
+                b_raw = base_raw_by_surf[surf]
+                b_stream = base_stream_by_surf[surf]
+                b_flat = re.sub(r"\s+", " ", b_raw.replace("\xa0", " "))
+                for prefix in ("Table", "Figure"):
+                    b_nums = sorted({int(x) for x in re.findall(rf"\b{prefix}\s+(\d+)\s*:", b_flat)})
+                    g_nums = sorted({int(x) for x in re.findall(rf"\b{prefix}\s+(\d+)\s*:", g_flat)})
+                    require(
+                        b_nums == g_nums,
+                        f"Generated LaTeX {surf} {prefix} numbering drift vs baseline: base={b_nums} vs gen={g_nums}",
+                    )
+                b_bib = _extract_rendered_bib_entries(b_stream)
+                g_bib = _extract_rendered_bib_entries(g_stream)
+                require(
+                    set(b_bib) == set(g_bib),
+                    f"Generated LaTeX {surf} bibliography count mismatch: base={len(b_bib)} vs gen={len(g_bib)}",
+                )
+                for idx in sorted(b_bib):
+                    require(
+                        _canon_bib_for_pdf_wrap(b_bib[idx]) == _canon_bib_for_pdf_wrap(g_bib[idx]),
+                        f"Generated LaTeX {surf} bibliography [{idx}] mismatch vs baseline:\n"
+                        f"  BASE: {b_bib[idx]}\n  GEN : {g_bib[idx]}",
+                    )
+                b_uris = _inspect_pdf_links(b_pdf, expected_peer_pdf=None)["unique_external_uris"]
+                g_uris = (gen_main_links if surf == "main" else gen_manual_links)["unique_external_uris"]
+                require(
+                    b_uris == g_uris,
+                    f"Generated LaTeX {surf} external /URI mismatch vs baseline: "
+                    f"missing={sorted(set(b_uris) - set(g_uris))}, extra={sorted(set(g_uris) - set(b_uris))}",
+                )
+                b_cites = re.findall(r"\[\d+(?:,\s*\d+)*\]", _rendered_body(b_stream))
+                g_cites = re.findall(r"\[\d+(?:,\s*\d+)*\]", _rendered_body(g_stream))
+                require(
+                    b_cites == g_cites,
+                    f"Generated LaTeX {surf} inline citation sequence mismatch vs baseline: "
+                    f"base={len(b_cites)} vs gen={len(g_cites)}",
+                )
+                m_bref = re.search(r"\nReferences\s*\n", b_raw)
+                m_gref = re.search(r"\nReferences\s*\n", g_raw)
+                b_decs = sorted(re.findall(r"(?<![A-Za-z0-9_.])\d+\.\d+(?![A-Za-z0-9_.])", b_raw[:m_bref.start()] if m_bref else b_raw))
+                g_decs = sorted(re.findall(r"(?<![A-Za-z0-9_.])\d+\.\d+(?![A-Za-z0-9_.])", g_raw[:m_gref.start()] if m_gref else g_raw))
+                missing_decs = [d for d in set(b_decs) if g_decs.count(d) < b_decs.count(d)]
+                require(not missing_decs, f"Generated LaTeX {surf} rendered decimals missing vs baseline: {missing_decs[:15]}")
+                g_clause_report = check_clauses_for(surf, g_norm, f"latex/{surf}.pdf", base_norm_by_surf[surf])
+                entry.update({
+                    "rendered_tables_matched": len(re.findall(r"\bTable\s+\d+\s*:", g_flat)),
+                    "rendered_figures_matched": len(re.findall(r"\bFigure\s+\d+\s*:", g_flat)),
+                    "rendered_bib_entries_exact": len(g_bib),
+                    "rendered_inline_citations_exact": len(g_cites),
+                    "rendered_external_uris_exact": len(g_uris),
+                    "rendered_decimals_matched": len(b_decs),
+                    "rendered_prose_clauses": g_clause_report,
+                })
+            gen_per_doc[surf] = entry
+
+        generated_latex_pdf_report = {
+            "performed": True,
+            "manual_sibling_peer_links": gen_peer_total,
+            "manual_stale_peer_links": 0,
+            "results": gen_per_doc,
         }
 
     return {
@@ -3922,10 +4356,10 @@ def verify_evaluated_and_rendered(
         "main_sources_sha256": main_digest,
         "manual_sources_sha256": manual_digest,
         "candidate_pdfs": {
-            "main_typst_pdf_sha256": build_report["main_pdf_sha256"],
-            "main_typst_pdf_bytes": build_report["main_pdf_bytes"],
-            "manual_typst_pdf_sha256": build_report["manual_pdf_sha256"],
-            "manual_typst_pdf_bytes": build_report["manual_pdf_bytes"],
+            "main_pdf_sha256": build_report["main_pdf_sha256"],
+            "main_pdf_bytes": build_report["main_pdf_bytes"],
+            "manual_pdf_sha256": build_report["manual_pdf_sha256"],
+            "manual_pdf_bytes": build_report["manual_pdf_bytes"],
         },
         "main_labels_verified": len(typ_main_map),
         "manual_labels_verified": len(typ_manual_map),
@@ -3941,6 +4375,7 @@ def verify_evaluated_and_rendered(
         },
         "rendered_text_paint": paint,
         "baseline_pdf_comparison": baseline_pdf_report,
+        "generated_latex_pdf_comparison": generated_latex_pdf_report,
     }
 
 
@@ -3969,26 +4404,38 @@ def run_negative_controls(
     typst_bin: str,
     baseline_main_pdf: Path | None = None,
     baseline_manual_pdf: Path | None = None,
+    baseline_root: Path | None = None,
 ) -> dict:
     manifest = json.loads((root / "typst/manifest.json").read_text(encoding="utf-8"))
     results: dict[str, dict] = {}
+    b_root, tmp_base = _resolve_baseline_root(root, baseline_root)
+    try:
+        return _run_negative_controls_impl(
+            root, typst_bin, manifest, results, b_root, baseline_main_pdf, baseline_manual_pdf
+        )
+    finally:
+        if tmp_base is not None:
+            tmp_base.cleanup()
+
+
+def _run_negative_controls_impl(
+    root: Path,
+    typst_bin: str,
+    manifest: dict,
+    results: dict[str, dict],
+    b_root: Path,
+    baseline_main_pdf: Path | None,
+    baseline_manual_pdf: Path | None,
+) -> dict:
 
     def make_sandbox(tmp: Path, include_figures: bool = True) -> Path:
         sb = tmp / "repo"
         sb.mkdir()
-        for d in ("sections", "appendices", "typst", "scripts", "contracts"):
+        for d in ("typst", "scripts", "contracts"):
             shutil.copytree(root / d, sb / d, ignore=shutil.ignore_patterns("__pycache__"))
-        for f in ("main.tex", "preamble.tex", "refs.bib", "cycle_shedding_summary.tex"):
-            shutil.copy2(root / f, sb / f)
+        shutil.copy2(root / "refs.bib", sb / "refs.bib")
         (sb / "manual").mkdir()
-        for f in ("main.tex", "preamble.tex", "refs.bib"):
-            shutil.copy2(root / "manual" / f, sb / "manual" / f)
-        for d in ("sections", "appendices"):
-            shutil.copytree(root / "manual" / d, sb / "manual" / d)
-        for tbl in IMMUTABLE_MANUAL_TABLES:
-            t_dst = sb / tbl
-            t_dst.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(root / tbl, t_dst)
+        shutil.copy2(root / "manual" / "refs.bib", sb / "manual" / "refs.bib")
         if include_figures:
             shutil.copytree(root / "figures_jpg", sb / "figures_jpg")
             shutil.copytree(root / "manual" / "figures", sb / "manual" / "figures")
@@ -4027,6 +4474,9 @@ def run_negative_controls(
             if e["typst_target"] == rel:
                 e["typst_sha256"] = sha256_file(sb / rel)
                 hits += 1
+        if rel in m2.get("diagram_components", {}):
+            m2["diagram_components"][rel] = sha256_file(sb / rel)
+            hits += 1
         require(hits == 1, f"Control re-pin target not in manifest: {rel}")
         return m2
 
@@ -4036,10 +4486,17 @@ def run_negative_controls(
         require(txt.count(old) == 1, f"Control preimage not unique in {rel}: {old!r}")
         p.write_text(txt.replace(old, new, 1), encoding="utf-8")
 
+    def source_check(sb: Path) -> dict:
+        return verify_source_and_content_parity(
+            sb, manifest, baseline_root=b_root, check_generated_latex=False
+        )
+
     def rendered(sb: Path, out: Path, gate_b_sb: dict) -> None:
         verify_evaluated_and_rendered(
             sb, typst_bin, out, gate_b_sb,
-            baseline_main_pdf=baseline_main_pdf, baseline_manual_pdf=baseline_manual_pdf,
+            baseline_main_pdf=baseline_main_pdf,
+            baseline_manual_pdf=baseline_manual_pdf,
+            baseline_root=b_root,
         )
 
     # 1a. Changed exact table value
@@ -4049,7 +4506,7 @@ def run_negative_controls(
         orig = p.read_text(encoding="utf-8")
         require("10893.83" in orig, "Control 1a preimage missing")
         p.write_text(orig.replace("10893.83", "10893.84", 1), encoding="utf-8")
-        expect_rejection("1a_changed_table_value", lambda: verify_source_and_content_parity(sb, manifest))
+        expect_rejection("1a_changed_table_value", lambda: source_check(sb))
 
     # 1b. Changed labeled-equation exponent
     with tempfile.TemporaryDirectory() as td:
@@ -4058,7 +4515,7 @@ def run_negative_controls(
         orig = p.read_text(encoding="utf-8")
         require("iota^2" in orig, "Control 1b preimage missing")
         p.write_text(orig.replace("iota^2", "iota^3", 1), encoding="utf-8")
-        expect_rejection("1b_changed_equation_exponent", lambda: verify_source_and_content_parity(sb, manifest))
+        expect_rejection("1b_changed_equation_exponent", lambda: source_check(sb))
 
     # 2. Removed scientific qualification ('never')
     with tempfile.TemporaryDirectory() as td:
@@ -4067,7 +4524,7 @@ def run_negative_controls(
         orig = p.read_text(encoding="utf-8")
         require("never" in orig, "Control 2 preimage missing")
         p.write_text(orig.replace("never", "", 1), encoding="utf-8")
-        expect_rejection("2_removed_qualification", lambda: verify_source_and_content_parity(sb, manifest))
+        expect_rejection("2_removed_qualification", lambda: source_check(sb))
 
     # 3. Omitted active immutable table
     with tempfile.TemporaryDirectory() as td:
@@ -4079,7 +4536,7 @@ def run_negative_controls(
             orig.replace('#include "../tables/sparc_summary_table.typ"', "", 1),
             encoding="utf-8",
         )
-        expect_rejection("3_omitted_active_table", lambda: verify_source_and_content_parity(sb, manifest))
+        expect_rejection("3_omitted_active_table", lambda: source_check(sb))
 
     # 4. Wrong Main reference target type (mainequation pointing to a section)
     with tempfile.TemporaryDirectory() as td:
@@ -4101,7 +4558,7 @@ def run_negative_controls(
             "4_wrong_reference_target_type",
             lambda: builder.compile_doc(
                 typst_bin, sb, sb / "typst/manual/main.typ", Path(td) / "bad.pdf",
-                inputs={"expected_main_digest": main_digest, "expected_main_pdf_filename": "main_typst.pdf"},
+                inputs={"expected_main_digest": main_digest, "expected_main_pdf_filename": "main.pdf"},
             ),
         )
 
@@ -4116,7 +4573,7 @@ def run_negative_controls(
             "5_stale_main_registry",
             lambda: builder.compile_doc(
                 typst_bin, sb, sb / "typst/manual/main.typ", Path(td) / "stale.pdf",
-                inputs={"expected_main_digest": live_digest, "expected_main_pdf_filename": "main_typst.pdf"},
+                inputs={"expected_main_digest": live_digest, "expected_main_pdf_filename": "main.pdf"},
             ),
         )
 
@@ -4128,7 +4585,7 @@ def run_negative_controls(
         require("This example has no physical discrepancy model" in orig, "Control 6 preimage missing")
         p.write_text(orig.replace("This example has no physical discrepancy model",
                                   "This example has a physical discrepancy model", 1), encoding="utf-8")
-        expect_rejection("6_removed_short_negation", lambda: verify_source_and_content_parity(sb, manifest))
+        expect_rejection("6_removed_short_negation", lambda: source_check(sb))
 
     # 7. Review Counterexample #2: Changed inline integer (f(x)=2x -> f(x)=3x)
     with tempfile.TemporaryDirectory() as td:
@@ -4137,7 +4594,7 @@ def run_negative_controls(
         orig = p.read_text(encoding="utf-8")
         require("$f(x) = 2 x$" in orig, "Control 7 preimage missing")
         p.write_text(orig.replace("$f(x) = 2 x$", "$f(x) = 3 x$", 1), encoding="utf-8")
-        expect_rejection("7_changed_inline_integer", lambda: verify_source_and_content_parity(sb, manifest))
+        expect_rejection("7_changed_inline_integer", lambda: source_check(sb))
 
     # 8. Review Counterexample #3: Changed equation grouping (1/(1-a^2) -> 1/(1-a)^2)
     with tempfile.TemporaryDirectory() as td:
@@ -4147,7 +4604,7 @@ def run_negative_controls(
         require("bb(E)[U] = frac(1, 1 - a^2)" in orig, "Control 8 preimage missing")
         p.write_text(orig.replace("bb(E)[U] = frac(1, 1 - a^2)",
                                   "bb(E)[U] = frac(1, (1 - a)^2)", 1), encoding="utf-8")
-        expect_rejection("8_changed_equation_grouping", lambda: verify_source_and_content_parity(sb, manifest))
+        expect_rejection("8_changed_equation_grouping", lambda: source_check(sb))
 
     # 9. Review Counterexample #4: Driver #show rule changing evaluated/rendered text
     with tempfile.TemporaryDirectory() as td:
@@ -4163,22 +4620,18 @@ def run_negative_controls(
             ),
             encoding="utf-8",
         )
-        gate_b_sb = verify_source_and_content_parity(sb, manifest)
+        gate_b_sb = source_check(sb)
         expect_rejection(
             "9_show_rule_rendered_mutation",
-            lambda: verify_evaluated_and_rendered(
-                sb, typst_bin, Path(td) / "out_show", gate_b_sb,
-                baseline_main_pdf=baseline_main_pdf,
-                baseline_manual_pdf=baseline_manual_pdf,
-            ),
+            lambda: rendered(sb, Path(td) / "out_show", gate_b_sb),
         )
 
-    # 10. Review Finding #2: Wrong companion filename (main.pdf instead of main_typst.pdf)
+    # 10. Review Finding #2: Wrong companion filename (wrong_main.pdf instead of main.pdf)
     with tempfile.TemporaryDirectory() as td:
         sb = make_sandbox(Path(td), include_figures=True)
         reg_p = sb / "typst/lib/main_registry.json"
         reg_data = json.loads(reg_p.read_text(encoding="utf-8"))
-        reg_data["main_pdf_filename"] = "main.pdf"
+        reg_data["main_pdf_filename"] = "wrong_main.pdf"
         reg_p.write_text(json.dumps(reg_data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         builder = load_module(root, "aod_build_typst", "scripts/build_typst.py")
         main_digest, _ = builder.compute_main_sources_digest(sb)
@@ -4186,18 +4639,20 @@ def run_negative_controls(
             "10_wrong_peer_pdf_filename",
             lambda: builder.compile_doc(
                 typst_bin, sb, sb / "typst/manual/main.typ", Path(td) / "wrong_peer.pdf",
-                inputs={"expected_main_digest": main_digest, "expected_main_pdf_filename": "main_typst.pdf"},
+                inputs={"expected_main_digest": main_digest, "expected_main_pdf_filename": "main.pdf"},
             ),
         )
 
     # --- R02 review mutations: each must be rejected by its intended gate. ---
-    gate_b_clean = verify_source_and_content_parity(root, manifest)
+    gate_b_clean = verify_source_and_content_parity(
+        root, manifest, baseline_root=b_root, check_generated_latex=False
+    )
     man_pre = "typst/manual/preamble.typ"
     man_drv = "typst/manual/main.typ"
     fixtures = "typst/manual/sections/00_awareness_fixtures.typ"
 
     def needs_baselines(name: str) -> None:
-        results[name] = {"rejected": None, "skipped": "requires retained baseline PDFs"}
+        results[name] = {"rejected": None, "skipped": "requires historical baseline PDFs"}
 
     # 11. R1c: template show rule appends an unsupported claim after every image figure.
     with tempfile.TemporaryDirectory() as td:
@@ -4243,7 +4698,7 @@ def run_negative_controls(
         txt = p.read_text(encoding="utf-8")
         require(txt.count(a_img) == 1 and txt.count(b_img) == 1, "Control 14 preimage missing")
         p.write_text(txt.replace(a_img, "@@A@@").replace(b_img, a_img).replace("@@A@@", b_img), encoding="utf-8")
-        expect_rejection("14_R4_figure_image_swap", lambda: verify_source_and_content_parity(sb, manifest),
+        expect_rejection("14_R4_figure_image_swap", lambda: source_check(sb),
                          "('IMG', 'manual/figures/higgs/")
 
     # 15. R5: negation painted white (content-file policy; driver variant via PDF paint scan).
@@ -4304,7 +4759,7 @@ def run_negative_controls(
         p.write_text(orig.replace("emptyset", "diameter", 1), encoding="utf-8")
         expect_rejection(
             "18_symbol_emptyset_to_diameter",
-            lambda: verify_source_and_content_parity(sb, manifest),
+            lambda: source_check(sb),
             "typ=['diameter']",
         )
 
@@ -4315,18 +4770,19 @@ def run_negative_controls(
         mutate(sb, appa, "mat(delim: #none, augment: #1, align: #left,", "mat(delim: #none, align: #left,")
         expect_rejection(
             "19_matrix_augment_removed",
-            lambda: verify_source_and_content_parity(sb, manifest),
+            lambda: source_check(sb),
             "Ordered content/math parity mismatch",
         )
 
-    # 20. Flowchart fidelity & bounds (R03 F2): edge reversal, node math edit, out-of-bounds overlay.
-    h2 = "typst/manual/sections/02_hydrogen_facing_shell_tests.typ"
+    # 20. Flowchart fidelity & bounds (R03 F2): edge reversal, node math edit, out-of-bounds overlay
+    #     applied directly to the shared diagram component typst/lib/diagrams/hydrogen_shell_setup.typ.
+    h2 = "typst/lib/diagrams/hydrogen_shell_setup.typ"
     with tempfile.TemporaryDirectory() as td:
         sb = make_sandbox(Path(td))
         mutate(sb, h2, '(from: "scope", to: "shells")', '(from: "shells", to: "scope")')
         expect_rejection(
             "20a_flowchart_edge_reversed",
-            lambda: verify_source_and_content_parity(sb, manifest),
+            lambda: source_check(sb),
             "'FLOWCHART'",
         )
     with tempfile.TemporaryDirectory() as td:
@@ -4334,7 +4790,7 @@ def run_negative_controls(
         mutate(sb, h2, "-1 slash n^2", "-2 slash n^2")
         expect_rejection(
             "20b_flowchart_math_mutated",
-            lambda: verify_source_and_content_parity(sb, manifest),
+            lambda: source_check(sb),
             "'FLOWCHART'",
         )
     with tempfile.TemporaryDirectory() as td:
@@ -4380,12 +4836,15 @@ def run_negative_controls(
 # =============================================================================
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Verify AOD M4 Objective 1 native Typst parity.")
+    ap = argparse.ArgumentParser(description="Verify AOD M4 Phase 2 Typst primary & generated LaTeX parity.")
     ap.add_argument("--root", default=str(ROOT), help="Repository root directory")
     ap.add_argument("--outdir", default="_build/typst_parity", help="Output directory for build & parity report")
     ap.add_argument("--typst-bin", default=None, help="Explicit path to typst binary")
-    ap.add_argument("--baseline-main-pdf", default=None, help="Retained LaTeX baseline main.pdf for direct comparison")
-    ap.add_argument("--baseline-manual-pdf", default=None, help="Retained LaTeX baseline manual.pdf for direct comparison")
+    ap.add_argument("--baseline-root", default=None, help="Optional materialized 98ddfa0 historical baseline directory")
+    ap.add_argument("--baseline-main-pdf", default=None, help="Historical 98ddfa0 LaTeX baseline main.pdf for direct comparison")
+    ap.add_argument("--baseline-manual-pdf", default=None, help="Historical 98ddfa0 LaTeX baseline manual.pdf for direct comparison")
+    ap.add_argument("--generated-latex-main-pdf", default=None, help="Generated latex/main.pdf built from typ2tex output")
+    ap.add_argument("--generated-latex-manual-pdf", default=None, help="Generated latex/manual.pdf built from typ2tex output")
     ap.add_argument("--skip-negative-controls", action="store_true", help="Skip Gate D negative controls (yields non-acceptance partial verdict)")
     args = ap.parse_args()
 
@@ -4402,40 +4861,59 @@ def main() -> int:
     require(manifest_path.is_file(), f"Missing Typst migration manifest: {manifest_path}")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 
+    base_root_arg = Path(args.baseline_root).resolve() if args.baseline_root else None
     base_main = Path(args.baseline_main_pdf).resolve() if args.baseline_main_pdf else None
     base_manual = Path(args.baseline_manual_pdf).resolve() if args.baseline_manual_pdf else None
+    gen_main = Path(args.generated_latex_main_pdf).resolve() if args.generated_latex_main_pdf else None
+    gen_manual = Path(args.generated_latex_manual_pdf).resolve() if args.generated_latex_manual_pdf else None
 
-    gate_a = verify_baseline_immutability(root, manifest)
-    gate_a2 = verify_typst_evaluation_policy(root, manifest)
-    gate_b_raw = verify_source_and_content_parity(root, manifest)
-    gate_c = verify_evaluated_and_rendered(
-        root, typst_bin, outdir, gate_b_raw,
-        baseline_main_pdf=base_main,
-        baseline_manual_pdf=base_manual,
-    )
-    gate_d = (
-        {"skipped": True}
-        if args.skip_negative_controls
-        else run_negative_controls(root, typst_bin, base_main, base_manual)
-    )
+    b_root, tmp_base = _resolve_baseline_root(root, base_root_arg)
+    try:
+        gate_a = verify_baseline_immutability(root, manifest, baseline_root=b_root)
+        gate_a2 = verify_typst_evaluation_policy(root, manifest)
+        gate_b_raw = verify_source_and_content_parity(
+            root, manifest, baseline_root=b_root, typst_bin=typst_bin
+        )
+        gate_c = verify_evaluated_and_rendered(
+            root, typst_bin, outdir, gate_b_raw,
+            baseline_main_pdf=base_main,
+            baseline_manual_pdf=base_manual,
+            baseline_root=b_root,
+            generated_latex_main_pdf=gen_main,
+            generated_latex_manual_pdf=gen_manual,
+        )
+        gate_d = (
+            {"skipped": True}
+            if args.skip_negative_controls
+            else run_negative_controls(root, typst_bin, base_main, base_manual, baseline_root=b_root)
+        )
+    finally:
+        if tmp_base is not None:
+            tmp_base.cleanup()
 
     # Strip internal scratch keys from gate_b before serializing deterministic report
     gate_b = {k: v for k, v in gate_b_raw.items() if not k.startswith("_")}
 
     has_baselines = bool(base_main and base_manual)
+    has_gen_latex = bool(gen_main and gen_manual)
     all_controls_ran = not args.skip_negative_controls
     unverified_clauses = 0
     typst_only_clauses = 0
+    gen_unverified_clauses = 0
     if has_baselines:
         for surf in ("main", "manual"):
             cr = gate_c["baseline_pdf_comparison"]["results"][surf]["rendered_prose_clauses"]
             unverified_clauses += cr["unverified"]
             typst_only_clauses += cr["typst_rendering_verified_only"]
+        if has_gen_latex:
+            for surf in ("main", "manual"):
+                gcr = gate_c["generated_latex_pdf_comparison"]["results"][surf]["rendered_prose_clauses"]
+                gen_unverified_clauses += gcr["unverified"]
     if not has_baselines:
         verdict = "PARTIAL_NON_ACCEPTANCE_MISSING_BASELINE_PDFS"
     elif not all_controls_ran:
         verdict = "PARTIAL_NON_ACCEPTANCE_SKIPPED_CONTROLS"
-    elif unverified_clauses or typst_only_clauses:
+    elif unverified_clauses or typst_only_clauses or gen_unverified_clauses:
         verdict = "PARTIAL_NON_ACCEPTANCE_UNVERIFIED_CLAUSES"
     else:
         verdict = "PASS"
@@ -4459,12 +4937,14 @@ def main() -> int:
             "unsupported_math_constructs": gate_b["unsupported_math_constructs"],
             "immutable_tables_cell_by_cell": True,
             "delivered_peer_pdf_links_and_landings": True,
+            "generated_latex_source_tree_verified": bool(gate_b.get("generated_latex_parity", {}).get("performed")),
+            "generated_latex_pdfs_verified_vs_baseline": has_baselines and has_gen_latex,
             "clickable_external_uris_vs_baseline_pdf": has_baselines,
             "inline_citation_sequence_vs_baseline_pdf": has_baselines,
             "rendered_bib_case_sensitive": has_baselines,
             "rendered_prose_clauses_vs_baseline_pdf": has_baselines,
             "rendered_prose_clauses_unverified": (
-                unverified_clauses + typst_only_clauses
+                unverified_clauses + typst_only_clauses + gen_unverified_clauses
             ) if has_baselines else "NOT_ASSESSED_WITHOUT_BASELINE",
             "rendered_insertion_ngrams_vs_baseline_pdf": has_baselines,
             "rendered_relation_glyph_parity_vs_baseline_pdf": has_baselines,
@@ -4479,8 +4959,8 @@ def main() -> int:
             ),
             "human_visual_layout_review": "SEPARATE_RECORDED_OUTSIDE_AUTOMATED_SCRIPT",
         },
-        "typ2tex_compatibility_status": "SEPARATELY_TRACKED_NOT_IMPLEMENTED_IN_S1A_NATIVE_PORT",
-        "canonical_source_promotion": "SEPARATE_NOT_INFERRED_FROM_ADDITIVE_PORT",
+        "typ2tex_compatibility_status": "IMPLEMENTED_AND_VERIFIED_PHASE_2",
+        "canonical_source_promotion": "TYPST_PRIMARY_LATEX_GENERATED_COMPATIBILITY",
         "verdict": verdict,
     }
     report_path = outdir / "parity_report.json"

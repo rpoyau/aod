@@ -13,17 +13,22 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 XELATEX = shutil.which("xelatex")
 TARGETS = (
-    "manual/sections/00_awareness_fixtures.tex",
-    "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
-    "manual/sections/00_dec_ledger.tex",
+    "typst/manual/sections/00_awareness_fixtures.typ",
+    "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+    "typst/manual/sections/00_dec_ledger.typ",
+)
+GENERATED_TARGETS = (
+    "latex/manual/sections/00_awareness_fixtures.tex",
+    "latex/manual/sections/00_native_closure_wave_temporal_fixtures.tex",
+    "latex/manual/sections/00_dec_ledger.tex",
 )
 SECTION_TARGETS = {
-    "subsec:q4-hamming-ternary-kernel": "sections/06_wave_state_relational_time.tex",
-    "sec:afc-stokes-seed": "sections/06_field.tex",
-    "subsec:q4-four-edge-implementation": "sections/03_afc_basis.tex",
-    "subsec:hinge-slide": "sections/06_wave_state_relational_time.tex",
-    "subsec:sadar": "sections/06_field.tex",
-    "subsec:aod-wavelet-continuation": "sections/06_wave_state_relational_time.tex",
+    "subsec:q4-hamming-ternary-kernel": "typst/sections/06_wave_state_relational_time.typ",
+    "sec:afc-stokes-seed": "typst/sections/06_field.typ",
+    "subsec:q4-four-edge-implementation": "typst/sections/03_afc_basis.typ",
+    "subsec:hinge-slide": "typst/sections/06_wave_state_relational_time.typ",
+    "subsec:sadar": "typst/sections/06_field.typ",
+    "subsec:aod-wavelet-continuation": "typst/sections/06_wave_state_relational_time.typ",
 }
 
 
@@ -39,7 +44,7 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
     references = []
     for path in TARGETS:
         text = (ROOT / path).read_text()
-        for kind, key in re.findall(r"\\(mainequation|mainsection)\{main:([^}]+)\}", text):
+        for kind, key in re.findall(r'#(mainequation|mainsection)\("main:([^"]+)"\)', text):
             references.append((kind, key))
             assert key in labels, (path, key)
             if kind == "mainequation":
@@ -47,6 +52,12 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
             else:
                 assert key in SECTION_TARGETS
                 assert labels[key]["path"] == SECTION_TARGETS[key]
+    gen_references = []
+    for path in GENERATED_TARGETS:
+        text = (ROOT / path).read_text()
+        for kind, key in re.findall(r"\\(mainequation|mainsection)\{main:([^}]+)\}", text):
+            gen_references.append((kind, key))
+    assert set(gen_references) == set(references)
     assert set(references) == {
         ('mainequation', 'eq:aod-wavelet-continuation'),
         ('mainequation', 'eq:atomic-h1'),
@@ -105,9 +116,11 @@ def test_targeted_main_references_bind_to_numbered_equations_or_sections():
              'eq:awareness-conditioned-shedding', 'eq:mindfulness-stability',
              'eq:sadar-rational-response'}
     text = (ROOT / TARGETS[0]).read_text()
+    gen_text = (ROOT / GENERATED_TARGETS[0]).read_text()
     for key in moved:
         assert key in local and key not in equations
-        assert r"\eqref{" + key + "}" in text
+        assert f'#eqref("{key}")' in text
+        assert r"\eqref{" + key + "}" in gen_text
         assert ('mainequation', key) not in references
 
 
@@ -170,7 +183,7 @@ def documents(tmp_path, request):
     for _ in range(2):
         result = _latex(root)
         assert result.returncode == 0, result.stdout
-    shutil.copyfile(ROOT / "manual/preamble.tex", manual / "preamble.tex")
+    shutil.copyfile(ROOT / "latex/manual/preamble.tex", manual / "preamble.tex")
     return root, manual
 
 

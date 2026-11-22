@@ -1,0 +1,91 @@
+{
+  "schema": "aod.typst.figure-export.v1",
+  "typst_version": "typst 0.15.1 (9dfd3a08)",
+  "format": "pdf",
+  "ppi": null,
+  "schema_path": "typst/lib/aod_schema.typ",
+  "schema_sha256": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
+  "figure_count": 4,
+  "figures": [
+    {
+      "slug": "hydrogen-shell-setup",
+      "label": "fig:manual-hydrogen-shell-setup",
+      "typst_section": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
+      "diagram_component": "typst/lib/diagrams/hydrogen_shell_setup.typ",
+      "diagram_sha256": "8eb94aa4150eaf43a125c51c9fe04bdacdb0ab4dc1a201bcd8c7b801f5411919",
+      "width_cm": 14.2,
+      "height_cm": 6.0,
+      "format": "pdf",
+      "output_filename": "hydrogen-shell-setup.pdf",
+      "output_sha256": "7e1c8d5b744b8a5f528d15e13bc7ea8856d63d956c717ae842d96787b28fffea",
+      "output_bytes": 16674,
+      "page_count": 1,
+      "page_points": [
+        402.52,
+        170.079
+      ],
+      "raster_image_xobjects": 0,
+      "extracted_text_chars": 181
+    },
+    {
+      "slug": "short-window-setup",
+      "label": "fig:manual-short-window-setup",
+      "typst_section": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+      "diagram_component": "typst/lib/diagrams/short_window_setup.typ",
+      "diagram_sha256": "3cdb64d913ab775862d82a893550572d4bdfb09e95b6c52e9e18e964a01642c0",
+      "width_cm": 14.2,
+      "height_cm": 7.4,
+      "format": "pdf",
+      "output_filename": "short-window-setup.pdf",
+      "output_sha256": "1bd1b28a5b9386d24985047b79708f362b0e90a1b3b4e3fe96e5b1516cbedb16",
+      "output_bytes": 17792,
+      "page_count": 1,
+      "page_points": [
+        402.52,
+        209.764
+      ],
+      "raster_image_xobjects": 0,
+      "extracted_text_chars": 203
+    },
+    {
+      "slug": "boundary-current-spine",
+      "label": "fig:manual-boundary-current-spine",
+      "typst_section": "typst/manual/sections/04_boundary_current_applications.typ",
+      "diagram_component": "typst/lib/diagrams/boundary_current_spine.typ",
+      "diagram_sha256": "8919cab712a3f357082054b1ea6e574207447f4758b3bc5244deacc78d966756",
+      "width_cm": 14.2,
+      "height_cm": 7.5,
+      "format": "pdf",
+      "output_filename": "boundary-current-spine.pdf",
+      "output_sha256": "ec81664d243900bf312589d196e1e583446dd56385f4b0557155106581e2b22b",
+      "output_bytes": 18932,
+      "page_count": 1,
+      "page_points": [
+        402.52,
+        212.598
+      ],
+      "raster_image_xobjects": 0,
+      "extracted_text_chars": 190
+    },
+    {
+      "slug": "solar-system-spine",
+      "label": "fig:manual-solar-system-spine",
+      "typst_section": "typst/manual/sections/05_solar_system_field_tests.typ",
+      "diagram_component": "typst/lib/diagrams/solar_system_spine.typ",
+      "diagram_sha256": "fb6418553d4ca17aa3ec4fa3cb23b04a13964c1fb8a422351dc069f0c2e6d04d",
+      "width_cm": 14.8,
+      "height_cm": 5.2,
+      "format": "pdf",
+      "output_filename": "solar-system-spine.pdf",
+      "output_sha256": "1cd704189a41fb7b5281905bd9c99636b3514553369b2c123448706d325c3c8e",
+      "output_bytes": 13075,
+      "page_count": 1,
+      "page_points": [
+        419.528,
+        147.402
+      ],
+      "raster_image_xobjects": 0,
+      "extracted_text_chars": 203
+    }
+  ]
+}

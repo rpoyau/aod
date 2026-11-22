@@ -94,6 +94,7 @@ def compute_manual_sources_digest(root: Path) -> tuple[str, list[str]]:
     files.extend(sorted((root / "typst" / "manual" / "sections").glob("*.typ")))
     files.extend(sorted((root / "typst" / "manual" / "appendices").glob("*.typ")))
     files.extend(sorted((root / "typst" / "manual" / "tables").glob("*.typ")))
+    files.extend(sorted((root / "typst" / "lib" / "diagrams").glob("*.typ")))
     files.extend(sorted((root / "figures_jpg").rglob("*")))
     files.extend(sorted((root / "manual" / "figures").rglob("*")))
 
@@ -123,7 +124,7 @@ def extract_registry(
     main_entries_raw: list[dict],
     main_digest: str,
     main_inputs: list[str],
-    main_pdf_filename: str = "main_typst.pdf",
+    main_pdf_filename: str = "main.pdf",
 ) -> dict:
     entries: dict[str, dict] = {}
     for item in main_entries_raw:
@@ -179,8 +180,8 @@ def build_all(
     main_digest, main_inputs = compute_main_sources_digest(root)
     main_src = root / "typst" / "main.typ"
     manual_src = root / "typst" / "manual" / "main.typ"
-    main_pdf = outdir / "main_typst.pdf"
-    manual_pdf = outdir / "manual_typst.pdf"
+    main_pdf = outdir / "main.pdf"
+    manual_pdf = outdir / "manual.pdf"
 
     # 1. Compile Main
     compile_doc(typst_bin, root, main_src, main_pdf)

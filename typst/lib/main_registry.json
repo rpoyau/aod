@@ -2733,7 +2733,7 @@
   },
   "entry_count": 455,
   "main_input_count": 29,
-  "main_pdf_filename": "main_typst.pdf",
-  "main_sources_sha256": "1eddb466f1e14548f589a0ffa3b3905fbfceab372b4eadd9ecbd334d851ac646",
+  "main_pdf_filename": "main.pdf",
+  "main_sources_sha256": "506abe34eb5eccad9cb267ae66427c422dd1a7ae47eed226ae954d4a00934c59",
   "schema": "aod.typst.main-registry.v1"
 }

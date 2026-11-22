@@ -15,7 +15,6 @@ spec.loader.exec_module(a)
 
 
 def copy_source(tmp_path):
-    # Tests mutate a disposable source copy; no tracked worktree is edited.
     result = tmp_path / "source"
     shutil.copytree(ROOT, result, ignore=shutil.ignore_patterns('.git', '__pycache__', '.pytest_cache'))
     assert a.audit(result)['compaction']['canonical_equations'] == 81
@@ -24,45 +23,44 @@ def copy_source(tmp_path):
 
 def test_rendered_compaction_authority_and_declared_dependencies():
     result = a.audit(ROOT)['compaction']
-    assert result['canonical_groups'] == 44  # Mixed bridge/carriage group splits by owner.
+    assert result['canonical_groups'] == 44
     assert result['canonical_equations'] == 81
-    assert result['declared_dependencies'] == 72  # All current declared scientific prerequisites.
+    assert result['declared_dependencies'] == 72
     assert result['manual_example_families'] == 9
 
 
 def test_competing_field_definition_with_new_label_is_rejected(tmp_path):
     root = copy_source(tmp_path)
-    path = root / 'sections/06_field.tex'
+    path = root / 'typst/sections/06_field.typ'
     with path.open('a') as stream:
-        stream.write('\n\\begin{equation}F_{B,\\lambda}=(B,\\lambda,\\varnothing)'
-                     '\\label{eq:competing-scoped-field}\\end{equation}\n')
-    with pytest.raises(ValueError, match='competing or absent canonical binding'):
+        stream.write('\n$ F_(B, lambda) = (B, lambda, emptyset) $ <eq:competing-scoped-field>\n')
+    with pytest.raises(ValueError, match='competing or absent canonical binding|generated LaTeX Main label set differs'):
         a.audit(root)
 
 
 def test_removing_the_sole_science_body_but_retaining_its_label_fails(tmp_path):
     root = copy_source(tmp_path)
-    path = root / 'sections/05_curl_closure_duon_current.tex'
+    path = root / 'typst/sections/05_curl_closure_duon_current.typ'
     text = path.read_text()
     block = a.equations(root)['eq:field-organization']
-    path.write_text(text.replace(block, '\\label{eq:field-organization}', 1))
+    path.write_text(text.replace(block, '#aod-anchor(<eq:field-organization>)', 1))
     with pytest.raises(ValueError, match='required equation absent|canonical mathematical body absent'):
         a.audit(root)
 
 
 def test_unrendered_awareness_file_cannot_supply_canonical_science(tmp_path):
     root = copy_source(tmp_path)
-    path = root / 'main.tex'
-    path.write_text(path.read_text().replace('\\input{sections/08_awareness_learning_mindfulness.tex}', ''))
+    path = root / 'typst/main.typ'
+    path.write_text(path.read_text().replace('#include "sections/08_awareness_learning_mindfulness.typ"', ''))
     with pytest.raises(ValueError, match='unresolved literal Main provenance|missing active canonical anchor'):
         a.audit(root)
 
 
 def test_manual_awareness_inclusion_is_an_active_coverage_obligation(tmp_path):
     root = copy_source(tmp_path)
-    path = root / 'manual/main.tex'
-    path.write_text(path.read_text().replace('\\input{sections/00_awareness_fixtures.tex}', ''))
-    with pytest.raises(ValueError, match=r'Manual example family not rendered|Active scientific source anchor ownership mismatch|^unresolved manual reference manual:m2-awareness-fixtures in manual/sections/09_prediction_test_fixture_registry\.tex$'):
+    path = root / 'typst/manual/main.typ'
+    path.write_text(path.read_text().replace('#include "sections/00_awareness_fixtures.typ"', ''))
+    with pytest.raises(ValueError, match=r'Manual example family not rendered|Active scientific source anchor ownership mismatch|^unresolved manual reference manual:m2-awareness-fixtures in typst/manual/sections/09_prediction_test_fixture_registry\.typ$'):
         a.audit(root)
 
 
@@ -70,23 +68,22 @@ def test_two_branch_roles_do_not_bound_general_channel_capacity():
     from fractions import Fraction as Q
     from math import log
     weights = (Q(3), Q(3), Q(1))
-    projected = ((weights[0]+weights[1])/sum(weights), weights[2]/sum(weights))
-    assert projected == (Q(6,7), Q(1,7))
-    # The three-row bijective ternary channel preserves every input symbol.
-    kernel = ((0,1,0), (0,0,1), (1,0,0))
-    joint = [[Q(1,3)*entry for entry in row] for row in kernel]
+    projected = ((weights[0] + weights[1]) / sum(weights), weights[2] / sum(weights))
+    assert projected == (Q(6, 7), Q(1, 7))
+    kernel = ((0, 1, 0), (0, 0, 1), (1, 0, 0))
+    joint = [[Q(1, 3) * entry for entry in row] for row in kernel]
     marginal = [sum(joint[i][j] for i in range(3)) for j in range(3)]
-    information = sum(float(joint[i][j])*log(float(joint[i][j]/(Q(1,3)*marginal[j])),3)
+    information = sum(float(joint[i][j]) * log(float(joint[i][j] / (Q(1, 3) * marginal[j])), 3)
                       for i in range(3) for j in range(3) if joint[i][j])
     assert information == pytest.approx(1)
-    assert information > log(2,3)
+    assert information > log(2, 3)
     assert max(sum(bool(entry) for entry in row) for row in kernel) == 1
 
 
 def test_canonical_contract_does_not_modify_inherited_engine_or_inputs():
     result = a.audit(ROOT)['compaction']
     assert result['frozen_files'] >= 150
-    contract = json.loads((ROOT/'contracts/scientific/CANONICAL_BINDINGS.json').read_text())
+    contract = json.loads((ROOT / 'contracts/scientific/CANONICAL_BINDINGS.json').read_text())
     assert 'manual/scripts/aod_awareness.py' in contract['frozen_sha256']
     assert 'manual/scripts/aod_native_closure_wave.py' in contract['frozen_sha256']
 
@@ -95,7 +92,6 @@ def test_declared_prerequisites_form_a_dag_without_requiring_page_order():
     spec = importlib.util.spec_from_file_location('dependency_audit', ROOT / 'scripts/audit_ontology_compaction.py')
     checker = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(checker)
-    # A consumer may precede its premise in this mapping and in the source.
     graph = {'consequence': {'depends_on': ['relation']},
              'primitive': {'depends_on': []},
              'relation': {'depends_on': ['primitive']}}

@@ -83,7 +83,7 @@ Tracing a cut closely enough to set up a larger relational system as a finite sc
 
 ## Source layout
 
-`main.tex` and `sections/` contain the main publication. `manual/` contains the companion Manual, executable models and input datasets. `contracts/scientific/` binds current formulas, ownership, fixture provenance and scientific scope; `tests/` and `scripts/` validate and package this source.
+`typst/` is the editable publication source authority (`typst/main.typ`, `typst/sections/`, `typst/appendices/`, and `typst/manual/`), producing the canonical `main.pdf` and `manual.pdf` publications. `latex/` is the reproducible generated LaTeX compatibility tree emitted from `typst/` by `scripts/typ2tex.py` (do not hand-edit files under `latex/`). `archive/latex_baseline_98ddfa0/` preserves the immutable historical scientific LaTeX baseline snapshot (`98ddfa0ebb38`). `refs.bib`, `manual/refs.bib`, `figures_jpg/`, `manual/figures/`, `manual/data/`, and `manual/scripts/` retain the canonical bibliographies, figures, datasets, and executable models. `contracts/scientific/` binds current formulas, ownership, fixture provenance and scientific scope; `tests/` and `scripts/` validate and package this source.
 
 A checkout or extracted source archive contains everything needed for the documented builds and tests. See [BUILD.md](BUILD.md) for dependencies and commands, [scientific contracts](contracts/scientific/README.md) for their scope, and [CHANGELOG.md](CHANGELOG.md) for source changes.
 

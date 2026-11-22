@@ -73,8 +73,9 @@ def test_typst_evaluation_policy_pins_templates_and_constrains_content():
     manifest = json.loads((ROOT / "typst/manifest.json").read_text(encoding="utf-8"))
     res = vp.verify_typst_evaluation_policy(ROOT, manifest)
     assert res["trusted_template_files_pinned"] == 5
+    assert res["diagram_components_pinned"] == 4
     assert res["manifest_typst_digests_enforced"] == 48
-    assert res["content_files_policy_checked"] == 44
+    assert res["content_files_policy_checked"] == 48
     assert res["content_policy_violations"] == 0
 
     head = '#import "../preamble.typ": *\n'
@@ -143,25 +144,26 @@ def test_typst_rendered_gate_helpers():
 
 def test_typst_source_negative_controls_reject_mutations(tmp_path):
     vp = _load_module("aod_verify_typst_parity", "scripts/verify_typst_parity.py")
+    mat = _load_module("aod_materialize_latex_baseline", "scripts/materialize_latex_baseline.py")
     manifest = json.loads((ROOT / "typst/manifest.json").read_text(encoding="utf-8"))
 
+    b_root = tmp_path / "baseline_98ddfa0"
+    mat.materialize_baseline(ROOT, b_root)
+
     def make_tree(dest: Path) -> Path:
-        for d in ("sections", "appendices", "typst", "scripts"):
+        for d in ("typst", "scripts"):
             shutil.copytree(ROOT / d, dest / d, ignore=shutil.ignore_patterns("__pycache__"))
-        for f in ("main.tex", "preamble.tex", "refs.bib", "cycle_shedding_summary.tex"):
-            shutil.copy2(ROOT / f, dest / f)
+        shutil.copy2(ROOT / "refs.bib", dest / "refs.bib")
         (dest / "manual").mkdir()
-        for f in ("main.tex", "preamble.tex", "refs.bib"):
-            shutil.copy2(ROOT / "manual" / f, dest / "manual" / f)
-        for d in ("sections", "appendices"):
-            shutil.copytree(ROOT / "manual" / d, dest / "manual" / d)
-        for tbl in vp.IMMUTABLE_MANUAL_TABLES:
-            t_dst = dest / tbl
-            t_dst.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(ROOT / tbl, t_dst)
+        shutil.copy2(ROOT / "manual" / "refs.bib", dest / "manual" / "refs.bib")
         shutil.copytree(ROOT / "figures_jpg", dest / "figures_jpg")
         shutil.copytree(ROOT / "manual" / "figures", dest / "manual" / "figures")
         return dest
+
+    def check_src(tree: Path):
+        return vp.verify_source_and_content_parity(
+            tree, manifest, baseline_root=b_root, check_generated_latex=False
+        )
 
     base = make_tree(tmp_path / "base")
 
@@ -171,7 +173,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
     p = t1 / "typst/manual/tables/sparc_summary_table.typ"
     p.write_text(p.read_text(encoding="utf-8").replace("10893.83", "10893.84", 1), encoding="utf-8")
     with pytest.raises(ValueError, match="Table cell parity mismatch"):
-        vp.verify_source_and_content_parity(t1, manifest)
+        check_src(t1)
 
     # 1b. Changed labeled-equation exponent
     t2 = tmp_path / "c1b"
@@ -179,7 +181,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
     p = t2 / "typst/sections/03_afc_basis.typ"
     p.write_text(p.read_text(encoding="utf-8").replace("iota^2", "iota^3", 1), encoding="utf-8")
     with pytest.raises(ValueError, match="Equation structure mismatch"):
-        vp.verify_source_and_content_parity(t2, manifest)
+        check_src(t2)
 
     # 2. Removed scientific qualification ('never')
     t3 = tmp_path / "c2"
@@ -187,7 +189,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
     p = t3 / "typst/sections/04_cut_running_fractal_tesseract.typ"
     p.write_text(p.read_text(encoding="utf-8").replace("never", "", 1), encoding="utf-8")
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch"):
-        vp.verify_source_and_content_parity(t3, manifest)
+        check_src(t3)
 
     # 3. Omitted active table
     t4 = tmp_path / "c3"
@@ -198,7 +200,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
         encoding="utf-8",
     )
     with pytest.raises(ValueError, match="not included"):
-        vp.verify_source_and_content_parity(t4, manifest)
+        check_src(t4)
 
     # 6. Review counterexample #1: removed short negation ('no' -> 'a')
     t6 = tmp_path / "c6"
@@ -213,7 +215,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
         encoding="utf-8",
     )
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch"):
-        vp.verify_source_and_content_parity(t6, manifest)
+        check_src(t6)
 
     # 7. Review counterexample #2: changed inline integer (f(x)=2x -> f(x)=3x)
     t7 = tmp_path / "c7"
@@ -224,7 +226,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
         encoding="utf-8",
     )
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch"):
-        vp.verify_source_and_content_parity(t7, manifest)
+        check_src(t7)
 
     # 8. Review counterexample #3: changed equation grouping (1/(1-a^2) -> 1/(1-a)^2)
     t8 = tmp_path / "c8"
@@ -239,7 +241,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
         encoding="utf-8",
     )
     with pytest.raises(ValueError, match="Equation structure mismatch"):
-        vp.verify_source_and_content_parity(t8, manifest)
+        check_src(t8)
 
     # C1.1 & C1.2 regressions: corrupted CLI flag and swallowed semicolon
     t_cli = tmp_path / "c_cli"
@@ -250,7 +252,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
         encoding="utf-8",
     )
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch"):
-        vp.verify_source_and_content_parity(t_cli, manifest)
+        check_src(t_cli)
 
     t_semi = tmp_path / "c_semi"
     shutil.copytree(base, t_semi)
@@ -264,7 +266,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
         encoding="utf-8",
     )
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch|Unescaped semicolon"):
-        vp.verify_source_and_content_parity(t_semi, manifest)
+        check_src(t_semi)
 
     # R02 R4: two figure image paths swapped (captions unchanged) -> ordered image bindings.
     t_img = tmp_path / "c_img"
@@ -275,7 +277,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
     txt = p.read_text(encoding="utf-8")
     p.write_text(txt.replace(a_img, "@@A@@").replace(b_img, a_img).replace("@@A@@", b_img), encoding="utf-8")
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch"):
-        vp.verify_source_and_content_parity(t_img, manifest)
+        check_src(t_img)
 
     # R02 R3: show rule inside an immutable table -> evaluation policy (digest re-pinned).
     t_r3 = tmp_path / "c_r3"
@@ -303,7 +305,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
     p = t_sym / "typst/sections/08_awareness_learning_mindfulness.typ"
     p.write_text(p.read_text(encoding="utf-8").replace("emptyset", "diameter", 1), encoding="utf-8")
     with pytest.raises(ValueError, match="diameter"):
-        vp.verify_source_and_content_parity(t_sym, manifest)
+        check_src(t_sym)
 
     t_mat = tmp_path / "c_mat"
     shutil.copytree(base, t_mat)
@@ -312,31 +314,31 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
         p.read_text(encoding="utf-8").replace("augment: #1, ", "", 1), encoding="utf-8"
     )
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch"):
-        vp.verify_source_and_content_parity(t_mat, manifest)
+        check_src(t_mat)
 
     t_bar = tmp_path / "c_bar"
     shutil.copytree(base, t_bar)
     p = t_bar / "typst/sections/06_field.typ"
     p.write_text(p.read_text(encoding="utf-8").replace("macron(e)", "overline(e)", 1), encoding="utf-8")
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch|Equation structure mismatch"):
-        vp.verify_source_and_content_parity(t_bar, manifest)
+        check_src(t_bar)
 
     t_bf = tmp_path / "c_bf"
     shutil.copytree(base, t_bf)
     p = t_bf / "typst/sections/03_afc_basis.typ"
     p.write_text(p.read_text(encoding="utf-8").replace("bold(upright(a))", "bold(a)", 1), encoding="utf-8")
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch|Equation structure mismatch"):
-        vp.verify_source_and_content_parity(t_bf, manifest)
+        check_src(t_bf)
 
     t_fc = tmp_path / "c_fc"
     shutil.copytree(base, t_fc)
-    p = t_fc / "typst/manual/sections/02_hydrogen_facing_shell_tests.typ"
+    p = t_fc / "typst/lib/diagrams/hydrogen_shell_setup.typ"
     p.write_text(
         p.read_text(encoding="utf-8").replace('(from: "scope", to: "shells")', '(from: "shells", to: "scope")', 1),
         encoding="utf-8",
     )
     with pytest.raises(ValueError, match="FLOWCHART"):
-        vp.verify_source_and_content_parity(t_fc, manifest)
+        check_src(t_fc)
 
 
 def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
@@ -362,11 +364,11 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
     assert res["pdf_stats"]["manual"]["peer_pdf_links"] >= 172
 
     delivery = res["delivered_peer_pdf_verification"]
-    assert delivery["delivered_peer_pdf"] == "main_typst.pdf"
+    assert delivery["delivered_peer_pdf"] == "main.pdf"
     assert delivery["peer_pdf_sha256_verified"] is True
-    assert delivery["stale_main_pdf_links"] == 0
+    assert delivery["stale_peer_pdf_links"] == 0
     assert delivery["all_target_page_anchors_verified"] == 172
-    assert delivery["witness_main_eq33"]["pdf_destination"].startswith("main_typst.pdf#page=")
+    assert delivery["witness_main_eq33"]["pdf_destination"].startswith("main.pdf#page=")
 
     paint = res["rendered_text_paint"]
     for surf in ("main", "manual"):
@@ -432,3 +434,104 @@ def test_typst_parity_cli_normal_and_optimized_agree(tmp_path):
     report = json.loads((out_norm / "parity_report.json").read_text(encoding="utf-8"))
     assert report["schema"] == "aod.typst.parity-report.v2"
     assert report["verdict"] == "PARTIAL_NON_ACCEPTANCE_MISSING_BASELINE_PDFS"
+    assert report["coverage"]["generated_latex_source_tree_verified"] is True
+
+
+def test_phase2_baseline_snapshot_verify_and_materialize(tmp_path):
+    mat = _load_module("aod_materialize_latex_baseline", "scripts/materialize_latex_baseline.py")
+    manifest = mat.load_and_verify_baseline(ROOT)
+    assert manifest["historical_scientific_baseline_commit"] == "98ddfa0ebb38293adfa99c8c11da5a15cdd9eea3"
+    assert len(manifest["entries"]) == 211
+    out = tmp_path / "mat_baseline"
+    summary = mat.materialize_baseline(ROOT, out)
+    assert summary["materialized_files"] == 211
+    for entry in manifest["entries"]:
+        p = out / entry["original_path"]
+        assert p.is_file()
+        assert mat.sha256_file(p) == entry["sha256"]
+
+
+def test_phase2_export_typst_figures_vector_pdf_determinism_and_png(tmp_path):
+    typst_bin = _find_typst_or_none()
+    if typst_bin is None:
+        pytest.skip("typst is required for native diagram export tests")
+    pytest.importorskip("pypdf")
+
+    exp = _load_module("aod_export_typst_figures", "scripts/export_typst_figures.py")
+    out1 = tmp_path / "pdf1"
+    out2 = tmp_path / "pdf2"
+    m1 = exp.export_figures(ROOT, out1, fmt="pdf", typst_bin=typst_bin)
+    m2 = exp.export_figures(ROOT, out2, fmt="pdf", typst_bin=typst_bin)
+    assert len(m1["figures"]) == 4
+    assert m1 == m2
+    for d in m1["figures"]:
+        assert d["page_count"] == 1
+        assert d["raster_image_xobjects"] == 0
+        assert d["extracted_text_chars"] > 0
+        p1 = out1 / d["output_filename"]
+        p2 = out2 / d["output_filename"]
+        assert p1.read_bytes() == p2.read_bytes()
+
+    # Optional raster PNG export path (300 ppi)
+    out_png = tmp_path / "png300"
+    m_png = exp.export_figures(ROOT, out_png, fmt="png", ppi=300, typst_bin=typst_bin)
+    assert len(m_png["figures"]) == 4
+    for d in m_png["figures"]:
+        assert d["output_filename"].endswith(".png")
+        assert (out_png / d["output_filename"]).read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
+
+
+def test_phase2_typ2tex_clean_room_determinism_propagation_and_fail_closed(tmp_path):
+    typst_bin = _find_typst_or_none()
+    if typst_bin is None:
+        pytest.skip("typst is required for typ2tex clean-room and propagation tests")
+    pytest.importorskip("pypdf")
+
+    t2t = _load_module("aod_typ2tex", "scripts/typ2tex.py")
+
+    # 1. Clean-room sandbox with ZERO .tex files anywhere (proves C2: never reads archived/historical TeX)
+    sb = tmp_path / "clean_room"
+    sb.mkdir()
+    shutil.copytree(ROOT / "typst", sb / "typst")
+    shutil.copytree(ROOT / "figures_jpg", sb / "figures_jpg")
+    (sb / "manual").mkdir()
+    shutil.copytree(ROOT / "manual/figures", sb / "manual/figures")
+    shutil.copy2(ROOT / "refs.bib", sb / "refs.bib")
+    shutil.copy2(ROOT / "manual/refs.bib", sb / "manual/refs.bib")
+    (sb / "scripts").mkdir()
+    shutil.copy2(ROOT / "scripts/typ2tex.py", sb / "scripts/typ2tex.py")
+    shutil.copy2(ROOT / "scripts/export_typst_figures.py", sb / "scripts/export_typst_figures.py")
+    assert list(sb.rglob("*.tex")) == []
+
+    gen_dir = sb / "latex"
+    t2t.generate_latex_tree(sb, gen_dir, check_only=False, typst_bin=typst_bin)
+    # Clean-room generated tree must match committed latex/ byte-for-byte
+    t2t._verify_trees_match(gen_dir, ROOT / "latex")
+
+    # 2. Determinism and --check pass
+    t2t.generate_latex_tree(sb, gen_dir, check_only=True, typst_bin=typst_bin)
+
+    # 3. Stale output removal & drift detection via --check
+    stale = gen_dir / "sections/99_stale_artifact.tex"
+    stale.write_text("% stale\n", encoding="utf-8")
+    with pytest.raises(ValueError):
+        t2t.generate_latex_tree(sb, gen_dir, check_only=True, typst_bin=typst_bin)
+    t2t.generate_latex_tree(sb, gen_dir, check_only=False, typst_bin=typst_bin)
+    assert not stale.exists()
+
+    # 4. Prose, equation exponent, and table value edits propagate directly into generated latex/
+    p_abs = sb / "typst/sections/01_abstract.typ"
+    p_abs.write_text(p_abs.read_text(encoding="utf-8") + "\nPHASE2PROSEPROBETOKEN\n", encoding="utf-8")
+    p_eq = sb / "typst/sections/03_afc_basis.typ"
+    p_eq.write_text(p_eq.read_text(encoding="utf-8").replace("iota^2", "iota^9", 1), encoding="utf-8")
+    p_tbl = sb / "typst/manual/tables/sparc_summary_table.typ"
+    p_tbl.write_text(p_tbl.read_text(encoding="utf-8").replace("10893.83", "99999.99", 1), encoding="utf-8")
+    t2t.generate_latex_tree(sb, gen_dir, check_only=False, typst_bin=typst_bin)
+    assert "PHASE2PROSEPROBETOKEN" in (gen_dir / "sections/01_abstract.tex").read_text(encoding="utf-8")
+    assert r"\iota^9" in (gen_dir / "sections/03_afc_basis.tex").read_text(encoding="utf-8")
+    assert "99999.99" in (gen_dir / "manual/data/derived/sparc_summary_table.tex").read_text(encoding="utf-8")
+
+    # 5. Unsupported construct fails closed with source file:line location
+    p_eq.write_text(p_eq.read_text(encoding="utf-8") + "\n#unsupported-magic-widget(1)\n", encoding="utf-8")
+    with pytest.raises(ValueError, match=r"typst/sections/03_afc_basis\.typ:\d+"):
+        t2t.generate_latex_tree(sb, gen_dir, check_only=False, typst_bin=typst_bin)

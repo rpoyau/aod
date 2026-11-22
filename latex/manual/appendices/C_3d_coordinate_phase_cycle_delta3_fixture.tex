@@ -1,0 +1,249 @@
+% GENERATED FROM typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ BY scripts/typ2tex.py (v1.0.0) — DO NOT EDIT.
+% Edit canonical Typst under typst/ and regenerate with: python3 scripts/typ2tex.py --root . --outdir latex
+
+\section{3D coordinate phase-cycle $\delta_3$ fixture specification}\label{manual:app:coordinate-phase-cycle-delta3}
+
+\paragraph{Calculation card.}
+The supplied script generates a fixed integer fixture. Its grid, lag, phase
+scale and comparator produce exact displacement and tally outputs; count
+conservation and transported residuals are the falsifiers. A measured-track
+ingest map and physical uncertainty are not yet instantiated. Its required
+source roles follow \secref{manual:calculation-spine}.
+
+This appendix records the active integer 3D coordinate fixture used by time-ordered trajectory records. It gives the coordinate-level specification: integerized trajectory bins, squared displacement counts, phase-cycle counts, octant counts, integer ratios, and exact $\delta_3$ residuals. Continuous-motion summaries are downstream presentation maps and do not enter the exact fixture.
+The run-tumble tracer-current fixture in \secref{manual:run-tumble-tracer-current-fixture} is an application of this coordinate phase-cycle specification after its mode, accumulated trace, and projection declarations are fixed.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\linewidth]{figures/coordinate_phase_delta3_wireframe.png}
+\caption{3D coordinate phase-cycle $\delta_3$ fixture. The coordinate fixture maps trajectory positions into $\mathbb{Z}^3$, forms integer squared displacement $Q=a^2+b^2+c^2$, records phase residues $Q\bmod\beta_a$, counts octants, and audits integer residuals by $\delta_3$. Continuous summaries belong after the exact fixture as presentation or external maps.}
+\label{fig:manual-coordinate-phase-delta3}
+\end{figure}
+
+\subsection{Active data form}
+
+Declare a grid
+
+\[
+G=(h_x,h_y,h_z,\Delta t).
+\]
+
+A measured-track adapter must specify origin, positive grid spacings,
+quantization and tie rule, timing alignment and the admissible input set or
+justified joint law before mapping positions into integer lattice coordinates
+
+\[
+z_i=(X_i,Y_i,Z_i)\in\mathbb{Z}^3.
+\]
+
+For lag $n$, write
+
+\[
+\Delta z_i^{(n)}=z_{i+n}-z_i=(a_i^{(n)},b_i^{(n)},c_i^{(n)}).
+\]
+
+The active integer displacement is
+
+\[
+Q_i^{(n)}=(a_i^{(n)})^2+(b_i^{(n)})^2+(c_i^{(n)})^2\in\mathbb{Z}_{\ge0}.
+\]
+
+This replaces radial-distance fitting in the fixture layer.
+For example, a declared nearest-integer rule with ties upward maps
+$49/100$ and $51/100$ to $0$ and $1$. An interval crossing that
+boundary admits both states; it does not assign probabilities to them.
+The acquisition owner must propagate the permitted states through the
+actual tally and provide a mass/size-to-$\beta_a$ map when used.
+
+\subsection{Integer displacement counts}
+
+Declare integer bins
+
+\[
+I_{\ell}=[q_{\ell},q_{\ell+1})\cap\mathbb{Z}.
+\]
+
+The observed displacement-bin count is
+
+\[
+O_{\ell}^{(n)}=\#\{i:Q_i^{(n)}\in I_{\ell}\}.
+\]
+
+The comparator count is an integer family
+
+\[
+\hat{O}_{\ell}^{(n)}\in\mathbb{Z}_{\ge0},\qquad\sum_{\ell}\hat{O}_{\ell}^{(n)}=\sum_{\ell}O_{\ell}^{(n)}.
+\]
+
+Record exact residuals by
+
+\[
+\Delta_{\ell}^{\mathbb{Z},(n)}=\hat{O}_{\ell}^{(n)}-O_{\ell}^{(n)},\qquad\delta_{3,\ell}^{(n)}=(s_{\ell}^{(3),(n)},m_{\ell}^{(n)}),
+\]
+
+where
+
+\[
+s_{\ell}^{(3),(n)}=\operatorname{sgn}(\Delta_{\ell}^{\mathbb{Z},(n)}),\qquad m_{\ell}^{(n)}=|\Delta_{\ell}^{\mathbb{Z},(n)}|.
+\]
+
+The conservation check and total exact mismatch are
+
+\[
+\sum_{\ell}\Delta_{\ell}^{\mathbb{Z},(n)}=0,\qquad M_{\delta_3}^{(n)}=\sum_{\ell}m_{\ell}^{(n)}.
+\]
+
+\subsection{Phase-cycle fixture}
+
+Let the candidate monon-beat scale from mass/size be
+
+\[
+\beta_a\in\mathbb{Z}_{>0}.
+\]
+
+Define the phase residue
+
+\[
+\theta_i^{(n)}=Q_i^{(n)}\bmod\beta_a.
+\]
+
+The phase-cycle count is
+
+\[
+O_{\theta}^{(n)}=\#\{i:\theta_i^{(n)}=\theta\},\qquad\theta\in\{0,1,\dots,\beta_a-1\}.
+\]
+
+Against an integer comparator $\hat{O}_{\theta}^{(n)}$, record
+
+\[
+\Delta_{\theta}^{\mathbb{Z},(n)}=\hat{O}_{\theta}^{(n)}-O_{\theta}^{(n)},\qquad\delta_{3,\theta}^{(n)}=(\operatorname{sgn}(\Delta_{\theta}^{\mathbb{Z},(n)}),|\Delta_{\theta}^{\mathbb{Z},(n)}|).
+\]
+
+The phase-cycle fixture is read as: mass/size data may declare $\beta_a$, and the trajectory tests the phase-cycle counts.
+
+\subsection{Octant direction counts}
+
+Bind bit order and the treatment of zero coordinates with the track.
+Brownian and run-tumble encodings may differ; any relabelling transports
+both observed and comparator bins, including the integer-balancing remainder
+assignment. Rebalancing the comparator in a new label order changes the
+test. All eight sign patterns and a common permutation must preserve the
+transported residuals before a shared adapter is accepted.
+
+For each displacement vector, declare
+
+\[
+q_i^{(n)}=\operatorname{octant}(a_i^{(n)},b_i^{(n)},c_i^{(n)})\in\{0,\dots,7\}.
+\]
+
+The octant count is
+
+\[
+O_q^{(n)}=\#\{i:q_i^{(n)}=q\}.
+\]
+
+The octant-neutral comparator is an integer family
+
+\[
+\hat{O}_q^{(n)}=\operatorname{IntBalance}(N_n,8),\qquad\sum_q\hat{O}_q^{(n)}=\sum_qO_q^{(n)}.
+\]
+
+Then
+
+\[
+\delta_{3,q}^{(n)}=(\operatorname{sgn}(\hat{O}_q^{(n)}-O_q^{(n)}),|\hat{O}_q^{(n)}-O_q^{(n)}|).
+\]
+
+\subsection{Integer-ratio motion summaries}
+
+Use integer ratios:
+
+\[
+R_Q^{(n)}=(\sum_iQ_i^{(n)}:N_n).
+\]
+
+Axis ratios are
+
+\[
+R_x^{(n)}=(\sum_i(a_i^{(n)})^2:\sum_iQ_i^{(n)}),
+\]
+
+\[
+R_y^{(n)}=(\sum_i(b_i^{(n)})^2:\sum_iQ_i^{(n)}),
+\]
+
+\[
+R_z^{(n)}=(\sum_i(c_i^{(n)})^2:\sum_iQ_i^{(n)}).
+\]
+
+A three-axis balanced motion fixture records $R_x^{(n)}:R_y^{(n)}:R_z^{(n)}$ against the declared integer target. Phase and octant ratios are
+
+\[
+R_{\theta}^{(n)}=(O_0^{(n)}:O_1^{(n)}:\cdots:O_{\beta_a-1}^{(n)}),\qquad R_{\mathrm{oct}}^{(n)}=(O_0^{(n)}:O_1^{(n)}:\cdots:O_7^{(n)}).
+\]
+
+\subsection{Comparator choices}
+
+Use integer comparators. The phase-neutral comparator is
+
+\[
+\hat{O}_{\theta}^{(n)}=\operatorname{IntBalance}(N_n,\beta_a),
+\]
+
+which distributes $N_n$ counts across $\beta_a$ phase classes by a declared integer balancing rule. The octant-neutral comparator is $\hat{O}_q^{(n)}=\operatorname{IntBalance}(N_n,8)$. Shuffle controls may be declared by time-shuffled increments, sign-shuffled increments, axis-permuted increments, or phase-rotated increments. Each control produces its own $\delta_3$ and $M_{\delta_3}$.
+
+\subsection{AFC/A$\Omega$D mapping}
+
+The active coordinate-motion boundary is
+
+\[
+B_{\mathrm{mot}}=(\partial_TF_{\mathrm{track}},\omega_{\mathrm{track}}).
+\]
+
+The exact fixture path is
+
+\[
+z_i\in\mathbb{Z}^3\to\Delta z_i^{(n)}\to Q_i^{(n)}\to\theta_i^{(n)}\to O_{\theta}^{(n)}\to\delta_3.
+\]
+
+The retained motion trace is
+
+\[
+\Delta z_i^{(n)}\to HT(h_i;B_{\mathrm{mot}})\to RD_{h_i}\to RCD_{h_i}\to\rho^D_{\omega,h_i}\to\SADARop_B.
+\]
+
+Moving-boundary current remains
+
+\[
+\Phi^D_{\partial_TR,\mathrm{mov}}(t)=\Phi^D_{\mathrm{cross}}(t)-\Phi^D_{\mathrm{sweep}}(t)+\Phi^D_{\mathrm{shedding}}(t).
+\]
+
+\subsection{Script target and outputs}
+
+The generic coordinate script target is
+
+\[
+\mathtt{aod\_3d\_coordinate\_phase\_delta3.py}.
+\]
+
+Inputs are
+
+\[
+\mathtt{track\_id},\quad\mathtt{t},\quad\mathtt{x},\quad\mathtt{y},\quad\mathtt{z}.
+\]
+
+Optional fields are
+
+\[
+\mathtt{ux},\quad\mathtt{uy},\quad\mathtt{uz},\quad\mathtt{mass},\quad\mathtt{size},\quad\mathtt{beta}.
+\]
+
+Output files are
+
+\begin{gather*}
+\mathtt{displacement\_q\_counts.csv},\\\mathtt{phase\_cycle\_delta3.csv},\\\mathtt{octant\_delta3.csv},\\\mathtt{integer\_motion\_ratios.csv}.
+\end{gather*}
+
+\subsection{Final lock}
+
+The 3D coordinate phase-cycle fixture uses integer phase-cycle ratios. It uses $Q=a^2+b^2+c^2$, phase residues $Q\bmod\beta_a$, octant counts for three-dimensional direction, and $\delta_3$ on integer counts. External continuous-motion summaries live after the exact fixture.

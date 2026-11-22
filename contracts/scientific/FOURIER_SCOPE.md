@@ -1,6 +1,6 @@
 GM finite harmonic corollaries
 
-The canonical rendered derivation is in sections/06_field.tex. All statements bind admitted recurrence, a declared finite abelian index group, translation and normalized counting measure. A cyclic finite-window extension is a representation convention, not a proof of periodic dynamics.
+The canonical rendered derivation is in typst/sections/06_field.typ (generated LaTeX compatibility counterpart: latex/sections/06_field.tex). All statements bind admitted recurrence, a declared finite abelian index group, translation and normalized counting measure. A cyclic finite-window extension is a representation convention, not a proof of periodic dynamics.
 
 - eq:fourier-transform
 - eq:fourier-orthogonality

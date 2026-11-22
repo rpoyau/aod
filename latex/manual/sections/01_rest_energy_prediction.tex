@@ -1,0 +1,475 @@
+% GENERATED FROM typst/manual/sections/01_rest_energy_prediction.typ BY scripts/typ2tex.py (v1.0.0) — DO NOT EDIT.
+% Edit canonical Typst under typst/ and regenerate with: python3 scripts/typ2tex.py --root . --outdir latex
+
+\section{Field Rest-Energy Records}\label{manual:rest-energy-prediction}
+
+\paragraph{Calculation card.}
+Exact support/window choices produce the accessor table; measured masses
+are external targets with the quoted uncertainties. A general rest-energy
+prediction still requires this application's shared-history producer,
+history-to-rate map, relational reference clock and calibrated energy map.
+The Higgs table evaluates a separate declared candidate/map diagnostic;
+its target-only pulls do not include model uncertainty. Common comparison
+and source roles are in \secref{manual:calculation-spine}.
+
+\subsection{0$|-$ scope}\label{manual:rest:scope}
+
+Rest-energy records are split into two tables. The A$\Omega$ field-map table records support, carried cycle, and A$\Omega$ accessor values. The measured-data comparison table records declared measured-sector target rows.
+
+\[
+\mathbf{a}\vdash(F,R,\partial_TR,\omega),\qquad B=(\partial_TF,\omega).
+\]
+
+The calculation spine is
+
+\[
+C_f[M]_{\AO}\longrightarrow\mathsf{AO}_{\mu}(C)\longrightarrow\SADARop_B(C)\longrightarrow\nu_{x,\AO}\longrightarrow E_{x,\mathrm{ext}}.
+\]
+
+\aodnoteblock{Data-support class}{Rest-energy records are exact internal A$\Omega$ field records or O0 external-map comparisons, depending on the declared measured-sector target rows. Target uncertainties are supplied; input, reduction and value-map contributions remain unresolved where no justified model is supplied.}
+
+\aodprovenance{\mainappendix{main:app:ao-field-fractal-properties}.}
+
+\subsection{Support notation used by the calculation records}\label{manual:rest:support-notation}
+
+The manual uses compact support notation only where the calculation needs it:
+
+\[
+D_i\square D_j=\text{open-seat duon support},
+\]
+
+\[
+D_i\mu D_j,\qquad\mu\in\{-1,0,+1\},\qquad=\text{resolved duon support},
+\]
+
+\[
+E_2^0=\text{open-seat duon support},\qquad E_2^{\pm}=\text{duad / seated duon support}.
+\]
+
+The compact field supports are
+
+\[
+1:2:L=\text{Dimonon support},\qquad3:q:L=\text{Trion support}.
+\]
+
+Odd lengths are carried as odd-window route status between adjacent even support enclosures:
+
+\[
+L=2k+1\quad\Rightarrow\quad C_{2k}\leadsto L\leadsto C_{2k+2}.
+\]
+
+When this odd-window instability is retained as a route-status suffix, write $K_{\mathrm{yro}}$. Support-enclosure names remain the even-enclosure names.
+
+\aodprovenance{\mainappendix{main:app:ao-field-fractal-properties}.}
+
+\paragraph{Proposed supports and enclosure notation.}
+Examples of proposed specifications are
+
+\[
+1:2:6=\text{Dimonhexon}=\text{Dimonon curling-curl support form carried on }C_6,
+\]
+
+and
+
+\[
+3:3:6=\text{Tritriohexon},\qquad3:4:6=\text{Tetratriohexon},
+\]
+
+on $C_6$. SADAR couples their retained beats after admission.
+
+The shared hexon of \mainappendix{main:app:cc-basic-shared-hexon} expands as
+
+\[
+(3:3)^1::(3:4)^1::(1:2)^0::6.
+\]
+
+The separator rule in \mainsection{main:subsec:fractal-tesseract-cycle-range}
+gives the following support parse:
+
+\begin{equation}\label{eq:double-colon-parse-example}
+3:4::3:3::6\equiv(3:4,3:3;C_6).
+\end{equation}
+
+\begin{table}[H]
+\centering
+\caption{Filled shared enclosure forms.}
+\label{tab:cc-filled-shared-enclosures}
+{\small
+\begin{tabular}{lll}
+\toprule
+Compact form & Name & Outer enclosure \\
+\midrule
+$3:3:0::6$ & $\mathrm{Tritrio}^3::\mathrm{Tetratrio}^3::\mathrm{hexon}$ & hexon \\
+$4:4:0::8$ & $\mathrm{Tritrio}^4::\mathrm{Tetratrio}^4::\mathrm{octon}$ & octon \\
+$5:5:0::10$ & $\mathrm{Tritrio}^5::\mathrm{Tetratrio}^5::\mathrm{decon}$ & decon \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsubsection{Shared shell-path declaration}\label{subsec:shared-shell-path-declaration}
+
+The shared shell-path declaration may be written
+
+\[
+0\mid-::Z:A:0:6\langle1:1:0::6\rangle.
+\]
+
+Named:
+
+\[
+0\mid-::Z:A:0:\mathrm{hexon}\langle\mathrm{Tritrio}::\mathrm{Tetratrio}::\mathrm{hexon}\rangle.
+\]
+
+For the filled hexon field, write
+
+\[
+0\mid-::Z:A:0:6\langle3:3:0::6\rangle.
+\]
+
+Named:
+
+\[
+0\mid-::Z:A:0:\mathrm{hexon}\langle\mathrm{Tritrio}^3::\mathrm{Tetratrio}^3::\mathrm{hexon}\rangle.
+\]
+
+\subsubsection{Nested shell-stack pattern}\label{subsec:nested-shell-stack-pattern}
+
+The same curling-curl pattern iterates upward through shared enclosures and filled enclosures:
+
+\[
+\mathrm{Tritrio}^3::\mathrm{Tetratrio}^3::\mathrm{hexon}\to\mathrm{Tritrio}^4::\mathrm{Tetratrio}^4::\mathrm{octon}\to\mathrm{Tritrio}^5::\mathrm{Tetratrio}^5::\mathrm{decon}.
+\]
+
+\subsection{Field-property accessor calculations}\label{app:ao-field-fractal-properties:accessors-table}
+
+Under the single-hinge neutral-reflection hypotheses of
+\mainappendix{main:app:ao-field-fractal-properties:accessor}, the following
+compatible native count windows give these nine accessor rows.
+In the declared free-seat fixtures, $1:2\Rightarrow s=2$ and
+$H_{\mu}^{[2]}=1$, while $3:3\Rightarrow s=1$ and
+$H_{\mu}^{[1]}=1$. A full-seated single-hinge cycle uses
+$H_{\mu}=H_{\mu}^{\mathrm{cyc}}=1$ unless free-seat provenance is declared.
+
+\begin{table}[H]
+\centering
+\caption{A$\Omega$ field fractal properties.}
+\label{tab:ao-field-fractal-properties}
+{\footnotesize
+\begin{tabular}{cllclcccccc}
+\toprule
+$\mathcal{F}_{\AO}$ & $M$ & $C_f[M]_{\AO}$ & $\Pi_{\alpha}$ & $H_{\mu}$ & $RD_{\AO}$ & $|\omega|$ & $\rho^D_{\omega}$ & $P^D$ & $Q^D$ & $X_{\mathrm{shedding}}$ \\
+\midrule
+$\mathfrak{f}_{1:2:6}$ & $1:2:6$ & $C_f[1:2]_{\AO}$ & 4 & $H_{\mu}^{[2]}=1$ & 9 & 6 & 6 & 18 & 9 & 0 \\
+$\mathfrak{f}_{1:2:8}$ & $1:2:8$ & $C_f[1:2]_{\AO}$ & 4 & $H_{\mu}^{[2]}=1$ & 9 & 8 & 8 & 24 & 3 & 0 \\
+$\mathfrak{f}_{1:2:9}$ & $1:2:9$ & $C_f[1:2]_{\AO}$ & 4 & $H_{\mu}^{[2]}=1$ & 9 & 9 & 9 & 27 & 0 & 3 \\
+$\mathfrak{f}_{1:2:10}$ & $1:2:10$ & $C_f[1:2]_{\AO}$ & 4 & $H_{\mu}^{[2]}=1$ & 9 & 10 & 9 & 27 & 0 & 0 \\
+$\mathfrak{f}_{3:2:6}$ & $3:2:6$ & $C_f[3:2]_{\AO}$ & 10 & 1 & 21 & 6 & 6 & 30 & 75 & 0 \\
+$\mathfrak{f}_{3:2:8}$ & $3:2:8$ & $C_f[3:2]_{\AO}$ & 10 & 1 & 21 & 8 & 8 & 40 & 65 & 0 \\
+$\mathfrak{f}_{3:2:10}$ & $3:2:10$ & $C_f[3:2]_{\AO}$ & 10 & 1 & 21 & 10 & 10 & 50 & 55 & 0 \\
+$\mathfrak{f}_{3:3:6}$ & $3:3:6$ & $C_f[3:3]_{\AO}$ & 30 & $H_{\mu}^{[1]}=1$ & 61 & 6 & 6 & 36 & 330 & 0 \\
+$\mathfrak{f}_{3:4:6}$ & $3:4:6$ & $C_f[3:4]_{\AO}$ & 68 & $H_{\mu}^{\mathrm{cyc}}=1$ & 137 & 6 & 6 & 42 & 917 & 0 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+For $3:4$, the single-hinge reduction of
+\mainappendix{main:app:rd-tests:corollaries} gives
+
+\begin{equation}\label{app:rd:eq:three-four-rd}
+\Pi(3:4)=4^3+4=68,\qquad RD(3:4)=2\cdot68+1=137.
+\end{equation}
+
+The added $4$ is retained edge-shell support. The cycle object remains
+distinct from this scalar accessor.
+
+\subsection{A$\Omega$ field-map table}\label{manual:rest:ao-field-value-table}
+
+The A$\Omega$ field-map table lists the manual mapping from measured-sector names to A$\Omega$ field supports. The numerical field-support properties are calculated in
+\tabref{tab:ao-field-fractal-properties}.
+
+\begin{table}[H]
+\centering
+\caption{A$\Omega$ field-map table.}
+\label{tab:manual-ao-field-value-table}
+{\footnotesize
+\begin{tabular}{lllll}
+\toprule
+$x_{\mathrm{ext}}$ & external map & $M_x$ & $C_f[M_x]_{\AO}$ & $\nu_{x,\AO}$ \\
+\midrule
+$e^-$ & $00|-$ Dimonhexon & $1:2:6$ & $C_f[1:2]_{\AO}$ & $\nu_{e,\AO}$ \\
+$\mu^-$ & $00|-$ Dimonocton & $1:2:8$ & $C_f[1:2]_{\AO}$ & $\nu_{\mu,\AO}$ \\
+$\tau^-$ & $00|-$ Dimonnanyro & $1:2:9_{\mathrm{yro}}$ & $C_f[1:2]_{\AO}$ & $\nu_{\tau,\AO}$ \\
+$B^{\pm}$ & Ditrion debris map & $3:2:6$ & $C_f[3:2]_{\AO}$ & $\nu_{B,\AO}$ \\
+$B^0$ & Ditrion debris map & $3:2:6$ & $C_f[3:2]_{\AO}$ & $\nu_{B,\AO}$ \\
+$B_s^0$ & lifted Ditrion map & $3:2:8$ & $C_f[3:2]_{\AO}$ & $\nu_{B_s,\AO}$ \\
+$B_c^{\pm}$ & lifted Ditrion map & $3:2:10$ & $C_f[3:2]_{\AO}$ & $\nu_{B_c,\AO}$ \\
+$p^+$ & Tritriohexon map & $3:3:6$ & $C_f[3:3]_{\AO}$ & $\nu_{p,\AO}$ \\
+$n^0$ & Tetratriohexon map & $3:4:6$ & $C_f[3:4]_{\AO}$ & $\nu_{n,\AO}$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\aodprovenance{\mainappendix{main:app:ao-field-fractal-properties}; \mainsection{main:subsec:curling-curl-support-forms}.}
+
+\aodremark{The manual declares measured-sector maps such as $e^-\mapsto00|-$ Dimonhexon. These maps are carried by manual comparison records; \tabref{tab:ao-field-fractal-properties} lists the A$\Omega$ field-property calculations.}
+
+The displayed $B^{\pm}$ and $B^0$ map has the same retained support.
+A mass map using only that support cannot distinguish their two targets.
+The rest-energy application must supply additional state with a matched
+nondegeneracy test, or declare that limited resolution. A target is held out
+only when its exclusion from construction, selection and calibration is bound.
+
+\subsection{Electron external map}\label{manual:rest:electron-external-map}
+
+The electron comparison record is a manual map from the measured-sector electron to the A$\Omega$ Dimonhexon support:
+
+\[
+e^-\longmapsto00|-\;\mathrm{Dimonhexon}\equiv00|-\;(1:2:6),\qquad C_f[1:2]_{\AO}.
+\]
+
+The charge-orientation tag is
+
+\[
+q_{\mathrm{ext}}(e^-)=-1,\qquad Q_{\mathrm{ext}}(e^-)=-e.
+\]
+
+The rest-energy comparison target remains quarantined:
+
+\[
+E^{\mathrm{tar}}_e=0.51099895069\mathrm{MeV},\qquad\sigma_{E,e}=1.6\times10^{-10}\mathrm{MeV}.
+\]
+
+\aodliteraturenote{Electron mass-energy: NIST CODATA~\cite{nist-electron-mass-energy}, SI defining constants: BIPM~\cite{bipm-si-defining-constants}.}
+
+\aodremark{The $00|-$ tag is a manual measured-sector charge/orientation map carried by the manual comparison record.}
+
+\subsection{Measured rest-energy target records}\label{manual:rest:measured-comparison-analysis}
+
+External comparison is quarantined. For records with declared targets,
+
+\[
+E_{x,\mathrm{ext}}=K_{\mathrm{ext}}\nu_{x,\AO},\qquad\Delta E_x=E_{x,\mathrm{ext}}-E_x^{\mathrm{tar}},
+\]
+
+\[
+\epsilon_x^{\mathrm{sgn}}=100\frac{\Delta E_x}{E_x^{\mathrm{tar}}},\qquad|\epsilon_x|=|\epsilon_x^{\mathrm{sgn}}|,\qquad z_{x,\mathrm{target}}=\frac{\Delta E_x}{\sigma_{E,x}}.
+\]
+
+\begin{table}[H]
+\centering
+\caption{Measured rest-energy target records.}
+\label{tab:manual-measured-comparison-analysis}
+{\footnotesize
+\begin{tabular}{lrrll}
+\toprule
+Record & Target [MeV] & $\sigma_E$ [MeV] & Unit & Source \\
+\midrule
+$e$ & 0.51099895069 & $1.6\times10^{-10}$ & MeV & NIST CODATA \\
+$\mu$ & 105.6583755 & $2.3\times10^{-6}$ & MeV & NIST CODATA \\
+$\tau$ & 1776.86 & 0.12 & MeV & NIST / PDG target record \\
+$B^{\pm}$ & 5279.41 & 0.07 & MeV & PDG 2025 \\
+$B^0$ & 5279.72 & 0.08 & MeV & PDG 2025 \\
+$B_s^0$ & 5366.93 & 0.10 & MeV & PDG 2025 \\
+$B_c^{\pm}$ & 6274.47 & 0.32 & MeV & PDG 2025 \\
+$p$ & 938.27208943 & $2.9\times10^{-7}$ & MeV & NIST CODATA \\
+$n$ & 939.56542194 & $4.8\times10^{-7}$ & MeV & NIST CODATA \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\aodprovenance{\mainappendix{main:app:ao-field-fractal-properties};
+\appref{manual:external-comparison}.}
+
+\aodliteraturenote{Lepton/baryon targets: NIST CODATA~\cite{nist-electron-mass-energy,nist-muon-mass-energy,nist-tau-mass-energy,nist-proton-mass-energy,nist-neutron-mass-energy}, meson targets: PDG 2025~\cite{pdg-bmeson-2025}.}
+
+\subsection{Tritrioseptyro Higgs-support diagnostic fixture}\label{manual:tritrioseptyro-higgs-support-fixture}
+
+The supplied candidate rows and scoring formula reproduce the ranking. They
+do not supply the originating history producer, detector thresholds or the
+exposure history of the scale/exponent choice. Recovering those artifacts is
+this application's next step before an independent prediction claim. The
+freeze below is the declared evaluation order; it does not establish a
+historical pre-exposure freeze.
+
+Tritrioseptyro is the $3:3:7_{\mathrm{yro}}$ Higgs-support prediction candidate selected by the internal AFC trace. The AFC run produces the trace rows; A$\Omega$ detectors read the trace and name the retained route status. The selected candidate is joined to the frozen external mass map $E_H=RD\,2^{L+4}$ MeV. Production-channel and decay-channel residual tables carry the next comparison layer.
+
+\[
+\text{AFC run}\longrightarrow\text{read-only trace}\longrightarrow\text{A}\Omega\text{ route-status naming}.
+\]
+
+The trace is read-only for this record. Feedback experiments use separately declared write-back maps.
+
+The candidate set is
+
+\[
+\mathcal{K}_H=\{3:1:7,3:1:9,3:2:7,3:2:9,3:3:7,3:3:9,3:4:7,3:4:9\}.
+\]
+
+For each candidate $K=(p,q,L)$, compute
+
+\[
+\Pi=q^p+q,\qquad RD=2\Pi+1,\qquad\rho^D_{\omega}=\min(RD,L).
+\]
+
+The scoped collision capacity is
+
+\[
+C_{3,H}=3.
+\]
+
+With this scoped collision capacity,
+
+\begin{align*}
+P^D_H & =C_{3,H}\rho^D_{\omega},\\Q^D_H & =C_{3,H}\max(0,RD-L).
+\end{align*}
+
+The retained candidate is
+
+\[
+K_H^{\star}=3:3:7_{\mathrm{yro}}=\mathrm{Tritrioseptyro}.
+\]
+
+For Tritrioseptyro,
+
+\[
+\Pi=30,\qquad RD=61,\qquad\rho^D_{\omega}=7,\qquad P^D_H=21,\qquad Q^D_H=162.
+\]
+
+Against adjacent even support-enclosure closures,
+
+\[
+P^D_H-C_6=+3,\qquad P^D_H-C_8=-3.
+\]
+
+The trace places Tritrioseptyro on the $C_6/C_8$ saddle with pressure residuals $+3$ and $-3$ and pending overhang $Q^D_H=162$.
+
+\begin{table}[H]
+\centering
+\caption{Higgs-support candidate ranking. This table carries the active trace coordinates used by the internal selection rule.}
+\label{tab:manual-higgs-internal-candidates}
+{\footnotesize
+\begin{tabular}{lrrrrr}
+\toprule
+Candidate & $RD$ & $P^D_H$ & saddle & $Q^D_H$ & score \\
+\midrule
+$3:3:7_{\mathrm{yro}}$ & 61 & 21 & $+3/-3$ & 162 & 0.00 \\
+$3:2:7_{\mathrm{yro}}$ & 21 & 21 & $+3/-3$ & 42 & 1.58 \\
+$3:3:9_{\mathrm{yro}}$ & 61 & 27 & $+3/0$ & 156 & 2.25 \\
+$3:4:7_{\mathrm{yro}}$ & 137 & 21 & $+3/-3$ & 390 & 2.40 \\
+$3:2:9_{\mathrm{yro}}$ & 21 & 27 & $+3/0$ & 36 & 2.89 \\
+$3:1:7_{\mathrm{yro}}$ & 5 & 15 & $-3/-9$ & 0 & 3.00 \\
+$3:4:9_{\mathrm{yro}}$ & 137 & 27 & $+3/0$ & 384 & 3.59 \\
+$3:1:9_{\mathrm{yro}}$ & 5 & 15 & $-9/-12$ & 0 & 4.75 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+The trace score is reproducible under the internal selection rule:
+
+\[
+S_H(K)=\frac{d_{\mathrm{saddle}}}{12}+\frac{d_Q}{100}+\frac{d_L}{2}+d_{\mathrm{route}}.
+\]
+
+The scoring gate requires
+
+\[
+\arg\min_{K\in\mathcal{K}_H}S_H(K)=3:3:7_{\mathrm{yro}}.
+\]
+
+\aodnoteblock{Source artifacts}{The score-component definitions and candidate rows are supplied under \texttt{manual/data/higgs} as \texttt{higgs\_trace\_score\_formula.md} and \texttt{higgs\_trace\_internal\_candidates\_selection.csv}, respectively.}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/higgs/higgs_yro_saddle_signature.png}
+\caption{Tritrioseptyro yro saddle signature. The internal AFC trace gives $P^D_H=21$, placing the selected $3:3:7_{\mathrm{yro}}$ candidate between $C_6=18$ and $C_8=24$ with residuals $+3$ and $-3$.}
+\label{fig:manual-higgs-yro-saddle}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/higgs/higgs_tritrioseptyro_trace_flow.png}
+\caption{Tritrioseptyro trace flow. The AFC run produces $\Pi=30$, $RD=61$, $\rho^D_{\omega}=7$, $P^D_H=21$, and $Q^D_H=162$. A$\Omega$ names the detected $3:3:7_{\mathrm{yro}}$ route status as Tritrioseptyro.}
+\label{fig:manual-higgs-trace-flow}
+\end{figure}
+
+\subsubsection{External mass map after candidate freeze}\label{manual:higgs-external-map-after-freeze}
+
+The external mass map is frozen after the internal candidate is selected:
+
+\[
+E_H^{(0)}[\mathrm{MeV}]=RD_H\,2^{L+4}.
+\]
+
+For Tritrioseptyro,
+
+\[
+E_H^{(0)}=61\cdot2^{11}\mathrm{MeV}=124928\mathrm{MeV}=124.928\mathrm{GeV}.
+\]
+
+The frozen $RD\,2^{L+4}$ map sends Tritrioseptyro to $124.928\,\mathrm{GeV}$. Declared Higgs mass targets enter after the candidate and external map are frozen. The comparison table reports $\Delta E$, absolute percent error, and the target-only pull $z_{\mathrm{target}}=\Delta E/\sigma_{\mathrm{target}}$ for each target record.
+
+\begin{table}[H]
+\centering
+\caption{Frozen external map for Tritrioseptyro.}
+\label{tab:manual-higgs-external-map}
+{\footnotesize
+\begin{tabular}{lll}
+\toprule
+Quantity & Value & Record \\
+\midrule
+$K_H^{\star}$ & $3:3:7_{\mathrm{yro}}$ & frozen internal candidate \\
+$RD_H$ & 61 & frozen internal accessor \\
+$L$ & 7 & declared odd window \\
+$E_H^{(0)}$ & $61\cdot2^{11}\,\mathrm{MeV}=124.928\,\mathrm{GeV}$ & external map after freeze \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{LHC mass comparison after frozen external map.}
+\label{tab:manual-higgs-lhc-comparison}
+{\footnotesize
+\begin{tabular}{lrrrrr}
+\toprule
+Target & Mass [GeV] & $\sigma$ [GeV] & $\Delta E$ [GeV] & $|\epsilon|$ [\%] & $z_{\mathrm{target}}$ \\
+\midrule
+ATLAS+CMS Run-1 combined & 125.09 & 0.24 & -0.162 & 0.1295 & -0.675 \\
+CMS $H\to4\ell$ & 125.04 & 0.12 & -0.112 & 0.0896 & -0.933 \\
+ATLAS Run-1+2 combined & 125.11 & 0.11 & -0.182 & 0.1455 & -1.655 \\
+ATLAS $H\to\gamma\gamma$ & 125.22 & 0.14 & -0.292 & 0.2332 & -2.086 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{figures/higgs/higgs_mass_comparison.png}
+\caption{Tritrioseptyro mass comparison. The frozen external map $E_H=RD\,2^{L+4}$ MeV sends the selected candidate to $124.928\,\mathrm{GeV}$. Target records enter as declared external comparison rows.}
+\label{fig:manual-higgs-mass-comparison}
+\end{figure}
+
+These target records overlap in experiment, run or channel; their four
+pulls are not four independent tests. A joint comparison needs their shared
+covariance and the model/map uncertainty. The quoted values remain
+target-only diagnostics.
+
+\paragraph{External data-comparison record.}
+The internal trace selects $K^{\star}_H=3:3:7_{\mathrm{yro}}$. The frozen external map gives
+
+\[
+E_H^{(0)}=RD_H2^{L+4}=61\cdot2^{11}\,\mathrm{MeV}=124.928\,\mathrm{GeV}.
+\]
+
+Table~\ref{tab:manual-higgs-lhc-comparison} records the declared Higgs mass-input rows, their quoted uncertainties, and the resulting $\Delta E$, $|\epsilon|$, and $z_{\mathrm{target}}$ coordinates. The mapped value $124.928\,\mathrm{GeV}$ lies within $1\sigma$ of the ATLAS+CMS Run-1 combined mass record and the CMS Run-2 $H\to4\ell$ mass record. Production-channel and decay-channel residual tables carry the next comparison layer.
+
+\aodprovenance{\mainsection{main:subsec:yro-odd-window-route-status}; \mainappendix{main:app:ao-field-fractal-properties}; \tabref{tab:manual-higgs-internal-candidates}; \tabref{tab:manual-higgs-external-map}.}
+
+\aodliteraturenote{ATLAS+CMS Run-1 combined mass~\cite{atlas-cms-higgs-run1}. CMS $H\to4\ell$ mass~\cite{cms-hig-21-019}. ATLAS combined Run-1+Run-2 mass~\cite{atlas-higgs-mass-combined-2023}. ATLAS diphoton mass~\cite{atlas-higgs-diphoton-2023}.}

@@ -1,6 +1,7 @@
 {
   "active_source_map": [
     {
+      "generated_latex_target": "latex/main.tex",
       "surface": "main",
       "tex_sha256": "1648c6a5d8afebf4a94e8761b2e4faa6efb2632f9e719dd5c407409f3751d93a",
       "tex_source": "main.tex",
@@ -8,6 +9,7 @@
       "typst_target": "typst/main.typ"
     },
     {
+      "generated_latex_target": "latex/preamble.tex",
       "surface": "main",
       "tex_sha256": "a2c8c0b3dbc6eddc6f78dba4791236ce3ab89c5ad264d5975126d33db6ecfca8",
       "tex_source": "preamble.tex",
@@ -15,6 +17,7 @@
       "typst_target": "typst/preamble.typ"
     },
     {
+      "generated_latex_target": "latex/manual/main.tex",
       "surface": "manual",
       "tex_sha256": "d8791ecfb6a95c60f8585b68094cb55704535dcc01e1f92cb5f64f07aab96de9",
       "tex_source": "manual/main.tex",
@@ -22,6 +25,7 @@
       "typst_target": "typst/manual/main.typ"
     },
     {
+      "generated_latex_target": "latex/manual/preamble.tex",
       "surface": "manual",
       "tex_sha256": "3f9700a9ed234b7402fae87d5de11f7d246e0e3d01d62b2c5e1ca0f43e19a3f1",
       "tex_source": "manual/preamble.tex",
@@ -29,6 +33,7 @@
       "typst_target": "typst/manual/preamble.typ"
     },
     {
+      "generated_latex_target": "latex/sections/00_title.tex",
       "surface": "main",
       "tex_sha256": "c86e23a01c95c43c2cb3603afc2d3c574d36f44360da626ebe86f734ad4ce4d4",
       "tex_source": "sections/00_title.tex",
@@ -36,6 +41,7 @@
       "typst_target": "typst/sections/00_title.typ"
     },
     {
+      "generated_latex_target": "latex/sections/01_abstract.tex",
       "surface": "main",
       "tex_sha256": "a42ebe256def1106badff156f495206d39fe32a984b97e9fe2ed07ba12c1803c",
       "tex_source": "sections/01_abstract.tex",
@@ -43,6 +49,7 @@
       "typst_target": "typst/sections/01_abstract.typ"
     },
     {
+      "generated_latex_target": "latex/sections/03_afc_basis.tex",
       "surface": "main",
       "tex_sha256": "d5b648c0c74afe8c34a344d5069e78b5be5d9a98851ce1abcc6c0f9d1df8c6d3",
       "tex_source": "sections/03_afc_basis.tex",
@@ -50,6 +57,7 @@
       "typst_target": "typst/sections/03_afc_basis.typ"
     },
     {
+      "generated_latex_target": "latex/sections/04_cut_running_fractal_tesseract.tex",
       "surface": "main",
       "tex_sha256": "c225ae8fcc8b93a805533dff18c1a66d2c81e17f10e91b7f0efe9e7037bedfd2",
       "tex_source": "sections/04_cut_running_fractal_tesseract.tex",
@@ -57,6 +65,7 @@
       "typst_target": "typst/sections/04_cut_running_fractal_tesseract.typ"
     },
     {
+      "generated_latex_target": "latex/sections/05_curl_closure_duon_current.tex",
       "surface": "main",
       "tex_sha256": "db5d3097aa17ce890e1ef5a09e527ce86109715add344f54139eeea3c36f28a9",
       "tex_source": "sections/05_curl_closure_duon_current.tex",
@@ -64,6 +73,7 @@
       "typst_target": "typst/sections/05_curl_closure_duon_current.typ"
     },
     {
+      "generated_latex_target": "latex/sections/06_wave_state_relational_time.tex",
       "surface": "main",
       "tex_sha256": "a0db3c5c2d3c51c117efe6e7c5a139bc757839d508bfa981c773fdd3d7061917",
       "tex_source": "sections/06_wave_state_relational_time.tex",
@@ -71,6 +81,7 @@
       "typst_target": "typst/sections/06_wave_state_relational_time.typ"
     },
     {
+      "generated_latex_target": "latex/sections/06_field.tex",
       "surface": "main",
       "tex_sha256": "8cfc96e46d7492bfec4687b6fa77495b5fbca054474d103b78348cebe022d802",
       "tex_source": "sections/06_field.tex",
@@ -78,6 +89,7 @@
       "typst_target": "typst/sections/06_field.typ"
     },
     {
+      "generated_latex_target": "latex/sections/08_awareness_learning_mindfulness.tex",
       "surface": "main",
       "tex_sha256": "310b4860c1710b8191725d9c40ff1fc05bd45a7ed818f0891e1fbd8fa58feae1",
       "tex_source": "sections/08_awareness_learning_mindfulness.tex",
@@ -85,6 +97,7 @@
       "typst_target": "typst/sections/08_awareness_learning_mindfulness.typ"
     },
     {
+      "generated_latex_target": "latex/sections/07_cell_measures_mappings.tex",
       "surface": "main",
       "tex_sha256": "d1d8d44ada5516da9f6081dc90c565f5151c35d8bbbcdd9e74602c740f17b60c",
       "tex_source": "sections/07_cell_measures_mappings.tex",
@@ -92,6 +105,7 @@
       "typst_target": "typst/sections/07_cell_measures_mappings.typ"
     },
     {
+      "generated_latex_target": "latex/appendices/A_fractal_address_bip_biz.tex",
       "surface": "main",
       "tex_sha256": "422d585b3f317ea52ebe8f7401119ad3e0be526dadd8d9fcd26ec72bdccce8d7",
       "tex_source": "appendices/A_fractal_address_bip_biz.tex",
@@ -99,6 +113,7 @@
       "typst_target": "typst/appendices/A_fractal_address_bip_biz.typ"
     },
     {
+      "generated_latex_target": "latex/appendices/B_curling_curls.tex",
       "surface": "main",
       "tex_sha256": "c47c04f45b584dc284a576301a8af43507725c207f8fd5a0bda583ab17822e04",
       "tex_source": "appendices/B_curling_curls.tex",
@@ -106,6 +121,7 @@
       "typst_target": "typst/appendices/B_curling_curls.typ"
     },
     {
+      "generated_latex_target": "latex/appendices/C_stochastic_crowning.tex",
       "surface": "main",
       "tex_sha256": "4fba7d700d717e096d1bbf72770841199e0958ba0d3939e89c0b82e68858043a",
       "tex_source": "appendices/C_stochastic_crowning.tex",
@@ -113,6 +129,7 @@
       "typst_target": "typst/appendices/C_stochastic_crowning.typ"
     },
     {
+      "generated_latex_target": "latex/appendices/D_cycle_shedding_demonstration.tex",
       "surface": "main",
       "tex_sha256": "f13d9d66140fb5b3e4a65dd626f9341c8be666f29fd8e26d040d19be152f314e",
       "tex_source": "appendices/D_cycle_shedding_demonstration.tex",
@@ -120,6 +137,7 @@
       "typst_target": "typst/appendices/D_cycle_shedding_demonstration.typ"
     },
     {
+      "generated_latex_target": "latex/appendices/E_glossary.tex",
       "surface": "main",
       "tex_sha256": "76dfa08644d8865c3f0ee98590f35f8cb4692cb6254f22957b345fef4efb2f6a",
       "tex_source": "appendices/E_glossary.tex",
@@ -127,6 +145,7 @@
       "typst_target": "typst/appendices/E_glossary.typ"
     },
     {
+      "generated_latex_target": "latex/appendices/F_wave.tex",
       "surface": "main",
       "tex_sha256": "0cbc2e18f2036ca05e188dff445377bba7ddc945ad54c6c40414129c5442cfe6",
       "tex_source": "appendices/F_wave.tex",
@@ -134,6 +153,7 @@
       "typst_target": "typst/appendices/F_wave.typ"
     },
     {
+      "generated_latex_target": "latex/appendices/G_symbolic_cancellation_check.tex",
       "surface": "main",
       "tex_sha256": "29c9bcb1359639548f3d25e35ca7b3e50454f5f17d37f57bfad877b26a5f5f77",
       "tex_source": "appendices/G_symbolic_cancellation_check.tex",
@@ -141,6 +161,7 @@
       "typst_target": "typst/appendices/G_symbolic_cancellation_check.typ"
     },
     {
+      "generated_latex_target": "latex/appendices/H_combinatorics_rd_tests.tex",
       "surface": "main",
       "tex_sha256": "4a2dc17b601c85e84fac6ea215f99f072227c7600500c0faf305bae53739e03f",
       "tex_source": "appendices/H_combinatorics_rd_tests.tex",
@@ -148,6 +169,7 @@
       "typst_target": "typst/appendices/H_combinatorics_rd_tests.typ"
     },
     {
+      "generated_latex_target": "latex/appendices/I_path_complexity_prototype_quarantine.tex",
       "surface": "main",
       "tex_sha256": "531e83d989969c81089a09c0f7bbab56cc02e3f35495f7b5701958160ac6a704",
       "tex_source": "appendices/I_path_complexity_prototype_quarantine.tex",
@@ -155,6 +177,7 @@
       "typst_target": "typst/appendices/I_path_complexity_prototype_quarantine.typ"
     },
     {
+      "generated_latex_target": "latex/appendices/J_ao_field_fractal_properties.tex",
       "surface": "main",
       "tex_sha256": "793eff4bfb043a988e69dd89b1b103661a1fbf462aae0de8350ae5d54c932648",
       "tex_source": "appendices/J_ao_field_fractal_properties.tex",
@@ -162,6 +185,7 @@
       "typst_target": "typst/appendices/J_ao_field_fractal_properties.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/00_scope.tex",
       "surface": "manual",
       "tex_sha256": "8e5d10ce8eee0afab0be9e32458408d67cd0facd52ef4a3fc209d7cbbb269b09",
       "tex_source": "manual/sections/00_scope.tex",
@@ -169,6 +193,7 @@
       "typst_target": "typst/manual/sections/00_scope.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/00_native_closure_wave_temporal_fixtures.tex",
       "surface": "manual",
       "tex_sha256": "7ef27143a761dda2461cd225fffe818772d4f63a4777b37198dae55ff7676f66",
       "tex_source": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
@@ -176,6 +201,7 @@
       "typst_target": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/00_awareness_fixtures.tex",
       "surface": "manual",
       "tex_sha256": "e2df403490df0f1b3d940c39d37436b8267281034b6f7adcc15808c572859e33",
       "tex_source": "manual/sections/00_awareness_fixtures.tex",
@@ -183,6 +209,7 @@
       "typst_target": "typst/manual/sections/00_awareness_fixtures.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/00_dec_ledger.tex",
       "surface": "manual",
       "tex_sha256": "934828daf766319e71eda3c4b89411b9a53dfc59d9d6774debbc7aa0657d3277",
       "tex_source": "manual/sections/00_dec_ledger.tex",
@@ -190,6 +217,7 @@
       "typst_target": "typst/manual/sections/00_dec_ledger.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/01_cell_measures.tex",
       "surface": "manual",
       "tex_sha256": "13093b765131abf4bfb74e5333777f93ecb9a19ff9ca349d01a15471c71af24d",
       "tex_source": "manual/sections/01_cell_measures.tex",
@@ -197,6 +225,7 @@
       "typst_target": "typst/manual/sections/01_cell_measures.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/02_mapping_error.tex",
       "surface": "manual",
       "tex_sha256": "baf71f4d4d17b5504e5d973a9579ad8b8f3005b283fcfbf41aad12a5d82a66e1",
       "tex_source": "manual/sections/02_mapping_error.tex",
@@ -204,6 +233,7 @@
       "typst_target": "typst/manual/sections/02_mapping_error.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/03_temporal_observation.tex",
       "surface": "manual",
       "tex_sha256": "108647cd1111432bc7c6f00c331de22663bc9b5db90eeed56c3906f45b4e5e1d",
       "tex_source": "manual/sections/03_temporal_observation.tex",
@@ -211,13 +241,15 @@
       "typst_target": "typst/manual/sections/03_temporal_observation.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/03_short_window_rcd_shedding_fixtures.tex",
       "surface": "manual",
       "tex_sha256": "bf5ee4dc041b0fdc163a023761c46efbab5a95848e73b3f7be73d827e56d4fe4",
       "tex_source": "manual/sections/03_short_window_rcd_shedding_fixtures.tex",
-      "typst_sha256": "3012212bdc7893a814ce84ab5c122b5a9770ab81d5f0e6b81c5dd2980e949b90",
+      "typst_sha256": "9cf1e1763a67806f78485892a59bbde7333cbad2df14c005769a626857d97b11",
       "typst_target": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/01_rest_energy_prediction.tex",
       "surface": "manual",
       "tex_sha256": "40e6af142bfca8d4d97f8f48c50337f7c7d0099954d4e349dea09a9a76c40469",
       "tex_source": "manual/sections/01_rest_energy_prediction.tex",
@@ -225,27 +257,31 @@
       "typst_target": "typst/manual/sections/01_rest_energy_prediction.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/02_hydrogen_facing_shell_tests.tex",
       "surface": "manual",
       "tex_sha256": "e1fd2981fcd3030da2d64aa976339389ec890818092153ef4c3b34f5c2bd586e",
       "tex_source": "manual/sections/02_hydrogen_facing_shell_tests.tex",
-      "typst_sha256": "f8a26c34166ca33ffe8ebbe3a90c9143f597e9e61819f58944cdd7cf1e450000",
+      "typst_sha256": "d01ad3584494133e8e9daa0f09e32e382b10778876a78ab26d23742c9750e658",
       "typst_target": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/04_boundary_current_applications.tex",
       "surface": "manual",
       "tex_sha256": "6d517127cb599c502cbeb06deed09451495e4a824f2c93eaaa5a7076a72c37b6",
       "tex_source": "manual/sections/04_boundary_current_applications.tex",
-      "typst_sha256": "130853df624bd66e5131bbcd2cb4e6989bfe4b70a168f54fa9edc2079d8cc0c7",
+      "typst_sha256": "dd02816e3be72fc78bcf09b3ed0a3de51b4489b552683d22969b5a10c4fc07d9",
       "typst_target": "typst/manual/sections/04_boundary_current_applications.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/05_solar_system_field_tests.tex",
       "surface": "manual",
       "tex_sha256": "2a98a1bbc46c8721812da6a1c6e1b78fd2f961124d768e0563d8b3699e0a552b",
       "tex_source": "manual/sections/05_solar_system_field_tests.tex",
-      "typst_sha256": "b87eb4481444b7cbc8eb6161c2e48e74834bd6db9d0ee33287d3eeab9e3e5a28",
+      "typst_sha256": "9efc78b6f599e26c25db90fccdef483d321a5fec43e9b72a933b1f928fa9d872",
       "typst_target": "typst/manual/sections/05_solar_system_field_tests.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/06_field_dynamics_applications.tex",
       "surface": "manual",
       "tex_sha256": "45b7316cb3e49a14f4dc62ac664a82114c2273438ffafd27aa3c5b302d6acb04",
       "tex_source": "manual/sections/06_field_dynamics_applications.tex",
@@ -253,6 +289,7 @@
       "typst_target": "typst/manual/sections/06_field_dynamics_applications.typ"
     },
     {
+      "generated_latex_target": "latex/manual/data/run_tumble/run_tumble_trace_table.tex",
       "surface": "manual",
       "tex_sha256": "f942b7f23a3e988014c311c9e2cc55ab51ef81261ec43ab0d7210d8b7a862921",
       "tex_source": "manual/data/run_tumble/run_tumble_trace_table.tex",
@@ -260,6 +297,7 @@
       "typst_target": "typst/manual/tables/run_tumble_trace_table.typ"
     },
     {
+      "generated_latex_target": "latex/manual/data/derived/sparc_summary_table.tex",
       "surface": "manual",
       "tex_sha256": "977b15cff45f44da60dac01a95507ded32eacb7f814278ae4f2cf4657412642b",
       "tex_source": "manual/data/derived/sparc_summary_table.tex",
@@ -267,6 +305,7 @@
       "typst_target": "typst/manual/tables/sparc_summary_table.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/07_galactic_lensing_plan.tex",
       "surface": "manual",
       "tex_sha256": "4182272f192968d934de308ff3aad7939ab0c9b479b7d2c66999687154157ee8",
       "tex_source": "manual/sections/07_galactic_lensing_plan.tex",
@@ -274,6 +313,7 @@
       "typst_target": "typst/manual/sections/07_galactic_lensing_plan.typ"
     },
     {
+      "generated_latex_target": "latex/manual/data/lensing/sparc5_medium_diagnostic_summary_table.tex",
       "surface": "manual",
       "tex_sha256": "eaebd5869923a9e825c323c3364e4c9bed46de889294bb11742fc1d1ec03f61b",
       "tex_source": "manual/data/lensing/sparc5_medium_diagnostic_summary_table.tex",
@@ -281,6 +321,7 @@
       "typst_target": "typst/manual/tables/sparc5_medium_diagnostic_summary_table.typ"
     },
     {
+      "generated_latex_target": "latex/manual/data/lensing/swells_k0_target_tallies_table.tex",
       "surface": "manual",
       "tex_sha256": "9d489a2b33b54017434fafefa57ab9804b43a507245cca7fc9451c47e8dc4c6b",
       "tex_source": "manual/data/lensing/swells_k0_target_tallies_table.tex",
@@ -288,6 +329,7 @@
       "typst_target": "typst/manual/tables/swells_k0_target_tallies_table.typ"
     },
     {
+      "generated_latex_target": "latex/manual/data/lensing/swells_k1_k2_k3_comparison_table.tex",
       "surface": "manual",
       "tex_sha256": "813626c32c9a3dda9327884965c5aeae7da05b1118f2bddab87d72413bde9573",
       "tex_source": "manual/data/lensing/swells_k1_k2_k3_comparison_table.tex",
@@ -295,6 +337,7 @@
       "typst_target": "typst/manual/tables/swells_k1_k2_k3_comparison_table.typ"
     },
     {
+      "generated_latex_target": "latex/manual/data/lensing/k4_3d_timeflow_input_gate_table.tex",
       "surface": "manual",
       "tex_sha256": "b972211294ba5e7205a2e258b3d1e6ab1b9e3126861e540c624aa0735e779e05",
       "tex_source": "manual/data/lensing/k4_3d_timeflow_input_gate_table.tex",
@@ -302,6 +345,7 @@
       "typst_target": "typst/manual/tables/k4_3d_timeflow_input_gate_table.typ"
     },
     {
+      "generated_latex_target": "latex/manual/sections/09_prediction_test_fixture_registry.tex",
       "surface": "manual",
       "tex_sha256": "60ad7f188f2a6a1c43fda9e589f942c9dcda04543383217fb9225a671baed08e",
       "tex_source": "manual/sections/09_prediction_test_fixture_registry.tex",
@@ -309,6 +353,7 @@
       "typst_target": "typst/manual/sections/09_prediction_test_fixture_registry.typ"
     },
     {
+      "generated_latex_target": "latex/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
       "surface": "manual",
       "tex_sha256": "f106ee80779e1b535a64e9e1fe673f5242f73a48a754b848c5534956a9fd66c3",
       "tex_source": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
@@ -316,6 +361,7 @@
       "typst_target": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ"
     },
     {
+      "generated_latex_target": "latex/cycle_shedding_summary.tex",
       "surface": "manual",
       "tex_sha256": "a422ad8364d9a1e2c3983d137d329a8935fd764e7275289ebb778ca206d105f6",
       "tex_source": "cycle_shedding_summary.tex",
@@ -323,6 +369,7 @@
       "typst_target": "typst/manual/tables/cycle_shedding_summary.typ"
     },
     {
+      "generated_latex_target": "latex/manual/appendices/B_quarantined_external_comparison.tex",
       "surface": "manual",
       "tex_sha256": "2a4730702a7f1aa7889f297ef58d3f15573ade2b4ce4b89a3631720b5ee10cb1",
       "tex_source": "manual/appendices/B_quarantined_external_comparison.tex",
@@ -330,6 +377,7 @@
       "typst_target": "typst/manual/appendices/B_quarantined_external_comparison.typ"
     },
     {
+      "generated_latex_target": "latex/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex",
       "surface": "manual",
       "tex_sha256": "1d125ab97ad5e383f43467e56cd6e9e9297c95d9fe2c06bbe9b5f4c6d92c41bd",
       "tex_source": "manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex",
@@ -557,6 +605,13 @@
     "wavelet_shedding_simulation.csv": "d7b0592997d47b2b550508d663afe8943a98ba9d58d087ce77e9d4d0a0c3ff40",
     "wavelet_shedding_summary.tex": "d3002ffc387f1a1ce595f25990c2ee9e86612e58821f514ea3e6f098576fb01e"
   },
+  "baseline_snapshot_manifest": "archive/latex_baseline_98ddfa0/BASELINE_MANIFEST.json",
+  "diagram_components": {
+    "typst/lib/diagrams/boundary_current_spine.typ": "8919cab712a3f357082054b1ea6e574207447f4758b3bc5244deacc78d966756",
+    "typst/lib/diagrams/hydrogen_shell_setup.typ": "8eb94aa4150eaf43a125c51c9fe04bdacdb0ab4dc1a201bcd8c7b801f5411919",
+    "typst/lib/diagrams/short_window_setup.typ": "3cdb64d913ab775862d82a893550572d4bdfb09e95b6c52e9e18e964a01642c0",
+    "typst/lib/diagrams/solar_system_spine.typ": "fb6418553d4ca17aa3ec4fa3cb23b04a13964c1fb8a422351dc069f0c2e6d04d"
+  },
   "historical_tex_snapshots_excluded": [
     "manual/data/historical_metrology/historical_target/sections/06_wave_state_relational_time.tex",
     "manual/data/temporal_anchor/source/baseline/input/upstream/appendices/H_combinatorics_rd_tests.tex",
@@ -592,13 +647,19 @@
   ],
   "parent_m4_commit": "83188dc9dc5f2897f194ca0b60fc7986f0c61054",
   "parent_m4_tree": "8082676a4a8b331eec89275b7b59f8c4f179ade5",
+  "phase2_primary_authority": "typst",
   "schema": "aod.typst.manifest.v1",
   "scientific_baseline_commit": "98ddfa0ebb38293adfa99c8c11da5a15cdd9eea3",
   "scientific_baseline_tree": "b4a667e3809e4a145580686d439811834b936343",
   "shared_library_files": [
     "typst/lib/aod_schema.typ",
-    "typst/lib/main_registry.json"
+    "typst/lib/main_registry.json",
+    "typst/lib/diagrams/boundary_current_spine.typ",
+    "typst/lib/diagrams/hydrogen_shell_setup.typ",
+    "typst/lib/diagrams/short_window_setup.typ",
+    "typst/lib/diagrams/solar_system_spine.typ"
   ],
+  "typ2tex_status": "IMPLEMENTED_IN_PHASE_2",
   "unincluded_repo_tex_files": [
     "wavelet_shedding_summary.tex"
   ]

@@ -1,0 +1,152 @@
+% GENERATED FROM typst/manual/preamble.typ BY scripts/typ2tex.py (v1.0.0) — DO NOT EDIT.
+% Edit canonical Typst under typst/ and regenerate with: python3 scripts/typ2tex.py --root . --outdir latex
+
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xr-hyper}
+\usepackage[hidelinks]{hyperref}
+\usepackage{refcount}
+\usepackage{bookmark}
+% Main labels retain their complete source keys and display generated Main numbers.
+% Build latex/main.tex with latexmk before latex/manual/main.tex.
+\ExplSyntaxOn
+\cs_new_protected:Npn \aod_main_reference_error:n #1
+  {
+    \PackageError{aod-mainrefs}{#1}
+      {Build~Main~with~latexmk~from~this~generated~latex~tree~before~Manual.}
+  }
+\ior_new:N \l_aod_main_inputs_ior
+\seq_new:N \l_aod_main_input_seq
+\tl_new:N \l_aod_main_input_tl
+\tl_new:N \l_aod_main_anchor_tl
+\tl_new:N \l_aod_main_number_tl
+\clist_map_inline:nn { ../main.aux, ../main.fls }
+  {
+    \file_if_exist:nF {#1}
+      { \aod_main_reference_error:n {Missing~Main~build~file~#1} }
+  }
+\ior_open:Nn \l_aod_main_inputs_ior { ../main.fls }
+\ior_str_map_inline:Nn \l_aod_main_inputs_ior
+  {
+    \regex_extract_once:nnNT { \A INPUT \s+ (.+) \Z }
+      {#1} \l_aod_main_input_seq
+      {
+        \tl_set:Nx \l_aod_main_input_tl
+          { \seq_item:Nn \l_aod_main_input_seq {2} }
+        \exp_args:NnV \regex_match:nnT
+          { \.(tex|bib|png|jpe?g|eps|pdf) \Z } \l_aod_main_input_tl
+          {
+            \exp_args:NnV \regex_match:nnF { \A / } \l_aod_main_input_tl
+              { \tl_put_left:Nn \l_aod_main_input_tl { ../ } }
+            \file_if_exist:VTF \l_aod_main_input_tl
+              {
+                \file_compare_timestamp:VNnT \l_aod_main_input_tl > { ../main.aux }
+                  { \aod_main_reference_error:n {Stale~Main~AUX:~\l_aod_main_input_tl} }
+              }
+              { \aod_main_reference_error:n {Missing~Main~input~\l_aod_main_input_tl} }
+          }
+      }
+  }
+\ior_close:N \l_aod_main_inputs_ior
+\file_if_exist:nT { ../refs.bib }
+  {
+    \file_compare_timestamp:nNnT { ../refs.bib } > { ../main.aux }
+      { \aod_main_reference_error:n {Stale~Main~AUX:~../refs.bib} }
+  }
+\cs_new_protected:Npn \aod_main_reference_check:nn #1#2
+  {
+    \regex_match:nnF { \A main: } {#1}
+      { \aod_main_reference_error:n {Unresolved~Main~reference:~#1} }
+    \cs_if_exist:cTF { r@#1 }
+      {
+        \tl_set:Nx \l_aod_main_anchor_tl
+          { \getrefbykeydefault{#1}{anchor}{} }
+        \exp_args:NnV \regex_match:nnF {#2} \l_aod_main_anchor_tl
+          { \aod_main_reference_error:n {Wrong~Main~reference~type:~#1} }
+      }
+      { \aod_main_reference_error:n {Unresolved~Main~reference:~#1} }
+  }
+\NewDocumentCommand{\mainequation}{m}
+  {
+    \aod_main_reference_check:nn {#1}
+      { \A (equation\. ([A-J]\.)? [0-9]+ (\.[0-9]+)* | AMS\. [0-9]+) \Z }
+    \exp_args:NnV \regex_match:nnT { \A AMS\. } \l_aod_main_anchor_tl
+      {
+        \tl_set:Nx \l_aod_main_number_tl { \getrefnumber{#1} }
+        \tl_set:Nx \l_aod_main_number_tl
+          { \tl_to_str:V \l_aod_main_number_tl }
+        \exp_args:NnV \regex_match:nnF
+          { \A (RG[0-9]+|\{RG[0-9]+\}) \Z } \l_aod_main_number_tl
+          { \aod_main_reference_error:n {Wrong~Main~reference~type:~#1} }
+      }
+    Main~\eqref{#1}
+  }
+\NewDocumentCommand{\mainsection}{m}
+  {
+    \aod_main_reference_check:nn {#1}
+      { \A (section|subsection|subsubsection)\. [0-9]+ (\.[0-9]+)* \Z }
+    Main~\S\ref{#1}
+  }
+\NewDocumentCommand{\mainappendix}{m}
+  {
+    \aod_main_reference_check:nn {#1}
+      { \A (appendix|section|subsection|subsubsection)\. [A-J] (\.[0-9]+)* \Z }
+    Main~App.~\ref{#1}
+  }
+\NewDocumentCommand{\maintable}{m}
+  {
+    \aod_main_reference_check:nn {#1}
+      { \A table\. (caption\.)? [0-9]+ \Z }
+    Main~Table~\ref{#1}
+  }
+\ExplSyntaxOff
+\newcommand{\SADAR}{\mathrm{SADAR}}
+\newcommand{\AO}{A{\leftrightarrow}\Omega}
+\newcommand{\AOpkg}{\operatorname{A\leftrightarrow_{\mu}\Omega}}
+\newcommand{\OAop}{\operatorname{\Omega\leftrightarrow_{\mu}A}}
+\newcommand{\AOh}{\mathsf{AO}_{\mu}}
+\newcommand{\OAh}{\mathsf{OA}_{\mu}}
+\newcommand{\AOcycle}{A{\leftrightarrow_{\mu}}\Omega\;\longleftrightarrow\;\Omega{\leftrightarrow_{\mu}}A}
+\newcommand{\SADARop}{\mathfrak S}
+\newcommand{\Qext}{\mathsf{Q}_{\mathrm{ext}}}
+\newcommand{\appref}[1]{App.~\ref{#1}}
+\newcommand{\secref}[1]{\S\ref{#1}}
+\newcommand{\eqnref}[1]{\eqref{#1}}
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+\newcommand{\aodnoteblock}[2]{\medskip\begingroup\emergencystretch=3em\sloppy\noindent\emph{#1.}\ #2\par\endgroup}
+\newcommand{\aodprovenance}[1]{\aodnoteblock{Provenance}{#1}}
+\newcommand{\aodliteraturenote}[1]{\aodnoteblock{Literature note}{#1}}
+\newcommand{\aodremark}[1]{\aodnoteblock{Remark}{#1}}
+\newcommand{\ADAR}{\mathrm{ADAR}}
+\newcommand{\RCD}{\operatorname{RCD}}
+\newcommand{\Qfour}{Q_4}
+\newcommand{\Null}{\mathcal N}
+\newcommand{\infD}{\infty_{\mathcal{D}}}
+% Deliver latex/manual/main.pdf staged as sibling manual.pdf alongside main.pdf.
+\externaldocument[main:][nocite]{../main}[main.pdf]
+\setlength{\tabcolsep}{3pt}
+
+\hypersetup{
+  pdftitle={Alpha↔Omega Dynamics (AΩD) - Manual},
+  pdfauthor={Reginald Poyau},
+  pdfsubject={The Hidden Temporal Dynamics of Stokes Manual; The Art Of The Leprechaun: Fractal Calculus; AFC/AOD finite simulation fixtures, boundary accounting, data-support classes, scoped error},
+  pdfkeywords={Axiomatic Fundamentalism, AFC, AOD, AΩD, Stokes, SADAR, manual, boundary accounting, data-support classes, scoped error, finite simulation fixtures}
+}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\newcommand{\AODDocumentAuthor}{Reginald Poyau}
+\newcommand{\AODDocumentDate}{June 1, 2026}
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{0em}{2.6em}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{1.6em}{3.9em}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{4.0em}{5.0em}}
+\makeatother
+
+\newtheorem{definition}{Definition}
+\setlength{\emergencystretch}{2em}

@@ -30,14 +30,18 @@ def _assert_displayed_weighted_claim(display, dwell, positive, weights):
     """Evaluate the displayed empty-set consequent, not a substitute theorem.
 
     The small grammar deliberately accepts both the repaired intersection and
-    the erroneous structural-empty consequent so the hostile mutation below
-    fails because of its mathematical value, rather than an unknown spelling.
+    the erroneous structural-empty consequent in either canonical Typst or
+    generated LaTeX so hostile mutations fail on mathematical value.
     """
-    normalized = re.sub(r'\s+|\\(?:quad|qquad)', '', display)
-    match = re.search(r'\\Longleftrightarrow(A_0(?:\\capA_\+)?)=\\varnothing', normalized)
-    assert match, 'The weighted claim must state its empty-support equivalence'
+    normalized = re.sub(r'\s+|\\(?:quad|qquad)|\bquad\b|\bwide\b', '', display)
+    match = re.search(r'\\Longleftrightarrow(A_0(?:\\capA_\+)?)=\\(?:varnothing|emptyset)', normalized)
+    if match:
+        factors = match[1].split(r'\cap')
+    else:
+        match = re.search(r'arrow\.l\.r\.double\.long(A_0(?:interA_\(\+\))?)=emptyset', normalized)
+        assert match, 'The weighted claim must state its empty-support equivalence'
+        factors = [f.replace('A_(+)', 'A_+') for f in match[1].split('inter')]
     domains = {'A_0': dwell, 'A_+': positive}
-    factors = match[1].split(r'\cap')
     consequent = set(domains[factors[0]])
     for factor in factors[1:]:
         consequent &= domains[factor]
@@ -46,7 +50,10 @@ def _assert_displayed_weighted_claim(display, dwell, positive, weights):
 
 
 def test_displayed_weighted_saturation_on_all_finite_nonnegative_cases():
-    claim = source.equations(ROOT)['eq:hinge-saturation-weighted']
+    claims = [
+        source.equations(ROOT)['eq:hinge-saturation-weighted'],
+        source.latex_equations(ROOT)['eq:hinge-saturation-weighted'],
+    ]
     # Distinct channels can share one fibre role.  This is a typed finite
     # specialization, not a combined probability kernel on H1 and fibre rows.
     roles = {'d0': n.fibre_step(0, 0, 'additional_dwell'),
@@ -58,7 +65,8 @@ def test_displayed_weighted_saturation_on_all_finite_nonnegative_cases():
         for values in product((Q(0), Q(1, 2), Q(2)), repeat=len(admitted)):
             weights = dict(zip(admitted, values))
             positive = {event for event in admitted if weights[event] > 0}
-            _assert_displayed_weighted_claim(claim, set(admitted_dwell), positive, weights)
+            for claim in claims:
+                _assert_displayed_weighted_claim(claim, set(admitted_dwell), positive, weights)
             if not admitted_dwell:
                 assert {roles[event]['role'] for event in admitted} <= {-1, 1}
             if sum((weights[event] for event in admitted_dwell), Q(0)) == 0:
@@ -74,10 +82,16 @@ def test_zero_weight_counterexample_rejects_structural_empty_conclusion():
     _assert_displayed_weighted_claim(claim, {'d0'}, {'b-', 'b+'}, weights)
     # This reproduces the incorrect inference being repaired.  The parser
     # accepts it; the exact admitted zero-weight witness refutes it.
-    mutant = claim.replace(r'A_0\cap A_+', 'A_0')
+    mutant = claim.replace('A_0 inter A_(+)', 'A_0')
     assert mutant != claim
     with pytest.raises(AssertionError, match='Weighted dwell sum and displayed support disagree'):
         _assert_displayed_weighted_claim(mutant, {'d0'}, {'b-', 'b+'}, weights)
+    tex_claim = source.latex_equations(ROOT)['eq:hinge-saturation-weighted']
+    _assert_displayed_weighted_claim(tex_claim, {'d0'}, {'b-', 'b+'}, weights)
+    tex_mutant = re.sub(r'A_0\s*\\cap\s*A_\+', 'A_0', tex_claim)
+    assert tex_mutant != tex_claim
+    with pytest.raises(AssertionError, match='Weighted dwell sum and displayed support disagree'):
+        _assert_displayed_weighted_claim(tex_mutant, {'d0'}, {'b-', 'b+'}, weights)
 
 
 def test_atomic_empty_and_zero_support_remain_distinct_from_fibre_dwell():
@@ -106,9 +120,12 @@ def test_strict_positive_hypothesis_and_negative_weight_counterexample():
         assert (sum(dwell_weights, Q(0)) == 0) == (not dwell_weights)
     # Nonnegativity is necessary for the weaker positive-support equivalence.
     weights = {'d0': Q(1), 'd1': Q(-1)}
-    claim = source.equations(ROOT)['eq:hinge-saturation-weighted']
-    with pytest.raises(AssertionError, match='Weighted dwell sum and displayed support disagree'):
-        _assert_displayed_weighted_claim(claim, set(weights), {'d0'}, weights)
+    for claim in (
+        source.equations(ROOT)['eq:hinge-saturation-weighted'],
+        source.latex_equations(ROOT)['eq:hinge-saturation-weighted'],
+    ):
+        with pytest.raises(AssertionError, match='Weighted dwell sum and displayed support disagree'):
+            _assert_displayed_weighted_claim(claim, set(weights), {'d0'}, weights)
 
 
 def test_operative_removes_exact_source_subset_and_restores_provenance(monkeypatch):

