@@ -4,40 +4,49 @@ This source tree is version-neutral. Release artifact filenames are stable (`mai
 
 ## Dependencies and source preparation
 
-Install pinned **Typst 0.15.1** (with Latin Modern fonts), XeLaTeX, latexmk, BibTeX support, Python 3 and the test dependencies. On Ubuntu, the publication workflow uses:
+The default local and CI publication build is pure **Typst → PDF** and requires no TeXLive installation. Install pinned **Typst 0.15.1** (with Latin Modern fonts), `poppler-utils`, Python 3, and the test dependencies. On Ubuntu, the default build workflow uses:
 
 ```bash
-sudo apt-get install latexmk texlive-xetex texlive-bibtex-extra texlive-latex-extra fonts-lmodern poppler-utils python3 python3-pip python3-venv
+sudo apt-get install fonts-lmodern poppler-utils python3 python3-pip python3-venv
 python3 -m venv .venv
 . .venv/bin/activate
 python3 -m pip install -r requirements-ci.txt pytest pandas matplotlib pypdf
 ```
 
+Only the optional LaTeX compatibility compilation (`--with-latex`) and historical `98ddfa0` baseline parity verification require TeXLive (`sudo apt-get install latexmk texlive-xetex texlive-bibtex-extra texlive-latex-extra`).
+
 Extract `source.zip` into a new empty directory. Git, credentials, and external project records are not required to run the publications, scientific checks or fallback release packaging. Keep `contracts/scientific/`, `tests/`, `typst/`, `latex/`, `archive/latex_baseline_98ddfa0/`, model scripts and datasets with the manuscripts. Current contracts state mathematical obligations and are checked against independent integrity bindings.
 
-## Publication build (Typst primary + generated LaTeX compatibility)
+## Publication build (Typst primary + optional generated LaTeX compatibility)
 
 Editable manuscript sources live under `typst/` (`typst/main.typ`, `typst/sections/`, `typst/appendices/`, `typst/manual/`, and shared native diagrams under `typst/lib/diagrams/`). The generated LaTeX compatibility tree lives under `latex/` and is produced deterministically from `typst/` by `scripts/typ2tex.py` (do not hand-edit files under `latex/`). The immutable historical scientific LaTeX baseline (`98ddfa0ebb38`) is preserved under `archive/latex_baseline_98ddfa0/` with `BASELINE_MANIFEST.json`.
 
-Typical local build (Bash):
+Default local build (pure Typst → PDF, matching `.github/workflows/build.yml`; no TeXLive required):
 
 ```bash
-# Build canonical Typst primary PDFs (dist/main.pdf, dist/manual.pdf),
-# check generated latex/ freshness, and compile compatibility PDFs
-# (dist/latex/main.pdf, dist/latex/manual.pdf):
-python3 scripts/build_publication.py --outdir _build/pub --check-registry --with-latex --check-latex
+# Build canonical Typst primary PDFs (_build/pub/main.pdf, _build/pub/manual.pdf):
+python3 scripts/build_publication.py --outdir _build/pub --check-registry
 cp _build/pub/main.pdf main.pdf
 cp _build/pub/manual.pdf manual.pdf
+
+# Audit canonical Typst authority, scientific contracts, and derivative latex/ sources:
+python3 scripts/audit_scientific_sources.py .
+set -o pipefail
+python3 -m pytest -q | tee tests.txt
+python3 scripts/build_release_bundle.py --outdir dist --main main.pdf --manual manual.pdf --tests tests.txt
+```
+
+Optional LaTeX export and XeLaTeX compatibility build (requires TeXLive; in CI, run on demand via `.github/workflows/latex.yml` using `workflow_dispatch`):
+
+```bash
+# Check committed latex/ freshness (omit --check-latex to regenerate latex/)
+# and compile XeLaTeX compatibility PDFs (dist_latex/latex/main.pdf, dist_latex/latex/manual.pdf):
+python3 scripts/build_publication.py --outdir dist_latex --check-registry --with-latex --check-latex
+python3 scripts/audit_scientific_sources.py . --build-root latex
 
 # Regenerate or verify generated LaTeX and exported vector diagrams directly:
 python3 scripts/export_typst_figures.py --root . --outdir latex/manual/figures/generated
 python3 scripts/typ2tex.py --root . --outdir latex --check
-
-# Audit canonical Typst authority and executed generated-LaTeX build outputs:
-python3 scripts/audit_scientific_sources.py . --build-root latex
-set -o pipefail
-python3 -m pytest -q | tee tests.txt
-python3 scripts/build_release_bundle.py --outdir dist --main main.pdf --manual manual.pdf --tests tests.txt
 ```
 
 The generated release files use stable names; source-internal paths also remain version-neutral.
@@ -45,14 +54,14 @@ The generated release files use stable names; source-internal paths also remain 
 Always build Main before Manual in both representations:
 
 - **Canonical Typst (`dist/main.pdf`, `dist/manual.pdf`):** `scripts/build_typst.py` compiles deterministic PDFs (`--creation-timestamp`, honoring `SOURCE_DATE_EPOCH` and defaulting to `0`), exports `typst/lib/main_registry.json` with `main_sources_sha256` and `main_pdf_filename: "main.pdf"`, and passes `--input expected_main_digest=...` and `--input expected_main_pdf_filename=main.pdf` when compiling `typst/manual/main.typ`. Stale registries, companion filename mismatches, unknown labels, and wrong reference types fail closed.
-- **Generated LaTeX (`dist/latex/main.pdf`, `dist/latex/manual.pdf`):** `latex/manual/preamble.tex` imports generated Main's published equation, section, appendix and table numbers from `../main.aux`, using `../main.fls` to reject missing or stale Main inputs, and targets sibling `main.pdf`. Copy `latex/manual/main.pdf` to `dist/latex/manual.pdf` alongside `dist/latex/main.pdf` so sibling links resolve within the generated pair.
-- **Native diagrams (`latex/manual/figures/generated/*.pdf`):** `scripts/export_typst_figures.py` compiles the four shared native diagrams under `typst/lib/diagrams/` into tightly bounded 1-page vector PDFs (zero raster XObjects, extractable text; optional `--format png --ppi 300|600` fallback), while captions and labels remain real LaTeX. Existing PNG/JPEG rasters are staged unchanged without resampling.
+- **Optional generated LaTeX (`dist_latex/latex/main.pdf`, `dist_latex/latex/manual.pdf`):** `latex/manual/preamble.tex` imports generated Main's published equation, section, appendix and table numbers from `../main.aux`, using `../main.fls` to reject missing or stale Main inputs, and targets sibling `main.pdf`. Copy `latex/manual/main.pdf` to `dist_latex/latex/manual.pdf` alongside `dist_latex/latex/main.pdf` so sibling links resolve within the generated pair.
+- **Native diagrams (`latex/manual/figures/generated/*.pdf`):** `scripts/export_typst_figures.py` compiles the shared native diagrams and vector figures under `typst/lib/` into tightly bounded 1-page vector PDFs (zero raster XObjects, extractable text; optional `--format png --ppi 300|600` fallback), while captions and labels remain real LaTeX. Existing PNG/JPEG rasters are staged unchanged without resampling.
 
-Before packaging publication artifacts, the scientific-source audit verifies canonical `typst/` authority, derivative `latex/` compatibility, and executed `.fls`/`.aux`/`.log` evidence. The release tests artifact is `tests.txt`, produced by the pytest suite (including SymPy exact-arithmetic checks).
+Before packaging publication artifacts, `.github/workflows/build.yml` runs `scripts/audit_scientific_sources.py .` to verify canonical `typst/` authority, scientific contracts, and derivative `latex/` source consistency (with optional `--build-root latex` executed `.fls`/`.aux`/`.log` verification in manual `.github/workflows/latex.yml`). The release tests artifact is `tests.txt`, produced by the pytest suite (including SymPy exact-arithmetic checks).
 
 ## Parity verification against the preserved 98ddfa0 baseline
 
-Materialize the immutable historical baseline without Git and verify both canonical Typst and generated LaTeX outputs in normal and optimized Python:
+Historical `98ddfa0` baseline parity verification is optional and triggered manually in CI via `.github/workflows/latex.yml` (`workflow_dispatch` with `run_baseline_parity=true`). Locally, materialize the immutable historical baseline without Git (requires TeXLive) and verify both canonical Typst and generated LaTeX outputs in normal and optimized Python:
 
 ```bash
 python3 scripts/materialize_latex_baseline.py --root . --outdir /tmp/aod_baseline_98ddfa0
@@ -63,14 +72,14 @@ python3 scripts/verify_typst_parity.py --outdir _build/typst_parity \
   --baseline-root /tmp/aod_baseline_98ddfa0 \
   --baseline-main-pdf /tmp/aod_baseline_98ddfa0/main.pdf \
   --baseline-manual-pdf /tmp/aod_baseline_98ddfa0/manual.pdf \
-  --generated-latex-main-pdf _build/pub/latex/main.pdf \
-  --generated-latex-manual-pdf _build/pub/latex/manual.pdf
+  --generated-latex-main-pdf dist_latex/latex/main.pdf \
+  --generated-latex-manual-pdf dist_latex/latex/manual.pdf
 python3 -O scripts/verify_typst_parity.py --outdir _build/typst_parity_opt \
   --baseline-root /tmp/aod_baseline_98ddfa0 \
   --baseline-main-pdf /tmp/aod_baseline_98ddfa0/main.pdf \
   --baseline-manual-pdf /tmp/aod_baseline_98ddfa0/manual.pdf \
-  --generated-latex-main-pdf _build/pub/latex/main.pdf \
-  --generated-latex-manual-pdf _build/pub/latex/manual.pdf
+  --generated-latex-main-pdf dist_latex/latex/main.pdf \
+  --generated-latex-manual-pdf dist_latex/latex/manual.pdf
 cmp _build/typst_parity/parity_report.json _build/typst_parity_opt/parity_report.json
 ```
 

@@ -1252,7 +1252,7 @@ def test_g6_source_zip_extraction_runs_all_fast_15_and_coverage_preserves_invent
 
 def test_g7_build_yml_s2_step_ordering_and_172_frozen_hashes_intact():
     workflow = (ROOT / ".github/workflows/build.yml").read_text(encoding="utf-8")
-    audit_cmd = "python3 scripts/audit_scientific_sources.py . --build-root latex"
+    audit_cmd = "python3 scripts/audit_scientific_sources.py ."
     s2_step = "Verify S2 zero-float reference engine (normal and -O)"
     s2_norm = "python3 -B -m manual.engine --verify-all --check-zero-float --verify-vectors --report _build/s2/engine_norm.json"
     s2_opt = "python3 -B -O -m manual.engine --verify-all --check-zero-float --verify-vectors --report _build/s2/engine_opt.json"

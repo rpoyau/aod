@@ -1,12 +1,21 @@
-name: typst
+name: latex-optional
 
 on:
-  push:
-    branches: [ main, m4, m4-typst-s1a, m4-typst-primary-latex-export ]
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      regenerate_latex:
+        description: "Regenerate latex/ from typst/ instead of checking committed latex/"
+        type: boolean
+        default: false
+        required: false
+      run_baseline_parity:
+        description: "Also build historical 98ddfa0 LaTeX baseline PDFs and run full verify_typst_parity.py (normal and -O) + non-Git reconstruction"
+        type: boolean
+        default: false
+        required: false
 
 jobs:
-  typst-parity:
+  latex-optional:
     runs-on: ubuntu-latest
     env:
       TYPST_VERSION: "0.15.1"
@@ -32,21 +41,50 @@ jobs:
           if [ -f requirements-ci.txt ]; then python3 -m pip install -r requirements-ci.txt; fi
           python3 -m pip install pytest sympy pandas matplotlib pypdf
 
+      - name: Build canonical Typst primary PDFs and check generated LaTeX compatibility PDFs
+        if: inputs.regenerate_latex != true
+        run: |
+          python3 scripts/build_publication.py --outdir dist_latex --check-registry --with-latex --check-latex
+
+      - name: Build canonical Typst primary PDFs and regenerate LaTeX compatibility PDFs
+        if: inputs.regenerate_latex == true
+        run: |
+          python3 scripts/build_publication.py --outdir dist_latex --check-registry --with-latex
+
+      - name: Audit executed scientific sources (including generated LaTeX build)
+        run: |
+          python3 scripts/audit_scientific_sources.py . --build-root latex
+
+      - name: Upload optional LaTeX build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: aod-latex-optional
+          path: |
+            dist_latex/latex/main.pdf
+            dist_latex/latex/manual.pdf
+            dist_latex/main.pdf
+            dist_latex/manual.pdf
+            dist_latex/publication_build_report.json
+
       - name: Materialize and build immutable 98ddfa0 historical LaTeX baseline PDFs
+        if: inputs.run_baseline_parity == true
         run: |
           python3 scripts/materialize_latex_baseline.py --root . --outdir /tmp/aod_baseline_98ddfa0
           (cd /tmp/aod_baseline_98ddfa0 && latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex)
           (cd /tmp/aod_baseline_98ddfa0 && latexmk -cd -xelatex -interaction=nonstopmode -halt-on-error manual/main.tex)
           cp /tmp/aod_baseline_98ddfa0/manual/main.pdf /tmp/aod_baseline_98ddfa0/manual.pdf
-          mkdir -p dist_typst
+          mkdir -p dist_typst/latex
           cp /tmp/aod_baseline_98ddfa0/main.pdf dist_typst/baseline_main.pdf
           cp /tmp/aod_baseline_98ddfa0/manual.pdf dist_typst/baseline_manual.pdf
-
-      - name: Build canonical Typst primary PDFs and generated LaTeX compatibility PDFs
-        run: |
-          python3 scripts/build_publication.py --outdir dist_typst --check-registry --with-latex --check-latex
+          cp dist_latex/main.pdf dist_typst/main.pdf
+          cp dist_latex/manual.pdf dist_typst/manual.pdf
+          cp dist_latex/build_report.json dist_typst/build_report.json
+          cp dist_latex/publication_build_report.json dist_typst/publication_build_report.json
+          cp dist_latex/latex/main.pdf dist_typst/latex/main.pdf
+          cp dist_latex/latex/manual.pdf dist_typst/latex/manual.pdf
 
       - name: Verify native Typst and generated LaTeX parity against historical baseline (normal and -O)
+        if: inputs.run_baseline_parity == true
         run: |
           python3 scripts/verify_typst_parity.py \
             --outdir dist_typst/parity_norm \
@@ -66,11 +104,13 @@ jobs:
           cp dist_typst/parity_norm/parity_report.json dist_typst/parity_report.json
 
       - name: Run Typst, typ2tex, and release-builder tests (normal and -O)
+        if: inputs.run_baseline_parity == true
         run: |
           python3 -m pytest -q tests/test_typst_parity.py tests/test_ci_release_builder.py
           python3 -O -m pytest -q tests/test_typst_parity.py tests/test_ci_release_builder.py
 
       - name: Verify non-Git source.zip reconstruction for both publication paths from empty latex/
+        if: inputs.run_baseline_parity == true
         run: |
           python3 - <<'EOF'
           import importlib.util, pathlib, shutil, subprocess, tempfile, zipfile
@@ -133,12 +173,13 @@ jobs:
           EOF
 
       - name: Record artifact SHA-256 manifest
+        if: inputs.run_baseline_parity == true
         run: |
           (cd dist_typst && sha256sum main.pdf manual.pdf latex/main.pdf latex/manual.pdf build_report.json publication_build_report.json parity_report.json baseline_main.pdf baseline_manual.pdf > SHA256_TYPST.txt)
           cat dist_typst/SHA256_TYPST.txt
 
       - name: Upload canonical Typst, generated LaTeX, and parity artifacts
-        if: always()
+        if: always() && inputs.run_baseline_parity == true
         uses: actions/upload-artifact@v4
         with:
           name: aod-typst-phase2

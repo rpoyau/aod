@@ -19,10 +19,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install pinned Typst, TeX, fonts, and Python dependencies
+      - name: Install pinned Typst, fonts, and Python dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y latexmk texlive-xetex texlive-bibtex-extra texlive-latex-extra fonts-lmodern poppler-utils python3 python3-pip zip unzip
+          sudo apt-get install -y fonts-lmodern poppler-utils python3 python3-pip zip unzip
           curl -fsSL "https://github.com/typst/typst/releases/download/v${TYPST_VERSION}/${TYPST_TARBALL}" -o "/tmp/${TYPST_TARBALL}"
           echo "${TYPST_TARBALL_SHA256}  /tmp/${TYPST_TARBALL}" | sha256sum -c -
           tar -xf "/tmp/${TYPST_TARBALL}" -C /tmp
@@ -34,15 +34,15 @@ jobs:
           if [ -f requirements-ci.txt ]; then python3 -m pip install -r requirements-ci.txt; fi
           python3 -m pip install pytest sympy pandas matplotlib pypdf
 
-      - name: Build canonical Typst primary PDFs and generated LaTeX compatibility PDFs
+      - name: Build canonical Typst primary PDFs
         run: |
-          python3 scripts/build_publication.py --outdir _build/pub --check-registry --with-latex --check-latex
+          python3 scripts/build_publication.py --outdir _build/pub --check-registry
           cp _build/pub/main.pdf main.pdf
           cp _build/pub/manual.pdf manual.pdf
 
       - name: Audit executed scientific sources
         run: |
-          python3 scripts/audit_scientific_sources.py . --build-root latex
+          python3 scripts/audit_scientific_sources.py .
 
       - name: Verify S2 zero-float reference engine (normal and -O)
         run: |
@@ -67,9 +67,6 @@ jobs:
       - name: Build release artifacts
         run: |
           python3 scripts/build_release_bundle.py --outdir dist --tests tests.txt --main main.pdf --manual manual.pdf
-          mkdir -p dist/latex
-          cp _build/pub/latex/main.pdf dist/latex/main.pdf
-          cp _build/pub/latex/manual.pdf dist/latex/manual.pdf
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -77,7 +74,6 @@ jobs:
           name: aod-temporal-dynamics
           path: |
             dist/*
-            dist/latex/*
 
       - name: Upload release assets
         if: github.event_name == 'release'
