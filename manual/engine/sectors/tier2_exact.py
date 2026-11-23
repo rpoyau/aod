@@ -9,7 +9,6 @@ from __future__ import annotations
 import csv
 from fractions import Fraction
 import hashlib
-import json
 from pathlib import Path
 import re
 
@@ -22,6 +21,7 @@ from manual.engine.numeric import (
     require,
     round_rational_half_even,
 )
+from manual.engine.policy import loads_zero_float, require_no_floats
 from manual.engine.registry import SectorSpec
 
 _CLOSURE_BAND_VALUES: dict[str, int] = {"C6": 18, "C8": 24, "C10": 27}
@@ -78,10 +78,23 @@ _LENSING_CLASSES: tuple[str, ...] = (
 )
 
 
+def _require_no_symlink_parents(repo_root: Path, rel: Path, rel_label: str) -> None:
+    for parent in rel.parents:
+        if parent != Path("."):
+            require(
+                not (repo_root / parent).is_symlink(),
+                f"symlink parent forbidden for input path: {rel_label}",
+            )
+
+
 def _load_frozen_bindings(repo_root: Path) -> dict[str, str]:
-    path = repo_root / "contracts" / "scientific" / "CANONICAL_BINDINGS.json"
+    rel = Path("contracts/scientific/CANONICAL_BINDINGS.json")
+    _require_no_symlink_parents(repo_root, rel, rel.as_posix())
+    path = repo_root / rel
     require(path.is_file() and not path.is_symlink(), "CANONICAL_BINDINGS.json missing")
-    doc = json.loads(path.read_text(encoding="utf-8"))
+    doc = loads_zero_float(path.read_text(encoding="utf-8"))
+    require_no_floats(doc)
+    require(isinstance(doc, dict), "CANONICAL_BINDINGS.json must be a JSON object")
     frozen = doc.get("frozen_sha256")
     require(isinstance(frozen, dict) and len(frozen) == 172, "unexpected CANONICAL_BINDINGS frozen_sha256 map")
     return {str(k): str(v) for k, v in frozen.items()}
@@ -90,6 +103,7 @@ def _load_frozen_bindings(repo_root: Path) -> dict[str, str]:
 def _sha256_file(repo_root: Path, rel_path: str) -> str:
     rel = Path(rel_path)
     require(not rel.is_absolute() and ".." not in rel.parts, f"unsafe relative path: {rel_path}")
+    _require_no_symlink_parents(repo_root, rel, rel_path)
     target = repo_root / rel
     require(target.is_file() and not target.is_symlink(), f"missing or symlink input: {rel_path}")
     return hashlib.sha256(target.read_bytes()).hexdigest()
@@ -1204,10 +1218,13 @@ def verify_sparc_five_galaxy(spec: SectorSpec, repo_root: Path) -> dict[str, obj
     summary_tex = (root / "manual/data/derived/sparc_summary_table.tex").read_text(encoding="utf-8")
 
     expected_n = {"DDO154": 12, "NGC2403": 73, "NGC2841": 50, "NGC3198": 43, "NGC6503": 31}
+    seen_galaxies: set[str] = set()
     per_gal_max_res: dict[str, Fraction] = {k: Fraction(0) for k in ("chi2_U", "MAE_U", "MSE_U", "MAPE_U")}
     for row in gal_rows:
         gal = row["galaxy"]
         require(gal in expected_n, f"unexpected SPARC galaxy: {gal!r}")
+        require(gal not in seen_galaxies, f"duplicate SPARC galaxy row: {gal!r}")
+        seen_galaxies.add(gal)
         pts = exact_by_gal[gal]
         n_bins = len(pts)
         require(parse_exact_int(row["N"], name="N") == n_bins == expected_n[gal], f"{gal}: N mismatch")
@@ -1235,6 +1252,7 @@ def verify_sparc_five_galaxy(spec: SectorSpec, repo_root: Path) -> dict[str, obj
             expected_tex_line in summary_tex,
             f"sparc_summary_table.tex missing exact rounded line for {gal}: {expected_tex_line}",
         )
+    require(seen_galaxies == set(expected_n.keys()), f"incomplete SPARC galaxy coverage: {sorted(seen_galaxies)}")
 
     return {
         "sector_id": spec.sector_id,

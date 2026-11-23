@@ -10,7 +10,6 @@ from __future__ import annotations
 import csv
 from fractions import Fraction
 import hashlib
-import json
 from pathlib import Path
 
 from manual.engine.numeric import (
@@ -19,6 +18,7 @@ from manual.engine.numeric import (
     parse_printed_rational,
     require,
 )
+from manual.engine.policy import loads_zero_float, require_no_floats
 from manual.engine.registry import SectorSpec
 
 # Pinned shapes and frozen SHA-256 digests from CANONICAL_BINDINGS.json:862,866,867,900-905
@@ -122,12 +122,27 @@ def verify_tau_non_conflation(
     }
 
 
+def _require_no_symlink_parents(repo_root: Path, rel: Path, rel_label: str) -> None:
+    for parent in rel.parents:
+        if parent != Path("."):
+            require(
+                not (repo_root / parent).is_symlink(),
+                f"symlink parent forbidden for input path: {rel_label}",
+            )
+
+
 def verify_provenance_quarantine(spec: SectorSpec, repo_root: Path) -> dict[str, object]:
     """Execute Tier-3 provenance quarantine guard across all 9 frozen files."""
     root = Path(repo_root).resolve()
-    cb_path = root / "contracts" / "scientific" / "CANONICAL_BINDINGS.json"
+    cb_rel = Path("contracts/scientific/CANONICAL_BINDINGS.json")
+    _require_no_symlink_parents(root, cb_rel, cb_rel.as_posix())
+    cb_path = root / cb_rel
     require(cb_path.is_file() and not cb_path.is_symlink(), "CANONICAL_BINDINGS.json missing")
-    cb_frozen = json.loads(cb_path.read_text(encoding="utf-8"))["frozen_sha256"]
+    cb_doc = loads_zero_float(cb_path.read_text(encoding="utf-8"))
+    require_no_floats(cb_doc)
+    require(isinstance(cb_doc, dict), "CANONICAL_BINDINGS.json must be a JSON object")
+    cb_frozen = cb_doc["frozen_sha256"]
+    require(isinstance(cb_frozen, dict), "CANONICAL_BINDINGS frozen_sha256 must be a dict")
 
     require(
         set(spec.input_paths) == set(QUARANTINED_FILES.keys()),
@@ -139,7 +154,10 @@ def verify_provenance_quarantine(spec: SectorSpec, repo_root: Path) -> dict[str,
     for rel in sorted(QUARANTINED_FILES):
         exp_rows, exp_cols, exp_sha = QUARANTINED_FILES[rel]
         require(cb_frozen.get(rel) == exp_sha, f"CANONICAL_BINDINGS frozen_sha256 mismatch for {rel}")
-        target = root / rel
+        rel_p = Path(rel)
+        require(not rel_p.is_absolute() and ".." not in rel_p.parts, f"unsafe relative path: {rel}")
+        _require_no_symlink_parents(root, rel_p, rel)
+        target = root / rel_p
         require(target.is_file() and not target.is_symlink(), f"quarantined file missing or symlink: {rel}")
         actual_sha = hashlib.sha256(target.read_bytes()).hexdigest()
         require(actual_sha == exp_sha, f"quarantined file digest mismatch for {rel}: {actual_sha} != {exp_sha}")
@@ -274,4 +292,10 @@ def verify_provenance_quarantine(spec: SectorSpec, repo_root: Path) -> dict[str,
 def run_tier3_sector(spec: SectorSpec, repo_root: Path) -> dict[str, object]:
     """Dispatch and execute the Tier-3 provenance quarantine guard."""
     require(spec.sector_id == "provenance_quarantine", f"unknown Tier-3 sector: {spec.sector_id}")
-    return verify_provenance_quarantine(spec, repo_root)
+    result = verify_provenance_quarantine(spec, repo_root)
+    counts = result["verified_counts"]
+    require(isinstance(counts, dict), "Tier-3 verified_counts must be a dict")
+    for req_key, min_val in spec.required_outputs:
+        actual = parse_exact_int(counts.get(req_key), name=f"{spec.sector_id}.{req_key}")
+        require(actual >= min_val, f"vacuous Tier-3 output {spec.sector_id}.{req_key}: {actual} < {min_val}")
+    return result

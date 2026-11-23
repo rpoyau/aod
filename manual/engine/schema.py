@@ -48,10 +48,10 @@ _HEX64_RE = re.compile(r"^[0-9a-f]{64}$")
 _HEX40_RE = re.compile(r"^[0-9a-f]{40}$")
 _ISO_TIMESTAMP_RE = re.compile(r"\b\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}")
 _ABS_UNIX_PATH_RE = re.compile(
-    r"(?:^|[\s'\"(=])/(?:home|tmp|var|Users|root|opt|usr|etc|private|mnt|srv|proc|sys)/"
+    r"(?:^/|(?<=[\s'\"(=:\[{,])/(?:(?:home|tmp|var|Users|root|opt|usr|etc|private|mnt|srv|proc|sys|workspace|github|app|runner|builds)(?:/|$)|[A-Za-z0-9._-]+/[A-Za-z0-9._-]+))"
 )
-_ABS_WIN_PATH_RE = re.compile(r"(?:^|[\s'\"(=])[A-Za-z]:\\")
-_TEMP_MARKER_RE = re.compile(r"(?:pytest-of-|aod-anchor-scientific-replay-|/tmp/)")
+_ABS_WIN_PATH_RE = re.compile(r"(?:^|[\s'\"(=:\[{,])[A-Za-z]:[\\/]")
+_TEMP_MARKER_RE = re.compile(r"(?:pytest-of-|aod-anchor-scientific-replay-|/tmp/|\\Temp\\)")
 
 FORBIDDEN_REPORT_KEYS: frozenset[str] = frozenset(
     {
@@ -135,17 +135,17 @@ def _check_portable_strings(value: object, *, path: str = "$") -> None:
             )
             _check_portable_strings(k, path=f"{path}.<key:{k}>")
             _check_portable_strings(v, path=f"{path}.{k}")
-    elif isinstance(value, list):
+    elif isinstance(value, (list, tuple)):
         for idx, item in enumerate(value):
             _check_portable_strings(item, path=f"{path}[{idx}]")
     elif isinstance(value, str):
         require(
-            _ABS_UNIX_PATH_RE.search(value) is None,
-            f"absolute Unix path leaked in canonical report at {path}: {value!r}",
-        )
-        require(
             _ABS_WIN_PATH_RE.search(value) is None,
             f"absolute Windows path leaked in canonical report at {path}: {value!r}",
+        )
+        require(
+            _ABS_UNIX_PATH_RE.search(value) is None,
+            f"absolute Unix path leaked in canonical report at {path}: {value!r}",
         )
         require(
             _TEMP_MARKER_RE.search(value) is None,
@@ -308,6 +308,15 @@ def validate_report(report_obj: object) -> None:
         zf_audit.get("status") in {"PASS", "FAIL", "NOT_REQUESTED"},
         f"invalid zero_float_policy_audit status: {zf_audit.get('status')!r}",
     )
+    if zf_audit.get("status") == "PASS":
+        require(
+            require_exact_int(zf_audit.get("violation_count"), name="zero_float_policy_audit.violation_count") == 0,
+            "PASS zero_float_policy_audit requires violation_count == 0",
+        )
+        require(
+            isinstance(zf_audit.get("violations"), list) and len(zf_audit["violations"]) == 0,
+            "PASS zero_float_policy_audit requires empty violations list",
+        )
 
     if "vectors_verification" in report_obj and report_obj["vectors_verification"] is not None:
         vv = report_obj["vectors_verification"]
@@ -320,6 +329,11 @@ def validate_report(report_obj: object) -> None:
         fail_cnt = require_exact_int(vv["failed_vectors"], name="failed_vectors")
         require(tot_cnt == rc_cnt + sd_cnt, "total_vectors must equal rational_core + symbolic_and_display")
         require(tot_cnt == pass_cnt + fail_cnt, "total_vectors must equal passed + failed")
+        if vv.get("status") == "PASS":
+            require(
+                fail_cnt == 0 and tot_cnt > 0 and pass_cnt == tot_cnt,
+                "PASS vectors_verification requires failed_vectors == 0 and total_vectors > 0",
+            )
         fdig = vv.get("file_digests")
         require(isinstance(fdig, dict) and bool(fdig), "vectors_verification.file_digests required")
         for rel, sha in fdig.items():

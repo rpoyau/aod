@@ -92,14 +92,22 @@ def _eval_operation(operation: str, inputs: dict[str, object]) -> dict[str, obje
         state_route = {1: "outgoing", -1: "returned", 0: "hinge"}
         aw_list: list[int] = []
         routes: list[str] = []
+        seen_neighbors: set[tuple[int, int, int, int]] = set()
         for row in rows:
             adm = require_exact_int(row["admissible"], name="admissible")
             wt = require_exact_int(row["weight"], name="weight")
             st = require_exact_int(row["state"], name="state")
             nbr = row["neighbor"]
-            require(isinstance(nbr, list) and len(nbr) == 4 and sum(nbr) == 1, "non-H1 Q4 neighbor")
+            require(isinstance(nbr, list) and len(nbr) == 4, "non-H1 Q4 neighbor")
+            coords = tuple(require_exact_int(c, name="neighbor_coord") for c in nbr)
+            require(
+                all(c in (0, 1) for c in coords) and sum(coords) == 1,
+                "neighbor must be a Q4 basis vector (exact {0,1} with Hamming weight 1)",
+            )
+            seen_neighbors.add((coords[0], coords[1], coords[2], coords[3]))
             aw_list.append(adm * wt)
             routes.append(state_route[st])
+        require(len(seen_neighbors) == 4, "dec_normalize_one_node requires 4 distinct Q4 neighbors")
         z_tot = sum(aw_list)
         probs = [Fraction(aw, z_tot) for aw in aw_list]
         return {
@@ -467,16 +475,19 @@ def _eval_operation(operation: str, inputs: dict[str, object]) -> dict[str, obje
         cs_hz = require_exact_int(inputs["cs133_hz"])
         comp = inputs["compared"]
         ref = inputs["reference"]
-        c_adv = (
-            Fraction(require_exact_int(comp["winding"]))
-            + parse_canonical_rational_pair(comp["phase_end"])
-            - parse_canonical_rational_pair(comp["phase_start"])
+        c_start = parse_canonical_rational_pair(comp["phase_start"])
+        c_end = parse_canonical_rational_pair(comp["phase_end"])
+        r_start = parse_canonical_rational_pair(ref["phase_start"])
+        r_end = parse_canonical_rational_pair(ref["phase_end"])
+        require(
+            Fraction(0) <= c_start < Fraction(1)
+            and Fraction(0) <= c_end < Fraction(1)
+            and Fraction(0) <= r_start < Fraction(1)
+            and Fraction(0) <= r_end < Fraction(1),
+            "phase out of [0,1)",
         )
-        r_adv = (
-            Fraction(require_exact_int(ref["winding"]))
-            + parse_canonical_rational_pair(ref["phase_end"])
-            - parse_canonical_rational_pair(ref["phase_start"])
-        )
+        c_adv = Fraction(require_exact_int(comp["winding"])) + c_end - c_start
+        r_adv = Fraction(require_exact_int(ref["winding"])) + r_end - r_start
         require(r_adv > 0, "positive reference advance required")
         return {
             "compared_advance": _pair(c_adv),
