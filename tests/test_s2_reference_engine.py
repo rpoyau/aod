@@ -332,6 +332,150 @@ def test_g2_temporal_anchor_validator_and_negative_controls(monkeypatch):
         tier1_adapters.run_tier1_sector(spec, ROOT)
 
 
+def test_g2_temporal_anchor_cross_zlib_decompressed_verifier(monkeypatch, tmp_path: Path):
+    import gzip
+
+    # Build a fast, deterministic stub repo matching aod_temporal_anchor.py's contract
+    stub_root = tmp_path / "stub_repo"
+    scripts_dir = stub_root / "manual/scripts"
+    data_dir = stub_root / "manual/data/temporal_anchor"
+    cases_dir = data_dir / "cases"
+    source_dir = data_dir / "source"
+    scripts_dir.mkdir(parents=True)
+    cases_dir.mkdir(parents=True)
+    source_dir.mkdir(parents=True)
+
+    for helper_name in ("aod_native_closure_wave.py", "aod_mapping_error.py", "aod_temporal_observation.py"):
+        (scripts_dir / helper_name).write_text("VALUE = 1\n", encoding="utf-8")
+
+    (source_dir / "member.txt").write_text("source_member\n", encoding="utf-8")
+    (data_dir / "source_members.json").write_text(
+        json.dumps({"members": {"member.txt": {"bytes": 14}}}) + "\n",
+        encoding="utf-8",
+    )
+
+    inputs_bytes = b'{"schema":"aod.m3.anchor-input.v1"}\n'
+    report_bytes = b'{"schema":"aod.m3.anchor-report.v1"}\n'
+    case_payload = b'{"case":"baseline","seq":[' + b",".join(str(i).encode() for i in range(500)) + b"]}\n"
+
+    # Persist with compresslevel=1 while stub products() emits compresslevel=9 (different raw DEFLATE bytes!)
+    gz_lvl1 = gzip.compress(case_payload, compresslevel=1, mtime=0)
+    gz_lvl9 = gzip.compress(case_payload, compresslevel=9, mtime=0)
+    _check(gz_lvl1 != gz_lvl9, "test requires distinct gzip bitstreams for same decompressed payload")
+    _check(gzip.decompress(gz_lvl1) == gzip.decompress(gz_lvl9) == case_payload)
+
+    (data_dir / "inputs.json").write_bytes(inputs_bytes)
+    (data_dir / "report.json").write_bytes(report_bytes)
+    (cases_dir / "baseline.json.gz").write_bytes(gz_lvl1)
+
+    stub_script = (
+        "import gzip, hashlib, os, sys\n"
+        "from pathlib import Path\n"
+        "import aod_native_closure_wave as n\n"
+        "import aod_mapping_error as m\n"
+        "import aod_temporal_observation as t\n"
+        "DATA = Path('manual/data/temporal_anchor')\n"
+        "def require(cond, msg):\n"
+        "    if not cond:\n"
+        "        raise ValueError(msg)\n"
+        "def sha(p):\n"
+        "    return hashlib.sha256(Path(p).read_bytes()).hexdigest()\n"
+        "def products(root):\n"
+        "    if os.environ.get('STUB_REQUIRE_OPT') == '1' and sys.flags.optimize < 1:\n"
+        "        raise ValueError('optimize flag was not propagated')\n"
+        "    if os.environ.get('STUB_MUTATE_BOUND') == '1':\n"
+        "        p = Path(root) / DATA / 'source/member.txt'\n"
+        "        p.write_text('mutated\\n', encoding='utf-8')\n"
+        f"    payload = {case_payload!r}\n"
+        "    return {\n"
+        f"        'inputs.json': {inputs_bytes!r},\n"
+        f"        'report.json': {report_bytes!r},\n"
+        "        'cases/baseline.json.gz': gzip.compress(payload, compresslevel=9, mtime=0),\n"
+        "    }\n"
+    )
+    (scripts_dir / "aod_temporal_anchor.py").write_text(stub_script, encoding="utf-8")
+
+    def _run_cross_zlib(*, opt: int, extra_env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+        env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1", **(extra_env or {})}
+        return subprocess.run(
+            [
+                sys.executable,
+                "-B",
+                *(["-O"] * opt),
+                "-c",
+                tier1_adapters._CROSS_ZLIB_ANCHOR_VERIFY_CODE,
+                str(stub_root),
+            ],
+            cwd=stub_root,
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+
+    # (a) Identical decompressed JSON with compresslevel=1 vs 9 PASSES in normal and -O (proving -O propagation)
+    p_norm = _run_cross_zlib(opt=0)
+    _check(p_norm.returncode == 0 and p_norm.stderr == "", f"rc={p_norm.returncode} stderr={p_norm.stderr}")
+    p_opt = _run_cross_zlib(opt=1, extra_env={"STUB_REQUIRE_OPT": "1"})
+    _check(p_opt.returncode == 0 and p_opt.stderr == "", f"rc={p_opt.returncode} stderr={p_opt.stderr}")
+    _check(p_norm.stdout == p_opt.stdout)
+    parsed = loads_zero_float(p_norm.stdout)
+    _check(isinstance(parsed, dict) and parsed["status"] == "PASS_ANCHOR_REPLAY")
+    _check(parsed["generated_outputs"] == 3)
+    _check(parsed["original_controls"] == {"A": "-5/29", "B": "-49/151"})
+
+    # Also verify run_tier1_sector dispatches cross-zlib child argv when _host_zlib_roundtrips_anchor_gz is False
+    seen_argv: list[list[str]] = []
+    valid_stdout = (
+        json.dumps(
+            {
+                "full_archive_audit": "separate explicit operation",
+                "generated_outputs": 6,
+                "original_controls": {"A": "-5/29", "B": "-49/151"},
+                "scientific_source_members_verified": True,
+                "source_unchanged": True,
+                "status": "PASS_ANCHOR_REPLAY",
+            },
+            sort_keys=True,
+        )
+        + "\n"
+    )
+    with monkeypatch.context() as mp:
+        mp.setattr(tier1_adapters, "_host_zlib_roundtrips_anchor_gz", lambda _r: False)
+        mp.setattr(
+            tier1_adapters.subprocess,
+            "run",
+            lambda argv, *a, **kw: (
+                seen_argv.append(list(argv)),
+                subprocess.CompletedProcess(argv, 0, stdout=valid_stdout, stderr=""),
+            )[1],
+        )
+        dispatched = tier1_adapters.run_tier1_sector(SECTOR_MAP["temporal_anchor"], ROOT)
+    _check(dispatched["check_outcome"] == "PASS")
+    _check(len(seen_argv) == 1 and "-c" in seen_argv[0] and seen_argv[0].count("-O") == sys.flags.optimize)
+    _check(tier1_adapters._CROSS_ZLIB_ANCHOR_VERIFY_CODE in seen_argv[0])
+
+    # (b) 1-byte difference inside decompressed cases/baseline.json.gz FAILS CLOSED
+    bad_payload = case_payload[:-2] + b"9\n"
+    (cases_dir / "baseline.json.gz").write_bytes(gzip.compress(bad_payload, compresslevel=1, mtime=0))
+    p_bad_gz = _run_cross_zlib(opt=sys.flags.optimize)
+    _check(p_bad_gz.returncode != 0)
+    _check("persisted anchor decompressed payload differs" in p_bad_gz.stderr, p_bad_gz.stderr)
+    (cases_dir / "baseline.json.gz").write_bytes(gz_lvl1)
+
+    # (c) 1-byte difference in uncompressed report.json FAILS CLOSED
+    (data_dir / "report.json").write_bytes(report_bytes[:-1] + b" \n")
+    p_bad_rep = _run_cross_zlib(opt=sys.flags.optimize)
+    _check(p_bad_rep.returncode != 0)
+    _check("persisted anchor artifact differs" in p_bad_rep.stderr, p_bad_rep.stderr)
+    (data_dir / "report.json").write_bytes(report_bytes)
+
+    # (d) Bound-file mutation during replay FAILS CLOSED
+    p_mut = _run_cross_zlib(opt=sys.flags.optimize, extra_env={"STUB_MUTATE_BOUND": "1"})
+    _check(p_mut.returncode != 0)
+    _check("anchor replay changed bound source or data" in p_mut.stderr, p_mut.stderr)
+
+
 def test_g2_importing_engine_never_imports_group_b_or_manual_scripts():
     code = (
         "import sys, manual.engine\n"

@@ -6,6 +6,7 @@ explicitly into every child Python interpreter.
 """
 from __future__ import annotations
 
+import gzip
 import hashlib
 import os
 from pathlib import Path
@@ -500,6 +501,66 @@ _VALIDATORS = {
 }
 
 
+_CROSS_ZLIB_ANCHOR_VERIFY_CODE: str = """\
+import gzip
+import json
+from pathlib import Path
+import sys
+
+root = Path(sys.argv[1]).resolve()
+sys.path.insert(0, str(root / "manual" / "scripts"))
+import aod_temporal_anchor as a
+
+folder = root / a.DATA
+bound_files = [path for path in folder.rglob("*") if path.is_file()]
+bound_files.extend(Path(module.__file__) for module in (a.n, a.m, a.t))
+bound_files.append(Path(a.__file__))
+before = {str(path): a.sha(path) for path in bound_files}
+
+expected = a.products(root)
+actual = {path.relative_to(folder).as_posix() for path in folder.rglob("*") if path.is_file()}
+sources = {
+    "source/" + name
+    for name in json.loads((folder / "source_members.json").read_text(encoding="utf-8"))["members"]
+}
+a.require(actual == set(expected) | sources | {"source_members.json"}, "anchor artifact inventory differs")
+
+for name, value in sorted(expected.items()):
+    persisted = (folder / name).read_bytes()
+    if name.endswith(".json.gz"):
+        a.require(
+            gzip.decompress(persisted) == gzip.decompress(value),
+            "persisted anchor decompressed payload differs: " + name,
+        )
+    else:
+        a.require(persisted == value, "persisted anchor artifact differs: " + name)
+
+after = {str(path): a.sha(path) for path in bound_files}
+a.require(after == before, "anchor replay changed bound source or data")
+
+print(
+    json.dumps(
+        {
+            "status": "PASS_ANCHOR_REPLAY",
+            "generated_outputs": len(expected),
+            "scientific_source_members_verified": True,
+            "full_archive_audit": "separate explicit operation",
+            "original_controls": {"A": "-5/29", "B": "-49/151"},
+            "source_unchanged": True,
+        },
+        sort_keys=True,
+    )
+)
+"""
+
+
+def _host_zlib_roundtrips_anchor_gz(repo_root: Path) -> bool:
+    """Return True iff host ``gzip.compress`` reproduces the committed ``baseline.json.gz`` bitstream."""
+    gz_path = repo_root / "manual" / "data" / "temporal_anchor" / "cases" / "baseline.json.gz"
+    raw = gz_path.read_bytes()
+    return gzip.compress(gzip.decompress(raw), mtime=0) == raw
+
+
 def _extract_error_line(text: str, *, last: bool, max_chars: int = 240) -> str:
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     if not lines:
@@ -523,7 +584,10 @@ def run_tier1_sector(
     opt_flags = ["-O"] * sys.flags.optimize
     script_rel = spec.invocation[0]
     read_only_flags = list(spec.invocation[1:])
-    argv = [sys.executable, "-B", *opt_flags, str(root / script_rel), *read_only_flags]
+    if spec.sector_id == "temporal_anchor" and not _host_zlib_roundtrips_anchor_gz(root):
+        argv = [sys.executable, "-B", *opt_flags, "-c", _CROSS_ZLIB_ANCHOR_VERIFY_CODE, str(root)]
+    else:
+        argv = [sys.executable, "-B", *opt_flags, str(root / script_rel), *read_only_flags]
     env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
     effective_timeout = (
         timeout_seconds

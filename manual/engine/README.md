@@ -19,6 +19,18 @@ Stage 1b baseline (`cea71a76f26c08b603866e746867b3982da6c88e`).
 | **Tier 2 (`tier2_exact_data_verifier`)** | `dec_ledger`, `higgs_trace`, `phase_delta3_3d`, `cycle_shedding`, `lensing_tallies`, `sparc_five_galaxy` | Pure zero-float `int`/`Fraction` data verifiers checking pinned `frozen_sha256` digests in `contracts/scientific/CANONICAL_BINDINGS.json` and explicit column roles (`exact_input`, `exact_result`, `rounded_display`, `retained_legacy_float_record`). |
 | **Tier 3 (`tier3_provenance_guard`)** | `provenance_quarantine` | Pure zero-float guard verifying all 9 frozen SPARC/Tau provenance files, verbatim Tau sub-table equality, and exact `9/20` vs `~23/50` non-conflation (`1/100` rational difference). |
 
+**Cross-`zlib` `temporal_anchor` verification:** `temporal_anchor` executes
+`manual/scripts/aod_temporal_anchor.py --check-data` directly whenever host
+`zlib` reproduces the committed `zlib 1.2.13` DEFLATE bitstream of
+`cases/baseline.json.gz`. On hosts whose `zlib` implementation (such as
+`zlib-ng` on Ubuntu 26.04) produces a different lossless DEFLATE stream for the
+same canonical JSON, the adapter runs unmodified `aod_temporal_anchor.products()`
+in an isolated `-B [-O]` child subprocess, enforcing exact raw byte equality on
+`inputs.json`/`report.json`, exact decompressed canonical JSON byte equality on
+all `cases/*.json.gz`, exact directory inventory, and unchanged bound-file
+SHA-256 digests — preserving immutable `aod_temporal_anchor.py` and the
+`code_sha256` pinned in `manual/data/temporal_anchor/inputs.json`.
+
 ## Zero-Float Policy & Inherited Transitive Scope
 
 - **Inside `manual/engine/`:** `--check-zero-float` enforces an AST audit across all
