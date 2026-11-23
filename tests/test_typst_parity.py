@@ -808,7 +808,7 @@ def test_phase2_r4_extractor_count_drift_does_not_invalidate_identical_pdfs(tmp_
     raster_pdf = tmp_path / "with_raster.pdf"
     with raster_pdf.open("wb") as fh:
         w.write(fh)
-    with pytest.raises(ValueError, match="raster XObjects"):
+    with pytest.raises(ValueError, match="Unexpected raster image\\(s\\) in pure-vector PDF.*raster_image_xobjects=1"):
         exp._inspect_pdf(raster_pdf, 14.2, 6.2)
 
 
