@@ -408,7 +408,7 @@ The scoring gate requires
 
 #figure(
   kind: image, [
-#image("/manual/figures/higgs/higgs_yro_saddle_signature.png", width: 72%)
+#include "../../lib/figures/manual/higgs_yro_saddle_signature.typ"
   ],
   caption: [Tritrioseptyro yro saddle signature. The internal AFC trace gives $P^D_H = 21$, placing the selected $3":"3":"7_(upright("yro"))$ candidate between $C_6 = 18$ and $C_8 = 24$ with residuals $+ 3$ and $- 3$.],
 ) <fig:manual-higgs-yro-saddle>
@@ -417,7 +417,7 @@ The scoring gate requires
 
 #figure(
   kind: image, [
-#image("/manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png", width: 92%)
+#include "../../lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ"
   ],
   caption: [Tritrioseptyro trace flow. The AFC run produces $Pi = 30$, $R D = 61$, $rho^D_(omega) = 7$, $P^D_H = 21$, and $Q^D_H = 162$. A$Omega$ names the detected $3":"3":"7_(upright("yro"))$ route status as Tritrioseptyro.],
 ) <fig:manual-higgs-trace-flow>
@@ -491,7 +491,7 @@ The frozen $R D thin 2^(L + 4)$ map sends Tritrioseptyro to $124.928 thin uprigh
 
 #figure(
   kind: image, [
-#image("/manual/figures/higgs/higgs_mass_comparison.png", width: 88%)
+#include "../../lib/figures/manual/higgs_mass_comparison.typ"
   ],
   caption: [Tritrioseptyro mass comparison. The frozen external map $E_H = R D thin 2^(L + 4)$ MeV sends the selected candidate to $124.928 thin upright("GeV")$. Target records enter as declared external comparison rows.],
 ) <fig:manual-higgs-mass-comparison>

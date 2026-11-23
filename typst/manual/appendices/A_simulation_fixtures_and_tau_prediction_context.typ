@@ -65,7 +65,7 @@ The retained #raw("wavelet_shedding_simulation.csv") fixture supplies $90$ ticks
 
 #figure(
   kind: image, [
-#image("/figures_jpg/cycle_disturbance_shedding_fixture.png", width: 98%)
+#include "../../lib/figures/manual/cycle_disturbance_shedding_fixture.typ"
   ],
   caption: [Retained temporal-cycle fixture. The burden $P_t$ is post-clipping, with $P_t lt.eq C_t$; the stacked outward and local fractions sum to $X_t$. Figure and summary use the same CSV. The summary label “Total exoshedding” denotes $sum_t O_t$ in this fixture.],
 ) <fig:v39-cycle-shedding-simulation>

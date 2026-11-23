@@ -306,7 +306,7 @@ shared enclosure naming follows #appref("app:cc-count-compression").
 
 #figure(
   kind: image, [
-#image("/figures_jpg/curling_curl_layers.png", width: 96%)
+#include "../lib/figures/main/curling_curl_layers.typ"
   ],
   caption: [Curling-curl shell families.],
 ) <fig:curling-curl-shell-families>

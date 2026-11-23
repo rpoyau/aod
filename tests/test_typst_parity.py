@@ -1,6 +1,7 @@
 """Pytest integration for M4 Objective 1 native Typst migration parity gates."""
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -72,10 +73,11 @@ def test_typst_evaluation_policy_pins_templates_and_constrains_content():
     vp = _load_module("aod_verify_typst_parity", "scripts/verify_typst_parity.py")
     manifest = json.loads((ROOT / "typst/manifest.json").read_text(encoding="utf-8"))
     res = vp.verify_typst_evaluation_policy(ROOT, manifest)
-    assert res["trusted_template_files_pinned"] == 5
+    assert res["trusted_template_files_pinned"] == 6
     assert res["diagram_components_pinned"] == 4
+    assert res["vector_figure_components_pinned"] == 34
     assert res["manifest_typst_digests_enforced"] == 48
-    assert res["content_files_policy_checked"] == 48
+    assert res["content_files_policy_checked"] == 82
     assert res["content_policy_violations"] == 0
 
     head = '#import "../preamble.typ": *\n'
@@ -268,12 +270,12 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch|Unescaped semicolon"):
         check_src(t_semi)
 
-    # R02 R4: two figure image paths swapped (captions unchanged) -> ordered image bindings.
+    # R02 R4: two figure bindings swapped (captions unchanged) -> ordered image bindings.
     t_img = tmp_path / "c_img"
     shutil.copytree(base, t_img)
     p = t_img / "typst/manual/sections/01_rest_energy_prediction.typ"
-    a_img = "/manual/figures/higgs/higgs_yro_saddle_signature.png"
-    b_img = "/manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png"
+    a_img = "../../lib/figures/manual/higgs_yro_saddle_signature.typ"
+    b_img = "../../lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ"
     txt = p.read_text(encoding="utf-8")
     p.write_text(txt.replace(a_img, "@@A@@").replace(b_img, a_img).replace("@@A@@", b_img), encoding="utf-8")
     with pytest.raises(ValueError, match="Ordered content/math parity mismatch"):
@@ -419,6 +421,16 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
         "23a_R2_generated_boundary_glued",
         "23b_R3_generated_bookmark_stripped",
         "24_R5_missing_gotor_peer_destination",
+        "24a_S1b_vector_figure_show_rule",
+        "24b_S1b_vector_figure_unauthorized_csv",
+        "24c_S1b_vector_figure_dynamic_csv",
+        "24d_S1b_vector_figure_nonwildcard_import",
+        "24e_S1b_vector_figure_alias_csv_and_read",
+        "24f_S1b_vector_figure_bracket_import_and_set",
+        "24g_S1b_pdf_raster_xobject_injection",
+        "24h_S1b_pdf_inline_raster_image_injection",
+        "24i_S1b_pdf_malformed_content_stream",
+        "24j_S1b_figure9_superscript_attachment",
         "25_R6_unsupported_syntax_line_number",
     } | baseline_only == set(neg)
 
@@ -479,14 +491,14 @@ def test_phase2_export_typst_figures_vector_pdf_determinism_and_png(tmp_path):
     rt2: dict = {}
     m1 = exp.export_figures(ROOT, out1, fmt="pdf", typst_bin=typst_bin, runtime_out=rt1)
     m2 = exp.export_figures(ROOT, out2, fmt="pdf", typst_bin=typst_bin, runtime_out=rt2)
-    assert len(m1["figures"]) == 4
+    assert len(m1["figures"]) == 32
     assert m1 == m2
     assert "typst_version" not in m1
     assert "removed_outputs" not in m1
     assert m1["background"] == "white"
     assert isinstance(m1["font_families"], dict)
     assert rt1["typst_version"] and rt1["pypdf_version"]
-    assert len(rt1["figures"]) == 4
+    assert len(rt1["figures"]) == 32
     for d, rtd in zip(m1["figures"], rt1["figures"]):
         assert d["page_count"] == 1
         assert d["raster_image_xobjects"] == 0
@@ -498,10 +510,21 @@ def test_phase2_export_typst_figures_vector_pdf_determinism_and_png(tmp_path):
         p2 = out2 / d["output_filename"]
         assert p1.read_bytes() == p2.read_bytes()
 
-    # Optional raster PNG export path (300 ppi)
+    # Main vector figure export determinism (6 Main vector figures)
+    out_m1 = tmp_path / "main_pdf1"
+    out_m2 = tmp_path / "main_pdf2"
+    mm1 = exp.export_figures(ROOT, out_m1, surface="main", fmt="pdf", typst_bin=typst_bin)
+    mm2 = exp.export_figures(ROOT, out_m2, surface="main", fmt="pdf", typst_bin=typst_bin)
+    assert len(mm1["figures"]) == 6
+    assert mm1 == mm2
+    for d in mm1["figures"]:
+        assert d["page_count"] == 1 and d["raster_image_xobjects"] == 0
+        assert (out_m1 / d["output_filename"]).read_bytes() == (out_m2 / d["output_filename"]).read_bytes()
+
+    # Optional raster PNG export path (300 ppi) on Main (6 figures)
     out_png = tmp_path / "png300"
-    m_png = exp.export_figures(ROOT, out_png, fmt="png", ppi=300, typst_bin=typst_bin)
-    assert len(m_png["figures"]) == 4
+    m_png = exp.export_figures(ROOT, out_png, surface="main", fmt="png", ppi=300, typst_bin=typst_bin)
+    assert len(m_png["figures"]) == 6
     for d in m_png["figures"]:
         assert d["output_filename"].endswith(".png")
         assert (out_png / d["output_filename"]).read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
@@ -520,8 +543,10 @@ def test_phase2_typ2tex_clean_room_determinism_propagation_and_fail_closed(tmp_p
     sb.mkdir()
     shutil.copytree(ROOT / "typst", sb / "typst")
     shutil.copytree(ROOT / "figures_jpg", sb / "figures_jpg")
+    shutil.copy2(ROOT / "wavelet_shedding_simulation.csv", sb / "wavelet_shedding_simulation.csv")
     (sb / "manual").mkdir()
     shutil.copytree(ROOT / "manual/figures", sb / "manual/figures")
+    shutil.copytree(ROOT / "manual/data", sb / "manual/data", ignore=shutil.ignore_patterns("*.tex"))
     shutil.copy2(ROOT / "refs.bib", sb / "refs.bib")
     shutil.copy2(ROOT / "manual/refs.bib", sb / "manual/refs.bib")
     (sb / "scripts").mkdir()
@@ -601,13 +626,27 @@ def test_phase2_r1_transition_provenance_git_and_nongit_controls(tmp_path):
     assert res_ng["git_baseline_cross_checked"] is False
     assert res_ng["git_phase1_cross_checked"] is False
 
-    # 3. Historical 98ddfa0 old_sha256 rejected for both engineering frozen amendments
+    # 3. Actual historical 98ddfa0 old_sha256 rejected for both engineering frozen amendments (Git & non-Git)
     historical_bad = {
-        "scripts/build_release_bundle.py": "960949d90fd37df5f2a996e408313514772202ddbd9103f1aa4d9f160602418a",
-        "tests/test_ci_release_builder.py": "74e0e963d4f6a00e1780e1bc37e260aa7b517f084ec99e9b5a6941a036c6e91d",
+        "scripts/build_release_bundle.py": "571fd0aa967e6835005ae5681ffd01e1aadd3fb5edcb30abe243c4775822fe7b",
+        "tests/test_ci_release_builder.py": "aaf254dbf18602a8d3252906c99fde38b8cdc658a5c79900d24a87216d2d2588",
     }
+    git_has_hist = (
+        (ROOT / ".git").exists()
+        and subprocess.run(
+            ["git", "rev-parse", "--verify", f"{vp.SCIENTIFIC_BASELINE_COMMIT}^{{commit}}"],
+            cwd=ROOT, capture_output=True, text=True,
+        ).returncode == 0
+    )
+    if git_has_hist:
+        for target_path, hist_sha in historical_bad.items():
+            raw_hist = subprocess.run(
+                ["git", "show", f"{vp.SCIENTIFIC_BASELINE_COMMIT}:{target_path}"],
+                cwd=ROOT, capture_output=True, check=True,
+            ).stdout
+            assert hashlib.sha256(raw_hist).hexdigest() == hist_sha
     for idx, (target_path, hist_sha) in enumerate(historical_bad.items()):
-        sb = make_nongit(tmp_path / f"hist_old_{idx}")
+        sb = make_nongit(tmp_path / f"hist_old_nongit_{idx}")
         lp = sb / "typst/representation_change_ledger.json"
         ldata = json.loads(lp.read_text(encoding="utf-8"))
         for rec in ldata["frozen_sha256_amendments"]:
@@ -616,6 +655,21 @@ def test_phase2_r1_transition_provenance_git_and_nongit_controls(tmp_path):
         lp.write_text(json.dumps(ldata, indent=2) + "\n", encoding="utf-8")
         with pytest.raises(ValueError, match="disagrees with accepted Phase 1"):
             vp.verify_baseline_immutability(sb, manifest)
+    if git_has_hist:
+        for idx, (target_path, hist_sha) in enumerate(historical_bad.items()):
+            sb_git = tmp_path / f"hist_old_git_{idx}"
+            subprocess.run(
+                ["git", "clone", "--local", "--shared", "--quiet", str(ROOT), str(sb_git)],
+                check=True,
+            )
+            lp = sb_git / "typst/representation_change_ledger.json"
+            ldata = json.loads(lp.read_text(encoding="utf-8"))
+            for rec in ldata["frozen_sha256_amendments"]:
+                if rec["path"] == target_path:
+                    rec["old_sha256"] = hist_sha
+            lp.write_text(json.dumps(ldata, indent=2) + "\n", encoding="utf-8")
+            with pytest.raises(ValueError, match="disagrees with accepted Phase 1"):
+                vp.verify_baseline_immutability(sb_git, manifest)
 
     # 4. Substituted origin commit rejected
     sb_orig = make_nongit(tmp_path / "sub_origin")
@@ -720,7 +774,7 @@ def test_phase2_r4_extractor_count_drift_does_not_invalidate_identical_pdfs(tmp_
     rt_drift: dict = {}
     exp.export_figures(ROOT, out_dir, fmt="pdf", typst_bin=typst_bin, check_only=True, runtime_out=rt_drift)
     got_by_file = {f["output_filename"]: f["extracted_text_chars"] for f in rt_drift["figures"]}
-    assert got_by_file == drift_counts
+    assert {k: got_by_file[k] for k in drift_counts} == drift_counts
 
     # Missing text (0 chars) in real _inspect_pdf MUST still fail closed
     monkeypatch.setattr(exp, "_inspect_pdf", orig_inspect)
@@ -754,7 +808,7 @@ def test_phase2_r4_extractor_count_drift_does_not_invalidate_identical_pdfs(tmp_
     raster_pdf = tmp_path / "with_raster.pdf"
     with raster_pdf.open("wb") as fh:
         w.write(fh)
-    with pytest.raises(ValueError, match="raster XObjects"):
+    with pytest.raises(ValueError, match="Unexpected raster image\\(s\\) in pure-vector PDF.*raster_image_xobjects=1"):
         exp._inspect_pdf(raster_pdf, 14.2, 6.2)
 
 

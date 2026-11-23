@@ -4,8 +4,8 @@
   "sources": {
     "typst/appendices/E_glossary.typ": "1447959e3d008cab98296b56e661738c354bf30485f5120c01ed5f587ed55034",
     "typst/sections/04_cut_running_fractal_tesseract.typ": "f7202c1aaa8d0c4ebee998985948fbbbf8e3ecbb879a5eeb3a43b52cc7a4c6f5",
-    "typst/sections/05_curl_closure_duon_current.typ": "2dd068fbbca3d52bf1ed0c891be29c425923813090a666e7f837638baf62e93e",
-    "typst/sections/06_field.typ": "1ab534ab598c2b50c6d9cc50cbddf5b70d7a487a10c4b10dafb0687c8d3a962b",
+    "typst/sections/05_curl_closure_duon_current.typ": "c4ea09dc59c69d826c0702250b18f7baf289b58d8fa320a79e3620bb3e2face4",
+    "typst/sections/06_field.typ": "7c32e702568b99c616fba5d4a6ec7d671ff528e1486f996858fce4d591aecb77",
     "typst/sections/06_wave_state_relational_time.typ": "155a37eff9ecbf87a3aadd5aef22c9337de64ddb02660228ccde216afb582bba",
     "typst/sections/07_cell_measures_mappings.typ": "e3f922a7396ddcdf51f4d5e445c33a50a9d11ebb17989542628bd869fde9ee4e"
   },

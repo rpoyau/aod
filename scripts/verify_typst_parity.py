@@ -2212,21 +2212,48 @@ def _resolve_baseline_root(
     return Path(td.name), td
 
 
+def _load_figure_inventory_map(root: Path) -> dict[str, dict]:
+    inv_path = root / "typst/figure_inventory.json"
+    if not inv_path.is_file():
+        return {}
+    data = json.loads(inv_path.read_text(encoding="utf-8"))
+    require(
+        data.get("schema") == "aod.m4.s1b.figure-inventory.v1",
+        "Invalid typst/figure_inventory.json schema",
+    )
+    out: dict[str, dict] = {}
+    for entry in data.get("figures", []):
+        comp = entry.get("target_typst_component")
+        require(isinstance(comp, str) and comp not in out, f"Duplicate or missing figure component in inventory: {comp!r}")
+        out[comp] = entry
+    return out
+
+
 def _inline_typst_diagram_includes(root: Path, typ_rel: str, text: str) -> str:
-    """Expand `#include "../../lib/diagrams/<mod>.typ"` for flowchart AST parity verification."""
+    """Expand diagram includes for flowchart AST parity and resolve native vector figure includes
+    to their audited historical raster_path binding via typst/figure_inventory.json."""
     base_dir = posixpath.dirname(typ_rel)
+    inv_map = _load_figure_inventory_map(root)
 
     def _repl(m: re.Match) -> str:
         rel_inc = m.group(1)
         resolved = posixpath.normpath(posixpath.join(base_dir, rel_inc))
-        if not resolved.startswith("typst/lib/diagrams/") or not resolved.endswith(".typ"):
-            return m.group(0)
-        p = root / resolved
-        require(p.is_file(), f"Missing included shared Typst diagram component: {resolved} (from {typ_rel})")
-        body = p.read_text(encoding="utf-8")
-        # Strip the component's standalone schema import when inlining inside a section file.
-        body = re.sub(r'^\s*#import\s+"[^"]+"\s*:\s*\*\s*\n?', "", body, flags=re.M)
-        return body
+        if resolved.startswith("typst/lib/diagrams/") and resolved.endswith(".typ"):
+            p = root / resolved
+            require(p.is_file(), f"Missing included shared Typst diagram component: {resolved} (from {typ_rel})")
+            body = p.read_text(encoding="utf-8")
+            body = re.sub(r'^\s*#import\s+"[^"]+"\s*:\s*\*\s*\n?', "", body, flags=re.M)
+            return body
+        if resolved.startswith("typst/lib/figures/") and resolved.endswith(".typ"):
+            p = root / resolved
+            require(p.is_file(), f"Missing included native Typst vector figure: {resolved} (from {typ_rel})")
+            require(
+                resolved in inv_map,
+                f"Included native Typst vector figure is undeclared in typst/figure_inventory.json: {resolved}",
+            )
+            raster_path = inv_map[resolved]["raster_path"]
+            return f'#image("/{raster_path}", width: 100%)'
+        return m.group(0)
 
     return re.sub(r'#include\s+"([^"]+)"', _repl, text)
 
@@ -2627,6 +2654,7 @@ def verify_baseline_immutability(
 
 TRUSTED_TEMPLATE_SHA256 = {
     "typst/lib/aod_schema.typ": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
+    "typst/lib/aod_plots.typ": "ead3822f57c9ffe8150d97485549ff0674044d9b38a96936eddfbc5415a8f4b2",
     "typst/preamble.typ": "7a9c255c2411bc4bd3487be0196f10ac453eefa240f6c16095d426f210b4f112",
     "typst/manual/preamble.typ": "2b7deae2f0fa3d7011edabd8d7299b835290fb60e47990c7fe861e55bd914196",
     "typst/main.typ": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70",
@@ -3130,12 +3158,180 @@ def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> 
     return violations, len(events)
 
 
+VECTOR_FIGURE_ALLOWED_KEYWORDS = frozenset({"import", "let", "for", "if"})
+VECTOR_FIGURE_FORBIDDEN_IDENTIFIERS = frozenset({
+    "eval", "regex", "read", "json", "toml", "xml", "yaml", "image", "cbor",
+    "plugin", "sys", "std", "bibliography", "figure", "heading", "cite", "footnote",
+    "link", "metadata", "raw", "include", "show", "set",
+    "hide", "query", "state", "counter", "locate", "here", "layout", "measure", "selector",
+})
+
+
+def _strip_typst_comments_nested(text: str) -> str:
+    """Strip Typst // line comments and nested /* ... */ block comments while preserving strings, raw spans, and line numbers."""
+    out: list[str] = []
+    i = 0
+    n = len(text)
+    while i < n:
+        c = text[i]
+        if c == '"':
+            j = _typ_skip_string(text, i)
+            out.append(text[i:j])
+            i = j
+            continue
+        if c == "`":
+            j = _typ_skip_raw(text, i)
+            out.append(text[i:j])
+            i = j
+            continue
+        if text.startswith("//", i) and (i == 0 or text[i - 1] != ":"):
+            k = text.find("\n", i)
+            i = n if k < 0 else k
+            continue
+        if text.startswith("/*", i):
+            depth = 1
+            j = i + 2
+            while j < n and depth > 0:
+                if text.startswith("/*", j):
+                    depth += 1
+                    j += 2
+                elif text.startswith("*/", j):
+                    depth -= 1
+                    j += 2
+                else:
+                    j += 1
+            newlines = text[i:j].count("\n")
+            out.append("\n" * newlines if newlines else " ")
+            i = j
+            continue
+        out.append(c)
+        i += 1
+    return "".join(out)
+
+
+def _vector_figure_policy_violations(rel: str, text: str, inv_entry: dict) -> list[str]:
+    """Enforce strict mode-aware offline, no-show/set/include, no-aliasing, declared-literal-CSV-only policy."""
+    violations: list[str] = []
+    stripped = _strip_typst_comments_nested(text)
+    if "@preview/" in stripped or "@local/" in stripped:
+        violations.append(f"{rel}: external Typst package import is forbidden in offline vector figure")
+    if re.search(r"(?<![A-Za-z0-9_-])std\.", stripped):
+        violations.append(f"{rel}: `std.` module access is forbidden in vector figure component")
+
+    declared_csvs = {
+        d["path"]
+        for d in inv_entry.get("data_sources", [])
+        if isinstance(d, dict) and isinstance(d.get("path"), str) and d["path"].endswith(".csv")
+    }
+
+    events = scan_typst_events(stripped)
+    import_count = 0
+    valid_plots_import = False
+    canvas_calls = 0
+
+    for mode, kind, name, named, pos, line in events:
+        where = f"{rel}:{line}"
+        if kind == "forbidden_expr":
+            violations.append(
+                f"{where}: parenthesized/dynamic callee expression is forbidden in vector figure component"
+            )
+            continue
+        if kind == "set":
+            violations.append(f"{where}: forbidden `set` rule (`set {name}`) in vector figure component")
+            continue
+        if kind == "kw":
+            if name == "show":
+                violations.append(f"{where}: forbidden `show` rule in vector figure component")
+            elif name == "include":
+                violations.append(f"{where}: forbidden `include` directive in vector figure component")
+            elif name == "import":
+                import_count += 1
+                stmt = pos[0].strip() if pos else ""
+                if re.fullmatch(r'"/typst/lib/aod_plots\.typ"\s*:\s*\*', stmt):
+                    valid_plots_import = True
+                else:
+                    violations.append(
+                        f"{where}: vector figure may only contain the single `#import \"/typst/lib/aod_plots.typ\": *` "
+                        f"(got `import {stmt[:80]}`)"
+                    )
+            elif name not in VECTOR_FIGURE_ALLOWED_KEYWORDS:
+                violations.append(f"{where}: forbidden keyword `{name}` in vector figure component")
+            continue
+
+        # Check all modes including math-mode calls (e.g., `$ image(...) $` and `$ std.eval(...) $` compile in Typst!).
+        segs = [seg.rstrip("()") for seg in name.split(".")]
+        bad_segs = [seg for seg in segs if seg in VECTOR_FIGURE_FORBIDDEN_IDENTIFIERS]
+        if bad_segs:
+            violations.append(
+                f"{where}: forbidden identifier/call `{name}` ({bad_segs[0]}) in vector figure component"
+            )
+            continue
+
+        if "csv" in segs:
+            if mode != "math" and kind == "call" and name == "csv":
+                if any(a.strip().startswith("..") for a in pos) or any(k.startswith("..") for k in named):
+                    violations.append(f"{where}: dynamic or non-literal csv(...) argument spread is forbidden")
+                    continue
+                extra_named = set(named) - {"row-type", "delimiter"}
+                if extra_named:
+                    violations.append(f"{where}: unexpected csv(...) named arguments {sorted(extra_named)}")
+                    continue
+                if len(pos) != 1:
+                    violations.append(
+                        f"{where}: dynamic or non-literal csv(...) call is forbidden in vector figure component (pos={pos!r})"
+                    )
+                    continue
+                m_lit = re.fullmatch(r'"(/[^"\n]+)"', pos[0].strip())
+                if m_lit is None:
+                    violations.append(
+                        f"{where}: dynamic or non-literal csv(...) call is forbidden in vector figure component: {pos[0]!r}"
+                    )
+                    continue
+                raw_p = m_lit.group(1)
+                rel_csv = raw_p.lstrip("/")
+                if rel_csv not in declared_csvs:
+                    violations.append(
+                        f"{where}: unauthorized csv({raw_p!r}) outside declared figure_inventory data_sources {sorted(declared_csvs)}"
+                    )
+            elif mode != "math" and kind == "call" and name.startswith("csv()."):
+                # Chained method on an already-validated direct csv(...) call (e.g. .filter(...).sorted(...))
+                pass
+            else:
+                violations.append(
+                    f"{where}: aliasing or non-direct reference to `csv` (`{name}`, kind={kind}) is forbidden in vector figure component"
+                )
+            continue
+
+        if mode != "math" and kind == "call" and name == "aod-canvas":
+            canvas_calls += 1
+
+    if import_count != 1 or not valid_plots_import:
+        msg = (
+            f"{rel}: vector figure may only contain the single `#import \"/typst/lib/aod_plots.typ\": *` "
+            f"(found {import_count} import directive(s))"
+        )
+        if not any("may only contain the single `#import" in v for v in violations):
+            violations.append(msg)
+    if canvas_calls != 1:
+        violations.append(f"{rel}: vector figure must invoke #aod-canvas(...) exactly once (got {canvas_calls})")
+    if not (
+        re.search(r"#let\s+fig-width-cm\s*=\s*[0-9]+(?:\.[0-9]+)?\b", stripped)
+        and re.search(r"#let\s+fig-height-cm\s*=\s*[0-9]+(?:\.[0-9]+)?\b", stripped)
+    ):
+        violations.append(f"{rel}: vector figure must declare literal fig-width-cm and fig-height-cm")
+    return violations
+
+
 def verify_typst_evaluation_policy(root: Path, manifest: dict) -> dict:
-    """Gate A2: pin evaluation-defining files and constrain every Typst content file."""
+    """Gate A2: pin evaluation-defining files and constrain every Typst content and figure file."""
     targets = {e["typst_target"] for e in manifest["active_source_map"]}
     diagram_components: dict[str, str] = manifest.get("diagram_components", {})
     diagram_files = set(diagram_components)
-    # 1. Every active Typst unit and shared diagram component matches its manifest digest.
+    vector_figure_components: dict[str, str] = manifest.get("vector_figure_components", {})
+    vector_figure_files = set(vector_figure_components)
+    inv_map = _load_figure_inventory_map(root)
+
+    # 1. Every active Typst unit, shared diagram component, and native vector figure matches its manifest digest.
     for e in manifest["active_source_map"]:
         p = root / e["typst_target"]
         require(p.is_file(), f"Manifest Typst target missing: {e['typst_target']}")
@@ -3150,6 +3346,29 @@ def verify_typst_evaluation_policy(root: Path, manifest: dict) -> dict:
             sha256_file(p) == expected_sha,
             f"Typst diagram component digest differs from typst/manifest.json: {rel}",
         )
+    for rel, expected_sha in sorted(vector_figure_components.items()):
+        p = root / rel
+        require(p.is_file(), f"Manifest Typst vector figure component missing: {rel}")
+        require(
+            sha256_file(p) == expected_sha,
+            f"Typst vector figure component digest differs from typst/manifest.json: {rel}",
+        )
+        require(
+            rel in inv_map,
+            f"Vector figure component missing from typst/figure_inventory.json: {rel}",
+        )
+    if vector_figure_files:
+        require(
+            set(inv_map) == vector_figure_files,
+            f"figure_inventory.json mismatch with manifest vector_figure_components: "
+            f"extra={sorted(set(inv_map) - vector_figure_files)}, missing={sorted(vector_figure_files - set(inv_map))}",
+        )
+        inv_sha = manifest.get("figure_inventory_sha256")
+        if inv_sha:
+            require(
+                sha256_file(root / "typst/figure_inventory.json") == inv_sha,
+                "typst/figure_inventory.json digest differs from typst/manifest.json",
+            )
     # 2. Evaluation-defining template/driver files are pinned by this verifier.
     for rel, digest in sorted(TRUSTED_TEMPLATE_SHA256.items()):
         p = root / rel
@@ -3158,15 +3377,15 @@ def verify_typst_evaluation_policy(root: Path, manifest: dict) -> dict:
             sha256_file(p) == digest,
             f"Trusted Typst template/driver changed (evaluation semantics are pinned by the verifier): {rel}",
         )
-    # 3. The Typst file set is exactly the manifest units + shared diagrams + pinned templates.
+    # 3. The Typst file set is exactly the manifest units + shared diagrams + vector figures + pinned templates.
     on_disk = {str(p.relative_to(root)).replace(os.sep, "/") for p in (root / "typst").rglob("*.typ")}
-    declared = targets | set(TRUSTED_TEMPLATE_SHA256) | diagram_files
+    declared = targets | set(TRUSTED_TEMPLATE_SHA256) | diagram_files | vector_figure_files
     require(
         on_disk == declared,
         f"Undeclared or missing Typst files: extra={sorted(on_disk - declared)}, missing={sorted(declared - on_disk)}",
     )
-    # 4. Mode-aware allowlist over content files and shared diagram components.
-    allowed_includes = targets | diagram_files
+    # 4. Mode-aware allowlist over content files and shared diagram components; strict offline/CSV policy on vector figures.
+    allowed_includes = targets | diagram_files | vector_figure_files
     violations: list[str] = []
     files_checked = 0
     events_checked = 0
@@ -3175,6 +3394,9 @@ def verify_typst_evaluation_policy(root: Path, manifest: dict) -> dict:
         violations += v_list
         files_checked += 1
         events_checked += n_ev
+    for rel in sorted(vector_figure_files):
+        violations += _vector_figure_policy_violations(rel, (root / rel).read_text(encoding="utf-8"), inv_map[rel])
+        files_checked += 1
     require(
         not violations,
         "Typst evaluation policy violation(s) in content files:\n  " + "\n  ".join(violations[:25]),
@@ -3182,6 +3404,7 @@ def verify_typst_evaluation_policy(root: Path, manifest: dict) -> dict:
     return {
         "trusted_template_files_pinned": len(TRUSTED_TEMPLATE_SHA256),
         "diagram_components_pinned": len(diagram_files),
+        "vector_figure_components_pinned": len(vector_figure_files),
         "manifest_typst_digests_enforced": len(targets),
         "content_files_policy_checked": files_checked,
         "content_events_checked": events_checked,
@@ -3430,35 +3653,71 @@ def _verify_source_and_content_parity_impl(
                 )
             gen_eq_counts[surface] = len(g_eqs)
 
-        fig_dir = latex_root / "manual/figures/generated"
-        fig_manifest_p = fig_dir / "FIGURE_MANIFEST.json"
-        require(fig_manifest_p.is_file(), "Missing latex/manual/figures/generated/FIGURE_MANIFEST.json")
-        fig_manifest = json.loads(fig_manifest_p.read_text(encoding="utf-8"))
-        # R4: committed figure manifest must remain deterministic (no extractor/compiler runtime drift)
-        require(
-            "typst_version" not in fig_manifest and "removed_outputs" not in fig_manifest,
-            "Committed FIGURE_MANIFEST.json must not contain runtime typst_version or removed_outputs",
-        )
-        require(
-            fig_manifest.get("background") == "white" and isinstance(fig_manifest.get("font_families"), dict),
-            "Committed FIGURE_MANIFEST.json must declare deterministic background and font_families",
-        )
-        diagrams = fig_manifest.get("figures", [])
-        require(len(diagrams) == 4, f"Expected 4 exported diagrams in FIGURE_MANIFEST.json, got {len(diagrams)}")
-        for d in diagrams:
+        total_exported_figures = 0
+        exported_by_comp: dict[str, dict] = {}
+        for surf_name, fig_rel_dir, expected_count in (
+            ("main", "figures/generated", 6),
+            ("manual", "manual/figures/generated", 32),
+        ):
+            fig_dir = latex_root / fig_rel_dir
+            fig_manifest_p = fig_dir / "FIGURE_MANIFEST.json"
+            require(fig_manifest_p.is_file(), f"Missing latex/{fig_rel_dir}/FIGURE_MANIFEST.json")
+            fig_manifest = json.loads(fig_manifest_p.read_text(encoding="utf-8"))
+            # R4: committed figure manifest must remain deterministic (no extractor/compiler runtime drift)
             require(
-                "extracted_text_chars" not in d,
-                f"Committed FIGURE_MANIFEST.json entry {d.get('slug')} must not pin extractor-dependent extracted_text_chars",
+                "typst_version" not in fig_manifest and "removed_outputs" not in fig_manifest,
+                f"Committed {fig_rel_dir}/FIGURE_MANIFEST.json must not contain runtime typst_version or removed_outputs",
             )
             require(
-                d.get("has_extractable_text") is True
-                and d.get("page_count") == 1
-                and d.get("raster_image_xobjects") == 0,
-                f"Exported diagram manifest invariant failed for {d.get('slug')}",
+                fig_manifest.get("background") == "white" and isinstance(fig_manifest.get("font_families"), dict),
+                f"Committed {fig_rel_dir}/FIGURE_MANIFEST.json must declare deterministic background and font_families",
             )
-            asset = fig_dir / d["output_filename"]
-            require(asset.is_file() and sha256_file(asset) == d["output_sha256"],
-                    f"Exported diagram digest mismatch: {asset.relative_to(root)}")
+            diagrams = fig_manifest.get("figures", [])
+            require(
+                len(diagrams) == expected_count,
+                f"Expected {expected_count} exported {surf_name} figures in {fig_rel_dir}/FIGURE_MANIFEST.json, got {len(diagrams)}",
+            )
+            for d in diagrams:
+                require(
+                    "extracted_text_chars" not in d,
+                    f"Committed FIGURE_MANIFEST.json entry {d.get('slug')} must not pin extractor-dependent extracted_text_chars",
+                )
+                require(
+                    d.get("has_extractable_text") is True
+                    and d.get("page_count") == 1
+                    and d.get("raster_image_xobjects") == 0
+                    and d.get("inline_raster_images") == 0
+                    and d.get("total_raster_images") == 0,
+                    f"Exported figure manifest invariant failed for {d.get('slug')}",
+                )
+                asset = fig_dir / d["output_filename"]
+                require(
+                    asset.is_file() and sha256_file(asset) == d["output_sha256"],
+                    f"Exported figure digest mismatch: {asset.relative_to(root)}",
+                )
+                exported_by_comp[d["diagram_component"]] = d
+                total_exported_figures += 1
+
+        # Verify typst/figure_inventory.json binds all 34 converted vector figures and retains historical rasters intact.
+        inv_map = _load_figure_inventory_map(root)
+        require(len(inv_map) == 34, f"Expected 34 audited figures in typst/figure_inventory.json, got {len(inv_map)}")
+        for comp_rel, item in sorted(inv_map.items()):
+            require(item.get("conversion_status") == "CONVERTED_VECTOR", f"Unexpected conversion_status for {comp_rel}")
+            raster_p = root / item["raster_path"]
+            require(
+                raster_p.is_file() and sha256_file(raster_p) == item["raster_sha256"],
+                f"Retained historical raster altered or missing: {item['raster_path']}",
+            )
+            comp_p = root / comp_rel
+            require(
+                comp_p.is_file() and sha256_file(comp_p) == item["typst_component_sha256"],
+                f"Figure inventory component hash mismatch: {comp_rel}",
+            )
+            require(comp_rel in exported_by_comp, f"Inventory component missing from exported manifests: {comp_rel}")
+            require(
+                exported_by_comp[comp_rel]["output_sha256"] == item["exported_pdf_sha256"],
+                f"Figure inventory exported PDF hash mismatch: {comp_rel}",
+            )
 
         # R2: bounded source checks for the four demonstrated spacing/unit boundaries
         for rel_tex, required_sub, forbidden_sub in REQUIRED_GENERATED_TEX_BOUNDARIES:
@@ -3500,7 +3759,7 @@ def _verify_source_and_content_parity_impl(
             "manual_labels_verified": len(gen_manual_labels),
             "labeled_equations_verified_structurally": gen_eq_counts,
             "immutable_tables_verified_cell_by_cell": len(tex_table_rows_cache),
-            "exported_diagrams_verified": len(diagrams),
+            "exported_diagrams_verified": total_exported_figures,
             "spacing_unit_boundaries_verified": len(REQUIRED_GENERATED_TEX_BOUNDARIES),
             "math_bookmark_headings_verified": len(REQUIRED_GENERATED_TEX_BOOKMARKS),
             "typ2tex_check_passed": typ2tex_check_passed,
@@ -4273,7 +4532,9 @@ RENDERED_LAYOUT_NGRAM_ALLOWLIST: dict[str, frozenset] = {
         "signed residual tally Status", "proxy required momentum fields",
         "required momentum fields angular", "quarantined target required Input",
         "target required Input group", "Source status Gate audit", "status Gate audit controls",
-        "Gate audit controls null", "side quarantine table Record",
+        "Gate audit controls null",
+        "CODATA Record Target MeV", "MeV NIST CODATA Record", "NIST CODATA Record Target",
+        "external target declared Record", "input gate table Record",
     }),
 }
 # Out-of-source-vocabulary words (>= 4 letters) may not occur more often in the Typst body than
@@ -4283,7 +4544,8 @@ OOV_WORD_MIN_LEN = 4
 RENDERED_OOV_EXCESS_ALLOWLIST: dict[str, dict[str, int]] = {
     "main": {"Anchor": 1, "Category": 1, "Entries": 1, "References": 1, "asym": 6, "decl": 1, "prop": 1},
     "manual": {
-        "Artifact": 1, "Class": 1, "Jobs": 2, "Purpose": 1, "References": 1, "Sheet": 1, "bench": 1,
+        "Artifact": 1, "Class": 1, "Jobs": 2, "Mass": 1, "Purpose": 1, "Quantity": 1,
+        "References": 1, "Sheet": 1, "Unit": 1, "Value": 1, "bench": 1,
         "bend": 1, "neuro": 4, "peri": 1, "spike": 2,
     },
 }
@@ -4356,6 +4618,141 @@ def _extract_extgstate_ca(resources) -> dict[str, float]:
         if isinstance(vo, dict) and "/ca" in vo:
             out[str(k)] = float(vo["/ca"])
     return out
+
+
+_SHARED_FIGURE_EXPORTER = None
+
+
+def _shared_figure_exporter():
+    """Load the single shared scripts/export_typst_figures.py module so raster inspection cannot diverge."""
+    global _SHARED_FIGURE_EXPORTER
+    if _SHARED_FIGURE_EXPORTER is None:
+        exp_path = Path(__file__).resolve().parent / "export_typst_figures.py"
+        _SHARED_FIGURE_EXPORTER = load_module(exp_path.parents[1], "aod_shared_export_typst_figures", "scripts/export_typst_figures.py")
+    return _SHARED_FIGURE_EXPORTER
+
+
+def _inspect_pdf_rasters(pdf_path: Path) -> dict:
+    """Shared recursive PDF raster census covering /Image XObjects and inline BI/ID/EI images."""
+    return _shared_figure_exporter().inspect_pdf_rasters(pdf_path)
+
+
+def _require_zero_pdf_rasters(pdf_path: Path, label: str) -> dict:
+    """Shared fail-closed pure-vector check rejecting any /Image XObject, inline image, or malformed stream."""
+    return _shared_figure_exporter().require_zero_pdf_rasters(pdf_path, label)
+
+
+def _count_pdf_raster_xobjects(pdf_path: Path) -> int:
+    """Return total raster count (Image XObjects + inline images) via the shared PDF raster inspector."""
+    return int(_inspect_pdf_rasters(pdf_path)["total_raster_images"])
+
+
+def _require_zero_pdf_raster_xobjects(pdf_path: Path, label: str) -> int:
+    """Backward-compatible wrapper enforcing zero XObject and inline raster images via the shared guard."""
+    return int(_require_zero_pdf_rasters(pdf_path, label)["total_raster_images"])
+
+
+def _pure_vector_surfaces(root: Path, vf_manifest: dict) -> set[str]:
+    """Return surfaces where all active figures in typst/figure_inventory.json are CONVERTED_VECTOR."""
+    vf_comps = vf_manifest.get("vector_figure_components", {})
+    if not vf_comps:
+        return set()
+    inv_map = _load_figure_inventory_map(root)
+    inv_figures = list(inv_map.values())
+    require(
+        bool(inv_figures),
+        "typst/figure_inventory.json contains no figures despite declared vector_figure_components",
+    )
+    out: set[str] = set()
+    for surf in ("main", "manual"):
+        surf_comps = [k for k in vf_comps if k.startswith(f"typst/lib/figures/{surf}/")]
+        surf_inv = [f for f in inv_figures if f.get("surface") == surf]
+        if surf_comps and surf_inv and all(f.get("conversion_status") == "CONVERTED_VECTOR" for f in surf_inv):
+            out.add(surf)
+    return out
+
+
+def _verify_figure9_math_attachment(
+    typst_bin: str,
+    root: Path,
+    comp_rel: str = "typst/lib/figures/main/cycle_disturbance_shedding.typ",
+) -> dict:
+    """Verify compiled Typst math AST of Main Figure 9: P_W^S (partial F, omega) = ... has top=S alone and baseline args."""
+    comp_path = root / comp_rel
+    require(comp_path.is_file(), f"Missing Main Figure 9 component: {comp_rel}")
+    proc = subprocess.run(
+        [typst_bin, "query", "--root", str(root), str(comp_path), "math.equation"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    eqs = json.loads(proc.stdout)
+
+    def _non_space_leaves(node) -> list[str]:
+        if isinstance(node, dict):
+            fn = node.get("func")
+            if fn in ("symbol", "text"):
+                return [str(node.get("text", ""))]
+            if fn == "space":
+                return []
+            out_toks: list[str] = []
+            for key in ("body", "child", "children"):
+                if key in node:
+                    out_toks.extend(_non_space_leaves(node[key]))
+            return out_toks
+        if isinstance(node, list):
+            out_toks = []
+            for it in node:
+                out_toks.extend(_non_space_leaves(it))
+            return out_toks
+        return []
+
+    matched_p_eqs = 0
+    for eq in eqs:
+        body = eq.get("body")
+        if not isinstance(body, dict) or body.get("func") != "sequence":
+            continue
+        children = [c for c in body.get("children", []) if not (isinstance(c, dict) and c.get("func") == "space")]
+        eq_idx = next(
+            (i for i, c in enumerate(children) if isinstance(c, dict) and c.get("func") == "symbol" and c.get("text") == "="),
+            None,
+        )
+        if eq_idx is None or eq_idx == 0:
+            continue
+        lhs = children[:eq_idx]
+        first = lhs[0]
+        if not (isinstance(first, dict) and first.get("func") == "attach" and first.get("base") == {"func": "symbol", "text": "P"}):
+            continue
+        matched_p_eqs += 1
+        require(
+            first.get("b") == {"func": "symbol", "text": "W"},
+            f"Figure 9 formula bottom attachment mismatch: expected W, got {first.get('b')!r}",
+        )
+        require(
+            first.get("t") == {"func": "symbol", "text": "S"},
+            f"Figure 9 formula superscript attachment defect: top attachment must be S alone (not arguments), got {first.get('t')!r}",
+        )
+        require(
+            len(lhs) == 2 and isinstance(lhs[1], dict) and lhs[1].get("func") == "lr",
+            f"Figure 9 formula missing baseline parenthesized argument group after P_W^S: lhs={lhs!r}",
+        )
+        arg_tokens = _non_space_leaves(lhs[1])
+        require(
+            arg_tokens == ["(", "∂", "F", ",", "ω", ")"],
+            f"Figure 9 formula baseline arguments mismatch: expected ['(', '∂', 'F', ',', 'ω', ')'], got {arg_tokens!r}",
+        )
+    require(
+        matched_p_eqs == 1,
+        f"Expected exactly 1 compiled P_W^S (∂F, ω) = ... equation in {comp_rel}, found {matched_p_eqs}",
+    )
+    return {
+        "component": comp_rel,
+        "base": "P",
+        "bottom": "W",
+        "top": "S",
+        "baseline_args": ["(", "∂", "F", ",", "ω", ")"],
+        "verified": True,
+    }
 
 
 def _scan_pdf_text_paint(pdf_path: Path) -> dict:
@@ -4657,6 +5054,21 @@ def _verify_evaluated_and_rendered_impl(
         "manual": _scan_pdf_text_paint(typ_manual_pdf),
     }
 
+    # C3b: shared pure-vector PDF verification (0 /Image XObjects and 0 inline BI/ID/EI images).
+    vf_manifest = json.loads((root / "typst/manifest.json").read_text(encoding="utf-8"))
+    pure_vector_surfs = _pure_vector_surfaces(root, vf_manifest)
+    typ_rasters = {
+        "main": _require_zero_pdf_rasters(typ_main_pdf, "main.pdf")
+        if "main" in pure_vector_surfs else _inspect_pdf_rasters(typ_main_pdf),
+        "manual": _require_zero_pdf_rasters(typ_manual_pdf, "manual.pdf")
+        if "manual" in pure_vector_surfs else _inspect_pdf_rasters(typ_manual_pdf),
+    }
+    fig9_ast_report = (
+        _verify_figure9_math_attachment(typst_bin, root)
+        if (root / "typst/lib/figures/main/cycle_disturbance_shedding.typ").is_file()
+        else None
+    )
+
     def clause_variants(sent: str) -> list[str]:
         out = [" " + sent + " "]
         if " SADAR " in out[0]:
@@ -4791,12 +5203,67 @@ def _verify_evaluated_and_rendered_impl(
             # (c2) Bidirectional: every 4-gram of source-vocabulary words in the rendered Typst
             #      body must occur in the historical baseline body or in the source clauses, so
             #      evaluation-time insertions (show/figure/caption rules) are rejected.
+            #      For S1b native vector figures (which replaced textless historical rasters),
+            #      each pinned standalone exported vector figure PDF token sequence must occur
+            #      verbatim-contiguously in the rendered Typst body and is stripped cleanly
+            #      with a non-word boundary before 4-gram and OOV checks.
             src_words = [w for _, c in gate_b_info["_prose_clauses"][surf] for w in c.split()]
             src_grams = set(_run_ngrams(_vocab_runs(src_words, vocab)))
-            b_tokens = _norm_rendered_text_tokens(_rendered_body(b_stream), is_typst=False, vocab=vocab).split()
-            t_tokens = _norm_rendered_text_tokens(_rendered_body(t_stream), is_typst=True).split()
+            b_body_s, t_body_s = _rendered_body(b_stream), _rendered_body(t_stream)
+            b_tokens = _norm_rendered_text_tokens(b_body_s, is_typst=False, vocab=vocab).split()
+            t_tokens = _norm_rendered_text_tokens(t_body_s, is_typst=True).split()
+
+            fig_gen_dir = root / ("latex/figures/generated" if surf == "main" else "latex/manual/figures/generated")
+            fig_manifest_path = fig_gen_dir / "FIGURE_MANIFEST.json"
+            expected_vf_prefix = f"typst/lib/figures/{surf}/"
+            expected_vf_count = sum(
+                1 for k in vf_manifest.get("vector_figure_components", {}) if k.startswith(expected_vf_prefix)
+            )
+            fig_streams: list[str] = []
+            t_tokens_non_fig = list(t_tokens)
+            vector_figures_verbatim_matched = 0
+            if expected_vf_count > 0:
+                require(
+                    fig_manifest_path.is_file(),
+                    f"Missing required {fig_manifest_path.relative_to(root)} for {expected_vf_count} declared {surf} vector figure(s)",
+                )
+            if fig_manifest_path.is_file():
+                fm_data = json.loads(fig_manifest_path.read_text(encoding="utf-8"))
+                for f_entry in fm_data.get("figures", []):
+                    if f_entry.get("component_kind") != "vector_figure":
+                        continue
+                    f_pdf = fig_gen_dir / f_entry["output_filename"]
+                    require(
+                        f_pdf.is_file() and sha256_file(f_pdf) == f_entry["output_sha256"],
+                        f"Pinned exported vector figure PDF missing or modified: {f_pdf}",
+                    )
+                    _require_zero_pdf_raster_xobjects(f_pdf, str(f_pdf.relative_to(root)))
+                    f_stream = _pdftotext(f_pdf, raw=True)
+                    fig_streams.append(f_stream)
+                    f_toks = _norm_rendered_text_tokens(f_stream, is_typst=True).split()
+                    require(bool(f_toks), f"Exported vector figure {f_entry['slug']} yielded empty normalized text")
+                    flen = len(f_toks)
+                    matched_idx = None
+                    for idx in range(len(t_tokens_non_fig) - flen + 1):
+                        if t_tokens_non_fig[idx:idx + flen] == f_toks:
+                            matched_idx = idx
+                            break
+                    require(
+                        matched_idx is not None,
+                        f"Pinned exported vector figure {f_entry['slug']} text missing from rendered {surf}.pdf",
+                    )
+                    t_tokens_non_fig = (
+                        t_tokens_non_fig[:matched_idx] + ["|"] + t_tokens_non_fig[matched_idx + flen:]
+                    )
+                    vector_figures_verbatim_matched += 1
+            require(
+                vector_figures_verbatim_matched == expected_vf_count,
+                f"Vector figure verbatim match count mismatch in {surf}.pdf: "
+                f"matched={vector_figures_verbatim_matched} vs declared={expected_vf_count}",
+            )
+
             base_grams = set(_run_ngrams(_vocab_runs(b_tokens, vocab)))
-            t_grams = _run_ngrams(_vocab_runs(t_tokens, vocab))
+            t_grams = _run_ngrams(_vocab_runs(t_tokens_non_fig, vocab))
             layout_allow = RENDERED_LAYOUT_NGRAM_ALLOWLIST[surf]
             novel = [g for g in t_grams if g not in base_grams and g not in src_grams and g not in layout_allow]
             # Words outside the source vocabulary (>= 4 letters) must not exceed their baseline count.
@@ -4806,8 +5273,12 @@ def _verify_evaluated_and_rendered_impl(
                     win = b_tokens[i:i + k]
                     if all(x.isalpha() for x in win):
                         b_alpha["".join(win)] += 1
-            t_alpha = Counter(x for x in t_tokens if x.isalpha())
-            t_math = _typst_math_word_counts(_rendered_body(t_stream))
+            t_alpha = Counter(x for x in t_tokens_non_fig if x.isalpha())
+            t_math = _typst_math_word_counts(t_body_s)
+            for fs in fig_streams:
+                fm_words = _typst_math_word_counts(fs)
+                for mw, mc in fm_words.items():
+                    t_math[mw] = max(0, t_math.get(mw, 0) - mc)
             oov_allow = RENDERED_OOV_EXCESS_ALLOWLIST[surf]
             cand = {
                 w: t_alpha[w] - t_math.get(w, 0)
@@ -4832,14 +5303,15 @@ def _verify_evaluated_and_rendered_impl(
             )
             layout_hits = sorted({g for g in t_grams if g in layout_allow and g not in base_grams and g not in src_grams})
 
-            # (c3) Rendered relation/operator glyph parity against the historical baseline body.
-            b_body_s, t_body_s = _rendered_body(b_stream), _rendered_body(t_stream)
+            # (c3) Exact rendered relation/operator glyph parity against historical baseline + pinned vector figures.
             glyphs = {}
             for g in RENDERED_GLYPH_PARITY_SET:
-                bcount, tcount = b_body_s.count(g), t_body_s.count(g)
+                bcount = b_body_s.count(g)
+                fig_delta = sum(fs.count(g) for fs in fig_streams)
+                tcount = t_body_s.count(g)
                 require(
-                    bcount == tcount,
-                    f"Rendered glyph {g!r} count differs in {surf}.pdf: base={bcount} vs typst={tcount}",
+                    bcount + fig_delta == tcount,
+                    f"Rendered glyph {g!r} count differs in {surf}.pdf: base={bcount} + vec_figs={fig_delta} vs typst={tcount}",
                 )
                 glyphs[g] = tcount
 
@@ -4887,6 +5359,7 @@ def _verify_evaluated_and_rendered_impl(
                 "rendered_layout_allowlisted_ngrams": layout_hits,
                 "rendered_glyph_parity": glyphs,
                 "rendered_decimals_matched": len(b_decs),
+                "vector_figures_verbatim_matched": vector_figures_verbatim_matched,
             }
 
         # (e) Verify all 172 Manual->Main reference displays appear in baseline Manual PDF
@@ -5006,6 +5479,10 @@ def _verify_evaluated_and_rendered_impl(
                 require(cmd in g_flat_cli, f"CLI command missing in generated LaTeX {surf}.pdf: {cmd!r}")
 
             outline_boundary_report = _verify_pdf_outlines_and_boundaries(surf, g_pdf, g_raw, baseline_pdf=b_pdf)
+            g_rasters = (
+                _require_zero_pdf_rasters(g_pdf, f"latex/{surf}.pdf")
+                if surf in pure_vector_surfs else _inspect_pdf_rasters(g_pdf)
+            )
 
             g_norm = " " + _norm_rendered_text_tokens(g_stream, is_typst=False, vocab=vocab) + " "
             g_flat = re.sub(r"\s+", " ", g_raw.replace("\xa0", " "))
@@ -5014,6 +5491,9 @@ def _verify_evaluated_and_rendered_impl(
                 "pages": g_links["pages"],
                 "pdf_sha256": sha256_file(g_pdf),
                 "pdf_bytes": g_pdf.stat().st_size,
+                "raster_image_xobjects": g_rasters["raster_image_xobjects"],
+                "inline_raster_images": g_rasters["inline_raster_images"],
+                "total_raster_images": g_rasters["total_raster_images"],
                 "local_links_checked": g_links["internal_links"],
                 "broken_local_destinations": 0,
                 "named_destinations_count": len(g_links["named_destinations"]),
@@ -5092,9 +5572,17 @@ def _verify_evaluated_and_rendered_impl(
         "candidate_pdfs": {
             "main_pdf_sha256": build_report["main_pdf_sha256"],
             "main_pdf_bytes": build_report["main_pdf_bytes"],
+            "main_raster_image_xobjects": typ_rasters["main"]["raster_image_xobjects"],
+            "main_inline_raster_images": typ_rasters["main"]["inline_raster_images"],
+            "main_total_raster_images": typ_rasters["main"]["total_raster_images"],
             "manual_pdf_sha256": build_report["manual_pdf_sha256"],
             "manual_pdf_bytes": build_report["manual_pdf_bytes"],
+            "manual_raster_image_xobjects": typ_rasters["manual"]["raster_image_xobjects"],
+            "manual_inline_raster_images": typ_rasters["manual"]["inline_raster_images"],
+            "manual_total_raster_images": typ_rasters["manual"]["total_raster_images"],
+            "pure_vector_surfaces_enforced": sorted(pure_vector_surfs),
         },
+        "figure9_formula_attachment": fig9_ast_report,
         "main_labels_verified": len(typ_main_map),
         "manual_labels_verified": len(typ_manual_map),
         "equation_numbering": eq_numbering_report,
@@ -5179,6 +5667,13 @@ def _run_negative_controls_impl(
         if include_figures:
             shutil.copytree(root / "figures_jpg", sb / "figures_jpg")
             shutil.copytree(root / "manual" / "figures", sb / "manual" / "figures")
+            if (root / "wavelet_shedding_simulation.csv").is_file():
+                shutil.copy2(root / "wavelet_shedding_simulation.csv", sb / "wavelet_shedding_simulation.csv")
+            if (root / "manual" / "data").is_dir():
+                shutil.copytree(root / "manual" / "data", sb / "manual" / "data")
+            for gen_rel in ("latex/figures/generated", "latex/manual/figures/generated"):
+                if (root / gen_rel).is_dir():
+                    shutil.copytree(root / gen_rel, sb / gen_rel, dirs_exist_ok=True)
         return sb
 
     def expect_rejection(name: str, fn, expect: str = "") -> None:
@@ -5216,6 +5711,9 @@ def _run_negative_controls_impl(
                 hits += 1
         if rel in m2.get("diagram_components", {}):
             m2["diagram_components"][rel] = sha256_file(sb / rel)
+            hits += 1
+        if rel in m2.get("vector_figure_components", {}):
+            m2["vector_figure_components"][rel] = sha256_file(sb / rel)
             hits += 1
         require(hits == 1, f"Control re-pin target not in manifest: {rel}")
         return m2
@@ -5428,12 +5926,12 @@ def _run_negative_controls_impl(
         expect_rejection("13_R3_table_show_rule_policy",
                          lambda: verify_typst_evaluation_policy(sb, repin(sb, tbl)), "forbidden `show`")
 
-    # 14. R4: two Higgs figure image paths swapped (captions unchanged).
+    # 14. R4: two Higgs figure bindings swapped (captions unchanged).
     with tempfile.TemporaryDirectory() as td:
         sb = make_sandbox(Path(td))
         rel = "typst/manual/sections/01_rest_energy_prediction.typ"
-        a_img = "/manual/figures/higgs/higgs_yro_saddle_signature.png"
-        b_img = "/manual/figures/higgs/higgs_tritrioseptyro_trace_flow.png"
+        a_img = "../../lib/figures/manual/higgs_yro_saddle_signature.typ"
+        b_img = "../../lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ"
         p = sb / rel
         txt = p.read_text(encoding="utf-8")
         require(txt.count(a_img) == 1 and txt.count(b_img) == 1, "Control 14 preimage missing")
@@ -5578,14 +6076,29 @@ def _run_negative_controls_impl(
         )
         return sb
 
-    # 22a. R1: historical 98ddfa0 old_sha256 in representation ledger for build_release_bundle.py
+    # 22a. R1: actual historical 98ddfa0 old_sha256 in representation ledger for build_release_bundle.py
+    hist_release_builder_sha = "571fd0aa967e6835005ae5681ffd01e1aadd3fb5edcb30abe243c4775822fe7b"
+    if (root / ".git").exists():
+        chk_hist = subprocess.run(
+            ["git", "rev-parse", "--verify", f"{SCIENTIFIC_BASELINE_COMMIT}^{{commit}}"],
+            cwd=root, capture_output=True, text=True,
+        )
+        if chk_hist.returncode == 0:
+            raw_hist = subprocess.run(
+                ["git", "show", f"{SCIENTIFIC_BASELINE_COMMIT}:scripts/build_release_bundle.py"],
+                cwd=root, capture_output=True, check=True,
+            ).stdout
+            require(
+                hashlib.sha256(raw_hist).hexdigest() == hist_release_builder_sha,
+                "Control 22a fixture literal no longer matches 98ddfa0 scripts/build_release_bundle.py",
+            )
     with tempfile.TemporaryDirectory() as td:
         sb = make_gate_a_sandbox(Path(td))
         lp = sb / "typst/representation_change_ledger.json"
         ldata = json.loads(lp.read_text(encoding="utf-8"))
         for rec in ldata["frozen_sha256_amendments"]:
             if rec["path"] == "scripts/build_release_bundle.py":
-                rec["old_sha256"] = "960949d90fd37df5f2a996e408313514772202ddbd9103f1aa4d9f160602418a"
+                rec["old_sha256"] = hist_release_builder_sha
         lp.write_text(json.dumps(ldata, indent=2) + "\n", encoding="utf-8")
         expect_rejection(
             "22a_R1_ledger_historical_old_hash",
@@ -5634,7 +6147,7 @@ def _run_negative_controls_impl(
     if (root / "latex/GENERATION_MANIFEST.json").is_file():
         with tempfile.TemporaryDirectory() as td:
             sb = make_sandbox(Path(td), include_figures=True)
-            shutil.copytree(root / "latex", sb / "latex")
+            shutil.copytree(root / "latex", sb / "latex", dirs_exist_ok=True)
             mutate(
                 sb, "latex/sections/05_curl_closure_duon_current.tex",
                 r"\mathrm{Duon}\ \text{has the support of }",
@@ -5649,7 +6162,7 @@ def _run_negative_controls_impl(
             )
         with tempfile.TemporaryDirectory() as td:
             sb = make_sandbox(Path(td), include_figures=True)
-            shutil.copytree(root / "latex", sb / "latex")
+            shutil.copytree(root / "latex", sb / "latex", dirs_exist_ok=True)
             mutate(
                 sb, "latex/sections/06_field.tex",
                 r"\subsubsection{E2\texorpdfstring{$^{\pm}$}{±} duad}",
@@ -5662,6 +6175,192 @@ def _run_negative_controls_impl(
                 ),
                 "Generated LaTeX bookmark regression",
             )
+
+    # 24a & 24b. S1b: forbidden show rule or unauthorized CSV read inside native vector figure component.
+    vf = "typst/lib/figures/manual/higgs_mass_comparison.typ"
+    if (root / vf).is_file():
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=False)
+            mutate(sb, vf, "#aod-canvas(", '#show "124.928": "125.000"\n#aod-canvas(')
+            expect_rejection(
+                "24a_S1b_vector_figure_show_rule",
+                lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
+                "forbidden `show` rule in vector figure component",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=False)
+            mutate(
+                sb, vf,
+                'csv("/manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv"',
+                'csv("/manual/data/derived/tau_ring_diagnostic.csv"',
+            )
+            expect_rejection(
+                "24b_S1b_vector_figure_unauthorized_csv",
+                lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
+                "unauthorized csv(",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=False)
+            mutate(
+                sb, vf,
+                '#let rows = csv("/manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv", row-type: dictionary)',
+                '#let p = "/manual/data/derived/tau_ring_diagnostic.csv"\n#let rows = csv(p, row-type: dictionary)',
+            )
+            expect_rejection(
+                "24c_S1b_vector_figure_dynamic_csv",
+                lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
+                "dynamic or non-literal csv(",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=False)
+            mutate(
+                sb, vf,
+                '#import "/typst/lib/aod_plots.typ": *',
+                '#import "/typst/lib/aod_plots.typ": *\n#import "/typst/lib/aod_schema.typ": aod-boxed',
+            )
+            expect_rejection(
+                "24d_S1b_vector_figure_nonwildcard_import",
+                lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
+                "may only contain the single `#import",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=False)
+            mutate(
+                sb, vf,
+                '#let rows = csv("/manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv", row-type: dictionary)',
+                '#let r = csv\n#let rows = r("/manual/data/derived/tau_ring_diagnostic.csv", row-type: dictionary)',
+            )
+            expect_rejection(
+                "24e_S1b_vector_figure_alias_csv_and_read",
+                lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
+                "aliasing or non-direct reference to `csv`",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=False)
+            mutate(
+                sb, vf,
+                "#aod-canvas(",
+                "#[ok]#set text(fill: white)\n#aod-canvas(",
+            )
+            expect_rejection(
+                "24f_S1b_vector_figure_bracket_import_and_set",
+                lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
+                "forbidden `set` rule",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            from pypdf import PdfWriter
+            from pypdf.generic import DictionaryObject, NameObject, NumberObject, StreamObject
+
+            require(
+                _pure_vector_surfaces(root, manifest) == {"main", "manual"},
+                f"Expected pure-vector raster enforcement on both main and manual, got {_pure_vector_surfaces(root, manifest)!r}",
+            )
+            bad_pdf = Path(td) / "synthetic_raster.pdf"
+            w_ras = PdfWriter()
+            pg = w_ras.add_blank_page(width=100, height=100)
+            img = StreamObject()
+            img[NameObject("/Type")] = NameObject("/XObject")
+            img[NameObject("/Subtype")] = NameObject("/Image")
+            img[NameObject("/Width")] = NumberObject(1)
+            img[NameObject("/Height")] = NumberObject(1)
+            img[NameObject("/ColorSpace")] = NameObject("/DeviceGray")
+            img[NameObject("/BitsPerComponent")] = NumberObject(8)
+            img._data = b"\x00"
+            img_ref = w_ras._add_object(img)
+            pg[NameObject("/Resources")] = DictionaryObject({
+                NameObject("/XObject"): DictionaryObject({NameObject("/Im0"): img_ref}),
+            })
+            with bad_pdf.open("wb") as fh:
+                w_ras.write(fh)
+            expect_rejection(
+                "24g_S1b_pdf_raster_xobject_injection",
+                lambda: _require_zero_pdf_rasters(bad_pdf, "synthetic_raster.pdf"),
+                "raster_image_xobjects=1",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            from pypdf import PdfReader, PdfWriter
+            from pypdf.generic import ArrayObject, DecodedStreamObject, DictionaryObject, NameObject
+
+            inline_payload = (
+                b"\nq\n18 0 0 18 72 36 cm\nBI\n/W 2 /H 2 /CS /RGB /BPC 8\nID\n"
+                + b"\xff\x00\x00\x00\xff\x00\x00\x00\xff\xff\xff\x00"
+                + b"\nEI\nQ\n"
+            )
+            # Clone a real exported vector figure PDF (when present) and append a visible 2x2 RGB inline bitmap
+            fig_src = root / "latex/figures/generated/cycle-disturbance-shedding.pdf"
+            bad_inline_pdf = Path(td) / "inline_raster_figure.pdf"
+            w_inl = PdfWriter()
+            if fig_src.is_file():
+                w_inl.clone_document_from_reader(PdfReader(str(fig_src)))
+                pg_i = w_inl.pages[0]
+                inl_stream = DecodedStreamObject()
+                inl_stream.set_data(inline_payload)
+                inl_ref = w_inl._add_object(inl_stream)
+                existing_c = pg_i.get("/Contents")
+                if existing_c is None:
+                    pg_i[NameObject("/Contents")] = inl_ref
+                elif isinstance(existing_c.get_object(), ArrayObject):
+                    existing_c.get_object().append(inl_ref)
+                else:
+                    pg_i[NameObject("/Contents")] = ArrayObject([existing_c, inl_ref])
+            else:
+                pg_i = w_inl.add_blank_page(width=200, height=200)
+                inl_stream = DecodedStreamObject()
+                inl_stream.set_data(inline_payload)
+                pg_i[NameObject("/Contents")] = w_inl._add_object(inl_stream)
+            with bad_inline_pdf.open("wb") as fh:
+                w_inl.write(fh)
+            # Also verify a nested /Form XObject containing an inline BI/ID/EI bitmap fails closed
+            nested_inline_pdf = Path(td) / "nested_form_inline_raster.pdf"
+            w_nf = PdfWriter()
+            pg_nf = w_nf.add_blank_page(width=200, height=200)
+            fm_inl = DecodedStreamObject()
+            fm_inl[NameObject("/Type")] = NameObject("/XObject")
+            fm_inl[NameObject("/Subtype")] = NameObject("/Form")
+            fm_inl.set_data(inline_payload)
+            pg_nf[NameObject("/Resources")] = DictionaryObject({
+                NameObject("/XObject"): DictionaryObject({NameObject("/FmInl"): w_nf._add_object(fm_inl)}),
+            })
+            with nested_inline_pdf.open("wb") as fh:
+                w_nf.write(fh)
+            nested_rejected = False
+            try:
+                _require_zero_pdf_rasters(nested_inline_pdf, "nested_form_inline_raster.pdf")
+            except ValueError as exc:
+                nested_rejected = "inline_raster_images=1" in str(exc)
+            require(nested_rejected, "Control 24h precheck failed: nested Form inline image was not rejected")
+            expect_rejection(
+                "24h_S1b_pdf_inline_raster_image_injection",
+                lambda: _require_zero_pdf_rasters(bad_inline_pdf, "inline_raster_figure.pdf"),
+                "inline_raster_images=1",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            from pypdf import PdfWriter
+            from pypdf.generic import DecodedStreamObject, NameObject
+
+            malformed_pdf = Path(td) / "malformed_stream.pdf"
+            w_mal = PdfWriter()
+            pg_m = w_mal.add_blank_page(width=100, height=100)
+            bad_s = DecodedStreamObject()
+            bad_s.set_data(b"q BI /W 2 /H 2 /CS /RGB /BPC 8 ID \xff\x00\x00")
+            pg_m[NameObject("/Contents")] = w_mal._add_object(bad_s)
+            with malformed_pdf.open("wb") as fh:
+                w_mal.write(fh)
+            expect_rejection(
+                "24i_S1b_pdf_malformed_content_stream",
+                lambda: _require_zero_pdf_rasters(malformed_pdf, "malformed_stream.pdf"),
+                "Uninspectable or malformed PDF content stream",
+            )
+        fig9_rel = "typst/lib/figures/main/cycle_disturbance_shedding.typ"
+        if (root / fig9_rel).is_file():
+            with tempfile.TemporaryDirectory() as td:
+                sb = make_sandbox(Path(td), include_figures=False)
+                mutate(sb, fig9_rel, "P_W^S (partial F, omega)", "P_W^S(partial F, omega)")
+                expect_rejection(
+                    "24j_S1b_figure9_superscript_attachment",
+                    lambda: _verify_figure9_math_attachment(typst_bin, sb, fig9_rel),
+                    "Figure 9 formula superscript attachment defect",
+                )
 
     # 24. R5: missing sibling peer /GoToR /D destination (__AOD_REVIEW_MISSING_DESTINATION__)
     with tempfile.TemporaryDirectory() as td:

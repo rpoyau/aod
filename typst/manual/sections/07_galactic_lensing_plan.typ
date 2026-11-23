@@ -85,7 +85,7 @@ The lensing fixture uses a discrete exoshedding field-ring calculation. The valu
 
 #figure(
   kind: image, [
-#image("/manual/figures/lensing/02_frg_value_identity_delta3.png", width: 86%)
+#include "../../lib/figures/manual/lensing_02_frg_value_identity_delta3.typ"
   ],
   caption: [FRG value identity and $delta_3$ audit. Gate values $T^0$, $C^(times)$, and $T^(times)$ are computed before the fixture comparator joins.],
 ) <fig:manual-lensing-frg-delta3>
@@ -126,7 +126,7 @@ Toy 1 is the exact internal lensing toy. It belongs to the manual fixture lane a
 
 #figure(
   kind: image, [
-#image("/manual/figures/lensing/01_toy1_delta3_class_tallies.png", width: 86%)
+#include "../../lib/figures/manual/lensing_01_toy1_delta3_class_tallies.typ"
   ],
   caption: [Toy 1 exact internal $delta_3$ class tallies.],
 ) <fig:manual-lensing-toy-delta3>
@@ -142,7 +142,7 @@ SPARC5 instantiates a radial lens-medium data-support class. It supplies radial 
 
 #figure(
   kind: image, [
-#image("/manual/figures/lensing/03_sparc5_lens_medium_phase_proxy.png", width: 82%)
+#include "../../lib/figures/manual/lensing_03_sparc5_lens_medium_phase_proxy.typ"
   ],
   caption: [SPARC5 radial lens-medium data-support class. The plotted quantities are diagnostic medium proxies; lensing targets are carried by SWELLS or a higher-resolution class.],
 ) <fig:manual-lensing-sparc5-proxy>
@@ -150,7 +150,7 @@ SPARC5 instantiates a radial lens-medium data-support class. It supplies radial 
 
 #figure(
   kind: image, [
-#image("/manual/figures/lensing/04_sparc5_class_tally_heatmap.png", width: 82%)
+#include "../../lib/figures/manual/lensing_04_sparc5_class_tally_heatmap.typ"
   ],
   caption: [SPARC5 lens-medium class tallies. The dominant diagnostic route class is recorded for audit.],
 ) <fig:manual-lensing-sparc5-classes>
@@ -173,7 +173,7 @@ before a new cohort is joined; it cannot reselect on that cohort's targets.
 
 #figure(
   kind: image, [
-#image("/manual/figures/lensing/05_swells_k_comparison_delta3.png", width: 82%)
+#include "../../lib/figures/manual/lensing_05_swells_k_comparison_delta3.typ"
   ],
   caption: [SWELLS K1/K2/K3 $delta_3$ comparison. K2/K3 are audit diagnostics with $delta_3$ comparison tallies.],
 ) <fig:manual-lensing-swells-comparison>
@@ -181,7 +181,7 @@ before a new cohort is joined; it cannot reselect on that cohort's targets.
 
 #figure(
   kind: image, [
-#image("/manual/figures/lensing/06_swells_k1_thetaE_delta3_tallies.png", width: 82%)
+#include "../../lib/figures/manual/lensing_06_swells_k1_thetae_delta3_tallies.typ"
   ],
   caption: [SWELLS K1 retained-baseline $theta_E$ $delta_3$ tallies.],
 ) <fig:manual-lensing-swells-k1>
@@ -197,7 +197,7 @@ K4 is the higher-resolution lensing input-manifest row for independent 3D and ti
 
 #figure(
   kind: image, [
-#image("/manual/figures/lensing/07_k4_3d_timeflow_input_gate.png", width: 86%)
+#include "../../lib/figures/manual/lensing_07_k4_3d_timeflow_input_gate.typ"
   ],
   caption: [K4 higher-resolution lensing data-support gate. The L3 input package records independent 3D + time-flow medium data before the target side joins.],
 ) <fig:manual-lensing-k4-gate>
@@ -217,7 +217,7 @@ The A$Omega$ input side carries medium fields, gate values, and declared predict
 
 #figure(
   kind: image, [
-#image("/manual/figures/lensing/08_target_quarantine.png", width: 86%)
+#include "../../lib/figures/manual/lensing_08_target_quarantine.typ"
   ],
   caption: [Target-side quarantine. A$Omega$ values freeze before target tallies join.],
 ) <fig:manual-lensing-target-quarantine>
@@ -225,7 +225,7 @@ The A$Omega$ input side carries medium fields, gate values, and declared predict
 
 #figure(
   kind: image, [
-#image("/manual/figures/lensing/09_staged_lensing_lane.png", width: 90%)
+#include "../../lib/figures/manual/lensing_09_staged_lensing_lane.typ"
   ],
   caption: [Staged galactic lensing lane. Toy fixtures, SPARC5 diagnostics, SWELLS acquisition, retained baseline, K2/K3 audit diagnostics, and K4 gate are kept distinct.],
 ) <fig:manual-lensing-staged-lane>
@@ -233,7 +233,7 @@ The A$Omega$ input side carries medium fields, gate values, and declared predict
 
 #figure(
   kind: image, [
-#image("/manual/figures/lensing/10_lensing_calculation_spine.png", width: 90%)
+#include "../../lib/figures/manual/lensing_10_lensing_calculation_spine.typ"
   ],
   caption: [Galactic lensing calculation spine. The $U$-projection and lensing targets remain downstream of declared field-ring values.],
 ) <fig:manual-lensing-calculation-spine>

@@ -86,7 +86,7 @@ The target bins are
 
 #figure(
   kind: image, [
-#image("/manual/figures/double_slit_cross_return_setup.png", width: 95%)
+#include "../../lib/figures/manual/double_slit_cross_return_setup.typ"
   ],
   caption: [Recurrent-ring double-slit cross-return setup. Two boundary gates produce independent one-gate contributions; the no-cross baseline is the sum of one-gate contributions, and the cross-return contribution produces the declared cross-return fixture.],
 ) <fig:manual-recurrent-ring-double-slit>
@@ -160,7 +160,7 @@ The full-fixture checks are
 
 #figure(
   kind: image, [
-#image("/manual/figures/double_slit_reclosure_fixture.png", width: 82%)
+#include "../../lib/figures/manual/double_slit_reclosure_fixture.typ"
   ],
   caption: [Dimonhexon double-slit reclosure fixture. Cross-return changes the two-gate distribution; the exact internal comparison is recorded by $delta_3$.],
 ) <fig:manual-double-slit-reclosure-fixture>
