@@ -1,6 +1,7 @@
 """Pytest integration for M4 Objective 1 native Typst migration parity gates."""
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -622,13 +623,27 @@ def test_phase2_r1_transition_provenance_git_and_nongit_controls(tmp_path):
     assert res_ng["git_baseline_cross_checked"] is False
     assert res_ng["git_phase1_cross_checked"] is False
 
-    # 3. Historical 98ddfa0 old_sha256 rejected for both engineering frozen amendments
+    # 3. Actual historical 98ddfa0 old_sha256 rejected for both engineering frozen amendments (Git & non-Git)
     historical_bad = {
-        "scripts/build_release_bundle.py": "960949d90fd37df5f2a996e408313514772202ddbd9103f1aa4d9f160602418a",
-        "tests/test_ci_release_builder.py": "74e0e963d4f6a00e1780e1bc37e260aa7b517f084ec99e9b5a6941a036c6e91d",
+        "scripts/build_release_bundle.py": "571fd0aa967e6835005ae5681ffd01e1aadd3fb5edcb30abe243c4775822fe7b",
+        "tests/test_ci_release_builder.py": "aaf254dbf18602a8d3252906c99fde38b8cdc658a5c79900d24a87216d2d2588",
     }
+    git_has_hist = (
+        (ROOT / ".git").exists()
+        and subprocess.run(
+            ["git", "rev-parse", "--verify", f"{vp.SCIENTIFIC_BASELINE_COMMIT}^{{commit}}"],
+            cwd=ROOT, capture_output=True, text=True,
+        ).returncode == 0
+    )
+    if git_has_hist:
+        for target_path, hist_sha in historical_bad.items():
+            raw_hist = subprocess.run(
+                ["git", "show", f"{vp.SCIENTIFIC_BASELINE_COMMIT}:{target_path}"],
+                cwd=ROOT, capture_output=True, check=True,
+            ).stdout
+            assert hashlib.sha256(raw_hist).hexdigest() == hist_sha
     for idx, (target_path, hist_sha) in enumerate(historical_bad.items()):
-        sb = make_nongit(tmp_path / f"hist_old_{idx}")
+        sb = make_nongit(tmp_path / f"hist_old_nongit_{idx}")
         lp = sb / "typst/representation_change_ledger.json"
         ldata = json.loads(lp.read_text(encoding="utf-8"))
         for rec in ldata["frozen_sha256_amendments"]:
@@ -637,6 +652,21 @@ def test_phase2_r1_transition_provenance_git_and_nongit_controls(tmp_path):
         lp.write_text(json.dumps(ldata, indent=2) + "\n", encoding="utf-8")
         with pytest.raises(ValueError, match="disagrees with accepted Phase 1"):
             vp.verify_baseline_immutability(sb, manifest)
+    if git_has_hist:
+        for idx, (target_path, hist_sha) in enumerate(historical_bad.items()):
+            sb_git = tmp_path / f"hist_old_git_{idx}"
+            subprocess.run(
+                ["git", "clone", "--local", "--shared", "--quiet", str(ROOT), str(sb_git)],
+                check=True,
+            )
+            lp = sb_git / "typst/representation_change_ledger.json"
+            ldata = json.loads(lp.read_text(encoding="utf-8"))
+            for rec in ldata["frozen_sha256_amendments"]:
+                if rec["path"] == target_path:
+                    rec["old_sha256"] = hist_sha
+            lp.write_text(json.dumps(ldata, indent=2) + "\n", encoding="utf-8")
+            with pytest.raises(ValueError, match="disagrees with accepted Phase 1"):
+                vp.verify_baseline_immutability(sb_git, manifest)
 
     # 4. Substituted origin commit rejected
     sb_orig = make_nongit(tmp_path / "sub_origin")

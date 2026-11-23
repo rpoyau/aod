@@ -589,4 +589,19 @@ def test_s1b_pdf_raster_xobject_scanner_and_comment_stripped_csv_extractor(tmp_p
     refs = exp._extract_csv_inputs(comp, ROOT)
     assert [r["path"] for r in refs] == ["manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv"]
 
+    # 4. _pure_vector_surfaces must actively enforce both Main and Manual on the live repo,
+    #    and exclude a surface if any figure on that surface is UNRESOLVED_RETAINED
+    manifest = json.loads((ROOT / "typst/manifest.json").read_text(encoding="utf-8"))
+    assert vtp._pure_vector_surfaces(ROOT, manifest) == {"main", "manual"}
+    syn_root = tmp_path / "syn_inv_root"
+    (syn_root / "typst").mkdir(parents=True)
+    inv_copy = json.loads((ROOT / "typst/figure_inventory.json").read_text(encoding="utf-8"))
+    for fig in inv_copy["figures"]:
+        if fig["surface"] == "manual":
+            fig["conversion_status"] = "UNRESOLVED_RETAINED"
+            break
+    (syn_root / "typst/figure_inventory.json").write_text(json.dumps(inv_copy), encoding="utf-8")
+    assert vtp._pure_vector_surfaces(syn_root, manifest) == {"main"}
+
+
 

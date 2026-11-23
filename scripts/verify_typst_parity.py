@@ -4700,6 +4700,26 @@ def _require_zero_pdf_raster_xobjects(pdf_path: Path, label: str) -> int:
     return count
 
 
+def _pure_vector_surfaces(root: Path, vf_manifest: dict) -> set[str]:
+    """Return surfaces where all active figures in typst/figure_inventory.json are CONVERTED_VECTOR."""
+    vf_comps = vf_manifest.get("vector_figure_components", {})
+    if not vf_comps:
+        return set()
+    inv_map = _load_figure_inventory_map(root)
+    inv_figures = list(inv_map.values())
+    require(
+        bool(inv_figures),
+        "typst/figure_inventory.json contains no figures despite declared vector_figure_components",
+    )
+    out: set[str] = set()
+    for surf in ("main", "manual"):
+        surf_comps = [k for k in vf_comps if k.startswith(f"typst/lib/figures/{surf}/")]
+        surf_inv = [f for f in inv_figures if f.get("surface") == surf]
+        if surf_comps and surf_inv and all(f.get("conversion_status") == "CONVERTED_VECTOR" for f in surf_inv):
+            out.add(surf)
+    return out
+
+
 def _scan_pdf_text_paint(pdf_path: Path) -> dict:
     """Every text-showing operator must paint opaque black fill (ca == 1), no zero-area clip,
     render mode 0, and font size >= 4pt."""
@@ -5001,14 +5021,7 @@ def _verify_evaluated_and_rendered_impl(
 
     # C3b: pure-vector PDF verification (0 raster /Image XObjects when all figures on a surface are converted).
     vf_manifest = json.loads((root / "typst/manifest.json").read_text(encoding="utf-8"))
-    inv_path = root / "typst/figure_inventory.json"
-    inv_figures = json.loads(inv_path.read_text(encoding="utf-8")).get("figures", []) if inv_path.is_file() else []
-    pure_vector_surfs = {
-        s
-        for s in ("main", "manual")
-        if any(k.startswith(f"typst/lib/figures/{s}/") for k in vf_manifest.get("vector_figure_components", {}))
-        and not any(f.get("surface") == s and f.get("status") != "CONVERTED_VECTOR" for f in inv_figures)
-    }
+    pure_vector_surfs = _pure_vector_surfaces(root, vf_manifest)
     typ_raster_xobjects = {
         "main": _require_zero_pdf_raster_xobjects(typ_main_pdf, "main.pdf")
         if "main" in pure_vector_surfs else _count_pdf_raster_xobjects(typ_main_pdf),
@@ -5521,6 +5534,7 @@ def _verify_evaluated_and_rendered_impl(
             "manual_pdf_sha256": build_report["manual_pdf_sha256"],
             "manual_pdf_bytes": build_report["manual_pdf_bytes"],
             "manual_raster_image_xobjects": typ_raster_xobjects["manual"],
+            "pure_vector_surfaces_enforced": sorted(pure_vector_surfs),
         },
         "main_labels_verified": len(typ_main_map),
         "manual_labels_verified": len(typ_manual_map),
@@ -6015,14 +6029,29 @@ def _run_negative_controls_impl(
         )
         return sb
 
-    # 22a. R1: historical 98ddfa0 old_sha256 in representation ledger for build_release_bundle.py
+    # 22a. R1: actual historical 98ddfa0 old_sha256 in representation ledger for build_release_bundle.py
+    hist_release_builder_sha = "571fd0aa967e6835005ae5681ffd01e1aadd3fb5edcb30abe243c4775822fe7b"
+    if (root / ".git").exists():
+        chk_hist = subprocess.run(
+            ["git", "rev-parse", "--verify", f"{SCIENTIFIC_BASELINE_COMMIT}^{{commit}}"],
+            cwd=root, capture_output=True, text=True,
+        )
+        if chk_hist.returncode == 0:
+            raw_hist = subprocess.run(
+                ["git", "show", f"{SCIENTIFIC_BASELINE_COMMIT}:scripts/build_release_bundle.py"],
+                cwd=root, capture_output=True, check=True,
+            ).stdout
+            require(
+                hashlib.sha256(raw_hist).hexdigest() == hist_release_builder_sha,
+                "Control 22a fixture literal no longer matches 98ddfa0 scripts/build_release_bundle.py",
+            )
     with tempfile.TemporaryDirectory() as td:
         sb = make_gate_a_sandbox(Path(td))
         lp = sb / "typst/representation_change_ledger.json"
         ldata = json.loads(lp.read_text(encoding="utf-8"))
         for rec in ldata["frozen_sha256_amendments"]:
             if rec["path"] == "scripts/build_release_bundle.py":
-                rec["old_sha256"] = "960949d90fd37df5f2a996e408313514772202ddbd9103f1aa4d9f160602418a"
+                rec["old_sha256"] = hist_release_builder_sha
         lp.write_text(json.dumps(ldata, indent=2) + "\n", encoding="utf-8")
         expect_rejection(
             "22a_R1_ledger_historical_old_hash",
@@ -6175,6 +6204,10 @@ def _run_negative_controls_impl(
             from pypdf import PdfWriter
             from pypdf.generic import DictionaryObject, NameObject, NumberObject, StreamObject
 
+            require(
+                _pure_vector_surfaces(root, manifest) == {"main", "manual"},
+                f"Expected pure-vector raster enforcement on both main and manual, got {_pure_vector_surfaces(root, manifest)!r}",
+            )
             bad_pdf = Path(td) / "synthetic_raster.pdf"
             w_ras = PdfWriter()
             pg = w_ras.add_blank_page(width=100, height=100)
