@@ -21,6 +21,10 @@ import zipfile
 
 import pytest
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from manual.engine import (
     BASE_COMMIT_BINDING,
     REPORT_SCHEMA,
@@ -52,8 +56,6 @@ from manual.engine import (
 from manual.engine.cli import main as engine_main, validate_runtime_output_path
 from manual.engine.sectors import tier1_adapters, tier2_exact, tier3_quarantine
 from manual.engine.vectors import verify_single_vector
-
-ROOT = Path(__file__).resolve().parents[1]
 
 FAST_15_SECTORS: tuple[str, ...] = tuple(
     spec.sector_id for spec in SECTOR_SPECS if spec.sector_id != "temporal_anchor"

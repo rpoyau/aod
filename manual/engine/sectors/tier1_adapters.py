@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import zlib
 
 from manual.engine.numeric import parse_exact_int, require
 from manual.engine.policy import loads_zero_float, require_no_floats
@@ -558,7 +559,10 @@ def _host_zlib_roundtrips_anchor_gz(repo_root: Path) -> bool:
     """Return True iff host ``gzip.compress`` reproduces the committed ``baseline.json.gz`` bitstream."""
     gz_path = repo_root / "manual" / "data" / "temporal_anchor" / "cases" / "baseline.json.gz"
     raw = gz_path.read_bytes()
-    return gzip.compress(gzip.decompress(raw), mtime=0) == raw
+    try:
+        return gzip.compress(gzip.decompress(raw), mtime=0) == raw
+    except (OSError, EOFError, zlib.error) as exc:
+        raise ValueError(f"corrupt anchor gzip stream: {exc}") from exc
 
 
 def _extract_error_line(text: str, *, last: bool, max_chars: int = 240) -> str:
