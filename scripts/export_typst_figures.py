@@ -329,6 +329,185 @@ def discover_diagrams(root: Path, *, surface: str | None = None) -> list[dict]:
     return bindings
 
 
+def inspect_pdf_rasters(pdf_path: Path) -> dict:
+    """Recursively inspect a PDF for raster /Image XObjects and inline BI/ID/EI images.
+
+    Traverses every page /Contents stream (single StreamObject or ArrayObject),
+    /Resources (/XObject /Image and /Form, /Pattern Type 1 tiling patterns,
+    /Font /Type3 /CharProcs, /ExtGState /SMask /G), and /Annots /AP appearance streams.
+    Fails closed (raises ValueError) on malformed or uninspectable content streams.
+    """
+    from pypdf import PdfReader
+    from pypdf.generic import ArrayObject, ContentStream, StreamObject
+
+    try:
+        reader = PdfReader(str(pdf_path))
+    except Exception as exc:
+        raise ValueError(f"Uninspectable or malformed PDF file {pdf_path}: {exc}") from exc
+
+    seen_res: set[tuple] = set()
+    seen_streams: set[tuple] = set()
+    xobj_images = 0
+    inline_images = 0
+    streams_inspected = 0
+
+    def _obj_key(raw_obj, resolved_obj) -> tuple:
+        if hasattr(raw_obj, "idnum") and hasattr(raw_obj, "generation"):
+            return ("ref", raw_obj.idnum, raw_obj.generation)
+        return ("id", id(resolved_obj))
+
+    def _scan_content(raw_content, ctx: str) -> None:
+        nonlocal inline_images, streams_inspected
+        if raw_content is None:
+            return
+        resolved = raw_content.get_object() if hasattr(raw_content, "get_object") else raw_content
+        if isinstance(resolved, ArrayObject):
+            if len(resolved) == 0:
+                return
+            elem_keys: list[tuple] = []
+            for idx, el in enumerate(resolved):
+                el_obj = el.get_object() if hasattr(el, "get_object") else el
+                if not isinstance(el_obj, StreamObject):
+                    raise ValueError(
+                        f"Malformed PDF /Contents array element #{idx} ({type(el_obj).__name__}) in {ctx}"
+                    )
+                elem_keys.append(_obj_key(el, el_obj))
+            sk: tuple = ("arr", tuple(elem_keys))
+        elif isinstance(resolved, StreamObject):
+            sk = _obj_key(raw_content, resolved)
+        else:
+            raise ValueError(f"Unsupported PDF content object ({type(resolved).__name__}) in {ctx}")
+        if sk in seen_streams:
+            return
+        seen_streams.add(sk)
+        try:
+            cs = ContentStream(resolved, reader)
+            ops = cs.operations
+        except Exception as exc:
+            raise ValueError(f"Uninspectable or malformed PDF content stream in {ctx}: {exc}") from exc
+        streams_inspected += 1
+        for _, op in ops:
+            if op in (b"INLINE IMAGE", b"BI"):
+                inline_images += 1
+
+    def _walk_resources(res, ctx: str) -> None:
+        nonlocal xobj_images
+        if res is None:
+            return
+        ro = res.get_object() if hasattr(res, "get_object") else res
+        if not isinstance(ro, dict):
+            raise ValueError(f"Malformed PDF /Resources object ({type(ro).__name__}) in {ctx}")
+        rk = _obj_key(res, ro)
+        if rk in seen_res:
+            return
+        seen_res.add(rk)
+        for bucket in ("/XObject", "/Pattern"):
+            sub = ro.get(bucket)
+            if sub is None:
+                continue
+            so = sub.get_object() if hasattr(sub, "get_object") else sub
+            if not isinstance(so, dict):
+                raise ValueError(f"Malformed PDF {bucket} dictionary ({type(so).__name__}) in {ctx}")
+            for name, v in so.items():
+                vo = v.get_object() if hasattr(v, "get_object") else v
+                if not isinstance(vo, dict):
+                    continue
+                if str(vo.get("/Subtype") or "") == "/Image":
+                    xobj_images += 1
+                else:
+                    sub_ctx = f"{ctx}/{bucket[1:]}:{name}"
+                    if isinstance(vo, StreamObject):
+                        _scan_content(v, sub_ctx)
+                    _walk_resources(vo.get("/Resources"), sub_ctx)
+        fonts = ro.get("/Font")
+        if fonts is not None:
+            fo = fonts.get_object() if hasattr(fonts, "get_object") else fonts
+            if isinstance(fo, dict):
+                for fname, fv in fo.items():
+                    fvo = fv.get_object() if hasattr(fv, "get_object") else fv
+                    if isinstance(fvo, dict) and str(fvo.get("/Subtype") or "") == "/Type3":
+                        f_ctx = f"{ctx}/Font:{fname}"
+                        _walk_resources(fvo.get("/Resources"), f_ctx)
+                        cp = fvo.get("/CharProcs")
+                        if cp is not None:
+                            cpo = cp.get_object() if hasattr(cp, "get_object") else cp
+                            if isinstance(cpo, dict):
+                                for gname, gv in cpo.items():
+                                    gvo = gv.get_object() if hasattr(gv, "get_object") else gv
+                                    if isinstance(gvo, StreamObject):
+                                        _scan_content(gv, f"{f_ctx}/CharProc:{gname}")
+        egs = ro.get("/ExtGState")
+        if egs is not None:
+            eo = egs.get_object() if hasattr(egs, "get_object") else egs
+            if isinstance(eo, dict):
+                for ename, ev in eo.items():
+                    evo = ev.get_object() if hasattr(ev, "get_object") else ev
+                    if isinstance(evo, dict):
+                        sm = evo.get("/SMask")
+                        smo = sm.get_object() if (sm is not None and hasattr(sm, "get_object")) else sm
+                        if isinstance(smo, dict) and "/G" in smo:
+                            g_raw = smo.get("/G")
+                            g_obj = g_raw.get_object() if hasattr(g_raw, "get_object") else g_raw
+                            if isinstance(g_obj, StreamObject):
+                                g_ctx = f"{ctx}/ExtGState:{ename}/SMask"
+                                _scan_content(g_raw, g_ctx)
+                                _walk_resources(g_obj.get("/Resources"), g_ctx)
+
+    for pg_idx, pg in enumerate(reader.pages, 1):
+        p_ctx = f"{pdf_path.name}:p{pg_idx}"
+        _scan_content(pg.get("/Contents"), p_ctx)
+        _walk_resources(pg.get("/Resources"), p_ctx)
+        annots = pg.get("/Annots")
+        if annots is not None:
+            ao_list = annots.get_object() if hasattr(annots, "get_object") else annots
+            if isinstance(ao_list, list):
+                for a_idx, an in enumerate(ao_list, 1):
+                    ao = an.get_object() if hasattr(an, "get_object") else an
+                    if not isinstance(ao, dict):
+                        continue
+                    ap = ao.get("/AP")
+                    if ap is None:
+                        continue
+                    apo = ap.get_object() if hasattr(ap, "get_object") else ap
+                    if not isinstance(apo, dict):
+                        continue
+                    for ap_key in ("/N", "/R", "/D"):
+                        st = apo.get(ap_key)
+                        if st is None:
+                            continue
+                        sto = st.get_object() if hasattr(st, "get_object") else st
+                        ap_ctx = f"{p_ctx}/Annot{a_idx}/AP{ap_key}"
+                        if isinstance(sto, StreamObject):
+                            _scan_content(st, ap_ctx)
+                            _walk_resources(sto.get("/Resources"), ap_ctx)
+                        elif isinstance(sto, dict):
+                            for sub_k, sub_v in sto.items():
+                                svo = sub_v.get_object() if hasattr(sub_v, "get_object") else sub_v
+                                if isinstance(svo, StreamObject):
+                                    _scan_content(sub_v, f"{ap_ctx}:{sub_k}")
+                                    _walk_resources(svo.get("/Resources"), f"{ap_ctx}:{sub_k}")
+
+    return {
+        "raster_image_xobjects": xobj_images,
+        "inline_raster_images": inline_images,
+        "total_raster_images": xobj_images + inline_images,
+        "streams_inspected": streams_inspected,
+    }
+
+
+def require_zero_pdf_rasters(pdf_path: Path, label: str) -> dict:
+    """Fail closed if a PDF expected to be pure vector contains any raster XObject or inline image."""
+    info = inspect_pdf_rasters(pdf_path)
+    _require(
+        info["total_raster_images"] == 0,
+        f"Unexpected raster image(s) in pure-vector PDF {label}: "
+        f"raster_image_xobjects={info['raster_image_xobjects']}, "
+        f"inline_raster_images={info['inline_raster_images']}, "
+        f"total_raster_images={info['total_raster_images']} (expected 0)",
+    )
+    return info
+
+
 def _inspect_pdf(pdf_path: Path, expected_w_cm: float, expected_h_cm: float) -> tuple[dict, dict]:
     """Validate exported vector PDF invariants and return (deterministic_fields, runtime_diagnostics)."""
     import pypdf
@@ -340,15 +519,20 @@ def _inspect_pdf(pdf_path: Path, expected_w_cm: float, expected_h_cm: float) -> 
     text = (page.extract_text() or "").strip()
     _require(bool(text), f"Exported diagram PDF has no extractable text: {pdf_path}")
 
-    # Count raster image XObjects and collect resolved BaseFont identities recursively.
-    raster_count = 0
-    resolved_fonts: set[str] = set()
+    # Shared fail-closed raster check covering /Image XObjects and inline BI/ID/EI images.
+    raster_info = require_zero_pdf_rasters(pdf_path, str(pdf_path))
 
-    def _walk_resources(resources) -> None:
-        nonlocal raster_count
+    # Collect resolved BaseFont identities recursively for runtime diagnostics.
+    resolved_fonts: set[str] = set()
+    seen_font_res: set[int] = set()
+
+    def _collect_fonts(resources) -> None:
         if resources is None:
             return
         res_obj = resources.get_object() if hasattr(resources, "get_object") else resources
+        if not isinstance(res_obj, dict) or id(res_obj) in seen_font_res:
+            return
+        seen_font_res.add(id(res_obj))
         fonts = res_obj.get("/Font")
         if fonts is not None:
             fonts_dict = fonts.get_object() if hasattr(fonts, "get_object") else fonts
@@ -366,14 +550,10 @@ def _inspect_pdf(pdf_path: Path, expected_w_cm: float, expected_h_cm: float) -> 
         xobjs_dict = xobjs.get_object() if hasattr(xobjs, "get_object") else xobjs
         for val in xobjs_dict.values():
             obj = val.get_object() if hasattr(val, "get_object") else val
-            subtype = str(obj.get("/Subtype", ""))
-            if subtype == "/Image":
-                raster_count += 1
-            elif subtype == "/Form":
-                _walk_resources(obj.get("/Resources"))
+            if isinstance(obj, dict) and str(obj.get("/Subtype", "")) == "/Form":
+                _collect_fonts(obj.get("/Resources"))
 
-    _walk_resources(page.get("/Resources"))
-    _require(raster_count == 0, f"Exported vector diagram PDF contains {raster_count} raster XObjects: {pdf_path}")
+    _collect_fonts(page.get("/Resources"))
 
     w_pt = round(float(page.mediabox.width), 3)
     h_pt = round(float(page.mediabox.height), 3)
@@ -386,12 +566,15 @@ def _inspect_pdf(pdf_path: Path, expected_w_cm: float, expected_h_cm: float) -> 
     deterministic = {
         "page_count": 1,
         "page_points": [w_pt, h_pt],
-        "raster_image_xobjects": raster_count,
+        "raster_image_xobjects": raster_info["raster_image_xobjects"],
+        "inline_raster_images": raster_info["inline_raster_images"],
+        "total_raster_images": raster_info["total_raster_images"],
         "has_extractable_text": True,
     }
     runtime = {
         "pypdf_version": getattr(pypdf, "__version__", "unknown"),
         "extracted_text_chars": len(text),
+        "streams_inspected": raster_info["streams_inspected"],
         "resolved_fonts": sorted(resolved_fonts),
     }
     return deterministic, runtime

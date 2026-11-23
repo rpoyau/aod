@@ -575,8 +575,10 @@ def test_s1b_pdf_raster_xobject_scanner_and_comment_stripped_csv_extractor(tmp_p
     with nested_pdf.open("wb") as fh:
         w.write(fh)
     assert vtp._count_pdf_raster_xobjects(nested_pdf) == 1
-    with pytest.raises(ValueError, match="Unexpected raster /Image XObject"):
+    with pytest.raises(ValueError, match="Unexpected raster image\\(s\\) in pure-vector PDF.*raster_image_xobjects=1"):
         vtp._require_zero_pdf_raster_xobjects(nested_pdf, "nested_raster.pdf")
+    with pytest.raises(ValueError, match="Unexpected raster image\\(s\\) in pure-vector PDF.*raster_image_xobjects=1"):
+        exp.require_zero_pdf_rasters(nested_pdf, "nested_raster.pdf")
 
     # 3. _extract_csv_inputs must ignore commented-out csv(...) references (line and nested block comments)
     comp = tmp_path / "sample_fig.typ"
@@ -602,6 +604,146 @@ def test_s1b_pdf_raster_xobject_scanner_and_comment_stripped_csv_extractor(tmp_p
             break
     (syn_root / "typst/figure_inventory.json").write_text(json.dumps(inv_copy), encoding="utf-8")
     assert vtp._pure_vector_surfaces(syn_root, manifest) == {"main"}
+
+
+def test_s1b_r2_shared_inline_raster_guard_and_malformed_stream_rejection(tmp_path):
+    """S1B-F2 / R2: shared verifier & exporter guard rejects page, nested Form, Pattern, AP inline images and malformed streams."""
+    from pypdf import PdfReader, PdfWriter
+    from pypdf.generic import ArrayObject, DecodedStreamObject, DictionaryObject, NameObject, NumberObject
+
+    vtp = _load_verifier()
+    exp = _load_exporter()
+
+    # Verifier and exporter share the exact same raster inspection implementation (no divergence possible)
+    assert vtp._shared_figure_exporter().__file__ == exp.__file__
+
+    inline_bitmap = (
+        b"\nq\n18 0 0 18 72 36 cm\nBI\n/W 2 /H 2 /CS /RGB /BPC 8\nID\n"
+        + b"\xff\x00\x00\x00\xff\x00\x00\x00\xff\xff\xff\x00"
+        + b"\nEI\nQ\n"
+    )
+
+    # 1. All 38 committed exported PDFs pass the shared inspector with 0 XObject & 0 inline rasters
+    for fig_pdf in sorted((ROOT / "latex").rglob("*.pdf")):
+        info = exp.require_zero_pdf_rasters(fig_pdf, fig_pdf.name)
+        assert info["raster_image_xobjects"] == 0
+        assert info["inline_raster_images"] == 0
+        assert info["total_raster_images"] == 0
+        assert info["streams_inspected"] >= 1
+
+    # 2. Inline-mutated clone of a real 1-page exported figure (preserving text!) fails BOTH exporter._inspect_pdf AND verifier
+    real_fig = ROOT / "latex/figures/generated/cycle-disturbance-shedding.pdf"
+    w_cm, h_cm = exp._extract_vector_figure_dims(ROOT / "typst/lib/figures/main/cycle_disturbance_shedding.typ")
+    mut_fig = tmp_path / "figure_inline_raster.pdf"
+    w = PdfWriter()
+    w.clone_document_from_reader(PdfReader(str(real_fig)))
+    pg = w.pages[0]
+    st = DecodedStreamObject()
+    st.set_data(inline_bitmap)
+    st_ref = w._add_object(st)
+    pg[NameObject("/Contents")] = ArrayObject([pg.get("/Contents"), st_ref])
+    with mut_fig.open("wb") as fh:
+        w.write(fh)
+    # Raw extracted text remains intact while inline bitmap is detected
+    assert PdfReader(str(mut_fig)).pages[0].extract_text() == PdfReader(str(real_fig)).pages[0].extract_text()
+    mut_info = vtp._inspect_pdf_rasters(mut_fig)
+    assert mut_info["raster_image_xobjects"] == 0
+    assert mut_info["inline_raster_images"] == 1
+    assert mut_info["total_raster_images"] == 1
+    with pytest.raises(ValueError, match="inline_raster_images=1"):
+        exp._inspect_pdf(mut_fig, w_cm, h_cm)
+    with pytest.raises(ValueError, match="inline_raster_images=1"):
+        vtp._require_zero_pdf_rasters(mut_fig, mut_fig.name)
+
+    # 3. Inline bitmap nested inside a Form XObject, a Type-1 Pattern, and an Annot /AP stream all fail closed
+    for case_name in ("form", "pattern", "annot_ap"):
+        p_case = tmp_path / f"nested_{case_name}_inline.pdf"
+        wc = PdfWriter()
+        pgc = wc.add_blank_page(width=200, height=200)
+        s_in = DecodedStreamObject()
+        s_in.set_data(inline_bitmap)
+        if case_name == "form":
+            s_in[NameObject("/Type")] = NameObject("/XObject")
+            s_in[NameObject("/Subtype")] = NameObject("/Form")
+            pgc[NameObject("/Resources")] = DictionaryObject({
+                NameObject("/XObject"): DictionaryObject({NameObject("/Fm0"): wc._add_object(s_in)}),
+            })
+        elif case_name == "pattern":
+            s_in[NameObject("/Type")] = NameObject("/Pattern")
+            s_in[NameObject("/PatternType")] = NumberObject(1)
+            pgc[NameObject("/Resources")] = DictionaryObject({
+                NameObject("/Pattern"): DictionaryObject({NameObject("/P0"): wc._add_object(s_in)}),
+            })
+        else:
+            s_in[NameObject("/Type")] = NameObject("/XObject")
+            s_in[NameObject("/Subtype")] = NameObject("/Form")
+            annot = DictionaryObject({
+                NameObject("/Type"): NameObject("/Annot"),
+                NameObject("/Subtype"): NameObject("/Widget"),
+                NameObject("/AP"): DictionaryObject({NameObject("/N"): wc._add_object(s_in)}),
+            })
+            pgc[NameObject("/Annots")] = ArrayObject([wc._add_object(annot)])
+        with p_case.open("wb") as fh:
+            wc.write(fh)
+        with pytest.raises(ValueError, match="inline_raster_images=1"):
+            vtp._require_zero_pdf_rasters(p_case, p_case.name)
+
+    # 4. Literal string "(BI /W 2 /H 2 ID xxx EI)" produces ZERO false positives
+    lit_pdf = tmp_path / "literal_bi_text.pdf"
+    wl = PdfWriter()
+    pgl = wl.add_blank_page(width=200, height=200)
+    sl = DecodedStreamObject()
+    sl.set_data(b"BT (BI /W 2 /H 2 ID xxx EI) Tj ET\n")
+    pgl[NameObject("/Contents")] = wl._add_object(sl)
+    with lit_pdf.open("wb") as fh:
+        wl.write(fh)
+    assert exp.require_zero_pdf_rasters(lit_pdf, lit_pdf.name)["total_raster_images"] == 0
+
+    # 5. Malformed/uninspectable content stream fails closed (never treated as 0)
+    mal_pdf = tmp_path / "malformed_bi.pdf"
+    wm = PdfWriter()
+    pgm = wm.add_blank_page(width=200, height=200)
+    sm = DecodedStreamObject()
+    sm.set_data(b"q BI /W 2 /H 2 /CS /RGB /BPC 8 ID \xff\x00\x00")
+    pgm[NameObject("/Contents")] = wm._add_object(sm)
+    with mal_pdf.open("wb") as fh:
+        wm.write(fh)
+    with pytest.raises(ValueError, match="Uninspectable or malformed PDF content stream"):
+        vtp._require_zero_pdf_rasters(mal_pdf, mal_pdf.name)
+
+
+def test_s1b_r1_figure9_compiled_math_attachment_and_negative_control(tmp_path):
+    """S1B-F1 / R1: compiled Typst AST of Main Figure 9 binds P_W^S (∂F, ω) with S alone in top attachment."""
+    import shutil
+
+    vtp = _load_verifier()
+    exp = _load_exporter()
+    try:
+        typst_bin = exp.find_typst(None)
+    except FileNotFoundError:
+        pytest.skip("typst binary required for compiled Figure 9 AST regression")
+
+    # 1. Clean canonical Figure 9 passes compiled-structure check
+    res = vtp._verify_figure9_math_attachment(typst_bin, ROOT)
+    assert res["verified"] is True
+    assert res["base"] == "P"
+    assert res["bottom"] == "W"
+    assert res["top"] == "S"
+    assert res["baseline_args"] == ["(", "∂", "F", ",", "ω", ")"]
+
+    # 2. Restoring the defective P_W^S(partial F, omega) attachment MUST fail the compiled-structure check
+    sb = tmp_path / "fig9_bad_sb"
+    (sb / "typst/lib/figures/main").mkdir(parents=True)
+    shutil.copy2(ROOT / "typst/lib/aod_plots.typ", sb / "typst/lib/aod_plots.typ")
+    fig9_rel = "typst/lib/figures/main/cycle_disturbance_shedding.typ"
+    bad_src = (ROOT / fig9_rel).read_text(encoding="utf-8").replace(
+        "P_W^S (partial F, omega)", "P_W^S(partial F, omega)", 1
+    )
+    assert "P_W^S(partial F, omega)" in bad_src
+    (sb / fig9_rel).write_text(bad_src, encoding="utf-8")
+    with pytest.raises(ValueError, match="Figure 9 formula superscript attachment defect"):
+        vtp._verify_figure9_math_attachment(typst_bin, sb, fig9_rel)
+
 
 
 

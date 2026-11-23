@@ -3,7 +3,7 @@
   "generator": "scripts/typ2tex.py",
   "generator_version": "1.0.0",
   "generator_sha256": "053b244c17ab913567b9aa6402183fab961411a2c7b0c5f3b7df62d8d60c47fc",
-  "figure_exporter_sha256": "4654a69ae6e83a4d23d23c4acf66261644d38f0147926c7eb6fab1a1f00c53d0",
+  "figure_exporter_sha256": "0d73b0b5ad97727deb06464bdbc86c5210cbda0b42e851df07ad63d5e851b435",
   "figure_format": "pdf",
   "figure_ppi": null,
   "counts": {
@@ -217,7 +217,7 @@
     {
       "path": "typst/lib/figures/main/cycle_disturbance_shedding.typ",
       "role": "typst_vector_figure",
-      "sha256": "de63f49751d147718ed6bda992a2169f36e35fd02aaabc858594a1819d6b03c5"
+      "sha256": "51080817f2f817db67fe7e514d4500fed33e210ed6d858b16f5138eef93837f0"
     },
     {
       "path": "typst/lib/figures/main/field_dynamics_layered_main.typ",
@@ -657,8 +657,8 @@
       "path": "figures/generated/FIGURE_MANIFEST.json",
       "kind": "figure_manifest",
       "source": "scripts/export_typst_figures.py",
-      "sha256": "5e791fd260449f4c818b1912c6d01c436abb7b695447a9393d777f8b7e0721bd",
-      "bytes": 7105
+      "sha256": "884999d5488ed258003147fe1946814788ff4f077d1cd1c282cbfebafe2d1dc1",
+      "bytes": 7495
     },
     {
       "path": "figures/generated/curling-curl-layers.pdf",
@@ -671,8 +671,8 @@
       "path": "figures/generated/cycle-disturbance-shedding.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/main/cycle_disturbance_shedding.typ",
-      "sha256": "be5a4fd8113937665c4b15869195caf992422cabf54943a23a698c008b8ca3f4",
-      "bytes": 27764
+      "sha256": "7ccc5f0a0c1657db710bfce15a04dfeb437bca227741e4aeed6bb0320c2488aa",
+      "bytes": 27411
     },
     {
       "path": "figures/generated/field-dynamics-layered-main.pdf",
@@ -776,8 +776,8 @@
       "path": "manual/figures/generated/FIGURE_MANIFEST.json",
       "kind": "figure_manifest",
       "source": "scripts/export_typst_figures.py",
-      "sha256": "b9cd5d39ff6b080dad14d0934b1b2d98861ccfe95f4d04cbd208564d3e424ecc",
-      "bytes": 41250
+      "sha256": "32824a501d0ff5971b9f7d34eb02509c627d45baa6dd0cd3f1be82aafc22ab84",
+      "bytes": 43330
     },
     {
       "path": "manual/figures/generated/boundary-current-spine.pdf",

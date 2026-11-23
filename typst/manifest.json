@@ -612,7 +612,7 @@
     "typst/lib/diagrams/short_window_setup.typ": "3cdb64d913ab775862d82a893550572d4bdfb09e95b6c52e9e18e964a01642c0",
     "typst/lib/diagrams/solar_system_spine.typ": "fb6418553d4ca17aa3ec4fa3cb23b04a13964c1fb8a422351dc069f0c2e6d04d"
   },
-  "figure_inventory_sha256": "940f6b6fee55c1df13eeafd8b25609f674b2d1ddebccd030174c8d5e442dfdce",
+  "figure_inventory_sha256": "da1c62ecc43a9fae9359b1e10deb4f6c13293ea860d98c4663e9d41d902295aa",
   "historical_tex_snapshots_excluded": [
     "manual/data/historical_metrology/historical_target/sections/06_wave_state_relational_time.tex",
     "manual/data/temporal_anchor/source/baseline/input/upstream/appendices/H_combinatorics_rd_tests.tex",
@@ -703,7 +703,7 @@
   ],
   "vector_figure_components": {
     "typst/lib/figures/main/curling_curl_layers.typ": "4dcd45168b4de44d2653d562b1759e2df18d1eb376d4340b6d08a71e2ae1f7de",
-    "typst/lib/figures/main/cycle_disturbance_shedding.typ": "de63f49751d147718ed6bda992a2169f36e35fd02aaabc858594a1819d6b03c5",
+    "typst/lib/figures/main/cycle_disturbance_shedding.typ": "51080817f2f817db67fe7e514d4500fed33e210ed6d858b16f5138eef93837f0",
     "typst/lib/figures/main/field_dynamics_layered_main.typ": "ed5d76d16e856dd5072c53d66f1496054e636efc769ece4f4569181b7f0a9cc3",
     "typst/lib/figures/main/fractal_tesseract_q4_witness.typ": "cc3ea53aa2942648b37e838f35cabff1a1d6a84a77ee8f2ea8db591f12999097",
     "typst/lib/figures/main/null_four_edge_x_witness.typ": "92cc869532d1d57096fde4281acacfa8539cbea7c2dbd353b3ad5c3b46bf99dc",

@@ -3685,7 +3685,9 @@ def _verify_source_and_content_parity_impl(
                 require(
                     d.get("has_extractable_text") is True
                     and d.get("page_count") == 1
-                    and d.get("raster_image_xobjects") == 0,
+                    and d.get("raster_image_xobjects") == 0
+                    and d.get("inline_raster_images") == 0
+                    and d.get("total_raster_images") == 0,
                     f"Exported figure manifest invariant failed for {d.get('slug')}",
                 )
                 asset = fig_dir / d["output_filename"]
@@ -4618,86 +4620,36 @@ def _extract_extgstate_ca(resources) -> dict[str, float]:
     return out
 
 
+_SHARED_FIGURE_EXPORTER = None
+
+
+def _shared_figure_exporter():
+    """Load the single shared scripts/export_typst_figures.py module so raster inspection cannot diverge."""
+    global _SHARED_FIGURE_EXPORTER
+    if _SHARED_FIGURE_EXPORTER is None:
+        exp_path = Path(__file__).resolve().parent / "export_typst_figures.py"
+        _SHARED_FIGURE_EXPORTER = load_module(exp_path.parents[1], "aod_shared_export_typst_figures", "scripts/export_typst_figures.py")
+    return _SHARED_FIGURE_EXPORTER
+
+
+def _inspect_pdf_rasters(pdf_path: Path) -> dict:
+    """Shared recursive PDF raster census covering /Image XObjects and inline BI/ID/EI images."""
+    return _shared_figure_exporter().inspect_pdf_rasters(pdf_path)
+
+
+def _require_zero_pdf_rasters(pdf_path: Path, label: str) -> dict:
+    """Shared fail-closed pure-vector check rejecting any /Image XObject, inline image, or malformed stream."""
+    return _shared_figure_exporter().require_zero_pdf_rasters(pdf_path, label)
+
+
 def _count_pdf_raster_xobjects(pdf_path: Path) -> int:
-    """Recursively count PDF /Subtype /Image XObjects across pages, nested Form/Pattern resources, and annotation appearances."""
-    from pypdf import PdfReader
-
-    reader = PdfReader(str(pdf_path))
-    seen_containers: set[tuple] = set()
-    total = 0
-
-    def _key(raw_obj, resolved_obj) -> tuple:
-        if hasattr(raw_obj, "idnum") and hasattr(raw_obj, "generation"):
-            return ("ref", raw_obj.idnum, raw_obj.generation)
-        return ("id", id(resolved_obj))
-
-    def _walk_resources(res) -> None:
-        nonlocal total
-        if not res:
-            return
-        ro = res.get_object() if hasattr(res, "get_object") else res
-        if not isinstance(ro, dict):
-            return
-        rk = _key(res, ro)
-        if rk in seen_containers:
-            return
-        seen_containers.add(rk)
-        for bucket in ("/XObject", "/Pattern"):
-            sub = ro.get(bucket)
-            if not sub:
-                continue
-            so = sub.get_object() if hasattr(sub, "get_object") else sub
-            if not isinstance(so, dict):
-                continue
-            for v in so.values():
-                vo = v.get_object() if hasattr(v, "get_object") else v
-                if not isinstance(vo, dict):
-                    continue
-                if str(vo.get("/Subtype") or "") == "/Image":
-                    total += 1
-                else:
-                    _walk_resources(vo.get("/Resources"))
-
-    for pg in reader.pages:
-        _walk_resources(pg.get("/Resources"))
-        annots = pg.get("/Annots")
-        if annots:
-            annots_obj = annots.get_object() if hasattr(annots, "get_object") else annots
-            if isinstance(annots_obj, list):
-                for an in annots_obj:
-                    ao = an.get_object() if hasattr(an, "get_object") else an
-                    if not isinstance(ao, dict):
-                        continue
-                    ap = ao.get("/AP")
-                    if not ap:
-                        continue
-                    apo = ap.get_object() if hasattr(ap, "get_object") else ap
-                    if not isinstance(apo, dict):
-                        continue
-                    for ap_key in ("/N", "/R", "/D"):
-                        st = apo.get(ap_key)
-                        if not st:
-                            continue
-                        sto = st.get_object() if hasattr(st, "get_object") else st
-                        if isinstance(sto, dict):
-                            if "/Resources" in sto:
-                                _walk_resources(sto.get("/Resources"))
-                            else:
-                                for sub_v in sto.values():
-                                    svo = sub_v.get_object() if hasattr(sub_v, "get_object") else sub_v
-                                    if isinstance(svo, dict) and "/Resources" in svo:
-                                        _walk_resources(svo.get("/Resources"))
-    return total
+    """Return total raster count (Image XObjects + inline images) via the shared PDF raster inspector."""
+    return int(_inspect_pdf_rasters(pdf_path)["total_raster_images"])
 
 
 def _require_zero_pdf_raster_xobjects(pdf_path: Path, label: str) -> int:
-    """Fail closed if a PDF expected to be pure vector embeds any raster /Subtype /Image XObject."""
-    count = _count_pdf_raster_xobjects(pdf_path)
-    require(
-        count == 0,
-        f"Unexpected raster /Image XObject(s) in pure-vector PDF {label}: found {count} (expected 0)",
-    )
-    return count
+    """Backward-compatible wrapper enforcing zero XObject and inline raster images via the shared guard."""
+    return int(_require_zero_pdf_rasters(pdf_path, label)["total_raster_images"])
 
 
 def _pure_vector_surfaces(root: Path, vf_manifest: dict) -> set[str]:
@@ -4718,6 +4670,89 @@ def _pure_vector_surfaces(root: Path, vf_manifest: dict) -> set[str]:
         if surf_comps and surf_inv and all(f.get("conversion_status") == "CONVERTED_VECTOR" for f in surf_inv):
             out.add(surf)
     return out
+
+
+def _verify_figure9_math_attachment(
+    typst_bin: str,
+    root: Path,
+    comp_rel: str = "typst/lib/figures/main/cycle_disturbance_shedding.typ",
+) -> dict:
+    """Verify compiled Typst math AST of Main Figure 9: P_W^S (partial F, omega) = ... has top=S alone and baseline args."""
+    comp_path = root / comp_rel
+    require(comp_path.is_file(), f"Missing Main Figure 9 component: {comp_rel}")
+    proc = subprocess.run(
+        [typst_bin, "query", "--root", str(root), str(comp_path), "math.equation"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    eqs = json.loads(proc.stdout)
+
+    def _non_space_leaves(node) -> list[str]:
+        if isinstance(node, dict):
+            fn = node.get("func")
+            if fn in ("symbol", "text"):
+                return [str(node.get("text", ""))]
+            if fn == "space":
+                return []
+            out_toks: list[str] = []
+            for key in ("body", "child", "children"):
+                if key in node:
+                    out_toks.extend(_non_space_leaves(node[key]))
+            return out_toks
+        if isinstance(node, list):
+            out_toks = []
+            for it in node:
+                out_toks.extend(_non_space_leaves(it))
+            return out_toks
+        return []
+
+    matched_p_eqs = 0
+    for eq in eqs:
+        body = eq.get("body")
+        if not isinstance(body, dict) or body.get("func") != "sequence":
+            continue
+        children = [c for c in body.get("children", []) if not (isinstance(c, dict) and c.get("func") == "space")]
+        eq_idx = next(
+            (i for i, c in enumerate(children) if isinstance(c, dict) and c.get("func") == "symbol" and c.get("text") == "="),
+            None,
+        )
+        if eq_idx is None or eq_idx == 0:
+            continue
+        lhs = children[:eq_idx]
+        first = lhs[0]
+        if not (isinstance(first, dict) and first.get("func") == "attach" and first.get("base") == {"func": "symbol", "text": "P"}):
+            continue
+        matched_p_eqs += 1
+        require(
+            first.get("b") == {"func": "symbol", "text": "W"},
+            f"Figure 9 formula bottom attachment mismatch: expected W, got {first.get('b')!r}",
+        )
+        require(
+            first.get("t") == {"func": "symbol", "text": "S"},
+            f"Figure 9 formula superscript attachment defect: top attachment must be S alone (not arguments), got {first.get('t')!r}",
+        )
+        require(
+            len(lhs) == 2 and isinstance(lhs[1], dict) and lhs[1].get("func") == "lr",
+            f"Figure 9 formula missing baseline parenthesized argument group after P_W^S: lhs={lhs!r}",
+        )
+        arg_tokens = _non_space_leaves(lhs[1])
+        require(
+            arg_tokens == ["(", "∂", "F", ",", "ω", ")"],
+            f"Figure 9 formula baseline arguments mismatch: expected ['(', '∂', 'F', ',', 'ω', ')'], got {arg_tokens!r}",
+        )
+    require(
+        matched_p_eqs == 1,
+        f"Expected exactly 1 compiled P_W^S (∂F, ω) = ... equation in {comp_rel}, found {matched_p_eqs}",
+    )
+    return {
+        "component": comp_rel,
+        "base": "P",
+        "bottom": "W",
+        "top": "S",
+        "baseline_args": ["(", "∂", "F", ",", "ω", ")"],
+        "verified": True,
+    }
 
 
 def _scan_pdf_text_paint(pdf_path: Path) -> dict:
@@ -5019,15 +5054,20 @@ def _verify_evaluated_and_rendered_impl(
         "manual": _scan_pdf_text_paint(typ_manual_pdf),
     }
 
-    # C3b: pure-vector PDF verification (0 raster /Image XObjects when all figures on a surface are converted).
+    # C3b: shared pure-vector PDF verification (0 /Image XObjects and 0 inline BI/ID/EI images).
     vf_manifest = json.loads((root / "typst/manifest.json").read_text(encoding="utf-8"))
     pure_vector_surfs = _pure_vector_surfaces(root, vf_manifest)
-    typ_raster_xobjects = {
-        "main": _require_zero_pdf_raster_xobjects(typ_main_pdf, "main.pdf")
-        if "main" in pure_vector_surfs else _count_pdf_raster_xobjects(typ_main_pdf),
-        "manual": _require_zero_pdf_raster_xobjects(typ_manual_pdf, "manual.pdf")
-        if "manual" in pure_vector_surfs else _count_pdf_raster_xobjects(typ_manual_pdf),
+    typ_rasters = {
+        "main": _require_zero_pdf_rasters(typ_main_pdf, "main.pdf")
+        if "main" in pure_vector_surfs else _inspect_pdf_rasters(typ_main_pdf),
+        "manual": _require_zero_pdf_rasters(typ_manual_pdf, "manual.pdf")
+        if "manual" in pure_vector_surfs else _inspect_pdf_rasters(typ_manual_pdf),
     }
+    fig9_ast_report = (
+        _verify_figure9_math_attachment(typst_bin, root)
+        if (root / "typst/lib/figures/main/cycle_disturbance_shedding.typ").is_file()
+        else None
+    )
 
     def clause_variants(sent: str) -> list[str]:
         out = [" " + sent + " "]
@@ -5440,8 +5480,8 @@ def _verify_evaluated_and_rendered_impl(
 
             outline_boundary_report = _verify_pdf_outlines_and_boundaries(surf, g_pdf, g_raw, baseline_pdf=b_pdf)
             g_rasters = (
-                _require_zero_pdf_raster_xobjects(g_pdf, f"latex/{surf}.pdf")
-                if surf in pure_vector_surfs else _count_pdf_raster_xobjects(g_pdf)
+                _require_zero_pdf_rasters(g_pdf, f"latex/{surf}.pdf")
+                if surf in pure_vector_surfs else _inspect_pdf_rasters(g_pdf)
             )
 
             g_norm = " " + _norm_rendered_text_tokens(g_stream, is_typst=False, vocab=vocab) + " "
@@ -5451,7 +5491,9 @@ def _verify_evaluated_and_rendered_impl(
                 "pages": g_links["pages"],
                 "pdf_sha256": sha256_file(g_pdf),
                 "pdf_bytes": g_pdf.stat().st_size,
-                "raster_image_xobjects": g_rasters,
+                "raster_image_xobjects": g_rasters["raster_image_xobjects"],
+                "inline_raster_images": g_rasters["inline_raster_images"],
+                "total_raster_images": g_rasters["total_raster_images"],
                 "local_links_checked": g_links["internal_links"],
                 "broken_local_destinations": 0,
                 "named_destinations_count": len(g_links["named_destinations"]),
@@ -5530,12 +5572,17 @@ def _verify_evaluated_and_rendered_impl(
         "candidate_pdfs": {
             "main_pdf_sha256": build_report["main_pdf_sha256"],
             "main_pdf_bytes": build_report["main_pdf_bytes"],
-            "main_raster_image_xobjects": typ_raster_xobjects["main"],
+            "main_raster_image_xobjects": typ_rasters["main"]["raster_image_xobjects"],
+            "main_inline_raster_images": typ_rasters["main"]["inline_raster_images"],
+            "main_total_raster_images": typ_rasters["main"]["total_raster_images"],
             "manual_pdf_sha256": build_report["manual_pdf_sha256"],
             "manual_pdf_bytes": build_report["manual_pdf_bytes"],
-            "manual_raster_image_xobjects": typ_raster_xobjects["manual"],
+            "manual_raster_image_xobjects": typ_rasters["manual"]["raster_image_xobjects"],
+            "manual_inline_raster_images": typ_rasters["manual"]["inline_raster_images"],
+            "manual_total_raster_images": typ_rasters["manual"]["total_raster_images"],
             "pure_vector_surfaces_enforced": sorted(pure_vector_surfs),
         },
+        "figure9_formula_attachment": fig9_ast_report,
         "main_labels_verified": len(typ_main_map),
         "manual_labels_verified": len(typ_manual_map),
         "equation_numbering": eq_numbering_report,
@@ -6227,9 +6274,93 @@ def _run_negative_controls_impl(
                 w_ras.write(fh)
             expect_rejection(
                 "24g_S1b_pdf_raster_xobject_injection",
-                lambda: _require_zero_pdf_raster_xobjects(bad_pdf, "synthetic_raster.pdf"),
-                "Unexpected raster /Image XObject(s) in pure-vector PDF",
+                lambda: _require_zero_pdf_rasters(bad_pdf, "synthetic_raster.pdf"),
+                "raster_image_xobjects=1",
             )
+        with tempfile.TemporaryDirectory() as td:
+            from pypdf import PdfReader, PdfWriter
+            from pypdf.generic import ArrayObject, DecodedStreamObject, DictionaryObject, NameObject
+
+            inline_payload = (
+                b"\nq\n18 0 0 18 72 36 cm\nBI\n/W 2 /H 2 /CS /RGB /BPC 8\nID\n"
+                + b"\xff\x00\x00\x00\xff\x00\x00\x00\xff\xff\xff\x00"
+                + b"\nEI\nQ\n"
+            )
+            # Clone a real exported vector figure PDF (when present) and append a visible 2x2 RGB inline bitmap
+            fig_src = root / "latex/figures/generated/cycle-disturbance-shedding.pdf"
+            bad_inline_pdf = Path(td) / "inline_raster_figure.pdf"
+            w_inl = PdfWriter()
+            if fig_src.is_file():
+                w_inl.clone_document_from_reader(PdfReader(str(fig_src)))
+                pg_i = w_inl.pages[0]
+                inl_stream = DecodedStreamObject()
+                inl_stream.set_data(inline_payload)
+                inl_ref = w_inl._add_object(inl_stream)
+                existing_c = pg_i.get("/Contents")
+                if existing_c is None:
+                    pg_i[NameObject("/Contents")] = inl_ref
+                elif isinstance(existing_c.get_object(), ArrayObject):
+                    existing_c.get_object().append(inl_ref)
+                else:
+                    pg_i[NameObject("/Contents")] = ArrayObject([existing_c, inl_ref])
+            else:
+                pg_i = w_inl.add_blank_page(width=200, height=200)
+                inl_stream = DecodedStreamObject()
+                inl_stream.set_data(inline_payload)
+                pg_i[NameObject("/Contents")] = w_inl._add_object(inl_stream)
+            with bad_inline_pdf.open("wb") as fh:
+                w_inl.write(fh)
+            # Also verify a nested /Form XObject containing an inline BI/ID/EI bitmap fails closed
+            nested_inline_pdf = Path(td) / "nested_form_inline_raster.pdf"
+            w_nf = PdfWriter()
+            pg_nf = w_nf.add_blank_page(width=200, height=200)
+            fm_inl = DecodedStreamObject()
+            fm_inl[NameObject("/Type")] = NameObject("/XObject")
+            fm_inl[NameObject("/Subtype")] = NameObject("/Form")
+            fm_inl.set_data(inline_payload)
+            pg_nf[NameObject("/Resources")] = DictionaryObject({
+                NameObject("/XObject"): DictionaryObject({NameObject("/FmInl"): w_nf._add_object(fm_inl)}),
+            })
+            with nested_inline_pdf.open("wb") as fh:
+                w_nf.write(fh)
+            nested_rejected = False
+            try:
+                _require_zero_pdf_rasters(nested_inline_pdf, "nested_form_inline_raster.pdf")
+            except ValueError as exc:
+                nested_rejected = "inline_raster_images=1" in str(exc)
+            require(nested_rejected, "Control 24h precheck failed: nested Form inline image was not rejected")
+            expect_rejection(
+                "24h_S1b_pdf_inline_raster_image_injection",
+                lambda: _require_zero_pdf_rasters(bad_inline_pdf, "inline_raster_figure.pdf"),
+                "inline_raster_images=1",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            from pypdf import PdfWriter
+            from pypdf.generic import DecodedStreamObject, NameObject
+
+            malformed_pdf = Path(td) / "malformed_stream.pdf"
+            w_mal = PdfWriter()
+            pg_m = w_mal.add_blank_page(width=100, height=100)
+            bad_s = DecodedStreamObject()
+            bad_s.set_data(b"q BI /W 2 /H 2 /CS /RGB /BPC 8 ID \xff\x00\x00")
+            pg_m[NameObject("/Contents")] = w_mal._add_object(bad_s)
+            with malformed_pdf.open("wb") as fh:
+                w_mal.write(fh)
+            expect_rejection(
+                "24i_S1b_pdf_malformed_content_stream",
+                lambda: _require_zero_pdf_rasters(malformed_pdf, "malformed_stream.pdf"),
+                "Uninspectable or malformed PDF content stream",
+            )
+        fig9_rel = "typst/lib/figures/main/cycle_disturbance_shedding.typ"
+        if (root / fig9_rel).is_file():
+            with tempfile.TemporaryDirectory() as td:
+                sb = make_sandbox(Path(td), include_figures=False)
+                mutate(sb, fig9_rel, "P_W^S (partial F, omega)", "P_W^S(partial F, omega)")
+                expect_rejection(
+                    "24j_S1b_figure9_superscript_attachment",
+                    lambda: _verify_figure9_math_attachment(typst_bin, sb, fig9_rel),
+                    "Figure 9 formula superscript attachment defect",
+                )
 
     # 24. R5: missing sibling peer /GoToR /D destination (__AOD_REVIEW_MISSING_DESTINATION__)
     with tempfile.TemporaryDirectory() as td:

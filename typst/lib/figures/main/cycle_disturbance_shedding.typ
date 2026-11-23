@@ -73,7 +73,7 @@
   #aod-box-tl(
     0.45, 5.45, 13.70, 1.80,
     [
-      #text(size: 8.6pt)[$P_W^S(partial F, omega) = sum_(e in W) C_(3,e) rho_(omega,e)^D (partial F, omega) abs(Delta_e^(chi upright("lag")))$]
+      #text(size: 8.6pt)[$P_W^S (partial F, omega) = sum_(e in W) C_(3,e) rho_(omega,e)^D (partial F, omega) abs(Delta_e^(chi upright("lag")))$]
       #v(4pt)
       #text(size: 8.4pt)[$X_upright("shedding") = max(0, P_W^S - C_W^upright("close")) quad | quad upright("SheddicPath")(X_upright("shedding")) quad | quad X_W^upright("out") = (1 - lambda_upright("reclose")) X_upright("shedding")$]
     ],

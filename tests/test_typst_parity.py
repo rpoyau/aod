@@ -428,6 +428,9 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
         "24e_S1b_vector_figure_alias_csv_and_read",
         "24f_S1b_vector_figure_bracket_import_and_set",
         "24g_S1b_pdf_raster_xobject_injection",
+        "24h_S1b_pdf_inline_raster_image_injection",
+        "24i_S1b_pdf_malformed_content_stream",
+        "24j_S1b_figure9_superscript_attachment",
         "25_R6_unsupported_syntax_line_number",
     } | baseline_only == set(neg)
 

@@ -52,6 +52,8 @@
         205.512
       ],
       "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
       "has_extractable_text": true
     },
     {
@@ -86,6 +88,8 @@
         212.598
       ],
       "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
       "has_extractable_text": true
     },
     {
@@ -120,6 +124,8 @@
         249.449
       ],
       "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
       "has_extractable_text": true
     },
     {
@@ -129,7 +135,7 @@
       "label": "fig:v39-cycle-disturbance-shedding",
       "typst_section": "typst/sections/06_field.typ",
       "diagram_component": "typst/lib/figures/main/cycle_disturbance_shedding.typ",
-      "diagram_sha256": "de63f49751d147718ed6bda992a2169f36e35fd02aaabc858594a1819d6b03c5",
+      "diagram_sha256": "51080817f2f817db67fe7e514d4500fed33e210ed6d858b16f5138eef93837f0",
       "data_inputs": [],
       "width_cm": 14.6,
       "height_cm": 7.6,
@@ -146,14 +152,16 @@
       },
       "format": "pdf",
       "output_filename": "cycle-disturbance-shedding.pdf",
-      "output_sha256": "be5a4fd8113937665c4b15869195caf992422cabf54943a23a698c008b8ca3f4",
-      "output_bytes": 27764,
+      "output_sha256": "7ccc5f0a0c1657db710bfce15a04dfeb437bca227741e4aeed6bb0320c2488aa",
+      "output_bytes": 27411,
       "page_count": 1,
       "page_points": [
         413.858,
         215.433
       ],
       "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
       "has_extractable_text": true
     },
     {
@@ -188,6 +196,8 @@
         232.441
       ],
       "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
       "has_extractable_text": true
     },
     {
@@ -222,6 +232,8 @@
         430.866
       ],
       "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
       "has_extractable_text": true
     }
   ]

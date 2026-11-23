@@ -207,9 +207,9 @@
       "target_typst_component": "typst/lib/figures/main/cycle_disturbance_shedding.typ",
       "target_exported_pdf": "latex/figures/generated/cycle-disturbance-shedding.pdf",
       "conversion_status": "CONVERTED_VECTOR",
-      "typst_component_sha256": "de63f49751d147718ed6bda992a2169f36e35fd02aaabc858594a1819d6b03c5",
-      "exported_pdf_sha256": "be5a4fd8113937665c4b15869195caf992422cabf54943a23a698c008b8ca3f4",
-      "exported_pdf_bytes": 27764,
+      "typst_component_sha256": "51080817f2f817db67fe7e514d4500fed33e210ed6d858b16f5138eef93837f0",
+      "exported_pdf_sha256": "7ccc5f0a0c1657db710bfce15a04dfeb437bca227741e4aeed6bb0320c2488aa",
+      "exported_pdf_bytes": 27411,
       "exported_page_points": [
         413.858,
         215.433
