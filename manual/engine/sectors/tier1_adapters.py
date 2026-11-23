@@ -500,6 +500,14 @@ _VALIDATORS = {
 }
 
 
+def _extract_error_line(text: str, *, last: bool, max_chars: int = 240) -> str:
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    if not lines:
+        return ""
+    chosen = lines[-1] if last else lines[0]
+    return chosen[:max_chars]
+
+
 def run_tier1_sector(
     spec: SectorSpec,
     repo_root: Path,
@@ -537,14 +545,22 @@ def run_tier1_sector(
         (diagnostics_dir / f"{spec.sector_id}.stdout.txt").write_text(proc.stdout, encoding="utf-8")
         (diagnostics_dir / f"{spec.sector_id}.stderr.txt").write_text(proc.stderr, encoding="utf-8")
 
-    require(
-        proc.returncode == 0,
-        f"Tier-1 subprocess {spec.sector_id} exited with code {proc.returncode}",
-    )
-    require(
-        proc.stderr == "",
-        f"Tier-1 subprocess {spec.sector_id} emitted unexpected stderr ({len(proc.stderr)} bytes)",
-    )
+    if proc.returncode != 0:
+        tail = _extract_error_line(proc.stderr, last=True) or _extract_error_line(proc.stdout, last=True)
+        rc_msg = (
+            f"Tier-1 subprocess {spec.sector_id} exited with code {proc.returncode}: {tail}"
+            if tail
+            else f"Tier-1 subprocess {spec.sector_id} exited with code {proc.returncode}"
+        )
+        require(False, rc_msg)
+    if proc.stderr != "":
+        head = _extract_error_line(proc.stderr, last=False)
+        stderr_msg = (
+            f"Tier-1 subprocess {spec.sector_id} emitted unexpected stderr ({len(proc.stderr)} bytes): {head}"
+            if head
+            else f"Tier-1 subprocess {spec.sector_id} emitted unexpected stderr ({len(proc.stderr)} bytes)"
+        )
+        require(False, stderr_msg)
 
     post_digests = _hash_inputs(root, spec.input_paths)
     require(

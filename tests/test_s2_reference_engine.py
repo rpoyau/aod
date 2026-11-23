@@ -807,6 +807,61 @@ def test_g5_tier1_nonzero_stderr_empty_timeout_mutation_and_missing_file_fail_cl
     _check(rep["outcomes_summary"] == {"total_executed": 1, "PASS": 0, "FAIL": 1})
 
 
+def test_g5_tier1_failure_and_stderr_observability_with_report_flag(
+    monkeypatch, capsys, tmp_path: Path
+):
+    # 1. Non-zero Tier-1 subprocess exit includes sanitized stderr tail in report AND emits FAIL line to stderr
+    monkeypatch.setattr(
+        tier1_adapters.subprocess,
+        "run",
+        lambda argv, *a, **kw: subprocess.CompletedProcess(
+            argv,
+            2,
+            stdout="",
+            stderr="Traceback (most recent call last):\nValueError: /home/secret/work/script.py failed with sentinel_err\n",
+        ),
+    )
+    out_rc = tmp_path / "obs_rc_fail.json"
+    rc1 = engine_main(["--sector", "native_closure_wave", "--report", str(out_rc)])
+    captured1 = capsys.readouterr()
+    _check(rc1 == 1)
+    raw1 = out_rc.read_text(encoding="utf-8")
+    rep1 = loads_zero_float(raw1)
+    validate_report(rep1)
+    _check(rep1["outcomes_summary"] == {"total_executed": 1, "PASS": 0, "FAIL": 1})
+    sec_err1 = rep1["sectors"][0]["error"]
+    _check("exited with code 2" in sec_err1 and "sentinel_err" in sec_err1, sec_err1)
+    _check("/home/secret/work" not in raw1 and str(ROOT) not in raw1)
+    _check("FAIL sector=native_closure_wave:" in captured1.err, captured1.err)
+    _check("sentinel_err" in captured1.err, captured1.err)
+    _check("/home/secret/work" not in captured1.err and str(ROOT) not in captured1.err)
+
+    # 2. Zero exit with unexpected stderr includes sanitized first stderr line in report AND emits FAIL line to stderr
+    monkeypatch.setattr(
+        tier1_adapters.subprocess,
+        "run",
+        lambda argv, *a, **kw: subprocess.CompletedProcess(
+            argv,
+            0,
+            stdout="{}",
+            stderr="DeprecationWarning: legacy_warn at /tmp/leak_dir/mod.py\nsecond line\n",
+        ),
+    )
+    out_se = tmp_path / "obs_stderr_fail.json"
+    rc2 = engine_main(["--sector", "native_closure_wave", "--report", str(out_se)])
+    captured2 = capsys.readouterr()
+    _check(rc2 == 1)
+    raw2 = out_se.read_text(encoding="utf-8")
+    rep2 = loads_zero_float(raw2)
+    validate_report(rep2)
+    sec_err2 = rep2["sectors"][0]["error"]
+    _check("unexpected stderr" in sec_err2 and "legacy_warn" in sec_err2, sec_err2)
+    _check("/tmp/leak_dir" not in raw2 and str(ROOT) not in raw2)
+    _check("FAIL sector=native_closure_wave:" in captured2.err, captured2.err)
+    _check("legacy_warn" in captured2.err, captured2.err)
+    _check("/tmp/leak_dir" not in captured2.err and str(ROOT) not in captured2.err)
+
+
 def test_g5_frozen_csv_tamper_and_parent_symlinks_rejected(tmp_path: Path):
     spec = SECTOR_MAP["dec_ledger"]
     tamper_root = tmp_path / "tamper"

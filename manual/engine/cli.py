@@ -400,4 +400,24 @@ def main(argv: list[str] | None = None) -> int:
         or zf_audit.get("status") == "FAIL"
         or (vectors_result is not None and vectors_result.get("status") == "FAIL")
     )
+    if failed and report_path is not None:
+        if coverage_audit.get("status") == "FAIL":
+            detail = _sanitize_error(
+                str(coverage_audit.get("error", "")), repo_root, diagnostics_dir=diagnostics_dir
+            )
+            sys.stderr.write(f"FAIL data_coverage: {detail}\n")
+        if zf_audit.get("status") == "FAIL":
+            raw_zf = zf_audit.get("error") or zf_audit.get("violations", [])[:3]
+            detail = _sanitize_error(str(raw_zf), repo_root, diagnostics_dir=diagnostics_dir)
+            sys.stderr.write(f"FAIL zero_float_policy: {detail}\n")
+        if vectors_result is not None and vectors_result.get("status") == "FAIL":
+            raw_vec = vectors_result.get("failures", [])[:3]
+            detail = _sanitize_error(str(raw_vec), repo_root, diagnostics_dir=diagnostics_dir)
+            sys.stderr.write(f"FAIL vectors: {detail}\n")
+        for sec in report_obj["sectors"]:
+            if isinstance(sec, dict) and sec.get("check_outcome") == "FAIL":
+                detail = _sanitize_error(
+                    str(sec.get("error", "")), repo_root, diagnostics_dir=diagnostics_dir
+                )
+                sys.stderr.write(f"FAIL sector={sec['sector_id']}: {detail}\n")
     return 1 if failed else 0
