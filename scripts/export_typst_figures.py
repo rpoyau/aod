@@ -126,8 +126,65 @@ def find_typst(explicit: str | None = None) -> str:
     raise FileNotFoundError("typst binary not found on PATH, TYPST_BIN, or ~/.local/bin/typst")
 
 
+def _strip_typst_comments(text: str) -> str:
+    """Strip Typst // line comments and nested /* ... */ block comments while preserving strings, raw spans, and newlines."""
+    out: list[str] = []
+    i = 0
+    n = len(text)
+    while i < n:
+        c = text[i]
+        if c == '"':
+            j = i + 1
+            while j < n:
+                if text[j] == "\\" and j + 1 < n:
+                    j += 2
+                    continue
+                if text[j] == '"':
+                    j += 1
+                    break
+                j += 1
+            out.append(text[i:j])
+            i = j
+            continue
+        if c == "`":
+            m_raw = re.match(r"`+", text[i:])
+            fence = m_raw.group(0)
+            if len(fence) == 2:
+                out.append("``")
+                i += 2
+                continue
+            j = text.find(fence, i + len(fence))
+            end = n if j < 0 else j + len(fence)
+            out.append(text[i:end])
+            i = end
+            continue
+        if text.startswith("//", i) and (i == 0 or text[i - 1] != ":"):
+            k = text.find("\n", i)
+            i = n if k < 0 else k
+            continue
+        if text.startswith("/*", i):
+            depth = 1
+            j = i + 2
+            while j < n and depth > 0:
+                if text.startswith("/*", j):
+                    depth += 1
+                    j += 2
+                elif text.startswith("*/", j):
+                    depth -= 1
+                    j += 2
+                else:
+                    j += 1
+            newlines = text[i:j].count("\n")
+            out.append("\n" * newlines if newlines else " ")
+            i = j
+            continue
+        out.append(c)
+        i += 1
+    return "".join(out)
+
+
 def _extract_flowchart_dims(component_path: Path) -> tuple[float, float]:
-    text = component_path.read_text(encoding="utf-8")
+    text = _strip_typst_comments(component_path.read_text(encoding="utf-8"))
     _require(
         text.count("#aod-flowchart(") == 1,
         f"Expected exactly one #aod-flowchart(...) call in {component_path}",
@@ -142,7 +199,7 @@ def _extract_flowchart_dims(component_path: Path) -> tuple[float, float]:
 
 
 def _extract_vector_figure_dims(component_path: Path) -> tuple[float, float]:
-    text = component_path.read_text(encoding="utf-8")
+    text = _strip_typst_comments(component_path.read_text(encoding="utf-8"))
     _require(
         text.count("#aod-canvas(") == 1,
         f"Expected exactly one #aod-canvas(...) call in {component_path}",
@@ -160,7 +217,7 @@ def _extract_vector_figure_dims(component_path: Path) -> tuple[float, float]:
 
 
 def _extract_csv_inputs(component_path: Path, root: Path) -> list[dict]:
-    text = component_path.read_text(encoding="utf-8")
+    text = _strip_typst_comments(component_path.read_text(encoding="utf-8"))
     seen: set[str] = set()
     refs: list[dict] = []
     for m in CSV_REF_RE.finditer(text):

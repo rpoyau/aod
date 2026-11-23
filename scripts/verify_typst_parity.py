@@ -3158,58 +3158,167 @@ def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> 
     return violations, len(events)
 
 
+VECTOR_FIGURE_ALLOWED_KEYWORDS = frozenset({"import", "let", "for", "if"})
+VECTOR_FIGURE_FORBIDDEN_IDENTIFIERS = frozenset({
+    "eval", "regex", "read", "json", "toml", "xml", "yaml", "image", "cbor",
+    "plugin", "sys", "std", "bibliography", "figure", "heading", "cite", "footnote",
+    "link", "metadata", "raw", "include", "show", "set",
+    "hide", "query", "state", "counter", "locate", "here", "layout", "measure", "selector",
+})
+
+
+def _strip_typst_comments_nested(text: str) -> str:
+    """Strip Typst // line comments and nested /* ... */ block comments while preserving strings, raw spans, and line numbers."""
+    out: list[str] = []
+    i = 0
+    n = len(text)
+    while i < n:
+        c = text[i]
+        if c == '"':
+            j = _typ_skip_string(text, i)
+            out.append(text[i:j])
+            i = j
+            continue
+        if c == "`":
+            j = _typ_skip_raw(text, i)
+            out.append(text[i:j])
+            i = j
+            continue
+        if text.startswith("//", i) and (i == 0 or text[i - 1] != ":"):
+            k = text.find("\n", i)
+            i = n if k < 0 else k
+            continue
+        if text.startswith("/*", i):
+            depth = 1
+            j = i + 2
+            while j < n and depth > 0:
+                if text.startswith("/*", j):
+                    depth += 1
+                    j += 2
+                elif text.startswith("*/", j):
+                    depth -= 1
+                    j += 2
+                else:
+                    j += 1
+            newlines = text[i:j].count("\n")
+            out.append("\n" * newlines if newlines else " ")
+            i = j
+            continue
+        out.append(c)
+        i += 1
+    return "".join(out)
+
+
 def _vector_figure_policy_violations(rel: str, text: str, inv_entry: dict) -> list[str]:
-    """Enforce strict offline, no-show, no-raster, declared-CSV-only policy on native vector figure components."""
+    """Enforce strict mode-aware offline, no-show/set/include, no-aliasing, declared-literal-CSV-only policy."""
     violations: list[str] = []
-    # Strip block comments and line comments before pattern checks
-    stripped = re.sub(r"/\*.*?\*/", "", text, flags=re.S)
-    stripped = re.sub(r"//[^\n]*", "", stripped)
+    stripped = _strip_typst_comments_nested(text)
     if "@preview/" in stripped or "@local/" in stripped:
         violations.append(f"{rel}: external Typst package import is forbidden in offline vector figure")
-    if re.search(r"#?\bshow\b", stripped):
-        violations.append(f"{rel}: forbidden `show` rule in vector figure component")
-    if re.search(r"(?:^|[\s;{(])#?include\b", stripped):
-        violations.append(f"{rel}: forbidden `include` directive in vector figure component")
-    for bad_call in ("eval(", "regex(", "read(", "json(", "toml(", "xml(", "yaml(", "image(", "cbor("):
-        if re.search(r"\b" + re.escape(bad_call), stripped):
-            violations.append(f"{rel}: forbidden call `{bad_call}` in vector figure component")
-    # Every import directive (wildcard, selective, or bare) must be accounted for;
-    # only the single canonical `/typst/lib/aod_plots.typ` wildcard import is permitted.
-    all_imports = re.findall(r"(?:^|[\s;{(])#?import\b", stripped)
-    wildcard_imports = re.findall(r'#import\s+"([^"]+)"\s*:\s*\*', stripped)
-    if len(all_imports) != 1 or wildcard_imports != ["/typst/lib/aod_plots.typ"]:
-        violations.append(
-            f"{rel}: vector figure may only contain the single `#import \"/typst/lib/aod_plots.typ\": *` "
-            f"(found {len(all_imports)} import directive(s), wildcard={wildcard_imports!r})"
-        )
-    if stripped.count("#aod-canvas(") != 1:
-        violations.append(f"{rel}: vector figure must invoke #aod-canvas(...) exactly once")
-    if not (
-        re.search(r"#let\s+fig-width-cm\s*=\s*[0-9]+(?:\.[0-9]+)?\b", stripped)
-        and re.search(r"#let\s+fig-height-cm\s*=\s*[0-9]+(?:\.[0-9]+)?\b", stripped)
-    ):
-        violations.append(f"{rel}: vector figure must declare literal fig-width-cm and fig-height-cm")
+    if re.search(r"(?<![A-Za-z0-9_-])std\.", stripped):
+        violations.append(f"{rel}: `std.` module access is forbidden in vector figure component")
+
     declared_csvs = {
         d["path"]
         for d in inv_entry.get("data_sources", [])
         if isinstance(d, dict) and isinstance(d.get("path"), str) and d["path"].endswith(".csv")
     }
-    # Fail closed on EVERY csv(...) invocation, including dynamic/variable/concatenated arguments.
-    literal_csv_re = re.compile(r'\s*"(/[^"\n]+)"\s*(?:,|\))')
-    for m_csv in re.finditer(r"\bcsv\s*\(", stripped):
-        m_lit = literal_csv_re.match(stripped, m_csv.end())
-        if m_lit is None:
-            snippet = stripped[m_csv.start():m_csv.start() + 60].replace("\n", " ")
+
+    events = scan_typst_events(stripped)
+    import_count = 0
+    valid_plots_import = False
+    canvas_calls = 0
+
+    for mode, kind, name, named, pos, line in events:
+        where = f"{rel}:{line}"
+        if kind == "forbidden_expr":
             violations.append(
-                f"{rel}: dynamic or non-literal csv(...) call is forbidden in vector figure component: {snippet!r}"
+                f"{where}: parenthesized/dynamic callee expression is forbidden in vector figure component"
             )
             continue
-        raw_p = m_lit.group(1)
-        rel_csv = raw_p.lstrip("/")
-        if rel_csv not in declared_csvs:
+        if kind == "set":
+            violations.append(f"{where}: forbidden `set` rule (`set {name}`) in vector figure component")
+            continue
+        if kind == "kw":
+            if name == "show":
+                violations.append(f"{where}: forbidden `show` rule in vector figure component")
+            elif name == "include":
+                violations.append(f"{where}: forbidden `include` directive in vector figure component")
+            elif name == "import":
+                import_count += 1
+                stmt = pos[0].strip() if pos else ""
+                if re.fullmatch(r'"/typst/lib/aod_plots\.typ"\s*:\s*\*', stmt):
+                    valid_plots_import = True
+                else:
+                    violations.append(
+                        f"{where}: vector figure may only contain the single `#import \"/typst/lib/aod_plots.typ\": *` "
+                        f"(got `import {stmt[:80]}`)"
+                    )
+            elif name not in VECTOR_FIGURE_ALLOWED_KEYWORDS:
+                violations.append(f"{where}: forbidden keyword `{name}` in vector figure component")
+            continue
+
+        # Check all modes including math-mode calls (e.g., `$ image(...) $` and `$ std.eval(...) $` compile in Typst!).
+        segs = [seg.rstrip("()") for seg in name.split(".")]
+        bad_segs = [seg for seg in segs if seg in VECTOR_FIGURE_FORBIDDEN_IDENTIFIERS]
+        if bad_segs:
             violations.append(
-                f"{rel}: unauthorized csv({raw_p!r}) outside declared figure_inventory data_sources {sorted(declared_csvs)}"
+                f"{where}: forbidden identifier/call `{name}` ({bad_segs[0]}) in vector figure component"
             )
+            continue
+
+        if "csv" in segs:
+            if mode != "math" and kind == "call" and name == "csv":
+                if any(a.strip().startswith("..") for a in pos) or any(k.startswith("..") for k in named):
+                    violations.append(f"{where}: dynamic or non-literal csv(...) argument spread is forbidden")
+                    continue
+                extra_named = set(named) - {"row-type", "delimiter"}
+                if extra_named:
+                    violations.append(f"{where}: unexpected csv(...) named arguments {sorted(extra_named)}")
+                    continue
+                if len(pos) != 1:
+                    violations.append(
+                        f"{where}: dynamic or non-literal csv(...) call is forbidden in vector figure component (pos={pos!r})"
+                    )
+                    continue
+                m_lit = re.fullmatch(r'"(/[^"\n]+)"', pos[0].strip())
+                if m_lit is None:
+                    violations.append(
+                        f"{where}: dynamic or non-literal csv(...) call is forbidden in vector figure component: {pos[0]!r}"
+                    )
+                    continue
+                raw_p = m_lit.group(1)
+                rel_csv = raw_p.lstrip("/")
+                if rel_csv not in declared_csvs:
+                    violations.append(
+                        f"{where}: unauthorized csv({raw_p!r}) outside declared figure_inventory data_sources {sorted(declared_csvs)}"
+                    )
+            elif mode != "math" and kind == "call" and name.startswith("csv()."):
+                # Chained method on an already-validated direct csv(...) call (e.g. .filter(...).sorted(...))
+                pass
+            else:
+                violations.append(
+                    f"{where}: aliasing or non-direct reference to `csv` (`{name}`, kind={kind}) is forbidden in vector figure component"
+                )
+            continue
+
+        if mode != "math" and kind == "call" and name == "aod-canvas":
+            canvas_calls += 1
+
+    if import_count != 1 or not valid_plots_import:
+        msg = (
+            f"{rel}: vector figure may only contain the single `#import \"/typst/lib/aod_plots.typ\": *` "
+            f"(found {import_count} import directive(s))"
+        )
+        if not any("may only contain the single `#import" in v for v in violations):
+            violations.append(msg)
+    if canvas_calls != 1:
+        violations.append(f"{rel}: vector figure must invoke #aod-canvas(...) exactly once (got {canvas_calls})")
+    if not (
+        re.search(r"#let\s+fig-width-cm\s*=\s*[0-9]+(?:\.[0-9]+)?\b", stripped)
+        and re.search(r"#let\s+fig-height-cm\s*=\s*[0-9]+(?:\.[0-9]+)?\b", stripped)
+    ):
+        violations.append(f"{rel}: vector figure must declare literal fig-width-cm and fig-height-cm")
     return violations
 
 
@@ -4421,7 +4530,7 @@ RENDERED_LAYOUT_NGRAM_ALLOWLIST: dict[str, frozenset] = {
         "signed residual tally Status", "proxy required momentum fields",
         "required momentum fields angular", "quarantined target required Input",
         "target required Input group", "Source status Gate audit", "status Gate audit controls",
-        "Gate audit controls null", "side quarantine table Record",
+        "Gate audit controls null",
         "CODATA Record Target MeV", "MeV NIST CODATA Record", "NIST CODATA Record Target",
         "external target declared Record", "input gate table Record",
     }),
@@ -4507,6 +4616,88 @@ def _extract_extgstate_ca(resources) -> dict[str, float]:
         if isinstance(vo, dict) and "/ca" in vo:
             out[str(k)] = float(vo["/ca"])
     return out
+
+
+def _count_pdf_raster_xobjects(pdf_path: Path) -> int:
+    """Recursively count PDF /Subtype /Image XObjects across pages, nested Form/Pattern resources, and annotation appearances."""
+    from pypdf import PdfReader
+
+    reader = PdfReader(str(pdf_path))
+    seen_containers: set[tuple] = set()
+    total = 0
+
+    def _key(raw_obj, resolved_obj) -> tuple:
+        if hasattr(raw_obj, "idnum") and hasattr(raw_obj, "generation"):
+            return ("ref", raw_obj.idnum, raw_obj.generation)
+        return ("id", id(resolved_obj))
+
+    def _walk_resources(res) -> None:
+        nonlocal total
+        if not res:
+            return
+        ro = res.get_object() if hasattr(res, "get_object") else res
+        if not isinstance(ro, dict):
+            return
+        rk = _key(res, ro)
+        if rk in seen_containers:
+            return
+        seen_containers.add(rk)
+        for bucket in ("/XObject", "/Pattern"):
+            sub = ro.get(bucket)
+            if not sub:
+                continue
+            so = sub.get_object() if hasattr(sub, "get_object") else sub
+            if not isinstance(so, dict):
+                continue
+            for v in so.values():
+                vo = v.get_object() if hasattr(v, "get_object") else v
+                if not isinstance(vo, dict):
+                    continue
+                if str(vo.get("/Subtype") or "") == "/Image":
+                    total += 1
+                else:
+                    _walk_resources(vo.get("/Resources"))
+
+    for pg in reader.pages:
+        _walk_resources(pg.get("/Resources"))
+        annots = pg.get("/Annots")
+        if annots:
+            annots_obj = annots.get_object() if hasattr(annots, "get_object") else annots
+            if isinstance(annots_obj, list):
+                for an in annots_obj:
+                    ao = an.get_object() if hasattr(an, "get_object") else an
+                    if not isinstance(ao, dict):
+                        continue
+                    ap = ao.get("/AP")
+                    if not ap:
+                        continue
+                    apo = ap.get_object() if hasattr(ap, "get_object") else ap
+                    if not isinstance(apo, dict):
+                        continue
+                    for ap_key in ("/N", "/R", "/D"):
+                        st = apo.get(ap_key)
+                        if not st:
+                            continue
+                        sto = st.get_object() if hasattr(st, "get_object") else st
+                        if isinstance(sto, dict):
+                            if "/Resources" in sto:
+                                _walk_resources(sto.get("/Resources"))
+                            else:
+                                for sub_v in sto.values():
+                                    svo = sub_v.get_object() if hasattr(sub_v, "get_object") else sub_v
+                                    if isinstance(svo, dict) and "/Resources" in svo:
+                                        _walk_resources(svo.get("/Resources"))
+    return total
+
+
+def _require_zero_pdf_raster_xobjects(pdf_path: Path, label: str) -> int:
+    """Fail closed if a PDF expected to be pure vector embeds any raster /Subtype /Image XObject."""
+    count = _count_pdf_raster_xobjects(pdf_path)
+    require(
+        count == 0,
+        f"Unexpected raster /Image XObject(s) in pure-vector PDF {label}: found {count} (expected 0)",
+    )
+    return count
 
 
 def _scan_pdf_text_paint(pdf_path: Path) -> dict:
@@ -4808,6 +4999,23 @@ def _verify_evaluated_and_rendered_impl(
         "manual": _scan_pdf_text_paint(typ_manual_pdf),
     }
 
+    # C3b: pure-vector PDF verification (0 raster /Image XObjects when all figures on a surface are converted).
+    vf_manifest = json.loads((root / "typst/manifest.json").read_text(encoding="utf-8"))
+    inv_path = root / "typst/figure_inventory.json"
+    inv_figures = json.loads(inv_path.read_text(encoding="utf-8")).get("figures", []) if inv_path.is_file() else []
+    pure_vector_surfs = {
+        s
+        for s in ("main", "manual")
+        if any(k.startswith(f"typst/lib/figures/{s}/") for k in vf_manifest.get("vector_figure_components", {}))
+        and not any(f.get("surface") == s and f.get("status") != "CONVERTED_VECTOR" for f in inv_figures)
+    }
+    typ_raster_xobjects = {
+        "main": _require_zero_pdf_raster_xobjects(typ_main_pdf, "main.pdf")
+        if "main" in pure_vector_surfs else _count_pdf_raster_xobjects(typ_main_pdf),
+        "manual": _require_zero_pdf_raster_xobjects(typ_manual_pdf, "manual.pdf")
+        if "manual" in pure_vector_surfs else _count_pdf_raster_xobjects(typ_manual_pdf),
+    }
+
     def clause_variants(sent: str) -> list[str]:
         out = [" " + sent + " "]
         if " SADAR " in out[0]:
@@ -4955,7 +5163,6 @@ def _verify_evaluated_and_rendered_impl(
             fig_gen_dir = root / ("latex/figures/generated" if surf == "main" else "latex/manual/figures/generated")
             fig_manifest_path = fig_gen_dir / "FIGURE_MANIFEST.json"
             expected_vf_prefix = f"typst/lib/figures/{surf}/"
-            vf_manifest = json.loads((root / "typst/manifest.json").read_text(encoding="utf-8"))
             expected_vf_count = sum(
                 1 for k in vf_manifest.get("vector_figure_components", {}) if k.startswith(expected_vf_prefix)
             )
@@ -4977,6 +5184,7 @@ def _verify_evaluated_and_rendered_impl(
                         f_pdf.is_file() and sha256_file(f_pdf) == f_entry["output_sha256"],
                         f"Pinned exported vector figure PDF missing or modified: {f_pdf}",
                     )
+                    _require_zero_pdf_raster_xobjects(f_pdf, str(f_pdf.relative_to(root)))
                     f_stream = _pdftotext(f_pdf, raw=True)
                     fig_streams.append(f_stream)
                     f_toks = _norm_rendered_text_tokens(f_stream, is_typst=True).split()
@@ -5218,6 +5426,10 @@ def _verify_evaluated_and_rendered_impl(
                 require(cmd in g_flat_cli, f"CLI command missing in generated LaTeX {surf}.pdf: {cmd!r}")
 
             outline_boundary_report = _verify_pdf_outlines_and_boundaries(surf, g_pdf, g_raw, baseline_pdf=b_pdf)
+            g_rasters = (
+                _require_zero_pdf_raster_xobjects(g_pdf, f"latex/{surf}.pdf")
+                if surf in pure_vector_surfs else _count_pdf_raster_xobjects(g_pdf)
+            )
 
             g_norm = " " + _norm_rendered_text_tokens(g_stream, is_typst=False, vocab=vocab) + " "
             g_flat = re.sub(r"\s+", " ", g_raw.replace("\xa0", " "))
@@ -5226,6 +5438,7 @@ def _verify_evaluated_and_rendered_impl(
                 "pages": g_links["pages"],
                 "pdf_sha256": sha256_file(g_pdf),
                 "pdf_bytes": g_pdf.stat().st_size,
+                "raster_image_xobjects": g_rasters,
                 "local_links_checked": g_links["internal_links"],
                 "broken_local_destinations": 0,
                 "named_destinations_count": len(g_links["named_destinations"]),
@@ -5304,8 +5517,10 @@ def _verify_evaluated_and_rendered_impl(
         "candidate_pdfs": {
             "main_pdf_sha256": build_report["main_pdf_sha256"],
             "main_pdf_bytes": build_report["main_pdf_bytes"],
+            "main_raster_image_xobjects": typ_raster_xobjects["main"],
             "manual_pdf_sha256": build_report["manual_pdf_sha256"],
             "manual_pdf_bytes": build_report["manual_pdf_bytes"],
+            "manual_raster_image_xobjects": typ_raster_xobjects["manual"],
         },
         "main_labels_verified": len(typ_main_map),
         "manual_labels_verified": len(typ_manual_map),
@@ -5931,6 +6146,56 @@ def _run_negative_controls_impl(
                 "24d_S1b_vector_figure_nonwildcard_import",
                 lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
                 "may only contain the single `#import",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=False)
+            mutate(
+                sb, vf,
+                '#let rows = csv("/manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv", row-type: dictionary)',
+                '#let r = csv\n#let rows = r("/manual/data/derived/tau_ring_diagnostic.csv", row-type: dictionary)',
+            )
+            expect_rejection(
+                "24e_S1b_vector_figure_alias_csv_and_read",
+                lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
+                "aliasing or non-direct reference to `csv`",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            sb = make_sandbox(Path(td), include_figures=False)
+            mutate(
+                sb, vf,
+                "#aod-canvas(",
+                "#[ok]#set text(fill: white)\n#aod-canvas(",
+            )
+            expect_rejection(
+                "24f_S1b_vector_figure_bracket_import_and_set",
+                lambda: verify_typst_evaluation_policy(sb, repin(sb, vf)),
+                "forbidden `set` rule",
+            )
+        with tempfile.TemporaryDirectory() as td:
+            from pypdf import PdfWriter
+            from pypdf.generic import DictionaryObject, NameObject, NumberObject, StreamObject
+
+            bad_pdf = Path(td) / "synthetic_raster.pdf"
+            w_ras = PdfWriter()
+            pg = w_ras.add_blank_page(width=100, height=100)
+            img = StreamObject()
+            img[NameObject("/Type")] = NameObject("/XObject")
+            img[NameObject("/Subtype")] = NameObject("/Image")
+            img[NameObject("/Width")] = NumberObject(1)
+            img[NameObject("/Height")] = NumberObject(1)
+            img[NameObject("/ColorSpace")] = NameObject("/DeviceGray")
+            img[NameObject("/BitsPerComponent")] = NumberObject(8)
+            img._data = b"\x00"
+            img_ref = w_ras._add_object(img)
+            pg[NameObject("/Resources")] = DictionaryObject({
+                NameObject("/XObject"): DictionaryObject({NameObject("/Im0"): img_ref}),
+            })
+            with bad_pdf.open("wb") as fh:
+                w_ras.write(fh)
+            expect_rejection(
+                "24g_S1b_pdf_raster_xobject_injection",
+                lambda: _require_zero_pdf_raster_xobjects(bad_pdf, "synthetic_raster.pdf"),
+                "Unexpected raster /Image XObject(s) in pure-vector PDF",
             )
 
     # 24. R5: missing sibling peer /GoToR /D destination (__AOD_REVIEW_MISSING_DESTINATION__)

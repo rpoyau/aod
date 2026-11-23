@@ -22,6 +22,7 @@ import re
 import sys
 
 import pypdf
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -32,6 +33,14 @@ def _sha256(path: Path) -> str:
 
 def _load_verifier():
     spec = importlib.util.spec_from_file_location("aod_vtp_s1b", ROOT / "scripts/verify_typst_parity.py")
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _load_exporter():
+    spec = importlib.util.spec_from_file_location("aod_exp_s1b", ROOT / "scripts/export_typst_figures.py")
     mod = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = mod
     spec.loader.exec_module(mod)
@@ -483,11 +492,101 @@ def test_s1b_vector_figure_policy_rejects_bypass_attempts():
     v_inc = vtp._vector_figure_policy_violations("test.typ", inc_src, base_entry)
     assert any("forbidden `include`" in v for v in v_inc)
 
-    # Block-comment obfuscated unauthorized csv must fail closed
+    # Block-comment (including nested) obfuscated unauthorized csv must fail closed
     bc_src = base_src.replace(
         'csv("/manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv"',
-        'csv(/*hi*/"/manual/data/derived/tau_ring_diagnostic.csv"',
+        'csv(/* outer /* inner */ */"/manual/data/derived/tau_ring_diagnostic.csv"',
     )
     v_bc = vtp._vector_figure_policy_violations("test.typ", bc_src, base_entry)
     assert any("unauthorized csv(" in v for v in v_bc)
+
+    # First-class function aliasing, higher-order call, std/sys/plugin/read/image,
+    # bracketed directives, set rules, spread args, and math-mode bypasses must ALL fail closed
+    red_team_mutations = [
+        ("let_alias_csv", "#let r = csv\n#let _ = r(\"/manual/data/derived/tau_ring_diagnostic.csv\")\n", "aliasing or non-direct reference to `csv`"),
+        ("higher_order_csv", "#let _ = ((f) => f(\"/manual/data/derived/tau_ring_diagnostic.csv\"))(csv)\n", "aliasing or non-direct reference to `csv`"),
+        ("let_alias_read", "#let rd = read\n", "forbidden identifier/call `read`"),
+        ("let_alias_image", "#let im = image\n", "forbidden identifier/call `image`"),
+        ("std_csv", "#let _ = std.csv(\"/manual/data/derived/tau_ring_diagnostic.csv\")\n", "`std.` module access is forbidden"),
+        ("bracket_import", "#[ok]#import \"/typst/lib/aod_schema.typ\": aod-boxed\n", "may only contain the single `#import"),
+        ("bracket_include", "#[ok]#include \"/typst/sections/01_introduction.typ\"\n", "forbidden `include`"),
+        ("plugin_call", "#let _ = plugin(\"/foo.wasm\")\n", "forbidden identifier/call `plugin`"),
+        ("sys_inputs", "#let _ = sys.inputs\n", "forbidden identifier/call `sys.inputs`"),
+        ("set_rule", "#set text(fill: white)\n", "forbidden `set` rule"),
+        ("math_image", "$ image(\"/figures/fig_1.png\") $\n", "forbidden identifier/call `image`"),
+        ("math_std_eval", "$ std.eval(\"1+1\") $\n", "`std.` module access is forbidden"),
+        ("math_std_sys", "$ std.sys.inputs $\n", "`std.` module access is forbidden"),
+        ("math_hash_eval", "$ #eval(\"1+1\") $\n", "forbidden identifier/call `eval`"),
+        ("context_kw", "#context [x]\n", "forbidden keyword `context`"),
+        ("hide_call", "#hide[secret]\n", "forbidden identifier/call `hide`"),
+    ]
+    for label, injection, expected_sub in red_team_mutations:
+        mutated = base_src.replace("#aod-canvas(", injection + "#aod-canvas(", 1)
+        viols = vtp._vector_figure_policy_violations(f"redteam_{label}.typ", mutated, base_entry)
+        assert viols, f"Red-team payload {label} was NOT rejected!"
+        assert any(expected_sub in v for v in viols), f"Red-team payload {label} got unexpected violations: {viols}"
+
+    # Spread arguments in csv(...) must fail closed
+    spread_src = base_src.replace(
+        'csv("/manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv", row-type: dictionary)',
+        'csv(..args)',
+    )
+    v_spread = vtp._vector_figure_policy_violations("test_spread.typ", spread_src, base_entry)
+    assert any("argument spread is forbidden" in v for v in v_spread)
+
+
+def test_s1b_pdf_raster_xobject_scanner_and_comment_stripped_csv_extractor(tmp_path):
+    pytest.importorskip("pypdf")
+    from pypdf import PdfWriter
+    from pypdf.generic import DictionaryObject, NameObject, NumberObject, StreamObject
+
+    vtp = _load_verifier()
+    exp = _load_exporter()
+
+    # 1. Real exported vector figure PDF must report 0 raster /Image XObjects
+    sample_pdf = ROOT / "latex/figures/generated/fractal-tesseract-q4-witness.pdf"
+    assert vtp._count_pdf_raster_xobjects(sample_pdf) == 0
+    assert vtp._require_zero_pdf_raster_xobjects(sample_pdf, sample_pdf.name) == 0
+
+    # 2. Synthetic PDF with embedded /Image XObject (including nested inside a /Form XObject) must fail closed
+    nested_pdf = tmp_path / "nested_raster.pdf"
+    w = PdfWriter()
+    pg = w.add_blank_page(width=100, height=100)
+    img = StreamObject()
+    img[NameObject("/Type")] = NameObject("/XObject")
+    img[NameObject("/Subtype")] = NameObject("/Image")
+    img[NameObject("/Width")] = NumberObject(1)
+    img[NameObject("/Height")] = NumberObject(1)
+    img[NameObject("/ColorSpace")] = NameObject("/DeviceGray")
+    img[NameObject("/BitsPerComponent")] = NumberObject(8)
+    img._data = b"\x00"
+    img_ref = w._add_object(img)
+    form = StreamObject()
+    form[NameObject("/Type")] = NameObject("/XObject")
+    form[NameObject("/Subtype")] = NameObject("/Form")
+    form[NameObject("/Resources")] = DictionaryObject({
+        NameObject("/XObject"): DictionaryObject({NameObject("/ImNested"): img_ref}),
+    })
+    form._data = b""
+    form_ref = w._add_object(form)
+    pg[NameObject("/Resources")] = DictionaryObject({
+        NameObject("/XObject"): DictionaryObject({NameObject("/Fm0"): form_ref}),
+    })
+    with nested_pdf.open("wb") as fh:
+        w.write(fh)
+    assert vtp._count_pdf_raster_xobjects(nested_pdf) == 1
+    with pytest.raises(ValueError, match="Unexpected raster /Image XObject"):
+        vtp._require_zero_pdf_raster_xobjects(nested_pdf, "nested_raster.pdf")
+
+    # 3. _extract_csv_inputs must ignore commented-out csv(...) references (line and nested block comments)
+    comp = tmp_path / "sample_fig.typ"
+    comp.write_text(
+        '// csv("/manual/data/does_not_exist_line.csv")\n'
+        '/* outer /* nested */ csv("/manual/data/does_not_exist_block.csv") */\n'
+        '#let rows = csv("/manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv", row-type: dictionary)\n',
+        encoding="utf-8",
+    )
+    refs = exp._extract_csv_inputs(comp, ROOT)
+    assert [r["path"] for r in refs] == ["manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv"]
+
 
