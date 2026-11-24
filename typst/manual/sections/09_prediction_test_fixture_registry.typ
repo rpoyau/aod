@@ -68,6 +68,7 @@ by a source-only replay.
     [K4 galactic lensing gate], [L3], [higher-resolution input manifest], [independent medium data and target quarantine], [K4 input-gate table],
     [L3 lensing input package], [L3], [L3 input manifest], [independent 3D medium fields, time-flow inputs, radiation-current gates, target-side quarantine, null controls], [lens residuals after A$Omega$ values freeze],
     [Tritrioseptyro Higgs-support fixture], [D0/O0], [AFC trace rows + route detector], [candidate: $3":"3":"7_(upright("yro"))$; frozen map: $R D thin 2^(L + 4)$; mapped mass: $124.928$ GeV; comparison layer: declared Higgs mass targets], [next layer: production-channel and decay-channel residual tables],
+    [Boundary-full SADAR dynamics suite], [D0/O0], [5-boundary cavity, $Q_4$ walks, 10-carrier debris, pooled SPARC], [zero-float Python/Rust #raw("boundary_sadar") evaluators (#raw("RC-025..032"), #raw("SD-007..008"))], [8 frozen CSVs under #raw("manual/data/boundary_sadar")],
     bottomrule,
   )
 },

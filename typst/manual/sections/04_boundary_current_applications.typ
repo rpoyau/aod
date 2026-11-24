@@ -184,6 +184,8 @@ The local sequence is
 
 Push and pull are signed phase-biased components of the same vector.
 
+In #raw("manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv") (vector #raw("RC-032")), the reference engine instantiates both boundary laws on explicit $Q_4$ vertex sets: shifting $R(1) = brace.l 0000, 0001, 0010, 0011 brace.r$ to $R(2) = brace.l 0001, 0010, 0011, 0100 brace.r$ realizes $Phi^D_(upright("mov")) = 8 - 3 + 2 = 7$, and a $4$-cut #raw("1:2:6") Dimonhexon walk above a chiral wire segment across cuts $52..55$ yields outward wire/electron fluxes $( + 4, - 4)$, $(0, 0)$ (decoupled cut-$53$ control), $( + 4, - 4)$, and $( + 5, - 5)$, with exact Stokes cancellation $0$ on the enclosing union boundary and cumulative realized response $+ 13$.
+
 
 == Audit <manual:boundary-current:falsification>
 

@@ -7,8 +7,10 @@
     "total_active_rasters": 34,
     "main_rasters": 6,
     "manual_rasters": 28,
-    "DATA_BACKED_VERIFIED": 23,
-    "CONCEPTUAL_SCHEMATIC": 11,
+    "authored_native_vector": 5,
+    "total_vector_figures": 39,
+    "DATA_BACKED_VERIFIED": 26,
+    "CONCEPTUAL_SCHEMATIC": 13,
     "UNRESOLVED_RETAINED": 0,
     "converted_vector": 34,
     "retained_raster": 0
@@ -71,12 +73,12 @@
       "target_typst_component": "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
       "target_exported_pdf": "latex/figures/generated/fractal-tesseract-q4-witness.pdf",
       "conversion_status": "CONVERTED_VECTOR",
-      "typst_component_sha256": "cc3ea53aa2942648b37e838f35cabff1a1d6a84a77ee8f2ea8db591f12999097",
-      "exported_pdf_sha256": "8de8b37543d3043ce82b2cd766b8b69432cda0bbf1f2812f8e94c5582b31f3c9",
-      "exported_pdf_bytes": 21064,
+      "typst_component_sha256": "d3510a7ac4451d1dd51aed3a1c35d3c93886199a8e0aad972498e6ca137640ac",
+      "exported_pdf_sha256": "4e1b9061c430947b8d80b74990260c7467bac915c9f767b4378a33d91e9f54fe",
+      "exported_pdf_bytes": 30606,
       "exported_page_points": [
-        413.858,
-        212.598
+        419.528,
+        221.102
       ],
       "raster_image_xobjects": 0,
       "data_check_verified": false,
@@ -375,12 +377,12 @@
       "target_typst_component": "typst/lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ",
       "target_exported_pdf": "latex/manual/figures/generated/higgs-tritrioseptyro-trace-flow.pdf",
       "conversion_status": "CONVERTED_VECTOR",
-      "typst_component_sha256": "abe5883b493a998dbf41022a66b872eea39c7a5f73001a2762d94189ea67c6d4",
-      "exported_pdf_sha256": "52ed6f8d262ade45b0773b39cca267311eaa3c3869ea101205d31037b33c5de5",
-      "exported_pdf_bytes": 23886,
+      "typst_component_sha256": "12e9b2bb50b083c3eeff57f910366fb504645abd9f00bb35cb3b0f823fca80ec",
+      "exported_pdf_sha256": "7d54e22396c249f0890208c6c16b384bdb5f540211e76089cd960b261c810a4e",
+      "exported_pdf_bytes": 38562,
       "exported_page_points": [
-        391.181,
-        323.15
+        419.528,
+        255.118
       ],
       "raster_image_xobjects": 0,
       "data_check_verified": true,
@@ -447,7 +449,7 @@
         {
           "path": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
           "anchor": "tab:manual-dimonhexon-double-slit-fixture",
-          "sha256": "1dc42efa0ac3531b40b28fc577ff3c7c5f894fde170ea5adb041e5cafebb9ee1"
+          "sha256": "8aef328f47b587c0325916695fdc0cad12e4939f339563b97644c32f7c78d835"
         }
       ],
       "provenance_notes": "S1b-0 verified exact 44/44 integer match across bins k=-5..+5 against adjacent table <tab:manual-dimonhexon-double-slit-fixture> (S_k, T^0_k, T^x_k, O_k).",
@@ -488,12 +490,12 @@
       "target_typst_component": "typst/lib/figures/manual/double_slit_cross_return_setup.typ",
       "target_exported_pdf": "latex/manual/figures/generated/double-slit-cross-return-setup.pdf",
       "conversion_status": "CONVERTED_VECTOR",
-      "typst_component_sha256": "a04e9ef7d2f0ffc02f14e0fa34649a5de554a46cc6870b8e6d1425fb6ec153e8",
-      "exported_pdf_sha256": "e9b2d2ac35d882a7405a37d8d72ea8e7142ea12ddea7466e6b51a0ffdcba657f",
-      "exported_pdf_bytes": 18501,
+      "typst_component_sha256": "dc4eaac4a8047177d6766b41f5fb68796d2609aa30e64fc6574165fd350f0f2f",
+      "exported_pdf_sha256": "2b02f011094fcf2b331ff29f68898435865663bd6a918efebad2c431da672cb1",
+      "exported_pdf_bytes": 35148,
       "exported_page_points": [
-        413.858,
-        221.102
+        419.528,
+        238.11
       ],
       "raster_image_xobjects": 0,
       "data_check_verified": false,
@@ -845,9 +847,9 @@
       "target_typst_component": "typst/lib/figures/manual/tau_support_residuals.typ",
       "target_exported_pdf": "latex/manual/figures/generated/tau-support-residuals.pdf",
       "conversion_status": "CONVERTED_VECTOR",
-      "typst_component_sha256": "783af4774027c86a234ac0388f185903fd8b7bf14b5a115d6b4b8e6f38481646",
-      "exported_pdf_sha256": "52a5041037afc013b5c8a9026c18a7a29dc25421afaf873d0cafdfb089919111",
-      "exported_pdf_bytes": 14227,
+      "typst_component_sha256": "0cb06b5c90c64e07df735f1a9913ce5779272b142bdfe0c56bb31b9e37318c6c",
+      "exported_pdf_sha256": "07fc68b7bd94233cf501ab434094a6fe553baf8d11ad2a99bdaf54ee436d0b9d",
+      "exported_pdf_bytes": 17269,
       "exported_page_points": [
         396.85,
         221.102
@@ -1310,6 +1312,176 @@
       ],
       "raster_image_xobjects": 0,
       "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "dec-hinge-slide-chiral-vertex",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/00_dec_ledger.typ",
+      "label": "fig:manual-dec-chiral-flip-walk",
+      "caption_sha256": "7d8f22c8dad35a33ec11880c02abd8d6d2c95a4a37bff58153dc4db1a80280fe",
+      "caption_excerpt": "Boundary-Feynman Q4 D.E.C. walk across partial_T R_core: live xxxxx... is x dwell block (m = 0, structural 0_H preserved), exact slide renormalization (Z' = 7), and post-hinge chiral flip D_alpha -> D_Omega into vertex 0100.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "boundary_feynman_q4_walk",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
+          "sha256": "3d8cd0204ed21d0e958ed366f21099d9d10e4103fcaaffff6d207a8eb03b2fbf"
+        }
+      ],
+      "provenance_notes": "Exact multi-cut Q4 D.E.C. walk from dec_chiral_flip_continuous_walk.csv (vector RC-028).",
+      "target_typst_component": "typst/lib/figures/manual/dec_hinge_slide_chiral_vertex.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/dec-hinge-slide-chiral-vertex.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "5108896542db7731797e57d74f358358248fd55b0733384dfc1e8ce44521916a",
+      "exported_pdf_sha256": "2ad4f52c0936db21d275ce81ce763e098e45fda74963ec14abcb1d0b28d21be0",
+      "exported_pdf_bytes": 47434,
+      "exported_page_points": [
+        419.528,
+        243.78
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "chiral-flip-boundary-stokes",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/00_dec_ledger.typ",
+      "label": "fig:manual-chiral-stokes-feynman",
+      "caption_sha256": "c23fa6840c38bbea3f8c6a66080a7f95cc77e6a4e41d8086818d1a3f162c7f3a",
+      "caption_excerpt": "Two-carrier Disoma chiral exchange across partial R_1 inter partial R_2. Opposite oriented interface fluxes cancel in B_12 (+4 - 4 = 0) while both bound channel histories remain operative at cut k + 1.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "boundary_feynman_stokes_exchange",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [],
+      "provenance_notes": "Exact D0 Disoma two-carrier chiral exchange schematic (vector RC-029).",
+      "target_typst_component": "typst/lib/figures/manual/chiral_flip_boundary_stokes.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/chiral-flip-boundary-stokes.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "517250ac840e986ce207ca9c349fe830e8b97e61c86134b6282b52c87ab7999a",
+      "exported_pdf_sha256": "ec031fc62c45db252421165ce06951c2eda26416a753b6e99eaba909f2512a4f",
+      "exported_pdf_bytes": 39778,
+      "exported_page_points": [
+        419.528,
+        221.102
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "rest-energy-stability-debris-atlas",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
+      "label": "fig:manual-rest-energy-debris-atlas",
+      "caption_sha256": "2c5f80175a7ca71d602c7dcee70d0ea4552dd5ab2dab1b63f9ec57ea2df2f17a",
+      "caption_excerpt": "Exact support window pressure P_sup^D, pending overhang Q_sup^D, and closure counts per 8160 common bit-window span across all ten rest-energy and collision-shedding debris carriers.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_grouped_bar_atlas",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
+          "sha256": "5140da9cc3fc0b75b044c8585d460f64e0f9e9aa8fe49e4a0b01f23f28c8483f"
+        }
+      ],
+      "provenance_notes": "Exact 10-carrier support pressure, pending overhang, and 8160 common bit-window closure counts (vector RC-027).",
+      "target_typst_component": "typst/lib/figures/manual/rest_energy_stability_debris_atlas.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/rest-energy-stability-debris-atlas.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "e3c440ea5d8f9ab1ac4d51d9e28ea63410b473122cf136014b01757fe1ee7bf0",
+      "exported_pdf_sha256": "12076b64f5976cbefc0669b12875dbb9fcaa526601e83279cec72d3e4ea32dcc",
+      "exported_pdf_bytes": 35004,
+      "exported_page_points": [
+        425.197,
+        238.11
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "tau-five-boundary-sadar-setup",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
+      "label": "fig:manual-tau-five-boundary-sadar",
+      "caption_sha256": "a28be6a1d2da886d68129a521702d908356f358002a4221f1104fd4ee4ccffb6",
+      "caption_excerpt": "Five-boundary AOmegaD SADAR stack B_hard -> B_tau -> B_shed -> B_sensor -> B_ext for 1:2:9_yro Dimonnanyro.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "five_boundary_sadar_stack",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+          "sha256": "8730277d89b3547d49c802434975964d6ca006dcaaa524a3a5871656410d1a96"
+        }
+      ],
+      "provenance_notes": "Five-boundary SADAR cavity competition and 2500-slot sensor split from tau_five_boundary_sadar_trace.csv (vector RC-025).",
+      "target_typst_component": "typst/lib/figures/manual/tau_five_boundary_sadar_setup.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/tau-five-boundary-sadar-setup.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "73b146bdda057dbaa740d7a18a198a522f4c9e02b5fb5f2fc8ce18bede6b1856",
+      "exported_pdf_sha256": "57f84fd23cd34c880c3eee0a2829b028f5e26ba66591cca410823bcf1ed1ebb5",
+      "exported_pdf_bytes": 66699,
+      "exported_page_points": [
+        425.197,
+        260.787
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "collision-shedding-debris-feynman",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
+      "label": "fig:manual-collision-debris-feynman",
+      "caption_sha256": "2b532f123c10ceedd3fce68a39a67d9dc729059f08db11b9c2e278ef2a5dd813",
+      "caption_excerpt": "Boundary-Feynman branching of inner even closures, 3:3:7_yro overlap-saddle selection, 3:2 Ditrion core-starvation debris, and 1:2:9_yro odd-window lepton shedding into the witness-ordered recipient event lattice.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "boundary_feynman_debris_branching",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [],
+      "provenance_notes": "Boundary-Feynman collision-shedding debris branching topology and witness-ordered recipient event lattice.",
+      "target_typst_component": "typst/lib/figures/manual/collision_shedding_debris_feynman.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/collision-shedding-debris-feynman.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "3aaa40572ffc387fe75a098d11f9a732be6f81b8cc7330b903a2945421d40f09",
+      "exported_pdf_sha256": "f6d5e7c2cea8d46abca92591c033ad0fc7635b089143e5142bf69efba930de89",
+      "exported_pdf_bytes": 58805,
+      "exported_page_points": [
+        425.197,
+        263.622
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
       "visual_comparison_recorded": true
     }
   ]

@@ -421,7 +421,7 @@ Data files, scored outputs, and the regeneration script are included in the sour
 MAPE_{U,g}=\frac{100}{N_g}\sum_j|\frac{\Delta U_{g,j}}{U^{\mathrm{obs}}_{g,j}}|,\qquad U^{\mathrm{obs}}_{g,j}>0.
 \]
 
-Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor.
+Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor. Across all $209$ positive-$U^{\mathrm{obs}}$ radial bins of the five-galaxy sample, the reference engine (\texttt{manual/data/boundary\_sadar/sparc\_pooled\_primary\_exact.csv}, vector \texttt{SD-008}) evaluates the exact rational pooled primary score $MAPE_U=64.70291920\%$ ($1523$-digit numerator over $1521$-digit denominator), distinct from the carried control $66.1613\%$ in \texttt{sparc\_declaration\_controls.csv}.
 
 \input{data/derived/sparc_summary_table.tex}
 
@@ -485,7 +485,7 @@ The missing-burden diagnostic records the exact ratio
 
 \aodnoteblock{Precision note}{Support identities and candidate declarations are exact. Plotted scores are presentation decimals carried by the frozen diagnostic CSV.}
 
-\aodnoteblock{Source artifacts}{The depth-3 rows in \texttt{manual/data/tau/aod\_tau\_fractal\_ring\_summary.csv} preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied.}
+\aodnoteblock{Source artifacts}{The depth-3 rows in \texttt{manual/data/tau/aod\_tau\_fractal\_ring\_summary.csv} preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied. The zero-float five-boundary SADAR cavity competition and $2500$-slot sensor split producing $(19/50,31/50)$ on \texttt{\_Exo} are executed directly in \secref{manual:rest:boundary-sadar-debris} (\texttt{tau\_five\_boundary\_sadar\_trace.csv}, vector \texttt{RC-025}).}
 
 \begin{figure}[H]
 \centering

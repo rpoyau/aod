@@ -174,6 +174,8 @@ measured normalizer, the combined external target-rate uncertainty is
   caption: [Tau target record in the quarantined external-comparison coordinate.],
 )
 
+Using the identical quarantined normalizer $K_(upright("ext")) = h_(upright("ext")) eta_(upright("ext")) slash (10^6 e)$, the reference engine (#raw("manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv"), vector #raw("SD-007")) evaluates the exact rational target rates $nu_(x, upright("tar")) = E_x^(upright("tar")) slash K_(upright("ext"))$ across all nine rest-energy target records ($0.000902$, $0.186433$, $3.135255$, $9.315477$, $9.316024$, $9.469905$, $11.071252$, $1.655574$, and $1.657856$ in units of $10^(21) thin upright("s")^(- 1)$ for $e^(-)$, $mu^(-)$, $tau^(-)$, $B^(plus.minus)$, $B^0$, $B_s^0$, $B_c^(plus.minus)$, $p^(+)$, and $n^0$), keeping SI defining constants and CODATA/PDG targets strictly inside $B_(upright("ext"))$.
+
 
 
 == Audit <manual:external-comparison:falsification>

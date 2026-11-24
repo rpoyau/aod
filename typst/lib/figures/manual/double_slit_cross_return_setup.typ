@@ -3,55 +3,81 @@
 // Historical raster retained byte-for-byte: manual/figures/double_slit_cross_return_setup.png
 #import "/typst/lib/aod_plots.typ": *
 
-#let fig-width-cm = 14.6
-#let fig-height-cm = 7.8
+#let fig-width-cm = 14.8
+#let fig-height-cm = 8.4
 
 #aod-canvas(fig-width-cm, fig-height-cm)[
-  // Outer frame
-  #aod-box-tl(0.18, 0.18, 14.24, 7.44, [], stroke: 0.9pt + aod-pal.axis, fill: white, radius: 0pt)
+  // Outer frame & title
+  #aod-box-tl(0.16, 0.16, 14.48, 8.08, [], stroke: 0.85pt + aod-pal.axis, fill: white, radius: 2pt)
+  #aod-text(7.40, 0.56, [*Recurrent-ring Dimonhexon double-slit setup & cross-return paths*], size: 10.6pt, box-w: 14.0, box-h: 0.50)
+  #aod-text(7.40, 0.96, [Scope $B_(upright("ring")) = (partial_T F_(upright("ring")), omega_(upright("ring")))$: $1":"2":"6$ closure $->$ ring gates $g_a, g_b$ $->$ 11-bin screen $k in \{-5, dots, +5\}$.], size: 7.5pt, box-w: 14.0, box-h: 0.42)
 
-  // Title
-  #aod-text(0.55, 0.62, [*Double-slit cross-return fixture*], size: 11.5pt, anchor: "left", box-w: 10.0, box-h: 0.55)
+  // Left: Recurrent C6 ring source (V_6, E_6)
+  #let rcx = 2.15
+  #let rcy = 4.35
+  #aod-seat-ring(rcx, rcy, 1.25, 6, ring-stroke: 1.2pt + aod-pal.navy, seat-r: 0.095, seat-fill: aod-pal.tint-blue, seat-stroke: 0.85pt + aod-pal.navy)
+  #aod-arc-arrow(rcx, rcy, 0.68, 40, 315, stroke: 0.95pt + aod-pal.blue)
+  #aod-text(rcx, rcy, [$1":"2":"6$ \ $(V_6, E_6)$], size: 7.4pt, weight: "bold", box-w: 1.5, box-h: 0.85)
+  #aod-text(rcx, 6.02, [retained hexon \ closure source], size: 7.2pt, box-w: 2.8, box-h: 0.65)
 
-  // Left boundary gates
-  #aod-text(0.45, 1.38, [boundary \ gates], size: 8.2pt, anchor: "left", box-w: 2.0, box-h: 0.7)
-  #aod-arrow(0.45, 2.38, 1.55, 2.38, stroke: 0.95pt + black)
-  #aod-arrow(0.45, 4.18, 1.55, 4.18, stroke: 0.95pt + black)
+  // Center-left: Slit barrier wall partial_T R_ring with two open apertures g_a and g_b
+  #let wx = 4.85
+  #aod-boundary-wall(wx, 1.62, wx, 2.58, stroke: 1.4pt + aod-pal.navy, hatch-side: -1, hatch-count: 4)
+  #aod-boundary-wall(wx, 3.45, wx, 5.25, stroke: 1.4pt + aod-pal.navy, hatch-side: -1, hatch-count: 6)
+  #aod-boundary-wall(wx, 6.12, wx, 7.18, stroke: 1.4pt + aod-pal.navy, hatch-side: -1, hatch-count: 4)
+  #aod-text(wx, 1.38, [$partial_T R_(upright("ring"))$], size: 7.6pt, weight: "bold", box-w: 2.2, box-h: 0.34)
 
-  #aod-box-tl(1.58, 1.98, 1.48, 0.80, [$g_a$], stroke: 0.9pt + black, fill: white, radius: 4pt)
-  #aod-box-tl(1.58, 3.78, 1.48, 0.80, [$g_b$], stroke: 0.9pt + black, fill: white, radius: 4pt)
+  // Gate badges g_a (y=3.00) and g_b (y=5.70)
+  #aod-chiral-vertex(wx, 3.00, [$g_a$], r: 0.28, fill: aod-pal.tint-green, stroke: 1.05pt + aod-pal.teal, text-size: 7.8pt)
+  #aod-chiral-vertex(wx, 5.70, [$g_b$], r: 0.28, fill: aod-pal.tint-green, stroke: 1.05pt + aod-pal.teal, text-size: 7.8pt)
 
-  // Curved dashed cross-return coupling between g_a and g_b
-  #aod-curve-arrow(2.32, 2.78, 1.88, 3.28, 2.32, 3.78, stroke: (paint: black, thickness: 0.85pt, dash: "dashed"), head-len: 4.0, head-half: 1.9, both: true)
+  // Incident handoff from C6 ring to gates g_a, g_b
+  #aod-arrow(3.32, 3.78, 4.52, 3.08, stroke: 1.0pt + aod-pal.navy)
+  #aod-arrow(3.32, 4.92, 4.52, 5.62, stroke: 1.0pt + aod-pal.navy)
 
-  // Gate output boxes S_k^(a) and S_k^(b)
-  #aod-arrow(3.06, 2.38, 4.25, 2.38, stroke: 0.95pt + black)
-  #aod-arrow(3.06, 4.18, 4.25, 4.18, stroke: 0.95pt + black)
-  #aod-box-tl(4.28, 1.90, 2.24, 0.96, [$S_k^((a))$], stroke: 0.9pt + black, fill: white, radius: 4pt)
-  #aod-box-tl(4.28, 3.70, 2.24, 0.96, [$S_k^((b))$], stroke: 0.9pt + black, fill: white, radius: 4pt)
+  // Cross-return returned-current channel g_a <-> g_b
+  #aod-wavy-arrow(5.12, 3.24, 5.12, 5.42, amp: 0.08, waves: 4.0, stroke: 1.0pt + aod-pal.orange)
+  #aod-wavy-arrow(5.34, 5.42, 5.34, 3.24, amp: 0.08, waves: 4.0, stroke: 1.0pt + aod-pal.orange)
+  #aod-text(6.18, 4.35, [$g_a <-> g_b$ \ $E_(upright("return"))$ \ $C_k^(times)$], size: 7.2pt, box-w: 1.6, box-h: 0.95)
 
-  // Additive no-cross baseline T_k^0
-  #aod-arrow(6.52, 2.38, 7.55, 2.86, stroke: 0.95pt + black)
-  #aod-arrow(6.52, 4.18, 7.55, 3.22, stroke: 0.95pt + black)
-  #aod-box-tl(7.58, 2.52, 2.78, 0.96, [$T_k^0 = S_k^((a)) + S_k^((b))$], stroke: 0.9pt + black, fill: white, radius: 4pt)
+  // Propagation zone: solid independent rays S_k^(a), S_k^(b) + dashed cross-return interference rays
+  #let sx = 10.35
+  // Direct single-gate rays (blue)
+  #aod-arrow(5.16, 2.96, sx - 0.38, 2.35, stroke: 0.9pt + aod-pal.blue)
+  #aod-arrow(5.16, 3.04, sx - 0.38, 4.35, stroke: 0.9pt + aod-pal.blue)
+  #aod-arrow(5.16, 5.66, sx - 0.38, 4.35, stroke: 0.9pt + aod-pal.blue)
+  #aod-arrow(5.16, 5.74, sx - 0.38, 6.35, stroke: 0.9pt + aod-pal.blue)
 
-  // Cross-return combined box T_cross
-  #aod-arrow(10.36, 3.00, 10.80, 3.36, stroke: 0.95pt + black)
-  #aod-box-tl(10.83, 2.98, 3.22, 0.98, [#text(size: 7.8pt)[$T_upright("cross") = T_upright("no") + C_upright("cross")$]], stroke: 0.9pt + black, fill: white, radius: 4pt)
+  // Cross-return redistributed rays (dashed orange)
+  #aod-curve-arrow(5.38, 3.95, 7.65, 3.60, sx - 0.38, 4.10, stroke: (paint: aod-pal.orange, thickness: 0.95pt, dash: "dashed"))
+  #aod-curve-arrow(5.38, 4.75, 7.65, 5.10, sx - 0.38, 4.60, stroke: (paint: aod-pal.orange, thickness: 0.95pt, dash: "dashed"))
+  #aod-curve-arrow(5.38, 3.60, 7.65, 2.50, sx - 0.38, 2.85, stroke: (paint: aod-pal.crimson, thickness: 0.8pt, dash: "dashed"))
+  #aod-curve-arrow(5.38, 5.10, 7.65, 6.20, sx - 0.38, 5.85, stroke: (paint: aod-pal.crimson, thickness: 0.8pt, dash: "dashed"))
 
-  // Dashed direct cross-return channel into T_cross (cleanly spaced below T_k^0)
-  #aod-arrow(3.98, 3.36, 10.80, 3.68, stroke: (paint: black, thickness: 0.85pt, dash: "dashed"), head-len: 4.2, head-half: 2.0)
-  #aod-text(5.85, 3.16, [reclosure bins], size: 7.8pt, box-w: 2.5, box-h: 0.36)
+  #aod-text(7.42, 1.82, [solid: single-gate $S_k^((a)) + S_k^((b)) = T_k^0$ ($410$)], size: 7.1pt, box-w: 4.5, box-h: 0.38)
+  #aod-text(7.42, 6.95, [dashed: cross-return $C_k^(times)$ ($+26$ at $0$, $sum = +38$)], size: 7.0pt, box-w: 4.6, box-h: 0.38)
 
-  // Schematic 7-bin reclosure bar profile cleanly below S_k^(b) (zero overlap)
-  #let bar-hs = (0.76, 1.15, 1.38, 1.54, 1.38, 1.15, 0.76)
-  #let y-base = 6.50
-  #for i in range(bar-hs.len()) {
-    let bx = 3.25 + i * 1.12
-    let bh = bar-hs.at(i)
-    place(top + left, dx: bx * 1cm, dy: (y-base - bh) * 1cm, rect(width: 0.64cm, height: bh * 1cm, fill: white, stroke: 0.8pt + black))
+  // Right: 11-bin detector screen k = -5..+5 with exact horizontal T^x_k profile bars (8,10,20,58,80,96,80,58,20,10,8)
+  #aod-line(sx, 1.65, sx, 7.05, stroke: 1.25pt + aod-pal.axis)
+  #aod-text(12.28, 1.42, [*Screen $T_k^(times)$ ($sum = 448$)*], size: 7.8pt, box-w: 4.1, box-h: 0.38)
+  #let tx-vals = (8, 10, 20, 58, 80, 96, 80, 58, 20, 10, 8)
+  #let k-lbls = ("-5", "-4", "-3", "-2", "-1", "0", "+1", "+2", "+3", "+4", "+5")
+  #for i in range(11) {
+    let by = 1.85 + i * 0.48
+    let tv = tx-vals.at(i)
+    let bw = (tv / 96.0) * 2.55
+    let fl = if i == 5 { aod-pal.orange } else if i >= 3 and i <= 7 { aod-pal.blue } else { aod-pal.slate }
+    aod-box-tl(sx + 0.06, by - 0.15, bw, 0.30, [], fill: fl, stroke: 0.45pt + aod-pal.axis, radius: 0pt)
+    aod-text(sx - 0.28, by, [$#k-lbls.at(i)$], size: 6.6pt, anchor: "right", box-w: 0.6, box-h: 0.30)
+    aod-text(sx + 0.16 + bw, by, [#tv], size: 6.6pt, anchor: "left", box-w: 0.8, box-h: 0.30)
   }
 
-  // Bottom identity line
-  #aod-text(7.30, 7.06, [fixture identity: $T_upright("cross") - T_upright("no-cross") = C_upright("cross")$], size: 8.6pt, box-w: 11.5, box-h: 0.45)
+  // Bottom exact accounting identity strip
+  #aod-box-tl(
+    0.45, 7.42, 13.90, 0.58,
+    [#text(size: 7.6pt, weight: "bold")[Exact FRG accounting identity: $quad T_k^(times) - T_k^0 = C_k^(times)$, $quad sum_k T_k^0 = 410$, $quad sum_k C_k^(times) = 38$, $quad sum_k T_k^(times) = sum_k O_k = 448$, $quad sum_k m_k = 6$.]],
+    stroke: 0.85pt + aod-pal.navy,
+    fill: aod-pal.tint-blue,
+    radius: 3pt,
+  )
 ]

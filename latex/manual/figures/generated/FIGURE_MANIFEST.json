@@ -17,8 +17,8 @@
   "schema_path": "typst/lib/aod_schema.typ",
   "schema_sha256": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
   "plots_lib_path": "typst/lib/aod_plots.typ",
-  "plots_lib_sha256": "ead3822f57c9ffe8150d97485549ff0674044d9b38a96936eddfbc5415a8f4b2",
-  "figure_count": 32,
+  "plots_lib_sha256": "346944079a9840a005555ea16b7026cbf1075f26bfde08011740326a06070f4e",
+  "figure_count": 37,
   "figures": [
     {
       "surface": "manual",
@@ -113,6 +113,201 @@
     {
       "surface": "manual",
       "component_kind": "vector_figure",
+      "slug": "dec-hinge-slide-chiral-vertex",
+      "label": "fig:manual-dec-chiral-flip-walk",
+      "typst_section": "typst/manual/sections/00_dec_ledger.typ",
+      "diagram_component": "typst/lib/figures/manual/dec_hinge_slide_chiral_vertex.typ",
+      "diagram_sha256": "5108896542db7731797e57d74f358358248fd55b0733384dfc1e8ce44521916a",
+      "data_inputs": [
+        {
+          "path": "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
+          "sha256": "3d8cd0204ed21d0e958ed366f21099d9d10e4103fcaaffff6d207a8eb03b2fbf"
+        }
+      ],
+      "width_cm": 14.8,
+      "height_cm": 8.6,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "dec-hinge-slide-chiral-vertex.pdf",
+      "output_sha256": "2ad4f52c0936db21d275ce81ce763e098e45fda74963ec14abcb1d0b28d21be0",
+      "output_bytes": 47434,
+      "page_count": 1,
+      "page_points": [
+        419.528,
+        243.78
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "manual",
+      "component_kind": "vector_figure",
+      "slug": "chiral-flip-boundary-stokes",
+      "label": "fig:manual-chiral-stokes-feynman",
+      "typst_section": "typst/manual/sections/00_dec_ledger.typ",
+      "diagram_component": "typst/lib/figures/manual/chiral_flip_boundary_stokes.typ",
+      "diagram_sha256": "517250ac840e986ce207ca9c349fe830e8b97e61c86134b6282b52c87ab7999a",
+      "data_inputs": [],
+      "width_cm": 14.8,
+      "height_cm": 7.8,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "chiral-flip-boundary-stokes.pdf",
+      "output_sha256": "ec031fc62c45db252421165ce06951c2eda26416a753b6e99eaba909f2512a4f",
+      "output_bytes": 39778,
+      "page_count": 1,
+      "page_points": [
+        419.528,
+        221.102
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "manual",
+      "component_kind": "vector_figure",
+      "slug": "rest-energy-stability-debris-atlas",
+      "label": "fig:manual-rest-energy-debris-atlas",
+      "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
+      "diagram_component": "typst/lib/figures/manual/rest_energy_stability_debris_atlas.typ",
+      "diagram_sha256": "e3c440ea5d8f9ab1ac4d51d9e28ea63410b473122cf136014b01757fe1ee7bf0",
+      "data_inputs": [
+        {
+          "path": "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
+          "sha256": "5140da9cc3fc0b75b044c8585d460f64e0f9e9aa8fe49e4a0b01f23f28c8483f"
+        }
+      ],
+      "width_cm": 15.0,
+      "height_cm": 8.4,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "rest-energy-stability-debris-atlas.pdf",
+      "output_sha256": "12076b64f5976cbefc0669b12875dbb9fcaa526601e83279cec72d3e4ea32dcc",
+      "output_bytes": 35004,
+      "page_count": 1,
+      "page_points": [
+        425.197,
+        238.11
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "manual",
+      "component_kind": "vector_figure",
+      "slug": "tau-five-boundary-sadar-setup",
+      "label": "fig:manual-tau-five-boundary-sadar",
+      "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
+      "diagram_component": "typst/lib/figures/manual/tau_five_boundary_sadar_setup.typ",
+      "diagram_sha256": "73b146bdda057dbaa740d7a18a198a522f4c9e02b5fb5f2fc8ce18bede6b1856",
+      "data_inputs": [
+        {
+          "path": "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+          "sha256": "8730277d89b3547d49c802434975964d6ca006dcaaa524a3a5871656410d1a96"
+        }
+      ],
+      "width_cm": 15.0,
+      "height_cm": 9.2,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "tau-five-boundary-sadar-setup.pdf",
+      "output_sha256": "57f84fd23cd34c880c3eee0a2829b028f5e26ba66591cca410823bcf1ed1ebb5",
+      "output_bytes": 66699,
+      "page_count": 1,
+      "page_points": [
+        425.197,
+        260.787
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "manual",
+      "component_kind": "vector_figure",
+      "slug": "collision-shedding-debris-feynman",
+      "label": "fig:manual-collision-debris-feynman",
+      "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
+      "diagram_component": "typst/lib/figures/manual/collision_shedding_debris_feynman.typ",
+      "diagram_sha256": "3aaa40572ffc387fe75a098d11f9a732be6f81b8cc7330b903a2945421d40f09",
+      "data_inputs": [],
+      "width_cm": 15.0,
+      "height_cm": 9.3,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "collision-shedding-debris-feynman.pdf",
+      "output_sha256": "f6d5e7c2cea8d46abca92591c033ad0fc7635b089143e5142bf69efba930de89",
+      "output_bytes": 58805,
+      "page_count": 1,
+      "page_points": [
+        425.197,
+        263.622
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "manual",
+      "component_kind": "vector_figure",
       "slug": "higgs-yro-saddle-signature",
       "label": "fig:manual-higgs-yro-saddle",
       "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
@@ -158,7 +353,7 @@
       "label": "fig:manual-higgs-trace-flow",
       "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
       "diagram_component": "typst/lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ",
-      "diagram_sha256": "abe5883b493a998dbf41022a66b872eea39c7a5f73001a2762d94189ea67c6d4",
+      "diagram_sha256": "12e9b2bb50b083c3eeff57f910366fb504645abd9f00bb35cb3b0f823fca80ec",
       "data_inputs": [
         {
           "path": "manual/data/higgs/higgs_external_map_after_candidate_freeze.csv",
@@ -169,8 +364,8 @@
           "sha256": "462885db9b133fde44c9cd887da1be427da0595462336ae41eabd7755e585bf5"
         }
       ],
-      "width_cm": 13.8,
-      "height_cm": 11.4,
+      "width_cm": 14.8,
+      "height_cm": 9.0,
       "background": "white",
       "font_families": {
         "text": [
@@ -184,12 +379,12 @@
       },
       "format": "pdf",
       "output_filename": "higgs-tritrioseptyro-trace-flow.pdf",
-      "output_sha256": "52ed6f8d262ade45b0773b39cca267311eaa3c3869ea101205d31037b33c5de5",
-      "output_bytes": 23886,
+      "output_sha256": "7d54e22396c249f0890208c6c16b384bdb5f540211e76089cd960b261c810a4e",
+      "output_bytes": 38562,
       "page_count": 1,
       "page_points": [
-        391.181,
-        323.15
+        419.528,
+        255.118
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -280,10 +475,10 @@
       "label": "fig:manual-recurrent-ring-double-slit",
       "typst_section": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
       "diagram_component": "typst/lib/figures/manual/double_slit_cross_return_setup.typ",
-      "diagram_sha256": "a04e9ef7d2f0ffc02f14e0fa34649a5de554a46cc6870b8e6d1425fb6ec153e8",
+      "diagram_sha256": "dc4eaac4a8047177d6766b41f5fb68796d2609aa30e64fc6574165fd350f0f2f",
       "data_inputs": [],
-      "width_cm": 14.6,
-      "height_cm": 7.8,
+      "width_cm": 14.8,
+      "height_cm": 8.4,
       "background": "white",
       "font_families": {
         "text": [
@@ -297,12 +492,12 @@
       },
       "format": "pdf",
       "output_filename": "double-slit-cross-return-setup.pdf",
-      "output_sha256": "e9b2d2ac35d882a7405a37d8d72ea8e7142ea12ddea7466e6b51a0ffdcba657f",
-      "output_bytes": 18501,
+      "output_sha256": "2b02f011094fcf2b331ff29f68898435865663bd6a918efebad2c431da672cb1",
+      "output_bytes": 35148,
       "page_count": 1,
       "page_points": [
-        413.858,
-        221.102
+        419.528,
+        238.11
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -831,7 +1026,7 @@
       "label": "fig:manual-tau-residuals",
       "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
       "diagram_component": "typst/lib/figures/manual/tau_support_residuals.typ",
-      "diagram_sha256": "783af4774027c86a234ac0388f185903fd8b7bf14b5a115d6b4b8e6f38481646",
+      "diagram_sha256": "0cb06b5c90c64e07df735f1a9913ce5779272b142bdfe0c56bb31b9e37318c6c",
       "data_inputs": [
         {
           "path": "manual/data/derived/tau_ring_diagnostic.csv",
@@ -853,8 +1048,8 @@
       },
       "format": "pdf",
       "output_filename": "tau-support-residuals.pdf",
-      "output_sha256": "52a5041037afc013b5c8a9026c18a7a29dc25421afaf873d0cafdfb089919111",
-      "output_bytes": 14227,
+      "output_sha256": "07fc68b7bd94233cf501ab434094a6fe553baf8d11ad2a99bdaf54ee436d0b9d",
+      "output_bytes": 17269,
       "page_count": 1,
       "page_points": [
         396.85,

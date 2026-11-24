@@ -193,7 +193,7 @@ For wavelength comparison, use the inverse-wavelength relation
 
 #math.equation(block: true, numbering: none, $ cal(R)^(lambda ,upright("tar"))_(n arrow.r m) = frac(lambda_((m + 1) arrow.r m), lambda_(n arrow.r m)). $)
 
-Thus the A$Omega$-internal pressure ratio is compared against the measured inverse-wavelength ratio. external frequency coordinate and energy export remain downstream.
+Thus the A$Omega$-internal pressure ratio is compared against the measured inverse-wavelength ratio. external frequency coordinate and energy export remain downstream. The reference engine (#raw("manual/data/boundary_sadar/hydrogen_shell_exact_series.csv"), vector #raw("RC-031")) evaluates all Lyman ($m = 1$), Balmer ($m = 2$), and Paschen ($m = 3$) transitions in reduced exact rational arithmetic before wavelength comparison.
 
 
 === Lyman series <manual:hydrogen:lyman>

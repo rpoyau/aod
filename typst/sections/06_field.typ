@@ -763,68 +763,27 @@ The even sequence separates the current-side double form, the inner enclosure, a
 
 === E2 duon <subsec:e2-duon>
 
-In seat-compatibility routing, $E_2$ and $E_2^0$ invoke the canonical Duon
-support owned in #secref("subsec:duon") (#eqref("eq:duon-current")).
+In seat-compatibility routing, $E_2$ and $E_2^0$ invoke the canonical Duon support owned in #secref("subsec:duon") (#eqref("eq:duon-current")).
 
 
 === E2$""^(plus.minus)$ duad <subsec:e2-duad>
 
-In seat-compatibility routing, $E_2^(plus.minus)$ invokes the canonical same-current
-Duad seating state owned in #secref("subsec:duad") (#eqref("eq:duad-same-current")).
-
-
-=== E4 tetron <subsec:e4-tetron>
-
-
-#math.equation(block: true, numbering: none, $ E_4 = upright("tetron"). $)
-
-Tetron is the default inner enclosure with four seats.
+In seat-compatibility routing, $E_2^(plus.minus)$ invokes the canonical same-current Duad seating state owned in #secref("subsec:duad") (#eqref("eq:duad-same-current")).
 
 
 === Outer enclosures <subsec:outer-enclosures>
+#aod-anchor(<subsec:e4-tetron>)
+#aod-anchor(<subsec:hexon>)
+#aod-anchor(<subsec:octon>)
+#aod-anchor(<subsec:decon>)
+#aod-anchor(<subsec:higher-even-enclosures>)
+#aod-anchor(<subsec:filled-shared-enclosures>)
 
-A support enclosure is an outer even enclosure available to shell/enclosure routing:
+Here $E_4 = upright("tetron")$ is the default four-seat inner enclosure, while outer support enclosures available to shell/enclosure routing form the even sheddic path sequence
 
-#math.equation(block: true, numbering: none, $ sans("C")_(2 m) = "support enclosure of order "2 m, wide m gt.eq 3. $)
+#math.equation(block: true, numbering: none, $ sans("C")_(2 m) = "support enclosure of order "2 m, wide m gt.eq 3, $)
 
-
-
-=== Hexon <subsec:hexon>
-
-
-#math.equation(block: true, numbering: none, $ sans("C")_6 = upright("hexon"). $)
-
-Hexon is the first outer enclosure because the hinge triad supplies left/right threefold closure: $sans("H")_3 + sans("H")_3 = 6$.
-
-
-=== Octon <subsec:octon>
-
-
-#math.equation(block: true, numbering: none, $ sans("C")_8 = upright("octon"). $)
-
-
-
-=== Decon <subsec:decon>
-
-
-#math.equation(block: true, numbering: none, $ sans("C")_(10) = upright("decon"). $)
-
-
-
-=== Higher even enclosures <subsec:higher-even-enclosures>
-
-Higher even enclosures continue the outer sheddic path sequence:
-
-#math.equation(block: true, numbering: none, $ sans("C")_(2 n) , wide n > 5. $)
-
-Outer enclosures are retained forms of sheddic paths. Hexon is the first outer enclosure; octon and decon are higher sheddic path forms; $sans("C")_(2 n)$ records the higher even sequence.
-
-
-=== Filled shared enclosure <subsec:filled-shared-enclosures>
-
-A filled shared enclosure has
-
-#math.equation(block: true, numbering: none, $ m:m:0::2 m, wide m gt.eq 3. $)
+starting at $sans("C")_6 = upright("hexon")$ (first outer enclosure via left/right threefold hinge closure $sans("H")_3 + sans("H")_3 = 6$), continuing through $sans("C")_8 = upright("octon")$, $sans("C")_(10) = upright("decon")$, and higher even $sans("C")_(2 n)$ ($n > 5$), with filled shared enclosures written $m:m:0::2 m$ ($m gt.eq 3$).
 
 
 === Closure excess <subsec:support-enclosure-sadar-closure>
@@ -1382,233 +1341,65 @@ normalization, and subgroup or aliasing hypotheses supply no proof of periodic
 dynamics or native wave admission.
 
 
-=== Definition and normalization
+=== Transform, orthogonality, and inversion
 
-
-#aod-paragraph[Setup.]
+#aod-paragraph[Setup and orthogonality.]
 
 $ hat(v)( chi ) = frac(1, N) sum_(g in G) v(g)overline(chi (g)), wide chevron.l v,w chevron.r_G = frac(1, N) sum_(g in G) v(g)overline(w(g)). $ <eq:fourier-transform>
 
-All corollaries in #secref("sec:finite-harmonics") share this group, committed trace and normalization;
-local extra hypotheses are stated at their use. These value identities,
-including inversion, neither admit motifs/waves nor supply a response law.
-
-
-
-=== Orthogonality
-
-
-#aod-paragraph[Setup.]
-For a nontrivial character $eta$, choose $a$ with $eta (a) eq.not 1$.
-
-#aod-paragraph[Derivation.]
-Translation of the finite sum gives $S = sum_g eta (g) = eta (a)S$, hence
-$S = 0$. For the trivial character the sum is $N$. Thus
+All corollaries in #secref("sec:finite-harmonics") share this finite abelian group $G$ ($bar.v G bar.v = N$), committed trace, and normalization; these value identities neither admit motifs/waves nor supply a response law. For a nontrivial character $eta$ with $eta (a) eq.not 1$, translation gives $S = sum_g eta (g) = eta (a)S = 0$ (and $N$ for the trivial character), while products of primitive cyclic-factor roots yield $bar.v hat(G) bar.v = N$ orthogonal characters and dual completeness:
 
 $ frac(1, N) sum_(g in G) chi (g)overline(xi (g)) = bold(1)_(chi = xi) , wide frac(1, N) sum_(chi in hat(G)) chi (g)overline(chi (h)) = bold(1)_(g = h) . $ <eq:fourier-orthogonality>
 
-For a cyclic factor of order $L$, its $L$ characters are the powers of
-an exact primitive $L$-th root; products over a cyclic decomposition give
-exactly $bar.v hat(G) bar.v = N$ characters. Orthogonality therefore gives a basis
-of the $N$-dimensional function space and the second identity by the same
-translation argument on the dual. This establishes completeness.
-
-
-=== Inversion and uniqueness
-
-
-#aod-paragraph[Derivation.]
-Substitute #eqref("eq:fourier-transform") and apply the second identity:
+#aod-paragraph[Inversion and uniqueness.] Substituting #eqref("eq:fourier-transform") and applying #eqref("eq:fourier-orthogonality") gives
 
 $ sum_(chi) hat(v)( chi ) chi (g) = frac(1, N) sum_h v(h) sum_(chi) chi (g)overline(chi (h)) = v(g). $ <eq:fourier-inversion>
 
-Taking the inner product with any character recovers its coefficient, so
-no second coefficient family represents a different trace with the same
-full transform. Distinct provenance can still accompany equal value traces.
+Inner products recover each coefficient uniquely on the full transform, though distinct provenance can accompany equal value traces; missing coefficients, altered normalization, or unbound traces fail representation or admission.
 
-#aod-paragraph[Falsification.] A missing coefficient, altered normalization or
-unbound trace fails the corresponding representation or admission premise.
+#aod-provenance[#eqref("eq:fourier-transform"), #eqref("eq:fourier-orthogonality"), #eqref("eq:wave-identity"), #eqref("eq:motif-admission").]
 
 
-#aod-provenance[#eqref("eq:fourier-transform"),
-#eqref("eq:fourier-orthogonality"),
-#eqref("eq:wave-identity"),
-#eqref("eq:motif-admission").]
+=== Algebraic, convolution, correlation, and Parseval identities
 
-
-
-=== Linearity
-
-
-#aod-paragraph[Derivation.]
-Distribute the defining finite sum:
+#aod-paragraph[Linearity, shift, and modulation.] Distributing the finite sum and substituting $h = g - a$ with $M_(eta) v(g) = eta (g)v(g)$ ($a in G$, $eta in hat(G)$) give
 
 $ hat(a v + b w) = a hat(v) + b hat(w). $ <eq:fourier-linearity>
 
-
-#aod-paragraph[Falsification.] Applying this value identity to infer a linear
-closure or update law changes its domain.
-
-
-#aod-provenance[#eqref("eq:fourier-transform").]
-
-
-
-=== Shift and modulation
-
-
-#aod-paragraph[Setup.]
-For $a in G$ and $eta in hat(G)$, set $M_(eta) v(g) = eta (g)v(g)$.
-
-#aod-paragraph[Derivation.]
-Substitution $h = g - a$ and character multiplication give
-
 $ hat(T_a v)( chi ) = overline(chi (a))hat(v)( chi ), wide hat(M_(eta) v)( chi ) = hat(v)( chi overline(eta)). $ <eq:fourier-shift-modulation>
 
+Linearity does not imply a linear closure or update law, and shifts preserve coefficient magnitudes while rotating phase (opposite translation conventions require opposite character factors), so equal power never identifies return phase or lineage.
 
-#aod-paragraph[Specialization.] A shift preserves coefficient magnitudes while
-changing phase. Equal power therefore does not identify return phase or lineage.
-
-#aod-paragraph[Falsification.] A shift with the opposite translation convention
-requires the opposite character factor; replacing both by one untyped shift fails.
-
-
-#aod-provenance[#eqref("eq:fourier-transform").]
-
-
-
-=== Convolution and product
-
-
-#aod-paragraph[Setup.]
-Use unnormalized convolution $(v * w)(g) = sum_h v(h)w(g - h)$ and pointwise
-product $(v w)(g) = v(g)w(g)$ on the same finite group.
-
-#aod-paragraph[Derivation.] Substituting $u = g - h$ factors the convolution sum;
-substituting both inversions and using orthogonality gives the product sum:
+#aod-paragraph[Convolution, correlation, and Parseval.] For unnormalized $(v * w)(g) = sum_h v(h)w(g - h)$, pointwise $(v w)(g) = v(g)w(g)$, and cross-correlation $R_(v w) (a) = sum_g v(g + a)overline(w(g))$ on $G$, finite substitution and #eqref("eq:fourier-orthogonality") give
 
 $ hat(v * w)( chi ) = N hat(v)( chi )hat(w)( chi ), wide hat(v w)( chi ) = sum_(eta in hat(G)) hat(v)( eta )hat(w)( chi overline(eta)). $ <eq:fourier-convolution-product>
 
-
-#aod-paragraph[Falsification.] Omitting $N$ violates the shared normalization.
-
-
-#aod-provenance[#eqref("eq:fourier-transform"),
-#eqref("eq:fourier-inversion"),
-#eqref("eq:fourier-orthogonality").]
-
-
-
-=== Correlation and power
-
-
-#aod-paragraph[Setup.]
-Set $R_(v w) (a) = sum_g v(g + a)overline(w(g))$.
-
-#aod-paragraph[Derivation.] Substitute the inversions;
-the sum over $g$ removes unequal characters:
-
 $ R_(v w) (a) = N sum_(chi) hat(v)( chi )overline(hat(w)( chi )) chi (a), quad hat(R)_(v w) ( chi ) = N hat(v)( chi )overline(hat(w)( chi )). $ <eq:fourier-correlation-power>
-
-For $v = w$, the power coefficients are $N bar.v hat(v)( chi ) bar.v^2$.
-
-#aod-paragraph[Falsification.] Equal power is insufficient for equal complex
-coefficients, equal phase, or equal construction provenance.
-
-
-#aod-provenance[#eqref("eq:fourier-inversion"),
-#eqref("eq:fourier-orthogonality").]
-
-
-
-=== Parseval
-
-
-#aod-paragraph[Derivation.]
-At zero shift the same calculation, or direct orthogonality, gives
 
 $ frac(1, N) sum_g v(g)overline(w(g)) = sum_(chi) hat(v)( chi )overline(hat(w)( chi )), wide frac(1, N) sum_g bar.v v(g) bar.v^2 = sum_(chi) bar.v hat(v)( chi ) bar.v^2 . $ <eq:fourier-parseval>
 
+For $v = w$, power coefficients $N bar.v hat(v)( chi ) bar.v^2$ do not determine complex phase or provenance; omitting $N$ or altering one side's normalization fails equality.
 
-#aod-paragraph[Falsification.] Changing normalization on one side breaks equality.
-
-
-#aod-provenance[#eqref("eq:fourier-orthogonality").]
+#aod-provenance[#eqref("eq:fourier-transform"), #eqref("eq:fourier-inversion"), #eqref("eq:fourier-orthogonality").]
 
 
+=== Real symmetry, recurrence subgroup, and product factorization
 
-=== Real traces and standing coordinates
-
-
-#aod-paragraph[Derivation.]
-For real $v$, complex conjugation of the defining sum gives
+#aod-paragraph[Real traces and standing coordinates.] For real-valued $v$, conjugation gives
 
 $ hat(v)(overline(chi)) = overline(hat(v)( chi )). $ <eq:fourier-real-symmetry>
 
-For a non-self-conjugate pair define real coordinates
-
 $ c_(chi) = ( chi + overline(chi)) slash 2, quad s_(chi) = ( chi - overline(chi)) slash (2 upright("i")), wide a chi + overline(a) thin overline(chi) = 2 op("Re")(a)c_(chi) - 2 op("Im")(a)s_(chi) . $ <eq:fourier-running-standing>
 
-Running character and standing pair coordinates represent the same admitted
-trace. Self-conjugate characters are already real and occur once.
+Running-character and standing-pair coordinates re-express the same admitted trace (self-conjugate characters occur once) and cannot classify an open word as a running wave.
 
-#aod-paragraph[Falsification.] This coordinate change cannot classify an open
-word as a running wave.
-
-
-#aod-provenance[#eqref("eq:fourier-transform"),
-#eqref("eq:fourier-inversion"),
-#eqref("eq:fourier-real-symmetry").]
-
-
-
-=== Recurrence subgroup
-
-
-#aod-paragraph[Setup.]
-Let $H lt.eq G$, and assume the bound value trace is invariant under every
-translation in $H$.
-
-#aod-paragraph[Derivation.] Shift covariance gives
-$(1 - overline(chi (h)))hat(v)( chi ) = 0$. Therefore
+#aod-paragraph[Recurrence subgroup and direct products.] For $H lt.eq G$, shift covariance $(1 - overline(chi (h)))hat(v)( chi ) = 0$ characterizes $H$-translation invariance on the bound trace (not inferred from a finite window alone or jittered cadence), while on $G = G_1 times dots.c times G_s$ ($N = product_j bar.v G_j bar.v$) a separable trace factors (coupled traces remain generally nonseparable):
 
 $ v(g + h) = v(g) (h in H) quad arrow.l.r.double.long quad op("supp")hat(v) subset.eq H^(perp) , quad H^(perp) = brace.l chi : chi (h) = 1 forall h in H brace.r . $ <eq:fourier-recurrence-support>
 
-The converse follows by translating each term in the inversion.
-
-#aod-paragraph[Specialization.] Exact periodic values on a declared cyclic
-index may satisfy this hypothesis. Jittered cadence need not do so.
-
-#aod-paragraph[Falsification.] A finite observation window alone supplies no
-translation invariance or exact dynamical recurrence subgroup.
-
-
-#aod-provenance[#eqref("eq:fourier-shift-modulation"),
-#eqref("eq:fourier-inversion").]
-
-
-
-=== Direct products
-
-
-#aod-paragraph[Setup.]
-For $G = G_1 times dots.c times G_s$, characters factor as
-$chi (g) = product_j chi_j (g_j )$, and $N = product_j bar.v G_j bar.v$.
-
-#aod-paragraph[Derivation.]
-If, additionally, the trace is separable, finite sums factor:
-
 $ v(g) = product_j v_j (g_j ) quad arrow.r.double.long quad hat(v)( chi_1 , dots.h , chi_s ) = product_j hat(v)_j ( chi_j ). $ <eq:fourier-product-factorization>
 
-
-#aod-paragraph[Specialization.] Declared independent recurrence orders may use
-a product group. A coupled trace generally has nonseparable coefficients.
-
-#aod-paragraph[Falsification.] Product index alone does not imply separability.
-
-
-#aod-provenance[#eqref("eq:fourier-transform"),
-#eqref("eq:fourier-orthogonality").]
+#aod-provenance[#eqref("eq:fourier-transform"), #eqref("eq:fourier-shift-modulation"), #eqref("eq:fourier-inversion"), #eqref("eq:fourier-orthogonality"), #eqref("eq:fourier-real-symmetry").]
 
 
 === Finite cancellation residuals <subsec:afc-flux-stokes-audit>
@@ -1643,97 +1434,21 @@ domains.
 
 == Audit hooks <sec:audit-hooks>
 
-Audit hooks preserve structural checks.
+Audit hooks preserve structural checks across the declared field, boundary, and ring-gate layers.
 
+=== Spine, boundary, SADAR, and routing audits <subsec:spine-audit>
+#aod-anchor(<subsec:boundary-audit>)
+#aod-anchor(<subsec:sadar-audit>)
+#aod-anchor(<subsec:support-enclosure-audit>)
+#aod-anchor(<subsec:sheddic-path-audit>)
+#aod-anchor(<subsec:symbol-audit>)
 
-=== Spine audit <subsec:spine-audit>
+The spine audit passes when every retained occurrence at every finite depth has branch/hinge/branch incidence. The boundary and SADAR audits verify the window sum #eqref("eq:window-current") on its declared slices #eqref("eq:slice-flux"), the #eqref("eq:adar-channel") operands, and repeated balance of the declared #eqref("eq:sadar-field") family on its retained topology, keeping field-count scaling and seat-compatible shell/enclosure routing distinct on the same boundary/window. If $X_(upright("shedding")) ( partial F, omega ) > 0$ and no sheddic path is declared through $E_2$, $sans("C")_6$, $sans("C")_8$, $sans("C")_(10)$, or a higher even $sans("C")_(2 n)$ form, or if the retained form violates $T T L_(cal(C))$, the shedding statement fails on that scope. SYM-A1–A4 check, in order, support #eqref("eq:branch-hinge-rd"), constructor #eqref("eq:rcd-coupling"), scalar interface #eqref("eq:rcd-duration-participation"), and compatible clipping #eqref("eq:window-clipped-rho").
 
-The audit passes when every retained occurrence at every finite depth has branch/hinge/branch incidence.
+=== Cycle, fusion, ring-gate, naming, and wave audits <subsec:cycle-polyrhythm-audit>
+#aod-anchor(<subsec:fusion-closure-audit>)
+#aod-anchor(<subsec:fractal-field-ring-gate-audit>)
+#aod-anchor(<subsec:naming-audit>)
+#aod-anchor(<subsec:wave-audit>)
 
-
-=== Boundary audit <subsec:boundary-audit>
-
-Check the window sum #eqref("eq:window-current") on its declared slices
-#eqref("eq:slice-flux").
-
-
-=== SADAR audit <subsec:sadar-audit>
-
-Check the #eqref("eq:adar-channel") operands and repeated balance of the declared
-#eqref("eq:sadar-field") family on its retained topology.
-
-
-=== Seat/enclosure routing audit <subsec:support-enclosure-audit>
-
-The audit passes when field-count scaling and seat-compatible shell/enclosure routing remain distinct calculations on the same declared boundary/window.
-
-
-=== Sheddic path audit <subsec:sheddic-path-audit>
-
-On a declared field and window, if $X_(upright("shedding")) ( partial F, omega ) > 0$ and no sheddic path is declared through $E_2$, $sans("C")_6$, $sans("C")_8$, $sans("C")_(10)$, or a higher even $sans("C")_(2 n)$ form, the shedding statement fails on that scope. A sheddic path fails on the declared scope if its retained form violates the stated $T T L_(cal(C))$ condition.
-
-
-
-
-=== Symbol audit <subsec:symbol-audit>
-
-SYM-A1–A4 check, in order, support #eqref("eq:branch-hinge-rd"), constructor
-#eqref("eq:rcd-coupling"), scalar interface #eqref("eq:rcd-duration-participation"),
-and compatible clipping #eqref("eq:window-clipped-rho").
-
-
-=== Cycle and polyrhythm audit <subsec:cycle-polyrhythm-audit>
-
-The cycle audit is certified when a retained field cycle is declared before any scalar duration accessor:
-
-#math.equation(block: true, numbering: none, $ cal(C)_f [p":"q] quad "before" quad R D ( cal(C)_f [p":"q] ) . $)
-
-The polyrhythm audit binds each coupled cycle, its boundary/window,
-its reflection-duration accessor, and the pressure and attention operands
-of #eqref("eq:sadar-operator-beat-coupling") before forming the SADAR coupling term.
-
-
-
-=== Fusion closure audit <subsec:fusion-closure-audit>
-
-The fusion closure audit passes when admitted curling-curl support forms, hinge $mu$, closure scope $B$, branch/hinge/branch returned duration, and closure residual are declared before $X_(upright("shedding"))$ or any lifted support is formed. Chain reclosure is audited as iterated higher-scope fusion over admitted lifted supports. FRG-mediated reclosure is audited by the declared relation family and the computed identity $T^(times) = T^0 + C^(times)$.
-
-
-=== Fractal field ring-gate audit <subsec:fractal-field-ring-gate-audit>
-
-RG-A1. $frak(a) subset cal(A)^(upright("ret"))_8$ is declared.
-
-RG-A2. $B = ( partial_T F, omega )$ is declared.
-
-RG-A3. $(V_N ,E_N )$ is declared.
-
-RG-A4. $partial_T R_(upright("ring"))$ is declared.
-
-RG-A5. $I subset.eq V_N$ and $G = brace.l g_i :i in I brace.r$ are declared.
-
-RG-A6. $kappa_k$ is declared for every $k in K_(upright("bin"))$.
-
-RG-A7. $E_(upright("return")) subset.eq I times I$ is declared.
-
-RG-A8. Each path contribution uses $SADARop_(B bar.v t) (C_(gamma) )$ or declared $phi.alt_(gamma) (B bar.v t)$.
-
-RG-A9. $lambda_(cal(Y)) :(T_k^(times) )_k arrow.r.bar cal(Y)$ is declared as a value map.
-
-RG-A10. The retained value difference obeys #eqref("eq:frg-identity").
-
-
-
-=== Naming audit <subsec:naming-audit>
-
-A label identifies a declared distinction, relation, motif or dynamic;
-its defining construction fixes its properties and scope. Measured-sector
-carrier names belong to applications.
-
-
-=== Wave audit <subsec:wave-audit>
-
-For an already admitted recurrent wave, its value/state projection may be recorded as:
-
-#math.equation(block: true, numbering: none, $ Z_f = (frak(c)_f ,I^c_f ,B^e_f ) arrow.r Z_(f + 1) = (frak(c)_(f + 1) ,I^c_(f + 1) ,B^e_(f + 1) ). $)
-
-Cycle compatibility carries wave continuity. Changed cycle compatibility routes excess burden into shedding, reclosure, pending return, or entropic duon current.
+A retained field cycle must be declared before its scalar duration accessor ($cal(C)_f [p":"q]$ before $R D ( cal(C)_f [p":"q] )$), and each polyrhythm or fusion closure check binds the coupled cycles, hinge $mu$, scope $B$, pressure/attention operands of #eqref("eq:sadar-operator-beat-coupling"), and closure residual before forming $X_(upright("shedding"))$ or iterated higher-scope fusion. FRG-mediated reclosure checks RG-A1–RG-A10 in order: declared $frak(a) subset cal(A)^(upright("ret"))_8$, $B = ( partial_T F, omega )$, $(V_N ,E_N )$, $partial_T R_(upright("ring"))$, gate index $I subset.eq V_N$ with $G = brace.l g_i :i in I brace.r$, bin factors $kappa_k$ ($k in K_(upright("bin"))$), return relation $E_(upright("return")) subset.eq I times I$, path operands $SADARop_(B bar.v t) (C_(gamma) )$ or $phi.alt_(gamma) (B bar.v t)$, value map $lambda_(cal(Y)) :(T_k^(times) )_k arrow.r.bar cal(Y)$, and the retained identity $T^(times) = T^0 + C^(times)$ (#eqref("eq:frg-identity")). Labels identify declared distinctions, relations, motifs, or dynamics, while measured-sector carrier names belong to applications. For an already admitted recurrent wave, state projection $Z_f = (frak(c)_f ,I^c_f ,B^e_f ) arrow.r Z_(f + 1) = (frak(c)_(f + 1) ,I^c_(f + 1) ,B^e_(f + 1) )$ carries wave continuity under cycle compatibility and routes excess burden into shedding, reclosure, pending return, or entropic duon current when compatibility changes.

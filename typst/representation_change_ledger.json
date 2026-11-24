@@ -38,7 +38,7 @@
     {
       "contract": "contracts/scientific/M3_WAVELET_COMPACTION_BINDINGS.json",
       "old_sha256": "e35553d9bf455cc503699b22e8e6da9f314062a0cd572f9824dded06ebbeaa6a",
-      "new_sha256": "d0bae3002faa3d8b7edf8fcc523a1cb0c116faca7178dcddbb8f5abf29568b78",
+      "new_sha256": "04e9be614ed32407826512ae5522af9d1302a3f217dd33edda8a975b18eedc80",
       "scope": "representation_path_and_source_digest_only",
       "fields_amended": [
         "sources (6 typst/ paths + SHA-256s)",

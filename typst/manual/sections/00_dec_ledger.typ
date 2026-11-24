@@ -321,6 +321,37 @@ Reverse orientation gives
 
 
 
+== Continuous $Q_4$ chiral-flip walk and Disoma Stokes balance <manual:dec-ledger:chiral-flips>
+
+The reference engine (#raw("python3 -B -m manual.engine --sector boundary_sadar"), vectors #raw("RC-028") and #raw("RC-029"), table #raw("manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv")) executes the single-carrier boundary chiral flip and the two-carrier Disoma Stokes encounter as explicit multi-cut walks without hidden state mutation.
+
+For the single-carrier walk on $Q_4$, declare the interior region $R_(upright("core")) = brace.l 0000, 0001, 0010, 0011 brace.r subset V(Q_4)$, its typed boundary $partial_T R_(upright("core"))$, active vertex $v_0 = 0000$, and committed incoming ancestor leg $e_3$ carrying $D_(alpha) = ( + 1, - 1)$. At cut $1$, the three fresh Hamming-1 slots carry integer weights $(3, 3, 4, 1)$ across $(e_0 , - 1)$, $(e_1 , - 1)$, optional dwell $(e_2 , 0_D)$, and boundary-crossing branch $(e_2 , + 1)$, giving $Z = 11$. At cut $2$, active #raw("xxxxx... is x") sameness reduction blocks additional same-resolution dwell: $op("adm")(e_2 , 0_D ; B bar.v_2 ) = 0$ sets $m = 0$ while preserving the mandatory structural hinge $0_H$ and leaving the pre-block integer weights $(3, 3, 1)$ unchanged with $Z' = 7$. At cut $3$, traversal of the boundary-crossing slide branch $(e_2 , + 1)$ into exterior vertex $0100$ flips chirality across $0_H$ from $D_(alpha) = ( + 1, - 1)$ to $D_(Omega) = ( - 1, + 1)$ with $P_(upright("tunnel")) = 1 slash 7$ and $T^D_(upright("tunnel")) = 6 slash 7$, while the interior trace on cuts $1$ and $2$ remains committed without retroactive overwrite.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/dec_hinge_slide_chiral_vertex.typ"
+  ],
+  caption: [Boundary-Feynman $Q_4$ D.E.C. walk across $partial_T R_(upright("core"))$: live #raw("xxxxx... is x") dwell block ($m = 0$, structural $0_H$ preserved), exact slide renormalization ($Z' = 7$), and post-hinge chiral flip $D_(alpha) arrow.r D_(Omega)$ into vertex $0100$.],
+) <fig:manual-dec-chiral-flip-walk>
+
+
+For the two-carrier Disoma chiral encounter on enclosing scope $cal(B)_(12) = ( partial F_(12) , omega_(12) )$ with $bar.v omega_(12) bar.v = 4$, $upright("RCD")_(12) = 5 arrow.r.double rho^D_(omega) = 4$, $C_3 = 3 arrow.r.double p^D_(12) = 12$, and six shared interface seats ($i_(12) = 1 slash 6$), opposing chiralities $chi_1 = + 1$ ($D_(alpha)$ in $R_1$) and $chi_2 = - 1$ ($D_(Omega)$ in $R_2$) yield $Delta chi^(upright("lag"))_(12) = + 2$, $A_(12) = + 1 slash 3$, $phi.alt_(12) = + 4$, and $phi.alt_(21) = - 4$. Finite Stokes cancels the opposite oriented interface contributions in the enclosing sum,
+
+#math.equation(block: true, numbering: none, $ S_(upright("int")) (R_1 union R_2 ; cal(B)_(12) ) = phi.alt_(12) + phi.alt_(21) = + 4 + ( - 4) = 0, $)
+
+while both channel histories remain causally operative at cut $k + 1$: with both channels present, $(S_(1,k + 1) , S_(2,k + 1) ) = ( - 4, + 4)$, whereas structural removal of $phi.alt_(21)$ changes Carrier 1's realized next state to $0$.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/chiral_flip_boundary_stokes.typ"
+  ],
+  caption: [Two-carrier Disoma chiral exchange across $partial R_1 inter partial R_2$. Opposite oriented interface fluxes cancel in $cal(B)_(12)$ ($+ 4 - 4 = 0$) while both bound channel histories remain operative at cut $k + 1$.],
+) <fig:manual-chiral-stokes-feynman>
+
+
+
 == Boundary closure and sheddic route audit <manual:dec-ledger:boundary-audit>
 
 Declare

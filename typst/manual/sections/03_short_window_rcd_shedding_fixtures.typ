@@ -205,7 +205,7 @@ generator binding gates, coupling, window and observation/exposure rules
 before these bins are a generated prediction. Signed contributions are not
 probabilities. A probability comparison must distinguish expected counts,
 unconditional detection including loss, and detected-bin conditional
-normalization; normalization must not erase throughput.
+normalization; normalization must not erase throughput. As an explicit internal reference witness, #raw("manual/data/boundary_sadar/dimonhexon_double_slit_ring_paths.csv") (vector #raw("RC-030")) tabulates the symmetric $6$-seat hexon ring $(V_6 , E_6 )$ single-gate profiles $S^(lr((a)))_k , S^(lr((b)))_k$ and cross-return redistribution $C^(times)_k$ across $k in brace.l - 5, dots.h , + 5 brace.r$ verifying $sum_k T^0_k = 410$, $sum_k C^(times)_k = 38$, and $sum_k T^(times)_k = 448$ in integer arithmetic.
 
 
 #aod-provenance[#mainsection("main:subsec:fractal-field-ring-gate")\;

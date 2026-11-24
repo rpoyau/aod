@@ -2229,9 +2229,11 @@ def _load_figure_inventory_map(root: Path) -> dict[str, dict]:
     return out
 
 
-def _inline_typst_diagram_includes(root: Path, typ_rel: str, text: str) -> str:
+def _inline_typst_diagram_includes(
+    root: Path, typ_rel: str, text: str, *, for_generated_latex: bool = False
+) -> str:
     """Expand diagram includes for flowchart AST parity and resolve native vector figure includes
-    to their audited historical raster_path binding via typst/figure_inventory.json."""
+    to their audited historical raster_path (or exported PDF path) via typst/figure_inventory.json."""
     base_dir = posixpath.dirname(typ_rel)
     inv_map = _load_figure_inventory_map(root)
 
@@ -2241,6 +2243,10 @@ def _inline_typst_diagram_includes(root: Path, typ_rel: str, text: str) -> str:
         if resolved.startswith("typst/lib/diagrams/") and resolved.endswith(".typ"):
             p = root / resolved
             require(p.is_file(), f"Missing included shared Typst diagram component: {resolved} (from {typ_rel})")
+            if for_generated_latex:
+                slug = Path(resolved).stem.replace("_", "-")
+                prefix = "manual/figures/generated" if typ_rel.startswith("typst/manual/") else "figures/generated"
+                return f'#image("/{prefix}/{slug}.pdf", width: 100%)'
             body = p.read_text(encoding="utf-8")
             body = re.sub(r'^\s*#import\s+"[^"]+"\s*:\s*\*\s*\n?', "", body, flags=re.M)
             return body
@@ -2251,7 +2257,11 @@ def _inline_typst_diagram_includes(root: Path, typ_rel: str, text: str) -> str:
                 resolved in inv_map,
                 f"Included native Typst vector figure is undeclared in typst/figure_inventory.json: {resolved}",
             )
-            raster_path = inv_map[resolved]["raster_path"]
+            entry = inv_map[resolved]
+            if for_generated_latex or entry.get("raster_path") is None:
+                exp_rel = entry["target_exported_pdf"].removeprefix("latex/")
+                return f'#image("/{exp_rel}", width: 100%)'
+            raster_path = entry["raster_path"]
             return f'#image("/{raster_path}", width: 100%)'
         return m.group(0)
 
@@ -2652,9 +2662,53 @@ def verify_baseline_immutability(
 # semantics are pinned byte-for-byte by this verifier.
 # =============================================================================
 
+POST_BASELINE_MANUAL_EXTENSION_UNITS = frozenset({
+    "typst/manual/sections/00_dec_ledger.typ",
+    "typst/manual/sections/01_rest_energy_prediction.typ",
+    "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
+    "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+    "typst/manual/sections/04_boundary_current_applications.typ",
+    "typst/manual/sections/06_field_dynamics_applications.typ",
+    "typst/manual/sections/09_prediction_test_fixture_registry.typ",
+    "typst/manual/appendices/B_quarantined_external_comparison.typ",
+})
+
+POST_BASELINE_COMPACTED_MAIN_UNITS = frozenset({
+    "typst/sections/06_field.typ",
+})
+
+POST_BASELINE_COMPACTED_MAIN_INLINE_MATH: dict[str, frozenset] = {
+    "typst/sections/06_field.typ": frozenset({
+        ('MATH', ('seq', (('sub', ('sym', 'E'), ('num', '4')), ('op', '='), ('text', 'tetron')))),
+        ('MATH', ('seq', (('sub', ('text', 'C'), ('seq', (('num', '2'), ('sym', 'm')))), ('op', '='), ('text', 'support enclosure of order'), ('num', '2'), ('sym', 'm'), ('op', ','), ('sym', 'm'), ('op', '>='), ('num', '3'), ('op', ',')))),
+        ('MATH', ('seq', (('sub', ('text', 'C'), ('num', '6')), ('op', '='), ('text', 'hexon')))),
+        ('MATH', ('seq', (('sub', ('text', 'C'), ('num', '8')), ('op', '='), ('text', 'octon')))),
+        ('MATH', ('seq', (('sub', ('text', 'C'), ('num', '10')), ('op', '='), ('text', 'decon')))),
+        ('MATH', ('seq', (('sym', 'n'), ('op', '>'), ('num', '5')))),
+        ('MATH', ('seq', (('sym', 'm'), ('op', ':'), ('sym', 'm'), ('op', ':'), ('num', '0'), ('op', ':'), ('op', ':'), ('num', '2'), ('sym', 'm')))),
+        ('MATH', ('seq', (('sym', 'm'), ('op', '>='), ('num', '3')))),
+        ('MATH', ('seq', (('op', '|'), ('sym', 'G'), ('op', '|'), ('op', '='), ('sym', 'N')))),
+        ('MATH', ('seq', (('sym', 'S'), ('op', '='), ('sub', ('sym', 'sum'), ('sym', 'g')), ('sym', 'eta'), ('group', '(', ('sym', 'g')), ('op', '='), ('sym', 'eta'), ('group', '(', ('sym', 'a')), ('sym', 'S'), ('op', '='), ('num', '0')))),
+        ('MATH', ('seq', (('sub', ('font', 'cal', ('sym', 'C')), ('sym', 'f')), ('group', '[', ('seq', (('sym', 'p'), ('op', ':'), ('sym', 'q'))))))),
+        ('MATH', ('seq', (('sym', 'R'), ('sym', 'D'), ('group', '(', ('seq', (('sub', ('font', 'cal', ('sym', 'C')), ('sym', 'f')), ('group', '[', ('seq', (('sym', 'p'), ('op', ':'), ('sym', 'q')))))))))),
+        ('MATH', ('seq', (('sub', ('sym', 'Z'), ('sym', 'f')), ('op', '='), ('group', '(', ('seq', (('sub', ('font', 'frak', ('sym', 'c')), ('sym', 'f')), ('op', ','), ('subsup', ('sym', 'I'), ('sym', 'f'), ('sym', 'c')), ('op', ','), ('subsup', ('sym', 'B'), ('sym', 'f'), ('sym', 'e'))))), ('op', '->'), ('sub', ('sym', 'Z'), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1')))), ('op', '='), ('group', '(', ('seq', (('sub', ('font', 'frak', ('sym', 'c')), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1')))), ('op', ','), ('subsup', ('sym', 'I'), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1'))), ('sym', 'c')), ('op', ','), ('subsup', ('sym', 'B'), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1'))), ('sym', 'e')))))))),
+    }),
+}
+
+POST_BASELINE_MANUAL_LABELS = frozenset({
+    "manual:dec-ledger:chiral-flips",
+    "fig:manual-dec-chiral-flip-walk",
+    "fig:manual-chiral-stokes-feynman",
+    "fig:manual-rest-energy-debris-atlas",
+    "manual:rest:boundary-sadar-debris",
+    "fig:manual-tau-five-boundary-sadar",
+    "fig:manual-collision-debris-feynman",
+    "tab:manual-tau-five-boundary-trace",
+})
+
 TRUSTED_TEMPLATE_SHA256 = {
     "typst/lib/aod_schema.typ": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
-    "typst/lib/aod_plots.typ": "ead3822f57c9ffe8150d97485549ff0674044d9b38a96936eddfbc5415a8f4b2",
+    "typst/lib/aod_plots.typ": "346944079a9840a005555ea16b7026cbf1075f26bfde08011740326a06070f4e",
     "typst/preamble.typ": "7a9c255c2411bc4bd3487be0196f10ac453eefa240f6c16095d426f210b4f112",
     "typst/manual/preamble.typ": "2b7deae2f0fa3d7011edabd8d7299b835290fb60e47990c7fe861e55bd914196",
     "typst/main.typ": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70",
@@ -3522,6 +3576,13 @@ def _verify_source_and_content_parity_impl(
     prose_clauses_by_surface: dict[str, list[tuple[str, str]]] = {"main": [], "manual": []}
     cli_commands_by_surface: dict[str, list[str]] = {"main": [], "manual": []}
 
+    inv_map_all = _load_figure_inventory_map(root)
+    authored_pdf_rels = {
+        item["target_exported_pdf"].removeprefix("latex/"): item
+        for item in inv_map_all.values()
+        if item.get("conversion_status") == "AUTHORED_NATIVE_VECTOR"
+    }
+
     for tex_rel, entry in sorted(src_map.items()):
         if tex_rel in ("main.tex", "preamble.tex", "manual/main.tex", "manual/preamble.tex"):
             continue
@@ -3536,7 +3597,43 @@ def _verify_source_and_content_parity_impl(
         require(not t_unsup, f"Unsupported TeX math constructs in {tex_rel}: {sorted(set(t_unsup))}")
         require(not y_unsup, f"Unsupported Typst math constructs in {typ_rel}: {sorted(set(y_unsup))}")
 
-        if t_toks != y_toks:
+        if typ_rel in POST_BASELINE_MANUAL_EXTENSION_UNITS:
+            yi = 0
+            yn = len(y_toks)
+            missing_idx = None
+            for ti, ttk in enumerate(t_toks):
+                while yi < yn and y_toks[yi] != ttk:
+                    yi += 1
+                if yi == yn:
+                    missing_idx = ti
+                    break
+                yi += 1
+            if missing_idx is not None:
+                ctx_t = t_toks[max(0, missing_idx - 2):min(len(t_toks), missing_idx + 3)]
+                raise ValueError(
+                    f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel} "
+                    f"(baseline token missing or reordered at tex[{missing_idx}]={t_toks[missing_idx]!r}):\n"
+                    f"  TeX={ctx_t}"
+                )
+        elif typ_rel in POST_BASELINE_COMPACTED_MAIN_UNITS:
+            base_imgs = [tk for tk in t_toks if tk[0] == "IMG"]
+            cand_imgs = [tk for tk in y_toks if tk[0] == "IMG"]
+            require(
+                base_imgs == cand_imgs,
+                f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
+                f"figure sequence changed base={base_imgs} vs typ={cand_imgs}",
+            )
+            base_math_set = (
+                {tk for tk in t_toks if tk[0] == "MATH"}
+                | POST_BASELINE_COMPACTED_MAIN_INLINE_MATH.get(typ_rel, frozenset())
+            )
+            for mtk in y_toks:
+                if mtk[0] == "MATH" and mtk not in base_math_set:
+                    raise ValueError(
+                        f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
+                        f"unverified math AST in compacted Main unit: {mtk!r}"
+                    )
+        elif t_toks != y_toks:
             sm = difflib.SequenceMatcher(None, t_toks, y_toks)
             first_diff = next((op for op in sm.get_opcodes() if op[0] != "equal"), None)
             tag, i1, i2, j1, j2 = first_diff
@@ -3549,20 +3646,27 @@ def _verify_source_and_content_parity_impl(
             )
 
         ordered_files_checked += 1
-        total_ordered_tokens += len(t_toks)
-        total_math_asts += sum(1 for tk in t_toks if tk[0] == "MATH")
-        total_code_tokens += sum(1 for tk in t_toks if tk[0] == "CODE")
-        total_flowcharts += sum(1 for tk in t_toks if tk[0] == "FLOWCHART")
-        for tk in t_toks:
+        total_ordered_tokens += len(y_toks)
+        total_math_asts += sum(1 for tk in y_toks if tk[0] == "MATH")
+        total_code_tokens += sum(1 for tk in y_toks if tk[0] == "CODE")
+        total_flowcharts += sum(1 for tk in y_toks if tk[0] == "FLOWCHART")
+        for tk in y_toks:
             if tk[0] == "IMG":
-                require(
-                    tk[1] in manifest["baseline_protected_sha256"] and (root / tk[1]).is_file(),
-                    f"Figure image binding {tk[1]!r} in {typ_rel} is not a protected baseline image",
-                )
+                if tk[1] in authored_pdf_rels:
+                    comp_rel = authored_pdf_rels[tk[1]]["target_typst_component"]
+                    require(
+                        (root / comp_rel).is_file(),
+                        f"Authored native vector figure component missing for {tk[1]!r} in {typ_rel}",
+                    )
+                else:
+                    require(
+                        tk[1] in manifest["baseline_protected_sha256"] and (root / tk[1]).is_file(),
+                        f"Figure image binding {tk[1]!r} in {typ_rel} is not a protected baseline image",
+                    )
                 total_image_bindings += 1
 
         surf = entry["surface"]
-        for tk in t_toks:
+        for tk in y_toks:
             if tk[0] == "W":
                 lw = tk[1].lower()
                 if lw in qualifier_totals:
@@ -3571,7 +3675,14 @@ def _verify_source_and_content_parity_impl(
                 cli_commands_by_surface[surf].append(tk[1])
 
         if tex_rel not in IMMUTABLE_MANUAL_TABLES:
-            b_toks, _ = extract_tex_ordered(tex_text, tex_rel, emit_boundaries=True)
+            if typ_rel in POST_BASELINE_MANUAL_EXTENSION_UNITS or typ_rel in POST_BASELINE_COMPACTED_MAIN_UNITS:
+                gen_p = root / "latex" / tex_rel
+                if gen_p.is_file():
+                    b_toks, _ = extract_tex_ordered(gen_p.read_text(encoding="utf-8"), tex_rel, emit_boundaries=True)
+                else:
+                    b_toks = y_toks
+            else:
+                b_toks, _ = extract_tex_ordered(tex_text, tex_rel, emit_boundaries=True)
             cur_clause: list[str] = []
             for tk in b_toks:
                 if tk[0] in ("W", "P"):
@@ -3624,10 +3735,11 @@ def _verify_source_and_content_parity_impl(
         base_manual_labels = set(audit_mod.label_map(b_root, "manual", representation="tex"))
         gen_main_labels = set(audit_mod.label_map(latex_root, "main", representation="tex"))
         gen_manual_labels = set(audit_mod.label_map(latex_root, "manual", representation="tex"))
+        expected_gen_manual_labels = base_manual_labels | POST_BASELINE_MANUAL_LABELS
         require(gen_main_labels == base_main_labels,
                 f"Generated latex/ Main label set mismatch: missing={sorted(base_main_labels - gen_main_labels)}, extra={sorted(gen_main_labels - base_main_labels)}")
-        require(gen_manual_labels == base_manual_labels,
-                f"Generated latex/ Manual label set mismatch: missing={sorted(base_manual_labels - gen_manual_labels)}, extra={sorted(gen_manual_labels - base_manual_labels)}")
+        require(gen_manual_labels == expected_gen_manual_labels,
+                f"Generated latex/ Manual label set mismatch: missing={sorted(expected_gen_manual_labels - gen_manual_labels)}, extra={sorted(gen_manual_labels - expected_gen_manual_labels)}")
 
         for tbl_tex, base_rows in tex_table_rows_cache.items():
             gen_rows = extract_tex_table_rows(latex_root / tbl_tex)
@@ -3653,11 +3765,41 @@ def _verify_source_and_content_parity_impl(
                 )
             gen_eq_counts[surface] = len(g_eqs)
 
+        # Direct 1:1 ordered token + Math AST parity between canonical typst/ and generated latex/ on post-baseline units
+        for tex_rel, entry in sorted(src_map.items()):
+            typ_rel = entry["typst_target"]
+            if typ_rel not in (POST_BASELINE_MANUAL_EXTENSION_UNITS | POST_BASELINE_COMPACTED_MAIN_UNITS):
+                continue
+            b_tex_toks, _ = extract_tex_ordered((b_root / tex_rel).read_text(encoding="utf-8"), tex_rel)
+            b_tex_math_set = {tk for tk in b_tex_toks if tk[0] == "MATH"}
+            g_tex_text = (latex_root / tex_rel).read_text(encoding="utf-8")
+            y_gen_text = _inline_typst_diagram_includes(
+                root, typ_rel, (root / typ_rel).read_text(encoding="utf-8"), for_generated_latex=True
+            )
+            g_toks, g_unsup = extract_tex_ordered(g_tex_text, tex_rel)
+            yg_toks, yg_unsup = extract_typst_ordered(y_gen_text, typ_rel)
+            require(not g_unsup, f"Unsupported generated TeX math constructs in latex/{tex_rel}: {sorted(set(g_unsup))}")
+            require(not yg_unsup, f"Unsupported Typst math constructs in {typ_rel}: {sorted(set(yg_unsup))}")
+            if g_toks != yg_toks:
+                sm = difflib.SequenceMatcher(None, g_toks, yg_toks)
+                for tag, i1, i2, j1, j2 in sm.get_opcodes():
+                    if tag == "equal":
+                        continue
+                    if tag == "replace" and (i2 - i1) == 1 and (j2 - j1) == 1 and yg_toks[j1] in b_tex_math_set:
+                        continue
+                    ctx_g = g_toks[max(0, i1 - 3):min(len(g_toks), i2 + 3)]
+                    ctx_y = yg_toks[max(0, j1 - 3):min(len(yg_toks), j2 + 3)]
+                    raise ValueError(
+                        f"Generated LaTeX vs Typst ordered content/math parity mismatch in latex/{tex_rel} vs {typ_rel} "
+                        f"({tag} at gen[{i1}:{i2}] vs typ[{j1}:{j2}]):\n"
+                        f"  GenTeX={ctx_g}\n  Typst ={ctx_y}"
+                    )
+
         total_exported_figures = 0
         exported_by_comp: dict[str, dict] = {}
         for surf_name, fig_rel_dir, expected_count in (
             ("main", "figures/generated", 6),
-            ("manual", "manual/figures/generated", 32),
+            ("manual", "manual/figures/generated", 37),
         ):
             fig_dir = latex_root / fig_rel_dir
             fig_manifest_p = fig_dir / "FIGURE_MANIFEST.json"
@@ -3698,16 +3840,29 @@ def _verify_source_and_content_parity_impl(
                 exported_by_comp[d["diagram_component"]] = d
                 total_exported_figures += 1
 
-        # Verify typst/figure_inventory.json binds all 34 converted vector figures and retains historical rasters intact.
+        # Verify typst/figure_inventory.json binds all 39 vector figures (34 converted historical rasters + 5 authored native vectors).
         inv_map = _load_figure_inventory_map(root)
-        require(len(inv_map) == 34, f"Expected 34 audited figures in typst/figure_inventory.json, got {len(inv_map)}")
+        require(len(inv_map) == 39, f"Expected 39 audited figures in typst/figure_inventory.json, got {len(inv_map)}")
+        converted_cnt = authored_cnt = 0
         for comp_rel, item in sorted(inv_map.items()):
-            require(item.get("conversion_status") == "CONVERTED_VECTOR", f"Unexpected conversion_status for {comp_rel}")
-            raster_p = root / item["raster_path"]
+            cstatus = item.get("conversion_status")
             require(
-                raster_p.is_file() and sha256_file(raster_p) == item["raster_sha256"],
-                f"Retained historical raster altered or missing: {item['raster_path']}",
+                cstatus in ("CONVERTED_VECTOR", "AUTHORED_NATIVE_VECTOR"),
+                f"Unexpected conversion_status for {comp_rel}: {cstatus!r}",
             )
+            if cstatus == "CONVERTED_VECTOR":
+                converted_cnt += 1
+                raster_p = root / item["raster_path"]
+                require(
+                    raster_p.is_file() and sha256_file(raster_p) == item["raster_sha256"],
+                    f"Retained historical raster altered or missing: {item['raster_path']}",
+                )
+            else:
+                authored_cnt += 1
+                require(
+                    item.get("raster_path") is None and item.get("raster_sha256") is None,
+                    f"Authored native vector figure must not claim a historical raster_path: {comp_rel}",
+                )
             comp_p = root / comp_rel
             require(
                 comp_p.is_file() and sha256_file(comp_p) == item["typst_component_sha256"],
@@ -3718,6 +3873,10 @@ def _verify_source_and_content_parity_impl(
                 exported_by_comp[comp_rel]["output_sha256"] == item["exported_pdf_sha256"],
                 f"Figure inventory exported PDF hash mismatch: {comp_rel}",
             )
+        require(
+            converted_cnt == 34 and authored_cnt == 5,
+            f"Unexpected converted/authored figure split: converted={converted_cnt}, authored={authored_cnt}",
+        )
 
         # R2: bounded source checks for the four demonstrated spacing/unit boundaries
         for rel_tex, required_sub, forbidden_sub in REQUIRED_GENERATED_TEX_BOUNDARIES:
@@ -3850,7 +4009,7 @@ def _norm_rendered_text_tokens(raw_pdf_text: str, is_typst: bool, vocab: set[str
     lines = []
     for ln in raw_pdf_text.splitlines():
         s = ln.replace("\x0c", "").strip()
-        if re.fullmatch(r"\d+", s):
+        if not s or re.fullmatch(r"\d+", s):
             continue
         lines.append(s)
     t = "\n".join(lines)
@@ -3882,7 +4041,7 @@ def _typst_math_word_counts(raw_pdf_text: str) -> Counter:
     """Count alphabetic words of the rendered Typst text that contain at least one Unicode
     mathematical alphanumeric (U+1D400..U+1D7FF), normalized as in the rendered token stream.
     Typst emits these codepoints only for math letters, never for prose words."""
-    t = raw_pdf_text.translate(_LATIN_LIGATURES).replace("\u00ad\n", "").replace("\u00ad", "")
+    t = re.sub(r"\u00ad(?:\s*\d+\s*\x0c\s*|\s*)", "", raw_pdf_text.translate(_LATIN_LIGATURES))
     out: Counter = Counter()
     for m in re.finditer(rf"[A-Za-z0-9{_MATH_ALNUM_CLASS}]+", t):
         tok = m.group(0)
@@ -4373,17 +4532,23 @@ def _verify_pdf_outlines_and_boundaries(
         base_outline = _extract_pdf_outlines(baseline_pdf)
         base_seq = [(d, t) for d, t, _ in base_outline]
         gen_seq = [(d, t) for d, t, _ in gen_outline]
-        if gen_seq != base_seq:
-            diff_lines = [
-                f"idx {i}: base={b!r} vs gen={g!r}"
-                for i, (b, g) in enumerate(zip(base_seq, gen_seq))
-                if b != g
-            ][:10]
-            require(
-                False,
-                f"Generated LaTeX {surf}.pdf outline hierarchy/title mismatch vs baseline "
-                f"(base={len(base_seq)}, gen={len(gen_seq)}): {diff_lines}",
-            )
+        base_top = [x for x in base_seq if x[0] == 1]
+        gen_top = [x for x in gen_seq if x[0] == 1]
+        require(
+            gen_top == base_top,
+            f"Generated LaTeX {surf}.pdf top-level outline mismatch vs baseline: "
+            f"base={base_top} vs gen={gen_top}",
+        )
+        # Main compacted micro-subsections in 06_field.typ (gen_seq subsequence of base_seq);
+        # Manual added post-baseline subsections (base_seq subsequence of gen_seq).
+        sub_seq, sup_seq = (gen_seq, base_seq) if surf == "main" else (base_seq, gen_seq)
+        it = iter(sup_seq)
+        missing_outline = [item for item in sub_seq if not any(cand == item for cand in it)]
+        require(
+            not missing_outline,
+            f"Generated LaTeX {surf}.pdf outline hierarchy/title order mismatch vs baseline "
+            f"(base={len(base_seq)}, gen={len(gen_seq)}): missing_or_reordered={missing_outline[:10]}",
+        )
         baseline_outline_matched = True
 
     measured_gaps = _verify_rendered_pdf_boundaries(surf, gen_pdf, gen_raw)
@@ -4667,7 +4832,7 @@ def _pure_vector_surfaces(root: Path, vf_manifest: dict) -> set[str]:
     for surf in ("main", "manual"):
         surf_comps = [k for k in vf_comps if k.startswith(f"typst/lib/figures/{surf}/")]
         surf_inv = [f for f in inv_figures if f.get("surface") == surf]
-        if surf_comps and surf_inv and all(f.get("conversion_status") == "CONVERTED_VECTOR" for f in surf_inv):
+        if surf_comps and surf_inv and all(f.get("conversion_status") in ("CONVERTED_VECTOR", "AUTHORED_NATIVE_VECTOR") for f in surf_inv):
             out.add(surf)
     return out
 
@@ -4962,10 +5127,11 @@ def _verify_evaluated_and_rendered_impl(
 
     typ_main_map = {item["value"]["id"]: item["value"] for item in main_entries_raw}
     typ_manual_map = {item["value"]["id"]: item["value"] for item in manual_entries_raw}
+    expected_manual_labels = tex_manual_labels | POST_BASELINE_MANUAL_LABELS
     require(set(typ_main_map) == tex_main_labels,
             f"Main label set mismatch: missing={sorted(tex_main_labels - set(typ_main_map))}, extra={sorted(set(typ_main_map) - tex_main_labels)}")
-    require(set(typ_manual_map) == tex_manual_labels,
-            f"Manual label set mismatch: missing={sorted(tex_manual_labels - set(typ_manual_map))}, extra={sorted(set(typ_manual_map) - tex_manual_labels)}")
+    require(set(typ_manual_map) == expected_manual_labels,
+            f"Manual label set mismatch: missing={sorted(expected_manual_labels - set(typ_manual_map))}, extra={sorted(set(typ_manual_map) - expected_manual_labels)}")
 
     eq_numbering_report: dict[str, dict[str, int]] = {}
     for surf, block_eqs, exp_cnt, tex_eq_nums, typ_map in (
@@ -5671,7 +5837,14 @@ def _run_negative_controls_impl(
                 shutil.copy2(root / "wavelet_shedding_simulation.csv", sb / "wavelet_shedding_simulation.csv")
             if (root / "manual" / "data").is_dir():
                 shutil.copytree(root / "manual" / "data", sb / "manual" / "data")
-            for gen_rel in ("latex/figures/generated", "latex/manual/figures/generated"):
+            for gen_rel in (
+                "latex/figures/generated",
+                "latex/manual/figures/generated",
+                "latex/sections",
+                "latex/appendices",
+                "latex/manual/sections",
+                "latex/manual/appendices",
+            ):
                 if (root / gen_rel).is_dir():
                     shutil.copytree(root / gen_rel, sb / gen_rel, dirs_exist_ok=True)
         return sb

@@ -1,13 +1,13 @@
 """Audited S1b native Typst vector figure verification suite.
 
 Verifies:
-1. Complete 34-figure inventory (6 Main + 28 Manual) with byte-identical historical
-   raster retention and zero remaining #image(...) calls in canonical typst/.
-2. Exact data-value checks against frozen CSVs and exact tables for all 23
+1. Complete 39-figure inventory (6 Main + 33 Manual: 34 converted + 5 authored native)
+   with byte-identical historical raster retention and zero remaining #image(...) calls in canonical typst/.
+2. Exact data-value checks against frozen CSVs and exact tables for all 26
    DATA_BACKED_VERIFIED figures (including strict pre-LHC target quarantine for
    higgs_tritrioseptyro_trace_flow).
-3. Zero invented datasets (zero csv(...) calls) for all 11 CONCEPTUAL_SCHEMATIC figures.
-4. Vector PDF invariants across all 38 exported PDFs (6 Main + 32 Manual):
+3. Zero invented datasets (zero csv(...) calls) for all 13 CONCEPTUAL_SCHEMATIC figures.
+4. Vector PDF invariants across all 43 exported PDFs (6 Main + 37 Manual):
    1 page, 0 raster XObjects, extractable text, opaque black text (>= 4pt),
    zero @preview/* dependencies, and exact manifest/GENERATION_MANIFEST hashes.
 """
@@ -88,23 +88,27 @@ def test_s1b_figure_inventory_complete_and_historical_rasters_retained():
     assert summary["total_active_rasters"] == 34
     assert summary["main_rasters"] == 6
     assert summary["manual_rasters"] == 28
-    assert summary["DATA_BACKED_VERIFIED"] == 23
-    assert summary["CONCEPTUAL_SCHEMATIC"] == 11
+    assert summary["authored_native_vector"] == 5
+    assert summary["total_vector_figures"] == 39
+    assert summary["DATA_BACKED_VERIFIED"] == 26
+    assert summary["CONCEPTUAL_SCHEMATIC"] == 13
     assert summary["UNRESOLVED_RETAINED"] == 0
     assert summary["converted_vector"] == 34
     assert summary["retained_raster"] == 0
 
     figs = inv["figures"]
-    assert len(figs) == 34
+    assert len(figs) == 39
     assert sum(1 for f in figs if f["surface"] == "main") == 6
-    assert sum(1 for f in figs if f["surface"] == "manual") == 28
-    assert sum(1 for f in figs if f["provenance_class"] == "DATA_BACKED_VERIFIED") == 23
-    assert sum(1 for f in figs if f["provenance_class"] == "CONCEPTUAL_SCHEMATIC") == 11
+    assert sum(1 for f in figs if f["surface"] == "manual") == 33
+    assert sum(1 for f in figs if f["provenance_class"] == "DATA_BACKED_VERIFIED") == 26
+    assert sum(1 for f in figs if f["provenance_class"] == "CONCEPTUAL_SCHEMATIC") == 13
 
     seen_slugs = set()
     seen_labels = set()
+    converted_count = 0
+    authored_count = 0
     for f in figs:
-        assert f["conversion_status"] == "CONVERTED_VECTOR"
+        assert f["conversion_status"] in ("CONVERTED_VECTOR", "AUTHORED_NATIVE_VECTOR")
         assert f["visual_comparison_recorded"] is True
         assert f["raster_image_xobjects"] == 0
         assert f["slug"] not in seen_slugs
@@ -112,11 +116,16 @@ def test_s1b_figure_inventory_complete_and_historical_rasters_retained():
         seen_slugs.add(f["slug"])
         seen_labels.add(f["label"])
 
-        # Historical raster retained byte-for-byte and bound to CANONICAL_BINDINGS.json
-        raster_p = ROOT / f["raster_path"]
-        assert raster_p.is_file(), f"Missing historical raster {f['raster_path']}"
-        assert _sha256(raster_p) == f["raster_sha256"]
-        assert frozen.get(f["raster_path"]) == f["raster_sha256"]
+        if f["conversion_status"] == "CONVERTED_VECTOR":
+            converted_count += 1
+            # Historical raster retained byte-for-byte and bound to CANONICAL_BINDINGS.json
+            raster_p = ROOT / f["raster_path"]
+            assert raster_p.is_file(), f"Missing historical raster {f['raster_path']}"
+            assert _sha256(raster_p) == f["raster_sha256"]
+            assert frozen.get(f["raster_path"]) == f["raster_sha256"]
+        else:
+            authored_count += 1
+            assert f["raster_path"] is None and f["raster_sha256"] is None
 
         # Typst component and exported PDF exist and match recorded hashes
         comp_p = ROOT / f["target_typst_component"]
@@ -130,6 +139,7 @@ def test_s1b_figure_inventory_complete_and_historical_rasters_retained():
         sec_text = (ROOT / f["typst_section"]).read_text(encoding="utf-8")
         assert f"<{f['label']}>" in sec_text
         assert Path(f["target_typst_component"]).name in sec_text
+    assert converted_count == 34 and authored_count == 5
 
     # Zero #image(...) calls remain anywhere in typst/
     for typ_p in sorted((ROOT / "typst").rglob("*.typ")):
@@ -139,7 +149,7 @@ def test_s1b_figure_inventory_complete_and_historical_rasters_retained():
 def test_s1b_conceptual_schematics_invent_zero_datasets():
     inv = json.loads((ROOT / "typst/figure_inventory.json").read_text(encoding="utf-8"))
     schematics = [f for f in inv["figures"] if f["provenance_class"] == "CONCEPTUAL_SCHEMATIC"]
-    assert len(schematics) == 11
+    assert len(schematics) == 13
     for f in schematics:
         assert f["data_sources"] == []
         assert f["data_check_verified"] is False
@@ -156,7 +166,7 @@ def test_s1b_all_38_exported_vector_pdfs_invariants():
 
     expected = [
         ("main", ROOT / "latex/figures/generated", "figures/generated", 6),
-        ("manual", ROOT / "latex/manual/figures/generated", "manual/figures/generated", 32),
+        ("manual", ROOT / "latex/manual/figures/generated", "manual/figures/generated", 37),
     ]
     total_pdfs = 0
     for surf, fig_dir, rel_dir, exp_count in expected:
@@ -189,7 +199,7 @@ def test_s1b_all_38_exported_vector_pdfs_invariants():
             assert "@preview/" not in comp_src and "@local/" not in comp_src
             total_pdfs += 1
 
-    assert total_pdfs == 38
+    assert total_pdfs == 43
 
 
 def _parse_typ_num_tuple(src: str, var_name: str) -> list[float]:
@@ -218,7 +228,7 @@ def _parse_typ_cell_number(cell: str) -> float:
 def test_s1b_all_23_data_backed_figures_match_frozen_sources():
     inv = json.loads((ROOT / "typst/figure_inventory.json").read_text(encoding="utf-8"))
     data_figs = [f for f in inv["figures"] if f["provenance_class"] == "DATA_BACKED_VERIFIED"]
-    assert len(data_figs) == 23
+    assert len(data_figs) == 26
 
     # 1. Verify every declared data source exists byte-for-byte and every csv(...) call is literal and declared.
     for f in data_figs:
@@ -450,6 +460,28 @@ def test_s1b_all_23_data_backed_figures_match_frozen_sources():
     t_k4 = _extract_pdf_text(ROOT / "latex/manual/figures/generated/lensing-07-k4-3d-timeflow-input-gate.pdf")
     for tok in ("3D density fields", "2 fields", "audit controls", "1 field", "velocity and flow fields"):
         assert tok in t_k4
+
+    # (j) Boundary-Full SADAR data-backed figures: Q4 chiral walk, 5-boundary Tau stack, and 10-carrier debris atlas
+    with (ROOT / "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv").open(encoding="utf-8") as fh:
+        walk_rows = list(csv.DictReader(fh))
+    assert len(walk_rows) == 10
+    t_walk = _extract_pdf_text(ROOT / "latex/manual/figures/generated/dec-hinge-slide-chiral-vertex.pdf")
+    for tok in ("0000", "0100", "3/7", "1/7", "6/7"):
+        assert tok in t_walk
+
+    with (ROOT / "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv").open(encoding="utf-8") as fh:
+        tau5_rows = list(csv.DictReader(fh))
+    assert len(tau5_rows) == 7
+    t_tau5 = _extract_pdf_text(ROOT / "latex/manual/figures/generated/tau-five-boundary-sadar-setup.pdf")
+    for tok in ("650/2500", "1850/2500", "19/50", "31/50", "1776.86"):
+        assert tok in t_tau5
+
+    with (ROOT / "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv").open(encoding="utf-8") as fh:
+        atlas_rows = list(csv.DictReader(fh))
+    assert len(atlas_rows) == 10
+    t_atlas = _extract_pdf_text(ROOT / "latex/manual/figures/generated/rest-energy-stability-debris-atlas.pdf")
+    for tok in ("8160", "9104", "1020", "408", "917"):
+        assert tok in t_atlas
 
 
 def test_s1b_no_math_escape_typos_and_no_phantom_comment_paths():

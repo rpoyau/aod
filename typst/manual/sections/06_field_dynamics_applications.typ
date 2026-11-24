@@ -444,7 +444,7 @@ Data files, scored outputs, and the regeneration script are included in the sour
 
 #math.equation(block: true, numbering: none, $ M A P E_(U,g) = frac(100, N_g) sum_j bar.v frac(Delta U_(g,j), U^(upright("obs"))_(g,j)) bar.v , wide U^(upright("obs"))_(g,j) > 0. $)
 
-Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor.
+Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor. Across all $209$ positive-$U^(upright("obs"))$ radial bins of the five-galaxy sample, the reference engine (#raw("manual/data/boundary_sadar/sparc_pooled_primary_exact.csv"), vector #raw("SD-008")) evaluates the exact rational pooled primary score $M A P E_U = 64.70291920 "%"$ ($1523$-digit numerator over $1521$-digit denominator), distinct from the carried control $66.1613 "%"$ in #raw("sparc_declaration_controls.csv").
 
 #include "../tables/sparc_summary_table.typ"
 
@@ -507,7 +507,7 @@ The missing-burden diagnostic records the exact ratio
 #aod-noteblock("Precision note")[Support identities and candidate declarations are exact. Plotted scores are presentation decimals carried by the frozen diagnostic CSV.]
 
 
-#aod-noteblock("Source artifacts")[The depth-3 rows in #raw("manual/data/tau/aod_tau_fractal_ring_summary.csv") preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied.]
+#aod-noteblock("Source artifacts")[The depth-3 rows in #raw("manual/data/tau/aod_tau_fractal_ring_summary.csv") preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied. The zero-float five-boundary SADAR cavity competition and $2500$-slot sensor split producing $(19 slash 50, 31 slash 50)$ on #raw("_Exo") are executed directly in #secref("manual:rest:boundary-sadar-debris") (#raw("tau_five_boundary_sadar_trace.csv"), vector #raw("RC-025")).]
 
 
 #figure(

@@ -85,7 +85,7 @@
       "surface": "main",
       "tex_sha256": "8cfc96e46d7492bfec4687b6fa77495b5fbca054474d103b78348cebe022d802",
       "tex_source": "sections/06_field.tex",
-      "typst_sha256": "7c32e702568b99c616fba5d4a6ec7d671ff528e1486f996858fce4d591aecb77",
+      "typst_sha256": "ddf6b4622ccd477e9043f1cceb8efcafc190a4ee58f5b74c51d4107136a66a60",
       "typst_target": "typst/sections/06_field.typ"
     },
     {
@@ -213,7 +213,7 @@
       "surface": "manual",
       "tex_sha256": "934828daf766319e71eda3c4b89411b9a53dfc59d9d6774debbc7aa0657d3277",
       "tex_source": "manual/sections/00_dec_ledger.tex",
-      "typst_sha256": "4e759e48ed70160bcbb97892d865618f3dfb5d24d07d18be81bb146334ab32e2",
+      "typst_sha256": "fbf341fccf0e64618259a4ac50603fe1cd89b5f0c56420c515ad4c25904d304c",
       "typst_target": "typst/manual/sections/00_dec_ledger.typ"
     },
     {
@@ -245,7 +245,7 @@
       "surface": "manual",
       "tex_sha256": "bf5ee4dc041b0fdc163a023761c46efbab5a95848e73b3f7be73d827e56d4fe4",
       "tex_source": "manual/sections/03_short_window_rcd_shedding_fixtures.tex",
-      "typst_sha256": "1dc42efa0ac3531b40b28fc577ff3c7c5f894fde170ea5adb041e5cafebb9ee1",
+      "typst_sha256": "8aef328f47b587c0325916695fdc0cad12e4939f339563b97644c32f7c78d835",
       "typst_target": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ"
     },
     {
@@ -253,7 +253,7 @@
       "surface": "manual",
       "tex_sha256": "40e6af142bfca8d4d97f8f48c50337f7c7d0099954d4e349dea09a9a76c40469",
       "tex_source": "manual/sections/01_rest_energy_prediction.tex",
-      "typst_sha256": "cf4c7a405d529f585a154dbfd4ce58f2109f4bac4bde9acda8dcfd329193f7ca",
+      "typst_sha256": "3734bc30d4ba32f1c316d76e8eace20acfe2b6b40cce0d519c78303d94381583",
       "typst_target": "typst/manual/sections/01_rest_energy_prediction.typ"
     },
     {
@@ -261,7 +261,7 @@
       "surface": "manual",
       "tex_sha256": "e1fd2981fcd3030da2d64aa976339389ec890818092153ef4c3b34f5c2bd586e",
       "tex_source": "manual/sections/02_hydrogen_facing_shell_tests.tex",
-      "typst_sha256": "d01ad3584494133e8e9daa0f09e32e382b10778876a78ab26d23742c9750e658",
+      "typst_sha256": "eb1a39ca04327ff99517f1f28af63686522451a6756aafa3d0b33f42fca75230",
       "typst_target": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ"
     },
     {
@@ -269,7 +269,7 @@
       "surface": "manual",
       "tex_sha256": "6d517127cb599c502cbeb06deed09451495e4a824f2c93eaaa5a7076a72c37b6",
       "tex_source": "manual/sections/04_boundary_current_applications.tex",
-      "typst_sha256": "dd02816e3be72fc78bcf09b3ed0a3de51b4489b552683d22969b5a10c4fc07d9",
+      "typst_sha256": "9621dd0644c364c50276d95f8c2e738d6e601c87d821a89e365ef783de23c894",
       "typst_target": "typst/manual/sections/04_boundary_current_applications.typ"
     },
     {
@@ -285,7 +285,7 @@
       "surface": "manual",
       "tex_sha256": "45b7316cb3e49a14f4dc62ac664a82114c2273438ffafd27aa3c5b302d6acb04",
       "tex_source": "manual/sections/06_field_dynamics_applications.tex",
-      "typst_sha256": "66d4c975e6a67abe7eccb74398ea9fc2ecb6a05dc3f279932b748dd81ff66327",
+      "typst_sha256": "37d0b0e946d72824353a742a2980eab064f1baef0be0e1809b2f6cb9459aa263",
       "typst_target": "typst/manual/sections/06_field_dynamics_applications.typ"
     },
     {
@@ -349,7 +349,7 @@
       "surface": "manual",
       "tex_sha256": "60ad7f188f2a6a1c43fda9e589f942c9dcda04543383217fb9225a671baed08e",
       "tex_source": "manual/sections/09_prediction_test_fixture_registry.tex",
-      "typst_sha256": "3d6b16748b8e3c8ca6ab367fd44c93602d7d3a6d1258124eb7c5b82d42569b07",
+      "typst_sha256": "9b59b303556b07b56201b802a2db72a0a236d669693542d643bcb766f8427563",
       "typst_target": "typst/manual/sections/09_prediction_test_fixture_registry.typ"
     },
     {
@@ -373,7 +373,7 @@
       "surface": "manual",
       "tex_sha256": "2a4730702a7f1aa7889f297ef58d3f15573ade2b4ce4b89a3631720b5ee10cb1",
       "tex_source": "manual/appendices/B_quarantined_external_comparison.tex",
-      "typst_sha256": "4433130128f6b3091b922cb824d9cd1e05cf7b0271883d6001a65f933dbde7d9",
+      "typst_sha256": "1200020797d47eb8fe010e97c9a3ce2261d2fd0a9f90b0d13f7b3d3a6d5c39d4",
       "typst_target": "typst/manual/appendices/B_quarantined_external_comparison.typ"
     },
     {
@@ -612,7 +612,7 @@
     "typst/lib/diagrams/short_window_setup.typ": "3cdb64d913ab775862d82a893550572d4bdfb09e95b6c52e9e18e964a01642c0",
     "typst/lib/diagrams/solar_system_spine.typ": "fb6418553d4ca17aa3ec4fa3cb23b04a13964c1fb8a422351dc069f0c2e6d04d"
   },
-  "figure_inventory_sha256": "da1c62ecc43a9fae9359b1e10deb4f6c13293ea860d98c4663e9d41d902295aa",
+  "figure_inventory_sha256": "f7076530f6e3de78e1f01a28284ffbf1ab3e28fa03d6bbc01f9e6080cccd07b3",
   "historical_tex_snapshots_excluded": [
     "manual/data/historical_metrology/historical_target/sections/06_wave_state_relational_time.tex",
     "manual/data/temporal_anchor/source/baseline/input/upstream/appendices/H_combinatorics_rd_tests.tex",
@@ -649,7 +649,7 @@
   "parent_m4_commit": "83188dc9dc5f2897f194ca0b60fc7986f0c61054",
   "parent_m4_tree": "8082676a4a8b331eec89275b7b59f8c4f179ade5",
   "phase2_primary_authority": "typst",
-  "plots_library_sha256": "ead3822f57c9ffe8150d97485549ff0674044d9b38a96936eddfbc5415a8f4b2",
+  "plots_library_sha256": "346944079a9840a005555ea16b7026cbf1075f26bfde08011740326a06070f4e",
   "schema": "aod.typst.manifest.v1",
   "scientific_baseline_commit": "98ddfa0ebb38293adfa99c8c11da5a15cdd9eea3",
   "scientific_baseline_tree": "b4a667e3809e4a145580686d439811834b936343",
@@ -668,8 +668,11 @@
     "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
     "typst/lib/figures/main/null_four_edge_x_witness.typ",
     "typst/lib/figures/main/support_enclosure_retention.typ",
+    "typst/lib/figures/manual/chiral_flip_boundary_stokes.typ",
+    "typst/lib/figures/manual/collision_shedding_debris_feynman.typ",
     "typst/lib/figures/manual/coordinate_phase_delta3_wireframe.typ",
     "typst/lib/figures/manual/cycle_disturbance_shedding_fixture.typ",
+    "typst/lib/figures/manual/dec_hinge_slide_chiral_vertex.typ",
     "typst/lib/figures/manual/double_slit_cross_return_setup.typ",
     "typst/lib/figures/manual/double_slit_reclosure_fixture.typ",
     "typst/lib/figures/manual/higgs_mass_comparison.typ",
@@ -685,6 +688,7 @@
     "typst/lib/figures/manual/lensing_08_target_quarantine.typ",
     "typst/lib/figures/manual/lensing_09_staged_lensing_lane.typ",
     "typst/lib/figures/manual/lensing_10_lensing_calculation_spine.typ",
+    "typst/lib/figures/manual/rest_energy_stability_debris_atlas.typ",
     "typst/lib/figures/manual/run_tumble_trace_3d_projection.typ",
     "typst/lib/figures/manual/solar_calculated_vs_target.typ",
     "typst/lib/figures/manual/solar_percent_error.typ",
@@ -693,6 +697,7 @@
     "typst/lib/figures/manual/sparc_square_speed_comparison.typ",
     "typst/lib/figures/manual/sparc_square_speed_residuals.typ",
     "typst/lib/figures/manual/tau_declaration_controls.typ",
+    "typst/lib/figures/manual/tau_five_boundary_sadar_setup.typ",
     "typst/lib/figures/manual/tau_missing_burden_diagnostic.typ",
     "typst/lib/figures/manual/tau_ring_support_score.typ",
     "typst/lib/figures/manual/tau_support_residuals.typ"
@@ -705,15 +710,18 @@
     "typst/lib/figures/main/curling_curl_layers.typ": "4dcd45168b4de44d2653d562b1759e2df18d1eb376d4340b6d08a71e2ae1f7de",
     "typst/lib/figures/main/cycle_disturbance_shedding.typ": "51080817f2f817db67fe7e514d4500fed33e210ed6d858b16f5138eef93837f0",
     "typst/lib/figures/main/field_dynamics_layered_main.typ": "ed5d76d16e856dd5072c53d66f1496054e636efc769ece4f4569181b7f0a9cc3",
-    "typst/lib/figures/main/fractal_tesseract_q4_witness.typ": "cc3ea53aa2942648b37e838f35cabff1a1d6a84a77ee8f2ea8db591f12999097",
+    "typst/lib/figures/main/fractal_tesseract_q4_witness.typ": "d3510a7ac4451d1dd51aed3a1c35d3c93886199a8e0aad972498e6ca137640ac",
     "typst/lib/figures/main/null_four_edge_x_witness.typ": "92cc869532d1d57096fde4281acacfa8539cbea7c2dbd353b3ad5c3b46bf99dc",
     "typst/lib/figures/main/support_enclosure_retention.typ": "389fa90e2377edf9262bc1442f701fd72e4147a8d6c1c38a1589b81bae9ee2b5",
+    "typst/lib/figures/manual/chiral_flip_boundary_stokes.typ": "517250ac840e986ce207ca9c349fe830e8b97e61c86134b6282b52c87ab7999a",
+    "typst/lib/figures/manual/collision_shedding_debris_feynman.typ": "3aaa40572ffc387fe75a098d11f9a732be6f81b8cc7330b903a2945421d40f09",
     "typst/lib/figures/manual/coordinate_phase_delta3_wireframe.typ": "b780045e120ccd112de818df4c5fe57ca32bd8a3e590636f236d73e4a0ceeae1",
     "typst/lib/figures/manual/cycle_disturbance_shedding_fixture.typ": "c71df388e2ce3e59edef4abee05624f9230a4e420e379891e0f07eff8aa7e1b2",
-    "typst/lib/figures/manual/double_slit_cross_return_setup.typ": "a04e9ef7d2f0ffc02f14e0fa34649a5de554a46cc6870b8e6d1425fb6ec153e8",
+    "typst/lib/figures/manual/dec_hinge_slide_chiral_vertex.typ": "5108896542db7731797e57d74f358358248fd55b0733384dfc1e8ce44521916a",
+    "typst/lib/figures/manual/double_slit_cross_return_setup.typ": "dc4eaac4a8047177d6766b41f5fb68796d2609aa30e64fc6574165fd350f0f2f",
     "typst/lib/figures/manual/double_slit_reclosure_fixture.typ": "fc698f113b5d54a2fd8603866ef6d63ddf24b508be1cf0f590615da2f0c1660a",
     "typst/lib/figures/manual/higgs_mass_comparison.typ": "61bcda7671dfbb6de4f38cf4f946674689dd6f904ef4423e138925fddb90c9da",
-    "typst/lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ": "abe5883b493a998dbf41022a66b872eea39c7a5f73001a2762d94189ea67c6d4",
+    "typst/lib/figures/manual/higgs_tritrioseptyro_trace_flow.typ": "12e9b2bb50b083c3eeff57f910366fb504645abd9f00bb35cb3b0f823fca80ec",
     "typst/lib/figures/manual/higgs_yro_saddle_signature.typ": "b67ea65688bd4882784b91a806095f12ac513bc11e1f0598cfca6f45160ece8c",
     "typst/lib/figures/manual/lensing_01_toy1_delta3_class_tallies.typ": "0dc88335bf1d9a473fd1dd49ea93788e4cede76b85e9bc95174a3f103115bc53",
     "typst/lib/figures/manual/lensing_02_frg_value_identity_delta3.typ": "76da2adb52c6c25fe3c543de1466727fd2ae382be16b8f03cc88a991dbd59e38",
@@ -725,6 +733,7 @@
     "typst/lib/figures/manual/lensing_08_target_quarantine.typ": "b76fc28bd085c69d66f7c386229982d28e076c919f5ad1da04058302e7b23638",
     "typst/lib/figures/manual/lensing_09_staged_lensing_lane.typ": "4cf548d5745b96520b0c311b607e8633030288449c248dedd7ae62295f524836",
     "typst/lib/figures/manual/lensing_10_lensing_calculation_spine.typ": "83a140ea29d7aebbb17bcb3fbbb43971665af1a4edd31b6b3635cbb602f01b59",
+    "typst/lib/figures/manual/rest_energy_stability_debris_atlas.typ": "e3c440ea5d8f9ab1ac4d51d9e28ea63410b473122cf136014b01757fe1ee7bf0",
     "typst/lib/figures/manual/run_tumble_trace_3d_projection.typ": "9e84d6d17e0eba18af34b5d5847611095c90baeed57b08440056b5a56c71bc76",
     "typst/lib/figures/manual/solar_calculated_vs_target.typ": "a21c36d34ddfebac1ca6e6ea98f020e5b0b0685f7798269051e04aa9de8f0227",
     "typst/lib/figures/manual/solar_percent_error.typ": "a1a6314c3de4929131678b80e8481ea01c6ca79aed319b337af510076ed4137e",
@@ -733,8 +742,9 @@
     "typst/lib/figures/manual/sparc_square_speed_comparison.typ": "08fc52ab406d8613b64b2df80806c6bc87943f6e7324fe3a5c30572a559d1c2a",
     "typst/lib/figures/manual/sparc_square_speed_residuals.typ": "2f53536d9a216c571383fda14f25363e6a911dcb651f5930a48e504825b7ab32",
     "typst/lib/figures/manual/tau_declaration_controls.typ": "60ab9626fa0e1839d04c3fa2f0fa0d2e0b90eaa4c0907b98c26ea7f714404f2c",
+    "typst/lib/figures/manual/tau_five_boundary_sadar_setup.typ": "73b146bdda057dbaa740d7a18a198a522f4c9e02b5fb5f2fc8ce18bede6b1856",
     "typst/lib/figures/manual/tau_missing_burden_diagnostic.typ": "8cc81c2de4679517d90064b0b50fd61fd58442d22788bd63c2e94095e421eb7c",
     "typst/lib/figures/manual/tau_ring_support_score.typ": "6aa497aa985ffe753c311040f02c18c3bda4b5064752096b95842fa7d959c15e",
-    "typst/lib/figures/manual/tau_support_residuals.typ": "783af4774027c86a234ac0388f185903fd8b7bf14b5a115d6b4b8e6f38481646"
+    "typst/lib/figures/manual/tau_support_residuals.typ": "0cb06b5c90c64e07df735f1a9913ce5779272b142bdfe0c56bb31b9e37318c6c"
   }
 }
