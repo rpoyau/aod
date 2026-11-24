@@ -73,7 +73,7 @@
     {
       "contract": "contracts/scientific/CANONICAL_BINDINGS.json",
       "old_sha256": "10ee953f5005054e639993d97d1b1b20bbc4b8b1e0c079d22d9156fd07efbc24",
-      "new_sha256": "2aef1814b3054a8d08dca31146f187c082432bc5395510ba14513389137b2636",
+      "new_sha256": "d80892ed266977605391917822f594cc0ef75acceb6274d93925766820ccff93",
       "scope": "representation_path_and_frozen_ledger_only",
       "fields_amended": [
         "ownership[*].path (44 entries; concepts, anchors, depends_on unchanged)",
@@ -190,8 +190,8 @@
     {
       "path": "tests/test_ci_release_builder.py",
       "old_sha256": "7c19def3130f8c43a3e82a144ab9a4d2b9a320e131c6837b4f29a0d45ea31da9",
-      "new_sha256": "a98acd1a1a30ef2218bc3a7a8bf977fc63f24ff14993159fdcd031b12d9cdd70",
-      "reason": "Test harness verifies canonical typst/, generated latex/, and manifest-declared exported vector diagram/figure PDFs (S1b)"
+      "new_sha256": "277aa87eaf14e2c009c005dbe118b38d7904409255ce9d557220b507b80e658a",
+      "reason": "Test harness verifies canonical typst/, pure Typst-only default CI workflow, manual-only optional LaTeX workflow, generated latex/, and manifest-declared exported vector diagram/figure PDFs"
     },
     {
       "path": "tests/test_main_container_language_minimalism.py",

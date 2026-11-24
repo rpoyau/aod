@@ -8,15 +8,70 @@ def test_workflow_writes_tests_artifact_before_release_builder():
     assert "pytest -q | tee tests.txt" in workflow
     assert "audit_pack" not in workflow
     assert "verifier.log" not in workflow
-    assert "scripts/build_publication.py --outdir _build/pub --check-registry --with-latex --check-latex" in workflow
+    assert "scripts/build_publication.py --outdir _build/pub --check-registry" in workflow
+    assert "--with-latex" not in workflow
+    assert "latexmk" not in workflow
+    assert "texlive-" not in workflow
+    assert "dist/latex" not in workflow
     assert "scripts/build_release_bundle.py --outdir dist --tests tests.txt --main main.pdf --manual manual.pdf" in workflow
 
 
 def test_executed_science_gate_precedes_release_packaging():
     workflow = (ROOT / ".github/workflows/build.yml").read_text()
-    gate = "python3 scripts/audit_scientific_sources.py . --build-root latex"
+    gate = "python3 scripts/audit_scientific_sources.py ."
+    assert "--build-root latex" not in workflow
     assert workflow.index("cp _build/pub/manual.pdf manual.pdf") < workflow.index(gate)
     assert workflow.index(gate) < workflow.index("scripts/build_release_bundle.py --outdir")
+
+
+def test_optional_latex_workflow_is_manual_dispatch_only():
+    import re
+    latex_workflow_path = ROOT / ".github" / "workflows" / "latex.yml"
+    typst_workflow_path = ROOT / ".github" / "workflows" / "typst.yml"
+    assert latex_workflow_path.is_file()
+    assert not typst_workflow_path.exists()
+    workflow = latex_workflow_path.read_text(encoding="utf-8")
+    lines = workflow.splitlines()
+    on_idx = None
+    inline_on = ""
+    for idx, raw in enumerate(lines):
+        stripped = raw.split("#", 1)[0].rstrip()
+        if not stripped:
+            continue
+        match = re.match(r"^on\s*:(.*)$", stripped)
+        if match:
+            on_idx = idx
+            inline_on = match.group(1).strip()
+            break
+    assert on_idx is not None, "missing top-level on: block in latex.yml"
+    if inline_on:
+        tokens = [tok.strip(" []'\"") for tok in inline_on.split(",") if tok.strip(" []'\"")]
+        assert tokens == ["workflow_dispatch"]
+    else:
+        block_lines = []
+        for raw in lines[on_idx + 1:]:
+            code = raw.split("#", 1)[0].rstrip()
+            if not code.strip():
+                continue
+            if not raw[0].isspace():
+                break
+            block_lines.append(code)
+        assert block_lines, "empty on: block in latex.yml"
+        trigger_indent = min(len(line) - len(line.lstrip(" ")) for line in block_lines)
+        triggers = []
+        for line in block_lines:
+            indent = len(line) - len(line.lstrip(" "))
+            if indent == trigger_indent:
+                m = re.match(r"^([A-Za-z0-9_-]+)\s*:", line.lstrip(" "))
+                assert m is not None, f"unrecognized trigger line: {line!r}"
+                triggers.append(m.group(1))
+        assert triggers == ["workflow_dispatch"]
+    assert "workflow_dispatch:" in workflow
+    assert not re.search(r"^\s{0,2}(?:push|pull_request)\s*:", workflow, re.M)
+    assert "--with-latex" in workflow
+    assert "--check-latex" in workflow
+    assert "--build-root latex" in workflow
+    assert "verify_typst_parity.py" in workflow
 
 
 def test_release_builder_requires_tests_txt_artifact():

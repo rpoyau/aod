@@ -958,7 +958,7 @@
     "tests/test_active_scientific_sources.py": "7a3cfb69fa35621aa9e0c21c73c063f2023210ef82419a9fb1e39df5357f4283",
     "tests/test_awareness.py": "58aaa8d7bfd1aa01f863f3bcde9a52e2ed7ea8602a35c0e54ce25dbc47705700",
     "tests/test_bib_preamble_source_structure.py": "3abf45d4cbdef73936f19baa868b253f3f475d1e35354904d3d9aa065e50f4fc",
-    "tests/test_ci_release_builder.py": "a98acd1a1a30ef2218bc3a7a8bf977fc63f24ff14993159fdcd031b12d9cdd70",
+    "tests/test_ci_release_builder.py": "277aa87eaf14e2c009c005dbe118b38d7904409255ce9d557220b507b80e658a",
     "tests/test_cycle_shedding_fixture.py": "0ae07e6186cc453c09c986508493572bfd1843bb23f9fa422867286838249a8a",
     "tests/test_main_container_language_minimalism.py": "f7b1797718825a2140be3a9afbed6826516852fc8137c2cffa029312748f88bb",
     "tests/test_main_figure_layout_sources.py": "97517fae38730a427bc7523eebe76c17bb5676cf77aea2f5f4ac5186e0204a6e",
