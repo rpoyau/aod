@@ -51,6 +51,18 @@ jobs:
           python3 -B -O -m manual.engine --verify-all --check-zero-float --verify-vectors --report _build/s2/engine_opt.json
           cmp _build/s2/engine_norm.json _build/s2/engine_opt.json
 
+      - name: Verify S4 optional std-only Rust exact core
+        env:
+          CARGO_TARGET_DIR: _build/cargo-target
+        run: |
+          rustc --version
+          cargo --version
+          mkdir -p _build/s4
+          cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked
+          cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/rust_report_debug.json
+          cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/rust_report_release.json
+          cmp _build/s4/rust_report_debug.json _build/s4/rust_report_release.json
+
       - name: Run test suite
         run: |
           set -o pipefail

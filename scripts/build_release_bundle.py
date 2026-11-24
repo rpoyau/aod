@@ -24,13 +24,14 @@ ROOT = Path(__file__).resolve().parents[1]
 EXCLUDE_DIR_NAMES = {
     ".git", ".pytest_cache", "__pycache__", ".mypy_cache", ".ruff_cache",
     ".DS_Store", ".venv", ".tox", "node_modules", "dist", "build", "release",
-    "_build", "_render", "_renders"
+    "_build", "_render", "_renders", "target"
 }
 
 EXCLUDE_SUFFIXES = {
     ".pdf", ".aux", ".log", ".out", ".toc", ".fls", ".fdb_latexmk",
     ".xdv", ".synctex.gz", ".pyc", ".pyo", ".bbl", ".blg", ".run.xml",
-    ".bcf", ".lof", ".lot", ".dvi", ".nav", ".snm", ".vrb", ".zip"
+    ".bcf", ".lof", ".lot", ".dvi", ".nav", ".snm", ".vrb", ".zip",
+    ".rlib", ".rmeta", ".d"
 }
 
 EXCLUDE_FILE_PATTERNS = [
@@ -102,8 +103,8 @@ def declared_generated_figure_assets(root: Path | None = None) -> set[str]:
 INCLUDE_TOP_LEVEL = [
     ".github", ".zenodo.json", ".zenodo_doi", "BUILD.md", "CHANGELOG.md",
     "CANONICAL_VERSION.txt", "LICENSE", "README.md", "archive", "contracts",
-    "cycle_shedding_summary.tex", "figures_jpg", "latex", "manual", "refs.bib",
-    "requirements-ci.txt", "scripts", "tests", "typst",
+    "crates", "cycle_shedding_summary.tex", "figures_jpg", "latex", "manual",
+    "refs.bib", "requirements-ci.txt", "scripts", "tests", "typst",
     "wavelet_shedding_simulation.csv", "wavelet_shedding_summary.tex",
 ]
 

@@ -1,0 +1,16 @@
+[package]
+name = "aod-core"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Optional std-only zero-float arbitrary-precision exact arithmetic core for Alpha Omega Dynamics"
+
+[lib]
+name = "aod_core"
+path = "src/lib.rs"
+
+[[bin]]
+name = "aod-core"
+path = "src/main.rs"
+
+[dependencies]

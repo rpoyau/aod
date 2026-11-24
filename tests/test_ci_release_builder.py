@@ -9,6 +9,9 @@ def test_workflow_writes_tests_artifact_before_release_builder():
     assert "audit_pack" not in workflow
     assert "verifier.log" not in workflow
     assert "scripts/build_publication.py --outdir _build/pub --check-registry" in workflow
+    assert "CARGO_TARGET_DIR: _build/cargo-target" in workflow
+    assert "cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked" in workflow
+    assert "--verify-vectors --check-zero-float" in workflow
     assert "--with-latex" not in workflow
     assert "latexmk" not in workflow
     assert "texlive-" not in workflow
@@ -102,6 +105,7 @@ SOURCE_DIRECTORY_TYPES = {
     ".github": {".yml", ".yaml"},
     "archive": {".tex", ".json"},
     "contracts": {".json", ".md", ".csv"},
+    "crates": {".rs", ".toml", ".lock", ".md"},
     "figures_jpg": {".png", ".jpg"},
     "latex": {".tex", ".bib", ".png", ".jpg", ".json"},
     "manual": {".tex", ".bib", ".py", ".csv", ".dat", ".jsonl", ".png", ".jpg", ".md"},
@@ -156,7 +160,7 @@ def expected_source_inventory(root):
     for name, suffixes in SOURCE_DIRECTORY_TYPES.items():
         for path in (root / name).rglob("*"):
             rel = path.relative_to(root / name)
-            if any(part.startswith(".") or part in {"__pycache__", "build", "dist", "release", "_build", "_render", "_renders", "node_modules"}
+            if any(part.startswith(".") or part in {"__pycache__", "build", "dist", "release", "_build", "_render", "_renders", "node_modules", "target"}
                    for part in rel.parts[:-1]):
                 continue
             if path.is_file() and path.suffix in suffixes:
@@ -205,7 +209,9 @@ def test_source_archive_exactly_preserves_detached_candidate(tmp_path):
                  "latex/main.tex", "latex/manual/main.tex", "latex/GENERATION_MANIFEST.json",
                  "latex/figures/generated/null-four-edge-x-witness.pdf",
                  "latex/manual/figures/generated/hydrogen-shell-setup.pdf",
-                 "archive/latex_baseline_98ddfa0/BASELINE_MANIFEST.json"):
+                 "archive/latex_baseline_98ddfa0/BASELINE_MANIFEST.json",
+                 "crates/aod-core/Cargo.toml", "crates/aod-core/Cargo.lock",
+                 "crates/aod-core/src/lib.rs", "crates/aod-core/src/main.rs"):
         assert name in actual
     assert all(not name.startswith(("evidence/", "projects/", "skills/", "manual/plans/")) for name in actual)
 
@@ -236,6 +242,10 @@ def test_source_archive_round_trip_without_git_ignores_generated_files(tmp_path,
                  "manual/main.run.xml", "manual/main.bcf", "manual/main.lof",
                  "scripts/__pycache__/generated.py", "tests/.pytest_cache/README.md",
                  "manual/build/temporary.tex", "dist/source.zip",
+                 "crates/aod-core/target/debug/aod-core",
+                 "crates/aod-core/target/debug/deps/libaod_core.rlib",
+                 "crates/aod-core/target/release/aod-core.d",
+                 "crates/aod-core/stray.rmeta",
                  "evidence/history.json", "projects/private-plan.md",
                  "RELEASE_READINESS.txt", "STALE_TEST_DISPOSITION.md"]
     for name in generated:
