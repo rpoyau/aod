@@ -90,6 +90,8 @@ cmp _build/typst_parity/parity_report.json _build/typst_parity_opt/parity_report
 - **Gate C** — rendered PDF parity against the materialized historical baseline (labels, equation numbers/tags, peer links, external URIs, citations, bibliography, source prose clauses, insertion detection, symbol glyph parity, decimals, and opaque black text-paint scan) for canonical Typst PDFs and (when supplied) generated LaTeX compatibility PDFs.
 - **Gate D** — all negative controls (including wrong peer filename `wrong_main.pdf`, stale registry, flowchart mutation/bounds, and `typ2tex` provenance/propagation checks).
 
+**CI compatibility and parity gate policy:** Run the retained manual `.github/workflows/latex.yml` workflow with `run_baseline_parity=true` whenever a change touches publication or export surfaces (`typst/`, `scripts/typ2tex.py`, `scripts/export_typst_figures.py`, `scripts/build_typst.py`, or `scripts/build_publication.py`) as well as for final release acceptance. Note on GitHub Actions platform behavior: `workflow_dispatch` on `.github/workflows/latex.yml` becomes executable on GitHub Actions once `.github/workflows/latex.yml` lands on the default branch (`main`).
+
 ## Artifact order
 
 For Zenodo or other repositories with a default preview/display file, use the main note PDF as the primary artifact and upload/place it first:

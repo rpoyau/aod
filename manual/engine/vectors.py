@@ -8,10 +8,13 @@ against an exact zero-float implementation. ``sympy`` is imported ONLY inside
 """
 from __future__ import annotations
 
+import ast
+import csv
 from fractions import Fraction
 import hashlib
 import json
 from pathlib import Path
+import re
 
 from manual.engine.numeric import (
     canonical_rational_pair,
@@ -28,6 +31,14 @@ from manual.engine.schema import validate_vector_record
 
 RATIONAL_CORE_REL: str = "manual/engine/vectors/rational_core.jsonl"
 SYMBOLIC_DISPLAY_REL: str = "manual/engine/vectors/symbolic_and_display.jsonl"
+
+_WIN_DRIVE_RE = re.compile(r"^[A-Za-z]:")
+_TYPST_LABEL_RE = re.compile(r"^[A-Za-z0-9_.:-]+$")
+_TYPST_REF_CALL_RE = re.compile(r"\b(?:ref|link|cite|query|selector)\s*\(\s*$")
+_PY_LINE_RANGE_RE = re.compile(r"^L([1-9][0-9]*)-([1-9][0-9]*)$")
+_PY_FUNC_NAME_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+_CSV_ROW_RE = re.compile(r"^row(0|[1-9][0-9]*)(?:_(.+))?$")
+_CSV_NONCANONICAL_ROW_RE = re.compile(r"^row0[0-9]+(?:_.*)?$")
 
 
 def _pair(q: Fraction | int) -> list[str]:
@@ -688,9 +699,326 @@ def load_vector_file(path: Path) -> tuple[str, list[dict[str, object]]]:
     return digest, records
 
 
-def verify_single_vector(record: dict[str, object]) -> None:
+def _exact_typed_equal(
+    actual: object,
+    expected: object,
+    *,
+    path: str = "$",
+) -> tuple[bool, str]:
+    """Recursively compare JSON-compatible values with strict runtime type equality.
+
+    Requires ``type(actual) is type(expected)`` before any value comparison so
+    Python's ``bool``/``int`` equality coercion (``True == 1``, ``False == 0``)
+    is strictly rejected in both directions.
+    """
+    if type(actual) is not type(expected):
+        return (
+            False,
+            f"type mismatch at {path}: actual={actual!r} ({type(actual).__name__}), "
+            f"expected={expected!r} ({type(expected).__name__})",
+        )
+    if isinstance(actual, dict) and isinstance(expected, dict):
+        for k in actual.keys():
+            if type(k) is not str:
+                return (
+                    False,
+                    f"non-string dict key at {path}: actual key={k!r} ({type(k).__name__})",
+                )
+        for k in expected.keys():
+            if type(k) is not str:
+                return (
+                    False,
+                    f"non-string dict key at {path}: expected key={k!r} ({type(k).__name__})",
+                )
+        actual_keys = set(actual.keys())
+        expected_keys = set(expected.keys())
+        if actual_keys != expected_keys:
+            missing = sorted(expected_keys - actual_keys)
+            extra = sorted(actual_keys - expected_keys)
+            return (
+                False,
+                f"dict key mismatch at {path}: missing={missing!r}, extra={extra!r}",
+            )
+        for key in sorted(expected_keys):
+            ok, detail = _exact_typed_equal(
+                actual[key],
+                expected[key],
+                path=f"{path}.{key}",
+            )
+            if not ok:
+                return (False, detail)
+        return (True, "")
+    if isinstance(actual, list) and isinstance(expected, list):
+        if len(actual) != len(expected):
+            return (
+                False,
+                f"list length mismatch at {path}: actual_len={len(actual)}, expected_len={len(expected)}",
+            )
+        for idx, (a_item, e_item) in enumerate(zip(actual, expected)):
+            ok, detail = _exact_typed_equal(a_item, e_item, path=f"{path}[{idx}]")
+            if not ok:
+                return (False, detail)
+        return (True, "")
+    if actual is None or isinstance(actual, (bool, int, str)):
+        if actual != expected:
+            return (
+                False,
+                f"value mismatch at {path}: actual={actual!r} ({type(actual).__name__}), "
+                f"expected={expected!r} ({type(expected).__name__})",
+            )
+        return (True, "")
+    return (
+        False,
+        f"unsupported exact comparison type at {path}: {type(actual).__name__}",
+    )
+
+
+def _strip_typst_comments_and_strings(text: str) -> str:
+    """Strip Typst comments, double-quoted strings, escaped delimiters, and raw backtick literals."""
+    out: list[str] = []
+    i = 0
+    n = len(text)
+    block_depth = 0
+    in_string = False
+    while i < n:
+        ch = text[i]
+        nxt = text[i + 1] if i + 1 < n else ""
+        if block_depth > 0:
+            if ch == "/" and nxt == "*":
+                block_depth += 1
+                out.append("  ")
+                i += 2
+            elif ch == "*" and nxt == "/":
+                block_depth -= 1
+                out.append("  ")
+                i += 2
+            else:
+                out.append("\n" if ch == "\n" else " ")
+                i += 1
+            continue
+        if in_string:
+            if ch == "\\" and i + 1 < n:
+                out.append("  ")
+                i += 2
+            elif ch == '"':
+                in_string = False
+                out.append(" ")
+                i += 1
+            else:
+                out.append("\n" if ch == "\n" else " ")
+                i += 1
+            continue
+        if ch == "\\" and nxt in ('"', "\\", "/", "<", ">", "`"):
+            out.append("  ")
+            i += 2
+            continue
+        if ch == "/" and nxt == "/":
+            while i < n and text[i] != "\n":
+                out.append(" ")
+                i += 1
+            continue
+        if ch == "/" and nxt == "*":
+            block_depth = 1
+            out.append("  ")
+            i += 2
+            continue
+        if ch == '"':
+            in_string = True
+            out.append(" ")
+            i += 1
+            continue
+        if ch == "`":
+            run_len = 0
+            while i + run_len < n and text[i + run_len] == "`":
+                run_len += 1
+            out.append(" " * run_len)
+            i += run_len
+            if run_len == 2:
+                continue
+            if run_len == 1:
+                while i < n:
+                    if text[i] == "`":
+                        out.append(" ")
+                        i += 1
+                        break
+                    out.append("\n" if text[i] == "\n" else " ")
+                    i += 1
+                continue
+            # Fenced raw block (run_len >= 3): scan until closing run of >= run_len backticks.
+            while i < n:
+                if text[i] == "`":
+                    close_len = 0
+                    while i + close_len < n and text[i + close_len] == "`":
+                        close_len += 1
+                    if close_len >= run_len:
+                        out.append(" " * run_len)
+                        i += run_len
+                        break
+                    out.append(" " * close_len)
+                    i += close_len
+                    continue
+                out.append("\n" if text[i] == "\n" else " ")
+                i += 1
+            continue
+        out.append(ch)
+        i += 1
+    return "".join(out)
+
+
+def validate_source_binding(repo_root: Path, source_binding: str) -> None:
+    """Validate every ``;``-separated ``path[#selector]`` component in ``source_binding``."""
+    require(
+        isinstance(source_binding, str) and bool(source_binding) and source_binding == source_binding.strip(),
+        f"source_binding must be a non-empty trimmed string: {source_binding!r}",
+    )
+    root = Path(repo_root).resolve()
+
+    for comp in source_binding.split(";"):
+        require(
+            bool(comp) and comp == comp.strip(),
+            f"empty or whitespace-padded source_binding component in {source_binding!r}",
+        )
+        require(
+            comp.count("#") <= 1,
+            f"multiple '#' selectors forbidden in source_binding component: {comp!r}",
+        )
+        rel_path, has_hash, selector = comp.partition("#")
+        require(bool(rel_path), f"missing relative path in source_binding component: {comp!r}")
+        require("\\" not in rel_path, f"backslash forbidden in source_binding path: {rel_path!r}")
+        require(
+            not rel_path.startswith("/") and _WIN_DRIVE_RE.match(rel_path) is None,
+            f"absolute path forbidden in source_binding: {rel_path!r}",
+        )
+        raw_parts = rel_path.split("/")
+        require(
+            all(part not in ("", ".", "..") for part in raw_parts),
+            f"unsafe relative path segment in source_binding: {rel_path!r}",
+        )
+        if has_hash:
+            require(bool(selector), f"empty selector after '#' in source_binding: {comp!r}")
+
+        cur = root
+        for part in raw_parts[:-1]:
+            cur = cur / part
+            require(not cur.is_symlink(), f"symlink parent forbidden in source_binding: {rel_path!r}")
+            require(cur.is_dir(), f"source_binding parent directory missing: {rel_path!r}")
+        target = cur / raw_parts[-1]
+        require(not target.is_symlink(), f"symlink target forbidden in source_binding: {rel_path!r}")
+        require(target.is_file(), f"source_binding target file missing: {rel_path!r}")
+        try:
+            target.resolve().relative_to(root)
+        except ValueError as exc:
+            raise ValueError(f"source_binding escapes repo_root: {rel_path!r}") from exc
+
+        if not has_hash:
+            continue
+
+        suffix = target.suffix
+        if suffix == ".typ":
+            require(
+                _TYPST_LABEL_RE.fullmatch(selector) is not None,
+                f"invalid Typst label selector {selector!r} in {comp!r}",
+            )
+            stripped = _strip_typst_comments_and_strings(target.read_text(encoding="utf-8"))
+            label_re = r"(?<!<)<" + re.escape(selector) + r">(?!>)"
+            has_defining_label = any(
+                _TYPST_REF_CALL_RE.search(stripped[: match.start()]) is None
+                for match in re.finditer(label_re, stripped)
+            )
+            require(
+                has_defining_label,
+                f"defining Typst label <{selector}> not found in {rel_path}",
+            )
+        elif suffix == ".py":
+            text = target.read_text(encoding="utf-8")
+            line_match = _PY_LINE_RANGE_RE.fullmatch(selector)
+            if line_match is not None:
+                start = int(line_match.group(1))
+                end = int(line_match.group(2))
+                line_count = len(text.splitlines())
+                require(
+                    1 <= start <= end <= line_count,
+                    f"Python line range {selector!r} out of bounds for {rel_path} (1..{line_count})",
+                )
+            elif _PY_FUNC_NAME_RE.fullmatch(selector) is not None:
+                try:
+                    tree = ast.parse(text, filename=rel_path)
+                except SyntaxError as exc:
+                    raise ValueError(
+                        f"failed to parse Python source_binding {rel_path}: {exc.msg}"
+                    ) from exc
+                top_funcs = {
+                    node.name
+                    for node in tree.body
+                    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+                }
+                require(
+                    selector in top_funcs,
+                    f"top-level function {selector!r} not found in {rel_path}",
+                )
+            else:
+                raise ValueError(f"unsupported Python selector {selector!r} in {comp!r}")
+        elif suffix == ".json":
+            doc = loads_zero_float(target.read_text(encoding="utf-8"))
+            segments = selector.split(".")
+            require(
+                all(bool(seg) for seg in segments),
+                f"empty JSON key segment in selector {selector!r} for {rel_path}",
+            )
+            cur_obj: object = doc
+            for seg in segments:
+                require(
+                    isinstance(cur_obj, dict) and seg in cur_obj,
+                    f"JSON key path {selector!r} missing segment {seg!r} in {rel_path}",
+                )
+                cur_obj = cur_obj[seg]
+        elif suffix == ".csv":
+            require(
+                _CSV_NONCANONICAL_ROW_RE.fullmatch(selector) is None,
+                f"non-canonical CSV row selector {selector!r} in {comp!r}",
+            )
+            with target.open("r", encoding="utf-8", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            row_match = _CSV_ROW_RE.fullmatch(selector)
+            if row_match is not None:
+                idx = int(row_match.group(1))
+                token = row_match.group(2)
+                require(
+                    0 <= idx < len(rows),
+                    f"CSV row selector {selector!r} out of bounds for {rel_path} (rows={len(rows)})",
+                )
+                if token is not None:
+                    require(
+                        any(isinstance(val, str) and val == token for val in rows[idx].values()),
+                        f"CSV row {idx} in {rel_path} does not contain token {token!r}",
+                    )
+            else:
+                require(
+                    any(
+                        isinstance(val, str) and val == selector
+                        for row in rows
+                        for val in row.values()
+                    ),
+                    f"CSV cell token {selector!r} not found in {rel_path}",
+                )
+        else:
+            raise ValueError(
+                f"unsupported source_binding selector suffix {suffix!r} in {comp!r}"
+            )
+
+
+def verify_single_vector(
+    record: dict[str, object],
+    *,
+    repo_root: Path | None = None,
+) -> None:
     """Validate and execute one golden vector record against its exact oracle."""
     validate_vector_record(record)
+    effective_root = (
+        Path(__file__).resolve().parents[2]
+        if repo_root is None
+        else Path(repo_root).resolve()
+    )
     operation = str(record["operation"])
     inputs = record["inputs"]
     require(isinstance(inputs, dict), "vector inputs must be a dict")
@@ -699,14 +1027,13 @@ def verify_single_vector(record: dict[str, object]) -> None:
 
     if expected["status"] == "REJECT":
         _verify_reject_vector(operation, inputs, str(expected["expected_error_class"]))
-        return
+    else:
+        actual = _eval_operation(operation, inputs)
+        require_no_floats(actual, path=f"vector.{record['case_id']}")
+        ok, detail = _exact_typed_equal(actual, expected["exact_value"])
+        require(ok, f"vector {record['case_id']} ({operation}) mismatch: {detail}")
 
-    actual = _eval_operation(operation, inputs)
-    require_no_floats(actual, path=f"vector.{record['case_id']}")
-    require(
-        actual == expected["exact_value"],
-        f"vector {record['case_id']} ({operation}) mismatch: actual={actual!r}, expected={expected['exact_value']!r}",
-    )
+    validate_source_binding(effective_root, str(record["source_binding"]))
 
 
 def verify_all_vectors(repo_root: Path) -> dict[str, object]:
@@ -728,9 +1055,9 @@ def verify_all_vectors(repo_root: Path) -> dict[str, object]:
     for rec in (*rc_rows, *sd_rows):
         cid = str(rec["case_id"])
         try:
-            verify_single_vector(rec)
+            verify_single_vector(rec, repo_root=root)
             passed += 1
-        except (ValueError, TypeError, KeyError, ZeroDivisionError) as exc:
+        except (ValueError, TypeError, KeyError, ZeroDivisionError, OSError) as exc:
             failures.append({"case_id": cid, "error": str(exc)})
 
     total = len(rc_rows) + len(sd_rows)

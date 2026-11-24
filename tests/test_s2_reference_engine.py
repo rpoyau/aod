@@ -55,7 +55,7 @@ from manual.engine import (
 )
 from manual.engine.cli import main as engine_main, validate_runtime_output_path
 from manual.engine.sectors import tier1_adapters, tier2_exact, tier3_quarantine
-from manual.engine.vectors import verify_single_vector
+from manual.engine.vectors import validate_source_binding, verify_single_vector
 
 FAST_15_SECTORS: tuple[str, ...] = tuple(
     spec.sector_id for spec in SECTOR_SPECS if spec.sector_id != "temporal_anchor"
@@ -727,6 +727,18 @@ def test_g4_canonical_report_byte_identical_normal_vs_O_and_two_paths(tmp_path: 
     alt_needed.add("contracts/scientific/MAP_CONTRACT.json")
     alt_needed.add("contracts/scientific/ERROR_BUDGET.json")
     alt_needed.add("manual/__init__.py")
+    for vec_rel in (
+        "manual/engine/vectors/rational_core.jsonl",
+        "manual/engine/vectors/symbolic_and_display.jsonl",
+    ):
+        for line in (ROOT / vec_rel).read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            vec_rec = loads_zero_float(line)
+            for comp in str(vec_rec["source_binding"]).split(";"):
+                bound_rel = comp.partition("#")[0]
+                if not bound_rel.startswith("manual/engine/"):
+                    alt_needed.add(bound_rel)
     _copy_files(alt_root, sorted(alt_needed))
     shutil.copytree(ROOT / "manual/engine", alt_root / "manual/engine")
 
@@ -1273,3 +1285,467 @@ def test_g7_build_yml_s2_step_ordering_and_172_frozen_hashes_intact():
     for rel, expected_sha in frozen.items():
         actual_sha = hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()
         _check(actual_sha == expected_sha, f"frozen file drifted: {rel}")
+
+
+# ---------------------------------------------------------------------------
+# Bounded Repair Regressions — S2-F1 (Output Safety), S2-F2 (Typed Equality),
+# and S2-F3 (Finite Source-Binding Selector Validation)
+# ---------------------------------------------------------------------------
+
+
+def _build_detached_native_copy(stage_root: Path) -> tuple[Path, Path]:
+    """Create a complete detached non-Git repo copy containing engine, scripts, and typst/main.typ."""
+    builder = _load_module("s2_f1_release_builder", ROOT / "scripts/build_release_bundle.py")
+    detached = builder.build_source_tree(stage_root)
+    return detached, detached / "typst/main.typ"
+
+
+def test_s2_f1_diagnostics_child_symlinks_and_report_hardlinks_preserve_protected_source(
+    tmp_path: Path, monkeypatch
+):
+    from manual.engine import cli as engine_cli, report as engine_report
+
+    # Re-export compatibility from manual.engine.cli -> manual.engine.report
+    _check(engine_cli.validate_runtime_output_path is engine_report.validate_runtime_output_path)
+    _check(engine_cli.default_repo_root is engine_report.default_repo_root)
+    _check(engine_cli._ALLOWED_IN_REPO_OUTPUT_ROOTS is engine_report._ALLOWED_IN_REPO_OUTPUT_ROOTS)
+    _check(engine_cli._path_within_lexical is engine_report._path_within_lexical)
+    _check(engine_cli._reject_pre_resolution_symlinks is engine_report._reject_pre_resolution_symlinks)
+
+    # Trailing directory-specifier suffixes and normalized symlink targets fail closed
+    ext_base = tmp_path / "suffix_checks"
+    ext_base.mkdir()
+    for bad_spec in (
+        f"{ext_base}/out/",
+        f"{ext_base}/out\\",
+        f"{ext_base}/out/.",
+        f"{ext_base}/out\\.",
+        f"{ext_base}/out/..",
+        f"{ext_base}/out\\..",
+        ".",
+        "..",
+    ):
+        with pytest.raises(ValueError):
+            validate_runtime_output_path(bad_spec, ROOT, flag_name="--report", expect_dir=False)
+    proc_slash = _run_cli(["--check-zero-float", "--report", f"{ext_base}/slash_rep/"])
+    _check(proc_slash.returncode == 2, proc_slash.stderr)
+    proc_dot = _run_cli(["--check-zero-float", "--report", f"{ext_base}/dot_rep/."])
+    _check(proc_dot.returncode == 2, proc_dot.stderr)
+
+    real_dir = ext_base / "real_dir"
+    real_dir.mkdir()
+    sym_dir_link = ext_base / "sym_dir_link"
+    sym_dir_link.symlink_to(real_dir)
+    with pytest.raises(ValueError, match="symlink"):
+        validate_runtime_output_path(
+            f"{sym_dir_link}/.", ROOT, flag_name="--diagnostics-dir", expect_dir=True
+        )
+    proc_sym_dot = _run_cli(["--check-zero-float", "--diagnostics-dir", f"{sym_dir_link}/."])
+    _check(proc_sym_dot.returncode == 2, proc_sym_dot.stderr)
+
+    # Detached repo copy with protected typst/main.typ
+    detached, protected_main = _build_detached_native_copy(tmp_path / "detached_stage")
+    orig_bytes = protected_main.read_bytes()
+    orig_sha = hashlib.sha256(orig_bytes).hexdigest()
+    orig_stat = protected_main.stat()
+
+    def _assert_protected_unchanged(*, check_nlink: bool = False) -> None:
+        cur_bytes = protected_main.read_bytes()
+        cur_stat = protected_main.stat()
+        _check(cur_bytes == orig_bytes, "protected typst/main.typ bytes were mutated")
+        _check(hashlib.sha256(cur_bytes).hexdigest() == orig_sha)
+        _check(cur_stat.st_mode == orig_stat.st_mode)
+        _check(cur_stat.st_ino == orig_stat.st_ino)
+        if check_nlink:
+            _check(cur_stat.st_nlink == 1, f"expected st_nlink == 1, got {cur_stat.st_nlink}")
+
+    # 1. CLI stdout child symlink -> typst/main.typ fails closed (exit 2), zero bytes written
+    diag_sym_out = tmp_path / "diag_sym_stdout"
+    diag_sym_out.mkdir()
+    (diag_sym_out / "native_closure_wave.stdout.txt").symlink_to(protected_main)
+    rep_sym_out = tmp_path / "rep_sym_stdout.json"
+    p1 = _run_cli(
+        [
+            "--repo-root",
+            str(detached),
+            "--sector",
+            "native_closure_wave",
+            "--diagnostics-dir",
+            str(diag_sym_out),
+            "--report",
+            str(rep_sym_out),
+        ],
+        cwd=detached,
+    )
+    _check(p1.returncode == 2, f"expected rc=2, got {p1.returncode}: {p1.stderr}")
+    _check("symlink" in p1.stderr.lower(), p1.stderr)
+    _check(not rep_sym_out.exists())
+    _check(not (diag_sym_out / "native_closure_wave.stderr.txt").exists())
+    _assert_protected_unchanged()
+
+    # 2. CLI stderr child symlink -> typst/main.typ fails closed (exit 2), zero bytes written
+    diag_sym_err = tmp_path / "diag_sym_stderr"
+    diag_sym_err.mkdir()
+    (diag_sym_err / "native_closure_wave.stderr.txt").symlink_to(protected_main)
+    rep_sym_err = tmp_path / "rep_sym_stderr.json"
+    p2 = _run_cli(
+        [
+            "--repo-root",
+            str(detached),
+            "--sector",
+            "native_closure_wave",
+            "--diagnostics-dir",
+            str(diag_sym_err),
+            "--report",
+            str(rep_sym_err),
+        ],
+        cwd=detached,
+    )
+    _check(p2.returncode == 2, f"expected rc=2, got {p2.returncode}: {p2.stderr}")
+    _check("symlink" in p2.stderr.lower(), p2.stderr)
+    _check(not rep_sym_err.exists())
+    _check(not (diag_sym_err / "native_closure_wave.stdout.txt").exists())
+    _assert_protected_unchanged()
+
+    # 3. Direct run_tier1_sector call with failing subprocess + child symlink fails BEFORE launching subprocess
+    launched: list[list[str]] = []
+
+    def fail_spy(argv, *a, **kw):
+        launched.append(list(argv))
+        return subprocess.CompletedProcess(argv, 1, stdout="poison", stderr="poison_err")
+
+    with monkeypatch.context() as mp:
+        mp.setattr(tier1_adapters.subprocess, "run", fail_spy)
+        with pytest.raises(ValueError, match="symlink"):
+            tier1_adapters.run_tier1_sector(
+                SECTOR_MAP["native_closure_wave"],
+                detached,
+                diagnostics_dir=diag_sym_out,
+            )
+    _check(launched == [], "subprocess must never launch when diagnostics child path is a symlink")
+    _assert_protected_unchanged()
+
+    # 3b. Direct run_tier1_sector where a hostile subprocess plants a symlink mid-flight fails before writing either child
+    diag_mid = tmp_path / "diag_midflight"
+    diag_mid.mkdir()
+
+    def hostile_midflight(argv, *a, **kw):
+        (diag_mid / "native_closure_wave.stderr.txt").symlink_to(protected_main)
+        return subprocess.CompletedProcess(argv, 1, stdout="poison", stderr="poison_err")
+
+    with monkeypatch.context() as mp:
+        mp.setattr(tier1_adapters.subprocess, "run", hostile_midflight)
+        with pytest.raises(ValueError, match="symlink"):
+            tier1_adapters.run_tier1_sector(
+                SECTOR_MAP["native_closure_wave"],
+                detached,
+                diagnostics_dir=diag_mid,
+            )
+    _check(not (diag_mid / "native_closure_wave.stdout.txt").exists())
+    _assert_protected_unchanged()
+
+    # 4. External hard links for BOTH diagnostics child and --report leave protected source inode untouched
+    diag_hl = tmp_path / "diag_hardlink"
+    diag_hl.mkdir()
+    hl_stdout = diag_hl / "native_closure_wave.stdout.txt"
+    os.link(protected_main, hl_stdout)
+    hl_report = tmp_path / "hardlinked_report.json"
+    os.link(protected_main, hl_report)
+    _check(protected_main.stat().st_nlink == 3)
+
+    p_hl = _run_cli(
+        [
+            "--repo-root",
+            str(detached),
+            "--sector",
+            "native_closure_wave",
+            "--diagnostics-dir",
+            str(diag_hl),
+            "--report",
+            str(hl_report),
+        ],
+        cwd=detached,
+    )
+    _check(p_hl.returncode == 0, p_hl.stderr)
+    _assert_protected_unchanged(check_nlink=True)
+    _check(hl_stdout.stat().st_ino != orig_stat.st_ino)
+    _check(hl_report.stat().st_ino != orig_stat.st_ino)
+    hl_parsed = loads_zero_float(hl_report.read_text(encoding="utf-8"))
+    validate_report(hl_parsed)
+    _check(hl_parsed["outcomes_summary"] == {"total_executed": 1, "PASS": 1, "FAIL": 0})
+    hl_stdout_parsed = loads_zero_float(hl_stdout.read_text(encoding="utf-8"))
+    _check(isinstance(hl_stdout_parsed, dict) and hl_stdout_parsed["passed"] == 83)
+    _check((diag_hl / "native_closure_wave.stderr.txt").read_text(encoding="utf-8") == "")
+
+    # 5. Positive control: ordinary external --diagnostics-dir succeeds and writes both files cleanly
+    diag_ok = tmp_path / "diag_ordinary"
+    rep_ok = tmp_path / "rep_ordinary.json"
+    p_ok = _run_cli(
+        [
+            "--repo-root",
+            str(detached),
+            "--sector",
+            "native_closure_wave",
+            "--diagnostics-dir",
+            str(diag_ok),
+            "--report",
+            str(rep_ok),
+        ],
+        cwd=detached,
+    )
+    _check(p_ok.returncode == 0, p_ok.stderr)
+    ok_rep = loads_zero_float(rep_ok.read_text(encoding="utf-8"))
+    validate_report(ok_rep)
+    _check(ok_rep["outcomes_summary"] == {"total_executed": 1, "PASS": 1, "FAIL": 0})
+    _check((diag_ok / "native_closure_wave.stdout.txt").is_file())
+    _check((diag_ok / "native_closure_wave.stderr.txt").is_file())
+    _check((diag_ok / "native_closure_wave.stderr.txt").read_text(encoding="utf-8") == "")
+
+
+def test_s2_f2_exact_typed_equality_rejects_bool_int_substitutions(tmp_path: Path):
+    # All 30 committed vectors pass baseline
+    baseline = verify_all_vectors(ROOT)
+    _check(baseline["status"] == "PASS", baseline)
+    _check(baseline["passed_vectors"] == 30 and baseline["failed_vectors"] == 0)
+
+    rc_raw_lines = (ROOT / "manual/engine/vectors/rational_core.jsonl").read_text(encoding="utf-8").splitlines()
+    rc_records = [loads_zero_float(line) for line in rc_raw_lines if line.strip()]
+    rc_by_id = {str(rec["case_id"]): rec for rec in rc_records}
+
+    mutations: tuple[tuple[str, tuple[str | int, ...], object, str], ...] = (
+        ("RC-005", ("hamming_distance",), True, "$.hamming_distance"),
+        ("RC-005", ("neighbors", 2), True, "$.neighbors[2]"),
+        ("RC-009", ("selected_slot",), False, "$.selected_slot"),
+        ("RC-010", ("no_delay_stable_at_one",), 1, "$.no_delay_stable_at_one"),
+        ("RC-010", ("extra_delay_stable_at_one",), 0, "$.extra_delay_stable_at_one"),
+    )
+
+    # Prepare a detached copy containing manual/engine/ plus all bound source files for verify_all_vectors
+    vec_repo = tmp_path / "vec_repo"
+    bound_files: set[str] = set()
+    for vec_rel in (
+        "manual/engine/vectors/rational_core.jsonl",
+        "manual/engine/vectors/symbolic_and_display.jsonl",
+    ):
+        for line in (ROOT / vec_rel).read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            rec = loads_zero_float(line)
+            for comp in str(rec["source_binding"]).split(";"):
+                rel_p = comp.partition("#")[0]
+                if not rel_p.startswith("manual/engine/"):
+                    bound_files.add(rel_p)
+    _copy_files(vec_repo, sorted(bound_files))
+    shutil.copytree(
+        ROOT / "manual/engine",
+        vec_repo / "manual/engine",
+        ignore=shutil.ignore_patterns("__pycache__"),
+    )
+    orig_rc_text = (vec_repo / "manual/engine/vectors/rational_core.jsonl").read_text(encoding="utf-8")
+
+    for case_id, field_path, mutated_value, expected_path in mutations:
+        mutated_rec = deepcopy(rc_by_id[case_id])
+        target_container: object = mutated_rec["expected_outcome"]["exact_value"]
+        for key in field_path[:-1]:
+            target_container = target_container[key]
+        target_container[field_path[-1]] = mutated_value
+
+        # 1. Direct verify_single_vector rejects with crisp type-mismatch diagnostic
+        with pytest.raises(ValueError) as exc_info:
+            verify_single_vector(mutated_rec, repo_root=ROOT)
+        err_msg = str(exc_info.value)
+        _check("type mismatch" in err_msg and expected_path in err_msg, err_msg)
+
+        # 2. Full verify_all_vectors rejects the mutated JSONL record
+        mutated_lines: list[str] = []
+        for rec in rc_records:
+            if rec["case_id"] == case_id:
+                mutated_lines.append(json.dumps(mutated_rec, separators=(",", ":")))
+            else:
+                mutated_lines.append(json.dumps(rec, separators=(",", ":")))
+        (vec_repo / "manual/engine/vectors/rational_core.jsonl").write_text(
+            "\n".join(mutated_lines) + "\n", encoding="utf-8"
+        )
+        res = verify_all_vectors(vec_repo)
+        _check(res["status"] == "FAIL", f"{case_id} mutation unexpectedly passed: {res}")
+        _check(res["failed_vectors"] == 1 and res["passed_vectors"] == 29, res)
+        _check(res["failures"][0]["case_id"] == case_id)
+        _check(
+            "type mismatch" in res["failures"][0]["error"]
+            and expected_path in res["failures"][0]["error"],
+            res["failures"][0]["error"],
+        )
+
+    # Restore unmodified rational_core.jsonl and confirm full pass on detached repo
+    (vec_repo / "manual/engine/vectors/rational_core.jsonl").write_text(orig_rc_text, encoding="utf-8")
+    restored = verify_all_vectors(vec_repo)
+    _check(restored["status"] == "PASS" and restored["passed_vectors"] == 30, restored)
+
+
+def test_s2_f3_source_binding_selectors_verified_and_broken_bindings_rejected(tmp_path: Path):
+    # Confirm RC-005 and RC-008 point to their real defining Typst files and all 32 components pass
+    rc_lines = (ROOT / "manual/engine/vectors/rational_core.jsonl").read_text(encoding="utf-8").splitlines()
+    sd_lines = (ROOT / "manual/engine/vectors/symbolic_and_display.jsonl").read_text(encoding="utf-8").splitlines()
+    all_records = [loads_zero_float(line) for line in (*rc_lines, *sd_lines) if line.strip()]
+    by_id = {str(rec["case_id"]): rec for rec in all_records}
+
+    _check(by_id["RC-005"]["source_binding"] == "typst/sections/03_afc_basis.typ#eq:atomic-h1")
+    _check(by_id["RC-008"]["source_binding"] == "typst/sections/06_field.typ#eq:afc-stokes-used")
+
+    component_count = 0
+    for rec in all_records:
+        sb = str(rec["source_binding"])
+        component_count += len(sb.split(";"))
+        validate_source_binding(ROOT, sb)
+    _check(component_count == 32, f"expected 32 source_binding components, got {component_count}")
+
+    # Negative controls on live repo
+    bad_bindings = (
+        ("missing/not_a_source.typ#missing-label", "missing"),
+        ("typst/sections/04_cut_running_fractal_tesseract.typ#eq:atomic-h1", "defining Typst label"),
+        ("typst/sections/05_curl_closure_duon_current.typ#eq:afc-stokes-used", "defining Typst label"),
+        ("typst/sections/03_afc_basis.typ#eq:does-not-exist", "defining Typst label"),
+        ("manual/scripts/aod_awareness.py#nonexistent_function", "top-level function"),
+        ("manual/scripts/generate_cycle_shedding_fixture.py#L1-999999", "out of bounds"),
+        ("manual/scripts/generate_cycle_shedding_fixture.py#L50-20", "out of bounds"),
+        ("manual/scripts/generate_cycle_shedding_fixture.py#bad-selector!", "unsupported Python selector"),
+        ("manual/data/mapping_error/mapping_error.json#original_historical_laws.cases.MISSING", "missing segment"),
+        ("manual/data/mapping_error/mapping_error.json#original_historical_laws..cases", "empty JSON key"),
+        ("manual/data/derived/sparc_five_galaxy_per_bin.csv#row9999", "out of bounds"),
+        ("manual/data/derived/sparc_five_galaxy_per_bin.csv#row00", "non-canonical CSV row selector"),
+        ("manual/data/derived/sparc_five_galaxy_per_bin.csv#row078", "non-canonical CSV row selector"),
+        ("manual/data/derived/sparc_five_galaxy_per_bin.csv#row78_WRONG_GALAXY", "does not contain token"),
+        ("manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv#NONEXISTENT_CELL", "not found"),
+        ("manual/data/higgs/higgs_trace_score_formula.md#unsupported", "unsupported source_binding selector suffix"),
+        ("manual/engine/numeric.py#", "empty selector"),
+        ("manual/engine/numeric.py#a#b", "multiple '#'"),
+        ("/etc/passwd", "absolute path"),
+        ("../outside.py", "unsafe relative path"),
+        ("manual\\engine\\numeric.py", "backslash"),
+        ("", "non-empty"),
+    )
+    for bad_sb, expected_substr in bad_bindings:
+        with pytest.raises(ValueError) as exc_info:
+            validate_source_binding(ROOT, bad_sb)
+        _check(
+            expected_substr in str(exc_info.value),
+            f"binding {bad_sb!r} raised unexpected message: {exc_info.value}",
+        )
+
+    # Typst labels hidden inside comments, nested comments, strings, escaped quotes,
+    # raw inline/fenced blocks, escapes, or native reference calls must be rejected
+    fake_repo = tmp_path / "fake_typ_repo"
+    (fake_repo / "typst").mkdir(parents=True)
+    (fake_repo / "typst/comment_only.typ").write_text(
+        '// <eq:commented>\n'
+        '/* <eq:blocked> */\n'
+        '/* outer /* inner */ <eq:nested> */\n'
+        '#eqref("eq:quoted")\n'
+        '"<eq:strlit>"\n'
+        '"a \\" <eq:escstr>"\n'
+        '\\<eq:escaped>\n'
+        '`<eq:raw>`\n'
+        '```typ\n<eq:rawblock>\n```\n'
+        '#ref(<eq:refonly>)\n'
+        '#link(<eq:linkonly>)[x]\n'
+        '#cite(<eq:citeonly>)\n'
+        '#query(<eq:queryonly>)\n'
+        '#selector(<eq:selonly>)\n',
+        encoding="utf-8",
+    )
+    for hidden in (
+        "eq:commented",
+        "eq:blocked",
+        "eq:nested",
+        "eq:quoted",
+        "eq:strlit",
+        "eq:escstr",
+        "eq:escaped",
+        "eq:raw",
+        "eq:rawblock",
+        "eq:refonly",
+        "eq:linkonly",
+        "eq:citeonly",
+        "eq:queryonly",
+        "eq:selonly",
+    ):
+        with pytest.raises(ValueError, match="defining Typst label"):
+            validate_source_binding(fake_repo, f"typst/comment_only.typ#{hidden}")
+
+    # Positive check: raw `"` and `/*` and empty `` before a real defining label do NOT corrupt parsing
+    (fake_repo / "typst/raw_before_real.typ").write_text(
+        'Inline quote `"` and block opener `/*` and empty `` and escaped \\`.\n'
+        '$ x = 1 $ <eq:real>\n',
+        encoding="utf-8",
+    )
+    validate_source_binding(fake_repo, "typst/raw_before_real.typ#eq:real")
+
+    # Symlinked bound file and symlinked parent directory must be rejected
+    outside_src = tmp_path / "outside_real.py"
+    outside_src.write_text("def ok_fn():\n    return 1\n", encoding="utf-8")
+    (fake_repo / "sym_target.py").symlink_to(outside_src)
+    with pytest.raises(ValueError, match="symlink target"):
+        validate_source_binding(fake_repo, "sym_target.py#ok_fn")
+
+    outside_dir = tmp_path / "outside_dir"
+    outside_dir.mkdir()
+    (outside_dir / "real.py").write_text("def ok_fn():\n    return 1\n", encoding="utf-8")
+    (fake_repo / "sym_dir").symlink_to(outside_dir)
+    with pytest.raises(ValueError, match="symlink parent"):
+        validate_source_binding(fake_repo, "sym_dir/real.py#ok_fn")
+
+    # Broken source_binding fails closed inside verify_single_vector for BOTH OK and REJECT vectors
+    bad_ok_vec = deepcopy(by_id["RC-005"])
+    bad_ok_vec["source_binding"] = "typst/sections/04_cut_running_fractal_tesseract.typ#eq:atomic-h1"
+    with pytest.raises(ValueError, match="defining Typst label"):
+        verify_single_vector(bad_ok_vec, repo_root=ROOT)
+
+    bad_reject_vec = deepcopy(by_id["RC-022"])
+    bad_reject_vec["source_binding"] = "manual/engine/numeric.py#nonexistent_validator"
+    with pytest.raises(ValueError, match="top-level function"):
+        verify_single_vector(bad_reject_vec, repo_root=ROOT)
+
+    # CLI --verify-vectors --report with hostile absolute source_binding "/etc/passwd"
+    # must write a schema-valid sanitized FAIL report and exit 1 without leaking "/etc/passwd"
+    hostile_repo = tmp_path / "hostile_sb_repo"
+    bound_files: set[str] = {"manual/__init__.py"}
+    for rec in all_records:
+        for comp in str(rec["source_binding"]).split(";"):
+            rel_p = comp.partition("#")[0]
+            if not rel_p.startswith("manual/engine/"):
+                bound_files.add(rel_p)
+    _copy_files(hostile_repo, sorted(bound_files))
+    shutil.copytree(
+        ROOT / "manual/engine",
+        hostile_repo / "manual/engine",
+        ignore=shutil.ignore_patterns("__pycache__"),
+    )
+    hostile_rc_records = [loads_zero_float(line) for line in rc_lines if line.strip()]
+    hostile_rc_records[4]["source_binding"] = "/etc/passwd"
+    (hostile_repo / "manual/engine/vectors/rational_core.jsonl").write_text(
+        "\n".join(json.dumps(r, separators=(",", ":")) for r in hostile_rc_records) + "\n",
+        encoding="utf-8",
+    )
+    hostile_report = tmp_path / "hostile_sb_report.json"
+    proc_hostile = _run_cli(
+        [
+            "--repo-root",
+            str(hostile_repo),
+            "--verify-vectors",
+            "--report",
+            str(hostile_report),
+        ],
+        cwd=hostile_repo,
+    )
+    _check(proc_hostile.returncode == 1, f"expected rc=1, got {proc_hostile.returncode}: {proc_hostile.stderr}")
+    _check(hostile_report.is_file(), "sanitized FAIL report was not written")
+    raw_hostile_report = hostile_report.read_text(encoding="utf-8")
+    _check("/etc/passwd" not in raw_hostile_report, raw_hostile_report)
+    _check("/etc/passwd" not in proc_hostile.stderr, proc_hostile.stderr)
+    parsed_hostile = loads_zero_float(raw_hostile_report)
+    validate_report(parsed_hostile)
+    vv_hostile = parsed_hostile["vectors_verification"]
+    _check(vv_hostile["status"] == "FAIL", vv_hostile)
+    _check(vv_hostile["failed_vectors"] == 1 and vv_hostile["passed_vectors"] == 29, vv_hostile)
+    _check(vv_hostile["failures"][0]["case_id"] == "RC-005", vv_hostile["failures"])
+    _check("<HOST_PATH>" in vv_hostile["failures"][0]["error"], vv_hostile["failures"])
