@@ -44,6 +44,13 @@ jobs:
         run: |
           python3 scripts/audit_scientific_sources.py . --build-root latex
 
+      - name: Verify S2 zero-float reference engine (normal and -O)
+        run: |
+          mkdir -p _build/s2
+          python3 -B -m manual.engine --verify-all --check-zero-float --verify-vectors --report _build/s2/engine_norm.json
+          python3 -B -O -m manual.engine --verify-all --check-zero-float --verify-vectors --report _build/s2/engine_opt.json
+          cmp _build/s2/engine_norm.json _build/s2/engine_opt.json
+
       - name: Run test suite
         run: |
           set -o pipefail
