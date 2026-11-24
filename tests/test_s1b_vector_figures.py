@@ -485,9 +485,14 @@ def test_s1b_all_23_data_backed_figures_match_frozen_sources():
 
 
 def test_s1b_no_math_escape_typos_and_no_phantom_comment_paths():
-    for typ_p in sorted((ROOT / "typst/lib/figures").rglob("*.typ")) + [ROOT / "typst/lib/aod_plots.typ"]:
+    for typ_p in sorted((ROOT / "typst/lib/figures").rglob("*.typ")) + sorted((ROOT / "typst/lib/diagrams").rglob("*.typ")) + [ROOT / "typst/lib/aod_plots.typ"]:
         text = typ_p.read_text(encoding="utf-8")
         assert not re.search(r"\\[,;:!]", text), f"LaTeX math-spacing escape renders literally in Typst: {typ_p}"
+        if typ_p.name != "aod_plots.typ":
+            non_comment = "\n".join(ln for ln in text.splitlines() if not ln.strip().startswith("//"))
+            assert "`" not in non_comment, (
+                f"Raw backtick span in figure component falls back to OS-dependent monospace font: {typ_p}"
+            )
         for idx, line in enumerate(text.splitlines(), 1):
             if line.strip().startswith("//"):
                 for m in re.finditer(

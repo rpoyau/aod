@@ -69,7 +69,7 @@
     [#text(size: 7.0pt)[
       *4. Odd-window lepton shedding ($1":"2":"9_(upright("yro"))$):* \
       Dimonnanyro ($tau^-$): $Q^D = 0$, $P^D = 27 > sans("C")_8 = 24$ \
-      $X_(upright("shedding")) = 3 -> (19 slash 50, med 31 slash 50)$ on `_Exo`
+      $X_(upright("shedding")) = 3 -> (19 slash 50, med 31 slash 50) |_(upright("Exo"))$
     ]],
     stroke: 1.05pt + aod-pal.orange,
     fill: aod-pal.tint-amber,
@@ -87,18 +87,18 @@
     [#text(size: 7.2pt)[
       *Recipient Event Lattice* \
       *(strictly witness-ordered)* \ \
-      1. `emitted` ($w_(upright("shed"))$) \
+      1. *emitted* ($w_(upright("shed"))$) \
       $quad arrow.b$ \
-      2. `delivered` at $partial_T R_(upright("rec"))$ \
+      2. *delivered* at $partial_T R_(upright("rec"))$ \
       $quad arrow.b$ \
-      3. `accepted` vs `unaccepted_pass` \
+      3. *accepted* vs *unaccepted\_pass* \
       $quad$ ($31 slash 50$ Tau missing pass) \
       $quad arrow.b$ \
-      4. `seated` ($Delta op("bip") = 0$) \
+      4. *seated* ($Delta op("bip") = 0$) \
       $quad arrow.b$ \
-      5. `closed_origin` ($j = 0$, $Delta op("bip") = 0$) \
+      5. *closed\_origin* ($j = 0$, $Delta op("bip") = 0$) \
       $quad arrow.b$ \
-      6. `reclosed` ($j >= 1$, $Delta op("bip") = +1$)
+      6. *reclosed* ($j >= 1$, $Delta op("bip") = +1$)
     ]],
     stroke: 0.9pt + aod-pal.navy,
     fill: aod-pal.tint-gray,

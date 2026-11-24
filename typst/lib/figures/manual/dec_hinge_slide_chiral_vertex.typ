@@ -44,7 +44,7 @@
     0.95, 1.94, 4.35, 1.18,
     [#text(size: 7.0pt)[
       Dwell $(e_2, 0_D)$: Cut 1 $P = #c1-hinge.prob_exact$ \
-      Cut 2 `xxxxx... is x` $-> op("adm") = #c2-block.adm$, $P = #c2-block.prob_exact$ \
+      Cut 2 ($x x x dots.h$ is $x$) $-> op("adm") = #c2-block.adm$, $P = #c2-block.prob_exact$ \
       *(structural $0_H$ preserved; $m = 0$)*
     ]],
     stroke: 0.75pt + aod-pal.crimson,

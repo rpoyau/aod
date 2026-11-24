@@ -99,7 +99,7 @@
       items: (
         (kind: "patch", color: aod-pal.teal, label: [closed inner carrier]),
         (kind: "patch", color: aod-pal.crimson, label: [$3":"2$ Ditrion debris]),
-        (kind: "patch", color: aod-pal.gold, label: [`yro` shedding / saddle]),
+        (kind: "patch", color: aod-pal.gold, label: [yro shedding / saddle]),
       ),
     ),
   )

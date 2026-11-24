@@ -262,7 +262,7 @@
     {
       "path": "typst/lib/figures/manual/collision_shedding_debris_feynman.typ",
       "role": "typst_vector_figure",
-      "sha256": "3aaa40572ffc387fe75a098d11f9a732be6f81b8cc7330b903a2945421d40f09"
+      "sha256": "63a5b6a399e6930a8717337217096b766e9c3e8aabb4d7f67a1b725e219ef21d"
     },
     {
       "path": "typst/lib/figures/manual/coordinate_phase_delta3_wireframe.typ",
@@ -277,7 +277,7 @@
     {
       "path": "typst/lib/figures/manual/dec_hinge_slide_chiral_vertex.typ",
       "role": "typst_vector_figure",
-      "sha256": "5108896542db7731797e57d74f358358248fd55b0733384dfc1e8ce44521916a"
+      "sha256": "c914fce469fdc39b87ab7291cccc2e345f232a4e90d0cf40e6519a9e31997a0c"
     },
     {
       "path": "typst/lib/figures/manual/double_slit_cross_return_setup.typ",
@@ -357,7 +357,7 @@
     {
       "path": "typst/lib/figures/manual/rest_energy_stability_debris_atlas.typ",
       "role": "typst_vector_figure",
-      "sha256": "e3c440ea5d8f9ab1ac4d51d9e28ea63410b473122cf136014b01757fe1ee7bf0"
+      "sha256": "11e640423ce2b6ed28db4c7ab89e5fff137c598abfe791ed8e8210e794c56ab7"
     },
     {
       "path": "typst/lib/figures/manual/run_tumble_trace_3d_projection.typ",
@@ -402,7 +402,7 @@
     {
       "path": "typst/lib/figures/manual/tau_five_boundary_sadar_setup.typ",
       "role": "typst_vector_figure",
-      "sha256": "73b146bdda057dbaa740d7a18a198a522f4c9e02b5fb5f2fc8ce18bede6b1856"
+      "sha256": "356a3d38d64b183d712682daeba6cd12191394957d166f254c3405c5e6cea223"
     },
     {
       "path": "typst/lib/figures/manual/tau_missing_burden_diagnostic.typ",
@@ -816,7 +816,7 @@
       "path": "manual/figures/generated/FIGURE_MANIFEST.json",
       "kind": "figure_manifest",
       "source": "scripts/export_typst_figures.py",
-      "sha256": "88ea745d14908cb5bc1b0a8c29be25cbae704fe4d352d2404606219505f0a729",
+      "sha256": "3a2853bb0cf4bf6a0488a5efbfc6830c6e77334f72494b0bdcb48078fd2b81fd",
       "bytes": 49837
     },
     {
@@ -837,8 +837,8 @@
       "path": "manual/figures/generated/collision-shedding-debris-feynman.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/manual/collision_shedding_debris_feynman.typ",
-      "sha256": "f6d5e7c2cea8d46abca92591c033ad0fc7635b089143e5142bf69efba930de89",
-      "bytes": 58805
+      "sha256": "4696eb2db333dec6e51c32483c1d084bbb56d35bfb441b5e568a3d0229fb1bfb",
+      "bytes": 51420
     },
     {
       "path": "manual/figures/generated/coordinate-phase-delta3-wireframe.pdf",
@@ -858,8 +858,8 @@
       "path": "manual/figures/generated/dec-hinge-slide-chiral-vertex.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/manual/dec_hinge_slide_chiral_vertex.typ",
-      "sha256": "2ad4f52c0936db21d275ce81ce763e098e45fda74963ec14abcb1d0b28d21be0",
-      "bytes": 47434
+      "sha256": "530ae262ae85d80fa371ef4b481dba78cfab742a0db913eb8645e07983ea853c",
+      "bytes": 42133
     },
     {
       "path": "manual/figures/generated/double-slit-cross-return-setup.pdf",
@@ -977,8 +977,8 @@
       "path": "manual/figures/generated/rest-energy-stability-debris-atlas.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/manual/rest_energy_stability_debris_atlas.typ",
-      "sha256": "12076b64f5976cbefc0669b12875dbb9fcaa526601e83279cec72d3e4ea32dcc",
-      "bytes": 35004
+      "sha256": "a70c1f6fea1c40a17cbc1b3ce2994474213301a96d2b4e266fe3650c2854628b",
+      "bytes": 29229
     },
     {
       "path": "manual/figures/generated/run-tumble-trace-3d-projection.pdf",
@@ -1054,8 +1054,8 @@
       "path": "manual/figures/generated/tau-five-boundary-sadar-setup.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/manual/tau_five_boundary_sadar_setup.typ",
-      "sha256": "57f84fd23cd34c880c3eee0a2829b028f5e26ba66591cca410823bcf1ed1ebb5",
-      "bytes": 66699
+      "sha256": "799b13878a5ab011590f91011032580ba7c76edb4b5b6b750378d85bb21f16e8",
+      "bytes": 52520
     },
     {
       "path": "manual/figures/generated/tau-missing-burden-diagnostic.pdf",

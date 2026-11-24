@@ -117,7 +117,7 @@
       "label": "fig:manual-dec-chiral-flip-walk",
       "typst_section": "typst/manual/sections/00_dec_ledger.typ",
       "diagram_component": "typst/lib/figures/manual/dec_hinge_slide_chiral_vertex.typ",
-      "diagram_sha256": "5108896542db7731797e57d74f358358248fd55b0733384dfc1e8ce44521916a",
+      "diagram_sha256": "c914fce469fdc39b87ab7291cccc2e345f232a4e90d0cf40e6519a9e31997a0c",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
@@ -139,8 +139,8 @@
       },
       "format": "pdf",
       "output_filename": "dec-hinge-slide-chiral-vertex.pdf",
-      "output_sha256": "2ad4f52c0936db21d275ce81ce763e098e45fda74963ec14abcb1d0b28d21be0",
-      "output_bytes": 47434,
+      "output_sha256": "530ae262ae85d80fa371ef4b481dba78cfab742a0db913eb8645e07983ea853c",
+      "output_bytes": 42133,
       "page_count": 1,
       "page_points": [
         419.528,
@@ -194,7 +194,7 @@
       "label": "fig:manual-rest-energy-debris-atlas",
       "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
       "diagram_component": "typst/lib/figures/manual/rest_energy_stability_debris_atlas.typ",
-      "diagram_sha256": "e3c440ea5d8f9ab1ac4d51d9e28ea63410b473122cf136014b01757fe1ee7bf0",
+      "diagram_sha256": "11e640423ce2b6ed28db4c7ab89e5fff137c598abfe791ed8e8210e794c56ab7",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
@@ -216,8 +216,8 @@
       },
       "format": "pdf",
       "output_filename": "rest-energy-stability-debris-atlas.pdf",
-      "output_sha256": "12076b64f5976cbefc0669b12875dbb9fcaa526601e83279cec72d3e4ea32dcc",
-      "output_bytes": 35004,
+      "output_sha256": "a70c1f6fea1c40a17cbc1b3ce2994474213301a96d2b4e266fe3650c2854628b",
+      "output_bytes": 29229,
       "page_count": 1,
       "page_points": [
         425.197,
@@ -235,7 +235,7 @@
       "label": "fig:manual-tau-five-boundary-sadar",
       "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
       "diagram_component": "typst/lib/figures/manual/tau_five_boundary_sadar_setup.typ",
-      "diagram_sha256": "73b146bdda057dbaa740d7a18a198a522f4c9e02b5fb5f2fc8ce18bede6b1856",
+      "diagram_sha256": "356a3d38d64b183d712682daeba6cd12191394957d166f254c3405c5e6cea223",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
@@ -257,8 +257,8 @@
       },
       "format": "pdf",
       "output_filename": "tau-five-boundary-sadar-setup.pdf",
-      "output_sha256": "57f84fd23cd34c880c3eee0a2829b028f5e26ba66591cca410823bcf1ed1ebb5",
-      "output_bytes": 66699,
+      "output_sha256": "799b13878a5ab011590f91011032580ba7c76edb4b5b6b750378d85bb21f16e8",
+      "output_bytes": 52520,
       "page_count": 1,
       "page_points": [
         425.197,
@@ -276,7 +276,7 @@
       "label": "fig:manual-collision-debris-feynman",
       "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
       "diagram_component": "typst/lib/figures/manual/collision_shedding_debris_feynman.typ",
-      "diagram_sha256": "3aaa40572ffc387fe75a098d11f9a732be6f81b8cc7330b903a2945421d40f09",
+      "diagram_sha256": "63a5b6a399e6930a8717337217096b766e9c3e8aabb4d7f67a1b725e219ef21d",
       "data_inputs": [],
       "width_cm": 15.0,
       "height_cm": 9.3,
@@ -293,8 +293,8 @@
       },
       "format": "pdf",
       "output_filename": "collision-shedding-debris-feynman.pdf",
-      "output_sha256": "f6d5e7c2cea8d46abca92591c033ad0fc7635b089143e5142bf69efba930de89",
-      "output_bytes": 58805,
+      "output_sha256": "4696eb2db333dec6e51c32483c1d084bbb56d35bfb441b5e568a3d0229fb1bfb",
+      "output_bytes": 51420,
       "page_count": 1,
       "page_points": [
         425.197,
