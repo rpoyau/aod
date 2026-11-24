@@ -274,6 +274,21 @@ def main(argv: list[str] | None = None) -> int:
     if args.verify_vectors:
         try:
             vectors_result = verify_all_vectors(repo_root)
+            raw_failures = vectors_result.get("failures")
+            if isinstance(raw_failures, list):
+                vectors_result["failures"] = [
+                    {
+                        "case_id": str(item.get("case_id", "")),
+                        "error": _sanitize_error(
+                            str(item.get("error", "")),
+                            repo_root,
+                            diagnostics_dir=diagnostics_dir,
+                        ),
+                    }
+                    if isinstance(item, dict)
+                    else item
+                    for item in raw_failures
+                ]
         except (ValueError, TypeError, OSError) as exc:
             vectors_result = {
                 "status": "FAIL",

@@ -34,9 +34,11 @@ SYMBOLIC_DISPLAY_REL: str = "manual/engine/vectors/symbolic_and_display.jsonl"
 
 _WIN_DRIVE_RE = re.compile(r"^[A-Za-z]:")
 _TYPST_LABEL_RE = re.compile(r"^[A-Za-z0-9_.:-]+$")
+_TYPST_REF_CALL_RE = re.compile(r"\b(?:ref|link|cite|query|selector)\s*\(\s*$")
 _PY_LINE_RANGE_RE = re.compile(r"^L([1-9][0-9]*)-([1-9][0-9]*)$")
 _PY_FUNC_NAME_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
-_CSV_ROW_RE = re.compile(r"^row([0-9]+)(?:_(.+))?$")
+_CSV_ROW_RE = re.compile(r"^row(0|[1-9][0-9]*)(?:_(.+))?$")
+_CSV_NONCANONICAL_ROW_RE = re.compile(r"^row0[0-9]+(?:_.*)?$")
 
 
 def _pair(q: Fraction | int) -> list[str]:
@@ -772,7 +774,7 @@ def _exact_typed_equal(
 
 
 def _strip_typst_comments_and_strings(text: str) -> str:
-    """Strip Typst line comments, nested block comments, and double-quoted strings."""
+    """Strip Typst comments, double-quoted strings, escaped delimiters, and raw backtick literals."""
     out: list[str] = []
     i = 0
     n = len(text)
@@ -784,40 +786,79 @@ def _strip_typst_comments_and_strings(text: str) -> str:
         if block_depth > 0:
             if ch == "/" and nxt == "*":
                 block_depth += 1
+                out.append("  ")
                 i += 2
             elif ch == "*" and nxt == "/":
                 block_depth -= 1
+                out.append("  ")
                 i += 2
             else:
-                if ch == "\n":
-                    out.append("\n")
+                out.append("\n" if ch == "\n" else " ")
                 i += 1
             continue
         if in_string:
             if ch == "\\" and i + 1 < n:
+                out.append("  ")
                 i += 2
             elif ch == '"':
                 in_string = False
+                out.append(" ")
                 i += 1
             else:
-                if ch == "\n":
-                    out.append("\n")
+                out.append("\n" if ch == "\n" else " ")
                 i += 1
             continue
-        if ch == "\\" and nxt in ('"', "\\", "/", "<", ">"):
+        if ch == "\\" and nxt in ('"', "\\", "/", "<", ">", "`"):
+            out.append("  ")
             i += 2
             continue
         if ch == "/" and nxt == "/":
             while i < n and text[i] != "\n":
+                out.append(" ")
                 i += 1
             continue
         if ch == "/" and nxt == "*":
             block_depth = 1
+            out.append("  ")
             i += 2
             continue
         if ch == '"':
             in_string = True
+            out.append(" ")
             i += 1
+            continue
+        if ch == "`":
+            run_len = 0
+            while i + run_len < n and text[i + run_len] == "`":
+                run_len += 1
+            out.append(" " * run_len)
+            i += run_len
+            if run_len == 2:
+                continue
+            if run_len == 1:
+                while i < n:
+                    if text[i] == "`":
+                        out.append(" ")
+                        i += 1
+                        break
+                    out.append("\n" if text[i] == "\n" else " ")
+                    i += 1
+                continue
+            # Fenced raw block (run_len >= 3): scan until closing run of >= run_len backticks.
+            while i < n:
+                if text[i] == "`":
+                    close_len = 0
+                    while i + close_len < n and text[i + close_len] == "`":
+                        close_len += 1
+                    if close_len >= run_len:
+                        out.append(" " * run_len)
+                        i += run_len
+                        break
+                    out.append(" " * close_len)
+                    i += close_len
+                    continue
+                out.append("\n" if text[i] == "\n" else " ")
+                i += 1
             continue
         out.append(ch)
         i += 1
@@ -880,8 +921,12 @@ def validate_source_binding(repo_root: Path, source_binding: str) -> None:
             )
             stripped = _strip_typst_comments_and_strings(target.read_text(encoding="utf-8"))
             label_re = r"(?<!<)<" + re.escape(selector) + r">(?!>)"
+            has_defining_label = any(
+                _TYPST_REF_CALL_RE.search(stripped[: match.start()]) is None
+                for match in re.finditer(label_re, stripped)
+            )
             require(
-                re.search(label_re, stripped) is not None,
+                has_defining_label,
                 f"defining Typst label <{selector}> not found in {rel_path}",
             )
         elif suffix == ".py":
@@ -928,6 +973,10 @@ def validate_source_binding(repo_root: Path, source_binding: str) -> None:
                 )
                 cur_obj = cur_obj[seg]
         elif suffix == ".csv":
+            require(
+                _CSV_NONCANONICAL_ROW_RE.fullmatch(selector) is None,
+                f"non-canonical CSV row selector {selector!r} in {comp!r}",
+            )
             with target.open("r", encoding="utf-8", newline="") as handle:
                 rows = list(csv.DictReader(handle))
             row_match = _CSV_ROW_RE.fullmatch(selector)

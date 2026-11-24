@@ -1512,10 +1512,12 @@ def test_s2_f2_exact_typed_equality_rejects_bool_int_substitutions(tmp_path: Pat
     rc_records = [loads_zero_float(line) for line in rc_raw_lines if line.strip()]
     rc_by_id = {str(rec["case_id"]): rec for rec in rc_records}
 
-    mutations = (
-        ("RC-005", "hamming_distance", True, "$.hamming_distance"),
-        ("RC-009", "selected_slot", False, "$.selected_slot"),
-        ("RC-010", "no_delay_stable_at_one", 1, "$.no_delay_stable_at_one"),
+    mutations: tuple[tuple[str, tuple[str | int, ...], object, str], ...] = (
+        ("RC-005", ("hamming_distance",), True, "$.hamming_distance"),
+        ("RC-005", ("neighbors", 2), True, "$.neighbors[2]"),
+        ("RC-009", ("selected_slot",), False, "$.selected_slot"),
+        ("RC-010", ("no_delay_stable_at_one",), 1, "$.no_delay_stable_at_one"),
+        ("RC-010", ("extra_delay_stable_at_one",), 0, "$.extra_delay_stable_at_one"),
     )
 
     # Prepare a detached copy containing manual/engine/ plus all bound source files for verify_all_vectors
@@ -1541,9 +1543,12 @@ def test_s2_f2_exact_typed_equality_rejects_bool_int_substitutions(tmp_path: Pat
     )
     orig_rc_text = (vec_repo / "manual/engine/vectors/rational_core.jsonl").read_text(encoding="utf-8")
 
-    for case_id, field_name, mutated_value, expected_path in mutations:
+    for case_id, field_path, mutated_value, expected_path in mutations:
         mutated_rec = deepcopy(rc_by_id[case_id])
-        mutated_rec["expected_outcome"]["exact_value"][field_name] = mutated_value
+        target_container: object = mutated_rec["expected_outcome"]["exact_value"]
+        for key in field_path[:-1]:
+            target_container = target_container[key]
+        target_container[field_path[-1]] = mutated_value
 
         # 1. Direct verify_single_vector rejects with crisp type-mismatch diagnostic
         with pytest.raises(ValueError) as exc_info:
@@ -1607,6 +1612,8 @@ def test_s2_f3_source_binding_selectors_verified_and_broken_bindings_rejected(tm
         ("manual/data/mapping_error/mapping_error.json#original_historical_laws.cases.MISSING", "missing segment"),
         ("manual/data/mapping_error/mapping_error.json#original_historical_laws..cases", "empty JSON key"),
         ("manual/data/derived/sparc_five_galaxy_per_bin.csv#row9999", "out of bounds"),
+        ("manual/data/derived/sparc_five_galaxy_per_bin.csv#row00", "non-canonical CSV row selector"),
+        ("manual/data/derived/sparc_five_galaxy_per_bin.csv#row078", "non-canonical CSV row selector"),
         ("manual/data/derived/sparc_five_galaxy_per_bin.csv#row78_WRONG_GALAXY", "does not contain token"),
         ("manual/data/higgs/higgs_external_lhc_mass_comparison_after_freeze.csv#NONEXISTENT_CELL", "not found"),
         ("manual/data/higgs/higgs_trace_score_formula.md#unsupported", "unsupported source_binding selector suffix"),
@@ -1625,16 +1632,53 @@ def test_s2_f3_source_binding_selectors_verified_and_broken_bindings_rejected(tm
             f"binding {bad_sb!r} raised unexpected message: {exc_info.value}",
         )
 
-    # Typst labels hidden only inside comments or string literals must be rejected
+    # Typst labels hidden inside comments, nested comments, strings, escaped quotes,
+    # raw inline/fenced blocks, escapes, or native reference calls must be rejected
     fake_repo = tmp_path / "fake_typ_repo"
     (fake_repo / "typst").mkdir(parents=True)
     (fake_repo / "typst/comment_only.typ").write_text(
-        '// <eq:commented>\n/* <eq:blocked> */\n#eqref("eq:quoted")\n"<eq:strlit>"\n\\<eq:escaped>\n',
+        '// <eq:commented>\n'
+        '/* <eq:blocked> */\n'
+        '/* outer /* inner */ <eq:nested> */\n'
+        '#eqref("eq:quoted")\n'
+        '"<eq:strlit>"\n'
+        '"a \\" <eq:escstr>"\n'
+        '\\<eq:escaped>\n'
+        '`<eq:raw>`\n'
+        '```typ\n<eq:rawblock>\n```\n'
+        '#ref(<eq:refonly>)\n'
+        '#link(<eq:linkonly>)[x]\n'
+        '#cite(<eq:citeonly>)\n'
+        '#query(<eq:queryonly>)\n'
+        '#selector(<eq:selonly>)\n',
         encoding="utf-8",
     )
-    for hidden in ("eq:commented", "eq:blocked", "eq:quoted", "eq:strlit", "eq:escaped"):
+    for hidden in (
+        "eq:commented",
+        "eq:blocked",
+        "eq:nested",
+        "eq:quoted",
+        "eq:strlit",
+        "eq:escstr",
+        "eq:escaped",
+        "eq:raw",
+        "eq:rawblock",
+        "eq:refonly",
+        "eq:linkonly",
+        "eq:citeonly",
+        "eq:queryonly",
+        "eq:selonly",
+    ):
         with pytest.raises(ValueError, match="defining Typst label"):
             validate_source_binding(fake_repo, f"typst/comment_only.typ#{hidden}")
+
+    # Positive check: raw `"` and `/*` and empty `` before a real defining label do NOT corrupt parsing
+    (fake_repo / "typst/raw_before_real.typ").write_text(
+        'Inline quote `"` and block opener `/*` and empty `` and escaped \\`.\n'
+        '$ x = 1 $ <eq:real>\n',
+        encoding="utf-8",
+    )
+    validate_source_binding(fake_repo, "typst/raw_before_real.typ#eq:real")
 
     # Symlinked bound file and symlinked parent directory must be rejected
     outside_src = tmp_path / "outside_real.py"
@@ -1660,3 +1704,48 @@ def test_s2_f3_source_binding_selectors_verified_and_broken_bindings_rejected(tm
     bad_reject_vec["source_binding"] = "manual/engine/numeric.py#nonexistent_validator"
     with pytest.raises(ValueError, match="top-level function"):
         verify_single_vector(bad_reject_vec, repo_root=ROOT)
+
+    # CLI --verify-vectors --report with hostile absolute source_binding "/etc/passwd"
+    # must write a schema-valid sanitized FAIL report and exit 1 without leaking "/etc/passwd"
+    hostile_repo = tmp_path / "hostile_sb_repo"
+    bound_files: set[str] = {"manual/__init__.py"}
+    for rec in all_records:
+        for comp in str(rec["source_binding"]).split(";"):
+            rel_p = comp.partition("#")[0]
+            if not rel_p.startswith("manual/engine/"):
+                bound_files.add(rel_p)
+    _copy_files(hostile_repo, sorted(bound_files))
+    shutil.copytree(
+        ROOT / "manual/engine",
+        hostile_repo / "manual/engine",
+        ignore=shutil.ignore_patterns("__pycache__"),
+    )
+    hostile_rc_records = [loads_zero_float(line) for line in rc_lines if line.strip()]
+    hostile_rc_records[4]["source_binding"] = "/etc/passwd"
+    (hostile_repo / "manual/engine/vectors/rational_core.jsonl").write_text(
+        "\n".join(json.dumps(r, separators=(",", ":")) for r in hostile_rc_records) + "\n",
+        encoding="utf-8",
+    )
+    hostile_report = tmp_path / "hostile_sb_report.json"
+    proc_hostile = _run_cli(
+        [
+            "--repo-root",
+            str(hostile_repo),
+            "--verify-vectors",
+            "--report",
+            str(hostile_report),
+        ],
+        cwd=hostile_repo,
+    )
+    _check(proc_hostile.returncode == 1, f"expected rc=1, got {proc_hostile.returncode}: {proc_hostile.stderr}")
+    _check(hostile_report.is_file(), "sanitized FAIL report was not written")
+    raw_hostile_report = hostile_report.read_text(encoding="utf-8")
+    _check("/etc/passwd" not in raw_hostile_report, raw_hostile_report)
+    _check("/etc/passwd" not in proc_hostile.stderr, proc_hostile.stderr)
+    parsed_hostile = loads_zero_float(raw_hostile_report)
+    validate_report(parsed_hostile)
+    vv_hostile = parsed_hostile["vectors_verification"]
+    _check(vv_hostile["status"] == "FAIL", vv_hostile)
+    _check(vv_hostile["failed_vectors"] == 1 and vv_hostile["passed_vectors"] == 29, vv_hostile)
+    _check(vv_hostile["failures"][0]["case_id"] == "RC-005", vv_hostile["failures"])
+    _check("<HOST_PATH>" in vv_hostile["failures"][0]["error"], vv_hostile["failures"])
