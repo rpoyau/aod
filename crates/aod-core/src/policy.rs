@@ -178,6 +178,9 @@ fn walk_crate_tree(
 // Cargo.toml & Cargo.lock policy checks
 // ---------------------------------------------------------------------------
 
+const DEP_KEYS: [&str; 3] = ["dependencies", "dev-dependencies", "build-dependencies"];
+const ALWAYS_FORBIDDEN_TOML_KEYS: [&str; 3] = ["patch", "replace", "workspace"];
+
 fn strip_toml_comment(line: &str) -> &str {
     let bytes = line.as_bytes();
     let mut in_dq = false;
@@ -209,51 +212,153 @@ fn strip_toml_comment(line: &str) -> &str {
     line
 }
 
-fn is_dependency_section_header(section: &str) -> (bool, bool) {
-    // Returns (is_dep_table, is_immediately_forbidden_subtable_or_patch)
-    let trimmed = section.trim();
-    if trimmed == "workspace" || trimmed.starts_with("workspace.") {
-        return (false, true);
+fn unquote_toml_segment(seg: &str) -> Result<String, String> {
+    let s = seg.trim();
+    if s.is_empty() {
+        return Err("empty TOML key segment".to_string());
     }
-    if trimmed == "patch"
-        || trimmed.starts_with("patch.")
-        || trimmed == "replace"
-        || trimmed.starts_with("replace.")
-    {
-        return (true, true);
-    }
-    if matches!(
-        trimmed,
-        "dependencies" | "dev-dependencies" | "build-dependencies"
-    ) {
-        return (true, false);
-    }
-    if trimmed.starts_with("dependencies.")
-        || trimmed.starts_with("dev-dependencies.")
-        || trimmed.starts_with("build-dependencies.")
-    {
-        return (true, true);
-    }
-    if trimmed.starts_with("target.") {
-        if trimmed.ends_with(".dependencies")
-            || trimmed.ends_with(".dev-dependencies")
-            || trimmed.ends_with(".build-dependencies")
-        {
-            return (true, false);
+    let bytes = s.as_bytes();
+    if bytes[0] == b'"' {
+        if bytes.len() < 2 || bytes[bytes.len() - 1] != b'"' {
+            return Err("unterminated double-quoted TOML key".to_string());
         }
-        if trimmed.contains(".dependencies.")
-            || trimmed.contains(".dev-dependencies.")
-            || trimmed.contains(".build-dependencies.")
-        {
-            return (true, true);
+        let inner = &s[1..s.len() - 1];
+        let mut out = String::with_capacity(inner.len());
+        let mut chars = inner.chars();
+        while let Some(ch) = chars.next() {
+            if ch == '\\' {
+                match chars.next() {
+                    Some('"') => out.push('"'),
+                    Some('\\') => out.push('\\'),
+                    Some('n') => out.push('\n'),
+                    Some('r') => out.push('\r'),
+                    Some('t') => out.push('\t'),
+                    Some('b') => out.push('\u{0008}'),
+                    Some('f') => out.push('\u{000c}'),
+                    Some(other) => out.push(other),
+                    None => return Err("trailing escape in double-quoted TOML key".to_string()),
+                }
+            } else {
+                out.push(ch);
+            }
         }
+        return Ok(out);
     }
-    (false, false)
+    if bytes[0] == b'\'' {
+        if bytes.len() < 2 || bytes[bytes.len() - 1] != b'\'' {
+            return Err("unterminated single-quoted TOML key".to_string());
+        }
+        let inner = &s[1..s.len() - 1];
+        if inner.contains('\'') {
+            return Err("unexpected single quote in literal TOML key".to_string());
+        }
+        return Ok(inner.to_string());
+    }
+    if !bytes
+        .iter()
+        .all(|&b| b.is_ascii_alphanumeric() || b == b'_' || b == b'-')
+    {
+        return Err(format!("invalid bare TOML key segment {:?}", s));
+    }
+    Ok(s.to_string())
+}
+
+/// Split a TOML dotted key or table header into normalized unquoted segments,
+/// splitting on `.` strictly outside single/double quotes (handling `\"` escapes).
+fn parse_toml_key_path(raw: &str) -> Result<Vec<String>, String> {
+    let bytes = raw.as_bytes();
+    let mut segments: Vec<String> = Vec::new();
+    let mut start = 0usize;
+    let mut in_dq = false;
+    let mut in_sq = false;
+    let mut i = 0usize;
+
+    while i < bytes.len() {
+        let b = bytes[i];
+        if in_dq {
+            if b == b'\\' && i + 1 < bytes.len() {
+                i += 2;
+                continue;
+            }
+            if b == b'"' {
+                in_dq = false;
+            }
+        } else if in_sq {
+            if b == b'\'' {
+                in_sq = false;
+            }
+        } else if b == b'"' {
+            in_dq = true;
+        } else if b == b'\'' {
+            in_sq = true;
+        } else if b == b'.' {
+            segments.push(unquote_toml_segment(&raw[start..i])?);
+            start = i + 1;
+        }
+        i += 1;
+    }
+    if in_dq || in_sq {
+        return Err("unterminated quoted segment in TOML key path".to_string());
+    }
+    segments.push(unquote_toml_segment(&raw[start..])?);
+    Ok(segments)
+}
+
+/// Split a TOML `key = value` line on the first `=` strictly outside quotes.
+fn split_toml_assignment(code: &str) -> Option<(&str, &str)> {
+    let bytes = code.as_bytes();
+    let mut in_dq = false;
+    let mut in_sq = false;
+    let mut i = 0usize;
+    while i < bytes.len() {
+        let b = bytes[i];
+        if in_dq {
+            if b == b'\\' && i + 1 < bytes.len() {
+                i += 2;
+                continue;
+            }
+            if b == b'"' {
+                in_dq = false;
+            }
+        } else if in_sq {
+            if b == b'\'' {
+                in_sq = false;
+            }
+        } else if b == b'"' {
+            in_dq = true;
+        } else if b == b'\'' {
+            in_sq = true;
+        } else if b == b'=' {
+            return Some((&code[..i], &code[i + 1..]));
+        }
+        i += 1;
+    }
+    None
+}
+
+fn parse_toml_table_header(code: &str) -> Result<(bool, Vec<String>), String> {
+    if code.starts_with("[[") && code.ends_with("]]") && code.len() >= 4 {
+        let inner = &code[2..code.len() - 2];
+        Ok((true, parse_toml_key_path(inner)?))
+    } else if code.starts_with('[') && code.ends_with(']') && code.len() >= 2 {
+        let inner = &code[1..code.len() - 1];
+        Ok((false, parse_toml_key_path(inner)?))
+    } else {
+        Err(format!("malformed TOML table header {:?}", code))
+    }
+}
+
+fn is_dep_key(seg: &str) -> bool {
+    DEP_KEYS.contains(&seg)
+}
+
+fn is_always_forbidden_key(seg: &str) -> bool {
+    ALWAYS_FORBIDDEN_TOML_KEYS.contains(&seg)
 }
 
 fn audit_cargo_toml(rel: &str, text: &str, violations: &mut Vec<PolicyViolation>) {
-    let mut current_section = String::new();
-    let mut in_dep_section = false;
+    let mut current_table: Vec<String> = Vec::new();
+    let mut in_dep_or_forbidden_table = false;
 
     for (idx, raw_line) in text.lines().enumerate() {
         let lineno = idx + 1;
@@ -261,48 +366,102 @@ fn audit_cargo_toml(rel: &str, text: &str, violations: &mut Vec<PolicyViolation>
         if code.is_empty() {
             continue;
         }
-        if code.starts_with('[') && code.ends_with(']') {
-            let inner = code
-                .trim_start_matches('[')
-                .trim_end_matches(']')
-                .trim()
-                .to_string();
-            let (is_dep, forbidden_immediately) = is_dependency_section_header(&inner);
-            if forbidden_immediately {
-                violations.push(PolicyViolation {
-                    file: rel.to_string(),
-                    line: lineno,
-                    rule: "forbidden_cargo_toml_section".to_string(),
-                    detail: format!("forbidden Cargo.toml section [{}]", inner),
-                });
+
+        if code.starts_with('[') {
+            match parse_toml_table_header(code) {
+                Ok((_, table_segs)) => {
+                    let has_always_forbidden = table_segs.iter().any(|s| is_always_forbidden_key(s));
+                    let dep_positions: Vec<usize> = table_segs
+                        .iter()
+                        .enumerate()
+                        .filter_map(|(pos, s)| if is_dep_key(s) { Some(pos) } else { None })
+                        .collect();
+                    let has_dep_subtable = dep_positions
+                        .iter()
+                        .any(|&pos| pos + 1 < table_segs.len());
+
+                    if has_always_forbidden || has_dep_subtable {
+                        violations.push(PolicyViolation {
+                            file: rel.to_string(),
+                            line: lineno,
+                            rule: "forbidden_cargo_toml_section".to_string(),
+                            detail: format!(
+                                "forbidden Cargo.toml section [{}]",
+                                table_segs.join(".")
+                            ),
+                        });
+                    }
+                    in_dep_or_forbidden_table = has_always_forbidden || !dep_positions.is_empty();
+                    current_table = table_segs;
+                }
+                Err(msg) => {
+                    violations.push(PolicyViolation {
+                        file: rel.to_string(),
+                        line: lineno,
+                        rule: "toml_parse_error".to_string(),
+                        detail: msg,
+                    });
+                }
             }
-            in_dep_section = is_dep;
-            current_section = inner;
             continue;
         }
 
-        if in_dep_section {
+        if let Some((lhs, rhs)) = split_toml_assignment(code) {
+            let lhs_segs = match parse_toml_key_path(lhs) {
+                Ok(segs) => segs,
+                Err(msg) => {
+                    violations.push(PolicyViolation {
+                        file: rel.to_string(),
+                        line: lineno,
+                        rule: "toml_parse_error".to_string(),
+                        detail: msg,
+                    });
+                    continue;
+                }
+            };
+            let mut full_path = Vec::with_capacity(current_table.len() + lhs_segs.len());
+            full_path.extend(current_table.iter().cloned());
+            full_path.extend(lhs_segs.iter().cloned());
+
+            let rhs_trim = rhs.trim();
+            let hits_dep_or_forbidden = full_path
+                .iter()
+                .any(|s| is_dep_key(s) || is_always_forbidden_key(s));
+            let inline_under_target =
+                full_path.first().map(String::as_str) == Some("target") && rhs_trim.starts_with('{');
+
+            if hits_dep_or_forbidden || inline_under_target {
+                violations.push(PolicyViolation {
+                    file: rel.to_string(),
+                    line: lineno,
+                    rule: "forbidden_dependency".to_string(),
+                    detail: format!(
+                        "forbidden dependency/workspace/target key {:?}",
+                        full_path.join(".")
+                    ),
+                });
+            } else if full_path.len() == 2
+                && full_path[0] == "package"
+                && full_path[1] == "build"
+                && rhs_trim != "false"
+            {
+                violations.push(PolicyViolation {
+                    file: rel.to_string(),
+                    line: lineno,
+                    rule: "forbidden_build_script".to_string(),
+                    detail: "custom Cargo build scripts are forbidden".to_string(),
+                });
+            }
+        } else if in_dep_or_forbidden_table {
             violations.push(PolicyViolation {
                 file: rel.to_string(),
                 line: lineno,
                 rule: "forbidden_dependency".to_string(),
-                detail: format!("external dependency entry forbidden in [{}]", current_section),
+                detail: format!(
+                    "non-empty content forbidden inside [{}]",
+                    current_table.join(".")
+                ),
             });
-        } else if current_section.is_empty() {
-            if let Some((lhs, _)) = code.split_once('=') {
-                let key = lhs.trim();
-                if matches!(
-                    key,
-                    "dependencies" | "dev-dependencies" | "build-dependencies" | "patch" | "replace"
-                ) {
-                    violations.push(PolicyViolation {
-                        file: rel.to_string(),
-                        line: lineno,
-                        rule: "forbidden_dependency".to_string(),
-                        detail: format!("inline dependency key {:?} is forbidden", key),
-                    });
-                }
-            }
         }
     }
 }
@@ -318,28 +477,78 @@ fn audit_cargo_lock(rel: &str, text: &str, violations: &mut Vec<PolicyViolation>
         if code.is_empty() {
             continue;
         }
-        if code == "[[package]]" {
-            pkg_count += 1;
-            in_pkg = true;
-            continue;
-        }
         if code.starts_with('[') {
-            in_pkg = false;
+            match parse_toml_table_header(code) {
+                Ok((true, segs)) if segs.len() == 1 && segs[0] == "package" => {
+                    pkg_count += 1;
+                    in_pkg = true;
+                }
+                Ok((_, segs)) => {
+                    in_pkg = false;
+                    violations.push(PolicyViolation {
+                        file: rel.to_string(),
+                        line: lineno,
+                        rule: "forbidden_lockfile_section".to_string(),
+                        detail: format!(
+                            "forbidden Cargo.lock table header {:?}",
+                            segs.join(".")
+                        ),
+                    });
+                }
+                Err(msg) => {
+                    in_pkg = false;
+                    violations.push(PolicyViolation {
+                        file: rel.to_string(),
+                        line: lineno,
+                        rule: "toml_parse_error".to_string(),
+                        detail: msg,
+                    });
+                }
+            }
             continue;
         }
-        if let Some((lhs, rhs)) = code.split_once('=') {
-            let key = lhs.trim();
+        if let Some((lhs, rhs)) = split_toml_assignment(code) {
+            let lhs_segs = match parse_toml_key_path(lhs) {
+                Ok(segs) => segs,
+                Err(msg) => {
+                    violations.push(PolicyViolation {
+                        file: rel.to_string(),
+                        line: lineno,
+                        rule: "toml_parse_error".to_string(),
+                        detail: msg,
+                    });
+                    continue;
+                }
+            };
             let val = rhs.trim();
-            if matches!(key, "source" | "checksum" | "dependencies") {
+            if lhs_segs
+                .iter()
+                .any(|s| matches!(s.as_str(), "source" | "checksum" | "dependencies"))
+            {
                 violations.push(PolicyViolation {
                     file: rel.to_string(),
                     line: lineno,
                     rule: "forbidden_lockfile_field".to_string(),
-                    detail: format!("forbidden Cargo.lock field {:?}", key),
+                    detail: format!("forbidden Cargo.lock field {:?}", lhs_segs.join(".")),
                 });
-            } else if in_pkg && key == "name" {
-                let unquoted = val.trim_matches('"').to_string();
+            } else if in_pkg && lhs_segs.len() == 1 && lhs_segs[0] == "name" {
+                let unquoted = unquote_toml_segment(val)
+                    .unwrap_or_else(|_| val.trim_matches(['"', '\'']).to_string());
                 pkg_names.push((lineno, unquoted));
+            } else if in_pkg && !(lhs_segs.len() == 1 && lhs_segs[0] == "version") {
+                violations.push(PolicyViolation {
+                    file: rel.to_string(),
+                    line: lineno,
+                    rule: "forbidden_lockfile_field".to_string(),
+                    detail: format!("unexpected Cargo.lock package field {:?}", lhs_segs.join(".")),
+                });
+            } else if !in_pkg && !(lhs_segs.len() == 1 && lhs_segs[0] == "version") {
+                violations.push(PolicyViolation {
+                    file: rel.to_string(),
+                    line: lineno,
+                    rule: "forbidden_lockfile_field".to_string(),
+                    detail: format!("unexpected top-level Cargo.lock field {:?}", lhs_segs.join(".")),
+                });
             }
         }
     }
@@ -988,22 +1197,39 @@ fn lex_number_token(bytes: &[u8], pos: &mut usize, line: usize) -> Token {
     }
 }
 
+/// Require `#![forbid(unsafe_code)]` strictly as a leading crate-level inner attribute
+/// (appearing before the first non-inner-attribute token; permits other leading `#![...]` attributes).
 fn has_active_forbid_unsafe_code(tokens: &[Token]) -> bool {
-    if tokens.len() < 8 {
-        return false;
-    }
-    for win in tokens.windows(8) {
-        if win[0].kind == TokKind::Hash
-            && win[1].kind == TokKind::Bang
-            && win[2].kind == TokKind::LBracket
-            && matches!(&win[3].kind, TokKind::Ident(s) if s == "forbid")
-            && win[4].kind == TokKind::LParen
-            && matches!(&win[5].kind, TokKind::Ident(s) if s == "unsafe_code")
-            && win[6].kind == TokKind::RParen
-            && win[7].kind == TokKind::RBracket
+    let mut idx = 0usize;
+    while idx + 2 < tokens.len()
+        && tokens[idx].kind == TokKind::Hash
+        && tokens[idx + 1].kind == TokKind::Bang
+        && tokens[idx + 2].kind == TokKind::LBracket
+    {
+        let mut depth = 1usize;
+        let mut scan = idx + 3;
+        while scan < tokens.len() && depth > 0 {
+            match tokens[scan].kind {
+                TokKind::LBracket => depth += 1,
+                TokKind::RBracket => depth -= 1,
+                _ => {}
+            }
+            scan += 1;
+        }
+        if depth != 0 {
+            return false;
+        }
+        let attr = &tokens[idx..scan];
+        if attr.len() == 8
+            && matches!(&attr[3].kind, TokKind::Ident(s) if s == "forbid")
+            && attr[4].kind == TokKind::LParen
+            && matches!(&attr[5].kind, TokKind::Ident(s) if s == "unsafe_code")
+            && attr[6].kind == TokKind::RParen
+            && attr[7].kind == TokKind::RBracket
         {
             return true;
         }
+        idx = scan;
     }
     false
 }
@@ -1064,7 +1290,15 @@ fn audit_rust_tokens(
 
 /// Audit a crate root directory against all S4 zero-float, zero-unsafe, zero-dep, and hygiene rules.
 pub fn audit_crate_tree(crate_root: &Path) -> Result<PolicyAudit, CoreError> {
-    if !crate_root.is_dir() {
+    let root_meta = fs::symlink_metadata(crate_root).map_err(|_| {
+        CoreError::ValueError("crate root directory does not exist".to_string())
+    })?;
+    if root_meta.file_type().is_symlink() {
+        return Err(CoreError::UnsafePath(
+            "crate root must not be a symlink".to_string(),
+        ));
+    }
+    if !root_meta.is_dir() {
         return Err(CoreError::ValueError(
             "crate root directory does not exist".to_string(),
         ));
@@ -1094,6 +1328,15 @@ pub fn audit_crate_tree(crate_root: &Path) -> Result<PolicyAudit, CoreError> {
                 detail: ".json files are forbidden under crates/aod-core".to_string(),
             });
             continue;
+        }
+
+        if rel == "build.rs" || rel.ends_with("/build.rs") {
+            violations.push(PolicyViolation {
+                file: rel.clone(),
+                line: 0,
+                rule: "forbidden_build_script".to_string(),
+                detail: "build.rs scripts are forbidden inside crates/aod-core".to_string(),
+            });
         }
 
         let raw_bytes = fs::read(path)?;
@@ -1256,6 +1499,38 @@ pub fn demo<'a>(s: &'a str, pair: ((u32, u32), u32)) -> &'a str {
         assert!(!audit_snippet("extern \"C\" fn a() {}", false).is_empty());
         assert!(!audit_snippet("fn a() { let r#f64 = 1; }", false).is_empty());
         assert!(!audit_snippet("// #![forbid(unsafe_code)]\nfn a() {}", true).is_empty());
+        assert!(!audit_snippet("mod decoy { #![forbid(unsafe_code)] }\nfn a() {}", true).is_empty());
+        assert!(audit_snippet("#![allow(dead_code)]\n#![forbid(unsafe_code)]\nfn a() {}", true).is_empty());
+    }
+
+    #[test]
+    fn test_adversarial_toml_and_lockfile_bypasses() {
+        let base_toml = "[package]\nname = \"aod-core\"\nversion = \"0.1.0\"\n";
+        let probes = [
+            "[target.'cfg(unix)']\ndependencies = { serde = \"1.0\" }\n",
+            "dependencies.serde = \"1.0\"\n",
+            "[\"dependencies\"]\nserde = \"1.0\"\n",
+            "[target . 'cfg(unix)' . dependencies]\nserde = \"1.0\"\n",
+            "workspace = { members = [\".\"] }\n",
+            "[target]\n'cfg(unix)' = { dependencies = { serde = \"1.0\" } }\n",
+            "[package]\nbuild = \"custom.rs\"\n",
+        ];
+        for probe in probes {
+            let mut v = Vec::new();
+            audit_cargo_toml("Cargo.toml", &format!("{}\n{}", base_toml, probe), &mut v);
+            assert!(!v.is_empty(), "Cargo.toml bypass missed: {:?}", probe);
+        }
+
+        let lock_probes = [
+            "version = 3\n[[package]]\nname = \"aod-core\"\nversion = \"0.1.0\"\n[[patch.unused]]\nname = \"x\"\n",
+            "version = 3\n[[package]]\nname = \"aod-core\"\nversion = \"0.1.0\"\n\"dependencies\" = [\"foo\"]\n",
+            "version = 3\n[[package]]\nname = \"aod-core\"\nversion = \"0.1.0\"\n\"source\" = \"registry\"\n",
+        ];
+        for probe in lock_probes {
+            let mut v = Vec::new();
+            let _ = audit_cargo_lock("Cargo.lock", probe, &mut v);
+            assert!(!v.is_empty(), "Cargo.lock bypass missed: {:?}", probe);
+        }
     }
 
     #[test]

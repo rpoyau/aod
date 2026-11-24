@@ -18,6 +18,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tomllib
 import zipfile
 
 import pytest
@@ -132,31 +133,6 @@ def _check_portable_json(value: object, *, path: str = "$") -> None:
 # ---------------------------------------------------------------------------
 # Independent Python Rust-lexer & TOML/Cargo.lock policy mirror (no Rust needed)
 # ---------------------------------------------------------------------------
-
-
-def _py_strip_toml_comment(line: str) -> str:
-    in_dq = False
-    in_sq = False
-    i = 0
-    while i < len(line):
-        ch = line[i]
-        if in_dq:
-            if ch == "\\" and i + 1 < len(line):
-                i += 2
-                continue
-            if ch == '"':
-                in_dq = False
-        elif in_sq:
-            if ch == "'":
-                in_sq = False
-        elif ch == '"':
-            in_dq = True
-        elif ch == "'":
-            in_sq = True
-        elif ch == "#":
-            return line[:i]
-        i += 1
-    return line
 
 
 def _py_lex_rust(src: str) -> tuple[list[tuple[str, str, int]], list[tuple[int, str]]]:
@@ -420,9 +396,69 @@ def _py_lex_rust(src: str) -> tuple[list[tuple[str, str, int]], list[tuple[int, 
     return tokens, errors
 
 
+def _py_has_leading_forbid_unsafe_code(tokens: list[tuple[str, str, int]]) -> bool:
+    """Require `#![forbid(unsafe_code)]` strictly as a leading crate-level inner attribute."""
+    target_seq = [
+        ("PUNCT", "#"),
+        ("PUNCT", "!"),
+        ("PUNCT", "["),
+        ("IDENT", "forbid"),
+        ("PUNCT", "("),
+        ("IDENT", "unsafe_code"),
+        ("PUNCT", ")"),
+        ("PUNCT", "]"),
+    ]
+    idx = 0
+    n = len(tokens)
+    while (
+        idx + 2 < n
+        and (tokens[idx][0], tokens[idx][1]) == ("PUNCT", "#")
+        and (tokens[idx + 1][0], tokens[idx + 1][1]) == ("PUNCT", "!")
+        and (tokens[idx + 2][0], tokens[idx + 2][1]) == ("PUNCT", "[")
+    ):
+        depth = 1
+        scan = idx + 3
+        while scan < n and depth > 0:
+            if (tokens[scan][0], tokens[scan][1]) == ("PUNCT", "["):
+                depth += 1
+            elif (tokens[scan][0], tokens[scan][1]) == ("PUNCT", "]"):
+                depth -= 1
+            scan += 1
+        if depth != 0:
+            return False
+        if [(k, v) for k, v, _ in tokens[idx:scan]] == target_seq:
+            return True
+        idx = scan
+    return False
+
+
+def _py_audit_cargo_toml_obj(rel: str, obj: object, path: tuple[str, ...], violations: list[dict[str, object]]) -> None:
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            sub_path = (*path, k)
+            if k in {"patch", "replace", "workspace"}:
+                violations.append({"file": rel, "line": 1, "rule": "forbidden_cargo_toml_section"})
+            elif k in {"dependencies", "dev-dependencies", "build-dependencies"}:
+                if not isinstance(v, dict) or len(v) > 0:
+                    violations.append({"file": rel, "line": 1, "rule": "forbidden_dependency"})
+            elif sub_path == ("package", "build") and v is not False:
+                violations.append({"file": rel, "line": 1, "rule": "forbidden_build_script"})
+            _py_audit_cargo_toml_obj(rel, v, sub_path, violations)
+    elif isinstance(obj, list):
+        for item in obj:
+            _py_audit_cargo_toml_obj(rel, item, path, violations)
+
+
 def _py_audit_crate_tree(crate_root: Path) -> list[dict[str, object]]:
-    """Independent Python mirror of crates/aod-core/src/policy.rs."""
+    """Independent Python mirror of crates/aod-core/src/policy.rs using stdlib tomllib."""
     violations: list[dict[str, object]] = []
+    if crate_root.is_symlink():
+        violations.append({"file": ".", "line": 0, "rule": "forbidden_symlink"})
+        return violations
+    if not crate_root.is_dir():
+        violations.append({"file": ".", "line": 0, "rule": "missing_crate_root"})
+        return violations
+
     files: list[tuple[str, Path]] = []
 
     def walk(cur: Path, prefix: str) -> None:
@@ -440,67 +476,52 @@ def _py_audit_crate_tree(crate_root: Path) -> list[dict[str, object]]:
 
     walk(crate_root, "")
 
+    seen_required = {"Cargo.toml": False, "Cargo.lock": False, "src/lib.rs": False, "src/main.rs": False}
+
     for rel, path in files:
+        if rel in seen_required:
+            seen_required[rel] = True
         if rel.endswith(".json"):
             violations.append({"file": rel, "line": 0, "rule": "forbidden_json_under_crate"})
             continue
+        if rel == "build.rs" or rel.endswith("/build.rs"):
+            violations.append({"file": rel, "line": 0, "rule": "forbidden_build_script"})
+
         text = path.read_text(encoding="utf-8")
         for lineno, raw_line in enumerate(text.splitlines(), start=1):
             if FORBIDDEN_EXP_TOKEN_RE.search(raw_line):
                 violations.append({"file": rel, "line": lineno, "rule": "forbidden_experimental_token"})
 
         if rel == "Cargo.toml":
-            in_dep = False
-            section = ""
-            for lineno, raw_line in enumerate(text.splitlines(), start=1):
-                code = _py_strip_toml_comment(raw_line).strip()
-                if not code:
-                    continue
-                if code.startswith("[") and code.endswith("]"):
-                    sec = code.strip("[]").strip()
-                    section = sec
-                    in_dep = (
-                        sec in {"dependencies", "dev-dependencies", "build-dependencies"}
-                        or sec.startswith(("patch", "replace"))
-                        or (sec.startswith("target.") and sec.endswith((".dependencies", ".dev-dependencies", ".build-dependencies")))
-                    )
-                    if (
-                        sec == "workspace"
-                        or sec.startswith(("workspace.", "patch", "replace", "dependencies.", "dev-dependencies.", "build-dependencies."))
-                        or (sec.startswith("target.") and any(m in sec for m in (".dependencies.", ".dev-dependencies.", ".build-dependencies.")))
-                    ):
-                        violations.append({"file": rel, "line": lineno, "rule": "forbidden_cargo_toml_section"})
-                    continue
-                if in_dep:
-                    violations.append({"file": rel, "line": lineno, "rule": "forbidden_dependency"})
-                elif not section and "=" in code:
-                    key = code.split("=", 1)[0].strip()
-                    if key in {"dependencies", "dev-dependencies", "build-dependencies", "patch", "replace"}:
-                        violations.append({"file": rel, "line": lineno, "rule": "forbidden_dependency"})
+            try:
+                doc = tomllib.loads(text)
+            except tomllib.TOMLDecodeError:
+                violations.append({"file": rel, "line": 1, "rule": "toml_parse_error"})
+            else:
+                _py_audit_cargo_toml_obj(rel, doc, (), violations)
 
         elif rel == "Cargo.lock":
-            pkg_count = 0
-            in_pkg = False
-            names: list[str] = []
-            for lineno, raw_line in enumerate(text.splitlines(), start=1):
-                code = _py_strip_toml_comment(raw_line).strip()
-                if not code:
-                    continue
-                if code == "[[package]]":
-                    pkg_count += 1
-                    in_pkg = True
-                    continue
-                if code.startswith("["):
-                    in_pkg = False
-                    continue
-                if "=" in code:
-                    k, v = (part.strip() for part in code.split("=", 1))
-                    if k in {"source", "checksum", "dependencies"}:
-                        violations.append({"file": rel, "line": lineno, "rule": "forbidden_lockfile_field"})
-                    elif in_pkg and k == "name":
-                        names.append(v.strip('"'))
-            if pkg_count != 1 or names != ["aod-core"]:
-                violations.append({"file": rel, "line": 1, "rule": "forbidden_lockfile_packages"})
+            try:
+                lock_doc = tomllib.loads(text)
+            except tomllib.TOMLDecodeError:
+                violations.append({"file": rel, "line": 1, "rule": "toml_parse_error"})
+            else:
+                extra_top = set(lock_doc.keys()) - {"version", "package"}
+                if extra_top:
+                    violations.append({"file": rel, "line": 1, "rule": "forbidden_lockfile_section"})
+                pkgs = lock_doc.get("package")
+                if not isinstance(pkgs, list) or len(pkgs) != 1 or not isinstance(pkgs[0], dict):
+                    violations.append({"file": rel, "line": 1, "rule": "forbidden_lockfile_packages"})
+                else:
+                    pkg0 = pkgs[0]
+                    if pkg0.get("name") != "aod-core":
+                        violations.append({"file": rel, "line": 1, "rule": "forbidden_lockfile_package"})
+                    for bad_key in ("dependencies", "source", "checksum"):
+                        if bad_key in pkg0:
+                            violations.append({"file": rel, "line": 1, "rule": "forbidden_lockfile_field"})
+                    extra_pkg_keys = set(pkg0.keys()) - {"name", "version"}
+                    if extra_pkg_keys:
+                        violations.append({"file": rel, "line": 1, "rule": "forbidden_lockfile_field"})
 
         elif rel.endswith(".rs"):
             tokens, lex_errs = _py_lex_rust(text)
@@ -518,22 +539,12 @@ def _py_audit_crate_tree(crate_root: Path) -> list[dict[str, object]]:
                     violations.append({"file": rel, "line": ln, "rule": "forbidden_float_literal"})
 
             if rel in {"src/lib.rs", "src/main.rs"} or (rel.startswith("tests/") and rel.endswith(".rs")):
-                target_seq = [
-                    ("PUNCT", "#"),
-                    ("PUNCT", "!"),
-                    ("PUNCT", "["),
-                    ("IDENT", "forbid"),
-                    ("PUNCT", "("),
-                    ("IDENT", "unsafe_code"),
-                    ("PUNCT", ")"),
-                    ("PUNCT", "]"),
-                ]
-                has_attr = any(
-                    [(k, v) for k, v, _ in tokens[i : i + 8]] == target_seq
-                    for i in range(max(0, len(tokens) - 7))
-                )
-                if not has_attr:
+                if not _py_has_leading_forbid_unsafe_code(tokens):
                     violations.append({"file": rel, "line": 1, "rule": "missing_forbid_unsafe_code"})
+
+    for req_file, present in seen_required.items():
+        if not present:
+            violations.append({"file": req_file, "line": 0, "rule": "missing_required_file"})
 
     return violations
 
@@ -917,8 +928,8 @@ def test_differential_rounding_sparc_enclosures_sympy_z4_and_z12(rust_binaries: 
         py_out = _eval_operation("higgs_lhc_rounded_display", inp)
         rust_out = _run_eval_op(bin_rel, "higgs_lhc_rounded_display", inp)
         _check(rust_out == py_out, f"rounding mismatch on {inp}: {rust_out} != {py_out}")
-        _check(not str(rust_out["z_score_rounded_6dp"]).startswith("-0.0"), "negative zero emitted")
-        _check(str(rust_out["z_score_rounded_6dp"]) != "-0", "negative zero emitted")
+        z_str = str(rust_out["z_score_rounded_6dp"])
+        _check(re.fullmatch(r"-0(?:\.0+)?", z_str) is None, f"negative zero emitted: {z_str!r}")
 
     # 2. Negative SPARC Vgas/Vdisk/Vbul
     sparc_cases = [
@@ -1078,9 +1089,12 @@ def test_negative_controls_unsafe_report_paths_and_pre_resolution_symlinks(
     outside.mkdir()
     # Pre-resolution symlink inside _build/ escaping outside repo!
     (fake_repo / "_build" / "escape").symlink_to(outside)
-    # Direct symlink report target outside repo
+    # Direct symlink report target outside repo + trailing `/.` and `/` bypass probes
     direct_sym = tmp_path / "sym_target.json"
-    direct_sym.symlink_to(outside / "real.json")
+    real_sym_dest = outside / "real.json"
+    direct_sym.symlink_to(real_sym_dest)
+    sub_norm = tmp_path / "sub_norm"
+    sub_norm.mkdir()
     # Existing directory collision
     existing_dir = tmp_path / "a_dir"
     existing_dir.mkdir()
@@ -1089,27 +1103,32 @@ def test_negative_controls_unsafe_report_paths_and_pre_resolution_symlinks(
     file_parent.write_text("x", encoding="utf-8")
 
     unsafe_targets = [
-        fake_repo / "report.json",
-        fake_repo / "manual" / "report.json",
-        fake_repo / "crates" / "aod-core" / "report.json",
-        fake_repo / "typst" / "report.json",
-        fake_repo / "_build",
-        fake_repo / "_build" / "escape" / "report.json",
-        fake_repo / "_build" / ".." / "manual" / "report.json",
-        direct_sym,
-        existing_dir,
-        file_parent / "report.json",
+        str(fake_repo / "report.json"),
+        str(fake_repo / "manual" / "report.json"),
+        str(fake_repo / "crates" / "aod-core" / "report.json"),
+        str(fake_repo / "typst" / "report.json"),
+        str(fake_repo / "_build"),
+        str(fake_repo / "_build" / "escape" / "report.json"),
+        str(fake_repo / "_build" / ".." / "manual" / "report.json"),
+        str(direct_sym),
+        f"{direct_sym}/.",
+        f"{direct_sym}/",
+        f"{sub_norm}/../sym_target.json",
+        str(existing_dir),
+        f"{existing_dir}/",
+        str(file_parent / "report.json"),
     ]
     for target in unsafe_targets:
         proc = subprocess.run(
-            [str(bin_dbg), "--verify-vectors", "--repo-root", str(fake_repo), "--report", str(target)],
+            [str(bin_dbg), "--verify-vectors", "--repo-root", str(fake_repo), "--report", target],
             cwd=fake_repo,
             capture_output=True,
             text=True,
             timeout=30,
         )
-        _check(proc.returncode == 2, f"expected exit 2 for unsafe --report {target}, got {proc.returncode}")
+        _check(proc.returncode == 2, f"expected exit 2 for unsafe --report {target!r}, got {proc.returncode}")
     _check(not (outside / "report.json").exists(), "pre-resolution symlink escape wrote outside repo")
+    _check(not real_sym_dest.exists(), "direct or trailing-dot symlink target was touched")
     _check(not (fake_repo / "crates").exists(), "unsafe --report created parent directory before validation")
 
     # Safe path under _build/sub/report.json MUST succeed!
@@ -1191,6 +1210,70 @@ def test_negative_controls_11_adversarial_policy_probes_and_false_positive_immun
         ),
     )
 
+    # Additional TOML 1.0 / Cargo.lock / build.rs / non-crate-root forbid / symlinked crate_root probes
+    make_probe(
+        "12_toml_target_inline_dep",
+        lambda d: (d / "Cargo.toml").write_text(
+            (d / "Cargo.toml").read_text() + '\n[target.\'cfg(unix)\']\ndependencies = { serde = "1.0" }\n'
+        ),
+    )
+    make_probe(
+        "13_toml_top_level_dotted_dep",
+        lambda d: (d / "Cargo.toml").write_text(
+            'dependencies.serde = "1.0"\n' + (d / "Cargo.toml").read_text()
+        ),
+    )
+    make_probe(
+        "14_toml_quoted_dependencies_header",
+        lambda d: (d / "Cargo.toml").write_text(
+            (d / "Cargo.toml").read_text().replace("[dependencies]", '["dependencies"]\nserde = "1.0"')
+        ),
+    )
+    make_probe(
+        "15_toml_spaced_target_dep_header",
+        lambda d: (d / "Cargo.toml").write_text(
+            (d / "Cargo.toml").read_text() + "\n[target . 'cfg(unix)' . dependencies]\nserde = \"1.0\"\n"
+        ),
+    )
+    make_probe(
+        "16_toml_inline_workspace",
+        lambda d: (d / "Cargo.toml").write_text(
+            'workspace = { members = ["."] }\n' + (d / "Cargo.toml").read_text()
+        ),
+    )
+    make_probe(
+        "17_cargo_lock_patch_unused",
+        lambda d: (d / "Cargo.lock").write_text(
+            (d / "Cargo.lock").read_text() + '\n[[patch.unused]]\nname = "evil"\nversion = "0.1.0"\n'
+        ),
+    )
+    make_probe(
+        "18_cargo_lock_quoted_dependencies",
+        lambda d: (d / "Cargo.lock").write_text(
+            (d / "Cargo.lock").read_text() + '"dependencies" = ["foo"]\n'
+        ),
+    )
+    make_probe(
+        "19_forbidden_build_rs",
+        lambda d: (d / "build.rs").write_text("fn main() {}\n"),
+    )
+    make_probe(
+        "20_mod_decoy_forbid_unsafe",
+        lambda d: (d / "src/lib.rs").write_text(
+            (d / "src/lib.rs")
+            .read_text()
+            .replace("#![forbid(unsafe_code)]", "mod decoy { #![forbid(unsafe_code)] }")
+        ),
+    )
+
+    # Symlinked crate_root itself must be rejected cleanly by both Rust CLI and Python mirror
+    sym_crate_root = tmp_path / "symlinked_crate_root"
+    sym_crate_root.symlink_to(CRATE_DIR)
+    rc_sym, rep_sym, py_sym = run_both_audits(sym_crate_root)
+    _check(rc_sym == 1, "Rust policy failed to reject symlinked crate_root")
+    _check(rep_sym["policy_audit"]["status"] == "FAIL")
+    _check(len(py_sym) > 0, "Python mirror failed to reject symlinked crate_root")
+
     # False-positive immunity check
     benign_dir = tmp_path / "benign_immunity"
     _copy_crate_tree(CRATE_DIR, benign_dir)
@@ -1244,9 +1327,21 @@ def test_source_zip_roundtrip_offline_cargo_and_byte_identical_report(
             target.write_bytes(zf.read(info))
             target.chmod((info.external_attr >> 16) & 0o777)
 
+    ci_spec = importlib.util.spec_from_file_location("s4_ci_inv", ROOT / "tests/test_ci_release_builder.py")
+    _check(ci_spec is not None and ci_spec.loader is not None)
+    ci_mod = importlib.util.module_from_spec(ci_spec)
+    ci_spec.loader.exec_module(ci_mod)
+
     _check(not (extracted / ".git").exists(), "extracted archive must be non-Git")
     _check((extracted / "crates/aod-core/Cargo.toml").is_file())
     _check((extracted / "crates/aod-core/Cargo.lock").is_file())
+
+    inv_before = ci_mod.expected_source_inventory(extracted)
+    all_files_before = {
+        p.relative_to(extracted).as_posix(): _sha256_file(p)
+        for p in sorted(extracted.rglob("*"))
+        if p.is_file()
+    }
 
     ext_target = tmp_path / "ext_cargo_target"
     env = {**os.environ, "CARGO_TARGET_DIR": str(ext_target)}
@@ -1306,3 +1401,13 @@ def test_source_zip_roundtrip_offline_cargo_and_byte_identical_report(
         live_report.read_bytes() == ext_report.read_bytes(),
         "live checkout report and detached source.zip report must be byte-identical",
     )
+
+    inv_after = ci_mod.expected_source_inventory(extracted)
+    all_files_after = {
+        p.relative_to(extracted).as_posix(): _sha256_file(p)
+        for p in sorted(extracted.rglob("*"))
+        if p.is_file()
+    }
+    _check(inv_after == inv_before, "extracted source.zip inventory mutated during offline Cargo + CLI execution")
+    _check(all_files_after == all_files_before, "unexpected file added/modified in extracted source.zip")
+    _check(not (extracted / "crates/aod-core/target").exists())

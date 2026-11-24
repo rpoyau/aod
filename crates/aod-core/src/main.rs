@@ -246,11 +246,14 @@ fn reject_pre_resolution_symlinks(
         cwd.join(raw_path)
     };
 
-    if let Ok(meta) = fs::symlink_metadata(&lexical_abs) {
-        if meta.file_type().is_symlink() {
-            return Err(CoreError::UnsafePath(
-                "--report target must not be a symlink".to_string(),
-            ));
+    let norm_abs = lexical_normalize(&lexical_abs);
+    for target_probe in [&lexical_abs, &norm_abs] {
+        if let Ok(meta) = fs::symlink_metadata(target_probe) {
+            if meta.file_type().is_symlink() {
+                return Err(CoreError::UnsafePath(
+                    "--report target must not be a symlink".to_string(),
+                ));
+            }
         }
     }
 
@@ -328,6 +331,27 @@ fn validate_runtime_output_path(
     if raw_path.as_os_str().is_empty() {
         return Err(CoreError::UnsafePath(
             "--report path must not be empty".to_string(),
+        ));
+    }
+    let raw_str = raw_path.to_string_lossy();
+    if raw_str == "."
+        || raw_str == ".."
+        || raw_str.ends_with('/')
+        || raw_str.ends_with('\\')
+        || raw_str.ends_with("/.")
+        || raw_str.ends_with("\\.")
+        || raw_str.ends_with("/..")
+        || raw_str.ends_with("\\..")
+        || matches!(
+            raw_path.components().next_back(),
+            None | Some(Component::CurDir)
+                | Some(Component::ParentDir)
+                | Some(Component::RootDir)
+                | Some(Component::Prefix(_))
+        )
+    {
+        return Err(CoreError::UnsafePath(
+            "--report path must name a file, not a directory or trailing dot reference".to_string(),
         ));
     }
     let cwd = env::current_dir()?;

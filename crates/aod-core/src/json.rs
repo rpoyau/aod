@@ -74,6 +74,7 @@ impl JsonValue {
 }
 
 struct Parser<'a> {
+    src: &'a str,
     bytes: &'a [u8],
     pos: usize,
 }
@@ -81,6 +82,7 @@ struct Parser<'a> {
 impl<'a> Parser<'a> {
     fn new(input: &'a str) -> Self {
         Self {
+            src: input,
             bytes: input.as_bytes(),
             pos: 0,
         }
@@ -276,9 +278,7 @@ impl<'a> Parser<'a> {
                 "floating-point JSON literal is forbidden in zero-float payload".to_string(),
             ));
         }
-        let digits = std::str::from_utf8(&self.bytes[digits_start..digits_end]).map_err(|_| {
-            CoreError::JsonParse("invalid UTF-8 in JSON integer".to_string())
-        })?;
+        let digits = &self.src[digits_start..digits_end];
         let val = BigInt::from_ascii_digits(digits, neg)?;
         Ok(JsonValue::Int(val))
     }
@@ -387,12 +387,12 @@ impl<'a> Parser<'a> {
                         )));
                     }
                 }
+            } else if b < 0x80 {
+                out.push(b as char);
+                self.pos += 1;
             } else {
-                // Consume valid UTF-8 scalar value from the input &str slice.
-                let rest = std::str::from_utf8(&self.bytes[self.pos..]).map_err(|_| {
-                    CoreError::JsonParse("invalid UTF-8 in JSON string".to_string())
-                })?;
-                let ch = rest.chars().next().ok_or_else(|| {
+                // Multi-byte UTF-8 scalar decoded directly in O(1) from validated `self.src`.
+                let ch = self.src[self.pos..].chars().next().ok_or_else(|| {
                     CoreError::JsonParse("unexpected end of JSON string".to_string())
                 })?;
                 out.push(ch);
@@ -578,5 +578,17 @@ mod tests {
         let expected = format!("{{\n  \"a\": [],\n  \"b\": {},\n  \"c\": {{}}\n}}\n", big);
         assert_eq!(ser, expected);
         assert_eq!(parse_json(&ser).unwrap(), val);
+    }
+
+    #[test]
+    fn test_large_64kb_utf8_string_linear_time() {
+        // 64 KB string combining ASCII and multi-byte UTF-8 characters.
+        let chunk = "alpha_omega_0123456789_\u{03b1}\u{03a9}\u{2264}\u{1F600}_";
+        let repeat = (65_536 / chunk.len()) + 1;
+        let payload = chunk.repeat(repeat);
+        assert!(payload.len() >= 65_536);
+        let raw = format!("\"{}\"", payload);
+        let parsed = parse_json(&raw).expect("parse 64KB UTF-8 JSON string");
+        assert_eq!(parsed, JsonValue::Str(payload));
     }
 }

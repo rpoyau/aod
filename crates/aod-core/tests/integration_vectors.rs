@@ -398,6 +398,45 @@ fn test_cli_report_and_unsafe_path_rejection() {
     assert_eq!(bad.status.code(), Some(2));
     assert!(!unsafe_target.exists());
 
+    // Reject trailing `/.`, `/`, and normalized symlink targets with exit 2 without touching target.
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+        let real_outside = tmp.path().join("real_outside.json");
+        let sym_target = tmp.path().join("sym_target");
+        symlink(&real_outside, &sym_target).expect("create symlink");
+        let sub_dir = tmp.path().join("sub");
+        fs::create_dir_all(&sub_dir).expect("mkdir sub");
+
+        let bypass_probes = [
+            format!("{}/.", sym_target.to_str().unwrap()),
+            format!("{}/", sym_target.to_str().unwrap()),
+            format!("{}/../sym_target", sub_dir.to_str().unwrap()),
+        ];
+        for probe in &bypass_probes {
+            let res = Command::new(bin)
+                .args([
+                    "--verify-vectors",
+                    "--repo-root",
+                    root.to_str().unwrap(),
+                    "--report",
+                    probe.as_str(),
+                ])
+                .output()
+                .expect("run aod-core symlink probe");
+            assert_eq!(res.status.code(), Some(2), "expected exit 2 for {}", probe);
+        }
+        assert!(!real_outside.exists(), "symlink target must remain untouched");
+
+        // Symlinked crate_root must be rejected cleanly by audit_crate_tree.
+        let sym_crate = tmp.path().join("sym_crate");
+        symlink(crate_root(), &sym_crate).expect("symlink crate_root");
+        assert!(matches!(
+            audit_crate_tree(&sym_crate),
+            Err(CoreError::UnsafePath(_))
+        ));
+    }
+
     // CLI rejects invalid JSON float via --eval-op with exit 1
     let bad_float = Command::new(bin)
         .args([

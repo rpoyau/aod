@@ -79,28 +79,6 @@ fn is_path_stop(b: u8) -> bool {
     )
 }
 
-fn is_iso_timestamp_at(bytes: &[u8], i: usize) -> bool {
-    if i + 19 > bytes.len() {
-        return false;
-    }
-    // Check word boundary before YYYY
-    if i > 0 && (bytes[i - 1].is_ascii_alphanumeric() || bytes[i - 1] == b'_') {
-        return false;
-    }
-    bytes[i..i + 4].iter().all(|b| b.is_ascii_digit())
-        && bytes[i + 4] == b'-'
-        && bytes[i + 5..i + 7].iter().all(|b| b.is_ascii_digit())
-        && bytes[i + 7] == b'-'
-        && bytes[i + 8] == b'T'
-        && bytes[i + 9..i + 11].iter().all(|b| b.is_ascii_digit())
-        && bytes[i + 11] == b':'
-        && bytes[i + 12..i + 14].iter().all(|b| b.is_ascii_digit())
-        && bytes[i + 14] == b':'
-        && bytes[i + 15..i + 17].iter().all(|b| b.is_ascii_digit())
-        && bytes[i + 17].is_ascii_digit()
-        && bytes[i + 18].is_ascii_digit()
-}
-
 fn is_iso_timestamp_start(bytes: &[u8], i: usize) -> bool {
     // YYYY-MM-DDTHH:MM:SS (19 bytes)
     if i + 19 > bytes.len() {
@@ -109,7 +87,6 @@ fn is_iso_timestamp_start(bytes: &[u8], i: usize) -> bool {
     if i > 0 && (bytes[i - 1].is_ascii_alphanumeric() || bytes[i - 1] == b'_') {
         return false;
     }
-    let _ = is_iso_timestamp_at;
     bytes[i..i + 4].iter().all(|b| b.is_ascii_digit())
         && bytes[i + 4] == b'-'
         && bytes[i + 5..i + 7].iter().all(|b| b.is_ascii_digit())
@@ -171,6 +148,11 @@ fn is_unix_abs_path_at(bytes: &[u8], i: usize) -> bool {
     false
 }
 
+fn should_replace_raw_root(raw: &str) -> bool {
+    let trimmed = raw.trim_end_matches(['/', '\\']);
+    trimmed.len() >= 3 && (trimmed.contains('/') || trimmed.contains('\\'))
+}
+
 /// Scrub host absolute paths, executable paths, temp markers, and ISO timestamps from error text.
 pub fn sanitize_error(message: &str, extra_roots: &[(&Path, &str)]) -> String {
     let mut replacements: Vec<(String, String)> = Vec::new();
@@ -178,24 +160,36 @@ pub fn sanitize_error(message: &str, extra_roots: &[(&Path, &str)]) -> String {
         if let Ok(canon) = std::fs::canonicalize(path) {
             replacements.push((canon.to_string_lossy().into_owned(), label.to_string()));
         }
-        replacements.push((path.to_string_lossy().into_owned(), label.to_string()));
+        let raw = path.to_string_lossy().into_owned();
+        if should_replace_raw_root(&raw) {
+            replacements.push((raw, label.to_string()));
+        }
     }
     if let Ok(cwd) = env::current_dir() {
         if let Ok(canon) = std::fs::canonicalize(&cwd) {
             replacements.push((canon.to_string_lossy().into_owned(), "<CWD>".to_string()));
         }
-        replacements.push((cwd.to_string_lossy().into_owned(), "<CWD>".to_string()));
+        let raw = cwd.to_string_lossy().into_owned();
+        if should_replace_raw_root(&raw) {
+            replacements.push((raw, "<CWD>".to_string()));
+        }
     }
     let tmp = env::temp_dir();
     if let Ok(canon) = std::fs::canonicalize(&tmp) {
         replacements.push((canon.to_string_lossy().into_owned(), "<TEMP_DIR>".to_string()));
     }
-    replacements.push((tmp.to_string_lossy().into_owned(), "<TEMP_DIR>".to_string()));
+    let raw_tmp = tmp.to_string_lossy().into_owned();
+    if should_replace_raw_root(&raw_tmp) {
+        replacements.push((raw_tmp, "<TEMP_DIR>".to_string()));
+    }
     if let Ok(exe) = env::current_exe() {
         if let Ok(canon) = std::fs::canonicalize(&exe) {
             replacements.push((canon.to_string_lossy().into_owned(), "<EXE>".to_string()));
         }
-        replacements.push((exe.to_string_lossy().into_owned(), "<EXE>".to_string()));
+        let raw_exe = exe.to_string_lossy().into_owned();
+        if should_replace_raw_root(&raw_exe) {
+            replacements.push((raw_exe, "<EXE>".to_string()));
+        }
     }
 
     // Replace longest non-trivial prefixes first.
@@ -203,7 +197,7 @@ pub fn sanitize_error(message: &str, extra_roots: &[(&Path, &str)]) -> String {
     let mut sanitized = message.to_string();
     for (src, dst) in &replacements {
         let trimmed = src.trim_end_matches(['/', '\\']);
-        if trimmed.is_empty() || trimmed == "." {
+        if trimmed.len() < 3 || (!trimmed.contains('/') && !trimmed.contains('\\')) {
             continue;
         }
         if sanitized.contains(trimmed) {
