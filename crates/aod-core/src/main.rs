@@ -8,10 +8,11 @@
 //! - `2`: CLI argument usage error or unsafe `--report` path
 
 use std::env;
-use std::fs;
+use std::fs::{self, OpenOptions};
 use std::io::{self, Read, Write};
 use std::path::{Component, Path, PathBuf};
 use std::process::ExitCode;
+use std::sync::atomic::{AtomicU64, Ordering};
 
 use aod_core::json::{parse_json, to_canonical_json_pretty, JsonValue};
 use aod_core::ops::eval_operation;
@@ -434,14 +435,100 @@ fn validate_runtime_output_path(
     Ok(candidate)
 }
 
+static ATOMIC_TMP_COUNTER: AtomicU64 = AtomicU64::new(0);
+
+fn ensure_non_symlink_file_target(path: &Path) -> Result<(), CoreError> {
+    match fs::symlink_metadata(path) {
+        Ok(meta) => {
+            if meta.file_type().is_symlink() {
+                return Err(CoreError::UnsafePath(
+                    "--report target must not be a symlink".to_string(),
+                ));
+            }
+            if meta.is_dir() {
+                return Err(CoreError::UnsafePath(
+                    "--report target already exists as a directory".to_string(),
+                ));
+            }
+            Ok(())
+        }
+        Err(err) if err.kind() == io::ErrorKind::NotFound => Ok(()),
+        Err(err) => Err(CoreError::from(err)),
+    }
+}
+
+struct TempFileGuard<'a> {
+    path: &'a Path,
+    armed: bool,
+}
+
+impl Drop for TempFileGuard<'_> {
+    fn drop(&mut self) {
+        if self.armed {
+            let _ = fs::remove_file(self.path);
+        }
+    }
+}
+
+fn atomic_write_file(path: &Path, bytes: &[u8]) -> Result<(), CoreError> {
+    let parent = match path.parent() {
+        Some(p) if !p.as_os_str().is_empty() => p,
+        _ => {
+            return Err(CoreError::UnsafePath(
+                "--report path must have a valid parent directory".to_string(),
+            ));
+        }
+    };
+
+    fs::create_dir_all(parent)?;
+    let parent_meta = fs::symlink_metadata(parent)?;
+    if parent_meta.file_type().is_symlink() || !parent_meta.is_dir() {
+        return Err(CoreError::UnsafePath(
+            "--report parent must be a non-symlink directory".to_string(),
+        ));
+    }
+
+    ensure_non_symlink_file_target(path)?;
+
+    let pid = std::process::id();
+    let mut opened: Option<(PathBuf, fs::File)> = None;
+    for _ in 0..10_000u32 {
+        let seq = ATOMIC_TMP_COUNTER.fetch_add(1, Ordering::Relaxed);
+        let probe = parent.join(format!(".aod-core-tmp-{}-{}", pid, seq));
+        match OpenOptions::new().write(true).create_new(true).open(&probe) {
+            Ok(file) => {
+                opened = Some((probe, file));
+                break;
+            }
+            Err(err) if err.kind() == io::ErrorKind::AlreadyExists => continue,
+            Err(err) => return Err(CoreError::from(err)),
+        }
+    }
+
+    let (tmp_path, file) = opened.ok_or_else(|| {
+        CoreError::Io("failed to allocate unique sibling temporary file for --report".to_string())
+    })?;
+
+    let mut cleanup = TempFileGuard {
+        path: &tmp_path,
+        armed: true,
+    };
+
+    {
+        let mut handle = file;
+        handle.write_all(bytes)?;
+        handle.flush()?;
+    }
+
+    ensure_non_symlink_file_target(path)?;
+    fs::rename(&tmp_path, path)?;
+    cleanup.armed = false;
+    Ok(())
+}
+
 fn write_output(report_path: Option<&Path>, content: &str) -> Result<(), CoreError> {
     if let Some(path) = report_path {
-        if let Some(parent) = path.parent() {
-            if !parent.as_os_str().is_empty() {
-                fs::create_dir_all(parent)?;
-            }
-        }
-        fs::write(path, content.as_bytes())?;
+        atomic_write_file(path, content.as_bytes())?;
     } else {
         let mut stdout = io::stdout().lock();
         stdout.write_all(content.as_bytes())?;

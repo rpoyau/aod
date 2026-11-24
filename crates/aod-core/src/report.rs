@@ -68,14 +68,14 @@ const TEMP_MARKERS: [&str; 4] = [
 fn is_path_delim(b: u8) -> bool {
     matches!(
         b,
-        b' ' | b'\t' | b'\r' | b'\n' | b'\'' | b'"' | b'(' | b'=' | b':' | b'[' | b'{' | b','
+        b' ' | b'\t' | b'\r' | b'\n' | b'\'' | b'"' | b'(' | b'=' | b':' | b'[' | b'{' | b',' | b';'
     )
 }
 
 fn is_path_stop(b: u8) -> bool {
     matches!(
         b,
-        b' ' | b'\t' | b'\r' | b'\n' | b'\'' | b'"' | b',' | b')' | b']' | b'}'
+        b' ' | b'\t' | b'\r' | b'\n' | b'\'' | b'"' | b',' | b';' | b')' | b']' | b'}'
     )
 }
 
@@ -442,8 +442,25 @@ mod tests {
         assert!(!clean.contains("C:\\"));
         assert!(validate_portable_report(&JsonValue::Str(clean), "$").is_ok());
 
+        // Hostile source_binding paths (standalone or semicolon-delimited) must be scrubbed cleanly
+        let hostile = sanitize_error(
+            "ValueError: absolute path forbidden in source_binding: \"/etc/passwd\"",
+            &[],
+        );
+        assert!(!hostile.contains("/etc/passwd"));
+        assert!(hostile.contains("<HOST_PATH>"));
+        assert!(validate_portable_report(&JsonValue::Str(hostile), "$").is_ok());
+
+        let hostile_semi = sanitize_error(
+            "ValueError: empty component in \"a.csv;/etc/passwd;b.csv\"",
+            &[],
+        );
+        assert!(!hostile_semi.contains("/etc/passwd"));
+        assert!(validate_portable_report(&JsonValue::Str(hostile_semi), "$").is_ok());
+
         // Portable guard rejects leaks
         assert!(validate_portable_report(&JsonValue::Str("/home/alice/x".to_string()), "$").is_err());
+        assert!(validate_portable_report(&JsonValue::Str("/etc/passwd".to_string()), "$").is_err());
         assert!(validate_portable_report(&JsonValue::Str("2026-11-24T05:37:35Z".to_string()), "$").is_err());
         let mut bad_obj = BTreeMap::new();
         bad_obj.insert("timestamp".to_string(), JsonValue::Str("now".to_string()));

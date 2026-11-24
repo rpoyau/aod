@@ -16,7 +16,7 @@ use std::process::Command;
 
 use aod_core::bigint::BigInt;
 use aod_core::bigrat::BigRat;
-use aod_core::json::{parse_json, JsonValue};
+use aod_core::json::{parse_json, to_canonical_json_pretty, JsonValue};
 use aod_core::numeric::{
     exact_isclose, format_fixed, parse_canonical_rational_pair, parse_printed_rational,
 };
@@ -24,8 +24,12 @@ use aod_core::ops::{
     cycle_shedding_step_exact, cycle_shedding_trace, eval_operation, CycleSheddingTickInput,
 };
 use aod_core::policy::audit_crate_tree;
+use aod_core::report::validate_portable_report;
 use aod_core::sha256::sha256_hex;
-use aod_core::vectors::{verify_all_vectors, RATIONAL_CORE_REL, SYMBOLIC_DISPLAY_REL};
+use aod_core::vectors::{
+    load_vector_file, validate_source_binding, verify_all_vectors, verify_single_vector,
+    verify_single_vector_with_root, RATIONAL_CORE_REL, SYMBOLIC_DISPLAY_REL,
+};
 use aod_core::CoreError;
 
 fn repo_root() -> PathBuf {
@@ -449,4 +453,327 @@ fn test_cli_report_and_unsafe_path_rejection() {
         .expect("run aod-core float");
     assert_eq!(bad_float.status.code(), Some(1));
     let _ = CoreError::FloatLiteral(String::new());
+}
+
+fn populate_bound_repo_copy(src_root: &Path, dst_root: &Path, include_crate: bool) {
+    let (_, rc_rows) = load_vector_file(src_root, RATIONAL_CORE_REL).expect("load rc");
+    let (_, sd_rows) = load_vector_file(src_root, SYMBOLIC_DISPLAY_REL).expect("load sd");
+    for rel in [RATIONAL_CORE_REL, SYMBOLIC_DISPLAY_REL, "typst/main.typ"] {
+        let from = src_root.join(rel);
+        let to = dst_root.join(rel);
+        if let Some(p) = to.parent() {
+            fs::create_dir_all(p).expect("mkdir parent");
+        }
+        fs::copy(&from, &to).expect("copy core file");
+    }
+    for rec in rc_rows.iter().chain(sd_rows.iter()) {
+        let binding = rec["source_binding"].as_str().expect("source_binding");
+        for comp in binding.split(';') {
+            let rel_path = comp.split('#').next().unwrap_or(comp);
+            let from = src_root.join(rel_path);
+            let to = dst_root.join(rel_path);
+            if let Some(p) = to.parent() {
+                fs::create_dir_all(p).expect("mkdir bound parent");
+            }
+            if !to.exists() {
+                fs::copy(&from, &to).expect("copy bound source file");
+            }
+        }
+    }
+    if include_crate {
+        copy_crate_sources(
+            &src_root.join("crates/aod-core"),
+            &dst_root.join("crates/aod-core"),
+        );
+    }
+}
+
+fn write_jsonl_records(path: &Path, records: &[BTreeMap<String, JsonValue>]) {
+    let mut out = String::new();
+    for rec in records {
+        let single_line = to_canonical_json_pretty(&JsonValue::Object(rec.clone()))
+            .lines()
+            .map(str::trim)
+            .collect::<Vec<_>>()
+            .join("");
+        out.push_str(&single_line);
+        out.push('\n');
+    }
+    fs::write(path, out).expect("write jsonl");
+}
+
+#[test]
+fn test_s4_f1_external_hardlink_leaves_protected_source_untouched_and_overwrite_works() {
+    let bin = env!("CARGO_BIN_EXE_aod-core");
+    let tmp = TempDirGuard::new("s4_f1_hardlink");
+    let detached_repo = tmp.path().join("detached_repo");
+    populate_bound_repo_copy(&repo_root(), &detached_repo, true);
+
+    let protected_main = detached_repo.join("typst/main.typ");
+    let orig_bytes = fs::read(&protected_main).expect("read typst/main.typ");
+    let orig_sha = sha256_hex(&orig_bytes);
+
+    let ext_dir = tmp.path().join("external_out");
+    fs::create_dir_all(&ext_dir).expect("mkdir ext");
+    let ext_report = ext_dir.join("report.json");
+    fs::hard_link(&protected_main, &ext_report).expect("create external hard link");
+
+    #[cfg(unix)]
+    let orig_ino = {
+        use std::os::unix::fs::MetadataExt;
+        let meta_src = fs::symlink_metadata(&protected_main).expect("stat src");
+        let meta_ext = fs::symlink_metadata(&ext_report).expect("stat ext");
+        assert_eq!(meta_src.ino(), meta_ext.ino());
+        assert_eq!(meta_src.nlink(), 2);
+        meta_src.ino()
+    };
+
+    let run1 = Command::new(bin)
+        .args([
+            "--verify-vectors",
+            "--check-zero-float",
+            "--repo-root",
+            detached_repo.to_str().unwrap(),
+            "--report",
+            ext_report.to_str().unwrap(),
+        ])
+        .output()
+        .expect("run aod-core hardlink");
+    assert_eq!(
+        run1.status.code(),
+        Some(0),
+        "stderr: {}",
+        String::from_utf8_lossy(&run1.stderr)
+    );
+
+    // Protected source file must be 100% untouched on original inode with nlink == 1
+    let after_bytes = fs::read(&protected_main).expect("read typst/main.typ after");
+    assert_eq!(after_bytes, orig_bytes);
+    assert_eq!(sha256_hex(&after_bytes), orig_sha);
+
+    let rep1_bytes = fs::read(&ext_report).expect("read report 1");
+    let rep1_parsed = parse_json(&String::from_utf8(rep1_bytes.clone()).expect("utf8"))
+        .expect("parse report 1");
+    assert_eq!(
+        rep1_parsed.as_object().unwrap()["overall_status"],
+        JsonValue::Str("PASS".to_string())
+    );
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::MetadataExt;
+        let meta_src = fs::symlink_metadata(&protected_main).expect("stat src after");
+        let meta_ext = fs::symlink_metadata(&ext_report).expect("stat ext after");
+        assert_eq!(meta_src.ino(), orig_ino, "protected source inode changed");
+        assert_eq!(meta_src.nlink(), 1, "protected source link count must drop back to 1");
+        assert_ne!(meta_ext.ino(), orig_ino, "report must be installed on a new inode");
+        assert_eq!(meta_ext.nlink(), 1);
+    }
+
+    // No stray temporary files left behind in external_out
+    let leftovers: Vec<String> = fs::read_dir(&ext_dir)
+        .expect("read ext_dir")
+        .map(|e| e.unwrap().file_name().to_string_lossy().into_owned())
+        .filter(|name| name.starts_with(".aod-core-tmp-"))
+        .collect();
+    assert!(leftovers.is_empty(), "leftover tmp files: {:?}", leftovers);
+
+    // Ordinary repeated overwrite to the same report path succeeds with byte-identical output
+    let run2 = Command::new(bin)
+        .args([
+            "--verify-vectors",
+            "--check-zero-float",
+            "--repo-root",
+            detached_repo.to_str().unwrap(),
+            "--report",
+            ext_report.to_str().unwrap(),
+        ])
+        .output()
+        .expect("run aod-core overwrite");
+    assert_eq!(
+        run2.status.code(),
+        Some(0),
+        "stderr: {}",
+        String::from_utf8_lossy(&run2.stderr)
+    );
+    assert_eq!(fs::read(&ext_report).expect("read report 2"), rep1_bytes);
+}
+
+#[test]
+fn test_s2_f3_source_binding_negative_regressions_and_sanitized_hostile_report() {
+    let root = repo_root();
+
+    // Live repo negative controls covering all 5 selector forms
+    let bad_live_bindings = [
+        "manual/data/does_not_exist.csv",
+        "typst/sections/04_cut_running_fractal_tesseract.typ#eq:atomic-h1",
+        "typst/sections/05_curl_closure_duon_current.typ#eq:afc-stokes-used",
+        "typst/sections/06_field.typ#eq:nonexistent-label",
+        "manual/data/derived/sparc_five_galaxy_per_bin.csv#row00",
+        "manual/data/derived/sparc_five_galaxy_per_bin.csv#row078_NGC3198",
+        "manual/data/derived/sparc_five_galaxy_per_bin.csv#row99999",
+        "manual/data/derived/sparc_five_galaxy_per_bin.csv#NONEXISTENT_GALAXY",
+        "manual/scripts/aod_awareness.py#nonexistent_func",
+        "manual/scripts/generate_cycle_shedding_fixture.py#L1-999999",
+        "manual/scripts/generate_cycle_shedding_fixture.py#L01-10",
+        "manual/data/mapping_error/mapping_error.json#original_historical_laws.cases.MISSING",
+        "manual/data/higgs/higgs_trace_score_formula.md#sec1",
+        "manual/data/dec/dec_one_node_ledger_example.csv#",
+        "manual/data/dec/dec_one_node_ledger_example.csv;",
+        "/etc/passwd",
+        "../typst/main.typ",
+        "typst\\main.typ",
+    ];
+    for binding in bad_live_bindings {
+        assert!(
+            validate_source_binding(&root, binding).is_err(),
+            "expected validate_source_binding to reject {:?}",
+            binding
+        );
+    }
+
+    // Synthetic Typst traps (inline raw, fenced raw, #ref, #link, symlinked bound file)
+    let tmp = TempDirGuard::new("s2_f3_traps");
+    let fake_root = tmp.path().join("repo");
+    fs::create_dir_all(fake_root.join("typst")).expect("mkdir typst");
+    fs::write(
+        fake_root.join("typst/traps.typ"),
+        "// <eq:comment>\n\
+         /* nested /* <eq:block> */ */\n\
+         inline `<eq:inline-raw>` text\n\
+         ```typ\n<eq:fenced-raw>\n```\n\
+         #ref(<eq:ref-only>)\n\
+         #link(<eq:link-only>)\n\
+         #cite(<eq:cite-only>)\n\
+         #query(<eq:query-only>)\n\
+         #selector(<eq:selector-only>)\n\
+         $ x = 1 $ <eq:real-anchor>\n",
+    )
+    .expect("write traps.typ");
+
+    assert!(validate_source_binding(&fake_root, "typst/traps.typ#eq:real-anchor").is_ok());
+    for trap in [
+        "typst/traps.typ#eq:comment",
+        "typst/traps.typ#eq:block",
+        "typst/traps.typ#eq:inline-raw",
+        "typst/traps.typ#eq:fenced-raw",
+        "typst/traps.typ#eq:ref-only",
+        "typst/traps.typ#eq:link-only",
+        "typst/traps.typ#eq:cite-only",
+        "typst/traps.typ#eq:query-only",
+        "typst/traps.typ#eq:selector-only",
+    ] {
+        assert!(
+            validate_source_binding(&fake_root, trap).is_err(),
+            "Typst trap {:?} should be rejected",
+            trap
+        );
+    }
+
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::symlink;
+        let outside_file = tmp.path().join("outside.csv");
+        fs::write(&outside_file, "a,b\n1,2\n").expect("write outside");
+        symlink(&outside_file, fake_root.join("sym.csv")).expect("symlink bound file");
+        assert!(matches!(
+            validate_source_binding(&fake_root, "sym.csv"),
+            Err(CoreError::UnsafePath(_))
+        ));
+    }
+
+    // End-to-end CLI test: hostile "/etc/passwd" source_binding produces sanitized portable FAIL report
+    let hostile_repo = tmp.path().join("hostile_repo");
+    populate_bound_repo_copy(&root, &hostile_repo, false);
+    let (_, mut rc_rows) = load_vector_file(&hostile_repo, RATIONAL_CORE_REL).expect("load rc");
+    rc_rows[0].insert(
+        "source_binding".to_string(),
+        JsonValue::Str("/etc/passwd".to_string()),
+    );
+    write_jsonl_records(&hostile_repo.join(RATIONAL_CORE_REL), &rc_rows);
+
+    let fail_report = tmp.path().join("hostile_fail.json");
+    let bin = env!("CARGO_BIN_EXE_aod-core");
+    let out = Command::new(bin)
+        .args([
+            "--verify-vectors",
+            "--repo-root",
+            hostile_repo.to_str().unwrap(),
+            "--report",
+            fail_report.to_str().unwrap(),
+        ])
+        .output()
+        .expect("run aod-core hostile");
+    assert_eq!(out.status.code(), Some(1));
+    let body = fs::read_to_string(&fail_report).expect("read hostile fail report");
+    assert!(
+        !body.contains("/etc/passwd"),
+        "hostile absolute path leaked in report: {}",
+        body
+    );
+    let parsed = parse_json(&body).expect("parse hostile report");
+    validate_portable_report(&parsed, "$").expect("portable report guard");
+    let vv = parsed.as_object().unwrap()["vectors_verification"]
+        .as_object()
+        .unwrap();
+    assert_eq!(vv["status"], JsonValue::Str("FAIL".to_string()));
+    assert_eq!(vv["failed_vectors"], JsonValue::Int(BigInt::from_usize(1)));
+}
+
+#[test]
+fn test_s2_f2_boolean_int_type_substitutions_rejected() {
+    let root = repo_root();
+    let (_, rc_rows) = load_vector_file(&root, RATIONAL_CORE_REL).expect("load rc");
+
+    // 1. RC-005: hamming_distance 1 -> true
+    let mut rc005 = rc_rows[4].clone();
+    assert_eq!(rc005["case_id"], JsonValue::Str("RC-005".to_string()));
+    if let Some(JsonValue::Object(exp)) = rc005.get_mut("expected_outcome") {
+        if let Some(JsonValue::Object(ev)) = exp.get_mut("exact_value") {
+            ev.insert("hamming_distance".to_string(), JsonValue::Bool(true));
+        }
+    }
+    assert!(verify_single_vector(&rc005).is_err());
+    assert!(verify_single_vector_with_root(&rc005, &root).is_err());
+
+    // 2. RC-009: selected_slot 0 -> false
+    let mut rc009 = rc_rows[8].clone();
+    assert_eq!(rc009["case_id"], JsonValue::Str("RC-009".to_string()));
+    if let Some(JsonValue::Object(exp)) = rc009.get_mut("expected_outcome") {
+        if let Some(JsonValue::Object(ev)) = exp.get_mut("exact_value") {
+            ev.insert("selected_slot".to_string(), JsonValue::Bool(false));
+        }
+    }
+    assert!(verify_single_vector(&rc009).is_err());
+    assert!(verify_single_vector_with_root(&rc009, &root).is_err());
+
+    // 3. RC-010: no_delay_stable_at_one true -> 1
+    let mut rc010 = rc_rows[9].clone();
+    assert_eq!(rc010["case_id"], JsonValue::Str("RC-010".to_string()));
+    if let Some(JsonValue::Object(exp)) = rc010.get_mut("expected_outcome") {
+        if let Some(JsonValue::Object(ev)) = exp.get_mut("exact_value") {
+            ev.insert(
+                "no_delay_stable_at_one".to_string(),
+                JsonValue::Int(BigInt::one()),
+            );
+        }
+    }
+    assert!(verify_single_vector(&rc010).is_err());
+    assert!(verify_single_vector_with_root(&rc010, &root).is_err());
+
+    // End-to-end verify_all_vectors rejects all 3 in detached copy
+    let tmp = TempDirGuard::new("s2_f2_bool_int");
+    let detached = tmp.path().join("repo");
+    populate_bound_repo_copy(&root, &detached, false);
+    let mut mutated = rc_rows;
+    mutated[4] = rc005;
+    mutated[8] = rc009;
+    mutated[9] = rc010;
+    write_jsonl_records(&detached.join(RATIONAL_CORE_REL), &mutated);
+
+    let res = verify_all_vectors(&detached).expect("verify_all_vectors");
+    assert_eq!(res.status, "FAIL");
+    assert_eq!(res.failed_vectors, 3);
+    let failed_ids: Vec<&str> = res.failures.iter().map(|f| f.case_id.as_str()).collect();
+    assert_eq!(failed_ids, vec!["RC-005", "RC-009", "RC-010"]);
 }

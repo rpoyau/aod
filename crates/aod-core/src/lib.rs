@@ -26,7 +26,7 @@ pub const CRATE_NAME: &str = "aod-core";
 pub const CRATE_VERSION: &str = "0.1.0";
 pub const REPORT_SCHEMA: &str = "aod.s4.rust.report.v1";
 pub const VECTOR_SCHEMA: &str = "aod.s4.vector.v1";
-pub const BASE_COMMIT_BINDING: &str = "3a2418defb4fa92e6fbfc8951b81990fc57ce0e6";
+pub const BASE_COMMIT_BINDING: &str = "e5c86af96cb78fec6905478a2cc421d08983afa2";
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CoreError {

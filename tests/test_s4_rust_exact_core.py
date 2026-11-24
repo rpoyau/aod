@@ -112,6 +112,24 @@ def _copy_crate_tree(src: Path, dst: Path) -> None:
             shutil.copy2(entry, target)
 
 
+def _populate_bound_repo_copy(dst_repo: Path, *, include_crate: bool = False) -> None:
+    """Populate a minimal detached repo containing vector JSONL files and all bound source files."""
+    _, rc_rows = load_vector_file(ROOT / RATIONAL_CORE_REL)
+    _, sd_rows = load_vector_file(ROOT / SYMBOLIC_DISPLAY_REL)
+    needed: set[str] = {RATIONAL_CORE_REL, SYMBOLIC_DISPLAY_REL, "typst/main.typ"}
+    for rec in (*rc_rows, *sd_rows):
+        for comp in str(rec["source_binding"]).split(";"):
+            rel_path = comp.split("#", 1)[0]
+            needed.add(rel_path)
+    for rel in sorted(needed):
+        src = ROOT / rel
+        dst = dst_repo / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+    if include_crate:
+        _copy_crate_tree(CRATE_DIR, dst_repo / "crates" / "aod-core")
+
+
 def _check_portable_json(value: object, *, path: str = "$") -> None:
     require_no_floats(value, path=path)
     if isinstance(value, dict):
@@ -1016,10 +1034,8 @@ def test_negative_controls_tampered_vectors_and_sanitized_fail_report(
 ):
     bin_dbg = rust_binaries["debug"]
     fake_repo = tmp_path / "fake_repo"
+    _populate_bound_repo_copy(fake_repo)
     vec_dir = fake_repo / "manual" / "engine" / "vectors"
-    vec_dir.mkdir(parents=True)
-    shutil.copy2(ROOT / RATIONAL_CORE_REL, vec_dir / "rational_core.jsonl")
-    shutil.copy2(ROOT / SYMBOLIC_DISPLAY_REL, vec_dir / "symbolic_and_display.jsonl")
 
     # Tamper RC-001 expected Z from 8 to 9
     rc_path = vec_dir / "rational_core.jsonl"
@@ -1081,9 +1097,7 @@ def test_negative_controls_unsafe_report_paths_and_pre_resolution_symlinks(
 ):
     bin_dbg = rust_binaries["debug"]
     fake_repo = tmp_path / "repo"
-    (fake_repo / "manual" / "engine" / "vectors").mkdir(parents=True)
-    shutil.copy2(ROOT / RATIONAL_CORE_REL, fake_repo / RATIONAL_CORE_REL)
-    shutil.copy2(ROOT / SYMBOLIC_DISPLAY_REL, fake_repo / SYMBOLIC_DISPLAY_REL)
+    _populate_bound_repo_copy(fake_repo)
     (fake_repo / "_build").mkdir()
     outside = tmp_path / "outside_escape"
     outside.mkdir()
@@ -1438,3 +1452,240 @@ def test_source_zip_roundtrip_offline_cargo_and_byte_identical_report(
     _check(inv_after == inv_before, "extracted source.zip inventory mutated during offline Cargo + CLI execution")
     _check(all_files_after == all_files_before, "unexpected file added/modified in extracted source.zip")
     _check(not (extracted / "crates/aod-core/target").exists())
+
+
+# ---------------------------------------------------------------------------
+# Category 7: S4-F1 hard-link protection, S2-F3 source_binding & S2-F2 parity
+# ---------------------------------------------------------------------------
+
+
+def test_s4_f1_external_hardlink_protection_and_overwrites_debug_and_release(
+    rust_binaries: dict[str, Path], tmp_path: Path
+):
+    spec = importlib.util.spec_from_file_location("s4_f1_rel_builder", ROOT / "scripts/build_release_bundle.py")
+    _check(spec is not None and spec.loader is not None)
+    builder = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(builder)
+
+    for mode in ("debug", "release"):
+        detached = builder.build_source_tree(tmp_path / f"detached_{mode}")
+        protected_main = detached / "typst" / "main.typ"
+        _check(protected_main.is_file(), "detached typst/main.typ missing")
+        orig_bytes = protected_main.read_bytes()
+        orig_sha = _sha256_file(protected_main)
+        orig_stat = os.lstat(protected_main)
+
+        ext_dir = tmp_path / f"external_{mode}"
+        ext_dir.mkdir(parents=True, exist_ok=True)
+        ext_report = ext_dir / "report.json"
+        os.link(protected_main, ext_report)
+
+        before_src_stat = os.lstat(protected_main)
+        before_ext_stat = os.lstat(ext_report)
+        _check(before_src_stat.st_nlink == 2, f"{mode}: expected hardlink nlink==2 before run")
+        _check(before_src_stat.st_ino == before_ext_stat.st_ino, f"{mode}: hardlink inode setup mismatch")
+
+        proc = subprocess.run(
+            [
+                str(rust_binaries[mode]),
+                "--verify-vectors",
+                "--check-zero-float",
+                "--repo-root",
+                str(detached),
+                "--report",
+                str(ext_report),
+            ],
+            cwd=detached,
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        _check(proc.returncode == 0, f"{mode} hard-link run failed (rc={proc.returncode}): {proc.stderr}")
+
+        # Protected source file must retain original inode, nlink==1, and bit-identical bytes/SHA-256
+        after_src_stat = os.lstat(protected_main)
+        after_ext_stat = os.lstat(ext_report)
+        _check(protected_main.read_bytes() == orig_bytes, f"{mode}: protected typst/main.typ bytes mutated")
+        _check(_sha256_file(protected_main) == orig_sha, f"{mode}: protected typst/main.typ SHA-256 mutated")
+        _check(after_src_stat.st_ino == orig_stat.st_ino, f"{mode}: protected typst/main.typ inode changed")
+        _check(after_src_stat.st_nlink == 1, f"{mode}: protected typst/main.typ nlink != 1 ({after_src_stat.st_nlink})")
+        _check(after_ext_stat.st_ino != orig_stat.st_ino, f"{mode}: report was not written to a new inode")
+        _check(after_ext_stat.st_nlink == 1, f"{mode}: report nlink != 1")
+
+        rep1_bytes = ext_report.read_bytes()
+        rep1_parsed = loads_zero_float(rep1_bytes.decode("utf-8"))
+        _check(isinstance(rep1_parsed, dict))
+        _check_portable_json(rep1_parsed)
+        _check(rep1_parsed["overall_status"] == "PASS")
+
+        leftovers = [p.name for p in ext_dir.iterdir() if p.name.startswith(".aod-core-tmp-")]
+        _check(leftovers == [], f"{mode}: stray sibling temp files remained: {leftovers}")
+
+        # Ordinary repeated overwrite on the same report path succeeds with byte-identical output
+        proc2 = subprocess.run(
+            [
+                str(rust_binaries[mode]),
+                "--verify-vectors",
+                "--check-zero-float",
+                "--repo-root",
+                str(detached),
+                "--report",
+                str(ext_report),
+            ],
+            cwd=detached,
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        _check(proc2.returncode == 0, f"{mode} repeated overwrite failed: {proc2.stderr}")
+        _check(ext_report.read_bytes() == rep1_bytes, f"{mode} repeated overwrite changed report bytes")
+
+
+def test_s2_f3_rust_source_binding_negative_regressions_debug_and_release(
+    rust_binaries: dict[str, Path], tmp_path: Path
+):
+    _, orig_rc = load_vector_file(ROOT / RATIONAL_CORE_REL)
+
+    def run_mutated(
+        tag: str,
+        mode: str,
+        mutator,
+        *,
+        extra_setup=None,
+    ) -> tuple[int, str, dict[str, object]]:
+        repo = tmp_path / f"sb_{tag}_{mode}"
+        _populate_bound_repo_copy(repo)
+        if extra_setup is not None:
+            extra_setup(repo)
+        rows = [json.loads(json.dumps(r)) for r in orig_rc]
+        mutator(rows)
+        rc_path = repo / RATIONAL_CORE_REL
+        rc_path.write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
+        out_rep = tmp_path / f"rep_{tag}_{mode}.json"
+        proc = subprocess.run(
+            [
+                str(rust_binaries[mode]),
+                "--verify-vectors",
+                "--repo-root",
+                str(repo),
+                "--report",
+                str(out_rep),
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        text = out_rep.read_text(encoding="utf-8")
+        parsed = loads_zero_float(text)
+        _check(isinstance(parsed, dict))
+        _check_portable_json(parsed)
+        return proc.returncode, text, parsed
+
+    # 1. Original wrong Typst files on RC-005 and RC-008 rejected in debug & release
+    def wrong_typ_files(rows: list[dict[str, object]]) -> None:
+        rows[4]["source_binding"] = "typst/sections/04_cut_running_fractal_tesseract.typ#eq:atomic-h1"
+        rows[7]["source_binding"] = "typst/sections/05_curl_closure_duon_current.typ#eq:afc-stokes-used"
+
+    for mode in ("debug", "release"):
+        rc, _, parsed = run_mutated("wrong_typ", mode, wrong_typ_files)
+        _check(rc == 1, f"{mode}: wrong Typst files must fail")
+        vv = parsed["vectors_verification"]
+        _check(vv["status"] == "FAIL")
+        _check(vv["failed_vectors"] == 2)
+        _check([f["case_id"] for f in vv["failures"]] == ["RC-005", "RC-008"])
+
+    # 2. Single-vector source_binding traps: missing file, raw backticks, #ref/#link, symlink, row00, py def, json key
+    trap_typ_body = (
+        "// <eq:comment>\n"
+        "inline `<eq:inline-raw>` text\n"
+        "```typ\n<eq:fenced-raw>\n```\n"
+        "#ref(<eq:ref-only>)\n"
+        "#link(<eq:link-only>)\n"
+    )
+    outside_csv = tmp_path / "outside_symlink_target.csv"
+    outside_csv.write_text("k,v\na,1\n", encoding="utf-8")
+
+    def setup_traps(repo: Path) -> None:
+        (repo / "typst" / "traps.typ").write_text(trap_typ_body, encoding="utf-8")
+        (repo / "manual" / "data" / "sym_trap.csv").symlink_to(outside_csv)
+
+    bad_bindings = [
+        ("missing_file", "manual/data/does_not_exist.csv"),
+        ("inline_raw", "typst/traps.typ#eq:inline-raw"),
+        ("fenced_raw", "typst/traps.typ#eq:fenced-raw"),
+        ("native_ref", "typst/traps.typ#eq:ref-only"),
+        ("native_link", "typst/traps.typ#eq:link-only"),
+        ("symlink_file", "manual/data/sym_trap.csv"),
+        ("csv_row00", "manual/data/derived/sparc_five_galaxy_per_bin.csv#row00"),
+        ("missing_py_def", "manual/scripts/aod_awareness.py#no_such_function"),
+        ("missing_json_key", "manual/data/mapping_error/mapping_error.json#original_historical_laws.cases.NOPE"),
+    ]
+    for tag, bad_sb in bad_bindings:
+        rc, _, parsed = run_mutated(
+            tag,
+            "debug",
+            lambda rows, sb=bad_sb: rows[0].__setitem__("source_binding", sb),
+            extra_setup=setup_traps,
+        )
+        _check(rc == 1, f"expected exit 1 for bad source_binding {bad_sb!r}")
+        _check(parsed["vectors_verification"]["failed_vectors"] == 1)
+
+    # 3. Hostile "/etc/passwd" source_binding produces clean sanitized FAIL report in debug & release
+    for mode in ("debug", "release"):
+        rc, text, parsed = run_mutated(
+            "hostile_etc_passwd",
+            mode,
+            lambda rows: rows[0].__setitem__("source_binding", "/etc/passwd"),
+        )
+        _check(rc == 1, f"{mode}: hostile /etc/passwd must fail")
+        _check("/etc/passwd" not in text, f"{mode}: /etc/passwd leaked in report text")
+        _check(parsed["overall_status"] == "FAIL")
+        _check(parsed["vectors_verification"]["failed_vectors"] == 1)
+
+
+def test_s2_f2_rust_boolean_int_negative_regressions_debug_and_release(
+    rust_binaries: dict[str, Path], tmp_path: Path
+):
+    _, orig_rc = load_vector_file(ROOT / RATIONAL_CORE_REL)
+    repo = tmp_path / "bool_int_repo"
+    _populate_bound_repo_copy(repo)
+
+    mutated = [json.loads(json.dumps(r)) for r in orig_rc]
+    _check(mutated[4]["case_id"] == "RC-005")
+    mutated[4]["expected_outcome"]["exact_value"]["hamming_distance"] = True
+    _check(mutated[8]["case_id"] == "RC-009")
+    mutated[8]["expected_outcome"]["exact_value"]["selected_slot"] = False
+    _check(mutated[9]["case_id"] == "RC-010")
+    mutated[9]["expected_outcome"]["exact_value"]["no_delay_stable_at_one"] = 1
+
+    (repo / RATIONAL_CORE_REL).write_text(
+        "\n".join(json.dumps(r) for r in mutated) + "\n",
+        encoding="utf-8",
+    )
+
+    for mode in ("debug", "release"):
+        out_rep = tmp_path / f"bool_int_{mode}.json"
+        proc = subprocess.run(
+            [
+                str(rust_binaries[mode]),
+                "--verify-vectors",
+                "--repo-root",
+                str(repo),
+                "--report",
+                str(out_rep),
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        _check(proc.returncode == 1, f"{mode}: bool/int substitutions must fail")
+        parsed = loads_zero_float(out_rep.read_text(encoding="utf-8"))
+        _check(isinstance(parsed, dict))
+        _check_portable_json(parsed)
+        _check(parsed["overall_status"] == "FAIL")
+        vv = parsed["vectors_verification"]
+        _check(vv["status"] == "FAIL")
+        _check(vv["failed_vectors"] == 3)
+        _check([f["case_id"] for f in vv["failures"]] == ["RC-005", "RC-009", "RC-010"])
