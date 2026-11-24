@@ -1265,6 +1265,33 @@ def test_negative_controls_11_adversarial_policy_probes_and_false_positive_immun
             .replace("#![forbid(unsafe_code)]", "mod decoy { #![forbid(unsafe_code)] }")
         ),
     )
+    make_probe(
+        "21_toml_unicode_u4_dep_header",
+        lambda d: (d / "Cargo.toml").write_text(
+            (d / "Cargo.toml").read_text().replace("[dependencies]", '["\\u0064ependencies"]\nserde = "1.0"')
+        ),
+    )
+    make_probe(
+        "22_toml_unicode_u8_dotted_dep",
+        lambda d: (d / "Cargo.toml").write_text(
+            '"\\U00000064ependencies".serde = "1.0"\n' + (d / "Cargo.toml").read_text()
+        ),
+    )
+    make_probe(
+        "23_toml_inline_package_build",
+        lambda d: (d / "Cargo.toml").write_text(
+            'package = { name = "aod-core", version = "0.1.0", edition = "2021", build = "evil.rs" }\n\n'
+            "[lib]\nname = \"aod_core\"\npath = \"src/lib.rs\"\n\n"
+            "[[bin]]\nname = \"aod-core\"\npath = \"src/main.rs\"\n\n"
+            "[dependencies]\n"
+        ),
+    )
+    make_probe(
+        "24_cargo_lock_malformed_line",
+        lambda d: (d / "Cargo.lock").write_text(
+            (d / "Cargo.lock").read_text() + "malformed_non_assignment_line\n"
+        ),
+    )
 
     # Symlinked crate_root itself must be rejected cleanly by both Rust CLI and Python mirror
     sym_crate_root = tmp_path / "symlinked_crate_root"

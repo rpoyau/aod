@@ -226,6 +226,9 @@ fn unquote_toml_segment(seg: &str) -> Result<String, String> {
         let mut out = String::with_capacity(inner.len());
         let mut chars = inner.chars();
         while let Some(ch) = chars.next() {
+            if ch == '"' {
+                return Err("unescaped quote in double-quoted TOML key".to_string());
+            }
             if ch == '\\' {
                 match chars.next() {
                     Some('"') => out.push('"'),
@@ -235,7 +238,47 @@ fn unquote_toml_segment(seg: &str) -> Result<String, String> {
                     Some('t') => out.push('\t'),
                     Some('b') => out.push('\u{0008}'),
                     Some('f') => out.push('\u{000c}'),
-                    Some(other) => out.push(other),
+                    Some('u') => {
+                        let mut hex = String::with_capacity(4);
+                        for _ in 0..4 {
+                            let hc = chars.next().ok_or_else(|| {
+                                "truncated \\uXXXX escape in TOML key".to_string()
+                            })?;
+                            if !hc.is_ascii_hexdigit() {
+                                return Err("non-hex digit in \\uXXXX TOML key escape".to_string());
+                            }
+                            hex.push(hc);
+                        }
+                        let code = u32::from_str_radix(&hex, 16)
+                            .map_err(|_| "invalid \\uXXXX TOML key escape".to_string())?;
+                        let decoded = char::from_u32(code).ok_or_else(|| {
+                            "invalid Unicode scalar in \\uXXXX TOML key escape".to_string()
+                        })?;
+                        out.push(decoded);
+                    }
+                    Some('U') => {
+                        let mut hex = String::with_capacity(8);
+                        for _ in 0..8 {
+                            let hc = chars.next().ok_or_else(|| {
+                                "truncated \\UXXXXXXXX escape in TOML key".to_string()
+                            })?;
+                            if !hc.is_ascii_hexdigit() {
+                                return Err(
+                                    "non-hex digit in \\UXXXXXXXX TOML key escape".to_string()
+                                );
+                            }
+                            hex.push(hc);
+                        }
+                        let code = u32::from_str_radix(&hex, 16)
+                            .map_err(|_| "invalid \\UXXXXXXXX TOML key escape".to_string())?;
+                        let decoded = char::from_u32(code).ok_or_else(|| {
+                            "invalid Unicode scalar in \\UXXXXXXXX TOML key escape".to_string()
+                        })?;
+                        out.push(decoded);
+                    }
+                    Some(other) => {
+                        return Err(format!("unknown escape \\{} in double-quoted TOML key", other));
+                    }
                     None => return Err("trailing escape in double-quoted TOML key".to_string()),
                 }
             } else {
@@ -429,6 +472,8 @@ fn audit_cargo_toml(rel: &str, text: &str, violations: &mut Vec<PolicyViolation>
                 .any(|s| is_dep_key(s) || is_always_forbidden_key(s));
             let inline_under_target =
                 full_path.first().map(String::as_str) == Some("target") && rhs_trim.starts_with('{');
+            let inline_under_package =
+                full_path.first().map(String::as_str) == Some("package") && rhs_trim.starts_with('{');
 
             if hits_dep_or_forbidden || inline_under_target {
                 violations.push(PolicyViolation {
@@ -437,6 +482,16 @@ fn audit_cargo_toml(rel: &str, text: &str, violations: &mut Vec<PolicyViolation>
                     rule: "forbidden_dependency".to_string(),
                     detail: format!(
                         "forbidden dependency/workspace/target key {:?}",
+                        full_path.join(".")
+                    ),
+                });
+            } else if inline_under_package {
+                violations.push(PolicyViolation {
+                    file: rel.to_string(),
+                    line: lineno,
+                    rule: "forbidden_cargo_toml_inline_table".to_string(),
+                    detail: format!(
+                        "inline table assignment under package is forbidden: {:?}",
                         full_path.join(".")
                     ),
                 });
@@ -550,6 +605,13 @@ fn audit_cargo_lock(rel: &str, text: &str, violations: &mut Vec<PolicyViolation>
                     detail: format!("unexpected top-level Cargo.lock field {:?}", lhs_segs.join(".")),
                 });
             }
+        } else {
+            violations.push(PolicyViolation {
+                file: rel.to_string(),
+                line: lineno,
+                rule: "toml_parse_error".to_string(),
+                detail: "malformed non-assignment line in Cargo.lock".to_string(),
+            });
         }
     }
 
@@ -1510,6 +1572,8 @@ pub fn demo<'a>(s: &'a str, pair: ((u32, u32), u32)) -> &'a str {
             "[target.'cfg(unix)']\ndependencies = { serde = \"1.0\" }\n",
             "dependencies.serde = \"1.0\"\n",
             "[\"dependencies\"]\nserde = \"1.0\"\n",
+            "[\"\\u0064ependencies\"]\nserde = \"1.0\"\n",
+            "\"\\U00000064ependencies\".serde = \"1.0\"\n",
             "[target . 'cfg(unix)' . dependencies]\nserde = \"1.0\"\n",
             "workspace = { members = [\".\"] }\n",
             "[target]\n'cfg(unix)' = { dependencies = { serde = \"1.0\" } }\n",
@@ -1521,10 +1585,28 @@ pub fn demo<'a>(s: &'a str, pair: ((u32, u32), u32)) -> &'a str {
             assert!(!v.is_empty(), "Cargo.toml bypass missed: {:?}", probe);
         }
 
+        // Inline package table attempting to smuggle build script
+        let mut v_pkg = Vec::new();
+        audit_cargo_toml(
+            "Cargo.toml",
+            "package = { name = \"aod-core\", version = \"0.1.0\", edition = \"2021\", build = \"evil.rs\" }\n",
+            &mut v_pkg,
+        );
+        assert!(!v_pkg.is_empty(), "inline package table bypass missed");
+
+        // Strict double-quoted TOML key escape/quote validation
+        assert!(unquote_toml_segment("\"a\"b\"").is_err());
+        assert!(unquote_toml_segment("\"\\x\"").is_err());
+        assert!(unquote_toml_segment("\"\\u123\"").is_err());
+        assert!(unquote_toml_segment("\"\\uD800\"").is_err());
+        assert_eq!(unquote_toml_segment("\"\\u0064ep\"").unwrap(), "dep");
+        assert_eq!(unquote_toml_segment("\"\\U00000064ep\"").unwrap(), "dep");
+
         let lock_probes = [
             "version = 3\n[[package]]\nname = \"aod-core\"\nversion = \"0.1.0\"\n[[patch.unused]]\nname = \"x\"\n",
             "version = 3\n[[package]]\nname = \"aod-core\"\nversion = \"0.1.0\"\n\"dependencies\" = [\"foo\"]\n",
             "version = 3\n[[package]]\nname = \"aod-core\"\nversion = \"0.1.0\"\n\"source\" = \"registry\"\n",
+            "version = 3\n[[package]]\nname = \"aod-core\"\nversion = \"0.1.0\"\nnot_a_valid_assignment_line\n",
         ];
         for probe in lock_probes {
             let mut v = Vec::new();
