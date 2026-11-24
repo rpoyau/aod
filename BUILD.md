@@ -179,3 +179,19 @@ influence, interval, environment or reference-dependency checks. The existing
 observation interface and historical source profiles remain valid. Downstream
 consumers pinned to an earlier producer identity require an explicit source
 rebind before their strict integration command can accept this candidate.
+
+## Optional Rust exact core (S4)
+
+An optional, strictly `std`-only, zero-float, zero-`unsafe` Rust exact-arithmetic core lives under `crates/aod-core/`. It is not required for canonical Typst publication builds, scientific source audits, or the Stage 2 Python reference engine (`manual/engine/`), which remains 100% independent of Rust.
+
+When a Rust toolchain is installed, run offline/locked verification with Cargo build output directed under `_build/cargo-target` so `crates/aod-core/target/` is never created in the source tree:
+
+```bash
+CARGO_TARGET_DIR=_build/cargo-target cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked
+mkdir -p _build/s4
+CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- \
+  --verify-vectors --check-zero-float --report _build/s4/rust_report_debug.json
+CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- \
+  --verify-vectors --check-zero-float --report _build/s4/rust_report_release.json
+cmp _build/s4/rust_report_debug.json _build/s4/rust_report_release.json
+```
