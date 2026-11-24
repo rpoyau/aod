@@ -17,6 +17,7 @@ import zlib
 from manual.engine.numeric import parse_exact_int, require
 from manual.engine.policy import loads_zero_float, require_no_floats
 from manual.engine.registry import SectorSpec
+from manual.engine.report import atomic_write_safe_text, validate_runtime_output_path
 
 _DEFAULT_TIMEOUT_SECONDS: int = 300
 _ANCHOR_TIMEOUT_SECONDS: int = 3600
@@ -583,6 +584,26 @@ def run_tier1_sector(
     """Execute one Tier-1 canonical driver via isolated read-only subprocess."""
     root = Path(repo_root).resolve()
     require(spec.sector_id in _VALIDATORS, f"unregistered Tier-1 sector: {spec.sector_id}")
+    if diagnostics_dir is not None:
+        validated_diag_dir = validate_runtime_output_path(
+            diagnostics_dir,
+            root,
+            flag_name="--diagnostics-dir",
+            expect_dir=True,
+        )
+        validate_runtime_output_path(
+            validated_diag_dir / f"{spec.sector_id}.stdout.txt",
+            root,
+            flag_name="--diagnostics-dir child",
+            expect_dir=False,
+        )
+        validate_runtime_output_path(
+            validated_diag_dir / f"{spec.sector_id}.stderr.txt",
+            root,
+            flag_name="--diagnostics-dir child",
+            expect_dir=False,
+        )
+
     pre_digests = _hash_inputs(root, spec.input_paths)
 
     opt_flags = ["-O"] * sys.flags.optimize
@@ -609,9 +630,38 @@ def run_tier1_sector(
     )
 
     if diagnostics_dir is not None:
-        diagnostics_dir.mkdir(parents=True, exist_ok=True)
-        (diagnostics_dir / f"{spec.sector_id}.stdout.txt").write_text(proc.stdout, encoding="utf-8")
-        (diagnostics_dir / f"{spec.sector_id}.stderr.txt").write_text(proc.stderr, encoding="utf-8")
+        validated_diag_dir = validate_runtime_output_path(
+            diagnostics_dir,
+            root,
+            flag_name="--diagnostics-dir",
+            expect_dir=True,
+        )
+        stdout_path = validated_diag_dir / f"{spec.sector_id}.stdout.txt"
+        stderr_path = validated_diag_dir / f"{spec.sector_id}.stderr.txt"
+        validate_runtime_output_path(
+            stdout_path,
+            root,
+            flag_name="--diagnostics-dir child",
+            expect_dir=False,
+        )
+        validate_runtime_output_path(
+            stderr_path,
+            root,
+            flag_name="--diagnostics-dir child",
+            expect_dir=False,
+        )
+        atomic_write_safe_text(
+            stdout_path,
+            proc.stdout,
+            root,
+            flag_name="--diagnostics-dir child",
+        )
+        atomic_write_safe_text(
+            stderr_path,
+            proc.stderr,
+            root,
+            flag_name="--diagnostics-dir child",
+        )
 
     if proc.returncode != 0:
         tail = _extract_error_line(proc.stderr, last=True) or _extract_error_line(proc.stdout, last=True)

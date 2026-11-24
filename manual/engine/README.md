@@ -73,6 +73,10 @@ checkout paths.
 - `manual/engine/vectors/symbolic_and_display.jsonl` — 6 separately scoped exact
   symbolic (`sympy`/cyclotomic) and exact rational rounded-display vectors
   (`SD-001`..`SD-006`).
+- Every vector enforces strict runtime type-sensitive exact equality (rejecting
+  `bool`/`int` coercion) and finite `source_binding` path/selector validation
+  across defining `.typ` labels, `.py` top-level functions and line ranges,
+  `.json` dotted key paths, and `.csv` rows/cells.
 - Zero `.json` files are created under `manual/` in compliance with the release
   source-inventory packaging contract.
 
@@ -92,7 +96,12 @@ cmp _build/s2/engine_norm.json _build/s2/engine_opt.json
 python3 -B -m manual.engine --sector dec_ledger --sector higgs_trace --sector provenance_quarantine
 ```
 
-Runtime reports (`--report`) and raw diagnostics (`--diagnostics-dir`) must be
-written outside distributable source directories (for example under `_build/s2/`
-or an external temporary directory); paths inside `manual/`, `tests/`, `scripts/`,
-`contracts/`, or the repository root are rejected with exit code `2`.
+Runtime reports (`--report`) and raw diagnostics (`--diagnostics-dir`, including
+every `<sector_id>.stdout.txt` / `<sector_id>.stderr.txt` child path validated
+before subprocess launch) must be written outside distributable source
+directories (for example under `_build/s2/` or an external temporary directory);
+paths inside `manual/`, `tests/`, `scripts/`, `contracts/`, or the repository
+root, symlink targets/traversals, and directory-specifier file paths are
+rejected with exit code `2`. All runtime outputs are written through an
+exclusive sibling temporary file and atomic `os.replace`, leaving external
+hard-linked source inodes untouched.
