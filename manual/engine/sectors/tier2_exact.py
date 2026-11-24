@@ -96,7 +96,7 @@ def _load_frozen_bindings(repo_root: Path) -> dict[str, str]:
     require_no_floats(doc)
     require(isinstance(doc, dict), "CANONICAL_BINDINGS.json must be a JSON object")
     frozen = doc.get("frozen_sha256")
-    require(isinstance(frozen, dict) and len(frozen) == 172, "unexpected CANONICAL_BINDINGS frozen_sha256 map")
+    require(isinstance(frozen, dict) and len(frozen) == 180, "unexpected CANONICAL_BINDINGS frozen_sha256 map")
     return {str(k): str(v) for k, v in frozen.items()}
 
 
@@ -1294,6 +1294,8 @@ def verify_sparc_five_galaxy(spec: SectorSpec, repo_root: Path) -> dict[str, obj
     }
 
 
+from manual.engine.sectors.boundary_sadar import verify_boundary_sadar
+
 _TIER2_HANDLERS = {
     "dec_ledger": verify_dec_ledger,
     "higgs_trace": verify_higgs_trace,
@@ -1301,6 +1303,7 @@ _TIER2_HANDLERS = {
     "cycle_shedding": verify_cycle_shedding,
     "lensing_tallies": verify_lensing_tallies,
     "sparc_five_galaxy": verify_sparc_five_galaxy,
+    "boundary_sadar": verify_boundary_sadar,
 }
 
 

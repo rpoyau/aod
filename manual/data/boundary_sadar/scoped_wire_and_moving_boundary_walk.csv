@@ -1,0 +1,6 @@
+record_kind,cut,window,coupled,Phi_cross,Phi_sweep,Phi_shedding,Phi_moving,wire_outward,electron_outward,union_boundary,later_electron_current
+moving_boundary_R1_to_R2,1,1,1,8,3,2,7,0/1,0/1,0/1,0/1
+electron_above_wire_1:2:6,52,4,1,0,0,0,0,4,-4,0,4
+electron_above_wire_1:2:6,53,4,0,0,0,0,0,0,0,0,4
+electron_above_wire_1:2:6,54,4,1,0,0,0,0,4,-4,0,8
+electron_above_wire_1:2:6,55,6,1,0,0,0,0,5,-5,0,13

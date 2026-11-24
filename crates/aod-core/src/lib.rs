@@ -5,7 +5,7 @@
 //!
 //! This crate independently implements arbitrary-precision integers (`BigInt`),
 //! reduced rationals (`BigRat`), exact Gaussian and cyclotomic rings, a strict
-//! zero-float JSON parser and canonical serializer, pure-Rust SHA-256, all 30
+//! zero-float JSON parser and canonical serializer, pure-Rust SHA-256, all 40
 //! S4 cross-language golden vector operations, a Rust lexical policy auditor,
 //! and deterministic canonical report generation.
 
@@ -17,6 +17,7 @@ pub mod ops;
 pub mod policy;
 pub mod report;
 pub mod rings;
+pub mod sadar_sim;
 pub mod sha256;
 pub mod vectors;
 

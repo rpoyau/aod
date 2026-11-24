@@ -40,7 +40,7 @@ fn usage_text() -> &'static str {
     "Usage: aod-core [OPTIONS]\n\
      \n\
      Options:\n\
-       --verify-vectors      Verify all 30 S4 golden vectors (RC-001..RC-024 + SD-001..SD-006)\n\
+       --verify-vectors      Verify all 40 S4 golden vectors (RC-001..RC-032 + SD-001..SD-008)\n\
        --check-zero-float    Run lexical zero-float / zero-unsafe / zero-dep crate policy audit\n\
        --eval-op <OP>        Evaluate a single exact operation against JSON inputs\n\
        --input-json <JSON>   Inline zero-float JSON object input for --eval-op\n\

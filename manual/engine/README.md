@@ -7,16 +7,16 @@ Stage 1b baseline (`cea71a76f26c08b603866e746867b3982da6c88e`).
 ## Architecture & Three-Tier Coverage
 
 `manual/engine/registry.py` maintains two separately auditable sets:
-1. **16 named execution sectors** (`9` Tier 1 + `6` Tier 2 + `1` Tier 3), failing
+1. **17 named execution sectors** (`9` Tier 1 + `7` Tier 2 + `1` Tier 3), failing
    closed on any omitted, duplicated, unknown, empty, or vacuous check.
-2. **All 17 `manual/data/` subdirectories (`116` regular files) plus root
+2. **All 18 `manual/data/` subdirectories (`124` regular files) plus root
    `wavelet_shedding_simulation.csv` and `cycle_shedding_summary.tex`**, audited
    by `verify_data_coverage()`.
 
 | Tier | Sectors | Mechanism |
 |---|---|---|
 | **Tier 1 (`tier1_canonical_adapter`)** | `native_closure_wave`, `awareness`, `cell_measures`, `mapping_error`, `temporal_observation`, `temporal_metrology`, `experimental_comparison`, `temporal_anchor`, `wavelet_si_alignment` | Isolated read-only subprocess execution (`-B`, propagated `-O`, `PYTHONDONTWRITEBYTECODE=1`, pre/post SHA-256 immutability, structured non-vacuous predicates, absolute-path stripping). Never imports `manual.scripts.*` directly and never imports Group-B legacy scripts. |
-| **Tier 2 (`tier2_exact_data_verifier`)** | `dec_ledger`, `higgs_trace`, `phase_delta3_3d`, `cycle_shedding`, `lensing_tallies`, `sparc_five_galaxy` | Pure zero-float `int`/`Fraction` data verifiers checking pinned `frozen_sha256` digests in `contracts/scientific/CANONICAL_BINDINGS.json` and explicit column roles (`exact_input`, `exact_result`, `rounded_display`, `retained_legacy_float_record`). |
+| **Tier 2 (`tier2_exact_data_verifier`)** | `dec_ledger`, `higgs_trace`, `phase_delta3_3d`, `cycle_shedding`, `lensing_tallies`, `sparc_five_galaxy`, `boundary_sadar` | Pure zero-float `int`/`Fraction` data verifiers and Boundary-Full $\mathrm{A}\Omega\mathrm{D}$ SADAR evaluators checking pinned `frozen_sha256` digests in `contracts/scientific/CANONICAL_BINDINGS.json` and explicit column roles (`exact_input`, `exact_result`, `rounded_display`, `retained_legacy_float_record`). |
 | **Tier 3 (`tier3_provenance_guard`)** | `provenance_quarantine` | Pure zero-float guard verifying all 9 frozen SPARC/Tau provenance files, verbatim Tau sub-table equality, and exact `9/20` vs `~23/50` non-conflation (`1/100` rational difference). |
 
 **Cross-`zlib` `temporal_anchor` verification:** `temporal_anchor` executes
@@ -68,11 +68,11 @@ checkout paths.
 
 ## S4 Cross-Language Golden Vectors (`manual/engine/vectors/*.jsonl`)
 
-- `manual/engine/vectors/rational_core.jsonl` — 24 independently-oracled pure
-  integer/rational vectors (`RC-001`..`RC-024`) targeting `crates/aod-core/`.
-- `manual/engine/vectors/symbolic_and_display.jsonl` — 6 separately scoped exact
+- `manual/engine/vectors/rational_core.jsonl` — 32 independently-oracled pure
+  integer/rational vectors (`RC-001`..`RC-032`) targeting `crates/aod-core/`.
+- `manual/engine/vectors/symbolic_and_display.jsonl` — 8 separately scoped exact
   symbolic (`sympy`/cyclotomic) and exact rational rounded-display vectors
-  (`SD-001`..`SD-006`).
+  (`SD-001`..`SD-008`).
 - Every vector enforces strict runtime type-sensitive exact equality (rejecting
   `bool`/`int` coercion) and finite `source_binding` path/selector validation
   across defining `.typ` labels, `.py` top-level functions and line ranges,
@@ -83,7 +83,7 @@ checkout paths.
 ## CLI Usage
 
 ```bash
-# List all 16 registered sectors
+# List all 17 registered sectors
 python3 -B -m manual.engine --list-sectors
 
 # Full verification (normal and -O) with zero-float audit and golden vectors

@@ -1,4 +1,4 @@
-//! All 24 positive golden-vector operations, 3 typed REJECT boundary controls,
+//! All 34 positive golden-vector operations, 3 typed REJECT boundary controls,
 //! and the reusable exact 90-tick `cycle_shedding_trace` evaluator.
 //!
 //! Every operation computes results mathematically from first principles using
@@ -14,6 +14,13 @@ use crate::numeric::{
     round_half_even,
 };
 use crate::rings::{Cyclotomic12, GaussianRat};
+use crate::sadar_sim::{
+    op_dec_chiral_flip_walk, op_dec_two_carrier_chiral_stokes,
+    op_frg_dimonhexon_double_slit_ring, op_hydrogen_shell_series_exact,
+    op_sadar_hadron_debris_and_higgs_saddle, op_sadar_pp_tau_five_boundary,
+    op_sadar_rest_energy_atlas, op_sadar_rest_energy_qext,
+    op_scoped_wire_and_moving_boundary, op_sparc_pooled_primary_exact,
+};
 use crate::CoreError;
 
 const MAX_EXPONENT_GUARD: u32 = 10_000;
@@ -293,6 +300,16 @@ pub fn eval_operation(
         "cyclotomic_z12_overtone" => op_cyclotomic_z12_overtone(inputs),
         "higgs_lhc_rounded_display" => op_higgs_lhc_rounded_display(inputs),
         "printed_token_half_ulp_enclosure" => op_printed_token_half_ulp_enclosure(inputs),
+        "dec_chiral_flip_walk" => op_dec_chiral_flip_walk(inputs),
+        "dec_two_carrier_chiral_stokes" => op_dec_two_carrier_chiral_stokes(inputs),
+        "sadar_pp_tau_five_boundary" => op_sadar_pp_tau_five_boundary(inputs),
+        "sadar_hadron_debris_and_higgs_saddle" => op_sadar_hadron_debris_and_higgs_saddle(inputs),
+        "sadar_rest_energy_atlas" => op_sadar_rest_energy_atlas(inputs),
+        "frg_dimonhexon_double_slit_ring" => op_frg_dimonhexon_double_slit_ring(inputs),
+        "hydrogen_shell_series_exact" => op_hydrogen_shell_series_exact(inputs),
+        "scoped_wire_and_moving_boundary" => op_scoped_wire_and_moving_boundary(inputs),
+        "sadar_rest_energy_qext" => op_sadar_rest_energy_qext(inputs),
+        "sparc_pooled_primary_exact" => op_sparc_pooled_primary_exact(inputs),
         _ => Err(CoreError::ValueError(format!(
             "unsupported vector operation: {:?}",
             operation

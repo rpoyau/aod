@@ -1,0 +1,8 @@
+boundary_chain,candidate,window_L,rhoD_omega,PD,QD,C_close,X_shedding,endo_retained_frac,exo_outward_frac,sensor_visible_cond_exo,sensor_missing_cond_exo,sadar_verdict
+B_hard_sterile_control,3:3:6+3:3:6_duons0,58,0,0,0,0,0,0/1,0/1,0/1,0/1,sterile_cut58_no_BETWEEN_coupling
+B_hard->B_cand_inner_retained,1:2:2,2,2,6,21,6,0,1/1,0/1,0/1,0/1,closed_or_clipped_unseen_at_sensor_wall
+B_hard->B_cand_inner_retained,1:2:6,6,6,18,9,18,0,1/1,0/1,0/1,0/1,closed_or_clipped_unseen_at_sensor_wall
+B_hard->B_cand_open_deficit,1:2:7,7,7,21,6,24,0,1/1,0/1,0/1,0/1,incomplete_RD_QD6_c8_deficit
+B_hard->B_cand_inner_retained,1:2:8,8,8,24,3,24,0,1/1,0/1,0/1,0/1,closed_or_clipped_unseen_at_sensor_wall
+B_hard->B_tau->B_shed->B_sensor->B_ext,1:2:9,9,9,27,0,24,3,650/2500,1850/2500,19/50,31/50,unique_QD0_shedder_Dimonnanyro_winner
+B_hard->B_cand_inner_retained,1:2:10,10,9,27,0,27,0,1/1,0/1,0/1,0/1,closed_or_clipped_unseen_at_sensor_wall

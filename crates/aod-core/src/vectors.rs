@@ -1,4 +1,4 @@
-//! JSONL golden vector loader, `aod.s4.vector.v1` schema validator, and 30-vector runner.
+//! JSONL golden vector loader, `aod.s4.vector.v1` schema validator, and 40-vector runner.
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
@@ -914,25 +914,25 @@ pub fn verify_single_vector_with_root(
     Ok(())
 }
 
-/// Load and verify all 30 S4 golden vectors (`RC-001`..`RC-024` + `SD-001`..`SD-006`).
+/// Load and verify all 40 S4 golden vectors (`RC-001`..`RC-032` + `SD-001`..`SD-008`).
 pub fn verify_all_vectors(repo_root: &Path) -> Result<VectorsVerification, CoreError> {
     let (rc_sha, rc_rows) = load_vector_file(repo_root, RATIONAL_CORE_REL)?;
     let (sd_sha, sd_rows) = load_vector_file(repo_root, SYMBOLIC_DISPLAY_REL)?;
 
-    if rc_rows.len() != 24 {
+    if rc_rows.len() != 32 {
         return Err(CoreError::ValueError(format!(
-            "expected 24 rational_core vectors, got {}",
+            "expected 32 rational_core vectors, got {}",
             rc_rows.len()
         )));
     }
-    if sd_rows.len() != 6 {
+    if sd_rows.len() != 8 {
         return Err(CoreError::ValueError(format!(
-            "expected 6 symbolic_and_display vectors, got {}",
+            "expected 8 symbolic_and_display vectors, got {}",
             sd_rows.len()
         )));
     }
 
-    let expected_rc: Vec<String> = (1..=24).map(|i| format!("RC-{:03}", i)).collect();
+    let expected_rc: Vec<String> = (1..=32).map(|i| format!("RC-{:03}", i)).collect();
     let actual_rc: Vec<String> = rc_rows
         .iter()
         .map(|r| {
@@ -949,7 +949,7 @@ pub fn verify_all_vectors(repo_root: &Path) -> Result<VectorsVerification, CoreE
         )));
     }
 
-    let expected_sd: Vec<String> = (1..=6).map(|i| format!("SD-{:03}", i)).collect();
+    let expected_sd: Vec<String> = (1..=8).map(|i| format!("SD-{:03}", i)).collect();
     let actual_sd: Vec<String> = sd_rows
         .iter()
         .map(|r| {

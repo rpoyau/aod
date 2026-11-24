@@ -1,8 +1,8 @@
-"""Complete 16-sector execution registry and dual data-dependency coverage audit.
+"""Complete 17-sector execution registry and dual data-dependency coverage audit.
 
 Maintains two separately auditable sets per S2_SPEC.md:
-1. Execution obligations: 16 named sectors (9 Tier 1 + 6 Tier 2 + 1 Tier 3).
-2. Covered data dependencies: all 17 subdirectories under manual/data/ (116 files)
+1. Execution obligations: 17 named sectors (9 Tier 1 + 7 Tier 2 + 1 Tier 3).
+2. Covered data dependencies: all 18 subdirectories under manual/data/ (124 files)
    plus root wavelet_shedding_simulation.csv and cycle_shedding_summary.tex.
 """
 from __future__ import annotations
@@ -16,6 +16,7 @@ from manual.engine.numeric import require
 
 EXPECTED_MANUAL_DATA_SUBDIRS: tuple[str, ...] = (
     "awareness",
+    "boundary_sadar",
     "brownian",
     "cell_measures",
     "dec",
@@ -34,7 +35,7 @@ EXPECTED_MANUAL_DATA_SUBDIRS: tuple[str, ...] = (
     "temporal_observation",
 )
 
-EXPECTED_MANUAL_DATA_FILE_COUNT: int = 116
+EXPECTED_MANUAL_DATA_FILE_COUNT: int = 124
 
 EXPECTED_ROOT_DATA_FILES: tuple[str, ...] = (
     "cycle_shedding_summary.tex",
@@ -379,7 +380,7 @@ SECTOR_SPECS: tuple[SectorSpec, ...] = (
         required_outputs=(
             ("check_groups", 13),
             ("p2_checks_covered", 15),
-            ("frozen_files_verified", 172),
+            ("frozen_files_verified", 180),
             ("phase1_equations_bound", 10),
         ),
         capability="canonical_calculation",
@@ -391,7 +392,7 @@ SECTOR_SPECS: tuple[SectorSpec, ...] = (
             "deliberate_3_0_negative_control_literal_at_line_3002_outside_engine",
         ),
     ),
-    # --- Tier 2: 6 Pure Zero-Float Data Verifiers ---
+    # --- Tier 2: 7 Pure Zero-Float Data & Boundary SADAR Verifiers ---
     SectorSpec(
         sector_id="dec_ledger",
         adapter_id="tier2.dec_ledger",
@@ -568,6 +569,40 @@ SECTOR_SPECS: tuple[SectorSpec, ...] = (
             "carried_sparc_declaration_controls_excluded_and_quarantined_in_tier3",
         ),
     ),
+    SectorSpec(
+        sector_id="boundary_sadar",
+        adapter_id="tier2.boundary_sadar",
+        tier="tier2_exact_data_verifier",
+        bound_source_operation="manual.engine.sectors.boundary_sadar:verify_boundary_sadar",
+        invocation=("manual.engine.sectors.boundary_sadar:verify_boundary_sadar",),
+        input_paths=(
+            "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
+            "manual/data/boundary_sadar/dimonhexon_double_slit_ring_paths.csv",
+            "manual/data/boundary_sadar/higgs_baryon_overlap_saddle_scan.csv",
+            "manual/data/boundary_sadar/hydrogen_shell_exact_series.csv",
+            "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
+            "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
+            "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
+            "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+            *_SPARC_ROTMOD_FILES,
+        ),
+        data_subdirs=("boundary_sadar", "sparc"),
+        required_outputs=(
+            ("boundary_sadar_csvs_verified", 8),
+            ("rest_energy_carriers_verified", 10),
+            ("higgs_saddle_candidates_scanned", 20),
+            ("hydrogen_transitions_verified", 14),
+            ("sparc_pooled_bins_verified", 209),
+        ),
+        capability="canonical_calculation",
+        scientific_status="AUTHENTICATED_EXACT",
+        retained_holds=(
+            "external_SI_and_PDG_targets_quarantined_in_B_ext_comparators_only",
+            "universal_SI_bridge_open_until_second_independent_observable_closed",
+            "passive_ReadOnly_sensor_wall_zero_observer_back_reaction",
+            "pooled_SPARC_G0_radial_shell_observation_only",
+        ),
+    ),
     # --- Tier 3: 1 Provenance Quarantine Guard ---
     SectorSpec(
         sector_id="provenance_quarantine",
@@ -608,12 +643,12 @@ SECTOR_MAP: dict[str, SectorSpec] = {spec.sector_id: spec for spec in SECTOR_SPE
 
 
 def verify_registry_completeness() -> None:
-    """Fail-closed static integrity check on the 16-sector execution registry."""
-    require(len(SECTOR_SPECS) == 16, f"expected 16 registered sectors, got {len(SECTOR_SPECS)}")
+    """Fail-closed static integrity check on the 17-sector execution registry."""
+    require(len(SECTOR_SPECS) == 17, f"expected 17 registered sectors, got {len(SECTOR_SPECS)}")
     sector_ids = [spec.sector_id for spec in SECTOR_SPECS]
     adapter_ids = [spec.adapter_id for spec in SECTOR_SPECS]
-    require(len(set(sector_ids)) == 16, "duplicate sector_id in registry")
-    require(len(set(adapter_ids)) == 16, "duplicate adapter_id in registry")
+    require(len(set(sector_ids)) == 17, "duplicate sector_id in registry")
+    require(len(set(adapter_ids)) == 17, "duplicate adapter_id in registry")
     tier_counts: dict[str, int] = {}
     for spec in SECTOR_SPECS:
         require(bool(spec.input_paths), f"sector {spec.sector_id} has empty input_paths")
@@ -627,7 +662,7 @@ def verify_registry_completeness() -> None:
         tier_counts
         == {
             "tier1_canonical_adapter": 9,
-            "tier2_exact_data_verifier": 6,
+            "tier2_exact_data_verifier": 7,
             "tier3_provenance_guard": 1,
         },
         f"unexpected tier distribution: {tier_counts}",
@@ -635,7 +670,7 @@ def verify_registry_completeness() -> None:
 
 
 def registry_digest() -> str:
-    """Deterministic SHA-256 digest of the complete canonical 16-sector registry."""
+    """Deterministic SHA-256 digest of the complete canonical 17-sector registry."""
     verify_registry_completeness()
     payload = [spec.to_canonical_dict() for spec in SECTOR_SPECS]
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
@@ -643,7 +678,7 @@ def registry_digest() -> str:
 
 
 def verify_data_coverage(repo_root: Path) -> dict[str, object]:
-    """Verify complete dual coverage of manual/data/ (17 subdirs, 116 files) and root CSV/TeX."""
+    """Verify complete dual coverage of manual/data/ (18 subdirs, 124 files) and root CSV/TeX."""
     verify_registry_completeness()
     root = Path(repo_root).resolve()
     data_root = root / "manual" / "data"
