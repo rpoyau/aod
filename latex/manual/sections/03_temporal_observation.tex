@@ -370,3 +370,40 @@ In a fountain clock, microwave interrogation and detected atomic-state
 populations guide oscillator tuning; an electronic counter counts microwave
 cycles~\cite{nist-fountain}. These measured quantities require an observation
 map before comparison with native reclosures.}
+
+\subsection{Five-boundary relational-time and conditional SI bridge D.E.C. ledger}\label{manual:m3-temporal:dec-si-bridge}
+
+Declare the five-boundary metrology stack separating native coupled closure beats from conditional SI stipulation and held-out cross-field transfer checks:
+
+\[
+B_{\mathrm{pair}}[1,30]\to B_{\mathrm{lag}}\to B_{\mathrm{bridge}}\to B_{\mathrm{val}}\to B_{\mathrm{ext}}.
+\]
+
+Vector \texttt{RC-037} (\texttt{manual/data/boundary\_sadar/temporal\_si\_bridge\_dec\_ledger.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) executes all six boundary stages without a background continuum clock $t$: coupled closures $(2,10,18,26)$ versus $(2,12,22)$ yield $\operatorname{biz}_{i|j}=3/2$ ($2/3$ reversed) and unwrapped lag $3/2$ ($-3/2$ reversed); stipulated unit bridge gain $a_c=a_r=1$ at $B_{\mathrm{bridge}}$ maps the Cesium-$133$ anchor $\Delta\nu_{\mathrm{Cs}}=9\,192\,631\,770\,\mathrm{Hz}$ to $\Delta t_{\mathrm{SI}}=2/9192631770\,\mathrm{s}$ and $\nu_c=13788947655\,\mathrm{Hz}$; held-out cross-field transfer at $B_{\mathrm{val}}$ yields nonzero exact residuals $-5/29$ and $-49/151$, rejecting any universal constant-gain SI clock promotion; and a cut-$40$ capacity-drop intervention alters response strictly later at cut $41$ ($6/5\to2/5$).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/temporal-si-bridge-feynman.pdf}
+\caption{Coupled closure-beat lineages on integer window $B_{\mathrm{pair}}[1,30]$, conditional Cesium/Hydrogen SI bridge chains at $B_{\mathrm{bridge}}$, and held-out cross-field transfer rejection at $B_{\mathrm{val}}$ (\texttt{temporal\_si\_bridge\_dec\_ledger.csv}).}
+\label{fig:manual-temporal-si-bridge-feynman}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Relational closure-beat time, conditional SI bridge, and held-out transfer rejection D.E.C. ledger (\texttt{RC-037}).}
+\label{tab:manual-temporal-dec-bridge}
+{\footnotesize
+\begin{tabular}{lllrrl}
+\toprule
+Stage & Boundary $B$ & Lineage / anchor pair & Exact quantity & Reverse / resid & Gate status \\
+\midrule
+\texttt{T1\_pair\_closures} & $B_{\mathrm{pair}}[1,30]$ & $(2,10,18,26)$ vs $(2,12,22)$ & $3/2$ & $2/3$ & authenticated exact RCD \\
+\texttt{T2\_unwrapped\_lag} & $B_{\mathrm{pair}}[1,30]$ & bias $(+1/4,-1/4)$ & $3/2$ & $-3/2$ & authenticated exact lag \\
+\texttt{T3\_cs133\_bridge} & $B_{\mathrm{bridge}}(a_c=a_r=1)$ & Cs $9192631770$ Hz ($N_r=2,N_c=3$) & $2/9192631770$ & $13788947655/1$ & conditional SI stipulated gain \\
+\texttt{T4\_transfer\_field\_A} & $B_{\mathrm{val},A}$ & $3:3:6$ vs $1:2:6$ & $768/29$ & $-5/29$ & rejects constant transfer \\
+\texttt{T5\_transfer\_field\_B} & $B_{\mathrm{val},B}$ & $3:2:6$ vs $3:3:6$ & $3264/151$ & $-49/151$ & rejects constant transfer \\
+\texttt{T6\_cut40\_intervention} & $B_{\mathrm{causal}}(40\to41)$ & capacity-drop control & $6/5$ & $2/5$ & strictly later cut-$41$ response \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

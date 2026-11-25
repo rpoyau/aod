@@ -473,7 +473,7 @@ def _validate_wavelet_si_alignment(
     frozen_cnt = parse_exact_int(p14.get("frozen_files_verified"), name="frozen_files_verified")
     eq_cnt = parse_exact_int(p14.get("phase1_equations_bound_in_manual"), name="phase1_equations_bound_in_manual")
     sec_cnt = parse_exact_int(p14.get("phase1_sections_bound_in_manual"), name="phase1_sections_bound_in_manual")
-    require(frozen_cnt == 180, f"expected 180 frozen files verified, got {frozen_cnt}")
+    require(frozen_cnt == 192, f"expected 192 frozen files verified, got {frozen_cnt}")
     require(eq_cnt == 10 and sec_cnt == 2, f"unexpected phase1 bindings: eq={eq_cnt}, sec={sec_cnt}")
 
     p15 = data["P2-15"]

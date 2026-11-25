@@ -7,10 +7,10 @@
     "total_active_rasters": 34,
     "main_rasters": 6,
     "manual_rasters": 28,
-    "authored_native_vector": 5,
-    "total_vector_figures": 39,
-    "DATA_BACKED_VERIFIED": 26,
-    "CONCEPTUAL_SCHEMATIC": 13,
+    "authored_native_vector": 19,
+    "total_vector_figures": 53,
+    "DATA_BACKED_VERIFIED": 39,
+    "CONCEPTUAL_SCHEMATIC": 14,
     "UNRESOLVED_RETAINED": 0,
     "converted_vector": 34,
     "retained_raster": 0
@@ -449,7 +449,7 @@
         {
           "path": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
           "anchor": "tab:manual-dimonhexon-double-slit-fixture",
-          "sha256": "8aef328f47b587c0325916695fdc0cad12e4939f339563b97644c32f7c78d835"
+          "sha256": "f7413cfe91ad3f3999dadcd5124d10e50d805e388b4d8340dd2c405c28d95f62"
         }
       ],
       "provenance_notes": "S1b-0 verified exact 44/44 integer match across bins k=-5..+5 against adjacent table <tab:manual-dimonhexon-double-slit-fixture> (S_k, T^0_k, T^x_k, O_k).",
@@ -523,7 +523,7 @@
         {
           "path": "typst/manual/sections/05_solar_system_field_tests.typ",
           "anchor": "tab:manual-solar-observable-map-results",
-          "sha256": "53a6ffa0177841df53a61f1d505d7947e7982399996b2c5f7c0114145e1cca20"
+          "sha256": "2ede3324cb5361fd902501cd3c818d76b32930780b15efdae0f408635d67c286"
         }
       ],
       "provenance_notes": "S1b-0 verified exact 6/6 value match on log-y scale against adjacent O0 table <tab:manual-solar-observable-map-results> (Mercury perihelion, Light bending, Solar redshift).",
@@ -563,7 +563,7 @@
         {
           "path": "typst/manual/sections/05_solar_system_field_tests.typ",
           "anchor": "tab:manual-solar-observable-map-results",
-          "sha256": "53a6ffa0177841df53a61f1d505d7947e7982399996b2c5f7c0114145e1cca20"
+          "sha256": "2ede3324cb5361fd902501cd3c818d76b32930780b15efdae0f408635d67c286"
         }
       ],
       "provenance_notes": "S1b-0 verified exact 3/3 |percent error| match (0.0002327%, 0.0005714%, 0.001887%) on log-y scale against adjacent O0 table <tab:manual-solar-observable-map-results>.",
@@ -1482,6 +1482,513 @@
       ],
       "raster_image_xobjects": 0,
       "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "five-boundary-calculation-spine",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/00_scope.typ",
+      "label": "fig:manual-five-boundary-calculation-spine",
+      "caption_sha256": "1886c8ff8b98b9bf5e36ccd93e2cea0aa96bb8ad33148c29606149404d5e29ab",
+      "caption_excerpt": "Five-boundary D.E.C. calculation spine B_in -> B_core -> B_shed/slide -> B_sensor -> B_ext = Q_ext binding all Manual sections and appendices to the zero-float reference engines.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "CONCEPTUAL_SCHEMATIC",
+      "figure_subtype": "five_boundary_calculation_spine",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [],
+      "provenance_notes": "Uniform five-boundary D.E.C. calculation spine schematic across all 18 Manual units.",
+      "target_typst_component": "typst/lib/figures/manual/five_boundary_calculation_spine.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/five-boundary-calculation-spine.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "62df27c20116f16433cd0e87ce586f9943d044e5663a5eb8fabd188251f9d00a",
+      "exported_pdf_sha256": "61b1512a719bf14a8be729ccbbaf91225283f9b72fc8d4886387dfa892c84a78",
+      "exported_pdf_bytes": 44962,
+      "exported_page_points": [
+        425.197,
+        238.11
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": false,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "native-closure-q4-dec-walk",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+      "label": "fig:manual-native-closure-q4-walk",
+      "caption_sha256": "58896851f4aadb1ace399fe30ab21bb7049941601735a4921d64374ac2ef76ab",
+      "caption_excerpt": "Boundary-Feynman Q4 closure, asymmetric (4, 1) return, three-closure beat cadence, preassembled Fold^up shell, and downstream Z4 harmonic readout.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_q4_closure_dec_walk",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/native_closure_wave_dec_walk.csv",
+          "sha256": "5cdff18ece2ca0ad66d2a4d12ee09eb3c76db10316a2583c031df00653ee2969"
+        }
+      ],
+      "provenance_notes": "Eight-stage Q4 closure, asymmetric return, beat cadence, Fold shell, and Z4 harmonic readout (vector RC-033).",
+      "target_typst_component": "typst/lib/figures/manual/native_closure_q4_dec_walk.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/native-closure-q4-dec-walk.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "68552adf0b133febd9b708f7dc2798e61366e74583e4ea6e02437bbcf2c44b07",
+      "exported_pdf_sha256": "7750416895c4138e8ac2d8032b5a551dd98ff60454b962bb8e8982a63dbfced4",
+      "exported_pdf_bytes": 41345,
+      "exported_page_points": [
+        425.197,
+        238.11
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "awareness-matched-operativity-feynman",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/00_awareness_fixtures.typ",
+      "label": "fig:manual-awareness-matched-feynman",
+      "caption_sha256": "73ed315439a9008f9a307635ced84196f82761580a5bf5226e2d61223a9edefb",
+      "caption_excerpt": "Boundary-Feynman matched-state operativity walk S_k^+ versus structural removal S_k^{-e}, strictly-later cut-34 branching, and passive sensor zero-perturbation wall.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "matched_state_operativity_feynman",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/awareness_operativity_dec_walk.csv",
+          "sha256": "1486ba332025279e41391d67caf3dd4950dccb48f688946a1d02654fa3be3696"
+        }
+      ],
+      "provenance_notes": "Matched-boundary counterfactual operativity walk across cuts 23..34 and passive ReadOnly sensor wall (vector RC-034).",
+      "target_typst_component": "typst/lib/figures/manual/awareness_matched_operativity_feynman.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/awareness-matched-operativity-feynman.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "2bedb6697e8c01b871ef5edf04a33d40514638a104fcdc94b92ce42b97a2e14a",
+      "exported_pdf_sha256": "1df6400bbb4d8635a9a223387a5f14044cd2760f6dedc3b492018fee4bb9b622",
+      "exported_pdf_bytes": 43880,
+      "exported_page_points": [
+        425.197,
+        238.11
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "cell-staircase-fold-boundary",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/01_cell_measures.typ",
+      "label": "fig:manual-cell-staircase-fold",
+      "caption_sha256": "796dc21898cb2e0f0be33084813fdc7061847e39de7f4fb13cd2cdd5b89fbbef",
+      "caption_excerpt": "Unit-disk rational cell enclosure A_n^-, A_n^+ versus invariant axial boundary C_n = 8 (n = 1..32) and two-square cellular fold commutation.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_cell_enclosure_and_fold",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv",
+          "sha256": "62957f1160205cbcf77cb092f6554bced95ab9460038dd48a03104b8957074b5"
+        }
+      ],
+      "provenance_notes": "Dyadic rational unit-disk area enclosure bounds, axial staircase C_n = 8, and cellular fold chain commutation (vector RC-035).",
+      "target_typst_component": "typst/lib/figures/manual/cell_staircase_fold_boundary.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/cell-staircase-fold-boundary.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "314083c0d7bb3e798cd7e207801c972008c03acf05cd4a2e1548f7fd2b0bd2a3",
+      "exported_pdf_sha256": "3375afc7e49fd1fc8ddbb22f15ebfcf37dc4cae5f4be56a0d891503807592e8b",
+      "exported_pdf_bytes": 40088,
+      "exported_page_points": [
+        425.197,
+        240.945
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "typed-map-variance-feynman",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/02_mapping_error.typ",
+      "label": "fig:manual-typed-map-variance-feynman",
+      "caption_sha256": "0ff7f3b1556fc9570b0bef157abe221bee15ed43f847fa31ae7aaa07bf7f925d",
+      "caption_excerpt": "Typed boundary-provenance DAG, evaluation-role firewall, and exact versus linearized variance ratios across all five joint-law fixtures.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_provenance_dag_and_variance_bars",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/typed_map_joint_law_ledger.csv",
+          "sha256": "72a99b58deb5488f1fc60a3f654d7ebc07203765297bc0afbf87d06bfc59f6e4"
+        }
+      ],
+      "provenance_notes": "Provenance-deduplicated map chain, disjoint role scopes, and exact pushforward variance ratios across five joint laws (vector RC-036).",
+      "target_typst_component": "typst/lib/figures/manual/typed_map_variance_feynman.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/typed-map-variance-feynman.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "78be40b225fd764c925971f7122118eaf01520cf7b1c916be2d4c003b04a2a75",
+      "exported_pdf_sha256": "647481cca71457d6bff1732962e48ea731453c075f05c9a8827ab94bd61dba1a",
+      "exported_pdf_bytes": 37053,
+      "exported_page_points": [
+        425.197,
+        240.945
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "temporal-si-bridge-feynman",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/03_temporal_observation.typ",
+      "label": "fig:manual-temporal-si-bridge-feynman",
+      "caption_sha256": "73f1327f5b06781eac9f77b0954ec5737beff0082b5156f9fb0df23c06eca2dd",
+      "caption_excerpt": "Coupled closure-beat lineages on B_pair (0, 30], conditional Cesium/Hydrogen SI bridge chains at B_bridge, and held-out cross-field transfer rejection at B_val.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "three_zone_temporal_si_bridge_feynman",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
+          "sha256": "e5f26a98713353c219d88a7f1956f0fd3505bb252dffe9d8d02e9f08325d5774"
+        }
+      ],
+      "provenance_notes": "Relational closure-beat time, conditional Cesium/Hydrogen SI bridge chains, and held-out transfer rejection residuals (vector RC-037).",
+      "target_typst_component": "typst/lib/figures/manual/temporal_si_bridge_feynman.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/temporal-si-bridge-feynman.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "7470fe5334106402d90d394567550175a393f4e376d9728782e783e6eb9e14fa",
+      "exported_pdf_sha256": "fbda4e908c3dbe381fe7736fc75ee155971b5f4549f06ad8e9fa93d92607e51d",
+      "exported_pdf_bytes": 43331,
+      "exported_page_points": [
+        425.197,
+        243.78
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "short-window-boundary-feynman",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+      "label": "fig:manual-short-window-boundary-feynman",
+      "caption_sha256": "c3c0bd33aff544efa569334b61fc7eda84935199b659ffbef8cbdb7a0c16bfa7",
+      "caption_excerpt": "Short-window boundary gate B_omega clipping 3 RD into active pressure p^D = 3 rho_omega^D and retained overhang Q^D with exact conservation p^D + Q^D = 3 RD.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_window_gate_and_grouped_bars",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv",
+          "sha256": "26a0959a30c67a998b29cd924f452c1ed5e58d05571ee46af2c9d2ee8e8b38b4"
+        }
+      ],
+      "provenance_notes": "Short-window RCD clipping, overhang conservation p^D + Q^D = 3 RD, and odd-window yro shedding activation (vector RC-038).",
+      "target_typst_component": "typst/lib/figures/manual/short_window_boundary_feynman.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/short-window-boundary-feynman.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "02971e8d122fbecdeb52c4e3daff3b98512a8e1458d8b9c929cef660f4a0792b",
+      "exported_pdf_sha256": "74be8b4d126dbf2be6e3661358e4a3f58b87eb60ecdf793caa9f8d3b7633cd3a",
+      "exported_pdf_bytes": 39938,
+      "exported_page_points": [
+        425.197,
+        240.945
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "hydrogen-shell-wavelet-atlas",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
+      "label": "fig:manual-hydrogen-shell-wavelet-atlas",
+      "caption_sha256": "e8a6d9223e522456b51b47503199a7e43f173fc23ff56d58a18d64cf1be97d0a",
+      "caption_excerpt": "Concentric hydrogen shell boundaries S_1..S_6, outgoing Lyman/Balmer/Paschen wavelet packets across B_sensor, and exact within-series rational ratios.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_concentric_shells_and_series_bars",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv",
+          "sha256": "feec79a8a771e9ae4c0ec09a717c6fc170cac0decbd6a36ee439cef4e21a90f8"
+        }
+      ],
+      "provenance_notes": "Exact rational hydrogen shell-step pressure differences and Lyman/Balmer/Paschen series ratios (vector RC-039).",
+      "target_typst_component": "typst/lib/figures/manual/hydrogen_shell_wavelet_atlas.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/hydrogen-shell-wavelet-atlas.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "6ac403975685c3c0a8eeed359880b0aa368b64a8b967e834017034e2092c44ca",
+      "exported_pdf_sha256": "e2f40acc4a9db4c624385d405c8e12720c411fbe8c5d5da4d5891d4b9b856ff2",
+      "exported_pdf_bytes": 34382,
+      "exported_page_points": [
+        425.197,
+        240.945
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "wire-moving-boundary-feynman",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/04_boundary_current_applications.typ",
+      "label": "fig:manual-wire-moving-boundary-feynman",
+      "caption_sha256": "50b0cbded86dc82c1b8e869bec3f0719e62831637e6286da51dd7a14308f7a37",
+      "caption_excerpt": "Moving-boundary Stokes decomposition (Phi_mov^D = 8 - 3 + 2 = 7) and four-cut 1:2:6 electron-above-wire SADAR walk.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_moving_boundary_and_wire_walk",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
+          "sha256": "6805b8a87c75d428901f0e2e38e0a93297f5bce8207521412654ae66851873c5"
+        }
+      ],
+      "provenance_notes": "Moving-boundary Stokes balance and 4-cut 1:2:6 electron-above-wire interface cancellation vs current growth (vectors RC-030, RC-031).",
+      "target_typst_component": "typst/lib/figures/manual/wire_moving_boundary_feynman.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/wire-moving-boundary-feynman.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "61dc4e6a266d81b53a9b1af9dd109aca76c7730eb46729ce5594eb6782df141b",
+      "exported_pdf_sha256": "ef3f7ce816554099c2a538fc13451883d948cecc70ec03e4861d727181ee6a6d",
+      "exported_pdf_bytes": 35619,
+      "exported_page_points": [
+        425.197,
+        240.945
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "solar-boundary-scopes-feynman",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/05_solar_system_field_tests.typ",
+      "label": "fig:manual-solar-boundary-scopes-feynman",
+      "caption_sha256": "9195345c9e3c270d3fc93f3b10a4fb88b033906b17981ba17ebfdec5aa28eb22",
+      "caption_excerpt": "Typed solar boundary scopes (B_Hg, B_bend, B_red), explicit HOLD_MISSING_NATIVE_SOLAR_PRODUCER gate, and exact rational O0 comparison ledger.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_solar_scopes_and_o0_ledger",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv",
+          "sha256": "2f13d1b0f1b1c171cdfa15abe9ecdef4aeeaac18f61be281bc766e509d1b79cd"
+        }
+      ],
+      "provenance_notes": "Three typed solar trajectory scopes, explicit missing-producer gate, and exact rational O0 residuals (vector RC-040).",
+      "target_typst_component": "typst/lib/figures/manual/solar_boundary_scopes_feynman.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/solar-boundary-scopes-feynman.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "a1b1641002f2db5e4a7b790404ca5a940e309fb5c5ad59d2aaad700873cfd775",
+      "exported_pdf_sha256": "c006257e4ddec79b54642e49fe8e7f3f9133d6d0098746ef795b082170aab603",
+      "exported_pdf_bytes": 37508,
+      "exported_page_points": [
+        425.197,
+        240.945
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "field-dynamics-boundary-feynman",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
+      "label": "fig:manual-field-dynamics-boundary-feynman",
+      "caption_sha256": "0eaae5ba069f6d7fe688cc46ef47d1fb7481b4717e4f53c59e59f343488a6dbd",
+      "caption_excerpt": "Two-step hinge-saturation Q4 -> Z^3 run-tumble D.E.C. trajectory (Q4 versus projected Q3) and concentric galactic radial-ring SPARC pooled audit.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_run_tumble_and_sparc_rings",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv",
+          "sha256": "df187be5a90a2c853b6886427f515c3cf85548c28afb79693878492409de8500"
+        },
+        {
+          "path": "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
+          "sha256": "e1b6ac7ff62116c3db479643c98a5ec90dad7e58ef001fea93f0b4b723732483"
+        }
+      ],
+      "provenance_notes": "Deterministic 21-tick hinge-saturation Q4 run-tumble stepper and exact 209-bin rational SPARC pooled audit (vectors RC-032, RC-041).",
+      "target_typst_component": "typst/lib/figures/manual/field_dynamics_boundary_feynman.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/field-dynamics-boundary-feynman.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "085e771b51b3ce0dae50833e6d91e36bd6db6df6c99547f19005524cb494cdea",
+      "exported_pdf_sha256": "d91cdd9fa877605a9e73627d5921887f8037003a0af9a022db203eb39ccd58b2",
+      "exported_pdf_bytes": 38677,
+      "exported_page_points": [
+        425.197,
+        243.78
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "lensing-ray-boundary-feynman",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
+      "label": "fig:manual-lensing-ray-boundary-feynman",
+      "caption_sha256": "2ee906b60b0c790e59490cd71da4959cc8b8f47fecf68f76ea6e62b6d5fb91df",
+      "caption_excerpt": "Grazing ray walk across concentric lens shells k = 1..4, active chiral-flip vertices 0_H, exact FRG totals T_k^0, T_k^x versus comparator O_k, and pre-SWELLS target quarantine.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_lensing_shells_and_frg_bars",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv",
+          "sha256": "b148c6cf1e777045086422fd306894c6898348ab7cd6d180810f0ed9d3b82d85"
+        }
+      ],
+      "provenance_notes": "Four-shell galactic lensing FRG cross-return identity, chiral-flip walk, and target-side quarantine (vector RC-042).",
+      "target_typst_component": "typst/lib/figures/manual/lensing_ray_boundary_feynman.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/lensing-ray-boundary-feynman.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "5c652098ccc4353cb365866291166e61f81a3b8ecfb55c8da968731046c4514e",
+      "exported_pdf_sha256": "f7e685f259ebabbcbd6eaceb535f4e4a8d7bb4de55c344ab64c69318c9be6f72",
+      "exported_pdf_bytes": 38486,
+      "exported_page_points": [
+        425.197,
+        240.945
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "registry-engine-coverage-atlas",
+      "surface": "manual",
+      "typst_section": "typst/manual/sections/09_prediction_test_fixture_registry.typ",
+      "label": "fig:manual-registry-engine-coverage",
+      "caption_sha256": "6fbced0d03837cd9cea7f862a1ee2faa040a50f57ab77178abc310eebe451c98",
+      "caption_excerpt": "Dual S2 Python and S4 Rust zero-float reference-engine parity and fifty-two-vector registry coverage across all eighteen Manual units.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_panel_engine_parity_and_vector_bars",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
+          "sha256": "5140da9cc3fc0b75b044c8585d460f64e0f9e9aa8fe49e4a0b01f23f28c8483f"
+        },
+        {
+          "path": "manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv",
+          "sha256": "2f13d1b0f1b1c171cdfa15abe9ecdef4aeeaac18f61be281bc766e509d1b79cd"
+        }
+      ],
+      "provenance_notes": "Cross-language S2/S4 engine verification architecture and 52-vector registry coverage across all 18 Manual units.",
+      "target_typst_component": "typst/lib/figures/manual/registry_engine_coverage_atlas.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/registry-engine-coverage-atlas.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "9536c3ec26377f2bda5da4e6b42372c424eea6e9936f7d8fa46c7577952b1ebf",
+      "exported_pdf_sha256": "45052bcc7c7b4693ea30e60d0b2c734b1140208d55011980717e5a58b42165d1",
+      "exported_pdf_bytes": 31581,
+      "exported_page_points": [
+        425.197,
+        238.11
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
+      "visual_comparison_recorded": true
+    },
+    {
+      "slug": "qext-quarantine-firewall",
+      "surface": "manual",
+      "typst_section": "typst/manual/appendices/B_quarantined_external_comparison.typ",
+      "label": "fig:manual-qext-quarantine-firewall",
+      "caption_sha256": "42c5d6351364ccefdd076e009c0f68db1432ad357351520eb99ceaf2b51843d8",
+      "caption_excerpt": "Quarantined external comparison firewall B_ext = Q_ext(nu_{x,AOmega}; T_x), six-tuple decimal precision record, exact eta_ext cancellation, and standing R04 S3 quarantine.",
+      "raster_path": null,
+      "raster_sha256": null,
+      "raster_bytes": null,
+      "raster_dimensions_px": null,
+      "provenance_class": "DATA_BACKED_VERIFIED",
+      "figure_subtype": "two_zone_quarantine_firewall",
+      "generator_script": null,
+      "generator_script_sha256": null,
+      "data_sources": [
+        {
+          "path": "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
+          "sha256": "5140da9cc3fc0b75b044c8585d460f64e0f9e9aa8fe49e4a0b01f23f28c8483f"
+        }
+      ],
+      "provenance_notes": "One-way Q_ext precision record firewall, exact eta_ext round-trip cancellation, and standing R04 S3 quarantine (vectors SD-007, RC-025).",
+      "target_typst_component": "typst/lib/figures/manual/qext_quarantine_firewall.typ",
+      "target_exported_pdf": "latex/manual/figures/generated/qext-quarantine-firewall.pdf",
+      "conversion_status": "AUTHORED_NATIVE_VECTOR",
+      "typst_component_sha256": "e1818bdabcd3b99667fa5a08d6c6bdf5ec2999ab5a5aff54653437c63f8fafbe",
+      "exported_pdf_sha256": "abe814e073c0d371cd8944aa4339e4099512bd584b627c109e0813c288e63a1d",
+      "exported_pdf_bytes": 44652,
+      "exported_page_points": [
+        425.197,
+        238.11
+      ],
+      "raster_image_xobjects": 0,
+      "data_check_verified": true,
       "visual_comparison_recorded": true
     }
   ]

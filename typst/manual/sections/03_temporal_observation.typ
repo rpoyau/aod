@@ -385,3 +385,49 @@ In a fountain clock, microwave interrogation and detected atomic-state
 populations guide oscillator tuning; an electronic counter counts microwave
 cycles #aod-cite("nist-fountain"). These measured quantities require an observation
 map before comparison with native reclosures.]
+
+
+
+== Five-boundary relational-time and conditional SI bridge D.E.C. ledger <manual:m3-temporal:dec-si-bridge>
+
+Declare the five-boundary metrology stack separating native coupled closure beats from conditional SI stipulation and held-out cross-field transfer checks:
+
+#math.equation(block: true, numbering: none, $ B_(upright("pair")) [1, 30] arrow.r B_(upright("lag")) arrow.r B_(upright("bridge")) arrow.r B_(upright("val")) arrow.r B_(upright("ext")). $)
+
+Vector #raw("RC-037") (#raw("manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) executes all six boundary stages without a background continuum clock $t$: coupled closures $(2, 10, 18, 26)$ versus $(2, 12, 22)$ yield $op("biz")_(i bar.v j) = 3 slash 2$ ($2 slash 3$ reversed) and unwrapped lag $3 slash 2$ ($- 3 slash 2$ reversed); stipulated unit bridge gain $a_c = a_r = 1$ at $B_(upright("bridge"))$ maps the Cesium-$133$ anchor $Delta nu_(upright("Cs")) = 9 thin 192 thin 631 thin 770 thin upright("Hz")$ to $Delta t_(upright("SI")) = 2 slash 9192631770 thin upright("s")$ and $nu_c = 13788947655 thin upright("Hz")$; held-out cross-field transfer at $B_(upright("val"))$ yields nonzero exact residuals $- 5 slash 29$ and $- 49 slash 151$, rejecting any universal constant-gain SI clock promotion; and a cut-$40$ capacity-drop intervention alters response strictly later at cut $41$ ($6 slash 5 arrow.r 2 slash 5$).
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/temporal_si_bridge_feynman.typ"
+  ],
+  caption: [Coupled closure-beat lineages on integer window $B_(upright("pair")) [1, 30]$, conditional Cesium/Hydrogen SI bridge chains at $B_(upright("bridge"))$, and held-out cross-field transfer rejection at $B_(upright("val"))$ (#raw("temporal_si_bridge_dec_ledger.csv")).],
+) <fig:manual-temporal-si-bridge-feynman>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto),
+    align: (left, left, left, right, right, left),
+    table.header(
+      toprule,
+      [Stage], [Boundary $B$], [Lineage / anchor pair], [Exact quantity], [Reverse / resid], [Gate status],
+      midrule,
+    ),
+    [#raw("T1_pair_closures")], [$B_(upright("pair")) [1, 30]$], [$(2, 10, 18, 26)$ vs $(2, 12, 22)$], [$3 slash 2$], [$2 slash 3$], [authenticated exact RCD],
+    [#raw("T2_unwrapped_lag")], [$B_(upright("pair")) [1, 30]$], [bias $( + 1 slash 4, - 1 slash 4)$], [$3 slash 2$], [$- 3 slash 2$], [authenticated exact lag],
+    [#raw("T3_cs133_bridge")], [$B_(upright("bridge")) (a_c = a_r = 1)$], [Cs $9192631770$ Hz ($N_r = 2, N_c = 3$)], [$2 slash 9192631770$], [$13788947655 slash 1$], [conditional SI stipulated gain],
+    [#raw("T4_transfer_field_A")], [$B_(upright("val"), A)$], [$3":"3":"6$ vs $1":"2":"6$], [$768 slash 29$], [$- 5 slash 29$], [rejects constant transfer],
+    [#raw("T5_transfer_field_B")], [$B_(upright("val"), B)$], [$3":"2":"6$ vs $3":"3":"6$], [$3264 slash 151$], [$- 49 slash 151$], [rejects constant transfer],
+    [#raw("T6_cut40_intervention")], [$B_(upright("causal")) (40 arrow.r 41)$], [capacity-drop control], [$6 slash 5$], [$2 slash 5$], [strictly later cut-$41$ response],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Relational closure-beat time, conditional SI bridge, and held-out transfer rejection D.E.C. ledger (#raw("RC-037")).],
+) <tab:manual-temporal-dec-bridge>
+

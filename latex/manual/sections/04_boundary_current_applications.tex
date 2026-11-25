@@ -218,3 +218,39 @@ phase bias, directional RCD and current are distinct committed coordinates.
 Their response changes state at the next transition; the attention vector
 alone does not constitute motion. Opposite oriented values can cancel while
 both bound histories remain retained.
+
+\subsection{Five-boundary moving-boundary Stokes and wire-electron SADAR ledger}\label{manual:wire:dec-moving-boundary}
+
+Declare the five-boundary Stokes and scoped encounter chain
+
+\[
+B_{\mathrm{wire}}\to B_e\to B_{\mathrm{int}}\to B_{R_1\cup R_2}\to B_{\mathrm{ext}}.
+\]
+
+Vectors \texttt{RC-030} and \texttt{RC-031} (\texttt{manual/data/boundary\_sadar/scoped\_wire\_and\_moving\_boundary\_walk.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) execute both the moving-boundary balance $\Phi^D_{\mathrm{mov}}=\Phi^D_{\mathrm{cross}}-\Phi^D_{\mathrm{sweep}}+\Phi^D_{\mathrm{shedding}}=8-3+2=7$ ($\ne8$) and the four-cut ($52\dots55$) $1:2:6$ electron-above-wire encounter: at coupled cuts $52,54,55$ the opposing interface fluxes $(+4,-4)$, $(+4,-4)$, and $(+5,-5)$ cancel identically on $\partial(R_{\mathrm{wire}}\cup R_e)=0$ while driving the realized electron current trajectory $4\to4\to8\to13$ (remaining unchanged across uncoupled cut $53$).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/wire-moving-boundary-feynman.pdf}
+\caption{Moving-boundary Stokes decomposition ($\Phi^D_{\mathrm{mov}}=8-3+2=7$) and four-cut $1:2:6$ electron-above-wire SADAR walk (\texttt{scoped\_wire\_and\_moving\_boundary\_walk.csv}).}
+\label{fig:manual-wire-moving-boundary-feynman}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Moving-boundary Stokes decomposition and four-cut wire-electron SADAR D.E.C. ledger (\texttt{RC-030}, \texttt{RC-031}).}
+\label{tab:manual-wire-moving-boundary-dec}
+{\footnotesize
+\begin{tabular}{lrrrrrr}
+\toprule
+Record & Cut & $|\omega|$ & Coupled & Wire / cross & Electron / sweep+shed & Union / current \\
+\midrule
+\texttt{moving\_boundary\_R1\_to\_R2} & 1 & 1 & 1 & $+8$ & $-3+2$ & $\Phi^D_{\mathrm{mov}}=7$ \\
+\texttt{electron\_above\_wire\_1:2:6} & 52 & 4 & 1 & $+4$ & $-4$ & $0$ / $J_e=4$ \\
+\texttt{electron\_above\_wire\_1:2:6} & 53 & 4 & 0 & $0$ & $0$ & $0$ / $J_e=4$ \\
+\texttt{electron\_above\_wire\_1:2:6} & 54 & 4 & 1 & $+4$ & $-4$ & $0$ / $J_e=8$ \\
+\texttt{electron\_above\_wire\_1:2:6} & 55 & 6 & 1 & $+5$ & $-5$ & $0$ / $J_e=13$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

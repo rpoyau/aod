@@ -131,3 +131,49 @@ chain coefficients, duplicate
 occupancy, dimension, native metric promotion, projection reconstruction,
 projected closure and refinement inputs. The companion tests also mutate face
 counts and metric weights and isolate evaluation constants from construction.
+
+
+
+== Five-boundary cell-enclosure and cellular fold D.E.C. ledger <manual:m3-cells:dec-staircase-fold>
+
+Declare the cellular refinement and fold boundary stack
+
+#math.equation(block: true, numbering: none, $ B_(upright("cell")) arrow.r B_(upright("stair")) arrow.r B_(upright("fold")) arrow.r B_(upright("audit")) arrow.r B_(upright("ext")). $)
+
+Vector #raw("RC-035") (#raw("manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) evaluates exact rational cell enclosures $A_n^(-) lt.eq A_n^(+)$ across dyadic refinements $n in brace.l 1, 2, 4, 8, 16, 32 brace.r$ alongside the axial staircase perimeter $C_n = 8$ and the two-square fold chain map $partial circle.tiny F_(upright("fold")) = F_(upright("fold")) circle.tiny partial$. At $n = 32$, the area bracket narrows to $A_(32)^(+) - A_(32)^(-) = 63 slash 256$ while $C_(32) r - 2 A_(32)^(+) = 191 slash 128 eq.not 0$ falsifies naive staircase perimeter convergence, and folding two oriented unit squares cancels the shared vertical seam and top edge ($+ 1 - 1 = 0$) while preserving multiplicity $2$ on the three surviving sides without importing continuum $pi$ from $B_(upright("ext"))$.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/cell_staircase_fold_boundary.typ"
+  ],
+  caption: [Unit-disk rational cell enclosure $A_n^(-) , A_n^(+)$ versus invariant axial boundary $C_n = 8$ ($n = 1 dots.h 32$) and two-square cellular fold commutation $partial circle.tiny F_(upright("fold")) = F_(upright("fold")) circle.tiny partial$ (#raw("cell_measures_staircase_fold_dec.csv")).],
+) <fig:manual-cell-staircase-fold>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto),
+    align: (right, right, right, right, right, right),
+    table.header(
+      toprule,
+      [$n$], [$A_n^(-)$], [$A_n^(+)$], [$A_n^(+) - A_n^(-)$], [$C_n$], [$C_n r - 2 A_n^(+)$],
+      midrule,
+    ),
+    [1], [0], [4], [4], [8], [0],
+    [2], [1], [4], [3], [8], [0],
+    [4], [$2$], [$15 slash 4$], [$7 slash 4$], [8], [$1 slash 2$],
+    [8], [$41 slash 16$], [$7 slash 2$], [$15 slash 16$], [8], [1],
+    [16], [$183 slash 64$], [$107 slash 32$], [$31 slash 64$], [8], [$21 slash 16$],
+    [32], [$385 slash 128$], [$833 slash 256$], [$63 slash 256$], [8], [$191 slash 128$],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Dyadic rational unit-disk enclosure and axial staircase D.E.C. audit ledger (#raw("RC-035")).],
+) <tab:manual-cell-boundary-fold-ledger>
+

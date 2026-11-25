@@ -193,7 +193,7 @@ def validate_report(report_obj: object) -> None:
     require(cov.get("status") in {"PASS", "FAIL", "NOT_REQUESTED"}, "invalid data_coverage_audit status")
     if cov.get("status") == "PASS":
         require(require_exact_int(cov["manual_data_subdirs"], name="manual_data_subdirs") == 18, "expected 18 manual/data subdirs")
-        require(require_exact_int(cov["manual_data_files"], name="manual_data_files") == 124, "expected 124 manual/data files")
+        require(require_exact_int(cov["manual_data_files"], name="manual_data_files") == 136, "expected 136 manual/data files")
         require(require_exact_int(cov["uncovered_files"], name="uncovered_files") == 0, "uncovered_files must be 0")
 
     seen_ids: set[str] = set()

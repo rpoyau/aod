@@ -336,3 +336,56 @@ registry consistency rather than authenticating absent external traces). Execute
 #mainequation("main:eq:shed-continuation-witness")\; #mainequation("main:eq:recipient-event-lattice")\;
 #mainequation("main:eq:relational-time")\; #mainequation("main:eq:rcd-coupling")\; #mainequation("main:eq:flux-types")\;
 #mainequation("main:eq:causal-update")\; #mainequation("main:eq:fourier-transform").]
+
+
+
+== Five-boundary $Q_4$ D.E.C. closure, beat, and fold walk <manual:m1:dec-closure-walk>
+
+Declare the active subcomplex $R_(upright("cl")) = brace.l 0000, 0001, 0011 brace.r subset V(Q_4)$ and the ordered boundary chain
+
+#math.equation(block: true, numbering: none, $ B_(upright("monon")) arrow.r B_(upright("asym")) arrow.r B_(upright("wave")) arrow.r B_(upright("fold")) arrow.r B_(upright("harm")). $)
+
+Vector #raw("RC-033") (#raw("manual/data/boundary_sadar/native_closure_wave_dec_walk.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) executes the eight-stage D.E.C. trace across this chain:
+at $B_(upright("monon"))$, outgoing $e_0 ( + 1)$ into $0001$, mandatory hinge $0_H$ with live #raw("xxxxx... is x") dwell burn ($0_D^2 arrow.r m = 0$), and return $e_0 ( - 1)$ certify a symmetric $(2, 1)$ Monon ($2$ committed edges, $1$ closure-phase cycle);
+at $B_(upright("asym"))$, the reflected four-step walk $0000 arrow.r 0001 arrow.r 0011 arrow.r 0001 arrow.r 0000$ realizes $(4, 1)$ ($4 h eq.not 2 h, 6 h$), falsifying undeclared equal-leg factorization;
+at $B_(upright("wave"))$, three certified reclosures at cuts $(0, 10, 20)$ yield two beats of separation $10$ ($n_F = 1$, Disoma $n_F = 2$);
+at $B_(upright("fold"))$, $op("Fold")^(arrow.t)$ encloses an already admitted inner wave ($1$ outer cycle, inner cycle preserved) while AFC swap memory $(3 slash 4, 1 slash 4)$ yields antisymmetric fluxes $( + 1 slash 2, - 1 slash 2)$;
+and at $B_(upright("harm"))$, the downstream $bb(Z)_4$ transform of $(1, 0, - 1, 0)$ yields $hat(x) = (0, 2, 0, 2)$ with exact $bb(Z)[i]$ inverse residual $0 slash 1$ without certifying closure.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/native_closure_q4_dec_walk.typ"
+  ],
+  caption: [Boundary-Feynman $Q_4$ closure, asymmetric $(4, 1)$ return, three-closure beat cadence, preassembled $op("Fold")^(arrow.t)$ shell, and downstream $bb(Z)_4$ harmonic readout (#raw("native_closure_wave_dec_walk.csv")).],
+) <fig:manual-native-closure-q4-walk>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto, auto),
+    align: (left, left, left, left, right, right, left),
+    table.header(
+      toprule,
+      [Stage], [Scope $B$], [$v arrow.r v_e$], [Slot / role], [$w$], [$P(e;B)$], [D.E.C. audit outcome],
+      midrule,
+    ),
+    [#raw("M1_leg_out")], [$B_(upright("monon"))$], [$0000 arrow.r 0001$], [$e_0 ( + 1)$], [1], [$1 slash 1$], [H1 branch out],
+    [#raw("M1_hinge_dwell")], [$B_(upright("monon"))$], [$0001 arrow.r 0001$], [$0_H + 0_D^2$], [1], [$1 slash 1$], [$0_H$ kept; $0_D^2$ burned ($m = 0$)],
+    [#raw("M1_return_cert")], [$B_(upright("monon"))$], [$0001 arrow.r 0000$], [$e_0 ( - 1)$], [1], [$1 slash 1$], [certified return: $(2, 1)$ edges/cycle],
+    [#raw("M2_asym_4step")], [$B_(upright("asym"))$], [$0000 arrow.l.r 0011$], [$e_0 , e_1 ( plus.minus 1)$], [1], [$1 slash 1$], [reflected $1 + 3$: $(4, 1)$ edges/cycle],
+    [#raw("M3_beat_cadence")], [$B_(upright("wave"))$], [$0000 arrow.l.r 0000$], [$op("bip")_1 dots.h 3$], [3], [$1 slash 1$], [cuts $(0, 10, 20)$: $2$ beats, $n_F = 1$],
+    [#raw("M4_fold_expose")], [$B_(upright("fold"))$], [$0000 arrow.r 0100$], [$op("Fold")^(arrow.t) ( + 1)$], [1], [$1 slash 1$], [$1$ outer cycle; inner wave intact],
+    [#raw("M5_afc_swap")], [$B_(upright("swap"))$], [$0000 arrow.r 0001$], [$e_0 ( + 1)$], [3], [$3 slash 4$], [AFC flux $+ 1 slash 2$, swapped $- 1 slash 2$],
+    [#raw("M6_z4_harmonic")], [$B_(upright("harm"))$], [$0000 arrow.r 0000$], [$bb(Z)_4$ DFT], [4], [$1 slash 1$], [$hat(x) = (0, 2, 0, 2)$, recon residual $0 slash 1$],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Eight-stage $Q_4$ D.E.C. closure, beat, fold, and $bb(Z)_4$ harmonic ledger (#raw("RC-033")).],
+) <tab:manual-native-closure-dec-walk>
+

@@ -7,12 +7,12 @@
   "figure_format": "pdf",
   "figure_ppi": null,
   "counts": {
-    "total_inputs": 119,
-    "total_outputs": 95,
+    "total_inputs": 145,
+    "total_outputs": 109,
     "by_kind": {
       "controlled_preamble": 2,
       "exported_diagram": 4,
-      "exported_vector_figure": 39,
+      "exported_vector_figure": 53,
       "figure_manifest": 2,
       "rendered_tex": 46,
       "staged_bib": 2
@@ -20,9 +20,34 @@
   },
   "inputs": [
     {
+      "path": "manual/data/boundary_sadar/awareness_operativity_dec_walk.csv",
+      "role": "figure_data_csv",
+      "sha256": "1486ba332025279e41391d67caf3dd4950dccb48f688946a1d02654fa3be3696"
+    },
+    {
+      "path": "manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv",
+      "role": "figure_data_csv",
+      "sha256": "62957f1160205cbcf77cb092f6554bced95ab9460038dd48a03104b8957074b5"
+    },
+    {
       "path": "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
       "role": "figure_data_csv",
       "sha256": "3d8cd0204ed21d0e958ed366f21099d9d10e4103fcaaffff6d207a8eb03b2fbf"
+    },
+    {
+      "path": "manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv",
+      "role": "figure_data_csv",
+      "sha256": "feec79a8a771e9ae4c0ec09a717c6fc170cac0decbd6a36ee439cef4e21a90f8"
+    },
+    {
+      "path": "manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv",
+      "role": "figure_data_csv",
+      "sha256": "b148c6cf1e777045086422fd306894c6898348ab7cd6d180810f0ed9d3b82d85"
+    },
+    {
+      "path": "manual/data/boundary_sadar/native_closure_wave_dec_walk.csv",
+      "role": "figure_data_csv",
+      "sha256": "5cdff18ece2ca0ad66d2a4d12ee09eb3c76db10316a2583c031df00653ee2969"
     },
     {
       "path": "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
@@ -30,9 +55,44 @@
       "sha256": "5140da9cc3fc0b75b044c8585d460f64e0f9e9aa8fe49e4a0b01f23f28c8483f"
     },
     {
+      "path": "manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv",
+      "role": "figure_data_csv",
+      "sha256": "df187be5a90a2c853b6886427f515c3cf85548c28afb79693878492409de8500"
+    },
+    {
+      "path": "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
+      "role": "figure_data_csv",
+      "sha256": "6805b8a87c75d428901f0e2e38e0a93297f5bce8207521412654ae66851873c5"
+    },
+    {
+      "path": "manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv",
+      "role": "figure_data_csv",
+      "sha256": "26a0959a30c67a998b29cd924f452c1ed5e58d05571ee46af2c9d2ee8e8b38b4"
+    },
+    {
+      "path": "manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv",
+      "role": "figure_data_csv",
+      "sha256": "2f13d1b0f1b1c171cdfa15abe9ecdef4aeeaac18f61be281bc766e509d1b79cd"
+    },
+    {
+      "path": "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
+      "role": "figure_data_csv",
+      "sha256": "e1b6ac7ff62116c3db479643c98a5ec90dad7e58ef001fea93f0b4b723732483"
+    },
+    {
       "path": "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
       "role": "figure_data_csv",
       "sha256": "8730277d89b3547d49c802434975964d6ca006dcaaa524a3a5871656410d1a96"
+    },
+    {
+      "path": "manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
+      "role": "figure_data_csv",
+      "sha256": "e5f26a98713353c219d88a7f1956f0fd3505bb252dffe9d8d02e9f08325d5774"
+    },
+    {
+      "path": "manual/data/boundary_sadar/typed_map_joint_law_ledger.csv",
+      "role": "figure_data_csv",
+      "sha256": "72a99b58deb5488f1fc60a3f654d7ebc07203765297bc0afbf87d06bfc59f6e4"
     },
     {
       "path": "manual/data/brownian/brownian_sample_track.csv",
@@ -255,6 +315,16 @@
       "sha256": "389fa90e2377edf9262bc1442f701fd72e4147a8d6c1c38a1589b81bae9ee2b5"
     },
     {
+      "path": "typst/lib/figures/manual/awareness_matched_operativity_feynman.typ",
+      "role": "typst_vector_figure",
+      "sha256": "2bedb6697e8c01b871ef5edf04a33d40514638a104fcdc94b92ce42b97a2e14a"
+    },
+    {
+      "path": "typst/lib/figures/manual/cell_staircase_fold_boundary.typ",
+      "role": "typst_vector_figure",
+      "sha256": "314083c0d7bb3e798cd7e207801c972008c03acf05cd4a2e1548f7fd2b0bd2a3"
+    },
+    {
       "path": "typst/lib/figures/manual/chiral_flip_boundary_stokes.typ",
       "role": "typst_vector_figure",
       "sha256": "517250ac840e986ce207ca9c349fe830e8b97e61c86134b6282b52c87ab7999a"
@@ -290,6 +360,16 @@
       "sha256": "fc698f113b5d54a2fd8603866ef6d63ddf24b508be1cf0f590615da2f0c1660a"
     },
     {
+      "path": "typst/lib/figures/manual/field_dynamics_boundary_feynman.typ",
+      "role": "typst_vector_figure",
+      "sha256": "085e771b51b3ce0dae50833e6d91e36bd6db6df6c99547f19005524cb494cdea"
+    },
+    {
+      "path": "typst/lib/figures/manual/five_boundary_calculation_spine.typ",
+      "role": "typst_vector_figure",
+      "sha256": "62df27c20116f16433cd0e87ce586f9943d044e5663a5eb8fabd188251f9d00a"
+    },
+    {
       "path": "typst/lib/figures/manual/higgs_mass_comparison.typ",
       "role": "typst_vector_figure",
       "sha256": "61bcda7671dfbb6de4f38cf4f946674689dd6f904ef4423e138925fddb90c9da"
@@ -303,6 +383,11 @@
       "path": "typst/lib/figures/manual/higgs_yro_saddle_signature.typ",
       "role": "typst_vector_figure",
       "sha256": "b67ea65688bd4882784b91a806095f12ac513bc11e1f0598cfca6f45160ece8c"
+    },
+    {
+      "path": "typst/lib/figures/manual/hydrogen_shell_wavelet_atlas.typ",
+      "role": "typst_vector_figure",
+      "sha256": "6ac403975685c3c0a8eeed359880b0aa368b64a8b967e834017034e2092c44ca"
     },
     {
       "path": "typst/lib/figures/manual/lensing_01_toy1_delta3_class_tallies.typ",
@@ -355,6 +440,26 @@
       "sha256": "83a140ea29d7aebbb17bcb3fbbb43971665af1a4edd31b6b3635cbb602f01b59"
     },
     {
+      "path": "typst/lib/figures/manual/lensing_ray_boundary_feynman.typ",
+      "role": "typst_vector_figure",
+      "sha256": "5c652098ccc4353cb365866291166e61f81a3b8ecfb55c8da968731046c4514e"
+    },
+    {
+      "path": "typst/lib/figures/manual/native_closure_q4_dec_walk.typ",
+      "role": "typst_vector_figure",
+      "sha256": "68552adf0b133febd9b708f7dc2798e61366e74583e4ea6e02437bbcf2c44b07"
+    },
+    {
+      "path": "typst/lib/figures/manual/qext_quarantine_firewall.typ",
+      "role": "typst_vector_figure",
+      "sha256": "e1818bdabcd3b99667fa5a08d6c6bdf5ec2999ab5a5aff54653437c63f8fafbe"
+    },
+    {
+      "path": "typst/lib/figures/manual/registry_engine_coverage_atlas.typ",
+      "role": "typst_vector_figure",
+      "sha256": "9536c3ec26377f2bda5da4e6b42372c424eea6e9936f7d8fa46c7577952b1ebf"
+    },
+    {
       "path": "typst/lib/figures/manual/rest_energy_stability_debris_atlas.typ",
       "role": "typst_vector_figure",
       "sha256": "11e640423ce2b6ed28db4c7ab89e5fff137c598abfe791ed8e8210e794c56ab7"
@@ -363,6 +468,16 @@
       "path": "typst/lib/figures/manual/run_tumble_trace_3d_projection.typ",
       "role": "typst_vector_figure",
       "sha256": "9e84d6d17e0eba18af34b5d5847611095c90baeed57b08440056b5a56c71bc76"
+    },
+    {
+      "path": "typst/lib/figures/manual/short_window_boundary_feynman.typ",
+      "role": "typst_vector_figure",
+      "sha256": "02971e8d122fbecdeb52c4e3daff3b98512a8e1458d8b9c929cef660f4a0792b"
+    },
+    {
+      "path": "typst/lib/figures/manual/solar_boundary_scopes_feynman.typ",
+      "role": "typst_vector_figure",
+      "sha256": "a1b1641002f2db5e4a7b790404ca5a940e309fb5c5ad59d2aaad700873cfd775"
     },
     {
       "path": "typst/lib/figures/manual/solar_calculated_vs_target.typ",
@@ -420,6 +535,21 @@
       "sha256": "0cb06b5c90c64e07df735f1a9913ce5779272b142bdfe0c56bb31b9e37318c6c"
     },
     {
+      "path": "typst/lib/figures/manual/temporal_si_bridge_feynman.typ",
+      "role": "typst_vector_figure",
+      "sha256": "7470fe5334106402d90d394567550175a393f4e376d9728782e783e6eb9e14fa"
+    },
+    {
+      "path": "typst/lib/figures/manual/typed_map_variance_feynman.typ",
+      "role": "typst_vector_figure",
+      "sha256": "78be40b225fd764c925971f7122118eaf01520cf7b1c916be2d4c003b04a2a75"
+    },
+    {
+      "path": "typst/lib/figures/manual/wire_moving_boundary_feynman.typ",
+      "role": "typst_vector_figure",
+      "sha256": "61dc4e6a266d81b53a9b1af9dd109aca76c7730eb46729ce5594eb6782df141b"
+    },
+    {
       "path": "typst/main.typ",
       "role": "typst_source",
       "sha256": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70"
@@ -427,17 +557,17 @@
     {
       "path": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
       "role": "typst_source",
-      "sha256": "dc838442fd00c23b8b48f0812b3ee06009bf45745043f7b6f5e3d9ddc8b2f238"
+      "sha256": "950506658fb2ff7e3cfbb752a420059eab6ed6ab8f9528f150160fad6106ab60"
     },
     {
       "path": "typst/manual/appendices/B_quarantined_external_comparison.typ",
       "role": "typst_source",
-      "sha256": "1200020797d47eb8fe010e97c9a3ce2261d2fd0a9f90b0d13f7b3d3a6d5c39d4"
+      "sha256": "abff6fc189ecf6c7f9b8db7b4e8fd66e08c3d96215388e5e737729d9731057e6"
     },
     {
       "path": "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
       "role": "typst_source",
-      "sha256": "845702f93ee68732a87df9129a49f7f0702ff2b589b522122bd3b43a8b6bc7b2"
+      "sha256": "16d59ed153b20f83783e8143f1911d9cb52d1d1261f64609f646650f044aa3e9"
     },
     {
       "path": "typst/manual/main.typ",
@@ -452,7 +582,7 @@
     {
       "path": "typst/manual/sections/00_awareness_fixtures.typ",
       "role": "typst_source",
-      "sha256": "36385cc9c3685d9147861c6d4bdcb0da580d96cf45da4b8503225bcf73edb706"
+      "sha256": "7f691150a64e8b3be73aaf6bcae88daa6cad18682e2c53cbc87a0ddd5f0fe6d7"
     },
     {
       "path": "typst/manual/sections/00_dec_ledger.typ",
@@ -462,17 +592,17 @@
     {
       "path": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
       "role": "typst_source",
-      "sha256": "82c71793c7d88f62f496191ee2390f36c04e87da8e32d0be09fdcb09bded1d53"
+      "sha256": "fa4c4dfde4ad2186ef75ad1f6cf263d18a5ec5d52939cb8198572b11c999f983"
     },
     {
       "path": "typst/manual/sections/00_scope.typ",
       "role": "typst_source",
-      "sha256": "ccfbeb7980a86fff8a94d4e6f98711c55fb0f982f707460f10f28e36902f2a27"
+      "sha256": "48fc611714c937fdcd75de7b0e766971eb7e7f509caf8b72f00878129c0a061e"
     },
     {
       "path": "typst/manual/sections/01_cell_measures.typ",
       "role": "typst_source",
-      "sha256": "48cd10875af76efc8047c0ec0eae36bae5940147c884aff5b39ad90855f0d1c3"
+      "sha256": "7ab0792766b9a56f5d4646685da883fb8b466022111c61d84a2f78168a8a9bbb"
     },
     {
       "path": "typst/manual/sections/01_rest_energy_prediction.typ",
@@ -482,47 +612,47 @@
     {
       "path": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
       "role": "typst_source",
-      "sha256": "eb1a39ca04327ff99517f1f28af63686522451a6756aafa3d0b33f42fca75230"
+      "sha256": "fd17ac607e58ec054e4455f95ef12ca670b275633d3c754aad6fb2d7703d93f2"
     },
     {
       "path": "typst/manual/sections/02_mapping_error.typ",
       "role": "typst_source",
-      "sha256": "65d7fe4177bcdb9c45d5cb8d83075adce057a0c3cf64447aa2e8b525ce68aca4"
+      "sha256": "a2547938e611aec45f247631ef6303f748d534bc860e1e32514d87829fb580fa"
     },
     {
       "path": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
       "role": "typst_source",
-      "sha256": "8aef328f47b587c0325916695fdc0cad12e4939f339563b97644c32f7c78d835"
+      "sha256": "f7413cfe91ad3f3999dadcd5124d10e50d805e388b4d8340dd2c405c28d95f62"
     },
     {
       "path": "typst/manual/sections/03_temporal_observation.typ",
       "role": "typst_source",
-      "sha256": "4d9498200933621aa49921516780f43e643ef6251cfb55e470c9382916b8adb5"
+      "sha256": "cbbf584d126e2c4675ae57dde6bf577aaa191655faa37ebe236974857df16280"
     },
     {
       "path": "typst/manual/sections/04_boundary_current_applications.typ",
       "role": "typst_source",
-      "sha256": "9621dd0644c364c50276d95f8c2e738d6e601c87d821a89e365ef783de23c894"
+      "sha256": "acff8634d20bc12019f1bc9d3ff242a148677c2ad41e8711c808c97f61e1f613"
     },
     {
       "path": "typst/manual/sections/05_solar_system_field_tests.typ",
       "role": "typst_source",
-      "sha256": "53a6ffa0177841df53a61f1d505d7947e7982399996b2c5f7c0114145e1cca20"
+      "sha256": "2ede3324cb5361fd902501cd3c818d76b32930780b15efdae0f408635d67c286"
     },
     {
       "path": "typst/manual/sections/06_field_dynamics_applications.typ",
       "role": "typst_source",
-      "sha256": "37d0b0e946d72824353a742a2980eab064f1baef0be0e1809b2f6cb9459aa263"
+      "sha256": "df288a92690fd1a1d24a100b571520129a28a7aacb6bbc14bb43baee883f25dd"
     },
     {
       "path": "typst/manual/sections/07_galactic_lensing_plan.typ",
       "role": "typst_source",
-      "sha256": "d267075f6cf8021c14d69b2e21616a53821abad5054398604abc2073b8a64bad"
+      "sha256": "4164db1a13940bafec5afcf9284bf47e64a9c1b6a89999aaba35086401afd31a"
     },
     {
       "path": "typst/manual/sections/09_prediction_test_fixture_registry.typ",
       "role": "typst_source",
-      "sha256": "9b59b303556b07b56201b802a2db72a0a236d669693542d643bcb766f8427563"
+      "sha256": "8226395d3a056258b9eafefe4733b55333a5cf54c30adbe2e80945975dde9799"
     },
     {
       "path": "typst/manual/tables/cycle_shedding_summary.typ",
@@ -753,22 +883,22 @@
       "path": "manual/appendices/A_simulation_fixtures_and_tau_prediction_context.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
-      "sha256": "41ed1002fa747eab1cb5c0b3eb447a68a4ebba585c566b3f50195072e0fb7280",
-      "bytes": 5917
+      "sha256": "9a329cd2ee9834eac027fff01e66ae2c7d780a67e61e9316f248c00ad6155e4f",
+      "bytes": 7498
     },
     {
       "path": "manual/appendices/B_quarantined_external_comparison.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/appendices/B_quarantined_external_comparison.typ",
-      "sha256": "29912a9ab679a2b5d74cf2bd6aa59ffce9e20396f7ba8a022441b322318aa61f",
-      "bytes": 9348
+      "sha256": "4263a270d20e945030a4c84a33c2a4549ce88fc6e4a3bbeccd7e0d667671b996",
+      "bytes": 12041
     },
     {
       "path": "manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
-      "sha256": "f2437376688bf6e871bf7f8a7ca52aa5e8fadd5e30bcbeec2cf32ba43281fcb8",
-      "bytes": 7978
+      "sha256": "25880ade11c5676424dee7d74e7db15e410fbcc05003e5948efa1f5fd81a4425",
+      "bytes": 9606
     },
     {
       "path": "manual/data/derived/sparc_summary_table.tex",
@@ -816,8 +946,15 @@
       "path": "manual/figures/generated/FIGURE_MANIFEST.json",
       "kind": "figure_manifest",
       "source": "scripts/export_typst_figures.py",
-      "sha256": "3a2853bb0cf4bf6a0488a5efbfc6830c6e77334f72494b0bdcb48078fd2b81fd",
-      "bytes": 49837
+      "sha256": "24429e06d3768cf52832449a711bd19f7f0228292176f38e21d704349ecad952",
+      "bytes": 69397
+    },
+    {
+      "path": "manual/figures/generated/awareness-matched-operativity-feynman.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/awareness_matched_operativity_feynman.typ",
+      "sha256": "1df6400bbb4d8635a9a223387a5f14044cd2760f6dedc3b492018fee4bb9b622",
+      "bytes": 43880
     },
     {
       "path": "manual/figures/generated/boundary-current-spine.pdf",
@@ -825,6 +962,13 @@
       "source": "typst/lib/diagrams/boundary_current_spine.typ",
       "sha256": "ec81664d243900bf312589d196e1e583446dd56385f4b0557155106581e2b22b",
       "bytes": 18932
+    },
+    {
+      "path": "manual/figures/generated/cell-staircase-fold-boundary.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/cell_staircase_fold_boundary.typ",
+      "sha256": "3375afc7e49fd1fc8ddbb22f15ebfcf37dc4cae5f4be56a0d891503807592e8b",
+      "bytes": 40088
     },
     {
       "path": "manual/figures/generated/chiral-flip-boundary-stokes.pdf",
@@ -876,6 +1020,20 @@
       "bytes": 13643
     },
     {
+      "path": "manual/figures/generated/field-dynamics-boundary-feynman.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/field_dynamics_boundary_feynman.typ",
+      "sha256": "d91cdd9fa877605a9e73627d5921887f8037003a0af9a022db203eb39ccd58b2",
+      "bytes": 38677
+    },
+    {
+      "path": "manual/figures/generated/five-boundary-calculation-spine.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/five_boundary_calculation_spine.typ",
+      "sha256": "61b1512a719bf14a8be729ccbbaf91225283f9b72fc8d4886387dfa892c84a78",
+      "bytes": 44962
+    },
+    {
       "path": "manual/figures/generated/higgs-mass-comparison.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/manual/higgs_mass_comparison.typ",
@@ -902,6 +1060,13 @@
       "source": "typst/lib/diagrams/hydrogen_shell_setup.typ",
       "sha256": "7e1c8d5b744b8a5f528d15e13bc7ea8856d63d956c717ae842d96787b28fffea",
       "bytes": 16674
+    },
+    {
+      "path": "manual/figures/generated/hydrogen-shell-wavelet-atlas.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/hydrogen_shell_wavelet_atlas.typ",
+      "sha256": "e2f40acc4a9db4c624385d405c8e12720c411fbe8c5d5da4d5891d4b9b856ff2",
+      "bytes": 34382
     },
     {
       "path": "manual/figures/generated/lensing-01-toy1-delta3-class-tallies.pdf",
@@ -974,6 +1139,34 @@
       "bytes": 16393
     },
     {
+      "path": "manual/figures/generated/lensing-ray-boundary-feynman.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/lensing_ray_boundary_feynman.typ",
+      "sha256": "f7e685f259ebabbcbd6eaceb535f4e4a8d7bb4de55c344ab64c69318c9be6f72",
+      "bytes": 38486
+    },
+    {
+      "path": "manual/figures/generated/native-closure-q4-dec-walk.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/native_closure_q4_dec_walk.typ",
+      "sha256": "7750416895c4138e8ac2d8032b5a551dd98ff60454b962bb8e8982a63dbfced4",
+      "bytes": 41345
+    },
+    {
+      "path": "manual/figures/generated/qext-quarantine-firewall.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/qext_quarantine_firewall.typ",
+      "sha256": "abe814e073c0d371cd8944aa4339e4099512bd584b627c109e0813c288e63a1d",
+      "bytes": 44652
+    },
+    {
+      "path": "manual/figures/generated/registry-engine-coverage-atlas.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/registry_engine_coverage_atlas.typ",
+      "sha256": "45052bcc7c7b4693ea30e60d0b2c734b1140208d55011980717e5a58b42165d1",
+      "bytes": 31581
+    },
+    {
       "path": "manual/figures/generated/rest-energy-stability-debris-atlas.pdf",
       "kind": "exported_vector_figure",
       "source": "typst/lib/figures/manual/rest_energy_stability_debris_atlas.typ",
@@ -988,11 +1181,25 @@
       "bytes": 21434
     },
     {
+      "path": "manual/figures/generated/short-window-boundary-feynman.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/short_window_boundary_feynman.typ",
+      "sha256": "74be8b4d126dbf2be6e3661358e4a3f58b87eb60ecdf793caa9f8d3b7633cd3a",
+      "bytes": 39938
+    },
+    {
       "path": "manual/figures/generated/short-window-setup.pdf",
       "kind": "exported_diagram",
       "source": "typst/lib/diagrams/short_window_setup.typ",
       "sha256": "1bd1b28a5b9386d24985047b79708f362b0e90a1b3b4e3fe96e5b1516cbedb16",
       "bytes": 17792
+    },
+    {
+      "path": "manual/figures/generated/solar-boundary-scopes-feynman.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/solar_boundary_scopes_feynman.typ",
+      "sha256": "c006257e4ddec79b54642e49fe8e7f3f9133d6d0098746ef795b082170aab603",
+      "bytes": 37508
     },
     {
       "path": "manual/figures/generated/solar-calculated-vs-target.pdf",
@@ -1079,6 +1286,27 @@
       "bytes": 17269
     },
     {
+      "path": "manual/figures/generated/temporal-si-bridge-feynman.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/temporal_si_bridge_feynman.typ",
+      "sha256": "fbda4e908c3dbe381fe7736fc75ee155971b5f4549f06ad8e9fa93d92607e51d",
+      "bytes": 43331
+    },
+    {
+      "path": "manual/figures/generated/typed-map-variance-feynman.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/typed_map_variance_feynman.typ",
+      "sha256": "647481cca71457d6bff1732962e48ea731453c075f05c9a8827ab94bd61dba1a",
+      "bytes": 37053
+    },
+    {
+      "path": "manual/figures/generated/wire-moving-boundary-feynman.pdf",
+      "kind": "exported_vector_figure",
+      "source": "typst/lib/figures/manual/wire_moving_boundary_feynman.typ",
+      "sha256": "ef3f7ce816554099c2a538fc13451883d948cecc70ec03e4861d727181ee6a6d",
+      "bytes": 35619
+    },
+    {
       "path": "manual/main.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/main.typ",
@@ -1103,8 +1331,8 @@
       "path": "manual/sections/00_awareness_fixtures.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/00_awareness_fixtures.typ",
-      "sha256": "3e3573a6b2e1756c5437422ff552e545d6d1015eb8b36a9dcc1d36ac94c2d549",
-      "bytes": 23513
+      "sha256": "fd66b366401cf6c03a0751539fb5ff5b8cc4a22accb8e9f9f0b80d4d203a26f2",
+      "bytes": 26739
     },
     {
       "path": "manual/sections/00_dec_ledger.tex",
@@ -1117,22 +1345,22 @@
       "path": "manual/sections/00_native_closure_wave_temporal_fixtures.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
-      "sha256": "a1723afbdb5b1e90a8671e5f560d64350039e998a9135890fc4f9e250d82e5e5",
-      "bytes": 18450
+      "sha256": "4c5f54fd1e96ee5e4183a53a1e8ef1521bae3d9bcb7175f7214f0dafa6ebee29",
+      "bytes": 21998
     },
     {
       "path": "manual/sections/00_scope.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/00_scope.typ",
-      "sha256": "776cecdddd8a8218d31c75259b6841df4f5c3ebf71c42d3a7357a65784c45dfd",
-      "bytes": 13676
+      "sha256": "a4d0acd4426e417426afbed045fe91d83dbd274fdbcb36d9faa2ccdc3db06ed1",
+      "bytes": 18227
     },
     {
       "path": "manual/sections/01_cell_measures.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/01_cell_measures.typ",
-      "sha256": "dcaf41c79e9a24b308cb5a106c5af01fabcf525a416d23f111ee10554773c467",
-      "bytes": 6145
+      "sha256": "968e93a14761bcf7b44bf30c10bc22620d3d6d26b34f27bac2586f50e982db90",
+      "bytes": 8396
     },
     {
       "path": "manual/sections/01_rest_energy_prediction.tex",
@@ -1145,64 +1373,64 @@
       "path": "manual/sections/02_hydrogen_facing_shell_tests.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
-      "sha256": "ee663ec2105008fe4a2a9704b4ff05a0b7994729de8e88a3e66ea0f6de54a581",
-      "bytes": 11165
+      "sha256": "1db068bfe23d23795689862a763e754a8c4e26c90833a7c98851d9492eff3680",
+      "bytes": 13581
     },
     {
       "path": "manual/sections/02_mapping_error.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/02_mapping_error.typ",
-      "sha256": "5f6392d84e0362af24bbd46b4a4c14041c76870d698abee5a97a0aed243342f6",
-      "bytes": 11070
+      "sha256": "400a62ee47d4b5c6d28e04b50e2cdfd90f7bcf9acccf72040131dbca8d5ab865",
+      "bytes": 13564
     },
     {
       "path": "manual/sections/03_short_window_rcd_shedding_fixtures.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
-      "sha256": "7b3b6f040d61396b884872359c1451441a13e336fb2bf6f5d13b491ed39009e5",
-      "bytes": 14330
+      "sha256": "cc12e403abfc7e1c48d9e1d86bc2d50da99dc0ae8a29beb9761e9379f5021a57",
+      "bytes": 16699
     },
     {
       "path": "manual/sections/03_temporal_observation.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/03_temporal_observation.typ",
-      "sha256": "19a30529fac190eb46f2a7ad0d18ce2c6d5380d88a3f2f8996a0cc4cfa7816ad",
-      "bytes": 21286
+      "sha256": "5ff30d31c126201859b5708eba5589c2296a55c5caab66f84d4e352865afb78c",
+      "bytes": 24389
     },
     {
       "path": "manual/sections/04_boundary_current_applications.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/04_boundary_current_applications.typ",
-      "sha256": "34a4fd7551e951baab17d7f0aa1a5d12fe0d1de50a21c6cf7d14eef1301ff62b",
-      "bytes": 8517
+      "sha256": "cd36aac94630bc143a60fabc17f2b4fd4bd343cc42c2f19900556240433b1fdd",
+      "bytes": 10834
     },
     {
       "path": "manual/sections/05_solar_system_field_tests.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/05_solar_system_field_tests.typ",
-      "sha256": "fc39ef099d7b471600bfd97ebc01d3af75a4f42a47c9c5cbaaf2f0d86ac509b1",
-      "bytes": 7701
+      "sha256": "66912f0d61b40f6249985fa73cb797f6b8fece067ca4f162c47205b2e88609a9",
+      "bytes": 10076
     },
     {
       "path": "manual/sections/06_field_dynamics_applications.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/06_field_dynamics_applications.typ",
-      "sha256": "d7521466f53f03c0c9e4631a7fec1c18be76d120177f7a072639d14f6ea56818",
-      "bytes": 34907
+      "sha256": "812fc37042e31ff47e1fe78b2e3659d92ea2af299d20b31d2a2aa3851f47526f",
+      "bytes": 37395
     },
     {
       "path": "manual/sections/07_galactic_lensing_plan.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/07_galactic_lensing_plan.typ",
-      "sha256": "63c588a4a58146dafb44a51b09700b48392a4d8e2bab8f8864b36a8f3f46bb65",
-      "bytes": 9246
+      "sha256": "e5c3175ced655860706b8a8649e2114995e5f8ecdb71149efac0e7c02c328cde",
+      "bytes": 11422
     },
     {
       "path": "manual/sections/09_prediction_test_fixture_registry.tex",
       "kind": "rendered_tex",
       "source": "typst/manual/sections/09_prediction_test_fixture_registry.typ",
-      "sha256": "b2904f1cd60cb77c2405cdfe1f5e19b511e3ec29f2b172aaa0955de152bc1fc8",
-      "bytes": 12632
+      "sha256": "b4ccaa0d9635d703a9f61efd2626c1864c0787a057c8e74e130e19f2b1d7e1d8",
+      "bytes": 15490
     },
     {
       "path": "preamble.tex",

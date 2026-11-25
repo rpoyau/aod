@@ -2663,14 +2663,24 @@ def verify_baseline_immutability(
 # =============================================================================
 
 POST_BASELINE_MANUAL_EXTENSION_UNITS = frozenset({
+    "typst/manual/sections/00_scope.typ",
+    "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+    "typst/manual/sections/00_awareness_fixtures.typ",
     "typst/manual/sections/00_dec_ledger.typ",
+    "typst/manual/sections/01_cell_measures.typ",
     "typst/manual/sections/01_rest_energy_prediction.typ",
     "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
+    "typst/manual/sections/02_mapping_error.typ",
     "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+    "typst/manual/sections/03_temporal_observation.typ",
     "typst/manual/sections/04_boundary_current_applications.typ",
+    "typst/manual/sections/05_solar_system_field_tests.typ",
     "typst/manual/sections/06_field_dynamics_applications.typ",
+    "typst/manual/sections/07_galactic_lensing_plan.typ",
     "typst/manual/sections/09_prediction_test_fixture_registry.typ",
+    "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
     "typst/manual/appendices/B_quarantined_external_comparison.typ",
+    "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
 })
 
 POST_BASELINE_COMPACTED_MAIN_UNITS = frozenset({
@@ -2696,14 +2706,60 @@ POST_BASELINE_COMPACTED_MAIN_INLINE_MATH: dict[str, frozenset] = {
 }
 
 POST_BASELINE_MANUAL_LABELS = frozenset({
-    "manual:dec-ledger:chiral-flips",
-    "fig:manual-dec-chiral-flip-walk",
+    "fig:manual-awareness-matched-feynman",
+    "fig:manual-cell-staircase-fold",
     "fig:manual-chiral-stokes-feynman",
-    "fig:manual-rest-energy-debris-atlas",
-    "manual:rest:boundary-sadar-debris",
-    "fig:manual-tau-five-boundary-sadar",
     "fig:manual-collision-debris-feynman",
+    "fig:manual-dec-chiral-flip-walk",
+    "fig:manual-field-dynamics-boundary-feynman",
+    "fig:manual-five-boundary-calculation-spine",
+    "fig:manual-hydrogen-shell-wavelet-atlas",
+    "fig:manual-lensing-ray-boundary-feynman",
+    "fig:manual-native-closure-q4-walk",
+    "fig:manual-qext-quarantine-firewall",
+    "fig:manual-registry-engine-coverage",
+    "fig:manual-rest-energy-debris-atlas",
+    "fig:manual-short-window-boundary-feynman",
+    "fig:manual-solar-boundary-scopes-feynman",
+    "fig:manual-tau-five-boundary-sadar",
+    "fig:manual-temporal-si-bridge-feynman",
+    "fig:manual-typed-map-variance-feynman",
+    "fig:manual-wire-moving-boundary-feynman",
+    "manual:app-c:dec-lag1-walk",
+    "manual:dec-ledger:chiral-flips",
+    "manual:field-dynamics:dec-run-tumble-stepper",
+    "manual:hydrogen:dec-wavelet-transitions",
+    "manual:lensing:dec-chiral-ray-walk",
+    "manual:m1:dec-closure-walk",
+    "manual:m2:dec-operativity-walk",
+    "manual:m3-cells:dec-staircase-fold",
+    "manual:m3-maps:dec-joint-laws",
+    "manual:m3-temporal:dec-si-bridge",
+    "manual:qext:dec-quarantine-firewall",
+    "manual:registry:engine-dec-master",
+    "manual:rest:boundary-sadar-debris",
+    "manual:scope:five-boundary-spine",
+    "manual:short-window:dec-clipping-ledger",
+    "manual:simfix:exact-rational-dec",
+    "manual:solar:dec-o0-boundary-audit",
+    "manual:wire:dec-moving-boundary",
+    "tab:manual-app-a-exact-shedding-dec",
+    "tab:manual-app-c-3d-dec-ledger",
+    "tab:manual-awareness-dec-ledger",
+    "tab:manual-cell-boundary-fold-ledger",
+    "tab:manual-chapter-dec-boundary-index",
+    "tab:manual-engine-dec-master-registry",
+    "tab:manual-field-dynamics-dec-spine",
+    "tab:manual-hydrogen-dec-transitions",
+    "tab:manual-lensing-dec-ray-walk",
+    "tab:manual-native-closure-dec-walk",
+    "tab:manual-qext-precision-ledger",
+    "tab:manual-short-window-dec-ledger",
+    "tab:manual-solar-dec-boundary-audit",
     "tab:manual-tau-five-boundary-trace",
+    "tab:manual-temporal-dec-bridge",
+    "tab:manual-typed-map-joint-laws",
+    "tab:manual-wire-moving-boundary-dec",
 })
 
 TRUSTED_TEMPLATE_SHA256 = {
@@ -3799,7 +3855,7 @@ def _verify_source_and_content_parity_impl(
         exported_by_comp: dict[str, dict] = {}
         for surf_name, fig_rel_dir, expected_count in (
             ("main", "figures/generated", 6),
-            ("manual", "manual/figures/generated", 37),
+            ("manual", "manual/figures/generated", 51),
         ):
             fig_dir = latex_root / fig_rel_dir
             fig_manifest_p = fig_dir / "FIGURE_MANIFEST.json"
@@ -3840,9 +3896,9 @@ def _verify_source_and_content_parity_impl(
                 exported_by_comp[d["diagram_component"]] = d
                 total_exported_figures += 1
 
-        # Verify typst/figure_inventory.json binds all 39 vector figures (34 converted historical rasters + 5 authored native vectors).
+        # Verify typst/figure_inventory.json binds all 53 vector figures (34 converted historical rasters + 19 authored native vectors).
         inv_map = _load_figure_inventory_map(root)
-        require(len(inv_map) == 39, f"Expected 39 audited figures in typst/figure_inventory.json, got {len(inv_map)}")
+        require(len(inv_map) == 53, f"Expected 53 audited figures in typst/figure_inventory.json, got {len(inv_map)}")
         converted_cnt = authored_cnt = 0
         for comp_rel, item in sorted(inv_map.items()):
             cstatus = item.get("conversion_status")
@@ -3874,7 +3930,7 @@ def _verify_source_and_content_parity_impl(
                 f"Figure inventory exported PDF hash mismatch: {comp_rel}",
             )
         require(
-            converted_cnt == 34 and authored_cnt == 5,
+            converted_cnt == 34 and authored_cnt == 19,
             f"Unexpected converted/authored figure split: converted={converted_cnt}, authored={authored_cnt}",
         )
 

@@ -1,0 +1,5 @@
+shell_k,T0_base,C_cross,T_cross,chiral_flip,post_chi,O_comparator,Delta_Z,delta3_pair
+1,4,3,7,1,-1,7,0,"(0,0)"
+2,6,5,11,1,+1,10,1,"(1,1)"
+3,5,-2,3,0,+1,3,0,"(0,0)"
+4,8,4,12,1,-1,11,1,"(1,1)"

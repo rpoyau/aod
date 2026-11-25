@@ -12,6 +12,7 @@
 pub mod bigint;
 pub mod bigrat;
 pub mod json;
+pub mod manual_dec_ops;
 pub mod numeric;
 pub mod ops;
 pub mod policy;

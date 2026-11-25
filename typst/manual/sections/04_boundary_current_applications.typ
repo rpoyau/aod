@@ -207,3 +207,48 @@ phase bias, directional RCD and current are distinct committed coordinates.
 Their response changes state at the next transition; the attention vector
 alone does not constitute motion. Opposite oriented values can cancel while
 both bound histories remain retained.
+
+
+
+== Five-boundary moving-boundary Stokes and wire-electron SADAR ledger <manual:wire:dec-moving-boundary>
+
+Declare the five-boundary Stokes and scoped encounter chain
+
+#math.equation(block: true, numbering: none, $ B_(upright("wire")) arrow.r B_e arrow.r B_(upright("int")) arrow.r B_(R_1 union R_2) arrow.r B_(upright("ext")). $)
+
+Vectors #raw("RC-030") and #raw("RC-031") (#raw("manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) execute both the moving-boundary balance $Phi^D_(upright("mov")) = Phi^D_(upright("cross")) - Phi^D_(upright("sweep")) + Phi^D_(upright("shedding")) = 8 - 3 + 2 = 7$ ($eq.not 8$) and the four-cut ($52 dots.h 55$) $1":"2":"6$ electron-above-wire encounter: at coupled cuts $52, 54, 55$ the opposing interface fluxes $( + 4, - 4)$, $( + 4, - 4)$, and $( + 5, - 5)$ cancel identically on $partial (R_(upright("wire")) union R_e ) = 0$ while driving the realized electron current trajectory $4 arrow.r 4 arrow.r 8 arrow.r 13$ (remaining unchanged across uncoupled cut $53$).
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/wire_moving_boundary_feynman.typ"
+  ],
+  caption: [Moving-boundary Stokes decomposition ($Phi^D_(upright("mov")) = 8 - 3 + 2 = 7$) and four-cut $1":"2":"6$ electron-above-wire SADAR walk (#raw("scoped_wire_and_moving_boundary_walk.csv")).],
+) <fig:manual-wire-moving-boundary-feynman>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto, auto),
+    align: (left, right, right, right, right, right, right),
+    table.header(
+      toprule,
+      [Record], [Cut], [$bar.v omega bar.v$], [Coupled], [Wire / cross], [Electron / sweep+shed], [Union / current],
+      midrule,
+    ),
+    [#raw("moving_boundary_R1_to_R2")], [1], [1], [1], [$+ 8$], [$- 3 + 2$], [$Phi^D_(upright("mov")) = 7$],
+    [#raw("electron_above_wire_1:2:6")], [52], [4], [1], [$+ 4$], [$- 4$], [$0$ / $J_e = 4$],
+    [#raw("electron_above_wire_1:2:6")], [53], [4], [0], [$0$], [$0$], [$0$ / $J_e = 4$],
+    [#raw("electron_above_wire_1:2:6")], [54], [4], [1], [$+ 4$], [$- 4$], [$0$ / $J_e = 8$],
+    [#raw("electron_above_wire_1:2:6")], [55], [6], [1], [$+ 5$], [$- 5$], [$0$ / $J_e = 13$],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Moving-boundary Stokes decomposition and four-cut wire-electron SADAR D.E.C. ledger (#raw("RC-030"), #raw("RC-031")).],
+) <tab:manual-wire-moving-boundary-dec>
+

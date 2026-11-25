@@ -210,3 +210,45 @@ F5. Quarantine audit records external constants, units, and measured-sector symb
 
 
 #aod-remark[The quarantined external-comparison appendix compares against A$Omega$ outputs. It does not import external constants or symbols into the A$Omega$ calculation.]
+
+
+
+== Five-boundary $sans("Q")_(upright("ext"))$ firewall and six-tuple precision ledger <manual:qext:dec-quarantine-firewall>
+
+At the terminal boundary $B_(upright("ext")) = sans("Q")_(upright("ext")) (nu_(x, AO) ; cal(T)_x )$ of every five-boundary stack, native $bb(Z) slash bb(Q)$ invariants project one-way into six-tuple precision records $(x_(upright("disp")) , u_x , op("unit")(x), op("src")(x), op("round")(x), op("scope")(x))$ verified by vectors #raw("SD-007") and #raw("RC-025") (#raw("manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv")). In the round-trip expression $nu_(upright("sc")) = nu_(AO) slash eta_(upright("ext"))$ followed by $E_(upright("map")) = K_(upright("ext")) eta_(upright("ext")) nu_(upright("sc")) = K_(upright("ext")) nu_(AO)$, the external constant $eta_(upright("ext")) = alpha_(upright("fs"))^(- 1)$ cancels identically and adds zero native degrees of freedom. Under standing R04 S3 discipline, simulation-substrate and computational-calculus equivalence claims remain permanently quarantined outside Main ontology and native Manual derivations.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/qext_quarantine_firewall.typ"
+  ],
+  caption: [Quarantined external comparison firewall $B_(upright("ext")) = sans("Q")_(upright("ext")) (nu_(x, AO) ; cal(T)_x )$, six-tuple decimal precision record, exact $eta_(upright("ext"))$ cancellation, and standing R04 S3 quarantine (#raw("rest_energy_sadar_debris_atlas.csv")).],
+) <fig:manual-qext-quarantine-firewall>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto, auto),
+    align: (left, left, right, right, left, left, left),
+    table.header(
+      toprule,
+      [Carrier], [Native $M_x$ ($R D$)], [$x_(upright("disp"))$], [$u_x$], [Unit], [Source], [Scope],
+      midrule,
+    ),
+    [$e^(-)$], [$1":"2":"6$ ($9$)], [0.51099895069], [0.00000000016], [MeV], [CODATA-2022], [$sans("Q")_(upright("ext"))$],
+    [$mu^(-)$], [$1":"2":"8$ ($9$)], [105.6583755], [0.0000023], [MeV], [CODATA-2022], [$sans("Q")_(upright("ext"))$],
+    [$tau^(-)$], [$1":"2":"9_(upright("yro"))$ ($9$)], [1776.86], [0.12], [MeV], [PDG-2024], [$sans("Q")_(upright("ext"))$],
+    [$p^(+)$], [$3":"3":"6$ ($61$)], [938.27208943], [0.00000029], [MeV], [CODATA-2022], [$sans("Q")_(upright("ext"))$],
+    [$n^0$], [$3":"4":"6$ ($137$)], [939.56542194], [0.00000048], [MeV], [CODATA-2022], [$sans("Q")_(upright("ext"))$],
+    [Higgs], [$3":"3":"7_(upright("yro"))$ ($61$)], [125090], [240], [MeV], [ATLAS+CMS Run-1], [$sans("Q")_(upright("ext"))$],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Six-tuple quarantined $sans("Q")_(upright("ext"))$ target-precision records paired with exact native support accessors (#raw("SD-007"), #raw("RC-025")).],
+) <tab:manual-qext-precision-ledger>
+

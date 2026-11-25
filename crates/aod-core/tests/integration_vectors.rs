@@ -97,10 +97,10 @@ fn test_all_40_golden_vectors_pass() {
     let root = repo_root();
     let res = verify_all_vectors(&root).expect("verify_all_vectors");
     assert_eq!(res.status, "PASS", "failures: {:?}", res.failures);
-    assert_eq!(res.rational_core_count, 32);
+    assert_eq!(res.rational_core_count, 44);
     assert_eq!(res.symbolic_and_display_count, 8);
-    assert_eq!(res.total_vectors, 40);
-    assert_eq!(res.passed_vectors, 40);
+    assert_eq!(res.total_vectors, 52);
+    assert_eq!(res.passed_vectors, 52);
     assert_eq!(res.failed_vectors, 0);
     assert!(res.failures.is_empty());
 

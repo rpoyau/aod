@@ -49,6 +49,11 @@ from manual.engine.numeric import (
 )
 from manual.engine.policy import loads_zero_float, require_no_floats
 from manual.engine.registry import SectorSpec
+from manual.engine.sectors.manual_dec_examples import (
+    MANUAL_DEC_EXTRA_FILES,
+    expected_manual_dec_csv_map,
+    verify_manual_dec_examples,
+)
 
 Q4_NEIGHBORS: tuple[tuple[int, int, int, int], ...] = tuple(
     (v ^ 1, v ^ 2, v ^ 4, v ^ 8) for v in range(16)
@@ -69,15 +74,20 @@ ETA_EXT_EXACT: Fraction = Fraction(137035999177, 10**9)
 SIGMA_ETA_EXACT: Fraction = Fraction(21, 10**9)
 K_EXT_MEV_S: Fraction = (H_EXT_EXACT * ETA_EXT_EXACT) / (Fraction(10**6, 1) * E_EXT_EXACT)
 
-BOUNDARY_SADAR_FILES: tuple[str, ...] = (
-    "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
-    "manual/data/boundary_sadar/dimonhexon_double_slit_ring_paths.csv",
-    "manual/data/boundary_sadar/higgs_baryon_overlap_saddle_scan.csv",
-    "manual/data/boundary_sadar/hydrogen_shell_exact_series.csv",
-    "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
-    "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
-    "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
-    "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+BOUNDARY_SADAR_FILES: tuple[str, ...] = tuple(
+    sorted(
+        (
+            "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
+            "manual/data/boundary_sadar/dimonhexon_double_slit_ring_paths.csv",
+            "manual/data/boundary_sadar/higgs_baryon_overlap_saddle_scan.csv",
+            "manual/data/boundary_sadar/hydrogen_shell_exact_series.csv",
+            "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
+            "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
+            "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
+            "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+            *MANUAL_DEC_EXTRA_FILES,
+        )
+    )
 )
 
 
@@ -1395,7 +1405,7 @@ def build_boundary_sadar_tables(repo_root: Path) -> dict[str, str]:
         ],
     )
 
-    return {
+    tables = {
         "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv": dec_csv,
         "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv": tau_csv,
         "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv": atlas_csv,
@@ -1405,6 +1415,8 @@ def build_boundary_sadar_tables(repo_root: Path) -> dict[str, str]:
         "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv": wire_csv,
         "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv": sparc_csv,
     }
+    tables.update(expected_manual_dec_csv_map())
+    return tables
 
 
 def verify_boundary_sadar(spec: SectorSpec, repo_root: Path) -> dict[str, object]:
@@ -1446,6 +1458,8 @@ def verify_boundary_sadar(spec: SectorSpec, repo_root: Path) -> dict[str, object
             total_rows += len(expected_text.splitlines()) - 1
 
     require(csv_count == len(BOUNDARY_SADAR_FILES), f"expected {len(BOUNDARY_SADAR_FILES)} boundary_sadar CSVs, got {csv_count}")
+    extra_check = verify_manual_dec_examples(root)
+    require(extra_check["run_tumble_stepper_rows_matched"] == 21, "run_tumble stepper parity failed")
 
     return {
         "sector_id": spec.sector_id,

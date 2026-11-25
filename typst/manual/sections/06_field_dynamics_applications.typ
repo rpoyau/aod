@@ -662,3 +662,51 @@ producer and all operands; physical validation additionally requires the
 source/uncertainty and independent-comparison evidence in
 #secref("manual:prediction-test-registry"). Carried Tau scores and unsupported
 declaration-control recipes remain carried records.
+
+
+
+== Five-boundary hinge-saturation stepper and SPARC pooled D.E.C. ledger <manual:field-dynamics:dec-run-tumble-stepper>
+
+Declare the field-dynamics five-boundary stack
+
+#math.equation(block: true, numbering: none, $ B_(Q_4) arrow.r B_(upright("hinge")) arrow.r B_(upright("ring")) arrow.r B_(upright("pool")) arrow.r B_(upright("ext")). $)
+
+Vectors #raw("RC-041") and #raw("RC-032") (#raw("manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv") and #raw("manual/data/boundary_sadar/sparc_pooled_primary_exact.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) reproduce all $21$ ticks of the $Q_4 arrow.r bb(Z)^3$ run-tumble trace directly from the two-step hinge-saturation slide law ($op("adm") = 0$ after two consecutive same-axis steps forces a tumble onto the next axis, closing back to $0000$ at $t = 16$ with $Q_4 - Q_3 = h_4^2 gt.eq 0$) alongside the exact $209$-bin rational SPARC $U = V^2$ pooled score ($64.70291920$ % display, zero free halo fitting).
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/field_dynamics_boundary_feynman.typ"
+  ],
+  caption: [Two-step hinge-saturation $Q_4 arrow.r bb(Z)^3$ run-tumble D.E.C. trajectory ($Q_4$ versus projected $Q_3$) and concentric galactic radial-ring SPARC pooled audit (#raw("run_tumble_q4_dec_walk.csv"), #raw("sparc_pooled_primary_exact.csv")).],
+) <fig:manual-field-dynamics-boundary-feynman>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto, auto, auto),
+    align: (right, left, left, right, left, right, right, right),
+    table.header(
+      toprule,
+      [$t$], [Mode], [Slot $(e, sigma)$], [Dwell adm], [$(h_1 , h_2 , h_3 , h_4)$], [$Q_3$], [$Q_4$], [Octant],
+      midrule,
+    ),
+    [0], [#raw("init")], [$-$], [1], [$(0, 0, 0, 0)$], [0], [0], [0],
+    [2], [#raw("run")], [$(e_1 , + 1)$], [1], [$(2, 0, 0, 0)$], [4], [4], [0],
+    [3], [#raw("tumble")], [$(e_2 , + 1)$], [0], [$(2, 1, 0, 0)$], [5], [5], [0],
+    [5], [#raw("tumble")], [$(e_3 , - 1)$], [0], [$(2, 2, - 1, 0)$], [9], [9], [4],
+    [7], [#raw("tumble")], [$(e_4 , + 1)$], [0], [$(2, 2, - 2, 1)$], [12], [13], [4],
+    [8], [#raw("run")], [$(e_4 , + 1)$], [1], [$(2, 2, - 2, 2)$], [12], [16], [4],
+    [16], [#raw("run")], [$(e_4 , - 1)$], [1], [$(0, 0, 0, 0)$], [0], [0], [0],
+    [20], [#raw("run")], [$(e_2 , + 1)$], [1], [$(2, 2, 0, 0)$], [8], [8], [0],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Two-step hinge-saturation $Q_4 arrow.r bb(Z)^3$ run-tumble D.E.C. stepper checkpoints (#raw("RC-041")\; full $21$-tick trace in #raw("run_tumble_q4_dec_walk.csv")).],
+) <tab:manual-field-dynamics-dec-spine>
+

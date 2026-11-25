@@ -96,7 +96,7 @@ def _load_frozen_bindings(repo_root: Path) -> dict[str, str]:
     require_no_floats(doc)
     require(isinstance(doc, dict), "CANONICAL_BINDINGS.json must be a JSON object")
     frozen = doc.get("frozen_sha256")
-    require(isinstance(frozen, dict) and len(frozen) == 180, "unexpected CANONICAL_BINDINGS frozen_sha256 map")
+    require(isinstance(frozen, dict) and len(frozen) == 192, "unexpected CANONICAL_BINDINGS frozen_sha256 map")
     return {str(k): str(v) for k, v in frozen.items()}
 
 

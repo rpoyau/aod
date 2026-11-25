@@ -175,7 +175,7 @@ def test_p2_14_main_manual_conservation_and_external_references():
     mod = _load_alignment_module()
     out = mod.check_p2_14()
     _check(
-        out["frozen_files_verified"] == 180
+        out["frozen_files_verified"] == 192
         and out["phase1_equations_bound_in_manual"] == 10
         and out["phase1_sections_bound_in_manual"] == 2,
         "P2-14 failed",

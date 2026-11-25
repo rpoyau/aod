@@ -314,3 +314,47 @@ registry consistency rather than authenticating absent external traces). Execute
 \mainequation{main:eq:shed-continuation-witness}; \mainequation{main:eq:recipient-event-lattice};
 \mainequation{main:eq:relational-time}; \mainequation{main:eq:rcd-coupling}; \mainequation{main:eq:flux-types};
 \mainequation{main:eq:causal-update}; \mainequation{main:eq:fourier-transform}.}
+
+\subsection{Five-boundary \texorpdfstring{$Q_4$}{Q4} D.E.C. closure, beat, and fold walk}\label{manual:m1:dec-closure-walk}
+
+Declare the active subcomplex $R_{\mathrm{cl}}=\{0000,0001,0011\}\subset V(Q_4)$ and the ordered boundary chain
+
+\[
+B_{\mathrm{monon}}\to B_{\mathrm{asym}}\to B_{\mathrm{wave}}\to B_{\mathrm{fold}}\to B_{\mathrm{harm}}.
+\]
+
+Vector \texttt{RC-033} (\texttt{manual/data/boundary\_sadar/native\_closure\_wave\_dec\_walk.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) executes the eight-stage D.E.C. trace across this chain:
+at $B_{\mathrm{monon}}$, outgoing $e_0(+1)$ into $0001$, mandatory hinge $0_H$ with live \texttt{xxxxx... is x} dwell burn ($0_D^2\to m=0$), and return $e_0(-1)$ certify a symmetric $(2,1)$ Monon ($2$ committed edges, $1$ closure-phase cycle);
+at $B_{\mathrm{asym}}$, the reflected four-step walk $0000\to0001\to0011\to0001\to0000$ realizes $(4,1)$ ($4h\ne2h,6h$), falsifying undeclared equal-leg factorization;
+at $B_{\mathrm{wave}}$, three certified reclosures at cuts $(0,10,20)$ yield two beats of separation $10$ ($n_F=1$, Disoma $n_F=2$);
+at $B_{\mathrm{fold}}$, $\operatorname{Fold}^{\uparrow}$ encloses an already admitted inner wave ($1$ outer cycle, inner cycle preserved) while AFC swap memory $(3/4,1/4)$ yields antisymmetric fluxes $(+1/2,-1/2)$;
+and at $B_{\mathrm{harm}}$, the downstream $\mathbb{Z}_4$ transform of $(1,0,-1,0)$ yields $\hat{x}=(0,2,0,2)$ with exact $\mathbb{Z}[i]$ inverse residual $0/1$ without certifying closure.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/native-closure-q4-dec-walk.pdf}
+\caption{Boundary-Feynman $Q_4$ closure, asymmetric $(4,1)$ return, three-closure beat cadence, preassembled $\operatorname{Fold}^{\uparrow}$ shell, and downstream $\mathbb{Z}_4$ harmonic readout (\texttt{native\_closure\_wave\_dec\_walk.csv}).}
+\label{fig:manual-native-closure-q4-walk}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Eight-stage $Q_4$ D.E.C. closure, beat, fold, and $\mathbb{Z}_4$ harmonic ledger (\texttt{RC-033}).}
+\label{tab:manual-native-closure-dec-walk}
+{\footnotesize
+\begin{tabular}{llllrrl}
+\toprule
+Stage & Scope $B$ & $v\to v_e$ & Slot / role & $w$ & $P(e;B)$ & D.E.C. audit outcome \\
+\midrule
+\texttt{M1\_leg\_out} & $B_{\mathrm{monon}}$ & $0000\to0001$ & $e_0(+1)$ & 1 & $1/1$ & H1 branch out \\
+\texttt{M1\_hinge\_dwell} & $B_{\mathrm{monon}}$ & $0001\to0001$ & $0_H+0_D^2$ & 1 & $1/1$ & $0_H$ kept; $0_D^2$ burned ($m=0$) \\
+\texttt{M1\_return\_cert} & $B_{\mathrm{monon}}$ & $0001\to0000$ & $e_0(-1)$ & 1 & $1/1$ & certified return: $(2,1)$ edges/cycle \\
+\texttt{M2\_asym\_4step} & $B_{\mathrm{asym}}$ & $0000\leftrightarrow0011$ & $e_0,e_1(\pm1)$ & 1 & $1/1$ & reflected $1+3$: $(4,1)$ edges/cycle \\
+\texttt{M3\_beat\_cadence} & $B_{\mathrm{wave}}$ & $0000\leftrightarrow0000$ & $\operatorname{bip}_1\dots3$ & 3 & $1/1$ & cuts $(0,10,20)$: $2$ beats, $n_F=1$ \\
+\texttt{M4\_fold\_expose} & $B_{\mathrm{fold}}$ & $0000\to0100$ & $\operatorname{Fold}^{\uparrow}(+1)$ & 1 & $1/1$ & $1$ outer cycle; inner wave intact \\
+\texttt{M5\_afc\_swap} & $B_{\mathrm{swap}}$ & $0000\to0001$ & $e_0(+1)$ & 3 & $3/4$ & AFC flux $+1/2$, swapped $-1/2$ \\
+\texttt{M6\_z4\_harmonic} & $B_{\mathrm{harm}}$ & $0000\to0000$ & $\mathbb{Z}_4$ DFT & 4 & $1/1$ & $\hat{x}=(0,2,0,2)$, recon residual $0/1$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

@@ -27,7 +27,7 @@
     {
       "contract": "contracts/scientific/CELL_MAPPING_MATHEMATICAL_BINDINGS.json",
       "old_sha256": "b1861d94cd79f4cbd81916dd2c6dd6da869e612185e4d6f2dd4cc887f1f73a0b",
-      "new_sha256": "c4fa6ebffc6966460c0e438c3d9f893a6152c6fafbaa53de45270b02732a463e",
+      "new_sha256": "bff0bde58be23bc829fab531c80a7e0bb31dc088fc69f36a2dbac1791c54a46e",
       "scope": "representation_path_and_source_digest_only",
       "fields_amended": [
         "sources (2 typst/ paths + SHA-256s)",
@@ -73,7 +73,7 @@
     {
       "contract": "contracts/scientific/CANONICAL_BINDINGS.json",
       "old_sha256": "10ee953f5005054e639993d97d1b1b20bbc4b8b1e0c079d22d9156fd07efbc24",
-      "new_sha256": "92340c7052b6f2f4fb0da5b1047753ed7c7d43bc1bb5cce7bd9eb4cb905af49b",
+      "new_sha256": "6369004c145419c54bef5c38856de5fa0b5b94fb2d600d5c0fdb63fe38557148",
       "scope": "representation_path_and_frozen_ledger_only",
       "fields_amended": [
         "ownership[*].path (44 entries; concepts, anchors, depends_on unchanged)",
@@ -81,7 +81,7 @@
         "manual_families[*].manual_path (9 entries; anchors unchanged)",
         "supplemental_formulas[*].path (5 entries; all formula strings unchanged)",
         "formulas (81 entries): UNCHANGED",
-        "frozen_sha256: 6 relocated to archive/latex_baseline_98ddfa0/, 6 canonical typst/ counterparts added, 18 representation/tooling/test digests updated"
+        "frozen_sha256: 6 relocated to archive/latex_baseline_98ddfa0/, 6 canonical typst/ counterparts + 20 boundary_sadar CSVs added, 18 representation/tooling/test digests updated"
       ],
       "scientific_substance_changed": false
     }
@@ -156,6 +156,26 @@
       "reason": "Canonical Typst authority counterpart for relocated baseline sections/01_abstract.tex"
     },
     {
+      "path": "manual/data/boundary_sadar/awareness_operativity_dec_walk.csv",
+      "sha256": "1486ba332025279e41391d67caf3dd4950dccb48f688946a1d02654fa3be3696",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
+      "path": "manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv",
+      "sha256": "62957f1160205cbcf77cb092f6554bced95ab9460038dd48a03104b8957074b5",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
+      "path": "manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv",
+      "sha256": "fdb8bbe6e9f1d71f29fc75c89b1dfe7367a963da4e24f57414d7250992ee837c",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
+      "path": "manual/data/boundary_sadar/cycle_shedding_exact_rational_summary.csv",
+      "sha256": "f6e5c406a5c298fee1249c25c7d866ee9d7ddb3428a226742b4c90db04708d4c",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
       "path": "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
       "sha256": "3d8cd0204ed21d0e958ed366f21099d9d10e4103fcaaffff6d207a8eb03b2fbf",
       "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
@@ -171,8 +191,23 @@
       "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
     },
     {
+      "path": "manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv",
+      "sha256": "feec79a8a771e9ae4c0ec09a717c6fc170cac0decbd6a36ee439cef4e21a90f8",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
       "path": "manual/data/boundary_sadar/hydrogen_shell_exact_series.csv",
       "sha256": "0f69e73bec291d51fe51da16128ef2831fc93ad968091a79a3f7d445fdd1232f",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
+      "path": "manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv",
+      "sha256": "b148c6cf1e777045086422fd306894c6898348ab7cd6d180810f0ed9d3b82d85",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
+      "path": "manual/data/boundary_sadar/native_closure_wave_dec_walk.csv",
+      "sha256": "5cdff18ece2ca0ad66d2a4d12ee09eb3c76db10316a2583c031df00653ee2969",
       "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
     },
     {
@@ -181,8 +216,23 @@
       "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
     },
     {
+      "path": "manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv",
+      "sha256": "df187be5a90a2c853b6886427f515c3cf85548c28afb79693878492409de8500",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
       "path": "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
       "sha256": "6805b8a87c75d428901f0e2e38e0a93297f5bce8207521412654ae66851873c5",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
+      "path": "manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv",
+      "sha256": "26a0959a30c67a998b29cd924f452c1ed5e58d05571ee46af2c9d2ee8e8b38b4",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
+      "path": "manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv",
+      "sha256": "2f13d1b0f1b1c171cdfa15abe9ecdef4aeeaac18f61be281bc766e509d1b79cd",
       "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
     },
     {
@@ -193,6 +243,16 @@
     {
       "path": "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
       "sha256": "8730277d89b3547d49c802434975964d6ca006dcaaa524a3a5871656410d1a96",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
+      "path": "manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
+      "sha256": "e5f26a98713353c219d88a7f1956f0fd3505bb252dffe9d8d02e9f08325d5774",
+      "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
+    },
+    {
+      "path": "manual/data/boundary_sadar/typed_map_joint_law_ledger.csv",
+      "sha256": "72a99b58deb5488f1fc60a3f654d7ebc07203765297bc0afbf87d06bfc59f6e4",
       "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
     }
   ],
@@ -310,8 +370,8 @@
     "contracts_amended": 7,
     "contracts_untouched": 10,
     "frozen_relocations": 6,
-    "frozen_additions": 14,
+    "frozen_additions": 26,
     "frozen_amendments": 18,
-    "frozen_total_after": 180
+    "frozen_total_after": 192
   }
 }

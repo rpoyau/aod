@@ -1,0 +1,8 @@
+cut_k,branch_mode,state_S,vertex_v,edge_e,target_ve,current_J,adm,route_outcome
+23,shared_contact,"(X_23, M_23^C, {})",0000,e_cross,0000,0/1,1,recurrent_3_minus_indep_2
+24,S_plus_retained,"(X_24, M_24^C, {r_e=1})",0000,0_H,0000,0/1,1,commit_r_e_to_R_24
+24,S_minus_e_removed,"(X_24, M_24^C, {})",0000,0_H,0000,0/1,1,structural_absence_no_zero_fill
+33,matched_boundary_p1,S_33^+ vs S_33^{-e},0000,0_H,0000,1/1 vs 0/1,1,matched_X_M_pressure_p1
+34,response_p1_retained,S_34^+(p=1),0000,e0,0001,1/1,1,selector_pos_branch_0001_Op1
+34,response_p1_removed,S_34^{-e}(p=1),0000,e1,0010,0/1,1,selector_nonpos_branch_0010_Op1
+34,response_p2_and_sensor,"S_34^+(p=2, q=0)",0000,e0,0001,1/2,1,passive_sensor_delta_0_1_active_q_2_1

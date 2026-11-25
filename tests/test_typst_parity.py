@@ -56,7 +56,7 @@ def test_typst_complete_active_graph_equations_tables_prose_and_qualifiers():
     assert len(res["immutable_tables_verified_cell_by_cell"]) == 7
     assert res["labeled_equations_verified_structurally"] == {"main": 198, "manual": 20}
     assert res["flowcharts_verified"] == 4
-    assert res["figure_image_bindings_verified"] == 39
+    assert res["figure_image_bindings_verified"] == 53
 
 
 def test_build_typst_manual_digest_includes_nested_figure_subdirectories():
@@ -75,9 +75,9 @@ def test_typst_evaluation_policy_pins_templates_and_constrains_content():
     res = vp.verify_typst_evaluation_policy(ROOT, manifest)
     assert res["trusted_template_files_pinned"] == 6
     assert res["diagram_components_pinned"] == 4
-    assert res["vector_figure_components_pinned"] == 39
+    assert res["vector_figure_components_pinned"] == 53
     assert res["manifest_typst_digests_enforced"] == 48
-    assert res["content_files_policy_checked"] == 87
+    assert res["content_files_policy_checked"] == 101
     assert res["content_policy_violations"] == 0
 
     head = '#import "../preamble.typ": *\n'
@@ -354,7 +354,7 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
     outdir = tmp_path / "typst_eval"
     res = vp.verify_evaluated_and_rendered(ROOT, typst_bin, outdir)
     assert res["main_labels_verified"] == 455
-    assert res["manual_labels_verified"] == 235
+    assert res["manual_labels_verified"] == 281
     assert res["equation_numbering"]["main"]["numbered_block_equations"] == 187
     assert res["equation_numbering"]["main"]["unlabeled_numbered_equations"] == 0
     assert res["equation_numbering"]["manual"]["numbered_block_equations"] == 19
@@ -492,14 +492,14 @@ def test_phase2_export_typst_figures_vector_pdf_determinism_and_png(tmp_path):
     rt2: dict = {}
     m1 = exp.export_figures(ROOT, out1, fmt="pdf", typst_bin=typst_bin, runtime_out=rt1)
     m2 = exp.export_figures(ROOT, out2, fmt="pdf", typst_bin=typst_bin, runtime_out=rt2)
-    assert len(m1["figures"]) == 37
+    assert len(m1["figures"]) == 51
     assert m1 == m2
     assert "typst_version" not in m1
     assert "removed_outputs" not in m1
     assert m1["background"] == "white"
     assert isinstance(m1["font_families"], dict)
     assert rt1["typst_version"] and rt1["pypdf_version"]
-    assert len(rt1["figures"]) == 37
+    assert len(rt1["figures"]) == 51
     for d, rtd in zip(m1["figures"], rt1["figures"]):
         assert d["page_count"] == 1
         assert d["raster_image_xobjects"] == 0

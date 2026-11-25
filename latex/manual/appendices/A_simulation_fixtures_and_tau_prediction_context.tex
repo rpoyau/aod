@@ -105,3 +105,31 @@ Fixture audit records signed direction, scalar pressure, scope cancellation insi
 \subsection{Prediction-test placement}
 
 Prediction tests and any collision-window comparison context belong in this manual scaffold. Application labels and external comparison records are carried by this manual scaffold. The main A$\Omega$D note supplies the AF/AFC/A$\Omega$D calculus and internal form names.
+
+\subsection{Five-boundary exact rational cycle-shedding D.E.C. ledger}\label{manual:simfix:exact-rational-dec}
+
+Declare the four-tick cycle-disturbance shedding stack
+
+\[
+B_{\mathrm{span}}\to B_{\mathrm{clip}}\to B_{\mathrm{shed}}\to B_{\mathrm{split}}\to B_{\mathrm{ext}}.
+\]
+
+Whereas the immutable summary table above displays rounded six-decimal coordinates, vector \texttt{RC-043} (\texttt{manual/data/boundary\_sadar/cycle\_shedding\_exact\_rational\_summary.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) evaluates every tick in exact rational arithmetic: $P_t=\min(B_t,C_t)$, shedding surplus $X_t=\max(0,B_t-C_t)$, outward fraction $O_t=(31/50)X_t$, and local retention $R_t=(19/50)X_t$, satisfying $O_t+R_t=X_t$ identically at every tick.
+
+\begin{table}[H]
+\centering
+\caption{Exact rational four-tick cycle-disturbance clipping and $31/50$ versus $19/50$ shedding split D.E.C. ledger (\texttt{RC-043}).}
+\label{tab:manual-app-a-exact-shedding-dec}
+{\footnotesize
+\begin{tabular}{rrrrrrrr}
+\toprule
+Tick & Span & Before clip $B_t$ & $C_t$ & Clipped $P_t$ & Shed $X_t$ & Outward $O_t$ & Local $R_t$ \\
+\midrule
+0 & $1/125$ & $11/2500$ & $14/25$ & $11/2500$ & 0 & 0 & 0 \\
+1 & $29/50$ & $20163/62500$ & $1/4$ & $1/4$ & $2269/31250$ & $70339/1562500$ & $43111/1562500$ \\
+2 & $7/10$ & $59/100$ & $1/4$ & $1/4$ & $17/50$ & $527/2500$ & $323/2500$ \\
+3 & $1/20$ & $93/400$ & $3/10$ & $93/400$ & 0 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

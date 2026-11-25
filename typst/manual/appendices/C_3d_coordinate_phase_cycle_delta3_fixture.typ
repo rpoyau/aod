@@ -205,3 +205,43 @@ Output files are
 == Final lock
 
 The 3D coordinate phase-cycle fixture uses integer phase-cycle ratios. It uses $Q = a^2 + b^2 + c^2$, phase residues $Q mod beta_a$, octant counts for three-dimensional direction, and $delta_3$ on integer counts. External continuous-motion summaries live after the exact fixture.
+
+
+
+== Five-boundary 3D lag-1 trajectory D.E.C. ledger <manual:app-c:dec-lag1-walk>
+
+Declare the five-boundary three-dimensional trajectory diagnostic stack
+
+#math.equation(block: true, numbering: none, $ B_(upright("lattice")) arrow.r B_(Delta x) arrow.r B_(Q mod 4) arrow.r B_(delta_3) arrow.r B_(upright("ext")). $)
+
+Vector #raw("RC-044") (#raw("manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) evaluates all eight lag-$1$ lattice steps from $(0, 0, 0)$ to $(6, 5, 5)$: four steps realize squared step norm $Q = 2$ ($theta = Q mod 4 = 2$) and four steps realize $Q = 3$ ($theta = 3$), octants $(0, 1, 2)$ tally $(6, 1, 1)$, and the endpoint chord squared norm is $6^2 + 5^2 + 5^2 = 86$.
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto, auto),
+    align: (right, left, left, left, right, right, right),
+    table.header(
+      toprule,
+      [Step $i$], [From $(x, y, z)$], [To $(x', y', z')$], [$Delta (x, y, z)$], [$Q_(upright("lag") 1)$], [$theta = Q mod 4$], [Octant $q$],
+      midrule,
+    ),
+    [1], [$(0, 0, 0)$], [$(1, 1, 0)$], [$(1, 1, 0)$], [2], [2], [0],
+    [2], [$(1, 1, 0)$], [$(2, 1, 1)$], [$(1, 0, 1)$], [2], [2], [0],
+    [3], [$(2, 1, 1)$], [$(3, 2, 1)$], [$(1, 1, 0)$], [2], [2], [0],
+    [4], [$(3, 2, 1)$], [$(2, 3, 2)$], [$( - 1, 1, 1)$], [3], [3], [1],
+    [5], [$(2, 3, 2)$], [$(3, 4, 3)$], [$(1, 1, 1)$], [3], [3], [0],
+    [6], [$(3, 4, 3)$], [$(4, 3, 4)$], [$(1, - 1, 1)$], [3], [3], [2],
+    [7], [$(4, 3, 4)$], [$(5, 4, 4)$], [$(1, 1, 0)$], [2], [2], [0],
+    [8], [$(5, 4, 4)$], [$(6, 5, 5)$], [$(1, 1, 1)$], [3], [3], [0],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Eight-step 3D lag-1 lattice displacement, modular residue, and octant D.E.C. ledger (#raw("RC-044")).],
+) <tab:manual-app-c-3d-dec-ledger>
+

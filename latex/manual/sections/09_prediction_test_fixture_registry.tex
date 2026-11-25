@@ -153,3 +153,38 @@ For each galaxy, the completed record carries
 \aodnoteblock{Completion rule}{External-comparison rows record numeric map value, target, residual, percent error, and audit hook. Observable-map fixture rows record map value, target, residual, percent error, citation, fixture status, and audit hook. Benchmark-dataset rows record benchmark data table, A$\Omega$ calculation row, report coordinate, residual, and audit hook. Cross-return rows record declared $C^{\times}_{ab,k}(B)$.}
 
 \aodnoteblock{Registry note}{Decimal precision records accompany manual artifacts that use decimal target/value-map values.}
+
+\subsection{Reference-engine golden-vector and D.E.C. CSV master registry}\label{manual:registry:engine-dec-master}
+
+All worked examples, rest-energy closures, collision-shedding debris chains, and boundary-audit tables across this manual bind to the fifty-two locked golden vectors (\texttt{RC-001} through \texttt{RC-044} and \texttt{SD-001} through \texttt{SD-008}) verified identically in Python (\texttt{python3 -B -m manual.engine} \texttt{--verify-all} \texttt{--check-zero-float} \texttt{--verify-vectors}) and in the \texttt{std}-only Rust exact core (\texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/registry-engine-coverage-atlas.pdf}
+\caption{Dual S2 Python and S4 Rust zero-float reference-engine parity and fifty-two-vector registry coverage across all eighteen Manual units.}
+\label{fig:manual-registry-engine-coverage}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Master cross-language golden-vector and frozen D.E.C. CSV registry (\texttt{RC-025}--\texttt{RC-044}, \texttt{SD-007}).}
+\label{tab:manual-engine-dec-master-registry}
+{\footnotesize
+\begin{tabular}{lcll}
+\toprule
+Vector IDs & Class & Evaluator operation & Bound frozen CSV under \texttt{manual/data/boundary\_sadar/} \\
+\midrule
+\texttt{RC-025}, \texttt{SD-007} & $D0/\mathsf{Q}_{\mathrm{ext}}$ & Tau $5$-boundary SADAR \& debris atlas & \texttt{tau\_five\_boundary\_sadar\_trace.csv} \\
+\texttt{RC-026}, \texttt{RC-027} & $D0$ & Higgs $3:3:7_{\mathrm{yro}}$ saddle \& $3:2$ Ditrion debris & \texttt{higgs\_baryon\_overlap\_saddle\_scan.csv} \\
+\texttt{RC-028}, \texttt{RC-029} & $D0$ & $Q_4$ chiral-flip walk \& Disoma/double-slit FRG & \texttt{dec\_chiral\_flip\_continuous\_walk.csv} \\
+\texttt{RC-030}, \texttt{RC-031} & $D0$ & Moving boundary \& $1:2:6$ wire-electron walk & \texttt{scoped\_wire\_and\_moving\_boundary\_walk.csv} \\
+\texttt{RC-032}, \texttt{RC-041} & $G0/D0$ & SPARC $209$-bin exact \& $Q_4$ run-tumble stepper & \texttt{sparc\_pooled\_primary\_exact.csv} \\
+\texttt{RC-033}, \texttt{RC-034} & $D0$ & $Q_4$ closure/beat/fold \& matched operativity & \texttt{native\_closure\_wave\_dec\_walk.csv} \\
+\texttt{RC-035}, \texttt{RC-036} & $D0$ & Cell staircase/fold \& typed-map joint laws & \texttt{cell\_measures\_staircase\_fold\_dec.csv} \\
+\texttt{RC-037}, \texttt{RC-038} & $D0$ & Temporal SI bridge \& short-window RCD clip & \texttt{temporal\_si\_bridge\_dec\_ledger.csv} \\
+\texttt{RC-039}, \texttt{RC-040} & $D0/O0$ & Hydrogen shell ratios \& solar O0 gate & \texttt{hydrogen\_shell\_dec\_transitions.csv} \\
+\texttt{RC-042}--\texttt{RC-044} & $L0/G3$ & Lensing chiral ray, App. A rational \& App. C 3D & \texttt{lensing\_ray\_chiral\_dec\_walk.csv} \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

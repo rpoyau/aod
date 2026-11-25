@@ -35,7 +35,7 @@ EXPECTED_MANUAL_DATA_SUBDIRS: tuple[str, ...] = (
     "temporal_observation",
 )
 
-EXPECTED_MANUAL_DATA_FILE_COUNT: int = 124
+EXPECTED_MANUAL_DATA_FILE_COUNT: int = 136
 
 EXPECTED_ROOT_DATA_FILES: tuple[str, ...] = (
     "cycle_shedding_summary.tex",
@@ -380,7 +380,7 @@ SECTOR_SPECS: tuple[SectorSpec, ...] = (
         required_outputs=(
             ("check_groups", 13),
             ("p2_checks_covered", 15),
-            ("frozen_files_verified", 180),
+            ("frozen_files_verified", 192),
             ("phase1_equations_bound", 10),
         ),
         capability="canonical_calculation",
@@ -576,19 +576,31 @@ SECTOR_SPECS: tuple[SectorSpec, ...] = (
         bound_source_operation="manual.engine.sectors.boundary_sadar:verify_boundary_sadar",
         invocation=("manual.engine.sectors.boundary_sadar:verify_boundary_sadar",),
         input_paths=(
+            "manual/data/boundary_sadar/awareness_operativity_dec_walk.csv",
+            "manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv",
+            "manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv",
+            "manual/data/boundary_sadar/cycle_shedding_exact_rational_summary.csv",
             "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
             "manual/data/boundary_sadar/dimonhexon_double_slit_ring_paths.csv",
             "manual/data/boundary_sadar/higgs_baryon_overlap_saddle_scan.csv",
+            "manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv",
             "manual/data/boundary_sadar/hydrogen_shell_exact_series.csv",
+            "manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv",
+            "manual/data/boundary_sadar/native_closure_wave_dec_walk.csv",
             "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
+            "manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv",
             "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
+            "manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv",
+            "manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv",
             "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
             "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+            "manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
+            "manual/data/boundary_sadar/typed_map_joint_law_ledger.csv",
             *_SPARC_ROTMOD_FILES,
         ),
         data_subdirs=("boundary_sadar", "sparc"),
         required_outputs=(
-            ("boundary_sadar_csvs_verified", 8),
+            ("boundary_sadar_csvs_verified", 20),
             ("rest_energy_carriers_verified", 10),
             ("higgs_saddle_candidates_scanned", 20),
             ("hydrogen_transitions_verified", 14),
