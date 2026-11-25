@@ -421,7 +421,7 @@ Data files, scored outputs, and the regeneration script are included in the sour
 MAPE_{U,g}=\frac{100}{N_g}\sum_j|\frac{\Delta U_{g,j}}{U^{\mathrm{obs}}_{g,j}}|,\qquad U^{\mathrm{obs}}_{g,j}>0.
 \]
 
-Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor.
+Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor. Across all $209$ positive-$U^{\mathrm{obs}}$ radial bins of the five-galaxy sample, the reference engine (\texttt{manual/data/boundary\_sadar/sparc\_pooled\_primary\_exact.csv}, vector \texttt{SD-008}) evaluates the exact rational pooled primary score $MAPE_U=64.70291920\%$ ($1523$-digit numerator over $1521$-digit denominator), distinct from the carried control $66.1613\%$ in \texttt{sparc\_declaration\_controls.csv}.
 
 \input{data/derived/sparc_summary_table.tex}
 
@@ -485,7 +485,7 @@ The missing-burden diagnostic records the exact ratio
 
 \aodnoteblock{Precision note}{Support identities and candidate declarations are exact. Plotted scores are presentation decimals carried by the frozen diagnostic CSV.}
 
-\aodnoteblock{Source artifacts}{The depth-3 rows in \texttt{manual/data/tau/aod\_tau\_fractal\_ring\_summary.csv} preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied.}
+\aodnoteblock{Source artifacts}{The depth-3 rows in \texttt{manual/data/tau/aod\_tau\_fractal\_ring\_summary.csv} preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied. The zero-float five-boundary SADAR cavity competition and $2500$-slot sensor split producing $(19/50,31/50)$ on \texttt{\_Exo} are executed directly in \secref{manual:rest:boundary-sadar-debris} (\texttt{tau\_five\_boundary\_sadar\_trace.csv}, vector \texttt{RC-025}).}
 
 \begin{figure}[H]
 \centering
@@ -616,3 +616,42 @@ producer and all operands; physical validation additionally requires the
 source/uncertainty and independent-comparison evidence in
 \secref{manual:prediction-test-registry}. Carried Tau scores and unsupported
 declaration-control recipes remain carried records.
+
+\subsection{Five-boundary hinge-saturation stepper and SPARC pooled D.E.C. ledger}\label{manual:field-dynamics:dec-run-tumble-stepper}
+
+Declare the field-dynamics five-boundary stack
+
+\[
+B_{Q_4}\to B_{\mathrm{hinge}}\to B_{\mathrm{ring}}\to B_{\mathrm{pool}}\to B_{\mathrm{ext}}.
+\]
+
+Vectors \texttt{RC-041} and \texttt{RC-032} (\texttt{manual/data/boundary\_sadar/run\_tumble\_q4\_dec\_walk.csv} and \texttt{manual/data/boundary\_sadar/sparc\_pooled\_primary\_exact.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) reproduce all $21$ ticks of the $Q_4\to\mathbb{Z}^3$ run-tumble trace directly from the two-step hinge-saturation slide law ($\operatorname{adm}=0$ after two consecutive same-axis steps forces a tumble onto the next axis, closing back to $0000$ at $t=16$ with $Q_4-Q_3=h_4^2\ge0$) alongside the exact $209$-bin rational SPARC $U=V^2$ pooled score ($64.70291920$ \% display, zero free halo fitting).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/field-dynamics-boundary-feynman.pdf}
+\caption{Two-step hinge-saturation $Q_4\to\mathbb{Z}^3$ run-tumble D.E.C. trajectory ($Q_4$ versus projected $Q_3$) and concentric galactic radial-ring SPARC pooled audit (\texttt{run\_tumble\_q4\_dec\_walk.csv}, \texttt{sparc\_pooled\_primary\_exact.csv}).}
+\label{fig:manual-field-dynamics-boundary-feynman}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Two-step hinge-saturation $Q_4\to\mathbb{Z}^3$ run-tumble D.E.C. stepper checkpoints (\texttt{RC-041}; full $21$-tick trace in \texttt{run\_tumble\_q4\_dec\_walk.csv}).}
+\label{tab:manual-field-dynamics-dec-spine}
+{\footnotesize
+\begin{tabular}{rllrlrrr}
+\toprule
+$t$ & Mode & Slot $(e,\sigma)$ & Dwell adm & $(h_1,h_2,h_3,h_4)$ & $Q_3$ & $Q_4$ & Octant \\
+\midrule
+0 & \texttt{init} & $-$ & 1 & $(0,0,0,0)$ & 0 & 0 & 0 \\
+2 & \texttt{run} & $(e_1,+1)$ & 1 & $(2,0,0,0)$ & 4 & 4 & 0 \\
+3 & \texttt{tumble} & $(e_2,+1)$ & 0 & $(2,1,0,0)$ & 5 & 5 & 0 \\
+5 & \texttt{tumble} & $(e_3,-1)$ & 0 & $(2,2,-1,0)$ & 9 & 9 & 4 \\
+7 & \texttt{tumble} & $(e_4,+1)$ & 0 & $(2,2,-2,1)$ & 12 & 13 & 4 \\
+8 & \texttt{run} & $(e_4,+1)$ & 1 & $(2,2,-2,2)$ & 12 & 16 & 4 \\
+16 & \texttt{run} & $(e_4,-1)$ & 1 & $(0,0,0,0)$ & 0 & 0 & 0 \\
+20 & \texttt{run} & $(e_2,+1)$ & 1 & $(2,2,0,0)$ & 8 & 8 & 0 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

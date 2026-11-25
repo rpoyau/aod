@@ -189,6 +189,20 @@ $ Pi (3":"4) = 4^3 + 4 = 68, wide R D(3":"4) = 2 dot.op 68 + 1 = 137. $ <app:rd:
 The added $4$ is retained edge-shell support. The cycle object remains
 distinct from this scalar accessor.
 
+In #tabref("tab:ao-field-fractal-properties"), the support-multiplicity pressure uses $C_(upright("sup")) (p":"q) = p + q in brace.l 3, 5, 6, 7 brace.r$ so $P^D_(upright("sup")) = (p + q) rho^D_(omega)$ and $Q^D_(upright("sup")) = (p + q) max (0, R D - bar.v omega bar.v )$, whereas single-channel collision-pocket audits use the scoped ternary continuation capacity $C_3 = 3$ ($P^D_(upright("chan")) = 3 rho^D_(omega)$). Across the eight non-null recurring support periods $2 Pi in brace.l 2, 4, 6, 8, 20, 60, 136 brace.r$ (with $1":"1$ doubled to $8$), the common four-phase bit-window span is
+
+#math.equation(block: true, numbering: none, $ L_(upright("common")) = 4 dot.op op("lcm")(2, 4, 6, 8, 20, 60, 136) = 8160, $)
+
+which is strictly distinct from the summed closure tally $0 + 60 + 136 + 408 + 1020 + 1360 + 2040 + 4080 = 9104$ over that common span.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/rest_energy_stability_debris_atlas.typ"
+  ],
+  caption: [Exact support window pressure $P^D_(upright("sup"))$, pending overhang $Q^D_(upright("sup"))$, and closure counts per $8160$ common bit-window span across all ten rest-energy and collision-shedding debris carriers (#raw("rest_energy_sadar_debris_atlas.csv")).],
+) <fig:manual-rest-energy-debris-atlas>
+
 
 == A$Omega$ field-map table <manual:rest:ao-field-value-table>
 
@@ -237,6 +251,62 @@ A mass map using only that support cannot distinguish their two targets.
 The rest-energy application must supply additional state with a matched
 nondegeneracy test, or declare that limited resolution. A target is held out
 only when its exclusion from construction, selection and calibration is bound.
+
+
+
+== Boundary-full SADAR rest-energy closures and collision-shedding debris <manual:rest:boundary-sadar-debris>
+
+All ten rest-energy and collision-shedding debris carriers in #tabref("tab:manual-ao-field-value-table") and #secref("manual:tritrioseptyro-higgs-support-fixture") are evaluated without floating-point arithmetic or hardcoded winners by the #raw("boundary_sadar") sector (#raw("python3 -B -m manual.engine --sector boundary_sadar") and #raw("aod-core --verify-vectors --check-zero-float"), vectors #raw("RC-025"), #raw("RC-026"), #raw("RC-027"), and #raw("SD-007")). Their topological regimes partition into four boundary classes (Figure #bare-ref("fig:manual-collision-debris-feynman")):
+
+1. *Seated inner even closures ($X_(upright("shedding")) = 0$):* On even support enclosures $sans("C")_6$ and $sans("C")_8$, Dimonhexon ($e^(-)$, $1":"2":"6$, $R D = 9$), Dimonocton ($mu^(-)$, $1":"2":"8$, $R D = 9$), Tritriohexon ($p^(+)$, $3":"3":"6$, $R D = 61$), and Tetratriohexon ($n^0$, $3":"4":"6$, $R D = 137$) close internally without shedding surplus, preserving exact native reflection-duration ratios $R D(3":"3) slash R D(1":"2) = 61 slash 9$ and $R D(3":"4) slash R D(3":"3) = 137 slash 61$.
+
+2. *Five-boundary SADAR collision-shedding stack for Tau ($1":"2":"9_(upright("yro"))$ Dimonnanyro):* Declare the ordered boundary stack $B_(upright("hard")) arrow.r B_(tau) arrow.r B_(upright("shed")) arrow.r B_(upright("sensor")) arrow.r B_(upright("ext"))$ (Figure #bare-ref("fig:manual-tau-five-boundary-sadar"), #tabref("tab:manual-tau-five-boundary-trace")). At $B_(upright("hard"))$, opposing #raw("pp") $3":"3":"6 + 3":"3":"6$ baryon streams interact across #raw("BETWEEN") $E_2$ duon chiral flips (early coupling at cut $1$, raw count $26$, symmetry quotient $11$); removing #raw("BETWEEN") duon coupling (#raw("duons = 0")) leaves the cavity sterile through cut $58$ with $X_(upright("shedding")) = 0$. Inside $B_(tau)$, the $1":"2":"L$ lepton family ($R D = 9$, $C_3 = 3$) is evaluated across $L in brace.l 2, 6, 7, 8, 9, 10 brace.r$: even windows $1":"2":"2$, $1":"2":"6$, and $1":"2":"8$ close internally ($X_(upright("shedding")) = 0$); short odd window $1":"2":"7$ retains incomplete overhang $Q^D = 6$ with $sans("C")_8$ deficit $Delta^(upright("close")) = - 3$; window $1":"2":"10$ clips at $rho^D_(omega) = min (9, 10) = 9$ and closes on $sans("C")_(10) = 27$ ($X_(upright("shedding")) = 0$); and $1":"2":"9_(upright("yro"))$ uniquely exhausts the full Dimonon reflection duration ($Q^D = 0$) while exceeding $sans("C")_8 = 24$ with positive shedding surplus $X_(upright("shedding")) = 27 - 24 = 3$. At $B_(upright("shed"))$, exact $2500$-slot cavity conservation splits $650 slash 2500 = 13 slash 50$ into inner endoshedding and $1850 slash 2500 = 37 slash 50$ into outward exoshedding (#raw("_Exo")). At the passive #raw("ReadOnly") $3":"4":"6$ sensor wall $B_(upright("sensor"))$ (zero sensor back-reaction onto the cavity), $703 slash 2500$ seats visibly and $1147 slash 2500$ traverses unseated, yielding conditional #raw("_Exo") fractions $(703 slash 1850, 1147 slash 1850) = (19 slash 50, 31 slash 50)$ with exact missing burden $op("miss")_(tau) = 31 slash 50$ along the witness-ordered recipient lattice #raw("emitted -> delivered -> accepted -> seated -> closed_origin") ($Delta op("bip") = 0$) #raw("-> reclosed") ($Delta op("bip") = + 1$). Quarantined target comparison enters only at $B_(upright("ext"))$.
+
+3. *Core-starvation $3":"3 arrow.r 3":"2$ Ditrion collision-shedding debris ($R D = 21$):* When a hard baryon collision pocket sheds one inner branch role from $3":"3$ ($Pi = 30$, $R D = 61$) into $3":"2$ Ditrion support ($Pi = 2^3 + 2 = 10$, $R D = 21$), the debris enters even enclosures as transient meson remnants (#raw("rest_energy_sadar_debris_atlas.csv"), vector #raw("RC-027")). On $3":"2":"6$, support scalar $R D = 21$ alone is degenerate between $B^(plus.minus)$ and $B^0$; shell-dressing chirality resolves $B^(plus.minus)$ as seated duad $E_2^(plus.minus)$ ($chi_(upright("shell")) = plus.minus 1$) and $B^0$ as open-seat duon $E_2^0$ ($chi_(upright("shell")) = 0$). Under higher collision pocket pressure, exoshedding lifts the $3":"2$ Ditrion core across adjacent even enclosures $3":"2":"6 arrow.r 3":"2":"8$ ($B_s^0$, $P^D_(upright("sup")) = 40$, $Q^D_(upright("sup")) = 65$) $arrow.r 3":"2":"10$ ($B_c^(plus.minus)$, $P^D_(upright("sup")) = 50$, $Q^D_(upright("sup")) = 55$).
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/tau_five_boundary_sadar_setup.typ"
+  ],
+  caption: [Five-boundary A$Omega$D SADAR stack $B_(upright("hard")) arrow.r B_(tau) arrow.r B_(upright("shed")) arrow.r B_(upright("sensor")) arrow.r B_(upright("ext"))$ for $1":"2":"9_(upright("yro"))$ Dimonnanyro (#raw("tau_five_boundary_sadar_trace.csv")).],
+) <fig:manual-tau-five-boundary-sadar>
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/collision_shedding_debris_feynman.typ"
+  ],
+  caption: [Boundary-Feynman branching of inner even closures, $3":"3":"7_(upright("yro"))$ overlap-saddle selection, $3":"2$ Ditrion core-starvation debris, and $1":"2":"9_(upright("yro"))$ odd-window lepton shedding into the witness-ordered recipient event lattice.],
+) <fig:manual-collision-debris-feynman>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto, auto, auto),
+    align: (left, right, right, right, right, right, right, left),
+    table.header(
+      toprule,
+      [Candidate / control], [$L$], [$rho^D_(omega)$], [$P^D$], [$Q^D$], [$C_(upright("close"))$], [$X_(upright("shedding"))$], [Boundary verdict at $B_(upright("sensor"))$],
+      midrule,
+    ),
+    [#raw("3:3:6+3:3:6") (#raw("duons=0"))], [58], [0], [0], [0], [0], [0], [sterile cavity control; zero shedding],
+    [$1":"2":"2$], [2], [2], [6], [21], [6], [0], [closed inner dyad; unseen at sensor wall],
+    [$1":"2":"6$], [6], [6], [18], [9], [18], [0], [closed on $sans("C")_6$; retained inner carrier],
+    [$1":"2":"7$], [7], [7], [21], [6], [24], [0], [incomplete $R D$ ($Q^D = 6$); $sans("C")_8$ deficit $- 3$],
+    [$1":"2":"8$], [8], [8], [24], [3], [24], [0], [closed on $sans("C")_8$; retained inner carrier],
+    [$1":"2":"9_(upright("yro"))$], [9], [9], [27], [0], [24], [3], [unique $Q^D = 0$ shedder; $(19 slash 50, 31 slash 50)$ on #raw("_Exo")],
+    [$1":"2":"10$], [10], [9], [27], [0], [27], [0], [clips at $R D = 9$; closed on $sans("C")_(10) = 27$],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Reference-engine five-boundary SADAR competition table (#raw("manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv"), vector #raw("RC-025")).],
+) <tab:manual-tau-five-boundary-trace>
 
 
 
@@ -403,6 +473,8 @@ The scoring gate requires
 
 
 #aod-noteblock("Source artifacts")[The score-component definitions and candidate rows are supplied under #raw("manual/data/higgs") as #raw("higgs_trace_score_formula.md") and #raw("higgs_trace_internal_candidates_selection.csv"), respectively.]
+
+Alongside the legacy ranking formula $S_H (K)$, the reference engine (#raw("manual/data/boundary_sadar/higgs_baryon_overlap_saddle_scan.csv"), vector #raw("RC-026")) evaluates the full $20$-candidate trion grid $3":"q":"L$ ($q in brace.l 1, 2, 3, 4 brace.r$, $L in brace.l 6, 7, 8, 9, 10 brace.r$) without empirical overhang-band thresholds: exact symmetric $sans("C")_6 slash sans("C")_8$ midpoint balance $(P^D_H - sans("C")_6 ) + (P^D_H - sans("C")_8 ) = 0$ ($P^D_H = 21$) holds only on $brace.l 3":"2":"7, 3":"3":"7, 3":"4":"7 brace.r$, and two-baryon $3":"3 + 3":"3$ parent lineage conservation ($q = 3$) isolates $3":"3":"7_(upright("yro"))$ uniquely prior to external map freeze.
 
 
 

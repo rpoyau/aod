@@ -196,3 +196,39 @@ upstream execution digests, parameter origins, dimensions, domain bounds,
 projection claims, covariance, missing error components and purported physical
 completion. Each mutation executes the affected validator. The same guards
 remain active with Python optimization enabled.
+
+\subsection{Five-boundary provenance DAG and exact joint-law variance ledger}\label{manual:m3-maps:dec-joint-laws}
+
+Declare the typed-map boundary stack separating source ancestry, map composition, joint-law pushforward, evaluation-role scope, and quarantined external reporting:
+
+\[
+B_{\mathrm{src}}\to B_{\mathrm{map}}\to B_{\mathrm{joint}}\to B_{\mathrm{role}}\to B_{\mathrm{ext}}.
+\]
+
+Vector \texttt{RC-036} (\texttt{manual/data/boundary\_sadar/typed\_map\_joint\_law\_ledger.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) evaluates exact rational means, exact pushforward variances, and naive first-order linearized variances across all five nonlinear/shared-disturbance fixtures while deduplicating diamond provenance ($x=3\to6\to12$ retains one unique source rather than two independent copies) and enforcing disjoint calibration, validation, and held-out boundary scopes.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/typed-map-variance-feynman.pdf}
+\caption{Typed boundary-provenance DAG, evaluation-role firewall, and exact versus linearized variance ratios across all five joint-law fixtures (\texttt{typed\_map\_joint\_law\_ledger.csv}).}
+\label{fig:manual-typed-map-variance-feynman}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Exact rational pushforward moments versus naive first-order linearization across typed-map joint laws (\texttt{RC-036}).}
+\label{tab:manual-typed-map-joint-laws}
+{\footnotesize
+\begin{tabular}{llrrrr}
+\toprule
+Law ID & Map formula & Exact mean & Exact variance & Linear var & Exact / linear \\
+\midrule
+\texttt{T\_interval\_100} & $1/\left[(1+d)(1-d)\right]$ & $19999/19998$ & $1/399920004$ & $0/1$ & div-by-zero ($\operatorname{Lin}=0$) \\
+\texttt{F\_near\_cancel\_100} & $(1+d)(1-999d/1000)$ & $19999001/20000000$ & $1018001/(4\cdot10^{14})$ & $1/(2\cdot10^{10})$ & $1018001/20000$ \\
+\texttt{Rf\_symmetric\_2} & $(1+d)(1-d)$ & $7/8$ & $1/64$ & $0/1$ & div-by-zero ($\operatorname{Lin}=0$) \\
+\texttt{U\_orig\_recip\_1000} & $1/(1+y)+y$ & $1000000/999999$ & $1/999998000001000000$ & $0/1$ & div-by-zero ($\operatorname{Lin}=0$) \\
+\texttt{V\_orig\_prod\_1000} & $(1+x)(1-bx)$ & $1999999000001/(2\cdot10^{12})$ & $1000000000001/(4\cdot10^{24})$ & $1/(2\cdot10^{18})$ & $1000000000001/2000000$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

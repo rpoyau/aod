@@ -444,7 +444,7 @@ Data files, scored outputs, and the regeneration script are included in the sour
 
 #math.equation(block: true, numbering: none, $ M A P E_(U,g) = frac(100, N_g) sum_j bar.v frac(Delta U_(g,j), U^(upright("obs"))_(g,j)) bar.v , wide U^(upright("obs"))_(g,j) > 0. $)
 
-Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor.
+Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor. Across all $209$ positive-$U^(upright("obs"))$ radial bins of the five-galaxy sample, the reference engine (#raw("manual/data/boundary_sadar/sparc_pooled_primary_exact.csv"), vector #raw("SD-008")) evaluates the exact rational pooled primary score $M A P E_U = 64.70291920 "%"$ ($1523$-digit numerator over $1521$-digit denominator), distinct from the carried control $66.1613 "%"$ in #raw("sparc_declaration_controls.csv").
 
 #include "../tables/sparc_summary_table.typ"
 
@@ -507,7 +507,7 @@ The missing-burden diagnostic records the exact ratio
 #aod-noteblock("Precision note")[Support identities and candidate declarations are exact. Plotted scores are presentation decimals carried by the frozen diagnostic CSV.]
 
 
-#aod-noteblock("Source artifacts")[The depth-3 rows in #raw("manual/data/tau/aod_tau_fractal_ring_summary.csv") preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied.]
+#aod-noteblock("Source artifacts")[The depth-3 rows in #raw("manual/data/tau/aod_tau_fractal_ring_summary.csv") preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied. The zero-float five-boundary SADAR cavity competition and $2500$-slot sensor split producing $(19 slash 50, 31 slash 50)$ on #raw("_Exo") are executed directly in #secref("manual:rest:boundary-sadar-debris") (#raw("tau_five_boundary_sadar_trace.csv"), vector #raw("RC-025")).]
 
 
 #figure(
@@ -662,3 +662,51 @@ producer and all operands; physical validation additionally requires the
 source/uncertainty and independent-comparison evidence in
 #secref("manual:prediction-test-registry"). Carried Tau scores and unsupported
 declaration-control recipes remain carried records.
+
+
+
+== Five-boundary hinge-saturation stepper and SPARC pooled D.E.C. ledger <manual:field-dynamics:dec-run-tumble-stepper>
+
+Declare the field-dynamics five-boundary stack
+
+#math.equation(block: true, numbering: none, $ B_(Q_4) arrow.r B_(upright("hinge")) arrow.r B_(upright("ring")) arrow.r B_(upright("pool")) arrow.r B_(upright("ext")). $)
+
+Vectors #raw("RC-041") and #raw("RC-032") (#raw("manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv") and #raw("manual/data/boundary_sadar/sparc_pooled_primary_exact.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) reproduce all $21$ ticks of the $Q_4 arrow.r bb(Z)^3$ run-tumble trace directly from the two-step hinge-saturation slide law ($op("adm") = 0$ after two consecutive same-axis steps forces a tumble onto the next axis, closing back to $0000$ at $t = 16$ with $Q_4 - Q_3 = h_4^2 gt.eq 0$) alongside the exact $209$-bin rational SPARC $U = V^2$ pooled score ($64.70291920$ % display, zero free halo fitting).
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/field_dynamics_boundary_feynman.typ"
+  ],
+  caption: [Two-step hinge-saturation $Q_4 arrow.r bb(Z)^3$ run-tumble D.E.C. trajectory ($Q_4$ versus projected $Q_3$) and concentric galactic radial-ring SPARC pooled audit (#raw("run_tumble_q4_dec_walk.csv"), #raw("sparc_pooled_primary_exact.csv")).],
+) <fig:manual-field-dynamics-boundary-feynman>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto, auto, auto),
+    align: (right, left, left, right, left, right, right, right),
+    table.header(
+      toprule,
+      [$t$], [Mode], [Slot $(e, sigma)$], [Dwell adm], [$(h_1 , h_2 , h_3 , h_4)$], [$Q_3$], [$Q_4$], [Octant],
+      midrule,
+    ),
+    [0], [#raw("init")], [$-$], [1], [$(0, 0, 0, 0)$], [0], [0], [0],
+    [2], [#raw("run")], [$(e_1 , + 1)$], [1], [$(2, 0, 0, 0)$], [4], [4], [0],
+    [3], [#raw("tumble")], [$(e_2 , + 1)$], [0], [$(2, 1, 0, 0)$], [5], [5], [0],
+    [5], [#raw("tumble")], [$(e_3 , - 1)$], [0], [$(2, 2, - 1, 0)$], [9], [9], [4],
+    [7], [#raw("tumble")], [$(e_4 , + 1)$], [0], [$(2, 2, - 2, 1)$], [12], [13], [4],
+    [8], [#raw("run")], [$(e_4 , + 1)$], [1], [$(2, 2, - 2, 2)$], [12], [16], [4],
+    [16], [#raw("run")], [$(e_4 , - 1)$], [1], [$(0, 0, 0, 0)$], [0], [0], [0],
+    [20], [#raw("run")], [$(e_2 , + 1)$], [1], [$(2, 2, 0, 0)$], [8], [8], [0],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Two-step hinge-saturation $Q_4 arrow.r bb(Z)^3$ run-tumble D.E.C. stepper checkpoints (#raw("RC-041")\; full $21$-tick trace in #raw("run_tumble_q4_dec_walk.csv")).],
+) <tab:manual-field-dynamics-dec-spine>
+

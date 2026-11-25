@@ -202,3 +202,38 @@ The A$\Omega$ input side carries medium fields, gate values, and declared predic
 \end{figure}
 
 A completed L3 lensing record carries declared medium fields, declared radiation-current gates, declared target-side quarantine, computed $T^0$, $C^{\times}$, and $T^{\times}$, declared $\lambda_{\mathrm{lens}}$, $\delta_3$ residual table, null controls, audit, and lens residuals after A$\Omega$ values freeze.
+
+\subsection{Five-boundary concentric lens-shell chiral ray D.E.C. walk}\label{manual:lensing:dec-chiral-ray-walk}
+
+Declare the five-boundary lensing stack separating internal FRG cross-shell totals and chiral flips from quarantined SWELLS target acquisition:
+
+\[
+B_{\mathrm{src}}\to B_{\mathrm{shell},k}\to B_{\mathrm{FRG}}\to B_{\delta_3}\to B_{\mathrm{SWELLS}}.
+\]
+
+Vector \texttt{RC-042} (\texttt{manual/data/boundary\_sadar/lensing\_ray\_chiral\_dec\_walk.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) executes the four-shell grazing ray walk ($k=1\dots4$): every shell satisfies the exact Fractal Field Ring Gate identity $T_k^{\times}-T_k^0=C_k^{\times}$ ($7-4=3$, $11-6=5$, $3-5=-2$, $12-8=4$; $\sum_kT_k^{\times}=33$), three active hinge encounters ($k=1,2,4$) flip ray chirality $+1\to-1\to+1\to-1$ while shell $k=3$ preserves $+1$, comparator $O_k=(7,10,3,11)$ yields $\Delta_Z=(0,1,0,1)$, and $L3/K4$ 3D+time-flow inputs remain held at $B_{\mathrm{SWELLS}}$ until bound.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/lensing-ray-boundary-feynman.pdf}
+\caption{Grazing ray walk across concentric lens shells $k=1\dots4$, active chiral-flip vertices $0_H$, exact FRG totals $T_k^0,T_k^{\times}$ versus comparator $O_k$, and pre-SWELLS target quarantine (\texttt{lensing\_ray\_chiral\_dec\_walk.csv}).}
+\label{fig:manual-lensing-ray-boundary-feynman}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Four-shell galactic lensing FRG cross-return and chiral-flip D.E.C. ledger (\texttt{RC-042}).}
+\label{tab:manual-lensing-dec-ray-walk}
+{\footnotesize
+\begin{tabular}{rrrrrrrrc}
+\toprule
+Shell $k$ & $T_k^0$ & $C_k^{\times}$ & $T_k^{\times}$ & Flip & Post $\chi$ & $O_k$ & $\Delta_Z$ & $\delta_3(T_k^{\times},O_k)$ \\
+\midrule
+1 & 4 & 3 & 7 & 1 & $-1$ & 7 & 0 & $(0,0)$ \\
+2 & 6 & 5 & 11 & 1 & $+1$ & 10 & 1 & $(1,1)$ \\
+3 & 5 & $-2$ & 3 & 0 & $+1$ & 3 & 0 & $(0,0)$ \\
+4 & 8 & 4 & 12 & 1 & $-1$ & 11 & 1 & $(1,1)$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

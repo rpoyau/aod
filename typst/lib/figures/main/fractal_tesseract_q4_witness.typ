@@ -3,72 +3,62 @@
 // Historical raster retained byte-for-byte: figures_jpg/fractal_tesseract_q4_witness.jpg
 #import "/typst/lib/aod_plots.typ": *
 
-#let fig-width-cm = 14.6
-#let fig-height-cm = 7.5
+#let fig-width-cm = 14.8
+#let fig-height-cm = 7.8
 
 #aod-canvas(fig-width-cm, fig-height-cm)[
   // Title & subtitle
-  #aod-text(7.3, 0.42, [*Fractal tesseract support with finite $Q_4$ witness*], size: 11.5pt, box-w: 14.0, box-h: 0.55)
-  #aod-text(7.3, 0.84, [Recursive cut gives support; duon current traverses and witnesses it.], size: 8.0pt, box-w: 14.0, box-h: 0.45)
+  #aod-text(7.4, 0.42, [*Fractal tesseract support with true 16-vertex $Q_4$ witness*], size: 11.2pt, box-w: 14.2, box-h: 0.55)
+  #aod-text(7.4, 0.84, [Recursive cut gives support; 16-vertex, 32-edge $Q_4$ chart witnesses local Hamming-1 degree 4.], size: 7.9pt, box-w: 14.2, box-h: 0.45)
 
-  // Top flow boxes
-  #aod-box-tl(0.45, 1.38, 1.75, 0.95, [#text(size: 8.2pt)[Null \ potential]], stroke: 0.95pt + aod-pal.slate, fill: aod-pal.tint-gray)
-  #aod-box-tl(2.65, 1.38, 1.55, 0.95, [#text(size: 8.2pt)[$x -> x$ \ $= x$]], stroke: 0.95pt + aod-pal.navy, fill: aod-pal.tint-blue)
-  #aod-box-tl(4.65, 1.28, 1.65, 1.15, [#text(size: 8.2pt)[branch / \ hinge / \ branch]], stroke: 0.95pt + aod-pal.green, fill: aod-pal.tint-green)
-  #aod-box-tl(6.75, 1.28, 2.05, 1.15, [#text(size: 8.2pt)[recursive \ cut-unspooling]], stroke: 0.95pt + aod-pal.gold, fill: aod-pal.tint-amber)
+  // Left: Recursive cut-unspooling spine
+  #aod-box-tl(0.35, 1.38, 1.70, 0.96, [#text(size: 8.0pt)[Null \ potential]], stroke: 0.95pt + aod-pal.slate, fill: aod-pal.tint-gray)
+  #aod-box-tl(2.42, 1.38, 1.52, 0.96, [#text(size: 8.0pt)[$x -> x$ \ $= x$]], stroke: 0.95pt + aod-pal.navy, fill: aod-pal.tint-blue)
+  #aod-box-tl(4.32, 1.28, 1.68, 1.16, [#text(size: 8.0pt)[branch / \ hinge / \ branch]], stroke: 0.95pt + aod-pal.green, fill: aod-pal.tint-green)
+  #aod-box-tl(6.38, 1.28, 1.95, 1.16, [#text(size: 8.0pt)[recursive \ cut-unspooling]], stroke: 0.95pt + aod-pal.gold, fill: aod-pal.tint-amber)
 
-  #aod-arrow(2.22, 1.85, 2.62, 1.85, stroke: 1.0pt + aod-pal.slate)
-  #aod-arrow(4.22, 1.85, 4.62, 1.85, stroke: 1.0pt + aod-pal.slate)
-  #aod-arrow(6.32, 1.85, 6.72, 1.85, stroke: 1.0pt + aod-pal.slate)
+  #aod-arrow(2.07, 1.86, 2.40, 1.86, stroke: 1.0pt + aod-pal.slate)
+  #aod-arrow(3.96, 1.86, 4.30, 1.86, stroke: 1.0pt + aod-pal.slate)
+  #aod-arrow(6.02, 1.86, 6.36, 1.86, stroke: 1.0pt + aod-pal.slate)
 
-  // Curved connector to finite Q4 chart
-  #aod-curve-arrow(8.20, 2.52, 8.85, 2.52, 9.42, 2.78, stroke: 1.0pt + aod-pal.slate)
-  #aod-text(6.95, 3.08, [branch / hinge / branch support \ can cut again], size: 7.2pt, box-w: 4.5, box-h: 0.65)
-
-  // Finite Q4 cube witness
-  #aod-text(10.55, 1.54, [*finite $Q_4$ chart*], size: 9.5pt, box-w: 3.4, box-h: 0.45)
-  #let front = ((9.50, 3.60), (11.15, 3.60), (11.15, 2.35), (9.50, 2.35))
-  #let back = front.map(p => (p.at(0) + 0.58, p.at(1) - 0.46))
-  #let edges = ((0, 1), (1, 2), (2, 3), (3, 0))
-  #for arr in (front, back) {
-    for e in edges {
-      let p1 = arr.at(e.at(0)); let p2 = arr.at(e.at(1))
-      aod-line(p1.at(0), p1.at(1), p2.at(0), p2.at(1), stroke: 1.05pt + aod-pal.purple)
-    }
-  }
-  #for i in range(4) {
-    let p1 = front.at(i); let p2 = back.at(i)
-    aod-line(p1.at(0), p1.at(1), p2.at(0), p2.at(1), stroke: 1.05pt + aod-pal.purple)
-  }
-  #for p in front + back {
-    aod-circle(p.at(0), p.at(1), 0.065, fill: aod-pal.purple, stroke: none)
-  }
-  #aod-text(10.40, 4.02, [local witness of fractal \ tesseract support], size: 7.3pt, box-w: 3.6, box-h: 0.65)
-
-  // Jittering notes separated cleanly on right
-  #aod-text(12.22, 1.94, [*jittering:*], size: 8.0pt, anchor: "left", box-w: 2.2, box-h: 0.38)
-  #aod-text(12.22, 2.48, [unresolved successor \ movement], size: 7.1pt, anchor: "left", box-w: 2.3, box-h: 0.68)
-  #for (jx, jy) in ((12.75, 3.16), (13.60, 3.40), (12.85, 3.86), (13.65, 4.10)) {
-    aod-text(jx, jy, [$+$], size: 8.5pt, box-w: 0.4, box-h: 0.4)
-  }
-
-  // Duon current box & chain
-  #aod-curve-arrow(10.40, 4.38, 11.00, 4.46, 11.45, 4.78, stroke: 1.15pt + aod-pal.purple)
+  // Left-lower: Local 4-slot star & ternary fibre summary
   #aod-box-tl(
-    11.05, 4.80, 2.65, 0.80,
-    [#text(size: 8.2pt)[duon current \ $D_i thin mu thin D_j$]],
+    0.35, 2.95, 6.25, 3.25,
+    [],
+    stroke: 0.85pt + aod-pal.navy,
+    fill: aod-pal.tint-gray,
+    radius: 4pt,
+  )
+  #aod-text(3.48, 3.30, [*Local Hamming-1 witness at $v in V(Q_4)$*], size: 8.4pt, box-w: 5.8, box-h: 0.42)
+  #aod-text(3.48, 3.84, [$|V(Q_4)| = 16$, $quad |E(Q_4)| = 32$, $quad deg(v) = 4$], size: 7.9pt, box-w: 5.9, box-h: 0.42)
+  #aod-text(3.48, 4.44, [Incident slots $\{e_0, e_1, e_2, e_3\}$ highlighted in orange:], size: 7.8pt, box-w: 6.0, box-h: 0.42)
+  #aod-text(3.48, 4.98, [committed incoming ancestor excluded from fresh H1 step], size: 7.7pt, box-w: 6.0, box-h: 0.42)
+  #aod-text(3.48, 5.56, [Monon fibre $Q_4 times \{-1, 0_H, +1\}$ separates base leg from role], size: 7.8pt, box-w: 6.0, box-h: 0.42)
+
+  // Connector from recursive cut to true 16-vertex Q4 tesseract
+  #aod-curve-arrow(8.35, 1.86, 8.95, 1.86, 9.35, 2.30, stroke: 1.0pt + aod-pal.slate)
+
+  // Center-right: True 16-vertex, 32-edge Q4 hypercube
+  #aod-text(10.35, 1.48, [*16-vertex $Q_4$ hypercube*], size: 9.2pt, box-w: 3.8, box-h: 0.42)
+  #aod-tesseract-q4(10.35, 3.38, scale: 1.18, highlight-vertex: 0)
+  #aod-text(10.35, 5.05, [inner $w=0$ cube + outer $w=1$ cube \ $+ 8$ fourth-axis H1 links], size: 7.1pt, box-w: 4.1, box-h: 0.62)
+
+  // Right: Duon current & jittering witness
+  #aod-text(12.65, 1.78, [*jittering:*], size: 8.0pt, anchor: "left", box-w: 2.0, box-h: 0.38)
+  #aod-text(12.65, 2.30, [unresolved H1 \ successor motion], size: 7.0pt, anchor: "left", box-w: 2.1, box-h: 0.65)
+  #aod-box-tl(
+    12.35, 3.25, 2.10, 1.05,
+    [#text(size: 8.0pt)[duon current \ $D_i thin mu thin D_j$]],
     stroke: 1.0pt + aod-pal.purple,
     fill: aod-pal.tint-purple,
   )
-  #for i in range(5) {
-    aod-circle(11.20 + i * 0.44, 5.90, 0.11, fill: white, stroke: 1.0pt + aod-pal.purple)
-  }
-  #aod-arrow(11.02, 6.22, 13.35, 6.22, stroke: 1.15pt + aod-pal.purple, head-len: 4.8, head-half: 2.3)
+  #aod-wavy-arrow(12.40, 4.78, 14.40, 4.78, amp: 0.065, waves: 3.5, stroke: 1.0pt + aod-pal.purple)
+  #aod-text(13.40, 5.26, [retained trace], size: 7.2pt, box-w: 2.1, box-h: 0.38)
 
   // Bottom lock-in strip
   #aod-box-tl(
-    0.40, 6.62, 13.80, 0.62,
-    [#text(size: 7.4pt, weight: "bold")[Corrected order: recursive cut $->$ fractal tesseract support; duon current $->$ finite carried witness.]],
+    0.35, 6.72, 14.10, 0.66,
+    [#text(size: 7.4pt, weight: "bold")[Corrected order: recursive cut $->$ fractal tesseract support; 16-vertex $Q_4$ chart $->$ local witness; duon current $->$ carried history.]],
     stroke: 0.9pt + aod-pal.navy,
     fill: aod-pal.tint-blue,
     radius: 3.5pt,

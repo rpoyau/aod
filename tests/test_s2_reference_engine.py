@@ -108,17 +108,17 @@ def _repin_temp_bindings(temp_root: Path, rel_path: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Gate G1 — Coverage (16 Sectors + 17 manual/data Subdirs / 116 Files + Root)
+# Gate G1 — Coverage (17 Sectors + 18 manual/data Subdirs / 124 Files + Root)
 # ---------------------------------------------------------------------------
 
 
 def test_g1_registry_16_sectors_and_deterministic_digest():
     verify_registry_completeness()
-    _check(len(SECTOR_SPECS) == 16)
-    _check(len(SECTOR_MAP) == 16)
+    _check(len(SECTOR_SPECS) == 17)
+    _check(len(SECTOR_MAP) == 17)
     tiers = [s.tier for s in SECTOR_SPECS]
     _check(tiers.count("tier1_canonical_adapter") == 9)
-    _check(tiers.count("tier2_exact_data_verifier") == 6)
+    _check(tiers.count("tier2_exact_data_verifier") == 7)
     _check(tiers.count("tier3_provenance_guard") == 1)
     d1 = registry_digest()
     d2 = registry_digest()
@@ -128,15 +128,15 @@ def test_g1_registry_16_sectors_and_deterministic_digest():
     _check(proc.returncode == 0, proc.stderr)
     listed = loads_zero_float(proc.stdout)
     _check(isinstance(listed, dict))
-    _check(listed["sector_count"] == 16)
+    _check(listed["sector_count"] == 17)
     _check(listed["registry_digest"] == d1)
 
 
 def test_g1_dual_data_coverage_17_subdirs_116_files_plus_root():
     cov = verify_data_coverage(ROOT)
     _check(cov["status"] == "PASS")
-    _check(cov["manual_data_subdirs"] == 17)
-    _check(cov["manual_data_files"] == 116)
+    _check(cov["manual_data_subdirs"] == 18)
+    _check(cov["manual_data_files"] == 136)
     _check(cov["root_data_files"] == 2)
     _check(cov["uncovered_files"] == 0)
     overlaps = cov["declared_data_overlaps"]
@@ -154,13 +154,13 @@ def test_g1_uncovered_or_missing_manual_data_file_fails_closed(tmp_path: Path):
     # Extra uncovered file fails closed
     extra = tmp_path / "manual/data/dec/unbound_extra.csv"
     extra.write_text("a,b\n1,2\n", encoding="utf-8")
-    with pytest.raises(ValueError, match="expected 116 files"):
+    with pytest.raises(ValueError, match="expected 136 files"):
         verify_data_coverage(tmp_path)
     extra.unlink()
 
     # Missing required file fails closed
     (tmp_path / "manual/data/dec/dec_hinge_slide_example.csv").unlink()
-    with pytest.raises(ValueError, match="expected 116 files"):
+    with pytest.raises(ValueError, match="expected 136 files"):
         verify_data_coverage(tmp_path)
 
 
@@ -199,11 +199,11 @@ def test_g2_15_fast_sectors_execute_with_orthogonal_status_and_diagnostics(tmp_p
 
     _check(parsed["schema"] == REPORT_SCHEMA)
     _check(parsed["base_commit_binding"] == BASE_COMMIT_BINDING)
-    _check(parsed["outcomes_summary"] == {"total_executed": 15, "PASS": 15, "FAIL": 0})
+    _check(parsed["outcomes_summary"] == {"total_executed": 16, "PASS": 16, "FAIL": 0})
     _check(
         parsed["scientific_status_summary"]
         == {
-            "AUTHENTICATED_EXACT": 8,
+            "AUTHENTICATED_EXACT": 9,
             "CONFORMANT_DECLARED_FIXTURE": 2,
             "RETAINED_DATA_CONFORMANT": 4,
             "UNRESOLVED_PROVENANCE_QUARANTINED": 1,
@@ -211,7 +211,7 @@ def test_g2_15_fast_sectors_execute_with_orthogonal_status_and_diagnostics(tmp_p
     )
     _check(parsed["zero_float_policy_audit"]["status"] == "PASS")
     _check(parsed["vectors_verification"]["status"] == "PASS")
-    _check(parsed["vectors_verification"]["total_vectors"] == 30)
+    _check(parsed["vectors_verification"]["total_vectors"] == 52)
 
     by_id = {sec["sector_id"]: sec for sec in parsed["sectors"]}
     pq = by_id["provenance_quarantine"]
@@ -612,10 +612,10 @@ def test_g3_explicit_python_minus_O_subprocess_enforces_validators_and_g5_contro
 def test_g3_golden_vectors_all_30_pass_and_schema_valid_with_or_without_vectors():
     vec_summary = verify_all_vectors(ROOT)
     _check(vec_summary["status"] == "PASS", vec_summary)
-    _check(vec_summary["rational_core_count"] == 24)
-    _check(vec_summary["symbolic_and_display_count"] == 6)
-    _check(vec_summary["total_vectors"] == 30)
-    _check(vec_summary["passed_vectors"] == 30)
+    _check(vec_summary["rational_core_count"] == 44)
+    _check(vec_summary["symbolic_and_display_count"] == 8)
+    _check(vec_summary["total_vectors"] == 52)
+    _check(vec_summary["passed_vectors"] == 52)
     _check(vec_summary["failed_vectors"] == 0)
 
     sec = tier2_exact.run_tier2_sector(SECTOR_MAP["dec_ledger"], ROOT)
@@ -636,7 +636,7 @@ def test_g3_golden_vectors_all_30_pass_and_schema_valid_with_or_without_vectors(
         vectors_verification=vec_summary,
     )
     validate_report(rep_with)
-    _check(rep_with["vectors_verification"]["passed_vectors"] == 30)
+    _check(rep_with["vectors_verification"]["passed_vectors"] == 52)
 
     # Non-circularity, 0-based RC-016 binding, hardened vector checks, and oracle mismatch controls
     rc_lines = (ROOT / "manual/engine/vectors/rational_core.jsonl").read_text(encoding="utf-8").splitlines()
@@ -785,7 +785,7 @@ def test_g4_canonical_report_byte_identical_normal_vs_O_and_two_paths(tmp_path: 
 
     bad_vec_pass = deepcopy(rep)
     bad_vec_pass["vectors_verification"]["failed_vectors"] = 1
-    bad_vec_pass["vectors_verification"]["passed_vectors"] = 29
+    bad_vec_pass["vectors_verification"]["passed_vectors"] = 51
     with pytest.raises(ValueError, match="failed_vectors == 0"):
         validate_report(bad_vec_pass)
 
@@ -1211,14 +1211,14 @@ def test_g6_source_zip_extraction_runs_all_fast_15_and_coverage_preserves_invent
     _check(not (extracted / ".git").exists())
     inv_before = ci_test.expected_source_inventory(extracted)
 
-    # Verify complete 17-subdir / 116-file + root data coverage on extracted non-Git archive
+    # Verify complete 18-subdir / 124-file + root data coverage on extracted non-Git archive
     ext_cov = verify_data_coverage(extracted)
     _check(ext_cov["status"] == "PASS")
-    _check(ext_cov["manual_data_subdirs"] == 17)
-    _check(ext_cov["manual_data_files"] == 116)
+    _check(ext_cov["manual_data_subdirs"] == 18)
+    _check(ext_cov["manual_data_files"] == 136)
     _check(ext_cov["uncovered_files"] == 0)
 
-    # Run all 15 fast sectors + AST audit + 30 golden vectors from extracted non-Git archive
+    # Run all 16 fast sectors + AST audit + 40 golden vectors from extracted non-Git archive
     ext_report = tmp_path / "external_report.json"
     args = [
         "--check-zero-float",
@@ -1233,11 +1233,11 @@ def test_g6_source_zip_extraction_runs_all_fast_15_and_coverage_preserves_invent
     _check(proc.returncode == 0, proc.stderr)
     parsed = loads_zero_float(ext_report.read_text(encoding="utf-8"))
     validate_report(parsed)
-    _check(parsed["outcomes_summary"] == {"total_executed": 15, "PASS": 15, "FAIL": 0})
+    _check(parsed["outcomes_summary"] == {"total_executed": 16, "PASS": 16, "FAIL": 0})
     _check(
         parsed["scientific_status_summary"]
         == {
-            "AUTHENTICATED_EXACT": 8,
+            "AUTHENTICATED_EXACT": 9,
             "CONFORMANT_DECLARED_FIXTURE": 2,
             "RETAINED_DATA_CONFORMANT": 4,
             "UNRESOLVED_PROVENANCE_QUARANTINED": 1,
@@ -1277,11 +1277,11 @@ def test_g7_build_yml_s2_step_ordering_and_172_frozen_hashes_intact():
     _check(workflow.index(audit_cmd) < workflow.index(s2_step))
     _check(workflow.index(s2_step) < workflow.index(pytest_cmd) < workflow.index(bundle_cmd))
 
-    # All 172 pinned frozen_sha256 entries remain byte-identical
+    # All 180 pinned frozen_sha256 entries remain byte-identical
     cb = loads_zero_float((ROOT / "contracts/scientific/CANONICAL_BINDINGS.json").read_text(encoding="utf-8"))
     _check(isinstance(cb, dict))
     frozen = cb["frozen_sha256"]
-    _check(len(frozen) == 172)
+    _check(len(frozen) == 192)
     for rel, expected_sha in frozen.items():
         actual_sha = hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()
         _check(actual_sha == expected_sha, f"frozen file drifted: {rel}")
@@ -1503,10 +1503,10 @@ def test_s2_f1_diagnostics_child_symlinks_and_report_hardlinks_preserve_protecte
 
 
 def test_s2_f2_exact_typed_equality_rejects_bool_int_substitutions(tmp_path: Path):
-    # All 30 committed vectors pass baseline
+    # All 40 committed vectors pass baseline
     baseline = verify_all_vectors(ROOT)
     _check(baseline["status"] == "PASS", baseline)
-    _check(baseline["passed_vectors"] == 30 and baseline["failed_vectors"] == 0)
+    _check(baseline["passed_vectors"] == 52 and baseline["failed_vectors"] == 0)
 
     rc_raw_lines = (ROOT / "manual/engine/vectors/rational_core.jsonl").read_text(encoding="utf-8").splitlines()
     rc_records = [loads_zero_float(line) for line in rc_raw_lines if line.strip()]
@@ -1568,7 +1568,7 @@ def test_s2_f2_exact_typed_equality_rejects_bool_int_substitutions(tmp_path: Pat
         )
         res = verify_all_vectors(vec_repo)
         _check(res["status"] == "FAIL", f"{case_id} mutation unexpectedly passed: {res}")
-        _check(res["failed_vectors"] == 1 and res["passed_vectors"] == 29, res)
+        _check(res["failed_vectors"] == 1 and res["passed_vectors"] == 51, res)
         _check(res["failures"][0]["case_id"] == case_id)
         _check(
             "type mismatch" in res["failures"][0]["error"]
@@ -1579,11 +1579,11 @@ def test_s2_f2_exact_typed_equality_rejects_bool_int_substitutions(tmp_path: Pat
     # Restore unmodified rational_core.jsonl and confirm full pass on detached repo
     (vec_repo / "manual/engine/vectors/rational_core.jsonl").write_text(orig_rc_text, encoding="utf-8")
     restored = verify_all_vectors(vec_repo)
-    _check(restored["status"] == "PASS" and restored["passed_vectors"] == 30, restored)
+    _check(restored["status"] == "PASS" and restored["passed_vectors"] == 52, restored)
 
 
 def test_s2_f3_source_binding_selectors_verified_and_broken_bindings_rejected(tmp_path: Path):
-    # Confirm RC-005 and RC-008 point to their real defining Typst files and all 32 components pass
+    # Confirm RC-005 and RC-008 point to their real defining Typst files and all 62 components pass
     rc_lines = (ROOT / "manual/engine/vectors/rational_core.jsonl").read_text(encoding="utf-8").splitlines()
     sd_lines = (ROOT / "manual/engine/vectors/symbolic_and_display.jsonl").read_text(encoding="utf-8").splitlines()
     all_records = [loads_zero_float(line) for line in (*rc_lines, *sd_lines) if line.strip()]
@@ -1597,7 +1597,7 @@ def test_s2_f3_source_binding_selectors_verified_and_broken_bindings_rejected(tm
         sb = str(rec["source_binding"])
         component_count += len(sb.split(";"))
         validate_source_binding(ROOT, sb)
-    _check(component_count == 32, f"expected 32 source_binding components, got {component_count}")
+    _check(component_count == 98, f"expected 98 source_binding components, got {component_count}")
 
     # Negative controls on live repo
     bad_bindings = (
@@ -1746,6 +1746,38 @@ def test_s2_f3_source_binding_selectors_verified_and_broken_bindings_rejected(tm
     validate_report(parsed_hostile)
     vv_hostile = parsed_hostile["vectors_verification"]
     _check(vv_hostile["status"] == "FAIL", vv_hostile)
-    _check(vv_hostile["failed_vectors"] == 1 and vv_hostile["passed_vectors"] == 29, vv_hostile)
+    _check(vv_hostile["failed_vectors"] == 1 and vv_hostile["passed_vectors"] == 51, vv_hostile)
     _check(vv_hostile["failures"][0]["case_id"] == "RC-005", vv_hostile["failures"])
     _check("<HOST_PATH>" in vv_hostile["failures"][0]["error"], vv_hostile["failures"])
+
+
+def test_boundary_sadar_five_boundary_tau_debris_higgs_and_tamper_rejection(tmp_path: Path):
+    spec = SECTOR_MAP["boundary_sadar"]
+    res = tier2_exact.run_tier2_sector(spec, ROOT)
+    _check(res["check_outcome"] == "PASS", res)
+    _check(res["scientific_status"] == "AUTHENTICATED_EXACT")
+    vc = res["verified_counts"]
+    _check(vc["boundary_sadar_csvs_verified"] == 20)
+    _check(vc["rest_energy_carriers_verified"] == 10)
+    _check(vc["higgs_saddle_candidates_scanned"] == 20)
+    _check(vc["hydrogen_transitions_verified"] == 14)
+    _check(vc["sparc_pooled_bins_verified"] == 209)
+    es = res["exact_residuals_summary"]
+    _check(es["tau_winner"] == "1:2:9_yro")
+    _check(es["tau_miss_conditional_exo"] == "31/50")
+    _check(es["higgs_saddle_winner"] == "3:3:7_yro")
+    _check(es["common_bit_window_span"] == 8160 and es["summed_8_lineage_closures"] == 9104)
+
+    # Even if CANONICAL_BINDINGS frozen_sha256 is re-pinned to a tampered CSV,
+    # verify_boundary_sadar must reject divergence from live Boundary-Full SADAR execution.
+    tamper_root = tmp_path / "tamper_sadar"
+    _copy_files(tamper_root, ["contracts/scientific/CANONICAL_BINDINGS.json", *spec.input_paths])
+    tau_rel = "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv"
+    tau_csv_path = tamper_root / tau_rel
+    tau_csv_path.write_text(
+        tau_csv_path.read_text(encoding="utf-8").replace("31/50", "29/50", 1),
+        encoding="utf-8",
+    )
+    _repin_temp_bindings(tamper_root, tau_rel)
+    with pytest.raises(ValueError, match="diverges from live Boundary-Full SADAR engine output"):
+        tier2_exact.run_tier2_sector(spec, tamper_root)

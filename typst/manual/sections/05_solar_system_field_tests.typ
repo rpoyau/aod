@@ -212,3 +212,46 @@ with the measured comparison
 #mainequation("main:eq:sadar-attention-vector")\;
 #mainequation("main:eq:window-clipped-rho")\;
 #appref("manual:external-comparison").]
+
+
+
+== Five-boundary solar O0 scope separation and producer-gate ledger <manual:solar:dec-o0-boundary-audit>
+
+Declare the five-boundary solar observable-map stack separating the three distinct trajectory scopes from the unsupplied native producer gate and the quarantined external target comparison:
+
+#math.equation(block: true, numbering: none, $ B_(upright("Sun")) arrow.r (B_(upright("Hg")) , B_(upright("bend")) , B_(upright("red")) ) arrow.r B_(upright("gate")) arrow.r B_(upright("O0")) arrow.r B_(upright("ext")). $)
+
+Vector #raw("RC-040") (#raw("manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) audits the exact rational observable-map residuals across $B_(upright("Hg"))$ (closed orbital return shell), $B_(upright("bend"))$ (open grazing ray chord), and $B_(upright("red"))$ (radial potential climb window) while locking every row behind #raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER") so O0 observable-map consistency is never misrepresented as a native solar derivation.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/solar_boundary_scopes_feynman.typ"
+  ],
+  caption: [Typed solar boundary scopes ($B_(upright("Hg")) , B_(upright("bend")) , B_(upright("red"))$), explicit #raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER") gate, and exact rational O0 comparison ledger (#raw("solar_o0_boundary_dec_audit.csv")).],
+) <fig:manual-solar-boundary-scopes-feynman>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto),
+    align: (left, left, right, right, right, left),
+    table.header(
+      toprule,
+      [Record], [Typed scope], [Mapped exact], [Target exact], [Exact residual], [Producer gate],
+      midrule,
+    ),
+    [#raw("mercury_perihelion")], [$B_(upright("Hg"))$], [$429799 slash 10000$], [$2149 slash 50$], [$- 1 slash 10000$], [#raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER")],
+    [#raw("solar_light_bending")], [$B_(upright("bend"))$], [$175001 slash 100000$], [$7 slash 4$], [$+ 1 slash 100000$], [#raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER")],
+    [#raw("solar_redshift")], [$B_(upright("red"))$], [$52999 slash 25000000000$], [$53 slash 25000000$], [$- 1 slash 25000000000$], [#raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER")],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Exact rational solar O0 observable-map residual and missing-producer gate ledger (#raw("RC-040")).],
+) <tab:manual-solar-dec-boundary-audit>
+

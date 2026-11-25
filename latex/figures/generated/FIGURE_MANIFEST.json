@@ -17,7 +17,7 @@
   "schema_path": "typst/lib/aod_schema.typ",
   "schema_sha256": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
   "plots_lib_path": "typst/lib/aod_plots.typ",
-  "plots_lib_sha256": "ead3822f57c9ffe8150d97485549ff0674044d9b38a96936eddfbc5415a8f4b2",
+  "plots_lib_sha256": "346944079a9840a005555ea16b7026cbf1075f26bfde08011740326a06070f4e",
   "figure_count": 6,
   "figures": [
     {
@@ -63,10 +63,10 @@
       "label": "fig:v39-fractal-tesseract-q4-witness",
       "typst_section": "typst/sections/03_afc_basis.typ",
       "diagram_component": "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
-      "diagram_sha256": "cc3ea53aa2942648b37e838f35cabff1a1d6a84a77ee8f2ea8db591f12999097",
+      "diagram_sha256": "d3510a7ac4451d1dd51aed3a1c35d3c93886199a8e0aad972498e6ca137640ac",
       "data_inputs": [],
-      "width_cm": 14.6,
-      "height_cm": 7.5,
+      "width_cm": 14.8,
+      "height_cm": 7.8,
       "background": "white",
       "font_families": {
         "text": [
@@ -80,12 +80,12 @@
       },
       "format": "pdf",
       "output_filename": "fractal-tesseract-q4-witness.pdf",
-      "output_sha256": "8de8b37543d3043ce82b2cd766b8b69432cda0bbf1f2812f8e94c5582b31f3c9",
-      "output_bytes": 21064,
+      "output_sha256": "4e1b9061c430947b8d80b74990260c7467bac915c9f767b4378a33d91e9f54fe",
+      "output_bytes": 30606,
       "page_count": 1,
       "page_points": [
-        413.858,
-        212.598
+        419.528,
+        221.102
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,

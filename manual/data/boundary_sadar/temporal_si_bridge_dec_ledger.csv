@@ -1,0 +1,7 @@
+stage_id,boundary_B,lineage_pair,delta_bip,exact_quantity,reverse_or_resid,status_gate
+T1_pair_closures,"B_pair(0,30]","compared(2,10,18,26) vs ref(2,12,22)",3 vs 2,3/2,2/3,AUTHENTICATED_EXACT_RCD
+T2_unwrapped_lag,"B_pair(0,30]","bias(+1/4,-1/4)",1+1/2,3/2,-3/2,AUTHENTICATED_EXACT_LAG
+T3_cs133_bridge,B_bridge(a_c=a_r=1),Cs_9192631770Hz,"N_r=2,N_c=3",2/9192631770,13788947655/1,CONDITIONAL_SI_STIPULATED_GAIN
+T4_transfer_field_A,B_val_A(32_ref),3:3:6_vs_1:2:6,"cal=58,val=48",768/29,-5/29,REJECTS_CONSTANT_TRANSFER
+T5_transfer_field_B,B_val_B(32_ref),3:2:6_vs_3:3:6,"cal=151,val=102",3264/151,-49/151,REJECTS_CONSTANT_TRANSFER
+T6_cut40_intervention,B_causal(cut40->41),capacity_drop_control,"(6,5)->(2,5)",6/5,2/5,STRICTLY_LATER_CUT41_RESPONSE

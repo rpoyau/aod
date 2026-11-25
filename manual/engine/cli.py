@@ -128,7 +128,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--verify-all",
         action="store_true",
-        help="Execute all 16 registered verification sectors and dual data-coverage audit.",
+        help="Execute all 17 registered verification sectors and dual data-coverage audit.",
     )
     parser.add_argument(
         "--sector",
@@ -140,7 +140,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--list-sectors",
         action="store_true",
-        help="List all 16 registered sectors with metadata as canonical JSON and exit 0.",
+        help="List all 17 registered sectors with metadata as canonical JSON and exit 0.",
     )
     parser.add_argument(
         "--check-zero-float",
@@ -150,7 +150,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--verify-vectors",
         action="store_true",
-        help="Load and execute all 30 S4 golden vectors in manual/engine/vectors/*.jsonl.",
+        help="Load and execute all 40 S4 golden vectors in manual/engine/vectors/*.jsonl.",
     )
     parser.add_argument(
         "--report",

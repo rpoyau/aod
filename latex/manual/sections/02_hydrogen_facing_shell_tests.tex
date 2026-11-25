@@ -165,7 +165,7 @@ For wavelength comparison, use the inverse-wavelength relation
 \mathcal{R}^{\lambda,\mathrm{tar}}_{n\to m}=\frac{\lambda_{(m+1)\to m}}{\lambda_{n\to m}}.
 \]
 
-Thus the A$\Omega$-internal pressure ratio is compared against the measured inverse-wavelength ratio. external frequency coordinate and energy export remain downstream.
+Thus the A$\Omega$-internal pressure ratio is compared against the measured inverse-wavelength ratio. external frequency coordinate and energy export remain downstream. The reference engine (\texttt{manual/data/boundary\_sadar/hydrogen\_shell\_exact\_series.csv}, vector \texttt{RC-031}) evaluates all Lyman ($m=1$), Balmer ($m=2$), and Paschen ($m=3$) transitions in reduced exact rational arithmetic before wavelength comparison.
 
 \subsubsection{Lyman series}\label{manual:hydrogen:lyman}
 
@@ -258,3 +258,43 @@ The ratio audits in \tabref{tab:manual-hydrogen-pressure-ratios}, \tabref{tab:ma
 \secref{manual:hydrogen:scope}.}
 
 \aodliteraturenote{Hydrogen Balmer targets: NIST Atomic Spectra Database~\cite{nist-asd}.}
+
+\subsection{Five-boundary concentric shell transition and wavelet D.E.C. ledger}\label{manual:hydrogen:dec-wavelet-transitions}
+
+Declare the concentric shell-hierarchy boundary stack separating native rational shell ratios from quarantined NIST wavelength targets:
+
+\[
+B_{\mathrm{core}}\to B_{S_n}\to B_{S_m}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}=\mathsf{Q}_{\mathrm{ext}}.
+\]
+
+Vector \texttt{RC-039} (\texttt{manual/data/boundary\_sadar/hydrogen\_shell\_dec\_transitions.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) evaluates exact dimensionless shell-step pressure differences $\Delta\hat{P}_{n\to m}=1/m^2-1/n^2$, baseline-normalized series ratios $R_{\mathrm{series}}(n\to m)=\Delta\hat{P}_{n\to m}/\Delta\hat{P}_{m+1\to m}$, and exact inverse wavelength ratios $\lambda_n/\lambda_{m+1}=1/R_{\mathrm{series}}$ across Balmer ($m=2$), Lyman ($m=1$), and Paschen ($m=3$) transitions without importing an external Rydberg constant into $B_{\mathrm{core}}\to B_{\mathrm{sensor}}$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/hydrogen-shell-wavelet-atlas.pdf}
+\caption{Concentric hydrogen shell boundaries $S_1\dots S_6$, outgoing Lyman/Balmer/Paschen wavelet packets across $B_{\mathrm{sensor}}$, and exact within-series rational ratios (\texttt{hydrogen\_shell\_dec\_transitions.csv}).}
+\label{fig:manual-hydrogen-shell-wavelet-atlas}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Exact rational hydrogen shell-transition and wavelet series D.E.C. ledger (\texttt{RC-039}).}
+\label{tab:manual-hydrogen-dec-transitions}
+{\footnotesize
+\begin{tabular}{llrrrr}
+\toprule
+Series & $n\to m$ & $r_n/r_1=n^2$ & $\Delta\hat{P}_{n\to m}$ & $R_{\mathrm{series}}$ & $\lambda_n/\lambda_{m+1}$ \\
+\midrule
+Balmer & $3\to2$ & 9 & $5/36$ & $1$ & $1$ \\
+Balmer & $4\to2$ & 16 & $3/16$ & $27/20$ & $20/27$ \\
+Balmer & $5\to2$ & 25 & $21/100$ & $189/125$ & $125/189$ \\
+Balmer & $6\to2$ & 36 & $2/9$ & $8/5$ & $5/8$ \\
+Lyman & $2\to1$ & 4 & $3/4$ & $1$ & $1$ \\
+Lyman & $3\to1$ & 9 & $8/9$ & $32/27$ & $27/32$ \\
+Lyman & $4\to1$ & 16 & $15/16$ & $5/4$ & $4/5$ \\
+Paschen & $4\to3$ & 16 & $7/144$ & $1$ & $1$ \\
+Paschen & $5\to3$ & 25 & $16/225$ & $256/175$ & $175/256$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

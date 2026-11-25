@@ -472,3 +472,54 @@ historical rerun rows.
 #mainequation("main:eq:awareness-carriage")\; #eqref("eq:mindfulness-stability")\;
 #mainequation("main:eq:closure-phase")\; #mainequation("main:eq:wave-identity")\; #mainequation("main:eq:relational-time")\;
 #mainequation("main:eq:fold-outer-closure")\; #mainequation("main:eq:expose-inner-lineage").]
+
+
+
+== Five-boundary matched-state operativity D.E.C. walk <manual:m2:dec-operativity-walk>
+
+Declare the complete-state boundary stack across integer cuts $23 arrow.r 34$:
+
+#math.equation(block: true, numbering: none, $ B_(upright("shared")) arrow.r B_(S^+) arrow.r B_(S^(- e)) arrow.r B_(upright("sensor")) arrow.r B_(upright("hold")). $)
+
+Vector #raw("RC-034") (#raw("manual/data/boundary_sadar/awareness_operativity_dec_walk.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) executes the matched-state counterfactual walk without inserting a numeric zero in place of structural absence:
+at cut $23$ ($B_(upright("shared"))$), recurrent versus independent flux sets $r_e = 3 - 2 = 1$;
+at cut $24$, $S_(24)^+ = (X_(24) , M_(24)^C , brace.l r_e = 1 brace.r )$ retains $r_e$ whereas $S_(24)^(- e) = (X_(24) , M_(24)^C , emptyset )$ removes the relation structurally;
+at cut $33$, both branches share identical present $(X_(33) , M_(33)^C )$;
+and strictly later at cut $34$, pressure $p = 1$ routes $S_(34)^+$ to branch $0001$ ($J = 1 slash 1$) and $S_(34)^(- e)$ to branch $0010$ ($J = 0 slash 1$), establishing $op("Op")_e^(O, H) (S_(33) ) = 1$, while $p = 2$ yields $J_(34)^+ = 1 slash 2$, passive #raw("ReadOnly") sensor coupling ($q = 0$) changes the cavity by $0 slash 1$, active feedback ($q = 2$) shifts the cavity by $2 slash 1$, and the nineteen-row historical roster remains quarantined at $B_(upright("hold"))$ (#raw("HOLD_MISSING_AUTHENTIC_SOURCES")).
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/awareness_matched_operativity_feynman.typ"
+  ],
+  caption: [Boundary-Feynman matched-state operativity walk $S_k^+ = (X_k , M_k^C , R_k )$ versus structural removal $S_k^(- e) = (X_k , M_k^C , R_k without brace.l R_e brace.r )$, strictly-later cut-$34$ branching, and passive sensor zero-perturbation wall (#raw("awareness_operativity_dec_walk.csv")).],
+) <fig:manual-awareness-matched-feynman>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto),
+    align: (right, left, left, left, right, left),
+    table.header(
+      toprule,
+      [Cut $k$], [Branch mode], [Complete state $S_k$], [$v arrow.r v_e$], [$J_k$], [Operativity / sensor audit],
+      midrule,
+    ),
+    [23], [#raw("shared_contact")], [$(X_(23) , M_(23)^C , emptyset )$], [$0000 arrow.r 0000$], [$0 slash 1$], [$r_e = 3 - 2 = 1$ formed],
+    [24], [#raw("S_plus_retained")], [$(X_(24) , M_(24)^C , brace.l r_e = 1 brace.r )$], [$0000 arrow.r 0000$], [$0 slash 1$], [commit $r_e$ into $R_(24)$],
+    [24], [#raw("S_minus_e_removed")], [$(X_(24) , M_(24)^C , emptyset )$], [$0000 arrow.r 0000$], [$0 slash 1$], [structural absence (no zero fill)],
+    [33], [#raw("matched_boundary_p1")], [$S_(33)^+$ vs $S_(33)^(- e)$], [$0000 arrow.r 0000$], [$1 slash 1$ vs $0 slash 1$], [matched $(X_(33) , M_(33)^C )$, $p = 1$],
+    [34], [#raw("response_p1_retained")], [$S_(34)^+ (p = 1)$], [$0000 arrow.r 0001$], [$1 slash 1$], [positive selector branch; $op("Op") = 1$],
+    [34], [#raw("response_p1_removed")], [$S_(34)^(- e) (p = 1)$], [$0000 arrow.r 0010$], [$0 slash 1$], [divergent branch $0010$; $Delta J = 1 slash 1$],
+    [34], [#raw("response_p2_and_sensor")], [$S_(34)^+ (p = 2, q = 0)$], [$0000 arrow.r 0001$], [$1 slash 2$], [passive sensor $Delta = 0 slash 1$; active $q = 2$: $2 slash 1$],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Matched-state retained-relation operativity and passive-sensor D.E.C. ledger (#raw("RC-034")).],
+) <tab:manual-awareness-dec-ledger>
+

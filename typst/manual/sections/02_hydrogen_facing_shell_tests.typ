@@ -193,7 +193,7 @@ For wavelength comparison, use the inverse-wavelength relation
 
 #math.equation(block: true, numbering: none, $ cal(R)^(lambda ,upright("tar"))_(n arrow.r m) = frac(lambda_((m + 1) arrow.r m), lambda_(n arrow.r m)). $)
 
-Thus the A$Omega$-internal pressure ratio is compared against the measured inverse-wavelength ratio. external frequency coordinate and energy export remain downstream.
+Thus the A$Omega$-internal pressure ratio is compared against the measured inverse-wavelength ratio. external frequency coordinate and energy export remain downstream. The reference engine (#raw("manual/data/boundary_sadar/hydrogen_shell_exact_series.csv"), vector #raw("RC-031")) evaluates all Lyman ($m = 1$), Balmer ($m = 2$), and Paschen ($m = 3$) transitions in reduced exact rational arithmetic before wavelength comparison.
 
 
 === Lyman series <manual:hydrogen:lyman>
@@ -311,3 +311,52 @@ The ratio audits in #tabref("tab:manual-hydrogen-pressure-ratios"), #tabref("tab
 
 
 #aod-literature-note[Hydrogen Balmer targets: NIST Atomic Spectra Database #aod-cite("nist-asd").]
+
+
+
+== Five-boundary concentric shell transition and wavelet D.E.C. ledger <manual:hydrogen:dec-wavelet-transitions>
+
+Declare the concentric shell-hierarchy boundary stack separating native rational shell ratios from quarantined NIST wavelength targets:
+
+#math.equation(block: true, numbering: none, $ B_(upright("core")) arrow.r B_(S_n) arrow.r B_(S_m) arrow.r B_(upright("sensor")) arrow.r B_(upright("ext")) = sans("Q")_(upright("ext")). $)
+
+Vector #raw("RC-039") (#raw("manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) evaluates exact dimensionless shell-step pressure differences $Delta hat(P)_(n arrow.r m) = 1 slash m^2 - 1 slash n^2$, baseline-normalized series ratios $R_(upright("series")) (n arrow.r m) = Delta hat(P)_(n arrow.r m) slash Delta hat(P)_(m + 1 arrow.r m)$, and exact inverse wavelength ratios $lambda_n slash lambda_(m + 1) = 1 slash R_(upright("series"))$ across Balmer ($m = 2$), Lyman ($m = 1$), and Paschen ($m = 3$) transitions without importing an external Rydberg constant into $B_(upright("core")) arrow.r B_(upright("sensor"))$.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/hydrogen_shell_wavelet_atlas.typ"
+  ],
+  caption: [Concentric hydrogen shell boundaries $S_1 dots.h S_6$, outgoing Lyman/Balmer/Paschen wavelet packets across $B_(upright("sensor"))$, and exact within-series rational ratios (#raw("hydrogen_shell_dec_transitions.csv")).],
+) <fig:manual-hydrogen-shell-wavelet-atlas>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto),
+    align: (left, left, right, right, right, right),
+    table.header(
+      toprule,
+      [Series], [$n arrow.r m$], [$r_n slash r_1 = n^2$], [$Delta hat(P)_(n arrow.r m)$], [$R_(upright("series"))$], [$lambda_n slash lambda_(m + 1)$],
+      midrule,
+    ),
+    [Balmer], [$3 arrow.r 2$], [9], [$5 slash 36$], [$1$], [$1$],
+    [Balmer], [$4 arrow.r 2$], [16], [$3 slash 16$], [$27 slash 20$], [$20 slash 27$],
+    [Balmer], [$5 arrow.r 2$], [25], [$21 slash 100$], [$189 slash 125$], [$125 slash 189$],
+    [Balmer], [$6 arrow.r 2$], [36], [$2 slash 9$], [$8 slash 5$], [$5 slash 8$],
+    [Lyman], [$2 arrow.r 1$], [4], [$3 slash 4$], [$1$], [$1$],
+    [Lyman], [$3 arrow.r 1$], [9], [$8 slash 9$], [$32 slash 27$], [$27 slash 32$],
+    [Lyman], [$4 arrow.r 1$], [16], [$15 slash 16$], [$5 slash 4$], [$4 slash 5$],
+    [Paschen], [$4 arrow.r 3$], [16], [$7 slash 144$], [$1$], [$1$],
+    [Paschen], [$5 arrow.r 3$], [25], [$16 slash 225$], [$256 slash 175$], [$175 slash 256$],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Exact rational hydrogen shell-transition and wavelet series D.E.C. ledger (#raw("RC-039")).],
+) <tab:manual-hydrogen-dec-transitions>
+

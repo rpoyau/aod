@@ -240,3 +240,47 @@ The A$Omega$ input side carries medium fields, gate values, and declared predict
 
 
 A completed L3 lensing record carries declared medium fields, declared radiation-current gates, declared target-side quarantine, computed $T^0$, $C^(times)$, and $T^(times)$, declared $lambda_(upright("lens"))$, $delta_3$ residual table, null controls, audit, and lens residuals after A$Omega$ values freeze.
+
+
+
+== Five-boundary concentric lens-shell chiral ray D.E.C. walk <manual:lensing:dec-chiral-ray-walk>
+
+Declare the five-boundary lensing stack separating internal FRG cross-shell totals and chiral flips from quarantined SWELLS target acquisition:
+
+#math.equation(block: true, numbering: none, $ B_(upright("src")) arrow.r B_(upright("shell"), k) arrow.r B_(upright("FRG")) arrow.r B_(delta_3) arrow.r B_(upright("SWELLS")). $)
+
+Vector #raw("RC-042") (#raw("manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) executes the four-shell grazing ray walk ($k = 1 dots.h 4$): every shell satisfies the exact Fractal Field Ring Gate identity $T_k^(times) - T_k^0 = C_k^(times)$ ($7 - 4 = 3$, $11 - 6 = 5$, $3 - 5 = - 2$, $12 - 8 = 4$; $sum_k T_k^(times) = 33$), three active hinge encounters ($k = 1, 2, 4$) flip ray chirality $+ 1 arrow.r - 1 arrow.r + 1 arrow.r - 1$ while shell $k = 3$ preserves $+ 1$, comparator $O_k = (7, 10, 3, 11)$ yields $Delta_Z = (0, 1, 0, 1)$, and $L 3 slash K 4$ 3D+time-flow inputs remain held at $B_(upright("SWELLS"))$ until bound.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/lensing_ray_boundary_feynman.typ"
+  ],
+  caption: [Grazing ray walk across concentric lens shells $k = 1 dots.h 4$, active chiral-flip vertices $0_H$, exact FRG totals $T_k^0 , T_k^(times)$ versus comparator $O_k$, and pre-SWELLS target quarantine (#raw("lensing_ray_chiral_dec_walk.csv")).],
+) <fig:manual-lensing-ray-boundary-feynman>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto, auto, auto, auto),
+    align: (right, right, right, right, right, right, right, right, center),
+    table.header(
+      toprule,
+      [Shell $k$], [$T_k^0$], [$C_k^(times)$], [$T_k^(times)$], [Flip], [Post $chi$], [$O_k$], [$Delta_Z$], [$delta_3 (T_k^(times) , O_k )$],
+      midrule,
+    ),
+    [1], [4], [3], [7], [1], [$- 1$], [7], [0], [$(0, 0)$],
+    [2], [6], [5], [11], [1], [$+ 1$], [10], [1], [$(1, 1)$],
+    [3], [5], [$- 2$], [3], [0], [$+ 1$], [3], [0], [$(0, 0)$],
+    [4], [8], [4], [12], [1], [$- 1$], [11], [1], [$(1, 1)$],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Four-shell galactic lensing FRG cross-return and chiral-flip D.E.C. ledger (#raw("RC-042")).],
+) <tab:manual-lensing-dec-ray-walk>
+

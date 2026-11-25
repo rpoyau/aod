@@ -890,3 +890,164 @@
     aod-text(p.at(0) + ann.at(3), p.at(1) + ann.at(4), ann.at(5), size: 7.6pt, box-w: 1.8, box-h: 0.45)
   }
 }
+
+// =============================================================================
+// Boundary-Feynman, Typed Boundary Wall, Chiral Vertex, and True Q4 Tesseract
+// =============================================================================
+
+// Sinusoidal wavy propagator / sheddic emission arrow from (x1, y1) to (x2, y2) in cm.
+#let aod-wavy-arrow(
+  x1,
+  y1,
+  x2,
+  y2,
+  amp: 0.085,
+  waves: 4.5,
+  stroke: 0.95pt + aod-pal.orange,
+  head-len: 4.4,
+  head-half: 2.1,
+  steps-per-wave: 10,
+) = {
+  let dx = x2 - x1
+  let dy = y2 - y1
+  let dist = calc.sqrt(dx * dx + dy * dy)
+  if dist > 0.01 {
+    let ux = dx / dist
+    let uy = dy / dist
+    let nx = -uy
+    let ny = ux
+    let len-cm = head-len * 2.54 / 72.0
+    let body-dist = calc.max(0.05, dist - len-cm * 0.95)
+    let n-steps = calc.max(16, int(waves * steps-per-wave))
+    let segs = (curve.move((x1 * 1cm, y1 * 1cm)),)
+    for i in range(1, n-steps + 1) {
+      let s = i / n-steps
+      let env = if s < 0.08 { s / 0.08 } else if s > 0.90 { (1.0 - s) / 0.10 } else { 1.0 }
+      let phase = (360.0 * waves * s) * 1deg
+      let off = amp * env * calc.sin(phase)
+      let px = x1 + ux * (body-dist * s) + nx * off
+      let py = y1 + uy * (body-dist * s) + ny * off
+      segs.push(curve.line((px * 1cm, py * 1cm)))
+    }
+    segs.push(curve.line(((x2 - ux * len-cm * 0.85) * 1cm, (y2 - uy * len-cm * 0.85) * 1cm)))
+    place(top + left, curve(stroke: stroke, ..segs))
+    _arrowhead(x2, y2, ux, uy, _stroke-paint(stroke), head-len: head-len, head-half: head-half)
+  }
+}
+
+// Vertical or angled typed boundary / passive ReadOnly sensor wall with clean hatch ticks.
+#let aod-boundary-wall(
+  x1,
+  y1,
+  x2,
+  y2,
+  stroke: 1.1pt + aod-pal.navy,
+  hatch-side: 1,
+  hatch-count: 9,
+  hatch-len: 0.12,
+  double-line: false,
+) = {
+  let dx = x2 - x1
+  let dy = y2 - y1
+  let dist = calc.sqrt(dx * dx + dy * dy)
+  if dist > 0.01 {
+    let ux = dx / dist
+    let uy = dy / dist
+    let nx = -uy * hatch-side
+    let ny = ux * hatch-side
+    let paint = _stroke-paint(stroke)
+    aod-line(x1, y1, x2, y2, stroke: stroke)
+    if double-line {
+      aod-line(x1 + nx * 0.055, y1 + ny * 0.055, x2 + nx * 0.055, y2 + ny * 0.055, stroke: 0.65pt + paint)
+    }
+    for k in range(hatch-count) {
+      let t = (k + 0.5) / hatch-count
+      let bx = x1 + dx * t
+      let by = y1 + dy * t
+      let hx = bx + (nx * 0.82 - ux * 0.55) * hatch-len
+      let hy = by + (ny * 0.82 - uy * 0.55) * hatch-len
+      aod-line(bx, by, hx, hy, stroke: 0.55pt + paint)
+    }
+  }
+}
+
+// Chiral / hinge interaction vertex node with opaque black text.
+#let aod-chiral-vertex(
+  cx,
+  cy,
+  label,
+  r: 0.25,
+  fill: aod-pal.tint-amber,
+  stroke: 1.0pt + aod-pal.gold,
+  text-size: 7.2pt,
+) = {
+  aod-circle(cx, cy, r, fill: fill, stroke: stroke)
+  aod-text(cx, cy, label, size: text-size, weight: "bold", box-w: r * 2.6, box-h: r * 2.2)
+}
+
+// True 16-vertex, 32-edge Q4 hypercube (outer 3-cube + inner 3-cube + 8 4th-axis H1 links).
+#let aod-tesseract-q4(
+  cx,
+  cy,
+  scale: 1.0,
+  edge-stroke: 0.75pt + aod-pal.purple,
+  cross-stroke: 0.65pt + aod-pal.slate,
+  highlight-vertex: 0,
+  highlight-color: aod-pal.orange,
+) = {
+  // 8 vertices of a projected 3-cube around origin (u in 0..7):
+  // bit 0: x, bit 1: y, bit 2: z (oblique)
+  let cube-pts(s, ox, oy) = range(8).map(u => {
+    let bx = if calc.rem(u, 2) == 1 { 1.0 } else { -1.0 }
+    let by = if calc.rem(calc.quo(u, 2), 2) == 1 { -1.0 } else { 1.0 }
+    let bz = if calc.rem(calc.quo(u, 4), 2) == 1 { 1.0 } else { -1.0 }
+    (
+      cx + ox + (bx * 0.78 + bz * 0.30) * s,
+      cy + oy + (by * 0.68 - bz * 0.24) * s,
+    )
+  })
+  let outer = cube-pts(scale * 1.18, 0.0, 0.0)
+  let inner = cube-pts(scale * 0.54, 0.04 * scale, -0.02 * scale)
+  let all-v = inner + outer // v = 0..7 inner (w=0), v = 8..15 outer (w=1)
+
+  // 8 cross-cube 4th-axis edges (v <-> v + 8)
+  for u in range(8) {
+    let p1 = all-v.at(u)
+    let p2 = all-v.at(u + 8)
+    aod-line(p1.at(0), p1.at(1), p2.at(0), p2.at(1), stroke: cross-stroke)
+  }
+  // 12 edges on inner cube + 12 edges on outer cube = 24 + 8 = 32 edges
+  let cube-edges = (
+    (0, 1), (2, 3), (4, 5), (6, 7),
+    (0, 2), (1, 3), (4, 6), (5, 7),
+    (0, 4), (1, 5), (2, 6), (3, 7),
+  )
+  for base in (0, 8) {
+    for e in cube-edges {
+      let p1 = all-v.at(base + e.at(0))
+      let p2 = all-v.at(base + e.at(1))
+      aod-line(p1.at(0), p1.at(1), p2.at(0), p2.at(1), stroke: edge-stroke)
+    }
+  }
+  // Highlight the 4 incident Hamming-1 slots of highlight-vertex if requested
+  if highlight-vertex != none and highlight-vertex >= 0 and highlight-vertex < 16 {
+    let p0 = all-v.at(highlight-vertex)
+    let nbrs = (
+      highlight-vertex.bit-xor(1),
+      highlight-vertex.bit-xor(2),
+      highlight-vertex.bit-xor(4),
+      highlight-vertex.bit-xor(8),
+    )
+    for nb in nbrs {
+      let pn = all-v.at(nb)
+      aod-line(p0.at(0), p0.at(1), pn.at(0), pn.at(1), stroke: 1.35pt + highlight-color)
+    }
+  }
+  for idx in range(16) {
+    let p = all-v.at(idx)
+    let is-hi = highlight-vertex == idx
+    let r-v = if is-hi { 0.085 } else { 0.052 }
+    let fl = if is-hi { highlight-color } else { aod-pal.purple }
+    aod-circle(p.at(0), p.at(1), r-v, fill: fl, stroke: 0.4pt + white)
+  }
+}

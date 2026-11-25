@@ -123,3 +123,40 @@ chain coefficients, duplicate
 occupancy, dimension, native metric promotion, projection reconstruction,
 projected closure and refinement inputs. The companion tests also mutate face
 counts and metric weights and isolate evaluation constants from construction.
+
+\subsection{Five-boundary cell-enclosure and cellular fold D.E.C. ledger}\label{manual:m3-cells:dec-staircase-fold}
+
+Declare the cellular refinement and fold boundary stack
+
+\[
+B_{\mathrm{cell}}\to B_{\mathrm{stair}}\to B_{\mathrm{fold}}\to B_{\mathrm{audit}}\to B_{\mathrm{ext}}.
+\]
+
+Vector \texttt{RC-035} (\texttt{manual/data/boundary\_sadar/cell\_measures\_staircase\_fold\_dec.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) evaluates exact rational cell enclosures $A_n^-\le A_n^+$ across dyadic refinements $n\in\{1,2,4,8,16,32\}$ alongside the axial staircase perimeter $C_n=8$ and the two-square fold chain map $\partial\circ F_{\mathrm{fold}}=F_{\mathrm{fold}}\circ\partial$. At $n=32$, the area bracket narrows to $A_{32}^+-A_{32}^-=63/256$ while $C_{32}r-2A_{32}^+=191/128\ne0$ falsifies naive staircase perimeter convergence, and folding two oriented unit squares cancels the shared vertical seam and top edge ($+1-1=0$) while preserving multiplicity $2$ on the three surviving sides without importing continuum $\pi$ from $B_{\mathrm{ext}}$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/cell-staircase-fold-boundary.pdf}
+\caption{Unit-disk rational cell enclosure $A_n^-,A_n^+$ versus invariant axial boundary $C_n=8$ ($n=1\dots32$) and two-square cellular fold commutation $\partial\circ F_{\mathrm{fold}}=F_{\mathrm{fold}}\circ\partial$ (\texttt{cell\_measures\_staircase\_fold\_dec.csv}).}
+\label{fig:manual-cell-staircase-fold}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Dyadic rational unit-disk enclosure and axial staircase D.E.C. audit ledger (\texttt{RC-035}).}
+\label{tab:manual-cell-boundary-fold-ledger}
+{\footnotesize
+\begin{tabular}{rrrrrr}
+\toprule
+$n$ & $A_n^-$ & $A_n^+$ & $A_n^+-A_n^-$ & $C_n$ & $C_nr-2A_n^+$ \\
+\midrule
+1 & 0 & 4 & 4 & 8 & 0 \\
+2 & 1 & 4 & 3 & 8 & 0 \\
+4 & $2$ & $15/4$ & $7/4$ & 8 & $1/2$ \\
+8 & $41/16$ & $7/2$ & $15/16$ & 8 & 1 \\
+16 & $183/64$ & $107/32$ & $31/64$ & 8 & $21/16$ \\
+32 & $385/128$ & $833/256$ & $63/256$ & 8 & $191/128$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

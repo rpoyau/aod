@@ -741,10 +741,10 @@ def test_cli_debug_vs_release_byte_identical_report(rust_binaries: dict[str, Pat
     vv = parsed["vectors_verification"]
     _check(isinstance(vv, dict))
     _check(vv["status"] == "PASS")
-    _check(vv["rational_core_count"] == 24)
-    _check(vv["symbolic_and_display_count"] == 6)
-    _check(vv["total_vectors"] == 30)
-    _check(vv["passed_vectors"] == 30)
+    _check(vv["rational_core_count"] == 44)
+    _check(vv["symbolic_and_display_count"] == 8)
+    _check(vv["total_vectors"] == 52)
+    _check(vv["passed_vectors"] == 52)
     _check(vv["failed_vectors"] == 0)
     _check(vv["failures"] == [])
 
@@ -807,7 +807,7 @@ def test_differential_parity_all_27_positive_golden_vectors(rust_binaries: dict[
         _check(rust_out_rel == py_out, f"{rec['case_id']} ({op}) release mismatch vs Python")
         _check(rust_out_dbg == exp["exact_value"], f"{rec['case_id']} ({op}) mismatch vs expected_value")
 
-    _check(positive_count == 27, f"expected 27 positive golden vectors, ran {positive_count}")
+    _check(positive_count == 49, f"expected 49 positive golden vectors, ran {positive_count}")
 
 
 def test_differential_beyond_i128_synthetic_vectors(rust_binaries: dict[str, Path]):

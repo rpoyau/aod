@@ -104,3 +104,39 @@ Fixture audit records signed direction, scalar pressure, scope cancellation insi
 == Prediction-test placement
 
 Prediction tests and any collision-window comparison context belong in this manual scaffold. Application labels and external comparison records are carried by this manual scaffold. The main A$Omega$D note supplies the AF/AFC/A$Omega$D calculus and internal form names.
+
+
+
+== Five-boundary exact rational cycle-shedding D.E.C. ledger <manual:simfix:exact-rational-dec>
+
+Declare the four-tick cycle-disturbance shedding stack
+
+#math.equation(block: true, numbering: none, $ B_(upright("span")) arrow.r B_(upright("clip")) arrow.r B_(upright("shed")) arrow.r B_(upright("split")) arrow.r B_(upright("ext")). $)
+
+Whereas the immutable summary table above displays rounded six-decimal coordinates, vector #raw("RC-043") (#raw("manual/data/boundary_sadar/cycle_shedding_exact_rational_summary.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) evaluates every tick in exact rational arithmetic: $P_t = min (B_t , C_t )$, shedding surplus $X_t = max (0, B_t - C_t )$, outward fraction $O_t = (31 slash 50) X_t$, and local retention $R_t = (19 slash 50) X_t$, satisfying $O_t + R_t = X_t$ identically at every tick.
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto, auto, auto),
+    align: (right, right, right, right, right, right, right, right),
+    table.header(
+      toprule,
+      [Tick], [Span], [Before clip $B_t$], [$C_t$], [Clipped $P_t$], [Shed $X_t$], [Outward $O_t$], [Local $R_t$],
+      midrule,
+    ),
+    [0], [$1 slash 125$], [$11 slash 2500$], [$14 slash 25$], [$11 slash 2500$], [0], [0], [0],
+    [1], [$29 slash 50$], [$20163 slash 62500$], [$1 slash 4$], [$1 slash 4$], [$2269 slash 31250$], [$70339 slash 1562500$], [$43111 slash 1562500$],
+    [2], [$7 slash 10$], [$59 slash 100$], [$1 slash 4$], [$1 slash 4$], [$17 slash 50$], [$527 slash 2500$], [$323 slash 2500$],
+    [3], [$1 slash 20$], [$93 slash 400$], [$3 slash 10$], [$93 slash 400$], [0], [0], [0],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Exact rational four-tick cycle-disturbance clipping and $31 slash 50$ versus $19 slash 50$ shedding split D.E.C. ledger (#raw("RC-043")).],
+) <tab:manual-app-a-exact-shedding-dec>
+

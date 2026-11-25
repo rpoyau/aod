@@ -767,67 +767,27 @@ The even sequence separates the current-side double form, the inner enclosure, a
 
 \subsubsection{E2 duon}\label{subsec:e2-duon}
 
-In seat-compatibility routing, $E_2$ and $E_2^0$ invoke the canonical Duon
-support owned in \secref{subsec:duon} (\eqref{eq:duon-current}).
+In seat-compatibility routing, $E_2$ and $E_2^0$ invoke the canonical Duon support owned in \secref{subsec:duon} (\eqref{eq:duon-current}).
 
 \subsubsection{E2\texorpdfstring{$^{\pm}$}{±} duad}\label{subsec:e2-duad}
 
-In seat-compatibility routing, $E_2^{\pm}$ invokes the canonical same-current
-Duad seating state owned in \secref{subsec:duad} (\eqref{eq:duad-same-current}).
-
-\subsubsection{E4 tetron}\label{subsec:e4-tetron}
-
-\[
-E_4=\mathrm{tetron}.
-\]
-
-Tetron is the default inner enclosure with four seats.
+In seat-compatibility routing, $E_2^{\pm}$ invokes the canonical same-current Duad seating state owned in \secref{subsec:duad} (\eqref{eq:duad-same-current}).
 
 \subsubsection{Outer enclosures}\label{subsec:outer-enclosures}
+\label{subsec:e4-tetron}
+\label{subsec:hexon}
+\label{subsec:octon}
+\label{subsec:decon}
+\label{subsec:higher-even-enclosures}
+\label{subsec:filled-shared-enclosures}
 
-A support enclosure is an outer even enclosure available to shell/enclosure routing:
-
-\[
-\mathsf{C}_{2m}=\text{support enclosure of order }2m,\qquad m\ge3.
-\]
-
-\subsubsection{Hexon}\label{subsec:hexon}
-
-\[
-\mathsf{C}_6=\mathrm{hexon}.
-\]
-
-Hexon is the first outer enclosure because the hinge triad supplies left/right threefold closure: $\mathsf{H}_3+\mathsf{H}_3=6$.
-
-\subsubsection{Octon}\label{subsec:octon}
+Here $E_4=\mathrm{tetron}$ is the default four-seat inner enclosure, while outer support enclosures available to shell/enclosure routing form the even sheddic path sequence
 
 \[
-\mathsf{C}_8=\mathrm{octon}.
+\mathsf{C}_{2m}=\text{support enclosure of order }2m,\qquad m\ge3,
 \]
 
-\subsubsection{Decon}\label{subsec:decon}
-
-\[
-\mathsf{C}_{10}=\mathrm{decon}.
-\]
-
-\subsubsection{Higher even enclosures}\label{subsec:higher-even-enclosures}
-
-Higher even enclosures continue the outer sheddic path sequence:
-
-\[
-\mathsf{C}_{2n},\qquad n>5.
-\]
-
-Outer enclosures are retained forms of sheddic paths. Hexon is the first outer enclosure; octon and decon are higher sheddic path forms; $\mathsf{C}_{2n}$ records the higher even sequence.
-
-\subsubsection{Filled shared enclosure}\label{subsec:filled-shared-enclosures}
-
-A filled shared enclosure has
-
-\[
-m:m:0::2m,\qquad m\ge3.
-\]
+starting at $\mathsf{C}_6=\mathrm{hexon}$ (first outer enclosure via left/right threefold hinge closure $\mathsf{H}_3+\mathsf{H}_3=6$), continuing through $\mathsf{C}_8=\mathrm{octon}$, $\mathsf{C}_{10}=\mathrm{decon}$, and higher even $\mathsf{C}_{2n}$ ($n>5$), with filled shared enclosures written $m:m:0::2m$ ($m\ge3$).
 
 \subsubsection{Closure excess}\label{subsec:support-enclosure-sadar-closure}
 
@@ -1398,213 +1358,87 @@ record is a downstream representation choice whose analyzing family,
 normalization, and subgroup or aliasing hypotheses supply no proof of periodic
 dynamics or native wave admission.
 
-\subsubsection{Definition and normalization}
+\subsubsection{Transform, orthogonality, and inversion}
 
-\paragraph{Setup.}
+\paragraph{Setup and orthogonality.}
 
 \begin{equation}\label{eq:fourier-transform}
 \widehat{v}(\chi)=\frac{1}{N}\sum_{g\in G}v(g)\overline{\chi(g)},\qquad\langle v,w\rangle_G=\frac{1}{N}\sum_{g\in G}v(g)\overline{w(g)}.
 \end{equation}
 
-All corollaries in \secref{sec:finite-harmonics} share this group, committed trace and normalization;
-local extra hypotheses are stated at their use. These value identities,
-including inversion, neither admit motifs/waves nor supply a response law.
-
-\subsubsection{Orthogonality}
-
-\paragraph{Setup.}
-For a nontrivial character $\eta$, choose $a$ with $\eta(a)\ne1$.
-
-\paragraph{Derivation.}
-Translation of the finite sum gives $S=\sum_g\eta(g)=\eta(a)S$, hence
-$S=0$. For the trivial character the sum is $N$. Thus
+All corollaries in \secref{sec:finite-harmonics} share this finite abelian group $G$ ($|G|=N$), committed trace, and normalization; these value identities neither admit motifs/waves nor supply a response law. For a nontrivial character $\eta$ with $\eta(a)\ne1$, translation gives $S=\sum_g\eta(g)=\eta(a)S=0$ (and $N$ for the trivial character), while products of primitive cyclic-factor roots yield $|\hat{G}|=N$ orthogonal characters and dual completeness:
 
 \begin{equation}\label{eq:fourier-orthogonality}
 \frac{1}{N}\sum_{g\in G}\chi(g)\overline{\xi(g)}=\mathbf{1}_{\chi=\xi},\qquad\frac{1}{N}\sum_{\chi\in\hat{G}}\chi(g)\overline{\chi(h)}=\mathbf{1}_{g=h}.
 \end{equation}
 
-For a cyclic factor of order $L$, its $L$ characters are the powers of
-an exact primitive $L$-th root; products over a cyclic decomposition give
-exactly $|\hat{G}|=N$ characters. Orthogonality therefore gives a basis
-of the $N$-dimensional function space and the second identity by the same
-translation argument on the dual. This establishes completeness.
-
-\subsubsection{Inversion and uniqueness}
-
-\paragraph{Derivation.}
-Substitute \eqref{eq:fourier-transform} and apply the second identity:
+\paragraph{Inversion and uniqueness.}Substituting \eqref{eq:fourier-transform} and applying \eqref{eq:fourier-orthogonality} gives
 
 \begin{equation}\label{eq:fourier-inversion}
 \sum_{\chi}\widehat{v}(\chi)\chi(g)=\frac{1}{N}\sum_hv(h)\sum_{\chi}\chi(g)\overline{\chi(h)}=v(g).
 \end{equation}
 
-Taking the inner product with any character recovers its coefficient, so
-no second coefficient family represents a different trace with the same
-full transform. Distinct provenance can still accompany equal value traces.
+Inner products recover each coefficient uniquely on the full transform, though distinct provenance can accompany equal value traces; missing coefficients, altered normalization, or unbound traces fail representation or admission.
 
-\paragraph{Falsification.}A missing coefficient, altered normalization or
-unbound trace fails the corresponding representation or admission premise.
+\aodprovenance{\eqref{eq:fourier-transform}, \eqref{eq:fourier-orthogonality}, \eqref{eq:wave-identity}, \eqref{eq:motif-admission}.}
 
-\aodprovenance{\eqref{eq:fourier-transform},
-\eqref{eq:fourier-orthogonality},
-\eqref{eq:wave-identity},
-\eqref{eq:motif-admission}.}
+\subsubsection{Algebraic, convolution, correlation, and Parseval identities}
 
-\subsubsection{Linearity}
-
-\paragraph{Derivation.}
-Distribute the defining finite sum:
+\paragraph{Linearity, shift, and modulation.}Distributing the finite sum and substituting $h=g-a$ with $M_{\eta}v(g)=\eta(g)v(g)$ ($a\in G$, $\eta\in\hat{G}$) give
 
 \begin{equation}\label{eq:fourier-linearity}
 \widehat{av+bw}=a\widehat{v}+b\widehat{w}.
 \end{equation}
 
-\paragraph{Falsification.}Applying this value identity to infer a linear
-closure or update law changes its domain.
-
-\aodprovenance{\eqref{eq:fourier-transform}.}
-
-\subsubsection{Shift and modulation}
-
-\paragraph{Setup.}
-For $a\in G$ and $\eta\in\hat{G}$, set $M_{\eta}v(g)=\eta(g)v(g)$.
-
-\paragraph{Derivation.}
-Substitution $h=g-a$ and character multiplication give
-
 \begin{equation}\label{eq:fourier-shift-modulation}
 \widehat{T_av}(\chi)=\overline{\chi(a)}\widehat{v}(\chi),\qquad\widehat{M_{\eta}v}(\chi)=\widehat{v}(\chi\overline{\eta}).
 \end{equation}
 
-\paragraph{Specialization.}A shift preserves coefficient magnitudes while
-changing phase. Equal power therefore does not identify return phase or lineage.
+Linearity does not imply a linear closure or update law, and shifts preserve coefficient magnitudes while rotating phase (opposite translation conventions require opposite character factors), so equal power never identifies return phase or lineage.
 
-\paragraph{Falsification.}A shift with the opposite translation convention
-requires the opposite character factor; replacing both by one untyped shift fails.
-
-\aodprovenance{\eqref{eq:fourier-transform}.}
-
-\subsubsection{Convolution and product}
-
-\paragraph{Setup.}
-Use unnormalized convolution $(v*w)(g)=\sum_hv(h)w(g-h)$ and pointwise
-product $(vw)(g)=v(g)w(g)$ on the same finite group.
-
-\paragraph{Derivation.}Substituting $u=g-h$ factors the convolution sum;
-substituting both inversions and using orthogonality gives the product sum:
+\paragraph{Convolution, correlation, and Parseval.}For unnormalized $(v*w)(g)=\sum_hv(h)w(g-h)$, pointwise $(vw)(g)=v(g)w(g)$, and cross-correlation $R_{vw}(a)=\sum_gv(g+a)\overline{w(g)}$ on $G$, finite substitution and \eqref{eq:fourier-orthogonality} give
 
 \begin{equation}\label{eq:fourier-convolution-product}
 \widehat{v*w}(\chi)=N\widehat{v}(\chi)\widehat{w}(\chi),\qquad\widehat{vw}(\chi)=\sum_{\eta\in\hat{G}}\widehat{v}(\eta)\widehat{w}(\chi\overline{\eta}).
 \end{equation}
 
-\paragraph{Falsification.}Omitting $N$ violates the shared normalization.
-
-\aodprovenance{\eqref{eq:fourier-transform},
-\eqref{eq:fourier-inversion},
-\eqref{eq:fourier-orthogonality}.}
-
-\subsubsection{Correlation and power}
-
-\paragraph{Setup.}
-Set $R_{vw}(a)=\sum_gv(g+a)\overline{w(g)}$.
-
-\paragraph{Derivation.}Substitute the inversions;
-the sum over $g$ removes unequal characters:
-
 \begin{equation}\label{eq:fourier-correlation-power}
 R_{vw}(a)=N\sum_{\chi}\widehat{v}(\chi)\overline{\widehat{w}(\chi)}\chi(a),\quad\hat{R}_{vw}(\chi)=N\widehat{v}(\chi)\overline{\widehat{w}(\chi)}.
 \end{equation}
-
-For $v=w$, the power coefficients are $N|\widehat{v}(\chi)|^2$.
-
-\paragraph{Falsification.}Equal power is insufficient for equal complex
-coefficients, equal phase, or equal construction provenance.
-
-\aodprovenance{\eqref{eq:fourier-inversion},
-\eqref{eq:fourier-orthogonality}.}
-
-\subsubsection{Parseval}
-
-\paragraph{Derivation.}
-At zero shift the same calculation, or direct orthogonality, gives
 
 \begin{equation}\label{eq:fourier-parseval}
 \frac{1}{N}\sum_gv(g)\overline{w(g)}=\sum_{\chi}\widehat{v}(\chi)\overline{\widehat{w}(\chi)},\qquad\frac{1}{N}\sum_g|v(g)|^2=\sum_{\chi}|\widehat{v}(\chi)|^2.
 \end{equation}
 
-\paragraph{Falsification.}Changing normalization on one side breaks equality.
+For $v=w$, power coefficients $N|\widehat{v}(\chi)|^2$ do not determine complex phase or provenance; omitting $N$ or altering one side's normalization fails equality.
 
-\aodprovenance{\eqref{eq:fourier-orthogonality}.}
+\aodprovenance{\eqref{eq:fourier-transform}, \eqref{eq:fourier-inversion}, \eqref{eq:fourier-orthogonality}.}
 
-\subsubsection{Real traces and standing coordinates}
+\subsubsection{Real symmetry, recurrence subgroup, and product factorization}
 
-\paragraph{Derivation.}
-For real $v$, complex conjugation of the defining sum gives
+\paragraph{Real traces and standing coordinates.}For real-valued $v$, conjugation gives
 
 \begin{equation}\label{eq:fourier-real-symmetry}
 \widehat{v}(\overline{\chi})=\overline{\widehat{v}(\chi)}.
 \end{equation}
 
-For a non-self-conjugate pair define real coordinates
-
 \begin{equation}\label{eq:fourier-running-standing}
 c_{\chi}=(\chi+\overline{\chi})/2,\quad s_{\chi}=(\chi-\overline{\chi})/(2\mathrm{i}),\qquad a\chi+\overline{a}\,\overline{\chi}=2\operatorname{Re}(a)c_{\chi}-2\operatorname{Im}(a)s_{\chi}.
 \end{equation}
 
-Running character and standing pair coordinates represent the same admitted
-trace. Self-conjugate characters are already real and occur once.
+Running-character and standing-pair coordinates re-express the same admitted trace (self-conjugate characters occur once) and cannot classify an open word as a running wave.
 
-\paragraph{Falsification.}This coordinate change cannot classify an open
-word as a running wave.
-
-\aodprovenance{\eqref{eq:fourier-transform},
-\eqref{eq:fourier-inversion},
-\eqref{eq:fourier-real-symmetry}.}
-
-\subsubsection{Recurrence subgroup}
-
-\paragraph{Setup.}
-Let $H\le G$, and assume the bound value trace is invariant under every
-translation in $H$.
-
-\paragraph{Derivation.}Shift covariance gives
-$(1-\overline{\chi(h)})\widehat{v}(\chi)=0$. Therefore
+\paragraph{Recurrence subgroup and direct products.}For $H\le G$, shift covariance $(1-\overline{\chi(h)})\widehat{v}(\chi)=0$ characterizes $H$-translation invariance on the bound trace (not inferred from a finite window alone or jittered cadence), while on $G=G_1\times\cdots\times G_s$ ($N=\prod_j|G_j|$) a separable trace factors (coupled traces remain generally nonseparable):
 
 \begin{equation}\label{eq:fourier-recurrence-support}
 v(g+h)=v(g)(h\in H)\quad\Longleftrightarrow\quad\operatorname{supp}\widehat{v}\subseteq H^{\perp},\quad H^{\perp}=\{\chi:\chi(h)=1\forall h\in H\}.
 \end{equation}
 
-The converse follows by translating each term in the inversion.
-
-\paragraph{Specialization.}Exact periodic values on a declared cyclic
-index may satisfy this hypothesis. Jittered cadence need not do so.
-
-\paragraph{Falsification.}A finite observation window alone supplies no
-translation invariance or exact dynamical recurrence subgroup.
-
-\aodprovenance{\eqref{eq:fourier-shift-modulation},
-\eqref{eq:fourier-inversion}.}
-
-\subsubsection{Direct products}
-
-\paragraph{Setup.}
-For $G=G_1\times\cdots\times G_s$, characters factor as
-$\chi(g)=\prod_j\chi_j(g_j)$, and $N=\prod_j|G_j|$.
-
-\paragraph{Derivation.}
-If, additionally, the trace is separable, finite sums factor:
-
 \begin{equation}\label{eq:fourier-product-factorization}
 v(g)=\prod_jv_j(g_j)\quad\Longrightarrow\quad\widehat{v}(\chi_1,\dots,\chi_s)=\prod_j\widehat{v}_j(\chi_j).
 \end{equation}
 
-\paragraph{Specialization.}Declared independent recurrence orders may use
-a product group. A coupled trace generally has nonseparable coefficients.
-
-\paragraph{Falsification.}Product index alone does not imply separability.
-
-\aodprovenance{\eqref{eq:fourier-transform},
-\eqref{eq:fourier-orthogonality}.}
+\aodprovenance{\eqref{eq:fourier-transform}, \eqref{eq:fourier-shift-modulation}, \eqref{eq:fourier-inversion}, \eqref{eq:fourier-orthogonality}, \eqref{eq:fourier-real-symmetry}.}
 
 \subsubsection{Finite cancellation residuals}\label{subsec:afc-flux-stokes-audit}
 
@@ -1643,86 +1477,21 @@ domains.
 
 \subsection{Audit hooks}\label{sec:audit-hooks}
 
-Audit hooks preserve structural checks.
+Audit hooks preserve structural checks across the declared field, boundary, and ring-gate layers.
 
-\subsubsection{Spine audit}\label{subsec:spine-audit}
+\subsubsection{Spine, boundary, SADAR, and routing audits}\label{subsec:spine-audit}
+\label{subsec:boundary-audit}
+\label{subsec:sadar-audit}
+\label{subsec:support-enclosure-audit}
+\label{subsec:sheddic-path-audit}
+\label{subsec:symbol-audit}
 
-The audit passes when every retained occurrence at every finite depth has branch/hinge/branch incidence.
+The spine audit passes when every retained occurrence at every finite depth has branch/hinge/branch incidence. The boundary and SADAR audits verify the window sum \eqref{eq:window-current} on its declared slices \eqref{eq:slice-flux}, the \eqref{eq:adar-channel} operands, and repeated balance of the declared \eqref{eq:sadar-field} family on its retained topology, keeping field-count scaling and seat-compatible shell/enclosure routing distinct on the same boundary/window. If $X_{\mathrm{shedding}}(\partial F,\omega)>0$ and no sheddic path is declared through $E_2$, $\mathsf{C}_6$, $\mathsf{C}_8$, $\mathsf{C}_{10}$, or a higher even $\mathsf{C}_{2n}$ form, or if the retained form violates $TTL_{\mathcal{C}}$, the shedding statement fails on that scope. SYM-A1--A4 check, in order, support \eqref{eq:branch-hinge-rd}, constructor \eqref{eq:rcd-coupling}, scalar interface \eqref{eq:rcd-duration-participation}, and compatible clipping \eqref{eq:window-clipped-rho}.
 
-\subsubsection{Boundary audit}\label{subsec:boundary-audit}
+\subsubsection{Cycle, fusion, ring-gate, naming, and wave audits}\label{subsec:cycle-polyrhythm-audit}
+\label{subsec:fusion-closure-audit}
+\label{subsec:fractal-field-ring-gate-audit}
+\label{subsec:naming-audit}
+\label{subsec:wave-audit}
 
-Check the window sum \eqref{eq:window-current} on its declared slices
-\eqref{eq:slice-flux}.
-
-\subsubsection{SADAR audit}\label{subsec:sadar-audit}
-
-Check the \eqref{eq:adar-channel} operands and repeated balance of the declared
-\eqref{eq:sadar-field} family on its retained topology.
-
-\subsubsection{Seat/enclosure routing audit}\label{subsec:support-enclosure-audit}
-
-The audit passes when field-count scaling and seat-compatible shell/enclosure routing remain distinct calculations on the same declared boundary/window.
-
-\subsubsection{Sheddic path audit}\label{subsec:sheddic-path-audit}
-
-On a declared field and window, if $X_{\mathrm{shedding}}(\partial F,\omega)>0$ and no sheddic path is declared through $E_2$, $\mathsf{C}_6$, $\mathsf{C}_8$, $\mathsf{C}_{10}$, or a higher even $\mathsf{C}_{2n}$ form, the shedding statement fails on that scope. A sheddic path fails on the declared scope if its retained form violates the stated $TTL_{\mathcal{C}}$ condition.
-
-\subsubsection{Symbol audit}\label{subsec:symbol-audit}
-
-SYM-A1--A4 check, in order, support \eqref{eq:branch-hinge-rd}, constructor
-\eqref{eq:rcd-coupling}, scalar interface \eqref{eq:rcd-duration-participation},
-and compatible clipping \eqref{eq:window-clipped-rho}.
-
-\subsubsection{Cycle and polyrhythm audit}\label{subsec:cycle-polyrhythm-audit}
-
-The cycle audit is certified when a retained field cycle is declared before any scalar duration accessor:
-
-\[
-\mathcal{C}_f[p:q]\quad\text{before}\quad RD(\mathcal{C}_f[p:q]).
-\]
-
-The polyrhythm audit binds each coupled cycle, its boundary/window,
-its reflection-duration accessor, and the pressure and attention operands
-of \eqref{eq:sadar-operator-beat-coupling} before forming the SADAR coupling term.
-
-\subsubsection{Fusion closure audit}\label{subsec:fusion-closure-audit}
-
-The fusion closure audit passes when admitted curling-curl support forms, hinge $\mu$, closure scope $B$, branch/hinge/branch returned duration, and closure residual are declared before $X_{\mathrm{shedding}}$ or any lifted support is formed. Chain reclosure is audited as iterated higher-scope fusion over admitted lifted supports. FRG-mediated reclosure is audited by the declared relation family and the computed identity $T^{\times}=T^0+C^{\times}$.
-
-\subsubsection{Fractal field ring-gate audit}\label{subsec:fractal-field-ring-gate-audit}
-
-RG-A1. $\mathfrak{a}\subset\mathcal{A}^{\mathrm{ret}}_8$ is declared.
-
-RG-A2. $B=(\partial_TF,\omega)$ is declared.
-
-RG-A3. $(V_N,E_N)$ is declared.
-
-RG-A4. $\partial_TR_{\mathrm{ring}}$ is declared.
-
-RG-A5. $I\subseteq V_N$ and $G=\{g_i:i\in I\}$ are declared.
-
-RG-A6. $\kappa_k$ is declared for every $k\in K_{\mathrm{bin}}$.
-
-RG-A7. $E_{\mathrm{return}}\subseteq I\times I$ is declared.
-
-RG-A8. Each path contribution uses $\SADARop_{B|t}(C_{\gamma})$ or declared $\varphi_{\gamma}(B|t)$.
-
-RG-A9. $\lambda_{\mathcal{Y}}:(T_k^{\times})_k\mapsto\mathcal{Y}$ is declared as a value map.
-
-RG-A10. The retained value difference obeys \eqref{eq:frg-identity}.
-
-\subsubsection{Naming audit}\label{subsec:naming-audit}
-
-A label identifies a declared distinction, relation, motif or dynamic;
-its defining construction fixes its properties and scope. Measured-sector
-carrier names belong to applications.
-
-\subsubsection{Wave audit}\label{subsec:wave-audit}
-
-For an already admitted recurrent wave, its value/state projection may be recorded as:
-
-\[
-Z_f=(\mathfrak{c}_f,I^c_f,B^e_f)\to Z_{f+1}=(\mathfrak{c}_{f+1},I^c_{f+1},B^e_{f+1}).
-\]
-
-Cycle compatibility carries wave continuity. Changed cycle compatibility routes excess burden into shedding, reclosure, pending return, or entropic duon current.
+A retained field cycle must be declared before its scalar duration accessor ($\mathcal{C}_f[p:q]$ before $RD(\mathcal{C}_f[p:q])$), and each polyrhythm or fusion closure check binds the coupled cycles, hinge $\mu$, scope $B$, pressure/attention operands of \eqref{eq:sadar-operator-beat-coupling}, and closure residual before forming $X_{\mathrm{shedding}}$ or iterated higher-scope fusion. FRG-mediated reclosure checks RG-A1--RG-A10 in order: declared $\mathfrak{a}\subset\mathcal{A}^{\mathrm{ret}}_8$, $B=(\partial_TF,\omega)$, $(V_N,E_N)$, $\partial_TR_{\mathrm{ring}}$, gate index $I\subseteq V_N$ with $G=\{g_i:i\in I\}$, bin factors $\kappa_k$ ($k\in K_{\mathrm{bin}}$), return relation $E_{\mathrm{return}}\subseteq I\times I$, path operands $\SADARop_{B|t}(C_{\gamma})$ or $\varphi_{\gamma}(B|t)$, value map $\lambda_{\mathcal{Y}}:(T_k^{\times})_k\mapsto\mathcal{Y}$, and the retained identity $T^{\times}=T^0+C^{\times}$ (\eqref{eq:frg-identity}). Labels identify declared distinctions, relations, motifs, or dynamics, while measured-sector carrier names belong to applications. For an already admitted recurrent wave, state projection $Z_f=(\mathfrak{c}_f,I^c_f,B^e_f)\to Z_{f+1}=(\mathfrak{c}_{f+1},I^c_{f+1},B^e_{f+1})$ carries wave continuity under cycle compatibility and routes excess burden into shedding, reclosure, pending return, or entropic duon current when compatibility changes.

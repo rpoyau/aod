@@ -205,7 +205,7 @@ generator binding gates, coupling, window and observation/exposure rules
 before these bins are a generated prediction. Signed contributions are not
 probabilities. A probability comparison must distinguish expected counts,
 unconditional detection including loss, and detected-bin conditional
-normalization; normalization must not erase throughput.
+normalization; normalization must not erase throughput. As an explicit internal reference witness, #raw("manual/data/boundary_sadar/dimonhexon_double_slit_ring_paths.csv") (vector #raw("RC-030")) tabulates the symmetric $6$-seat hexon ring $(V_6 , E_6 )$ single-gate profiles $S^(lr((a)))_k , S^(lr((b)))_k$ and cross-return redistribution $C^(times)_k$ across $k in brace.l - 5, dots.h , + 5 brace.r$ verifying $sum_k T^0_k = 410$, $sum_k C^(times)_k = 38$, and $sum_k T^(times)_k = 448$ in integer arithmetic.
 
 
 #aod-provenance[#mainsection("main:subsec:fractal-field-ring-gate")\;
@@ -381,3 +381,51 @@ deficit remains an open check or requires a declared closure completion.
 
 
 #aod-remark[This section is A$Omega$-internal. It prepares the mechanics used by rest-energy records and boundary-current records without adding an external comparison target.]
+
+
+
+== Five-boundary short-window clipping and shedding D.E.C. ledger <manual:short-window:dec-clipping-ledger>
+
+Declare the short-window clipping and enclosure boundary stack
+
+#math.equation(block: true, numbering: none, $ B_(upright("core")) arrow.r B_(omega) arrow.r B_(upright("close")) arrow.r B_(upright("shed")) arrow.r B_(upright("ext")). $)
+
+Vector #raw("RC-038") (#raw("manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv"), verified alongside #raw("RC-029") by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) evaluates exact single-channel window clipping $rho^D_(omega) = min (R D, bar.v omega bar.v )$, active pressure $p^D = 3 rho^D_(omega)$, pending overhang $Q^D = 3 max (0, R D - bar.v omega bar.v )$, and odd-window shedding $X_(upright("shedding")) = max (0, p^D - C_(upright("close")) )$ across $1":"2$ ($R D = 9$), $3":"3$ ($R D = 61$), and $3":"4$ ($R D = 137$). Every row satisfies the exact conservation identity $p^D + Q^D = 3 R D$ ($27$, $183$, and $411$), while positive shedding $X_(upright("shedding")) = 3$ activates uniquely on the full odd Dimonon window $(1":"2, bar.v omega bar.v = 9)$ exceeding $sans("C")_8 = 24$.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/short_window_boundary_feynman.typ"
+  ],
+  caption: [Short-window boundary gate $B_(omega)$ clipping $3 R D$ into active pressure $p^D = 3 rho^D_(omega)$ and retained overhang $Q^D$ with exact conservation $p^D + Q^D = 3 R D$ (#raw("short_window_rcd_dec_ledger.csv")).],
+) <fig:manual-short-window-boundary-feynman>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto, auto, auto, auto),
+    align: (left, right, right, right, right, right, right, right, right),
+    table.header(
+      toprule,
+      [Support], [$R D$], [$bar.v omega bar.v$], [$rho^D_(omega)$], [$p^D$], [$Q^D$], [$C_(upright("close"))$], [$X_(upright("shedding"))$], [$p^D + Q^D$],
+      midrule,
+    ),
+    [$1":"2$], [9], [2], [2], [6], [21], [18], [0], [27],
+    [$1":"2$], [9], [4], [4], [12], [15], [18], [0], [27],
+    [$1":"2$], [9], [6], [6], [18], [9], [18], [0], [27],
+    [$1":"2$], [9], [9], [9], [27], [0], [24], [3], [27],
+    [$3":"3$], [61], [4], [4], [12], [171], [18], [0], [183],
+    [$3":"3$], [61], [6], [6], [18], [165], [18], [0], [183],
+    [$3":"4$], [137], [4], [4], [12], [399], [18], [0], [411],
+    [$3":"4$], [137], [6], [6], [18], [393], [18], [0], [411],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Short-window RCD clipping, overhang conservation, and odd-window shedding D.E.C. ledger (#raw("RC-038")).],
+) <tab:manual-short-window-dec-ledger>
+

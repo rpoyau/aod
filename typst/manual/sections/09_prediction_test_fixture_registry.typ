@@ -68,6 +68,7 @@ by a source-only replay.
     [K4 galactic lensing gate], [L3], [higher-resolution input manifest], [independent medium data and target quarantine], [K4 input-gate table],
     [L3 lensing input package], [L3], [L3 input manifest], [independent 3D medium fields, time-flow inputs, radiation-current gates, target-side quarantine, null controls], [lens residuals after A$Omega$ values freeze],
     [Tritrioseptyro Higgs-support fixture], [D0/O0], [AFC trace rows + route detector], [candidate: $3":"3":"7_(upright("yro"))$; frozen map: $R D thin 2^(L + 4)$; mapped mass: $124.928$ GeV; comparison layer: declared Higgs mass targets], [next layer: production-channel and decay-channel residual tables],
+    [Boundary-full SADAR dynamics suite], [D0/O0], [5-boundary cavity, $Q_4$ walks, 10-carrier debris, pooled SPARC], [zero-float Python/Rust #raw("boundary_sadar") evaluators (#raw("RC-025..032"), #raw("SD-007..008"))], [8 frozen CSVs under #raw("manual/data/boundary_sadar")],
     bottomrule,
   )
 },
@@ -183,3 +184,49 @@ For each galaxy, the completed record carries
 
 
 #aod-noteblock("Registry note")[Decimal precision records accompany manual artifacts that use decimal target/value-map values.]
+
+
+
+== Reference-engine golden-vector and D.E.C. CSV master registry <manual:registry:engine-dec-master>
+
+All worked examples, rest-energy closures, collision-shedding debris chains, and boundary-audit tables across this manual bind to the fifty-two locked golden vectors (#raw("RC-001") through #raw("RC-044") and #raw("SD-001") through #raw("SD-008")) verified identically in Python (#raw("python3 -B -m manual.engine") #raw("--verify-all") #raw("--check-zero-float") #raw("--verify-vectors")) and in the #raw("std")-only Rust exact core (#raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")).
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/registry_engine_coverage_atlas.typ"
+  ],
+  caption: [Dual S2 Python and S4 Rust zero-float reference-engine parity and fifty-two-vector registry coverage across all eighteen Manual units.],
+) <fig:manual-registry-engine-coverage>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto),
+    align: (left, center, left, left),
+    table.header(
+      toprule,
+      [Vector IDs], [Class], [Evaluator operation], [Bound frozen CSV under #raw("manual/data/boundary_sadar/")],
+      midrule,
+    ),
+    [#raw("RC-025"), #raw("SD-007")], [$D 0 slash sans("Q")_(upright("ext"))$], [Tau $5$-boundary SADAR & debris atlas], [#raw("tau_five_boundary_sadar_trace.csv")],
+    [#raw("RC-026"), #raw("RC-027")], [$D 0$], [Higgs $3":"3":"7_(upright("yro"))$ saddle & $3":"2$ Ditrion debris], [#raw("higgs_baryon_overlap_saddle_scan.csv")],
+    [#raw("RC-028"), #raw("RC-029")], [$D 0$], [$Q_4$ chiral-flip walk & Disoma/double-slit FRG], [#raw("dec_chiral_flip_continuous_walk.csv")],
+    [#raw("RC-030"), #raw("RC-031")], [$D 0$], [Moving boundary & $1":"2":"6$ wire-electron walk], [#raw("scoped_wire_and_moving_boundary_walk.csv")],
+    [#raw("RC-032"), #raw("RC-041")], [$G 0 slash D 0$], [SPARC $209$-bin exact & $Q_4$ run-tumble stepper], [#raw("sparc_pooled_primary_exact.csv")],
+    [#raw("RC-033"), #raw("RC-034")], [$D 0$], [$Q_4$ closure/beat/fold & matched operativity], [#raw("native_closure_wave_dec_walk.csv")],
+    [#raw("RC-035"), #raw("RC-036")], [$D 0$], [Cell staircase/fold & typed-map joint laws], [#raw("cell_measures_staircase_fold_dec.csv")],
+    [#raw("RC-037"), #raw("RC-038")], [$D 0$], [Temporal SI bridge & short-window RCD clip], [#raw("temporal_si_bridge_dec_ledger.csv")],
+    [#raw("RC-039"), #raw("RC-040")], [$D 0 slash O 0$], [Hydrogen shell ratios & solar O0 gate], [#raw("hydrogen_shell_dec_transitions.csv")],
+    [#raw("RC-042")--#raw("RC-044")], [$L 0 slash G 3$], [Lensing chiral ray, App. A rational & App. C 3D], [#raw("lensing_ray_chiral_dec_walk.csv")],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Master cross-language golden-vector and frozen D.E.C. CSV registry (#raw("RC-025")--#raw("RC-044"), #raw("SD-007")).],
+) <tab:manual-engine-dec-master-registry>
+

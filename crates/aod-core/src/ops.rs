@@ -1,4 +1,4 @@
-//! All 24 positive golden-vector operations, 3 typed REJECT boundary controls,
+//! All 34 positive golden-vector operations, 3 typed REJECT boundary controls,
 //! and the reusable exact 90-tick `cycle_shedding_trace` evaluator.
 //!
 //! Every operation computes results mathematically from first principles using
@@ -9,11 +9,26 @@ use std::collections::{BTreeMap, BTreeSet};
 use crate::bigint::BigInt;
 use crate::bigrat::BigRat;
 use crate::json::{parse_json, JsonValue};
+use crate::manual_dec_ops::{
+    op_dec_awareness_matched_operativity, op_dec_cell_measures_staircase_fold,
+    op_dec_coordinate_phase_3d_walk, op_dec_cycle_shedding_exact_summary,
+    op_dec_hydrogen_shell_wavelet_step, op_dec_lensing_ray_chiral_delta3,
+    op_dec_native_closure_wave_fold, op_dec_run_tumble_q4_stepper,
+    op_dec_short_window_rcd_clipping, op_dec_solar_o0_boundary_audit,
+    op_dec_temporal_si_bridge_bounds, op_dec_typed_maps_exact_laws,
+};
 use crate::numeric::{
     format_fixed, parse_canonical_rational_pair, parse_exact_int_str, parse_printed_rational,
     round_half_even,
 };
 use crate::rings::{Cyclotomic12, GaussianRat};
+use crate::sadar_sim::{
+    op_dec_chiral_flip_walk, op_dec_two_carrier_chiral_stokes,
+    op_frg_dimonhexon_double_slit_ring, op_hydrogen_shell_series_exact,
+    op_sadar_hadron_debris_and_higgs_saddle, op_sadar_pp_tau_five_boundary,
+    op_sadar_rest_energy_atlas, op_sadar_rest_energy_qext,
+    op_scoped_wire_and_moving_boundary, op_sparc_pooled_primary_exact,
+};
 use crate::CoreError;
 
 const MAX_EXPONENT_GUARD: u32 = 10_000;
@@ -293,6 +308,28 @@ pub fn eval_operation(
         "cyclotomic_z12_overtone" => op_cyclotomic_z12_overtone(inputs),
         "higgs_lhc_rounded_display" => op_higgs_lhc_rounded_display(inputs),
         "printed_token_half_ulp_enclosure" => op_printed_token_half_ulp_enclosure(inputs),
+        "dec_chiral_flip_walk" => op_dec_chiral_flip_walk(inputs),
+        "dec_two_carrier_chiral_stokes" => op_dec_two_carrier_chiral_stokes(inputs),
+        "sadar_pp_tau_five_boundary" => op_sadar_pp_tau_five_boundary(inputs),
+        "sadar_hadron_debris_and_higgs_saddle" => op_sadar_hadron_debris_and_higgs_saddle(inputs),
+        "sadar_rest_energy_atlas" => op_sadar_rest_energy_atlas(inputs),
+        "frg_dimonhexon_double_slit_ring" => op_frg_dimonhexon_double_slit_ring(inputs),
+        "hydrogen_shell_series_exact" => op_hydrogen_shell_series_exact(inputs),
+        "scoped_wire_and_moving_boundary" => op_scoped_wire_and_moving_boundary(inputs),
+        "sadar_rest_energy_qext" => op_sadar_rest_energy_qext(inputs),
+        "sparc_pooled_primary_exact" => op_sparc_pooled_primary_exact(inputs),
+        "dec_native_closure_wave_fold" => op_dec_native_closure_wave_fold(inputs),
+        "dec_awareness_matched_operativity" => op_dec_awareness_matched_operativity(inputs),
+        "dec_cell_measures_staircase_fold" => op_dec_cell_measures_staircase_fold(inputs),
+        "dec_typed_maps_exact_laws" => op_dec_typed_maps_exact_laws(inputs),
+        "dec_temporal_si_bridge_bounds" => op_dec_temporal_si_bridge_bounds(inputs),
+        "dec_short_window_rcd_clipping" => op_dec_short_window_rcd_clipping(inputs),
+        "dec_hydrogen_shell_wavelet_step" => op_dec_hydrogen_shell_wavelet_step(inputs),
+        "dec_solar_o0_boundary_audit" => op_dec_solar_o0_boundary_audit(inputs),
+        "dec_run_tumble_q4_stepper" => op_dec_run_tumble_q4_stepper(inputs),
+        "dec_lensing_ray_chiral_delta3" => op_dec_lensing_ray_chiral_delta3(inputs),
+        "dec_cycle_shedding_exact_summary" => op_dec_cycle_shedding_exact_summary(inputs),
+        "dec_coordinate_phase_3d_walk" => op_dec_coordinate_phase_3d_walk(inputs),
         _ => Err(CoreError::ValueError(format!(
             "unsupported vector operation: {:?}",
             operation

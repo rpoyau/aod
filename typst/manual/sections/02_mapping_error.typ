@@ -193,3 +193,48 @@ upstream execution digests, parameter origins, dimensions, domain bounds,
 projection claims, covariance, missing error components and purported physical
 completion. Each mutation executes the affected validator. The same guards
 remain active with Python optimization enabled.
+
+
+
+== Five-boundary provenance DAG and exact joint-law variance ledger <manual:m3-maps:dec-joint-laws>
+
+Declare the typed-map boundary stack separating source ancestry, map composition, joint-law pushforward, evaluation-role scope, and quarantined external reporting:
+
+#math.equation(block: true, numbering: none, $ B_(upright("src")) arrow.r B_(upright("map")) arrow.r B_(upright("joint")) arrow.r B_(upright("role")) arrow.r B_(upright("ext")). $)
+
+Vector #raw("RC-036") (#raw("manual/data/boundary_sadar/typed_map_joint_law_ledger.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) evaluates exact rational means, exact pushforward variances, and naive first-order linearized variances across all five nonlinear/shared-disturbance fixtures while deduplicating diamond provenance ($x = 3 arrow.r 6 arrow.r 12$ retains one unique source rather than two independent copies) and enforcing disjoint calibration, validation, and held-out boundary scopes.
+
+
+#figure(
+  kind: image, [
+#include "../../lib/figures/manual/typed_map_variance_feynman.typ"
+  ],
+  caption: [Typed boundary-provenance DAG, evaluation-role firewall, and exact versus linearized variance ratios across all five joint-law fixtures (#raw("typed_map_joint_law_ledger.csv")).],
+) <fig:manual-typed-map-variance-feynman>
+
+
+#figure(
+  kind: table, [
+#{
+  set text(size: 8.5pt)
+  set par(justify: false)
+  table(
+    columns: (auto, auto, auto, auto, auto, auto),
+    align: (left, left, right, right, right, right),
+    table.header(
+      toprule,
+      [Law ID], [Map formula], [Exact mean], [Exact variance], [Linear var], [Exact / linear],
+      midrule,
+    ),
+    [#raw("T_interval_100")], [$1 slash lr([(1 + d)(1 - d)])$], [$19999 slash 19998$], [$1 slash 399920004$], [$0 slash 1$], [div-by-zero ($op("Lin") = 0$)],
+    [#raw("F_near_cancel_100")], [$(1 + d)(1 - 999 d slash 1000)$], [$19999001 slash 20000000$], [$1018001 slash (4 dot.op 10^(14))$], [$1 slash (2 dot.op 10^(10))$], [$1018001 slash 20000$],
+    [#raw("Rf_symmetric_2")], [$(1 + d)(1 - d)$], [$7 slash 8$], [$1 slash 64$], [$0 slash 1$], [div-by-zero ($op("Lin") = 0$)],
+    [#raw("U_orig_recip_1000")], [$1 slash (1 + y) + y$], [$1000000 slash 999999$], [$1 slash 999998000001000000$], [$0 slash 1$], [div-by-zero ($op("Lin") = 0$)],
+    [#raw("V_orig_prod_1000")], [$(1 + x)(1 - b x)$], [$1999999000001 slash (2 dot.op 10^(12))$], [$1000000000001 slash (4 dot.op 10^(24))$], [$1 slash (2 dot.op 10^(18))$], [$1000000000001 slash 2000000$],
+    bottomrule,
+  )
+}
+  ],
+  caption: [Exact rational pushforward moments versus naive first-order linearization across typed-map joint laws (#raw("RC-036")).],
+) <tab:manual-typed-map-joint-laws>
+

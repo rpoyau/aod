@@ -1,0 +1,4 @@
+record_id,boundary_scope,ao_exact,target_exact,residual_exact,abs_pct_error_exact,abs_pct_error_7dp,native_producer_gate
+mercury_perihelion,B_Hg(orbital_return_shell),429799/10000,2149/50,-1/10000,1/4298,0.0002327,HOLD_MISSING_NATIVE_SOLAR_PRODUCER
+solar_light_bending,B_bend(grazing_ray_chord),175001/100000,7/4,1/100000,1/1750,0.0005714,HOLD_MISSING_NATIVE_SOLAR_PRODUCER
+solar_redshift,B_red(radial_climb_window),52999/25000000000,53/25000000,-1/25000000000,1/530,0.0018868,HOLD_MISSING_NATIVE_SOLAR_PRODUCER

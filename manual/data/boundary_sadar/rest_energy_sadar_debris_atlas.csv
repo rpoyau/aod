@@ -1,0 +1,11 @@
+carrier,support,shell_state,chi_shell,Pi,RD,PD_sup,QD_sup,X_shedding_chan,closures_in_8160_span,sadar_origin,Qext_target_MeV,Qext_sigma_MeV,Qext_rate_1e21_s_inv_or_map
+e_minus,1:2:6,E2_pm_hexon,-1,4,9,18,9,0,1020,inner_even_closed,0.51099895069,0.00000000016,0.000902
+mu_minus,1:2:8,E2_pm_octon,-1,4,9,24,3,0,1020,inner_even_closed,105.6583755,0.0000023,0.186433
+tau_minus,1:2:9,yro_shedding,-1,4,9,27,0,3,1020,odd_window_yro_shedding,1776.86,0.12,3.135255
+B_pm,3:2:6,E2_pm_seated_duad,1,10,21,30,75,0,408,core_starvation_ditrion_debris,5279.41,0.07,9.315477
+B_0,3:2:6,E2_0_open_duon,0,10,21,30,75,0,408,core_starvation_ditrion_debris,5279.72,0.08,9.316024
+B_s0,3:2:8,E2_0_lifted_octon,0,10,21,40,65,0,408,lifted_ditrion_debris,5366.93,0.10,9.469905
+B_c_pm,3:2:10,E2_pm_lifted_decon,1,10,21,50,55,0,408,lifted_ditrion_debris,6274.47,0.32,11.071252
+proton,3:3:6,E2_pm_hexon,1,30,61,36,330,0,136,inner_even_closed,938.27208943,0.00000029,1.655574
+neutron,3:4:6,E2_0_hexon,0,68,137,42,917,0,60,inner_even_closed,939.56542194,0.00000048,1.657856
+higgs,3:3:7,yro_c6_c8_saddle,0,30,61,42,324,3,136,symmetric_c6_c8_saddle,125090,240,124928_MeV_RD_2^(L+4)

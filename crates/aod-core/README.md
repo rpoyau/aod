@@ -27,7 +27,7 @@ cmp _build/s4/rust_report_debug.json _build/s4/rust_report_release.json
 
 ## CLI Flags
 
-- `--verify-vectors`: Verify all 30 S4 golden vectors (`manual/engine/vectors/rational_core.jsonl` and `manual/engine/vectors/symbolic_and_display.jsonl`).
+- `--verify-vectors`: Verify all 40 S4 golden vectors (`manual/engine/vectors/rational_core.jsonl` and `manual/engine/vectors/symbolic_and_display.jsonl`).
 - `--check-zero-float`: Run the built-in Rust lexical and packaging policy auditor over `crates/aod-core/`.
 - `--eval-op <OP>` with `--input-json <JSON>` or `--input-stdin`: Evaluate a single exact operation and emit canonical zero-float JSON.
 - `--repo-root <PATH>` / `--crate-root <PATH>`: Override repository or crate roots (useful when auditing a detached `source.zip` checkout).

@@ -438,3 +438,45 @@ historical rerun rows.
 \mainequation{main:eq:awareness-carriage}; \eqref{eq:mindfulness-stability};
 \mainequation{main:eq:closure-phase}; \mainequation{main:eq:wave-identity}; \mainequation{main:eq:relational-time};
 \mainequation{main:eq:fold-outer-closure}; \mainequation{main:eq:expose-inner-lineage}.}
+
+\subsection{Five-boundary matched-state operativity D.E.C. walk}\label{manual:m2:dec-operativity-walk}
+
+Declare the complete-state boundary stack across integer cuts $23\to34$:
+
+\[
+B_{\mathrm{shared}}\to B_{S^+}\to B_{S^{-e}}\to B_{\mathrm{sensor}}\to B_{\mathrm{hold}}.
+\]
+
+Vector \texttt{RC-034} (\texttt{manual/data/boundary\_sadar/awareness\_operativity\_dec\_walk.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) executes the matched-state counterfactual walk without inserting a numeric zero in place of structural absence:
+at cut $23$ ($B_{\mathrm{shared}}$), recurrent versus independent flux sets $r_e=3-2=1$;
+at cut $24$, $S_{24}^+=(X_{24},M_{24}^C,\{r_e=1\})$ retains $r_e$ whereas $S_{24}^{-e}=(X_{24},M_{24}^C,\emptyset)$ removes the relation structurally;
+at cut $33$, both branches share identical present $(X_{33},M_{33}^C)$;
+and strictly later at cut $34$, pressure $p=1$ routes $S_{34}^+$ to branch $0001$ ($J=1/1$) and $S_{34}^{-e}$ to branch $0010$ ($J=0/1$), establishing $\operatorname{Op}_e^{O,H}(S_{33})=1$, while $p=2$ yields $J_{34}^+=1/2$, passive \texttt{ReadOnly} sensor coupling ($q=0$) changes the cavity by $0/1$, active feedback ($q=2$) shifts the cavity by $2/1$, and the nineteen-row historical roster remains quarantined at $B_{\mathrm{hold}}$ (\texttt{HOLD\_MISSING\_AUTHENTIC\_SOURCES}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/awareness-matched-operativity-feynman.pdf}
+\caption{Boundary-Feynman matched-state operativity walk $S_k^+=(X_k,M_k^C,R_k)$ versus structural removal $S_k^{-e}=(X_k,M_k^C,R_k\setminus\{R_e\})$, strictly-later cut-$34$ branching, and passive sensor zero-perturbation wall (\texttt{awareness\_operativity\_dec\_walk.csv}).}
+\label{fig:manual-awareness-matched-feynman}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Matched-state retained-relation operativity and passive-sensor D.E.C. ledger (\texttt{RC-034}).}
+\label{tab:manual-awareness-dec-ledger}
+{\footnotesize
+\begin{tabular}{rlllrl}
+\toprule
+Cut $k$ & Branch mode & Complete state $S_k$ & $v\to v_e$ & $J_k$ & Operativity / sensor audit \\
+\midrule
+23 & \texttt{shared\_contact} & $(X_{23},M_{23}^C,\emptyset)$ & $0000\to0000$ & $0/1$ & $r_e=3-2=1$ formed \\
+24 & \texttt{S\_plus\_retained} & $(X_{24},M_{24}^C,\{r_e=1\})$ & $0000\to0000$ & $0/1$ & commit $r_e$ into $R_{24}$ \\
+24 & \texttt{S\_minus\_e\_removed} & $(X_{24},M_{24}^C,\emptyset)$ & $0000\to0000$ & $0/1$ & structural absence (no zero fill) \\
+33 & \texttt{matched\_boundary\_p1} & $S_{33}^+$ vs $S_{33}^{-e}$ & $0000\to0000$ & $1/1$ vs $0/1$ & matched $(X_{33},M_{33}^C)$, $p=1$ \\
+34 & \texttt{response\_p1\_retained} & $S_{34}^+(p=1)$ & $0000\to0001$ & $1/1$ & positive selector branch; $\operatorname{Op}=1$ \\
+34 & \texttt{response\_p1\_removed} & $S_{34}^{-e}(p=1)$ & $0000\to0010$ & $0/1$ & divergent branch $0010$; $\Delta J=1/1$ \\
+34 & \texttt{response\_p2\_and\_sensor} & $S_{34}^+(p=2,q=0)$ & $0000\to0001$ & $1/2$ & passive sensor $\Delta=0/1$; active $q=2$: $2/1$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

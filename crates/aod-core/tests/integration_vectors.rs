@@ -1,7 +1,7 @@
 #![forbid(unsafe_code)]
 
 //! Integration tests for `crates/aod-core/`:
-//! - All 30 S4 golden vectors (`RC-001`..`RC-024` + `SD-001`..`SD-006`)
+//! - All 40 S4 golden vectors (`RC-001`..`RC-032` + `SD-001`..`SD-008`)
 //! - Beyond-`i128` 100-digit arbitrary-precision stress tests
 //! - Exact 90-tick cycle shedding against `wavelet_shedding_simulation.csv`
 //! - FIPS 180-4 SHA-256 verification
@@ -93,14 +93,14 @@ fn copy_crate_sources(src: &Path, dst: &Path) {
 }
 
 #[test]
-fn test_all_30_golden_vectors_pass() {
+fn test_all_40_golden_vectors_pass() {
     let root = repo_root();
     let res = verify_all_vectors(&root).expect("verify_all_vectors");
     assert_eq!(res.status, "PASS", "failures: {:?}", res.failures);
-    assert_eq!(res.rational_core_count, 24);
-    assert_eq!(res.symbolic_and_display_count, 6);
-    assert_eq!(res.total_vectors, 30);
-    assert_eq!(res.passed_vectors, 30);
+    assert_eq!(res.rational_core_count, 44);
+    assert_eq!(res.symbolic_and_display_count, 8);
+    assert_eq!(res.total_vectors, 52);
+    assert_eq!(res.passed_vectors, 52);
     assert_eq!(res.failed_vectors, 0);
     assert!(res.failures.is_empty());
 
@@ -114,6 +114,38 @@ fn test_all_30_golden_vectors_pass() {
         res.file_digests.get(SYMBOLIC_DISPLAY_REL).map(String::as_str),
         Some(sha256_hex(&sd_bytes).as_str())
     );
+}
+
+#[test]
+fn test_boundary_sadar_tau_and_higgs_invariants() {
+    let tau_in = parse_json(
+        r#"{"lead_lag":8,"window_duons":3,"shed_endo_slots":13,"shed_exo_slots":37,"sensor_visible_slots":19,"sensor_missing_slots":31}"#,
+    )
+    .expect("parse tau_in");
+    let tau_out = eval_operation("sadar_pp_tau_five_boundary", tau_in.as_object().unwrap())
+        .expect("eval sadar_pp_tau_five_boundary");
+    let tobj = tau_out.as_object().unwrap();
+    assert_eq!(tobj["selected_tau_candidate"].as_str(), Some("1:2:9_yro"));
+    assert_eq!(
+        tobj["miss_tau_conditional_exo"],
+        JsonValue::Array(vec![
+            JsonValue::Str("31".to_string()),
+            JsonValue::Str("50".to_string())
+        ])
+    );
+
+    let higgs_in = parse_json(r#"{"parent_p":3,"parent_q":3,"C3_channel":3}"#).expect("parse higgs");
+    let higgs_out = eval_operation(
+        "sadar_hadron_debris_and_higgs_saddle",
+        higgs_in.as_object().unwrap(),
+    )
+    .expect("eval sadar_hadron_debris_and_higgs_saddle");
+    let hobj = higgs_out.as_object().unwrap();
+    assert_eq!(
+        hobj["selected_higgs_candidate"].as_str(),
+        Some("3:3:7_yro")
+    );
+    assert_eq!(hobj["frozen_map_MeV"], JsonValue::Int(BigInt::from_i64(124_928)));
 }
 
 #[test]

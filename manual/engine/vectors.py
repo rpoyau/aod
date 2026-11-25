@@ -1,7 +1,7 @@
 """Loader and exact oracle verifier for S4 cross-language golden vectors.
 
-Loads ``manual/engine/vectors/rational_core.jsonl`` (24 cases, RC-001..RC-024)
-and ``manual/engine/vectors/symbolic_and_display.jsonl`` (6 cases, SD-001..SD-006)
+Loads ``manual/engine/vectors/rational_core.jsonl`` (32 cases, RC-001..RC-032)
+and ``manual/engine/vectors/symbolic_and_display.jsonl`` (8 cases, SD-001..SD-008)
 strictly rejecting any JSON floating-point literal. Every vector is executed
 against an exact zero-float implementation. ``sympy`` is imported ONLY inside
 ``_verify_sympy_z4_dft`` for SD-001 and SD-002.
@@ -28,6 +28,32 @@ from manual.engine.numeric import (
 )
 from manual.engine.policy import loads_zero_float, require_no_floats
 from manual.engine.schema import validate_vector_record
+from manual.engine.sectors.boundary_sadar import (
+    eval_dec_chiral_flip_walk,
+    eval_dec_two_carrier_chiral_stokes,
+    eval_frg_dimonhexon_double_slit_ring,
+    eval_hydrogen_shell_series_exact,
+    eval_sadar_hadron_debris_and_higgs_saddle,
+    eval_sadar_pp_tau_five_boundary,
+    eval_sadar_rest_energy_atlas,
+    eval_sadar_rest_energy_qext,
+    eval_scoped_wire_and_moving_boundary,
+    eval_sparc_pooled_primary_exact,
+)
+from manual.engine.sectors.manual_dec_examples import (
+    eval_dec_awareness_matched_operativity,
+    eval_dec_cell_measures_staircase_fold,
+    eval_dec_coordinate_phase_3d_walk,
+    eval_dec_cycle_shedding_exact_summary,
+    eval_dec_hydrogen_shell_wavelet_step,
+    eval_dec_lensing_ray_chiral_delta3,
+    eval_dec_native_closure_wave_fold,
+    eval_dec_run_tumble_q4_stepper,
+    eval_dec_short_window_rcd_clipping,
+    eval_dec_solar_o0_boundary_audit,
+    eval_dec_temporal_si_bridge_bounds,
+    eval_dec_typed_maps_exact_laws,
+)
 
 RATIONAL_CORE_REL: str = "manual/engine/vectors/rational_core.jsonl"
 SYMBOLIC_DISPLAY_REL: str = "manual/engine/vectors/symbolic_and_display.jsonl"
@@ -628,6 +654,72 @@ def _eval_operation(operation: str, inputs: dict[str, object]) -> dict[str, obje
             "enclosure_upper": _pair(val + half_ulp),
         }
 
+    if operation == "dec_chiral_flip_walk":
+        return eval_dec_chiral_flip_walk(inputs)
+
+    if operation == "dec_two_carrier_chiral_stokes":
+        return eval_dec_two_carrier_chiral_stokes(inputs)
+
+    if operation == "sadar_pp_tau_five_boundary":
+        return eval_sadar_pp_tau_five_boundary(inputs)
+
+    if operation == "sadar_hadron_debris_and_higgs_saddle":
+        return eval_sadar_hadron_debris_and_higgs_saddle(inputs)
+
+    if operation == "sadar_rest_energy_atlas":
+        return eval_sadar_rest_energy_atlas(inputs)
+
+    if operation == "frg_dimonhexon_double_slit_ring":
+        return eval_frg_dimonhexon_double_slit_ring(inputs)
+
+    if operation == "hydrogen_shell_series_exact":
+        return eval_hydrogen_shell_series_exact(inputs)
+
+    if operation == "scoped_wire_and_moving_boundary":
+        return eval_scoped_wire_and_moving_boundary(inputs)
+
+    if operation == "sadar_rest_energy_qext":
+        return eval_sadar_rest_energy_qext(inputs)
+
+    if operation == "sparc_pooled_primary_exact":
+        return eval_sparc_pooled_primary_exact(inputs)
+
+    if operation == "dec_native_closure_wave_fold":
+        return eval_dec_native_closure_wave_fold(inputs)
+
+    if operation == "dec_awareness_matched_operativity":
+        return eval_dec_awareness_matched_operativity(inputs)
+
+    if operation == "dec_cell_measures_staircase_fold":
+        return eval_dec_cell_measures_staircase_fold(inputs)
+
+    if operation == "dec_typed_maps_exact_laws":
+        return eval_dec_typed_maps_exact_laws(inputs)
+
+    if operation == "dec_temporal_si_bridge_bounds":
+        return eval_dec_temporal_si_bridge_bounds(inputs)
+
+    if operation == "dec_short_window_rcd_clipping":
+        return eval_dec_short_window_rcd_clipping(inputs)
+
+    if operation == "dec_hydrogen_shell_wavelet_step":
+        return eval_dec_hydrogen_shell_wavelet_step(inputs)
+
+    if operation == "dec_solar_o0_boundary_audit":
+        return eval_dec_solar_o0_boundary_audit(inputs)
+
+    if operation == "dec_run_tumble_q4_stepper":
+        return eval_dec_run_tumble_q4_stepper(inputs)
+
+    if operation == "dec_lensing_ray_chiral_delta3":
+        return eval_dec_lensing_ray_chiral_delta3(inputs)
+
+    if operation == "dec_cycle_shedding_exact_summary":
+        return eval_dec_cycle_shedding_exact_summary(inputs)
+
+    if operation == "dec_coordinate_phase_3d_walk":
+        return eval_dec_coordinate_phase_3d_walk(inputs)
+
     raise ValueError(f"unsupported vector operation: {operation!r}")
 
 
@@ -1037,18 +1129,18 @@ def verify_single_vector(
 
 
 def verify_all_vectors(repo_root: Path) -> dict[str, object]:
-    """Load and execute all 30 golden vectors (24 rational_core + 6 symbolic_and_display)."""
+    """Load and execute all 52 golden vectors (44 rational_core + 8 symbolic_and_display)."""
     root = Path(repo_root).resolve()
     rc_sha, rc_rows = load_vector_file(root / RATIONAL_CORE_REL)
     sd_sha, sd_rows = load_vector_file(root / SYMBOLIC_DISPLAY_REL)
 
-    require(len(rc_rows) == 24, f"expected 24 rational_core vectors, got {len(rc_rows)}")
-    require(len(sd_rows) == 6, f"expected 6 symbolic_and_display vectors, got {len(sd_rows)}")
+    require(len(rc_rows) == 44, f"expected 44 rational_core vectors, got {len(rc_rows)}")
+    require(len(sd_rows) == 8, f"expected 8 symbolic_and_display vectors, got {len(sd_rows)}")
 
     rc_ids = [str(r["case_id"]) for r in rc_rows]
     sd_ids = [str(r["case_id"]) for r in sd_rows]
-    require(rc_ids == [f"RC-{i:03d}" for i in range(1, 25)], f"unexpected rational_core IDs: {rc_ids}")
-    require(sd_ids == [f"SD-{i:03d}" for i in range(1, 7)], f"unexpected symbolic_and_display IDs: {sd_ids}")
+    require(rc_ids == [f"RC-{i:03d}" for i in range(1, 45)], f"unexpected rational_core IDs: {rc_ids}")
+    require(sd_ids == [f"SD-{i:03d}" for i in range(1, 9)], f"unexpected symbolic_and_display IDs: {sd_ids}")
 
     failures: list[dict[str, str]] = []
     passed = 0
