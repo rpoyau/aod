@@ -256,13 +256,91 @@ def test_anisotropic_mutation_and_joint_relabelling():
     assert result["joint_relabelling_invariant"]
 
 
+def test_tesseract_4d_literal_neighbor_oracle_and_orthant_parity():
+    expected_counts = {
+        1: (0, 1, 1),
+        2: (1, 15, 8),
+        4: (32, 160, 51),
+        8: (804, 1862, 341),
+        16: (16254, 24804, 2443),
+        32: (290244, 358804, 18358),
+    }
+    for n, expected in expected_counts.items():
+        assert cells.tesseract_ball_counts(n) == expected
+        assert cells.independent_tesseract_ball_counts(n) == expected
+
+    # Literal 4D occupancy & neighbor-absence verification for n in {1, 2, 4}
+    expected_b3 = {1: Fraction(64), 2: Fraction(64), 4: Fraction(51)}
+    for n, b3_expected in expected_b3.items():
+        tops = cells.tesseract_ball_tops(n, "outer")
+        inner_tops = cells.tesseract_ball_tops(n, "inner")
+        n_in, n_out, n3_out = expected_counts[n]
+        assert len(tops) == 16 * n_out
+        assert len(inner_tops) == 16 * n_in
+        model = cells.CubicalComplex(f"test-4ball-n{n}", tops)
+        neighbor_faces = cells.exposed_faces_by_occupancy(model)
+        exterior = cells.boundary(model.top_chain)
+        assert set(exterior) == set(neighbor_faces)
+        assert len(neighbor_faces) == 64 * n3_out
+        assert Fraction(len(neighbor_faces), n**3) == b3_expected
+
+    lvl4 = cells.tesseract_ball_level(4)
+    assert Fraction(lvl4["B3_staircase"]) == Fraction(51)
+    assert Fraction(lvl4["B3_tesseract_box"]) == Fraction(64)
+    assert Fraction(lvl4["B3_staircase"]) != Fraction(lvl4["B3_tesseract_box"])
+    assert Fraction(lvl4["B3_stair_minus_4V4plus"]) == Fraction(11)
+    assert Fraction(lvl4["B3_box_minus_4V4plus"]) == Fraction(24)
+    with pytest.raises(cells.CellError, match="cannot be conflated"):
+        cells.validate_4d_staircase_vs_box(lvl4, 64)
+
+
+def test_tesseract_4d_refinement_reference_independence_and_shared_q(monkeypatch):
+    levels = [cells.tesseract_ball_level(n) for n in (1, 2, 4, 8, 16, 32)]
+    for a, b in zip(levels, levels[1:]):
+        assert cells.validate_tesseract_refinement(a["n"], b["n"], a, b)
+        assert Fraction(a["V4_inner"]) <= Fraction(b["V4_inner"])
+        assert Fraction(b["V4_outer"]) <= Fraction(a["V4_outer"])
+        assert Fraction(b["V4_enclosure_width"]) < Fraction(a["V4_enclosure_width"])
+        assert Fraction(b["B3_staircase"]) <= Fraction(a["B3_staircase"])
+    assert levels[0]["pi_cross_lower"] is None and levels[0]["pi_cross_upper"] is None
+    for lv in levels[1:]:
+        assert Fraction(lv["B3_stair_minus_4V4plus"]) > 0
+        assert Fraction(lv["B3_box_minus_4V4plus"]) > 0
+
+    for q in ("2", "3", "355/113", "7/2", "4"):
+        ctrl = cells.shared_coefficient_4d_control(levels[-1], q)
+        assert Fraction(ctrl["B3r_minus_4V4"]) == 0
+        assert not ctrl["agrees_with_independent_measures"]
+        assert not ctrl["determines_q"]
+
+    frozen16 = levels[4]
+    before_digest = cells.digest(frozen16)
+    for terms in (4, 8, 16):
+        comp = cells.compare_tesseract_reference(frozen16, cells.pi_reference_bounds(terms))
+        assert comp["V4_encloses_pi_sq_over_2"] is True
+        assert comp["pi_4d_encloses_pi"] is True
+        assert Fraction(comp["B3_staircase_minus_2pi2_lower"]) > 0
+        assert Fraction(comp["asymptotic_32pi_over_3_minus_2pi2_lower"]) > 0
+        assert cells.digest(frozen16) == before_digest
+
+    def forbidden(*args, **kwargs):
+        raise RuntimeError("reference leaked upstream into 4D B_core")
+
+    monkeypatch.setattr(cells, "pi_reference_bounds", forbidden)
+    monkeypatch.setattr(cells, "compare_tesseract_reference", forbidden)
+    monkeypatch.setattr(cells, "compare_disk_reference", forbidden)
+    assert cells.tesseract_ball_level(16) == frozen16
+
+
 def test_frozen_report_reproduces_and_negative_controls_execute():
     report = cells.build_report()
     assert cells.report_bytes(report) == cells.DATA.read_bytes()
-    assert len(report["negative_controls"]) == 9
+    assert len(report["negative_controls"]) == 12
     assert all(report["negative_controls"].values())
     assert report["native_higher_cell_status"] == "not established by this completion"
-    assert report["G6"]["status"] == "not_opened"
+    assert report["G6"]["status"] == "opened_declared_verification_model"
+    assert len(report["G6"]["levels"]) == 6
+    assert [lv["n"] for lv in report["G6"]["levels"]] == [1, 2, 4, 8, 16, 32]
 
 
 def test_optimized_checker_keeps_runtime_guards():

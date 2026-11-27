@@ -3,13 +3,14 @@
 //! Pure `std`-only, zero-`unsafe` exact `BigInt` / `BigRat` implementations
 //! matching `manual/engine/sectors/manual_dec_examples.py`.
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 use crate::bigint::BigInt;
 use crate::bigrat::BigRat;
 use crate::json::JsonValue;
 use crate::numeric::{format_fixed, parse_canonical_rational_pair, parse_printed_rational};
 use crate::ops::require_json_int;
+use crate::ternary::{TritRatio, TritWord};
 use crate::CoreError;
 
 const POPCOUNT_4BIT: [i64; 16] = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
@@ -17,6 +18,15 @@ const POPCOUNT_4BIT: [i64; 16] = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4
 fn pair_json(q: &BigRat) -> JsonValue {
     let [n, d] = q.canonical_pair();
     JsonValue::Array(vec![JsonValue::Str(n), JsonValue::Str(d)])
+}
+
+fn trit_pair_json(q: &TritRatio) -> JsonValue {
+    let [n, d] = q.canonical_pair();
+    JsonValue::Array(vec![JsonValue::Str(n), JsonValue::Str(d)])
+}
+
+fn tw_i64(v: i64) -> TritWord {
+    TritWord::from_bigint(&BigInt::from_i64(v))
 }
 
 fn int_json(v: i64) -> JsonValue {
@@ -163,6 +173,49 @@ fn isqrt_ceil(n: i64) -> Result<i64, CoreError> {
         Ok(fl)
     } else {
         Ok(fl + 1)
+    }
+}
+
+/// Arbitrary-precision exact integer square-root floor `floor(sqrt(n))` for `n >= 0`.
+pub fn isqrt_floor_bigint(n: &BigInt) -> Result<BigInt, CoreError> {
+    if n.is_negative() {
+        return Err(CoreError::ValueError(format!(
+            "negative integer in isqrt_floor_bigint: {}",
+            n
+        )));
+    }
+    if n.is_zero() || n.is_one() {
+        return Ok(n.clone());
+    }
+    let shift = (n.bit_len() + 1) / 2;
+    let mut x = BigInt::one().shl_usize(shift);
+    let two = BigInt::from_u32(2);
+    loop {
+        let (q, _) = n.div_rem_trunc(&x)?;
+        let (next, _) = (&x + &q).div_rem_trunc(&two)?;
+        if next >= x {
+            break;
+        }
+        x = next;
+    }
+    let sq = &x * &x;
+    let next_x = &x + &BigInt::one();
+    let next_sq = &next_x * &next_x;
+    if sq > *n || next_sq <= *n {
+        return Err(CoreError::ValueError(
+            "internal isqrt_floor_bigint invariant violated".to_string(),
+        ));
+    }
+    Ok(x)
+}
+
+/// Arbitrary-precision exact integer square-root ceiling `ceil(sqrt(n))` for `n >= 0`.
+pub fn isqrt_ceil_bigint(n: &BigInt) -> Result<BigInt, CoreError> {
+    let fl = isqrt_floor_bigint(n)?;
+    if &fl * &fl == *n {
+        Ok(fl)
+    } else {
+        Ok(&fl + &BigInt::one())
     }
 }
 
@@ -456,8 +509,470 @@ pub fn op_dec_awareness_matched_operativity(
 }
 
 // ---------------------------------------------------------------------------
-// RC-035: dec_cell_measures_staircase_fold
+// RC-035: dec_cell_measures_staircase_fold (2D Disk + 4D Tesseract-to-Pi + Fold)
 // ---------------------------------------------------------------------------
+
+type CubicalCell = Vec<(i64, i64)>;
+
+fn cubical_boundary(cell: &CubicalCell) -> BTreeMap<CubicalCell, i64> {
+    let mut result: BTreeMap<CubicalCell, i64> = BTreeMap::new();
+    let mut active: usize = 0;
+    for (axis, &(a, b)) in cell.iter().enumerate() {
+        if a == b {
+            continue;
+        }
+        let sign_base: i64 = if active % 2 == 0 { 1 } else { -1 };
+        for (endpoint, side) in [(a, -1i64), (b, 1i64)] {
+            let mut spans = cell.clone();
+            spans[axis] = (endpoint, endpoint);
+            result.insert(spans, side * sign_base);
+        }
+        active += 1;
+    }
+    result
+}
+
+/// Enumerate all 81 elementary cells of Q_4 = [0,1]^4, verify counts, Euler char=1, and d^2=0.
+pub fn verify_q4_unit_cube() -> Result<(Vec<i64>, i64), CoreError> {
+    let span_opts: [(i64, i64); 3] = [(0, 0), (0, 1), (1, 1)];
+    let mut cells: Vec<CubicalCell> = Vec::with_capacity(81);
+    for &s0 in &span_opts {
+        for &s1 in &span_opts {
+            for &s2 in &span_opts {
+                for &s3 in &span_opts {
+                    cells.push(vec![s0, s1, s2, s3]);
+                }
+            }
+        }
+    }
+    if cells.len() != 81 {
+        return Err(CoreError::ValueError(
+            "Q_4 must contain 81 elementary cells".to_string(),
+        ));
+    }
+
+    let mut counts: Vec<i64> = vec![0; 5];
+    for cell in &cells {
+        let dim = cell.iter().filter(|&&(a, b)| a != b).count();
+        counts[dim] += 1;
+        let b1 = cubical_boundary(cell);
+        let mut b2: BTreeMap<CubicalCell, i64> = BTreeMap::new();
+        for (face, s1_coeff) in &b1 {
+            for (subface, s2_coeff) in cubical_boundary(face) {
+                *b2.entry(subface).or_insert(0) += s1_coeff * s2_coeff;
+            }
+        }
+        if b2.values().any(|&v| v != 0) {
+            return Err(CoreError::ValueError(
+                "cubical boundary squared nonzero on Q_4 cell".to_string(),
+            ));
+        }
+    }
+
+    let mut euler_char: i64 = 0;
+    for (d, &c) in counts.iter().enumerate() {
+        if d % 2 == 0 {
+            euler_char += c;
+        } else {
+            euler_char -= c;
+        }
+    }
+    if euler_char != 1 {
+        return Err(CoreError::ValueError(format!(
+            "4-cube Euler characteristic must equal 1, got {}",
+            euler_char
+        )));
+    }
+    Ok((counts, 1))
+}
+
+fn mat_mul(a: &[Vec<i64>], b: &[Vec<i64>]) -> Result<Vec<Vec<i64>>, CoreError> {
+    let rows = a.len();
+    let inner = if rows > 0 { a[0].len() } else { 0 };
+    if b.len() != inner {
+        return Err(CoreError::ValueError(
+            "matrix multiplication inner dimension mismatch".to_string(),
+        ));
+    }
+    let cols = if inner > 0 { b[0].len() } else { 0 };
+    let mut out = vec![vec![0i64; cols]; rows];
+    for i in 0..rows {
+        for j in 0..cols {
+            let mut acc = 0i64;
+            for k in 0..inner {
+                acc += a[i][k] * b[k][j];
+            }
+            out[i][j] = acc;
+        }
+    }
+    Ok(out)
+}
+
+fn mat_vec(a: &[Vec<i64>], v: &[i64]) -> Result<Vec<i64>, CoreError> {
+    let rows = a.len();
+    let inner = if rows > 0 { a[0].len() } else { 0 };
+    if v.len() != inner {
+        return Err(CoreError::ValueError(
+            "matrix-vector inner dimension mismatch".to_string(),
+        ));
+    }
+    let mut out = Vec::with_capacity(rows);
+    for row in a {
+        let mut acc = 0i64;
+        for k in 0..inner {
+            acc += row[k] * v[k];
+        }
+        out.push(acc);
+    }
+    Ok(out)
+}
+
+fn mat_is_zero(a: &[Vec<i64>]) -> bool {
+    a.iter().all(|row| row.iter().all(|&v| v == 0))
+}
+
+fn complex_cells_by_dim(
+    tops: &[CubicalCell],
+) -> Result<(Vec<CubicalCell>, Vec<CubicalCell>, Vec<CubicalCell>), CoreError> {
+    let mut all_cells: BTreeSet<CubicalCell> = BTreeSet::new();
+    for top in tops {
+        if top.len() != 2 {
+            return Err(CoreError::ValueError(
+                "2D cubical complex required".to_string(),
+            ));
+        }
+        let (ax, bx) = top[0];
+        let (ay, by) = top[1];
+        let x_opts: Vec<(i64, i64)> = if ax == bx {
+            vec![(ax, ax)]
+        } else {
+            vec![(ax, ax), (ax, bx), (bx, bx)]
+        };
+        let y_opts: Vec<(i64, i64)> = if ay == by {
+            vec![(ay, ay)]
+        } else {
+            vec![(ay, ay), (ay, by), (by, by)]
+        };
+        for &xs in &x_opts {
+            for &ys in &y_opts {
+                all_cells.insert(vec![xs, ys]);
+            }
+        }
+    }
+    let mut c0 = Vec::new();
+    let mut c1 = Vec::new();
+    let mut c2 = Vec::new();
+    for cell in all_cells {
+        match cell.iter().filter(|&&(a, b)| a != b).count() {
+            0 => c0.push(cell),
+            1 => c1.push(cell),
+            2 => c2.push(cell),
+            _ => {
+                return Err(CoreError::ValueError(
+                    "unexpected cell dimension in 2D complex".to_string(),
+                ))
+            }
+        }
+    }
+    Ok((c0, c1, c2))
+}
+
+fn boundary_matrix(
+    src_cells: &[CubicalCell],
+    tgt_cells: &[CubicalCell],
+) -> Result<Vec<Vec<i64>>, CoreError> {
+    let mut tgt_idx: BTreeMap<&CubicalCell, usize> = BTreeMap::new();
+    for (i, c) in tgt_cells.iter().enumerate() {
+        tgt_idx.insert(c, i);
+    }
+    let mut mat = vec![vec![0i64; src_cells.len()]; tgt_cells.len()];
+    for (j, cell) in src_cells.iter().enumerate() {
+        for (face, sign) in cubical_boundary(cell) {
+            let &row = tgt_idx.get(&face).ok_or_else(|| {
+                CoreError::ValueError("boundary face missing from complex".to_string())
+            })?;
+            mat[row][j] += sign;
+        }
+    }
+    Ok(mat)
+}
+
+fn fold_cell_image(cell: &CubicalCell) -> (CubicalCell, i64) {
+    let (a, b) = cell[0];
+    let y_span = cell[1];
+    let x0 = a.min(2 - a);
+    let x1 = b.min(2 - b);
+    if x0 <= x1 {
+        (vec![(x0, x1), y_span], 1)
+    } else {
+        (vec![(x1, x0), y_span], -1)
+    }
+}
+
+fn fold_matrix(
+    src_cells: &[CubicalCell],
+    tgt_cells: &[CubicalCell],
+    flip_right_face_sign: bool,
+) -> Result<Vec<Vec<i64>>, CoreError> {
+    let mut tgt_idx: BTreeMap<&CubicalCell, usize> = BTreeMap::new();
+    for (i, c) in tgt_cells.iter().enumerate() {
+        tgt_idx.insert(c, i);
+    }
+    let mut mat = vec![vec![0i64; src_cells.len()]; tgt_cells.len()];
+    let right_face: CubicalCell = vec![(1, 2), (0, 1)];
+    for (j, cell) in src_cells.iter().enumerate() {
+        let (img, mut sign) = fold_cell_image(cell);
+        if flip_right_face_sign && *cell == right_face {
+            sign = -sign;
+        }
+        let &row = tgt_idx.get(&img).ok_or_else(|| {
+            CoreError::ValueError("fold image missing from target complex".to_string())
+        })?;
+        mat[row][j] += sign;
+    }
+    Ok(mat)
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CellularFoldMetrics {
+    pub fold_occupied_area: i64,
+    pub fold_image_area: i64,
+    pub fold_retained_multiplicity: i64,
+    pub fold_oriented_top_sum: i64,
+    pub fold_seam_cancelled: i64,
+    pub fold_surviving_boundary_edges: i64,
+    pub chain_map_commutes: i64,
+}
+
+/// Evaluate K_2 = Q_L U Q_R -> L_2 = Q_* strictly via integer boundary & chain-map matrices.
+pub fn eval_cellular_fold_chain_map(
+    flip_right_face_sign: bool,
+    enforce_commutation: bool,
+) -> Result<CellularFoldMetrics, CoreError> {
+    let k_tops = vec![vec![(0, 1), (0, 1)], vec![(1, 2), (0, 1)]];
+    let l_tops = vec![vec![(0, 1), (0, 1)]];
+    let (k0, k1, k2) = complex_cells_by_dim(&k_tops)?;
+    let (l0, l1, l2) = complex_cells_by_dim(&l_tops)?;
+    if k0.len() != 6 || k1.len() != 7 || k2.len() != 2 {
+        return Err(CoreError::ValueError("K_2 cell count mismatch".to_string()));
+    }
+    if l0.len() != 4 || l1.len() != 4 || l2.len() != 1 {
+        return Err(CoreError::ValueError("L_2 cell count mismatch".to_string()));
+    }
+
+    let b2_k = boundary_matrix(&k2, &k1)?;
+    let b1_k = boundary_matrix(&k1, &k0)?;
+    let b2_l = boundary_matrix(&l2, &l1)?;
+    let b1_l = boundary_matrix(&l1, &l0)?;
+    if !mat_is_zero(&mat_mul(&b1_k, &b2_k)?) || !mat_is_zero(&mat_mul(&b1_l, &b2_l)?) {
+        return Err(CoreError::ValueError(
+            "fold complex boundary squared B1 * B2 != 0".to_string(),
+        ));
+    }
+
+    let f0 = fold_matrix(&k0, &l0, false)?;
+    let f1 = fold_matrix(&k1, &l1, false)?;
+    let f2 = fold_matrix(&k2, &l2, flip_right_face_sign)?;
+
+    let comm_2 = mat_mul(&b2_l, &f2)? == mat_mul(&f1, &b2_k)?;
+    let comm_1 = mat_mul(&b1_l, &f1)? == mat_mul(&f0, &b1_k)?;
+    let commutes = comm_2 && comm_1;
+    if enforce_commutation {
+        if !comm_2 {
+            return Err(CoreError::ValueError(
+                "fold chain-map commutation failed: B2_L * F2 != F1 * B2_K".to_string(),
+            ));
+        }
+        if !comm_1 {
+            return Err(CoreError::ValueError(
+                "fold chain-map commutation failed: B1_L * F1 != F0 * B1_K".to_string(),
+            ));
+        }
+    }
+
+    let c_top: Vec<i64> = vec![1; k2.len()];
+    let b_k = mat_vec(&b2_k, &c_top)?;
+    let f2_top = mat_vec(&f2, &c_top)?;
+    let f1_bk = mat_vec(&f1, &b_k)?;
+    if enforce_commutation && f1_bk.iter().any(|&v| v != 0) {
+        return Err(CoreError::ValueError(
+            "fold chain-map pushed exposed boundary F1(B2_K c_top) must vanish".to_string(),
+        ));
+    }
+
+    let fold_occupied_area: i64 = c_top.iter().map(|v| v.abs()).sum();
+    let fold_image_area: i64 = f2
+        .iter()
+        .filter(|row| row.iter().zip(c_top.iter()).any(|(&m, &c)| m * c != 0))
+        .count() as i64;
+    let fold_retained_multiplicity: i64 = f2
+        .iter()
+        .flat_map(|row| row.iter().zip(c_top.iter()).map(|(&m, &c)| (m * c).abs()))
+        .sum();
+    let fold_oriented_top_sum: i64 = f2_top.iter().sum();
+    let fold_seam_cancelled: i64 = (0..k1.len())
+        .filter(|&r| {
+            let deg: i64 = b2_k[r]
+                .iter()
+                .zip(c_top.iter())
+                .map(|(&m, &c)| (m * c).abs())
+                .sum();
+            deg > 1 && b_k[r] == 0
+        })
+        .count() as i64;
+    let fold_surviving_boundary_edges: i64 = (0..l1.len())
+        .filter(|&i| {
+            let mult: i64 = f1[i]
+                .iter()
+                .zip(b_k.iter())
+                .map(|(&m, &b)| (m * b).abs())
+                .sum();
+            mult > 0
+        })
+        .count() as i64;
+    let chain_map_commutes: i64 = if commutes { 1 } else { 0 };
+
+    Ok(CellularFoldMetrics {
+        fold_occupied_area,
+        fold_image_area,
+        fold_retained_multiplicity,
+        fold_oriented_top_sum,
+        fold_seam_cancelled,
+        fold_surviving_boundary_edges,
+        chain_map_commutes,
+    })
+}
+
+fn tesseract_4d_counts_route_a(n: i64) -> Result<(i64, i64, i64), CoreError> {
+    if n < 1 {
+        return Err(CoreError::ValueError("level must be >= 1".to_string()));
+    }
+    let n_sq = n * n;
+    let mut n_in: i64 = 0;
+    let mut n_out: i64 = 0;
+    for a in 0..n {
+        let a2 = a * a;
+        let ap2 = (a + 1) * (a + 1);
+        for b in a..n {
+            let ab2 = a2 + b * b;
+            if ab2 >= n_sq {
+                break;
+            }
+            let abp2 = ap2 + (b + 1) * (b + 1);
+            for c in b..n {
+                let abc2 = ab2 + c * c;
+                if abc2 >= n_sq {
+                    break;
+                }
+                let abcp2 = abp2 + (c + 1) * (c + 1);
+                for d in c..n {
+                    let s_min = abc2 + d * d;
+                    if s_min >= n_sq {
+                        break;
+                    }
+                    let mult: i64 = if a == d {
+                        1
+                    } else if a == c || b == d {
+                        4
+                    } else if a == b && c == d {
+                        6
+                    } else if a == b || b == c || c == d {
+                        12
+                    } else {
+                        24
+                    };
+                    n_out += mult;
+                    if abcp2 + (d + 1) * (d + 1) <= n_sq {
+                        n_in += mult;
+                    }
+                }
+            }
+        }
+    }
+
+    let mut n3_out: i64 = 0;
+    for a in 0..n {
+        let a2 = a * a;
+        for b in a..n {
+            let ab2 = a2 + b * b;
+            if ab2 >= n_sq {
+                break;
+            }
+            for c in b..n {
+                if ab2 + c * c >= n_sq {
+                    break;
+                }
+                let m3: i64 = if a == c {
+                    1
+                } else if a == b || b == c {
+                    3
+                } else {
+                    6
+                };
+                n3_out += m3;
+            }
+        }
+    }
+    Ok((n_in, n_out, n3_out))
+}
+
+fn tesseract_4d_counts_route_b(n: i64) -> Result<(i64, i64, i64), CoreError> {
+    if n < 1 {
+        return Err(CoreError::ValueError("level must be >= 1".to_string()));
+    }
+    let n_sq = n * n;
+    let mut n_in: i64 = 0;
+    let mut n_out: i64 = 0;
+    let mut n3_out: i64 = 0;
+    for a in 0..n {
+        let a2 = a * a;
+        let ap2 = (a + 1) * (a + 1);
+        for b in 0..n {
+            let ab2 = a2 + b * b;
+            if ab2 >= n_sq {
+                continue;
+            }
+            let abp2 = ap2 + (b + 1) * (b + 1);
+            for c in 0..n {
+                let r_out = n_sq - ab2 - c * c;
+                if r_out > 0 {
+                    n3_out += 1;
+                    n_out += isqrt_ceil(r_out)?;
+                }
+                let r_in = n_sq - abp2 - (c + 1) * (c + 1);
+                if r_in > 0 {
+                    n_in += isqrt_floor(r_in)?;
+                }
+            }
+        }
+    }
+    Ok((n_in, n_out, n3_out))
+}
+
+/// Cross-checked single-orthant `(N_in, N_out, N3_out)` verifying Route A == Route B.
+pub fn tesseract_4d_orthant_counts(n: i64) -> Result<(i64, i64, i64), CoreError> {
+    let route_a = tesseract_4d_counts_route_a(n)?;
+    let route_b = tesseract_4d_counts_route_b(n)?;
+    if route_a != route_b {
+        return Err(CoreError::ValueError(format!(
+            "4D orthant count route disagreement at n={}: {:?} vs {:?}",
+            n, route_a, route_b
+        )));
+    }
+    Ok(route_a)
+}
+
+struct Tesseract4DRowRatios {
+    n: i64,
+    v4_minus: TritRatio,
+    v4_plus: TritRatio,
+    v4_width: TritRatio,
+    b3_staircase: TritRatio,
+    pi_4d_lower: TritRatio,
+    pi_4d_upper: TritRatio,
+    pi_cross_lower: Option<TritRatio>,
+    pi_cross_upper: Option<TritRatio>,
+}
 
 pub fn op_dec_cell_measures_staircase_fold(
     inputs: &BTreeMap<String, JsonValue>,
@@ -474,19 +989,31 @@ pub fn op_dec_cell_measures_staircase_fold(
     if lvls_arr.is_empty() {
         return Err(CoreError::ValueError("levels must be non-empty".to_string()));
     }
-
-    let a = BigRat::from_i64_pair(e_num, e_den)?;
-    let a2 = &a * &a;
-    let a3 = &a2 * &a;
-    let v4 = &a2 * &a2;
-    let b3 = &BigRat::from_i64(8) * &a3;
-
-    let mut st_rows = Vec::with_capacity(lvls_arr.len());
+    let mut levels: Vec<i64> = Vec::with_capacity(lvls_arr.len());
     for v in lvls_arr {
         let n = parse_i64_elem(v, "level")?;
         if n < 1 {
             return Err(CoreError::ValueError("level must be >= 1".to_string()));
         }
+        levels.push(n);
+    }
+
+    // 1. Pure B_core Q4 unit cube enumeration and d^2 = 0 verification
+    let (q4_counts_vec, boundary_sq_zero) = verify_q4_unit_cube()?;
+    let a_tr = TritRatio::from_i64_pair(e_num, e_den)?;
+    let a2_tr = a_tr.mul(&a_tr);
+    let a3_tr = a2_tr.mul(&a_tr);
+    let v4_tr = a2_tr.mul(&a2_tr);
+    let tr_8 = TritRatio::from_i64_pair(8, 1)?;
+    let tr_2 = TritRatio::from_i64_pair(2, 1)?;
+    let tr_4 = TritRatio::from_i64_pair(4, 1)?;
+    let tr_64 = TritRatio::from_i64_pair(64, 1)?;
+    let b3_tr = tr_8.mul(&a3_tr);
+
+    // 2. Pure B_core 2D unit-disk integer staircase enclosure
+    let mut st_rows = Vec::with_capacity(levels.len());
+    let mut disk_bounds_by_n: BTreeMap<i64, (TritRatio, TritRatio)> = BTreeMap::new();
+    for &n in &levels {
         let n_sq = n * n;
         let mut u_sum = 0i64;
         let mut l_sum = 0i64;
@@ -497,51 +1024,307 @@ pub fn op_dec_cell_measures_staircase_fold(
                 l_sum += isqrt_floor(rem)?;
             }
         }
-        let a_minus = BigRat::from_i64_pair(4 * l_sum, n_sq)?;
-        let a_plus = BigRat::from_i64_pair(4 * u_sum, n_sq)?;
-        let disc = &BigRat::from_i64(8) - &(&BigRat::from_i64(2) * &a_plus);
+        let a_minus = TritRatio::from_i64_pair(4 * l_sum, n_sq)?;
+        let a_plus = TritRatio::from_i64_pair(4 * u_sum, n_sq)?;
+        let disc = tr_8.sub(&tr_2.mul(&a_plus));
+        disk_bounds_by_n.insert(n, (a_minus.clone(), a_plus.clone()));
         let mut rm = BTreeMap::new();
         rm.insert("n".to_string(), int_json(n));
-        rm.insert("A_minus".to_string(), pair_json(&a_minus));
-        rm.insert("A_plus".to_string(), pair_json(&a_plus));
+        rm.insert("A_minus".to_string(), trit_pair_json(&a_minus));
+        rm.insert("A_plus".to_string(), trit_pair_json(&a_plus));
         rm.insert("C_axial".to_string(), int_json(8));
-        rm.insert("Cr_minus_2Aplus".to_string(), pair_json(&disc));
+        rm.insert("Cr_minus_2Aplus".to_string(), trit_pair_json(&disc));
         st_rows.push(JsonValue::Object(rm));
     }
 
+    // 3. Pure B_core 4D tesseract microcell enclosure in TritWord/TritRatio (zero Machin arctan)
+    let tw_8 = tw_i64(8);
+    let tw_16 = tw_i64(16);
+    let tw_32 = tw_i64(32);
+    let tw_64 = tw_i64(64);
+    let mut t4_json_rows: Vec<JsonValue> = Vec::with_capacity(levels.len());
+    let mut t4_ratios: Vec<Tesseract4DRowRatios> = Vec::with_capacity(levels.len());
+
+    for &n in &levels {
+        let (n_in, n_out, n3_out) = tesseract_4d_orthant_counts(n)?;
+        let tw_n = tw_i64(n);
+        let tw_n2 = tw_n.mul(&tw_n);
+        let tw_n3 = tw_n2.mul(&tw_n);
+        let tw_n4 = tw_n2.mul(&tw_n2);
+        let tw_in = tw_i64(n_in);
+        let tw_out = tw_i64(n_out);
+        let tw_n3_out = tw_i64(n3_out);
+
+        let v4_minus = TritRatio::new(tw_16.mul(&tw_in), tw_n4.clone())?;
+        let v4_plus = TritRatio::new(tw_16.mul(&tw_out), tw_n4)?;
+        let v4_width = v4_plus.sub(&v4_minus);
+        let cert_width_bound = TritRatio::new(tw_64.clone(), tw_n)?;
+        if v4_width > cert_width_bound {
+            return Err(CoreError::ValueError(format!(
+                "4D volume enclosure width exceeds certified 64/n bound at n={}",
+                n
+            )));
+        }
+
+        let v3_plus = TritRatio::new(tw_8.mul(&tw_n3_out), tw_n3)?;
+        let b3_staircase = tr_8.mul(&v3_plus);
+        let four_v4_plus = tr_4.mul(&v4_plus);
+        let b3_stair_minus_4v4plus = b3_staircase.sub(&four_v4_plus);
+        let b3_box_minus_4v4plus = tr_64.sub(&four_v4_plus);
+        if n == 1 {
+            if b3_stair_minus_4v4plus != TritRatio::zero()
+                || b3_box_minus_4v4plus != TritRatio::zero()
+            {
+                return Err(CoreError::ValueError(
+                    "at n=1, B3_staircase and B3_tesseract_box must equal 4*V4_plus = 64"
+                        .to_string(),
+                ));
+            }
+        } else {
+            if b3_stair_minus_4v4plus.sign() <= 0 {
+                return Err(CoreError::ValueError(format!(
+                    "4D staircase falsifier B3_stair - 4*V4_plus must be > 0 at n={}",
+                    n
+                )));
+            }
+            if b3_box_minus_4v4plus.sign() <= 0 {
+                return Err(CoreError::ValueError(format!(
+                    "4D box falsifier 64 - 4*V4_plus must be > 0 at n={}",
+                    n
+                )));
+            }
+        }
+
+        let pi_sq_lower = tr_2.mul(&v4_minus);
+        let pi_sq_upper = tr_2.mul(&v4_plus);
+        let pi_4d_num_lo = isqrt_floor_bigint(&tw_32.mul(&tw_in).to_bigint())?;
+        let pi_4d_num_hi = isqrt_ceil_bigint(&tw_32.mul(&tw_out).to_bigint())?;
+        let pi_4d_lower = TritRatio::new(TritWord::from_bigint(&pi_4d_num_lo), tw_n2.clone())?;
+        let pi_4d_upper = TritRatio::new(TritWord::from_bigint(&pi_4d_num_hi), tw_n2)?;
+        if pi_4d_lower.mul(&pi_4d_lower) > pi_sq_lower {
+            return Err(CoreError::ValueError(format!(
+                "pi_4d_lower^2 exceeds pi_sq_lower at n={}",
+                n
+            )));
+        }
+        if pi_sq_upper > pi_4d_upper.mul(&pi_4d_upper) {
+            return Err(CoreError::ValueError(format!(
+                "pi_4d_upper^2 below pi_sq_upper at n={}",
+                n
+            )));
+        }
+
+        let (a2_minus, a2_plus) = disk_bounds_by_n.get(&n).ok_or_else(|| {
+            CoreError::ValueError("missing 2D disk enclosure for 4D cross ratio".to_string())
+        })?;
+        let (pi_cross_lower, pi_cross_upper) = if a2_minus.sign() == 0 {
+            (None, None)
+        } else {
+            let lo_c = pi_sq_lower.checked_div(a2_plus)?;
+            let hi_c = pi_sq_upper.checked_div(a2_minus)?;
+            if lo_c > hi_c {
+                return Err(CoreError::ValueError(format!(
+                    "cross-dimensional pi bounds inverted at n={}",
+                    n
+                )));
+            }
+            (Some(lo_c), Some(hi_c))
+        };
+
+        if let Some(prev) = t4_ratios.last() {
+            if n == 2 * prev.n {
+                if prev.v4_minus > v4_minus
+                    || v4_plus > prev.v4_plus
+                    || v4_width >= prev.v4_width
+                    || b3_staircase > prev.b3_staircase
+                    || prev.pi_4d_lower > pi_4d_lower
+                    || pi_4d_upper > prev.pi_4d_upper
+                {
+                    return Err(CoreError::ValueError(format!(
+                        "dyadic 4D monotonicity failed at {}->{}",
+                        prev.n, n
+                    )));
+                }
+                if let (Some(p_lo), Some(p_hi), Some(c_lo), Some(c_hi)) = (
+                    &prev.pi_cross_lower,
+                    &prev.pi_cross_upper,
+                    &pi_cross_lower,
+                    &pi_cross_upper,
+                ) {
+                    if p_lo > c_lo || c_hi > p_hi {
+                        return Err(CoreError::ValueError(format!(
+                            "dyadic 4D cross-ratio monotonicity failed at {}->{}",
+                            prev.n, n
+                        )));
+                    }
+                }
+            }
+        }
+
+        let mut tm = BTreeMap::new();
+        tm.insert("n".to_string(), int_json(n));
+        tm.insert("N_in_orthant".to_string(), int_json(n_in));
+        tm.insert("N_out_orthant".to_string(), int_json(n_out));
+        tm.insert("N3_out_orthant".to_string(), int_json(n3_out));
+        tm.insert("V4_minus".to_string(), trit_pair_json(&v4_minus));
+        tm.insert("V4_plus".to_string(), trit_pair_json(&v4_plus));
+        tm.insert("V4_width".to_string(), trit_pair_json(&v4_width));
+        tm.insert("V3_plus".to_string(), trit_pair_json(&v3_plus));
+        tm.insert("B3_staircase".to_string(), trit_pair_json(&b3_staircase));
+        tm.insert(
+            "B3_stair_minus_4V4plus".to_string(),
+            trit_pair_json(&b3_stair_minus_4v4plus),
+        );
+        tm.insert("B3_tesseract_box".to_string(), int_json(64));
+        tm.insert(
+            "B3_box_minus_4V4plus".to_string(),
+            trit_pair_json(&b3_box_minus_4v4plus),
+        );
+        tm.insert("pi_sq_lower".to_string(), trit_pair_json(&pi_sq_lower));
+        tm.insert("pi_sq_upper".to_string(), trit_pair_json(&pi_sq_upper));
+        tm.insert("pi_4d_lower".to_string(), trit_pair_json(&pi_4d_lower));
+        tm.insert("pi_4d_upper".to_string(), trit_pair_json(&pi_4d_upper));
+        tm.insert(
+            "pi_cross_lower".to_string(),
+            match &pi_cross_lower {
+                Some(q) => trit_pair_json(q),
+                None => JsonValue::Null,
+            },
+        );
+        tm.insert(
+            "pi_cross_upper".to_string(),
+            match &pi_cross_upper {
+                Some(q) => trit_pair_json(q),
+                None => JsonValue::Null,
+            },
+        );
+        t4_json_rows.push(JsonValue::Object(tm));
+
+        t4_ratios.push(Tesseract4DRowRatios {
+            n,
+            v4_minus,
+            v4_plus,
+            v4_width,
+            b3_staircase,
+            pi_4d_lower,
+            pi_4d_upper,
+            pi_cross_lower,
+            pi_cross_upper,
+        });
+    }
+
+    // 4. Genuine cellular fold chain-map evaluation via explicit boundary & fold matrices
+    let fold = eval_cellular_fold_chain_map(false, true)?;
+
+    // 5. Quarantined B_ext Machin reference verification strictly after frozen B_core geometry
     let (lo5, hi5) = arctan_unit_enclosure(5, m_terms_i64 as usize)?;
     let (lo239, hi239) = arctan_unit_enclosure(239, m_terms_i64 as usize)?;
     let c16 = BigRat::from_i64(16);
     let c4 = BigRat::from_i64(4);
+    let c2 = BigRat::from_i64(2);
+    let half = BigRat::from_i64_pair(1, 2)?;
     let pi_lo = &(&c16 * &lo5) - &(&c4 * &hi239);
     let pi_hi = &(&c16 * &hi5) - &(&c4 * &lo239);
-    let axial_gap_lb = &BigRat::from_i64(8) - &(&BigRat::from_i64(2) * &pi_hi);
+    if pi_lo >= pi_hi {
+        return Err(CoreError::ValueError(
+            "Machin pi enclosure must satisfy pi_lo < pi_hi".to_string(),
+        ));
+    }
+    let axial_gap_lb = &BigRat::from_i64(8) - &(&c2 * &pi_hi);
     if !axial_gap_lb.is_positive() {
         return Err(CoreError::ValueError(
             "axial perimeter gap lower bound not positive".to_string(),
         ));
     }
 
-    let q4_counts = vec![
-        int_json(16),
-        int_json(32),
-        int_json(24),
-        int_json(8),
-        int_json(1),
-    ];
+    let pi_sq_ref_lo = &pi_lo * &pi_lo;
+    let pi_sq_ref_hi = &pi_hi * &pi_hi;
+    let v4_ref_lo = &pi_sq_ref_lo * &half;
+    let v4_ref_hi = &pi_sq_ref_hi * &half;
+    let two_pi_sq_hi = &c2 * &pi_sq_ref_hi;
+
+    for row in &t4_ratios {
+        let v4m = row.v4_minus.to_bigrat();
+        let v4p = row.v4_plus.to_bigrat();
+        if !(v4m <= v4_ref_lo && v4_ref_lo < v4_ref_hi && v4_ref_hi <= v4p) {
+            return Err(CoreError::ValueError(format!(
+                "4D volume enclosure failed B_ext pi^2/2 check at n={}",
+                row.n
+            )));
+        }
+        let p4l = row.pi_4d_lower.to_bigrat();
+        let p4u = row.pi_4d_upper.to_bigrat();
+        if !(p4l <= pi_lo && pi_lo < pi_hi && pi_hi <= p4u) {
+            return Err(CoreError::ValueError(format!(
+                "4D integer-root pi enclosure failed B_ext pi check at n={}",
+                row.n
+            )));
+        }
+        if let (Some(cl), Some(cu)) = (&row.pi_cross_lower, &row.pi_cross_upper) {
+            let cl_q = cl.to_bigrat();
+            let cu_q = cu.to_bigrat();
+            if !(cl_q <= pi_lo && pi_lo < pi_hi && pi_hi <= cu_q) {
+                return Err(CoreError::ValueError(format!(
+                    "4D cross-dimensional pi enclosure failed B_ext pi check at n={}",
+                    row.n
+                )));
+            }
+        }
+        if row.b3_staircase.to_bigrat() <= two_pi_sq_hi {
+            return Err(CoreError::ValueError(format!(
+                "4D staircase boundary B3_staircase must exceed 2*pi^2 at n={}",
+                row.n
+            )));
+        }
+    }
+
+    let axial_4d_gap_lb = &(&BigRat::from_i64_pair(32, 3)? * &pi_lo) - &two_pi_sq_hi;
+    if !axial_4d_gap_lb.is_positive() {
+        return Err(CoreError::ValueError(
+            "4D axial staircase gap lower bound 32*pi/3 - 2*pi^2 must be positive".to_string(),
+        ));
+    }
+
+    let q4_counts: Vec<JsonValue> = q4_counts_vec.into_iter().map(int_json).collect();
     let mut out = BTreeMap::new();
     out.insert("q4_cell_counts".to_string(), JsonValue::Array(q4_counts));
-    out.insert("V4_exact".to_string(), pair_json(&v4));
-    out.insert("B3_exact".to_string(), pair_json(&b3));
-    out.insert("boundary_sq_zero".to_string(), int_json(1));
+    out.insert("V4_exact".to_string(), trit_pair_json(&v4_tr));
+    out.insert("B3_exact".to_string(), trit_pair_json(&b3_tr));
+    out.insert("boundary_sq_zero".to_string(), int_json(boundary_sq_zero));
     out.insert("staircase".to_string(), JsonValue::Array(st_rows));
+    out.insert("tesseract_4d".to_string(), JsonValue::Array(t4_json_rows));
     out.insert("pi_lower".to_string(), pair_json(&pi_lo));
     out.insert("pi_upper".to_string(), pair_json(&pi_hi));
     out.insert("axial_gap_positive".to_string(), int_json(1));
-    out.insert("fold_occupied_area".to_string(), int_json(2));
-    out.insert("fold_image_area".to_string(), int_json(1));
-    out.insert("fold_retained_multiplicity".to_string(), int_json(2));
-    out.insert("fold_oriented_top_sum".to_string(), int_json(0));
+    out.insert("axial_4d_gap_positive".to_string(), int_json(1));
+    out.insert(
+        "fold_occupied_area".to_string(),
+        int_json(fold.fold_occupied_area),
+    );
+    out.insert(
+        "fold_image_area".to_string(),
+        int_json(fold.fold_image_area),
+    );
+    out.insert(
+        "fold_retained_multiplicity".to_string(),
+        int_json(fold.fold_retained_multiplicity),
+    );
+    out.insert(
+        "fold_oriented_top_sum".to_string(),
+        int_json(fold.fold_oriented_top_sum),
+    );
+    out.insert(
+        "fold_seam_cancelled".to_string(),
+        int_json(fold.fold_seam_cancelled),
+    );
+    out.insert(
+        "fold_surviving_boundary_edges".to_string(),
+        int_json(fold.fold_surviving_boundary_edges),
+    );
+    out.insert(
+        "chain_map_commutes".to_string(),
+        int_json(fold.chain_map_commutes),
+    );
     Ok(JsonValue::Object(out))
 }
 

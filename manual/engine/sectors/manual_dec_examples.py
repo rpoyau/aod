@@ -31,6 +31,7 @@ from manual.engine.numeric import (
     require_exact_int,
 )
 from manual.engine.policy import require_no_floats
+from manual.engine.ternary import TritRatio, TritWord
 
 MANUAL_DEC_EXTRA_FILES: tuple[str, ...] = (
     "manual/data/boundary_sadar/awareness_operativity_dec_walk.csv",
@@ -52,6 +53,11 @@ POPCOUNT_4: tuple[int, ...] = (0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4)
 
 def _pair(q: Fraction | int) -> list[str]:
     n_s, d_s = canonical_rational_pair(q)
+    return [n_s, d_s]
+
+
+def _trit_pair(q: TritRatio) -> list[str]:
+    n_s, d_s = q.canonical_pair()
     return [n_s, d_s]
 
 
@@ -492,12 +498,499 @@ def build_awareness_operativity_csv_rows() -> list[dict[str, str]]:
 
 
 # =============================================================================
-# RC-035: Manual §5 — Cell Measures, Integer Disk Staircase & Square Fold
+# RC-035: Manual §5 — Cell Measures, 2D Disk & 4D Tesseract-to-Pi, Square Fold
 # =============================================================================
+
+_CubicalCell = tuple[tuple[int, int], ...]
+
+
+def _cubical_boundary(cell: _CubicalCell) -> dict[_CubicalCell, int]:
+    """Exact alternating upper-minus-lower cubical boundary operator."""
+    result: dict[_CubicalCell, int] = {}
+    active = 0
+    for axis, (a, b) in enumerate(cell):
+        if a == b:
+            continue
+        sign_base = 1 if (active % 2 == 0) else -1
+        for endpoint, side in ((a, -1), (b, 1)):
+            spans = list(cell)
+            spans[axis] = (endpoint, endpoint)
+            result[tuple(spans)] = side * sign_base
+        active += 1
+    return result
+
+
+def _verify_q4_unit_cube() -> tuple[list[int], int]:
+    """Enumerate all 81 cells of Q_4 = [0,1]^4, verify counts, Euler char=1, and d^2=0."""
+    span_opts: tuple[tuple[int, int], ...] = ((0, 0), (0, 1), (1, 1))
+    cells: list[_CubicalCell] = []
+    for s0 in span_opts:
+        for s1 in span_opts:
+            for s2 in span_opts:
+                for s3 in span_opts:
+                    cells.append((s0, s1, s2, s3))
+    require(len(cells) == 81, f"Q_4 must contain 81 elementary cells, got {len(cells)}")
+
+    counts = [0, 0, 0, 0, 0]
+    for cell in cells:
+        dim = sum(1 for a, b in cell if a != b)
+        counts[dim] += 1
+        b1 = _cubical_boundary(cell)
+        b2: dict[_CubicalCell, int] = {}
+        for face, s1_coeff in b1.items():
+            for subface, s2_coeff in _cubical_boundary(face).items():
+                b2[subface] = b2.get(subface, 0) + s1_coeff * s2_coeff
+        require(
+            all(val == 0 for val in b2.values()),
+            f"cubical boundary squared nonzero on cell {cell}",
+        )
+
+    euler_char = sum((1 if d % 2 == 0 else -1) * counts[d] for d in range(5))
+    require(euler_char == 1, f"4-cube Euler characteristic must equal 1, got {euler_char}")
+    return (counts, 1)
+
+
+def _mat_mul(a: list[list[int]], b: list[list[int]]) -> list[list[int]]:
+    rows = len(a)
+    inner = len(a[0]) if rows > 0 else 0
+    require(len(b) == inner, "matrix multiplication inner dimension mismatch")
+    cols = len(b[0]) if inner > 0 else 0
+    out: list[list[int]] = []
+    for i in range(rows):
+        row: list[int] = []
+        for j in range(cols):
+            acc = 0
+            for k in range(inner):
+                acc += a[i][k] * b[k][j]
+            row.append(acc)
+        out.append(row)
+    return out
+
+
+def _mat_vec(a: list[list[int]], v: list[int]) -> list[int]:
+    rows = len(a)
+    inner = len(a[0]) if rows > 0 else 0
+    require(len(v) == inner, "matrix-vector inner dimension mismatch")
+    return [sum(a[i][k] * v[k] for k in range(inner)) for i in range(rows)]
+
+
+def _mat_is_zero(a: list[list[int]]) -> bool:
+    return all(val == 0 for row in a for val in row)
+
+
+def _complex_cells_by_dim(
+    tops: tuple[_CubicalCell, ...],
+) -> tuple[list[_CubicalCell], list[_CubicalCell], list[_CubicalCell]]:
+    """Compute sorted 0-, 1-, and 2-cells in the cubical closure of 2D top cells."""
+    all_cells: set[_CubicalCell] = set()
+    for top in tops:
+        require(len(top) == 2, "2D cubical complex required")
+        (ax, bx), (ay, by) = top
+        x_opts = ((ax, ax),) if ax == bx else ((ax, ax), (ax, bx), (bx, bx))
+        y_opts = ((ay, ay),) if ay == by else ((ay, ay), (ay, by), (by, by))
+        for xs in x_opts:
+            for ys in y_opts:
+                all_cells.add((xs, ys))
+    ordered = sorted(all_cells)
+    c0 = [c for c in ordered if sum(1 for a, b in c if a != b) == 0]
+    c1 = [c for c in ordered if sum(1 for a, b in c if a != b) == 1]
+    c2 = [c for c in ordered if sum(1 for a, b in c if a != b) == 2]
+    return (c0, c1, c2)
+
+
+def _boundary_matrix(
+    src_cells: list[_CubicalCell], tgt_cells: list[_CubicalCell]
+) -> list[list[int]]:
+    tgt_idx = {cell: i for i, cell in enumerate(tgt_cells)}
+    mat = [[0 for _ in range(len(src_cells))] for _ in range(len(tgt_cells))]
+    for j, cell in enumerate(src_cells):
+        for face, sign in _cubical_boundary(cell).items():
+            require(face in tgt_idx, f"boundary face {face} missing from complex")
+            mat[tgt_idx[face]][j] += sign
+    return mat
+
+
+def _fold_cell_image(cell: _CubicalCell) -> tuple[_CubicalCell, int]:
+    """Cellular fold f(x, y) = (min(x, 2 - x), y) with orientation reversal when x reverses."""
+    (a, b), y_span = cell
+    x0 = a if a <= 2 - a else 2 - a
+    x1 = b if b <= 2 - b else 2 - b
+    if x0 <= x1:
+        return (((x0, x1), y_span), 1)
+    return (((x1, x0), y_span), -1)
+
+
+def _fold_matrix(
+    src_cells: list[_CubicalCell],
+    tgt_cells: list[_CubicalCell],
+    *,
+    flip_right_face_sign: bool = False,
+) -> list[list[int]]:
+    tgt_idx = {cell: i for i, cell in enumerate(tgt_cells)}
+    mat = [[0 for _ in range(len(src_cells))] for _ in range(len(tgt_cells))]
+    right_face: _CubicalCell = ((1, 2), (0, 1))
+    for j, cell in enumerate(src_cells):
+        img, sign = _fold_cell_image(cell)
+        if flip_right_face_sign and cell == right_face:
+            sign = -sign
+        require(img in tgt_idx, f"fold image {img} missing from target complex")
+        mat[tgt_idx[img]][j] += sign
+    return mat
+
+
+def _eval_cellular_fold_chain_map(
+    *,
+    flip_right_face_sign: bool = False,
+    enforce_commutation: bool = True,
+) -> dict[str, int]:
+    """Evaluate K_2 = Q_L U Q_R -> L_2 = Q_* via explicit boundary & chain-map matrices.
+
+    All returned metrics are derived strictly from matrix algebra over Z with zero
+    hardcoded fold output literals.
+    """
+    k0, k1, k2 = _complex_cells_by_dim((((0, 1), (0, 1)), ((1, 2), (0, 1))))
+    l0, l1, l2 = _complex_cells_by_dim((((0, 1), (0, 1)),))
+    require(len(k0) == 6 and len(k1) == 7 and len(k2) == 2, "K_2 cell count mismatch")
+    require(len(l0) == 4 and len(l1) == 4 and len(l2) == 1, "L_2 cell count mismatch")
+
+    b2_k = _boundary_matrix(k2, k1)
+    b1_k = _boundary_matrix(k1, k0)
+    b2_l = _boundary_matrix(l2, l1)
+    b1_l = _boundary_matrix(l1, l0)
+    require(_mat_is_zero(_mat_mul(b1_k, b2_k)), "K_2 boundary squared B1_K * B2_K != 0")
+    require(_mat_is_zero(_mat_mul(b1_l, b2_l)), "L_2 boundary squared B1_L * B2_L != 0")
+
+    f0 = _fold_matrix(k0, l0)
+    f1 = _fold_matrix(k1, l1)
+    f2 = _fold_matrix(k2, l2, flip_right_face_sign=flip_right_face_sign)
+
+    comm_2 = _mat_mul(b2_l, f2) == _mat_mul(f1, b2_k)
+    comm_1 = _mat_mul(b1_l, f1) == _mat_mul(f0, b1_k)
+    commutes = comm_2 and comm_1
+    if enforce_commutation:
+        require(comm_2, "fold chain-map commutation failed: B2_L * F2 != F1 * B2_K")
+        require(comm_1, "fold chain-map commutation failed: B1_L * F1 != F0 * B1_K")
+
+    c_top = [1 for _ in k2]
+    b_k = _mat_vec(b2_k, c_top)
+    f2_top = _mat_vec(f2, c_top)
+    f1_bk = _mat_vec(f1, b_k)
+    if enforce_commutation:
+        require(
+            all(val == 0 for val in f1_bk),
+            "fold chain-map pushed exposed boundary F1(B2_K c_top) must vanish",
+        )
+
+    fold_occupied_area = sum(abs(v) for v in c_top)
+    fold_image_area = sum(
+        1
+        for row in f2
+        if any(row[j] * c_top[j] != 0 for j in range(len(c_top)))
+    )
+    fold_retained_multiplicity = sum(
+        abs(row[j] * c_top[j])
+        for row in f2
+        for j in range(len(c_top))
+    )
+    fold_oriented_top_sum = sum(f2_top)
+    fold_seam_cancelled = sum(
+        1
+        for r in range(len(k1))
+        if sum(abs(b2_k[r][j] * c_top[j]) for j in range(len(k2))) > 1 and b_k[r] == 0
+    )
+    fold_surviving_boundary_edges = sum(
+        1
+        for i in range(len(l1))
+        if sum(abs(f1[i][r] * b_k[r]) for r in range(len(k1))) > 0
+    )
+    chain_map_commutes = 1 if commutes else 0
+
+    return {
+        "fold_occupied_area": fold_occupied_area,
+        "fold_image_area": fold_image_area,
+        "fold_retained_multiplicity": fold_retained_multiplicity,
+        "fold_oriented_top_sum": fold_oriented_top_sum,
+        "fold_seam_cancelled": fold_seam_cancelled,
+        "fold_surviving_boundary_edges": fold_surviving_boundary_edges,
+        "chain_map_commutes": chain_map_commutes,
+    }
+
+
+def _tesseract_4d_counts_route_a(n: int) -> tuple[int, int, int]:
+    """Route A: sorted-orthant multinomial counts (N_in, N_out, N3_out) on [0,1]^4 and [0,1]^3."""
+    require(n >= 1, f"level n must be >= 1, got {n}")
+    n_sq = n * n
+    n_in = 0
+    n_out = 0
+    for a in range(n):
+        a2 = a * a
+        ap2 = (a + 1) * (a + 1)
+        for b in range(a, n):
+            ab2 = a2 + b * b
+            if ab2 >= n_sq:
+                break
+            abp2 = ap2 + (b + 1) * (b + 1)
+            for c in range(b, n):
+                abc2 = ab2 + c * c
+                if abc2 >= n_sq:
+                    break
+                abcp2 = abp2 + (c + 1) * (c + 1)
+                for d in range(c, n):
+                    s_min = abc2 + d * d
+                    if s_min >= n_sq:
+                        break
+                    if a == d:
+                        mult = 1
+                    elif a == c or b == d:
+                        mult = 4
+                    elif a == b and c == d:
+                        mult = 6
+                    elif a == b or b == c or c == d:
+                        mult = 12
+                    else:
+                        mult = 24
+                    n_out += mult
+                    if abcp2 + (d + 1) * (d + 1) <= n_sq:
+                        n_in += mult
+
+    n3_out = 0
+    for a in range(n):
+        a2 = a * a
+        for b in range(a, n):
+            ab2 = a2 + b * b
+            if ab2 >= n_sq:
+                break
+            for c in range(b, n):
+                if ab2 + c * c >= n_sq:
+                    break
+                if a == c:
+                    m3 = 1
+                elif a == b or b == c:
+                    m3 = 3
+                else:
+                    m3 = 6
+                n3_out += m3
+    return (n_in, n_out, n3_out)
+
+
+def _tesseract_4d_counts_route_b(n: int) -> tuple[int, int, int]:
+    """Route B: independent 3D-column integer-root counts (N_in, N_out, N3_out)."""
+    require(n >= 1, f"level n must be >= 1, got {n}")
+    n_sq = n * n
+    n_in = 0
+    n_out = 0
+    n3_out = 0
+    for a in range(n):
+        a2 = a * a
+        ap2 = (a + 1) * (a + 1)
+        for b in range(n):
+            ab2 = a2 + b * b
+            if ab2 >= n_sq:
+                continue
+            abp2 = ap2 + (b + 1) * (b + 1)
+            for c in range(n):
+                r_out = n_sq - ab2 - c * c
+                if r_out > 0:
+                    n3_out += 1
+                    n_out += _isqrt_ceil(r_out)
+                r_in = n_sq - abp2 - (c + 1) * (c + 1)
+                if r_in > 0:
+                    n_in += _isqrt_floor(r_in)
+    return (n_in, n_out, n3_out)
+
+
+def _tesseract_4d_orthant_counts(n: int) -> tuple[int, int, int]:
+    """Cross-checked single-orthant (N_in, N_out, N3_out) using Route A == Route B."""
+    route_a = _tesseract_4d_counts_route_a(n)
+    route_b = _tesseract_4d_counts_route_b(n)
+    require(
+        route_a == route_b,
+        f"4D orthant count route disagreement at n={n}: route_a={route_a}, route_b={route_b}",
+    )
+    return route_a
+
+
+def _compute_tesseract_4d_b_core(
+    levels: list[int],
+    disk_bounds_by_n: dict[int, tuple[TritRatio, TritRatio]],
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Pure B_core 4D tesseract-to-pi enclosure in TritWord/TritRatio (zero Machin arctan).
+
+    Returns ``(json_rows, ratio_rows)`` where ``ratio_rows`` carries exact ``TritRatio``
+    objects for downstream quarantined ``B_ext`` comparison.
+    """
+    tw_2 = TritWord.from_int(2)
+    tw_4 = TritWord.from_int(4)
+    tw_8 = TritWord.from_int(8)
+    tw_16 = TritWord.from_int(16)
+    tw_32 = TritWord.from_int(32)
+    tw_64 = TritWord.from_int(64)
+    tr_2 = TritRatio(tw_2, TritWord.ONE)
+    tr_4 = TritRatio(tw_4, TritWord.ONE)
+    tr_8 = TritRatio(tw_8, TritWord.ONE)
+    tr_64 = TritRatio(tw_64, TritWord.ONE)
+
+    json_rows: list[dict[str, object]] = []
+    ratio_rows: list[dict[str, object]] = []
+    prev_entry: dict[str, object] | None = None
+
+    for n in levels:
+        require(n >= 1, f"level n must be >= 1, got {n}")
+        n_in, n_out, n3_out = _tesseract_4d_orthant_counts(n)
+        tw_n = TritWord.from_int(n)
+        tw_n2 = tw_n.mul(tw_n)
+        tw_n3 = tw_n2.mul(tw_n)
+        tw_n4 = tw_n2.mul(tw_n2)
+        tw_in = TritWord.from_int(n_in)
+        tw_out = TritWord.from_int(n_out)
+        tw_n3_out = TritWord.from_int(n3_out)
+
+        v4_minus = TritRatio(tw_16.mul(tw_in), tw_n4)
+        v4_plus = TritRatio(tw_16.mul(tw_out), tw_n4)
+        v4_width = v4_plus.sub(v4_minus)
+        cert_width_bound = TritRatio(tw_64, tw_n)
+        require(
+            v4_width <= cert_width_bound,
+            f"4D volume enclosure width {v4_width} exceeds certified 64/n bound at n={n}",
+        )
+
+        v3_plus = TritRatio(tw_8.mul(tw_n3_out), tw_n3)
+        b3_staircase = tr_8.mul(v3_plus)
+        four_v4_plus = tr_4.mul(v4_plus)
+        b3_stair_minus_4v4plus = b3_staircase.sub(four_v4_plus)
+        b3_box_minus_4v4plus = tr_64.sub(four_v4_plus)
+        if n == 1:
+            require(
+                b3_stair_minus_4v4plus == TritRatio.ZERO and b3_box_minus_4v4plus == TritRatio.ZERO,
+                "at n=1, B3_staircase and B3_tesseract_box must equal 4*V4_plus = 64",
+            )
+        else:
+            require(
+                b3_stair_minus_4v4plus.sign() > 0,
+                f"4D staircase falsifier B3_stair - 4*V4_plus must be > 0 at n={n}",
+            )
+            require(
+                b3_box_minus_4v4plus.sign() > 0,
+                f"4D box falsifier 64 - 4*V4_plus must be > 0 at n={n}",
+            )
+
+        pi_sq_lower = tr_2.mul(v4_minus)
+        pi_sq_upper = tr_2.mul(v4_plus)
+        pi_4d_num_lo = _isqrt_floor(tw_32.mul(tw_in).to_int())
+        pi_4d_num_hi = _isqrt_ceil(tw_32.mul(tw_out).to_int())
+        pi_4d_lower = TritRatio(TritWord.from_int(pi_4d_num_lo), tw_n2)
+        pi_4d_upper = TritRatio(TritWord.from_int(pi_4d_num_hi), tw_n2)
+        require(
+            pi_4d_lower.mul(pi_4d_lower) <= pi_sq_lower,
+            f"pi_4d_lower^2 must not exceed pi_sq_lower at n={n}",
+        )
+        require(
+            pi_sq_upper <= pi_4d_upper.mul(pi_4d_upper),
+            f"pi_4d_upper^2 must be >= pi_sq_upper at n={n}",
+        )
+
+        a2_minus, a2_plus = disk_bounds_by_n[n]
+        pi_cross_lower: TritRatio | None
+        pi_cross_upper: TritRatio | None
+        if a2_minus.sign() == 0:
+            pi_cross_lower = None
+            pi_cross_upper = None
+        else:
+            pi_cross_lower = pi_sq_lower.div(a2_plus)
+            pi_cross_upper = pi_sq_upper.div(a2_minus)
+            require(
+                pi_cross_lower <= pi_cross_upper,
+                f"cross-dimensional pi bounds inverted at n={n}",
+            )
+
+        cur_ratios: dict[str, object] = {
+            "n": n,
+            "V4_minus": v4_minus,
+            "V4_plus": v4_plus,
+            "V4_width": v4_width,
+            "V3_plus": v3_plus,
+            "B3_staircase": b3_staircase,
+            "B3_stair_minus_4V4plus": b3_stair_minus_4v4plus,
+            "B3_box_minus_4V4plus": b3_box_minus_4v4plus,
+            "pi_sq_lower": pi_sq_lower,
+            "pi_sq_upper": pi_sq_upper,
+            "pi_4d_lower": pi_4d_lower,
+            "pi_4d_upper": pi_4d_upper,
+            "pi_cross_lower": pi_cross_lower,
+            "pi_cross_upper": pi_cross_upper,
+        }
+
+        if prev_entry is not None:
+            prev_n = require_exact_int(prev_entry["n"], name="prev_n")
+            if n == 2 * prev_n:
+                prev_v4m = prev_entry["V4_minus"]
+                prev_v4p = prev_entry["V4_plus"]
+                prev_v4w = prev_entry["V4_width"]
+                prev_b3s = prev_entry["B3_staircase"]
+                prev_p4l = prev_entry["pi_4d_lower"]
+                prev_p4u = prev_entry["pi_4d_upper"]
+                require(
+                    isinstance(prev_v4m, TritRatio)
+                    and isinstance(prev_v4p, TritRatio)
+                    and isinstance(prev_v4w, TritRatio)
+                    and isinstance(prev_b3s, TritRatio)
+                    and isinstance(prev_p4l, TritRatio)
+                    and isinstance(prev_p4u, TritRatio),
+                    "internal TritRatio invariant violation",
+                )
+                require(prev_v4m <= v4_minus, f"dyadic V4_minus monotonicity failed at {prev_n}->{n}")
+                require(v4_plus <= prev_v4p, f"dyadic V4_plus monotonicity failed at {prev_n}->{n}")
+                require(v4_width < prev_v4w, f"dyadic V4_width contraction failed at {prev_n}->{n}")
+                require(b3_staircase <= prev_b3s, f"dyadic B3_staircase monotonicity failed at {prev_n}->{n}")
+                require(prev_p4l <= pi_4d_lower, f"dyadic pi_4d_lower monotonicity failed at {prev_n}->{n}")
+                require(pi_4d_upper <= prev_p4u, f"dyadic pi_4d_upper monotonicity failed at {prev_n}->{n}")
+                prev_pcl = prev_entry["pi_cross_lower"]
+                prev_pcu = prev_entry["pi_cross_upper"]
+                if (
+                    isinstance(prev_pcl, TritRatio)
+                    and isinstance(prev_pcu, TritRatio)
+                    and pi_cross_lower is not None
+                    and pi_cross_upper is not None
+                ):
+                    require(
+                        prev_pcl <= pi_cross_lower,
+                        f"dyadic pi_cross_lower monotonicity failed at {prev_n}->{n}",
+                    )
+                    require(
+                        pi_cross_upper <= prev_pcu,
+                        f"dyadic pi_cross_upper monotonicity failed at {prev_n}->{n}",
+                    )
+
+        prev_entry = cur_ratios
+        ratio_rows.append(cur_ratios)
+        json_rows.append(
+            {
+                "n": n,
+                "N_in_orthant": n_in,
+                "N_out_orthant": n_out,
+                "N3_out_orthant": n3_out,
+                "V4_minus": _trit_pair(v4_minus),
+                "V4_plus": _trit_pair(v4_plus),
+                "V4_width": _trit_pair(v4_width),
+                "V3_plus": _trit_pair(v3_plus),
+                "B3_staircase": _trit_pair(b3_staircase),
+                "B3_stair_minus_4V4plus": _trit_pair(b3_stair_minus_4v4plus),
+                "B3_tesseract_box": 64,
+                "B3_box_minus_4V4plus": _trit_pair(b3_box_minus_4v4plus),
+                "pi_sq_lower": _trit_pair(pi_sq_lower),
+                "pi_sq_upper": _trit_pair(pi_sq_upper),
+                "pi_4d_lower": _trit_pair(pi_4d_lower),
+                "pi_4d_upper": _trit_pair(pi_4d_upper),
+                "pi_cross_lower": None if pi_cross_lower is None else _trit_pair(pi_cross_lower),
+                "pi_cross_upper": None if pi_cross_upper is None else _trit_pair(pi_cross_upper),
+            }
+        )
+
+    return (json_rows, ratio_rows)
 
 
 def eval_dec_cell_measures_staircase_fold(inputs: dict[str, object]) -> dict[str, object]:
-    """Evaluate Q4 cubical measures, integer disk staircase & square fold (RC-035)."""
+    """Evaluate Q4 cubical measures, 2D disk & 4D tesseract-to-pi enclosures, and cellular fold (RC-035)."""
     e_num = require_exact_int(inputs.get("edge_num"), name="edge_num")
     e_den = require_exact_int(inputs.get("edge_den"), name="edge_den")
     require(e_num > 0 and e_den > 0, "edge length must be positive")
@@ -507,14 +1000,19 @@ def eval_dec_cell_measures_staircase_fold(inputs: dict[str, object]) -> dict[str
     m_terms = require_exact_int(inputs.get("machin_terms"), name="machin_terms")
     require(1 <= m_terms <= 64, "machin_terms out of range")
 
-    a = Fraction(e_num, e_den)
-    q4_counts = [16, 32, 24, 8, 1]
-    euler_char = 16 - 32 + 24 - 8 + 1
-    require(euler_char == 1, "4-cube Euler characteristic must equal 1")
-    v4 = a * a * a * a
-    b3 = 8 * a * a * a
+    # 1. Pure B_core Q4 unit cube enumeration and d^2 = 0 verification
+    q4_counts, boundary_sq_zero = _verify_q4_unit_cube()
+    a_tr = TritRatio.from_ints(e_num, e_den)
+    a2_tr = a_tr.mul(a_tr)
+    a3_tr = a2_tr.mul(a_tr)
+    v4_tr = a2_tr.mul(a2_tr)
+    b3_tr = TritRatio.from_ints(8, 1).mul(a3_tr)
 
+    # 2. Pure B_core 2D unit-disk integer staircase enclosure
     staircase_rows: list[dict[str, object]] = []
+    disk_bounds_by_n: dict[int, tuple[TritRatio, TritRatio]] = {}
+    tr_8 = TritRatio.from_ints(8, 1)
+    tr_2 = TritRatio.from_ints(2, 1)
     for n in levels:
         require(n >= 1, f"level n must be >= 1, got {n}")
         n_sq = n * n
@@ -524,61 +1022,136 @@ def eval_dec_cell_measures_staircase_fold(inputs: dict[str, object]) -> dict[str
             u_sum += _isqrt_ceil(n_sq - i * i)
             rem = n_sq - (i + 1) * (i + 1)
             l_sum += _isqrt_floor(rem) if rem > 0 else 0
-        a_minus = Fraction(4 * l_sum, n_sq)
-        a_plus = Fraction(4 * u_sum, n_sq)
+        a_minus_tr = TritRatio.from_ints(4 * l_sum, n_sq)
+        a_plus_tr = TritRatio.from_ints(4 * u_sum, n_sq)
         c_axial = 8
-        disc = Fraction(c_axial, 1) - 2 * a_plus
+        disc_tr = tr_8.sub(tr_2.mul(a_plus_tr))
+        disk_bounds_by_n[n] = (a_minus_tr, a_plus_tr)
         staircase_rows.append(
             {
                 "n": n,
-                "A_minus": _pair(a_minus),
-                "A_plus": _pair(a_plus),
+                "A_minus": _trit_pair(a_minus_tr),
+                "A_plus": _trit_pair(a_plus_tr),
                 "C_axial": c_axial,
-                "Cr_minus_2Aplus": _pair(disc),
+                "Cr_minus_2Aplus": _trit_pair(disc_tr),
             }
         )
 
-    # Machin enclosure: pi = 16 * arctan(1/5) - 4 * arctan(1/239)
+    # 3. Pure B_core 4D tesseract microcell enclosure to pi^2/2 and pi (zero Machin arctan)
+    tesseract_4d_rows, tesseract_4d_ratios = _compute_tesseract_4d_b_core(levels, disk_bounds_by_n)
+
+    # 4. Genuine cellular fold chain-map evaluation via explicit boundary & fold matrices
+    fold_metrics = _eval_cellular_fold_chain_map()
+
+    # 5. Quarantined B_ext Machin reference verification strictly after frozen B_core geometry
     lo5, hi5 = _arctan_unit_enclosure(5, m_terms)
     lo239, hi239 = _arctan_unit_enclosure(239, m_terms)
     pi_lo = 16 * lo5 - 4 * hi239
     pi_hi = 16 * hi5 - 4 * lo239
+    require(pi_lo < pi_hi, "Machin pi enclosure must satisfy pi_lo < pi_hi")
     tau_hi = 2 * pi_hi
     axial_gap_lb = Fraction(8, 1) - tau_hi
     require(axial_gap_lb > 0, "axial perimeter gap lower bound must be strictly positive")
 
+    pi_sq_ref_lo = pi_lo * pi_lo
+    pi_sq_ref_hi = pi_hi * pi_hi
+    v4_ref_lo = pi_sq_ref_lo * Fraction(1, 2)
+    v4_ref_hi = pi_sq_ref_hi * Fraction(1, 2)
+    two_pi_sq_hi = 2 * pi_sq_ref_hi
+    for row_r in tesseract_4d_ratios:
+        v4m_q = row_r["V4_minus"]
+        v4p_q = row_r["V4_plus"]
+        p4l_q = row_r["pi_4d_lower"]
+        p4u_q = row_r["pi_4d_upper"]
+        b3s_q = row_r["B3_staircase"]
+        pcl_q = row_r["pi_cross_lower"]
+        pcu_q = row_r["pi_cross_upper"]
+        require(
+            isinstance(v4m_q, TritRatio)
+            and isinstance(v4p_q, TritRatio)
+            and isinstance(p4l_q, TritRatio)
+            and isinstance(p4u_q, TritRatio)
+            and isinstance(b3s_q, TritRatio),
+            "internal TritRatio invariant violation in B_ext check",
+        )
+        require(
+            v4m_q.to_fraction() <= v4_ref_lo < v4_ref_hi <= v4p_q.to_fraction(),
+            f"4D volume enclosure failed B_ext pi^2/2 check at n={row_r['n']}",
+        )
+        require(
+            p4l_q.to_fraction() <= pi_lo < pi_hi <= p4u_q.to_fraction(),
+            f"4D integer-root pi enclosure failed B_ext pi check at n={row_r['n']}",
+        )
+        if isinstance(pcl_q, TritRatio) and isinstance(pcu_q, TritRatio):
+            require(
+                pcl_q.to_fraction() <= pi_lo < pi_hi <= pcu_q.to_fraction(),
+                f"4D cross-dimensional pi enclosure failed B_ext pi check at n={row_r['n']}",
+            )
+        require(
+            b3s_q.to_fraction() > two_pi_sq_hi,
+            f"4D staircase boundary B3_staircase must exceed 2*pi^2 at n={row_r['n']}",
+        )
+
+    axial_4d_gap_lb = Fraction(32, 3) * pi_lo - two_pi_sq_hi
+    require(
+        axial_4d_gap_lb > 0,
+        "4D axial staircase gap lower bound 32*pi/3 - 2*pi^2 must be strictly positive",
+    )
+
     out: dict[str, object] = {
         "q4_cell_counts": q4_counts,
-        "V4_exact": _pair(v4),
-        "B3_exact": _pair(b3),
-        "boundary_sq_zero": 1,
+        "V4_exact": _trit_pair(v4_tr),
+        "B3_exact": _trit_pair(b3_tr),
+        "boundary_sq_zero": boundary_sq_zero,
         "staircase": staircase_rows,
+        "tesseract_4d": tesseract_4d_rows,
         "pi_lower": _pair(pi_lo),
         "pi_upper": _pair(pi_hi),
         "axial_gap_positive": 1,
-        "fold_occupied_area": 2,
-        "fold_image_area": 1,
-        "fold_retained_multiplicity": 2,
-        "fold_oriented_top_sum": 0,
+        "axial_4d_gap_positive": 1,
+        "fold_occupied_area": fold_metrics["fold_occupied_area"],
+        "fold_image_area": fold_metrics["fold_image_area"],
+        "fold_retained_multiplicity": fold_metrics["fold_retained_multiplicity"],
+        "fold_oriented_top_sum": fold_metrics["fold_oriented_top_sum"],
+        "fold_seam_cancelled": fold_metrics["fold_seam_cancelled"],
+        "fold_surviving_boundary_edges": fold_metrics["fold_surviving_boundary_edges"],
+        "chain_map_commutes": fold_metrics["chain_map_commutes"],
     }
     require_no_floats(out)
     return out
 
 
 def build_cell_measures_csv_rows() -> list[dict[str, str]]:
-    """Build deterministic 6-row integer disk staircase & fold CSV for Manual §5."""
+    """Build deterministic 6-row 2D disk & 4D tesseract-to-pi staircase CSV for Manual §5."""
     res = eval_dec_cell_measures_staircase_fold(
         {"edge_num": 3, "edge_den": 2, "levels": [1, 2, 4, 8, 16, 32], "machin_terms": 8}
     )
     rows: list[dict[str, str]] = []
     st_list = res["staircase"]
-    require(isinstance(st_list, list), "staircase must be list")
-    for item in st_list:
-        require(isinstance(item, dict), "row must be dict")
+    t4_list = res["tesseract_4d"]
+    require(isinstance(st_list, list) and isinstance(t4_list, list), "staircase and tesseract_4d must be lists")
+    require(len(st_list) == len(t4_list), "staircase and tesseract_4d length mismatch")
+    for item, t4 in zip(st_list, t4_list):
+        require(isinstance(item, dict) and isinstance(t4, dict), "row must be dict")
+        require(item["n"] == t4["n"], "2D/4D level alignment mismatch")
         am = _parse_pair(item["A_minus"], name="A_minus")
         ap = _parse_pair(item["A_plus"], name="A_plus")
         dc = _parse_pair(item["Cr_minus_2Aplus"], name="Cr_minus_2Aplus")
         gap_w = ap - am
+
+        v4m = _parse_pair(t4["V4_minus"], name="V4_minus")
+        v4p = _parse_pair(t4["V4_plus"], name="V4_plus")
+        v4w = _parse_pair(t4["V4_width"], name="V4_width")
+        b3s = _parse_pair(t4["B3_staircase"], name="B3_staircase")
+        b3s_diff = _parse_pair(t4["B3_stair_minus_4V4plus"], name="B3_stair_minus_4V4plus")
+        b3b_diff = _parse_pair(t4["B3_box_minus_4V4plus"], name="B3_box_minus_4V4plus")
+        p4l = _parse_pair(t4["pi_4d_lower"], name="pi_4d_lower")
+        p4u = _parse_pair(t4["pi_4d_upper"], name="pi_4d_upper")
+        pcl_raw = t4["pi_cross_lower"]
+        pcu_raw = t4["pi_cross_upper"]
+        pcl_str = "null" if pcl_raw is None else canonical_rational_str(_parse_pair(pcl_raw, name="pi_cross_lower"))
+        pcu_str = "null" if pcu_raw is None else canonical_rational_str(_parse_pair(pcu_raw, name="pi_cross_upper"))
+
         rows.append(
             {
                 "n": str(item["n"]),
@@ -588,6 +1161,19 @@ def build_cell_measures_csv_rows() -> list[dict[str, str]]:
                 "C_axial": str(item["C_axial"]),
                 "Cr_minus_2Aplus": canonical_rational_str(dc),
                 "A_plus_dec6": format_rational_fixed(ap, 6),
+                "V4_minus_exact": canonical_rational_str(v4m),
+                "V4_plus_exact": canonical_rational_str(v4p),
+                "V4_width_exact": canonical_rational_str(v4w),
+                "B3_staircase_exact": canonical_rational_str(b3s),
+                "B3_stair_minus_4V4plus": canonical_rational_str(b3s_diff),
+                "B3_tesseract_box": str(t4["B3_tesseract_box"]),
+                "B3_box_minus_4V4plus": canonical_rational_str(b3b_diff),
+                "pi_4d_lower_exact": canonical_rational_str(p4l),
+                "pi_4d_upper_exact": canonical_rational_str(p4u),
+                "pi_4d_lower_dec6": format_rational_fixed(p4l, 6),
+                "pi_4d_upper_dec6": format_rational_fixed(p4u, 6),
+                "pi_cross_lower_exact": pcl_str,
+                "pi_cross_upper_exact": pcu_str,
             }
         )
     return rows

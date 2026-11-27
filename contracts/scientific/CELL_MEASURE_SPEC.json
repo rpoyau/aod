@@ -38,6 +38,23 @@
     "area_error": "inner/outer inclusion is a deterministic enclosure; gap <= 8/n by quarter-column floor telescoping and ceiling correction; no distribution or sigma supplied",
     "limit_claim": "same-disk area enclosure converges by gap <= 8/n; axial perimeter is exactly 8 at every level; no physical continuum claim"
   },
+  "tesseract_4d_ball": {
+    "object": "closed unit 4-ball x_1^2+x_2^2+x_3^2+x_4^2<=1 in [-1,1]^4 declared Euclidean report coordinates",
+    "levels": [1, 2, 4, 8, 16, 32],
+    "refinement": "dyadic 4D tesseract grid (2n)^4 microcells of side 1/n and 4-volume 1/n^4",
+    "outer_rule": "minimum corner squared radius < n^2 on integer cells in [-n,n]^4",
+    "inner_rule": "maximum corner squared radius <= n^2",
+    "symmetry_cross_check": "sorted-orthant 16x multinomial count cross-checked against independent 3D-column integer-root count and literal 4D occupancy enumeration for n in {1,2,4}",
+    "volume_estimator": "occupied 4-cell volume sum V4_minus = 16*N_in/n^4 <= pi^2/2 <= 16*N_out/n^4 = V4_plus",
+    "pi_4d_estimator": "pure finite-4-cube integer-root enclosure pi_4d_lower = isqrt_floor(32*N_in)/n^2 <= pi <= isqrt_ceil(32*N_out)/n^2 = pi_4d_upper with zero Machin arctan in B_core",
+    "pi_cross_estimator": "cross-dimensional ratio 2*V4/A2 enclosing pi for n>=2 (null at n=1 where A2_minus=0)",
+    "boundary_staircase_estimator": "exact exposed 3-boundary of outer 4-ball staircase B3_staircase = 8*V3_plus = 64*N3_out/n^3 (verified by literal neighbor absence for n in {1,2,4}: 64, 64, 51; converging to 32*pi/3 != 2*pi^2)",
+    "boundary_box_estimator": "bounding 4-cube [-1,1]^4 exposed 3-boundary B3_tesseract_box = 64 (strictly distinct from B3_staircase for n>=4)",
+    "staircase_falsifiers": "B3_stair_minus_4V4plus = B3_staircase - 4*V4_plus > 0 and B3_box_minus_4V4plus = 64 - 4*V4_plus > 0 for all n>=2",
+    "volume_error": "deterministic inclusion enclosure with width V4_plus - V4_minus <= 64/n by diagonal shift injection; no distribution or sigma supplied",
+    "reference_independence": "integer 4-ball selection, weights, boundary estimators, integer-root pi enclosure, and dyadic refinement do not read pi/tau or Machin reference values",
+    "limit_claim": "4D tesseract microcell enclosure converges to V4(B^4)=pi^2/2 and pi via pure integer roots with width <= 64/n while exposed 3-boundary converges to 32*pi/3 != 2*pi^2; declared verification model only, no physical continuum claim"
+  },
   "fold": {
     "domain": "two adjacent occupied unit squares and every face",
     "codomain": "one occupied unit square and every face",
@@ -52,5 +69,5 @@
     "terms": [4, 8, 16]
   },
   "native_semantics": "No new native events or certificates are fabricated or admitted. Conditional cells and construction lineages do not replace closure, wave, temporal or directional coupling records.",
-  "scope_limits": ["physical length/area/volume not derived", "no AOD native higher-cell admission established", "G6 sphere extension not opened"]
+  "scope_limits": ["physical length/area/volume not derived", "no AOD native higher-cell admission established", "G6 4D tesseract-to-pi extension is a declared verification model only, not native physical geometry"]
 }

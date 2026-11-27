@@ -423,6 +423,318 @@ def anisotropy_record():
             "joint_relabelling_invariant": h.value == covariant.value}
 
 
+def _isqrt_ceil(n):
+    require(type(n) is int and n >= 0, "nonnegative integer required for isqrt_ceil")
+    fl = isqrt(n)
+    return fl if fl * fl == n else fl + 1
+
+
+def tesseract_ball_counts(n):
+    """Route A: sorted-orthant 16x multinomial counts (N_in, N_out, N3_out) on [0,1]^4 and [0,1]^3."""
+    require(type(n) is int and n > 0, "positive integer refinement required")
+    n_sq = n * n
+    n_in = 0
+    n_out = 0
+    for a in range(n):
+        a2 = a * a
+        ap2 = (a + 1) * (a + 1)
+        for b in range(a, n):
+            ab2 = a2 + b * b
+            if ab2 >= n_sq:
+                break
+            abp2 = ap2 + (b + 1) * (b + 1)
+            for c in range(b, n):
+                abc2 = ab2 + c * c
+                if abc2 >= n_sq:
+                    break
+                abcp2 = abp2 + (c + 1) * (c + 1)
+                for d in range(c, n):
+                    if abc2 + d * d >= n_sq:
+                        break
+                    if a == d:
+                        mult = 1
+                    elif a == c or b == d:
+                        mult = 4
+                    elif a == b and c == d:
+                        mult = 6
+                    elif a == b or b == c or c == d:
+                        mult = 12
+                    else:
+                        mult = 24
+                    n_out += mult
+                    if abcp2 + (d + 1) * (d + 1) <= n_sq:
+                        n_in += mult
+    n3_out = 0
+    for a in range(n):
+        a2 = a * a
+        for b in range(a, n):
+            ab2 = a2 + b * b
+            if ab2 >= n_sq:
+                break
+            for c in range(b, n):
+                if ab2 + c * c >= n_sq:
+                    break
+                if a == c:
+                    m3 = 1
+                elif a == b or b == c:
+                    m3 = 3
+                else:
+                    m3 = 6
+                n3_out += m3
+    return n_in, n_out, n3_out
+
+
+def independent_tesseract_ball_counts(n):
+    """Route B: independent 3D-column integer-root counts (N_in, N_out, N3_out)."""
+    require(type(n) is int and n > 0, "positive integer refinement required")
+    n_sq = n * n
+    n_in = 0
+    n_out = 0
+    n3_out = 0
+    for a in range(n):
+        a2 = a * a
+        ap2 = (a + 1) * (a + 1)
+        for b in range(n):
+            ab2 = a2 + b * b
+            if ab2 >= n_sq:
+                continue
+            abp2 = ap2 + (b + 1) * (b + 1)
+            for c in range(n):
+                r_out = n_sq - ab2 - c * c
+                if r_out > 0:
+                    n3_out += 1
+                    n_out += _isqrt_ceil(r_out)
+                r_in = n_sq - abp2 - (c + 1) * (c + 1)
+                if r_in > 0:
+                    n_in += isqrt(r_in)
+    return n_in, n_out, n3_out
+
+
+def tesseract_ball_tops(n, kind="outer"):
+    """Fixed unit 4-ball B^4: rational 4-cells selected using integer inequalities only."""
+    require(type(n) is int and n > 0, "positive integer refinement required")
+    require(kind in ("inner", "outer"), "unknown 4-ball estimator")
+    n_sq = n * n
+    cells = []
+    for i in range(-n, n):
+        mi = min(abs(i), abs(i + 1)) ** 2
+        fi = max(abs(i), abs(i + 1)) ** 2
+        if kind == "outer" and mi >= n_sq:
+            continue
+        if kind == "inner" and fi > n_sq:
+            continue
+        for j in range(-n, n):
+            mij = mi + min(abs(j), abs(j + 1)) ** 2
+            fij = fi + max(abs(j), abs(j + 1)) ** 2
+            if kind == "outer" and mij >= n_sq:
+                continue
+            if kind == "inner" and fij > n_sq:
+                continue
+            for k in range(-n, n):
+                mijk = mij + min(abs(k), abs(k + 1)) ** 2
+                fijk = fij + max(abs(k), abs(k + 1)) ** 2
+                if kind == "outer" and mijk >= n_sq:
+                    continue
+                if kind == "inner" and fijk > n_sq:
+                    continue
+                for m in range(-n, n):
+                    near = mijk + min(abs(m), abs(m + 1)) ** 2
+                    far = fijk + max(abs(m), abs(m + 1)) ** 2
+                    if (kind == "outer" and near < n_sq) or (kind == "inner" and far <= n_sq):
+                        cells.append(Cell(((i, i + 1), (j, j + 1), (k, k + 1), (m, m + 1))))
+    return tuple(cells)
+
+
+def validate_tesseract_refinement(coarse_n, fine_n, coarse_level, fine_level):
+    require(type(coarse_n) is int and coarse_n > 0 and fine_n == 2 * coarse_n,
+            "declared 4D refinement is dyadic")
+    c_in, c_out, c3_out = tesseract_ball_counts(coarse_n)
+    f_in, f_out, f3_out = tesseract_ball_counts(fine_n)
+    require((coarse_level["inner_orthant_count"], coarse_level["outer_orthant_count"],
+             coarse_level["outer_3d_orthant_count"]) == (c_in, c_out, c3_out),
+            "changed coarse 4D object or estimator")
+    require((fine_level["inner_orthant_count"], fine_level["outer_orthant_count"],
+             fine_level["outer_3d_orthant_count"]) == (f_in, f_out, f3_out),
+            "changed fine 4D object or estimator")
+    require(exact(coarse_level["V4_inner"]) <= exact(fine_level["V4_inner"]),
+            "4D inner refinement monotonicity violated")
+    require(exact(fine_level["V4_outer"]) <= exact(coarse_level["V4_outer"]),
+            "4D outer refinement monotonicity violated")
+    require(exact(fine_level["V4_enclosure_width"]) < exact(coarse_level["V4_enclosure_width"]),
+            "4D volume enclosure width failed to contract")
+    require(exact(fine_level["B3_staircase"]) <= exact(coarse_level["B3_staircase"]),
+            "4D staircase boundary monotonicity violated")
+    if fine_n <= 4:
+        coarse_set = set(tesseract_ball_tops(coarse_n, "outer"))
+        for cell in tesseract_ball_tops(fine_n, "outer"):
+            parent = Cell(tuple((a // 2, a // 2 + 1) for a, _ in cell.spans))
+            require(parent in coarse_set, "4D outer refinement leaves parent support")
+    return True
+
+
+def validate_4d_staircase_vs_box(level, claimed_b3_staircase):
+    actual_stair = exact(level["B3_staircase"])
+    claimed = exact(claimed_b3_staircase)
+    require(claimed == actual_stair,
+            f"4D staircase 3-boundary ({actual_stair}) cannot be conflated with claimed {claimed}")
+    return True
+
+
+def tesseract_ball_level(n):
+    """Reference-free B_core 4D tesseract-to-pi enclosure at dyadic level n."""
+    n_in, n_out, n3_out = tesseract_ball_counts(n)
+    require((n_in, n_out, n3_out) == independent_tesseract_ball_counts(n),
+            "4D orthant vs 3D-column count route disagreement")
+    literal_verified = False
+    outer_sha = None
+    if n in (1, 2, 4):
+        tops = tesseract_ball_tops(n, "outer")
+        inner_tops = tesseract_ball_tops(n, "inner")
+        require(len(tops) == 16 * n_out, "4D literal outer cell count disagreement")
+        require(len(inner_tops) == 16 * n_in, "4D literal inner cell count disagreement")
+        model = CubicalComplex(f"unit-4ball-outer-n{n}", tops)
+        neighbor_faces = exposed_faces_by_occupancy(model)
+        exterior = boundary(model.top_chain)
+        require(all(abs(v) == 1 for v in exterior.values()), "non-unit 4D exposed multiplicity")
+        require(set(exterior) == set(neighbor_faces), "4D independent boundary disagreement")
+        require(len(neighbor_faces) == 64 * n3_out,
+                "4D literal exposed 3-face count disagrees with 64*N3_out")
+        literal_verified = True
+        outer_sha = digest([c.identity for c in tops])
+
+    v4_inner = Fraction(16 * n_in, n**4)
+    v4_outer = Fraction(16 * n_out, n**4)
+    v4_width = v4_outer - v4_inner
+    cert_bound = Fraction(64, n)
+    require(v4_width <= cert_bound, "4D volume enclosure width exceeds certified 64/n bound")
+
+    v3_outer = Fraction(8 * n3_out, n**3)
+    b3_staircase = 8 * v3_outer
+    b3_stair_minus_4v4 = b3_staircase - 4 * v4_outer
+    b3_box = Fraction(64, 1)
+    b3_box_minus_4v4 = b3_box - 4 * v4_outer
+    if n == 1:
+        require(b3_stair_minus_4v4 == 0 and b3_box_minus_4v4 == 0,
+                "at n=1, B3_staircase and B3_tesseract_box must equal 4*V4_outer = 64")
+    else:
+        require(b3_stair_minus_4v4 > 0, "4D staircase falsifier B3_stair - 4*V4_outer must be > 0")
+        require(b3_box_minus_4v4 > 0, "4D box falsifier 64 - 4*V4_outer must be > 0")
+
+    pi_sq_lower = 2 * v4_inner
+    pi_sq_upper = 2 * v4_outer
+    pi_4d_lower = Fraction(isqrt(32 * n_in), n * n)
+    pi_4d_upper = Fraction(_isqrt_ceil(32 * n_out), n * n)
+    require(pi_4d_lower * pi_4d_lower <= pi_sq_lower and pi_sq_upper <= pi_4d_upper * pi_4d_upper,
+            "4D integer-root pi enclosure violates square bounds")
+
+    a2_inner = Fraction(independent_disk_count(n, "inner"), n * n)
+    a2_outer = Fraction(independent_disk_count(n, "outer"), n * n)
+    if a2_inner == 0:
+        pi_cross_lower = None
+        pi_cross_upper = None
+    else:
+        pi_cross_lower = str(pi_sq_lower / a2_outer)
+        pi_cross_upper = str(pi_sq_upper / a2_inner)
+
+    return {
+        "n": n,
+        "object": "closed unit 4-ball x_1^2+x_2^2+x_3^2+x_4^2<=1 in [-1,1]^4",
+        "comparison_scope": "same Euclidean coordinate unit u at every level",
+        "estimator": "fixed 4D tesseract microcell inner/outer staircase; cell side 1/n",
+        "inner_orthant_count": n_in,
+        "outer_orthant_count": n_out,
+        "outer_3d_orthant_count": n3_out,
+        "inner_support_count": 16 * n_in,
+        "outer_support_count": 16 * n_out,
+        "exposed_3face_count": 64 * n3_out,
+        "literal_neighbor_boundary_verified": literal_verified,
+        "outer_support_sha256": outer_sha,
+        "r_axis_extent": "1",
+        "V4_inner": str(v4_inner),
+        "V4_outer": str(v4_outer),
+        "V4_enclosure_width": str(v4_width),
+        "certified_volume_gap_bound": str(cert_bound),
+        "V3_outer": str(v3_outer),
+        "B3_staircase": str(b3_staircase),
+        "B3_stair_minus_4V4plus": str(b3_stair_minus_4v4),
+        "B3_tesseract_box": str(b3_box),
+        "B3_box_minus_4V4plus": str(b3_box_minus_4v4),
+        "pi_sq_lower": str(pi_sq_lower),
+        "pi_sq_upper": str(pi_sq_upper),
+        "pi_4d_lower": str(pi_4d_lower),
+        "pi_4d_upper": str(pi_4d_upper),
+        "pi_cross_lower": pi_cross_lower,
+        "pi_cross_upper": pi_cross_upper,
+        "units": {"V4_inner": "u^4", "V4_outer": "u^4", "B3_staircase": "u^3",
+                  "B3_tesseract_box": "u^3", "r_axis_extent": "u^1"},
+        "volume_claim": "certified 4D inclusion enclosure with width <= 64/n; zero Machin arctan in B_core",
+        "boundary_claim": "exposed 3-boundary B3_staircase = 8*V3_plus converges to 32*pi/3 != 2*pi^2; distinct from bounding box 64 for n>=4",
+        "coefficient_claim": "4D staircase boundary falsifies Euclidean B3 = 4*V4 for all n>=2",
+    }
+
+
+def compare_tesseract_reference(level, pi_bounds):
+    """Downstream B_ext comparison strictly after frozen 4D B_core geometry."""
+    lo, hi = map(exact, pi_bounds)
+    require(0 < lo <= hi < 4, "pi comparison enclosure outside declared domain")
+    pi_sq_lo = lo * lo
+    pi_sq_hi = hi * hi
+    v4_ref_lo = pi_sq_lo * Fraction(1, 2)
+    v4_ref_hi = pi_sq_hi * Fraction(1, 2)
+    v4_in = exact(level["V4_inner"])
+    v4_out = exact(level["V4_outer"])
+    pi_4d_lo = exact(level["pi_4d_lower"])
+    pi_4d_hi = exact(level["pi_4d_upper"])
+    b3_stair = exact(level["B3_staircase"])
+    b3_box = exact(level["B3_tesseract_box"])
+    require(v4_in <= v4_ref_lo < v4_ref_hi <= v4_out,
+            "4D volume enclosure failed to contain pi^2/2")
+    require(pi_4d_lo <= lo < hi <= pi_4d_hi,
+            "4D integer-root pi enclosure failed to contain pi")
+    if level["pi_cross_lower"] is not None and level["pi_cross_upper"] is not None:
+        require(exact(level["pi_cross_lower"]) <= lo < hi <= exact(level["pi_cross_upper"]),
+                "4D cross-dimensional pi enclosure failed to contain pi")
+    b3_stair_gap_lo = b3_stair - 2 * pi_sq_hi
+    b3_stair_gap_hi = b3_stair - 2 * pi_sq_lo
+    b3_box_gap_lo = b3_box - 2 * pi_sq_hi
+    b3_box_gap_hi = b3_box - 2 * pi_sq_lo
+    asymp_gap_lo = Fraction(32, 3) * lo - 2 * pi_sq_hi
+    require(b3_stair_gap_lo > 0 and b3_box_gap_lo > 0 and asymp_gap_lo > 0,
+            "4D axial 3-boundary gap lower bound must remain strictly positive")
+    return {
+        "reference_only": True,
+        "pi_lower": str(lo),
+        "pi_upper": str(hi),
+        "pi_sq_over_2_lower": str(v4_ref_lo),
+        "pi_sq_over_2_upper": str(v4_ref_hi),
+        "V4_encloses_pi_sq_over_2": True,
+        "pi_4d_encloses_pi": True,
+        "B3_staircase_minus_2pi2_lower": str(b3_stair_gap_lo),
+        "B3_staircase_minus_2pi2_upper": str(b3_stair_gap_hi),
+        "B3_box_minus_2pi2_lower": str(b3_box_gap_lo),
+        "B3_box_minus_2pi2_upper": str(b3_box_gap_hi),
+        "asymptotic_32pi_over_3_minus_2pi2_lower": str(asymp_gap_lo),
+        "arithmetic": "exact rational enclosure; Machin comparison is downstream B_ext only",
+    }
+
+
+def shared_coefficient_4d_control(level, q):
+    q = exact(q)
+    r = exact(level["r_axis_extent"])
+    v4 = q * q * Fraction(1, 2) * r**4
+    b3 = 2 * q * q * r**3
+    return {
+        "q": str(q),
+        "B3": str(b3),
+        "V4": str(v4),
+        "B3r_minus_4V4": str(b3 * r - 4 * v4),
+        "agrees_with_independent_measures": (
+            b3 == exact(level["B3_staircase"]) and v4 == exact(level["V4_outer"])
+        ),
+        "determines_q": False,
+    }
+
+
 def expect_rejection(action: Callable[[], object]):
     try:
         action()
@@ -447,6 +759,12 @@ def negative_controls():
     corrupted_images[source.tops[1]] = {square: Fraction(1)}
     half_identity = {c: {c: Fraction(1, 2)} for c in target.cells}
     coordinates = {"inner-event-A": (0,), "inner-event-B": (0,)}
+    t4_n2 = tesseract_ball_level(2)
+    t4_n4 = tesseract_ball_level(4)
+    tampered_t4_n4 = dict(t4_n4)
+    tampered_t4_n4["outer_orthant_count"] = t4_n4["outer_orthant_count"] - 1
+    corrupted_v4 = dict(t4_n4)
+    corrupted_v4["V4_outer"] = "4"
     return {
         "orientation_mutation": expect_rejection(lambda: check_complex(target, bad_incidence)),
         "fold_orientation_mutation": expect_rejection(
@@ -464,6 +782,12 @@ def negative_controls():
             lambda: require_closed_identity("inner-event-A", "inner-event-B", (0,), (0,))),
         "refitted_refinement": expect_rejection(
             lambda: validate_disk_refinement(2, 4, disk_tops(2), disk_tops(4)[:-1])),
+        "tesseract_4d_refitted_refinement": expect_rejection(
+            lambda: validate_tesseract_refinement(2, 4, t4_n2, tampered_t4_n4)),
+        "tesseract_4d_box_staircase_conflation": expect_rejection(
+            lambda: validate_4d_staircase_vs_box(t4_n4, 64)),
+        "tesseract_4d_fake_volume_enclosure": expect_rejection(
+            lambda: compare_tesseract_reference(corrupted_v4, pi_reference_bounds(8))),
     }
 
 
@@ -473,14 +797,21 @@ def build_report():
     for first, second in zip(levels, levels[1:]):
         validate_disk_refinement(first["n"], second["n"],
                                  disk_tops(first["n"]), disk_tops(second["n"]))
+    t4_levels = [tesseract_ball_level(n) for n in spec["tesseract_4d_ball"]["levels"]]
+    for first, second in zip(t4_levels, t4_levels[1:]):
+        validate_tesseract_refinement(first["n"], second["n"], first, second)
     square = CubicalComplex("G1-filled-square", (Cell(((0, 1), (0, 1))),))
     tesseract = CubicalComplex("G2-filled-tesseract", (Cell(((0, 1),)*4),))
     zero_cell = square.tops[0]
     zero = support_measure((zero_cell, zero_cell), {zero_cell: Fraction(0)}, 2)
     comparisons = []
+    t4_comparisons = []
     for terms in spec["pi_reference"]["terms"]:
+        bounds = pi_reference_bounds(terms)
         comparisons.append({"terms_per_arctangent": terms,
-                            **compare_disk_reference(levels[-1], pi_reference_bounds(terms))})
+                            **compare_disk_reference(levels[-1], bounds)})
+        t4_comparisons.append({"terms_per_arctangent": terms,
+                               **compare_tesseract_reference(t4_levels[-1], bounds)})
     return {"schema": "aod-m3-cells-geometry-v1", "status": "conditional_verification_executed",
             "spec_sha256": hashlib.sha256(SPEC.read_bytes()).hexdigest(),
             "implementation_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
@@ -495,7 +826,14 @@ def build_report():
             "G5": {"fold": fold_record(), "anisotropy": anisotropy_record(),
                    "structural_zero": {"measure": str(zero.value), "support": list(zero.support),
                                        "visit_policy": "unsigned union; duplicate visits do not multiply area"}},
-            "G6": {"status": "not_opened", "reason": "no sphere estimator/refinement claim selected"},
+            "G6": {"status": "opened_declared_verification_model",
+                   "object": spec["tesseract_4d_ball"]["object"],
+                   "refinement": "dyadic same-4-ball tesseract microcell inclusion",
+                   "levels": t4_levels,
+                   "shared_q_controls": [shared_coefficient_4d_control(t4_levels[-1], q)
+                                         for q in ("2", "3", "355/113", "7/2")],
+                   "reference_comparisons": t4_comparisons,
+                   "native_higher_cell_admission": "not established; declared verification model only"},
             "negative_controls": negative_controls()}
 
 

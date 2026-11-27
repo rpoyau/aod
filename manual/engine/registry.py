@@ -211,8 +211,9 @@ SECTOR_SPECS: tuple[SectorSpec, ...] = (
         data_subdirs=("cell_measures",),
         required_outputs=(
             ("disk_refinement_levels", 6),
-            ("negative_controls", 9),
+            ("negative_controls", 12),
             ("pi_reference_comparisons", 3),
+            ("tesseract_4d_levels", 6),
         ),
         capability="canonical_calculation",
         scientific_status="AUTHENTICATED_EXACT",
@@ -220,7 +221,7 @@ SECTOR_SPECS: tuple[SectorSpec, ...] = (
             "native_metric_not_established",
             "native_higher_cell_status_not_established",
             "physical_metric_unknown",
-            "G6_sphere_extension_not_opened",
+            "G6_4d_tesseract_to_pi_declared_model_only",
         ),
     ),
     SectorSpec(

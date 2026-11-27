@@ -199,15 +199,25 @@ def _validate_cell_measures(
     level_ns = [parse_exact_int(lv["n"], name="level.n") for lv in levels]
     require(level_ns == [1, 2, 4, 8, 16, 32], f"unexpected refinement levels: {level_ns}")
     neg_controls = doc["negative_controls"]
-    require(isinstance(neg_controls, (list, dict)) and len(neg_controls) == 9, "expected 9 negative controls")
+    require(isinstance(neg_controls, (list, dict)) and len(neg_controls) == 12, "expected 12 negative controls")
     pi_refs = doc["G3_G4"]["reference_comparisons"]
     require(isinstance(pi_refs, list) and len(pi_refs) == 3, "expected 3 pi reference comparisons")
-    require(doc["G6"]["status"] == "not_opened", "G6 status hold lost")
+    g6 = doc["G6"]
+    require(isinstance(g6, dict), "G6 must be a dict")
+    require(
+        g6.get("status") == "opened_declared_verification_model",
+        f"unexpected G6 status: {g6.get('status')!r}",
+    )
+    t4_levels = g6["levels"]
+    require(isinstance(t4_levels, list) and len(t4_levels) == 6, "expected 6 G6 tesseract_4d levels")
+    t4_ns = [parse_exact_int(lv["n"], name="g6.level.n") for lv in t4_levels]
+    require(t4_ns == [1, 2, 4, 8, 16, 32], f"unexpected G6 refinement levels: {t4_ns}")
     return (
         {
             "disk_refinement_levels": len(levels),
             "negative_controls": len(neg_controls),
             "pi_reference_comparisons": len(pi_refs),
+            "tesseract_4d_levels": len(t4_levels),
         },
         {"exact_match": True, "max_residual": "0"},
     )

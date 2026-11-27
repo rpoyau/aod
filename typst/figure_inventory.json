@@ -1605,7 +1605,7 @@
       "data_sources": [
         {
           "path": "manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv",
-          "sha256": "62957f1160205cbcf77cb092f6554bced95ab9460038dd48a03104b8957074b5"
+          "sha256": "30769ace39f4f024479ec558b06fb6cf6d13c7ed763cd35d5310cedf94a34b33"
         }
       ],
       "provenance_notes": "Dyadic rational unit-disk area enclosure bounds, axial staircase C_n = 8, and cellular fold chain commutation (vector RC-035).",

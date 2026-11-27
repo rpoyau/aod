@@ -1082,3 +1082,136 @@ fn test_sd008_declared_g0_sparc_exact() {
     );
 }
 
+#[test]
+fn test_rc035_4d_tesseract_pi_and_cellular_fold_chain_map() {
+    use aod_core::manual_dec_ops::{
+        eval_cellular_fold_chain_map, isqrt_ceil_bigint, isqrt_floor_bigint,
+        tesseract_4d_orthant_counts, verify_q4_unit_cube, CellularFoldMetrics,
+    };
+
+    // 1. Q4 unit cube 81-cell enumeration & d^2 = 0 verification
+    let (q4_counts, bsq_zero) = verify_q4_unit_cube().expect("verify_q4_unit_cube");
+    assert_eq!(q4_counts, vec![16, 32, 24, 8, 1]);
+    assert_eq!(bsq_zero, 1);
+
+    // 2. Arbitrary-precision BigInt isqrt_floor / isqrt_ceil (including >u128 100-digit square)
+    let ten50 = BigInt::pow10(50);
+    let ten100 = &ten50 * &ten50;
+    assert_eq!(isqrt_floor_bigint(&ten100).unwrap(), ten50);
+    assert_eq!(isqrt_ceil_bigint(&ten100).unwrap(), ten50);
+    let ten100_plus1 = &ten100 + &BigInt::one();
+    assert_eq!(isqrt_floor_bigint(&ten100_plus1).unwrap(), ten50);
+    assert_eq!(
+        isqrt_ceil_bigint(&ten100_plus1).unwrap(),
+        &ten50 + &BigInt::one()
+    );
+    assert!(isqrt_floor_bigint(&BigInt::from_i64(-1)).is_err());
+
+    // 3. Cross-checked Route A == Route B orthant counts across all 6 dyadic levels
+    let expected_counts: [(i64, (i64, i64, i64)); 6] = [
+        (1, (0, 1, 1)),
+        (2, (1, 15, 8)),
+        (4, (32, 160, 51)),
+        (8, (804, 1862, 341)),
+        (16, (16_254, 24_804, 2_443)),
+        (32, (290_244, 358_804, 18_358)),
+    ];
+    for &(n, exp) in &expected_counts {
+        assert_eq!(tesseract_4d_orthant_counts(n).unwrap(), exp);
+    }
+
+    // 4. Genuine matrix-derived cellular fold chain-map evaluation + sign-flip negative control
+    let fold = eval_cellular_fold_chain_map(false, true).expect("valid cellular fold chain map");
+    assert_eq!(
+        fold,
+        CellularFoldMetrics {
+            fold_occupied_area: 2,
+            fold_image_area: 1,
+            fold_retained_multiplicity: 2,
+            fold_oriented_top_sum: 0,
+            fold_seam_cancelled: 1,
+            fold_surviving_boundary_edges: 3,
+            chain_map_commutes: 1,
+        }
+    );
+    assert!(matches!(
+        eval_cellular_fold_chain_map(true, true),
+        Err(CoreError::ValueError(_))
+    ));
+    let neg_fold = eval_cellular_fold_chain_map(true, false).expect("diagnostic sign-flip fold");
+    assert_eq!(neg_fold.chain_map_commutes, 0);
+    assert_eq!(neg_fold.fold_oriented_top_sum, 2);
+
+    // 5. RC-035 golden vector verification & 4D B3_staircase (51) vs B3_tesseract_box (64)
+    let root = repo_root();
+    let (_, rc_rows) = load_vector_file(&root, RATIONAL_CORE_REL).expect("load rc");
+    let rc035 = rc_rows
+        .iter()
+        .find(|r| r.get("case_id") == Some(&JsonValue::Str("RC-035".to_string())))
+        .expect("RC-035 present");
+    verify_single_vector_with_root(rc035, &root).expect("RC-035 must verify cleanly");
+
+    let out = eval_operation(
+        "dec_cell_measures_staircase_fold",
+        rc035["inputs"].as_object().unwrap(),
+    )
+    .expect("eval RC-035");
+    let obj = out.as_object().unwrap();
+    assert_eq!(obj["axial_gap_positive"], JsonValue::Int(BigInt::one()));
+    assert_eq!(obj["axial_4d_gap_positive"], JsonValue::Int(BigInt::one()));
+    assert_eq!(obj["chain_map_commutes"], JsonValue::Int(BigInt::one()));
+    assert_eq!(
+        obj["fold_seam_cancelled"],
+        JsonValue::Int(BigInt::from_i64(1))
+    );
+    assert_eq!(
+        obj["fold_surviving_boundary_edges"],
+        JsonValue::Int(BigInt::from_i64(3))
+    );
+
+    let t4 = obj["tesseract_4d"].as_array().unwrap();
+    assert_eq!(t4.len(), 6);
+    let r1 = t4[0].as_object().unwrap();
+    assert_eq!(r1["pi_cross_lower"], JsonValue::Null);
+    assert_eq!(r1["pi_cross_upper"], JsonValue::Null);
+    let r4 = t4[2].as_object().unwrap();
+    assert_eq!(
+        r4["B3_staircase"],
+        JsonValue::Array(vec![
+            JsonValue::Str("51".to_string()),
+            JsonValue::Str("1".to_string()),
+        ])
+    );
+    assert_eq!(
+        r4["B3_tesseract_box"],
+        JsonValue::Int(BigInt::from_i64(64))
+    );
+    let r32 = t4[5].as_object().unwrap();
+    assert_eq!(
+        r32["pi_4d_lower"],
+        JsonValue::Array(vec![
+            JsonValue::Str("3047".to_string()),
+            JsonValue::Str("1024".to_string()),
+        ])
+    );
+    assert_eq!(
+        r32["pi_4d_upper"],
+        JsonValue::Array(vec![
+            JsonValue::Str("3389".to_string()),
+            JsonValue::Str("1024".to_string()),
+        ])
+    );
+
+    // Static check: no hardcoded fold integer literals in manual_dec_ops.rs
+    let dec_src = fs::read_to_string(crate_root().join("src/manual_dec_ops.rs"))
+        .expect("read manual_dec_ops.rs");
+    assert!(
+        !dec_src.contains("out.insert(\"fold_occupied_area\".to_string(), int_json(2))"),
+        "manual_dec_ops.rs must not hardcode fold_occupied_area literal 2"
+    );
+    assert!(
+        !dec_src.contains("out.insert(\"fold_oriented_top_sum\".to_string(), int_json(0))"),
+        "manual_dec_ops.rs must not hardcode fold_oriented_top_sum literal 0"
+    );
+}
+
