@@ -7,48 +7,49 @@ base_commit = "a26e43d213d8196945c1442dc423f727a995d8dc"
 [objective]
 summary = "Refactor Manual §5 (01_cell_measures.typ) and §6 (02_mapping_error.typ) in place to integrate opened G6 4D tesseract-to-pi cell enclosures without duplicate tables, and upgrade cell_staircase_fold_boundary.typ into a crisp 4D tesseract projection + fold commutation vector figure."
 deliverables = [
-  "Refactor typst/manual/sections/01_cell_measures.typ in place: remove the duplicate 2D n=1..32 table, integrate the opened G6 4D tesseract-to-pi derivation in crisp General Mechanics Setup-Derivation-Specialization-Falsification style (exact (2n)^4 microcells enclosing B^4, V4_minus <= pi^2/2 <= V4_plus, pure finite-4-cube pi_4d and cross-dimensional 2*V4/A2 enclosures without Machin in B_core, exposed 4D staircase 3-boundary B3_staircase = 8*V3_plus -> 32*pi/3 != 2*pi^2 alongside bounding 4-cube B3_box = 64, quarantined Machin arctan in B_ext, and genuine cellular fold chain-map commutation B_d^L F_d = F_{d-1} B_d^K), presenting ONE unified 2D+4D RC-035 table while preserving every existing label (manual:m3-cells, prop:m3-staircase, eq:m3-disk-enclosure, manual:m3-cells:dec-staircase-fold, fig:manual-cell-staircase-fold, tab:manual-cell-boundary-fold-ledger) and exact bound formula eq:m3-disk-enclosure",
-  "Refactor typst/manual/sections/02_mapping_error.typ in place: tighten prose into crisp General Mechanics structure seamlessly integrating the five-boundary provenance DAG and RC-036 joint-law variance ledger without duplicate/bolted-on tone while preserving every existing label, numbered equation (eq:manual-m3-original-interval, eq:manual-m3-original-product), citation (hellwig-hydrogen-1970), and scientific statement",
-  "Upgrade typst/lib/figures/manual/cell_staircase_fold_boundary.typ into a true geometric vector figure driven directly by manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv showing: (a) projected 4D tesseract Schlegel/hypercube microcell geometry + V4_n^-, V4_n^+ and pi_4d convergence vs exposed 4D staircase B3_staircase = 8*V3_plus (and 64 box) falsifier, and (b) explicit two-square cellular fold chain-map commutation d o F = F o d with zero text-on-text collisions or panel overflows verified at 144 ppi PNG",
-  "Synchronize acyclic SHA-256 contract chain across contracts/scientific/CELL_MAPPING_MATHEMATICAL_BINDINGS.json, scripts/audit_ontology_compaction.py, typst/representation_change_ledger.json, and typst/figure_inventory.json",
-  "Verify Typst publication build (python3 -B scripts/build_publication.py --outdir _build/pub --check-registry), audit_scientific_sources.py, and 144 ppi PNG visual renders of the affected Manual pages",
+    "Refactor typst/manual/sections/01_cell_measures.typ in place: remove the duplicate 2D n=1..32 table, integrate the opened G6 4D tesseract-to-pi derivation in crisp General Mechanics Setup-Derivation-Specialization-Falsification style (exact (2n)^4 microcells enclosing B^4, V4_minus <= pi^2/2 <= V4_plus, pure finite-4-cube pi_4d and cross-dimensional 2*V4/A2 enclosures without Machin in B_core, exposed 4D staircase 3-boundary B3_staircase = 8*V3_plus -> 32*pi/3 != 2*pi^2 alongside bounding 4-cube B3_box = 64, quarantined Machin arctan in B_ext, and genuine cellular fold chain-map commutation B_d^L F_d = F_{d-1} B_d^K), presenting ONE unified 2D+4D RC-035 table while preserving every existing label (manual:m3-cells, prop:m3-staircase, eq:m3-disk-enclosure, manual:m3-cells:dec-staircase-fold, fig:manual-cell-staircase-fold, tab:manual-cell-boundary-fold-ledger) and exact bound formula eq:m3-disk-enclosure",
+    "Refactor typst/manual/sections/02_mapping_error.typ in place: tighten prose into crisp General Mechanics structure seamlessly integrating the five-boundary provenance DAG and RC-036 joint-law variance ledger without duplicate/bolted-on tone while preserving every existing label, numbered equation (eq:manual-m3-original-interval, eq:manual-m3-original-product), citation (hellwig-hydrogen-1970), and scientific statement",
+    "Upgrade typst/lib/figures/manual/cell_staircase_fold_boundary.typ into a true geometric vector figure driven directly by manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv showing: (a) projected 4D tesseract Schlegel/hypercube microcell geometry + V4_n^-, V4_n^+ and pi_4d convergence vs exposed 4D staircase B3_staircase = 8*V3_plus (and 64 box) falsifier, and (b) explicit two-square cellular fold chain-map commutation d o F = F o d with zero text-on-text collisions or panel overflows verified at 144 ppi PNG",
+    "Synchronize acyclic SHA-256 contract chain across contracts/scientific/CELL_MAPPING_MATHEMATICAL_BINDINGS.json, scripts/audit_ontology_compaction.py, typst/representation_change_ledger.json, and typst/figure_inventory.json",
+    "Verify Typst publication build (python3 -B scripts/build_publication.py --outdir _build/pub --check-registry), audit_scientific_sources.py, and 144 ppi PNG visual renders of the affected Manual pages",
 ]
 
 [scope]
 read_only = [
-  "typst/preamble.typ",
-  "typst/manual/preamble.typ",
-  "typst/lib/aod_plots.typ",
-  "manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv",
-  "contracts/scientific/CELL_MEASURE_SPEC.json",
-  "manual/data/cell_measures/cells_geometry.json",
+    "typst/preamble.typ",
+    "typst/manual/preamble.typ",
+    "typst/lib/aod_plots.typ",
+    "manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv",
+    "contracts/scientific/CELL_MEASURE_SPEC.json",
+    "manual/data/cell_measures/cells_geometry.json",
 ]
 write_set = [
-  "typst/manual/sections/01_cell_measures.typ",
-  "typst/manual/sections/02_mapping_error.typ",
-  "typst/lib/figures/manual/cell_staircase_fold_boundary.typ",
-  "contracts/scientific/CELL_MAPPING_MATHEMATICAL_BINDINGS.json",
-  "scripts/audit_ontology_compaction.py",
-  "typst/representation_change_ledger.json",
-  "typst/figure_inventory.json",
+    "typst/manual/sections/01_cell_measures.typ",
+    "typst/manual/sections/02_mapping_error.typ",
+    "typst/lib/figures/manual/cell_staircase_fold_boundary.typ",
+    "contracts/scientific/CELL_MAPPING_MATHEMATICAL_BINDINGS.json",
+    "scripts/audit_ontology_compaction.py",
+    "typst/representation_change_ledger.json",
+    "typst/figure_inventory.json",
+    "typst/lib/main_registry.json",
 ]
 
 [invariants]
 inherited = true
 bundle_rules = [
-  "Never modify typst/preamble.typ or typst/manual/preamble.typ (read-only notation lock)",
-  "Preserve exact defining labels and exact bound formula eq:m3-disk-enclosure in 01_cell_measures.typ so audit_scientific_sources.py and test_mathematical_bindings.py pass 100%",
-  "Zero duplicate 2D n=1..32 tables in 01_cell_measures.typ (exactly one unified 2D+4D RC-035 table)",
-  "Do not state the false claim B3_staircase == 64 for all n; explicitly distinguish exposed 4-ball staircase 3-boundary B3_staircase = 8*V3_plus -> 32*pi/3 != 2*pi^2 from bounding 4-cube 3-boundary B3_box = 64",
-  "Every numerical value in prose, table, and figure MUST match manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv and RC-035 exactly",
-  "Rendered 144 ppi PNG of cell_staircase_fold_boundary.typ and Manual §5/§6 pages must have zero title-on-subtitle collisions, zero panel border overflows, and zero table right-margin overflows",
+    "Never modify typst/preamble.typ or typst/manual/preamble.typ (read-only notation lock)",
+    "Preserve exact defining labels and exact bound formula eq:m3-disk-enclosure in 01_cell_measures.typ so audit_scientific_sources.py and test_mathematical_bindings.py pass 100%",
+    "Zero duplicate 2D n=1..32 tables in 01_cell_measures.typ (exactly one unified 2D+4D RC-035 table)",
+    "Do not state the false claim B3_staircase == 64 for all n; explicitly distinguish exposed 4-ball staircase 3-boundary B3_staircase = 8*V3_plus -> 32*pi/3 != 2*pi^2 from bounding 4-cube 3-boundary B3_box = 64",
+    "Every numerical value in prose, table, and figure MUST match manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv and RC-035 exactly",
+    "Rendered 144 ppi PNG of cell_staircase_fold_boundary.typ and Manual §5/§6 pages must have zero title-on-subtitle collisions, zero panel border overflows, and zero table right-margin overflows",
 ]
 
 [validation]
 commands = [
-  "python3 -B scripts/audit_scientific_sources.py .",
-  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
-  "mkdir -p _build/png && PATH=\"$HOME/.local/bin:$PATH\" typst compile --root . --format png --ppi 144 typst/lib/figures/manual/cell_staircase_fold_boundary.typ _build/png/cell_staircase_fold_boundary.png",
-  "python3 -B -m pytest -q tests/test_cells.py tests/test_tesseract_pi.py tests/test_mathematical_bindings.py",
+    "python3 -B scripts/audit_scientific_sources.py .",
+    "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+    "mkdir -p _build/png && PATH=\"$HOME/.local/bin:$PATH\" typst compile --root . --format png --ppi 144 typst/lib/figures/manual/cell_staircase_fold_boundary.typ _build/png/cell_staircase_fold_boundary.png",
+    "python3 -B -m pytest -q tests/test_cells.py tests/test_tesseract_pi.py tests/test_mathematical_bindings.py",
 ]
 max_retries = 2
