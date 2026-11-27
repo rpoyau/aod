@@ -58,6 +58,6 @@ commands = [
   "python3 -B scripts/audit_scientific_sources.py .",
   "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
   "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/export_typst_figures.py --root . --surface manual --outdir _build/fig_check/manual",
-  "python3 -B -c 'from pathlib import Path; import scripts.verify_typst_parity as vtp; root = Path(\".\"); bad = {str(p): vtp._vector_figure_policy_violations(p) for p in sorted((root / \"typst/lib/figures/manual\").glob(\"*.typ\")) if vtp._vector_figure_policy_violations(p)}; assert not bad, bad; print(\"GATE_A2_MANUAL_FIGURES_CLEAN\")'",
+  "python3 -B -c 'from pathlib import Path; import scripts.verify_typst_parity as vtp; root = Path(\".\"); inv = vtp._load_figure_inventory_map(root); bad = {p.relative_to(root).as_posix(): v for p in sorted((root / \"typst/lib/figures/manual\").glob(\"*.typ\")) for v in [vtp._vector_figure_policy_violations(p.relative_to(root).as_posix(), p.read_text(encoding=\"utf-8\"), inv.get(p.relative_to(root).as_posix(), {\"provenance_class\": \"CONCEPTUAL_SCHEMATIC\", \"data_sources\": []}))] if v}; assert not bad, bad; print(\"GATE_A2_MANUAL_FIGURES_CLEAN\")'",
 ]
 max_retries = 2
