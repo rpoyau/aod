@@ -1,0 +1,66 @@
+bundle_id = "BND-P1-03"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P1-ternary-ratio-engine"
+parent_bundle = "BND-P1-02"
+base_commit = "d05cd4fbd406fcd5bc0c8514b7f6c269924d6bfa"
+
+[objective]
+summary = "Upgrade live Q4 D.E.C. and SADAR kernels in Python S2 and Rust S4 to step actual TritWord (00/01/10/11) and TritRatio registers, derive Tau 50-microslot splits and C6 double-slit counts from live trit transitions, eliminate hardcoded CSV rows, and fix SD-008 SPARC to the declared G0 law (26.57055342%)."
+deliverables = [
+  "Upgrade eval_dec_chiral_flip_walk (RC-025), eval_dec_two_carrier_chiral_stokes (RC-026), _run_deterministic_q4_cavity_trace / eval_sadar_pp_tau_five_boundary (RC-027), eval_frg_dimonhexon_double_slit_ring (RC-030), eval_scoped_wire_and_moving_boundary (RC-032), and eval_sparc_pooled_primary_exact (SD-008) in manual/engine/sectors/boundary_sadar.py and crates/aod-core/src/sadar_sim.rs to step actual TritWord (00/01/10/11), ChiralPair4, and TritRatio registers",
+  "Derive Tau Stage 1 B_shed (13/50 endo, 37/50 exo) and Stage 2 B_sensor (19/50 visible, 31/50 missing) from a deterministic 50-microslot Q4 x mu impedance rotor over TritWord + ChiralPair4 (using RD(3:3)-RD(1:2)=52 and RD(3:4)-RD(3:3)=76 over 4D capacity 200=4*50) rather than taking shed_endo_slots..sensor_missing_slots as input-slot assertions; derive live cavity raw_cuts=28 (quotient_cuts=11 + dwell_burned=17) via live TritWord burn_contiguous_dwell trace",
+  "Replace hardcoded cross_map and sat_clip literals in eval_frg_dimonhexon_double_slit_ring (RC-030) with a genuine C_6 double-slit path-pair enumerator over TritWord + ChiralPair4 + burn_contiguous_dwell(keep_single_dwell=False) yielding exact S_k=[4,9,16,25,31,35,31,25,16,9,4] and C_cross_k=[0,-8,-12,8,18,26,18,8,-12,-8,0]",
+  "Replace the undeclared (8*r*U_bar)/(U_bar+1000) formula (64.70291920%) in eval_sparc_pooled_primary_exact / op_sparc_pooled_primary_exact (SD-008) with the actual declared G0 SPARC law matching tier2_exact.py (U_obs=V_obs^2, U_bar=V_gas^2 + (1/2)V_disk^2 + (7/10)V_bul^2, U_AO=U_bar + 8*r*(|V_gas|+|V_disk|+|V_bul|)) computed via exact TritWord/TritRatio arithmetic yielding exact MAPE_U_8dp='26.57055342' (230-digit numerator / 228-digit denominator)",
+  "Eliminate hardcoded dec_csv row literals and hardcoded Tau fraction strings in build_boundary_sadar_tables(repo_root) by assembling every row directly from executed engine results (preserving byte-exact CSVs for dec_chiral_flip_continuous_walk.csv and tau_five_boundary_sadar_trace.csv while updating sparc_pooled_primary_exact.csv to the declared G0 26.57055342% exact rational)",
+  "Update RC-027 inputs in manual/engine/vectors/rational_core.jsonl (removing hardcoded slot assertions shed_endo_slots..sensor_missing_slots), update SD-008 expected exact rational and 26.57055342 display in manual/engine/vectors/symbolic_and_display.jsonl, and update the SHA-256 chain for sparc_pooled_primary_exact.csv across contracts/scientific/CANONICAL_BINDINGS.json, typst/representation_change_ledger.json, and typst/figure_inventory.json",
+  "Update crates/aod-core/tests/integration_vectors.rs, tests/test_ternary_engine.py, tests/test_s2_reference_engine.py, and tests/test_s4_rust_exact_core.py to test derived Tau rotor, genuine C_6 path-pair enumerator, live TritWord/TritRatio SADAR steppers, and declared G0 SPARC 26.57055342% cross-language parity",
+]
+
+[scope]
+read_only = [
+  "manual/engine/ternary.py",
+  "manual/engine/numeric.py",
+  "manual/engine/sectors/tier2_exact.py",
+  "crates/aod-core/src/ternary.rs",
+  "crates/aod-core/src/bigint.rs",
+  "crates/aod-core/src/bigrat.rs",
+  "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
+  "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+  "manual/data/boundary_sadar/dimonhexon_double_slit_ring_paths.csv",
+]
+write_set = [
+  "manual/engine/sectors/boundary_sadar.py",
+  "crates/aod-core/src/sadar_sim.rs",
+  "manual/engine/vectors/rational_core.jsonl",
+  "manual/engine/vectors/symbolic_and_display.jsonl",
+  "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
+  "contracts/scientific/CANONICAL_BINDINGS.json",
+  "typst/representation_change_ledger.json",
+  "typst/figure_inventory.json",
+  "crates/aod-core/tests/integration_vectors.rs",
+  "tests/test_ternary_engine.py",
+  "tests/test_s2_reference_engine.py",
+  "tests/test_s4_rust_exact_core.py",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "Zero hardcoded cross_map lookup dict in eval_frg_dimonhexon_double_slit_ring / op_frg_dimonhexon_double_slit_ring; S_k and C_cross_k must be computed by genuine C_6 path-pair enumeration over TritWord and ChiralPair4",
+  "Zero shed_endo_slots / shed_exo_slots / sensor_visible_slots / sensor_missing_slots input assertions in RC-027; 13/37 and 19/31 must be derived from the deterministic 50-microslot Q4 x mu impedance rotor over TritWord + ChiralPair4",
+  "SD-008 SPARC evaluation must match tier2_exact.py declared G0 law identically (MAPE_U_8dp == '26.57055342') and run in sub-second time in both Python and Rust without slow 230-digit per-bin GCD bottlenecks",
+  "All non-SPARC boundary_sadar CSVs (including dec_chiral_flip_continuous_walk.csv, tau_five_boundary_sadar_trace.csv, dimonhexon_double_slit_ring_paths.csv) must remain byte-for-byte identical while built dynamically from live engine results",
+  "CANONICAL_BINDINGS.json, typst/representation_change_ledger.json, and typst/figure_inventory.json SHA-256 entries for sparc_pooled_primary_exact.csv (and CANONICAL_BINDINGS.json new_sha256 in representation_change_ledger.json) must remain 100% synchronized so audit_scientific_sources.py passes",
+  "Keep Rust and Python implementations strictly zero-float, zero-unsafe, zero-bare-assert, and byte-identical across normal/-O and debug/release",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "mkdir -p _build/s2 _build/s4 && CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS='-D warnings' cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked",
+  "python3 -B -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/b3_py_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/b3_py_opt.json && cmp _build/s2/b3_py_norm.json _build/s2/b3_py_opt.json",
+  "CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/b3_rs_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/b3_rs_rel.json && cmp _build/s4/b3_rs_dbg.json _build/s4/b3_rs_rel.json",
+  "python3 -B -m pytest -q tests/test_ternary_engine.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py -k 'not (source_zip or s2_f1_diagnostics or s4_f1 or f1_diagnostics)'",
+  "python3 -B -O -m pytest -q tests/test_ternary_engine.py",
+]
+max_retries = 2
