@@ -1,0 +1,19 @@
+phase_id = "P2-tesseract-volume-pi"
+milestone_id = "M4_5-uow-overhaul"
+base_branch = "uow/BND-P1-03"
+bundles = [
+  { id = "BND-P2-01", parent = "uow/BND-P1-03", summary = "Open G6 4D tesseract-to-pi cell volume enclosure and genuine cellular fold chain map in Python S2, Rust S4, and aod_cell_measures" },
+  { id = "BND-P2-02", parent = "BND-P2-01", summary = "Refactor Manual §5 (01_cell_measures.typ) and §6 (02_mapping_error.typ) in place and upgrade cell_staircase_fold_boundary.typ with 4D tesseract-to-pi geometry" },
+]
+
+[phase_validation]
+qa_write_set = ["tests/qa_*.py"]
+commands = [
+  'python3 -B scripts/audit_scientific_sources.py .',
+  'python3 -B manual/scripts/aod_cell_measures.py --check-data',
+  'python3 -B -O manual/scripts/aod_cell_measures.py --check-data',
+  'CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS="-D warnings" cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked',
+  'mkdir -p _build/s2 _build/s4 && python3 -B -m manual.engine --sector boundary_sadar --sector cell_measures --check-zero-float --verify-vectors --report _build/s2/p2_qa_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --sector cell_measures --check-zero-float --verify-vectors --report _build/s2/p2_qa_opt.json && cmp _build/s2/p2_qa_norm.json _build/s2/p2_qa_opt.json',
+  'CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/p2_qa_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/p2_qa_rel.json && cmp _build/s4/p2_qa_dbg.json _build/s4/p2_qa_rel.json',
+  'python3 -B -m pytest -q -o python_files="test_*.py *_test.py qa_*.py" -k "not (source_zip or s2_f1_diagnostics or s4_f1 or f1_diagnostics)" tests/test_cells.py tests/test_tesseract_pi.py tests/test_mathematical_bindings.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py tests/qa_phase2_*.py',
+]

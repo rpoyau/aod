@@ -1,0 +1,66 @@
+bundle_id = "BND-P2-01"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P2-tesseract-volume-pi"
+parent_bundle = "BND-P1-03"
+base_commit = "efd94e01dac15b90f646964b927f6bc7b0e4a987"
+
+[objective]
+summary = "Implement G6 4D tesseract microcell enclosure to pi^2/2 and pi (without Machin arctan in B_core), exact B3=64 4D staircase boundary falsifier, and genuine cellular fold chain-map evaluation across Python S2, Rust S4, and aod_cell_measures.py."
+deliverables = [
+  "Upgrade eval_dec_cell_measures_staircase_fold (RC-035) and build_cell_measures_csv_rows in manual/engine/sectors/manual_dec_examples.py to compute exact 4D tesseract microcell enclosures on [-1,1]^4 (2n)^4 cells enclosing B^4={sum x_m^2 <= 1} across dyadic levels n in {1,2,4,8,16,32} using sorted-orthant multinomial counts (16x symmetry) and TritWord/TritRatio arithmetic: V4_minus <= pi^2/2 <= V4_plus, pi_sq_lower/upper = 2*V4_minus/plus, pure finite-4-cube integer-root pi_4d_lower = isqrt_floor(32*N_in)/n^2 <= pi <= isqrt_ceil(32*N_out)/n^2 = pi_4d_upper (zero Machin arctan in B_core), cross-dimensional ratio 2*V4/A2 (for n>=2), and 4D staircase 3-boundary B3_axial=64 with defect 64 - 4*V4_plus > 0 for n>=2",
+  "Replace hardcoded fold integer literals (2, 1, 2, 0) in manual_dec_examples.py and crates/aod-core/src/manual_dec_ops.rs with genuine cellular chain-map evaluation of K_2 = Q_L U Q_R -> Q_* under f(x,y)=(min(x,2-x), y), building explicit boundary matrices d2, d1, verifying d1*d2=0 and B_d^L F_d = F_{d-1} B_d^K (chain_map_commutes=1), and deriving fold_occupied_area=2, fold_image_area=1, fold_retained_multiplicity=2, fold_oriented_top_sum=0, fold_seam_cancelled=1, and fold_surviving_boundary_edges=3 directly from matrix multiplication",
+  "Mirror the upgraded RC-035 4D tesseract-to-pi and cellular fold chain-map evaluator identically in std-only zero-unsafe zero-float Rust (crates/aod-core/src/manual_dec_ops.rs)",
+  "Open G6 in contracts/scientific/CELL_MEASURE_SPEC.json, manual/scripts/aod_cell_measures.py (including 4D tesseract levels, independent reference-free construction check, and 4D staircase falsifier negative controls), and regenerate manual/data/cell_measures/cells_geometry.json",
+  "Regenerate manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv (preserving all existing 2D columns while appending exact 4D tesseract V4_minus/V4_plus, B3_axial=64, B3_minus_4V4plus, pi_4d_lower/upper, and pi_cross_lower/upper columns) and update RC-035 in manual/engine/vectors/rational_core.jsonl",
+  "Synchronize acyclic SHA-256 contract chain across contracts/scientific/CANONICAL_BINDINGS.json, scripts/audit_ontology_compaction.py, typst/representation_change_ledger.json, and typst/figure_inventory.json",
+  "Update tests/test_cells.py, crates/aod-core/tests/integration_vectors.rs, and add zero-bare-assert tests/test_tesseract_pi.py verifying exact 4D tesseract-to-pi enclosures, B3=64 falsifier, genuine cellular chain-map fold matrices, and Python S2 == Rust S4 cross-language parity",
+]
+
+[scope]
+read_only = [
+  "manual/engine/ternary.py",
+  "manual/engine/numeric.py",
+  "crates/aod-core/src/ternary.rs",
+  "crates/aod-core/src/bigint.rs",
+  "crates/aod-core/src/bigrat.rs",
+  "typst/manual/sections/01_cell_measures.typ",
+]
+write_set = [
+  "manual/engine/sectors/manual_dec_examples.py",
+  "crates/aod-core/src/manual_dec_ops.rs",
+  "manual/scripts/aod_cell_measures.py",
+  "manual/data/cell_measures/cells_geometry.json",
+  "manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv",
+  "contracts/scientific/CELL_MEASURE_SPEC.json",
+  "manual/engine/vectors/rational_core.jsonl",
+  "contracts/scientific/CANONICAL_BINDINGS.json",
+  "scripts/audit_ontology_compaction.py",
+  "typst/representation_change_ledger.json",
+  "typst/figure_inventory.json",
+  "crates/aod-core/tests/integration_vectors.rs",
+  "tests/test_cells.py",
+  "tests/test_tesseract_pi.py",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "4D tesseract inner/outer microcell counts on [-1,1]^4 MUST be computed purely from exact integer corner norms sum(k_m^2) <= n^2 and < n^2 with zero Machin arctan or continuum pi imported into B_core geometry construction",
+  "Machin arctan reference enclosure stays strictly quarantined in external comparison B_ext (verifying V4_minus < pi^2/2 < V4_plus and pi_4d_lower <= pi <= pi_4d_upper after frozen geometry)",
+  "4D staircase boundary B3_axial MUST equal exactly 64 at every level n (proven from exact 4-axis projection count 8 * 2^3 = 64, strictly exceeding 2*pi^2)",
+  "Cellular fold metrics MUST be computed via genuine boundary/chain-map matrix algebra (d1*d2=0 and B_d^L F_d = F_{d-1} B_d^K), zero hardcoded fold output literals",
+  "Preserve all existing columns in cell_measures_staircase_fold_dec.csv so existing cell_staircase_fold_boundary.typ continues to compile cleanly until BND-P2-02 upgrades it",
+  "tests/test_tesseract_pi.py MUST use zero bare assert statements (identical execution under normal and -O Python)",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "python3 -B manual/scripts/aod_cell_measures.py --check-data && python3 -B -O manual/scripts/aod_cell_measures.py --check-data",
+  "mkdir -p _build/s2 _build/s4 && CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS='-D warnings' cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked",
+  "python3 -B -m manual.engine --sector boundary_sadar --sector cell_measures --check-zero-float --verify-vectors --report _build/s2/p2b1_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --sector cell_measures --check-zero-float --verify-vectors --report _build/s2/p2b1_opt.json && cmp _build/s2/p2b1_norm.json _build/s2/p2b1_opt.json",
+  "CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/p2b1_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/p2b1_rel.json && cmp _build/s4/p2b1_dbg.json _build/s4/p2b1_rel.json",
+  "python3 -B -m pytest -q tests/test_cells.py tests/test_tesseract_pi.py tests/test_mathematical_bindings.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py -k 'not (source_zip or s2_f1_diagnostics or s4_f1 or f1_diagnostics)'",
+  "python3 -B -O -m pytest -q tests/test_tesseract_pi.py",
+]
+max_retries = 2
