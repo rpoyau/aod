@@ -171,6 +171,19 @@ influenced its selection. K2 and K3 remain audit diagnostics. Independent
 evaluation requires the full selection/exposure history and a locked recipe
 before a new cohort is joined; it cannot reselect on that cohort's targets.
 
+#aod-paragraph[SWELLS K1 $delta_3$ audit (#raw("RC-020")).]
+Vector #raw("RC-020") (#raw("lensing_swells_delta3_and_tau_discrepancy")) binds
+#raw("manual/data/lensing/swells_k1_thetaE_delta3_scores.csv") and
+#raw("manual/data/derived/tau_ring_diagnostic.csv") in exact zero-float
+arithmetic. It audits the retained SWELLS K1 three-bin $theta_E$ tally
+$(2, 12, 1)$ against observed $(2, 8, 5)$, certifying exact signed integer
+residual $Delta^(bb(Z)) = (0, 4, - 4)$, ternary signs
+$s^(lr((3))) = (0, + 1, - 1)$, zero net shift $sum Delta^(bb(Z)) = 0$, and
+total absolute discrepancy $sum m = 8$. Simultaneously, #raw("RC-020") certifies
+exact non-conflation of distinct carried $1":"2":"10$ Tau records
+($23 slash 50 - 9 slash 20 = 1 slash 100 eq.not 0$), keeping
+provenance-quarantined comparison records explicitly separated.
+
 #figure(
   kind: image, [
 #include "../../lib/figures/manual/lensing_05_swells_k_comparison_delta3.typ"
@@ -245,42 +258,53 @@ A completed L3 lensing record carries declared medium fields, declared radiation
 
 == Five-boundary concentric lens-shell chiral ray D.E.C. walk <manual:lensing:dec-chiral-ray-walk>
 
+#aod-paragraph[Setup and engine verification (#raw("RC-042"), #raw("RC-020")).]
 Declare the five-boundary lensing stack separating internal FRG cross-shell totals and chiral flips from quarantined SWELLS target acquisition:
 
 #math.equation(block: true, numbering: none, $ B_(upright("src")) arrow.r B_(upright("shell"), k) arrow.r B_(upright("FRG")) arrow.r B_(delta_3) arrow.r B_(upright("SWELLS")). $)
 
-Vector #raw("RC-042") (#raw("manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) executes the four-shell grazing ray walk ($k = 1 dots.h 4$): every shell satisfies the exact Fractal Field Ring Gate identity $T_k^(times) - T_k^0 = C_k^(times)$ ($7 - 4 = 3$, $11 - 6 = 5$, $3 - 5 = - 2$, $12 - 8 = 4$; $sum_k T_k^(times) = 33$), three active hinge encounters ($k = 1, 2, 4$) flip ray chirality $+ 1 arrow.r - 1 arrow.r + 1 arrow.r - 1$ while shell $k = 3$ preserves $+ 1$, comparator $O_k = (7, 10, 3, 11)$ yields $Delta_Z = (0, 1, 0, 1)$, and $L 3 slash K 4$ 3D+time-flow inputs remain held at $B_(upright("SWELLS"))$ until bound.
+Vector #raw("RC-042") (#raw("dec_lensing_ray_chiral_delta3"))—archived in #raw("manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv") and verified alongside #raw("RC-020") by #raw("python3 -B -m manual.engine --sector boundary_sadar") and #raw("aod-core --verify-vectors --check-zero-float")—executes the four-shell grazing ray walk ($k = 1 dots.h 4$): every shell satisfies the exact Fractal Field Ring Gate identity $T_k^(times) - T_k^0 = C_k^(times)$ ($7 - 4 = 3$, $11 - 6 = 5$, $3 - 5 = - 2$, $12 - 8 = 4$; $sum_k T_k^(times) = 33$), three active hinge encounters ($k = 1, 2, 4$) flip ray chirality $+ 1 arrow.r - 1 arrow.r + 1 arrow.r - 1$ while shell $k = 3$ preserves $+ 1$, comparator $O_k = (7, 10, 3, 11)$ yields $Delta_Z = (0, 1, 0, 1)$ ($sum m = 2$), and $L 3 slash K 4$ 3D+time-flow inputs remain explicitly held at $B_(upright("SWELLS"))$ (#raw("target_quarantined_before_freeze = 1")) until bound.
 
 
 #figure(
   kind: image, [
 #include "../../lib/figures/manual/lensing_ray_boundary_feynman.typ"
   ],
-  caption: [Grazing ray walk across concentric lens shells $k = 1 dots.h 4$, active chiral-flip vertices $0_H$, exact FRG totals $T_k^0 , T_k^(times)$ versus comparator $O_k$, and pre-SWELLS target quarantine (#raw("lensing_ray_chiral_dec_walk.csv")).],
+  caption: [Grazing ray walk across concentric lens shells $k = 1 dots.h 4$, active chiral-flip vertices $0_H$, exact FRG totals $T_k^0 , T_k^(times)$ versus comparator $O_k$, and pre-SWELLS target quarantine (#raw("RC-042"), #raw("lensing_ray_chiral_dec_walk.csv")).],
 ) <fig:manual-lensing-ray-boundary-feynman>
 
 
 #figure(
   kind: table, [
 #{
+  let rows = csv("/manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv", row-type: dictionary)
+  let fmt-num(s) = s.replace("-", "\u{2212}")
   set text(size: 8.5pt)
   set par(justify: false)
   table(
-    columns: (auto, auto, auto, auto, auto, auto, auto, auto, auto),
+    columns: (11fr, 9fr, 10fr, 10fr, 9fr, 11fr, 9fr, 10fr, 21fr),
     align: (right, right, right, right, right, right, right, right, center),
+    inset: (x: 3.0pt, y: 3.2pt),
     table.header(
       toprule,
       [Shell $k$], [$T_k^0$], [$C_k^(times)$], [$T_k^(times)$], [Flip], [Post $chi$], [$O_k$], [$Delta_Z$], [$delta_3 (T_k^(times) , O_k )$],
       midrule,
     ),
-    [1], [4], [3], [7], [1], [$- 1$], [7], [0], [$(0, 0)$],
-    [2], [6], [5], [11], [1], [$+ 1$], [10], [1], [$(1, 1)$],
-    [3], [5], [$- 2$], [3], [0], [$+ 1$], [3], [0], [$(0, 0)$],
-    [4], [8], [4], [12], [1], [$- 1$], [11], [1], [$(1, 1)$],
+    ..rows.map(r => (
+      [#r.shell_k],
+      [#r.T0_base],
+      [#fmt-num(r.C_cross)],
+      [#r.T_cross],
+      [#r.chiral_flip],
+      [#fmt-num(r.post_chi)],
+      [#r.O_comparator],
+      [#r.Delta_Z],
+      [#r.delta3_pair.replace(",", ", ")],
+    )).flatten(),
     bottomrule,
   )
 }
   ],
-  caption: [Four-shell galactic lensing FRG cross-return and chiral-flip D.E.C. ledger (#raw("RC-042")).],
+  caption: [Engine-bound four-shell galactic lensing FRG cross-return and chiral-flip D.E.C. ledger (#raw("RC-042"), live from #raw("lensing_ray_chiral_dec_walk.csv")).],
 ) <tab:manual-lensing-dec-ray-walk>
 

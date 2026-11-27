@@ -433,7 +433,7 @@ Data files, scored outputs, and the regeneration script are included in the sour
 #math.equation(block: true, numbering: none, $ & mono("manual/data/sparc"), \ & mono("manual/data/derived/sparc_five_galaxy_per_bin.csv"), \ & mono("manual/data/derived/sparc_five_galaxy_per_galaxy.csv"), \ & mono("manual/scripts/score_sparc_field_dynamics.py"). $)
 
 
-#aod-remark[The SPARC five-galaxy scored records are generated from the included rotation-curve files and the frozen declaration constants listed in this section.]
+#aod-remark[The SPARC five-galaxy scored records are generated from the included rotation-curve files and the frozen declaration constants listed in this section in pure zero-float #raw("TritWord")/#raw("TritRatio") arithmetic—verified per bin by #raw("RC-015") and #raw("RC-016") and pooled across all $209$ positive-$U^(upright("obs"))$ bins by #raw("SD-008")—with zero free dark-matter halo fitting.]
 
 
 #math.equation(block: true, numbering: none, $ Delta U_(g,j) = U_(g,j, AO) - U^(upright("obs"))_(g,j) , wide z^U_(g,j) = frac(Delta U_(g,j), sigma_(U,g,j)). $)
@@ -444,7 +444,7 @@ Data files, scored outputs, and the regeneration script are included in the sour
 
 #math.equation(block: true, numbering: none, $ M A P E_(U,g) = frac(100, N_g) sum_j bar.v frac(Delta U_(g,j), U^(upright("obs"))_(g,j)) bar.v , wide U^(upright("obs"))_(g,j) > 0. $)
 
-Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor. Across all $209$ positive-$U^(upright("obs"))$ radial bins of the five-galaxy sample, the reference engine (#raw("manual/data/boundary_sadar/sparc_pooled_primary_exact.csv"), vector #raw("SD-008")) evaluates the exact rational pooled primary score $M A P E_U = 64.70291920 "%"$ ($1523$-digit numerator over $1521$-digit denominator), distinct from the carried control $66.1613 "%"$ in #raw("sparc_declaration_controls.csv").
+Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor. Across all $209$ positive-$U^(upright("obs"))$ radial bins of the five-galaxy sample (verified per bin by #raw("RC-015") and #raw("RC-016")), the zero-float reference engine (#raw("manual/data/boundary_sadar/sparc_pooled_primary_exact.csv"), vector #raw("SD-008")) evaluates the declared G0 pooled primary score in exact #raw("TritWord")/#raw("TritRatio") arithmetic with zero free halo fitting: $M A P E_U = 26.57055342 "%"$ ($230$-digit exact numerator over $228$-digit exact denominator). The four carried declaration-control rows in #raw("sparc_declaration_controls.csv") remain strictly separate legacy comparison records whose variant recipes and aggregation rule are not supplied.
 
 #include "../tables/sparc_summary_table.typ"
 
@@ -507,7 +507,7 @@ The missing-burden diagnostic records the exact ratio
 #aod-noteblock("Precision note")[Support identities and candidate declarations are exact. Plotted scores are presentation decimals carried by the frozen diagnostic CSV.]
 
 
-#aod-noteblock("Source artifacts")[The depth-3 rows in #raw("manual/data/tau/aod_tau_fractal_ring_summary.csv") preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied. The zero-float five-boundary SADAR cavity competition and $2500$-slot sensor split producing $(19 slash 50, 31 slash 50)$ on #raw("_Exo") are executed directly in #secref("manual:rest:boundary-sadar-debris") (#raw("tau_five_boundary_sadar_trace.csv"), vector #raw("RC-025")).]
+#aod-noteblock("Source artifacts")[The depth-3 rows in #raw("manual/data/tau/aod_tau_fractal_ring_summary.csv") preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied. The zero-float five-boundary SADAR cavity competition and derived $50$-microslot $Q_4 times mu$ impedance rotor ($50 times 50 = 2500$ joint microslots yielding $(650, 703, 1147) slash 2500 arrow.r (19 slash 50, 31 slash 50)$ on $X_(upright("exo"))$ / #raw("_Exo")) are executed directly in #secref("manual:rest:boundary-sadar-debris") (#raw("tau_five_boundary_sadar_trace.csv"), vector #raw("RC-027")).]
 
 
 #figure(
@@ -667,46 +667,63 @@ declaration-control recipes remain carried records.
 
 == Five-boundary hinge-saturation stepper and SPARC pooled D.E.C. ledger <manual:field-dynamics:dec-run-tumble-stepper>
 
+#aod-paragraph[Setup and engine verification (#raw("RC-041"), #raw("SD-008")).]
 Declare the field-dynamics five-boundary stack
 
 #math.equation(block: true, numbering: none, $ B_(Q_4) arrow.r B_(upright("hinge")) arrow.r B_(upright("ring")) arrow.r B_(upright("pool")) arrow.r B_(upright("ext")). $)
 
-Vectors #raw("RC-041") and #raw("RC-032") (#raw("manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv") and #raw("manual/data/boundary_sadar/sparc_pooled_primary_exact.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) reproduce all $21$ ticks of the $Q_4 arrow.r bb(Z)^3$ run-tumble trace directly from the two-step hinge-saturation slide law ($op("adm") = 0$ after two consecutive same-axis steps forces a tumble onto the next axis, closing back to $0000$ at $t = 16$ with $Q_4 - Q_3 = h_4^2 gt.eq 0$) alongside the exact $209$-bin rational SPARC $U = V^2$ pooled score ($64.70291920$ % display, zero free halo fitting).
+Vectors #raw("RC-041") (#raw("dec_run_tumble_q4_stepper"), #raw("manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv")) and #raw("SD-008") (#raw("sparc_pooled_primary_exact"), #raw("manual/data/boundary_sadar/sparc_pooled_primary_exact.csv"), backed per bin by #raw("RC-015") and #raw("RC-016")), verified by #raw("python3 -B -m manual.engine --sector boundary_sadar") and #raw("aod-core --verify-vectors --check-zero-float"), reproduce all $21$ ticks of the $Q_4 arrow.r bb(Z)^3$ run-tumble trace directly from the two-step hinge-saturation slide law ($op("adm") = 0$ after two consecutive same-axis steps forces a tumble onto the next axis, closing back to $0000$ at $t = 16$ with $Q_4 - Q_3 = h_4^2 gt.eq 0$) alongside the declared G0 exact rational $209$-bin SPARC $U = V^2$ pooled primary score in #raw("TritWord")/#raw("TritRatio") arithmetic ($M A P E_U = 26.57055342 "%"$ from a $230$-digit numerator over a $228$-digit denominator, zero free halo fitting).
 
 
 #figure(
   kind: image, [
 #include "../../lib/figures/manual/field_dynamics_boundary_feynman.typ"
   ],
-  caption: [Two-step hinge-saturation $Q_4 arrow.r bb(Z)^3$ run-tumble D.E.C. trajectory ($Q_4$ versus projected $Q_3$) and concentric galactic radial-ring SPARC pooled audit (#raw("run_tumble_q4_dec_walk.csv"), #raw("sparc_pooled_primary_exact.csv")).],
+  caption: [Two-step hinge-saturation $Q_4 arrow.r bb(Z)^3$ run-tumble D.E.C. trajectory ($Q_4$ versus projected $Q_3$) and concentric galactic radial-ring SPARC pooled audit (#raw("RC-041"), #raw("SD-008"), #raw("run_tumble_q4_dec_walk.csv"), #raw("sparc_pooled_primary_exact.csv")).],
 ) <fig:manual-field-dynamics-boundary-feynman>
 
 
 #figure(
   kind: table, [
 #{
-  set text(size: 8.5pt)
-  set par(justify: false)
+  let checkpoints = ("0", "2", "3", "5", "7", "8", "16", "20")
+  let rows = csv("/manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv", row-type: dictionary)
+    .filter(r => r.t in checkpoints)
+  let fmt-num(s) = s.replace("-", "\u{2212}")
+  let fmt-slot(e, sig) = {
+    if e == "-" { [\u{2212}] }
+    else {
+      let s = if sig == "1" { "+1" } else { fmt-num(sig) }
+      [(#e, #s)]
+    }
+  }
+  set text(size: 8.0pt)
+  show raw: set text(size: 7.2pt)
+  set par(justify: false, leading: 0.44em)
   table(
-    columns: (auto, auto, auto, auto, auto, auto, auto, auto),
-    align: (right, left, left, right, left, right, right, right),
+    columns: (6fr, 12fr, 14fr, 11fr, 23fr, 8fr, 8fr, 9fr, 9fr),
+    align: (right, left, left, center, left, right, right, right, right),
+    inset: (x: 2.8pt, y: 3.1pt),
     table.header(
       toprule,
-      [$t$], [Mode], [Slot $(e, sigma)$], [Dwell adm], [$(h_1 , h_2 , h_3 , h_4)$], [$Q_3$], [$Q_4$], [Octant],
+      [$t$], [Mode], [Slot $(e, sigma)$], [Dwell adm], [$(h_1 , h_2 , h_3 , h_4)$], [$Q_3$], [$Q_4$], [$theta$], [Octant],
       midrule,
     ),
-    [0], [#raw("init")], [$-$], [1], [$(0, 0, 0, 0)$], [0], [0], [0],
-    [2], [#raw("run")], [$(e_1 , + 1)$], [1], [$(2, 0, 0, 0)$], [4], [4], [0],
-    [3], [#raw("tumble")], [$(e_2 , + 1)$], [0], [$(2, 1, 0, 0)$], [5], [5], [0],
-    [5], [#raw("tumble")], [$(e_3 , - 1)$], [0], [$(2, 2, - 1, 0)$], [9], [9], [4],
-    [7], [#raw("tumble")], [$(e_4 , + 1)$], [0], [$(2, 2, - 2, 1)$], [12], [13], [4],
-    [8], [#raw("run")], [$(e_4 , + 1)$], [1], [$(2, 2, - 2, 2)$], [12], [16], [4],
-    [16], [#raw("run")], [$(e_4 , - 1)$], [1], [$(0, 0, 0, 0)$], [0], [0], [0],
-    [20], [#raw("run")], [$(e_2 , + 1)$], [1], [$(2, 2, 0, 0)$], [8], [8], [0],
+    ..rows.map(r => (
+      [#r.t],
+      [#raw(r.mode)],
+      fmt-slot(r.edge, r.sigma),
+      [#r.dwell_adm],
+      [(#fmt-num(r.h1), #fmt-num(r.h2), #fmt-num(r.h3), #fmt-num(r.h4))],
+      [#r.Q3],
+      [#r.Q4],
+      [#r.theta],
+      [#r.octant],
+    )).flatten(),
     bottomrule,
   )
 }
   ],
-  caption: [Two-step hinge-saturation $Q_4 arrow.r bb(Z)^3$ run-tumble D.E.C. stepper checkpoints (#raw("RC-041")\; full $21$-tick trace in #raw("run_tumble_q4_dec_walk.csv")).],
+  caption: [Engine-bound two-step hinge-saturation $Q_4 arrow.r bb(Z)^3$ run-tumble D.E.C. stepper checkpoints (#raw("RC-041")\; live-filtered from the full $21$-tick #raw("run_tumble_q4_dec_walk.csv")).],
 ) <tab:manual-field-dynamics-dec-spine>
 

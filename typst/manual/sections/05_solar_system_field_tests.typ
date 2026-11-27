@@ -6,12 +6,15 @@
 
 
 #aod-paragraph[Calculation card.]
-The Sun/body/window declarations and carried O0 values below give residual
-arithmetic, not a replayed native solar evaluator. The $42.98$ perihelion
-and $1.75$ bending references are theory benchmarks. The redshift record
-separately identifies a reference prediction and a measured estimate with
-uncertainty. This application must supply its native construction, observable
-map, source certificates and uncertainty before physical prediction; see
+The Sun/body/window declarations and carried O0 values below supply exact
+rational residual arithmetic—verified by vector #raw("RC-040")
+(#raw("dec_solar_o0_boundary_audit"), #raw("solar_o0_boundary_dec_audit.csv"))
+under the explicit gate #raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER")—and do not
+constitute a replayed native solar evaluator. The $42.98$ perihelion and $1.75$
+bending references are theory benchmarks. The redshift record separately
+identifies a reference prediction and a measured estimate with uncertainty.
+This application must supply its native construction, observable map, source
+certificates, and uncertainty before physical prediction; see
 #secref("manual:calculation-spine").
 
 
@@ -217,41 +220,60 @@ with the measured comparison
 
 == Five-boundary solar O0 scope separation and producer-gate ledger <manual:solar:dec-o0-boundary-audit>
 
+#aod-paragraph[Setup and producer-gate verification (#raw("RC-040")).]
 Declare the five-boundary solar observable-map stack separating the three distinct trajectory scopes from the unsupplied native producer gate and the quarantined external target comparison:
 
 #math.equation(block: true, numbering: none, $ B_(upright("Sun")) arrow.r (B_(upright("Hg")) , B_(upright("bend")) , B_(upright("red")) ) arrow.r B_(upright("gate")) arrow.r B_(upright("O0")) arrow.r B_(upright("ext")). $)
 
-Vector #raw("RC-040") (#raw("manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) audits the exact rational observable-map residuals across $B_(upright("Hg"))$ (closed orbital return shell), $B_(upright("bend"))$ (open grazing ray chord), and $B_(upright("red"))$ (radial potential climb window) while locking every row behind #raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER") so O0 observable-map consistency is never misrepresented as a native solar derivation.
+Vector #raw("RC-040") (#raw("dec_solar_o0_boundary_audit"))—archived in #raw("manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv") and verified by #raw("python3 -B -m manual.engine --sector boundary_sadar") and #raw("aod-core --verify-vectors --check-zero-float")—audits the exact rational observable-map residuals across $B_(upright("Hg"))$ (closed orbital return shell), $B_(upright("bend"))$ (open grazing ray chord), and $B_(upright("red"))$ (radial potential climb window) while certifying #raw("native_sadar_evaluated = 0") and locking every row behind #raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER") so O0 observable-map arithmetic is never misrepresented as a native solar derivation.
 
 
 #figure(
   kind: image, [
 #include "../../lib/figures/manual/solar_boundary_scopes_feynman.typ"
   ],
-  caption: [Typed solar boundary scopes ($B_(upright("Hg")) , B_(upright("bend")) , B_(upright("red"))$), explicit #raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER") gate, and exact rational O0 comparison ledger (#raw("solar_o0_boundary_dec_audit.csv")).],
+  caption: [Typed solar boundary scopes ($B_(upright("Hg")) , B_(upright("bend")) , B_(upright("red"))$), explicit #raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER") gate, and exact rational O0 comparison ledger (#raw("RC-040"), #raw("solar_o0_boundary_dec_audit.csv")).],
 ) <fig:manual-solar-boundary-scopes-feynman>
 
 
 #figure(
   kind: table, [
 #{
-  set text(size: 8.5pt)
-  set par(justify: false)
+  let rows = csv("/manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv", row-type: dictionary)
+  let raw-wrap(s) = raw(
+    s.replace("_", "_\u{200b}")
+     .replace("/", "/\u{200b}")
+     .replace("(", "(\u{200b}")
+  )
+  let fmt-rat(s) = {
+    let wrapped = s.replace("-", "\u{2212}").replace("/", "/\u{200b}")
+    [#wrapped]
+  }
+  set text(size: 7.5pt)
+  show raw: set text(size: 6.6pt)
+  set par(justify: false, leading: 0.42em)
   table(
-    columns: (auto, auto, auto, auto, auto, auto),
-    align: (left, left, right, right, right, left),
+    columns: (15fr, 15fr, 16fr, 12fr, 14fr, 8fr, 20fr),
+    align: (left, left, right, right, right, right, left),
+    inset: (x: 2.8pt, y: 3.0pt),
     table.header(
       toprule,
-      [Record], [Typed scope], [Mapped exact], [Target exact], [Exact residual], [Producer gate],
+      [Record], [Typed scope], [Mapped exact], [Target exact], [Exact residual], [Abs. % (exact / 7dp)], [Producer gate],
       midrule,
     ),
-    [#raw("mercury_perihelion")], [$B_(upright("Hg"))$], [$429799 slash 10000$], [$2149 slash 50$], [$- 1 slash 10000$], [#raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER")],
-    [#raw("solar_light_bending")], [$B_(upright("bend"))$], [$175001 slash 100000$], [$7 slash 4$], [$+ 1 slash 100000$], [#raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER")],
-    [#raw("solar_redshift")], [$B_(upright("red"))$], [$52999 slash 25000000000$], [$53 slash 25000000$], [$- 1 slash 25000000000$], [#raw("HOLD_MISSING_NATIVE_SOLAR_PRODUCER")],
+    ..rows.map(r => (
+      [#raw-wrap(r.record_id)],
+      [#raw-wrap(r.boundary_scope)],
+      fmt-rat(r.ao_exact),
+      fmt-rat(r.target_exact),
+      fmt-rat(r.residual_exact),
+      [#r.abs_pct_error_exact \ #r.abs_pct_error_7dp],
+      [#raw-wrap(r.native_producer_gate)],
+    )).flatten(),
     bottomrule,
   )
 }
   ],
-  caption: [Exact rational solar O0 observable-map residual and missing-producer gate ledger (#raw("RC-040")).],
+  caption: [Engine-bound exact rational solar O0 observable-map residual and missing-producer gate ledger (#raw("RC-040"), live from #raw("solar_o0_boundary_dec_audit.csv")).],
 ) <tab:manual-solar-dec-boundary-audit>
 

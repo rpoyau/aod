@@ -6,13 +6,20 @@
 
 
 #aod-paragraph[Calculation card.]
-The D0 substitution declares $C_3 = 3$, $rho^D = 5$, window length $4$
-and $A_(12) = 1 slash 3$: clipping gives $p^D = 12$, flux $4$, and reverse
-flux $- 4$. The moving-boundary inputs $(8,3,2)$ give $7$.
-These exact conditional results and their orientation/Stokes comparators
-remain inline below. A wire, fluid or plasma experiment must supply its own
-state and observation adapter with uncertainty; none is instantiated here.
-The common method is #secref("manual:calculation-spine").
+The D0 substitution declares $C_3 = 3$, $rho^D = 5$, window length $4$, and
+$A_(12) = 1 slash 3$: clipping gives $p^D = 12$, flux $+ 4$, and reverse flux
+$- 4$. Executed in exact zero-float arithmetic by vector #raw("RC-032")
+(#raw("scoped_wire_and_moving_boundary"),
+#raw("scoped_wire_and_moving_boundary_walk.csv")), the moving-boundary balance
+evaluates $Phi^D_(partial R,upright("mov")) = 8 - 3 + 2 = 7$, and the four-cut
+($52 dots.h 55$) $1":"2":"6$ electron-above-wire walk yields exact union
+cancellation $0$ alongside realized electron current trajectory
+$4 arrow.r 4 arrow.r 8 arrow.r 13$ (unchanged across uncoupled cut $53$).
+These exact D0 conditional results and their orientation/Stokes comparators
+remain inline below. External wire, fluid, and plasma apparatus remain
+strictly quarantined: any laboratory experiment must supply its own state
+preparation, observation adapter, and declared uncertainty; none is
+instantiated here. The common method is #secref("manual:calculation-spine").
 
 
 
@@ -212,43 +219,60 @@ both bound histories remain retained.
 
 == Five-boundary moving-boundary Stokes and wire-electron SADAR ledger <manual:wire:dec-moving-boundary>
 
+#aod-paragraph[Setup and engine verification (#raw("RC-032")).]
 Declare the five-boundary Stokes and scoped encounter chain
 
 #math.equation(block: true, numbering: none, $ B_(upright("wire")) arrow.r B_e arrow.r B_(upright("int")) arrow.r B_(R_1 union R_2) arrow.r B_(upright("ext")). $)
 
-Vectors #raw("RC-030") and #raw("RC-031") (#raw("manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) execute both the moving-boundary balance $Phi^D_(upright("mov")) = Phi^D_(upright("cross")) - Phi^D_(upright("sweep")) + Phi^D_(upright("shedding")) = 8 - 3 + 2 = 7$ ($eq.not 8$) and the four-cut ($52 dots.h 55$) $1":"2":"6$ electron-above-wire encounter: at coupled cuts $52, 54, 55$ the opposing interface fluxes $( + 4, - 4)$, $( + 4, - 4)$, and $( + 5, - 5)$ cancel identically on $partial (R_(upright("wire")) union R_e ) = 0$ while driving the realized electron current trajectory $4 arrow.r 4 arrow.r 8 arrow.r 13$ (remaining unchanged across uncoupled cut $53$).
+Vector #raw("RC-032") (#raw("scoped_wire_and_moving_boundary"))—archived in #raw("manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv") and verified by #raw("python3 -B -m manual.engine --sector boundary_sadar") and #raw("aod-core --verify-vectors --check-zero-float")—executes both the moving-boundary balance $Phi^D_(upright("mov")) = Phi^D_(upright("cross")) - Phi^D_(upright("sweep")) + Phi^D_(upright("shedding")) = 8 - 3 + 2 = 7$ ($eq.not 8$) and the four-cut ($52 dots.h 55$) $1":"2":"6$ electron-above-wire encounter: at coupled cuts $52, 54, 55$ the opposing interface fluxes $( + 4, - 4)$, $( + 4, - 4)$, and $( + 5, - 5)$ cancel identically on $partial (R_(upright("wire")) union R_e ) = 0$ while driving the realized electron current trajectory $4 arrow.r 4 arrow.r 8 arrow.r 13$ (remaining unchanged across uncoupled cut $53$). External physical wire, fluid, or plasma apparatus remains quarantined at $B_(upright("ext"))$ until an explicit acquisition and uncertainty adapter is declared.
 
 
 #figure(
   kind: image, [
 #include "../../lib/figures/manual/wire_moving_boundary_feynman.typ"
   ],
-  caption: [Moving-boundary Stokes decomposition ($Phi^D_(upright("mov")) = 8 - 3 + 2 = 7$) and four-cut $1":"2":"6$ electron-above-wire SADAR walk (#raw("scoped_wire_and_moving_boundary_walk.csv")).],
+  caption: [Moving-boundary Stokes decomposition ($Phi^D_(upright("mov")) = 8 - 3 + 2 = 7$) and four-cut $1":"2":"6$ electron-above-wire SADAR walk (#raw("RC-032"), #raw("scoped_wire_and_moving_boundary_walk.csv")).],
 ) <fig:manual-wire-moving-boundary-feynman>
 
 
 #figure(
   kind: table, [
 #{
-  set text(size: 8.5pt)
-  set par(justify: false)
+  let rows = csv("/manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv", row-type: dictionary)
+  let raw-wrap(s) = raw(s.replace("_", "_\u{200b}"))
+  let fmt-signed(s) = {
+    if s == "0" { [0] }
+    else if s.starts-with("-") { [\u{2212}#s.slice(1)] }
+    else { [+#s] }
+  }
+  set text(size: 8.0pt)
+  show raw: set text(size: 7.1pt)
+  set par(justify: false, leading: 0.44em)
   table(
-    columns: (auto, auto, auto, auto, auto, auto, auto),
+    columns: (25fr, 6fr, 6fr, 9fr, 15fr, 20fr, 19fr),
     align: (left, right, right, right, right, right, right),
+    inset: (x: 3.0pt, y: 3.2pt),
     table.header(
       toprule,
       [Record], [Cut], [$bar.v omega bar.v$], [Coupled], [Wire / cross], [Electron / sweep+shed], [Union / current],
       midrule,
     ),
-    [#raw("moving_boundary_R1_to_R2")], [1], [1], [1], [$+ 8$], [$- 3 + 2$], [$Phi^D_(upright("mov")) = 7$],
-    [#raw("electron_above_wire_1:2:6")], [52], [4], [1], [$+ 4$], [$- 4$], [$0$ / $J_e = 4$],
-    [#raw("electron_above_wire_1:2:6")], [53], [4], [0], [$0$], [$0$], [$0$ / $J_e = 4$],
-    [#raw("electron_above_wire_1:2:6")], [54], [4], [1], [$+ 4$], [$- 4$], [$0$ / $J_e = 8$],
-    [#raw("electron_above_wire_1:2:6")], [55], [6], [1], [$+ 5$], [$- 5$], [$0$ / $J_e = 13$],
+    ..rows.map(r => {
+      let is-mov = r.record_kind == "moving_boundary_R1_to_R2"
+      (
+        [#raw-wrap(r.record_kind)],
+        [#r.cut],
+        [#r.window],
+        [#r.coupled],
+        if is-mov { fmt-signed(r.Phi_cross) } else { fmt-signed(r.wire_outward) },
+        if is-mov { [\u{2212}#r.Phi_sweep + #r.Phi_shedding] } else { fmt-signed(r.electron_outward) },
+        if is-mov { [$Phi^D_(upright("mov")) =$ #r.Phi_moving] } else { [#r.union_boundary / $J_e =$ #r.later_electron_current] },
+      )
+    }).flatten(),
     bottomrule,
   )
 }
   ],
-  caption: [Moving-boundary Stokes decomposition and four-cut wire-electron SADAR D.E.C. ledger (#raw("RC-030"), #raw("RC-031")).],
+  caption: [Engine-bound moving-boundary Stokes decomposition and four-cut wire-electron SADAR D.E.C. ledger (#raw("RC-032"), live from #raw("scoped_wire_and_moving_boundary_walk.csv")).],
 ) <tab:manual-wire-moving-boundary-dec>
 

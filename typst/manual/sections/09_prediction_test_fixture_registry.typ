@@ -68,7 +68,7 @@ by a source-only replay.
     [K4 galactic lensing gate], [L3], [higher-resolution input manifest], [independent medium data and target quarantine], [K4 input-gate table],
     [L3 lensing input package], [L3], [L3 input manifest], [independent 3D medium fields, time-flow inputs, radiation-current gates, target-side quarantine, null controls], [lens residuals after A$Omega$ values freeze],
     [Tritrioseptyro Higgs-support fixture], [D0/O0], [AFC trace rows + route detector], [candidate: $3":"3":"7_(upright("yro"))$; frozen map: $R D thin 2^(L + 4)$; mapped mass: $124.928$ GeV; comparison layer: declared Higgs mass targets], [next layer: production-channel and decay-channel residual tables],
-    [Boundary-full SADAR dynamics suite], [D0/O0], [5-boundary cavity, $Q_4$ walks, 10-carrier debris, pooled SPARC], [zero-float Python/Rust #raw("boundary_sadar") evaluators (#raw("RC-025..032"), #raw("SD-007..008"))], [8 frozen CSVs under #raw("manual/data/boundary_sadar")],
+    [Boundary-full SADAR & D.E.C. suite], [D0/O0/G0/L0], [5-boundary cavity, $Q_4$ walks, 10-carrier debris, pooled SPARC, SWAR ternary codec], [zero-float Python/Rust #raw("boundary_sadar") & #raw("manual_dec_examples") evaluators (#raw("RC-025")--#raw("RC-045"), #raw("SD-007")--#raw("SD-008"))], [20 frozen CSVs under #raw("manual/\u{200b}data/\u{200b}boundary_\u{200b}sadar") + #raw("manual/\u{200b}engine/\u{200b}ternary.py")],
     bottomrule,
   )
 },
@@ -189,44 +189,62 @@ For each galaxy, the completed record carries
 
 == Reference-engine golden-vector and D.E.C. CSV master registry <manual:registry:engine-dec-master>
 
-All worked examples, rest-energy closures, collision-shedding debris chains, and boundary-audit tables across this manual bind to the fifty-two locked golden vectors (#raw("RC-001") through #raw("RC-044") and #raw("SD-001") through #raw("SD-008")) verified identically in Python (#raw("python3 -B -m manual.engine") #raw("--verify-all") #raw("--check-zero-float") #raw("--verify-vectors")) and in the #raw("std")-only Rust exact core (#raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")).
+All worked examples, rest-energy closures, collision-shedding debris chains, and boundary-audit tables across this manual bind to the fifty-three locked golden vectors—#raw("RC-001") through #raw("RC-045") ($45$ #raw("rational_core")) and #raw("SD-001") through #raw("SD-008") ($8$ #raw("symbolic_and_display"))—verified identically in Python (#raw("python3 -B -m manual.engine --verify-all --check-zero-float --verify-vectors")) and in the #raw("std")-only Rust exact core (#raw("aod-core --verify-vectors --check-zero-float")), backed by all $20$ frozen CSVs under #raw("manual/data/boundary_sadar/") and the ternary SWAR module #raw("manual/engine/ternary.py").
 
 
 #figure(
   kind: image, [
 #include "../../lib/figures/manual/registry_engine_coverage_atlas.typ"
   ],
-  caption: [Dual S2 Python and S4 Rust zero-float reference-engine parity and fifty-two-vector registry coverage across all eighteen Manual units.],
+  caption: [Dual S2 Python and S4 Rust zero-float reference-engine parity and fifty-three-vector registry coverage across all eighteen Manual units.],
 ) <fig:manual-registry-engine-coverage>
 
 
 #figure(
   kind: table, [
 #{
-  set text(size: 8.5pt)
-  set par(justify: false)
+  let raw-wrap(s) = raw(
+    s.replace("_", "_\u{200b}")
+     .replace("/", "/\u{200b}")
+  )
+  set text(size: 7.8pt)
+  show raw: set text(size: 6.9pt)
+  set par(justify: false, leading: 0.43em)
   table(
-    columns: (auto, auto, auto, auto),
+    columns: (16fr, 10fr, 40fr, 34fr),
     align: (left, center, left, left),
+    inset: (x: 3.0pt, y: 2.8pt),
     table.header(
       toprule,
-      [Vector IDs], [Class], [Evaluator operation], [Bound frozen CSV under #raw("manual/data/boundary_sadar/")],
+      [Vector IDs], [Class], [Ground-truth evaluator operation], [Bound frozen CSV / source artifact],
       midrule,
     ),
-    [#raw("RC-025"), #raw("SD-007")], [$D 0 slash sans("Q")_(upright("ext"))$], [Tau $5$-boundary SADAR & debris atlas], [#raw("tau_five_boundary_sadar_trace.csv")],
-    [#raw("RC-026"), #raw("RC-027")], [$D 0$], [Higgs $3":"3":"7_(upright("yro"))$ saddle & $3":"2$ Ditrion debris], [#raw("higgs_baryon_overlap_saddle_scan.csv")],
-    [#raw("RC-028"), #raw("RC-029")], [$D 0$], [$Q_4$ chiral-flip walk & Disoma/double-slit FRG], [#raw("dec_chiral_flip_continuous_walk.csv")],
-    [#raw("RC-030"), #raw("RC-031")], [$D 0$], [Moving boundary & $1":"2":"6$ wire-electron walk], [#raw("scoped_wire_and_moving_boundary_walk.csv")],
-    [#raw("RC-032"), #raw("RC-041")], [$G 0 slash D 0$], [SPARC $209$-bin exact & $Q_4$ run-tumble stepper], [#raw("sparc_pooled_primary_exact.csv")],
-    [#raw("RC-033"), #raw("RC-034")], [$D 0$], [$Q_4$ closure/beat/fold & matched operativity], [#raw("native_closure_wave_dec_walk.csv")],
-    [#raw("RC-035"), #raw("RC-036")], [$D 0$], [Cell staircase/fold & typed-map joint laws], [#raw("cell_measures_staircase_fold_dec.csv")],
-    [#raw("RC-037"), #raw("RC-038")], [$D 0$], [Temporal SI bridge & short-window RCD clip], [#raw("temporal_si_bridge_dec_ledger.csv")],
-    [#raw("RC-039"), #raw("RC-040")], [$D 0 slash O 0$], [Hydrogen shell ratios & solar O0 gate], [#raw("hydrogen_shell_dec_transitions.csv")],
-    [#raw("RC-042")--#raw("RC-044")], [$L 0 slash G 3$], [Lensing chiral ray, App. A rational & App. C 3D], [#raw("lensing_ray_chiral_dec_walk.csv")],
+    [#raw("RC-001")--#raw("RC-003")], [$D 0$], [One-node D.E.C. ($Z = 8$), hinge-slide ($Z = 7$), tunnelling clip ($6 slash 7$)], [#raw-wrap("manual/data/dec/dec_one_node_ledger_example.csv"), #raw-wrap("dec_hinge_slide_example.csv"), #raw-wrap("field_tunnelling_hinge_slide_window_clip.csv")],
+    [#raw("RC-004")--#raw("RC-008")], [$D 0$], [AFC flux antisymmetry, $Q_4$ Hamming–1, $R D$/$upright("RCD")$, relational cadence/lag, finite Stokes cut balance], [Main #raw-wrap("03_afc_basis"), #raw-wrap("06_field"), #raw-wrap("06_wave_state_relational_time") exact algebraic oracles],
+    [#raw("RC-033"), #raw("SD-001")--#raw("SD-002")], [$D 0$], [§2 #raw-wrap("dec_native_closure_wave_fold") & #raw-wrap("sympy_z4_dft") (even real & odd $bb(Q)(i)$ modes)], [#raw-wrap("native_closure_wave_dec_walk.csv"), #raw-wrap("manual/data/native_closure_wave/harmonic_reconstruction.csv")],
+    [#raw("RC-009")--#raw("RC-010"), #raw("RC-034")], [$D 0$], [§3 Awareness update, period-$6$ delay mindfulness, #raw-wrap("dec_awareness_matched_operativity") (cuts $23..34$)], [#raw-wrap("awareness_operativity_dec_walk.csv"), #raw-wrap("manual/scripts/aod_awareness.py")],
+    [#raw("RC-025"), #raw("RC-026")], [$D 0$], [§4 #raw-wrap("dec_chiral_flip_walk") ($Z = 11 arrow.r 7$, $T = 6 slash 7$) & #raw-wrap("dec_two_carrier_chiral_stokes") ($+ 4 - 4 = 0$)], [#raw-wrap("dec_chiral_flip_continuous_walk.csv")],
+    [#raw("RC-045")], [$D 0$], [§4/Core #raw-wrap("ternary_swar_and_trit_ratio"): 2-bit/4-bit SWAR dwell burn, carry-barrier hinges, #raw("TritWord"), #raw("Trit2MicroRatio"), #raw("TritRatio")], [#raw-wrap("manual/engine/ternary.py"), #raw-wrap("crates/aod-core/src/ternary.rs")],
+    [#raw("RC-035")], [$D 0$], [§5 #raw-wrap("dec_cell_measures_staircase_fold") ($Q_4$ 4-cell, 2D/4D staircase-to-$pi$ #raw("TritRatio"), fold chain-map)], [#raw-wrap("cell_measures_staircase_fold_dec.csv")],
+    [#raw("RC-021")--#raw("RC-024"), #raw("SD-006"), #raw("RC-036")], [$D 0$], [§6 Typed float/bool/token rejection, MAP-21 #raw("i128") variance, half-ULP enclosure, #raw-wrap("dec_typed_maps_exact_laws")], [#raw-wrap("typed_map_joint_law_ledger.csv"), #raw-wrap("manual/engine/numeric.py"), #raw-wrap("manual/data/mapping_error/mapping_error.json")],
+    [#raw("RC-017")--#raw("RC-019"), #raw("SD-003"), #raw("RC-037")], [$D 0 slash O 0$], [§7 Cs-133 SI bridge, signed advance, H-maser mean, cyclotomic $bb(Z)_(12)$, #raw-wrap("dec_temporal_si_bridge_bounds")], [#raw-wrap("temporal_si_bridge_dec_ledger.csv"), #raw-wrap("manual/data/temporal_metrology/exact_fixtures.json"), #raw-wrap("report.json")],
+    [#raw("RC-030")], [$D 0$], [§8 #raw-wrap("frg_dimonhexon_double_slit_ring") ($11$-bin $C_6$ path-pair generator, $410 + 38 = 448$, $sum m = 6$)], [#raw-wrap("dimonhexon_double_slit_ring_paths.csv")],
+    [#raw("RC-038")], [$D 0$], [§8 #raw-wrap("dec_short_window_rcd_clipping") ($12$-pair $p^D + Q^D = 3 R D$ conservation, window-$9$ surplus $X = 9$ vs $C_6 = 18$; $8$-row CSV $1":"2":"9$ $X = 3$ vs $C_8 = 24$)], [#raw-wrap("short_window_rcd_dec_ledger.csv")],
+    [#raw("RC-027")], [$D 0$], [§9 #raw-wrap("sadar_pp_tau_five_boundary") (sterile cut-$58$, raw $28 = 11 + 17$, unique $1":"2":"9_(upright("yro"))$, $50$-microslot rotor $(650, 703, 1147) slash 2500 arrow.r (19 slash 50, 31 slash 50)$)], [#raw-wrap("tau_five_boundary_sadar_trace.csv")],
+    [#raw("RC-011"), #raw("SD-004")--#raw("SD-005")], [$D 0 slash O 0$], [§9 #raw-wrap("higgs_trace_score_and_freeze") ($15616 slash 125$ GeV) & #raw-wrap("higgs_lhc_rounded_display") (CMS/ATLAS 6dp half-even)], [#raw-wrap("manual/data/higgs/higgs_trace_score_formula.md"), #raw-wrap("higgs_external_lhc_mass_comparison_after_freeze.csv")],
+    [#raw("RC-028")], [$D 0$], [§9 #raw-wrap("sadar_hadron_debris_and_higgs_saddle") ($3":"2":"6 slash 8 slash 10$ Ditrion debris & $20$-candidate $3":"3":"7_(upright("yro"))$ $sans("C")_6 slash sans("C")_8$ saddle)], [#raw-wrap("higgs_baryon_overlap_saddle_scan.csv")],
+    [#raw("RC-029"), #raw("SD-007")], [$D 0 slash sans("Q")_(upright("ext"))$], [§9/App. B #raw-wrap("sadar_rest_energy_atlas") ($10$ carriers, $8160$ span, $9104$ closures) & #raw-wrap("sadar_rest_energy_qext") (BIPM SI $K_(upright("ext"))$)], [#raw-wrap("rest_energy_sadar_debris_atlas.csv")],
+    [#raw("RC-031"), #raw("RC-039")], [$D 0$], [§10 #raw-wrap("hydrogen_shell_series_exact") & #raw-wrap("dec_hydrogen_shell_wavelet_step") (exact Balmer/Lyman/Paschen ratios)], [#raw-wrap("hydrogen_shell_exact_series.csv"), #raw-wrap("hydrogen_shell_dec_transitions.csv")],
+    [#raw("RC-032")], [$D 0$], [§11 #raw-wrap("scoped_wire_and_moving_boundary") ($8 - 3 + 2 = 7$ & $4$-cut $1":"2":"6$ wire-electron walk $4 arrow.r 4 arrow.r 8 arrow.r 13$)], [#raw-wrap("scoped_wire_and_moving_boundary_walk.csv")],
+    [#raw("RC-040")], [$O 0$], [§12 #raw-wrap("dec_solar_o0_boundary_audit") (exact Hg/bend/red residuals behind #raw-wrap("HOLD_MISSING_NATIVE_SOLAR_PRODUCER"))], [#raw-wrap("solar_o0_boundary_dec_audit.csv")],
+    [#raw("RC-012")--#raw("RC-013"), #raw("RC-041")], [$G 3 slash D 0$], [§13 Brownian MSB-$x$, run-tumble LSB-$x$, #raw-wrap("dec_run_tumble_q4_stepper") ($21$-tick $Q_4 arrow.r bb(Z)^3$ walk, tick-$16$ closure)], [#raw-wrap("run_tumble_q4_dec_walk.csv"), #raw-wrap("manual/data/brownian/octant_delta3.csv"), #raw-wrap("run_tumble_octant_delta3.csv")],
+    [#raw("RC-015")--#raw("RC-016"), #raw("SD-008")], [$G 0$], [§13 #raw-wrap("sparc_exact_bin_eval") (per-bin) & #raw-wrap("sparc_pooled_primary_exact") ($209$ bins, exact $M A P E_U = 26.57055342 "%"$ from $230 slash 228$ digits)], [#raw-wrap("sparc_pooled_primary_exact.csv"), #raw-wrap("manual/data/derived/sparc_five_galaxy_per_bin.csv")],
+    [#raw("RC-020"), #raw("RC-042")], [$L 0 slash L 1 slash L 2$], [§14 SWELLS K1 $sum m = 8$ & Tau $1 slash 100$ non-conflation, #raw-wrap("dec_lensing_ray_chiral_delta3") ($4$-shell FRG walk, $3$ flips)], [#raw-wrap("lensing_ray_chiral_dec_walk.csv"), #raw-wrap("manual/data/lensing/swells_k1_thetaE_delta3_scores.csv")],
+    [#raw("RC-014"), #raw("RC-043"), #raw("RC-044")], [$D 0 slash G 3$], [App. A exact rational cycle shedding (#raw-wrap("cycle_shedding_step"), #raw-wrap("dec_cycle_shedding_exact_summary")) & App. C #raw-wrap("dec_coordinate_phase_3d_walk")], [#raw-wrap("cycle_shedding_exact_rational_summary.csv"), #raw-wrap("coordinate_phase_3d_dec_walk.csv")],
     bottomrule,
   )
 }
   ],
-  caption: [Master cross-language golden-vector and frozen D.E.C. CSV registry (#raw("RC-025")--#raw("RC-044"), #raw("SD-007")).],
+  caption: [Master cross-language $53$-vector golden registry (#raw("RC-001")--#raw("RC-045"), #raw("SD-001")--#raw("SD-008")) and all $20$ frozen CSV artifacts under #raw("manual/data/boundary_sadar/").],
 ) <tab:manual-engine-dec-master-registry>
 
