@@ -1,0 +1,57 @@
+bundle_id = "BND-P4-03"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P4-manual-sadar-examples"
+parent_bundle = "BND-P4-02"
+base_commit = "40cde40d46751a8460aaa208b96a810384bde588"
+
+[objective]
+summary = "Refactor Manual §1 (00_scope.typ), §11 (04_boundary_current_applications.typ), §12 (05_solar_system_field_tests.typ), §13 (06_field_dynamics_applications.typ), §14 (07_galactic_lensing_plan.typ), and §15 (09_prediction_test_fixture_registry.typ) in place: fix ALL scrambled vector IDs across the 53-vector registry (RC-001..RC-045 + SD-001..SD-008), retire stale SPARC 64.70291920% / 66.1613% / float-pandas claims in §13 in favor of declared G0 SPARC 26.57055342% (230/228 digits, SD-008), and bind live CSV D.E.C. tables."
+deliverables = [
+  "Update typst/manual/sections/00_scope.typ (§1): update golden vector range RC-001..RC-044 -> RC-001..RC-045 (53 vectors = 45 rational_core + 8 symbolic_and_display) and fix ALL scrambled vector citations in the 18-unit boundary-stack table (§4: RC-025, RC-026, RC-045; §8: RC-030, RC-038; §9: RC-027--RC-029, SD-007; §10: RC-031, RC-039; §11: RC-032; §13: RC-041, SD-008) while preserving every owned anchor in OWNERSHIP_AND_FIXTURES.json",
+  "Refactor typst/manual/sections/04_boundary_current_applications.typ (§11): fix scrambled RC-030/RC-031 -> RC-032 (scoped_wire_and_moving_boundary, scoped_wire_and_moving_boundary_walk.csv; ZERO RC-030/RC-031 remaining), align exact moving-boundary balance (8 - 3 + 2 = 7) and 4-cut electron-wire trajectory (4 -> 4 -> 8 -> 13) with explicit external wire/fluid/plasma adapter quarantine, and bind the §11 D.E.C. walk table live to scoped_wire_and_moving_boundary_walk.csv",
+  "Refactor typst/manual/sections/05_solar_system_field_tests.typ (§12): tighten General Mechanics flow around RC-040 (solar_o0_boundary_dec_audit.csv) preserving HOLD_MISSING_NATIVE_SOLAR_PRODUCER and bind the §12 D.E.C. audit table live to solar_o0_boundary_dec_audit.csv",
+  "Refactor typst/manual/sections/06_field_dynamics_applications.typ (§13): eliminate ALL stale 64.70291920%, 1523/1521-digit, and non-existent 66.1613% SPARC claims; accurately report the declared G0 SPARC pooled primary exact rational score from sparc_pooled_primary_exact.csv (SD-008: MAPE_U = 26.57055342%, 230-digit numerator over 228-digit denominator across all 209 positive-U^obs bins in TritWord/TritRatio arithmetic, zero free halo fitting); fix scrambled vector IDs (L510 RC-025 -> RC-027 with derived 50-microslot Q_4 x mu rotor; L674 RC-032 -> SD-008 alongside RC-041); retire any stale float/pandas narrative; and bind the §13 D.E.C. run-tumble checkpoint table cleanly against run_tumble_q4_dec_walk.csv",
+  "Refactor typst/manual/sections/07_galactic_lensing_plan.typ (§14): tighten General Mechanics flow around RC-020 and RC-042 (lensing_ray_chiral_dec_walk.csv), keep L3/K4 3D+timeflow inputs held at B_SWELLS, and bind the §14 D.E.C. ray walk table live to lensing_ray_chiral_dec_walk.csv",
+  "Update typst/manual/sections/09_prediction_test_fixture_registry.typ (§15): align ALL 53 golden vectors (RC-001..RC-045 + SD-001..SD-008) with exact ground-truth operations and CSV artifacts (adding RC-045 ternary_swar_and_trit_ratio and fixing every scrambled RC/SD citation)",
+  "Visually verify rendered pages containing every modified table and SPARC/registry block across §1, §11, §12, §13, §14, and §15 of _build/pub/manual.pdf at 144 ppi PNG via pdftoppm and view_file confirming zero overlaps, zero clipping, and zero margin overflows",
+]
+
+[scope]
+read_only = [
+  "typst/manual/preamble.typ",
+  "typst/manual/main.typ",
+  "manual/engine/vectors/rational_core.jsonl",
+  "manual/engine/vectors/symbolic_and_display.jsonl",
+  "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
+  "manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv",
+  "manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv",
+  "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
+  "manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv",
+  "contracts/scientific/OWNERSHIP_AND_FIXTURES.json",
+  "contracts/scientific/CANONICAL_BINDINGS.json",
+]
+write_set = [
+  "typst/manual/sections/00_scope.typ",
+  "typst/manual/sections/04_boundary_current_applications.typ",
+  "typst/manual/sections/05_solar_system_field_tests.typ",
+  "typst/manual/sections/06_field_dynamics_applications.typ",
+  "typst/manual/sections/07_galactic_lensing_plan.typ",
+  "typst/manual/sections/09_prediction_test_fixture_registry.typ",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "ZERO occurrences of stale SPARC '64.70291920', '1523', '1521', or '66.1613' anywhere in 06_field_dynamics_applications.typ; SPARC pooled primary must report exact 26.57055342% (230-digit numerator / 228-digit denominator, 209 bins, SD-008)",
+  "ZERO scrambled vector IDs across §1, §11, §12, §13, §14, §15: every RC-001..RC-045 and SD-001..SD-008 citation must match manual/engine/vectors/{rational_core,symbolic_and_display}.jsonl 100%",
+  "Preserve ALL 455 Main labels, ALL 281 Manual labels, ALL 172 Manual mainref_uses, EVERY owned anchor in OWNERSHIP_AND_FIXTURES.json, and EVERY existing #main* / #aod-cite inventory across all 6 files",
+  "Zero text collisions, clipping, or margin overflows on rendered modified tables/pages across §1 and §11-§15 at 144 ppi PNG",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+  "python3 -B -m pytest -q tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py",
+]
+max_retries = 2
