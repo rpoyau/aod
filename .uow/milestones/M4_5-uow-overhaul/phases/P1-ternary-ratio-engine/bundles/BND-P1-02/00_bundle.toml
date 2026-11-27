@@ -1,0 +1,58 @@
+bundle_id = "BND-P1-02"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P1-ternary-ratio-engine"
+parent_bundle = "BND-P1-01"
+base_commit = "64c0a0d2b443b79cf8c33d4db7faf18ae61ceb86"
+
+[objective]
+summary = "Mirror canonical 2-bit/4-bit Trit-on-Binary (11 preserved) SWAR arithmetic and TritRatio in std-only Rust crates/aod-core/src/ternary.rs and wire cross-language golden vector RC-045."
+deliverables = [
+  "crates/aod-core/src/ternary.rs implementing 100% std-only zero-unsafe zero-float TRIT_DWELL=0b00, TRIT_ALPHA=0b01, TRIT_OMEGA=0b10, TRIT_HINGE=0b11 (preserved), ChiralPair4, arbitrary-width TritWord (O(1) SWAR lane-swap negation preserving 00/11, O(1) SWAR masks, burn_contiguous_dwell, BigInt balanced base-3 codec, pure-SWAR add/sub/add_hinge_barrier/mul/divmod_floor/gcd/cmp), Trit2MicroRatio, and exact TritRatio backed strictly by (TritWord, TritWord) with hinge metadata preservation and comprehensive Rust unit tests",
+  "Declare pub mod ternary in crates/aod-core/src/lib.rs and wire operation ternary_swar_and_trit_ratio in crates/aod-core/src/ops.rs",
+  "Add eval_ternary_swar_and_trit_ratio in manual/engine/sectors/boundary_sadar.py and dispatch ternary_swar_and_trit_ratio in manual/engine/vectors.py",
+  "Append cross-language golden vector RC-045 (operation=ternary_swar_and_trit_ratio) to manual/engine/vectors/rational_core.jsonl exercising 11-preserving SWAR negation, hinge/dwell/alpha/omega masks, ChiralPair4 flip/saturation, burn_contiguous_dwell, add_hinge_barrier, >128-bit balanced base-3 TritWord arithmetic/gcd, Trit2MicroRatio, and TritRatio field operations with valid Python source_binding selectors",
+  "Update golden vector count expectations (44->45 rational_core, 52->53 total, 51->52 hostile-1-fail, 98->100 source_binding components) across manual/engine/vectors.py, crates/aod-core/src/vectors.rs, crates/aod-core/tests/integration_vectors.rs, tests/test_s2_reference_engine.py, tests/test_s4_rust_exact_core.py, and add Python-vs-Rust RC-045 parity assertions in tests/test_ternary_engine.py",
+]
+
+[scope]
+read_only = [
+  "manual/engine/ternary.py",
+  "crates/aod-core/src/bigint.rs",
+  "crates/aod-core/src/bigrat.rs",
+  "crates/aod-core/src/numeric.rs",
+  "crates/aod-core/src/policy.rs",
+]
+write_set = [
+  "crates/aod-core/src/ternary.rs",
+  "crates/aod-core/src/lib.rs",
+  "crates/aod-core/src/ops.rs",
+  "crates/aod-core/src/vectors.rs",
+  "crates/aod-core/tests/integration_vectors.rs",
+  "manual/engine/sectors/boundary_sadar.py",
+  "manual/engine/vectors.py",
+  "manual/engine/vectors/rational_core.jsonl",
+  "tests/test_ternary_engine.py",
+  "tests/test_s2_reference_engine.py",
+  "tests/test_s4_rust_exact_core.py",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "crates/aod-core/ must pass audit_crate_tree and cargo test with RUSTFLAGS='-D warnings' (0 warnings, 0 unsafe, 0 float types/literals, 0 extern, 0 forbidden tokens)",
+  "Rust TritWord must support arbitrary lane widths (multi-u64 limb Vec<u64> or canonical packed limbs, NOT capped at u64/u128) so >128-bit and 230-digit (483-trit) values work losslessly without overflow",
+  "Rust O(1)-per-limb SWAR negation uses ((limb & MASK_01) << 1) | ((limb >> 1) & MASK_01) preserving 00 and 11; hinge extraction uses (limb & (limb >> 1)) & MASK_01",
+  "Rust TritRatio stores (TritWord, TritWord) plus hinge metadata (never wrapping BigRat as backing store)",
+  "RC-045 source_binding uses strictly valid .py selectors (e.g., manual/engine/ternary.py#swar_negate;manual/engine/sectors/boundary_sadar.py#eval_ternary_swar_and_trit_ratio) bringing component_count from 98 to 100",
+  "Rust debug and release CLI reports must be byte-identical (cmp exits 0)",
+]
+
+[validation]
+commands = [
+  "mkdir -p _build/s2 _build/s4 && CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS='-D warnings' cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked",
+  "python3 -B -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/b2_py_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/b2_py_opt.json && cmp _build/s2/b2_py_norm.json _build/s2/b2_py_opt.json",
+  "CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/b2_rs_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/b2_rs_rel.json && cmp _build/s4/b2_rs_dbg.json _build/s4/b2_rs_rel.json",
+  "python3 -B -m pytest -q tests/test_ternary_engine.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py -k 'not (test_g6_source_zip_extraction or test_s2_f1_diagnostics or test_s4_g6_source_zip or test_s4_f1)'",
+  "python3 -B -O -m pytest -q tests/test_ternary_engine.py",
+]
+max_retries = 2
