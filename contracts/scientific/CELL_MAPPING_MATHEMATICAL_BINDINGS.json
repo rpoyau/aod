@@ -3,7 +3,7 @@
   "scope": "Conditional finite cell, mapping and uncertainty mathematics; no physical metric or atomic observation law inferred",
   "sources": {
     "typst/sections/07_cell_measures_mappings.typ": "e3f922a7396ddcdf51f4d5e445c33a50a9d11ebb17989542628bd869fde9ee4e",
-    "typst/manual/sections/01_cell_measures.typ": "7ab0792766b9a56f5d4646685da883fb8b466022111c61d84a2f78168a8a9bbb"
+    "typst/manual/sections/01_cell_measures.typ": "73ace99d5005747c774f099904655c45642be8f945d50c31f60100a3028411d9"
   },
   "equations": {
     "eq:m3-support-measure": {

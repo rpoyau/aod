@@ -1592,14 +1592,14 @@
       "surface": "manual",
       "typst_section": "typst/manual/sections/01_cell_measures.typ",
       "label": "fig:manual-cell-staircase-fold",
-      "caption_sha256": "796dc21898cb2e0f0be33084813fdc7061847e39de7f4fb13cd2cdd5b89fbbef",
-      "caption_excerpt": "Unit-disk rational cell enclosure A_n^-, A_n^+ versus invariant axial boundary C_n = 8 (n = 1..32) and two-square cellular fold commutation.",
+      "caption_sha256": "e63008d4211dd8377fc47321c99e594bdcdb22050517d5871255c8b0737d86e3",
+      "caption_excerpt": "Projected 4D tesseract B^4 microcell geometry, dyadic convergence of pure 4D pi_{4D,n}^+- and 2D A_{2,n}^+- bounds, 4D volume 4 V_{4,n}^+- -> 2 pi^2 versus exposed staircase B_{3,stair,n}^+ = 8 V_{3,n}^+ -> 32 pi/3 and box B_{3,box} = 64, and two-square cellular fold commutation B_d^L F_d = F_{d-1} B_d^K.",
       "raster_path": null,
       "raster_sha256": null,
       "raster_bytes": null,
       "raster_dimensions_px": null,
       "provenance_class": "DATA_BACKED_VERIFIED",
-      "figure_subtype": "two_panel_cell_enclosure_and_fold",
+      "figure_subtype": "four_panel_4d_tesseract_pi_and_fold",
       "generator_script": null,
       "generator_script_sha256": null,
       "data_sources": [
@@ -1608,11 +1608,11 @@
           "sha256": "30769ace39f4f024479ec558b06fb6cf6d13c7ed763cd35d5310cedf94a34b33"
         }
       ],
-      "provenance_notes": "Dyadic rational unit-disk area enclosure bounds, axial staircase C_n = 8, and cellular fold chain commutation (vector RC-035).",
+      "provenance_notes": "Projected 4D tesseract B^4 microcells, pure 4D pi_4D and 2D disk dyadic enclosures, exposed 4D staircase B3_staircase = 8*V3_plus vs box 64 falsifier, and exact G5 cellular fold chain-map commutation B_d^L F_d = F_{d-1} B_d^K (vector RC-035).",
       "target_typst_component": "typst/lib/figures/manual/cell_staircase_fold_boundary.typ",
       "target_exported_pdf": "latex/manual/figures/generated/cell-staircase-fold-boundary.pdf",
       "conversion_status": "AUTHORED_NATIVE_VECTOR",
-      "typst_component_sha256": "314083c0d7bb3e798cd7e207801c972008c03acf05cd4a2e1548f7fd2b0bd2a3",
+      "typst_component_sha256": "4de3dde706e8e46c8634b4e0e121cf94f1fb779d64e2c05b0799b46738191b79",
       "exported_pdf_sha256": "3375afc7e49fd1fc8ddbb22f15ebfcf37dc4cae5f4be56a0d891503807592e8b",
       "exported_pdf_bytes": 40088,
       "exported_page_points": [
