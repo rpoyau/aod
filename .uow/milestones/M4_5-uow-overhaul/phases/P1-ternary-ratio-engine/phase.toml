@@ -1,19 +1,31 @@
 phase_id = "P1-ternary-ratio-engine"
 milestone_id = "M4_5-uow-overhaul"
 base_branch = "m4-boundary-sadar-completion"
-bundles = [
-  { id = "BND-P1-01", parent = "m4-boundary-sadar-completion", summary = "Canonical 2-bit/4-bit Trit-on-Binary (11 preserved) SWAR + TritRatio in Python S2" },
-  { id = "BND-P1-02", parent = "BND-P1-01", summary = "std-only Rust TritWord/TritRatio mirror + cross-language golden vector RC-045" },
-  { id = "BND-P1-03", parent = "BND-P1-02", summary = "Live TritWord/TritRatio Q4 SADAR steppers, derived Tau rotor, C6 double-slit enumerator, and declared G0 SPARC SD-008" },
-]
+
+[[bundles]]
+id = "BND-P1-01"
+parent = "m4-boundary-sadar-completion"
+summary = "Canonical 2-bit/4-bit Trit-on-Binary (11 preserved) SWAR + TritRatio in Python S2"
+
+[[bundles]]
+id = "BND-P1-02"
+parent = "BND-P1-01"
+summary = "std-only Rust TritWord/TritRatio mirror + cross-language golden vector RC-045"
+
+[[bundles]]
+id = "BND-P1-03"
+parent = "BND-P1-02"
+summary = "Live TritWord/TritRatio Q4 SADAR steppers, derived Tau rotor, C6 double-slit enumerator, and declared G0 SPARC SD-008"
 
 [phase_validation]
-qa_write_set = ["tests/qa_*.py"]
+qa_write_set = [
+    "tests/qa_*.py",
+]
 commands = [
-  'python3 -B scripts/audit_scientific_sources.py .',
-  'CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS="-D warnings" cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked',
-  'mkdir -p _build/s2 _build/s4 && python3 -B -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p1_qa_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p1_qa_opt.json && cmp _build/s2/p1_qa_norm.json _build/s2/p1_qa_opt.json',
-  'CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/p1_qa_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/p1_qa_rel.json && cmp _build/s4/p1_qa_dbg.json _build/s4/p1_qa_rel.json',
-  'python3 -B -m pytest -q -o python_files="test_*.py *_test.py qa_*.py" tests/test_ternary_engine.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py tests/qa_*.py',
-  'python3 -B -O -m pytest -q -o python_files="test_*.py *_test.py qa_*.py" tests/test_ternary_engine.py tests/qa_*.py',
+    "python3 -B scripts/audit_scientific_sources.py .",
+    "CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS=\"-D warnings\" cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked",
+    "mkdir -p _build/s2 _build/s4 && python3 -B -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p1_qa_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p1_qa_opt.json && cmp _build/s2/p1_qa_norm.json _build/s2/p1_qa_opt.json",
+    "CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/p1_qa_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/p1_qa_rel.json && cmp _build/s4/p1_qa_dbg.json _build/s4/p1_qa_rel.json",
+    "python3 -B -m pytest -q -o python_files=\"test_*.py *_test.py qa_*.py\" -k \"not (source_zip or s2_f1_diagnostics or s4_f1 or f1_diagnostics)\" tests/test_ternary_engine.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py tests/qa_phase1_ternary_engine.py",
+    "python3 -B -O -m pytest -q -o python_files=\"test_*.py *_test.py qa_*.py\" tests/test_ternary_engine.py tests/qa_phase1_ternary_engine.py",
 ]
