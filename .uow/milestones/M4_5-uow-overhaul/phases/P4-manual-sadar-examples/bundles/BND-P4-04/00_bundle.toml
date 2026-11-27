@@ -1,0 +1,63 @@
+bundle_id = "BND-P4-04"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P4-manual-sadar-examples"
+parent_bundle = "BND-P4-03"
+base_commit = "3f12bf47cfa388f7914926916005f98d191e7705"
+
+[objective]
+summary = "Resolve App. C beta_a=5 MSB-x vs beta_a=4 LSB-x mismatch in RC-044 across Python S2, Rust S4, rational_core.jsonl, coordinate_phase_3d_dec_walk.csv, contracts, and App. C prose; refactor Manual App. A (exact rational RC-014/RC-043 framing & live CSV), App. B (SD-007 quarantine citations), and App. C (live CSV & RC-012/RC-013/RC-044 alignment)."
+deliverables = [
+  "Upgrade eval_dec_coordinate_phase_3d_walk (RC-044) in manual/engine/sectors/manual_dec_examples.py and op_dec_coordinate_phase_3d_walk in crates/aod-core/src/manual_dec_ops.rs to pure TritWord/TritRatio arithmetic (zero Fraction/BigRat) with explicit optional octant_bit_order ('msb_x' default matching RC-012 Brownian canonical 4*(dx<0)+2*(dy<0)+1*(dz<0), or 'lsb_x' matching RC-013 run-tumble contrast; identical TypeError/ValueError rejection on invalid/null inputs), returning R_x_ratio, R_y_ratio, R_z_ratio, phase_DeltaZ, octant_DeltaZ, and octant_bit_order alongside all 8 legacy keys",
+  "Update RC-044 in manual/engine/vectors/rational_core.jsonl from stale beta_a=4/LSB-x to canonical beta_a=5 and octant_bit_order='msb_x' matching RC-012 (manual/data/brownian/octant_delta3.csv) exactly (phase_counts=[0,0,4,4,0], phase_DeltaZ=[2,2,-2,-3,1], phase_delta3_M=10, octant_counts=[6,0,1,0,1,0,0,0], octant_DeltaZ=[-5,1,0,1,0,1,1,1], octant_delta3_M=10, R_x=2/5, R_y=7/20, R_z=1/4), preserving total source_binding component count == 100 across all 53 vectors",
+  "Upgrade build_coordinate_phase_3d_csv_rows() to generate manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv live from eval_dec_coordinate_phase_3d_walk with columns step_i,from_xyz,to_xyz,delta_xyz,Q_lag1,theta_mod5,octant_msb_x,octant_lsb_x, and synchronize the acyclic SHA-256 contract chain across CANONICAL_BINDINGS.json, scripts/audit_ontology_compaction.py, and typst/representation_change_ledger.json",
+  "Add dedicated Rust integration test in crates/aod-core/tests/integration_vectors.rs verifying RC-044 parity with RC-012 at beta_a=5/msb_x, explicit lsb_x contrast matching RC-013, zero BigRat usage in op_dec_coordinate_phase_3d_walk, and TypeError/ValueError rejections",
+  "Refactor Manual App. A (typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ): bind exact rational cycle-shedding vectors RC-014 and RC-043 clearly (explicitly contrasting exact rational recurrence against rounded six-decimal display), bind <tab:manual-app-a-exact-shedding-dec> live to cycle_shedding_exact_rational_summary.csv, and preserve all owned anchors in OWNERSHIP_AND_FIXTURES.json (L14, 84, 189) and all labels/#main* counts",
+  "Refactor Manual App. B (typst/manual/appendices/B_quarantined_external_comparison.typ): align quarantine citations cleanly with SD-007, SD-004/SD-005, and §9 RC-027..RC-029 while preserving all labels and #main*/#aod-cite counts",
+  "Refactor Manual App. C (typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ): eliminate beta_a=4 / Q mod 4 mismatch, align five-boundary stack to B_(Q mod 5) with explicit MSB-x (RC-012/RC-044) vs LSB-x (RC-013) octant bit-order contrast, and bind <tab:manual-app-c-3d-dec-ledger> live to coordinate_phase_3d_dec_walk.csv",
+  "Visually inspect rendered Manual App. A, App. B, and App. C pages of _build/pub/manual.pdf at 144 ppi PNG via pdftoppm and view_file confirming zero overlaps, zero clipping, and zero margin overflows",
+]
+
+[scope]
+read_only = [
+  "manual/engine/ternary.py",
+  "crates/aod-core/src/ternary.rs",
+  "manual/engine/policy.py",
+  "crates/aod-core/src/policy.rs",
+  "manual/data/brownian/octant_delta3.csv",
+  "manual/data/boundary_sadar/cycle_shedding_exact_rational_summary.csv",
+  "contracts/scientific/OWNERSHIP_AND_FIXTURES.json",
+]
+write_set = [
+  "manual/engine/sectors/manual_dec_examples.py",
+  "crates/aod-core/src/manual_dec_ops.rs",
+  "crates/aod-core/tests/integration_vectors.rs",
+  "manual/engine/vectors/rational_core.jsonl",
+  "manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv",
+  "contracts/scientific/CANONICAL_BINDINGS.json",
+  "scripts/audit_ontology_compaction.py",
+  "typst/representation_change_ledger.json",
+  "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
+  "typst/manual/appendices/B_quarantined_external_comparison.typ",
+  "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "Zero floats, zero complex, zero bare assert, zero Fraction in RC-044 (manual_dec_examples.py); 100% std-only #![forbid(unsafe_code)] zero-BigRat in op_dec_coordinate_phase_3d_walk (manual_dec_ops.rs) with RUSTFLAGS='-D warnings' clean",
+  "RC-044 canonical default (beta_a=5, octant_bit_order='msb_x') must match RC-012 (manual/data/brownian/octant_delta3.csv) exactly on phase_DeltaZ, octant_DeltaZ, sum_phase_m, sum_octant_m, R_Q, R_x, R_y, R_z",
+  "Zero stale 'Q mod 4' or 'theta_mod4' in App. C (C_3d_coordinate_phase_cycle_delta3_fixture.typ) or coordinate_phase_3d_dec_walk.csv",
+  "Preserve ALL 455 Main labels, ALL 281 Manual labels, ALL 172 Manual mainref_uses, EVERY owned anchor in OWNERSHIP_AND_FIXTURES.json, and exact #main*/#aod-cite inventory across App. A, B, C",
+  "S2 normal == S2 -O byte parity, S4 debug == S4 release byte parity, and zero layout collisions/overflows on rendered App. A-C pages at 144 ppi PNG",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+  "CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS=\"-D warnings\" cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked",
+  "mkdir -p _build/s2 _build/s4 && python3 -B -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p404_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p404_opt.json && cmp _build/s2/p404_norm.json _build/s2/p404_opt.json",
+  "CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/p404_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/p404_rel.json && cmp _build/s4/p404_dbg.json _build/s4/p404_rel.json",
+  "python3 -B -m pytest -q -k 'not (source_zip or s2_f1_diagnostics or s4_f1 or f1_diagnostics)' tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py",
+]
+max_retries = 2
