@@ -42,6 +42,7 @@ write_set = [
   "typst/lib/figures/manual/lensing_ray_boundary_feynman.typ",
   "typst/lib/figures/manual/registry_engine_coverage_atlas.typ",
   "typst/lib/figures/manual/qext_quarantine_firewall.typ",
+  "typst/lib/figures/manual/cell_staircase_fold_boundary.typ",
 ]
 
 [invariants]
