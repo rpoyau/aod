@@ -1,0 +1,64 @@
+bundle_id = "BND-P5-01"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P5-geometric-figures-and-seal"
+parent_bundle = "BND-P4-04"
+base_commit = "4d6cbeb07b7dc9cc49932ea8ba93659fd7ca0f4e"
+
+[objective]
+summary = "Add collision-proof #aod-figure-header primitive in typst/lib/aod_plots.typ and convert all 7 Main #aod-panel text cards and 2 Manual §2 #aod-panel text cards into genuine geometric native Typst vector diagrams (100% opaque black text >= 6pt, standalone-exportable via export_typst_figures.py), syncing M3 SHA-256 contracts and verifying all 9 figures at 144 ppi PNG."
+deliverables = [
+  "Add collision-proof #aod-figure-header helper in typst/lib/aod_plots.typ providing guaranteed vertical separation between wrapped titles and subtitles without breaking any existing function signatures or visual output of untouched figures",
+  "Author 7 genuine geometric native Typst vector diagrams under typst/lib/figures/main/ replacing every #aod-panel text card in Main §3 (05_curl_closure_duon_current.typ: curl_to_duon_current_support.typ, closure_ladder.typ) and Main §5 (06_field.typ: sadar_b_scoped_afc_flux.typ, duon_current_boundary_accounting.typ, sadar_boundary_relative_balance.typ, fractal_calculus_spine.typ, cycle_wave_identity.typ)",
+  "Author 2 genuine geometric native Typst vector diagrams under typst/lib/figures/manual/ replacing both #aod-panel text cards in Manual §2 (00_native_closure_wave_temporal_fixtures.typ: field_count_scope.typ, fractal_tesseract_beat_family.typ)",
+  "Replace the 9 #aod-panel bodies in 05_curl_closure_duon_current.typ, 06_field.typ, and 00_native_closure_wave_temporal_fixtures.typ with #include directives pointing to the 9 new native vector components while preserving every label, caption, equation, and surrounding prose line verbatim",
+  "Synchronize SHA-256 contract hashes for typst/sections/05_curl_closure_duon_current.typ and typst/sections/06_field.typ in contracts/scientific/M3_WAVELET_COMPACTION_BINDINGS.json, scripts/audit_ontology_compaction.py, and typst/representation_change_ledger.json",
+  "Verify every new figure compiles standalone via export_typst_figures.py into a 1-page vector PDF with 0 raster XObjects, 0 non-black/invisible text paints, and >= 6pt font size, and visually inspect all 9 rendered figures inside _build/pub/main.pdf and _build/pub/manual.pdf at 144 ppi PNG via pdftoppm and view_file",
+]
+
+[scope]
+read_only = [
+  "typst/lib/aod_schema.typ",
+  "typst/lib/figures/main/null_four_edge_x_witness.typ",
+  "typst/lib/figures/main/fractal_tesseract_q4_witness.typ",
+  "typst/lib/figures/main/curling_curl_layers.typ",
+  "typst/lib/figures/main/support_enclosure_retention.typ",
+  "scripts/export_typst_figures.py",
+  "contracts/scientific/OWNERSHIP_AND_FIXTURES.json",
+]
+write_set = [
+  "typst/lib/aod_plots.typ",
+  "typst/lib/figures/main/curl_to_duon_current_support.typ",
+  "typst/lib/figures/main/closure_ladder.typ",
+  "typst/lib/figures/main/sadar_b_scoped_afc_flux.typ",
+  "typst/lib/figures/main/duon_current_boundary_accounting.typ",
+  "typst/lib/figures/main/sadar_boundary_relative_balance.typ",
+  "typst/lib/figures/main/fractal_calculus_spine.typ",
+  "typst/lib/figures/main/cycle_wave_identity.typ",
+  "typst/lib/figures/manual/field_count_scope.typ",
+  "typst/lib/figures/manual/fractal_tesseract_beat_family.typ",
+  "typst/sections/05_curl_closure_duon_current.typ",
+  "typst/sections/06_field.typ",
+  "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+  "contracts/scientific/M3_WAVELET_COMPACTION_BINDINGS.json",
+  "scripts/audit_ontology_compaction.py",
+  "typst/representation_change_ledger.json",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "Zero #aod-panel text-card figures remaining in typst/sections/*.typ, typst/appendices/*.typ, or typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+  "All 9 new native vector figures use pure built-in #import \"/typst/lib/aod_plots.typ\": * (#aod-canvas), ZERO @preview/@local imports, ZERO csv( calls (all 9 are CONCEPTUAL_SCHEMATIC), ZERO #eqref/#main* cross-doc refs (must compile standalone via export_typst_figures.py), 100% opaque black text >= 6pt, and genuine geometric primitives (Q4 hypercubes, oriented curl loops, boundary walls, wavy sheddic arrows, nested scopes — never bare text tables)",
+  "Preserve ALL 455 Main labels, ALL 281 Manual labels, ALL 172 Manual mainref_uses, ALL 198 Main equations, ALL M3_WAVELET_COMPACTION_BINDINGS equations/anchors, and ALL OWNERSHIP_AND_FIXTURES anchors verbatim",
+  "Preserve strict AOD ontological distinctions geometrically in every diagram: Dion != Dimonon, Duon current != seated Duad, structural hinge 0_H retained on every temporal realization, lone monon != recurrent field, and integer cut index k on committed traces",
+  "All 9 rendered figures verified at 144 ppi PNG with zero overlaps, zero clipping, zero text touching borders, and zero margin overflows",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/export_typst_figures.py --root . --surface main --outdir _build/fig_check/main && PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/export_typst_figures.py --root . --surface manual --outdir _build/fig_check/manual",
+  "python3 -B -m pytest -q tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py tests/test_m3_wavelet_compaction.py tests/test_main_manual_references.py tests/test_main_manual_concept_ownership.py",
+]
+max_retries = 2

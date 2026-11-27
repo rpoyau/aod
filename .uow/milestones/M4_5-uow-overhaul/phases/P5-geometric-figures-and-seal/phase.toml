@@ -1,0 +1,19 @@
+phase_id = "P5-geometric-figures-and-seal"
+milestone_id = "M4_5-uow-overhaul"
+base_branch = "uow/BND-P4-04"
+bundles = [
+  { id = "BND-P5-01", parent = "uow/BND-P4-04", summary = "Add collision-proof #aod-figure-header primitive in typst/lib/aod_plots.typ and convert all 7 Main #aod-panel text cards and 2 Manual §2 #aod-panel text cards into genuine geometric vector diagrams with M3 SHA-256 contract sync and 144 ppi PNG inspection" },
+  { id = "BND-P5-02", parent = "BND-P5-01", summary = "Eliminate all 18 Manual title-on-subtitle collisions and panel/border overflows via #aod-figure-header, fix every stale vector ID/value in Manual figures (tau raw 28, field_dynamics 26.57055342%/SD-008/230-228-digit, wire RC-032, registry 53 vectors RC-045, spine 53/53, qext SD-007/SD-004-005/RC-027..029), and run full page-by-page 144 ppi PNG visual QA across main.pdf and manual.pdf" },
+  { id = "BND-P5-03", parent = "BND-P5-02", summary = "Final contract seal: re-export all 66 Main/Manual vector figure PDFs, sync typst/figure_inventory.json, typst/manifest.json, typst/lib/main_registry.json, tests/test_s1b_vector_figures.py, regenerate full latex/ compatibility layer via typ2tex.py, skip .uow/ in scripts/build_release_bundle.py with SHA-256 contract sync, verify build_release_bundle.py, and pass 100% of pytest with ZERO -k filters" },
+]
+
+[phase_validation]
+qa_write_set = ["tests/qa_*.py"]
+commands = [
+  'python3 -B scripts/audit_scientific_sources.py .',
+  'PATH="$HOME/.local/bin:$PATH" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry',
+  'CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS="-D warnings" cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked',
+  'mkdir -p _build/s2 _build/s4 && python3 -B -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p5_qa_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p5_qa_opt.json && cmp _build/s2/p5_qa_norm.json _build/s2/p5_qa_opt.json',
+  'CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/p5_qa_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/p5_qa_rel.json && cmp _build/s4/p5_qa_dbg.json _build/s4/p5_qa_rel.json',
+  'python3 -B -m pytest -q -o python_files="test_*.py *_test.py qa_*.py" --ignore=tests/test_anchor.py tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py tests/test_m3_wavelet_compaction.py tests/test_main_manual_references.py tests/test_main_manual_concept_ownership.py tests/test_s1b_vector_figures.py tests/test_typst_parity.py tests/test_ci_release_builder.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py tests/qa_phase1_ternary_engine.py tests/qa_phase2_tesseract_pi.py tests/qa_phase3_relational_time.py tests/qa_phase4_manual_sadar.py tests/qa_phase5_*.py',
+]
