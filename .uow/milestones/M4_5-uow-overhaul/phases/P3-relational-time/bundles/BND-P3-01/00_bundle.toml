@@ -1,0 +1,45 @@
+bundle_id = "BND-P3-01"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P3-relational-time"
+parent_bundle = "BND-P2-02"
+base_commit = "1b9eb8c0ecf5b7779f9db82bc6f2537241d4267a"
+
+[objective]
+summary = "Compact Main §4 relational-time tail subsections (subsec:duon-tick-click and subsec:duon-continuity in typst/sections/06_wave_state_relational_time.typ) so tick/click and continuity bind strictly to cut-indexed (S_{B,i,k}^W, S_{I,B,k}^x) with zero unbound clock variable t."
+deliverables = [
+  "Refactor === Tick/click <subsec:duon-tick-click> in typst/sections/06_wave_state_relational_time.typ to specialize eq:wave-update-trace directly on integer cut index k (binding complete state K_k := (S_{B,i,k}^W, S_{I,B,k}^x), emitted Duon event X_k = E_B(K_k), received returned Duon Y_k, bias beta_k, and committed lead-lag trace Delta_{lead/lag, <= k} inside mathcal(U)_B with zero unbound background clock variable t)",
+  "Tighten === Markovian and retained-history continuity <subsec:duon-continuity> into a crisp General Mechanics Setup-Falsification distinction between present-cut projection Pi_cut(S_{B,i,k}^W) (Markovian continuation when next transitions depend only on the present cut state) and full retained-history continuation over (S_{B,i,k}^W, S_{I,B,k}^x), stating the explicit falsifier that two histories with equal current cut state and distinct retained burden/return yielding distinct next cuts falsify Markovian closure",
+  "Preserve every existing Main label (455), every numbered equation (198), and every bound formula in M3_WAVELET_COMPACTION_BINDINGS.json and CANONICAL_BINDINGS.json byte-for-byte",
+  "Synchronize the acyclic SHA-256 contract chain across contracts/scientific/M3_WAVELET_COMPACTION_BINDINGS.json, scripts/audit_ontology_compaction.py, typst/representation_change_ledger.json, and refresh typst/lib/main_registry.json",
+]
+
+[scope]
+read_only = [
+  "typst/preamble.typ",
+  "typst/main.typ",
+  "contracts/scientific/CANONICAL_BINDINGS.json",
+]
+write_set = [
+  "typst/sections/06_wave_state_relational_time.typ",
+  "contracts/scientific/M3_WAVELET_COMPACTION_BINDINGS.json",
+  "scripts/audit_ontology_compaction.py",
+  "typst/representation_change_ledger.json",
+  "typst/lib/main_registry.json",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "Zero unbound continuous or background clock variable t in subsec:duon-tick-click or subsec:duon-continuity; use integer cut index k bound directly to eq:complete-wave-state, eq:coupling-state, and eq:wave-update-trace",
+  "Do not alter any numbered equation, label name, or Main section outside L236-253 of typst/sections/06_wave_state_relational_time.typ",
+  "Keep Main PDF entry_count == 455 and Manual mainref_uses == 172 untouched",
+  "audit_scientific_sources.py and build_publication.py --outdir _build/pub --check-registry must both pass 100%",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+  "python3 -B -m pytest -q tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py",
+]
+max_retries = 2

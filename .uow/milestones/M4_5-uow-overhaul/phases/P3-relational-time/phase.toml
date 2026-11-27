@@ -1,0 +1,19 @@
+phase_id = "P3-relational-time"
+milestone_id = "M4_5-uow-overhaul"
+base_branch = "uow/BND-P2-02"
+bundles = [
+  { id = "BND-P3-01", parent = "uow/BND-P2-02", summary = "Compact Main §4 relational time (06_wave_state_relational_time.typ) binding tick/click and continuity cleanly to cut-indexed wave states" },
+  { id = "BND-P3-02", parent = "BND-P3-01", summary = "Upgrade RC-037 temporal/SI-bridge & causal intervention engine in Python S2 + Rust S4 (zero hardcoded ratios/CSV rows) and fix broken manual2/scripts reference" },
+  { id = "BND-P3-03", parent = "BND-P3-02", summary = "Refactor Manual §2 (00_native_closure_wave_temporal_fixtures.typ) and §7 (03_temporal_observation.typ) in place with engine-bound cut tables and consistent (0, 30] windows" },
+]
+
+[phase_validation]
+qa_write_set = ["tests/qa_*.py"]
+commands = [
+  'python3 -B scripts/audit_scientific_sources.py .',
+  'PATH="$HOME/.local/bin:$PATH" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry',
+  'CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS="-D warnings" cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked',
+  'mkdir -p _build/s2 _build/s4 && python3 -B -m manual.engine --sector boundary_sadar --sector temporal_observation --sector native_closure_wave --check-zero-float --verify-vectors --report _build/s2/p3_qa_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --sector temporal_observation --sector native_closure_wave --check-zero-float --verify-vectors --report _build/s2/p3_qa_opt.json && cmp _build/s2/p3_qa_norm.json _build/s2/p3_qa_opt.json',
+  'CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/p3_qa_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/p3_qa_rel.json && cmp _build/s4/p3_qa_dbg.json _build/s4/p3_qa_rel.json',
+  'python3 -B -m pytest -q -o python_files="test_*.py *_test.py qa_*.py" -k "not (source_zip or s2_f1_diagnostics or s4_f1 or f1_diagnostics)" tests/test_temporal.py tests/test_temporal_metrology.py tests/test_native_closure_wave.py tests/test_relational_time_engine.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py tests/qa_phase3_*.py',
+]
