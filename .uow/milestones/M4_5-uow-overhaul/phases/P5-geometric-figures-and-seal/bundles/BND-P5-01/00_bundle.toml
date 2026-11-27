@@ -42,6 +42,7 @@ write_set = [
   "contracts/scientific/M3_WAVELET_COMPACTION_BINDINGS.json",
   "scripts/audit_ontology_compaction.py",
   "typst/representation_change_ledger.json",
+  "typst/lib/main_registry.json",
 ]
 
 [invariants]
