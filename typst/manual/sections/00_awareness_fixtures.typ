@@ -1,45 +1,47 @@
-// Native Typst port of manual/sections/00_awareness_fixtures.tex (verbatim scientific content).
+// Native Typst authority for Manual §3: retained-relation operativity, hostile controls, and RC-034 D.E.C. walk.
 #import "../preamble.typ": *
 
 = Retained-relation operativity and its applications <manual:m2-awareness-fixtures>
 
 
-
-#aod-paragraph[Calculation card.]
-The exact retained state, admitted lineages, pressure family, update law and
-future inputs define each matched experiment. Removal and restoration test
-the later current, continuation or routed-shedding output; all operands and
-comparators are conditional fixture values. Passive observation leaves the
-execution unchanged, while an active query is a separate perturbation.
-No physical uncertainty model is instantiated. The common method is
-#secref("manual:calculation-spine")\; the falsifiers are stated with each model.
-
+#aod-paragraph[Setup and calculation card.]
+The retained state, admitted lineages, pressure family, update law, and future
+inputs define each matched experiment under #secref("manual:calculation-spine").
+Structural removal and exact restoration test the strictly later current,
+continuation, or routed-shedding output; every operand and comparator is a
+conditional exact fixture value with no physical uncertainty model. Passive
+observation leaves execution unchanged, whereas an active query is declared
+separately as an explicit perturbation. Across this section, the five-boundary
+matched-state operativity stack
+$B_(upright("shared")) arrow.r B_(S^+) arrow.r B_(S^(- e)) arrow.r B_(upright("sensor")) arrow.r B_(upright("hold"))$
+verified by vector #raw("RC-034") separates shared-contact formation, structural
+removal without zero fill, strictly-later branching, passive-sensor isolation, and
+historical quarantine.
 
 
 == Exact model and matched state <sec:m2-awareness-ladder>
 
-These witnesses instantiate the Main state, retention and matched causal
-criterion in #mainequation("main:eq:awareness-state-factorization"),
-#mainequation("main:eq:retained-rebalancing") and
-#mainequation("main:eq:awareness-active"). They are operational finite models. All inputs and
-expected results are in
-#raw("manual/data/awareness/awareness_cases.jsonl")\; the shared runner is
-#raw("manual/scripts/aod_awareness.py"). From the source root, run
+These operational finite models instantiate Main's state factorization, retention
+record, and matched causal criterion in
+#mainequation("main:eq:awareness-state-factorization"),
+#mainequation("main:eq:retained-rebalancing"), and
+#mainequation("main:eq:awareness-active"). All inputs and exact expected results
+reside in #raw("manual/data/awareness/awareness_cases.jsonl") and execute through
+the shared runner #raw("manual/scripts/aod_awareness.py"):
 
 #pad(left: 1.5em, right: 1.5em)[#set text(size: 9.5pt); #raw("python3 manual/scripts/aod_awareness.py --check-data")]
 
-Actual state and outcome traces are separate execution evidence. Expected
-answers, row names and passive observations are never arguments of the
-response law.
+Actual state and outcome traces constitute separate execution evidence; expected
+answers, row names, and passive observations never enter the response law.
 
-The model instantiates #mainequation("main:eq:awareness-state-factorization").
-Its present-record memory and retention placeholders are empty; $M^C$ stores
-return identities and $R$ alone stores operative prior rebalancing.
-The world validates admitted waves, issued actions and prior-operand commitments;
-it cannot recreate a removed residual for the update. No passive record or
-cache may restore a removed value; retained bytes, fixture verdicts and role
-labels are excluded from the outcome. Prior provenance also binds any action
-witness. An operation-count proxy records work, not operativity.
+Instantiating #mainequation("main:eq:awareness-state-factorization"), present-record
+memory and retention wrapper placeholders remain empty: $M^C$ stores return
+identities, while $R$ alone stores operative prior rebalancing. The immutable world
+validates admitted waves, issued actions, and prior-operand commitments, and cannot
+recreate a removed residual for the update. No passive record or cache may restore a
+removed value; retained bytes, fixture verdicts, and role labels are excluded from
+the outcome, prior provenance binds every action witness, and operation-count proxies
+measure resource work rather than operativity.
 
 
 === Rational response and continuation
@@ -71,31 +73,30 @@ responses on common source/event support, extending absent summands by zero:
 
 $ J_(k + 1) (R) - J_(k + 1) (R') = frac(g, p) ( sum_(e: thin i_e in D_k) r_e - sum_(e: thin i_e in D_k) r'_e ) . $ <eq:awareness-causal-difference>
 
-A nonzero right side therefore proves a later current difference for this
-model. At $J_k = A_k = q_k = 0$, $g = 1$, $r = 1$, the retained and removed cases
-give $(1,0)$ for $p = 1$, and $(1 slash 2,0)$ for $p = 2$. These are two
-separate pressure families, each with its own matched retention comparison.
-Zero gain or zero effective retention gives no such witness.
+A nonzero right side therefore witnesses a strictly later current difference in this
+model. At $J_k = A_k = q_k = 0$, $g = 1$, $r = 1$, the retained and structurally
+removed lanes yield $(1,0)$ for $p = 1$ and $(1 slash 2,0)$ for $p = 2$—two separate
+pressure families, each paired within its own matched comparison. Zero gain or zero
+effective retention produces no such witness.
 
 
 #aod-paragraph[Specialization.]
-Let present state include a Q4 vertex $v$ and fibre role
-$epsilon in brace.l - 1,0,1 brace.r$. Two candidate continuations go to $v plus.o 1$
-and $v plus.o 2$. A branch enters the hinge; from the hinge the two candidates
-carry the opposite branch choices. Both obey the inherited H1 and fibre
-rules. A declared sign selector chooses the first candidate when
-$J_(k + 1) > 0$, otherwise the second. The selector consumes an already
-admitted finite support; it does not create H1 or certify closure. Every
-such continuation contributes zero new closure-phase cycles until its separate
-retained-start return is certified.
+Let present state include a $Q_4$ vertex $v$ and fibre role
+$epsilon in brace.l - 1,0,1 brace.r$, with two candidate continuations to
+$v plus.o 1$ and $v plus.o 2$. A branch enters the hinge, from which the two
+candidates carry opposite branch choices obeying inherited H1 and fibre rules. A
+declared sign selector routes to the first candidate when $J_(k + 1) > 0$ and to the
+second otherwise. The selector consumes already admitted finite support—it neither
+creates H1 nor certifies closure, and every such continuation adds zero new
+closure-phase cycles until its separate retained-start return is certified.
 
 
 #aod-paragraph[Falsification.]
-A difference in current pressure, law or future exogenous input invalidates
-a retention-only comparison. Recounting $R$ itself as the outcome,
-recovering a removed value through another channel, using an unbound
-phase type, or allowing a same-cut effect also fails the criterion.
-A label attached to either execution cannot change $cal(U)$.
+Any mismatch in present pressure, update law, or future exogenous input invalidates
+a retention-only comparison. Recounting $R$ itself as outcome, recovering a removed
+value via another channel, substituting an unbound phase type, or permitting a
+same-cut effect likewise fails the criterion, and labels attached to either execution
+cannot alter $cal(U)$.
 
 
 #aod-provenance[#mainequation("main:eq:hinge-grammar")\;
@@ -106,15 +107,15 @@ A label attached to either execution cannot change $cal(U)$.
 #eqref("eq:awareness-causal-difference").]
 
 
-
 #aod-paragraph[Response executions.]
-The target has four completed returns separated by ten native indices. The
-ordinary peer has separations $(7,7,7)$. Repeated native contacts bind both
-prefixes and the signed count-lag comparison. Exact independent and cross
-contributions $(2)$ and $(1)$ yield the retained FRG residual $r = 1$.
-The prior contact cut is $23$, retention follows at $24$, the complete
-matched boundary is $33$, and the first changed response is at $34$.
-These are native commitment indices, not time measurements.
+The target wave completes four returns separated by ten native indices, while the
+ordinary peer separates by $(7,7,7)$. Repeated native contacts bind both prefixes
+and the signed count-lag comparison; exact independent and cross contributions
+$(2)$ and $(1)$ yield retained FRG residual $r = 1$. The prior contact cut is $23$,
+retention commits at $24$, the complete matched boundary is $33$, and the first
+changed response occurs strictly later at $34$ (verified in zero-float rational
+arithmetic by #raw("RC-034")). All four indices are native commitment cuts, not
+physical time measurements.
 
 
 #align(center)[
@@ -138,65 +139,60 @@ These are native commitment indices, not time measurements.
 }
 ]
 
-Each row applies #mainequation("main:eq:awareness-active") in its pressure family;
-changing pressure across a pair is rejected. A passive trace of the
-same execution leaves all state and event bytes unchanged. Ordinary attention
-$A = 1$ with empty $R$ changes current but supplies no retention effect.
-A zero-gain retained residual likewise fails the matched operativity criterion.
+Each row applies #mainequation("main:eq:awareness-active") strictly within its
+pressure family; cross-pressure pairing is rejected. A passive trace leaves all
+state and event bytes invariant, ordinary present attention $A = 1$ with empty $R$
+alters current without supplying a retention witness, and a zero-gain retained
+residual fails the matched operativity criterion.
 
 
 == Hostile state, lineage and timing controls <sec:m2-hostile>
 #aod-anchor(<man:temporal-awareness-controls>)
 
-The hostile rows reject changed present pressure, closure memory, update law
-or future input; duplicate retention inside $X$; unknown lineage; a
-future or noninteger commitment; and a retained value detached from its
-prior operands. The executable controls additionally remove motif
-certificates, fabricate cadence or phase count, reverse carried orientation,
-change the return readout, and forge an issued action. Recommitting altered
-bytes in the diagnostic registry does not bypass the structural type and
-causal checks.
+#aod-paragraph[Falsification controls.]
+Hostile fixtures reject altered present pressure, closure memory, update law, or
+future input; duplicate retention inside $X$; unknown lineage; future or noninteger
+commitment cuts; and retained values detached from prior operands. Executable
+controls further strip motif certificates, fabricate cadence or phase count, reverse
+carried orientation, mutate the return readout, and forge issued actions.
+Recommitting altered bytes in the diagnostic registry never bypasses structural type
+or causal checks.
 
-A relational-phase control uses three actual source lineages. Permuting the
-three retained lag values preserves their marginal multiset but destroys the
-source-specific native comparisons. Tau, normalized-circle and old selector
-coordinates are rejected as substitutions for
-#raw("M1:unwrapped-count-lag"). The comparator has exactly two declared bias
-operands. No phase label or scalar memory value supplies admission.
-Every selected response is an H1 edge with a lawful fibre transition.
-Uncertified continuations add zero closure-phase cycles, including when their
-endpoints happen to coincide.
+A three-lineage relational-phase control permutes retained lag values, preserving the
+marginal multiset while destroying source-specific native comparisons. Tau,
+normalized-circle, and legacy selector coordinates are rejected as substitutes for
+#raw("M1:unwrapped-count-lag")\; the comparator binds exactly two declared bias
+operands, and neither phase labels nor scalar memory supply admission. Every
+selected response executes an H1 edge with a lawful fibre transition, and uncertified
+continuations contribute zero closure-phase cycles even when endpoints coincide.
 
 
 == Operative boundary, labels, action and learning <sec:self-proprio-toys>
 
 
 #aod-paragraph[Setup.]
-The operative boundary is #mainequation("main:eq:operative-self").
-Source removal uses #mainequation("main:eq:operative-source-removal"): the
-runner admits at most one retained record per source, rejects duplicate
-sources, and removes the record with that exact source identity while
-preserving present state and closure memory. Restoration replaces its exact
-value and provenance. The $H = 1$ verdict uses the next-transition outcome;
-an unavailable source can acquire a later effect over a longer declared horizon.
-Sensor, register, CPU and vocabulary models reuse this interface.
+The operative boundary instantiates #mainequation("main:eq:operative-self") under
+structural source removal #mainequation("main:eq:operative-source-removal"): the
+runner admits at most one retained record per source, rejects duplicate sources, and
+removes the exact source record while holding present state and closure memory fixed.
+Exact restoration replaces both value and full lineage provenance. The $H = 1$
+verdict evaluates the next-transition outcome, whereas an unavailable source may
+become operative over a longer declared horizon; sensor, register, CPU, and
+vocabulary models share this interface.
 
 #aod-paragraph[Derivation.]
-Two retained source contributions produce a three-node operative subgraph:
-two source interfaces and the target. The target's role is SELF, its active contact
-interfaces are BETWEEN, and unconnected nodes are NOT-SELF. Null remains
-separately typed. With current outcome $O = J$, nonzero gain and both source
-channels available, consider the existing instance $J_k = A_k = q_k = 0$,
-$p = g = 1$. Contributions $+ 1$ and $- 1$ cancel in total while each
-removal changes later current by #eqref("eq:awareness-causal-difference"): the full result is $0$, removal of the
-$+ 1$ channel gives $- 1$, and removal of the $- 1$ channel gives $+ 1$.
-Both source lineages therefore remain operative. This aggregate-zero state,
-a provenance-bound zero-valued retained channel, and structural absence have
-different records and digests. Neither zero-valued case forces a fold or a
-positive sheddic result. The antisymmetric pressure ledger also retains both channels.
-A CPU interface uses a
-declared cost of three operations per available source; that resource proxy
-alone supplies no operativity verdict.
+Two operative source lineages yield a three-node operative subgraph: the target
+carries role SELF, active contact interfaces carry BETWEEN, unconnected nodes carry
+NOT-SELF, and Null stays separately typed. For outcome $O = J$, $J_k = A_k = q_k = 0$,
+and $p = g = 1$, retained contributions $+ 1$ and $- 1$ cancel in aggregate while
+each individual removal shifts later current under
+#eqref("eq:awareness-causal-difference"): full execution gives $0$, removing $+ 1$
+gives $- 1$, and removing $- 1$ gives $+ 1$. Both source lineages therefore remain
+operative; aggregate-zero cancellation, a provenance-bound retained zero, and
+structural absence have distinct records and digests, and neither zero-valued state
+forces a fold or positive shedding. The antisymmetric pressure ledger likewise
+retains both channels, while a CPU interface declaring three operations per
+available source records work only and supplies no operativity verdict.
 
 
 == Action return and persistent learning <subsec:proprioception-learning>
@@ -220,20 +216,19 @@ from masquerading as the same issuance.
 
 
 #aod-paragraph[Derivation.]
-For command $u = 1$ and a certified two-traversal return, $y = 2$ and
-$r_a = 1$. The matched response difference is then $g slash p$.
-Uncommanded sensing, motor output alone, a return from another action or an
-unrelated sensor magnitude cannot establish this proprioceptive relation.
-For the single acquired
-relation $r_a = 1$, with its source available throughout, $A_k = q_k = 0$ and
-$g = p = 1$, the retained model advances current by one per transition, while
-the matched removed model retains its current value.
-Restoration of the acquired coordinate restores the later increments.
+For command $u = 1$ and a certified two-traversal return, $y = 2$ yields $r_a = 1$
+and matched response difference $g slash p$. Uncommanded sensing, motor output
+alone, returns from another action, or unrelated sensor magnitudes cannot establish
+this proprioceptive relation. With $r_a = 1$ available throughout, $A_k = q_k = 0$,
+and $g = p = 1$, the retained execution advances current by $1$ per transition
+whereas the matched removed execution holds current fixed; restoring the acquired
+coordinate restores the later increments.
 
 
 #aod-paragraph[Falsification.]
-A surviving record with no later behavioral change is persistence alone.
-A changed stimulus cannot be attributed to memory by an unmatched comparison.
+A surviving record without later behavioral change demonstrates persistence alone,
+and a changed stimulus cannot be attributed to memory through an unmatched
+comparison.
 
 
 #aod-provenance[#mainequation("main:eq:closure-certificate")\;
@@ -241,38 +236,35 @@ A changed stimulus cannot be attributed to memory by an unmatched comparison.
 #eqref("eq:awareness-causal-difference").]
 
 
-
 #aod-paragraph[Action and learning executions.]
-The sensor–motor witness issues its command at $13$, after the issuer and
-channel have acquired recurrent prefixes at $12$ and $9$. Its certified
-action return occupies $14,15,16$, with exactly two atomic traversals.
-The readout is the declared traversal-count projection $y = 2$, the command
-is $u = 1$, and the retained residual is $y - u = 1$. The same certified return
-cannot be assigned an arbitrary readout of $200$. Wrong-action, unissued,
-wrong-return and future-return cases fail. Passive sensing and motor output
-alone do not establish proprioception.
+The sensor–motor witness issues its command at cut $13$, after issuer and channel
+acquire recurrent prefixes at cuts $12$ and $9$; its certified action return spans
+cuts $14,15,16$ with exactly two atomic traversals ($y = 2$, $u = 1$, $r_a = 1$).
+The same return rejects an arbitrary readout such as $200$, and wrong-action,
+unissued, wrong-return, future-return, passive-sensing, and motor-only controls all
+fail.
 
-The separate learning witness uses the already retained relation supplied by
-#raw("core()"), without calling action-return acquisition. It retains that
-relation through four zero-stimulus updates, reaching current four. At a new matched boundary, retained execution
-then yields currents $(5,6,7)$; removal yields $(4,4,4)$. Exact restoration
-of value and lineage restores $(5,6,7)$. The future attention inputs remain
-zero in each family, so a changed stimulus does not explain the difference.
+The separate learning witness consumes the retained relation from #raw("core()")
+without invoking action-return acquisition, holding it across four zero-stimulus
+updates to current $4$. Beyond a new matched boundary, retained execution yields
+currents $(5,6,7)$, structural removal yields $(4,4,4)$, and exact restoration of
+value and lineage recovers $(5,6,7)$ under identically zero future attention inputs.
 
 
 == Polycadence, crescendo, exposure and a second causal link <sec:m2-crescendo>
 
-The same retention law executes with locked cadences $(10,10,10)$, a declared
-nonzero comparator bias $1 slash 4$ at equal cadence, unequal cadences
-$(10,10,10)$ and $(7,7,7)$, or jittered separations $(8,7,13)$.
-Each positive retention pair has a later effect. Locked cadence with zero
-gain does not. The nonzero bias is an explicitly declared native comparison
-coordinate bound to its two operands; it is not circular phase or metrology.
+#aod-paragraph[Specialization.]
+The same retention law executes across locked cadences $(10,10,10)$, a declared
+nonzero two-operand comparator bias $1 slash 4$ at equal cadence, unequal cadences
+$(10,10,10)$ versus $(7,7,7)$, and jittered separations $(8,7,13)$: every positive
+retention pair with nonzero gain shifts later response, whereas locked cadence at
+zero gain does not. The declared bias is a native comparison coordinate bound to its
+two operands, never circular phase or metrology.
 
-The availability sequence exposes one, two, three, zero, then three source
-lineages. The number of operative sources is exactly $(1,2,3,0,3)$, while
-all three valid retained records survive dropout. This measures changing
-causal participation, not a scalar amplitude or a synchronization score.
+Under an availability schedule exposing one, two, three, zero, and three source
+lineages, operative-source counts equal $(1,2,3,0,3)$ while all three valid retained
+records survive dropout—tracking causal participation rather than scalar amplitude or
+synchronization.
 
 
 === Response-to-load bridge and restoration
@@ -316,33 +308,26 @@ causal witnesses of #mainequation("main:eq:fold-outer-closure"),
 
 
 #aod-paragraph[Fold and shedding executions.]
-In the contact/fold witness the first retained response at $34$ selects a
-later outer-construction opportunity. Each outer closure binds the actual
-inner certificates and gives one complete closure-phase cycle. Three distinct outer returns permit
-recurrence and two distinct higher contacts. The B1 comparison peer also
-folds the same admitted inner pair, with three returns separated by nine
-native indices. Its certificates carry those inner identities, certificates
-and scope map; an unsupported outer tag is rejected. Exposure during outer
-closure preserves both inner wave identities without making a shedding claim.
-For the positive retained lane only, a declared exact toy bridge binds the
-committed response event to closure load
-$L^(upright("toy")) = C^(upright("cap")) + J$ and closure cost
-$C_(upright("close"))^(upright("toy")) = C^(upright("cap"))$. It does not identify current with
-SADAR pressure. The resulting exact residual and surplus are both $1$; the
-computed record binds the source state/event, outer certificate, inner
-lineages, exoshedding route back to their $B 0$ scope, commitment order, and
-operand digest. Only that record authorizes sheddic exposure, which preserves
-both inner wave identities. Replacing the fold status by the string
-#raw("shedding") is rejected. The matched removed lane has no fold and no
-shedding record; exact restoration reproduces the complete record byte for
-byte. The retained inner relation is then carried with the exact fold witness
-and higher contact provenance.
-At the higher scope, retention is committed at $56$, the new intervention
-boundary is $58$, its changed response is at $59$, and the next outer fold
-starts at $60$. Removing the higher retained coordinate blocks that offer;
-restoring it restores the same admitted construction. A local coincident
-trace fails the outer-fold and cross-scale claims. Action-origin retention
-also carries its authentic source action registry and commitment evidence.
+In the contact/fold witness, the first retained response at cut $34$ selects a later
+outer-construction opportunity where each outer closure binds the actual inner
+certificates and adds one complete closure-phase cycle; three distinct outer returns
+permit recurrence and two distinct higher contacts. The B1 comparison peer folds the
+same admitted inner pair with three returns separated by nine native indices, binding
+inner identities, certificates, and scope map (rejecting unsupported outer tags),
+while exposure during outer closure preserves both inner identities without asserting
+shedding. On the positive retained lane only, the declared toy bridge maps the
+committed response to $L^(upright("toy")) = C^(upright("cap")) + J$ and
+$C_(upright("close"))^(upright("toy")) = C^(upright("cap"))$ without identifying
+current with SADAR pressure, yielding residual $1$ and surplus $1$. Only this
+digest-bound record (carrying source state/event, outer certificate, inner lineages,
+exoshedding route back to $B 0$, and commitment order) authorizes sheddic exposure;
+substituting the string #raw("shedding") is rejected. The matched removed lane yields
+no fold and no shedding record, and exact restoration reproduces the complete record
+byte for byte. At the higher scope, retention commits at cut $56$, intervention
+occurs at $58$, the changed response arrives at $59$, and the next outer fold begins
+at $60$: removing the higher retained coordinate blocks the offer, restoring it
+recovers the admitted construction, local coincident traces fail, and action-origin
+retention carries its authentic source action registry and commitment evidence.
 
 
 == Passive observation, interrogation and operational mindfulness <subsec:query-mindfulness>
@@ -392,30 +377,26 @@ does not establish provenance or the earlier causal operativity witness.
 
 === Query and mindfulness executions <manual:m2-query-mindfulness>
 
-A passive observer runs after each committed transition. Interrogation is a
-separate input $q$ with a declared committed observation and changes the
-perturbed execution. It cannot be counted as passive tracing.
-The established operative boundary is stable over this observation window;
-stabilization before that boundary is established is not a mindfulness witness.
-For $p = 1$, constant retained forcing one and $q_k = - J_k$, an initial
-current three becomes one and remains one while H1/fibre transitions continue.
-The observation is of current $J_k$, already committed at $k$; the response
-is at $k + 1$. An extra delay using $J_(k - 1)$ and the boundary pressure
-$p = 1 slash 2$ both fail this stabilization conclusion. The general constant-forcing
-criterion $p > 1 slash 2$ is derived in #eqref("eq:mindfulness-stability").
-The delayed control declares $J_(32) = 0$ as its initial history and
-$J_(33) = 3$ as its starting current. Its first query cites cut 32;
-the query at cut 34 uses $J_(33) = 3$ and cites cut 33. Each event retains
-the consumed observation cut. The initialized history is a model premise;
-subsequent query values come from the recorded preceding observation.
+A passive observer reads after each committed transition; interrogation supplies an
+explicit separate input $q$ referencing a committed observation cut and alters the
+perturbed execution, so it is never counted as passive tracing. Operational
+mindfulness requires the operative boundary to be established prior to stabilization.
+For $p = 1$, constant retained forcing $b = 1$, and $q_k = - J_k$, initial current
+$3$ transitions to $1$ and remains $1$ while H1/fibre transitions continue, consuming
+$J_k$ committed at $k$ to update cut $k + 1$. Both the delayed control $J_(k - 1)$
+and the boundary pressure $p = 1 slash 2$ fail the constant-forcing stabilization
+bound $p > 1 slash 2$ derived in #eqref("eq:mindfulness-stability"). The delayed
+control declares initial history $J_(32) = 0$ and starting current $J_(33) = 3$: its
+first query cites cut $32$ and the cut-$34$ query consumes $J_(33) = 3$ citing cut
+$33$, retaining each consumed observation cut.
 
 
 == Preserved example ladder and source status
 
 The original A0–A18 examples share the constructors of
-#secref("sec:m2-awareness-ladder") and its declared shared runner
-#raw("manual/scripts/aod_awareness.py"). Their required
-roles remain explicit in the following crosswalk.
+#secref("sec:m2-awareness-ladder") and its shared runner
+#raw("manual/scripts/aod_awareness.py")\; their witness and control roles remain
+explicit below.
 
 #aod-uncaptioned-longtable[#{
   set text(size: 8.5pt)
@@ -477,49 +458,73 @@ historical rerun rows.
 
 == Five-boundary matched-state operativity D.E.C. walk <manual:m2:dec-operativity-walk>
 
-Declare the complete-state boundary stack across integer cuts $23 arrow.r 34$:
+#aod-paragraph[Setup and engine verification (#raw("RC-034")).]
+Declare the complete-state boundary stack across native integer cuts $23 arrow.r 34$:
 
 #math.equation(block: true, numbering: none, $ B_(upright("shared")) arrow.r B_(S^+) arrow.r B_(S^(- e)) arrow.r B_(upright("sensor")) arrow.r B_(upright("hold")). $)
 
-Vector #raw("RC-034") (#raw("manual/data/boundary_sadar/awareness_operativity_dec_walk.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) executes the matched-state counterfactual walk without inserting a numeric zero in place of structural absence:
-at cut $23$ ($B_(upright("shared"))$), recurrent versus independent flux sets $r_e = 3 - 2 = 1$;
-at cut $24$, $S_(24)^+ = (X_(24) , M_(24)^C , brace.l r_e = 1 brace.r )$ retains $r_e$ whereas $S_(24)^(- e) = (X_(24) , M_(24)^C , emptyset )$ removes the relation structurally;
-at cut $33$, both branches share identical present $(X_(33) , M_(33)^C )$;
-and strictly later at cut $34$, pressure $p = 1$ routes $S_(34)^+$ to branch $0001$ ($J = 1 slash 1$) and $S_(34)^(- e)$ to branch $0010$ ($J = 0 slash 1$), establishing $op("Op")_e^(O, H) (S_(33) ) = 1$, while $p = 2$ yields $J_(34)^+ = 1 slash 2$, passive #raw("ReadOnly") sensor coupling ($q = 0$) changes the cavity by $0 slash 1$, active feedback ($q = 2$) shifts the cavity by $2 slash 1$, and the nineteen-row historical roster remains quarantined at $B_(upright("hold"))$ (#raw("HOLD_MISSING_AUTHENTIC_SOURCES")).
+Vector #raw("RC-034") (#raw("dec_awareness_matched_operativity")), verified by
+#raw("python3 -B -m manual.engine --sector boundary_sadar") and
+#raw("aod-core --verify-vectors --check-zero-float") against
+#raw("manual/data/boundary_sadar/awareness_operativity_dec_walk.csv"), executes the
+matched-state counterfactual walk in exact zero-float rational arithmetic without
+substituting a numeric zero for structural absence: at cut $23$
+($B_(upright("shared"))$), recurrent minus independent flux yields $r_e = 3 - 2 = 1$;
+at cut $24$, $S_(24)^+ = (X_(24) , M_(24)^C , brace.l r_e = 1 brace.r )$ retains $r_e$
+whereas $S_(24)^(- e) = (X_(24) , M_(24)^C , emptyset )$ removes it structurally; at
+cut $33$, both lanes share $(X_(33) , M_(33)^C )$; and strictly later at cut $34$,
+$p = 1$ routes $S_(34)^+$ to branch $0001$ ($J = 1 slash 1$) and $S_(34)^(- e)$ to
+$0010$ ($J = 0 slash 1$), witnessing $op("Op")_e^(O, H) (S_(33) ) = 1$. For $p = 2$,
+$J_(34)^+ = 1 slash 2$; passive #raw("ReadOnly") coupling ($q = 0$) perturbs the
+cavity by $0 slash 1$, active query ($q = 1$ at $p = 1$) shifts current to
+$J_(34) = 2 slash 1$, and the nineteen-row historical roster stays quarantined at
+$B_(upright("hold"))$ (#raw("HOLD_MISSING_AUTHENTIC_SOURCES")).
 
 
 #figure(
   kind: image, [
 #include "../../lib/figures/manual/awareness_matched_operativity_feynman.typ"
   ],
-  caption: [Boundary-Feynman matched-state operativity walk $S_k^+ = (X_k , M_k^C , R_k )$ versus structural removal $S_k^(- e) = (X_k , M_k^C , R_k without brace.l R_e brace.r )$, strictly-later cut-$34$ branching, and passive sensor zero-perturbation wall (#raw("awareness_operativity_dec_walk.csv")).],
+  caption: [Boundary-Feynman matched-state operativity walk $S_k^+ = (X_k , M_k^C , R_k )$ versus structural removal $S_k^(- e) = (X_k , M_k^C , R_k without brace.l R_e brace.r )$, strictly-later cut-$34$ branching, and passive sensor zero-perturbation wall (#raw("RC-034"), #raw("awareness_operativity_dec_walk.csv")).],
 ) <fig:manual-awareness-matched-feynman>
 
 
 #figure(
   kind: table, [
 #{
-  set text(size: 8.5pt)
-  set par(justify: false)
+  let rows = csv("/manual/data/boundary_sadar/awareness_operativity_dec_walk.csv", row-type: dictionary)
+  let wrap-str(s) = (
+    s.replace("_", "_\u{200b}")
+     .replace("/", "/\u{200b}")
+     .replace(",", ",\u{200b}")
+  )
+  set text(size: 6.9pt)
+  show raw: set text(size: 6.3pt)
+  set par(justify: false, leading: 0.42em)
   table(
-    columns: (auto, auto, auto, auto, auto, auto),
-    align: (right, left, left, left, right, left),
+    columns: (0.48fr, 1.56fr, 1.66fr, 0.62fr, 0.66fr, 0.62fr, 0.92fr, 0.48fr, 3.00fr),
+    align: (right, left, left, center, center, center, right, center, left),
+    inset: (x: 2.2pt, y: 2.9pt),
     table.header(
       toprule,
-      [Cut $k$], [Branch mode], [Complete state $S_k$], [$v arrow.r v_e$], [$J_k$], [Operativity / sensor audit],
+      [Cut $k$], [Branch mode], [State $S_k$], [$v$], [$e$], [$v_e$], [$J_k$], [$op("adm")$], [Route / operativity audit],
       midrule,
     ),
-    [23], [#raw("shared_contact")], [$(X_(23) , M_(23)^C , emptyset )$], [$0000 arrow.r 0000$], [$0 slash 1$], [$r_e = 3 - 2 = 1$ formed],
-    [24], [#raw("S_plus_retained")], [$(X_(24) , M_(24)^C , brace.l r_e = 1 brace.r )$], [$0000 arrow.r 0000$], [$0 slash 1$], [commit $r_e$ into $R_(24)$],
-    [24], [#raw("S_minus_e_removed")], [$(X_(24) , M_(24)^C , emptyset )$], [$0000 arrow.r 0000$], [$0 slash 1$], [structural absence (no zero fill)],
-    [33], [#raw("matched_boundary_p1")], [$S_(33)^+$ vs $S_(33)^(- e)$], [$0000 arrow.r 0000$], [$1 slash 1$ vs $0 slash 1$], [matched $(X_(33) , M_(33)^C )$, $p = 1$],
-    [34], [#raw("response_p1_retained")], [$S_(34)^+ (p = 1)$], [$0000 arrow.r 0001$], [$1 slash 1$], [positive selector branch; $op("Op") = 1$],
-    [34], [#raw("response_p1_removed")], [$S_(34)^(- e) (p = 1)$], [$0000 arrow.r 0010$], [$0 slash 1$], [divergent branch $0010$; $Delta J = 1 slash 1$],
-    [34], [#raw("response_p2_and_sensor")], [$S_(34)^+ (p = 2, q = 0)$], [$0000 arrow.r 0001$], [$1 slash 2$], [passive sensor $Delta = 0 slash 1$; active $q = 2$: $2 slash 1$],
+    ..rows.map(r => (
+      [#r.cut_k],
+      [#raw(wrap-str(r.branch_mode))],
+      [#raw(wrap-str(r.state_S))],
+      [#raw(r.vertex_v)],
+      [#raw(wrap-str(r.edge_e))],
+      [#raw(r.target_ve)],
+      [#raw(wrap-str(r.current_J))],
+      [#r.adm],
+      [#raw(wrap-str(r.route_outcome))],
+    )).flatten(),
     bottomrule,
   )
 }
   ],
-  caption: [Matched-state retained-relation operativity and passive-sensor D.E.C. ledger (#raw("RC-034")).],
+  caption: [Engine-bound matched-state retained-relation operativity and passive-sensor D.E.C. ledger (#raw("RC-034"), live from #raw("awareness_operativity_dec_walk.csv")).],
 ) <tab:manual-awareness-dec-ledger>
 
