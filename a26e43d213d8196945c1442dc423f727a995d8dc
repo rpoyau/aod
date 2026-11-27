@@ -1,0 +1,9 @@
+{
+  "bundle_id": "BND-P2-01",
+  "retries_used": 0,
+  "review": {
+    "verdict": "PASS",
+    "violations": []
+  },
+  "validation": "PASS (audit_scientific_sources PASS, aod_cell_measures normal+-O PASS, 45/45 Rust tests 0 warnings, S2/S4 byte-identical cmp, 121+6 pytest passed)"
+}
