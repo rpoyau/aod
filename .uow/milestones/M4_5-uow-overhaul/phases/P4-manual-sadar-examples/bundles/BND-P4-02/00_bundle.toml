@@ -1,0 +1,50 @@
+bundle_id = "BND-P4-02"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P4-manual-sadar-examples"
+parent_bundle = "BND-P4-01"
+base_commit = "1c2fe57ce620f830b9064a92479170e368c21c86"
+
+[objective]
+summary = "Refactor Manual §9 (01_rest_energy_prediction.typ) and Manual §10 (02_hydrogen_facing_shell_tests.typ) in place into crisp General Mechanics structure, fix all scrambled vector IDs (RC-027/028/029/031/039 + SD-004/005/007), align Tau's derived 50-microslot Q_4 x mu impedance rotor and raw_cuts = 28 = 11 + 17, and bind live engine CSV tables."
+deliverables = [
+  "Refactor typst/manual/sections/01_rest_energy_prediction.typ (§9) in place: fix ALL scrambled vector citations (RC-025 -> RC-027 for sadar_pp_tau_five_boundary / tau_five_boundary_sadar_trace.csv; RC-026 -> RC-028 for sadar_hadron_debris_and_higgs_saddle / higgs_baryon_overlap_saddle_scan.csv; RC-027 -> RC-029 for sadar_rest_energy_atlas / rest_energy_sadar_debris_atlas.csv; plus RC-011, SD-004, SD-005, SD-007), confirming ZERO RC-025 or RC-026 references remain in §9",
+  "Align §9 Tau five-boundary SADAR narrative with the genuine BND-P1-03 TritWord/TritRatio engine: replace stale 'raw count 26' with exact raw_cuts = 28 = 11 + 17 (symmetry quotient 11 from TritWord.burn_contiguous_dwell(False)) and state the derived 50-microslot Q_4 x mu impedance rotor (RD = 9 -> 61 -> 137, capacity 200) that dynamically yields (13/50, 37/50) cavity split and (19/50, 31/50) conditional _Exo split (exact joint 2500-slot product 650/2500, 1850/2500, 703/2500, 1147/2500) rather than asserted slot literals",
+  "Bind <tab:manual-tau-five-boundary-trace> live to manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv in §9, tighten dense narrative into crisp General Mechanics Setup-Derivation-Specialization-Falsification flow, and preserve EVERY existing label, EVERY owned anchor in OWNERSHIP_AND_FIXTURES.json (L112-165), and exact #main* / #aod-cite counts",
+  "Refactor typst/manual/sections/02_hydrogen_facing_shell_tests.typ (§10) in place: tighten prose into crisp General Mechanics Setup-Derivation-Specialization-Falsification flow integrating RC-031 (hydrogen_shell_exact_series.csv) and RC-039 (hydrogen_shell_dec_transitions.csv) with clear D0 rational vs quarantined NIST-ASD wavelength separation, bind <tab:manual-hydrogen-dec-transitions> live to manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv, and preserve EVERY existing label and reference count",
+  "Visually verify rendered Manual §9 and §10 pages (especially both live CSV tables and every modified prose block) in _build/pub/manual.pdf at 144 ppi PNG via pdftoppm and view_file confirming zero overlaps, zero clipping, and zero margin overflows",
+]
+
+[scope]
+read_only = [
+  "typst/manual/preamble.typ",
+  "typst/manual/main.typ",
+  "manual/engine/sectors/boundary_sadar.py",
+  "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+  "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
+  "manual/data/boundary_sadar/higgs_baryon_overlap_saddle_scan.csv",
+  "manual/data/boundary_sadar/hydrogen_shell_exact_series.csv",
+  "manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv",
+  "contracts/scientific/OWNERSHIP_AND_FIXTURES.json",
+  "contracts/scientific/CANONICAL_BINDINGS.json",
+]
+write_set = [
+  "typst/manual/sections/01_rest_energy_prediction.typ",
+  "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "Zero scrambled vector IDs in §9: ZERO RC-025 and ZERO RC-026 anywhere in 01_rest_energy_prediction.typ; Tau = RC-027, Debris/Higgs saddle = RC-028, 10-carrier atlas = RC-029, Quarantine = SD-007",
+  "Zero stale 'raw count 26' in §9; Tau trace must accurately report raw_cuts = 28 = 11 + 17 (symmetry quotient 11 via TritWord.burn_contiguous_dwell) and the derived 50-microslot Q_4 x mu impedance rotor (RD = 9 -> 61 -> 137, capacity 200)",
+  "Preserve ALL 455 Main labels, ALL 281 Manual labels, ALL 172 Manual mainref_uses, EVERY anchor in OWNERSHIP_AND_FIXTURES.json (L112-165), and exact #main* / #aod-cite inventory across §9 and §10",
+  "Zero text collisions, clipping, or margin overflows on rendered Manual §9 and §10 pages at 144 ppi PNG",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+  "python3 -B -m pytest -q tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py",
+]
+max_retries = 2
