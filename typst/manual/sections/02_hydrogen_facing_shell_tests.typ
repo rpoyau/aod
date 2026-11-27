@@ -278,7 +278,7 @@ rational ratios of #raw("RC-031") and #raw("RC-039").
 #aod-provenance[#secref("subsec:shared-shell-path-declaration")\;
 #appref("manual:external-comparison").]
 
-#aod-literature-note[Hydrogen spectral-line targets: NIST Atomic Spectra Database #aod-cite("nist-asd")\; Paschen #box[Pa$alpha$], #box[Pa$beta$], #box[Pa$epsilon$] air rows: NIST Hydrogen Handbook #aod-cite("nist-hydrogen-handbook").]
+#aod-literature-note[Hydrogen spectral-line targets: NIST Atomic Spectra Database #aod-cite("nist-asd")\; Paschen #aod-nowrap[Pa$alpha$], #aod-nowrap[Pa$beta$], #aod-nowrap[Pa$epsilon$] air rows: NIST Hydrogen Handbook #aod-cite("nist-hydrogen-handbook").]
 
 
 
@@ -340,31 +340,25 @@ Rydberg constant.
 
 #figure(
   kind: table, [
-#{
-  let rows = csv("/manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv", row-type: dictionary)
-  set text(size: 8.5pt)
-  set par(justify: false)
-  table(
-    columns: (1.40fr, 1.15fr, 1.45fr, 1.45fr, 1.45fr, 1.55fr, 1.55fr),
-    align: (left, center, right, right, right, right, right),
-    inset: (x: 3.0pt, y: 3.2pt),
-    table.header(
-      toprule,
-      [Series], [$n arrow.r m$], [$r_n slash r_1 = n^2$], [$Delta hat(P)_(n arrow.r m)$], [$R_(upright("series"))$ (exact)], [$R_(upright("series"))$ (6dp)], [$lambda_n slash lambda_(m + 1)$],
-      midrule,
-    ),
-    ..rows.map(r => (
-      [#r.series],
-      [#r.n $arrow.r$ #r.m],
-      [#r.r_n_over_r1],
-      [#r.delta_P_hat],
-      [#r.R_series_exact],
-      [#r.R_series_dec6],
-      [#r.lambda_over_base_exact],
-    )).flatten(),
-    bottomrule,
-  )
-}
+#aod-csv-table(
+  "/manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv",
+  columns: (1.40fr, 1.15fr, 1.45fr, 1.45fr, 1.45fr, 1.55fr, 1.55fr),
+  align: (left, center, right, right, right, right, right),
+  size: 8.5pt,
+  inset: (x: 3.0pt, y: 3.2pt),
+  headers: (
+    [Series], [$n arrow.r m$], [$r_n slash r_1 = n^2$], [$Delta hat(P)_(n arrow.r m)$], [$R_(upright("series"))$ (exact)], [$R_(upright("series"))$ (6dp)], [$lambda_n slash lambda_(m + 1)$],
+  ),
+  cells: (
+    "series",
+    (kind: "arrow", left: "n", right: "m"),
+    "r_n_over_r1",
+    "delta_P_hat",
+    "R_series_exact",
+    "R_series_dec6",
+    "lambda_over_base_exact",
+  ),
+)
   ],
   caption: [Engine-bound exact rational hydrogen shell-transition and wavelet series D.E.C. ledger (#raw("RC-039"), live from #raw("hydrogen_shell_dec_transitions.csv")).],
 ) <tab:manual-hydrogen-dec-transitions>

@@ -145,7 +145,7 @@ and across all eleven bins $k in brace.l - 5, dots.h , + 5 brace.r$,
 #figure(
   kind: table, [
 #{
-  set text(size: 8.3pt)
+  set text(size: 8.5pt)
   set par(justify: false)
   table(
     columns: (auto, auto),
@@ -388,33 +388,27 @@ Dimonon window $(1":"2, bar.v omega bar.v = 9)$ exceeding $sans("C")_8 = 24$.
 
 #figure(
   kind: table, [
-#{
-  let rows = csv("/manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv", row-type: dictionary)
-  set text(size: 8.2pt)
-  set par(justify: false)
-  table(
-    columns: (1.10fr, 0.90fr, 0.95fr, 0.95fr, 0.90fr, 1.00fr, 1.15fr, 1.55fr, 1.50fr),
-    align: (left, right, right, right, right, right, right, right, right),
-    inset: (x: 3.0pt, y: 3.5pt),
-    table.header(
-      toprule,
-      [Support], [$R D$], [$bar.v omega bar.v$], [$rho^D_(omega)$], [$p^D$], [$Q^D$], [$C_(upright("close"))$], [$X_(upright("shedding"))$], [$p^D + Q^D$],
-      midrule,
-    ),
-    ..rows.map(r => (
-      [#r.support],
-      [#r.RD],
-      [#r.window_len],
-      [#r.rho_omega],
-      [#r.p_D],
-      [#r.Q_D],
-      [#r.C_close],
-      [#r.X_shedding],
-      [#r.total_3RD],
-    )).flatten(),
-    bottomrule,
-  )
-}
+#aod-csv-table(
+  "/manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv",
+  columns: (1.10fr, 0.90fr, 0.95fr, 0.95fr, 0.90fr, 1.00fr, 1.15fr, 1.55fr, 1.50fr),
+  align: (left, right, right, right, right, right, right, right, right),
+  size: 8.0pt,
+  inset: (x: 3.0pt, y: 3.5pt),
+  headers: (
+    [Support], [$R D$], [$bar.v omega bar.v$], [$rho^D_(omega)$], [$p^D$], [$Q^D$], [$C_(upright("close"))$], [$X_(upright("shedding"))$], [$p^D + Q^D$],
+  ),
+  cells: (
+    "support",
+    "RD",
+    "window_len",
+    "rho_omega",
+    "p_D",
+    "Q_D",
+    "C_close",
+    "X_shedding",
+    "total_3RD",
+  ),
+)
   ],
   caption: [Engine-bound short-window RCD clipping, overhang conservation, and odd-window shedding D.E.C. ledger (#raw("RC-038"), live from #raw("short_window_rcd_dec_ledger.csv")).],
 ) <tab:manual-short-window-dec-ledger>

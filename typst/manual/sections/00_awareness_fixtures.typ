@@ -491,39 +491,27 @@ $B_(upright("hold"))$ (#raw("HOLD_MISSING_AUTHENTIC_SOURCES")).
 
 #figure(
   kind: table, [
-#{
-  let rows = csv("/manual/data/boundary_sadar/awareness_operativity_dec_walk.csv", row-type: dictionary)
-  let wrap-str(s) = (
-    s.replace("_", "_\u{200b}")
-     .replace("/", "/\u{200b}")
-     .replace(",", ",\u{200b}")
-  )
-  set text(size: 6.9pt)
-  show raw: set text(size: 6.3pt)
-  set par(justify: false, leading: 0.42em)
-  table(
-    columns: (0.48fr, 1.56fr, 1.66fr, 0.62fr, 0.66fr, 0.62fr, 0.92fr, 0.48fr, 3.00fr),
-    align: (right, left, left, center, center, center, right, center, left),
-    inset: (x: 2.2pt, y: 2.9pt),
-    table.header(
-      toprule,
-      [Cut $k$], [Branch mode], [State $S_k$], [$v$], [$e$], [$v_e$], [$J_k$], [$op("adm")$], [Route / operativity audit],
-      midrule,
-    ),
-    ..rows.map(r => (
-      [#r.cut_k],
-      [#raw(wrap-str(r.branch_mode))],
-      [#raw(wrap-str(r.state_S))],
-      [#raw(r.vertex_v)],
-      [#raw(wrap-str(r.edge_e))],
-      [#raw(r.target_ve)],
-      [#raw(wrap-str(r.current_J))],
-      [#r.adm],
-      [#raw(wrap-str(r.route_outcome))],
-    )).flatten(),
-    bottomrule,
-  )
-}
+#aod-csv-table(
+  "/manual/data/boundary_sadar/awareness_operativity_dec_walk.csv",
+  columns: (0.48fr, 1.56fr, 1.66fr, 0.62fr, 0.66fr, 0.62fr, 0.92fr, 0.48fr, 3.00fr),
+  align: (right, left, left, center, center, center, right, center, left),
+  size: 7.0pt,
+  inset: (x: 2.2pt, y: 2.9pt),
+  headers: (
+    [Cut $k$], [Branch mode], [State $S_k$], [$v$], [$e$], [$v_e$], [$J_k$], [$op("adm")$], [Route / operativity audit],
+  ),
+  cells: (
+    "cut_k",
+    (kind: "raw-wrap", col: "branch_mode"),
+    (kind: "raw-wrap", col: "state_S"),
+    (kind: "raw", col: "vertex_v"),
+    (kind: "raw-wrap", col: "edge_e"),
+    (kind: "raw", col: "target_ve"),
+    (kind: "raw-wrap", col: "current_J"),
+    "adm",
+    (kind: "raw-wrap", col: "route_outcome"),
+  ),
+)
   ],
   caption: [Engine-bound matched-state retained-relation operativity and passive-sensor D.E.C. ledger (#raw("RC-034"), live from #raw("awareness_operativity_dec_walk.csv")).],
 ) <tab:manual-awareness-dec-ledger>

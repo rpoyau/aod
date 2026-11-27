@@ -291,13 +291,8 @@ Zero-float evaluations execute in both the Python reference engine (#raw("python
 #figure(
   kind: table, [
 #{
-  let raw-wrap(s) = raw(
-    s.replace("_", "_\u{200b}")
-     .replace("/", "/\u{200b}")
-  )
-  set text(size: 7.8pt)
-  show raw: set text(size: 6.9pt)
-  set par(justify: false, leading: 0.44em)
+  set text(size: 7.5pt)
+  set par(justify: false)
   table(
     columns: (15fr, 32fr, 20fr, 33fr),
     align: (left, left, left, left),
@@ -307,22 +302,22 @@ Zero-float evaluations execute in both the Python reference engine (#raw("python
       [Unit], [Declared 5-boundary stack], [Engine vectors], [Frozen D.E.C. / SADAR artifact],
       midrule,
     ),
-    [§2 Closure & wave], [$B_(upright("monon")) arrow.r B_(upright("asym")) arrow.r B_(upright("wave")) arrow.r B_(upright("fold")) arrow.r B_(upright("harm"))$], [#raw("RC-033")], [#raw-wrap("native_closure_wave_dec_walk.csv")],
-    [§3 Operativity], [$B_(upright("shared")) arrow.r B_(S^+) arrow.r B_(S^(- e)) arrow.r B_(upright("sensor")) arrow.r B_(upright("hold"))$], [#raw("RC-034")], [#raw-wrap("awareness_operativity_dec_walk.csv")],
-    [§4 D.E.C. ledger], [$B_(upright("in")) arrow.r B_(upright("flip")) arrow.r B_(upright("slide")) arrow.r B_(upright("disoma")) arrow.r B_(upright("ext"))$], [#raw("RC-025"), #raw("RC-026"), #raw("RC-045")], [#raw-wrap("dec_chiral_flip_continuous_walk.csv"), #raw-wrap("ternary_swar_and_trit_ratio")],
-    [§5 Cell measures], [$B_(upright("cell")) arrow.r B_(upright("stair")) arrow.r B_(upright("fold")) arrow.r B_(upright("audit")) arrow.r B_(upright("ext"))$], [#raw("RC-035")], [#raw-wrap("cell_measures_staircase_fold_dec.csv")],
-    [§6 Typed maps], [$B_(upright("src")) arrow.r B_(upright("map")) arrow.r B_(upright("joint")) arrow.r B_(upright("role")) arrow.r B_(upright("ext"))$], [#raw("RC-036")], [#raw-wrap("typed_map_joint_law_ledger.csv")],
-    [§7 Temporal & SI], [$B_(upright("pair")) arrow.r B_(upright("lag")) arrow.r B_(upright("bridge")) arrow.r B_(upright("val")) arrow.r B_(upright("ext"))$], [#raw("RC-037")], [#raw-wrap("temporal_si_bridge_dec_ledger.csv")],
-    [§8 Short-window], [$B_(upright("core")) arrow.r B_(omega) arrow.r B_(upright("close")) arrow.r B_(upright("shed")) arrow.r B_(upright("ext"))$], [#raw("RC-030"), #raw("RC-038")], [#raw-wrap("dimonhexon_double_slit_ring_paths.csv"), #raw-wrap("short_window_rcd_dec_ledger.csv")],
-    [§9 Rest energy], [$B_(upright("hard")) arrow.r B_(tau) arrow.r B_(upright("shed")) arrow.r B_(upright("sensor")) arrow.r B_(upright("ext"))$], [#raw("RC-027")--#raw("RC-029"), #raw("SD-007")], [#raw-wrap("tau_five_boundary_sadar_trace.csv"), #raw-wrap("higgs_baryon_overlap_saddle_scan.csv"), #raw-wrap("rest_energy_sadar_debris_atlas.csv")],
-    [§10 Hydrogen], [$B_(upright("core")) arrow.r B_(S_n) arrow.r B_(S_m) arrow.r B_(upright("sensor")) arrow.r B_(upright("ext"))$], [#raw("RC-031"), #raw("RC-039")], [#raw-wrap("hydrogen_shell_exact_series.csv"), #raw-wrap("hydrogen_shell_dec_transitions.csv")],
-    [§11 Wire & Stokes], [$B_(upright("wire")) arrow.r B_e arrow.r B_(upright("int")) arrow.r B_(R_1 union R_2) arrow.r B_(upright("ext"))$], [#raw("RC-032")], [#raw-wrap("scoped_wire_and_moving_boundary_walk.csv")],
-    [§12 Solar O0], [$B_(upright("Sun")) arrow.r B_(upright("Hg/bend/red")) arrow.r B_(upright("gate")) arrow.r B_(upright("O0")) arrow.r B_(upright("ext"))$], [#raw("RC-040")], [#raw-wrap("solar_o0_boundary_dec_audit.csv")],
-    [§13 Field dynamics], [$B_(Q_4) arrow.r B_(upright("hinge")) arrow.r B_(upright("ring")) arrow.r B_(upright("pool")) arrow.r B_(upright("ext"))$], [#raw("RC-041"), #raw("SD-008")], [#raw-wrap("run_tumble_q4_dec_walk.csv"), #raw-wrap("sparc_pooled_primary_exact.csv")],
-    [§14 Lensing plan], [$B_(upright("src")) arrow.r B_(upright("shell"),k) arrow.r B_(upright("FRG")) arrow.r B_(delta_3) arrow.r B_(upright("SWELLS"))$], [#raw("RC-020"), #raw("RC-042")], [#raw-wrap("lensing_ray_chiral_dec_walk.csv")],
-    [App. A Shedding], [$B_(upright("span")) arrow.r B_(upright("clip")) arrow.r B_(upright("shed")) arrow.r B_(upright("reclose")) arrow.r B_(upright("ext"))$], [#raw("RC-014"), #raw("RC-043")], [#raw-wrap("cycle_shedding_exact_rational_summary.csv")],
-    [App. B Quarantine], [$B_(upright("core")) arrow.r B_(upright("sensor")) arrow.r B_(upright("map")) arrow.r B_(upright("tar")) arrow.r sans("Q")_(upright("ext"))$], [#raw("SD-007")], [#raw-wrap("rest_energy_sadar_debris_atlas.csv")],
-    [App. C 3D phase], [$B_(bb(Z)^3) arrow.r B_(upright("lag")) arrow.r B_(upright("phase")) arrow.r B_(upright("oct")) arrow.r B_(delta_3)$], [#raw("RC-044")], [#raw-wrap("coordinate_phase_3d_dec_walk.csv")],
+    [§2 Closure & wave], [$B_(upright("monon")) arrow.r B_(upright("asym")) arrow.r B_(upright("wave")) arrow.r B_(upright("fold")) arrow.r B_(upright("harm"))$], [#raw("RC-033")], [#aod-raw-wrap("native_closure_wave_dec_walk.csv")],
+    [§3 Operativity], [$B_(upright("shared")) arrow.r B_(S^+) arrow.r B_(S^(- e)) arrow.r B_(upright("sensor")) arrow.r B_(upright("hold"))$], [#raw("RC-034")], [#aod-raw-wrap("awareness_operativity_dec_walk.csv")],
+    [§4 D.E.C. ledger], [$B_(upright("in")) arrow.r B_(upright("flip")) arrow.r B_(upright("slide")) arrow.r B_(upright("disoma")) arrow.r B_(upright("ext"))$], [#raw("RC-025"), #raw("RC-026"), #raw("RC-045")], [#aod-raw-wrap("dec_chiral_flip_continuous_walk.csv"), #aod-raw-wrap("ternary_swar_and_trit_ratio")],
+    [§5 Cell measures], [$B_(upright("cell")) arrow.r B_(upright("stair")) arrow.r B_(upright("fold")) arrow.r B_(upright("audit")) arrow.r B_(upright("ext"))$], [#raw("RC-035")], [#aod-raw-wrap("cell_measures_staircase_fold_dec.csv")],
+    [§6 Typed maps], [$B_(upright("src")) arrow.r B_(upright("map")) arrow.r B_(upright("joint")) arrow.r B_(upright("role")) arrow.r B_(upright("ext"))$], [#raw("RC-036")], [#aod-raw-wrap("typed_map_joint_law_ledger.csv")],
+    [§7 Temporal & SI], [$B_(upright("pair")) arrow.r B_(upright("lag")) arrow.r B_(upright("bridge")) arrow.r B_(upright("val")) arrow.r B_(upright("ext"))$], [#raw("RC-037")], [#aod-raw-wrap("temporal_si_bridge_dec_ledger.csv")],
+    [§8 Short-window], [$B_(upright("core")) arrow.r B_(omega) arrow.r B_(upright("close")) arrow.r B_(upright("shed")) arrow.r B_(upright("ext"))$], [#raw("RC-030"), #raw("RC-038")], [#aod-raw-wrap("dimonhexon_double_slit_ring_paths.csv"), #aod-raw-wrap("short_window_rcd_dec_ledger.csv")],
+    [§9 Rest energy], [$B_(upright("hard")) arrow.r B_(tau) arrow.r B_(upright("shed")) arrow.r B_(upright("sensor")) arrow.r B_(upright("ext"))$], [#raw("RC-027")--#raw("RC-029"), #raw("SD-007")], [#aod-raw-wrap("tau_five_boundary_sadar_trace.csv"), #aod-raw-wrap("higgs_baryon_overlap_saddle_scan.csv"), #aod-raw-wrap("rest_energy_sadar_debris_atlas.csv")],
+    [§10 Hydrogen], [$B_(upright("core")) arrow.r B_(S_n) arrow.r B_(S_m) arrow.r B_(upright("sensor")) arrow.r B_(upright("ext"))$], [#raw("RC-031"), #raw("RC-039")], [#aod-raw-wrap("hydrogen_shell_exact_series.csv"), #aod-raw-wrap("hydrogen_shell_dec_transitions.csv")],
+    [§11 Wire & Stokes], [$B_(upright("wire")) arrow.r B_e arrow.r B_(upright("int")) arrow.r B_(R_1 union R_2) arrow.r B_(upright("ext"))$], [#raw("RC-032")], [#aod-raw-wrap("scoped_wire_and_moving_boundary_walk.csv")],
+    [§12 Solar O0], [$B_(upright("Sun")) arrow.r B_(upright("Hg/bend/red")) arrow.r B_(upright("gate")) arrow.r B_(upright("O0")) arrow.r B_(upright("ext"))$], [#raw("RC-040")], [#aod-raw-wrap("solar_o0_boundary_dec_audit.csv")],
+    [§13 Field dynamics], [$B_(Q_4) arrow.r B_(upright("hinge")) arrow.r B_(upright("ring")) arrow.r B_(upright("pool")) arrow.r B_(upright("ext"))$], [#raw("RC-041"), #raw("SD-008")], [#aod-raw-wrap("run_tumble_q4_dec_walk.csv"), #aod-raw-wrap("sparc_pooled_primary_exact.csv")],
+    [§14 Lensing plan], [$B_(upright("src")) arrow.r B_(upright("shell"),k) arrow.r B_(upright("FRG")) arrow.r B_(delta_3) arrow.r B_(upright("SWELLS"))$], [#raw("RC-020"), #raw("RC-042")], [#aod-raw-wrap("lensing_ray_chiral_dec_walk.csv")],
+    [App. A Shedding], [$B_(upright("span")) arrow.r B_(upright("clip")) arrow.r B_(upright("shed")) arrow.r B_(upright("reclose")) arrow.r B_(upright("ext"))$], [#raw("RC-014"), #raw("RC-043")], [#aod-raw-wrap("cycle_shedding_exact_rational_summary.csv")],
+    [App. B Quarantine], [$B_(upright("core")) arrow.r B_(upright("sensor")) arrow.r B_(upright("map")) arrow.r B_(upright("tar")) arrow.r sans("Q")_(upright("ext"))$], [#raw("SD-007")], [#aod-raw-wrap("rest_energy_sadar_debris_atlas.csv")],
+    [App. C 3D phase], [$B_(bb(Z)^3) arrow.r B_(upright("lag")) arrow.r B_(upright("phase")) arrow.r B_(upright("oct")) arrow.r B_(delta_3)$], [#raw("RC-044")], [#aod-raw-wrap("coordinate_phase_3d_dec_walk.csv")],
     bottomrule,
   )
 }

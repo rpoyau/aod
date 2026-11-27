@@ -423,6 +423,15 @@ def _strip_quoted_strings(expr: str) -> str:
     return re.sub(r'"[^"]*"', '""', expr)
 
 
+def _has_live_csv_binding(text: str, csv_uri: str) -> bool:
+    """Return True when Typst source binds live to csv_uri via csv(...) or #aod-csv-table(...)."""
+    quoted = re.escape(csv_uri)
+    return (
+        re.search(rf'csv\(\s*"{quoted}"\s*,\s*row-type:\s*dictionary\s*\)', text) is not None
+        or re.search(rf'#aod-csv-table\(\s*"{quoted}"', text) is not None
+    )
+
+
 # =============================================================================
 # 1. Main §4 Relational-Time Clock-Free Audit & Exact 455 Main Labels
 # =============================================================================
@@ -1258,7 +1267,7 @@ def test_manual_typst_and_figure10_cross_artifact_invariants() -> None:
     for eq_label, verbatim in MANUAL_S7_VERBATIM_EQUATIONS:
         _check(verbatim in s7, f"Manual §7 verbatim equation {eq_label} altered or missing")
     _check(
-        'csv("/manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv", row-type: dictionary)' in s7,
+        _has_live_csv_binding(s7, "/manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv"),
         "Manual §7 <tab:manual-temporal-dec-bridge> must bind live to temporal_si_bridge_dec_ledger.csv",
     )
     _check(
@@ -1281,7 +1290,7 @@ def test_manual_typst_and_figure10_cross_artifact_invariants() -> None:
     # Manual §2: exact 8 labels, live CSV table, GM structure
     _check_eq(_extract_typst_labels(s2), EXPECTED_MANUAL_S2_LABELS, "Manual §2 exact 8 labels")
     _check(
-        'csv("/manual/data/boundary_sadar/native_closure_wave_dec_walk.csv", row-type: dictionary)' in s2,
+        _has_live_csv_binding(s2, "/manual/data/boundary_sadar/native_closure_wave_dec_walk.csv"),
         "Manual §2 <tab:manual-native-closure-dec-walk> must bind live to native_closure_wave_dec_walk.csv",
     )
     for phrase in (

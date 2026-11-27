@@ -338,34 +338,24 @@ hostile feedback disconnection at #raw("T9").
 
 #figure(
   kind: table, [
-#{
-  let rows = csv("/manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv", row-type: dictionary)
-  let wrap-id(s) = s.replace("_", "_\u{200b}")
-  let wrap-boundary(s) = s.replace("(", "\u{200b}(")
-  let wrap-pair(s) = s.replace("_", "_\u{200b}").replace(";", ";\u{200b}").replace("->", "->\u{200b}")
-  set text(size: 7.4pt)
-  show raw: set text(size: 6.9pt)
-  set par(justify: false, leading: 0.45em)
-  table(
-    columns: (1.55fr, 1.55fr, 2.40fr, 1.35fr, 1.40fr, 1.75fr),
-    align: (left, left, left, right, right, left),
-    inset: (x: 3.2pt, y: 3.5pt),
-    table.header(
-      toprule,
-      [Stage], [Boundary $B$], [Lineage / anchor & counts], [Exact quantity], [Reverse / resid], [Gate status],
-      midrule,
-    ),
-    ..rows.map(r => (
-      [#raw(wrap-id(r.stage_id))],
-      [#wrap-boundary(r.boundary_B)],
-      [#wrap-pair(r.lineage_pair) \ #text(size: 6.9pt)[(#wrap-pair(r.delta_bip))]],
-      [#r.exact_quantity],
-      [#wrap-id(r.reverse_or_resid)],
-      [#wrap-id(r.status_gate)],
-    )).flatten(),
-    bottomrule,
-  )
-}
+#aod-csv-table(
+  "/manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
+  columns: (1.55fr, 1.55fr, 2.40fr, 1.35fr, 1.40fr, 1.75fr),
+  align: (left, left, left, right, right, left),
+  size: 7.5pt,
+  inset: (x: 3.2pt, y: 3.5pt),
+  headers: (
+    [Stage], [Boundary $B$], [Lineage / anchor & counts], [Exact quantity], [Reverse / resid], [Gate status],
+  ),
+  cells: (
+    (kind: "raw-wrap", col: "stage_id"),
+    (kind: "wrap", col: "boundary_B"),
+    (kind: "stack", top: "lineage_pair", bottom: "delta_bip", style: "wrap-sub-paren"),
+    "exact_quantity",
+    (kind: "wrap", col: "reverse_or_resid"),
+    (kind: "wrap", col: "status_gate"),
+  ),
+)
   ],
   caption: [Engine-bound nine-stage relational closure-beat time, conditional SI bridge, held-out transfer, and cut-$40 arrow.r 41$ causal audit ledger (#raw("RC-037"), live from #raw("temporal_si_bridge_dec_ledger.csv")).],
 ) <tab:manual-temporal-dec-bridge>

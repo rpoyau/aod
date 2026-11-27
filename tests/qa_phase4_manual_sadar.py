@@ -278,6 +278,15 @@ def _read_manual_appendix(name: str) -> str:
     return (REPO_ROOT / "typst" / "manual" / "appendices" / name).read_text(encoding="utf-8")
 
 
+def _has_live_csv_binding(text: str, csv_uri: str) -> bool:
+    """Return True when Typst source binds live to csv_uri via csv(...) or #aod-csv-table(...)."""
+    quoted = re.escape(csv_uri)
+    return (
+        re.search(rf'csv\(\s*"{quoted}"', text) is not None
+        or re.search(rf'#aod-csv-table\(\s*"{quoted}"', text) is not None
+    )
+
+
 def _tool_env() -> dict[str, str]:
     env = dict(os.environ)
     local_bin = str(Path.home() / ".local" / "bin")
@@ -474,7 +483,10 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
     # --- §3 (00_awareness_fixtures.typ) ---
     s3 = _read_manual_section("00_awareness_fixtures.typ")
     _check("RC-034" in s3, "§3 missing RC-034 citation")
-    _check('csv("/manual/data/boundary_sadar/awareness_operativity_dec_walk.csv"' in s3, "§3 missing live CSV binding")
+    _check(
+        _has_live_csv_binding(s3, "/manual/data/boundary_sadar/awareness_operativity_dec_walk.csv"),
+        "§3 missing live CSV binding",
+    )
 
     # --- §4 (00_dec_ledger.typ) ---
     s4 = _read_manual_section("00_dec_ledger.typ")
@@ -503,7 +515,7 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
         "§8 must explicitly clarify 0_D optional dwell burned while 0_H structural hinge preserved",
     )
     _check(
-        'csv("/manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv"' in s8,
+        _has_live_csv_binding(s8, "/manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv"),
         "§8 missing live CSV binding",
     )
 
@@ -528,7 +540,7 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
     ):
         _check(required in s9, f"§9 missing required token {required!r}")
     _check(
-        'csv("/manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv"' in s9,
+        _has_live_csv_binding(s9, "/manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv"),
         "§9 missing live CSV binding",
     )
 
@@ -537,7 +549,7 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
     for required in ("RC-031", "RC-039"):
         _check(required in s10, f"§10 missing required vector citation {required}")
     _check(
-        'csv("/manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv"' in s10,
+        _has_live_csv_binding(s10, "/manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv"),
         "§10 missing live CSV binding",
     )
 
@@ -547,7 +559,7 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
     _check("RC-030" not in s11, "§11 contains scrambled vector RC-030")
     _check("RC-031" not in s11, "§11 contains scrambled vector RC-031")
     _check(
-        'csv("/manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv"' in s11,
+        _has_live_csv_binding(s11, "/manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv"),
         "§11 missing live CSV binding",
     )
 
@@ -556,7 +568,7 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
     for required in ("RC-040", "HOLD_MISSING_NATIVE_SOLAR_PRODUCER"):
         _check(required in s12, f"§12 missing required token {required!r}")
     _check(
-        'csv("/manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv"' in s12,
+        _has_live_csv_binding(s12, "/manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv"),
         "§12 missing live CSV binding",
     )
 
@@ -568,7 +580,7 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
     for required in ("26.57055342", "SD-008", "RC-015", "RC-016", "RC-027", "RC-041", "230", "228", "209"):
         _check(required in s13, f"§13 missing required token {required!r}")
     _check(
-        'csv("/manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv"' in s13,
+        _has_live_csv_binding(s13, "/manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv"),
         "§13 missing live CSV binding",
     )
     # Cross-check §13 SPARC G0 values directly against sparc_pooled_primary_exact.csv
@@ -588,7 +600,7 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
     for required in ("RC-020", "RC-042"):
         _check(required in s14, f"§14 missing required vector citation {required}")
     _check(
-        'csv("/manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv"' in s14,
+        _has_live_csv_binding(s14, "/manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv"),
         "§14 missing live CSV binding",
     )
 
@@ -631,7 +643,7 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
     for required in ("RC-014", "RC-043", "cycle_shedding_exact_rational_summary.csv", "six-decimal"):
         _check(required in app_a, f"App. A missing required token {required!r}")
     _check(
-        'csv("/manual/data/boundary_sadar/cycle_shedding_exact_rational_summary.csv"' in app_a,
+        _has_live_csv_binding(app_a, "/manual/data/boundary_sadar/cycle_shedding_exact_rational_summary.csv"),
         "App. A missing live CSV binding for cycle_shedding_exact_rational_summary.csv",
     )
 
@@ -657,7 +669,7 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
     ):
         _check(required in app_c, f"App. C missing required token {required!r}")
     _check(
-        'csv("/manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv"' in app_c,
+        _has_live_csv_binding(app_c, "/manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv"),
         "App. C missing live CSV binding for coordinate_phase_3d_dec_walk.csv",
     )
 
@@ -668,8 +680,8 @@ def test_manual_anti_contradiction_audit_s4_s8_s9_s10_s11_s12_s13_s14_s15_app_ab
 
 
 def test_live_csv_bindings_parse_cleanly_and_match_engine_outputs() -> None:
-    """Verify every Manual .typ live csv() binding exists, parses cleanly, and matches live engine outputs."""
-    csv_call_pat = re.compile(r'csv\("([^"]+)"')
+    """Verify every Manual .typ live csv()/#aod-csv-table() binding exists, parses cleanly, and matches live engine outputs."""
+    csv_call_pat = re.compile(r'(?:csv|#aod-csv-table)\(\s*"([^"]+)"')
     exp_dec_map = expected_manual_dec_csv_map()
     exp_all_sadar_map = build_boundary_sadar_tables(REPO_ROOT)
 

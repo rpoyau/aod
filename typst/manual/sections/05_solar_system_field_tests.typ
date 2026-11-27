@@ -238,41 +238,25 @@ Vector #raw("RC-040") (#raw("dec_solar_o0_boundary_audit"))—archived in #raw("
 
 #figure(
   kind: table, [
-#{
-  let rows = csv("/manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv", row-type: dictionary)
-  let raw-wrap(s) = raw(
-    s.replace("_", "_\u{200b}")
-     .replace("/", "/\u{200b}")
-     .replace("(", "(\u{200b}")
-  )
-  let fmt-rat(s) = {
-    let wrapped = s.replace("-", "\u{2212}").replace("/", "/\u{200b}")
-    [#wrapped]
-  }
-  set text(size: 7.5pt)
-  show raw: set text(size: 6.6pt)
-  set par(justify: false, leading: 0.42em)
-  table(
-    columns: (15fr, 15fr, 16fr, 12fr, 14fr, 8fr, 20fr),
-    align: (left, left, right, right, right, right, left),
-    inset: (x: 2.8pt, y: 3.0pt),
-    table.header(
-      toprule,
-      [Record], [Typed scope], [Mapped exact], [Target exact], [Exact residual], [Abs. % (exact / 7dp)], [Producer gate],
-      midrule,
-    ),
-    ..rows.map(r => (
-      [#raw-wrap(r.record_id)],
-      [#raw-wrap(r.boundary_scope)],
-      fmt-rat(r.ao_exact),
-      fmt-rat(r.target_exact),
-      fmt-rat(r.residual_exact),
-      [#r.abs_pct_error_exact \ #r.abs_pct_error_7dp],
-      [#raw-wrap(r.native_producer_gate)],
-    )).flatten(),
-    bottomrule,
-  )
-}
+#aod-csv-table(
+  "/manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv",
+  columns: (15fr, 15fr, 16fr, 12fr, 14fr, 8fr, 20fr),
+  align: (left, left, right, right, right, right, left),
+  size: 7.5pt,
+  inset: (x: 2.8pt, y: 3.0pt),
+  headers: (
+    [Record], [Typed scope], [Mapped exact], [Target exact], [Exact residual], [Abs. % (exact / 7dp)], [Producer gate],
+  ),
+  cells: (
+    (kind: "raw-wrap", col: "record_id"),
+    (kind: "raw-wrap", col: "boundary_scope"),
+    (kind: "rat", col: "ao_exact"),
+    (kind: "rat", col: "target_exact"),
+    (kind: "rat", col: "residual_exact"),
+    (kind: "stack", top: "abs_pct_error_exact", bottom: "abs_pct_error_7dp"),
+    (kind: "raw-wrap", col: "native_producer_gate"),
+  ),
+)
   ],
   caption: [Engine-bound exact rational solar O0 observable-map residual and missing-producer gate ledger (#raw("RC-040"), live from #raw("solar_o0_boundary_dec_audit.csv")).],
 ) <tab:manual-solar-dec-boundary-audit>

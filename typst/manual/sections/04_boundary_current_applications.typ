@@ -237,41 +237,43 @@ Vector #raw("RC-032") (#raw("scoped_wire_and_moving_boundary"))—archived in #r
 
 #figure(
   kind: table, [
-#{
-  let rows = csv("/manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv", row-type: dictionary)
-  let raw-wrap(s) = raw(s.replace("_", "_\u{200b}"))
-  let fmt-signed(s) = {
-    if s == "0" { [0] }
-    else if s.starts-with("-") { [\u{2212}#s.slice(1)] }
-    else { [+#s] }
-  }
-  set text(size: 8.0pt)
-  show raw: set text(size: 7.1pt)
-  set par(justify: false, leading: 0.44em)
-  table(
-    columns: (25fr, 6fr, 6fr, 9fr, 15fr, 20fr, 19fr),
-    align: (left, right, right, right, right, right, right),
-    inset: (x: 3.0pt, y: 3.2pt),
-    table.header(
-      toprule,
-      [Record], [Cut], [$bar.v omega bar.v$], [Coupled], [Wire / cross], [Electron / sweep+shed], [Union / current],
-      midrule,
+#aod-csv-table(
+  "/manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
+  columns: (25fr, 6fr, 6fr, 9fr, 15fr, 20fr, 19fr),
+  align: (left, right, right, right, right, right, right),
+  size: 8.0pt,
+  inset: (x: 3.0pt, y: 3.2pt),
+  headers: (
+    [Record], [Cut], [$bar.v omega bar.v$], [Coupled], [Wire / cross], [Electron / sweep+shed], [Union / current],
+  ),
+  cells: (
+    (kind: "raw-wrap", col: "record_kind"),
+    "cut",
+    "window",
+    "coupled",
+    (
+      kind: "when",
+      col: "record_kind",
+      eq: "moving_boundary_R1_to_R2",
+      then: (kind: "signed", col: "Phi_cross"),
+      otherwise: (kind: "signed", col: "wire_outward"),
     ),
-    ..rows.map(r => {
-      let is-mov = r.record_kind == "moving_boundary_R1_to_R2"
-      (
-        [#raw-wrap(r.record_kind)],
-        [#r.cut],
-        [#r.window],
-        [#r.coupled],
-        if is-mov { fmt-signed(r.Phi_cross) } else { fmt-signed(r.wire_outward) },
-        if is-mov { [\u{2212}#r.Phi_sweep + #r.Phi_shedding] } else { fmt-signed(r.electron_outward) },
-        if is-mov { [$Phi^D_(upright("mov")) =$ #r.Phi_moving] } else { [#r.union_boundary / $J_e =$ #r.later_electron_current] },
-      )
-    }).flatten(),
-    bottomrule,
-  )
-}
+    (
+      kind: "when",
+      col: "record_kind",
+      eq: "moving_boundary_R1_to_R2",
+      then: (kind: "sweep-shed", sweep: "Phi_sweep", shed: "Phi_shedding"),
+      otherwise: (kind: "signed", col: "electron_outward"),
+    ),
+    (
+      kind: "when",
+      col: "record_kind",
+      eq: "moving_boundary_R1_to_R2",
+      then: (kind: "math-eq", lhs: [$Phi^D_(upright("mov")) =$], col: "Phi_moving"),
+      otherwise: (kind: "union-cur", union: "union_boundary", lhs: [$J_e =$], cur: "later_electron_current"),
+    ),
+  ),
+)
   ],
   caption: [Engine-bound moving-boundary Stokes decomposition and four-cut wire-electron SADAR D.E.C. ledger (#raw("RC-032"), live from #raw("scoped_wire_and_moving_boundary_walk.csv")).],
 ) <tab:manual-wire-moving-boundary-dec>

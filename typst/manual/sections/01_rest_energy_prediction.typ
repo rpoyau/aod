@@ -314,40 +314,28 @@ into four boundary classes (Figure #bare-ref("fig:manual-collision-debris-feynm
 
 #figure(
   kind: table, [
-#{
-  let rows = csv("/manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv", row-type: dictionary)
-  let wrap-id(s) = (
-    s.replace("_", "_\u{200b}")
-     .replace("->", "->\u{200b}")
-     .replace("+", "+\u{200b}")
-  )
-  set text(size: 7.5pt)
-  show raw: set text(size: 6.7pt)
-  set par(justify: false, leading: 0.42em)
-  table(
-    columns: (1.10fr, 0.38fr, 0.45fr, 0.42fr, 0.42fr, 0.58fr, 0.58fr, 1.15fr, 1.42fr, 3.50fr),
-    align: (left, right, right, right, right, right, right, right, right, left),
-    inset: (x: 2.8pt, y: 2.9pt),
-    table.header(
-      toprule,
-      [Candidate], [$L$], [$rho^D_(omega)$], [$P^D$], [$Q^D$], [$C_(upright("close"))$], [$X_(upright("shed"))$], [Endo / Exo], [Vis / Miss $|_(upright("Exo"))$], [Boundary stack & SADAR verdict],
-      midrule,
-    ),
-    ..rows.map(r => (
-      [#raw(wrap-id(r.candidate))],
-      [#r.window_L],
-      [#r.rhoD_omega],
-      [#r.PD],
-      [#r.QD],
-      [#r.C_close],
-      [#r.X_shedding],
-      [#r.endo_retained_frac \ #r.exo_outward_frac],
-      [#r.sensor_visible_cond_exo \ #r.sensor_missing_cond_exo],
-      [#raw(wrap-id(r.boundary_chain)) \ #raw(wrap-id(r.sadar_verdict))],
-    )).flatten(),
-    bottomrule,
-  )
-}
+#aod-csv-table(
+  "/manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+  columns: (1.10fr, 0.38fr, 0.45fr, 0.42fr, 0.42fr, 0.58fr, 0.58fr, 1.15fr, 1.42fr, 3.50fr),
+  align: (left, right, right, right, right, right, right, right, right, left),
+  size: 7.5pt,
+  inset: (x: 2.8pt, y: 2.9pt),
+  headers: (
+    [Candidate], [$L$], [$rho^D_(omega)$], [$P^D$], [$Q^D$], [$C_(upright("close"))$], [$X_(upright("shed"))$], [Endo / Exo], [Vis / Miss $|_(upright("Exo"))$], [Boundary stack & SADAR verdict],
+  ),
+  cells: (
+    (kind: "raw-wrap", col: "candidate"),
+    "window_L",
+    "rhoD_omega",
+    "PD",
+    "QD",
+    "C_close",
+    "X_shedding",
+    (kind: "stack", top: "endo_retained_frac", bottom: "exo_outward_frac"),
+    (kind: "stack", top: "sensor_visible_cond_exo", bottom: "sensor_missing_cond_exo"),
+    (kind: "stack", top: "boundary_chain", bottom: "sadar_verdict", style: "raw-wrap"),
+  ),
+)
   ],
   caption: [Engine-bound five-boundary SADAR competition table (#raw("RC-027"), live from #raw("manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv")).],
 ) <tab:manual-tau-five-boundary-trace>

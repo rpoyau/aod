@@ -327,6 +327,147 @@
   body
 }
 
+// --- Trusted declarative helpers for live-CSV tables and wrappable tokens ---
+#let _aod-csv-path-re = regex("^/manual/data/boundary_sadar/[a-z0-9_]+\\.csv$")
+
+#let _aod-wrap-text(s) = (
+  s.replace("_", "_\u{200b}")
+   .replace("->", "->\u{200b}")
+   .replace("/", "/\u{200b}")
+   .replace(";", ";\u{200b}")
+   .replace(",", ",\u{200b}")
+   .replace("(", "\u{200b}(")
+)
+
+#let _aod-wrap-raw(s) = (
+  s.replace("_", "_\u{200b}")
+   .replace("/", "/\u{200b}")
+   .replace("->", "->\u{200b}")
+   .replace("+", "+\u{200b}")
+   .replace("(", "(\u{200b}")
+   .replace(",", ",\u{200b}")
+)
+
+#let _aod-fmt-signed(s) = {
+  if s == "0" { [0] }
+  else if s.starts-with("-") { [\u{2212}#s.slice(1)] }
+  else if s.starts-with("+") { [#s] }
+  else { [+#s] }
+}
+
+#let _aod-render-csv-cell(r, spec, sub-size) = {
+  if type(spec) == str {
+    return [#r.at(spec)]
+  }
+  let k = spec.kind
+  if k == "plain" {
+    [#r.at(spec.col)]
+  } else if k == "wrap" {
+    [#_aod-wrap-text(r.at(spec.col))]
+  } else if k == "raw" {
+    [#raw(r.at(spec.col))]
+  } else if k == "raw-wrap" {
+    [#raw(_aod-wrap-raw(r.at(spec.col)))]
+  } else if k == "minus" {
+    [#r.at(spec.col).replace("-", "\u{2212}")]
+  } else if k == "signed" {
+    _aod-fmt-signed(r.at(spec.col))
+  } else if k == "rat" {
+    [#r.at(spec.col).replace("-", "\u{2212}").replace("/", "/\u{200b}")]
+  } else if k == "vec" {
+    [#r.at(spec.col).replace(",", ", ").replace("-", "\u{2212}")]
+  } else if k == "arrow" {
+    [#r.at(spec.left) $arrow.r$ #r.at(spec.right)]
+  } else if k == "wrap-paren" {
+    [#_aod-wrap-text(r.at(spec.col)) (#r.at(spec.paren))]
+  } else if k == "stack" {
+    let style = spec.at("style", default: "plain")
+    if style == "plain" {
+      [#r.at(spec.top) \ #r.at(spec.bottom)]
+    } else if style == "raw-wrap" {
+      [#raw(_aod-wrap-raw(r.at(spec.top))) \ #raw(_aod-wrap-raw(r.at(spec.bottom)))]
+    } else if style == "wrap-sub-paren" {
+      [#_aod-wrap-text(r.at(spec.top)) \ #text(size: sub-size)[(#_aod-wrap-text(r.at(spec.bottom)))]]
+    } else {
+      panic("Unsupported stack style in aod-csv-table: " + repr(style))
+    }
+  } else if k == "tuple" {
+    [(#spec.cols.map(c => r.at(c).replace("-", "\u{2212}")).join(", "))]
+  } else if k == "slot" {
+    let e = r.at(spec.edge)
+    let sig = r.at(spec.sigma)
+    if e == "-" {
+      [\u{2212}]
+    } else {
+      let s = if sig == "1" { "+1" } else { sig.replace("-", "\u{2212}") }
+      [(#e, #s)]
+    }
+  } else if k == "sweep-shed" {
+    [\u{2212}#r.at(spec.sweep) + #r.at(spec.shed)]
+  } else if k == "math-eq" {
+    [#spec.lhs #r.at(spec.col)]
+  } else if k == "union-cur" {
+    let lhs = spec.at("lhs", default: [$J_e =$])
+    [#r.at(spec.union) / #lhs #r.at(spec.cur)]
+  } else if k == "when" {
+    if r.at(spec.col) == spec.eq {
+      _aod-render-csv-cell(r, spec.then, sub-size)
+    } else {
+      _aod-render-csv-cell(r, spec.otherwise, sub-size)
+    }
+  } else {
+    panic("Unsupported cell spec kind in aod-csv-table: " + repr(k))
+  }
+}
+
+#let aod-raw-wrap(s) = context {
+  let sz = calc.max(6.2pt, text.size * 0.88)
+  show raw: set text(size: sz)
+  raw(_aod-wrap-raw(s))
+}
+
+#let aod-nowrap(body) = box(body)
+
+#let aod-csv-table(
+  csv-path,
+  columns: (),
+  align: (),
+  headers: (),
+  cells: (),
+  size: 8.0pt,
+  inset: (x: 3.0pt, y: 3.2pt),
+  filter-col: none,
+  filter-values: none,
+) = {
+  if type(csv-path) != str or csv-path.match(_aod-csv-path-re) == none {
+    panic("Disallowed CSV path in aod-csv-table: " + repr(csv-path))
+  }
+  let raw-rows = csv(csv-path, row-type: dictionary)
+  let rows = if filter-col != none and filter-values != none {
+    raw-rows.filter(r => r.at(filter-col) in filter-values)
+  } else {
+    raw-rows
+  }
+  let eff-raw-size = calc.max(6.2pt, size * 0.88)
+  let eff-sub-size = calc.max(6.2pt, size * 0.90)
+  let eff-leading = if size <= 7.5pt { 0.42em } else { 0.44em }
+  set text(size: size)
+  show raw: set text(size: eff-raw-size)
+  set par(justify: false, leading: eff-leading)
+  table(
+    columns: columns,
+    align: align,
+    inset: inset,
+    table.header(
+      toprule,
+      ..headers,
+      midrule,
+    ),
+    ..rows.map(r => cells.map(spec => _aod-render-csv-cell(r, spec, eff-sub-size))).flatten(),
+    bottomrule,
+  )
+}
+
 // --- Native Main-to-Manual cross-reference resolution (strict registry + type + freshness guard) ---
 #let aod-load-main-registry(registry-path, expected-digest: none) = {
   let reg = json(registry-path)

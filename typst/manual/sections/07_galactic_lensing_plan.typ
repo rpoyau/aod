@@ -276,34 +276,27 @@ Vector #raw("RC-042") (#raw("dec_lensing_ray_chiral_delta3"))—archived in #raw
 
 #figure(
   kind: table, [
-#{
-  let rows = csv("/manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv", row-type: dictionary)
-  let fmt-num(s) = s.replace("-", "\u{2212}")
-  set text(size: 8.5pt)
-  set par(justify: false)
-  table(
-    columns: (11fr, 9fr, 10fr, 10fr, 9fr, 11fr, 9fr, 10fr, 21fr),
-    align: (right, right, right, right, right, right, right, right, center),
-    inset: (x: 3.0pt, y: 3.2pt),
-    table.header(
-      toprule,
-      [Shell $k$], [$T_k^0$], [$C_k^(times)$], [$T_k^(times)$], [Flip], [Post $chi$], [$O_k$], [$Delta_Z$], [$delta_3 (T_k^(times) , O_k )$],
-      midrule,
-    ),
-    ..rows.map(r => (
-      [#r.shell_k],
-      [#r.T0_base],
-      [#fmt-num(r.C_cross)],
-      [#r.T_cross],
-      [#r.chiral_flip],
-      [#fmt-num(r.post_chi)],
-      [#r.O_comparator],
-      [#r.Delta_Z],
-      [#r.delta3_pair.replace(",", ", ")],
-    )).flatten(),
-    bottomrule,
-  )
-}
+#aod-csv-table(
+  "/manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv",
+  columns: (11fr, 9fr, 10fr, 10fr, 9fr, 11fr, 9fr, 10fr, 21fr),
+  align: (right, right, right, right, right, right, right, right, center),
+  size: 8.5pt,
+  inset: (x: 3.0pt, y: 3.2pt),
+  headers: (
+    [Shell $k$], [$T_k^0$], [$C_k^(times)$], [$T_k^(times)$], [Flip], [Post $chi$], [$O_k$], [$Delta_Z$], [$delta_3 (T_k^(times) , O_k )$],
+  ),
+  cells: (
+    "shell_k",
+    "T0_base",
+    (kind: "minus", col: "C_cross"),
+    "T_cross",
+    "chiral_flip",
+    (kind: "minus", col: "post_chi"),
+    "O_comparator",
+    "Delta_Z",
+    (kind: "vec", col: "delta3_pair"),
+  ),
+)
   ],
   caption: [Engine-bound four-shell galactic lensing FRG cross-return and chiral-flip D.E.C. ledger (#raw("RC-042"), live from #raw("lensing_ray_chiral_dec_walk.csv")).],
 ) <tab:manual-lensing-dec-ray-walk>

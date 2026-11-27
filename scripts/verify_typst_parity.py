@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+import csv
 import difflib
 import hashlib
 import importlib.util
@@ -156,7 +157,7 @@ def strip_typst_comments(text: str) -> str:
 
 
 def read_balanced_group(s: str, pos: int, op: str = "{", cl: str = "}") -> tuple[str, int]:
-    """Read a balanced group; for Typst `(...)` calls, ignore delimiters inside `"..."` and `$...$`."""
+    """Read a balanced group; ignore delimiters inside `"..."` for `(...)` calls and inside `$...$` for `(...)`/`[...]`."""
     while pos < len(s) and s[pos] in " \t\n\r":
         pos += 1
     require(pos < len(s) and s[pos] == op, f"Expected {op!r} at {pos}")
@@ -173,7 +174,7 @@ def read_balanced_group(s: str, pos: int, op: str = "{", cl: str = "}") -> tuple
             in_str = not in_str
             i += 1
             continue
-        if op == "(" and not in_str and s[i] == "$":
+        if op in ("(", "[") and not in_str and s[i] == "$":
             in_math = not in_math
             i += 1
             continue
@@ -1343,7 +1344,7 @@ def _extract_tex_flowchart(tikz_body: str, fname: str) -> tuple[tuple, list[str]
     return ("FLOWCHART", tuple(nodes), tuple(edges)), unsup
 
 
-def _extract_typst_flowchart(paren_arg: str, fname: str) -> tuple[tuple, list[str]]:
+def _extract_typst_flowchart(paren_arg: str, fname: str, root: Path | None = None) -> tuple[tuple, list[str]]:
     """Parse #aod-flowchart(...) into ordered node token tuples + index-mapped directed edges."""
     _, pos = _typ_split_args(paren_arg)
     require(len(pos) == 2, f"Expected 2 positional arguments (nodes, edges) in #aod-flowchart in {fname}, got {len(pos)}")
@@ -1365,7 +1366,7 @@ def _extract_typst_flowchart(paren_arg: str, fname: str) -> tuple[tuple, list[st
         nid, _ = parse_typ_str_lit(nd["id"].strip(), 0)
         b_raw = nd["body"].strip()
         require(b_raw.startswith("[") and b_raw.endswith("]"), f"Flowchart node body must be [...] in {fname}")
-        ntoks, nunsup = extract_typst_ordered(b_raw[1:-1], fname)
+        ntoks, nunsup = extract_typst_ordered(b_raw[1:-1], fname, root=root)
         unsup.extend(nunsup)
         require(nid not in node_ids, f"Duplicate flowchart node id {nid!r} in {fname}")
         node_ids[nid] = len(nodes)
@@ -1381,6 +1382,30 @@ def _extract_typst_flowchart(paren_arg: str, fname: str) -> tuple[tuple, list[st
         edges.append((node_ids[src], node_ids[dst]))
     require(len(nodes) > 0 and len(edges) > 0, f"Empty #aod-flowchart parsed in {fname}")
     return ("FLOWCHART", tuple(nodes), tuple(edges)), unsup
+
+
+_LATEX_CODE_UNESCAPE_RE = re.compile(
+    r"\\allowbreak\{\}|\\allowbreak(?![A-Za-z])"
+    r"|\\textasciicircum\{\}|\\textasciitilde\{\}|\\textbackslash\{\}"
+    r"|\\([_\-%{}$&#])"
+)
+
+
+def _unescape_latex_code(arg: str) -> str:
+    """Invert typ2tex escape_latex_text(..., in_texttt=True) in a single pass."""
+    def _repl(m: re.Match) -> str:
+        tok = m.group(0)
+        if tok.startswith(r"\allowbreak"):
+            return ""
+        if tok == r"\textasciicircum{}":
+            return "^"
+        if tok == r"\textasciitilde{}":
+            return "~"
+        if tok == r"\textbackslash{}":
+            return "\\"
+        return m.group(1)
+
+    return _LATEX_CODE_UNESCAPE_RE.sub(_repl, arg)
 
 
 def extract_tex_ordered(tex_raw: str, fname: str = "", emit_boundaries: bool = False) -> tuple[list[tuple], list[str]]:
@@ -1595,8 +1620,7 @@ def extract_tex_ordered(tex_raw: str, fname: str = "", emit_boundaries: bool = F
                 if cmd in ("texttt", "path", "url"):
                     flush_buf()
                     arg, i = read_balanced_group(t, i)
-                    clean_code = arg.replace(r"\_", "_").replace(r"\-", "-").replace(r"\%", "%").strip()
-                    tokens.append(("CODE", clean_code))
+                    tokens.append(("CODE", _unescape_latex_code(arg).strip()))
                     continue
                 if cmd == "texorpdfstring":
                     a_arg, i = read_balanced_group(t, i)
@@ -1612,7 +1636,7 @@ def extract_tex_ordered(tex_raw: str, fname: str = "", emit_boundaries: bool = F
                     disp_arg, i = read_balanced_group(t, i)
                     m_tt = re.fullmatch(r"\\texttt\{(.*)\}", disp_arg.strip())
                     if m_tt:
-                        tokens.append(("CODE", m_tt.group(1).replace(r"\_", "_")))
+                        tokens.append(("CODE", _unescape_latex_code(m_tt.group(1))))
                     else:
                         _emit_prose_tokens(disp_arg, tokens)
                     continue
@@ -1730,6 +1754,25 @@ def extract_tex_ordered(tex_raw: str, fname: str = "", emit_boundaries: bool = F
                 if cmd in ("textendash", "textemdash"):
                     buf.append("-")
                     continue
+                if cmd == "textasciicircum":
+                    if i + 1 < n and t[i:i + 2] == "{}":
+                        i += 2
+                    buf.append("^")
+                    continue
+                if cmd == "textasciitilde":
+                    if i + 1 < n and t[i:i + 2] == "{}":
+                        i += 2
+                    buf.append("~")
+                    continue
+                if cmd == "textbackslash":
+                    if i + 1 < n and t[i:i + 2] == "{}":
+                        i += 2
+                    buf.append("\\")
+                    continue
+                if cmd == "allowbreak":
+                    if i + 1 < n and t[i:i + 2] == "{}":
+                        i += 2
+                    continue
                 buf.append(" ")
                 continue
         if c == "&":
@@ -1749,7 +1792,107 @@ def extract_tex_ordered(tex_raw: str, fname: str = "", emit_boundaries: bool = F
     return tokens, unsup_math
 
 
-def extract_typst_ordered(typ_raw: str, fname: str = "") -> tuple[list[tuple], list[str]]:
+def _parse_csv_cell_spec_parity(raw: str, where: str, depth: int = 0) -> dict:
+    """Parse one declarative cell spec from #aod-csv-table(cells: (...)) (fail-closed)."""
+    require(depth <= 4, f"{where}: aod-csv-table cell spec recursion depth exceeded")
+    s = raw.strip()
+    lit = _parse_exact_typ_str_lit(s)
+    if lit is not None:
+        require(bool(CSV_TABLE_COL_RE.fullmatch(lit)), f"{where}: aod-csv-table column name {lit!r} is invalid")
+        return {"kind": "plain", "col": lit}
+    require(
+        s.startswith("(") and s.endswith(")") and _typ_balanced(s, 0, "(", ")") == len(s),
+        f"{where}: malformed aod-csv-table cell spec: {s[:60]!r}",
+    )
+    nd, npos = _typ_split_args(s[1:-1])
+    require(not npos and "kind" in nd, f"{where}: aod-csv-table cell spec requires named `kind:` and no positional args")
+    kind = _parse_exact_typ_str_lit(nd["kind"])
+    require(kind is not None, f"{where}: aod-csv-table cell spec `kind` must be a string literal")
+
+    def _req_col(key: str) -> str:
+        require(key in nd, f"{where}: aod-csv-table `{kind}` spec missing `{key}:`")
+        v = _parse_exact_typ_str_lit(nd[key])
+        require(
+            v is not None and bool(CSV_TABLE_COL_RE.fullmatch(v)),
+            f"{where}: aod-csv-table `{kind}` key `{key}` must be a literal column identifier",
+        )
+        return v
+
+    keys = set(nd)
+    if kind in CSV_TABLE_SINGLE_COL_KINDS:
+        require(keys == {"kind", "col"}, f"{where}: aod-csv-table `{kind}` spec must have exact keys (kind, col), got {sorted(keys)}")
+        return {"kind": kind, "col": _req_col("col")}
+    if kind == "arrow":
+        require(keys == {"kind", "left", "right"}, f"{where}: aod-csv-table `arrow` spec must have exact keys (kind, left, right)")
+        return {"kind": "arrow", "left": _req_col("left"), "right": _req_col("right")}
+    if kind == "wrap-paren":
+        require(keys == {"kind", "col", "paren"}, f"{where}: aod-csv-table `wrap-paren` spec must have exact keys (kind, col, paren)")
+        return {"kind": "wrap-paren", "col": _req_col("col"), "paren": _req_col("paren")}
+    if kind == "stack":
+        require(
+            {"kind", "top", "bottom"} <= keys <= {"kind", "top", "bottom", "style"},
+            f"{where}: aod-csv-table `stack` spec keys {sorted(keys)} not allowed",
+        )
+        style = _parse_exact_typ_str_lit(nd["style"]) if "style" in nd else "plain"
+        require(style in CSV_TABLE_STACK_STYLES, f"{where}: unsupported aod-csv-table `stack` style {style!r}")
+        return {"kind": "stack", "top": _req_col("top"), "bottom": _req_col("bottom"), "style": style}
+    if kind == "tuple":
+        require(keys == {"kind", "cols"}, f"{where}: aod-csv-table `tuple` spec must have exact keys (kind, cols)")
+        ct = nd["cols"].strip()
+        require(
+            ct.startswith("(") and ct.endswith(")") and _typ_balanced(ct, 0, "(", ")") == len(ct),
+            f"{where}: aod-csv-table `tuple` cols must be a literal tuple",
+        )
+        cnd, cpos = _typ_split_args(ct[1:-1])
+        require(not cnd and bool(cpos), f"{where}: aod-csv-table `tuple` cols must be a non-empty positional tuple")
+        cols: list[str] = []
+        for item in cpos:
+            cname = _parse_exact_typ_str_lit(item)
+            require(
+                cname is not None and bool(CSV_TABLE_COL_RE.fullmatch(cname)),
+                f"{where}: aod-csv-table `tuple` column {item!r} must be a literal column identifier",
+            )
+            cols.append(cname)
+        return {"kind": "tuple", "cols": cols}
+    if kind == "slot":
+        require(keys == {"kind", "edge", "sigma"}, f"{where}: aod-csv-table `slot` spec must have exact keys (kind, edge, sigma)")
+        return {"kind": "slot", "edge": _req_col("edge"), "sigma": _req_col("sigma")}
+    if kind == "sweep-shed":
+        require(keys == {"kind", "sweep", "shed"}, f"{where}: aod-csv-table `sweep-shed` spec must have exact keys (kind, sweep, shed)")
+        return {"kind": "sweep-shed", "sweep": _req_col("sweep"), "shed": _req_col("shed")}
+    if kind == "math-eq":
+        require(keys == {"kind", "lhs", "col"}, f"{where}: aod-csv-table `math-eq` spec must have exact keys (kind, lhs, col)")
+        require(_is_exact_typ_content_block(nd["lhs"]), f"{where}: aod-csv-table `math-eq` lhs must be [...]")
+        return {"kind": "math-eq", "lhs": nd["lhs"].strip()[1:-1], "col": _req_col("col")}
+    if kind == "union-cur":
+        require(
+            {"kind", "union", "cur"} <= keys <= {"kind", "union", "cur", "lhs"},
+            f"{where}: aod-csv-table `union-cur` spec keys {sorted(keys)} not allowed",
+        )
+        lhs_inner = None
+        if "lhs" in nd:
+            require(_is_exact_typ_content_block(nd["lhs"]), f"{where}: aod-csv-table `union-cur` lhs must be [...]")
+            lhs_inner = nd["lhs"].strip()[1:-1]
+        return {"kind": "union-cur", "union": _req_col("union"), "cur": _req_col("cur"), "lhs": lhs_inner}
+    if kind == "when":
+        require(
+            keys == {"kind", "col", "eq", "then", "otherwise"},
+            f"{where}: aod-csv-table `when` spec must have exact keys (kind, col, eq, then, otherwise)",
+        )
+        eq_val = _parse_exact_typ_str_lit(nd["eq"])
+        require(eq_val is not None, f"{where}: aod-csv-table `when` eq must be a string literal")
+        return {
+            "kind": "when",
+            "col": _req_col("col"),
+            "eq": eq_val,
+            "then": _parse_csv_cell_spec_parity(nd["then"], where, depth + 1),
+            "otherwise": _parse_csv_cell_spec_parity(nd["otherwise"], where, depth + 1),
+        }
+    raise ValueError(f"{where}: unsupported aod-csv-table cell spec kind {kind!r}")
+
+
+def extract_typst_ordered(typ_raw: str, fname: str = "", root: Path | None = None) -> tuple[list[tuple], list[str]]:
+    base_root = (ROOT if root is None else Path(root)).resolve()
     t = strip_typst_comments(typ_raw)
     tokens: list[tuple] = []
     unsup_math: list[str] = []
@@ -1764,6 +1907,180 @@ def extract_typst_ordered(typ_raw: str, fname: str = "") -> tuple[list[tuple], l
         ast_m, u = parse_typst_math_ast(expr)
         unsup_math.extend(u)
         tokens.append(("MATH", ast_m))
+
+    def emit_csv_text(text: str) -> None:
+        cleaned = text.replace("\u200b", "")
+        for part in re.split(r"([\u2212\u2194\u03a9])", cleaned):
+            if not part:
+                continue
+            if part == "\u2212":
+                flush_buf()
+                tokens.append(("MATH", ("op", "-")))
+            elif part == "\u2194":
+                flush_buf()
+                tokens.append(("MATH", ("op", "<->")))
+            elif part == "\u03a9":
+                flush_buf()
+                tokens.append(("MATH", ("sym", "Omega")))
+            else:
+                buf.append(part)
+        buf.append(" ")
+
+    def emit_csv_cell(row: dict[str, str], spec: dict) -> None:
+        def _col(col_name: str) -> str:
+            require(col_name in row, f"{fname}: CSV row missing declared column {col_name!r}")
+            return row[col_name]
+
+        k = spec["kind"]
+        if k in ("plain", "wrap"):
+            emit_csv_text(_col(spec["col"]))
+            return
+        if k in ("raw", "raw-wrap"):
+            flush_buf()
+            tokens.append(("CODE", _col(spec["col"]).strip()))
+            return
+        if k == "minus":
+            emit_csv_text(_col(spec["col"]).replace("-", "\u2212"))
+            return
+        if k == "signed":
+            v = _col(spec["col"])
+            if v == "0":
+                emit_csv_text("0")
+            elif v.startswith("-"):
+                emit_csv_text("\u2212" + v[1:])
+            elif v.startswith("+"):
+                emit_csv_text(v)
+            else:
+                emit_csv_text("+" + v)
+            return
+        if k == "rat":
+            emit_csv_text(_col(spec["col"]).replace("-", "\u2212"))
+            return
+        if k == "vec":
+            emit_csv_text(_col(spec["col"]).replace(",", ", ").replace("-", "\u2212"))
+            return
+        if k == "arrow":
+            emit_csv_text(_col(spec["left"]))
+            flush_buf()
+            tokens.append(("MATH", ("op", "->")))
+            emit_csv_text(_col(spec["right"]))
+            return
+        if k == "wrap-paren":
+            emit_csv_text(f"{_col(spec['col'])} ({_col(spec['paren'])})")
+            return
+        if k == "stack":
+            st = spec["style"]
+            if st == "plain":
+                emit_csv_text(_col(spec["top"]))
+                emit_csv_text(_col(spec["bottom"]))
+                return
+            if st == "raw-wrap":
+                flush_buf()
+                tokens.append(("CODE", _col(spec["top"]).strip()))
+                tokens.append(("CODE", _col(spec["bottom"]).strip()))
+                return
+            if st == "wrap-sub-paren":
+                emit_csv_text(_col(spec["top"]))
+                emit_csv_text(f"({_col(spec['bottom'])})")
+                return
+            raise ValueError(f"{fname}: unsupported aod-csv-table stack style {st!r}")
+        if k == "tuple":
+            emit_csv_text("(" + ", ".join(_col(c).replace("-", "\u2212") for c in spec["cols"]) + ")")
+            return
+        if k == "slot":
+            e = _col(spec["edge"])
+            sig = _col(spec["sigma"])
+            if e == "-":
+                emit_csv_text("\u2212")
+            else:
+                s_val = "+1" if sig == "1" else sig.replace("-", "\u2212")
+                emit_csv_text(f"({e}, {s_val})")
+            return
+        if k == "sweep-shed":
+            emit_csv_text(f"\u2212{_col(spec['sweep'])} + {_col(spec['shed'])}")
+            return
+        if k == "math-eq":
+            buf.append(" ")
+            scan_markup(spec["lhs"])
+            buf.append(" ")
+            emit_csv_text(_col(spec["col"]))
+            return
+        if k == "union-cur":
+            emit_csv_text(f"{_col(spec['union'])} /")
+            lhs_markup = spec["lhs"] if spec["lhs"] is not None else "$J_e =$"
+            buf.append(" ")
+            scan_markup(lhs_markup)
+            buf.append(" ")
+            emit_csv_text(_col(spec["cur"]))
+            return
+        if k == "when":
+            branch = spec["then"] if _col(spec["col"]) == spec["eq"] else spec["otherwise"]
+            emit_csv_cell(row, branch)
+            return
+        raise ValueError(f"{fname}: unsupported aod-csv-table cell spec kind {k!r}")
+
+    def emit_csv_table(call_args: str) -> None:
+        named, pos = _typ_split_args(call_args)
+        require(len(pos) == 1, f"{fname}: #aod-csv-table requires 1 positional CSV path argument")
+        csv_uri = _parse_exact_typ_str_lit(pos[0])
+        require(
+            csv_uri is not None and bool(CSV_TABLE_PATH_RE.fullmatch(csv_uri)),
+            f"{fname}: disallowed CSV path in #aod-csv-table: {pos[0]!r}",
+        )
+        disk_path = (base_root / csv_uri.lstrip("/")).resolve()
+        require(
+            disk_path.is_file() and disk_path.is_relative_to(base_root),
+            f"{fname}: missing CSV asset for #aod-csv-table: {csv_uri}",
+        )
+
+        def _req_tuple(arg_name: str) -> list[str]:
+            require(arg_name in named, f"{fname}: #aod-csv-table missing required `{arg_name}`")
+            raw = named[arg_name].strip()
+            require(
+                raw.startswith("(") and raw.endswith(")") and _typ_balanced(raw, 0, "(", ")") == len(raw),
+                f"{fname}: #aod-csv-table `{arg_name}` must be a literal tuple (...)",
+            )
+            tnd, items = _typ_split_args(raw[1:-1])
+            require(not tnd and bool(items), f"{fname}: #aod-csv-table `{arg_name}` must be a non-empty positional tuple")
+            return items
+
+        header_items = _req_tuple("headers")
+        cell_items = _req_tuple("cells")
+        require(len(header_items) == len(cell_items), f"{fname}: #aod-csv-table header/cell arity mismatch")
+        cell_specs = [_parse_csv_cell_spec_parity(c, fname) for c in cell_items]
+
+        with disk_path.open("r", encoding="utf-8", newline="") as fh:
+            reader = csv.DictReader(fh)
+            fieldnames = list(reader.fieldnames or [])
+            rows = list(reader)
+
+        if "filter-col" in named or "filter-values" in named:
+            require(
+                "filter-col" in named and "filter-values" in named,
+                f"{fname}: #aod-csv-table requires both filter-col and filter-values",
+            )
+            fcol = _parse_exact_typ_str_lit(named["filter-col"])
+            require(
+                fcol is not None and fcol in fieldnames,
+                f"{fname}: filter-col {fcol!r} not in CSV header {fieldnames}",
+            )
+            fval_items = _req_tuple("filter-values")
+            fvals: set[str] = set()
+            for fv in fval_items:
+                lit = _parse_exact_typ_str_lit(fv)
+                require(lit is not None, f"{fname}: #aod-csv-table filter-values item {fv!r} must be a string literal")
+                fvals.add(lit)
+            rows = [r for r in rows if r[fcol] in fvals]
+
+        for h_raw in header_items:
+            require(_is_exact_typ_content_block(h_raw), f"{fname}: #aod-csv-table header must be [...]")
+            buf.append(" ")
+            scan_markup(h_raw.strip()[1:-1])
+            buf.append(" ")
+        for r in rows:
+            for spec in cell_specs:
+                emit_csv_cell(r, spec)
+        flush_buf()
 
     def scan_code_block(blk: str) -> None:
         i = 0
@@ -1852,7 +2169,7 @@ def extract_typst_ordered(typ_raw: str, fname: str = "") -> tuple[list[tuple], l
                     if i < end and s[i] == ";":
                         i += 1
 
-                    if name == "raw" and paren_arg is not None:
+                    if name in ("raw", "aod-raw-wrap") and paren_arg is not None:
                         flush_buf()
                         p_s = paren_arg.strip()
                         if p_s.startswith('"'):
@@ -1897,9 +2214,13 @@ def extract_typst_ordered(typ_raw: str, fname: str = "") -> tuple[list[tuple], l
                         continue
                     if name == "aod-flowchart" and paren_arg is not None:
                         flush_buf()
-                        fc_tok, fc_unsup = _extract_typst_flowchart(paren_arg, fname)
+                        fc_tok, fc_unsup = _extract_typst_flowchart(paren_arg, fname, root=base_root)
                         tokens.append(fc_tok)
                         unsup_math.extend(fc_unsup)
+                        continue
+                    if name == "aod-csv-table" and paren_arg is not None:
+                        flush_buf()
+                        emit_csv_table(paren_arg)
                         continue
                     if name == "aod-boxed" and paren_arg is not None:
                         flush_buf()
@@ -1950,7 +2271,7 @@ def extract_typst_ordered(typ_raw: str, fname: str = "") -> tuple[list[tuple], l
                             scan_markup(bracket_arg)
                         continue
                     if name in ("aod-provenance", "aod-literature-note", "aod-remark", "aod-paragraph",
-                                "aod-uncaptioned-longtable", "pad", "align", "emph", "strong",
+                                "aod-uncaptioned-longtable", "aod-nowrap", "pad", "align", "emph", "strong",
                                 "footnote", "text", "block", "box", "page"):
                         if bracket_arg is not None:
                             buf.append(" ")
@@ -2004,6 +2325,13 @@ def extract_typst_ordered(typ_raw: str, fname: str = "") -> tuple[list[tuple], l
                 i += 2
                 buf.append(" " if ch in " \t\n\r" else ch)
                 continue
+            if c == "@" and (i == 0 or not (s[i - 1].isalnum() or s[i - 1] == "_")):
+                m_at = re.match(r"@((?:tab|fig|sec|eq|app):[A-Za-z0-9:._-]+)", s[i:end])
+                if m_at:
+                    flush_buf()
+                    tokens.append(("REF", m_at.group(1)))
+                    i += m_at.end()
+                    continue
             if c == "<":
                 m_lbl = re.match(r"<[A-Za-z0-9_:.-]+>", s[i:end])
                 if m_lbl:
@@ -2763,7 +3091,7 @@ POST_BASELINE_MANUAL_LABELS = frozenset({
 })
 
 TRUSTED_TEMPLATE_SHA256 = {
-    "typst/lib/aod_schema.typ": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
+    "typst/lib/aod_schema.typ": "6fa865ba193f1f2e1dce27fe126dd799f1dd6726ada2c4ff43531696685460b4",
     "typst/lib/aod_plots.typ": "346944079a9840a005555ea16b7026cbf1075f26bfde08011740326a06070f4e",
     "typst/preamble.typ": "7a9c255c2411bc4bd3487be0196f10ac453eefa240f6c16095d426f210b4f112",
     "typst/manual/preamble.typ": "2b7deae2f0fa3d7011edabd8d7299b835290fb60e47990c7fe861e55bd914196",
@@ -2775,17 +3103,20 @@ TRUSTED_TEMPLATE_SHA256 = {
 CONTENT_CALL_ALLOWLIST: dict[str, frozenset] = {
     "align": frozenset(), "aod-anchor": frozenset(), "aod-boxed": frozenset(),
     "aod-cite": frozenset({"supplement"}),
+    "aod-csv-table": frozenset({"align", "cells", "columns", "filter-col", "filter-values", "headers", "inset", "size"}),
     "aod-definition": frozenset({"title"}), "aod-flowchart": frozenset({"height", "width"}),
-    "aod-literature-note": frozenset(), "aod-noteblock": frozenset(), "aod-panel": frozenset({"width"}),
-    "aod-paragraph": frozenset(), "aod-provenance": frozenset(), "aod-remark": frozenset(),
+    "aod-literature-note": frozenset(), "aod-noteblock": frozenset(), "aod-nowrap": frozenset(),
+    "aod-panel": frozenset({"width"}),
+    "aod-paragraph": frozenset(), "aod-provenance": frozenset(), "aod-raw-wrap": frozenset(),
+    "aod-remark": frozenset(),
     "aod-uncaptioned-longtable": frozenset(), "appref": frozenset(), "bare-ref": frozenset(),
     "block": frozenset({"above", "below", "width"}),
     "counter": frozenset(), "counter().update": frozenset(), "emph": frozenset(), "eqnref": frozenset(),
-    "eqref": frozenset(), "figure": frozenset({"caption", "kind"}), "image": frozenset({"width"}),
+    "eqref": frozenset(), "figref": frozenset(), "figure": frozenset({"caption", "kind"}), "image": frozenset({"width"}),
     "link": frozenset(), "mainappendix": frozenset(), "mainequation": frozenset(), "mainsection": frozenset(),
     "math.equation": frozenset({"block", "numbering"}), "pad": frozenset({"left", "right"}),
     "page": frozenset({"numbering"}), "pagebreak": frozenset({"weak"}), "par": frozenset({"justify"}),
-    "raw": frozenset(), "secref": frozenset(), "strong": frozenset(), "table": frozenset({"align", "columns"}),
+    "raw": frozenset(), "secref": frozenset(), "strong": frozenset(), "table": frozenset({"align", "columns", "inset"}),
     "table.header": frozenset(), "tabref": frozenset(), "tagged-eq": frozenset(),
     "text": frozenset({"size", "style"}), "upright": frozenset(), "v": frozenset(),
 }
@@ -2804,7 +3135,7 @@ EVALUATION_FORBIDDEN_ARGS = frozenset({
     "fill", "opacity", "clip", "tracking", "spacing", "dx", "dy", "outset", "hidden", "font", "fallback",
     "top-edge", "bottom-edge", "baseline", "cover", "overhang", "costs", "features", "lang", "region",
 })
-CONTENT_TEXT_SIZES = frozenset({"8.5pt", "9.5pt", "10pt", "12pt", "14pt", "17pt"})
+CONTENT_TEXT_SIZES = frozenset({"7.0pt", "7.5pt", "7.6pt", "8.0pt", "8.5pt", "9.5pt", "10pt", "12pt", "14pt", "17pt"})
 POSITIVE_LENGTH_ARGS: dict[str, frozenset] = {
     "pad": frozenset({"left", "right"}),
     "block": frozenset({"above", "below", "width"}),
@@ -2814,6 +3145,11 @@ POSITIVE_LENGTH_ARGS: dict[str, frozenset] = {
 }
 FLOWCHART_NODE_KEYS = frozenset({"id", "x", "y", "w", "h", "body", "dy-in", "dy-out"})
 FLOWCHART_EDGE_KEYS = frozenset({"from", "to"})
+CSV_TABLE_PATH_RE = re.compile(r"^/manual/data/boundary_sadar/[a-z0-9_]+\.csv$")
+CSV_TABLE_COL_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+CSV_TABLE_ALIGN_VALUES = frozenset({"left", "center", "right"})
+CSV_TABLE_STACK_STYLES = frozenset({"plain", "raw-wrap", "wrap-sub-paren"})
+CSV_TABLE_SINGLE_COL_KINDS = frozenset({"plain", "wrap", "raw", "raw-wrap", "minus", "signed", "rat", "vec"})
 
 _TYP_IDENT = re.compile(r"[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z_][A-Za-z0-9_-]*)*")
 _TYP_KEYWORDS = frozenset({
@@ -2837,8 +3173,8 @@ def _typ_skip_raw(s: str, i: int) -> int:
     return len(s) if j < 0 else j + len(fence)
 
 
-def _typ_balanced(s: str, i: int, op: str, cl: str) -> int:
-    """Index just after the bracket matching s[i] == op (strings, raw spans and comments honoured)."""
+def _typ_balanced(s: str, i: int, op: str, cl: str, *, skip_math: bool = True) -> int:
+    """Index just after the bracket matching s[i] == op (strings, raw spans, comments, and optionally $...$ honoured)."""
     depth, j, n = 0, i, len(s)
     while j < n:
         c = s[j]
@@ -2850,6 +3186,9 @@ def _typ_balanced(s: str, i: int, op: str, cl: str) -> int:
             continue
         if c == "`":
             j = _typ_skip_raw(s, j)
+            continue
+        if skip_math and c == "$":
+            j = min(_typ_math_end(s, j + 1) + 1, n)
             continue
         if s.startswith("//", j) and (j == 0 or s[j - 1] != ":"):
             k = s.find("\n", j)
@@ -3004,6 +3343,205 @@ def _validate_flowchart_policy(where: str, named: dict[str, str], pos: list[str]
     return errs
 
 
+def _parse_exact_typ_str_lit(val: str) -> str | None:
+    s = val.strip()
+    if not (len(s) >= 2 and s.startswith('"') and s.endswith('"')):
+        return None
+    try:
+        parsed, end_idx = parse_typ_str_lit(s, 0)
+    except ValueError:
+        return None
+    return parsed if end_idx == len(s) else None
+
+
+def _is_exact_typ_content_block(val: str) -> bool:
+    s = val.strip()
+    return len(s) >= 2 and s.startswith("[") and _typ_balanced(s, 0, "[", "]") == len(s)
+
+
+def _validate_table_inset(where: str, val: str) -> list[str]:
+    s = val.strip()
+    pt = _parse_positive_length(s, ("pt",))
+    if pt is not None:
+        return [] if pt <= 12.0 else [f"{where}: table inset {val!r} exceeds 12pt"]
+    if s.startswith("(") and s.endswith(")") and _typ_balanced(s, 0, "(", ")") == len(s):
+        nd, npos = _typ_split_args(s[1:-1])
+        if npos or not nd or not (set(nd) <= {"x", "y"}):
+            return [f"{where}: table inset {val!r} must be positive literal pt <= 12pt or (x: <pt>, y: <pt>)"]
+        errs: list[str] = []
+        for k, v in sorted(nd.items()):
+            lpt = _parse_positive_length(v, ("pt",))
+            if lpt is None or lpt > 12.0:
+                errs.append(f"{where}: table inset `{k}={v!r}` must be positive literal pt <= 12pt")
+        return errs
+    return [f"{where}: table inset {val!r} must be positive literal pt <= 12pt or (x: <pt>, y: <pt>)"]
+
+
+def _validate_csv_cell_spec(where: str, raw: str, depth: int = 0) -> list[str]:
+    if depth > 4:
+        return [f"{where}: aod-csv-table cell spec recursion depth exceeded"]
+    s = raw.strip()
+    lit = _parse_exact_typ_str_lit(s)
+    if lit is not None:
+        if not CSV_TABLE_COL_RE.fullmatch(lit):
+            return [f"{where}: aod-csv-table column name {lit!r} is invalid"]
+        return []
+    if not (s.startswith("(") and s.endswith(")") and _typ_balanced(s, 0, "(", ")") == len(s)):
+        return [f"{where}: aod-csv-table cell spec must be a literal column string or spec dict ({s[:60]!r})"]
+    nd, npos = _typ_split_args(s[1:-1])
+    if npos or "kind" not in nd:
+        return [f"{where}: aod-csv-table cell spec dict must contain named `kind:` and no positional args"]
+    kind = _parse_exact_typ_str_lit(nd["kind"])
+    if kind is None:
+        return [f"{where}: aod-csv-table cell spec `kind` must be a string literal"]
+
+    def _check_col_key(key: str) -> list[str]:
+        v = _parse_exact_typ_str_lit(nd.get(key, ""))
+        if v is None or not CSV_TABLE_COL_RE.fullmatch(v):
+            return [f"{where}: aod-csv-table `{kind}` key `{key}` must be a literal column identifier"]
+        return []
+
+    keys = set(nd)
+    if kind in CSV_TABLE_SINGLE_COL_KINDS:
+        if keys != {"kind", "col"}:
+            return [f"{where}: aod-csv-table `{kind}` spec must have exact keys (kind, col), got {sorted(keys)}"]
+        return _check_col_key("col")
+    if kind == "arrow":
+        if keys != {"kind", "left", "right"}:
+            return [f"{where}: aod-csv-table `arrow` spec must have exact keys (kind, left, right), got {sorted(keys)}"]
+        return _check_col_key("left") + _check_col_key("right")
+    if kind == "wrap-paren":
+        if keys != {"kind", "col", "paren"}:
+            return [f"{where}: aod-csv-table `wrap-paren` spec must have exact keys (kind, col, paren), got {sorted(keys)}"]
+        return _check_col_key("col") + _check_col_key("paren")
+    if kind == "stack":
+        if not ({"kind", "top", "bottom"} <= keys <= {"kind", "top", "bottom", "style"}):
+            return [f"{where}: aod-csv-table `stack` spec keys {sorted(keys)} not allowed"]
+        errs = _check_col_key("top") + _check_col_key("bottom")
+        if "style" in nd:
+            st = _parse_exact_typ_str_lit(nd["style"])
+            if st not in CSV_TABLE_STACK_STYLES:
+                errs.append(f"{where}: aod-csv-table `stack` style {nd['style']!r} not in {sorted(CSV_TABLE_STACK_STYLES)}")
+        return errs
+    if kind == "tuple":
+        if keys != {"kind", "cols"}:
+            return [f"{where}: aod-csv-table `tuple` spec must have exact keys (kind, cols), got {sorted(keys)}"]
+        ct = nd["cols"].strip()
+        if not (ct.startswith("(") and ct.endswith(")") and _typ_balanced(ct, 0, "(", ")") == len(ct)):
+            return [f"{where}: aod-csv-table `tuple` cols must be a literal tuple"]
+        cnd, cpos = _typ_split_args(ct[1:-1])
+        if cnd or not cpos:
+            return [f"{where}: aod-csv-table `tuple` cols must be a non-empty positional tuple"]
+        errs: list[str] = []
+        for item in cpos:
+            cname = _parse_exact_typ_str_lit(item)
+            if cname is None or not CSV_TABLE_COL_RE.fullmatch(cname):
+                errs.append(f"{where}: aod-csv-table `tuple` column {item!r} must be a literal column identifier")
+        return errs
+    if kind == "slot":
+        if keys != {"kind", "edge", "sigma"}:
+            return [f"{where}: aod-csv-table `slot` spec must have exact keys (kind, edge, sigma), got {sorted(keys)}"]
+        return _check_col_key("edge") + _check_col_key("sigma")
+    if kind == "sweep-shed":
+        if keys != {"kind", "sweep", "shed"}:
+            return [f"{where}: aod-csv-table `sweep-shed` spec must have exact keys (kind, sweep, shed), got {sorted(keys)}"]
+        return _check_col_key("sweep") + _check_col_key("shed")
+    if kind == "math-eq":
+        if keys != {"kind", "lhs", "col"}:
+            return [f"{where}: aod-csv-table `math-eq` spec must have exact keys (kind, lhs, col), got {sorted(keys)}"]
+        errs = _check_col_key("col")
+        if not _is_exact_typ_content_block(nd["lhs"]):
+            errs.append(f"{where}: aod-csv-table `math-eq` lhs must be a literal content block [...]")
+        return errs
+    if kind == "union-cur":
+        if not ({"kind", "union", "cur"} <= keys <= {"kind", "union", "cur", "lhs"}):
+            return [f"{where}: aod-csv-table `union-cur` spec keys {sorted(keys)} not allowed"]
+        errs = _check_col_key("union") + _check_col_key("cur")
+        if "lhs" in nd and not _is_exact_typ_content_block(nd["lhs"]):
+            errs.append(f"{where}: aod-csv-table `union-cur` lhs must be a literal content block [...]")
+        return errs
+    if kind == "when":
+        if keys != {"kind", "col", "eq", "then", "otherwise"}:
+            return [f"{where}: aod-csv-table `when` spec must have exact keys (kind, col, eq, then, otherwise), got {sorted(keys)}"]
+        errs = _check_col_key("col")
+        if _parse_exact_typ_str_lit(nd["eq"]) is None:
+            errs.append(f"{where}: aod-csv-table `when` eq must be a string literal")
+        errs.extend(_validate_csv_cell_spec(where, nd["then"], depth + 1))
+        errs.extend(_validate_csv_cell_spec(where, nd["otherwise"], depth + 1))
+        return errs
+    return [f"{where}: unsupported aod-csv-table cell spec kind {kind!r}"]
+
+
+def _validate_csv_table_policy(where: str, named: dict[str, str], pos: list[str]) -> list[str]:
+    """Strictly validate #aod-csv-table path, typography, geometry, and declarative cell specs."""
+    errs: list[str] = []
+    if len(pos) != 1:
+        return [f"{where}: aod-csv-table requires exactly 1 positional literal CSV path"]
+    csv_path = _parse_exact_typ_str_lit(pos[0])
+    if csv_path is None or not CSV_TABLE_PATH_RE.fullmatch(csv_path):
+        errs.append(
+            f"{where}: aod-csv-table path {pos[0]!r} must be a literal matching ^/manual/data/boundary_sadar/[a-z0-9_]+\\.csv$"
+        )
+    if "size" in named and named["size"].strip() not in CONTENT_TEXT_SIZES:
+        errs.append(f"{where}: aod-csv-table size {named['size']!r} outside the reviewed sizes")
+    if "inset" in named:
+        errs.extend(_validate_table_inset(where, named["inset"]))
+
+    def _split_tuple(arg_name: str) -> list[str] | None:
+        raw = named.get(arg_name, "").strip()
+        if not (raw.startswith("(") and raw.endswith(")") and _typ_balanced(raw, 0, "(", ")") == len(raw)):
+            errs.append(f"{where}: aod-csv-table `{arg_name}` must be a literal tuple (...)")
+            return None
+        nd, items = _typ_split_args(raw[1:-1])
+        if nd or not items:
+            errs.append(f"{where}: aod-csv-table `{arg_name}` must be a non-empty positional tuple")
+            return None
+        return items
+
+    cols = _split_tuple("columns")
+    aligns = _split_tuple("align")
+    headers = _split_tuple("headers")
+    cells = _split_tuple("cells")
+
+    if cols is not None:
+        for c in cols:
+            cs = c.strip()
+            if cs != "auto" and _parse_positive_length(cs, ("fr", "%", "pt", "cm", "mm", "em")) is None:
+                errs.append(f"{where}: aod-csv-table column width {c!r} is not `auto` or a positive literal length")
+    if aligns is not None:
+        for a in aligns:
+            if a.strip() not in CSV_TABLE_ALIGN_VALUES:
+                errs.append(f"{where}: aod-csv-table align value {a!r} not in {sorted(CSV_TABLE_ALIGN_VALUES)}")
+    if headers is not None:
+        for h in headers:
+            if not _is_exact_typ_content_block(h):
+                errs.append(f"{where}: aod-csv-table header {h[:40]!r} must be a literal content block [...]")
+    if cells is not None:
+        for cell in cells:
+            errs.extend(_validate_csv_cell_spec(where, cell, 0))
+    if cols is not None and aligns is not None and headers is not None and cells is not None:
+        if not (len(cols) == len(aligns) == len(headers) == len(cells)):
+            errs.append(
+                f"{where}: aod-csv-table arity mismatch (columns={len(cols)}, align={len(aligns)}, "
+                f"headers={len(headers)}, cells={len(cells)})"
+            )
+
+    has_fcol = "filter-col" in named
+    has_fvals = "filter-values" in named
+    if has_fcol != has_fvals:
+        errs.append(f"{where}: aod-csv-table must provide both `filter-col` and `filter-values` together")
+    elif has_fcol and has_fvals:
+        fc = _parse_exact_typ_str_lit(named["filter-col"])
+        if fc is None or not CSV_TABLE_COL_RE.fullmatch(fc):
+            errs.append(f"{where}: aod-csv-table `filter-col` must be a literal column identifier")
+        fvals = _split_tuple("filter-values")
+        if fvals is not None:
+            for fv in fvals:
+                if _parse_exact_typ_str_lit(fv) is None:
+                    errs.append(f"{where}: aod-csv-table `filter-values` item {fv!r} must be a string literal")
+    return errs
+
+
 def scan_typst_events(text: str) -> list[tuple]:
     """Mode-aware scan of Typst source: (mode, kind, name, named_args, positional_args, line).
 
@@ -3152,7 +3690,7 @@ def scan_typst_events(text: str) -> list[tuple]:
             if m and (i == 0 or not (text[i - 1].isalnum() or text[i - 1] == "_")):
                 j = m.end()
                 if j < b and text[j] == "(":
-                    e = _typ_balanced(text, j, "(", ")")
+                    e = _typ_balanced(text, j, "(", ")", skip_math=False)
                     named, pos = _typ_split_args(text[j + 1:e - 1])
                     events.append(("math", "call", m.group(0), named, pos, line_of(i)))
                     math(j + 1, e - 1)
@@ -3255,6 +3793,15 @@ def _content_policy_violations(rel: str, text: str, typst_targets: set[str]) -> 
             violations.append(f"{where}: `{name}` with non-allowlisted argument(s) {extra}")
         if name == "text" and named.get("size") not in CONTENT_TEXT_SIZES:
             violations.append(f"{where}: text size {named.get('size')!r} outside the reviewed sizes")
+        if name == "table" and "inset" in named:
+            violations.extend(_validate_table_inset(where, named["inset"]))
+        if name == "aod-csv-table":
+            violations.extend(_validate_csv_table_policy(where, named, pos))
+        if name == "aod-raw-wrap":
+            if len(pos) != 1 or _parse_exact_typ_str_lit(pos[0]) is None:
+                violations.append(f"{where}: `aod-raw-wrap` requires exactly 1 literal string argument")
+        if name == "aod-nowrap" and pos:
+            violations.append(f"{where}: `aod-nowrap` accepts only a content block [...] and no positional paren arguments")
         if name in POSITIVE_LENGTH_ARGS:
             for arg_k in POSITIVE_LENGTH_ARGS[name]:
                 if arg_k in named and _parse_positive_length(named[arg_k]) is None:
@@ -3649,7 +4196,7 @@ def _verify_source_and_content_parity_impl(
         )
 
         t_toks, t_unsup = extract_tex_ordered(tex_text, tex_rel)
-        y_toks, y_unsup = extract_typst_ordered(typ_text, typ_rel)
+        y_toks, y_unsup = extract_typst_ordered(typ_text, typ_rel, root=root)
         require(not t_unsup, f"Unsupported TeX math constructs in {tex_rel}: {sorted(set(t_unsup))}")
         require(not y_unsup, f"Unsupported Typst math constructs in {typ_rel}: {sorted(set(y_unsup))}")
 
@@ -3767,7 +4314,7 @@ def _verify_source_and_content_parity_impl(
 
     # Check title/epitaph ordered tokens of manual/main.tex vs typst/manual/main.typ
     m_driver_tex, m_du_t = extract_tex_ordered((b_root / "manual/main.tex").read_text(encoding="utf-8"), "manual/main.tex")
-    m_driver_typ, m_du_y = extract_typst_ordered((root / "typst/manual/main.typ").read_text(encoding="utf-8"), "typst/manual/main.typ")
+    m_driver_typ, m_du_y = extract_typst_ordered((root / "typst/manual/main.typ").read_text(encoding="utf-8"), "typst/manual/main.typ", root=root)
     require(not m_du_t and not m_du_y, f"Unsupported math in Manual driver: tex={m_du_t}, typ={m_du_y}")
     mdt_clean = [x for x in m_driver_tex if x != ("W", "Contents")]
     mdy_clean = [x for x in m_driver_typ if x != ("W", "Contents")]
@@ -3833,7 +4380,7 @@ def _verify_source_and_content_parity_impl(
                 root, typ_rel, (root / typ_rel).read_text(encoding="utf-8"), for_generated_latex=True
             )
             g_toks, g_unsup = extract_tex_ordered(g_tex_text, tex_rel)
-            yg_toks, yg_unsup = extract_typst_ordered(y_gen_text, typ_rel)
+            yg_toks, yg_unsup = extract_typst_ordered(y_gen_text, typ_rel, root=root)
             require(not g_unsup, f"Unsupported generated TeX math constructs in latex/{tex_rel}: {sorted(set(g_unsup))}")
             require(not yg_unsup, f"Unsupported Typst math constructs in {typ_rel}: {sorted(set(yg_unsup))}")
             if g_toks != yg_toks:

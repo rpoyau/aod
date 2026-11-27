@@ -229,8 +229,8 @@ At the terminal boundary $B_(upright("ext")) = sans("Q")_(upright("ext")) (nu_(x
 #figure(
   kind: table, [
 #{
-  set text(size: 8.2pt)
-  set par(justify: false, leading: 0.44em)
+  set text(size: 8.0pt)
+  set par(justify: false)
   table(
     columns: (9fr, 18fr, 16fr, 16fr, 9fr, 20fr, 12fr),
     align: (left, left, right, right, center, left, left),

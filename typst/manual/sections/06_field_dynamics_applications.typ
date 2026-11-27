@@ -685,44 +685,29 @@ Vectors #raw("RC-041") (#raw("dec_run_tumble_q4_stepper"), #raw("manual/data/bou
 
 #figure(
   kind: table, [
-#{
-  let checkpoints = ("0", "2", "3", "5", "7", "8", "16", "20")
-  let rows = csv("/manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv", row-type: dictionary)
-    .filter(r => r.t in checkpoints)
-  let fmt-num(s) = s.replace("-", "\u{2212}")
-  let fmt-slot(e, sig) = {
-    if e == "-" { [\u{2212}] }
-    else {
-      let s = if sig == "1" { "+1" } else { fmt-num(sig) }
-      [(#e, #s)]
-    }
-  }
-  set text(size: 8.0pt)
-  show raw: set text(size: 7.2pt)
-  set par(justify: false, leading: 0.44em)
-  table(
-    columns: (6fr, 12fr, 14fr, 11fr, 23fr, 8fr, 8fr, 9fr, 9fr),
-    align: (right, left, left, center, left, right, right, right, right),
-    inset: (x: 2.8pt, y: 3.1pt),
-    table.header(
-      toprule,
-      [$t$], [Mode], [Slot $(e, sigma)$], [Dwell adm], [$(h_1 , h_2 , h_3 , h_4)$], [$Q_3$], [$Q_4$], [$theta$], [Octant],
-      midrule,
-    ),
-    ..rows.map(r => (
-      [#r.t],
-      [#raw(r.mode)],
-      fmt-slot(r.edge, r.sigma),
-      [#r.dwell_adm],
-      [(#fmt-num(r.h1), #fmt-num(r.h2), #fmt-num(r.h3), #fmt-num(r.h4))],
-      [#r.Q3],
-      [#r.Q4],
-      [#r.theta],
-      [#r.octant],
-    )).flatten(),
-    bottomrule,
-  )
-}
+#aod-csv-table(
+  "/manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv",
+  columns: (6fr, 12fr, 14fr, 11fr, 23fr, 8fr, 8fr, 9fr, 9fr),
+  align: (right, left, left, center, left, right, right, right, right),
+  size: 8.0pt,
+  inset: (x: 2.8pt, y: 3.1pt),
+  filter-col: "t",
+  filter-values: ("0", "2", "3", "5", "7", "8", "16", "20"),
+  headers: (
+    [$t$], [Mode], [Slot $(e, sigma)$], [Dwell adm], [$(h_1 , h_2 , h_3 , h_4)$], [$Q_3$], [$Q_4$], [$theta$], [Octant],
+  ),
+  cells: (
+    "t",
+    (kind: "raw", col: "mode"),
+    (kind: "slot", edge: "edge", sigma: "sigma"),
+    "dwell_adm",
+    (kind: "tuple", cols: ("h1", "h2", "h3", "h4")),
+    "Q3",
+    "Q4",
+    "theta",
+    "octant",
+  ),
+)
   ],
   caption: [Engine-bound two-step hinge-saturation $Q_4 arrow.r bb(Z)^3$ run-tumble D.E.C. stepper checkpoints (#raw("RC-041")\; live-filtered from the full $21$-tick #raw("run_tumble_q4_dec_walk.csv")).],
 ) <tab:manual-field-dynamics-dec-spine>

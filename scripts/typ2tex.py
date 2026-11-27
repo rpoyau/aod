@@ -14,6 +14,7 @@ drift detection without mutating the target tree.
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import importlib.util
 import json
@@ -43,6 +44,7 @@ TABLE_TARGET_OVERRIDES: dict[str, str] = {
 
 DIAGRAM_INCLUDE_RE = re.compile(r'^(?:\.\./)+lib/diagrams/([a-z0-9_]+\.typ)$')
 FIGURE_INCLUDE_RE = re.compile(r'^(?:\.\./)+lib/figures/(main|manual)/([a-z0-9_]+\.typ)$')
+CSV_TABLE_PATH_RE = re.compile(r"^/manual/data/boundary_sadar/[a-z0-9_]+\.csv$")
 
 
 class Typ2TexError(ValueError):
@@ -349,6 +351,10 @@ def escape_latex_text(s: str, *, in_texttt: bool = False) -> str:
             out.append('"' if in_texttt else "''")
         elif ch == "\u00a7":
             out.append(r"\S")
+        elif ch == "\u200b":
+            out.append(r"\allowbreak{}")
+        elif ch == "\u2212":
+            out.append("-" if in_texttt else r"$-$")
         elif ch == "\u2194":
             out.append(r"$\leftrightarrow$")
         elif ch == "\u03a9":
@@ -358,6 +364,30 @@ def escape_latex_text(s: str, *, in_texttt: bool = False) -> str:
         else:
             out.append(ch)
     return "".join(out)
+
+
+def _format_wrap_text_latex(s: str) -> str:
+    wrapped = (
+        s.replace("_", "_\u200b")
+        .replace("->", "->\u200b")
+        .replace("/", "/\u200b")
+        .replace(";", ";\u200b")
+        .replace(",", ",\u200b")
+        .replace("(", "\u200b(")
+    )
+    return escape_latex_text(wrapped, in_texttt=False)
+
+
+def _format_raw_wrap_latex(s: str) -> str:
+    wrapped = (
+        s.replace("_", "_\u200b")
+        .replace("/", "/\u200b")
+        .replace("->", "->\u200b")
+        .replace("+", "+\u200b")
+        .replace("(", "(\u200b")
+        .replace(",", ",\u200b")
+    )
+    return rf"\texttt{{{escape_latex_text(wrapped, in_texttt=True)}}}"
 
 
 def escape_latex_href_url(url: str) -> str:
@@ -1130,9 +1160,9 @@ def _font_size_cmd(size_str: str | None) -> str:
     if not m:
         return ""
     pt = float(m.group(1))
-    if pt <= 7.8:
+    if pt <= 7.6:
         return r"\scriptsize"
-    if pt <= 8.8:
+    if pt <= 8.5:
         return r"\footnotesize"
     if pt <= 9.8:
         return r"\small"
@@ -1225,11 +1255,11 @@ def _parse_table_call(table_args_str: str, where: str) -> dict:
     body_items: list[str] = []
 
     for item in items:
-        m = re.match(r"^(columns|align)\s*:\s*(.*)$", item, re.S)
+        m = re.match(r"^(columns|align|inset)\s*:\s*(.*)$", item, re.S)
         if m:
             if m.group(1) == "columns":
                 cols = _parse_tuple_items(m.group(2), where)
-            else:
+            elif m.group(1) == "align":
                 aligns = _parse_tuple_items(m.group(2), where)
             continue
         if item.startswith("table.header("):
@@ -1269,7 +1299,162 @@ def _parse_table_call(table_args_str: str, where: str) -> dict:
         "aligns": aligns,
         "header": _chunk_rows(header_items),
         "body": _chunk_rows(body_items),
+        "body_is_latex": False,
     }
+
+
+def _parse_csv_cell_spec(raw: str, where: str) -> dict:
+    """Parse one declarative cell spec from #aod-csv-table(cells: (...))."""
+    s = raw.strip()
+    if s.startswith('"'):
+        return {"kind": "plain", "col": unquote_typst_string(s, where)}
+    _require(s.startswith("(") and s.endswith(")"), f"{where}: Malformed CSV cell spec: {s[:60]!r}")
+    pargs, nargs = parse_call_args(s[1:-1], where)
+    _require(not pargs and "kind" in nargs, f"{where}: CSV cell spec requires named `kind:` and no positional args")
+    kind = unquote_typst_string(nargs["kind"], where)
+    if kind in ("plain", "wrap", "raw", "raw-wrap", "minus", "signed", "rat", "vec"):
+        _require("col" in nargs, f"{where}: CSV cell spec `{kind}` missing `col:`")
+        return {"kind": kind, "col": unquote_typst_string(nargs["col"], where)}
+    if kind == "arrow":
+        _require("left" in nargs and "right" in nargs, f"{where}: CSV cell spec `arrow` requires `left` and `right`")
+        return {
+            "kind": "arrow",
+            "left": unquote_typst_string(nargs["left"], where),
+            "right": unquote_typst_string(nargs["right"], where),
+        }
+    if kind == "wrap-paren":
+        _require("col" in nargs and "paren" in nargs, f"{where}: CSV cell spec `wrap-paren` requires `col` and `paren`")
+        return {
+            "kind": "wrap-paren",
+            "col": unquote_typst_string(nargs["col"], where),
+            "paren": unquote_typst_string(nargs["paren"], where),
+        }
+    if kind == "stack":
+        _require("top" in nargs and "bottom" in nargs, f"{where}: CSV cell spec `stack` requires `top` and `bottom`")
+        style = unquote_typst_string(nargs["style"], where) if "style" in nargs else "plain"
+        _require(style in ("plain", "raw-wrap", "wrap-sub-paren"), f"{where}: Unsupported CSV stack style: {style!r}")
+        return {
+            "kind": "stack",
+            "top": unquote_typst_string(nargs["top"], where),
+            "bottom": unquote_typst_string(nargs["bottom"], where),
+            "style": style,
+        }
+    if kind == "tuple":
+        _require("cols" in nargs, f"{where}: CSV cell spec `tuple` requires `cols`")
+        cols = [unquote_typst_string(c, where) for c in _parse_tuple_items(nargs["cols"], where)]
+        _require(len(cols) > 0, f"{where}: CSV cell spec `tuple` cols cannot be empty")
+        return {"kind": "tuple", "cols": cols}
+    if kind == "slot":
+        _require("edge" in nargs and "sigma" in nargs, f"{where}: CSV cell spec `slot` requires `edge` and `sigma`")
+        return {
+            "kind": "slot",
+            "edge": unquote_typst_string(nargs["edge"], where),
+            "sigma": unquote_typst_string(nargs["sigma"], where),
+        }
+    if kind == "sweep-shed":
+        _require("sweep" in nargs and "shed" in nargs, f"{where}: CSV cell spec `sweep-shed` requires `sweep` and `shed`")
+        return {
+            "kind": "sweep-shed",
+            "sweep": unquote_typst_string(nargs["sweep"], where),
+            "shed": unquote_typst_string(nargs["shed"], where),
+        }
+    if kind == "math-eq":
+        _require("lhs" in nargs and "col" in nargs, f"{where}: CSV cell spec `math-eq` requires `lhs` and `col`")
+        lhs_raw = nargs["lhs"].strip()
+        _require(lhs_raw.startswith("[") and lhs_raw.endswith("]"), f"{where}: CSV `math-eq` lhs must be [...]")
+        return {"kind": "math-eq", "lhs": lhs_raw[1:-1], "col": unquote_typst_string(nargs["col"], where)}
+    if kind == "union-cur":
+        _require("union" in nargs and "cur" in nargs, f"{where}: CSV cell spec `union-cur` requires `union` and `cur`")
+        lhs_inner = None
+        if "lhs" in nargs:
+            lhs_raw = nargs["lhs"].strip()
+            _require(lhs_raw.startswith("[") and lhs_raw.endswith("]"), f"{where}: CSV `union-cur` lhs must be [...]")
+            lhs_inner = lhs_raw[1:-1]
+        return {
+            "kind": "union-cur",
+            "union": unquote_typst_string(nargs["union"], where),
+            "cur": unquote_typst_string(nargs["cur"], where),
+            "lhs": lhs_inner,
+        }
+    if kind == "when":
+        for req_k in ("col", "eq", "then", "otherwise"):
+            _require(req_k in nargs, f"{where}: CSV cell spec `when` missing `{req_k}`")
+        return {
+            "kind": "when",
+            "col": unquote_typst_string(nargs["col"], where),
+            "eq": unquote_typst_string(nargs["eq"], where),
+            "then": _parse_csv_cell_spec(nargs["then"], where),
+            "otherwise": _parse_csv_cell_spec(nargs["otherwise"], where),
+        }
+    raise Typ2TexError(f"{where}: Unsupported CSV cell spec kind: {kind!r}")
+
+
+def _render_csv_cell_latex(row: dict[str, str], spec: dict, convert_inline, where: str) -> str:
+    """Mirror _aod-render-csv-cell 1-to-1 into deterministic LaTeX."""
+    def _col(name: str) -> str:
+        _require(name in row, f"{where}: CSV row missing declared column {name!r}")
+        return row[name]
+
+    k = spec["kind"]
+    if k == "plain":
+        return escape_latex_text(_col(spec["col"]))
+    if k == "wrap":
+        return _format_wrap_text_latex(_col(spec["col"]))
+    if k == "raw":
+        return rf"\texttt{{{escape_latex_text(_col(spec['col']), in_texttt=True)}}}"
+    if k == "raw-wrap":
+        return _format_raw_wrap_latex(_col(spec["col"]))
+    if k == "minus":
+        return escape_latex_text(_col(spec["col"]).replace("-", "\u2212"))
+    if k == "signed":
+        v = _col(spec["col"])
+        if v == "0":
+            return "0"
+        if v.startswith("-"):
+            return r"$-$" + escape_latex_text(v[1:])
+        if v.startswith("+"):
+            return escape_latex_text(v)
+        return "+" + escape_latex_text(v)
+    if k == "rat":
+        return escape_latex_text(_col(spec["col"]).replace("-", "\u2212").replace("/", "/\u200b"))
+    if k == "vec":
+        return escape_latex_text(_col(spec["col"]).replace(",", ", ").replace("-", "\u2212"))
+    if k == "arrow":
+        return f"{escape_latex_text(_col(spec['left']))} $\\to$ {escape_latex_text(_col(spec['right']))}"
+    if k == "wrap-paren":
+        return f"{_format_wrap_text_latex(_col(spec['col']))} ({escape_latex_text(_col(spec['paren']))})"
+    if k == "stack":
+        st = spec["style"]
+        if st == "plain":
+            return f"{escape_latex_text(_col(spec['top']))}\\par {escape_latex_text(_col(spec['bottom']))}"
+        if st == "raw-wrap":
+            return f"{_format_raw_wrap_latex(_col(spec['top']))}\\par {_format_raw_wrap_latex(_col(spec['bottom']))}"
+        if st == "wrap-sub-paren":
+            return (
+                f"{_format_wrap_text_latex(_col(spec['top']))}\\par "
+                f"({_format_wrap_text_latex(_col(spec['bottom']))})"
+            )
+        raise Typ2TexError(f"{where}: Unsupported CSV stack style: {st!r}")
+    if k == "tuple":
+        return "(" + ", ".join(escape_latex_text(_col(c).replace("-", "\u2212")) for c in spec["cols"]) + ")"
+    if k == "slot":
+        e = _col(spec["edge"])
+        sig = _col(spec["sigma"])
+        if e == "-":
+            return r"$-$"
+        s = "+1" if sig == "1" else sig.replace("-", "\u2212")
+        return f"({escape_latex_text(e)}, {escape_latex_text(s)})"
+    if k == "sweep-shed":
+        return rf"$-${escape_latex_text(_col(spec['sweep']))} + {escape_latex_text(_col(spec['shed']))}"
+    if k == "math-eq":
+        return f"{convert_inline(spec['lhs']).strip()} {escape_latex_text(_col(spec['col']))}"
+    if k == "union-cur":
+        lhs_tex = convert_inline(spec["lhs"]).strip() if spec.get("lhs") is not None else r"$J_e =$"
+        return f"{escape_latex_text(_col(spec['union']))} / {lhs_tex} {escape_latex_text(_col(spec['cur']))}"
+    if k == "when":
+        branch = spec["then"] if _col(spec["col"]) == spec["eq"] else spec["otherwise"]
+        return _render_csv_cell_latex(row, branch, convert_inline, where)
+    raise Typ2TexError(f"{where}: Unsupported CSV cell spec kind: {k!r}")
 
 
 def _render_table_latex(
@@ -1277,6 +1462,7 @@ def _render_table_latex(
     size_cmd: str,
     convert_cell,
     *,
+    convert_body_cell=None,
     as_longtable: bool = False,
     caption_tex: str | None = None,
     label_id: str | None = None,
@@ -1284,19 +1470,20 @@ def _render_table_latex(
     colspec, use_tabularx = _build_colspec(
         table_info["cols"], table_info["aligns"], force_longtable=as_longtable
     )
+    body_conv = convert_body_cell if convert_body_cell is not None else convert_cell
 
-    def _fmt_seq(seq) -> list[str]:
+    def _fmt_seq(seq, conv_fn) -> list[str]:
         lines: list[str] = []
         for kind, payload in seq:
             if kind == "rule":
                 lines.append(payload)
             else:
-                cells = [convert_cell(c).strip() for c in payload]
+                cells = [conv_fn(c).strip() for c in payload]
                 lines.append(" & ".join(cells) + r" \\")
         return lines
 
-    header_lines = _fmt_seq(table_info["header"])
-    body_lines = _fmt_seq(table_info["body"])
+    header_lines = _fmt_seq(table_info["header"], convert_cell)
+    body_lines = _fmt_seq(table_info["body"], body_conv)
 
     if as_longtable:
         out: list[str] = []
@@ -1341,6 +1528,7 @@ class TypstToLatexConverter:
         diagram_format: str,
         used_rasters: set[str],
         used_diagrams: set[str],
+        used_csvs: set[str] | None = None,
     ):
         self.root = root
         self.surface = surface  # "main" or "manual"
@@ -1350,6 +1538,7 @@ class TypstToLatexConverter:
         self.diagram_format = diagram_format
         self.used_rasters = used_rasters
         self.used_diagrams = used_diagrams
+        self.used_csvs = used_csvs if used_csvs is not None else set()
 
     def _rel_to_surface_latex_dir(self, latex_rel: str) -> str:
         """Express a path relative to latex/ (Main) or latex/manual/ (Manual)."""
@@ -1409,15 +1598,94 @@ class TypstToLatexConverter:
             return s
         raise Typ2TexError(f"{self.where}: Unsupported width expression: {w_raw!r}")
 
-    def _extract_code_block_table(self, content: str) -> tuple[dict, str] | None:
-        """Detect #{ set text(size: ...); set par(...); table(...) } or bare table(...)."""
+    def _parse_csv_table_call(self, call_args_str: str, where: str, base_line: int) -> tuple[dict, str]:
+        pargs, nargs = parse_call_args(call_args_str, where)
+        _require(len(pargs) == 1, f"{where}: #aod-csv-table requires 1 positional CSV path argument")
+        csv_uri = unquote_typst_string(pargs[0], where)
+        _require(
+            bool(CSV_TABLE_PATH_RE.fullmatch(csv_uri)),
+            f"{where}: Disallowed CSV path in #aod-csv-table: {csv_uri!r}",
+        )
+        rel = csv_uri.lstrip("/")
+        disk_path = (self.root / rel).resolve()
+        _require(
+            disk_path.is_file() and disk_path.is_relative_to(self.root),
+            f"{where}: Missing CSV asset for #aod-csv-table: {csv_uri}",
+        )
+        self.used_csvs.add(rel)
+
+        for req_k in ("columns", "align", "headers", "cells"):
+            _require(req_k in nargs, f"{where}: #aod-csv-table missing required argument `{req_k}`")
+        cols = _parse_tuple_items(nargs["columns"], where)
+        aligns = _parse_tuple_items(nargs["align"], where)
+        raw_headers = _parse_tuple_items(nargs["headers"], where)
+        headers: list[str] = []
+        for h in raw_headers:
+            hs = h.strip()
+            _require(hs.startswith("[") and hs.endswith("]"), f"{where}: #aod-csv-table header must be [...]")
+            headers.append(hs[1:-1])
+        cell_specs = [_parse_csv_cell_spec(c, where) for c in _parse_tuple_items(nargs["cells"], where)]
+        _require(
+            len(cols) > 0 and len(cols) == len(aligns) == len(headers) == len(cell_specs),
+            f"{where}: #aod-csv-table column/align/header/cell arity mismatch",
+        )
+        size_cmd = _font_size_cmd(nargs.get("size", "8.0pt"))
+
+        with disk_path.open("r", encoding="utf-8", newline="") as fh:
+            reader = csv.DictReader(fh)
+            fieldnames = list(reader.fieldnames or [])
+            rows = list(reader)
+        if "filter-col" in nargs or "filter-values" in nargs:
+            _require(
+                "filter-col" in nargs and "filter-values" in nargs,
+                f"{where}: #aod-csv-table requires both filter-col and filter-values",
+            )
+            fcol = unquote_typst_string(nargs["filter-col"], where)
+            _require(
+                fcol in fieldnames,
+                f"{where}: filter-col {fcol!r} not in CSV header {fieldnames}",
+            )
+            fvals = {unquote_typst_string(v, where) for v in _parse_tuple_items(nargs["filter-values"], where)}
+            rows = [r for r in rows if r[fcol] in fvals]
+
+        conv_inline = lambda s, _bl=base_line: self.convert_inline(s, base_line=_bl)
+        body_seq: list[tuple[str, list[str] | str]] = [
+            ("row", [_render_csv_cell_latex(r, spec, conv_inline, where) for spec in cell_specs])
+            for r in rows
+        ]
+        body_seq.append(("rule", r"\bottomrule"))
+        header_seq: list[tuple[str, list[str] | str]] = [
+            ("rule", r"\toprule"),
+            ("row", headers),
+            ("rule", r"\midrule"),
+        ]
+        return {
+            "cols": cols,
+            "aligns": aligns,
+            "header": header_seq,
+            "body": body_seq,
+            "body_is_latex": True,
+        }, size_cmd
+
+    def _extract_code_block_table(self, content: str, *, base_line: int = 1) -> tuple[dict, str] | None:
+        """Detect #{ set text(size: ...); set par(...); table(...) }, bare table(...), or #aod-csv-table(...)."""
         s = content.strip()
+        m_csv = re.match(r"^#?aod-csv-table\(", s)
+        if m_csv:
+            c_args, c_end = scan_balanced(s, m_csv.end() - 1, "(", ")", self.where)
+            if not s[c_end:].strip():
+                return self._parse_csv_table_call(c_args, self.where, base_line)
         size_cmd = ""
         if s.startswith("#{"):
             blk, end = scan_balanced(s, 1, "{", "}", self.where)
             if s[end:].strip():
                 return None
             s = blk.strip()
+            m_csv2 = re.match(r"^#?aod-csv-table\(", s)
+            if m_csv2:
+                c_args, c_end = scan_balanced(s, m_csv2.end() - 1, "(", ")", self.where)
+                if not s[c_end:].strip():
+                    return self._parse_csv_table_call(c_args, self.where, base_line)
         m_sz = re.search(r"set\s+text\(\s*size:\s*([0-9.]+pt)\s*\)", s)
         if m_sz:
             size_cmd = _font_size_cmd(m_sz.group(1))
@@ -1503,6 +1771,16 @@ class TypstToLatexConverter:
                 out.append(frag)
                 i = nxt
                 continue
+            # Native Typst @ref shorthand (e.g., @tab:..., @fig:...)
+            if ch == "@" and (i == 0 or not (text[i - 1].isalnum() or text[i - 1] == "_")):
+                m_at = re.match(r"@((tab|fig|sec|eq|app):[A-Za-z0-9:._-]+)", text[i:])
+                if m_at:
+                    target = m_at.group(1)
+                    prefix = m_at.group(2)
+                    cmd = {"tab": "tabref", "fig": "figref", "sec": "secref", "eq": "eqref", "app": "appref"}[prefix]
+                    out.append(rf"\{cmd}{{{target}}}")
+                    i += len(m_at.group(0))
+                    continue
             # Inline strong *...* (only when matching closing * on same paragraph without spaces inside edges)
             if ch == "*" and i + 1 < n and not text[i + 1].isspace():
                 end_s = self._find_inline_delim(text, i + 1, "*")
@@ -1615,11 +1893,14 @@ class TypstToLatexConverter:
         # Code block #{ ... } (tables or inline set text)
         if start + 1 < n and text[start + 1] == "{":
             blk, nxt = scan_balanced(text, start + 1, "{", "}", loc)
-            tinfo = self._extract_code_block_table("#{" + blk + "}")
+            tinfo = self._extract_code_block_table("#{" + blk + "}", base_line=cur_line)
             if tinfo is not None:
                 tab, sz = tinfo
                 return _render_table_latex(
-                    tab, sz, lambda s, _bl=cur_line: self.convert_inline(s, base_line=_bl)
+                    tab,
+                    sz,
+                    lambda s, _bl=cur_line: self.convert_inline(s, base_line=_bl),
+                    convert_body_cell=(lambda s: s) if tab.get("body_is_latex") else None,
                 ), nxt
             raise Typ2TexError(f"{loc}: Unsupported Typst code block #{{...}}")
 
@@ -1716,6 +1997,17 @@ class TypstToLatexConverter:
             val = unquote_typst_string(pargs[0], loc)
             return rf"\texttt{{{escape_latex_text(val, in_texttt=True)}}}", pos
 
+        if name == "aod-raw-wrap":
+            _require(paren_arg is not None, f"{loc}: #aod-raw-wrap requires (...)")
+            pargs, _ = parse_call_args(paren_arg, loc)
+            _require(len(pargs) == 1, f"{loc}: #aod-raw-wrap expects 1 string argument")
+            val = unquote_typst_string(pargs[0], loc)
+            return _format_raw_wrap_latex(val), pos
+
+        if name == "aod-nowrap":
+            _require(len(brack_args) == 1, f"{loc}: #aod-nowrap expects [...]")
+            return rf"\mbox{{{self.convert_inline(brack_args[0], base_line=brack_lines[0])}}}", pos
+
         if name == "link":
             _require(paren_arg is not None and len(brack_args) == 1, f"{loc}: #link expects (url)[text]")
             pargs, _ = parse_call_args(paren_arg, loc)
@@ -1746,6 +2038,10 @@ class TypstToLatexConverter:
                         prefix += r"\Large "
                     elif pt >= 11.5:
                         prefix += r"\large "
+                    elif pt <= 7.5:
+                        prefix += r"\scriptsize "
+                    elif pt <= 8.5:
+                        prefix += r"\footnotesize "
                     elif pt <= 9.5:
                         prefix += r"\small "
             if "style" in nargs and "italic" in nargs["style"]:
@@ -1858,13 +2154,27 @@ class TypstToLatexConverter:
             w_tex = self._width_to_latex(nargs.get("width"))
             return rf"\includegraphics[width={w_tex}]{{{img_tex}}}", pos
 
+        if name == "aod-csv-table":
+            _require(paren_arg is not None, f"{loc}: #aod-csv-table requires (...)")
+            tab, sz = self._parse_csv_table_call(paren_arg, loc, paren_line)
+            return _render_table_latex(
+                tab,
+                sz,
+                lambda s, _bl=paren_line: self.convert_inline(s, base_line=_bl),
+                convert_body_cell=lambda s: s,
+            ), pos
+
         if name == "aod-uncaptioned-longtable":
             _require(len(brack_args) == 1, f"{loc}: #aod-uncaptioned-longtable expects [...]")
-            tinfo = self._extract_code_block_table(brack_args[0])
+            tinfo = self._extract_code_block_table(brack_args[0], base_line=brack_lines[0])
             _require(tinfo is not None, f"{loc}: #aod-uncaptioned-longtable must contain table(...)")
             tab, sz = tinfo
             return _render_table_latex(
-                tab, sz, lambda s, _bl=brack_lines[0]: self.convert_inline(s, base_line=_bl), as_longtable=True
+                tab,
+                sz,
+                lambda s, _bl=brack_lines[0]: self.convert_inline(s, base_line=_bl),
+                convert_body_cell=(lambda s: s) if tab.get("body_is_latex") else None,
+                as_longtable=True,
             ), pos
 
         if name == "figure":
@@ -1885,18 +2195,22 @@ class TypstToLatexConverter:
             lbl, pos = self._extract_trailing_label(text, pos)
 
             if kind == "table":
-                tinfo = self._extract_code_block_table(body_raw)
-                _require(tinfo is not None, f"{loc}: #figure(kind: table) must contain table(...)")
+                tinfo = self._extract_code_block_table(body_raw, base_line=body_line)
+                _require(tinfo is not None, f"{loc}: #figure(kind: table) must contain table(...) or #aod-csv-table(...)")
                 tab, sz = tinfo
+                body_conv = (lambda s: s) if tab.get("body_is_latex") else None
                 body_row_cnt = sum(1 for k, _ in tab["body"] if k == "row")
                 uses_fr = any(c.endswith("fr") for c in tab["cols"])
                 if uses_fr and body_row_cnt >= 24:
                     return _render_table_latex(
                         tab, sz, lambda s, _bl=body_line: self.convert_inline(s, base_line=_bl),
+                        convert_body_cell=body_conv,
                         as_longtable=True, caption_tex=cap_tex, label_id=lbl,
                     ), pos
                 inner = _render_table_latex(
-                    tab, sz, lambda s, _bl=body_line: self.convert_inline(s, base_line=_bl), as_longtable=False
+                    tab, sz, lambda s, _bl=body_line: self.convert_inline(s, base_line=_bl),
+                    convert_body_cell=body_conv,
+                    as_longtable=False,
                 )
                 lines = [r"\begin{table}[H]", r"\centering"]
                 if cap_tex is not None:
@@ -2077,7 +2391,7 @@ class TypstToLatexConverter:
             # Block-level #... construct (inline calls like #raw/#secref stay in prose paragraphs)
             _block_hash = (
                 r"#(?:aod-definition|aod-provenance|aod-literature-note|aod-remark|"
-                r"aod-noteblock|aod-paragraph|aod-anchor|aod-panel|aod-boxed|"
+                r"aod-noteblock|aod-paragraph|aod-anchor|aod-panel|aod-boxed|aod-csv-table|"
                 r"aod-uncaptioned-longtable|aod-start-appendix|aod-render-bibliography|"
                 r"figure|math\.equation|tagged-eq|align|block|pad|page|pagebreak|"
                 r"outline|include|import|show|set|counter|v|\{)"
@@ -2492,6 +2806,7 @@ def generate_latex_tree(
     ordered_units, unit_map = discover_active_typst_units(root)
     used_rasters: set[str] = set()
     used_diagrams: set[str] = set()
+    used_csvs: set[str] = set()
     fig_mod = _load_figure_exporter(root)
 
     if check_only:
@@ -2538,6 +2853,7 @@ def generate_latex_tree(
                     diagram_format=figure_format,
                     used_rasters=used_rasters,
                     used_diagrams=used_diagrams,
+                    used_csvs=used_csvs,
                 )
                 body_tex = conv.convert_document_body(src_path.read_text(encoding="utf-8"), base_line=1)
                 if typ_rel in ("typst/main.typ", "typst/manual/main.typ"):
@@ -2596,6 +2912,11 @@ def generate_latex_tree(
                 "sha256": sha256_file(dst_r),
                 "bytes": dst_r.stat().st_size,
             })
+
+        # 3b. Record all live table CSV datasets expanded into rendered LaTeX
+        for csv_rel in sorted(used_csvs):
+            _require((root / csv_rel).is_file(), f"Missing live table CSV asset: {csv_rel}")
+            _rec_input(csv_rel, "table_data_csv")
 
         # 4. Export authoritative native Typst diagrams and vector figures via scripts/export_typst_figures.py
         if used_diagrams:

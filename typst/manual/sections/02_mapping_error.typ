@@ -186,10 +186,10 @@ vector #raw("RC-036") (#raw("manual/data/boundary_sadar/typed_map_joint_law_ledg
 verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar")
 and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) compiles the
 exact rational means, exact pushforward variances, and naive first-order linearized
-variances across all five nonlinear and shared-disturbance fixtures (@tab:manual-typed-map-joint-laws),
+variances across all five nonlinear and shared-disturbance fixtures (#tabref("tab:manual-typed-map-joint-laws")),
 while deduplicating diamond provenance ($x = 3 arrow.r 6 arrow.r 12$ retains one unique
 source rather than two independent copies) and enforcing disjoint calibration, validation,
-and held-out boundary scopes (@fig:manual-typed-map-variance-feynman).
+and held-out boundary scopes (#figref("fig:manual-typed-map-variance-feynman")).
 
 
 #figure(
@@ -203,7 +203,7 @@ and held-out boundary scopes (@fig:manual-typed-map-variance-feynman).
 #figure(
   kind: table, [
 #{
-  set text(size: 7.8pt)
+  set text(size: 8.0pt)
   set par(justify: false)
   table(
     columns: (1.50fr, 1.45fr, 1.25fr, 1.65fr, 0.95fr, 1.40fr),

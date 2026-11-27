@@ -38,7 +38,7 @@ hostile case; a hostile check passes only when the actual law rejects the
 supplied input, and actual outputs are logged separately.
 
 #aod-uncaptioned-longtable[#{
-  set text(size: 8.4pt)
+  set text(size: 8.5pt)
   set par(justify: false)
   table(
     columns: (23.00fr, 33.00fr, 34.00fr),
@@ -292,37 +292,25 @@ with exact $bb(Z)[i]$ inverse residual $0 slash 1$ without certifying closure ($
 
 #figure(
   kind: table, [
-#{
-  let rows = csv("/manual/data/boundary_sadar/native_closure_wave_dec_walk.csv", row-type: dictionary)
-  let wrap-str(s) = (
-    s.replace("_", "_\u{200b}")
-     .replace("->", "->\u{200b}")
-     .replace("/", "/\u{200b}")
-  )
-  set text(size: 7.4pt)
-  show raw: set text(size: 6.9pt)
-  set par(justify: false, leading: 0.45em)
-  table(
-    columns: (1.55fr, 1.15fr, 1.35fr, 1.65fr, 0.60fr, 0.85fr, 2.85fr),
-    align: (left, left, left, left, right, right, left),
-    inset: (x: 3.2pt, y: 3.5pt),
-    table.header(
-      toprule,
-      [Stage], [Scope $B$], [$v arrow.r v_e$], [Slot / $sigma$], [$w$], [$P(e;B)$], [D.E.C. audit outcome],
-      midrule,
-    ),
-    ..rows.map(r => (
-      [#raw(wrap-str(r.step_id))],
-      [#wrap-str(r.scope_B)],
-      [#r.vertex_v $arrow.r$ #r.target_ve],
-      [#wrap-str(r.edge_e) (#r.sigma)],
-      [#r.weight_w],
-      [#r.prob_exact],
-      [#wrap-str(r.route_note)],
-    )).flatten(),
-    bottomrule,
-  )
-}
+#aod-csv-table(
+  "/manual/data/boundary_sadar/native_closure_wave_dec_walk.csv",
+  columns: (1.55fr, 1.15fr, 1.35fr, 1.65fr, 0.60fr, 0.85fr, 2.85fr),
+  align: (left, left, left, left, right, right, left),
+  size: 7.5pt,
+  inset: (x: 3.2pt, y: 3.5pt),
+  headers: (
+    [Stage], [Scope $B$], [$v arrow.r v_e$], [Slot / $sigma$], [$w$], [$P(e;B)$], [D.E.C. audit outcome],
+  ),
+  cells: (
+    (kind: "raw-wrap", col: "step_id"),
+    (kind: "wrap", col: "scope_B"),
+    (kind: "arrow", left: "vertex_v", right: "target_ve"),
+    (kind: "wrap-paren", col: "edge_e", paren: "sigma"),
+    "weight_w",
+    "prob_exact",
+    (kind: "wrap", col: "route_note"),
+  ),
+)
   ],
   caption: [Engine-bound eight-stage $Q_4$ D.E.C. closure, beat, fold, and $bb(Z)_4$ harmonic ledger (#raw("RC-033"), all rows admissible $op("adm") = 1$, live from #raw("native_closure_wave_dec_walk.csv")).],
 ) <tab:manual-native-closure-dec-walk>
