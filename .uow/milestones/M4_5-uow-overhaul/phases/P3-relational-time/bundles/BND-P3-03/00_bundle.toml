@@ -1,0 +1,50 @@
+bundle_id = "BND-P3-03"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P3-relational-time"
+parent_bundle = "BND-P3-02"
+base_commit = "1c5b6f00f7e88f26da9cc1bbe9949b980aa0779e"
+
+[objective]
+summary = "Refactor Manual §2 (00_native_closure_wave_temporal_fixtures.typ) and Manual §7 (03_temporal_observation.typ) in place into crisp General Mechanics Setup-Derivation-Specialization-Falsification blocks with live engine-bound RC-037 cut tables, consistent (0, 30] half-open windows, and scientifically corrected temporal_si_bridge_feynman.typ."
+deliverables = [
+  "Refactor typst/manual/sections/03_temporal_observation.typ in place: compact the 381-line dense prose wall into crisp General Mechanics Setup-Derivation-Specialization-Falsification subsections, eliminate ALL contradictory [1, 30] window notations in favor of consistent half-open (0, 30], integrate the bolted-on five-boundary tail seamlessly while preserving every existing label and numbered equation verbatim, bind <tab:manual-temporal-dec-bridge> live from manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv (displaying all 9 live RC-037 engine stages T1..T9 including directional RCD 5 vs 7, observed-advance 7/2, 17/2 -> 7/17 & signed -1/2, cut-40 capacity-drop 6/5 -> 2/5 strictly at cut 41 with prefix <= 39, and hostile disconnected-feedback replay rejection), and accurately state both the self-contained RC-037 causal simulator and the separately bound Matter I --consumer-root replay",
+  "Refactor typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ in place: tighten prose into crisp General Mechanics Setup-Derivation-Specialization-Falsification structure integrating the RC-033 five-boundary Q4 closure/beat/fold walk without duplicating narrative, while preserving EVERY existing label (<manual:m1-native-fixtures>, <subsec:disoma-declaration>, <fig:field-count>, <fig:fractal-tesseract-beat-family>, <manual:wavelet-continuation-fixtures>, <manual:m1:dec-closure-walk>, <fig:manual-native-closure-q4-walk>, <tab:manual-native-closure-dec-walk>) and the EXACT set of #mainequation / #mainsection / #mainappendix citations",
+  "Fix two scientific errors in typst/lib/figures/manual/temporal_si_bridge_feynman.typ: (1) Panel (c) currently prints 'Held-out obs = 26' and 'Held-out obs = 21' instead of the true held-out reference count N_{0,val} = 32 (where calibrated predictions are 768/29 and 3264/151 yielding exact residuals -5/29 and -49/151); (2) Panel (b) currently prints 'Hydrogen 1S-2S chain' whereas Manual §7 eq:manual-m3-hydrogen-reduction uses the Hellwig et al. 1970 Hydrogen 21 cm hyperfine maser (1420.4 MHz) chain; also reflect live CSV rows T7-T9 cleanly while preserving all required substrings ('RC-037', '9,192,631,770', '5/29', '49/151') and passing 144 ppi PNG visual inspection with zero overlaps or margin overflows",
+  "Visually verify ALL rendered Manual §2 and Manual §7 pages of _build/pub/manual.pdf at 144 ppi PNG via pdftoppm and view_file (confirming zero text collisions, zero box/table overflows, and clean typography)",
+]
+
+[scope]
+read_only = [
+  "typst/manual/preamble.typ",
+  "typst/manual/main.typ",
+  "typst/lib/aod_plots.typ",
+  "manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
+  "manual/data/boundary_sadar/native_closure_wave_dec_walk.csv",
+  "contracts/scientific/CANONICAL_BINDINGS.json",
+  "contracts/scientific/OWNERSHIP_AND_FIXTURES.json",
+  "tests/test_main_manual_references.py",
+  "tests/test_s1b_vector_figures.py",
+]
+write_set = [
+  "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+  "typst/manual/sections/03_temporal_observation.typ",
+  "typst/lib/figures/manual/temporal_si_bridge_feynman.typ",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "Zero [1, 30] window strings anywhere in typst/manual/sections/03_temporal_observation.typ or typst/lib/figures/manual/temporal_si_bridge_feynman.typ; every coupled-pair window must be half-open (0, 30]",
+  "Zero 'Held-out obs = 26', 'Held-out obs = 21', or '1S-2S' in typst/lib/figures/manual/temporal_si_bridge_feynman.typ",
+  "Preserve ALL 281 Manual labels, ALL 455 Main labels, ALL 172 Manual mainref_uses, ALL 5 numbered equations in 03_temporal_observation.typ verbatim, and the EXACT set of #mainequation / #mainsection references in 00_native_closure_wave_temporal_fixtures.typ so test_main_manual_references.py passes 100%",
+  "Preserve <fig:field-count> and <fig:fractal-tesseract-beat-family> labels/anchors in 00_native_closure_wave_temporal_fixtures.typ for Phase 5 geometric conversion",
+  "Every rendered Manual §2 and Manual §7 page inspected at 144 ppi PNG must have zero text collisions, zero clipping, and zero margin overflows",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+  "python3 -B -m pytest -q tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py tests/test_main_manual_references.py",
+]
+max_retries = 2
