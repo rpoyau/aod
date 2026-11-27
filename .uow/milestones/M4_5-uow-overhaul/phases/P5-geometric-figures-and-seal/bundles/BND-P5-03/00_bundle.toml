@@ -55,6 +55,7 @@ write_set = [
   "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
   "tests/qa_phase3_relational_time.py",
   "tests/qa_phase4_manual_sadar.py",
+  "typst/lib/main_registry.json",
 ]
 
 [invariants]
