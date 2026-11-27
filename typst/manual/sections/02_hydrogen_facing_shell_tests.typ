@@ -1,61 +1,50 @@
-// Native Typst port of manual/sections/02_hydrogen_facing_shell_tests.tex (verbatim scientific content).
+// Native Typst authority for Manual §10: hydrogen-facing shell tests, exact rational series (RC-031), and concentric shell wavelet D.E.C. ledger (RC-039).
 #import "../preamble.typ": *
 
 = Hydrogen-facing Shell Tests <manual:hydrogen-shell-tests>
 
 
-
-#aod-paragraph[Calculation card.]
-The declared signed shell ladder gives exact transition differences and
-ratios. The wavelength rows are carried external comparisons, sharing each
-series baseline; their display precision is not a measurement uncertainty.
-This application's source adapter still needs exact source rows, observed
-versus Ritz and line/component conventions, uncertainty semantics and
-covariance. The common method is #secref("manual:calculation-spine")\; the
-existing ratio audit checks the stated arithmetic only.
-
-
+#aod-paragraph[Setup and calculation card.]
+The declared signed shell ladder generates exact zero-float D0 rational transition
+differences and within-series ratios verified independently by reference-engine vectors
+#raw("RC-031") (#raw("hydrogen_shell_exact_series.csv")) and #raw("RC-039")
+(#raw("hydrogen_shell_dec_transitions.csv")) across the Lyman, Balmer, and Paschen
+series before any external constant or scale enters. Carried wavelength, frequency, and
+energy targets remain quarantined external O0 comparisons at
+$B_(upright("ext")) = sans("Q")_(upright("ext"))$ sharing each series baseline; their
+display precision is not a measurement uncertainty. Full experimental comparison still
+requires a source adapter binding exact NIST-ASD / Hydrogen Handbook rows,
+observed-versus-Ritz and air-versus-vacuum conventions, uncertainty semantics, and
+shared-denominator covariance under #secref("manual:calculation-spine").
 
 
 == Shared hydrogen-facing shell declaration <manual:hydrogen:scope>
 
+#aod-noteblock("Scope")[This section declares a signed shell comparison ladder, derives its exact rational transition differences and series ratios in D0 arithmetic (#raw("RC-031"), #raw("RC-039")), and quarantines downstream NIST wavelength, frequency, and energy comparisons at $B_(upright("ext")) = sans("Q")_(upright("ext"))$.]
 
-#aod-noteblock("Scope")[This section declares a signed shell comparison ladder,
-computes its exact transition differences, and then records
-wavelength/frequency/energy comparisons.]
+#aod-noteblock("Data-support class")[Hydrogen shell tests separate D0 exact rational shell-ratio fixtures (#raw("RC-031"), #raw("RC-039")) from O0 quarantined spectral observable-map comparisons. Error quantities are shell-ratio or spectral-map residuals.]
 
+#aod-paragraph[Setup.]
+Declare the hydrogen-facing shell scope and integer shell family:
 
-#aod-noteblock("Data-support class")[Hydrogen shell tests instantiate D0 exact shell-ratio fixtures and O0 shell observable-map comparisons. Error quantities are shell-ratio or spectral-map residuals.]
+#math.equation(block: true, numbering: none, $ bold(upright(a))_H tack.r (F_H ,R_H , partial R_H , omega_H ), wide B_H = ( partial F_H , omega_H ), wide S_n , med n in bb(Z)_(gt.eq 1) . $)
 
-
-The shared declaration is
-
-#math.equation(block: true, numbering: none, $ bold(upright(a))_H tack.r (F_H ,R_H , partial R_H , omega_H ), wide B_H = ( partial F_H , omega_H ). $)
-
-The shell family is indexed by an integer shell number
-
-#math.equation(block: true, numbering: none, $ S_n , wide n in bb(Z)_(gt.eq 1) . $)
-
-For the hydrogen-facing comparison records, the normalized shell-pressure ladder is declared by
+For the hydrogen-facing comparison records, declare the normalized signed shell-pressure ladder
 
 #math.equation(block: true, numbering: none, $ hat(P)^D_(S_n) := - frac(1, n^2). $)
 
-For a downward transition $n arrow.r m$, with $n > m$, declare the released normalized pressure magnitude
+#aod-paragraph[Derivation.]
+For any downward transition $n arrow.r m$ with $n > m$, the released normalized pressure magnitude is
 
-#math.equation(block: true, numbering: none, $ Delta hat(P)^D (n arrow.r m) := hat(P)^D_(S_n) - hat(P)^D_(S_m) = frac(1, m^2) - frac(1, n^2) > 0. $)
+#math.equation(block: true, numbering: none, $ Delta hat(P)^D (n arrow.r m) := hat(P)^D_(S_n) - hat(P)^D_(S_m) = frac(1, m^2) - frac(1, n^2) > 0, $)
 
-The signed state change is $hat(P)^D_(S_m) - hat(P)^D_(S_n) = - Delta hat(P)^D (n arrow.r m)$.
-
-
+with signed state change $hat(P)^D_(S_m) - hat(P)^D_(S_n) = - Delta hat(P)^D (n arrow.r m)$.
 
 #aod-boxed($ "Hydrogen shell tests use a declared signed comparison ladder." $)
 
-
 #aod-noteblock("Remark")[The normalized ladder is a manual comparison choice. The main-note pressure definition remains $p^D = C_3 rho^D_(omega)$.]
 
-
-
-#aod-noteblock("Presentation policy")[The A$Omega$ ratios in the spectral tables are exact rational values. Decimal target ratios, wavelengths, frequencies, and percent errors are external presentation values. A $z$-score is recorded when the record carries an explicit uncertainty.]
+#aod-noteblock("Presentation policy")[All A$Omega$ shell ratios in the spectral tables are exact rational D0 values (#raw("RC-031"), #raw("RC-039")). Decimal target ratios, wavelengths, frequencies, and percent errors are quarantined external presentation coordinates; a $z$-score is recorded only when a row carries an explicit uncertainty.]
 
 
 
@@ -71,11 +60,10 @@ The signed state change is $hat(P)^D_(S_m) - hat(P)^D_(S_n) = - Delta hat(P)^D (
 
 == Shell-radius comparison <manual:hydrogen:radii>
 
-The radius-ratio check records the standard shell scaling
+#aod-paragraph[Specialization.]
+The shell-radius geometry comparison records the standard quadratic shell scaling
 
 #math.equation(block: true, numbering: none, $ frac(r_n, r_1) = n^2 . $)
-
-The radius-ratio record is carried as a geometry comparison record.
 
 
 #figure(
@@ -91,10 +79,10 @@ The radius-ratio record is carried as a geometry comparison record.
       [Shell], [A$Omega$ shell], [Ratio target], [Status],
       midrule,
     ),
-    [1], [$S_1$], [$1$], [baseline],
-    [2], [$S_2$], [$4$], [comparison record],
-    [3], [$S_3$], [$9$], [comparison record],
-    [4], [$S_4$], [$16$], [comparison record],
+    [$1$], [$S_1$], [$1$], [baseline],
+    [$2$], [$S_2$], [$4$], [comparison record],
+    [$3$], [$S_3$], [$9$], [comparison record],
+    [$4$], [$S_4$], [$16$], [comparison record],
     bottomrule,
   )
 }
@@ -103,16 +91,14 @@ The radius-ratio record is carried as a geometry comparison record.
 ) <tab:manual-hydrogen-shell-radii>
 
 
-
 == Shell-pressure table <manual:hydrogen:pressure-table>
 
-The Balmer comparison records use downward transitions into $S_2$. The normalized released-pressure magnitudes are
+#aod-paragraph[Specialization (#raw("RC-031")).]
+Balmer comparison records fix destination shell $S_2$ ($m = 2$). The exact D0 released-pressure
+magnitudes and baseline ratios against $3 arrow.r 2$ (verified in zero-float rational
+arithmetic by #raw("RC-031"), #raw("hydrogen_shell_exact_series.csv")) are
 
-#math.equation(block: true, numbering: none, $ Delta hat(P)^D (n arrow.r 2) = frac(1, 2^2) - frac(1, n^2). $)
-
-The ratio to the $3 arrow.r 2$ record is
-
-#math.equation(block: true, numbering: none, $ cal(R)_(n arrow.r 2) = frac(Delta hat(P)^D (n arrow.r 2), Delta hat(P)^D (3 arrow.r 2)). $)
+#math.equation(block: true, numbering: none, $ Delta hat(P)^D (n arrow.r 2) = frac(1, 2^2) - frac(1, n^2), wide cal(R)_(n arrow.r 2) = frac(Delta hat(P)^D (n arrow.r 2), Delta hat(P)^D (3 arrow.r 2)). $)
 
 
 
@@ -144,11 +130,11 @@ The ratio to the $3 arrow.r 2$ record is
 
 == Shell-energy transitions <manual:hydrogen:energy-transitions>
 
-The measured comparison is downstream. Given a cited vacuum wavelength $lambda$, the comparison sequence is
+#aod-paragraph[Quarantined external map.]
+Measured frequency and energy coordinates enter strictly downstream under the quarantine
+of #appref("manual:external-comparison"). Given a cited vacuum wavelength $lambda$,
 
 #math.equation(block: true, numbering: none, $ f = frac(c, lambda), wide E = h_(upright("ext")) f. $)
-
-This sequence uses the quarantine of #appref("manual:external-comparison").
 
 
 #figure(
@@ -176,24 +162,32 @@ This sequence uses the quarantine of #appref("manual:external-comparison").
 ) <tab:manual-hydrogen-balmer-targets>
 
 
-
-
-
 == Hydrogen spectral-series extension <manual:hydrogen:spectral-extension>
 
+#aod-noteblock("Choice")[The Lyman and Paschen records use the same normalized shell-pressure ladder as the Balmer records. The destination shell $S_m$ is declared before each transition table; exact D0 ratio evaluation precedes any quarantined wavelength, frequency, or energy export.]
 
-#aod-noteblock("Choice")[The Lyman and Paschen records use the same normalized shell-pressure ladder as the Balmer records. The destination shell $S_m$ is declared before each transition table. Ratio comparison is performed before wavelength, frequency, or energy export.]
+#aod-paragraph[Derivation.]
+For a fixed destination shell $S_m$ and downward transition $n arrow.r m$ ($n > m$),
+define the exact D0 A$Omega$-internal series ratio $R_(upright("series")) (n arrow.r m) = cal(R)_(n arrow.r m, AO) gt.eq 1$
+and its reciprocal baseline-wavelength ratio $lambda_n slash lambda_(m + 1) = 1 slash R_(upright("series")) lt.eq 1$:
 
+#math.equation(block: true, numbering: none, $ R_(upright("series")) (n arrow.r m) = cal(R)_(n arrow.r m, AO) = frac(Delta hat(P)^D (n arrow.r m), Delta hat(P)^D ((m + 1) arrow.r m)) gt.eq 1, wide frac(lambda_n, lambda_(m + 1)) = frac(1, R_(upright("series")) (n arrow.r m)) lt.eq 1. $)
 
-For a fixed destination shell $S_m$ and a transition $n arrow.r m$, with $n > m$, define the A$Omega$-internal series ratio
-
-#math.equation(block: true, numbering: none, $ cal(R)_(n arrow.r m, AO) = frac(Delta hat(P)^D (n arrow.r m), Delta hat(P)^D ((m + 1) arrow.r m)). $)
-
-For wavelength comparison, use the inverse-wavelength relation
+Against quarantined wavelength targets at $B_(upright("ext")) = sans("Q")_(upright("ext"))$,
+the inverse-wavelength target ratio is
 
 #math.equation(block: true, numbering: none, $ cal(R)^(lambda ,upright("tar"))_(n arrow.r m) = frac(lambda_((m + 1) arrow.r m), lambda_(n arrow.r m)). $)
 
-Thus the A$Omega$-internal pressure ratio is compared against the measured inverse-wavelength ratio. external frequency coordinate and energy export remain downstream. The reference engine (#raw("manual/data/boundary_sadar/hydrogen_shell_exact_series.csv"), vector #raw("RC-031")) evaluates all Lyman ($m = 1$), Balmer ($m = 2$), and Paschen ($m = 3$) transitions in reduced exact rational arithmetic before wavelength comparison.
+Thus the A$Omega$-internal pressure ratio $R_(upright("series")) = cal(R)_(n arrow.r m, AO) gt.eq 1$
+compares directly against the measured inverse-wavelength ratio
+$cal(R)^(lambda ,upright("tar"))_(n arrow.r m)$, while its reciprocal
+$lambda_n slash lambda_(m + 1) = 1 slash R_(upright("series")) lt.eq 1$ records the
+dimensionless wavelength contraction across the wavelet D.E.C. ledger below.
+External frequency-coordinate and energy export remain downstream. The reference engine
+(#raw("manual/data/boundary_sadar/hydrogen_shell_exact_series.csv"), vector
+#raw("RC-031")) evaluates all Lyman ($m = 1$), Balmer ($m = 2$), and Paschen ($m = 3$)
+transitions in reduced exact rational arithmetic prior to quarantined NIST-ASD
+wavelength comparison.
 
 
 === Lyman series <manual:hydrogen:lyman>
@@ -270,22 +264,21 @@ For Paschen records, the destination shell is $S_3$. Pa$alpha$, Pa$beta$, and Pa
 
 === Series-ratio audit <manual:hydrogen:series-audit>
 
-Retain one source identity for the shared denominator when propagating the
+#aod-paragraph[Falsification.]
+Retain one source identity for the shared denominator when propagating within-series
 ratios. Air wavelengths require source-bound vacuum conversion or a declared
-model-to-air observation map, including refractive-index applicability and
-uncertainty; $c slash lambda_(upright("air"))$ is not a vacuum frequency. Until
-those bindings are supplied, the current inverse-wavelength ratios remain
-carried-coordinate diagnostics, with physical uncertainty unresolved.
+model-to-air observation map with refractive-index applicability and uncertainty;
+$c slash lambda_(upright("air"))$ is not a vacuum frequency. Until those bindings are
+supplied, the inverse-wavelength comparisons remain quarantined O0 carried-coordinate
+diagnostics with physical uncertainty unresolved, strictly separated from the D0 exact
+rational ratios of #raw("RC-031") and #raw("RC-039").
 
-
-#aod-noteblock("Audit")[A spectral-series record carries the destination shell $S_m$, the computed $Delta hat(P)^D (n arrow.r m)$, and the inverse-wavelength ratio $lambda_((m + 1) arrow.r m) slash lambda_(n arrow.r m)$.]
-
+#aod-noteblock("Audit")[A spectral-series record carries the destination shell $S_m$, the exact D0 quantity $Delta hat(P)^D (n arrow.r m)$, and—inside $B_(upright("ext"))$—the inverse-wavelength ratio $lambda_((m + 1) arrow.r m) slash lambda_(n arrow.r m)$.]
 
 #aod-provenance[#secref("subsec:shared-shell-path-declaration")\;
 #appref("manual:external-comparison").]
 
-
-#aod-literature-note[Hydrogen spectral-line targets: NIST Atomic Spectra Database #aod-cite("nist-asd")\; Paschen Pa$alpha$, Pa$beta$, Pa$epsilon$ air rows: NIST Hydrogen Handbook #aod-cite("nist-hydrogen-handbook").]
+#aod-literature-note[Hydrogen spectral-line targets: NIST Atomic Spectra Database #aod-cite("nist-asd")\; Paschen #box[Pa$alpha$], #box[Pa$beta$], #box[Pa$epsilon$] air rows: NIST Hydrogen Handbook #aod-cite("nist-hydrogen-handbook").]
 
 
 
@@ -316,47 +309,63 @@ The ratio audits in #tabref("tab:manual-hydrogen-pressure-ratios"), #tabref("tab
 
 == Five-boundary concentric shell transition and wavelet D.E.C. ledger <manual:hydrogen:dec-wavelet-transitions>
 
-Declare the concentric shell-hierarchy boundary stack separating native rational shell ratios from quarantined NIST wavelength targets:
+#aod-paragraph[Setup and engine verification (#raw("RC-039")).]
+Declare the concentric shell-hierarchy boundary stack separating D0 exact rational shell
+ratios from quarantined NIST-ASD wavelength targets:
 
 #math.equation(block: true, numbering: none, $ B_(upright("core")) arrow.r B_(S_n) arrow.r B_(S_m) arrow.r B_(upright("sensor")) arrow.r B_(upright("ext")) = sans("Q")_(upright("ext")). $)
 
-Vector #raw("RC-039") (#raw("manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) evaluates exact dimensionless shell-step pressure differences $Delta hat(P)_(n arrow.r m) = 1 slash m^2 - 1 slash n^2$, baseline-normalized series ratios $R_(upright("series")) (n arrow.r m) = Delta hat(P)_(n arrow.r m) slash Delta hat(P)_(m + 1 arrow.r m)$, and exact inverse wavelength ratios $lambda_n slash lambda_(m + 1) = 1 slash R_(upright("series"))$ across Balmer ($m = 2$), Lyman ($m = 1$), and Paschen ($m = 3$) transitions without importing an external Rydberg constant into $B_(upright("core")) arrow.r B_(upright("sensor"))$.
+Vector #raw("RC-039") (#raw("dec_hydrogen_shell_wavelet_step")) is verified alongside
+#raw("RC-031") by #raw("python3 -B -m manual.engine --sector boundary_sadar") and
+#raw("aod-core --verify-vectors --check-zero-float") against
+#raw("manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv"). It evaluates exact
+dimensionless shell-step pressure differences $Delta hat(P)_(n arrow.r m) = 1 slash m^2 - 1 slash n^2$,
+baseline-normalized series ratios
+$R_(upright("series")) (n arrow.r m) = cal(R)_(n arrow.r m, AO) = Delta hat(P)_(n arrow.r m) slash Delta hat(P)_(m + 1 arrow.r m) gt.eq 1$
+(with $6$-decimal display coordinates kept separate from exact rationals), and exact
+reciprocal wavelength ratios
+$lambda_n slash lambda_(m + 1) = 1 slash R_(upright("series")) lt.eq 1$ across Balmer
+($m = 2$), Lyman ($m = 1$), and Paschen ($m = 3$) transitions strictly inside
+$B_(upright("core")) arrow.r B_(upright("sensor"))$ without importing an external
+Rydberg constant.
 
 
 #figure(
   kind: image, [
 #include "../../lib/figures/manual/hydrogen_shell_wavelet_atlas.typ"
   ],
-  caption: [Concentric hydrogen shell boundaries $S_1 dots.h S_6$, outgoing Lyman/Balmer/Paschen wavelet packets across $B_(upright("sensor"))$, and exact within-series rational ratios (#raw("hydrogen_shell_dec_transitions.csv")).],
+  caption: [Concentric hydrogen shell boundaries $S_1 dots.h S_6$, outgoing Lyman/Balmer/Paschen wavelet packets across $B_(upright("sensor"))$, and exact within-series rational ratios (#raw("RC-039"), #raw("hydrogen_shell_dec_transitions.csv")).],
 ) <fig:manual-hydrogen-shell-wavelet-atlas>
 
 
 #figure(
   kind: table, [
 #{
+  let rows = csv("/manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv", row-type: dictionary)
   set text(size: 8.5pt)
   set par(justify: false)
   table(
-    columns: (auto, auto, auto, auto, auto, auto),
-    align: (left, left, right, right, right, right),
+    columns: (1.40fr, 1.15fr, 1.45fr, 1.45fr, 1.45fr, 1.55fr, 1.55fr),
+    align: (left, center, right, right, right, right, right),
+    inset: (x: 3.0pt, y: 3.2pt),
     table.header(
       toprule,
-      [Series], [$n arrow.r m$], [$r_n slash r_1 = n^2$], [$Delta hat(P)_(n arrow.r m)$], [$R_(upright("series"))$], [$lambda_n slash lambda_(m + 1)$],
+      [Series], [$n arrow.r m$], [$r_n slash r_1 = n^2$], [$Delta hat(P)_(n arrow.r m)$], [$R_(upright("series"))$ (exact)], [$R_(upright("series"))$ (6dp)], [$lambda_n slash lambda_(m + 1)$],
       midrule,
     ),
-    [Balmer], [$3 arrow.r 2$], [9], [$5 slash 36$], [$1$], [$1$],
-    [Balmer], [$4 arrow.r 2$], [16], [$3 slash 16$], [$27 slash 20$], [$20 slash 27$],
-    [Balmer], [$5 arrow.r 2$], [25], [$21 slash 100$], [$189 slash 125$], [$125 slash 189$],
-    [Balmer], [$6 arrow.r 2$], [36], [$2 slash 9$], [$8 slash 5$], [$5 slash 8$],
-    [Lyman], [$2 arrow.r 1$], [4], [$3 slash 4$], [$1$], [$1$],
-    [Lyman], [$3 arrow.r 1$], [9], [$8 slash 9$], [$32 slash 27$], [$27 slash 32$],
-    [Lyman], [$4 arrow.r 1$], [16], [$15 slash 16$], [$5 slash 4$], [$4 slash 5$],
-    [Paschen], [$4 arrow.r 3$], [16], [$7 slash 144$], [$1$], [$1$],
-    [Paschen], [$5 arrow.r 3$], [25], [$16 slash 225$], [$256 slash 175$], [$175 slash 256$],
+    ..rows.map(r => (
+      [#r.series],
+      [#r.n $arrow.r$ #r.m],
+      [#r.r_n_over_r1],
+      [#r.delta_P_hat],
+      [#r.R_series_exact],
+      [#r.R_series_dec6],
+      [#r.lambda_over_base_exact],
+    )).flatten(),
     bottomrule,
   )
 }
   ],
-  caption: [Exact rational hydrogen shell-transition and wavelet series D.E.C. ledger (#raw("RC-039")).],
+  caption: [Engine-bound exact rational hydrogen shell-transition and wavelet series D.E.C. ledger (#raw("RC-039"), live from #raw("hydrogen_shell_dec_transitions.csv")).],
 ) <tab:manual-hydrogen-dec-transitions>
 
