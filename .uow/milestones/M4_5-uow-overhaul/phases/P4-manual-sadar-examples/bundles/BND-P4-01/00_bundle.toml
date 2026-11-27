@@ -1,0 +1,53 @@
+bundle_id = "BND-P4-01"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P4-manual-sadar-examples"
+parent_bundle = "BND-P3-03"
+base_commit = "b732b84baae7afcac86a0ab05e7e2d9922acbf69"
+
+[objective]
+summary = "Refactor Manual §3 (00_awareness_fixtures.typ), §4 (00_dec_ledger.typ), and §8 (03_short_window_rcd_shedding_fixtures.typ) in place into clean General Mechanics structure, fix all scrambled vector IDs (RC-025/026/030/038/045), retire the frozen nested-path contradiction in §8, replace B|t cut-frame notation with B|k in §4, and bind live engine CSV tables."
+deliverables = [
+  "Refactor typst/manual/sections/00_dec_ledger.typ (§4) in place: fix scrambled vector citations from RC-028/RC-029 to RC-025 (dec_chiral_flip_walk) and RC-026 (dec_two_carrier_chiral_stokes), cite RC-045 (ternary_swar_and_trit_ratio) for the 2-bit preserved-11 (0_D/0_H) ternary encoding, replace unbound cut-frame B|t with cut index B|k (retaining exact labels and meaning), tighten prose into crisp General Mechanics Setup-Derivation-Specialization-Falsification flow, and preserve EVERY existing label and exact #mainequation / #mainsection set/count",
+  "Refactor typst/manual/sections/00_awareness_fixtures.typ (§3) in place: tighten prose into crisp General Mechanics structure integrating RC-034 seamlessly, bind <tab:manual-awareness-dec-ledger> live to manual/data/boundary_sadar/awareness_operativity_dec_walk.csv, and preserve EVERY existing label, EVERY owned equation formula in OWNERSHIP_AND_FIXTURES.json and AWARENESS_ACTIVE_CAUSAL_SPEC.json verbatim, and the exact #mainequation / #mainsection set/count",
+  "Refactor typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ (§8) in place: retire the self-contradictory sentence claiming 'still needs a frozen nested-path generator' by accurately binding RC-030's genuine finite C_6 two-step path-pair enumeration (410 + 38 = 448 in TritWord/TritRatio) while keeping external physical detector/exposure probability laws explicitly separated; fix the scrambled vector citation 'verified alongside RC-029' on L393 to RC-030 alongside RC-038; bind <tab:manual-short-window-dec-ledger> live to manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv; and preserve EVERY existing label and #main* reference count",
+  "Visually inspect rendered Manual §3, §4, and §8 pages (specifically every modified table and section boundary) of _build/pub/manual.pdf at 144 ppi PNG via pdftoppm and view_file confirming zero overlaps, zero clipping, and zero margin overflows",
+]
+
+[scope]
+read_only = [
+  "typst/manual/preamble.typ",
+  "typst/manual/main.typ",
+  "manual/data/boundary_sadar/awareness_operativity_dec_walk.csv",
+  "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
+  "manual/data/boundary_sadar/chiral_stokes_disoma_exchange.csv",
+  "manual/data/boundary_sadar/dimonhexon_double_slit_ring_paths.csv",
+  "manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv",
+  "contracts/scientific/OWNERSHIP_AND_FIXTURES.json",
+  "contracts/scientific/AWARENESS_ACTIVE_CAUSAL_SPEC.json",
+  "contracts/scientific/CANONICAL_BINDINGS.json",
+  "tests/test_main_manual_references.py",
+  "tests/test_main_manual_concept_ownership.py",
+]
+write_set = [
+  "typst/manual/sections/00_awareness_fixtures.typ",
+  "typst/manual/sections/00_dec_ledger.typ",
+  "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "Zero scrambled vector IDs: §4 must cite RC-025 and RC-026 (plus RC-045), NEVER RC-028/RC-029 for chiral flip/Stokes; §8 must cite RC-030 and RC-038, NEVER RC-029",
+  "Zero self-contradictory 'still needs a frozen nested-path generator' claim in §8 (distinguish RC-030's genuine finite C_6 two-step path-pair enumeration cleanly from external physical detector/exposure laws)",
+  "Zero B|t cut-frame notation in §4 (use cut index B|k)",
+  "Preserve ALL 455 Main labels, ALL 281 Manual labels, ALL 172 Manual mainref_uses, EVERY owned equation formula in OWNERSHIP_AND_FIXTURES.json / AWARENESS_ACTIVE_CAUSAL_SPEC.json byte-for-byte, and the EXACT #mainequation / #mainsection sets in 00_awareness_fixtures.typ and 00_dec_ledger.typ so test_main_manual_references.py and test_main_manual_concept_ownership.py pass 100%",
+  "Zero text collisions, clipping, or margin overflows on rendered Manual §3, §4, and §8 pages at 144 ppi PNG",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+  "python3 -B -m pytest -q tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py tests/test_main_manual_references.py tests/test_main_manual_concept_ownership.py",
+]
+max_retries = 2

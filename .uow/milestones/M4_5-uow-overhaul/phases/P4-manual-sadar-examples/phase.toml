@@ -1,0 +1,20 @@
+phase_id = "P4-manual-sadar-examples"
+milestone_id = "M4_5-uow-overhaul"
+base_branch = "uow/BND-P3-03"
+bundles = [
+  { id = "BND-P4-01", parent = "uow/BND-P3-03", summary = "Refactor Manual §3 (awareness), §4 (D.E.C. ledger), and §8 (short-window/double-slit) in place, fixing RC-025/026/030/038/045 citations, retiring the frozen nested-path contradiction, and binding live CSV tables" },
+  { id = "BND-P4-02", parent = "BND-P4-01", summary = "Refactor Manual §9 (rest energy: unify float tables, align raw 28 = 11+17, bind Tau 50-microslot rotor RC-027, debris/Higgs RC-028, atlas RC-029) and §10 (hydrogen: retire no-numeric-result contradiction, bind RC-031/RC-039)" },
+  { id = "BND-P4-03", parent = "BND-P4-02", summary = "Refactor Manual §1 (00_scope.typ vector alignment), §11 (retire no-numerical-results contradiction, bind RC-032), §12 (RC-040), §13 (retire 64.70291920%/66.1613%/pandas, bind G0 SPARC 26.57055342% SD-008 + RC-041), §14 (RC-042), and §15 (53-vector registry alignment)" },
+  { id = "BND-P4-04", parent = "BND-P4-03", summary = "Refactor Manual App. A (exact rational RC-014/RC-043 framing), App. B (SD-007 quarantine citations), and App. C (resolve beta_a=5 MSB vs beta_a=4 LSB mismatch across RC-044 engine, Rust, CSV, contracts, and prose)" },
+]
+
+[phase_validation]
+qa_write_set = ["tests/qa_*.py"]
+commands = [
+  'python3 -B scripts/audit_scientific_sources.py .',
+  'PATH="$HOME/.local/bin:$PATH" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry',
+  'CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS="-D warnings" cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked',
+  'mkdir -p _build/s2 _build/s4 && python3 -B -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p4_qa_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p4_qa_opt.json && cmp _build/s2/p4_qa_norm.json _build/s2/p4_qa_opt.json',
+  'CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/p4_qa_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/p4_qa_rel.json && cmp _build/s4/p4_qa_dbg.json _build/s4/p4_qa_rel.json',
+  'python3 -B -m pytest -q -o python_files="test_*.py *_test.py qa_*.py" -k "not (source_zip or s2_f1_diagnostics or s4_f1 or f1_diagnostics)" tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py tests/test_main_manual_references.py tests/test_main_manual_concept_ownership.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py tests/qa_phase4_*.py',
+]
