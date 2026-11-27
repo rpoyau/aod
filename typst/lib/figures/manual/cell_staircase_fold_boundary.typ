@@ -313,21 +313,19 @@
   #aod-boundary-wall(10.22, 5.26, 14.54, 5.26, stroke: 1.0pt + aod-pal.navy, hatch-side: 1, hatch-count: 8)
   #aod-box-tl(
     10.22, 5.48, 4.32, 2.60,
-    [
-      #set par(leading: 0.38em, spacing: 0.30em)
-      #text(size: 6.6pt)[
-        *Falsifier audit ($B_(upright("audit"))$):* \
-        1. 4D: $B_(3,upright("stair"),32)^+ - 4 V_(4,32)^+ = #r32.B3_stair_minus_4V4plus > 0$ ($!= 2 pi^2$). \
-        2. 2D: $C_(32) r - 2 A_(32)^+ = #r32.Cr_minus_2Aplus > 0$ ($C_n = 8$). \
-        3. Fold: mutating $F_2(Q_R)$ breaks $B_d^L F_d = F_(d-1) B_d^K$. \
-        4. Scope: Machin $pi$ stays in $B_(upright("ext"))$, never $B_(upright("core"))$.
-      ]
-    ],
+    [#text(size: 6.6pt)[
+      *Falsifier audit ($B_(upright("audit"))$):* \
+      *(1)* 4D: $B_(3,upright("stair"),32)^+ - 4 V_(4,32)^+ = #r32.B3_stair_minus_4V4plus > 0$ ($!= 2 pi^2$). \
+      *(2)* 2D: $C_(32) r - 2 A_(32)^+ = #r32.Cr_minus_2Aplus > 0$ ($C_n = 8$). \
+      *(3)* Fold: mutating $F_2(Q_R)$ breaks $B_d^L F_d = F_(d-1) B_d^K$. \
+      *(4)* Scope: Machin $pi$ stays in $B_(upright("ext"))$, never $B_(upright("core"))$.
+    ]],
     stroke: 0.8pt + aod-pal.navy,
     fill: white,
     radius: 3pt,
     inset: 4pt,
     align-mode: left + horizon,
+    leading: 0.38em,
   )
 
   // =========================================================================
