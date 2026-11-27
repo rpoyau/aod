@@ -8,7 +8,9 @@ use std::collections::{BTreeMap, BTreeSet};
 use crate::bigint::BigInt;
 use crate::bigrat::BigRat;
 use crate::json::JsonValue;
-use crate::numeric::{format_fixed, parse_canonical_rational_pair, parse_printed_rational};
+use crate::numeric::{
+    format_fixed, parse_canonical_rational_pair, parse_exact_int_str, parse_printed_rational,
+};
 use crate::ops::require_json_int;
 use crate::ternary::{TritRatio, TritWord};
 use crate::CoreError;
@@ -1419,27 +1421,584 @@ pub fn op_dec_typed_maps_exact_laws(
 }
 
 // ---------------------------------------------------------------------------
-// RC-037: dec_temporal_si_bridge_bounds
+// RC-037: dec_temporal_si_bridge_bounds (pure TritWord / TritRatio)
 // ---------------------------------------------------------------------------
+
+const RC037_MAX_CAUSAL_SPAN: i64 = 100_000;
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CutRecord {
+    pub cut: i64,
+    pub effective_capacity: i64,
+    pub outer_plus_retained: bool,
+    pub retention_status: String,
+    pub count_plus: i64,
+    pub count_minus: i64,
+    pub intervention_queued: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct CausalCapacityTrace {
+    pub window: (i64, i64),
+    pub intervention_cut: i64,
+    pub apply_intervention: bool,
+    pub disconnect_feedback: bool,
+    pub records: Vec<CutRecord>,
+    pub counts: (i64, i64),
+    pub ratio: TritRatio,
+}
+
+/// Strictly parse `[num, den]` of two canonical decimal strings or two exact integers into `TritRatio`.
+pub fn parse_trit_pair(val: &JsonValue, name: &str) -> Result<TritRatio, CoreError> {
+    let arr = match val {
+        JsonValue::Array(v) => v,
+        other => {
+            return Err(CoreError::TypeError(format!(
+                "{} must be a 2-element JSON array, got {}",
+                name,
+                other.type_name()
+            )));
+        }
+    };
+    if arr.len() != 2 {
+        return Err(CoreError::ValueError(format!(
+            "{} must have length 2, got {}",
+            name,
+            arr.len()
+        )));
+    }
+    let (num_bi, den_bi) = match (&arr[0], &arr[1]) {
+        (JsonValue::Str(n_s), JsonValue::Str(d_s)) => (
+            parse_exact_int_str(n_s, false)?,
+            parse_exact_int_str(d_s, false)?,
+        ),
+        (JsonValue::Int(n_i), JsonValue::Int(d_i)) => (n_i.clone(), d_i.clone()),
+        (a, b) => {
+            return Err(CoreError::TypeError(format!(
+                "{} entries must be both canonical decimal strings or both exact ints (excluding bool), got ({}, {})",
+                name,
+                a.type_name(),
+                b.type_name()
+            )));
+        }
+    };
+    let tw_num = TritWord::from_bigint(&num_bi);
+    let tw_den = TritWord::from_bigint(&den_bi);
+    if tw_den.sign() <= 0 {
+        return Err(CoreError::ValueError(format!(
+            "{} denominator must be positive, got {}",
+            name, den_bi
+        )));
+    }
+    TritRatio::new(tw_num, tw_den)
+}
+
+fn parse_strict_int_cuts(
+    val: &JsonValue,
+    name: &str,
+    min_len: usize,
+) -> Result<Vec<i64>, CoreError> {
+    let arr = match val {
+        JsonValue::Array(v) => v,
+        other => {
+            return Err(CoreError::TypeError(format!(
+                "{} must be a JSON array of exact ints, got {}",
+                name,
+                other.type_name()
+            )));
+        }
+    };
+    if arr.len() < min_len {
+        return Err(CoreError::ValueError(format!(
+            "{} requires >= {} cuts, got {}",
+            name,
+            min_len,
+            arr.len()
+        )));
+    }
+    let mut cuts = Vec::with_capacity(arr.len());
+    for (idx, item) in arr.iter().enumerate() {
+        let elem_name = format!("{}[{}]", name, idx);
+        cuts.push(parse_i64_elem(item, &elem_name)?);
+    }
+    for (idx, pair) in cuts.windows(2).enumerate() {
+        if pair[0] >= pair[1] {
+            return Err(CoreError::ValueError(format!(
+                "{} must be strictly increasing at index {}: {} >= {}",
+                name, idx, pair[0], pair[1]
+            )));
+        }
+    }
+    Ok(cuts)
+}
+
+fn parse_int_window(val: &JsonValue, name: &str) -> Result<(i64, i64), CoreError> {
+    let arr = match val {
+        JsonValue::Array(v) => v,
+        other => {
+            return Err(CoreError::TypeError(format!(
+                "{} must be a 2-element JSON array of exact ints, got {}",
+                name,
+                other.type_name()
+            )));
+        }
+    };
+    if arr.len() != 2 {
+        return Err(CoreError::ValueError(format!(
+            "{} must have length 2, got {}",
+            name,
+            arr.len()
+        )));
+    }
+    let lo = parse_i64_elem(&arr[0], &format!("{}[0]", name))?;
+    let hi = parse_i64_elem(&arr[1], &format!("{}[1]", name))?;
+    if lo >= hi {
+        return Err(CoreError::ValueError(format!(
+            "{} must satisfy lo < hi, got [{}, {}]",
+            name, lo, hi
+        )));
+    }
+    Ok((lo, hi))
+}
+
+fn count_post_anchor_in_half_open_window(
+    cuts: &[i64],
+    window_start: i64,
+    window_end: i64,
+    name: &str,
+) -> Result<TritWord, CoreError> {
+    if window_start >= window_end {
+        return Err(CoreError::ValueError(format!(
+            "window must satisfy window_start < window_end, got [{}, {}]",
+            window_start, window_end
+        )));
+    }
+    let in_window_count = cuts
+        .iter()
+        .filter(|&&k| window_start < k && k <= window_end)
+        .count();
+    if in_window_count < 2 {
+        return Err(CoreError::ValueError(format!(
+            "{} requires >= 2 closures in half-open window ({}, {}], got {}",
+            name, window_start, window_end, in_window_count
+        )));
+    }
+    let mut tw_count = TritWord::zero();
+    let tw_one = TritWord::one();
+    for &k in cuts.iter().skip(1) {
+        if window_start < k && k <= window_end {
+            tw_count = tw_count.add(&tw_one);
+        }
+    }
+    if tw_count.sign() <= 0 {
+        return Err(CoreError::ValueError(format!(
+            "{} requires >= 1 post-anchor closure in ({}, {}]",
+            name, window_start, window_end
+        )));
+    }
+    Ok(tw_count)
+}
+
+fn parse_nonneg_bigint_list(val: &JsonValue, name: &str) -> Result<Vec<BigInt>, CoreError> {
+    let arr = match val {
+        JsonValue::Array(v) => v,
+        other => {
+            return Err(CoreError::TypeError(format!(
+                "{} must be a JSON array of exact ints, got {}",
+                name,
+                other.type_name()
+            )));
+        }
+    };
+    let mut out = Vec::with_capacity(arr.len());
+    for (idx, item) in arr.iter().enumerate() {
+        let elem_name = format!("{}[{}]", name, idx);
+        let bi = require_json_int(item, &elem_name)?;
+        if bi.is_negative() {
+            return Err(CoreError::ValueError(format!(
+                "{} must be nonnegative, got {}",
+                elem_name, bi
+            )));
+        }
+        out.push(bi.clone());
+    }
+    Ok(out)
+}
+
+/// Step cut-by-cut causal capacity-drop dynamics over integer cuts `k = c_lo..=c_hi`.
+pub fn step_cut40_causal_intervention(
+    causal_window: (i64, i64),
+    outer_plus_cuts: &[i64],
+    outer_minus_cuts: &[i64],
+    intervention_cut: i64,
+    apply_intervention: bool,
+    disconnect_feedback: bool,
+) -> Result<CausalCapacityTrace, CoreError> {
+    let (c_lo, c_hi) = causal_window;
+    if c_lo >= c_hi {
+        return Err(CoreError::ValueError(format!(
+            "causal_window must satisfy lo < hi, got [{}, {}]",
+            c_lo, c_hi
+        )));
+    }
+    let span = c_hi.checked_sub(c_lo).ok_or_else(|| {
+        CoreError::ValueError("causal_window span overflows i64".to_string())
+    })?;
+    if span > RC037_MAX_CAUSAL_SPAN {
+        return Err(CoreError::ValueError(format!(
+            "causal_window span exceeds limit {}: {}",
+            RC037_MAX_CAUSAL_SPAN, span
+        )));
+    }
+    if !(c_lo < intervention_cut && intervention_cut < c_hi) {
+        return Err(CoreError::ValueError(format!(
+            "intervention_cut must satisfy {} < intervention_cut < {}, got {}",
+            c_lo, c_hi, intervention_cut
+        )));
+    }
+    if !outer_minus_cuts.iter().any(|&k| c_lo < k && k <= c_hi) {
+        return Err(CoreError::ValueError(format!(
+            "causal_outer_minus requires >= 1 cut in ({}, {}]",
+            c_lo, c_hi
+        )));
+    }
+
+    let outer_plus_set: BTreeSet<i64> = outer_plus_cuts.iter().copied().collect();
+    let outer_minus_set: BTreeSet<i64> = outer_minus_cuts.iter().copied().collect();
+    let capacity_threshold: i64 = 2;
+    let mut effective_capacity: i64 = 2;
+    let mut outer_plus_retained = true;
+    let mut retention_status = "retained".to_string();
+    let mut queued_capacity_drop = false;
+    let mut tw_plus = TritWord::zero();
+    let mut tw_minus = TritWord::zero();
+    let tw_one = TritWord::one();
+    let mut records = Vec::with_capacity((span as usize) + 1);
+
+    for k in c_lo..=c_hi {
+        if queued_capacity_drop {
+            effective_capacity = 1;
+            queued_capacity_drop = false;
+            if effective_capacity < capacity_threshold {
+                if disconnect_feedback {
+                    outer_plus_retained = true;
+                    retention_status = "retained_feedback_disconnected_mutation".to_string();
+                } else {
+                    outer_plus_retained = false;
+                    retention_status = "lost_by_declared_capacity_rule".to_string();
+                }
+            }
+        }
+
+        if k > c_lo {
+            if outer_plus_set.contains(&k) && outer_plus_retained {
+                tw_plus = tw_plus.add(&tw_one);
+            }
+            if outer_minus_set.contains(&k) {
+                tw_minus = tw_minus.add(&tw_one);
+            }
+        }
+
+        let intervention_queued_here = apply_intervention && k == intervention_cut;
+        if intervention_queued_here {
+            queued_capacity_drop = true;
+        }
+
+        let cp = tw_plus.to_bigint().to_i64().ok_or_else(|| {
+            CoreError::ValueError("count_plus exceeds i64 bounds".to_string())
+        })?;
+        let cm = tw_minus.to_bigint().to_i64().ok_or_else(|| {
+            CoreError::ValueError("count_minus exceeds i64 bounds".to_string())
+        })?;
+        records.push(CutRecord {
+            cut: k,
+            effective_capacity,
+            outer_plus_retained,
+            retention_status: retention_status.clone(),
+            count_plus: cp,
+            count_minus: cm,
+            intervention_queued: intervention_queued_here,
+        });
+    }
+
+    if tw_minus.sign() <= 0 {
+        return Err(CoreError::ValueError(
+            "causal simulation produced zero reference outer_minus count".to_string(),
+        ));
+    }
+    let final_plus = tw_plus.to_bigint().to_i64().ok_or_else(|| {
+        CoreError::ValueError("final count_plus exceeds i64 bounds".to_string())
+    })?;
+    let final_minus = tw_minus.to_bigint().to_i64().ok_or_else(|| {
+        CoreError::ValueError("final count_minus exceeds i64 bounds".to_string())
+    })?;
+    let ratio = TritRatio::new(tw_plus, tw_minus)?;
+    Ok(CausalCapacityTrace {
+        window: (c_lo, c_hi),
+        intervention_cut,
+        apply_intervention,
+        disconnect_feedback,
+        records,
+        counts: (final_plus, final_minus),
+        ratio,
+    })
+}
+
+/// Replay-validate a causal capacity trace against honest (connected-feedback) stepping.
+pub fn validate_causal_capacity_trace(
+    trace: &CausalCapacityTrace,
+    causal_window: (i64, i64),
+    outer_plus_cuts: &[i64],
+    outer_minus_cuts: &[i64],
+    intervention_cut: i64,
+    apply_intervention: bool,
+) -> Result<(), CoreError> {
+    let capacity_threshold: i64 = 2;
+    for rec in &trace.records {
+        if rec.effective_capacity < capacity_threshold
+            && (rec.outer_plus_retained
+                || rec.retention_status != "lost_by_declared_capacity_rule")
+        {
+            return Err(CoreError::ValueError(format!(
+                "capacity-loss invariant violated at cut {}: effective_capacity={}, outer_plus_retained={}, retention_status={:?}",
+                rec.cut, rec.effective_capacity, rec.outer_plus_retained, rec.retention_status
+            )));
+        }
+    }
+    let honest = step_cut40_causal_intervention(
+        causal_window,
+        outer_plus_cuts,
+        outer_minus_cuts,
+        intervention_cut,
+        apply_intervention,
+        false,
+    )?;
+    if trace.records != honest.records
+        || trace.counts != honest.counts
+        || trace.ratio != honest.ratio
+    {
+        return Err(CoreError::ValueError(
+            "causal capacity trace failed exact replay validation against honest dynamics"
+                .to_string(),
+        ));
+    }
+    Ok(())
+}
+
+fn observable_cut_tuple(rec: &CutRecord) -> (i64, bool, &str, i64, i64) {
+    (
+        rec.effective_capacity,
+        rec.outer_plus_retained,
+        rec.retention_status.as_str(),
+        rec.count_plus,
+        rec.count_minus,
+    )
+}
+
+struct ObservedAdvanceEntry {
+    winding: TritWord,
+    phase_start: TritRatio,
+    phase_end: TritRatio,
+    advance: TritRatio,
+}
+
+fn make_observed_advance_entry(
+    winding: TritWord,
+    phase_start: TritRatio,
+    phase_end: TritRatio,
+    name: &str,
+) -> Result<ObservedAdvanceEntry, CoreError> {
+    let tr_one = TritRatio::one();
+    if phase_start.sign() < 0 || phase_start >= tr_one {
+        return Err(CoreError::ValueError(format!(
+            "{}.phase_start must lie in [0, 1), got {}",
+            name, phase_start
+        )));
+    }
+    if phase_end.sign() < 0 || phase_end >= tr_one {
+        return Err(CoreError::ValueError(format!(
+            "{}.phase_end must lie in [0, 1), got {}",
+            name, phase_end
+        )));
+    }
+    let adv = TritRatio::new(winding.clone(), TritWord::one())?
+        .add(&phase_end)
+        .sub(&phase_start);
+    Ok(ObservedAdvanceEntry {
+        winding,
+        phase_start,
+        phase_end,
+        advance: adv,
+    })
+}
+
+fn parse_observed_advance_entry(
+    val: &JsonValue,
+    name: &str,
+) -> Result<ObservedAdvanceEntry, CoreError> {
+    let obj = require_obj(val, name)?;
+    if obj.len() != 3
+        || !obj.contains_key("winding")
+        || !obj.contains_key("phase_start")
+        || !obj.contains_key("phase_end")
+    {
+        return Err(CoreError::ValueError(format!(
+            "{} must have exact keys [phase_end, phase_start, winding]",
+            name
+        )));
+    }
+    let w_bi = require_json_int(&obj["winding"], &format!("{}.winding", name))?;
+    if w_bi.is_negative() {
+        return Err(CoreError::ValueError(format!(
+            "{}.winding must be >= 0, got {}",
+            name, w_bi
+        )));
+    }
+    let tw_w = TritWord::from_bigint(w_bi);
+    let phi0 = parse_trit_pair(&obj["phase_start"], &format!("{}.phase_start", name))?;
+    let phi1 = parse_trit_pair(&obj["phase_end"], &format!("{}.phase_end", name))?;
+    make_observed_advance_entry(tw_w, phi0, phi1, name)
+}
+
+struct ObservedAdvanceSummary {
+    compared: TritRatio,
+    reference: TritRatio,
+    ratio: TritRatio,
+    split_sum: TritRatio,
+    clipped: TritRatio,
+    signed: TritRatio,
+}
+
+fn eval_observed_advance_block(
+    raw_opt: Option<&JsonValue>,
+) -> Result<ObservedAdvanceSummary, CoreError> {
+    let allowed: [&str; 5] = [
+        "compared",
+        "reference",
+        "split_left",
+        "split_right",
+        "signed_control",
+    ];
+    let overrides: Option<&BTreeMap<String, JsonValue>> = match raw_opt {
+        None => None,
+        Some(v) => {
+            let m = require_obj(v, "observed_advance")?;
+            for k in m.keys() {
+                if !allowed.contains(&k.as_str()) {
+                    return Err(CoreError::ValueError(format!(
+                        "unexpected key {:?} in observed_advance",
+                        k
+                    )));
+                }
+            }
+            Some(m)
+        }
+    };
+
+    let compared = match overrides.and_then(|m| m.get("compared")) {
+        Some(v) => parse_observed_advance_entry(v, "observed_advance.compared")?,
+        None => make_observed_advance_entry(
+            tw_i64(4),
+            TritRatio::new(tw_i64(2), tw_i64(3))?,
+            TritRatio::new(tw_i64(1), tw_i64(6))?,
+            "observed_advance.compared",
+        )?,
+    };
+    let reference = match overrides.and_then(|m| m.get("reference")) {
+        Some(v) => parse_observed_advance_entry(v, "observed_advance.reference")?,
+        None => make_observed_advance_entry(
+            tw_i64(8),
+            TritRatio::new(tw_i64(1), tw_i64(4))?,
+            TritRatio::new(tw_i64(3), tw_i64(4))?,
+            "observed_advance.reference",
+        )?,
+    };
+    let split_left = match overrides.and_then(|m| m.get("split_left")) {
+        Some(v) => parse_observed_advance_entry(v, "observed_advance.split_left")?,
+        None => make_observed_advance_entry(
+            tw_i64(2),
+            TritRatio::new(tw_i64(2), tw_i64(3))?,
+            TritRatio::new(tw_i64(5), tw_i64(6))?,
+            "observed_advance.split_left",
+        )?,
+    };
+    let split_right = match overrides.and_then(|m| m.get("split_right")) {
+        Some(v) => parse_observed_advance_entry(v, "observed_advance.split_right")?,
+        None => make_observed_advance_entry(
+            tw_i64(2),
+            TritRatio::new(tw_i64(5), tw_i64(6))?,
+            TritRatio::new(tw_i64(1), tw_i64(6))?,
+            "observed_advance.split_right",
+        )?,
+    };
+    let signed_control = match overrides.and_then(|m| m.get("signed_control")) {
+        Some(v) => parse_observed_advance_entry(v, "observed_advance.signed_control")?,
+        None => make_observed_advance_entry(
+            TritWord::zero(),
+            TritRatio::new(tw_i64(3), tw_i64(4))?,
+            TritRatio::new(tw_i64(1), tw_i64(4))?,
+            "observed_advance.signed_control",
+        )?,
+    };
+
+    if reference.advance.sign() <= 0 {
+        return Err(CoreError::ValueError(format!(
+            "observed_advance.reference advance must be > 0, got {}",
+            reference.advance
+        )));
+    }
+    if split_left.phase_start != compared.phase_start {
+        return Err(CoreError::ValueError(
+            "split_left.phase_start must equal compared.phase_start".to_string(),
+        ));
+    }
+    if split_left.phase_end != split_right.phase_start {
+        return Err(CoreError::ValueError(
+            "split_left.phase_end must equal split_right.phase_start".to_string(),
+        ));
+    }
+    if split_right.phase_end != compared.phase_end {
+        return Err(CoreError::ValueError(
+            "split_right.phase_end must equal compared.phase_end".to_string(),
+        ));
+    }
+    if split_left.winding.add(&split_right.winding) != compared.winding {
+        return Err(CoreError::ValueError(
+            "split_left.winding + split_right.winding must equal compared.winding".to_string(),
+        ));
+    }
+
+    let split_sum = split_left.advance.add(&split_right.advance);
+    if split_sum != compared.advance {
+        return Err(CoreError::ValueError(format!(
+            "observed advance additivity violated: {} != {}",
+            split_sum, compared.advance
+        )));
+    }
+    let ratio = compared.advance.checked_div(&reference.advance)?;
+    let clipped = if signed_control.advance.sign() > 0 {
+        signed_control.advance.clone()
+    } else {
+        TritRatio::zero()
+    };
+
+    Ok(ObservedAdvanceSummary {
+        compared: compared.advance,
+        reference: reference.advance,
+        ratio,
+        split_sum,
+        clipped,
+        signed: signed_control.advance,
+    })
+}
 
 pub fn op_dec_temporal_si_bridge_bounds(
     inputs: &BTreeMap<String, JsonValue>,
 ) -> Result<JsonValue, CoreError> {
-    let c_arr = require_array(inputs, "compared_cuts")?;
-    let r_arr = require_array(inputs, "ref_cuts")?;
-    if c_arr.len() < 2 || r_arr.len() < 2 {
-        return Err(CoreError::ValueError(
-            "compared_cuts and ref_cuts require >= 2 closures".to_string(),
-        ));
-    }
-    for v in c_arr {
-        let _ = parse_i64_elem(v, "c_cut")?;
-    }
-    for v in r_arr {
-        let _ = parse_i64_elem(v, "r_cut")?;
-    }
-    let f_cs = require_i64(inputs, "f_cs_hz")?;
-    let cal_ref = require_i64(inputs, "cal_ref")?;
+    let c_cuts = parse_strict_int_cuts(get_field(inputs, "compared_cuts")?, "compared_cuts", 2)?;
+    let r_cuts = parse_strict_int_cuts(get_field(inputs, "ref_cuts")?, "ref_cuts", 2)?;
+    let f_cs_bi = require_json_int(get_field(inputs, "f_cs_hz")?, "f_cs_hz")?;
+    let cal_ref_bi = require_json_int(get_field(inputs, "cal_ref")?, "cal_ref")?;
     let fa = require_array(inputs, "field_a")?;
     let fb = require_array(inputs, "field_b")?;
     if fa.len() != 2 || fb.len() != 2 {
@@ -1447,52 +2006,327 @@ pub fn op_dec_temporal_si_bridge_bounds(
             "field_a and field_b must have 2 elements".to_string(),
         ));
     }
-    let na_cal = parse_i64_elem(&fa[0], "na_cal")?;
-    let na_val = parse_i64_elem(&fa[1], "na_val")?;
-    let nb_cal = parse_i64_elem(&fb[0], "nb_cal")?;
-    let nb_val = parse_i64_elem(&fb[1], "nb_val")?;
-    if f_cs <= 0 || cal_ref <= 0 || na_cal <= 0 || nb_cal <= 0 {
+    let na_cal_bi = require_json_int(&fa[0], "na_cal")?;
+    let na_val_bi = require_json_int(&fa[1], "na_val")?;
+    let nb_cal_bi = require_json_int(&fb[0], "nb_cal")?;
+    let nb_val_bi = require_json_int(&fb[1], "nb_val")?;
+    if !f_cs_bi.is_positive()
+        || !cal_ref_bi.is_positive()
+        || !na_cal_bi.is_positive()
+        || !nb_cal_bi.is_positive()
+    {
         return Err(CoreError::ValueError(
-            "positive temporal counts required".to_string(),
+            "f_cs_hz, cal_ref, na_cal, and nb_cal must be positive".to_string(),
+        ));
+    }
+    if na_val_bi.is_negative() || nb_val_bi.is_negative() {
+        return Err(CoreError::ValueError(
+            "na_val and nb_val must be nonnegative".to_string(),
         ));
     }
 
-    let n_c = (c_arr.len() as i64) - 1;
-    let n_r = (r_arr.len() as i64) - 1;
-    let biz_cr = BigRat::from_i64_pair(n_c, n_r)?;
-    let biz_rc = BigRat::from_i64_pair(n_r, n_c)?;
-    let lag_fwd = &BigRat::from_i64(n_c - n_r) + &BigRat::from_i64_pair(1, 2)?;
-    let lag_rev = -&lag_fwd;
+    // Optional window, biases, directional RCD, and stipulated SI gains
+    let (win_lo, win_hi) = match inputs.get("window") {
+        Some(v) => parse_int_window(v, "window")?,
+        None => (0, 30),
+    };
+    let compared_bias = match inputs.get("compared_bias") {
+        Some(v) => parse_trit_pair(v, "compared_bias")?,
+        None => TritRatio::new(TritWord::one(), tw_i64(4))?,
+    };
+    let ref_bias = match inputs.get("ref_bias") {
+        Some(v) => parse_trit_pair(v, "ref_bias")?,
+        None => TritRatio::new(TritWord::neg_one(), tw_i64(4))?,
+    };
 
-    let t_sec = BigRat::from_i64_pair(n_r, f_cs)?;
-    let nu_bar = BigRat::from_i64(n_c).checked_div(&t_sec)?;
+    let tw_rcd_rd = match inputs.get("rcd_rd") {
+        Some(v) => {
+            let bi = require_json_int(v, "rcd_rd")?;
+            if !bi.is_positive() {
+                return Err(CoreError::ValueError(format!(
+                    "rcd_rd must be >= 1, got {}",
+                    bi
+                )));
+            }
+            TritWord::from_bigint(bi)
+        }
+        None => tw_i64(3),
+    };
+    let rcd_c_refs = match inputs.get("rcd_c_reflections") {
+        Some(v) => parse_nonneg_bigint_list(v, "rcd_c_reflections")?,
+        None => vec![BigInt::one(), BigInt::one()],
+    };
+    let rcd_r_refs = match inputs.get("rcd_r_reflections") {
+        Some(v) => parse_nonneg_bigint_list(v, "rcd_r_reflections")?,
+        None => vec![BigInt::from_i64(2), BigInt::from_i64(2)],
+    };
 
-    let cal_rat = BigRat::from_i64(cal_ref);
-    let pred_a = BigRat::from_i64_pair(cal_ref * na_val, na_cal)?;
-    let rel_a = (&pred_a - &cal_rat).checked_div(&cal_rat)?;
-    let pred_b = BigRat::from_i64_pair(cal_ref * nb_val, nb_cal)?;
-    let rel_b = (&pred_b - &cal_rat).checked_div(&cal_rat)?;
+    let a_c = match inputs.get("a_c") {
+        Some(v) => parse_trit_pair(v, "a_c")?,
+        None => TritRatio::one(),
+    };
+    let a_r = match inputs.get("a_r") {
+        Some(v) => parse_trit_pair(v, "a_r")?,
+        None => TritRatio::one(),
+    };
+    if a_c.sign() <= 0 || a_r.sign() <= 0 {
+        return Err(CoreError::ValueError(
+            "stipulated SI gains a_c and a_r must be positive".to_string(),
+        ));
+    }
+
+    // 1. Half-open (u, v] filtering & anchor exclusion
+    let tw_nc = count_post_anchor_in_half_open_window(&c_cuts, win_lo, win_hi, "compared_cuts")?;
+    let tw_nr = count_post_anchor_in_half_open_window(&r_cuts, win_lo, win_hi, "ref_cuts")?;
+    let tr_nc = TritRatio::new(tw_nc.clone(), TritWord::one())?;
+    let tr_nr = TritRatio::new(tw_nr.clone(), TritWord::one())?;
+
+    // 2. Cadence ratios, biases, directional RCD, stipulated SI gains & cross-field transfer
+    let biz_cr = TritRatio::new(tw_nc.clone(), tw_nr.clone())?;
+    let biz_rc = TritRatio::new(tw_nr.clone(), tw_nc.clone())?;
+    if biz_cr.mul(&biz_rc) != TritRatio::one() {
+        return Err(CoreError::ValueError(
+            "cadence reciprocity biz_c|r * biz_r|c == 1 failed".to_string(),
+        ));
+    }
+
+    let lag_fwd = TritRatio::new(tw_nc.sub(&tw_nr), TritWord::one())?
+        .add(&compared_bias.sub(&ref_bias));
+    let lag_rev = lag_fwd.neg();
+
+    let mut tw_rcd_cr = tw_rcd_rd.clone();
+    for bi in &rcd_c_refs {
+        tw_rcd_cr = tw_rcd_cr.add(&TritWord::from_bigint(bi));
+    }
+    let mut tw_rcd_rc = tw_rcd_rd;
+    for bi in &rcd_r_refs {
+        tw_rcd_rc = tw_rcd_rc.add(&TritWord::from_bigint(bi));
+    }
+
+    let tr_fcs = TritRatio::new(TritWord::from_bigint(f_cs_bi), TritWord::one())?;
+    let t_sec = tr_nr.mul(&a_r).checked_div(&tr_fcs)?;
+    let nu_bar = tr_nc.mul(&a_c).checked_div(&t_sec)?;
+
+    let tr_cal = TritRatio::new(TritWord::from_bigint(cal_ref_bi), TritWord::one())?;
+    let tr_na_cal = TritRatio::new(TritWord::from_bigint(na_cal_bi), TritWord::one())?;
+    let tr_na_val = TritRatio::new(TritWord::from_bigint(na_val_bi), TritWord::one())?;
+    let pred_a = tr_cal.checked_div(&tr_na_cal)?.mul(&tr_na_val);
+    let rel_a = pred_a.sub(&tr_cal).checked_div(&tr_cal)?;
+
+    let tr_nb_cal = TritRatio::new(TritWord::from_bigint(nb_cal_bi), TritWord::one())?;
+    let tr_nb_val = TritRatio::new(TritWord::from_bigint(nb_val_bi), TritWord::one())?;
+    let pred_b = tr_cal.checked_div(&tr_nb_cal)?.mul(&tr_nb_val);
+    let rel_b = pred_b.sub(&tr_cal).checked_div(&tr_cal)?;
+
+    // 3. Cut-by-cut causal capacity-drop simulation & hostile disconnect rejection
+    let causal_win = match inputs.get("causal_window") {
+        Some(v) => parse_int_window(v, "causal_window")?,
+        None => (0, 100),
+    };
+    let outer_plus = match inputs.get("causal_outer_plus") {
+        Some(v) => parse_strict_int_cuts(v, "causal_outer_plus", 1)?,
+        None => vec![16, 32, 48, 64, 80, 96],
+    };
+    let outer_minus = match inputs.get("causal_outer_minus") {
+        Some(v) => parse_strict_int_cuts(v, "causal_outer_minus", 1)?,
+        None => vec![15, 30, 45, 60, 75],
+    };
+    let cut_i = match inputs.get("intervention_cut") {
+        Some(v) => parse_i64_elem(v, "intervention_cut")?,
+        None => 40,
+    };
+
+    let baseline = step_cut40_causal_intervention(
+        causal_win,
+        &outer_plus,
+        &outer_minus,
+        cut_i,
+        false,
+        false,
+    )?;
+    let intervention = step_cut40_causal_intervention(
+        causal_win,
+        &outer_plus,
+        &outer_minus,
+        cut_i,
+        true,
+        false,
+    )?;
+    let disconnected = step_cut40_causal_intervention(
+        causal_win,
+        &outer_plus,
+        &outer_minus,
+        cut_i,
+        true,
+        true,
+    )?;
+
+    validate_causal_capacity_trace(&baseline, causal_win, &outer_plus, &outer_minus, cut_i, false)?;
+    validate_causal_capacity_trace(
+        &intervention,
+        causal_win,
+        &outer_plus,
+        &outer_minus,
+        cut_i,
+        true,
+    )?;
+    let disconnect_rejected = validate_causal_capacity_trace(
+        &disconnected,
+        causal_win,
+        &outer_plus,
+        &outer_minus,
+        cut_i,
+        true,
+    )
+    .is_err();
+    if !disconnect_rejected {
+        return Err(CoreError::ValueError(
+            "hostile disconnect_feedback trace must be rejected by replay validation".to_string(),
+        ));
+    }
+    if disconnected.counts != baseline.counts || disconnected.ratio != baseline.ratio {
+        return Err(CoreError::ValueError(
+            "hostile disconnect_feedback trace must collapse back to baseline counts and ratio"
+                .to_string(),
+        ));
+    }
+
+    let mut common_prefix_through: Option<i64> = None;
+    for ((rec_b, rec_i), rec_d) in baseline
+        .records
+        .iter()
+        .zip(intervention.records.iter())
+        .zip(disconnected.records.iter())
+    {
+        if rec_b == rec_i && rec_i == rec_d {
+            common_prefix_through = Some(rec_b.cut);
+        } else {
+            break;
+        }
+    }
+    let common_prefix_cut = match common_prefix_through {
+        Some(k) if k == cut_i - 1 => k,
+        other => {
+            return Err(CoreError::ValueError(format!(
+                "common_prefix_through mismatch: got {:?}, expected {}",
+                other,
+                cut_i - 1
+            )));
+        }
+    };
+
+    let mut first_divergent_cut: Option<i64> = None;
+    for (rec_b, rec_i) in baseline.records.iter().zip(intervention.records.iter()) {
+        let obs_b = observable_cut_tuple(rec_b);
+        let obs_i = observable_cut_tuple(rec_i);
+        if rec_b.cut <= cut_i {
+            if obs_b != obs_i {
+                return Err(CoreError::ValueError(format!(
+                    "causal pre-intervention observable diverged at cut {} <= {}",
+                    rec_b.cut, cut_i
+                )));
+            }
+        } else if obs_b != obs_i && first_divergent_cut.is_none() {
+            first_divergent_cut = Some(rec_b.cut);
+        }
+    }
+    let first_div_cut = match first_divergent_cut {
+        Some(k) if k > cut_i => k,
+        _ => {
+            return Err(CoreError::ValueError(
+                "causal intervention must yield a strictly later observable divergence".to_string(),
+            ));
+        }
+    };
+
+    // 4. Observed-advance endpoint law A(W) = C(W) + phi_1 - phi_0
+    let obs_adv = eval_observed_advance_block(inputs.get("observed_advance"))?;
 
     let mut out = BTreeMap::new();
-    out.insert("delta_bip_compared".to_string(), int_json(n_c));
-    out.insert("delta_bip_ref".to_string(), int_json(n_r));
-    out.insert("biz_c_over_r".to_string(), pair_json(&biz_cr));
-    out.insert("biz_r_over_c".to_string(), pair_json(&biz_rc));
-    out.insert("lag_forward".to_string(), pair_json(&lag_fwd));
-    out.insert("lag_reverse".to_string(), pair_json(&lag_rev));
-    out.insert("T_seconds".to_string(), pair_json(&t_sec));
-    out.insert("nu_bar_hz".to_string(), pair_json(&nu_bar));
-    out.insert("transfer_A_pred".to_string(), pair_json(&pred_a));
-    out.insert("transfer_A_rel_resid".to_string(), pair_json(&rel_a));
-    out.insert("transfer_B_pred".to_string(), pair_json(&pred_b));
-    out.insert("transfer_B_rel_resid".to_string(), pair_json(&rel_b));
+    out.insert(
+        "delta_bip_compared".to_string(),
+        JsonValue::Int(tw_nc.to_bigint()),
+    );
+    out.insert("delta_bip_ref".to_string(), JsonValue::Int(tw_nr.to_bigint()));
+    out.insert("biz_c_over_r".to_string(), trit_pair_json(&biz_cr));
+    out.insert("biz_r_over_c".to_string(), trit_pair_json(&biz_rc));
+    out.insert("lag_forward".to_string(), trit_pair_json(&lag_fwd));
+    out.insert("lag_reverse".to_string(), trit_pair_json(&lag_rev));
+    out.insert("T_seconds".to_string(), trit_pair_json(&t_sec));
+    out.insert("nu_bar_hz".to_string(), trit_pair_json(&nu_bar));
+    out.insert("transfer_A_pred".to_string(), trit_pair_json(&pred_a));
+    out.insert("transfer_A_rel_resid".to_string(), trit_pair_json(&rel_a));
+    out.insert("transfer_B_pred".to_string(), trit_pair_json(&pred_b));
+    out.insert("transfer_B_rel_resid".to_string(), trit_pair_json(&rel_b));
     out.insert(
         "intervention_ratio_before".to_string(),
-        pair_json(&BigRat::from_i64_pair(6, 5)?),
+        trit_pair_json(&baseline.ratio),
     );
     out.insert(
         "intervention_ratio_after".to_string(),
-        pair_json(&BigRat::from_i64_pair(2, 5)?),
+        trit_pair_json(&intervention.ratio),
+    );
+    out.insert(
+        "window".to_string(),
+        JsonValue::Array(vec![int_json(win_lo), int_json(win_hi)]),
+    );
+    out.insert(
+        "rcd_c_given_r".to_string(),
+        JsonValue::Int(tw_rcd_cr.to_bigint()),
+    );
+    out.insert(
+        "rcd_r_given_c".to_string(),
+        JsonValue::Int(tw_rcd_rc.to_bigint()),
+    );
+    out.insert(
+        "intervention_common_prefix_through".to_string(),
+        int_json(common_prefix_cut),
+    );
+    out.insert(
+        "intervention_first_divergent_cut".to_string(),
+        int_json(first_div_cut),
+    );
+    out.insert(
+        "intervention_counts_before".to_string(),
+        JsonValue::Array(vec![
+            int_json(baseline.counts.0),
+            int_json(baseline.counts.1),
+        ]),
+    );
+    out.insert(
+        "intervention_counts_after".to_string(),
+        JsonValue::Array(vec![
+            int_json(intervention.counts.0),
+            int_json(intervention.counts.1),
+        ]),
+    );
+    out.insert(
+        "intervention_disconnect_rejected".to_string(),
+        JsonValue::Bool(disconnect_rejected),
+    );
+    out.insert(
+        "observed_advance_compared".to_string(),
+        trit_pair_json(&obs_adv.compared),
+    );
+    out.insert(
+        "observed_advance_ref".to_string(),
+        trit_pair_json(&obs_adv.reference),
+    );
+    out.insert(
+        "observed_advance_ratio".to_string(),
+        trit_pair_json(&obs_adv.ratio),
+    );
+    out.insert(
+        "observed_advance_split_sum".to_string(),
+        trit_pair_json(&obs_adv.split_sum),
+    );
+    out.insert(
+        "observed_advance_clipped".to_string(),
+        trit_pair_json(&obs_adv.clipped),
+    );
+    out.insert(
+        "observed_advance_signed".to_string(),
+        trit_pair_json(&obs_adv.signed),
     );
     Ok(JsonValue::Object(out))
 }

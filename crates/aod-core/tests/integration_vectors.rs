@@ -1215,3 +1215,238 @@ fn test_rc035_4d_tesseract_pi_and_cellular_fold_chain_map() {
     );
 }
 
+#[test]
+fn test_rc037_relational_time_trit_ratio_and_causal_intervention() {
+    use aod_core::manual_dec_ops::{
+        parse_trit_pair, step_cut40_causal_intervention, validate_causal_capacity_trace,
+    };
+    use aod_core::ternary::TritRatio;
+
+    // 1. Golden vector RC-037 verification & all 28 output keys
+    let root = repo_root();
+    let (_, rc_rows) = load_vector_file(&root, RATIONAL_CORE_REL).expect("load rc");
+    let rc037 = rc_rows
+        .iter()
+        .find(|r| r.get("case_id") == Some(&JsonValue::Str("RC-037".to_string())))
+        .expect("RC-037 present");
+    verify_single_vector_with_root(rc037, &root).expect("RC-037 must verify cleanly");
+
+    let out = eval_operation(
+        "dec_temporal_si_bridge_bounds",
+        rc037["inputs"].as_object().unwrap(),
+    )
+    .expect("eval RC-037");
+    let obj = out.as_object().unwrap();
+    assert_eq!(obj.len(), 28);
+    assert_eq!(obj["delta_bip_compared"], JsonValue::Int(BigInt::from_i64(3)));
+    assert_eq!(obj["delta_bip_ref"], JsonValue::Int(BigInt::from_i64(2)));
+    assert_eq!(obj["rcd_c_given_r"], JsonValue::Int(BigInt::from_i64(5)));
+    assert_eq!(obj["rcd_r_given_c"], JsonValue::Int(BigInt::from_i64(7)));
+    assert_eq!(
+        obj["intervention_common_prefix_through"],
+        JsonValue::Int(BigInt::from_i64(39))
+    );
+    assert_eq!(
+        obj["intervention_first_divergent_cut"],
+        JsonValue::Int(BigInt::from_i64(41))
+    );
+    assert_eq!(obj["intervention_disconnect_rejected"], JsonValue::Bool(true));
+    assert_eq!(
+        obj["intervention_ratio_before"],
+        JsonValue::Array(vec![
+            JsonValue::Str("6".to_string()),
+            JsonValue::Str("5".to_string()),
+        ])
+    );
+    assert_eq!(
+        obj["intervention_ratio_after"],
+        JsonValue::Array(vec![
+            JsonValue::Str("2".to_string()),
+            JsonValue::Str("5".to_string()),
+        ])
+    );
+    assert_eq!(
+        obj["observed_advance_ratio"],
+        JsonValue::Array(vec![
+            JsonValue::Str("7".to_string()),
+            JsonValue::Str("17".to_string()),
+        ])
+    );
+    assert_eq!(
+        obj["observed_advance_clipped"],
+        JsonValue::Array(vec![
+            JsonValue::Str("0".to_string()),
+            JsonValue::Str("1".to_string()),
+        ])
+    );
+    assert_eq!(
+        obj["observed_advance_signed"],
+        JsonValue::Array(vec![
+            JsonValue::Str("-1".to_string()),
+            JsonValue::Str("2".to_string()),
+        ])
+    );
+
+    // 2. Direct parse_trit_pair validation (canonical str & int pairs; reject mixed/bool/nonpos)
+    let p_str = parse_json(r#"["2","4"]"#).unwrap();
+    let p_int = parse_json(r#"[1,2]"#).unwrap();
+    assert_eq!(
+        parse_trit_pair(&p_str, "p").unwrap(),
+        parse_trit_pair(&p_int, "p").unwrap()
+    );
+    for bad_ty in [r#"["1",4]"#, r#"[true,1]"#, r#""1/4""#] {
+        let j = parse_json(bad_ty).unwrap();
+        assert!(matches!(parse_trit_pair(&j, "p"), Err(CoreError::TypeError(_))));
+    }
+    for bad_val in [r#"["01","4"]"#, r#"["+1","4"]"#, r#"["1","0"]"#, r#"[1,-2]"#, r#"[1]"#] {
+        let j = parse_json(bad_val).unwrap();
+        assert!(matches!(parse_trit_pair(&j, "p"), Err(CoreError::ValueError(_))));
+    }
+
+    // 3. Direct cut-by-cut causal simulation & hostile disconnect rejection
+    let outer_plus = [16i64, 32, 48, 64, 80, 96];
+    let outer_minus = [15i64, 30, 45, 60, 75];
+    let base = step_cut40_causal_intervention((0, 100), &outer_plus, &outer_minus, 40, false, false)
+        .expect("baseline trace");
+    let inter = step_cut40_causal_intervention((0, 100), &outer_plus, &outer_minus, 40, true, false)
+        .expect("intervention trace");
+    let disc = step_cut40_causal_intervention((0, 100), &outer_plus, &outer_minus, 40, true, true)
+        .expect("disconnected trace");
+
+    assert_eq!(base.records.len(), 101);
+    assert_eq!(base.counts, (6, 5));
+    assert_eq!(inter.counts, (2, 5));
+    assert_eq!(disc.counts, (6, 5));
+    assert_eq!(base.ratio, TritRatio::from_i64_pair(6, 5).unwrap());
+    assert_eq!(inter.ratio, TritRatio::from_i64_pair(2, 5).unwrap());
+    assert_eq!(disc.ratio, base.ratio);
+    assert_eq!(base.records[..40], inter.records[..40]);
+    assert_eq!(base.records[..40], disc.records[..40]);
+    assert!(inter.records[40].intervention_queued);
+    assert!(inter.records[40].outer_plus_retained);
+    assert!(!inter.records[41].outer_plus_retained);
+    assert_eq!(inter.records[41].effective_capacity, 1);
+
+    validate_causal_capacity_trace(&base, (0, 100), &outer_plus, &outer_minus, 40, false)
+        .expect("baseline replay valid");
+    validate_causal_capacity_trace(&inter, (0, 100), &outer_plus, &outer_minus, 40, true)
+        .expect("intervention replay valid");
+    assert!(matches!(
+        validate_causal_capacity_trace(&disc, (0, 100), &outer_plus, &outer_minus, 40, true),
+        Err(CoreError::ValueError(_))
+    ));
+
+    // 4. Perturbed evaluation (shifted intervention_cut=60, half-open window, custom biases/RCD/gains/observed_advance)
+    let perturbed = parse_json(
+        r#"{
+            "compared_cuts":[2,10,18,26],
+            "ref_cuts":[2,12,22],
+            "f_cs_hz":9192631770,
+            "cal_ref":32,
+            "field_a":[58,48],
+            "field_b":[151,102],
+            "window":[10,30],
+            "compared_bias":[1,3],
+            "ref_bias":[-1,6],
+            "rcd_rd":5,
+            "rcd_c_reflections":[2,1,1],
+            "rcd_r_reflections":[3],
+            "a_c":["3","2"],
+            "a_r":["5","4"],
+            "intervention_cut":60,
+            "observed_advance":{
+                "compared":{"winding":3,"phase_start":["1","5"],"phase_end":["4","5"]},
+                "reference":{"winding":5,"phase_start":["1","10"],"phase_end":["3","5"]},
+                "split_left":{"winding":1,"phase_start":["1","5"],"phase_end":["2","5"]},
+                "split_right":{"winding":2,"phase_start":["2","5"],"phase_end":["4","5"]},
+                "signed_control":{"winding":0,"phase_start":["1","4"],"phase_end":["3","4"]}
+            }
+        }"#,
+    )
+    .expect("parse perturbed");
+    let p_out = eval_operation(
+        "dec_temporal_si_bridge_bounds",
+        perturbed.as_object().unwrap(),
+    )
+    .expect("eval perturbed RC-037");
+    let pobj = p_out.as_object().unwrap();
+    assert_eq!(pobj["delta_bip_compared"], JsonValue::Int(BigInt::from_i64(2)));
+    assert_eq!(pobj["delta_bip_ref"], JsonValue::Int(BigInt::from_i64(2)));
+    assert_eq!(
+        pobj["intervention_common_prefix_through"],
+        JsonValue::Int(BigInt::from_i64(59))
+    );
+    assert_eq!(
+        pobj["intervention_first_divergent_cut"],
+        JsonValue::Int(BigInt::from_i64(61))
+    );
+    assert_eq!(
+        pobj["intervention_ratio_after"],
+        JsonValue::Array(vec![
+            JsonValue::Str("3".to_string()),
+            JsonValue::Str("5".to_string()),
+        ])
+    );
+    assert_eq!(
+        pobj["observed_advance_ratio"],
+        JsonValue::Array(vec![
+            JsonValue::Str("36".to_string()),
+            JsonValue::Str("55".to_string()),
+        ])
+    );
+    assert_eq!(
+        pobj["observed_advance_clipped"],
+        JsonValue::Array(vec![
+            JsonValue::Str("1".to_string()),
+            JsonValue::Str("2".to_string()),
+        ])
+    );
+
+    // Negative controls: non-monotonic cuts, <2 in-window cuts, broken observed_advance split
+    for bad_json in [
+        r#"{"compared_cuts":[2,10,10,26],"ref_cuts":[2,12,22],"f_cs_hz":9192631770,"cal_ref":32,"field_a":[58,48],"field_b":[151,102]}"#,
+        r#"{"compared_cuts":[2,10,18,26],"ref_cuts":[2,12,22],"f_cs_hz":9192631770,"cal_ref":32,"field_a":[58,48],"field_b":[151,102],"window":[18,30]}"#,
+        r#"{"compared_cuts":[2,10,18,26],"ref_cuts":[2,12,22],"f_cs_hz":9192631770,"cal_ref":32,"field_a":[58,48],"field_b":[151,102],"observed_advance":{"split_right":{"winding":1,"phase_start":["5","6"],"phase_end":["1","6"]}}}"#,
+    ] {
+        let j = parse_json(bad_json).unwrap();
+        assert!(matches!(
+            eval_operation("dec_temporal_si_bridge_bounds", j.as_object().unwrap()),
+            Err(CoreError::ValueError(_))
+        ));
+    }
+
+    // TypeError parity controls: explicit null observed_advance and non-monotonic cuts with bad element type
+    for bad_type_json in [
+        r#"{"compared_cuts":[2,10,18,26],"ref_cuts":[2,12,22],"f_cs_hz":9192631770,"cal_ref":32,"field_a":[58,48],"field_b":[151,102],"observed_advance":null}"#,
+        r#"{"compared_cuts":[10,5,"bad"],"ref_cuts":[2,12,22],"f_cs_hz":9192631770,"cal_ref":32,"field_a":[58,48],"field_b":[151,102]}"#,
+        r#"{"compared_cuts":[2,10,18,26],"ref_cuts":[2,12,22],"f_cs_hz":9192631770,"cal_ref":32,"field_a":[58,48],"field_b":[151,102],"causal_outer_plus":[32,16,"bad"]}"#,
+    ] {
+        let j = parse_json(bad_type_json).unwrap();
+        assert!(matches!(
+            eval_operation("dec_temporal_si_bridge_bounds", j.as_object().unwrap()),
+            Err(CoreError::TypeError(_))
+        ));
+    }
+
+    // 5. Static check: zero BigRat and zero hardcoded (6,5)/(2,5) ratios in RC-037 section of manual_dec_ops.rs
+    let dec_src = fs::read_to_string(crate_root().join("src/manual_dec_ops.rs"))
+        .expect("read manual_dec_ops.rs");
+    let start_idx = dec_src
+        .find("// RC-037:")
+        .expect("RC-037 section header present");
+    let end_idx = dec_src[start_idx..]
+        .find("// RC-038:")
+        .map(|off| start_idx + off)
+        .expect("RC-038 section header present");
+    let rc037_src = &dec_src[start_idx..end_idx];
+    assert!(
+        !rc037_src.contains("BigRat"),
+        "op_dec_temporal_si_bridge_bounds and its helpers must not reference BigRat"
+    );
+    assert!(
+        !rc037_src.contains("(6, 5)") && !rc037_src.contains("(2, 5)"),
+        "op_dec_temporal_si_bridge_bounds must not hardcode (6, 5) or (2, 5) ratios"
+    );
+}
+
+

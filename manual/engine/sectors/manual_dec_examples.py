@@ -18,6 +18,7 @@ appendices without floating-point arithmetic, bare asserts, or external solvers:
 from __future__ import annotations
 
 import csv
+from dataclasses import dataclass
 from fractions import Fraction
 import io
 from pathlib import Path
@@ -26,9 +27,11 @@ from manual.engine.numeric import (
     canonical_rational_pair,
     canonical_rational_str,
     format_rational_fixed,
+    parse_exact_int,
     parse_printed_rational,
     require,
     require_exact_int,
+    require_type,
 )
 from manual.engine.policy import require_no_floats
 from manual.engine.ternary import TritRatio, TritWord
@@ -1330,121 +1333,834 @@ def build_typed_maps_csv_rows() -> list[dict[str, str]]:
 
 
 # =============================================================================
-# RC-037: Manual §7 — Coupled Closure-Beat RCD & Conditional SI Bridge
+# RC-037: Manual §7 — Coupled Closure-Beat RCD, Causal Intervention & SI Bridge
 # =============================================================================
+
+_RC037_MAX_CAUSAL_SPAN: int = 100_000
+_OBSERVED_ADVANCE_KEYS: frozenset[str] = frozenset(
+    {"compared", "reference", "split_left", "split_right", "signed_control"}
+)
+_OBSERVED_ENTRY_KEYS: frozenset[str] = frozenset({"winding", "phase_start", "phase_end"})
+_MISSING_OPT: object = object()
+
+
+@dataclass(frozen=True, slots=True)
+class CutRecord:
+    """Single integer-cut state record in the RC-037 causal capacity-drop simulation."""
+
+    cut: int
+    effective_capacity: int
+    outer_plus_retained: bool
+    retention_status: str
+    count_plus: int
+    count_minus: int
+    intervention_queued: bool
+
+
+@dataclass(frozen=True, slots=True)
+class CausalCapacityTrace:
+    """Complete trace, final counts, and exact TritRatio from cut-by-cut causal simulation."""
+
+    window: tuple[int, int]
+    intervention_cut: int
+    apply_intervention: bool
+    disconnect_feedback: bool
+    records: tuple[CutRecord, ...]
+    counts: tuple[int, int]
+    ratio: TritRatio
+
+
+def _parse_trit_pair(val: object, *, name: str) -> TritRatio:
+    """Strictly parse [num, den] of two canonical decimal strings or two exact ints into TritRatio."""
+    require_type(
+        isinstance(val, list),
+        f"{name} must be a 2-element list, got {type(val).__name__}",
+    )
+    require(len(val) == 2, f"{name} must have length 2, got {len(val)}")
+    raw_num, raw_den = val[0], val[1]
+    if isinstance(raw_num, str) and isinstance(raw_den, str):
+        num_i = parse_exact_int(raw_num, name=f"{name}[0]")
+        den_i = parse_exact_int(raw_den, name=f"{name}[1]")
+    elif (
+        not isinstance(raw_num, bool)
+        and isinstance(raw_num, int)
+        and not isinstance(raw_den, bool)
+        and isinstance(raw_den, int)
+    ):
+        num_i = raw_num
+        den_i = raw_den
+    else:
+        raise TypeError(
+            f"{name} entries must be both canonical decimal strings or both exact ints (excluding bool), "
+            f"got ({type(raw_num).__name__}, {type(raw_den).__name__})"
+        )
+    tw_num = TritWord.from_int(num_i)
+    tw_den = TritWord.from_int(den_i)
+    require(tw_den.sign() > 0, f"{name} denominator must be positive, got {den_i}")
+    return TritRatio(tw_num, tw_den)
+
+
+def _fmt_trit_pair(val: object, *, name: str) -> str:
+    """Format a canonical rational pair directly via TritRatio.canonical_str()."""
+    return _parse_trit_pair(val, name=name).canonical_str()
+
+
+def _parse_strict_int_cuts(
+    val: object,
+    *,
+    name: str,
+    min_len: int,
+) -> list[int]:
+    """Validate a strictly increasing list of exact integers with length >= min_len."""
+    require_type(
+        isinstance(val, list),
+        f"{name} must be a list of exact ints, got {type(val).__name__}",
+    )
+    require(len(val) >= min_len, f"{name} requires >= {min_len} cuts, got {len(val)}")
+    cuts = [require_exact_int(x, name=f"{name}[{idx}]") for idx, x in enumerate(val)]
+    for idx in range(len(cuts) - 1):
+        require(
+            cuts[idx] < cuts[idx + 1],
+            f"{name} must be strictly increasing at index {idx}: {cuts[idx]} >= {cuts[idx + 1]}",
+        )
+    return cuts
+
+
+def _parse_int_window(val: object, *, name: str) -> tuple[int, int]:
+    """Validate a 2-element exact integer window [lo, hi] with lo < hi."""
+    require_type(
+        isinstance(val, list),
+        f"{name} must be a 2-element list of exact ints, got {type(val).__name__}",
+    )
+    require(len(val) == 2, f"{name} must have length 2, got {len(val)}")
+    lo = require_exact_int(val[0], name=f"{name}[0]")
+    hi = require_exact_int(val[1], name=f"{name}[1]")
+    require(lo < hi, f"{name} must satisfy lo < hi, got [{lo}, {hi}]")
+    return (lo, hi)
+
+
+def _count_post_anchor_in_half_open_window(
+    cuts: list[int],
+    window_start: int,
+    window_end: int,
+    *,
+    name: str,
+) -> TritWord:
+    """Filter strictly increasing cuts to half-open (u, v], enforce >=2 in-window, and exclude anchor cuts[0]."""
+    require(
+        window_start < window_end,
+        f"window must satisfy window_start < window_end, got [{window_start}, {window_end}]",
+    )
+    in_window_all = [k for k in cuts if window_start < k <= window_end]
+    require(
+        len(in_window_all) >= 2,
+        f"{name} requires >= 2 closures in half-open window ({window_start}, {window_end}], "
+        f"got {len(in_window_all)}",
+    )
+    tw_count = TritWord.ZERO
+    for k in cuts[1:]:
+        if window_start < k <= window_end:
+            tw_count = tw_count.add(TritWord.ONE)
+    require(
+        tw_count.sign() > 0,
+        f"{name} requires >= 1 post-anchor closure in ({window_start}, {window_end}]",
+    )
+    return tw_count
+
+
+def _parse_nonneg_int_list(val: object, *, name: str) -> list[int]:
+    """Validate a list of nonnegative exact integers."""
+    require_type(
+        isinstance(val, list),
+        f"{name} must be a list of exact ints, got {type(val).__name__}",
+    )
+    out: list[int] = []
+    for idx, item in enumerate(val):
+        n = require_exact_int(item, name=f"{name}[{idx}]")
+        require(n >= 0, f"{name}[{idx}] must be nonnegative, got {n}")
+        out.append(n)
+    return out
+
+
+def _step_cut40_causal_intervention(
+    *,
+    causal_window: tuple[int, int],
+    outer_plus_cuts: list[int],
+    outer_minus_cuts: list[int],
+    intervention_cut: int,
+    apply_intervention: bool,
+    disconnect_feedback: bool = False,
+) -> CausalCapacityTrace:
+    """Step cut-by-cut causal capacity-drop dynamics over integer cuts k = c_lo .. c_hi."""
+    c_lo, c_hi = causal_window
+    require(c_lo < c_hi, f"causal_window must satisfy lo < hi, got [{c_lo}, {c_hi}]")
+    require(
+        c_hi - c_lo <= _RC037_MAX_CAUSAL_SPAN,
+        f"causal_window span exceeds limit {_RC037_MAX_CAUSAL_SPAN}: {c_hi - c_lo}",
+    )
+    require(
+        c_lo < intervention_cut < c_hi,
+        f"intervention_cut must satisfy {c_lo} < intervention_cut < {c_hi}, got {intervention_cut}",
+    )
+    require_type(
+        isinstance(apply_intervention, bool),
+        f"apply_intervention must be bool, got {type(apply_intervention).__name__}",
+    )
+    require_type(
+        isinstance(disconnect_feedback, bool),
+        f"disconnect_feedback must be bool, got {type(disconnect_feedback).__name__}",
+    )
+    require(
+        any(c_lo < k <= c_hi for k in outer_minus_cuts),
+        f"causal_outer_minus requires >= 1 cut in ({c_lo}, {c_hi}]",
+    )
+
+    outer_plus_set = frozenset(outer_plus_cuts)
+    outer_minus_set = frozenset(outer_minus_cuts)
+    capacity_threshold = 2
+    effective_capacity = 2
+    outer_plus_retained = True
+    retention_status = "retained"
+    queued_capacity_drop = False
+    tw_plus = TritWord.ZERO
+    tw_minus = TritWord.ZERO
+    records: list[CutRecord] = []
+
+    for k in range(c_lo, c_hi + 1):
+        if queued_capacity_drop:
+            effective_capacity = 1
+            queued_capacity_drop = False
+            if effective_capacity < capacity_threshold:
+                if disconnect_feedback:
+                    outer_plus_retained = True
+                    retention_status = "retained_feedback_disconnected_mutation"
+                else:
+                    outer_plus_retained = False
+                    retention_status = "lost_by_declared_capacity_rule"
+
+        if k > c_lo:
+            if k in outer_plus_set and outer_plus_retained:
+                tw_plus = tw_plus.add(TritWord.ONE)
+            if k in outer_minus_set:
+                tw_minus = tw_minus.add(TritWord.ONE)
+
+        intervention_queued_here = apply_intervention and k == intervention_cut
+        if intervention_queued_here:
+            queued_capacity_drop = True
+
+        records.append(
+            CutRecord(
+                cut=k,
+                effective_capacity=effective_capacity,
+                outer_plus_retained=outer_plus_retained,
+                retention_status=retention_status,
+                count_plus=tw_plus.to_int(),
+                count_minus=tw_minus.to_int(),
+                intervention_queued=intervention_queued_here,
+            )
+        )
+
+    require(tw_minus.sign() > 0, "causal simulation produced zero reference outer_minus count")
+    ratio = TritRatio(tw_plus, tw_minus)
+    return CausalCapacityTrace(
+        window=(c_lo, c_hi),
+        intervention_cut=intervention_cut,
+        apply_intervention=apply_intervention,
+        disconnect_feedback=disconnect_feedback,
+        records=tuple(records),
+        counts=(tw_plus.to_int(), tw_minus.to_int()),
+        ratio=ratio,
+    )
+
+
+def _validate_causal_capacity_trace(
+    trace: CausalCapacityTrace,
+    *,
+    causal_window: tuple[int, int],
+    outer_plus_cuts: list[int],
+    outer_minus_cuts: list[int],
+    intervention_cut: int,
+    apply_intervention: bool,
+) -> None:
+    """Replay-validate a causal capacity trace against honest (connected-feedback) stepping."""
+    capacity_threshold = 2
+    for rec in trace.records:
+        if rec.effective_capacity < capacity_threshold:
+            require(
+                (not rec.outer_plus_retained)
+                and rec.retention_status == "lost_by_declared_capacity_rule",
+                f"capacity-loss invariant violated at cut {rec.cut}: "
+                f"effective_capacity={rec.effective_capacity}, "
+                f"outer_plus_retained={rec.outer_plus_retained}, "
+                f"retention_status={rec.retention_status!r}",
+            )
+    honest = _step_cut40_causal_intervention(
+        causal_window=causal_window,
+        outer_plus_cuts=outer_plus_cuts,
+        outer_minus_cuts=outer_minus_cuts,
+        intervention_cut=intervention_cut,
+        apply_intervention=apply_intervention,
+        disconnect_feedback=False,
+    )
+    require(
+        trace.records == honest.records
+        and trace.counts == honest.counts
+        and trace.ratio == honest.ratio,
+        "causal capacity trace failed exact replay validation against honest dynamics",
+    )
+
+
+def _observable_cut_tuple(rec: CutRecord) -> tuple[int, bool, str, int, int]:
+    return (
+        rec.effective_capacity,
+        rec.outer_plus_retained,
+        rec.retention_status,
+        rec.count_plus,
+        rec.count_minus,
+    )
+
+
+def _parse_observed_advance_entry(
+    raw: object,
+    *,
+    name: str,
+) -> tuple[TritWord, TritRatio, TritRatio, TritRatio]:
+    """Parse one observed-advance entry {winding, phase_start, phase_end} strictly in TritWord/TritRatio."""
+    require_type(
+        isinstance(raw, dict),
+        f"{name} must be a dict, got {type(raw).__name__}",
+    )
+    keys = set(raw.keys())
+    require(
+        keys == _OBSERVED_ENTRY_KEYS,
+        f"{name} must have exact keys {sorted(_OBSERVED_ENTRY_KEYS)}, got {sorted(keys)}",
+    )
+    winding_i = require_exact_int(raw["winding"], name=f"{name}.winding")
+    require(winding_i >= 0, f"{name}.winding must be >= 0, got {winding_i}")
+    tw_winding = TritWord.from_int(winding_i)
+    phi_start = _parse_trit_pair(raw["phase_start"], name=f"{name}.phase_start")
+    phi_end = _parse_trit_pair(raw["phase_end"], name=f"{name}.phase_end")
+    require(
+        phi_start.sign() >= 0 and phi_start < TritRatio.ONE,
+        f"{name}.phase_start must lie in [0, 1), got {phi_start}",
+    )
+    require(
+        phi_end.sign() >= 0 and phi_end < TritRatio.ONE,
+        f"{name}.phase_end must lie in [0, 1), got {phi_end}",
+    )
+    advance = TritRatio(tw_winding, TritWord.ONE).add(phi_end).sub(phi_start)
+    return (tw_winding, phi_start, phi_end, advance)
+
+
+def _eval_observed_advance_block(raw_opt: object = _MISSING_OPT) -> dict[str, TritRatio]:
+    """Evaluate observed-advance endpoint law A(W) = C(W) + phi_1 - phi_0 strictly in TritRatio."""
+    defaults: dict[str, dict[str, object]] = {
+        "compared": {"winding": 4, "phase_start": ["2", "3"], "phase_end": ["1", "6"]},
+        "reference": {"winding": 8, "phase_start": ["1", "4"], "phase_end": ["3", "4"]},
+        "split_left": {"winding": 2, "phase_start": ["2", "3"], "phase_end": ["5", "6"]},
+        "split_right": {"winding": 2, "phase_start": ["5", "6"], "phase_end": ["1", "6"]},
+        "signed_control": {"winding": 0, "phase_start": ["3", "4"], "phase_end": ["1", "4"]},
+    }
+    overrides: dict[str, object] = {}
+    if raw_opt is not _MISSING_OPT:
+        require_type(
+            isinstance(raw_opt, dict),
+            f"observed_advance must be a dict, got {type(raw_opt).__name__}",
+        )
+        unknown = set(raw_opt.keys()) - _OBSERVED_ADVANCE_KEYS
+        require(
+            not unknown,
+            f"unexpected keys in observed_advance: {sorted(unknown)}",
+        )
+        overrides = dict(raw_opt)
+
+    parsed: dict[str, tuple[TritWord, TritRatio, TritRatio, TritRatio]] = {}
+    for key in ("compared", "reference", "split_left", "split_right", "signed_control"):
+        entry_raw = overrides[key] if key in overrides else defaults[key]
+        parsed[key] = _parse_observed_advance_entry(entry_raw, name=f"observed_advance.{key}")
+
+    w_c, phi0_c, phi1_c, adv_c = parsed["compared"]
+    _w_r, _phi0_r, _phi1_r, adv_r = parsed["reference"]
+    w_l, phi0_l, phi1_l, adv_l = parsed["split_left"]
+    w_sr, phi0_sr, phi1_sr, adv_sr = parsed["split_right"]
+    _w_s, _phi0_s, _phi1_s, adv_signed = parsed["signed_control"]
+
+    require(adv_r.sign() > 0, f"observed_advance.reference advance must be > 0, got {adv_r}")
+    require(
+        phi0_l == phi0_c,
+        f"split_left.phase_start {phi0_l} must equal compared.phase_start {phi0_c}",
+    )
+    require(
+        phi1_l == phi0_sr,
+        f"split_left.phase_end {phi1_l} must equal split_right.phase_start {phi0_sr}",
+    )
+    require(
+        phi1_sr == phi1_c,
+        f"split_right.phase_end {phi1_sr} must equal compared.phase_end {phi1_c}",
+    )
+    require(
+        w_l.add(w_sr) == w_c,
+        "split_left.winding + split_right.winding must equal compared.winding",
+    )
+
+    split_sum = adv_l.add(adv_sr)
+    require(
+        split_sum == adv_c,
+        f"observed advance additivity violated: {adv_l} + {adv_sr} = {split_sum} != {adv_c}",
+    )
+    adv_ratio = adv_c.div(adv_r)
+    adv_clipped = adv_signed if adv_signed.sign() > 0 else TritRatio.ZERO
+    return {
+        "compared": adv_c,
+        "reference": adv_r,
+        "ratio": adv_ratio,
+        "split_sum": split_sum,
+        "clipped": adv_clipped,
+        "signed": adv_signed,
+    }
 
 
 def eval_dec_temporal_si_bridge_bounds(inputs: dict[str, object]) -> dict[str, object]:
-    """Step coupled closure-beat RCD, Cs defining bridge & held-out transfer controls (RC-037)."""
-    c_cuts_raw = inputs.get("compared_cuts")
-    r_cuts_raw = inputs.get("ref_cuts")
-    require(isinstance(c_cuts_raw, list) and len(c_cuts_raw) >= 2, "compared_cuts requires >=2 closures")
-    require(isinstance(r_cuts_raw, list) and len(r_cuts_raw) >= 2, "ref_cuts requires >=2 closures")
-    c_cuts = [require_exact_int(x, name="c_cut") for x in c_cuts_raw]
-    r_cuts = [require_exact_int(x, name="r_cut") for x in r_cuts_raw]
-    f_cs = require_exact_int(inputs.get("f_cs_hz"), name="f_cs_hz")
-    cal_ref = require_exact_int(inputs.get("cal_ref"), name="cal_ref")
-    fa_raw = inputs.get("field_a")
-    fb_raw = inputs.get("field_b")
-    require(isinstance(fa_raw, list) and len(fa_raw) == 2, "field_a must be [N_cal, N_val]")
-    require(isinstance(fb_raw, list) and len(fb_raw) == 2, "field_b must be [N_cal, N_val]")
-    na_cal, na_val = require_exact_int(fa_raw[0], name="na_cal"), require_exact_int(fa_raw[1], name="na_val")
-    nb_cal, nb_val = require_exact_int(fb_raw[0], name="nb_cal"), require_exact_int(fb_raw[1], name="nb_val")
-    require(f_cs > 0 and cal_ref > 0 and na_cal > 0 and nb_cal > 0, "positive counts required")
+    """Step coupled closure-beat RCD, causal cut intervention, observed-advance, and SI bridge (RC-037)."""
+    require_type(
+        isinstance(inputs, dict),
+        f"inputs must be a dict, got {type(inputs).__name__}",
+    )
+    for req_key in ("compared_cuts", "ref_cuts", "f_cs_hz", "cal_ref", "field_a", "field_b"):
+        require(req_key in inputs, f"missing required input field {req_key!r}")
 
-    # Exclude initial anchor closure of each recurrent lineage
-    n_c = len(c_cuts) - 1
-    n_r = len(r_cuts) - 1
-    biz_cr = Fraction(n_c, n_r)
-    biz_rc = Fraction(n_r, n_c)
-    # Biases (+1/4, -1/4) with count delta (3 - 2 = 1) + bias difference (1/2) -> lag 3/2
-    lag_fwd = Fraction(n_c - n_r, 1) + (Fraction(1, 4) - Fraction(-1, 4))
-    lag_rev = -lag_fwd
+    c_cuts = _parse_strict_int_cuts(inputs["compared_cuts"], name="compared_cuts", min_len=2)
+    r_cuts = _parse_strict_int_cuts(inputs["ref_cuts"], name="ref_cuts", min_len=2)
+    f_cs_i = require_exact_int(inputs["f_cs_hz"], name="f_cs_hz")
+    cal_ref_i = require_exact_int(inputs["cal_ref"], name="cal_ref")
 
-    t_sec = Fraction(n_r, f_cs)
-    nu_bar = Fraction(n_c, 1) / t_sec
+    fa_raw = inputs["field_a"]
+    fb_raw = inputs["field_b"]
+    require_type(
+        isinstance(fa_raw, list),
+        f"field_a must be a 2-element list, got {type(fa_raw).__name__}",
+    )
+    require_type(
+        isinstance(fb_raw, list),
+        f"field_b must be a 2-element list, got {type(fb_raw).__name__}",
+    )
+    require(len(fa_raw) == 2, f"field_a must have length 2, got {len(fa_raw)}")
+    require(len(fb_raw) == 2, f"field_b must have length 2, got {len(fb_raw)}")
+    na_cal_i = require_exact_int(fa_raw[0], name="na_cal")
+    na_val_i = require_exact_int(fa_raw[1], name="na_val")
+    nb_cal_i = require_exact_int(fb_raw[0], name="nb_cal")
+    nb_val_i = require_exact_int(fb_raw[1], name="nb_val")
+    require(
+        f_cs_i > 0 and cal_ref_i > 0 and na_cal_i > 0 and nb_cal_i > 0,
+        "f_cs_hz, cal_ref, na_cal, and nb_cal must be positive",
+    )
+    require(na_val_i >= 0 and nb_val_i >= 0, "na_val and nb_val must be nonnegative")
 
-    pred_a = Fraction(cal_ref * na_val, na_cal)
-    rel_a = (pred_a - Fraction(cal_ref, 1)) / Fraction(cal_ref, 1)
-    pred_b = Fraction(cal_ref * nb_val, nb_cal)
-    rel_b = (pred_b - Fraction(cal_ref, 1)) / Fraction(cal_ref, 1)
+    # Optional window, biases, directional RCD, and stipulated SI gains
+    win_lo, win_hi = (
+        _parse_int_window(inputs["window"], name="window")
+        if "window" in inputs
+        else (0, 30)
+    )
+    compared_bias = (
+        _parse_trit_pair(inputs["compared_bias"], name="compared_bias")
+        if "compared_bias" in inputs
+        else TritRatio(TritWord.ONE, TritWord.from_int(4))
+    )
+    ref_bias = (
+        _parse_trit_pair(inputs["ref_bias"], name="ref_bias")
+        if "ref_bias" in inputs
+        else TritRatio(TritWord.NEG_ONE, TritWord.from_int(4))
+    )
+
+    rcd_rd_i = require_exact_int(inputs["rcd_rd"], name="rcd_rd") if "rcd_rd" in inputs else 3
+    require(rcd_rd_i >= 1, f"rcd_rd must be >= 1, got {rcd_rd_i}")
+    rcd_c_refs = (
+        _parse_nonneg_int_list(inputs["rcd_c_reflections"], name="rcd_c_reflections")
+        if "rcd_c_reflections" in inputs
+        else [1, 1]
+    )
+    rcd_r_refs = (
+        _parse_nonneg_int_list(inputs["rcd_r_reflections"], name="rcd_r_reflections")
+        if "rcd_r_reflections" in inputs
+        else [2, 2]
+    )
+
+    a_c = _parse_trit_pair(inputs["a_c"], name="a_c") if "a_c" in inputs else TritRatio.ONE
+    a_r = _parse_trit_pair(inputs["a_r"], name="a_r") if "a_r" in inputs else TritRatio.ONE
+    require(a_c.sign() > 0 and a_r.sign() > 0, "stipulated SI gains a_c and a_r must be positive")
+
+    # 1. Half-open (u, v] filtering & anchor exclusion
+    tw_nc = _count_post_anchor_in_half_open_window(c_cuts, win_lo, win_hi, name="compared_cuts")
+    tw_nr = _count_post_anchor_in_half_open_window(r_cuts, win_lo, win_hi, name="ref_cuts")
+    tr_nc = TritRatio(tw_nc, TritWord.ONE)
+    tr_nr = TritRatio(tw_nr, TritWord.ONE)
+
+    # 2. Cadence ratios, biases, directional RCD, stipulated SI gains & cross-field transfer
+    biz_cr = TritRatio(tw_nc, tw_nr)
+    biz_rc = TritRatio(tw_nr, tw_nc)
+    require(biz_cr.mul(biz_rc) == TritRatio.ONE, "cadence reciprocity biz_c|r * biz_r|c == 1 failed")
+
+    lag_fwd = TritRatio(tw_nc.sub(tw_nr), TritWord.ONE).add(compared_bias.sub(ref_bias))
+    lag_rev = lag_fwd.neg()
+
+    tw_rcd_cr = TritWord.from_int(rcd_rd_i)
+    for x in rcd_c_refs:
+        tw_rcd_cr = tw_rcd_cr.add(TritWord.from_int(x))
+    tw_rcd_rc = TritWord.from_int(rcd_rd_i)
+    for x in rcd_r_refs:
+        tw_rcd_rc = tw_rcd_rc.add(TritWord.from_int(x))
+
+    tr_fcs = TritRatio(TritWord.from_int(f_cs_i), TritWord.ONE)
+    t_sec = tr_nr.mul(a_r).div(tr_fcs)
+    nu_bar = tr_nc.mul(a_c).div(t_sec)
+
+    tr_cal = TritRatio(TritWord.from_int(cal_ref_i), TritWord.ONE)
+    tr_na_cal = TritRatio(TritWord.from_int(na_cal_i), TritWord.ONE)
+    tr_na_val = TritRatio(TritWord.from_int(na_val_i), TritWord.ONE)
+    pred_a = tr_cal.div(tr_na_cal).mul(tr_na_val)
+    rel_a = pred_a.sub(tr_cal).div(tr_cal)
+
+    tr_nb_cal = TritRatio(TritWord.from_int(nb_cal_i), TritWord.ONE)
+    tr_nb_val = TritRatio(TritWord.from_int(nb_val_i), TritWord.ONE)
+    pred_b = tr_cal.div(tr_nb_cal).mul(tr_nb_val)
+    rel_b = pred_b.sub(tr_cal).div(tr_cal)
+
+    # 3. Cut-by-cut causal capacity-drop simulation & hostile disconnect rejection
+    causal_win = (
+        _parse_int_window(inputs["causal_window"], name="causal_window")
+        if "causal_window" in inputs
+        else (0, 100)
+    )
+    outer_plus = (
+        _parse_strict_int_cuts(inputs["causal_outer_plus"], name="causal_outer_plus", min_len=1)
+        if "causal_outer_plus" in inputs
+        else [16, 32, 48, 64, 80, 96]
+    )
+    outer_minus = (
+        _parse_strict_int_cuts(inputs["causal_outer_minus"], name="causal_outer_minus", min_len=1)
+        if "causal_outer_minus" in inputs
+        else [15, 30, 45, 60, 75]
+    )
+    cut_i = (
+        require_exact_int(inputs["intervention_cut"], name="intervention_cut")
+        if "intervention_cut" in inputs
+        else 40
+    )
+
+    baseline = _step_cut40_causal_intervention(
+        causal_window=causal_win,
+        outer_plus_cuts=outer_plus,
+        outer_minus_cuts=outer_minus,
+        intervention_cut=cut_i,
+        apply_intervention=False,
+        disconnect_feedback=False,
+    )
+    intervention = _step_cut40_causal_intervention(
+        causal_window=causal_win,
+        outer_plus_cuts=outer_plus,
+        outer_minus_cuts=outer_minus,
+        intervention_cut=cut_i,
+        apply_intervention=True,
+        disconnect_feedback=False,
+    )
+    disconnected = _step_cut40_causal_intervention(
+        causal_window=causal_win,
+        outer_plus_cuts=outer_plus,
+        outer_minus_cuts=outer_minus,
+        intervention_cut=cut_i,
+        apply_intervention=True,
+        disconnect_feedback=True,
+    )
+
+    _validate_causal_capacity_trace(
+        baseline,
+        causal_window=causal_win,
+        outer_plus_cuts=outer_plus,
+        outer_minus_cuts=outer_minus,
+        intervention_cut=cut_i,
+        apply_intervention=False,
+    )
+    _validate_causal_capacity_trace(
+        intervention,
+        causal_window=causal_win,
+        outer_plus_cuts=outer_plus,
+        outer_minus_cuts=outer_minus,
+        intervention_cut=cut_i,
+        apply_intervention=True,
+    )
+
+    disconnect_rejected = False
+    try:
+        _validate_causal_capacity_trace(
+            disconnected,
+            causal_window=causal_win,
+            outer_plus_cuts=outer_plus,
+            outer_minus_cuts=outer_minus,
+            intervention_cut=cut_i,
+            apply_intervention=True,
+        )
+    except ValueError:
+        disconnect_rejected = True
+    require(
+        disconnect_rejected,
+        "hostile disconnect_feedback trace must be rejected by replay validation",
+    )
+    require(
+        disconnected.counts == baseline.counts and disconnected.ratio == baseline.ratio,
+        "hostile disconnect_feedback trace must collapse back to baseline counts and ratio",
+    )
+
+    common_prefix_through: int | None = None
+    for rec_b, rec_i, rec_d in zip(baseline.records, intervention.records, disconnected.records):
+        if rec_b == rec_i == rec_d:
+            common_prefix_through = rec_b.cut
+        else:
+            break
+    require(
+        common_prefix_through is not None and common_prefix_through == cut_i - 1,
+        f"common_prefix_through mismatch: got {common_prefix_through}, expected {cut_i - 1}",
+    )
+
+    first_divergent_cut: int | None = None
+    for rec_b, rec_i in zip(baseline.records, intervention.records):
+        obs_b = _observable_cut_tuple(rec_b)
+        obs_i = _observable_cut_tuple(rec_i)
+        if rec_b.cut <= cut_i:
+            require(
+                obs_b == obs_i,
+                f"causal pre-intervention observable diverged at cut {rec_b.cut} <= {cut_i}",
+            )
+        elif obs_b != obs_i and first_divergent_cut is None:
+            first_divergent_cut = rec_b.cut
+    require(
+        first_divergent_cut is not None and first_divergent_cut > cut_i,
+        "causal intervention must yield a strictly later observable divergence",
+    )
+
+    # 4. Observed-advance endpoint law A(W) = C(W) + phi_1 - phi_0
+    obs_adv = (
+        _eval_observed_advance_block(inputs["observed_advance"])
+        if "observed_advance" in inputs
+        else _eval_observed_advance_block()
+    )
 
     out: dict[str, object] = {
-        "delta_bip_compared": n_c,
-        "delta_bip_ref": n_r,
-        "biz_c_over_r": _pair(biz_cr),
-        "biz_r_over_c": _pair(biz_rc),
-        "lag_forward": _pair(lag_fwd),
-        "lag_reverse": _pair(lag_rev),
-        "T_seconds": _pair(t_sec),
-        "nu_bar_hz": _pair(nu_bar),
-        "transfer_A_pred": _pair(pred_a),
-        "transfer_A_rel_resid": _pair(rel_a),
-        "transfer_B_pred": _pair(pred_b),
-        "transfer_B_rel_resid": _pair(rel_b),
-        "intervention_ratio_before": ["6", "5"],
-        "intervention_ratio_after": ["2", "5"],
+        "delta_bip_compared": tw_nc.to_int(),
+        "delta_bip_ref": tw_nr.to_int(),
+        "biz_c_over_r": _trit_pair(biz_cr),
+        "biz_r_over_c": _trit_pair(biz_rc),
+        "lag_forward": _trit_pair(lag_fwd),
+        "lag_reverse": _trit_pair(lag_rev),
+        "T_seconds": _trit_pair(t_sec),
+        "nu_bar_hz": _trit_pair(nu_bar),
+        "transfer_A_pred": _trit_pair(pred_a),
+        "transfer_A_rel_resid": _trit_pair(rel_a),
+        "transfer_B_pred": _trit_pair(pred_b),
+        "transfer_B_rel_resid": _trit_pair(rel_b),
+        "intervention_ratio_before": _trit_pair(baseline.ratio),
+        "intervention_ratio_after": _trit_pair(intervention.ratio),
+        "window": [win_lo, win_hi],
+        "rcd_c_given_r": tw_rcd_cr.to_int(),
+        "rcd_r_given_c": tw_rcd_rc.to_int(),
+        "intervention_common_prefix_through": common_prefix_through,
+        "intervention_first_divergent_cut": first_divergent_cut,
+        "intervention_counts_before": [baseline.counts[0], baseline.counts[1]],
+        "intervention_counts_after": [intervention.counts[0], intervention.counts[1]],
+        "intervention_disconnect_rejected": disconnect_rejected,
+        "observed_advance_compared": _trit_pair(obs_adv["compared"]),
+        "observed_advance_ref": _trit_pair(obs_adv["reference"]),
+        "observed_advance_ratio": _trit_pair(obs_adv["ratio"]),
+        "observed_advance_split_sum": _trit_pair(obs_adv["split_sum"]),
+        "observed_advance_clipped": _trit_pair(obs_adv["clipped"]),
+        "observed_advance_signed": _trit_pair(obs_adv["signed"]),
     }
     require_no_floats(out)
     return out
 
 
 def build_temporal_si_bridge_csv_rows() -> list[dict[str, str]]:
-    """Build deterministic 6-row D.E.C. temporal & conditional SI bridge CSV for Manual §7."""
+    """Build deterministic 9-row live D.E.C. temporal & conditional SI bridge CSV for Manual §7."""
+    c_cuts = [2, 10, 18, 26]
+    r_cuts = [2, 12, 22]
+    f_cs_hz = 9192631770
+    cal_ref = 32
+    field_a = [58, 48]
+    field_b = [151, 102]
+    win = [0, 30]
+    c_bias_in = ["1", "4"]
+    r_bias_in = ["-1", "4"]
+    rcd_rd = 3
+    c_refs = [1, 1]
+    r_refs = [2, 2]
+    a_c_in = ["1", "1"]
+    a_r_in = ["1", "1"]
+    causal_win = [0, 100]
+    outer_plus = [16, 32, 48, 64, 80, 96]
+    outer_minus = [15, 30, 45, 60, 75]
+    cut_i = 40
+
+    cfg: dict[str, object] = {
+        "compared_cuts": c_cuts,
+        "ref_cuts": r_cuts,
+        "f_cs_hz": f_cs_hz,
+        "cal_ref": cal_ref,
+        "field_a": field_a,
+        "field_b": field_b,
+        "window": win,
+        "compared_bias": c_bias_in,
+        "ref_bias": r_bias_in,
+        "rcd_rd": rcd_rd,
+        "rcd_c_reflections": c_refs,
+        "rcd_r_reflections": r_refs,
+        "a_c": a_c_in,
+        "a_r": a_r_in,
+        "causal_window": causal_win,
+        "causal_outer_plus": outer_plus,
+        "causal_outer_minus": outer_minus,
+        "intervention_cut": cut_i,
+    }
+    res = eval_dec_temporal_si_bridge_bounds(cfg)
+
+    win_out = res["window"]
+    require(isinstance(win_out, list) and len(win_out) == 2, "window output must be 2-element list")
+    win_tag = f"B_pair({win_out[0]},{win_out[1]}]"
+
+    n_c = require_exact_int(res["delta_bip_compared"], name="delta_bip_compared")
+    n_r = require_exact_int(res["delta_bip_ref"], name="delta_bip_ref")
+    c_bias_tr = _parse_trit_pair(c_bias_in, name="compared_bias")
+    r_bias_tr = _parse_trit_pair(r_bias_in, name="ref_bias")
+    c_bias_signed = f"+{c_bias_tr.canonical_str()}" if c_bias_tr.sign() > 0 else c_bias_tr.canonical_str()
+    r_bias_signed = f"+{r_bias_tr.canonical_str()}" if r_bias_tr.sign() > 0 else r_bias_tr.canonical_str()
+    count_delta = TritWord.from_int(n_c).sub(TritWord.from_int(n_r))
+    bias_diff = c_bias_tr.sub(r_bias_tr)
+    bias_diff_s = f"+{bias_diff.canonical_str()}" if bias_diff.sign() >= 0 else bias_diff.canonical_str()
+
+    a_c_s = _parse_trit_pair(a_c_in, name="a_c").canonical_str()
+    a_r_s = _parse_trit_pair(a_r_in, name="a_r").canonical_str()
+    bridge_tag = f"B_bridge(a_c=a_r={a_c_s})" if a_c_s == a_r_s else f"B_bridge(a_c={a_c_s},a_r={a_r_s})"
+
+    cnt_before = res["intervention_counts_before"]
+    cnt_after = res["intervention_counts_after"]
+    require(
+        isinstance(cnt_before, list) and len(cnt_before) == 2
+        and isinstance(cnt_after, list) and len(cnt_after) == 2,
+        "intervention counts must be 2-element lists",
+    )
+    first_div = require_exact_int(
+        res["intervention_first_divergent_cut"], name="intervention_first_divergent_cut"
+    )
+    prefix_k = require_exact_int(
+        res["intervention_common_prefix_through"], name="intervention_common_prefix_through"
+    )
+    disc_rej = res["intervention_disconnect_rejected"]
+    require(disc_rej is True, "hostile causal disconnect must be rejected by replay validation")
+
+    disc_trace = _step_cut40_causal_intervention(
+        causal_window=(causal_win[0], causal_win[1]),
+        outer_plus_cuts=outer_plus,
+        outer_minus_cuts=outer_minus,
+        intervention_cut=cut_i,
+        apply_intervention=True,
+        disconnect_feedback=True,
+    )
+
+    rcd_cr = require_exact_int(res["rcd_c_given_r"], name="rcd_c_given_r")
+    rcd_rc = require_exact_int(res["rcd_r_given_c"], name="rcd_r_given_c")
+
+    oa_c_s = _fmt_trit_pair(res["observed_advance_compared"], name="observed_advance_compared")
+    oa_r_s = _fmt_trit_pair(res["observed_advance_ref"], name="observed_advance_ref")
+    oa_rat_s = _fmt_trit_pair(res["observed_advance_ratio"], name="observed_advance_ratio")
+    oa_split_s = _fmt_trit_pair(res["observed_advance_split_sum"], name="observed_advance_split_sum")
+    oa_clip_s = _fmt_trit_pair(res["observed_advance_clipped"], name="observed_advance_clipped")
+    oa_sign_s = _fmt_trit_pair(res["observed_advance_signed"], name="observed_advance_signed")
+
+    c_cuts_csv = ",".join(str(k) for k in c_cuts)
+    r_cuts_csv = ",".join(str(k) for k in r_cuts)
+    c_refs_csv = ",".join(str(x) for x in c_refs)
+    r_refs_csv = ",".join(str(x) for x in r_refs)
+
     return [
         {
             "stage_id": "T1_pair_closures",
-            "boundary_B": "B_pair(0,30]",
-            "lineage_pair": "compared(2,10,18,26) vs ref(2,12,22)",
-            "delta_bip": "3 vs 2",
-            "exact_quantity": "3/2",
-            "reverse_or_resid": "2/3",
+            "boundary_B": win_tag,
+            "lineage_pair": f"compared({c_cuts_csv}) vs ref({r_cuts_csv})",
+            "delta_bip": f"{n_c} vs {n_r}",
+            "exact_quantity": _fmt_trit_pair(res["biz_c_over_r"], name="biz_c_over_r"),
+            "reverse_or_resid": _fmt_trit_pair(res["biz_r_over_c"], name="biz_r_over_c"),
             "status_gate": "AUTHENTICATED_EXACT_RCD",
         },
         {
             "stage_id": "T2_unwrapped_lag",
-            "boundary_B": "B_pair(0,30]",
-            "lineage_pair": "bias(+1/4,-1/4)",
-            "delta_bip": "1+1/2",
-            "exact_quantity": "3/2",
-            "reverse_or_resid": "-3/2",
+            "boundary_B": win_tag,
+            "lineage_pair": f"bias({c_bias_signed},{r_bias_signed})",
+            "delta_bip": f"{count_delta.to_int()}{bias_diff_s}",
+            "exact_quantity": _fmt_trit_pair(res["lag_forward"], name="lag_forward"),
+            "reverse_or_resid": _fmt_trit_pair(res["lag_reverse"], name="lag_reverse"),
             "status_gate": "AUTHENTICATED_EXACT_LAG",
         },
         {
             "stage_id": "T3_cs133_bridge",
-            "boundary_B": "B_bridge(a_c=a_r=1)",
-            "lineage_pair": "Cs_9192631770Hz",
-            "delta_bip": "N_r=2,N_c=3",
-            "exact_quantity": "2/9192631770",
-            "reverse_or_resid": "13788947655/1",
+            "boundary_B": bridge_tag,
+            "lineage_pair": f"Cs_{f_cs_hz}Hz",
+            "delta_bip": f"N_r={n_r},N_c={n_c}",
+            "exact_quantity": _fmt_trit_pair(res["T_seconds"], name="T_seconds"),
+            "reverse_or_resid": _fmt_trit_pair(res["nu_bar_hz"], name="nu_bar_hz"),
             "status_gate": "CONDITIONAL_SI_STIPULATED_GAIN",
         },
         {
             "stage_id": "T4_transfer_field_A",
-            "boundary_B": "B_val_A(32_ref)",
+            "boundary_B": f"B_val_A({cal_ref}_ref)",
             "lineage_pair": "3:3:6_vs_1:2:6",
-            "delta_bip": "cal=58,val=48",
-            "exact_quantity": "768/29",
-            "reverse_or_resid": "-5/29",
+            "delta_bip": f"cal={field_a[0]},val={field_a[1]}",
+            "exact_quantity": _fmt_trit_pair(res["transfer_A_pred"], name="transfer_A_pred"),
+            "reverse_or_resid": _fmt_trit_pair(res["transfer_A_rel_resid"], name="transfer_A_rel_resid"),
             "status_gate": "REJECTS_CONSTANT_TRANSFER",
         },
         {
             "stage_id": "T5_transfer_field_B",
-            "boundary_B": "B_val_B(32_ref)",
+            "boundary_B": f"B_val_B({cal_ref}_ref)",
             "lineage_pair": "3:2:6_vs_3:3:6",
-            "delta_bip": "cal=151,val=102",
-            "exact_quantity": "3264/151",
-            "reverse_or_resid": "-49/151",
+            "delta_bip": f"cal={field_b[0]},val={field_b[1]}",
+            "exact_quantity": _fmt_trit_pair(res["transfer_B_pred"], name="transfer_B_pred"),
+            "reverse_or_resid": _fmt_trit_pair(res["transfer_B_rel_resid"], name="transfer_B_rel_resid"),
             "status_gate": "REJECTS_CONSTANT_TRANSFER",
         },
         {
             "stage_id": "T6_cut40_intervention",
-            "boundary_B": "B_causal(cut40->41)",
+            "boundary_B": f"B_causal(cut{cut_i}->{first_div})",
             "lineage_pair": "capacity_drop_control",
-            "delta_bip": "(6,5)->(2,5)",
-            "exact_quantity": "6/5",
-            "reverse_or_resid": "2/5",
-            "status_gate": "STRICTLY_LATER_CUT41_RESPONSE",
+            "delta_bip": f"({cnt_before[0]},{cnt_before[1]})->({cnt_after[0]},{cnt_after[1]})",
+            "exact_quantity": _fmt_trit_pair(res["intervention_ratio_before"], name="intervention_ratio_before"),
+            "reverse_or_resid": _fmt_trit_pair(res["intervention_ratio_after"], name="intervention_ratio_after"),
+            "status_gate": f"STRICTLY_LATER_CUT{first_div}_RESPONSE",
+        },
+        {
+            "stage_id": "T7_directional_rcd",
+            "boundary_B": f"B_rcd(RD={rcd_rd})",
+            "lineage_pair": f"c_refs({c_refs_csv}) vs r_refs({r_refs_csv})",
+            "delta_bip": f"RCD_c|r={rcd_cr},RCD_r|c={rcd_rc}",
+            "exact_quantity": str(rcd_cr),
+            "reverse_or_resid": str(rcd_rc),
+            "status_gate": "AUTHENTICATED_DIRECTIONAL_RCD",
+        },
+        {
+            "stage_id": "T8_observed_advance_si",
+            "boundary_B": "B_phase(A=C+phi1-phi0)",
+            "lineage_pair": f"A_c={oa_c_s} vs A_r={oa_r_s}",
+            "delta_bip": f"split={oa_split_s};clip={oa_clip_s}",
+            "exact_quantity": oa_rat_s,
+            "reverse_or_resid": oa_sign_s,
+            "status_gate": "EXACT_OBSERVED_ADVANCE_ADDITIVE",
+        },
+        {
+            "stage_id": "T9_causal_disconnect_control",
+            "boundary_B": f"B_causal_hostile(prefix<={prefix_k})",
+            "lineage_pair": "disconnect_feedback_mutation",
+            "delta_bip": f"({cnt_before[0]},{cnt_before[1]})->({disc_trace.counts[0]},{disc_trace.counts[1]})",
+            "exact_quantity": disc_trace.ratio.canonical_str(),
+            "reverse_or_resid": "REJECTED_REPLAY_VALIDATION",
+            "status_gate": "HOSTILE_DISCONNECT_REJECTED",
         },
     ]
 

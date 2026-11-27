@@ -1677,7 +1677,7 @@
       "data_sources": [
         {
           "path": "manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
-          "sha256": "e5f26a98713353c219d88a7f1956f0fd3505bb252dffe9d8d02e9f08325d5774"
+          "sha256": "9b38a547aa93394113e5c2ed0c2d841b2b9a8e0e22ea8f73cf0c9c5ff0305a5b"
         }
       ],
       "provenance_notes": "Relational closure-beat time, conditional Cesium/Hydrogen SI bridge chains, and held-out transfer rejection residuals (vector RC-037).",

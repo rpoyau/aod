@@ -73,7 +73,7 @@
     {
       "contract": "contracts/scientific/CANONICAL_BINDINGS.json",
       "old_sha256": "10ee953f5005054e639993d97d1b1b20bbc4b8b1e0c079d22d9156fd07efbc24",
-      "new_sha256": "288cec40579690f7748ea0da684afa9f49bbf634d16e856b3b1a074f1cfe8310",
+      "new_sha256": "a6038a976955e9b37198aaaef42ba0f4eee6fd2fc3a4a360217201e6ab413067",
       "scope": "representation_path_and_frozen_ledger_only",
       "fields_amended": [
         "ownership[*].path (44 entries; concepts, anchors, depends_on unchanged)",
@@ -247,7 +247,7 @@
     },
     {
       "path": "manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
-      "sha256": "e5f26a98713353c219d88a7f1956f0fd3505bb252dffe9d8d02e9f08325d5774",
+      "sha256": "9b38a547aa93394113e5c2ed0c2d841b2b9a8e0e22ea8f73cf0c9c5ff0305a5b",
       "reason": "Deterministic zero-float Boundary-Full AOmegaD SADAR reference engine CSV fixture (Sector boundary_sadar)"
     },
     {
