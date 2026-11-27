@@ -7,9 +7,15 @@ from __future__ import annotations
 
 import ast
 from fractions import Fraction
+import json
+import os
 from pathlib import Path
+import shutil
+import subprocess
 import time
 from typing import Callable
+
+import pytest
 
 import manual.engine as engine_pkg
 from manual.engine import (
@@ -860,4 +866,130 @@ def test_unbalanced_karatsuba_and_hinged_word_arithmetic() -> None:
     _check((q.to_int(), r.to_int()) == divmod(10, -9), "hinged divmod_floor failed")
     _check(h_pos.cmp(TritWord.from_int(10)) == 0, "hinged cmp failed")
     _check_raises(ZeroDivisionError, lambda: h_pos.divmod_floor(TritWord.from_symbols("HH")))
+
+
+def test_rc045_python_vs_rust_parity(tmp_path: Path) -> None:
+    from manual.engine.policy import loads_zero_float
+    from manual.engine.sectors.boundary_sadar import eval_ternary_swar_and_trit_ratio
+    from manual.engine.vectors import RATIONAL_CORE_REL, load_vector_file, verify_single_vector
+
+    repo_root = Path(__file__).resolve().parent.parent
+    _, rc_rows = load_vector_file(repo_root / RATIONAL_CORE_REL)
+    _check(len(rc_rows) == 45, f"expected 45 rational_core vectors, got {len(rc_rows)}")
+    rc045 = rc_rows[44]
+    _check(rc045["case_id"] == "RC-045", f"expected RC-045, got {rc045['case_id']}")
+    _check(
+        rc045["operation"] == "ternary_swar_and_trit_ratio",
+        f"unexpected RC-045 operation: {rc045['operation']}",
+    )
+    verify_single_vector(rc045, repo_root=repo_root)
+
+    rc045_inputs = rc045["inputs"]
+    _check(isinstance(rc045_inputs, dict), "RC-045 inputs must be dict")
+    py_out = eval_ternary_swar_and_trit_ratio(rc045_inputs)
+    require_no_floats(py_out, path="py.RC-045")
+    _check(
+        py_out == rc045["expected_outcome"]["exact_value"],
+        "Python eval_ternary_swar_and_trit_ratio output mismatched RC-045 expected_value",
+    )
+
+    if shutil.which("cargo") is None or shutil.which("rustc") is None:
+        if os.environ.get("AOD_REQUIRE_RUST", "").strip() in {"1", "true", "TRUE", "yes"}:
+            _check(False, "AOD_REQUIRE_RUST=1 set, but cargo/rustc are unavailable")
+        pytest.skip("optional Rust toolchain (cargo/rustc) not installed")
+
+    crate_toml = repo_root / "crates" / "aod-core" / "Cargo.toml"
+    target_dir = repo_root / "_build" / "cargo-target"
+    env = {**os.environ, "CARGO_TARGET_DIR": str(target_dir)}
+
+    build_proc = subprocess.run(
+        [
+            "cargo",
+            "build",
+            "--manifest-path",
+            str(crate_toml),
+            "--offline",
+            "--locked",
+        ],
+        cwd=repo_root,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=180,
+    )
+    _check(build_proc.returncode == 0, f"cargo build failed:\n{build_proc.stderr}")
+    rust_bin = target_dir / "debug" / "aod-core"
+    _check(rust_bin.is_file(), f"compiled Rust binary missing at {rust_bin}")
+
+    # 1. Direct --eval-op parity on RC-045
+    eval_proc = subprocess.run(
+        [str(rust_bin), "--eval-op", "ternary_swar_and_trit_ratio", "--input-stdin"],
+        input=json.dumps(rc045_inputs, sort_keys=True),
+        cwd=repo_root,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+    _check(eval_proc.returncode == 0, f"Rust --eval-op RC-045 failed:\n{eval_proc.stderr}")
+    rust_out = loads_zero_float(eval_proc.stdout)
+    require_no_floats(rust_out, path="rust.RC-045")
+    _check(rust_out == py_out, f"Python vs Rust RC-045 parity mismatch:\nPY={py_out}\nRS={rust_out}")
+
+    # 2. Direct --eval-op parity on synthetic >230-digit & cross-limb (>64-lane) payload
+    synth_inputs: dict[str, object] = {
+        "swar_symbols": "H" + ("0" * 35) + "+-H" + ("0" * 34) + "+H-",
+        "chiral_pair_bits": list(range(16)),
+        "barrier_a_symbols": "+H" + ("+" * 32) + "H" + ("-" * 32),
+        "barrier_b_symbols": "+0" + ("0" * 31) + "+0" + ("0" * 31) + "-",
+        "big_a": str(10**230 + 17),
+        "big_b": str(-(3**40 * (10**180 + 7))),
+        "micro_ratio_bits": list(range(16)),
+        "ratio_a_num_symbols": "H" + ("0" * 33) + "+H-+",
+        "ratio_a_den_symbols": "H" + ("0" * 34) + "-+0",
+        "ratio_b_num_symbols": "H+" + ("0" * 32) + "-0+",
+        "ratio_b_den_symbols": "H0" + ("0" * 33) + "+--",
+    }
+    py_synth = eval_ternary_swar_and_trit_ratio(synth_inputs)
+    synth_proc = subprocess.run(
+        [str(rust_bin), "--eval-op", "ternary_swar_and_trit_ratio", "--input-stdin"],
+        input=json.dumps(synth_inputs, sort_keys=True),
+        cwd=repo_root,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+    _check(synth_proc.returncode == 0, f"Rust --eval-op synthetic failed:\n{synth_proc.stderr}")
+    rust_synth = loads_zero_float(synth_proc.stdout)
+    require_no_floats(rust_synth, path="rust.synth_ternary")
+    _check(rust_synth == py_synth, "Python vs Rust 230-digit/cross-limb ternary parity mismatch")
+
+    # 3. Full Rust CLI --verify-vectors --check-zero-float report written to tmp_path
+    rep_path = tmp_path / "rc045_rust_report.json"
+    cli_proc = subprocess.run(
+        [
+            str(rust_bin),
+            "--verify-vectors",
+            "--check-zero-float",
+            "--repo-root",
+            str(repo_root),
+            "--report",
+            str(rep_path),
+        ],
+        cwd=repo_root,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+    _check(cli_proc.returncode == 0, f"Rust CLI --verify-vectors failed:\n{cli_proc.stderr}")
+    rep = loads_zero_float(rep_path.read_text(encoding="utf-8"))
+    _check(isinstance(rep, dict), "Rust report must be JSON object")
+    _check(rep["overall_status"] == "PASS", f"Rust report failed: {rep}")
+    vv = rep["vectors_verification"]
+    _check(isinstance(vv, dict), "vectors_verification must be dict")
+    _check(vv["rational_core_count"] == 45, f"expected 45 RC vectors, got {vv['rational_core_count']}")
+    _check(vv["total_vectors"] == 53 and vv["passed_vectors"] == 53, f"unexpected counts: {vv}")
+    _check(rep["policy_audit"]["status"] == "PASS", f"Rust policy_audit failed: {rep['policy_audit']}")
 

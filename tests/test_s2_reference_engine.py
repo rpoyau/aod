@@ -211,7 +211,7 @@ def test_g2_15_fast_sectors_execute_with_orthogonal_status_and_diagnostics(tmp_p
     )
     _check(parsed["zero_float_policy_audit"]["status"] == "PASS")
     _check(parsed["vectors_verification"]["status"] == "PASS")
-    _check(parsed["vectors_verification"]["total_vectors"] == 52)
+    _check(parsed["vectors_verification"]["total_vectors"] == 53)
 
     by_id = {sec["sector_id"]: sec for sec in parsed["sectors"]}
     pq = by_id["provenance_quarantine"]
@@ -612,10 +612,10 @@ def test_g3_explicit_python_minus_O_subprocess_enforces_validators_and_g5_contro
 def test_g3_golden_vectors_all_30_pass_and_schema_valid_with_or_without_vectors():
     vec_summary = verify_all_vectors(ROOT)
     _check(vec_summary["status"] == "PASS", vec_summary)
-    _check(vec_summary["rational_core_count"] == 44)
+    _check(vec_summary["rational_core_count"] == 45)
     _check(vec_summary["symbolic_and_display_count"] == 8)
-    _check(vec_summary["total_vectors"] == 52)
-    _check(vec_summary["passed_vectors"] == 52)
+    _check(vec_summary["total_vectors"] == 53)
+    _check(vec_summary["passed_vectors"] == 53)
     _check(vec_summary["failed_vectors"] == 0)
 
     sec = tier2_exact.run_tier2_sector(SECTOR_MAP["dec_ledger"], ROOT)
@@ -636,7 +636,7 @@ def test_g3_golden_vectors_all_30_pass_and_schema_valid_with_or_without_vectors(
         vectors_verification=vec_summary,
     )
     validate_report(rep_with)
-    _check(rep_with["vectors_verification"]["passed_vectors"] == 52)
+    _check(rep_with["vectors_verification"]["passed_vectors"] == 53)
 
     # Non-circularity, 0-based RC-016 binding, hardened vector checks, and oracle mismatch controls
     rc_lines = (ROOT / "manual/engine/vectors/rational_core.jsonl").read_text(encoding="utf-8").splitlines()
@@ -785,7 +785,7 @@ def test_g4_canonical_report_byte_identical_normal_vs_O_and_two_paths(tmp_path: 
 
     bad_vec_pass = deepcopy(rep)
     bad_vec_pass["vectors_verification"]["failed_vectors"] = 1
-    bad_vec_pass["vectors_verification"]["passed_vectors"] = 51
+    bad_vec_pass["vectors_verification"]["passed_vectors"] = 52
     with pytest.raises(ValueError, match="failed_vectors == 0"):
         validate_report(bad_vec_pass)
 
@@ -1506,7 +1506,7 @@ def test_s2_f2_exact_typed_equality_rejects_bool_int_substitutions(tmp_path: Pat
     # All 40 committed vectors pass baseline
     baseline = verify_all_vectors(ROOT)
     _check(baseline["status"] == "PASS", baseline)
-    _check(baseline["passed_vectors"] == 52 and baseline["failed_vectors"] == 0)
+    _check(baseline["passed_vectors"] == 53 and baseline["failed_vectors"] == 0)
 
     rc_raw_lines = (ROOT / "manual/engine/vectors/rational_core.jsonl").read_text(encoding="utf-8").splitlines()
     rc_records = [loads_zero_float(line) for line in rc_raw_lines if line.strip()]
@@ -1568,7 +1568,7 @@ def test_s2_f2_exact_typed_equality_rejects_bool_int_substitutions(tmp_path: Pat
         )
         res = verify_all_vectors(vec_repo)
         _check(res["status"] == "FAIL", f"{case_id} mutation unexpectedly passed: {res}")
-        _check(res["failed_vectors"] == 1 and res["passed_vectors"] == 51, res)
+        _check(res["failed_vectors"] == 1 and res["passed_vectors"] == 52, res)
         _check(res["failures"][0]["case_id"] == case_id)
         _check(
             "type mismatch" in res["failures"][0]["error"]
@@ -1579,7 +1579,7 @@ def test_s2_f2_exact_typed_equality_rejects_bool_int_substitutions(tmp_path: Pat
     # Restore unmodified rational_core.jsonl and confirm full pass on detached repo
     (vec_repo / "manual/engine/vectors/rational_core.jsonl").write_text(orig_rc_text, encoding="utf-8")
     restored = verify_all_vectors(vec_repo)
-    _check(restored["status"] == "PASS" and restored["passed_vectors"] == 52, restored)
+    _check(restored["status"] == "PASS" and restored["passed_vectors"] == 53, restored)
 
 
 def test_s2_f3_source_binding_selectors_verified_and_broken_bindings_rejected(tmp_path: Path):
@@ -1597,7 +1597,7 @@ def test_s2_f3_source_binding_selectors_verified_and_broken_bindings_rejected(tm
         sb = str(rec["source_binding"])
         component_count += len(sb.split(";"))
         validate_source_binding(ROOT, sb)
-    _check(component_count == 98, f"expected 98 source_binding components, got {component_count}")
+    _check(component_count == 100, f"expected 100 source_binding components, got {component_count}")
 
     # Negative controls on live repo
     bad_bindings = (
@@ -1746,7 +1746,7 @@ def test_s2_f3_source_binding_selectors_verified_and_broken_bindings_rejected(tm
     validate_report(parsed_hostile)
     vv_hostile = parsed_hostile["vectors_verification"]
     _check(vv_hostile["status"] == "FAIL", vv_hostile)
-    _check(vv_hostile["failed_vectors"] == 1 and vv_hostile["passed_vectors"] == 51, vv_hostile)
+    _check(vv_hostile["failed_vectors"] == 1 and vv_hostile["passed_vectors"] == 52, vv_hostile)
     _check(vv_hostile["failures"][0]["case_id"] == "RC-005", vv_hostile["failures"])
     _check("<HOST_PATH>" in vv_hostile["failures"][0]["error"], vv_hostile["failures"])
 

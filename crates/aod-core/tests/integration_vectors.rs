@@ -97,10 +97,10 @@ fn test_all_40_golden_vectors_pass() {
     let root = repo_root();
     let res = verify_all_vectors(&root).expect("verify_all_vectors");
     assert_eq!(res.status, "PASS", "failures: {:?}", res.failures);
-    assert_eq!(res.rational_core_count, 44);
+    assert_eq!(res.rational_core_count, 45);
     assert_eq!(res.symbolic_and_display_count, 8);
-    assert_eq!(res.total_vectors, 52);
-    assert_eq!(res.passed_vectors, 52);
+    assert_eq!(res.total_vectors, 53);
+    assert_eq!(res.passed_vectors, 53);
     assert_eq!(res.failed_vectors, 0);
     assert!(res.failures.is_empty());
 
@@ -808,4 +808,59 @@ fn test_s2_f2_boolean_int_type_substitutions_rejected() {
     assert_eq!(res.failed_vectors, 3);
     let failed_ids: Vec<&str> = res.failures.iter().map(|f| f.case_id.as_str()).collect();
     assert_eq!(failed_ids, vec!["RC-005", "RC-009", "RC-010"]);
+}
+
+#[test]
+fn test_rc045_ternary_swar_and_trit_ratio_integration() {
+    let root = repo_root();
+    let (_, rc_rows) = load_vector_file(&root, RATIONAL_CORE_REL).expect("load rc");
+    assert_eq!(rc_rows.len(), 45);
+    let rc045 = &rc_rows[44];
+    assert_eq!(rc045["case_id"], JsonValue::Str("RC-045".to_string()));
+    assert_eq!(
+        rc045["operation"],
+        JsonValue::Str("ternary_swar_and_trit_ratio".to_string())
+    );
+    verify_single_vector_with_root(rc045, &root).expect("RC-045 must verify cleanly");
+
+    let inputs = rc045["inputs"].as_object().expect("RC-045 inputs");
+    let out = eval_operation("ternary_swar_and_trit_ratio", inputs).expect("eval RC-045");
+    let obj = out.as_object().expect("RC-045 output object");
+    let swar = obj["swar"].as_object().expect("swar object");
+    assert_eq!(swar["neg_symbols"], JsonValue::Str("H-0+000H+-".to_string()));
+    assert_eq!(swar["hinge_preserved_under_neg"], JsonValue::Bool(true));
+    assert_eq!(
+        swar["burned_keep_single_symbols"],
+        JsonValue::Str("H+0-0H-+".to_string())
+    );
+
+    let barrier = obj["barrier_add"].as_object().expect("barrier_add object");
+    assert_eq!(
+        barrier["result_symbols"],
+        JsonValue::Str("+-H+0H0-".to_string())
+    );
+    assert_eq!(barrier["had_blocked_carry"], JsonValue::Bool(true));
+
+    let big_w = obj["big_word"].as_object().expect("big_word object");
+    assert_eq!(big_w["gcd"], JsonValue::Str("297".to_string()));
+    assert_eq!(big_w["divmod_q"], JsonValue::Str("-10".to_string()));
+    assert_eq!(big_w["divmod_r"], JsonValue::Str("-5643".to_string()));
+
+    let tr = obj["trit_ratio"].as_object().expect("trit_ratio object");
+    assert_eq!(
+        tr["add_pair"],
+        JsonValue::Array(vec![
+            JsonValue::Str("17".to_string()),
+            JsonValue::Str("42".to_string())
+        ])
+    );
+    assert_eq!(
+        tr["div_pair"],
+        JsonValue::Array(vec![
+            JsonValue::Str("-28".to_string()),
+            JsonValue::Str("45".to_string())
+        ])
+    );
+    assert_eq!(tr["value_eq_cleared"], JsonValue::Bool(true));
+    assert_eq!(tr["structural_eq_cleared"], JsonValue::Bool(false));
 }

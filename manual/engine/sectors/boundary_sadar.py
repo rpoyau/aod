@@ -42,9 +42,11 @@ from manual.engine.numeric import (
     canonical_rational_pair,
     canonical_rational_str,
     format_rational_fixed,
+    parse_exact_int,
     parse_printed_rational,
     require,
     require_exact_int,
+    require_type,
     round_rational_half_even,
 )
 from manual.engine.policy import loads_zero_float, require_no_floats
@@ -53,6 +55,12 @@ from manual.engine.sectors.manual_dec_examples import (
     MANUAL_DEC_EXTRA_FILES,
     expected_manual_dec_csv_map,
     verify_manual_dec_examples,
+)
+from manual.engine.ternary import (
+    ChiralPair4,
+    Trit2MicroRatio,
+    TritRatio,
+    TritWord,
 )
 
 Q4_NEIGHBORS: tuple[tuple[int, int, int, int], ...] = tuple(
@@ -1489,4 +1497,183 @@ def verify_boundary_sadar(spec: SectorSpec, repo_root: Path) -> dict[str, object
             "summed_8_lineage_closures": 9104,
         },
         "error": None,
+    }
+
+
+def _require_str_input(inputs: dict[str, object], key: str) -> str:
+    require(key in inputs, f"missing required input field {key!r}")
+    val = inputs[key]
+    require_type(isinstance(val, str), f"{key} must be a string, got {type(val).__name__}")
+    return val
+
+
+def _parse_int_or_canon_str(inputs: dict[str, object], key: str) -> int:
+    require(key in inputs, f"missing required input field {key!r}")
+    val = inputs[key]
+    if isinstance(val, str):
+        return parse_exact_int(val)
+    return require_exact_int(val, name=key)
+
+
+def eval_ternary_swar_and_trit_ratio(inputs: dict[str, object]) -> dict[str, object]:
+    """Evaluate canonical 2-bit/4-bit SWAR ternary arithmetic and exact TritRatio (RC-045)."""
+    swar_sym = _require_str_input(inputs, "swar_symbols")
+    w = TritWord.from_symbols(swar_sym, msb_first=True)
+    w_neg = w.neg()
+    w_canon = w.to_canonical()
+    w_burn_keep = w.burn_contiguous_dwell(keep_single_dwell=True)
+    w_burn_drop = w.burn_contiguous_dwell(keep_single_dwell=False)
+
+    swar_out: dict[str, object] = {
+        "width": w.width,
+        "packed": w.packed,
+        "neg_packed": w_neg.packed,
+        "neg_symbols": w_neg.to_symbols(msb_first=True),
+        "hinge_mask": w.hinge_mask,
+        "dwell_mask": w.dwell_mask,
+        "alpha_mask": w.alpha_mask,
+        "omega_mask": w.omega_mask,
+        "polar_mask": w.polar_mask,
+        "hinge_count": w.hinge_count,
+        "dwell_count": w.dwell_count,
+        "alpha_count": w.alpha_count,
+        "omega_count": w.omega_count,
+        "polar_count": w.polar_count,
+        "hinge_preserved_under_neg": w_neg.hinge_mask == w.hinge_mask,
+        "dwell_preserved_under_neg": w_neg.dwell_mask == w.dwell_mask,
+        "signed_value": w.to_int(),
+        "neg_signed_value": w_neg.to_int(),
+        "canonical_symbols": w_canon.to_symbols(msb_first=True),
+        "burned_keep_single_symbols": w_burn_keep.to_symbols(msb_first=True),
+        "burned_drop_all_symbols": w_burn_drop.to_symbols(msb_first=True),
+    }
+
+    require("chiral_pair_bits" in inputs, "missing required input field 'chiral_pair_bits'")
+    raw_cp = inputs["chiral_pair_bits"]
+    require_type(isinstance(raw_cp, list), "chiral_pair_bits must be a list")
+    chiral_pairs_out: list[dict[str, object]] = []
+    for item in raw_cp:
+        bits = require_exact_int(item, name="chiral_pair_bit")
+        pair = ChiralPair4.from_bits(bits)
+        flipped = pair.chiral_flip()
+        chiral_pairs_out.append(
+            {
+                "bits": pair.raw4,
+                "lo_lane": pair.lo_lane,
+                "hi_lane": pair.hi_lane,
+                "net_charge": pair.net_charge,
+                "has_hinge": pair.has_hinge,
+                "is_saturated": pair.is_saturated,
+                "flipped_bits": flipped.raw4,
+                "flipped_net_charge": flipped.net_charge,
+            }
+        )
+
+    bar_a = TritWord.from_symbols(_require_str_input(inputs, "barrier_a_symbols"), msb_first=True)
+    bar_b = TritWord.from_symbols(_require_str_input(inputs, "barrier_b_symbols"), msb_first=True)
+    bar_res = bar_a.add_hinge_barrier(bar_b)
+    barrier_out: dict[str, object] = {
+        "result_symbols": bar_res.result.to_symbols(msb_first=True),
+        "hinge_mask": bar_res.hinge_mask,
+        "blocked_alpha_mask": bar_res.blocked_alpha_mask,
+        "blocked_omega_mask": bar_res.blocked_omega_mask,
+        "blocked_carry_mask": bar_res.blocked_carry_mask,
+        "had_blocked_carry": bar_res.had_blocked_carry,
+        "result_preserves_hinges": bar_res.result.hinge_mask == bar_res.hinge_mask,
+    }
+
+    big_a = _parse_int_or_canon_str(inputs, "big_a")
+    big_b = _parse_int_or_canon_str(inputs, "big_b")
+    wa = TritWord.from_int(big_a)
+    wb = TritWord.from_int(big_b)
+    w_q, w_r = wa.divmod_floor(wb)
+    big_word_out: dict[str, object] = {
+        "a_width": wa.width,
+        "b_width": wb.width,
+        "sum": str((wa + wb).to_int()),
+        "diff": str((wa - wb).to_int()),
+        "prod": str((wa * wb).to_int()),
+        "divmod_q": str(w_q.to_int()),
+        "divmod_r": str(w_r.to_int()),
+        "gcd": str(wa.gcd(wb).to_int()),
+        "cmp": wa.cmp(wb),
+    }
+
+    require("micro_ratio_bits" in inputs, "missing required input field 'micro_ratio_bits'")
+    raw_mr = inputs["micro_ratio_bits"]
+    require_type(isinstance(raw_mr, list), "micro_ratio_bits must be a list")
+    micro_out: list[dict[str, object]] = []
+    for item in raw_mr:
+        bits = require_exact_int(item, name="micro_ratio_bit")
+        m = Trit2MicroRatio.from_bits(bits)
+        if m.is_defined:
+            ev = m.exact_value()
+            tr = m.to_trit_ratio()
+            require(tr.to_fraction() == ev, "Trit2MicroRatio exact_value and to_trit_ratio diverged")
+            exact_pair: list[str] | None = list(tr.canonical_pair())
+            tr_nh: int | None = tr.num_hinge_mask
+            tr_dh: int | None = tr.den_hinge_mask
+        else:
+            exact_pair = None
+            tr_nh = None
+            tr_dh = None
+        micro_out.append(
+            {
+                "bits": m.raw4,
+                "num_lane": m.num_lane,
+                "den_lane": m.den_lane,
+                "is_defined": m.is_defined,
+                "has_hinge": m.has_hinge,
+                "is_saturated": m.is_saturated,
+                "exact_pair": exact_pair,
+                "trit_ratio_num_hinge_mask": tr_nh,
+                "trit_ratio_den_hinge_mask": tr_dh,
+                "neg_bits": m.neg().raw4,
+                "reciprocal_bits": m.reciprocal().raw4,
+            }
+        )
+
+    ra_num = TritWord.from_symbols(_require_str_input(inputs, "ratio_a_num_symbols"), msb_first=True)
+    ra_den = TritWord.from_symbols(_require_str_input(inputs, "ratio_a_den_symbols"), msb_first=True)
+    rb_num = TritWord.from_symbols(_require_str_input(inputs, "ratio_b_num_symbols"), msb_first=True)
+    rb_den = TritWord.from_symbols(_require_str_input(inputs, "ratio_b_den_symbols"), msb_first=True)
+    ra = TritRatio(ra_num, ra_den)
+    rb = TritRatio(rb_num, rb_den)
+    r_add = ra.add(rb)
+    r_sub = ra.sub(rb)
+    r_mul = ra.mul(rb)
+    r_div = ra.div(rb)
+    r_rec_a = ra.reciprocal()
+    ra_cleared = ra.with_cleared_metadata()
+
+    trit_ratio_out: dict[str, object] = {
+        "a_pair": list(ra.canonical_pair()),
+        "a_num_hinge_mask": ra.num_hinge_mask,
+        "a_den_hinge_mask": ra.den_hinge_mask,
+        "b_pair": list(rb.canonical_pair()),
+        "b_num_hinge_mask": rb.num_hinge_mask,
+        "b_den_hinge_mask": rb.den_hinge_mask,
+        "add_pair": list(r_add.canonical_pair()),
+        "add_num_hinge_mask": r_add.num_hinge_mask,
+        "add_den_hinge_mask": r_add.den_hinge_mask,
+        "sub_pair": list(r_sub.canonical_pair()),
+        "mul_pair": list(r_mul.canonical_pair()),
+        "div_pair": list(r_div.canonical_pair()),
+        "div_num_hinge_mask": r_div.num_hinge_mask,
+        "div_den_hinge_mask": r_div.den_hinge_mask,
+        "reciprocal_a_pair": list(r_rec_a.canonical_pair()),
+        "reciprocal_a_num_hinge_mask": r_rec_a.num_hinge_mask,
+        "reciprocal_a_den_hinge_mask": r_rec_a.den_hinge_mask,
+        "cmp_ab": ra.cmp(rb),
+        "value_eq_cleared": ra == ra_cleared,
+        "structural_eq_cleared": ra.structural_eq(ra_cleared),
+    }
+
+    return {
+        "swar": swar_out,
+        "chiral_pairs": chiral_pairs_out,
+        "barrier_add": barrier_out,
+        "big_word": big_word_out,
+        "micro_ratios": micro_out,
+        "trit_ratio": trit_ratio_out,
     }

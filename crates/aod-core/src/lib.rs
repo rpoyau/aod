@@ -20,6 +20,7 @@ pub mod report;
 pub mod rings;
 pub mod sadar_sim;
 pub mod sha256;
+pub mod ternary;
 pub mod vectors;
 
 use std::fmt;

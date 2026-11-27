@@ -29,6 +29,7 @@ use crate::sadar_sim::{
     op_sadar_rest_energy_atlas, op_sadar_rest_energy_qext,
     op_scoped_wire_and_moving_boundary, op_sparc_pooled_primary_exact,
 };
+use crate::ternary::{ChiralPair4, Trit2MicroRatio, TritRatio, TritWord};
 use crate::CoreError;
 
 const MAX_EXPONENT_GUARD: u32 = 10_000;
@@ -330,6 +331,7 @@ pub fn eval_operation(
         "dec_lensing_ray_chiral_delta3" => op_dec_lensing_ray_chiral_delta3(inputs),
         "dec_cycle_shedding_exact_summary" => op_dec_cycle_shedding_exact_summary(inputs),
         "dec_coordinate_phase_3d_walk" => op_dec_coordinate_phase_3d_walk(inputs),
+        "ternary_swar_and_trit_ratio" => op_ternary_swar_and_trit_ratio(inputs),
         _ => Err(CoreError::ValueError(format!(
             "unsupported vector operation: {:?}",
             operation
@@ -1758,5 +1760,298 @@ fn op_printed_token_half_ulp_enclosure(
     out.insert("half_ulp_bound".to_string(), pair_json(&half_ulp));
     out.insert("enclosure_lower".to_string(), pair_json(&lower));
     out.insert("enclosure_upper".to_string(), pair_json(&upper));
+    Ok(JsonValue::Object(out))
+}
+
+fn trit_ratio_pair_json(r: &TritRatio) -> JsonValue {
+    let [n, d] = r.canonical_pair();
+    JsonValue::Array(vec![JsonValue::Str(n), JsonValue::Str(d)])
+}
+
+fn ordering_to_i64(ord: std::cmp::Ordering) -> i64 {
+    match ord {
+        std::cmp::Ordering::Less => -1,
+        std::cmp::Ordering::Equal => 0,
+        std::cmp::Ordering::Greater => 1,
+    }
+}
+
+fn op_ternary_swar_and_trit_ratio(
+    inputs: &BTreeMap<String, JsonValue>,
+) -> Result<JsonValue, CoreError> {
+    let swar_sym = require_json_str(get_field(inputs, "swar_symbols")?, "swar_symbols")?;
+    let w = TritWord::from_symbols(swar_sym, true)?;
+    let w_neg = w.neg();
+    let w_canon = w.to_canonical();
+    let w_burn_keep = w.burn_contiguous_dwell(true);
+    let w_burn_drop = w.burn_contiguous_dwell(false);
+
+    let mut swar_obj = BTreeMap::new();
+    swar_obj.insert("width".to_string(), JsonValue::Int(BigInt::from_usize(w.width())));
+    swar_obj.insert("packed".to_string(), JsonValue::Int(w.to_packed_bigint()));
+    swar_obj.insert("neg_packed".to_string(), JsonValue::Int(w_neg.to_packed_bigint()));
+    swar_obj.insert("neg_symbols".to_string(), JsonValue::Str(w_neg.to_symbols(true)));
+    swar_obj.insert("hinge_mask".to_string(), JsonValue::Int(w.hinge_mask().to_bigint()));
+    swar_obj.insert("dwell_mask".to_string(), JsonValue::Int(w.dwell_mask().to_bigint()));
+    swar_obj.insert("alpha_mask".to_string(), JsonValue::Int(w.alpha_mask().to_bigint()));
+    swar_obj.insert("omega_mask".to_string(), JsonValue::Int(w.omega_mask().to_bigint()));
+    swar_obj.insert("polar_mask".to_string(), JsonValue::Int(w.polar_mask().to_bigint()));
+    swar_obj.insert("hinge_count".to_string(), JsonValue::Int(BigInt::from_usize(w.hinge_count())));
+    swar_obj.insert("dwell_count".to_string(), JsonValue::Int(BigInt::from_usize(w.dwell_count())));
+    swar_obj.insert("alpha_count".to_string(), JsonValue::Int(BigInt::from_usize(w.alpha_count())));
+    swar_obj.insert("omega_count".to_string(), JsonValue::Int(BigInt::from_usize(w.omega_count())));
+    swar_obj.insert("polar_count".to_string(), JsonValue::Int(BigInt::from_usize(w.polar_count())));
+    swar_obj.insert(
+        "hinge_preserved_under_neg".to_string(),
+        JsonValue::Bool(w_neg.hinge_mask() == w.hinge_mask()),
+    );
+    swar_obj.insert(
+        "dwell_preserved_under_neg".to_string(),
+        JsonValue::Bool(w_neg.dwell_mask() == w.dwell_mask()),
+    );
+    swar_obj.insert("signed_value".to_string(), JsonValue::Int(w.to_bigint()));
+    swar_obj.insert("neg_signed_value".to_string(), JsonValue::Int(w_neg.to_bigint()));
+    swar_obj.insert(
+        "canonical_symbols".to_string(),
+        JsonValue::Str(w_canon.to_symbols(true)),
+    );
+    swar_obj.insert(
+        "burned_keep_single_symbols".to_string(),
+        JsonValue::Str(w_burn_keep.to_symbols(true)),
+    );
+    swar_obj.insert(
+        "burned_drop_all_symbols".to_string(),
+        JsonValue::Str(w_burn_drop.to_symbols(true)),
+    );
+
+    let cp_arr = require_json_array(get_field(inputs, "chiral_pair_bits")?, "chiral_pair_bits")?;
+    let mut chiral_pairs_out = Vec::with_capacity(cp_arr.len());
+    for item in cp_arr {
+        let bits_big = require_json_int(item, "chiral_pair_bit")?;
+        let bits_u32 = bits_big.to_u32().ok_or_else(|| {
+            CoreError::ValueError("chiral_pair_bits entry must be in 0..=15".to_string())
+        })?;
+        let bits_u8 = u8::try_from(bits_u32).map_err(|_| {
+            CoreError::ValueError("chiral_pair_bits entry must be in 0..=15".to_string())
+        })?;
+        let pair = ChiralPair4::from_bits(bits_u8)?;
+        let flipped = pair.chiral_flip();
+        let mut p_obj = BTreeMap::new();
+        p_obj.insert("bits".to_string(), JsonValue::Int(BigInt::from_u32(pair.raw4() as u32)));
+        p_obj.insert("lo_lane".to_string(), JsonValue::Int(BigInt::from_u32(pair.lo_lane() as u32)));
+        p_obj.insert("hi_lane".to_string(), JsonValue::Int(BigInt::from_u32(pair.hi_lane() as u32)));
+        p_obj.insert("net_charge".to_string(), JsonValue::Int(BigInt::from_i64(pair.net_charge() as i64)));
+        p_obj.insert("has_hinge".to_string(), JsonValue::Bool(pair.has_hinge()));
+        p_obj.insert("is_saturated".to_string(), JsonValue::Bool(pair.is_saturated()));
+        p_obj.insert(
+            "flipped_bits".to_string(),
+            JsonValue::Int(BigInt::from_u32(flipped.raw4() as u32)),
+        );
+        p_obj.insert(
+            "flipped_net_charge".to_string(),
+            JsonValue::Int(BigInt::from_i64(flipped.net_charge() as i64)),
+        );
+        chiral_pairs_out.push(JsonValue::Object(p_obj));
+    }
+
+    let bar_a_sym = require_json_str(get_field(inputs, "barrier_a_symbols")?, "barrier_a_symbols")?;
+    let bar_b_sym = require_json_str(get_field(inputs, "barrier_b_symbols")?, "barrier_b_symbols")?;
+    let bar_a = TritWord::from_symbols(bar_a_sym, true)?;
+    let bar_b = TritWord::from_symbols(bar_b_sym, true)?;
+    let bar_res = bar_a.add_hinge_barrier(&bar_b);
+    let mut bar_obj = BTreeMap::new();
+    bar_obj.insert(
+        "result_symbols".to_string(),
+        JsonValue::Str(bar_res.result.to_symbols(true)),
+    );
+    bar_obj.insert(
+        "hinge_mask".to_string(),
+        JsonValue::Int(bar_res.hinge_mask.to_bigint()),
+    );
+    bar_obj.insert(
+        "blocked_alpha_mask".to_string(),
+        JsonValue::Int(bar_res.blocked_alpha_mask.to_bigint()),
+    );
+    bar_obj.insert(
+        "blocked_omega_mask".to_string(),
+        JsonValue::Int(bar_res.blocked_omega_mask.to_bigint()),
+    );
+    bar_obj.insert(
+        "blocked_carry_mask".to_string(),
+        JsonValue::Int(bar_res.blocked_carry_mask().to_bigint()),
+    );
+    bar_obj.insert(
+        "had_blocked_carry".to_string(),
+        JsonValue::Bool(bar_res.had_blocked_carry()),
+    );
+    bar_obj.insert(
+        "result_preserves_hinges".to_string(),
+        JsonValue::Bool(bar_res.result.hinge_mask() == bar_res.hinge_mask),
+    );
+
+    let big_a = parse_json_exact_int(get_field(inputs, "big_a")?, "big_a")?;
+    let big_b = parse_json_exact_int(get_field(inputs, "big_b")?, "big_b")?;
+    let wa = TritWord::from_bigint(&big_a);
+    let wb = TritWord::from_bigint(&big_b);
+    let w_sum = &wa + &wb;
+    let w_diff = &wa - &wb;
+    let w_prod = &wa * &wb;
+    let (w_q, w_r) = wa.divmod_floor(&wb)?;
+    let w_gcd = wa.gcd(&wb);
+    let mut big_obj = BTreeMap::new();
+    big_obj.insert("a_width".to_string(), JsonValue::Int(BigInt::from_usize(wa.width())));
+    big_obj.insert("b_width".to_string(), JsonValue::Int(BigInt::from_usize(wb.width())));
+    big_obj.insert("sum".to_string(), JsonValue::Str(w_sum.to_bigint().to_dec_string()));
+    big_obj.insert("diff".to_string(), JsonValue::Str(w_diff.to_bigint().to_dec_string()));
+    big_obj.insert("prod".to_string(), JsonValue::Str(w_prod.to_bigint().to_dec_string()));
+    big_obj.insert("divmod_q".to_string(), JsonValue::Str(w_q.to_bigint().to_dec_string()));
+    big_obj.insert("divmod_r".to_string(), JsonValue::Str(w_r.to_bigint().to_dec_string()));
+    big_obj.insert("gcd".to_string(), JsonValue::Str(w_gcd.to_bigint().to_dec_string()));
+    big_obj.insert(
+        "cmp".to_string(),
+        JsonValue::Int(BigInt::from_i64(ordering_to_i64(wa.cmp_value(&wb)))),
+    );
+
+    let mr_arr = require_json_array(get_field(inputs, "micro_ratio_bits")?, "micro_ratio_bits")?;
+    let mut micro_out = Vec::with_capacity(mr_arr.len());
+    for item in mr_arr {
+        let bits_big = require_json_int(item, "micro_ratio_bit")?;
+        let bits_u32 = bits_big.to_u32().ok_or_else(|| {
+            CoreError::ValueError("micro_ratio_bits entry must be in 0..=15".to_string())
+        })?;
+        let bits_u8 = u8::try_from(bits_u32).map_err(|_| {
+            CoreError::ValueError("micro_ratio_bits entry must be in 0..=15".to_string())
+        })?;
+        let m = Trit2MicroRatio::from_bits(bits_u8)?;
+        let mut m_obj = BTreeMap::new();
+        m_obj.insert("bits".to_string(), JsonValue::Int(BigInt::from_u32(m.raw4() as u32)));
+        m_obj.insert("num_lane".to_string(), JsonValue::Int(BigInt::from_u32(m.num_lane() as u32)));
+        m_obj.insert("den_lane".to_string(), JsonValue::Int(BigInt::from_u32(m.den_lane() as u32)));
+        m_obj.insert("is_defined".to_string(), JsonValue::Bool(m.is_defined()));
+        m_obj.insert("has_hinge".to_string(), JsonValue::Bool(m.has_hinge()));
+        m_obj.insert("is_saturated".to_string(), JsonValue::Bool(m.is_saturated()));
+        if m.is_defined() {
+            let br = m.exact_bigrat()?;
+            let tr = m.to_trit_ratio()?;
+            if tr.to_bigrat() != br {
+                return Err(CoreError::ValueError(
+                    "Trit2MicroRatio exact_bigrat and to_trit_ratio diverged".to_string(),
+                ));
+            }
+            m_obj.insert("exact_pair".to_string(), trit_ratio_pair_json(&tr));
+            m_obj.insert(
+                "trit_ratio_num_hinge_mask".to_string(),
+                JsonValue::Int(tr.num_hinge_mask().to_bigint()),
+            );
+            m_obj.insert(
+                "trit_ratio_den_hinge_mask".to_string(),
+                JsonValue::Int(tr.den_hinge_mask().to_bigint()),
+            );
+        } else {
+            m_obj.insert("exact_pair".to_string(), JsonValue::Null);
+            m_obj.insert("trit_ratio_num_hinge_mask".to_string(), JsonValue::Null);
+            m_obj.insert("trit_ratio_den_hinge_mask".to_string(), JsonValue::Null);
+        }
+        m_obj.insert(
+            "neg_bits".to_string(),
+            JsonValue::Int(BigInt::from_u32(m.neg().raw4() as u32)),
+        );
+        m_obj.insert(
+            "reciprocal_bits".to_string(),
+            JsonValue::Int(BigInt::from_u32(m.reciprocal().raw4() as u32)),
+        );
+        micro_out.push(JsonValue::Object(m_obj));
+    }
+
+    let ra_num = TritWord::from_symbols(
+        require_json_str(get_field(inputs, "ratio_a_num_symbols")?, "ratio_a_num_symbols")?,
+        true,
+    )?;
+    let ra_den = TritWord::from_symbols(
+        require_json_str(get_field(inputs, "ratio_a_den_symbols")?, "ratio_a_den_symbols")?,
+        true,
+    )?;
+    let rb_num = TritWord::from_symbols(
+        require_json_str(get_field(inputs, "ratio_b_num_symbols")?, "ratio_b_num_symbols")?,
+        true,
+    )?;
+    let rb_den = TritWord::from_symbols(
+        require_json_str(get_field(inputs, "ratio_b_den_symbols")?, "ratio_b_den_symbols")?,
+        true,
+    )?;
+    let ra = TritRatio::new(ra_num, ra_den)?;
+    let rb = TritRatio::new(rb_num, rb_den)?;
+    let r_add = &ra + &rb;
+    let r_sub = &ra - &rb;
+    let r_mul = &ra * &rb;
+    let r_div = ra.checked_div(&rb)?;
+    let r_rec_a = ra.reciprocal()?;
+    let ra_cleared = ra.with_cleared_metadata();
+
+    let mut ratio_obj = BTreeMap::new();
+    ratio_obj.insert("a_pair".to_string(), trit_ratio_pair_json(&ra));
+    ratio_obj.insert(
+        "a_num_hinge_mask".to_string(),
+        JsonValue::Int(ra.num_hinge_mask().to_bigint()),
+    );
+    ratio_obj.insert(
+        "a_den_hinge_mask".to_string(),
+        JsonValue::Int(ra.den_hinge_mask().to_bigint()),
+    );
+    ratio_obj.insert("b_pair".to_string(), trit_ratio_pair_json(&rb));
+    ratio_obj.insert(
+        "b_num_hinge_mask".to_string(),
+        JsonValue::Int(rb.num_hinge_mask().to_bigint()),
+    );
+    ratio_obj.insert(
+        "b_den_hinge_mask".to_string(),
+        JsonValue::Int(rb.den_hinge_mask().to_bigint()),
+    );
+    ratio_obj.insert("add_pair".to_string(), trit_ratio_pair_json(&r_add));
+    ratio_obj.insert(
+        "add_num_hinge_mask".to_string(),
+        JsonValue::Int(r_add.num_hinge_mask().to_bigint()),
+    );
+    ratio_obj.insert(
+        "add_den_hinge_mask".to_string(),
+        JsonValue::Int(r_add.den_hinge_mask().to_bigint()),
+    );
+    ratio_obj.insert("sub_pair".to_string(), trit_ratio_pair_json(&r_sub));
+    ratio_obj.insert("mul_pair".to_string(), trit_ratio_pair_json(&r_mul));
+    ratio_obj.insert("div_pair".to_string(), trit_ratio_pair_json(&r_div));
+    ratio_obj.insert(
+        "div_num_hinge_mask".to_string(),
+        JsonValue::Int(r_div.num_hinge_mask().to_bigint()),
+    );
+    ratio_obj.insert(
+        "div_den_hinge_mask".to_string(),
+        JsonValue::Int(r_div.den_hinge_mask().to_bigint()),
+    );
+    ratio_obj.insert("reciprocal_a_pair".to_string(), trit_ratio_pair_json(&r_rec_a));
+    ratio_obj.insert(
+        "reciprocal_a_num_hinge_mask".to_string(),
+        JsonValue::Int(r_rec_a.num_hinge_mask().to_bigint()),
+    );
+    ratio_obj.insert(
+        "reciprocal_a_den_hinge_mask".to_string(),
+        JsonValue::Int(r_rec_a.den_hinge_mask().to_bigint()),
+    );
+    ratio_obj.insert(
+        "cmp_ab".to_string(),
+        JsonValue::Int(BigInt::from_i64(ordering_to_i64(ra.cmp(&rb)))),
+    );
+    ratio_obj.insert("value_eq_cleared".to_string(), JsonValue::Bool(ra == ra_cleared));
+    ratio_obj.insert(
+        "structural_eq_cleared".to_string(),
+        JsonValue::Bool(ra.structural_eq(&ra_cleared)),
+    );
+
+    let mut out = BTreeMap::new();
+    out.insert("swar".to_string(), JsonValue::Object(swar_obj));
+    out.insert("chiral_pairs".to_string(), JsonValue::Array(chiral_pairs_out));
+    out.insert("barrier_add".to_string(), JsonValue::Object(bar_obj));
+    out.insert("big_word".to_string(), JsonValue::Object(big_obj));
+    out.insert("micro_ratios".to_string(), JsonValue::Array(micro_out));
+    out.insert("trit_ratio".to_string(), JsonValue::Object(ratio_obj));
     Ok(JsonValue::Object(out))
 }

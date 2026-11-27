@@ -39,6 +39,7 @@ from manual.engine.sectors.boundary_sadar import (
     eval_sadar_rest_energy_qext,
     eval_scoped_wire_and_moving_boundary,
     eval_sparc_pooled_primary_exact,
+    eval_ternary_swar_and_trit_ratio,
 )
 from manual.engine.sectors.manual_dec_examples import (
     eval_dec_awareness_matched_operativity,
@@ -720,6 +721,9 @@ def _eval_operation(operation: str, inputs: dict[str, object]) -> dict[str, obje
     if operation == "dec_coordinate_phase_3d_walk":
         return eval_dec_coordinate_phase_3d_walk(inputs)
 
+    if operation == "ternary_swar_and_trit_ratio":
+        return eval_ternary_swar_and_trit_ratio(inputs)
+
     raise ValueError(f"unsupported vector operation: {operation!r}")
 
 
@@ -1129,17 +1133,17 @@ def verify_single_vector(
 
 
 def verify_all_vectors(repo_root: Path) -> dict[str, object]:
-    """Load and execute all 52 golden vectors (44 rational_core + 8 symbolic_and_display)."""
+    """Load and execute all 53 golden vectors (45 rational_core + 8 symbolic_and_display)."""
     root = Path(repo_root).resolve()
     rc_sha, rc_rows = load_vector_file(root / RATIONAL_CORE_REL)
     sd_sha, sd_rows = load_vector_file(root / SYMBOLIC_DISPLAY_REL)
 
-    require(len(rc_rows) == 44, f"expected 44 rational_core vectors, got {len(rc_rows)}")
+    require(len(rc_rows) == 45, f"expected 45 rational_core vectors, got {len(rc_rows)}")
     require(len(sd_rows) == 8, f"expected 8 symbolic_and_display vectors, got {len(sd_rows)}")
 
     rc_ids = [str(r["case_id"]) for r in rc_rows]
     sd_ids = [str(r["case_id"]) for r in sd_rows]
-    require(rc_ids == [f"RC-{i:03d}" for i in range(1, 45)], f"unexpected rational_core IDs: {rc_ids}")
+    require(rc_ids == [f"RC-{i:03d}" for i in range(1, 46)], f"unexpected rational_core IDs: {rc_ids}")
     require(sd_ids == [f"SD-{i:03d}" for i in range(1, 9)], f"unexpected symbolic_and_display IDs: {sd_ids}")
 
     failures: list[dict[str, str]] = []
