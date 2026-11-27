@@ -3,7 +3,7 @@
 #import "/typst/lib/aod_plots.typ": *
 
 #let fig-width-cm = 15.0
-#let fig-height-cm = 8.6
+#let fig-height-cm = 9.4
 
 #let rows = csv("/manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv", row-type: dictionary)
 #let r-pair = rows.at(0)
@@ -12,121 +12,152 @@
 #let r-trA = rows.at(3)
 #let r-trB = rows.at(4)
 #let r-cut = rows.at(5)
+#let r-rcd = rows.at(6)
+#let r-adv = rows.at(7)
+#let r-hos = rows.at(8)
 
 #aod-canvas(fig-width-cm, fig-height-cm)[
-  #aod-box-tl(0.15, 0.15, 14.70, 8.30, [], stroke: 0.85pt + aod-pal.axis, fill: white, radius: 2pt)
-  #aod-text(7.50, 0.54, [*Relational closure-beat time, conditional SI bridge $B_(upright("bridge"))$ & held-out transfer rejection*], size: 9.8pt, box-w: 14.3, box-h: 0.46)
-  #aod-text(7.50, 0.94, [Active $5$-boundary spine $B_(upright("pair"))(0,30] -> B_(upright("lag")) -> B_(upright("bridge")) -> B_(upright("val")) -> B_(upright("ext"))$: zero background clock $t$; exact rational ratios.], size: 7.3pt, box-w: 14.3, box-h: 0.38)
+  #aod-box-tl(0.14, 0.14, 14.72, 9.12, [], stroke: 0.85pt + aod-pal.axis, fill: white, radius: 2pt)
+  #aod-text(7.50, 0.44, [*Relational closure-beat time, conditional SI bridge $B_(upright("bridge"))$ & transfer audit*], size: 9.2pt, box-w: 14.4, box-h: 0.36)
+  #aod-text(7.50, 0.80, [Active $5$-boundary spine $B_(upright("pair"))(0, 30] -> B_(upright("lag")) -> B_(upright("bridge")) -> B_(upright("val")) -> B_(upright("ext"))$: zero background clock $t$; exact rational ratios.], size: 7.0pt, box-w: 14.4, box-h: 0.32)
 
-  // Left Zone: Native coupled lineages on integer window (0, 30]
-  #aod-box-tl(0.38, 1.36, 5.30, 5.82, [], stroke: 0.85pt + aod-pal.navy, fill: aod-pal.tint-blue, radius: 4pt)
-  #aod-text(3.03, 1.68, [*(a) Coupled lineages on $B_(upright("pair"))(0, 30]$*], size: 7.9pt, box-w: 5.0, box-h: 0.36)
+  // Left Zone: Native coupled lineages on half-open integer window (0, 30]
+  #aod-box-tl(0.36, 1.34, 5.36, 6.86, [], stroke: 0.85pt + aod-pal.navy, fill: aod-pal.tint-blue, radius: 4pt)
+  #aod-text(3.04, 1.58, [*(a) Coupled lineages on $B_(upright("pair"))(0, 30]$*], size: 7.4pt, box-w: 5.15, box-h: 0.30)
 
   // Compared lineage i: closures at 2, 10, 18, 26 -> Delta bip = 3
-  #aod-text(3.03, 2.12, [Compared $i$: cuts $(2, 10, 18, 26)$, $Delta op("bip")_i = 3$], size: 6.9pt, weight: "bold", box-w: 4.9, box-h: 0.30)
-  #aod-line(0.85, 2.52, 5.20, 2.52, stroke: 1.05pt + aod-pal.blue)
-  #for cx in (1.10, 2.32, 3.54, 4.76) {
-    aod-chiral-vertex(cx, 2.52, [$C$], r: 0.19, fill: white, stroke: 0.95pt + aod-pal.blue, text-size: 6.8pt)
+  #aod-text(3.04, 1.92, [Compared $i$: cuts $(2, 10, 18, 26)$, $Delta op("bip")_i = 3$], size: 6.7pt, weight: "bold", box-w: 5.05, box-h: 0.26)
+  #aod-line(0.80, 2.28, 5.28, 2.28, stroke: 1.05pt + aod-pal.blue)
+  #for cx in (1.08, 2.38, 3.68, 4.98) {
+    aod-chiral-vertex(cx, 2.28, [$C$], r: 0.17, fill: white, stroke: 0.95pt + aod-pal.blue, text-size: 6.7pt)
   }
 
-  // Reference lineage j: closures at 2, 12, 22 -> Delta bip = 2
-  #aod-text(3.03, 3.06, [Reference $j$: cuts $(2, 12, 22)$, $Delta op("bip")_j = 2$], size: 6.9pt, weight: "bold", box-w: 4.9, box-h: 0.30)
-  #aod-line(0.85, 3.46, 5.20, 3.46, stroke: 1.05pt + aod-pal.teal)
-  #for cx in (1.10, 2.93, 4.76) {
-    aod-chiral-vertex(cx, 3.46, [$R$], r: 0.19, fill: white, stroke: 0.95pt + aod-pal.teal, text-size: 6.8pt)
-  }
-  // Shared contact arrows between lineages
-  #aod-wavy-arrow(1.10, 2.73, 1.10, 3.25, amp: 0.04, waves: 1.5, stroke: 0.85pt + aod-pal.gold)
-  #aod-wavy-arrow(4.76, 2.73, 4.76, 3.25, amp: 0.04, waves: 1.5, stroke: 0.85pt + aod-pal.gold)
+  // Clear middle corridor for shared contact arrows between lineages
+  #aod-wavy-arrow(1.08, 2.47, 1.08, 2.93, amp: 0.04, waves: 1.5, stroke: 0.85pt + aod-pal.gold)
+  #aod-wavy-arrow(4.98, 2.47, 4.98, 2.93, amp: 0.04, waves: 1.5, stroke: 0.85pt + aod-pal.gold)
+  #aod-text(3.04, 2.70, [repeated bound contacts on $[0, 30]$], size: 6.6pt, style: "italic", box-w: 3.55, box-h: 0.24)
 
+  // Reference lineage j: closures at 2, 12, 22 -> Delta bip = 2 (label below track, zero arrow overlap)
+  #aod-line(0.80, 3.12, 5.28, 3.12, stroke: 1.05pt + aod-pal.teal)
+  #for cx in (1.08, 3.03, 4.98) {
+    aod-chiral-vertex(cx, 3.12, [$R$], r: 0.17, fill: white, stroke: 0.95pt + aod-pal.teal, text-size: 6.7pt)
+  }
+  #aod-text(3.04, 3.48, [Reference $j$: cuts $(2, 12, 22)$, $Delta op("bip")_j = 2$], size: 6.7pt, weight: "bold", box-w: 5.05, box-h: 0.26)
+
+  // Sub-box 1: T1, T2, T7, T8 native observables & observed advance
   #aod-box-tl(
-    0.60, 4.02, 4.86, 2.92,
-    [#text(size: 6.9pt)[
-      *Authenticated native observables:* \
-      $op("biz")_(i bar.v j) = #r-pair.exact_quantity$, reverse $= #r-pair.reverse_or_resid$. \
-      Unwrapped lag $= #r-lag.exact_quantity$ (anti-sym $#r-lag.reverse_or_resid$). \
-      *Causal cut-$40$ intervention ($B_(upright("causal"))$):* \
-      Pre-cut $k <= 40$ invariant; response appears strictly later at $k = 41$: $(6,5) -> (2,5)$ ($#r-cut.exact_quantity -> #r-cut.reverse_or_resid$).
+    0.54, 3.74, 5.00, 2.10,
+    [#text(size: 6.7pt)[
+      *Native observables (T1, T2, T7, T8):* \
+      $op("biz")_(i bar.v j) = #r-pair.exact_quantity$, rev $#r-pair.reverse_or_resid$; lag $#r-lag.exact_quantity$ ($#r-lag.reverse_or_resid$). \
+      Directional RCD ($R D = 3$): $#r-rcd.exact_quantity$ vs $#r-rcd.reverse_or_resid$. \
+      Advance ($7 slash 2$ vs $17 slash 2$): $#r-adv.exact_quantity$, signed $#r-adv.reverse_or_resid$. \
+      ($A = C + phi.alt_1 - phi.alt_0$; split $7 slash 2$, clipped $0$).
     ]],
     stroke: 0.8pt + aod-pal.navy,
     fill: white,
+    inset: 3.5pt,
+  )
+
+  // Sub-box 2: T6, T9 causal cut-40 intervention & hostile disconnect control
+  #aod-box-tl(
+    0.54, 5.98, 5.00, 2.06,
+    [#text(size: 6.7pt)[
+      *Causal cut-$40$ control (T6, T9):* \
+      Prefix $k <= 39$ invariant; drop at $k = 40$. \
+      Cut-$41$ shift: #r-cut.delta_bip ($#r-cut.exact_quantity -> #r-cut.reverse_or_resid$). \
+      Hostile disconnect #r-hos.delta_bip ($#r-hos.exact_quantity$): \
+      rejected by replay validation at T9.
+    ]],
+    stroke: 0.8pt + aod-pal.navy,
+    fill: white,
+    inset: 3.5pt,
   )
 
   // Boundary Wall B_bridge
-  #aod-boundary-wall(5.92, 1.36, 5.92, 7.18, stroke: 1.2pt + aod-pal.purple, hatch-side: 1, hatch-count: 10, double-line: true)
-  #aod-text(5.92, 1.18, [$B_(upright("bridge"))$], size: 7.0pt, weight: "bold", box-w: 1.2, box-h: 0.28)
+  #aod-boundary-wall(5.96, 1.34, 5.96, 8.20, stroke: 1.2pt + aod-pal.purple, hatch-side: 1, hatch-count: 11, double-line: true)
+  #aod-text(5.96, 1.14, [$B_(upright("bridge"))$], size: 7.0pt, weight: "bold", box-w: 1.2, box-h: 0.24)
 
-  // Middle Zone: Conditional SI Cesium vs Hydrogen Bridge Chains
-  #aod-box-tl(6.18, 1.36, 4.10, 5.82, [], stroke: 0.85pt + aod-pal.purple, fill: aod-pal.tint-purple, radius: 4pt)
-  #aod-text(8.23, 1.68, [*(b) Stipulated SI chains*], size: 7.9pt, box-w: 3.8, box-h: 0.36)
+  // Middle Zone: Conditional SI Cesium vs Hydrogen Hyperfine Bridge Chains
+  #aod-box-tl(6.20, 1.34, 4.10, 6.86, [], stroke: 0.85pt + aod-pal.purple, fill: aod-pal.tint-purple, radius: 4pt)
+  #aod-text(8.25, 1.58, [*(b) Stipulated SI chains*], size: 7.4pt, box-w: 3.90, box-h: 0.30)
 
   #aod-box-tl(
-    6.38, 2.06, 3.70, 2.28,
-    [#text(size: 6.9pt)[
-      *Cesium-$133$ chain:* \
-      $Delta nu_(upright("Cs")) = 9,192,631,770$ Hz \
-      Gain $a_c = a_r = 1$: \
+    6.38, 1.94, 3.74, 2.86,
+    [#text(size: 6.8pt)[
+      *Cesium-$133$ chain (T3):* \
+      $Delta nu_(upright("Cs")) =$ 9,192,631,770 Hz \
+      Stipulated gain $a_c = a_r = 1$ \
+      ($N_r = 2, N_c = 3$): \
       $Delta t_(upright("SI")) = #r-cs.exact_quantity$ s \
-      $nu_c = #r-cs.reverse_or_resid$ Hz
+      $macron(nu)_c = #r-cs.reverse_or_resid$ Hz
     ]],
     stroke: 0.8pt + aod-pal.purple,
     fill: white,
+    inset: 4pt,
   )
   #aod-box-tl(
-    6.38, 4.58, 3.70, 2.36,
-    [#text(size: 6.9pt)[
-      *Hydrogen $1 S$-$2 S$ chain:* \
-      Separate bridge chain \
-      with explicit residual \
-      budget $(u_(upright("bridge")), u_(upright("cal")))$; \
-      never fused into Cs \
-      without declared adapter.
+    6.38, 5.02, 3.74, 3.02,
+    [#text(size: 6.7pt)[
+      *Hydrogen hyperfine chain:* \
+      *1420.4 MHz* (Hellwig 1970) \
+      21 cm maser heterodyne: \
+      $284 nu_R + nu_S + nu_B + delta$. \
+      Separate residual budget \
+      $(u_(upright("bridge")), u_(upright("cal")))$; never fused into \
+      Cs without declared adapter.
     ]],
     stroke: 0.8pt + aod-pal.gold,
     fill: aod-pal.tint-amber,
+    inset: 4pt,
   )
 
-  #aod-wavy-arrow(5.68, 3.10, 6.36, 3.10, amp: 0.05, waves: 1.5, stroke: 0.95pt + aod-pal.purple)
+  #aod-wavy-arrow(5.72, 3.05, 6.36, 3.05, amp: 0.05, waves: 1.5, stroke: 0.95pt + aod-pal.purple)
 
   // Boundary Wall B_val (Held-out cross-field transfer gate)
-  #aod-boundary-wall(10.52, 1.36, 10.52, 7.18, stroke: 1.2pt + aod-pal.crimson, hatch-side: 1, hatch-count: 10)
-  #aod-text(10.52, 1.18, [$B_(upright("val"))$], size: 7.0pt, weight: "bold", box-w: 1.1, box-h: 0.28)
+  #aod-boundary-wall(10.54, 1.34, 10.54, 8.20, stroke: 1.2pt + aod-pal.crimson, hatch-side: 1, hatch-count: 11)
+  #aod-text(10.54, 1.14, [$B_(upright("val"))$], size: 7.0pt, weight: "bold", box-w: 1.1, box-h: 0.24)
 
   // Right Zone: Held-out cross-field transfer falsifier
-  #aod-box-tl(10.76, 1.36, 3.84, 5.82, [], stroke: 0.85pt + aod-pal.crimson, fill: aod-pal.tint-orange, radius: 4pt)
-  #aod-text(12.68, 1.68, [*(c) Held-out transfer audit*], size: 7.9pt, box-w: 3.6, box-h: 0.36)
+  #aod-box-tl(10.78, 1.34, 3.86, 6.86, [], stroke: 0.85pt + aod-pal.crimson, fill: aod-pal.tint-orange, radius: 4pt)
+  #aod-text(12.71, 1.58, [*(c) Held-out transfer audit*], size: 7.3pt, box-w: 3.76, box-h: 0.30)
 
   #aod-box-tl(
-    10.96, 2.06, 3.44, 2.30,
-    [#text(size: 6.9pt)[
-      *Field A ($3":"3":"6$ vs $1":"2":"6$):* \
+    10.96, 1.94, 3.50, 2.86,
+    [#text(size: 6.8pt)[
+      *Field A ($3":"3":"6$ vs $1":"2":"6$, T4):* \
+      Counts: #r-trA.delta_bip \
+      Held-out ref $N_(0,upright("val")) = 32$ \
       Calibrated pred $= #r-trA.exact_quantity$ \
-      Held-out obs $= 26$ \
       Residual $= #r-trA.reverse_or_resid != 0$ \
       *Constant gain rejected*
     ]],
     stroke: 0.8pt + aod-pal.crimson,
     fill: white,
+    inset: 4pt,
   )
   #aod-box-tl(
-    10.96, 4.58, 3.44, 2.36,
-    [#text(size: 6.9pt)[
-      *Field B ($3":"2":"6$ vs $3":"3":"6$):* \
+    10.96, 5.02, 3.50, 3.02,
+    [#text(size: 6.8pt)[
+      *Field B ($3":"2":"6$ vs $3":"3":"6$, T5):* \
+      Counts: #r-trB.delta_bip \
+      Held-out ref $N_(0,upright("val")) = 32$ \
       Calibrated pred $= #r-trB.exact_quantity$ \
-      Held-out obs $= 21$ \
       Residual $= #r-trB.reverse_or_resid != 0$ \
       *Universal SI clock blocked*
     ]],
     stroke: 0.8pt + aod-pal.crimson,
     fill: white,
+    inset: 4pt,
   )
 
   // Bottom invariant bar
   #aod-box-tl(
-    0.38, 7.40, 14.22, 0.74,
-    [#text(size: 7.2pt, weight: "bold")[Engine vector RC-037: relational time from $>= 2$ coupled lineages, conditional SI stipulation at $B_(upright("bridge"))$, and nonzero held-out residuals $(#r-trA.reverse_or_resid, #r-trB.reverse_or_resid)$.]],
+    0.36, 8.38, 14.28, 0.72,
+    [#text(size: 6.9pt, weight: "bold")[Engine vector RC-037 (T1–T9): relational time from $>= 2$ coupled lineages on $(0, 30]$, conditional SI stipulation at $B_(upright("bridge"))$, nonzero held-out residuals $(#r-trA.reverse_or_resid, #r-trB.reverse_or_resid)$, and cut-$40 -> 41$ causal audit.]],
     stroke: 0.85pt + aod-pal.navy,
     fill: aod-pal.tint-gray,
     radius: 3pt,
+    inset: 3.5pt,
   )
 ]

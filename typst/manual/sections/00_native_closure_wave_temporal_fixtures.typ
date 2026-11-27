@@ -1,49 +1,44 @@
-// Native Typst port of manual/sections/00_native_closure_wave_temporal_fixtures.tex (verbatim scientific content).
+// Native Typst authority for Manual §2: native closure, wave, wavelet continuation, and Q4 D.E.C. fixtures.
 #import "../preamble.typ": *
 
 = Native closure, wave and temporal fixtures <manual:m1-native-fixtures>
 
 
+#aod-paragraph[Setup and calculation card.]
+Native certificates, scopes, and committed prefixes serve as exact fixture inputs
+under #secref("manual:calculation-spine"): the runner evaluates closure,
+recurrence, directional contact, and flux outputs against exact rational
+comparators while hostile controls act as falsifiers. Physical input uncertainty
+is uninstantiated, and only the final report demonstration introduces a declared
+rational calibration. Across this section, the five-boundary $Q_4$ witness chain
+$B_(upright("monon")) arrow.r B_(upright("asym")) arrow.r B_(upright("wave")) arrow.r B_(upright("fold")) arrow.r B_(upright("harm"))$
+separates minimal closure, asymmetric reflection, recurrent beats, outer folding,
+and downstream harmonic readouts.
 
-#aod-paragraph[Calculation card.]
-Native certificates, scopes and committed prefixes are exact fixture inputs.
-The runner below computes closure, recurrence, directional contact and flux
-outputs against exact comparators; its hostile controls are the falsifiers.
-Only the final demonstration uses a declared rational report calibration.
-Physical input uncertainty is uninstantiated. The common method is
-#secref("manual:calculation-spine").
-
-
-The executable motif and fold fixtures use a declared preassembled-prefix
-realization: component closures complete before the target trace starts.
-This is a sufficient causal realization of the Main's more general
-commit-before-consumption rule. Each outer trace binds its inner identity,
-certificate set and scope map before certification. A further distinct outer
-return supplies the outer beat; exposure preserves the bound inner wave.
-Duon fixtures separately execute the twelve support signatures, carried current,
-distinct recurrent returns and the Duad's seated state of the same identity
-(#mainequation("main:eq:duad-same-current")).
-The finite harmonic readout declares a cyclic index group and committed window;
-every recorded state contains only the certificate, cadence and phase prefix
-available at that return. Its projection is a declared model record.
-In the executable compatibility record, #raw("edges") counts phase-bearing
+Motif and fold fixtures adopt a preassembled-prefix realization in which
+component closures complete before the target trace begins—a sufficient causal
+realization of Main's commit-before-consumption rule. Each outer trace binds its
+inner identity, certificate set, and scope map before certification; a distinct
+outer return supplies the outer beat while exposure preserves the bound inner
+wave. Duon fixtures separately execute the twelve support signatures, carried
+current, distinct recurrent returns, and the seated Duad of identical wave
+identity (#mainequation("main:eq:duad-same-current")). Finite harmonic readouts
+declare a cyclic index group and committed window and record only the
+certificate, cadence, and phase prefix available at that return as a declared
+model record. In compatibility fixtures, #raw("edges") counts phase-bearing
 atomic traversals and #raw("phases") counts complete certified closure-phase
-cycles. Thus the minimal two-edge return has $(2,1)$, while the four-edge
-return has $(4,1)$. The legacy key #raw("phases") is retained to avoid an
-engine-schema break; it never counts edges, dwell, or Fourier coefficient phase.
+cycles—so minimal two-edge and asymmetric four-edge returns carry $(2, 1)$ and
+$(4, 1)$ respectively; the legacy key #raw("phases") avoids an engine-schema
+break and never counts edges, dwell, or Fourier phase.
 
-#aod-paragraph[Record class and execution.]
-These are native exact witnesses or explicitly declared models. The shared
-runner is #raw("manual/scripts/aod_native_closure_wave.py")\; its five CSV
-inputs preserve trace, scope, lineage, expected exact result and hostile case.
-The command #raw("python3 manual/scripts/aod_native_closure_wave.py --check-data")
-executes the rows. An expected rejection is a successful hostile check only
-when the actual law rejects the supplied input. Actual results are recorded
-separately from these immutable inputs.
-
+These records are native exact witnesses or explicitly declared models executed
+by #raw("python3 manual/scripts/aod_native_closure_wave.py --check-data") across
+five immutable CSV inputs preserving trace, scope, lineage, exact target, and
+hostile case; a hostile check passes only when the actual law rejects the
+supplied input, and actual outputs are logged separately.
 
 #aod-uncaptioned-longtable[#{
-  set text(size: 8.5pt)
+  set text(size: 8.4pt)
   set par(justify: false)
   table(
     columns: (23.00fr, 33.00fr, 34.00fr),
@@ -73,32 +68,42 @@ separately from these immutable inputs.
 }]
 
 
+#aod-paragraph[Derivation: reflected legs, flux controls, and prefix binding.]
+An asymmetric certified $1 + 3$ return carries four phase-bearing steps and one
+closure-phase cycle: its total $4 h$ equals neither doubled leg ($2 h$ or $6 h$),
+even though both satisfy the lower bound of
+#mainequation("main:eq:reflected-leg-bound"). Under
+#mainequation("main:eq:flux-types"), the AFC two-state swap kernel gives flux
+$1 slash 2$ for memory $(3 slash 4, 1 slash 4)$ and zero for equal memory,
+reversing sign upon state exchange while the kernel remains unchanged.
 
-#aod-paragraph[Reflected-leg and flux controls.]
-An asymmetric certified $1 + 3$ return has four phase-bearing steps and one
-closure-phase cycle. Its total $4 h$ equals neither doubled leg, $2 h$ nor
-$6 h$, although both doubled legs satisfy the reference lower bound.
-For the AFC two-state swap kernel, memory $(3 slash 4,1 slash 4)$ gives flux $1 slash 2$;
-equal memory gives zero. Under exchange of the two states, the unequal-memory
-flux reverses sign even though the kernel is unchanged. These controls use
-#mainequation("main:eq:reflected-leg-bound") and #mainequation("main:eq:flux-types").
+Every construction record carries an exact prefix digest and witness validated
+against the declared registry across closure, return, motif, and paired contact
+prefixes (#mainequation("main:eq:closure-certificate"),
+#mainequation("main:eq:return-identity"),
+#mainequation("main:eq:motif-admission"),
+#mainequation("main:eq:coupling-trace")); unknown, empty, or mismatched records
+reject before model or harmonic use, and a registry or cache validates an
+existing construction without originating distinction or recurrence. Update
+laws declare their admissible input domain before executing
+#mainequation("main:eq:wave-update-trace"), and the additive duration interface
+stores $(R D, r_1, dots.h, r_m)$ ($r_s gt.eq 0$) before applying
+#mainequation("main:eq:rcd-additive-realization"), recomputing reflection counts
+on reversal. Polyrhythm computations follow cycle provenance first and expose
+scalar A$Omega$ accessors strictly as derived caches; a raw duration cannot
+replace the branch/hinge/branch witnesses required for coupling, seating, or
+shedding.
 
 
-#aod-paragraph[Field-count calculation.]
-One admitted recurrent monon-mode wave organization has $n_F = 1$ and
-$cal(O)_(partial F) = 0$ under #mainequation("main:eq:field-count-term").
-Alias names do not create another field; an isolated monon supplies no field.
-
-#aod-paragraph[Disoma declaration.]#aod-anchor(<subsec:disoma-declaration>)
-For a two-field declared scope, fix
-
-#math.equation(block: true, numbering: none, $ B_(12) = ( partial F_(12) , omega_(12) ), wide cal(F)_(B_(12)) = brace.l F_1 ,F_2 brace.r . $)
-
-Thus
+#aod-paragraph[Specialization: field count, periodic support, and directional cadence.]
+Under #mainequation("main:eq:field-count-term"), one admitted recurrent
+monon-mode wave organization has $n_F = 1$ and $cal(O)_(partial F) = 0$;
+aliases create no new field and an isolated monon supplies none.
+#aod-anchor(<subsec:disoma-declaration>)For a two-field Disoma declaration on
+scope $B_(12) = ( partial F_(12) , omega_(12) )$ with
+$cal(F)_(B_(12)) = brace.l F_1 ,F_2 brace.r$,
 
 #math.equation(block: true, numbering: none, $ n_F (B_(12) ) = 2, wide cal(O)_(partial F) (B_(12) ) = 2 log 2. $)
-
-
 
 #figure(
   kind: image, [
@@ -118,41 +123,18 @@ A lone monon closure supplies one complete closure-phase cycle; field membership
   caption: [Fixed-scope field count and SADAR scope.],
 ) <fig:field-count>
 
-
-
-#aod-paragraph[Prefix validation and scalar storage.]
-Each construction record stores its exact prefix digest and witness. Validation
-checks those bindings against the declared registry, including the closure,
-return, motif and both contact prefixes of
-#mainequation("main:eq:closure-certificate"),
-#mainequation("main:eq:return-identity"), #mainequation("main:eq:motif-admission")
-and #mainequation("main:eq:coupling-trace"). Unknown, empty or mismatched records
-reject before model or harmonic use. A registry or reconstructed cache validates
-an existing construction; it cannot originate distinction or recurrence.
-An implementation declares its update law and admissible input domain before
-executing #mainequation("main:eq:wave-update-trace"). The additive duration
-implementation stores $(R D,r_1 , dots.h ,r_m )$, with $r_s gt.eq 0$, then applies
-#mainequation("main:eq:rcd-additive-realization")\; reversal recomputes the
-reflection counts. A polyrhythm calculation follows cycle provenance first,
-then stores scalar A$Omega$ accessors. A raw duration cannot replace the
-branch/hinge/branch data needed by later coupling, seat compatibility or shedding.
-The scalar outputs are derived caches of their bound constructions.
-
-
-#aod-paragraph[Periodic support calculation.]
-Use #mainequation("main:eq:fractal-tesseract-cycle-range") and the single-hinge
-support formulas of #mainappendix("main:app:rd-tests:corollaries").
-For $3":"4::3":"3::6$, the support types are
-
-#math.equation(block: true, numbering: none, $ C_(sigma) [3":"4;C_6 ]_(AO) , wide C_(sigma) [3":"3;C_6 ]_(AO) , $)
-
-with $bar.v Sigma_(upright("support")) bar.v = 2$. In the declared symmetric single-hinge, neutral-reflection periodic specialization, choose recurrence periods equal to these RD accessors; then
+Applying #mainequation("main:eq:fractal-tesseract-cycle-range") and the
+single-hinge support formulas of #mainappendix("main:app:rd-tests:corollaries")
+to $3":"4::3":"3::6$ yields support types
+$C_(sigma) [3":"4;C_6 ]_(AO)$ and $C_(sigma) [3":"3;C_6 ]_(AO)$
+($bar.v Sigma_(upright("support")) bar.v = 2$). In the declared symmetric
+single-hinge, neutral-reflection periodic specialization with recurrence periods
+equal to these RD accessors,
 
 #math.equation(block: true, numbering: none, $ R D_(AO) (3":"4) = 137, wide R D_(AO) (3":"3) = 61, wide T_(upright("sync")) = op("lcm")(137,61) = 8357. $)
 
-The coupling is $SADARop_B (C_(3":"4) ,C_(3":"3) )$. Adjacency and the
-least common multiple alone do not establish that coupling.
-
+Coupling requires $SADARop_B (C_(3":"4) ,C_(3":"3) )$; adjacency and the least
+common multiple alone never establish coupling.
 
 #figure(
   kind: image, [
@@ -181,148 +163,122 @@ tesseract sections count support occurrences; $SADARop_B$ couples beats
   caption: [Fractal-tesseract cycle range and support family.],
 ) <fig:fractal-tesseract-beat-family>
 
+For directional cadence, both wave identities and repeated contact-prefix digests
+bind before comparison. At support $R D = 3$ with two reflection counts, the
+additive interface yields $rho^D_(a bar.v b) = 3 + 1 + 1 = 5$ and
+$rho^D_(b bar.v a) = 3 + 2 + 2 = 7$: ratios invert reciprocally, signed offsets
+negate, and directional duration is recomputed on reversal. A same-domain window
+of length two clips only participation without altering RD or RCD. The unwrapped
+comparator $Lambda = N_a - N_b + b_a - b_b$ forms drift against the prior
+committed comparison, so a whole-closure slip shifts $Lambda$ even when a wrapped
+display repeats.
 
 
-#aod-paragraph[Directional count realization.]
-Both wave identities and repeated contact-prefix digests are bound before
-comparison. With support $R D = 3$ and two reflection counts, the declared
-additive interface gives $rho^D_(a bar.v b) = 3 + 1 + 1 = 5$ and
-$rho^D_(b bar.v a) = 3 + 2 + 2 = 7$. The ratio reverses reciprocally, signed offsets
-reverse, and the directional duration is recomputed. A same-domain window of
-two clips only participation to two; it changes neither RD nor RCD.
-The native count comparator has $Lambda = N_a - N_b + b_a - b_b$, with drift
-formed against the preceding committed comparison. A whole-closure slip
-changes this unwrapped value even when a separately wrapped display repeats.
+#aod-paragraph[Falsification: interface composition and calibrated report boundary.]
+A recurrent $8 arrow.r 9 arrow.r 8$ realization initializes at vertex $8$ and
+composes with committed-return readouts; primitive Duon parts share resolution
+while cross-scale composition uses the explicit folding map. Comparisons accept
+exactly two rational offsets; contact commitments use closed support $[u, v]$
+while return counts use half-open $(u, v]$ with integer cuts and endpoints.
+Lineages keep ancestor identity under fixed relabelling, outer certificates carry
+admitted inner waves and scope maps, and controls reject substituted ancestors,
+missing fold provenance, unrelated-scale pivots, malformed windows, and fractional
+cuts (#raw("python3 -m pytest -q tests/test_native_closure_wave.py")).
 
-
-#aod-paragraph[Interface composition.]
-A recurrent $8 arrow.r 9 arrow.r 8$ realization initializes at vertex 8 and composes
-with the committed-return readout. Primitive Duon components and targets share
-their resolution; cross-scale composition uses the explicit folding map.
-The comparison takes precisely two rational offsets; contact commitments,
-window endpoints and update cuts are integers. Contacts use closed window
-support $[u,v]$, while return counts use $(u,v]$. A lineage retains its ancestor identity
-under a fixed coordinate relabelling; a substituted ancestor is rejected.
-Every outer certificate carries the admitted inner waves and their bound
-scope map. The controls reject missing fold provenance, unrelated-scale
-pivots, malformed windows and fractional cuts, preserving rational currents.
-These controls run with #raw("python3 -m pytest -q")
-#raw("tests/test_native_closure_wave.py").
-
-
-#aod-paragraph[Calibrated report boundary.]
-The emitter/mirror record uses $N = Delta upright("bip")_(upright("return"))$ and
-$x^(upright("mir")) = N n$. The displayed $x = 3 n$ is restricted to $N = 3$.
-A metrology record declares measurand, protocol, reference realization,
-coupling/probe, detector, calibration, unit, resolution, uncertainty,
-repeatability and traceability. The rational multiplier in this demonstration
-is a declared report calibration, not an empirical calibration or native time unit.
+At the calibrated report boundary, the emitter/mirror record sets
+$N = Delta upright("bip")_(upright("return"))$ and $x^(upright("mir")) = N n$,
+restricting $x = 3 n$ strictly to $N = 3$. A metrology record declares measurand,
+protocol, reference realization, coupling/probe, detector, calibration, unit,
+resolution, uncertainty, repeatability, and traceability; the rational multiplier
+in this fixture is a declared report calibration rather than an empirical
+calibration or native time unit.
 
 
 == Wavelet continuation, recipient stages and harmonic scope <manual:wavelet-continuation-fixtures>
 
 
-
 #aod-paragraph[Setup.]
 A localized wavelet continuation (#mainsection("main:subsec:aod-wavelet-continuation"),
 #mainequation("main:eq:aod-wavelet-continuation")) restricts an admitted parent
-current $W_(upright("parent"))$ to a declared boundary/window
-$B = ( partial F, omega )$ with ordered integer cuts $omega = (u,v]$, retaining
-its parent identity, ancestry, support, window, committed prefix records and
-return witnesses without terminating $W_(upright("parent"))$ beyond $v$.
-Its seating coordinate $sigma_(upright("seat")) in brace.l upright("open_duon"), upright("seated_duad") brace.r$ (#mainequation("main:eq:duad-same-current")) and
-coupling/route role $sigma_(upright("role")) in brace.l upright("local_segment"), upright("coupled_segment"),upright("shed_continuation") brace.r$ vary independently:
-a seated Duad retains its open-Duon identity and structural $0_H$ hinge,
-may remain a $upright("coupled_segment")$, and does not lose retained seating
-when emitted as a $upright("shed_continuation")$.
+current $W_(upright("parent"))$ to a boundary/window $B = ( partial F, omega )$
+with integer cuts $omega = (u, v]$, retaining parent identity, ancestry, support,
+window, committed prefixes, and return witnesses without terminating
+$W_(upright("parent"))$ beyond $v$. Seating state
+$sigma_(upright("seat")) in brace.l upright("open_duon"), upright("seated_duad") brace.r$
+(#mainequation("main:eq:duad-same-current")) and route role
+$sigma_(upright("role")) in brace.l upright("local_segment"), upright("coupled_segment"), upright("shed_continuation") brace.r$
+vary independently: a seated Duad keeps its open-Duon identity and $0_H$ hinge,
+may act as a $upright("coupled_segment")$, and retains seating when emitted as a
+$upright("shed_continuation")$.
 
 
 #aod-paragraph[Derivation.]
-Fix a parent lineage $W_(B,1)$ on scope $B$ with initial origin closure
-$C_0$ at cut $0$ ($j = 0$) and compatible returns $C_1 ,C_2 ,C_3$ at cuts
-$2,6,8$ ($j = 1,2,3$), bound to an injective canonical occurrence registry
-(derived from #raw("Trace.return_id") and admitted certificates when native
-traces are supplied, or validated as declared finite-model occurrences with
-display labels kept separate from immutable occurrence payloads). Under
-#mainequation("main:eq:wavelet-overlap-dedup"):
+Fix a parent lineage $W_(B,1)$ on scope $B$ with initial origin $C_0 @ 0$
+($j = 0$) and compatible returns $C_1 @ 2$, $C_2 @ 6$, $C_3 @ 8$ ($j = 1, 2, 3$),
+bound to an injective canonical occurrence registry (derived from
+#raw("Trace.return_id") and admitted certificates for native traces, or validated
+as declared finite-model occurrences with display labels kept separate from
+immutable payloads). Under #mainequation("main:eq:wavelet-overlap-dedup"):
 
-- #emph[Retained support versus eligible in-window returns.] On
-$omega = (3,5]$, retaining prefix witnesses $(C_0 @0,C_1 @2)$ preserves full
-support while contributing $R_1 ((3,5]) = emptyset$ and $q_1 ((3,5]) = 0$. On
-$omega = ( - 1,1]$, containing only the initial origin $C_0 @0$ contributes
-$1$ closure-phase cycle and $0$ reclosure beats. On half-open $(2,6]$,
-the left endpoint $C_1 @2$ is excluded and the right endpoint $C_2 @6$ is
-included, giving $R_1 ((2,6]) = brace.l C_2 brace.r$. Same-scope witnesses apply directly;
-distinct scopes require an explicit identity-preserving scope map rather than a
-default flag.
-- #emph[Overlapping complete windows.] The complete windows
-$omega_1 = (0,6]$ ($R_1 ( omega_1 ) = brace.l C_1 ,C_2 brace.r$, $q_1 = 2$) and
-$omega_2 = (4,8]$ ($R_1 ( omega_2 ) = brace.l C_2 ,C_3 brace.r$, $q_1 = 2$) share
-$C_2 @6$. Their per-window sum is $2 + 2 = 4$, whereas immutable
-$op("id")_(upright("return"))$ union deduplication gives
-$q_1 ( omega_1 union omega_2 ) = "#" brace.l C_1 ,C_2 ,C_3 brace.r = 3$.
+- #emph[Retained support versus eligible returns.] On $(3, 5]$, prefix witnesses
+  $(C_0 @ 0, C_1 @ 2)$ preserve support while giving $R_1 ((3, 5]) = emptyset$ and
+  $q_1 ((3, 5]) = 0$; on $(- 1, 1]$, initial origin $C_0 @ 0$ contributes $1$
+  closure-phase cycle and $0$ beats; on half-open $(2, 6]$, $C_1 @ 2$ is excluded
+  and $C_2 @ 6$ is included ($R_1 ((2, 6]) = brace.l C_2 brace.r$). Distinct scopes
+  require an explicit identity-preserving scope map rather than a default flag.
+- #emph[Overlapping complete windows.] Windows $omega_1 = (0, 6]$ ($q_1 = 2$) and
+  $omega_2 = (4, 8]$ ($q_1 = 2$) share $C_2 @ 6$: naive summation gives $4$,
+  whereas immutable $op("id")_(upright("return"))$ union deduplication yields
+  $q_1 ( omega_1 union omega_2 ) = "#" brace.l C_1, C_2, C_3 brace.r = 3$.
 - #emph[Shed continuation and recipient stages.] Under
-#mainequation("main:eq:shed-continuation-witness") and
-#mainequation("main:eq:recipient-event-lattice"), routed surplus $w_(upright("shed"))$
-retains parent identity, emission boundary, cut coordinate, emission cut, route
-tag, routed amount and post-shed parent state. At recipient scope
-$B_(upright("rec"))$, delivery, acceptance and seating require their own
-witnessed stage events ordered consistently with emission on the declared cut
-coordinate (or an explicit coordinate relation); the passive branches
-$upright("emitted") arrow.r upright("delivered") arrow.r upright("unaccepted_pass")$,
-$upright("accepted") arrow.r upright("pending_unseated")$, and $upright("seated")$
-each contribute $Delta op("bip") = 0$ without blocking later seating.
-With an admitted closure certificate (#mainequation("main:eq:closure-certificate")),
-the recipient lineage's initial closure $C_(i_(upright("rec")) ,0)$ ($j = 0$)
-contributes $Delta Phi = 1_C$ and $Delta op("bip") = 0$; replay of an
-already counted $op("id")_(upright("return"))$ adds $0$ beats;
-only a fresh compatible completion ($j gt.eq 1$, $k_j in omega_(upright("rec"))$)
-following emission and seating adds $Delta op("bip") = + 1$.
-- #emph[Cancellation and inner/outer return disjointness.] Under
-#mainequation("main:eq:wavelet-cancellation-retention"), opposing signed window
-currents $( + 1) + ( - 1) = 0$ cancel the scalar aggregate while retaining both
-distinct source histories $(op("anc")_(w_(+)) , Gamma_(w_(+)) )$ and
-$(op("anc")_(w_(-)) , Gamma_(w_(-)) )$. Under
-#mainequation("main:eq:fold-outer-closure"), certified inner returns stay disjoint
-from outer returns and cannot be reused as newly certified outer beats.
-- #emph[Repeated-contact cadence versus single-contact association.]
-Under #mainequation("main:eq:wavelet-reference-timing"), repeated bound contacts
-($gt.eq 2$) against a coupled recurrent reference with $q_r ( omega ) = 10 > 0$
-admit zero-numerator cadence $r_(a bar.v r) ( omega ) = 0 slash 10 = 0$ alongside positive
-coupled cadence $3 slash 5$. A fragment with only one delivered contact instead
-forms a separately typed passive window/stage association rather than a
-$op("biz")^(T F)$ clock ratio.
-- #emph[Finite harmonic scope.] Native localized continuations precede any
-chosen analytical wavelet or discrete Fourier readout
-(#mainequation("main:eq:fourier-transform")). On $bb(Z)_(12)$ ($N = 12$,
-forward normalization $1 slash N$) with unit pulse support $brace.l 0,4,8 brace.r$ of spacing
-$ell_(min) = 4$, overtone mode $m = 3 > N slash (2 ell_(min) ) = 3 slash 2$ evaluates
-exactly to $hat(v)(3) = 1 slash 4 eq.not 0$ (with Parseval sum $4(1 slash 4)^2 = 3 slash 12 = 1 slash 4$).
-Pulse spacing supplies no universal vanishing mode cutoff, and a nonzero
-harmonic coefficient certifies neither a native reclosure beat nor a calibrated
-SI frequency.
-
-
+  #mainequation("main:eq:shed-continuation-witness") and
+  #mainequation("main:eq:recipient-event-lattice"), routed surplus
+  $w_(upright("shed"))$ keeps parent identity, emission boundary, cut coordinate,
+  emission cut, route tag, routed amount, and post-shed parent state. At
+  recipient scope $B_(upright("rec"))$, delivery, acceptance, and seating require
+  ordered witnessed events consistent with emission; passive branches
+  ($upright("unaccepted_pass")$, $upright("pending_unseated")$, and
+  $upright("seated")$) each contribute $Delta op("bip") = 0$ without blocking
+  later seating. Given an admitted certificate
+  (#mainequation("main:eq:closure-certificate")), recipient origin
+  $C_(i_(upright("rec")), 0)$ contributes $Delta Phi = 1_C$ and
+  $Delta op("bip") = 0$, replay adds $0$, and only a fresh compatible completion
+  ($j gt.eq 1$, $k_j in omega_(upright("rec"))$) after emission and seating adds
+  $Delta op("bip") = + 1$.
+- #emph[Cancellation and fold disjointness.] Under
+  #mainequation("main:eq:wavelet-cancellation-retention"), opposing currents
+  $(+ 1) + (- 1) = 0$ cancel the aggregate while keeping both histories
+  $(op("anc")_(w_(+)), Gamma_(w_(+)))$ and $(op("anc")_(w_(-)), Gamma_(w_(-)))$;
+  under #mainequation("main:eq:fold-outer-closure"), inner returns remain disjoint
+  from outer beats.
+- #emph[Repeated-contact cadence versus single-contact association.] Under
+  #mainequation("main:eq:wavelet-reference-timing"), repeated bound contacts
+  ($gt.eq 2$) against a coupled reference ($q_r ( omega ) = 10 > 0$) admit
+  $r_(a bar.v r) ( omega ) = 0 slash 10 = 0$ alongside $3 slash 5$, whereas one
+  delivered contact yields only a passive window/stage association rather than
+  $op("biz")^(T F)$.
+- #emph[Finite harmonic scope.] Native continuations precede analytical wavelet
+  or discrete Fourier readouts (#mainequation("main:eq:fourier-transform")). On
+  $bb(Z)_(12)$ (forward normalization $1 slash N$) with unit pulse support
+  $brace.l 0, 4, 8 brace.r$ ($ell_(min) = 4$), overtone $m = 3 > N slash (2 ell_(min)) = 3 slash 2$
+  evaluates to $hat(v)(3) = 1 slash 4 eq.not 0$ (Parseval sum $4(1 slash 4)^2 = 1 slash 4$):
+  pulse spacing imposes no vanishing mode cutoff, and nonzero harmonics certify
+  neither native beats nor calibrated SI frequencies.
 
 
 #aod-paragraph[Falsification.]
-Within the passive validator's bound inputs, changing $op("id")(u)$
-or dropping the $0_H$ hinge on seating, promoting an open or shed fragment
-into #mainequation("main:eq:wave-identity"), mutating a selected return's
-immutable payload against its canonical registry record, colliding distinct
-completions onto one ID or aliasing one occurrence under multiple IDs, omitting
-a known eligible return ($C_3 @8$) from an asserted-complete window, omitting
-an explicit scope map across distinct scopes, skipping recipient stage-event
-witnesses, completing a recipient closure before its declared emission on a
-shared cut coordinate, substituting a bare boolean flag for an admitted closure
-certificate, claiming a beat from routed surplus, replay, initial origin, or
-mismatched lineage/scope, reusing a declared inner return ID as an outer beat,
-or computing $op("biz")^(T F)$ with $q_r = 0$, uncoupled aliases, or
-a single contact are rejected (declared finite-model fixtures validate internal
-registry consistency rather than authenticating absent external traces). Execute
-#raw("python3") #raw("manual/scripts/aod_manual_wavelet_si_alignment.py")
-#raw("--check") and #raw("python3 -m pytest -q")
-#raw("tests/test_manual_wavelet_si_alignment.py").
+Within the passive validator's bound inputs, rejecting mutations cover altering
+$op("id")(u)$ or dropping $0_H$ on seating, promoting an open or shed fragment
+into #mainequation("main:eq:wave-identity"), mutating a selected return payload,
+ID collisions or aliasing, omitting an eligible return ($C_3 @ 8$) from a complete
+window, omitting an explicit cross-scope map, skipping recipient stage witnesses,
+completing recipient closure prior to emission, substituting a boolean for a
+closure certificate, claiming beats from surplus/replay/origin/mismatched scope,
+reusing an inner return ID as an outer beat, and evaluating $op("biz")^(T F)$
+with $q_r = 0$, aliases, or a single contact (declared finite-model fixtures
+validate registry consistency rather than absent external traces). Execute
+#raw("python3 manual/scripts/aod_manual_wavelet_si_alignment.py --check") and
+#raw("python3 -m pytest -q tests/test_manual_wavelet_si_alignment.py").
 
 
 #aod-provenance[#mainequation("main:eq:first-anchor")\; #mainequation("main:eq:atomic-h1")\;
@@ -338,19 +294,23 @@ registry consistency rather than authenticating absent external traces). Execute
 #mainequation("main:eq:causal-update")\; #mainequation("main:eq:fourier-transform").]
 
 
-
 == Five-boundary $Q_4$ D.E.C. closure, beat, and fold walk <manual:m1:dec-closure-walk>
 
-Declare the active subcomplex $R_(upright("cl")) = brace.l 0000, 0001, 0011 brace.r subset V(Q_4)$ and the ordered boundary chain
-
-#math.equation(block: true, numbering: none, $ B_(upright("monon")) arrow.r B_(upright("asym")) arrow.r B_(upright("wave")) arrow.r B_(upright("fold")) arrow.r B_(upright("harm")). $)
-
-Vector #raw("RC-033") (#raw("manual/data/boundary_sadar/native_closure_wave_dec_walk.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) executes the eight-stage D.E.C. trace across this chain:
-at $B_(upright("monon"))$, outgoing $e_0 ( + 1)$ into $0001$, mandatory hinge $0_H$ with live #raw("xxxxx... is x") dwell burn ($0_D^2 arrow.r m = 0$), and return $e_0 ( - 1)$ certify a symmetric $(2, 1)$ Monon ($2$ committed edges, $1$ closure-phase cycle);
-at $B_(upright("asym"))$, the reflected four-step walk $0000 arrow.r 0001 arrow.r 0011 arrow.r 0001 arrow.r 0000$ realizes $(4, 1)$ ($4 h eq.not 2 h, 6 h$), falsifying undeclared equal-leg factorization;
-at $B_(upright("wave"))$, three certified reclosures at cuts $(0, 10, 20)$ yield two beats of separation $10$ ($n_F = 1$, Disoma $n_F = 2$);
-at $B_(upright("fold"))$, $op("Fold")^(arrow.t)$ encloses an already admitted inner wave ($1$ outer cycle, inner cycle preserved) while AFC swap memory $(3 slash 4, 1 slash 4)$ yields antisymmetric fluxes $( + 1 slash 2, - 1 slash 2)$;
-and at $B_(upright("harm"))$, the downstream $bb(Z)_4$ transform of $(1, 0, - 1, 0)$ yields $hat(x) = (0, 2, 0, 2)$ with exact $bb(Z)[i]$ inverse residual $0 slash 1$ without certifying closure.
+On subcomplex $R_(upright("cl")) = brace.l 0000, 0001, 0011 brace.r subset V(Q_4)$,
+vector #raw("RC-033") (#raw("manual/data/boundary_sadar/native_closure_wave_dec_walk.csv"),
+verified by #raw("python3 -B -m manual.engine --sector boundary_sadar") and
+#raw("aod-core --verify-vectors --check-zero-float")) executes the eight-stage
+D.E.C. witness across
+$B_(upright("monon")) arrow.r B_(upright("asym")) arrow.r B_(upright("wave")) arrow.r B_(upright("fold")) arrow.r B_(upright("harm"))$
+(#figref("fig:manual-native-closure-q4-walk"),
+#tabref("tab:manual-native-closure-dec-walk")): burning optional dwell
+$0_D^2 arrow.r m = 0$ via #raw("xxxxx... is x") while keeping $0_H$ certifies
+the $(2, 1)$ Monon ($M 1$); the reflected $1 + 3$ path yields $(4, 1)$ ($M 2$);
+cuts $(0, 10, 20)$ yield two beats of separation $10$ with $n_F = 1$ ($M 3$);
+$op("Fold")^(arrow.t)$ adds one outer cycle while preserving the inner wave ($M 4$)
+alongside antisymmetric AFC swap fluxes $(+ 1 slash 2, - 1 slash 2)$ ($M 5$); and
+the downstream $bb(Z)_4$ DFT maps $(1, 0, - 1, 0)$ to $hat(x) = (0, 2, 0, 2)$
+with exact $bb(Z)[i]$ inverse residual $0 slash 1$ without certifying closure ($M 6$).
 
 
 #figure(
@@ -364,28 +324,36 @@ and at $B_(upright("harm"))$, the downstream $bb(Z)_4$ transform of $(1, 0, - 1,
 #figure(
   kind: table, [
 #{
-  set text(size: 8.5pt)
-  set par(justify: false)
+  let rows = csv("/manual/data/boundary_sadar/native_closure_wave_dec_walk.csv", row-type: dictionary)
+  let wrap-str(s) = (
+    s.replace("_", "_\u{200b}")
+     .replace("->", "->\u{200b}")
+     .replace("/", "/\u{200b}")
+  )
+  set text(size: 7.4pt)
+  show raw: set text(size: 6.9pt)
+  set par(justify: false, leading: 0.45em)
   table(
-    columns: (auto, auto, auto, auto, auto, auto, auto),
+    columns: (1.55fr, 1.15fr, 1.35fr, 1.65fr, 0.60fr, 0.85fr, 2.85fr),
     align: (left, left, left, left, right, right, left),
+    inset: (x: 3.2pt, y: 3.5pt),
     table.header(
       toprule,
-      [Stage], [Scope $B$], [$v arrow.r v_e$], [Slot / role], [$w$], [$P(e;B)$], [D.E.C. audit outcome],
+      [Stage], [Scope $B$], [$v arrow.r v_e$], [Slot / $sigma$], [$w$], [$P(e;B)$], [D.E.C. audit outcome],
       midrule,
     ),
-    [#raw("M1_leg_out")], [$B_(upright("monon"))$], [$0000 arrow.r 0001$], [$e_0 ( + 1)$], [1], [$1 slash 1$], [H1 branch out],
-    [#raw("M1_hinge_dwell")], [$B_(upright("monon"))$], [$0001 arrow.r 0001$], [$0_H + 0_D^2$], [1], [$1 slash 1$], [$0_H$ kept; $0_D^2$ burned ($m = 0$)],
-    [#raw("M1_return_cert")], [$B_(upright("monon"))$], [$0001 arrow.r 0000$], [$e_0 ( - 1)$], [1], [$1 slash 1$], [certified return: $(2, 1)$ edges/cycle],
-    [#raw("M2_asym_4step")], [$B_(upright("asym"))$], [$0000 arrow.l.r 0011$], [$e_0 , e_1 ( plus.minus 1)$], [1], [$1 slash 1$], [reflected $1 + 3$: $(4, 1)$ edges/cycle],
-    [#raw("M3_beat_cadence")], [$B_(upright("wave"))$], [$0000 arrow.l.r 0000$], [$op("bip")_1 dots.h 3$], [3], [$1 slash 1$], [cuts $(0, 10, 20)$: $2$ beats, $n_F = 1$],
-    [#raw("M4_fold_expose")], [$B_(upright("fold"))$], [$0000 arrow.r 0100$], [$op("Fold")^(arrow.t) ( + 1)$], [1], [$1 slash 1$], [$1$ outer cycle; inner wave intact],
-    [#raw("M5_afc_swap")], [$B_(upright("swap"))$], [$0000 arrow.r 0001$], [$e_0 ( + 1)$], [3], [$3 slash 4$], [AFC flux $+ 1 slash 2$, swapped $- 1 slash 2$],
-    [#raw("M6_z4_harmonic")], [$B_(upright("harm"))$], [$0000 arrow.r 0000$], [$bb(Z)_4$ DFT], [4], [$1 slash 1$], [$hat(x) = (0, 2, 0, 2)$, recon residual $0 slash 1$],
+    ..rows.map(r => (
+      [#raw(wrap-str(r.step_id))],
+      [#wrap-str(r.scope_B)],
+      [#r.vertex_v $arrow.r$ #r.target_ve],
+      [#wrap-str(r.edge_e) (#r.sigma)],
+      [#r.weight_w],
+      [#r.prob_exact],
+      [#wrap-str(r.route_note)],
+    )).flatten(),
     bottomrule,
   )
 }
   ],
-  caption: [Eight-stage $Q_4$ D.E.C. closure, beat, fold, and $bb(Z)_4$ harmonic ledger (#raw("RC-033")).],
+  caption: [Engine-bound eight-stage $Q_4$ D.E.C. closure, beat, fold, and $bb(Z)_4$ harmonic ledger (#raw("RC-033"), all rows admissible $op("adm") = 1$, live from #raw("native_closure_wave_dec_walk.csv")).],
 ) <tab:manual-native-closure-dec-walk>
-
