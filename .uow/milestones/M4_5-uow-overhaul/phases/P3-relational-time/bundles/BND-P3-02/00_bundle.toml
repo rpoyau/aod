@@ -1,0 +1,62 @@
+bundle_id = "BND-P3-02"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P3-relational-time"
+parent_bundle = "BND-P3-01"
+base_commit = "709728bc616044b68c63d9002c558ee3c794e8da"
+
+[objective]
+summary = "Upgrade RC-037 temporal/SI-bridge & causal cut-40 intervention engine in Python S2 (manual_dec_examples.py) and std-only Rust S4 (manual_dec_ops.rs) onto TritWord/TritRatio with zero hardcoded intervention ratios or CSV strings, genuine half-open (u, v] filtering, directional RCD, cut-by-cut causal simulation, and observed-advance endpoints."
+deliverables = [
+  "Upgrade eval_dec_temporal_si_bridge_bounds (RC-037) in manual/engine/sectors/manual_dec_examples.py to pure TritWord/TritRatio arithmetic (zero Fraction calls in RC-037) with genuine half-open (window_start, window_end] filtering (default [0, 30]), strict monotonicity and >=2 in-window closure enforcement, anchor exclusion, explicit compared_bias/ref_bias inputs (default [1,4]/[-1,4]), explicit directional additive RCD (default RD=3, c_refs=[1,1]->5, r_refs=[2,2]->7), stipulated positive gains a_c/a_r (default 1/1), exact Field A/B transfer checks, genuine self-contained cut-by-cut causal capacity-drop simulation (_step_cut40_causal_intervention over integer cuts k=0..100 with intervention_cut=40, common prefix through cut 39, strictly later cut-41 retention loss yielding baseline (6,5)->6/5 vs intervention (2,5)->2/5 plus hostile disconnect_feedback rejection returning 6/5 and failing replay validation, with zero hardcoded 6/5 or 2/5 ratios), and observed-advance endpoint law A(W) = C(W) + phi_1 - phi_0 (compared 7/2, ref 17/2, ratio 7/17, split sum 13/6 + 4/3 == 7/2, clipped 0, signed -1/2)",
+  "Mirror the exact upgraded op_dec_temporal_si_bridge_bounds operation in 100% std-only #![forbid(unsafe_code)] Rust (crates/aod-core/src/manual_dec_ops.rs) using crate::ternary::{TritWord, TritRatio} with byte-identical JSON schema and identical validation/error rejections",
+  "Replace 100% of hardcoded output strings in build_temporal_si_bridge_csv_rows() with live generation from eval_dec_temporal_si_bridge_bounds(), regenerating manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv while preserving existing rows 0..5 (T1..T6) column layout and indices for temporal_si_bridge_feynman.typ and appending live rows T7_directional_rcd, T8_observed_advance_si, and T9_causal_disconnect_control",
+  "Update RC-037 in manual/engine/vectors/rational_core.jsonl (preserving all 14 existing exact_value keys plus adding the new engine-computed keys and preserving total source_binding component count == 100 across all 53 vectors)",
+  "Add zero-bare-assert Python test suite tests/test_relational_time_engine.py (passing identically under normal and -O Python, including poisoned-Fraction proof, half-open boundary exclusion, dynamic shifted-cut causal sensitivity, hostile disconnected-feedback rejection, observed-advance additivity/signed/clipped controls, and S2 vs S4 exact parity) plus dedicated Rust integration test in crates/aod-core/tests/integration_vectors.rs",
+  "Synchronize the acyclic SHA-256 contract chain across contracts/scientific/CANONICAL_BINDINGS.json, scripts/audit_ontology_compaction.py, typst/representation_change_ledger.json, typst/figure_inventory.json, and typst/lib/main_registry.json",
+]
+
+[scope]
+read_only = [
+  "manual/engine/ternary.py",
+  "crates/aod-core/src/ternary.rs",
+  "manual/engine/policy.py",
+  "crates/aod-core/src/policy.rs",
+  "manual/scripts/aod_temporal_observation.py",
+  "manual/scripts/aod_temporal_anchor.py",
+  "typst/lib/figures/manual/temporal_si_bridge_feynman.typ",
+]
+write_set = [
+  "manual/engine/sectors/manual_dec_examples.py",
+  "crates/aod-core/src/manual_dec_ops.rs",
+  "crates/aod-core/tests/integration_vectors.rs",
+  "manual/engine/vectors/rational_core.jsonl",
+  "manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
+  "tests/test_relational_time_engine.py",
+  "contracts/scientific/CANONICAL_BINDINGS.json",
+  "scripts/audit_ontology_compaction.py",
+  "typst/representation_change_ledger.json",
+  "typst/figure_inventory.json",
+  "typst/lib/main_registry.json",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "Zero floats, zero complex, zero bare assert, zero forbidden imports or experimental namespace tokens in manual/engine/ and tests/test_relational_time_engine.py; 100% std-only #![forbid(unsafe_code)] zero-float in crates/aod-core/",
+  "Zero hardcoded intervention ratios (6/5, 2/5) in eval_dec_temporal_si_bridge_bounds / op_dec_temporal_si_bridge_bounds and zero hardcoded computed numeric strings in build_temporal_si_bridge_csv_rows()",
+  "Preserve frozen manual/scripts/aod_temporal_observation.py, manual/scripts/aod_temporal_anchor.py, manual/data/temporal_anchor/source/, manual/data/temporal_observation/temporal.json, and manual/data/experimental_comparison/experimental_input_comparison.json byte-for-byte",
+  "Preserve rows 0..5 (T1_pair_closures through T6_cut40_intervention) and all 7 CSV column names of temporal_si_bridge_dec_ledger.csv so existing Typst figures continue to compile cleanly",
+  "S2 normal == S2 -O byte-identical reports, S4 debug == S4 release byte-identical reports, and S2 == S4 exact parity on RC-037 and perturbed inputs",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+  "CARGO_TARGET_DIR=_build/cargo-target RUSTFLAGS=\"-D warnings\" cargo test --manifest-path crates/aod-core/Cargo.toml --offline --locked",
+  "mkdir -p _build/s2 _build/s4 && python3 -B -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p302_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/p302_opt.json && cmp _build/s2/p302_norm.json _build/s2/p302_opt.json",
+  "CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked -- --verify-vectors --check-zero-float --report _build/s4/p302_dbg.json && CARGO_TARGET_DIR=_build/cargo-target cargo run --manifest-path crates/aod-core/Cargo.toml --offline --locked --release -- --verify-vectors --check-zero-float --report _build/s4/p302_rel.json && cmp _build/s4/p302_dbg.json _build/s4/p302_rel.json",
+  "python3 -B -m pytest -q -k 'not (source_zip or s2_f1_diagnostics or s4_f1 or f1_diagnostics)' tests/test_relational_time_engine.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py",
+  "python3 -B -O -m pytest -q tests/test_relational_time_engine.py",
+]
+max_retries = 2
