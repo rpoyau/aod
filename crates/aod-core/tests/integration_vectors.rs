@@ -118,10 +118,7 @@ fn test_all_40_golden_vectors_pass() {
 
 #[test]
 fn test_boundary_sadar_tau_and_higgs_invariants() {
-    let tau_in = parse_json(
-        r#"{"lead_lag":8,"window_duons":3,"shed_endo_slots":13,"shed_exo_slots":37,"sensor_visible_slots":19,"sensor_missing_slots":31}"#,
-    )
-    .expect("parse tau_in");
+    let tau_in = parse_json(r#"{"lead_lag":8,"window_duons":3}"#).expect("parse tau_in");
     let tau_out = eval_operation("sadar_pp_tau_five_boundary", tau_in.as_object().unwrap())
         .expect("eval sadar_pp_tau_five_boundary");
     let tobj = tau_out.as_object().unwrap();
@@ -864,3 +861,224 @@ fn test_rc045_ternary_swar_and_trit_ratio_integration() {
     assert_eq!(tr["value_eq_cleared"], JsonValue::Bool(true));
     assert_eq!(tr["structural_eq_cleared"], JsonValue::Bool(false));
 }
+
+#[test]
+fn test_derived_tau_rotor_and_conflicting_slot_rejection() {
+    let tau_in = parse_json(r#"{"lead_lag":8,"window_duons":3}"#).expect("parse tau_in");
+    let tau_out = eval_operation("sadar_pp_tau_five_boundary", tau_in.as_object().unwrap())
+        .expect("eval sadar_pp_tau_five_boundary");
+    let tobj = tau_out.as_object().unwrap();
+
+    let sterile = tobj["sterile_control"].as_object().unwrap();
+    assert_eq!(sterile["coupled"], JsonValue::Bool(false));
+
+    let live = tobj["live_cavity"].as_object().unwrap();
+    assert_eq!(live["coupled"], JsonValue::Bool(true));
+    assert_eq!(live["raw_cuts"], JsonValue::Int(BigInt::from_i64(28)));
+    assert_eq!(live["quotient_cuts"], JsonValue::Int(BigInt::from_i64(11)));
+    assert_eq!(live["dwell_burned"], JsonValue::Int(BigInt::from_i64(17)));
+    assert_eq!(live["readonly_sensor_invariant"], JsonValue::Bool(true));
+
+    assert_eq!(
+        tobj["partition_2500_numerators"],
+        JsonValue::Array(vec![
+            JsonValue::Int(BigInt::from_i64(650)),
+            JsonValue::Int(BigInt::from_i64(703)),
+            JsonValue::Int(BigInt::from_i64(1147)),
+        ])
+    );
+    assert_eq!(
+        tobj["endo_retained_fraction"],
+        JsonValue::Array(vec![
+            JsonValue::Str("13".to_string()),
+            JsonValue::Str("50".to_string()),
+        ])
+    );
+    assert_eq!(
+        tobj["exo_outward_fraction"],
+        JsonValue::Array(vec![
+            JsonValue::Str("37".to_string()),
+            JsonValue::Str("50".to_string()),
+        ])
+    );
+    assert_eq!(
+        tobj["visible_conditional_exo"],
+        JsonValue::Array(vec![
+            JsonValue::Str("19".to_string()),
+            JsonValue::Str("50".to_string()),
+        ])
+    );
+    assert_eq!(
+        tobj["miss_tau_conditional_exo"],
+        JsonValue::Array(vec![
+            JsonValue::Str("31".to_string()),
+            JsonValue::Str("50".to_string()),
+        ])
+    );
+
+    // Negative control: conflicting legacy slot override must be rejected with ValueError
+    let bad_endo = parse_json(r#"{"lead_lag":8,"window_duons":3,"shed_endo_slots":12}"#)
+        .expect("parse bad_endo");
+    let err_endo = eval_operation("sadar_pp_tau_five_boundary", bad_endo.as_object().unwrap());
+    assert!(
+        matches!(err_endo, Err(CoreError::ValueError(_))),
+        "expected CoreError::ValueError for conflicting shed_endo_slots=12, got {:?}",
+        err_endo
+    );
+
+    let bad_miss = parse_json(r#"{"lead_lag":8,"window_duons":3,"sensor_missing_slots":30}"#)
+        .expect("parse bad_miss");
+    let err_miss = eval_operation("sadar_pp_tau_five_boundary", bad_miss.as_object().unwrap());
+    assert!(
+        matches!(err_miss, Err(CoreError::ValueError(_))),
+        "expected CoreError::ValueError for conflicting sensor_missing_slots=30, got {:?}",
+        err_miss
+    );
+}
+
+#[test]
+fn test_rc030_genuine_c6_double_slit_enumerator() {
+    let inputs = parse_json(
+        r#"{"screen_half_span":5,"hexon_cap":6,"comparator_O":[8,11,19,59,79,95,80,58,21,10,8]}"#,
+    )
+    .expect("parse RC-030 inputs");
+    let out = eval_operation(
+        "frg_dimonhexon_double_slit_ring",
+        inputs.as_object().unwrap(),
+    )
+    .expect("eval RC-030");
+    let obj = out.as_object().unwrap();
+
+    let to_i64_arr = |vals: &[i64]| -> JsonValue {
+        JsonValue::Array(
+            vals.iter()
+                .map(|&v| JsonValue::Int(BigInt::from_i64(v)))
+                .collect(),
+        )
+    };
+
+    assert_eq!(
+        obj["S_k"],
+        to_i64_arr(&[4, 9, 16, 25, 31, 35, 31, 25, 16, 9, 4])
+    );
+    assert_eq!(
+        obj["T0_k"],
+        to_i64_arr(&[8, 18, 32, 50, 62, 70, 62, 50, 32, 18, 8])
+    );
+    assert_eq!(
+        obj["C_cross_k"],
+        to_i64_arr(&[0, -8, -12, 8, 18, 26, 18, 8, -12, -8, 0])
+    );
+    assert_eq!(
+        obj["T_cross_k"],
+        to_i64_arr(&[8, 10, 20, 58, 80, 96, 80, 58, 20, 10, 8])
+    );
+    assert_eq!(
+        obj["Delta_Z_k"],
+        to_i64_arr(&[0, -1, 1, -1, 1, 1, 0, 0, -1, 0, 0])
+    );
+    assert_eq!(obj["sum_T0"], JsonValue::Int(BigInt::from_i64(410)));
+    assert_eq!(obj["sum_C_cross"], JsonValue::Int(BigInt::from_i64(38)));
+    assert_eq!(obj["sum_T_cross"], JsonValue::Int(BigInt::from_i64(448)));
+    assert_eq!(obj["sum_Delta_Z"], JsonValue::Int(BigInt::from_i64(0)));
+    assert_eq!(obj["sum_m_k"], JsonValue::Int(BigInt::from_i64(6)));
+
+    // Static check: no hardcoded lookup tables in sadar_sim.rs
+    let sim_src =
+        fs::read_to_string(crate_root().join("src/sadar_sim.rs")).expect("read sadar_sim.rs");
+    assert!(
+        !sim_src.contains("cross_map"),
+        "sadar_sim.rs must not contain hardcoded cross_map"
+    );
+    assert!(
+        !sim_src.contains("sat_clip"),
+        "sadar_sim.rs must not contain hardcoded sat_clip"
+    );
+}
+
+#[test]
+fn test_sd008_declared_g0_sparc_exact() {
+    // 1. Synthetic declared G0 bins: negative V_gas uses |V_gas| and V_gas^2, zero V_obs is skipped.
+    // Bin 1: r=2, V_obs=10, V_gas=-3, V_disk=4, V_bul=0 => U_obs=100, U_bar=17, U_AO=129, err=29/100
+    // Bin 2: V_obs=0 => skipped
+    // Bin 3: r=1, V_obs=10, V_gas=0, V_disk=0, V_bul=10 => U_obs=100, U_bar=70, U_AO=150, err=50/100
+    // MAPE = 100 * ((29/100 + 50/100) / 2) = 79/2 = 39.50000000
+    let syn_neg = parse_json(
+        r#"{"bins":[
+            {"r_kpc":"2","V_obs":"10","V_gas":"-3","V_disk":"4","V_bul":"0"},
+            {"r_kpc":"5","V_obs":"0","V_gas":"-5","V_disk":"2","V_bul":"10"},
+            {"r_kpc":"1","V_obs":"10","V_gas":"0","V_disk":"0","V_bul":"10"}
+        ]}"#,
+    )
+    .expect("parse syn_neg");
+    let out_neg = eval_operation("sparc_pooled_primary_exact", syn_neg.as_object().unwrap())
+        .expect("eval syn_neg");
+    let obj_neg = out_neg.as_object().unwrap();
+    assert_eq!(obj_neg["N_total"], JsonValue::Int(BigInt::from_i64(3)));
+    assert_eq!(obj_neg["N_scored"], JsonValue::Int(BigInt::from_i64(2)));
+    assert_eq!(
+        obj_neg["MAPE_U_exact"],
+        JsonValue::Array(vec![
+            JsonValue::Str("79".to_string()),
+            JsonValue::Str("2".to_string()),
+        ])
+    );
+    assert_eq!(
+        obj_neg["MAPE_U_8dp"],
+        JsonValue::Str("39.50000000".to_string())
+    );
+
+    // Flipping V_gas sign (-3 -> +3) yields identical exact MAPE_U
+    let syn_pos = parse_json(
+        r#"{"bins":[
+            {"r_kpc":"2","V_obs":"10","V_gas":"3","V_disk":"4","V_bul":"0"},
+            {"r_kpc":"5","V_obs":"0","V_gas":"5","V_disk":"2","V_bul":"10"},
+            {"r_kpc":"1","V_obs":"10","V_gas":"0","V_disk":"0","V_bul":"10"}
+        ]}"#,
+    )
+    .expect("parse syn_pos");
+    let out_pos = eval_operation("sparc_pooled_primary_exact", syn_pos.as_object().unwrap())
+        .expect("eval syn_pos");
+    assert_eq!(out_pos, out_neg);
+
+    // All-zero V_obs bins must fail with ValueError
+    let all_zero = parse_json(
+        r#"{"bins":[{"r_kpc":"1","V_obs":"0","V_gas":"3","V_disk":"4","V_bul":"0"}]}"#,
+    )
+    .expect("parse all_zero");
+    let err_zero = eval_operation("sparc_pooled_primary_exact", all_zero.as_object().unwrap());
+    assert!(matches!(err_zero, Err(CoreError::ValueError(_))));
+
+    // 2. Full 209-bin SD-008 golden vector check
+    let root = repo_root();
+    let (_, sd_rows) = load_vector_file(&root, SYMBOLIC_DISPLAY_REL).expect("load sd");
+    let sd008 = sd_rows
+        .iter()
+        .find(|r| r.get("case_id") == Some(&JsonValue::Str("SD-008".to_string())))
+        .expect("SD-008 present");
+    verify_single_vector_with_root(sd008, &root).expect("SD-008 must verify cleanly");
+
+    let out = eval_operation(
+        "sparc_pooled_primary_exact",
+        sd008["inputs"].as_object().unwrap(),
+    )
+    .expect("eval SD-008");
+    let obj = out.as_object().unwrap();
+    assert_eq!(obj["N_total"], JsonValue::Int(BigInt::from_i64(209)));
+    assert_eq!(obj["N_scored"], JsonValue::Int(BigInt::from_i64(209)));
+    assert_eq!(
+        obj["MAPE_U_8dp"],
+        JsonValue::Str("26.57055342".to_string())
+    );
+    let exact_pair = obj["MAPE_U_exact"].as_array().unwrap();
+    assert_eq!(exact_pair.len(), 2);
+    assert_eq!(exact_pair[0].as_str().unwrap().len(), 230);
+    assert_eq!(exact_pair[1].as_str().unwrap().len(), 228);
+    assert_eq!(
+        obj["MAPE_U_exact"],
+        sd008["expected_outcome"].as_object().unwrap()["exact_value"]
+            .as_object()
+            .unwrap()["MAPE_U_exact"]
+    );
+}
+

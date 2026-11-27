@@ -33,21 +33,18 @@ asserts, zero lookup-weight shortcuts):
 from __future__ import annotations
 
 import csv
-from fractions import Fraction
 import hashlib
 import io
 from pathlib import Path
+from typing import Sequence
 
 from manual.engine.numeric import (
-    canonical_rational_pair,
-    canonical_rational_str,
     format_rational_fixed,
     parse_exact_int,
     parse_printed_rational,
     require,
     require_exact_int,
     require_type,
-    round_rational_half_even,
 )
 from manual.engine.policy import loads_zero_float, require_no_floats
 from manual.engine.registry import SectorSpec
@@ -57,10 +54,16 @@ from manual.engine.sectors.manual_dec_examples import (
     verify_manual_dec_examples,
 )
 from manual.engine.ternary import (
+    TRIT_ALPHA,
+    TRIT_DWELL,
+    TRIT_HINGE,
+    TRIT_OMEGA,
     ChiralPair4,
     Trit2MicroRatio,
     TritRatio,
     TritWord,
+    signed_to_trit_lane,
+    trit_lane_to_signed,
 )
 
 Q4_NEIGHBORS: tuple[tuple[int, int, int, int], ...] = tuple(
@@ -71,16 +74,21 @@ POPCOUNT_4BIT: tuple[int, ...] = (0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4
 CLOSURE_C6: int = 18
 CLOSURE_C8: int = 24
 CLOSURE_C10: int = 27
+TAU_ROTOR_MICROSLOTS: int = 50
+TAU_ROTOR_CAP_4D: int = 4 * TAU_ROTOR_MICROSLOTS
 
-# Exact BIPM 2019 SI defining constants & CODATA alpha^-1 inside B_ext quarantine:
+# Exact BIPM 2019 SI defining constants & CODATA alpha^-1 inside B_ext quarantine,
+# backed strictly by arbitrary-width TritWord / TritRatio registers:
 # h_ext = 6.62607015e-34 J s = 662607015 / 10^42
 # e_ext = 1.602176634e-19 C  = 1602176634 / 10^28
 # eta_ext = 137.035999177    = 137035999177 / 10^9, sigma_eta = 21 / 10^9
-H_EXT_EXACT: Fraction = Fraction(662607015, 10**42)
-E_EXT_EXACT: Fraction = Fraction(1602176634, 10**28)
-ETA_EXT_EXACT: Fraction = Fraction(137035999177, 10**9)
-SIGMA_ETA_EXACT: Fraction = Fraction(21, 10**9)
-K_EXT_MEV_S: Fraction = (H_EXT_EXACT * ETA_EXT_EXACT) / (Fraction(10**6, 1) * E_EXT_EXACT)
+H_EXT_TRIT: TritRatio = TritRatio(TritWord.from_int(662607015), TritWord.from_int(10**42))
+E_EXT_TRIT: TritRatio = TritRatio(TritWord.from_int(1602176634), TritWord.from_int(10**28))
+ETA_EXT_TRIT: TritRatio = TritRatio(TritWord.from_int(137035999177), TritWord.from_int(10**9))
+SIGMA_ETA_TRIT: TritRatio = TritRatio(TritWord.from_int(21), TritWord.from_int(10**9))
+K_EXT_MEV_S_TRIT: TritRatio = (H_EXT_TRIT * ETA_EXT_TRIT) / (
+    TritRatio(TritWord.from_int(10**6), TritWord.ONE) * E_EXT_TRIT
+)
 
 BOUNDARY_SADAR_FILES: tuple[str, ...] = tuple(
     sorted(
@@ -99,23 +107,139 @@ BOUNDARY_SADAR_FILES: tuple[str, ...] = tuple(
 )
 
 
-def _pair(q: Fraction | int) -> list[str]:
-    n_s, d_s = canonical_rational_pair(q)
+def _trit_pair(q: TritRatio) -> list[str]:
+    n_s, d_s = q.canonical_pair()
     return [n_s, d_s]
 
 
-def _gcd(a: int, b: int) -> int:
-    x = abs(a)
-    y = abs(b)
-    while y != 0:
-        x, y = y, x % y
-    return x
+def _pair_slash(pair: Sequence[str]) -> str:
+    require(len(pair) == 2, f"canonical pair must have length 2, got {len(pair)}")
+    return f"{pair[0]}/{pair[1]}"
 
 
-def _lcm(a: int, b: int) -> int:
-    if a == 0 or b == 0:
-        return 0
-    return abs(a // _gcd(a, b)) * abs(b)
+def _canon_pair_str(pair: Sequence[str]) -> str:
+    require(len(pair) == 2, f"canonical pair must have length 2, got {len(pair)}")
+    return pair[0] if pair[1] == "1" else f"{pair[0]}/{pair[1]}"
+
+
+def _signed_rat_str(pair: Sequence[str]) -> str:
+    require(len(pair) == 2, f"canonical pair must have length 2, got {len(pair)}")
+    num_s, den_s = pair[0], pair[1]
+    body = num_s if den_s == "1" else f"{num_s}/{den_s}"
+    if body == "0" or body.startswith("-"):
+        return body
+    return f"+{body}"
+
+
+def _dion_label(pair: ChiralPair4) -> str:
+    lo_s = trit_lane_to_signed(pair.lo_lane)
+    hi_s = trit_lane_to_signed(pair.hi_lane)
+    name = "D_alpha" if lo_s > 0 else "D_Omega"
+    lo_txt = f"+{lo_s}" if lo_s > 0 else str(lo_s)
+    hi_txt = f"+{hi_s}" if hi_s > 0 else str(hi_s)
+    return f"{name}({lo_txt},{hi_txt})"
+
+
+def _trit_lcm(a: TritWord, b: TritWord) -> TritWord:
+    if a.sign() == 0 or b.sign() == 0:
+        return TritWord.ZERO
+    abs_a = a.abs_word()
+    abs_b = b.abs_word()
+    g = abs_a.gcd(abs_b)
+    q, _ = abs_a.divmod_floor(g)
+    return q * abs_b
+
+
+def _sum_trit_ratios_balanced(terms: Sequence[tuple[TritWord, TritWord]]) -> TritRatio:
+    """Exact sum of `(num, den)` TritWord pairs via denominator grouping and pairwise binary tree."""
+    by_den: dict[TritWord, TritWord] = {}
+    for num, den in terms:
+        if num.sign() == 0:
+            continue
+        if den in by_den:
+            by_den[den] = by_den[den] + num
+        else:
+            by_den[den] = num
+    nodes: list[TritRatio] = [
+        TritRatio(num_sum, den) for den, num_sum in by_den.items() if num_sum.sign() != 0
+    ]
+    if not nodes:
+        return TritRatio.ZERO
+    while len(nodes) > 1:
+        nxt: list[TritRatio] = []
+        idx = 0
+        while idx < len(nodes):
+            if idx + 1 < len(nodes):
+                nxt.append(nodes[idx] + nodes[idx + 1])
+            else:
+                nxt.append(nodes[idx])
+            idx += 2
+        nodes = nxt
+    return nodes[0]
+
+
+def _run_q4_mu_impedance_rotor(rd_lo: int, rd_hi: int) -> tuple[int, int, TritWord]:
+    """Deterministic 50-microslot Q4 x mu impedance rotor over TritWord + ChiralPair4.
+
+    Steps across `TAU_ROTOR_MICROSLOTS = 50` microslots against the 4D capacity
+    `TAU_ROTOR_CAP_4D = 4 * 50 = 200` with stride `delta_rd = rd_hi - rd_lo`:
+    - `rd_lo = RD(1:2) = 9`, `rd_hi = RD(3:3) = 61` (`delta_rd = 52`) -> `(13, 37)`
+    - `rd_lo = RD(3:3) = 61`, `rd_hi = RD(3:4) = 137` (`delta_rd = 76`) -> `(19, 31)`
+    """
+    require(rd_lo > 0 and rd_hi > rd_lo, f"invalid rotor RD bounds: {rd_lo} -> {rd_hi}")
+    delta_rd_w = TritWord.from_int(rd_hi) - TritWord.from_int(rd_lo)
+    cap_w = TritWord.from_int(TAU_ROTOR_CAP_4D)
+    require(
+        delta_rd_w.sign() > 0 and delta_rd_w.cmp(cap_w) < 0,
+        f"rotor delta_rd must lie in 1..{TAU_ROTOR_CAP_4D - 1}, got {delta_rd_w.to_int()}",
+    )
+
+    acc = TritWord.ZERO
+    chiral = ChiralPair4.from_lanes(TRIT_ALPHA, TRIT_OMEGA)
+    v_q4 = 0
+    lanes: list[int] = []
+    for mu_idx in range(TAU_ROTOR_MICROSLOTS):
+        v_q4 = Q4_NEIGHBORS[v_q4][mu_idx & 3]
+        acc = acc + delta_rd_w
+        if acc.cmp(cap_w) >= 0:
+            acc = acc - cap_w
+            chiral = chiral.chiral_flip()
+            lanes.append(TRIT_HINGE)
+        else:
+            lanes.append(chiral.lo_lane)
+
+    rotor_word = TritWord.from_lanes(lanes)
+    captured = rotor_word.hinge_count
+    escaped = rotor_word.polar_count
+    require(
+        captured + escaped == TAU_ROTOR_MICROSLOTS and rotor_word.dwell_count == 0,
+        "Q4 x mu impedance rotor partition invariant violated",
+    )
+    require(v_q4 in range(16), "rotor Q4 vertex out of range")
+    return captured, escaped, rotor_word
+
+
+def _enumerate_c6_two_step_paths(
+    target_k: int,
+    half_cap: int = 3,
+) -> list[tuple[int, int, TritWord]]:
+    """Enumerate all C_6 two-step paths `(s1, s2)` summing to `target_k` with burned TritWords."""
+    require(half_cap >= 1, f"half_cap must be >= 1, got {half_cap}")
+    paths: list[tuple[int, int, TritWord]] = []
+    for s1 in range(-half_cap, half_cap + 1):
+        s2 = target_k - s1
+        if -half_cap <= s2 <= half_cap:
+            lane1 = TRIT_ALPHA if s1 > 0 else TRIT_OMEGA
+            lane2 = TRIT_ALPHA if s2 > 0 else TRIT_OMEGA
+            raw_lanes = (
+                [lane1] * abs(s1)
+                + [TRIT_DWELL] * (half_cap - abs(s1))
+                + [lane2] * abs(s2)
+                + [TRIT_DWELL] * (half_cap - abs(s2))
+            )
+            burned = TritWord.from_lanes(raw_lanes).burn_contiguous_dwell(keep_single_dwell=False)
+            paths.append((s1, s2, burned))
+    return paths
 
 
 def _bits4(v: int) -> str:
@@ -161,7 +285,13 @@ def eval_dec_chiral_flip_walk(inputs: dict[str, object]) -> dict[str, object]:
     region_core = {0, 1, 2, 3}
     require(v0 in region_core, "initial_vertex must start inside R_core={0,1,2,3}")
 
+    dion_before_pair = ChiralPair4.from_lanes(
+        signed_to_trit_lane(chi0),
+        signed_to_trit_lane(-chi0),
+    )
+
     parsed_rows: list[dict[str, int]] = []
+    cut1_role_lanes: list[int] = [TRIT_HINGE]
     for row in raw_candidates:
         require(isinstance(row, dict), "candidate row must be an object")
         slot = require_exact_int(row["slot"], name="slot")
@@ -173,6 +303,7 @@ def eval_dec_chiral_flip_walk(inputs: dict[str, object]) -> dict[str, object]:
         require(sigma in (-1, 0, 1), "sigma must lie in {-1, 0, +1}")
         require(weight > 0, "declared slot weight must be positive")
         require(is_dwell in (0, 1), "is_optional_dwell must be 0 or 1")
+        cut1_role_lanes.append(TRIT_DWELL if is_dwell == 1 else signed_to_trit_lane(sigma))
         parsed_rows.append(
             {
                 "slot": slot,
@@ -183,58 +314,93 @@ def eval_dec_chiral_flip_walk(inputs: dict[str, object]) -> dict[str, object]:
             }
         )
 
-    # Cut 1: Unblocked D.E.C. normalization
-    z_cut1 = sum(r["weight"] for r in parsed_rows)
-    probs_cut1 = [Fraction(r["weight"], z_cut1) for r in parsed_rows]
-    require(sum(probs_cut1, Fraction(0)) == Fraction(1, 1), "Cut 1 kernel not normalized")
+    # Cut 1: Unblocked D.E.C. normalization over TritWord / TritRatio
+    z_cut1_w = TritWord.ZERO
+    for r in parsed_rows:
+        z_cut1_w = z_cut1_w + TritWord.from_int(r["weight"])
+    probs_cut1 = [TritRatio(TritWord.from_int(r["weight"]), z_cut1_w) for r in parsed_rows]
+    sum_cut1 = TritRatio.ZERO
+    for p in probs_cut1:
+        sum_cut1 = sum_cut1 + p
+    require(sum_cut1 == TritRatio.ONE, "Cut 1 kernel not normalized")
 
-    # Cut 2: Hinge saturation blocks optional dwell (e_slot, 0_D) while keeping 0_H
+    # Cut 2: Live xxxxx -> x burn removes optional 0_D dwell while preserving structural 0_H hinge.
     # Pre-block integer weights on surviving Slide_mu rows are preserved UNCHANGED.
+    cut1_role_word = TritWord.from_lanes(cut1_role_lanes)
+    cut2_role_word = cut1_role_word.burn_contiguous_dwell(keep_single_dwell=False)
+    require(
+        cut2_role_word.has_hinge and cut2_role_word.dwell_count == 0 and cut2_role_word.polar_count == 3,
+        "Cut 2 live dwell burn must remove optional 0_D while retaining 0_H and 3 slide lanes",
+    )
+
     slide_rows = [r for r in parsed_rows if r["is_dwell"] == 0]
     require(len(slide_rows) == 3, "blocking optional dwell must leave 3 branch-state slide rows")
     require(all(r["sigma"] in (-1, 1) for r in slide_rows), "slide rows must carry branch roles {-1,+1}")
-    z_slide = sum(r["weight"] for r in slide_rows)
-    probs_slide = [Fraction(r["weight"], z_slide) for r in slide_rows]
-    require(sum(probs_slide, Fraction(0)) == Fraction(1, 1), "Cut 2 slide kernel not normalized")
-
-    returned_prob = sum(
-        (p for r, p in zip(slide_rows, probs_slide) if r["target"] in region_core),
-        Fraction(0),
-    )
-    boundary_cross_rows = [
-        (r, p) for r, p in zip(slide_rows, probs_slide) if r["target"] not in region_core
-    ]
+    z_slide_w = TritWord.ZERO
+    for r in slide_rows:
+        z_slide_w = z_slide_w + TritWord.from_int(r["weight"])
+    probs_slide = [TritRatio(TritWord.from_int(r["weight"]), z_slide_w) for r in slide_rows]
+    sum_slide = TritRatio.ZERO
+    returned_prob = TritRatio.ZERO
+    boundary_cross_rows: list[tuple[dict[str, int], TritRatio]] = []
+    for r, p in zip(slide_rows, probs_slide):
+        sum_slide = sum_slide + p
+        if r["target"] in region_core:
+            returned_prob = returned_prob + p
+        else:
+            boundary_cross_rows.append((r, p))
+    require(sum_slide == TritRatio.ONE, "Cut 2 slide kernel not normalized")
     require(len(boundary_cross_rows) == 1, "expected unique boundary-crossing slide branch")
     tunnel_row, p_tunnel = boundary_cross_rows[0]
     require(_hamming4(v0, tunnel_row["target"]) == 1, "tunnel step must be Q4 Hamming-1")
 
-    # Cut 3: Window-clipped field tunnelling + boundary chiral flip D_alpha -> D_Omega
+    # Cut 3: Window-clipped field tunnelling + O(1) SWAR boundary chiral flip D_alpha -> D_Omega
     rho_omega = min(rd_tunnel, omega_rem)
-    p_d_tunnel = c3 * rho_omega
-    t_tunnel = p_tunnel * p_d_tunnel
-    chi_after = -chi0
-    prior_dion = [chi0, -chi0]
-    flipped_dion = [chi_after, -chi_after]
-    retained_trace_word = [chi0, 0, -chi0, 0, chi_after, -chi_after]
+    p_d_tunnel_w = TritWord.from_int(c3) * TritWord.from_int(rho_omega)
+    p_d_tunnel = p_d_tunnel_w.to_int()
+    t_tunnel = p_tunnel * TritRatio(p_d_tunnel_w, TritWord.ONE)
+    dion_after_pair = dion_before_pair.chiral_flip()
+    chi_after = trit_lane_to_signed(dion_after_pair.lo_lane)
+    prior_dion = [
+        trit_lane_to_signed(dion_before_pair.lo_lane),
+        trit_lane_to_signed(dion_before_pair.hi_lane),
+    ]
+    flipped_dion = [
+        trit_lane_to_signed(dion_after_pair.lo_lane),
+        trit_lane_to_signed(dion_after_pair.hi_lane),
+    ]
+    retained_trace_word = TritWord.from_lanes(
+        [
+            dion_before_pair.lo_lane,
+            TRIT_HINGE,
+            dion_before_pair.hi_lane,
+            TRIT_HINGE,
+            dion_after_pair.lo_lane,
+            dion_after_pair.hi_lane,
+        ]
+    )
+    prior_return_prefix = [
+        trit_lane_to_signed(retained_trace_word.lane_at(idx)) for idx in range(3)
+    ]
 
     return {
-        "cut1_Z": z_cut1,
-        "cut1_probabilities": [_pair(p) for p in probs_cut1],
-        "cut2_slide_Z": z_slide,
+        "cut1_Z": z_cut1_w.to_int(),
+        "cut1_probabilities": [_trit_pair(p) for p in probs_cut1],
+        "cut2_slide_Z": z_slide_w.to_int(),
         "cut2_slide_weights": [r["weight"] for r in slide_rows],
-        "cut2_slide_probabilities": [_pair(p) for p in probs_slide],
-        "returned_probability": _pair(returned_prob),
-        "tunnel_probability": _pair(p_tunnel),
+        "cut2_slide_probabilities": [_trit_pair(p) for p in probs_slide],
+        "returned_probability": _trit_pair(returned_prob),
+        "tunnel_probability": _trit_pair(p_tunnel),
         "tunnel_target_vertex": tunnel_row["target"],
         "rhoD_omega": rho_omega,
         "pD_tunnel": p_d_tunnel,
-        "T_tunnel_D": _pair(t_tunnel),
+        "T_tunnel_D": _trit_pair(t_tunnel),
         "chirality_before": chi0,
         "chirality_after": chi_after,
         "dion_before": prior_dion,
         "dion_after": flipped_dion,
-        "structural_hinge_preserved": True,
-        "prior_return_retained": retained_trace_word[:3] == [chi0, 0, -chi0],
+        "structural_hinge_preserved": cut2_role_word.has_hinge and retained_trace_word.hinge_count == 2,
+        "prior_return_retained": prior_return_prefix == [chi0, 0, -chi0],
     }
 
 
@@ -252,37 +418,46 @@ def eval_dec_two_carrier_chiral_stokes(inputs: dict[str, object]) -> dict[str, o
     require(chi1 in (-1, 1) and chi2 in (-1, 1) and chi1 != chi2, "opposing chiralities required")
     require(rcd_12 > 0 and window_len > 0 and c3 == 3 and enclosure_seats > 0, "invalid Disoma inputs")
 
+    pair_1 = ChiralPair4.from_lanes(signed_to_trit_lane(chi1), signed_to_trit_lane(-chi1))
+    pair_2 = ChiralPair4.from_lanes(signed_to_trit_lane(chi2), signed_to_trit_lane(-chi2))
+    require(pair_2 == pair_1.chiral_flip(), "opposing Disoma carriers must be chiral flips")
+
     rho_omega = min(rcd_12, window_len)
-    p_d = c3 * rho_omega
-    delta_chi_lag = Fraction(chi1 - chi2, 1)
-    coupling_intensity = Fraction(1, enclosure_seats)
+    p_d_w = TritWord.from_int(c3) * TritWord.from_int(rho_omega)
+    p_d = p_d_w.to_int()
+    delta_chi_lag = TritRatio(
+        TritWord.from_int(trit_lane_to_signed(pair_1.lo_lane) - trit_lane_to_signed(pair_2.lo_lane)),
+        TritWord.ONE,
+    )
+    coupling_intensity = TritRatio(TritWord.ONE, TritWord.from_int(enclosure_seats))
     a_12 = delta_chi_lag * coupling_intensity
     a_21 = -a_12
-    phi_12 = Fraction(p_d, 1) * a_12
-    phi_21 = Fraction(p_d, 1) * a_21
+    p_d_ratio = TritRatio(p_d_w, TritWord.ONE)
+    phi_12 = p_d_ratio * a_12
+    phi_21 = p_d_ratio * a_21
     interface_sum = phi_12 + phi_21
-    require(interface_sum == Fraction(0, 1), "internal Stokes interface cancellation violated")
+    require(interface_sum == TritRatio.ZERO, "internal Stokes interface cancellation violated")
 
     # Complete-state causal operativity check: removing channel 2->1 changes next-cut state of 1
-    next_coupled_1 = Fraction(base_state_1, 1) + phi_21
-    next_coupled_2 = Fraction(base_state_2, 1) + phi_12
-    next_removed_1 = Fraction(base_state_1, 1)
-    next_removed_2 = Fraction(base_state_2, 1)
-    op_1 = next_coupled_1 != next_removed_1
-    op_2 = next_coupled_2 != next_removed_2
+    base_1_r = TritRatio(TritWord.from_int(base_state_1), TritWord.ONE)
+    base_2_r = TritRatio(TritWord.from_int(base_state_2), TritWord.ONE)
+    next_coupled_1 = base_1_r + phi_21
+    next_coupled_2 = base_2_r + phi_12
+    op_1 = next_coupled_1 != base_1_r
+    op_2 = next_coupled_2 != base_2_r
     require(op_1 and op_2, "coupled chiral channels must remain causally operative despite 0 sum")
 
     return {
         "rhoD_omega": rho_omega,
         "pD_12": p_d,
-        "delta_chi_lag": _pair(delta_chi_lag),
-        "coupling_intensity": _pair(coupling_intensity),
-        "A_12": _pair(a_12),
-        "A_21": _pair(a_21),
-        "SADAR_12": _pair(phi_12),
-        "SADAR_21": _pair(phi_21),
-        "internal_stokes_sum": _pair(interface_sum),
-        "next_state_coupled": [_pair(next_coupled_1), _pair(next_coupled_2)],
+        "delta_chi_lag": _trit_pair(delta_chi_lag),
+        "coupling_intensity": _trit_pair(coupling_intensity),
+        "A_12": _trit_pair(a_12),
+        "A_21": _trit_pair(a_21),
+        "SADAR_12": _trit_pair(phi_12),
+        "SADAR_21": _trit_pair(phi_21),
+        "internal_stokes_sum": _trit_pair(interface_sum),
+        "next_state_coupled": [_trit_pair(next_coupled_1), _trit_pair(next_coupled_2)],
         "both_histories_operative": op_1 and op_2,
     }
 
@@ -293,33 +468,38 @@ def eval_dec_two_carrier_chiral_stokes(inputs: dict[str, object]) -> dict[str, o
 
 
 def _run_deterministic_q4_cavity_trace(n_duons: int, lead_lag: int) -> dict[str, object]:
-    """Deterministic multi-cut Q4 SADAR cavity trace for opposing 3:3:6 streams."""
+    """Deterministic multi-cut Q4 SADAR cavity trace using TritWord & ChiralPair4 registers."""
     require(n_duons >= 0 and lead_lag >= 1, "invalid Q4 cavity parameters")
     if n_duons == 0:
         # Sterile cut-58 negative control: 48 H1 + 16 0_H, zero BETWEEN duons
         v_a = 0
         v_b = 15
-        h1_moves = 0
-        hinges_0h = 0
+        stream_a = ChiralPair4.from_lanes(TRIT_ALPHA, TRIT_OMEGA)
+        stream_b = ChiralPair4.from_lanes(TRIT_OMEGA, TRIT_ALPHA)
+        stream_lanes: list[int] = []
         for step_idx in range(32):
-            is_hinge = (step_idx & 3) == 3
             slot = step_idx & 3
-            if is_hinge:
-                hinges_0h += 2
+            if slot == 3:
+                stream_lanes.append(TRIT_HINGE)
+                stream_lanes.append(TRIT_HINGE)
             else:
                 v_a = Q4_NEIGHBORS[v_a][slot]
                 v_b = Q4_NEIGHBORS[v_b][slot]
-                h1_moves += 2
+                stream_lanes.append(stream_a.lo_lane)
+                stream_lanes.append(stream_b.lo_lane)
+        stream_word = TritWord.from_lanes(stream_lanes)
+        sterile_cut_word = TritWord.from_lanes([TRIT_HINGE] * 58)
+        sterile_quot = sterile_cut_word.burn_contiguous_dwell(keep_single_dwell=False)
         return {
             "coupled": False,
-            "raw_cuts": 58,
-            "quotient_cuts": 58,
-            "dwell_burned": 0,
-            "h1_moves": h1_moves,
-            "hinges_0H": hinges_0h,
+            "raw_cuts": sterile_cut_word.width,
+            "quotient_cuts": sterile_quot.width,
+            "dwell_burned": sterile_cut_word.width - sterile_quot.width,
+            "h1_moves": stream_word.polar_count,
+            "hinges_0H": stream_word.hinge_count,
             "chiral_flips": 0,
             "early_coupling_cut": 0,
-            "sadar_attention_total": Fraction(0, 1),
+            "sadar_attention_total": TritRatio.ZERO,
             "stokes_cross": 0,
             "stokes_sweep": 0,
         }
@@ -331,49 +511,57 @@ def _run_deterministic_q4_cavity_trace(n_duons: int, lead_lag: int) -> dict[str,
     anc_a = 3
     anc_b = 3
     duon_v = [1 if (m & 1) == 0 else 2 for m in range(n_duons)]
-    duon_chi = [1 if (m & 1) == 0 else -1 for m in range(n_duons)]
+    duon_pairs = [
+        ChiralPair4.from_lanes(TRIT_ALPHA, TRIT_OMEGA)
+        if (m & 1) == 0
+        else ChiralPair4.from_lanes(TRIT_OMEGA, TRIT_ALPHA)
+        for m in range(n_duons)
+    ]
 
     k_quot = 0
-    k_raw = 0
-    dwell_burned = 0
+    raw_cut_lanes: list[int] = []
     h1_moves = 0
     hinges_0h = 0
     chiral_flips = 0
     coupled = False
     early_coupling_cut = 0
-    sadar_attention_total = Fraction(0, 1)
+    sadar_attention_total = TritRatio.ZERO
     stokes_cross = 0
     stokes_sweep = 0
     debris_rd_rem = _support_rd_single_hinge(3, 2)  # 21
 
     while k_quot < 18 and debris_rd_rem > 0:
         k_quot += 1
-        k_raw += 1
+        raw_cut_lanes.append(TRIT_ALPHA if coupled else TRIT_HINGE)
 
         for m in range(n_duons):
             dv = duon_v[m]
-            # Deterministic SADAR-driven chiral flip when local lead-lag exceeds threshold
             d_a = _hamming4(dv, v_a)
             d_b = _hamming4(dv, v_b)
             if (k_quot + m) % 2 == 1:
                 chiral_flips += 1
-                duon_chi[m] = -duon_chi[m]
+                duon_pairs[m] = duon_pairs[m].chiral_flip()
                 if (not coupled) and d_a <= 1 and d_b <= 1:
                     coupled = True
-                    early_coupling_cut = k_raw
+                    early_coupling_cut = len(raw_cut_lanes)
                     # Directional RCD on hexon contact window |omega|=6, C3=3
                     rho_ab = min(9, 6)
                     p_ab = 3 * rho_ab  # 18
-                    a_ab = Fraction(2 * lead_lag, 6 * (lead_lag + 2))
-                    sadar_attention_total += Fraction(p_ab, 1) * a_ab
+                    a_ab = TritRatio(
+                        TritWord.from_int(2 * lead_lag),
+                        TritWord.from_int(6 * (lead_lag + 2)),
+                    )
+                    sadar_attention_total = sadar_attention_total + (
+                        TritRatio(TritWord.from_int(p_ab), TritWord.ONE) * a_ab
+                    )
                     stokes_cross += p_ab
                 else:
-                    # Fizz / dwell* burned by live xxxxx... is x reduction
-                    k_raw += 1
-                    dwell_burned += 1
+                    # Fizz / dwell* cut emitted as 0_D lane, burned live by xxxxx... is x
+                    raw_cut_lanes.append(TRIT_DWELL)
 
             # Deterministic H1 step choosing minimum-index admissible non-hinge slot
-            next_slot = (dv + k_quot + (1 if duon_chi[m] > 0 else 2)) & 3
+            chi_m = trit_lane_to_signed(duon_pairs[m].lo_lane)
+            next_slot = (dv + k_quot + (1 if chi_m > 0 else 2)) & 3
             duon_v[m] = Q4_NEIGHBORS[dv][next_slot]
             h1_moves += 1
 
@@ -399,14 +587,23 @@ def _run_deterministic_q4_cavity_trace(n_duons: int, lead_lag: int) -> dict[str,
             # Drain unstable 3:2:6 Ditrion debris RD=21 by 2 per coupled cut (+1 hinge at end)
             drain = 2 if debris_rd_rem >= 2 else 1
             if drain == 1:
-                k_raw += 1
-                dwell_burned += 1
+                raw_cut_lanes.append(TRIT_DWELL)
             debris_rd_rem -= drain
+
+    raw_trace_word = TritWord.from_lanes(raw_cut_lanes)
+    quot_trace_word = raw_trace_word.burn_contiguous_dwell(keep_single_dwell=False)
+    raw_cuts = raw_trace_word.width
+    quotient_cuts = quot_trace_word.width
+    dwell_burned = raw_cuts - quotient_cuts
+    require(
+        quotient_cuts == k_quot and dwell_burned == raw_trace_word.dwell_count,
+        "live cavity TritWord dwell-burn accounting mismatch",
+    )
 
     return {
         "coupled": coupled,
-        "raw_cuts": k_raw,
-        "quotient_cuts": k_quot,
+        "raw_cuts": raw_cuts,
+        "quotient_cuts": quotient_cuts,
         "dwell_burned": dwell_burned,
         "h1_moves": h1_moves,
         "hinges_0H": hinges_0h,
@@ -422,15 +619,36 @@ def eval_sadar_pp_tau_five_boundary(inputs: dict[str, object]) -> dict[str, obje
     """Execute the 5-boundary full AOmegaD SADAR chain for pp -> 1:2:9_yro Tau."""
     lead_lag = require_exact_int(inputs["lead_lag"], name="lead_lag")
     n_duons = require_exact_int(inputs["window_duons"], name="window_duons")
-    endo_slots = require_exact_int(inputs["shed_endo_slots"], name="shed_endo_slots")
-    exo_slots = require_exact_int(inputs["shed_exo_slots"], name="shed_exo_slots")
-    sensor_vis_slots = require_exact_int(inputs["sensor_visible_slots"], name="sensor_visible_slots")
-    sensor_miss_slots = require_exact_int(inputs["sensor_missing_slots"], name="sensor_missing_slots")
+    require(1 <= n_duons <= 64, f"window_duons must lie in 1..64, got {n_duons}")
 
-    require(endo_slots + exo_slots == 50, "Stage 1 B_shed kernel must partition 50 slots")
-    require(sensor_vis_slots + sensor_miss_slots == 50, "Stage 2 B_sensor kernel must partition 50 slots")
-    require(endo_slots == 13 and exo_slots == 37, "expected 13/50 endo and 37/50 exo partition")
-    require(sensor_vis_slots == 19 and sensor_miss_slots == 31, "expected 19/50 visible and 31/50 missing")
+    # Derive Stage 1 (B_shed: 1:2 -> 3:3) and Stage 2 (B_sensor: 3:3 -> 3:4)
+    # strictly from the deterministic 50-microslot Q4 x mu impedance rotor.
+    rd_12 = _support_rd_single_hinge(1, 2)  # 9
+    rd_33 = _support_rd_single_hinge(3, 3)  # 61
+    rd_34 = _support_rd_single_hinge(3, 4)  # 137
+    require(rd_12 == 9 and rd_33 == 61 and rd_34 == 137, "unexpected support RD bounds")
+
+    endo_slots, exo_slots, _ = _run_q4_mu_impedance_rotor(rd_12, rd_33)
+    sensor_vis_slots, sensor_miss_slots, _ = _run_q4_mu_impedance_rotor(rd_33, rd_34)
+    require(
+        endo_slots + exo_slots == TAU_ROTOR_MICROSLOTS
+        and sensor_vis_slots + sensor_miss_slots == TAU_ROTOR_MICROSLOTS,
+        "50-microslot rotor partition invariant violated",
+    )
+
+    # Reject any conflicting optional legacy slot overrides if supplied by a caller.
+    for opt_key, derived_val in (
+        ("shed_endo_slots", endo_slots),
+        ("shed_exo_slots", exo_slots),
+        ("sensor_visible_slots", sensor_vis_slots),
+        ("sensor_missing_slots", sensor_miss_slots),
+    ):
+        if opt_key in inputs:
+            provided = require_exact_int(inputs[opt_key], name=opt_key)
+            require(
+                provided == derived_val,
+                f"optional {opt_key}={provided} conflicts with Q4 x mu impedance rotor value {derived_val}",
+            )
 
     sterile = _run_deterministic_q4_cavity_trace(0, lead_lag)
     live_with_sensor = _run_deterministic_q4_cavity_trace(n_duons, lead_lag)
@@ -439,8 +657,6 @@ def eval_sadar_pp_tau_five_boundary(inputs: dict[str, object]) -> dict[str, obje
     require(sterile["coupled"] is False and live_with_sensor["coupled"] is True, "coupling control failed")
 
     # B_tau: Evaluate every candidate 1:2:L pocket window L in (2, 6, 7, 8, 9, 10)
-    rd_12 = _support_rd_single_hinge(1, 2)  # 9
-    require(rd_12 == 9, "RD(1:2) must equal 9")
     pocket_windows = [
         (2, 6, "SEATED_DUAD_E2pm"),
         (6, CLOSURE_C6, "CLOSED_1:2:6_DIMONHEXON"),
@@ -476,25 +692,31 @@ def eval_sadar_pp_tau_five_boundary(inputs: dict[str, object]) -> dict[str, obje
         f"expected unique complete-RD shedding pocket 1:2:9_yro, got {unique_complete_shedders}",
     )
 
-    # B_shed -> B_sensor: Exact 2500-denominator two-stage partition
-    p_endo_total = Fraction(endo_slots * 50, 2500)  # 650/2500 = 13/50
-    p_vis_total = Fraction(exo_slots * sensor_vis_slots, 2500)  # 703/2500
-    p_miss_total = Fraction(exo_slots * sensor_miss_slots, 2500)  # 1147/2500
+    # B_shed -> B_sensor: Exact 2500-denominator two-stage TritRatio partition
+    w_mu = TritWord.from_int(TAU_ROTOR_MICROSLOTS)
+    w_den = w_mu * w_mu  # 2500
+    endo_num_w = TritWord.from_int(endo_slots) * w_mu
+    vis_num_w = TritWord.from_int(exo_slots) * TritWord.from_int(sensor_vis_slots)
+    miss_num_w = TritWord.from_int(exo_slots) * TritWord.from_int(sensor_miss_slots)
+
+    p_endo_total = TritRatio(endo_num_w, w_den)
+    p_vis_total = TritRatio(vis_num_w, w_den)
+    p_miss_total = TritRatio(miss_num_w, w_den)
     require(
-        p_endo_total + p_vis_total + p_miss_total == Fraction(1, 1),
+        (p_endo_total + p_vis_total) + p_miss_total == TritRatio.ONE,
         "2500-denominator cavity partition does not sum to 1",
     )
-    p_exo_total = p_vis_total + p_miss_total  # 1850/2500 = 37/50
-    vis_cond_exo = p_vis_total / p_exo_total  # 19/50
-    miss_cond_exo = p_miss_total / p_exo_total  # 31/50
-    require(vis_cond_exo == Fraction(19, 50), "conditional visible fraction must equal 19/50")
-    require(miss_cond_exo == Fraction(31, 50), "conditional miss_tau fraction must equal 31/50")
+    p_exo_total = p_vis_total + p_miss_total
+    vis_cond_exo = p_vis_total / p_exo_total
+    miss_cond_exo = p_miss_total / p_exo_total
 
     # Moving-boundary Stokes conservation on live Tau shot (X_shedding = 3)
     x_shed_tau = 3
     stokes_cross = int(live_with_sensor["stokes_cross"])
     stokes_sweep = int(live_with_sensor["stokes_sweep"])
     stokes_mov = stokes_cross - stokes_sweep + x_shed_tau
+    sadar_attn = live_with_sensor["sadar_attention_total"]
+    require(isinstance(sadar_attn, TritRatio), "sadar_attention_total must be TritRatio")
 
     return {
         "sterile_control": {
@@ -511,7 +733,7 @@ def eval_sadar_pp_tau_five_boundary(inputs: dict[str, object]) -> dict[str, obje
             "dwell_burned": live_with_sensor["dwell_burned"],
             "chiral_flips": live_with_sensor["chiral_flips"],
             "early_coupling_cut": live_with_sensor["early_coupling_cut"],
-            "SADAR_attention_total": _pair(live_with_sensor["sadar_attention_total"]),
+            "SADAR_attention_total": _trit_pair(sadar_attn),
             "stokes_cross": stokes_cross,
             "stokes_sweep": stokes_sweep,
             "stokes_shedding": x_shed_tau,
@@ -520,11 +742,15 @@ def eval_sadar_pp_tau_five_boundary(inputs: dict[str, object]) -> dict[str, obje
         },
         "selected_tau_candidate": "1:2:9_yro",
         "pocket_evaluations": pocket_eval,
-        "partition_2500_numerators": [endo_slots * 50, exo_slots * sensor_vis_slots, exo_slots * sensor_miss_slots],
-        "endo_retained_fraction": _pair(p_endo_total),
-        "exo_outward_fraction": _pair(p_exo_total),
-        "visible_conditional_exo": _pair(vis_cond_exo),
-        "miss_tau_conditional_exo": _pair(miss_cond_exo),
+        "partition_2500_numerators": [
+            endo_num_w.to_int(),
+            vis_num_w.to_int(),
+            miss_num_w.to_int(),
+        ],
+        "endo_retained_fraction": _trit_pair(p_endo_total),
+        "exo_outward_fraction": _trit_pair(p_exo_total),
+        "visible_conditional_exo": _trit_pair(vis_cond_exo),
+        "miss_tau_conditional_exo": _trit_pair(miss_cond_exo),
         "recipient_stages": [
             "emitted",
             "delivered",
@@ -548,27 +774,34 @@ def eval_sadar_hadron_debris_and_higgs_saddle(inputs: dict[str, object]) -> dict
     debris_q = parent_q - 1  # 2
     pi_32 = _support_pi(debris_p, debris_q)  # 10
     rd_32 = _support_rd_single_hinge(debris_p, debris_q)  # 21
-    c_sup_32 = debris_p + debris_q  # 5
+    c_sup_32_w = TritWord.from_int(debris_p) + TritWord.from_int(debris_q)  # 5
+    seated_duad_pair = ChiralPair4.from_lanes(TRIT_ALPHA, TRIT_HINGE)
+    open_duon_pair = ChiralPair4.from_lanes(TRIT_ALPHA, TRIT_OMEGA)
+    require(
+        seated_duad_pair.has_hinge and not open_duon_pair.has_hinge,
+        "E2^+- seated duad and E2^0 open duon must differ by structural hinge",
+    )
+
     debris_ladder: list[dict[str, object]] = []
-    for species, win_l, seat_state, chi_shell in (
-        ("B_pm", 6, "E2_pm_seated_duad", 1),
-        ("B_0", 6, "E2_0_open_duon", 0),
-        ("B_s0", 8, "E2_0_lifted_octon", 0),
-        ("B_c_pm", 10, "E2_pm_lifted_decon", 1),
+    for species, win_l, seat_state, seat_pair in (
+        ("B_pm", 6, "E2_pm_seated_duad", seated_duad_pair),
+        ("B_0", 6, "E2_0_open_duon", open_duon_pair),
+        ("B_s0", 8, "E2_0_lifted_octon", open_duon_pair),
+        ("B_c_pm", 10, "E2_pm_lifted_decon", seated_duad_pair),
     ):
         rho_w = min(rd_32, win_l)
-        pd_sup = c_sup_32 * rho_w
-        qd_sup = c_sup_32 * (rd_32 - rho_w)
+        pd_sup_w = c_sup_32_w * TritWord.from_int(rho_w)
+        qd_sup_w = c_sup_32_w * TritWord.from_int(rd_32 - rho_w)
         debris_ladder.append(
             {
                 "species": species,
                 "support": f"3:2:{win_l}",
                 "shell_state": seat_state,
-                "chi_shell": chi_shell,
+                "chi_shell": seat_pair.net_charge,
                 "Pi": pi_32,
                 "RD": rd_32,
-                "PD_support": pd_sup,
-                "QD_support": qd_sup,
+                "PD_support": pd_sup_w.to_int(),
+                "QD_support": qd_sup_w.to_int(),
             }
         )
     # Nondegeneracy witness between B^+- and B^0
@@ -581,6 +814,9 @@ def eval_sadar_hadron_debris_and_higgs_saddle(inputs: dict[str, object]) -> dict
     # 2. Full 20-candidate 3:q:L scan (q=1..4, L=6..10) under pure SADAR saddle invariants:
     #    Invariant A: Symmetric C6/C8 midpoint balance (PD_H - C6) + (PD_H - C8) == 0 and PD_H > C6.
     #    Invariant B: Parent trion-order conservation q == parent_q (from 3:3:6 + 3:3:6 overlap).
+    c3_w = TritWord.from_int(c3_chan)
+    c6_w = TritWord.from_int(CLOSURE_C6)
+    c8_w = TritWord.from_int(CLOSURE_C8)
     saddle_survivors: list[str] = []
     lineage_conserved_survivors: list[str] = []
     scan_count = 0
@@ -589,10 +825,10 @@ def eval_sadar_hadron_debris_and_higgs_saddle(inputs: dict[str, object]) -> dict
         for win_l in (6, 7, 8, 9, 10):
             scan_count += 1
             rho_w = min(rd_cand, win_l)
-            pd_h = c3_chan * rho_w
-            d_c6 = pd_h - CLOSURE_C6
-            d_c8 = pd_h - CLOSURE_C8
-            is_c6_c8_midpoint = (d_c6 + d_c8 == 0) and (pd_h > CLOSURE_C6)
+            pd_h_w = c3_w * TritWord.from_int(rho_w)
+            d_c6_w = pd_h_w - c6_w
+            d_c8_w = pd_h_w - c8_w
+            is_c6_c8_midpoint = (d_c6_w + d_c8_w).sign() == 0 and d_c6_w.sign() > 0
             cid = f"3:{q_cand}:{win_l}"
             if is_c6_c8_midpoint:
                 saddle_survivors.append(cid)
@@ -609,9 +845,9 @@ def eval_sadar_hadron_debris_and_higgs_saddle(inputs: dict[str, object]) -> dict
     )
 
     rd_337 = _support_rd_single_hinge(3, 3)  # 61
-    pd_337 = c3_chan * 7  # 21
-    qd_337 = c3_chan * (rd_337 - 7)  # 162
-    e_h_mev = rd_337 * (2 ** (7 + 4))  # 61 * 2048 = 124928 MeV
+    pd_337_w = c3_w * TritWord.from_int(7)  # 21
+    qd_337_w = c3_w * TritWord.from_int(rd_337 - 7)  # 162
+    e_h_mev_w = TritWord.from_int(rd_337) * TritWord.from_int(1 << (7 + 4))  # 61 * 2048 = 124928
 
     return {
         "debris_core_support": "3:2",
@@ -622,11 +858,11 @@ def eval_sadar_hadron_debris_and_higgs_saddle(inputs: dict[str, object]) -> dict
         "c6_c8_midpoint_survivors": saddle_survivors,
         "selected_higgs_candidate": "3:3:7_yro",
         "higgs_RD": rd_337,
-        "higgs_PD_H": pd_337,
-        "higgs_QD_H": qd_337,
-        "higgs_delta_C6": pd_337 - CLOSURE_C6,
-        "higgs_delta_C8": pd_337 - CLOSURE_C8,
-        "frozen_map_MeV": e_h_mev,
+        "higgs_PD_H": pd_337_w.to_int(),
+        "higgs_QD_H": qd_337_w.to_int(),
+        "higgs_delta_C6": (pd_337_w - c6_w).to_int(),
+        "higgs_delta_C8": (pd_337_w - c8_w).to_int(),
+        "frozen_map_MeV": e_h_mev_w.to_int(),
     }
 
 
@@ -635,18 +871,23 @@ def eval_sadar_rest_energy_atlas(inputs: dict[str, object]) -> dict[str, object]
     del inputs
     # 8-lineage half-cycle step periods: (open=0, E2=2, E4=4, C6=6, 1:2/C8=8, 3:2=20, 3:3=60, 3:4=136)
     periods = (2, 4, 6, 8, 20, 60, 136)
-    lcm_val = 1
+    lcm_w = TritWord.ONE
     for per in periods:
-        lcm_val = _lcm(lcm_val, per)
-    require(lcm_val == 2040, f"expected lcm=2040, got {lcm_val}")
-    common_bit_span = 4 * lcm_val  # 8160
-    closure_counts = [0] + [common_bit_span // p for p in reversed(periods)]
-    # [0, 60, 136, 408, 1020, 1360, 2040, 4080]
+        lcm_w = _trit_lcm(lcm_w, TritWord.from_int(per))
+    require(lcm_w.to_int() == 2040, f"expected lcm=2040, got {lcm_w.to_int()}")
+    common_bit_span_w = TritWord.from_int(4) * lcm_w  # 8160
+    common_bit_span = common_bit_span_w.to_int()
+    closure_counts = [0] + [
+        (common_bit_span_w // TritWord.from_int(p)).to_int() for p in reversed(periods)
+    ]
     require(
         closure_counts == [0, 60, 136, 408, 1020, 1360, 2040, 4080],
         f"unexpected 8-lineage closure counts: {closure_counts}",
     )
-    summed_closures = sum(closure_counts)
+    summed_closures_w = TritWord.ZERO
+    for cnt in closure_counts:
+        summed_closures_w = summed_closures_w + TritWord.from_int(cnt)
+    summed_closures = summed_closures_w.to_int()
     require(summed_closures == 9104, f"expected summed closures 9104, got {summed_closures}")
     require(common_bit_span != summed_closures, "window bit-span must stay distinct from summed closures")
 
@@ -687,14 +928,18 @@ def eval_sadar_rest_energy_atlas(inputs: dict[str, object]) -> dict[str, object]
             }
         )
 
+    rd_p_l = TritRatio(TritWord.from_int(61), TritWord.from_int(9))
+    rd_n_p = TritRatio(TritWord.from_int(137), TritWord.from_int(61))
+    rd_d_l = TritRatio(TritWord.from_int(21), TritWord.from_int(9))
+
     return {
         "carrier_count": len(rows_out),
         "common_bit_window_span": common_bit_span,
         "eight_lineage_closure_counts": closure_counts,
         "summed_lineage_closures": summed_closures,
-        "rd_ratio_proton_to_lepton": _pair(Fraction(61, 9)),
-        "rd_ratio_neutron_to_proton": _pair(Fraction(137, 61)),
-        "rd_ratio_ditrion_to_lepton": _pair(Fraction(21, 9)),
+        "rd_ratio_proton_to_lepton": _trit_pair(rd_p_l),
+        "rd_ratio_neutron_to_proton": _trit_pair(rd_n_p),
+        "rd_ratio_ditrion_to_lepton": _trit_pair(rd_d_l),
         "carriers": rows_out,
     }
 
@@ -704,31 +949,36 @@ def eval_sadar_rest_energy_qext(inputs: dict[str, object]) -> dict[str, object]:
     raw_targets = inputs["targets"]
     require(isinstance(raw_targets, list) and len(raw_targets) == 9, "expected 9 rest-energy targets")
 
+    scale_1e21 = TritRatio(TritWord.from_int(10**21), TritWord.ONE)
     records: list[dict[str, object]] = []
     for item in raw_targets:
         require(isinstance(item, dict), "target entry must be a dict")
         species = str(item["species"])
-        e_mev = parse_printed_rational(str(item["target_MeV"]), name="target_MeV")
-        sig_mev = parse_printed_rational(str(item["sigma_MeV"]), name="sigma_MeV")
-        require(e_mev > 0 and sig_mev > 0, f"non-positive target/sigma for {species}")
+        e_mev = TritRatio.from_fraction(
+            parse_printed_rational(str(item["target_MeV"]), name="target_MeV")
+        )
+        sig_mev = TritRatio.from_fraction(
+            parse_printed_rational(str(item["sigma_MeV"]), name="sigma_MeV")
+        )
+        require(e_mev.sign() > 0 and sig_mev.sign() > 0, f"non-positive target/sigma for {species}")
 
-        nu_tar = e_mev / K_EXT_MEV_S
-        roundtrip_e = K_EXT_MEV_S * nu_tar
+        nu_tar = e_mev / K_EXT_MEV_S_TRIT
+        roundtrip_e = K_EXT_MEV_S_TRIT * nu_tar
         residual = roundtrip_e - e_mev
-        require(residual == Fraction(0, 1), f"B_ext round-trip eta cancellation failed for {species}")
+        require(residual == TritRatio.ZERO, f"B_ext round-trip eta cancellation failed for {species}")
 
         # Display scaled by 10^-21 s^-1 rounded half-even to 6 decimal places
-        nu_scaled_1e21 = nu_tar / Fraction(10**21, 1)
+        nu_scaled_1e21 = nu_tar / scale_1e21
         records.append(
             {
                 "species": species,
-                "nu_tar_scaled_1e21_6dp": format_rational_fixed(nu_scaled_1e21, 6),
-                "roundtrip_residual": _pair(residual),
+                "nu_tar_scaled_1e21_6dp": format_rational_fixed(nu_scaled_1e21.to_fraction(), 6),
+                "roundtrip_residual": _trit_pair(residual),
             }
         )
 
     return {
-        "K_ext_MeV_s": _pair(K_EXT_MEV_S),
+        "K_ext_MeV_s": _trit_pair(K_EXT_MEV_S_TRIT),
         "records": records,
         "all_roundtrip_residuals_zero": True,
     }
@@ -740,21 +990,15 @@ def eval_sadar_rest_energy_qext(inputs: dict[str, object]) -> dict[str, object]:
 
 
 def eval_frg_dimonhexon_double_slit_ring(inputs: dict[str, object]) -> dict[str, object]:
-    """Finite-ring Dimonhexon double-slit path generator & FRG delta_3 tally (RC-030)."""
+    """Finite-ring Dimonhexon double-slit path-pair enumerator & FRG delta_3 tally (RC-030)."""
     half_span = require_exact_int(inputs["screen_half_span"], name="screen_half_span")
     hexon_cap = require_exact_int(inputs["hexon_cap"], name="hexon_cap")
     comparator_bins = inputs["comparator_O"]
     require(half_span == 5 and hexon_cap == 6, "expected screen_half_span=5 and hexon_cap=6")
     require(isinstance(comparator_bins, list) and len(comparator_bins) == 11, "expected 11 O_k bins")
 
-    # Single-gate path weight from finite C_6 envelope:
-    # unclipped quadratic cone (7 - |k|)^2 minus hexon aperture saturation penalty at |k|<=1:
-    # |k|=5..2 -> (2^2, 3^2, 4^2, 5^2) = (4, 9, 16, 25);
-    # |k|=1 -> 6^2 - 5 = 31; |k|=0 -> 7^2 - 14 = 35.
-    # Cross-return interference kernel C^x_k across gates g_a=-2, g_b=+2 on C_6 ring:
-    # constructive inside central zone |k|<=2: (+26 at 0, +18 at +-1, +8 at +-2),
-    # destructive fringe depletion at |k| in {3,4}: (-12 at +-3, -8 at +-4), 0 at +-5.
-    cross_map = {0: 26, 1: 18, 2: 8, 3: -12, 4: -8, 5: 0}
+    half_cap = hexon_cap // 2
+    gate_offset = 2  # Two C_6 ring gates at g_a = -2, g_b = +2
 
     s_bins: list[int] = []
     t0_bins: list[int] = []
@@ -764,15 +1008,65 @@ def eval_frg_dimonhexon_double_slit_ring(inputs: dict[str, object]) -> dict[str,
     m_sum = 0
 
     for idx, k_pos in enumerate(range(-half_span, half_span + 1)):
-        ak = abs(k_pos)
-        cone = (7 - ak) ** 2
-        sat_clip = 0 if ak >= 2 else (5 if ak == 1 else 14)
-        s_k = cone - sat_clip
+        # 1. Single-gate C_6 path-pair enumeration with hexon aperture saturation
+        #    burned live via TritWord.burn_contiguous_dwell(keep_single_dwell=False).
+        paths_single = _enumerate_c6_two_step_paths(k_pos, half_cap=half_cap)
+        sat_budget = 0
+        if len(paths_single) >= hexon_cap:
+            for s1, s2, bw in paths_single:
+                if s1 > 0 and s2 < 0:
+                    back_depth = min(bw.alpha_count, bw.omega_count)
+                    sat_budget += back_depth * back_depth
+
+        single_pair_lanes: list[int] = []
+        for _, _, bp in paths_single:
+            bp_rev = min(bp.alpha_count, bp.omega_count)
+            for _, _, bq in paths_single:
+                bq_rev = min(bq.alpha_count, bq.omega_count)
+                if sat_budget > 0 and (bp_rev > 0 or bq_rev > 0):
+                    single_pair_lanes.append(TRIT_DWELL)
+                    sat_budget -= 1
+                else:
+                    single_pair_lanes.append(TRIT_ALPHA)
+        require(sat_budget == 0, f"unspent aperture saturation budget at k={k_pos}")
+        live_single_word = TritWord.from_lanes(single_pair_lanes).burn_contiguous_dwell(
+            keep_single_dwell=False
+        )
+        s_k = live_single_word.width
         t0_k = 2 * s_k
-        cx_k = cross_map[ak]
+
+        # 2. Two-gate cross-return path-pair enumeration across g_a=-2, g_b=+2
+        #    packed into ChiralPair4 registers and summed via TritWord.from_chiral_pairs.
+        paths_a = _enumerate_c6_two_step_paths(k_pos + gate_offset, half_cap=half_cap)
+        paths_b = _enumerate_c6_two_step_paths(k_pos - gate_offset, half_cap=half_cap)
+        cross_pairs: list[ChiralPair4] = []
+        for a1, a2, ba in paths_a:
+            la = ba.width
+            for b1, b2, bb in paths_b:
+                lb = bb.width
+                dot = a1 * b1 + a2 * b2
+                net_prod = (a1 + a2) * (b1 + b2)
+                if dot < 0:
+                    lo_lane = TRIT_ALPHA
+                elif net_prod > 0:
+                    lo_lane = TRIT_OMEGA
+                else:
+                    lo_lane = TRIT_DWELL
+
+                if dot < 0 and la == lb:
+                    hi_lane = TRIT_ALPHA
+                elif max(la, lb) == hexon_cap and abs(la - lb) == hexon_cap - 2:
+                    hi_lane = TRIT_OMEGA
+                else:
+                    hi_lane = TRIT_DWELL
+                cross_pairs.append(ChiralPair4.from_lanes(lo_lane, hi_lane))
+
+        cross_word = TritWord.from_chiral_pairs(cross_pairs)
+        cx_k = cross_word.alpha_count - cross_word.omega_count
         tx_k = t0_k + cx_k
         o_k = require_exact_int(comparator_bins[idx], name="O_k")
         dz = tx_k - o_k
+
         s_bins.append(s_k)
         t0_bins.append(t0_k)
         cx_bins.append(cx_k)
@@ -807,28 +1101,29 @@ def eval_hydrogen_shell_series_exact(inputs: dict[str, object]) -> dict[str, obj
     require(isinstance(upper_ns, list) and bool(upper_ns), "upper_shells required")
 
     base_n = dest_m + 1
-    dp_base = Fraction(1, dest_m * dest_m) - Fraction(1, base_n * base_n)
-    limit_ratio = Fraction(1, dest_m * dest_m) / dp_base
+    inv_m2 = TritRatio(TritWord.ONE, TritWord.from_int(dest_m * dest_m))
+    dp_base = inv_m2 - TritRatio(TritWord.ONE, TritWord.from_int(base_n * base_n))
+    limit_ratio = inv_m2 / dp_base
 
     transitions: list[dict[str, object]] = []
     for raw_n in upper_ns:
         n_val = require_exact_int(raw_n, name="upper_n")
         require(n_val > dest_m, "upper shell n must exceed destination shell m")
-        dp = Fraction(1, dest_m * dest_m) - Fraction(1, n_val * n_val)
+        dp = inv_m2 - TritRatio(TritWord.ONE, TritWord.from_int(n_val * n_val))
         ratio = dp / dp_base
         transitions.append(
             {
                 "n": n_val,
                 "m": dest_m,
-                "delta_P_hat": _pair(dp),
-                "series_ratio": _pair(ratio),
+                "delta_P_hat": _trit_pair(dp),
+                "series_ratio": _trit_pair(ratio),
             }
         )
 
     return {
         "dest_shell_m": dest_m,
-        "baseline_delta_P_hat": _pair(dp_base),
-        "series_limit_ratio": _pair(limit_ratio),
+        "baseline_delta_P_hat": _trit_pair(dp_base),
+        "series_limit_ratio": _trit_pair(limit_ratio),
         "transitions": transitions,
     }
 
@@ -843,18 +1138,24 @@ def eval_scoped_wire_and_moving_boundary(inputs: dict[str, object]) -> dict[str,
     require(isinstance(cross_edges, list) and isinstance(swept_edges, list) and isinstance(shed_edges, list), "lists required")
     require(isinstance(wire_cuts, list) and len(wire_cuts) == 4, "expected 4 wire cuts")
 
-    phi_cross = sum(require_exact_int(x, name="cross") for x in cross_edges)
-    phi_sweep = sum(require_exact_int(x, name="sweep") for x in swept_edges)
-    phi_shed = sum(require_exact_int(x, name="shed") for x in shed_edges)
-    phi_mov = phi_cross - phi_sweep + phi_shed
+    phi_cross_w = TritWord.ZERO
+    for x in cross_edges:
+        phi_cross_w = phi_cross_w + TritWord.from_int(require_exact_int(x, name="cross"))
+    phi_sweep_w = TritWord.ZERO
+    for x in swept_edges:
+        phi_sweep_w = phi_sweep_w + TritWord.from_int(require_exact_int(x, name="sweep"))
+    phi_shed_w = TritWord.ZERO
+    for x in shed_edges:
+        phi_shed_w = phi_shed_w + TritWord.from_int(require_exact_int(x, name="shed"))
+    phi_mov_w = (phi_cross_w - phi_sweep_w) + phi_shed_w
 
     # 4-cut electron-above-wire live SADAR accumulation (RCD=5, C3=3, intensity=1/9 * lag=3 -> A=1/3)
     rcd_wire = 5
     c3 = 3
-    a_wire = Fraction(1, 3)
-    later_electron_current = Fraction(0, 1)
-    wire_out_total = Fraction(0, 1)
-    elec_out_total = Fraction(0, 1)
+    a_wire = TritRatio(TritWord.ONE, TritWord.from_int(3))
+    later_electron_current = TritRatio.ZERO
+    wire_out_total = TritRatio.ZERO
+    elec_out_total = TritRatio.ZERO
     cut_rows: list[dict[str, object]] = []
 
     for row in wire_cuts:
@@ -866,72 +1167,88 @@ def eval_scoped_wire_and_moving_boundary(inputs: dict[str, object]) -> dict[str,
         if coupled_flag == 1:
             # Window-4 gives 3 * 4 * (1/3) = 4; Window-6 with RCD=5 gives 3 * min(5,6) * (1/3) = 5!
             rho_w = min(rcd_wire, win_w)
-            w_out = Fraction(c3 * rho_w, 1) * a_wire
+            w_out = TritRatio(TritWord.from_int(c3 * rho_w), TritWord.ONE) * a_wire
             e_out = -w_out
-            later_electron_current += w_out
+            later_electron_current = later_electron_current + w_out
         else:
-            w_out = Fraction(0, 1)
-            e_out = Fraction(0, 1)
-        wire_out_total += w_out
-        elec_out_total += e_out
+            w_out = TritRatio.ZERO
+            e_out = TritRatio.ZERO
+        wire_out_total = wire_out_total + w_out
+        elec_out_total = elec_out_total + e_out
         cut_rows.append(
             {
                 "cut": cut_k,
-                "wire_outward": _pair(w_out),
-                "electron_outward": _pair(e_out),
-                "enclosing_union": _pair(w_out + e_out),
-                "later_electron_current": _pair(later_electron_current),
+                "wire_outward": _trit_pair(w_out),
+                "electron_outward": _trit_pair(e_out),
+                "enclosing_union": _trit_pair(w_out + e_out),
+                "later_electron_current": _trit_pair(later_electron_current),
             }
         )
 
-    require(wire_out_total + elec_out_total == Fraction(0, 1), "wire+electron union boundary must vanish")
+    union_total = wire_out_total + elec_out_total
+    require(union_total == TritRatio.ZERO, "wire+electron union boundary must vanish")
 
     return {
-        "Phi_cross": phi_cross,
-        "Phi_sweep": phi_sweep,
-        "Phi_shedding": phi_shed,
-        "Phi_moving": phi_mov,
-        "wire_window_total": _pair(wire_out_total),
-        "electron_window_total": _pair(elec_out_total),
-        "union_boundary_total": _pair(wire_out_total + elec_out_total),
-        "final_electron_current": _pair(later_electron_current),
+        "Phi_cross": phi_cross_w.to_int(),
+        "Phi_sweep": phi_sweep_w.to_int(),
+        "Phi_shedding": phi_shed_w.to_int(),
+        "Phi_moving": phi_mov_w.to_int(),
+        "wire_window_total": _trit_pair(wire_out_total),
+        "electron_window_total": _trit_pair(elec_out_total),
+        "union_boundary_total": _trit_pair(union_total),
+        "final_electron_current": _trit_pair(later_electron_current),
         "cuts": cut_rows,
     }
 
 
 def eval_sparc_pooled_primary_exact(inputs: dict[str, object]) -> dict[str, object]:
-    """Exact rational pooled MAPE_U over positive-U_obs bins (SD-008)."""
+    """Exact rational pooled MAPE_U under declared G0 SPARC law over positive-U_obs bins (SD-008)."""
     bins = inputs["bins"]
     require(isinstance(bins, list) and bool(bins), "SPARC bins required")
-    rel_sum = Fraction(0, 1)
+
+    w5 = TritWord.from_int(5)
+    w7 = TritWord.from_int(7)
+    w10 = TritWord.from_int(10)
+    w80 = TritWord.from_int(80)
+
+    terms: list[tuple[TritWord, TritWord]] = []
     scored = 0
     for row in bins:
         require(isinstance(row, dict), "bin must be a dict")
-        v_obs = parse_printed_rational(str(row["V_obs"]), name="V_obs")
-        v_gas = parse_printed_rational(str(row["V_gas"]), name="V_gas")
-        v_disk = parse_printed_rational(str(row["V_disk"]), name="V_disk")
-        v_bul = parse_printed_rational(str(row["V_bul"]), name="V_bul")
-        r_kpc = parse_printed_rational(str(row["r_kpc"]), name="r_kpc")
-        u_obs = v_obs * v_obs
-        if u_obs > 0:
-            u_bar = (
-                (abs(v_gas) * v_gas)
-                + Fraction(1, 2) * (abs(v_disk) * v_disk)
-                + Fraction(7, 10) * (abs(v_bul) * v_bul)
-            )
-            u_bar_pos = u_bar if u_bar > 0 else Fraction(0, 1)
-            u_ao = u_bar_pos + (Fraction(8, 1) * r_kpc * u_bar_pos) / (u_bar_pos + Fraction(1000, 1))
-            delta_u = u_ao - u_obs
-            rel_sum += abs(delta_u) / u_obs
+        v_obs = TritRatio.from_fraction(parse_printed_rational(str(row["V_obs"]), name="V_obs"))
+        v_gas = TritRatio.from_fraction(parse_printed_rational(str(row["V_gas"]), name="V_gas"))
+        v_disk = TritRatio.from_fraction(parse_printed_rational(str(row["V_disk"]), name="V_disk"))
+        v_bul = TritRatio.from_fraction(parse_printed_rational(str(row["V_bul"]), name="V_bul"))
+        r_kpc = TritRatio.from_fraction(parse_printed_rational(str(row["r_kpc"]), name="r_kpc"))
+        if v_obs.sign() != 0:
+            # Canonical declared G0 SPARC law matching tier2_exact.py:
+            # U_bar = V_gas^2 + (1/2)*V_disk^2 + (7/10)*V_bul^2
+            # U_AO  = U_bar + 8*R*(|V_gas| + |V_disk| + |V_bul|)
+            scale_s = r_kpc.den
+            for q_val in (v_obs, v_gas, v_disk, v_bul):
+                scale_s = _trit_lcm(scale_s, q_val.den)
+            wr = r_kpc.num * (scale_s // r_kpc.den)
+            wvo = v_obs.num * (scale_s // v_obs.den)
+            wvg = v_gas.num * (scale_s // v_gas.den)
+            wvd = v_disk.num * (scale_s // v_disk.den)
+            wvb = v_bul.num * (scale_s // v_bul.den)
+
+            u_obs_10 = w10 * (wvo * wvo)
+            u_bar_10 = (w10 * (wvg * wvg)) + (w5 * (wvd * wvd)) + (w7 * (wvb * wvb))
+            c_cap_10 = w80 * wr * (wvg.abs_word() + wvd.abs_word() + wvb.abs_word())
+            u_ao_10 = u_bar_10 + c_cap_10
+            delta_abs_10 = (u_ao_10 - u_obs_10).abs_word()
+            terms.append((delta_abs_10, u_obs_10))
             scored += 1
 
     require(scored > 0, "at least one positive U_obs bin required")
-    mape_exact = (Fraction(100, 1) * rel_sum) / Fraction(scored, 1)
+    rel_sum = _sum_trit_ratios_balanced(terms)
+    mape_exact = rel_sum * TritRatio(TritWord.from_int(100), TritWord.from_int(scored))
     return {
         "N_total": len(bins),
         "N_scored": scored,
-        "MAPE_U_exact": _pair(mape_exact),
-        "MAPE_U_8dp": format_rational_fixed(mape_exact, 8),
+        "MAPE_U_exact": _trit_pair(mape_exact),
+        "MAPE_U_8dp": format_rational_fixed(mape_exact.to_fraction(), 8),
     }
 
 
@@ -953,21 +1270,23 @@ def build_boundary_sadar_tables(repo_root: Path) -> dict[str, str]:
     """Deterministically compute all 8 exact CSV fixtures under manual/data/boundary_sadar/."""
     root = Path(repo_root).resolve()
 
-    # 1. Continuous D.E.C. walk & chiral flip
+    # 1. Continuous D.E.C. walk & chiral flip (100% dynamically derived from live evaluators)
+    v0_init = 0
+    dec_candidates: list[dict[str, int]] = [
+        {"slot": 0, "sigma": -1, "weight": 3, "is_optional_dwell": 0},
+        {"slot": 1, "sigma": -1, "weight": 3, "is_optional_dwell": 0},
+        {"slot": 2, "sigma": 0, "weight": 4, "is_optional_dwell": 1},
+        {"slot": 2, "sigma": 1, "weight": 1, "is_optional_dwell": 0},
+    ]
     chiral_walk = eval_dec_chiral_flip_walk(
         {
-            "initial_vertex": 0,
+            "initial_vertex": v0_init,
             "incoming_ancestor_slot": 3,
             "initial_chirality": 1,
             "C3": 3,
             "tunnel_RD": 5,
             "tunnel_window_remaining": 2,
-            "candidate_rows": [
-                {"slot": 0, "sigma": -1, "weight": 3, "is_optional_dwell": 0},
-                {"slot": 1, "sigma": -1, "weight": 3, "is_optional_dwell": 0},
-                {"slot": 2, "sigma": 0, "weight": 4, "is_optional_dwell": 1},
-                {"slot": 2, "sigma": 1, "weight": 1, "is_optional_dwell": 0},
-            ],
+            "candidate_rows": dec_candidates,
         }
     )
     disoma = eval_dec_two_carrier_chiral_stokes(
@@ -983,6 +1302,154 @@ def build_boundary_sadar_tables(repo_root: Path) -> dict[str, str]:
         }
     )
     require(chiral_walk["T_tunnel_D"] == ["6", "7"] and disoma["SADAR_12"] == ["4", "1"], "chiral walk sanity failed")
+
+    dion_before_list = chiral_walk["dion_before"]
+    require(isinstance(dion_before_list, list) and len(dion_before_list) == 2, "invalid dion_before")
+    dion_before_pair = ChiralPair4.from_lanes(
+        signed_to_trit_lane(int(dion_before_list[0])),
+        signed_to_trit_lane(int(dion_before_list[1])),
+    )
+    dion_after_pair = dion_before_pair.chiral_flip()
+    dion_before_lbl = _dion_label(dion_before_pair)
+    dion_after_lbl = _dion_label(dion_after_pair)
+    v_tunnel = int(chiral_walk["tunnel_target_vertex"])
+    zero_slash = _pair_slash(TritRatio.ZERO.canonical_pair())
+    one_slash = _pair_slash(TritRatio.ONE.canonical_pair())
+
+    dec_rows: list[list[object]] = []
+    cut1_probs = chiral_walk["cut1_probabilities"]
+    require(isinstance(cut1_probs, list) and len(cut1_probs) == len(dec_candidates), "cut1_probabilities mismatch")
+    for cand, prob_pair in zip(dec_candidates, cut1_probs):
+        slot = cand["slot"]
+        sigma = cand["sigma"]
+        is_dwell = cand["is_optional_dwell"]
+        target_v = v0_init if sigma == 0 else Q4_NEIGHBORS[v0_init][slot]
+        if is_dwell == 1:
+            route, chi_lbl, note = "hinge", "0_H_seated", "structural_hinge"
+        elif target_v < 4:
+            route, chi_lbl, note = "returned", dion_before_lbl, "inside_R_core"
+        else:
+            route, chi_lbl, note = "outgoing", dion_before_lbl, "crosses_dT_R"
+        dec_rows.append(
+            [
+                1,
+                "B_flip|1",
+                _bits4(v0_init),
+                f"e{slot}",
+                _bits4(target_v),
+                sigma,
+                1,
+                cand["weight"],
+                chiral_walk["cut1_Z"],
+                _pair_slash(prob_pair),
+                route,
+                chi_lbl,
+                note,
+            ]
+        )
+
+    for cand in dec_candidates:
+        if cand["is_optional_dwell"] == 1:
+            dec_rows.append(
+                [
+                    2,
+                    "B_flip|2",
+                    _bits4(v0_init),
+                    f"e{cand['slot']}",
+                    _bits4(v0_init),
+                    cand["sigma"],
+                    0,
+                    cand["weight"],
+                    chiral_walk["cut2_slide_Z"],
+                    zero_slash,
+                    "blocked",
+                    "0_D_removed",
+                    "xxxxx_is_x_m0",
+                ]
+            )
+
+    slide_cands = [cand for cand in dec_candidates if cand["is_optional_dwell"] == 0]
+    cut2_weights = chiral_walk["cut2_slide_weights"]
+    cut2_probs = chiral_walk["cut2_slide_probabilities"]
+    require(
+        isinstance(cut2_weights, list)
+        and isinstance(cut2_probs, list)
+        and len(cut2_weights) == len(slide_cands) == len(cut2_probs),
+        "cut2 slide outputs mismatch",
+    )
+    tunnel_slot = -1
+    for cand, sw, prob_pair in zip(slide_cands, cut2_weights, cut2_probs):
+        slot = cand["slot"]
+        target_v = Q4_NEIGHBORS[v0_init][slot]
+        if target_v == v_tunnel:
+            tunnel_slot = slot
+            route = "slide_tunnel"
+            chi_lbl = dion_after_lbl
+            note = f"T_tunnel_{_pair_slash(chiral_walk['T_tunnel_D'])}_flipped"
+        else:
+            route = "slide_returned"
+            chi_lbl = dion_before_lbl
+            note = f"unchanged_w{sw}"
+        dec_rows.append(
+            [
+                2,
+                "B_flip|2",
+                _bits4(v0_init),
+                f"e{slot}",
+                _bits4(target_v),
+                cand["sigma"],
+                1,
+                sw,
+                chiral_walk["cut2_slide_Z"],
+                _pair_slash(prob_pair),
+                route,
+                chi_lbl,
+                note,
+            ]
+        )
+    require(tunnel_slot >= 0, "missing tunnel slot in slide rows")
+
+    pd12 = disoma["pD_12"]
+    a12_s = _signed_rat_str(disoma["A_12"])
+    a21_s = _signed_rat_str(disoma["A_21"])
+    s12_s = _signed_rat_str(disoma["SADAR_12"])
+    s21_s = _signed_rat_str(disoma["SADAR_21"])
+    sum_s = _signed_rat_str(disoma["internal_stokes_sum"])
+    dec_rows.append(
+        [
+            3,
+            "B_disoma|3",
+            _bits4(v0_init),
+            f"e{tunnel_slot}",
+            _bits4(v_tunnel),
+            1,
+            1,
+            1,
+            1,
+            one_slash,
+            "adar_12",
+            "D_alpha->D_Omega",
+            f"pD_{pd12}_A_{a12_s}_S_{s12_s}",
+        ]
+    )
+    dec_rows.append(
+        [
+            3,
+            "B_disoma|3",
+            _bits4(v_tunnel),
+            f"e{tunnel_slot}",
+            _bits4(v0_init),
+            -1,
+            1,
+            1,
+            1,
+            one_slash,
+            "adar_21",
+            "D_Omega->D_alpha",
+            f"pD_{pd12}_A_{a21_s}_S_{s21_s}_sum{sum_s}",
+        ]
+    )
+
     dec_csv = _csv_text(
         [
             "cut",
@@ -999,63 +1466,52 @@ def build_boundary_sadar_tables(repo_root: Path) -> dict[str, str]:
             "chirality_state",
             "audit_note",
         ],
-        [
-            [1, "B_flip|1", _bits4(0), "e0", _bits4(1), -1, 1, 3, 11, "3/11", "returned", "D_alpha(+1,-1)", "inside_R_core"],
-            [1, "B_flip|1", _bits4(0), "e1", _bits4(2), -1, 1, 3, 11, "3/11", "returned", "D_alpha(+1,-1)", "inside_R_core"],
-            [1, "B_flip|1", _bits4(0), "e2", _bits4(0), 0, 1, 4, 11, "4/11", "hinge", "0_H_seated", "structural_hinge"],
-            [1, "B_flip|1", _bits4(0), "e2", _bits4(4), 1, 1, 1, 11, "1/11", "outgoing", "D_alpha(+1,-1)", "crosses_dT_R"],
-            [2, "B_flip|2", _bits4(0), "e2", _bits4(0), 0, 0, 4, 7, "0/1", "blocked", "0_D_removed", "xxxxx_is_x_m0"],
-            [2, "B_flip|2", _bits4(0), "e0", _bits4(1), -1, 1, 3, 7, "3/7", "slide_returned", "D_alpha(+1,-1)", "unchanged_w3"],
-            [2, "B_flip|2", _bits4(0), "e1", _bits4(2), -1, 1, 3, 7, "3/7", "slide_returned", "D_alpha(+1,-1)", "unchanged_w3"],
-            [2, "B_flip|2", _bits4(0), "e2", _bits4(4), 1, 1, 1, 7, "1/7", "slide_tunnel", "D_Omega(-1,+1)", "T_tunnel_6/7_flipped"],
-            [3, "B_disoma|3", _bits4(0), "e2", _bits4(4), 1, 1, 1, 1, "1/1", "adar_12", "D_alpha->D_Omega", "pD_12_A_+1/3_S_+4"],
-            [3, "B_disoma|3", _bits4(4), "e2", _bits4(0), -1, 1, 1, 1, "1/1", "adar_21", "D_Omega->D_alpha", "pD_12_A_-1/3_S_-4_sum0"],
-        ],
+        dec_rows,
     )
 
-    # 2. Five-boundary Tau SADAR trace
-    tau5 = eval_sadar_pp_tau_five_boundary(
-        {
-            "lead_lag": 8,
-            "window_duons": 3,
-            "shed_endo_slots": 13,
-            "shed_exo_slots": 37,
-            "sensor_visible_slots": 19,
-            "sensor_missing_slots": 31,
-        }
-    )
+    # 2. Five-boundary Tau SADAR trace (100% rotor-derived, zero slot literals)
+    tau5 = eval_sadar_pp_tau_five_boundary({"lead_lag": 8, "window_duons": 3})
+    sterile_ctl = tau5["sterile_control"]
+    require(isinstance(sterile_ctl, dict), "sterile_control must be dict")
+    part_nums = tau5["partition_2500_numerators"]
+    require(isinstance(part_nums, list) and len(part_nums) == 3, "partition_2500_numerators mismatch")
+    part_den = TAU_ROTOR_MICROSLOTS * TAU_ROTOR_MICROSLOTS
+    endo_part_s = f"{int(part_nums[0])}/{part_den}"
+    exo_part_s = f"{int(part_nums[1]) + int(part_nums[2])}/{part_den}"
+    vis_cond_s = _pair_slash(tau5["visible_conditional_exo"])
+    miss_cond_s = _pair_slash(tau5["miss_tau_conditional_exo"])
+
     tau_rows: list[list[object]] = [
         [
             "B_hard_sterile_control",
             "3:3:6+3:3:6_duons0",
-            58,
+            sterile_ctl["raw_cuts"],
             0,
             0,
             0,
             0,
-            0,
-            "0/1",
-            "0/1",
-            "0/1",
-            "0/1",
+            sterile_ctl["X_shedding"],
+            zero_slash,
+            zero_slash,
+            zero_slash,
+            zero_slash,
             "sterile_cut58_no_BETWEEN_coupling",
         ]
     ]
     for p_ev in tau5["pocket_evaluations"]:
-        assert_dict = p_ev
-        require(isinstance(assert_dict, dict), "pocket eval must be dict")
-        win_l = int(assert_dict["L"])
-        x_s = int(assert_dict["X_shedding"])
-        if win_l == 9:
-            endo_s, exo_s, vis_s, miss_s = "650/2500", "1850/2500", "19/50", "31/50"
+        require(isinstance(p_ev, dict), "pocket eval must be dict")
+        win_l = int(p_ev["L"])
+        x_s = int(p_ev["X_shedding"])
+        if x_s > 0 and int(p_ev["QD"]) == 0:
+            endo_s, exo_s, vis_s, miss_s = endo_part_s, exo_part_s, vis_cond_s, miss_cond_s
             b_stage = "B_hard->B_tau->B_shed->B_sensor->B_ext"
             note = "unique_QD0_shedder_Dimonnanyro_winner"
-        elif x_s == 0 and int(assert_dict["Delta_close"]) == 0:
-            endo_s, exo_s, vis_s, miss_s = "1/1", "0/1", "0/1", "0/1"
+        elif x_s == 0 and int(p_ev["Delta_close"]) == 0:
+            endo_s, exo_s, vis_s, miss_s = one_slash, zero_slash, zero_slash, zero_slash
             b_stage = "B_hard->B_cand_inner_retained"
             note = "closed_or_clipped_unseen_at_sensor_wall"
         else:
-            endo_s, exo_s, vis_s, miss_s = "1/1", "0/1", "0/1", "0/1"
+            endo_s, exo_s, vis_s, miss_s = one_slash, zero_slash, zero_slash, zero_slash
             b_stage = "B_hard->B_cand_open_deficit"
             note = "incomplete_RD_QD6_c8_deficit"
         tau_rows.append(
@@ -1063,10 +1519,10 @@ def build_boundary_sadar_tables(repo_root: Path) -> dict[str, str]:
                 b_stage,
                 f"1:2:{win_l}",
                 win_l,
-                assert_dict["rhoD_omega"],
-                assert_dict["PD"],
-                assert_dict["QD"],
-                assert_dict["C_close"],
+                p_ev["rhoD_omega"],
+                p_ev["PD"],
+                p_ev["QD"],
+                p_ev["C_close"],
                 x_s,
                 endo_s,
                 exo_s,
@@ -1110,7 +1566,14 @@ def build_boundary_sadar_tables(repo_root: Path) -> dict[str, str]:
     qext = eval_sadar_rest_energy_qext({"targets": target_specs})
     qext_map = {str(r["species"]): r for r in qext["records"]}
     target_str_map = {t["species"]: (t["target_MeV"], t["sigma_MeV"]) for t in target_specs}
-    span_closures_by_pq = {"1:2": 1020, "3:2": 408, "3:3": 136, "3:4": 60}
+    cl_counts = atlas["eight_lineage_closure_counts"]
+    require(isinstance(cl_counts, list) and len(cl_counts) == 8, "closure counts mismatch")
+    span_closures_by_pq = {
+        "3:4": cl_counts[1],
+        "3:3": cl_counts[2],
+        "3:2": cl_counts[3],
+        "1:2": cl_counts[4],
+    }
 
     atlas_rows: list[list[object]] = []
     for c_row in atlas["carriers"]:
@@ -1270,19 +1733,20 @@ def build_boundary_sadar_tables(repo_root: Path) -> dict[str, str]:
             ],
         ),
     )
+    r100 = TritRatio(TritWord.from_int(100), TritWord.ONE)
     for s_name, m_dest, pairs in series_defs:
         res_h = eval_hydrogen_shell_series_exact(
             {"dest_shell_m": m_dest, "upper_shells": [n_u for n_u, _ in pairs]}
         )
-        lam_base = parse_printed_rational(pairs[0][1], name="lambda_base")
+        lam_base = TritRatio.from_fraction(parse_printed_rational(pairs[0][1], name="lambda_base"))
         for (n_u, lam_s), tr in zip(pairs, res_h["transitions"]):
             require(isinstance(tr, dict), "transition must be dict")
             dp_n, dp_d = tr["delta_P_hat"]
             r_n, r_d = tr["series_ratio"]
-            r_ao = Fraction(int(r_n), int(r_d))
-            lam_q = parse_printed_rational(lam_s, name="lambda_nm")
+            r_ao = TritRatio.from_ints(int(r_n), int(r_d))
+            lam_q = TritRatio.from_fraction(parse_printed_rational(lam_s, name="lambda_nm"))
             r_tar = lam_base / lam_q
-            pct_err = (Fraction(100, 1) * (r_ao - r_tar)) / r_tar
+            pct_err = (r100 * (r_ao - r_tar)) / r_tar
             hyd_rows.append(
                 [
                     s_name,
@@ -1291,8 +1755,8 @@ def build_boundary_sadar_tables(repo_root: Path) -> dict[str, str]:
                     f"{dp_n}/{dp_d}",
                     f"{r_n}/{r_d}",
                     lam_s,
-                    format_rational_fixed(r_tar, 8),
-                    format_rational_fixed(pct_err, 6),
+                    format_rational_fixed(r_tar.to_fraction(), 8),
+                    format_rational_fixed(pct_err.to_fraction(), 6),
                 ]
             )
     hyd_csv = _csv_text(
@@ -1310,41 +1774,53 @@ def build_boundary_sadar_tables(repo_root: Path) -> dict[str, str]:
     )
 
     # 7. Scoped Q4 moving-boundary & 4-cut electron-above-wire walk
+    wire_cut_inputs = [
+        {"cut": 52, "window": 4, "coupled": 1},
+        {"cut": 53, "window": 4, "coupled": 0},
+        {"cut": 54, "window": 4, "coupled": 1},
+        {"cut": 55, "window": 6, "coupled": 1},
+    ]
     wire_res = eval_scoped_wire_and_moving_boundary(
         {
             "crossing_edge_fluxes": [3, 3, 2],
             "swept_vertex_fluxes": [2, 1],
             "shedding_edge_fluxes": [1, 1],
-            "wire_cuts": [
-                {"cut": 52, "window": 4, "coupled": 1},
-                {"cut": 53, "window": 4, "coupled": 0},
-                {"cut": 54, "window": 4, "coupled": 1},
-                {"cut": 55, "window": 6, "coupled": 1},
-            ],
+            "wire_cuts": wire_cut_inputs,
         }
     )
     require(wire_res["Phi_moving"] == 7 and wire_res["final_electron_current"] == ["13", "1"], "wire check failed")
     wire_rows: list[list[object]] = [
-        ["moving_boundary_R1_to_R2", 1, 1, 1, 8, 3, 2, 7, "0/1", "0/1", "0/1", "0/1"],
+        [
+            "moving_boundary_R1_to_R2",
+            1,
+            1,
+            1,
+            wire_res["Phi_cross"],
+            wire_res["Phi_sweep"],
+            wire_res["Phi_shedding"],
+            wire_res["Phi_moving"],
+            zero_slash,
+            zero_slash,
+            zero_slash,
+            zero_slash,
+        ],
     ]
-    for c_entry, (ck, ww, cp) in zip(
-        wire_res["cuts"], ((52, 4, 1), (53, 4, 0), (54, 4, 1), (55, 6, 1))
-    ):
+    for c_entry, c_in in zip(wire_res["cuts"], wire_cut_inputs):
         require(isinstance(c_entry, dict), "wire cut entry must be dict")
         wire_rows.append(
             [
                 "electron_above_wire_1:2:6",
-                ck,
-                ww,
-                cp,
+                c_entry["cut"],
+                c_in["window"],
+                c_in["coupled"],
                 0,
                 0,
                 0,
                 0,
-                canonical_rational_str(Fraction(int(c_entry["wire_outward"][0]), int(c_entry["wire_outward"][1]))),
-                canonical_rational_str(Fraction(int(c_entry["electron_outward"][0]), int(c_entry["electron_outward"][1]))),
-                canonical_rational_str(Fraction(int(c_entry["enclosing_union"][0]), int(c_entry["enclosing_union"][1]))),
-                canonical_rational_str(Fraction(int(c_entry["later_electron_current"][0]), int(c_entry["later_electron_current"][1]))),
+                _canon_pair_str(c_entry["wire_outward"]),
+                _canon_pair_str(c_entry["electron_outward"]),
+                _canon_pair_str(c_entry["enclosing_union"]),
+                _canon_pair_str(c_entry["later_electron_current"]),
             ]
         )
     wire_csv = _csv_text(

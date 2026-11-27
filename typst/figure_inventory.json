@@ -1861,7 +1861,7 @@
         },
         {
           "path": "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
-          "sha256": "e1b6ac7ff62116c3db479643c98a5ec90dad7e58ef001fea93f0b4b723732483"
+          "sha256": "7d1b0714de03b3cb842085b8157c2c9f1eaf4e60860023a81ded1ed39e8a47ae"
         }
       ],
       "provenance_notes": "Deterministic 21-tick hinge-saturation Q4 run-tumble stepper and exact 209-bin rational SPARC pooled audit (vectors RC-032, RC-041).",

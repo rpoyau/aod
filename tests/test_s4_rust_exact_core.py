@@ -1689,3 +1689,86 @@ def test_s2_f2_rust_boolean_int_negative_regressions_debug_and_release(
         _check(vv["status"] == "FAIL")
         _check(vv["failed_vectors"] == 3)
         _check([f["case_id"] for f in vv["failures"]] == ["RC-005", "RC-009", "RC-010"])
+
+
+def test_s4_ternary_sadar_parity_rotor_overrides_and_sparc_g0(rust_binaries: dict[str, Path]):
+    # 1. Source hygiene: zero BigRat arithmetic and zero hardcoded double-slit lookup tables in sadar_sim.rs
+    sadar_rs_src = (CRATE_DIR / "src" / "sadar_sim.rs").read_text(encoding="utf-8")
+    _check("BigRat" not in sadar_rs_src, "sadar_sim.rs must not reference BigRat")
+    _check("cross_for" not in sadar_rs_src, "sadar_sim.rs must not contain hardcoded cross_for")
+    _check("sat_clip" not in sadar_rs_src, "sadar_sim.rs must not contain hardcoded sat_clip")
+
+    # 2. Explicit debug & release Python vs Rust parity across RC-025..RC-032 and SD-007..SD-008
+    _, rc_rows = load_vector_file(ROOT / RATIONAL_CORE_REL)
+    _, sd_rows = load_vector_file(ROOT / SYMBOLIC_DISPLAY_REL)
+    target_ids = {f"RC-{i:03d}" for i in range(25, 33)} | {"SD-007", "SD-008"}
+    checked_ids: set[str] = set()
+    for rec in (*rc_rows, *sd_rows):
+        cid = str(rec["case_id"])
+        if cid not in target_ids:
+            continue
+        checked_ids.add(cid)
+        op = str(rec["operation"])
+        inputs = rec["inputs"]
+        _check(isinstance(inputs, dict))
+        py_out = _eval_operation(op, inputs)
+        for mode in ("debug", "release"):
+            rs_out = _run_eval_op(rust_binaries[mode], op, inputs)
+            _check(rs_out == py_out, f"{cid} ({op}) {mode} Rust/Python parity mismatch")
+            _check(rs_out == rec["expected_outcome"]["exact_value"], f"{cid} ({op}) {mode} oracle mismatch")
+        if cid == "SD-008":
+            _check(py_out["MAPE_U_8dp"] == "26.57055342")
+            num_s, den_s = py_out["MAPE_U_exact"]
+            _check(len(num_s) == 230 and len(den_s) == 228)
+    _check(checked_ids == target_ids, f"missing Boundary-Full SADAR vectors: {target_ids - checked_ids}")
+
+    # 3. Tau 50-microslot Q4 x mu impedance rotor: rotor-only, matching override, and conflicting override rejection
+    tau_base = {"lead_lag": 8, "window_duons": 3}
+    tau_match = {
+        "lead_lag": 8,
+        "window_duons": 3,
+        "shed_endo_slots": 13,
+        "shed_exo_slots": 37,
+        "sensor_visible_slots": 19,
+        "sensor_missing_slots": 31,
+    }
+    py_tau = _eval_operation("sadar_pp_tau_five_boundary", tau_base)
+    for mode in ("debug", "release"):
+        bin_p = rust_binaries[mode]
+        _check(_run_eval_op(bin_p, "sadar_pp_tau_five_boundary", tau_base) == py_tau)
+        _check(_run_eval_op(bin_p, "sadar_pp_tau_five_boundary", tau_match) == py_tau)
+        for bad_key, bad_val in (
+            ("shed_endo_slots", 14),
+            ("shed_exo_slots", 36),
+            ("sensor_visible_slots", 20),
+            ("sensor_missing_slots", 30),
+        ):
+            bad_payload = json.dumps({"lead_lag": 8, "window_duons": 3, bad_key: bad_val}, sort_keys=True)
+            proc = subprocess.run(
+                [str(bin_p), "--eval-op", "sadar_pp_tau_five_boundary", "--input-stdin"],
+                input=bad_payload,
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            _check(
+                proc.returncode == 1,
+                f"{mode}: conflicting Tau override {bad_key}={bad_val} must exit 1, got {proc.returncode}",
+            )
+
+    # 4. Synthetic SPARC G0 parity (negative V_gas/V_disk/V_bul, zero V_obs skip, non-2dp decimals)
+    synth_sparc = {
+        "bins": [
+            {"r_kpc": "1.93", "V_obs": "76.90", "V_gas": "-0.05", "V_disk": "83.17", "V_bul": "0.00"},
+            {"r_kpc": "3.44", "V_obs": "285.00", "V_gas": "-0.57", "V_disk": "-163.40", "V_bul": "-239.50"},
+            {"r_kpc": "0.50", "V_obs": "0.00", "V_gas": "1.25", "V_disk": "2.50", "V_bul": "0.00"},
+            {"r_kpc": "2.125", "V_obs": "91.375", "V_gas": "-3.125", "V_disk": "64.625", "V_bul": "12.875"},
+        ]
+    }
+    py_synth_sparc = _eval_operation("sparc_pooled_primary_exact", synth_sparc)
+    _check(py_synth_sparc["N_total"] == 4 and py_synth_sparc["N_scored"] == 3)
+    for mode in ("debug", "release"):
+        rs_synth_sparc = _run_eval_op(rust_binaries[mode], "sparc_pooled_primary_exact", synth_sparc)
+        _check(rs_synth_sparc == py_synth_sparc, f"{mode}: synthetic SPARC G0 parity mismatch")
+

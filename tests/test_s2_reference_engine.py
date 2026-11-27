@@ -1781,3 +1781,66 @@ def test_boundary_sadar_five_boundary_tau_debris_higgs_and_tamper_rejection(tmp_
     _repin_temp_bindings(tamper_root, tau_rel)
     with pytest.raises(ValueError, match="diverges from live Boundary-Full SADAR engine output"):
         tier2_exact.run_tier2_sector(spec, tamper_root)
+
+    # Canonical G0 SPARC 209-bin pooled exact CSV matches 26.57055342 (230/228 digits)
+    import csv as _csv
+
+    sparc_csv_rows = list(
+        _csv.DictReader(
+            (ROOT / "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv")
+            .read_text(encoding="utf-8")
+            .splitlines()
+        )
+    )
+    _check(len(sparc_csv_rows) == 1)
+    sparc_row = sparc_csv_rows[0]
+    _check(sparc_row["N_total"] == "209" and sparc_row["N_scored"] == "209")
+    _check(sparc_row["MAPE_U_display_8dp"] == "26.57055342")
+    _check(len(sparc_row["MAPE_U_num"]) == 230 and len(sparc_row["MAPE_U_den"]) == 228)
+
+    # Cross-sector exact consistency with tier2_exact sparc_five_galaxy G0 per-bin scores
+    sparc5_res = tier2_exact.run_tier2_sector(SECTOR_MAP["sparc_five_galaxy"], ROOT)
+    _check(sparc5_res["check_outcome"] == "PASS")
+    per_bin_rows = list(
+        _csv.DictReader(
+            (ROOT / "manual/data/derived/sparc_five_galaxy_per_bin.csv")
+            .read_text(encoding="utf-8")
+            .splitlines()
+        )
+    )
+    _check(len(per_bin_rows) == 209)
+    # Recompute exact weighted pooled MAPE_U from raw .dat files via tier2_exact G0 formula
+    g0_sum = Fraction(0)
+    g0_n = 0
+    for gal in ("NGC2403", "NGC3198", "NGC6503", "NGC2841", "DDO154"):
+        for line in (ROOT / f"manual/data/sparc/{gal}_rotmod.dat").read_text(encoding="utf-8").splitlines():
+            st = line.strip()
+            if not st or st.startswith("#"):
+                continue
+            parts = st.split()
+            r_v = parse_printed_rational(parts[0])
+            vo = parse_printed_rational(parts[1])
+            vg = parse_printed_rational(parts[3])
+            vd = parse_printed_rational(parts[4])
+            vb = parse_printed_rational(parts[5])
+            uo = vo * vo
+            if uo > 0:
+                ubar = vg * vg + Fraction(1, 2) * vd * vd + Fraction(7, 10) * vb * vb
+                uao = ubar + Fraction(8, 1) * r_v * (abs(vg) + abs(vd) + abs(vb))
+                g0_sum += abs(uao - uo) / uo
+                g0_n += 1
+    _check(g0_n == 209)
+    g0_mape = Fraction(100, 1) * g0_sum / Fraction(g0_n, 1)
+    _check(
+        Fraction(int(sparc_row["MAPE_U_num"]), int(sparc_row["MAPE_U_den"])) == g0_mape,
+        "boundary_sadar SPARC pooled exact rational diverges from tier2_exact G0 law",
+    )
+
+    # Tau 50-microslot Q4 x mu rotor rejects conflicting optional legacy overrides in normal & -O
+    from manual.engine.sectors.boundary_sadar import eval_sadar_pp_tau_five_boundary
+
+    with pytest.raises(ValueError, match="conflicts with Q4 x mu impedance rotor"):
+        eval_sadar_pp_tau_five_boundary({"lead_lag": 8, "window_duons": 3, "shed_endo_slots": 14})
+    with pytest.raises(ValueError, match="conflicts with Q4 x mu impedance rotor"):
+        eval_sadar_pp_tau_five_boundary({"lead_lag": 8, "window_duons": 3, "sensor_missing_slots": 30})
+

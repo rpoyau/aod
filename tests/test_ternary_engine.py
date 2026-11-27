@@ -993,3 +993,149 @@ def test_rc045_python_vs_rust_parity(tmp_path: Path) -> None:
     _check(vv["total_vectors"] == 53 and vv["passed_vectors"] == 53, f"unexpected counts: {vv}")
     _check(rep["policy_audit"]["status"] == "PASS", f"Rust policy_audit failed: {rep['policy_audit']}")
 
+
+def test_boundary_sadar_pure_ternary_invariants_and_rotor_c6_sparc() -> None:
+    from manual.engine.numeric import format_rational_fixed, parse_printed_rational
+    from manual.engine.sectors import boundary_sadar as bs
+    from manual.engine.vectors import RATIONAL_CORE_REL, SYMBOLIC_DISPLAY_REL, load_vector_file
+
+    repo_root = Path(__file__).resolve().parent.parent
+
+    # 1. AST & source checks: zero Fraction imports/calls and zero hardcoded cross_map/sat_clip in boundary_sadar.py
+    bs_path = repo_root / "manual" / "engine" / "sectors" / "boundary_sadar.py"
+    bs_src = bs_path.read_text(encoding="utf-8")
+    bs_tree = ast.parse(bs_src, filename=str(bs_path))
+    _check(
+        not [n for n in ast.walk(bs_tree) if isinstance(n, ast.Assert)],
+        "bare assert found in boundary_sadar.py",
+    )
+    for node in ast.walk(bs_tree):
+        if isinstance(node, ast.ImportFrom) and node.module == "fractions":
+            _check(False, "boundary_sadar.py must not import Fraction")
+        if isinstance(node, ast.Name) and node.id == "Fraction":
+            _check(False, f"boundary_sadar.py must not reference Fraction at line {node.lineno}")
+        if isinstance(node, ast.Name) and node.id in {"cross_map", "sat_clip"}:
+            _check(False, f"hardcoded double-slit lookup {node.id!r} found at line {node.lineno}")
+
+    # Rust sadar_sim.rs source checks: zero BigRat type/calls and zero cross_for/sat_clip lookup tables
+    rs_src = (repo_root / "crates" / "aod-core" / "src" / "sadar_sim.rs").read_text(encoding="utf-8")
+    _check("BigRat" not in rs_src, "sadar_sim.rs must not use BigRat arithmetic")
+    _check("cross_for" not in rs_src, "sadar_sim.rs must not contain hardcoded cross_for lookup")
+    _check("sat_clip" not in rs_src, "sadar_sim.rs must not contain hardcoded sat_clip lookup")
+
+    # 2. 50-microslot Q4 x mu impedance rotor derives (13, 37) and (19, 31) directly from RD bounds
+    endo, exo, shed_word = bs._run_q4_mu_impedance_rotor(9, 61)
+    _check((endo, exo) == (13, 37), f"Stage 1 rotor expected (13, 37), got {(endo, exo)}")
+    _check(
+        shed_word.width == 50
+        and shed_word.hinge_count == 13
+        and shed_word.polar_count == 37
+        and shed_word.dwell_count == 0,
+        "Stage 1 rotor TritWord register mismatch",
+    )
+    vis, miss, sens_word = bs._run_q4_mu_impedance_rotor(61, 137)
+    _check((vis, miss) == (19, 31), f"Stage 2 rotor expected (19, 31), got {(vis, miss)}")
+    _check(
+        sens_word.width == 50
+        and sens_word.hinge_count == 19
+        and sens_word.polar_count == 31
+        and sens_word.dwell_count == 0,
+        "Stage 2 rotor TritWord register mismatch",
+    )
+    _check_raises(ValueError, lambda: bs._run_q4_mu_impedance_rotor(61, 61))
+    _check_raises(ValueError, lambda: bs._run_q4_mu_impedance_rotor(1, 201))
+
+    # RC-027 rotor-only inputs + optional legacy override agreement & conflict rejection
+    tau_res = bs.eval_sadar_pp_tau_five_boundary({"lead_lag": 8, "window_duons": 3})
+    _check(tau_res["partition_2500_numerators"] == [650, 703, 1147], "unexpected Tau 2500 numerators")
+    _check(tau_res["endo_retained_fraction"] == ["13", "50"], "unexpected endo_retained_fraction")
+    _check(tau_res["exo_outward_fraction"] == ["37", "50"], "unexpected exo_outward_fraction")
+    _check(tau_res["visible_conditional_exo"] == ["19", "50"], "unexpected visible_conditional_exo")
+    _check(tau_res["miss_tau_conditional_exo"] == ["31", "50"], "unexpected miss_tau_conditional_exo")
+    _check(
+        tau_res["live_cavity"]["raw_cuts"] == 28
+        and tau_res["live_cavity"]["quotient_cuts"] == 11
+        and tau_res["live_cavity"]["dwell_burned"] == 17,
+        "unexpected live cavity TritWord burn counts",
+    )
+    tau_matching = bs.eval_sadar_pp_tau_five_boundary(
+        {
+            "lead_lag": 8,
+            "window_duons": 3,
+            "shed_endo_slots": 13,
+            "shed_exo_slots": 37,
+            "sensor_visible_slots": 19,
+            "sensor_missing_slots": 31,
+        }
+    )
+    _check(tau_matching == tau_res, "matching optional slot overrides must produce identical result")
+    for bad_key, bad_val in (
+        ("shed_endo_slots", 14),
+        ("shed_exo_slots", 36),
+        ("sensor_visible_slots", 20),
+        ("sensor_missing_slots", 30),
+    ):
+        _check_raises(
+            ValueError,
+            lambda k=bad_key, v=bad_val: bs.eval_sadar_pp_tau_five_boundary(
+                {"lead_lag": 8, "window_duons": 3, k: v}
+            ),
+            f"conflicting override {bad_key}={bad_val} was not rejected",
+        )
+
+    # Confirm RC-027 JSONL record itself uses rotor-only inputs
+    _, rc_rows = load_vector_file(repo_root / RATIONAL_CORE_REL)
+    rc027 = next(r for r in rc_rows if r["case_id"] == "RC-027")
+    _check(rc027["inputs"] == {"lead_lag": 8, "window_duons": 3}, f"RC-027 inputs mismatch: {rc027['inputs']}")
+
+    # 3. Genuine C_6 two-step path enumerator and RC-030 double-slit verification
+    expected_counts = [2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2]
+    for idx, k_pos in enumerate(range(-5, 6)):
+        p_list = bs._enumerate_c6_two_step_paths(k_pos, half_cap=3)
+        _check(len(p_list) == expected_counts[idx], f"path count mismatch at k={k_pos}")
+        for s1, s2, bw in p_list:
+            _check(s1 + s2 == k_pos and abs(s1) <= 3 and abs(s2) <= 3, f"invalid path {(s1, s2)} at k={k_pos}")
+            _check(bw.dwell_count == 0 and bw.width == abs(s1) + abs(s2), f"burned TritWord mismatch at k={k_pos}")
+            _check(bw.alpha_count - bw.omega_count == k_pos, f"net polarity mismatch at k={k_pos}")
+
+    slit_res = bs.eval_frg_dimonhexon_double_slit_ring(
+        {"screen_half_span": 5, "hexon_cap": 6, "comparator_O": [8, 11, 19, 59, 79, 95, 80, 58, 21, 10, 8]}
+    )
+    _check(slit_res["S_k"] == [4, 9, 16, 25, 31, 35, 31, 25, 16, 9, 4], f"unexpected S_k: {slit_res['S_k']}")
+    _check(
+        slit_res["C_cross_k"] == [0, -8, -12, 8, 18, 26, 18, 8, -12, -8, 0],
+        f"unexpected C_cross_k: {slit_res['C_cross_k']}",
+    )
+
+    # 4. Canonical G0 SPARC 209-bin exact rational pooled MAPE_U matches independent tier2_exact G0 formula
+    _, sd_rows = load_vector_file(repo_root / SYMBOLIC_DISPLAY_REL)
+    sd008 = next(r for r in sd_rows if r["case_id"] == "SD-008")
+    sparc_out = bs.eval_sparc_pooled_primary_exact(sd008["inputs"])
+    _check(sparc_out["N_total"] == 209 and sparc_out["N_scored"] == 209, f"unexpected SPARC counts: {sparc_out}")
+    _check(sparc_out["MAPE_U_8dp"] == "26.57055342", f"unexpected MAPE_U_8dp: {sparc_out['MAPE_U_8dp']}")
+    num_s, den_s = sparc_out["MAPE_U_exact"]
+    _check(len(num_s) == 230 and len(den_s) == 228, f"expected 230/228 digits, got {len(num_s)}/{len(den_s)}")
+
+    # Independent Fraction cross-check of the declared G0 SPARC law matching tier2_exact.py
+    ref_rel_sum = Fraction(0)
+    ref_scored = 0
+    for bin_row in sd008["inputs"]["bins"]:
+        r_v = parse_printed_rational(bin_row["r_kpc"])
+        vo = parse_printed_rational(bin_row["V_obs"])
+        vg = parse_printed_rational(bin_row["V_gas"])
+        vd = parse_printed_rational(bin_row["V_disk"])
+        vb = parse_printed_rational(bin_row["V_bul"])
+        u_obs = vo * vo
+        if u_obs > 0:
+            u_bar = vg * vg + Fraction(1, 2) * vd * vd + Fraction(7, 10) * vb * vb
+            u_ao = u_bar + Fraction(8, 1) * r_v * (abs(vg) + abs(vd) + abs(vb))
+            ref_rel_sum += abs(u_ao - u_obs) / u_obs
+            ref_scored += 1
+    ref_mape = Fraction(100, 1) * ref_rel_sum / Fraction(ref_scored, 1)
+    _check(
+        TritRatio.from_ints(int(num_s), int(den_s)).to_fraction() == ref_mape,
+        "TritRatio SPARC pooled MAPE_U diverged from exact G0 Fraction reference",
+    )
+    _check(format_rational_fixed(ref_mape, 8) == "26.57055342", "reference 8dp mismatch")
+
+
