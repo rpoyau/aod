@@ -1,0 +1,9 @@
+{
+  "bundle_id": "BND-P2-02",
+  "retries_used": 1,
+  "review": {
+    "verdict": "PASS",
+    "violations": []
+  },
+  "validation": "PASS (audit_scientific_sources PASS, build_publication --check-registry PASS 455/281 labels, 144 ppi PNG visual QA PASS, pytest 53 normal + 53 -O passed)"
+}
