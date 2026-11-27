@@ -87,13 +87,19 @@
   radius: 3pt,
   inset: 3pt,
   align-mode: center + horizon,
+  leading: none,
 ) = {
   place(
     top + left,
     dx: (x - w / 2) * 1cm,
     dy: (y - h / 2) * 1cm,
     box(width: w * 1cm, height: h * 1cm, fill: fill, stroke: stroke, radius: radius, inset: inset)[
-      #align(align-mode)[#body]
+      #if leading != none {
+        set par(leading: leading)
+        align(align-mode)[#body]
+      } else {
+        align(align-mode)[#body]
+      }
     ],
   )
 }
@@ -110,8 +116,9 @@
   radius: 3pt,
   inset: 3pt,
   align-mode: center + horizon,
+  leading: none,
 ) = {
-  aod-box(x + w / 2, y + h / 2, w, h, body, stroke: stroke, fill: fill, radius: radius, inset: inset, align-mode: align-mode)
+  aod-box(x + w / 2, y + h / 2, w, h, body, stroke: stroke, fill: fill, radius: radius, inset: inset, align-mode: align-mode, leading: leading)
 }
 
 // Straight vector line between (x1, y1) and (x2, y2) in cm.
@@ -1051,3 +1058,56 @@
     aod-circle(p.at(0), p.at(1), r-v, fill: fl, stroke: 0.4pt + white)
   }
 }
+
+// =============================================================================
+// Collision-Proof Figure Header (Native Vertical Stack, Opaque Black >= 6pt)
+// =============================================================================
+#let aod-figure-header(
+  w-cm,
+  title,
+  subtitle: none,
+  top-y: 0.16,
+  pad-x: 0.35,
+  title-size: 10.8pt,
+  subtitle-size: 8.6pt,
+  gap-cm: 0.16,
+  title-leading: 0.36em,
+  subtitle-leading: 0.38em,
+  align-mode: center,
+  rule: false,
+  rule-stroke: 0.5pt + aod-pal.grid,
+) = {
+  let inner-w = calc.max(1.0, float(w-cm) - 2.0 * float(pad-x))
+  let eff-title-size = if title-size < 6pt { 6pt } else { title-size }
+  let eff-sub-size = if subtitle-size < 6pt { 6pt } else { subtitle-size }
+  let items = (
+    block(width: 100%, above: 0pt, below: 0pt)[
+      #set align(align-mode)
+      #set text(fill: black, size: eff-title-size, weight: "bold")
+      #set par(leading: title-leading, spacing: 0pt, justify: false)
+      #title
+    ],
+  )
+  if subtitle != none {
+    items.push(
+      block(width: 100%, above: 0pt, below: 0pt)[
+        #set align(align-mode)
+        #set text(fill: black, size: eff-sub-size, weight: "regular")
+        #set par(leading: subtitle-leading, spacing: 0pt, justify: false)
+        #subtitle
+      ]
+    )
+  }
+  if rule {
+    items.push(line(length: 100%, stroke: rule-stroke))
+  }
+  place(
+    top + left,
+    dx: float(pad-x) * 1cm,
+    dy: float(top-y) * 1cm,
+    box(width: inner-w * 1cm)[
+      #stack(dir: ttb, spacing: float(gap-cm) * 1cm, ..items)
+    ],
+  )
+}
+

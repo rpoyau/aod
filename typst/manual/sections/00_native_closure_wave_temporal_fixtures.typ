@@ -107,18 +107,7 @@ $cal(F)_(B_(12)) = brace.l F_1 ,F_2 brace.r$,
 
 #figure(
   kind: image, [
-#aod-panel(width: 88%)[
-
-Scope $cal(B) = ( partial F, omega )$ and resolved organizations
-$cal(F)_(cal(B)) = brace.l F_1 , dots.h ,F_(n_F) brace.r$ \
-
-$n_F = bar.v cal(F)_(cal(B)) bar.v$, declared count term $n_F log n_F$ \
-
-A single recurrent monon-mode wave organization has $n_F = 1$. \
-
-A lone monon closure supplies one complete closure-phase cycle; field membership requires recurrence.
-
-]
+#include "../../lib/figures/manual/field_count_scope.typ"
   ],
   caption: [Fixed-scope field count and SADAR scope.],
 ) <fig:field-count>
@@ -138,27 +127,7 @@ common multiple alone never establish coupling.
 
 #figure(
   kind: image, [
-#aod-panel(width: 92%)[
-
-
-
-#strong[Fractal-tesseract support family] \
-
-$frak(a)$ fractal range $+$ section grade $r$ $+$ $Sigma = (3":"4,3":"3;C_6 )$ \
-
-$arrow.b$ \
-
-$op("cycle") chevron.l frak(a),r chevron.r ( Sigma )$ \
-
-$arrow.b$ \
-
-$C_(sigma) [3":"4;C_6 ]_(AO)$, $C_(sigma) [3":"3;C_6 ]_(AO)$ \
-
-$arrow.b$ \
-
-tesseract sections count support occurrences; $SADARop_B$ couples beats
-
-]
+#include "../../lib/figures/manual/fractal_tesseract_beat_family.typ"
   ],
   caption: [Fractal-tesseract cycle range and support family.],
 ) <fig:fractal-tesseract-beat-family>

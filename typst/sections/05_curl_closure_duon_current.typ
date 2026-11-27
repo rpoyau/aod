@@ -144,33 +144,7 @@ units with inherited construction provenance.
 
 #figure(
   kind: image, [
-#aod-panel(width: 90%)[
-
-
-
-
-#{
-  set text(size: 9.5pt)
-  set par(justify: false)
-  table(
-    columns: (auto,),
-    align: (center,),
-    [Branch–hinge–counterbranch: #eqref("eq:hinge-grammar")],
-    [$arrow.b.double$],
-    [Curl],
-    [$arrow.b.double$],
-    [Dion $D_(alpha) = ( + 1, - 1), med D_(Omega) = ( - 1, + 1)$],
-    [$arrow.b.double$],
-    [Duon current $D_i mu_M D_j$],
-    [$arrow.b.double$],
-    [Certified distinct reclosure and cadence: $W^(upright("id"))_(B,i)$],
-    [$arrow.b.double$],
-    [Scoped field organization $F_(B, lambda)$, scope $B = ( partial_T F, omega )$],
-  )
-}
-
-
-]
+#include "../lib/figures/main/curl_to_duon_current_support.typ"
   ],
   caption: [Curl-to-duon-current support.],
 ) <fig:curl-to-duon-current-support>
@@ -179,21 +153,7 @@ units with inherited construction provenance.
 
 #figure(
   kind: image, [
-#aod-panel(width: 88%)[
-
-Monon: primitive completed branch–hinge–counterbranch closure \
-
-Dion: two-position support $( + 1, - 1)$ or $( - 1, + 1)$ \
-
-Every temporal realization retains the structural hinge. \
-
-Dimonon: two Monon closures; Duon current: $D_i mu_M D_j$ \
-
-Duad: seated state of that Duon current \
-
-Distinct compatible reclosures and cadence admit a running Duon wave.
-
-]
+#include "../lib/figures/main/closure_ladder.typ"
   ],
   caption: [Primitive closure ladder.],
 ) <fig:closure-ladder>

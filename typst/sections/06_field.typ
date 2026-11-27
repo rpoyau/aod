@@ -130,33 +130,7 @@ $ sum_(i in R) op("div")(i;B) = sum_(i in R \ j in.not R) phi.alt_(i j) (B). $ <
 
 #figure(
   kind: image, [
-#aod-panel(width: 94%)[
-
-
-
-#strong[SADAR as $B$-scoped A$Omega$D flux] \
-
-
-#{
-  set text(size: 8.5pt)
-  set par(justify: false)
-  table(
-    columns: (28.0%, 5.0%, 1fr),
-    align: (left, left, left),
-    [Scope], [$arrow.r$], [$B = ( partial F, omega )$],
-    [RCD], [$arrow.r$], [$op("RCD")_(i j) (B) = R D_B (C_(i j) ) bowtie_B R^(upright("asym"))_(i j) (B)$],
-    [Scalar duration], [$arrow.r$], [$rho^D_(i j) (B) = op("dur")(op("RCD")_(i j) (B))$],
-    [Window clip], [$arrow.r$], [$rho^D_(omega ,i j) (B) = min ( rho^D_(i j) (B), bar.v omega bar.v_(i j) )$],
-    [Magnitude], [$arrow.r$], [$p^D_(i j) (B) = C_(3,i j) rho^D_(omega ,i j) (B)$],
-    [Direction], [$arrow.r$], [$A_(i j) (B) = Delta chi^(upright("lag"))_(i j) (B)i_(i j) (B)$],
-    [Flux], [$arrow.r$], [$phi.alt_(i j) (B) = p^D_(i j) (B)A_(i j) (B)$],
-    [Attention], [$arrow.r$], [$bold(upright(A))_F (B) = sum_((i,j) in F(B)) phi.alt_(i j) (B)$],
-    [Motion], [$arrow.r$], [$(S^W_k ,S^W_(k + 1) )" under "cal(U)_B$],
-  )
-}
-
-
-]
+#include "../lib/figures/main/sadar_b_scoped_afc_flux.typ"
   ],
   caption: [SADAR as $B$-scoped A$Omega$D flux.],
 ) <fig:sadar-b-scoped-afc-flux>
@@ -225,32 +199,7 @@ The same boundary/current form applies across familiar region choices. Declare a
 
 #figure(
   kind: image, [
-#aod-panel(width: 94%)[
-
-
-
-#strong[Duon-current boundary accounting] \
-
-
-#{
-  set text(size: 8.5pt)
-  set par(justify: false)
-  table(
-    columns: (1fr, 1fr, 1fr, 1fr),
-    align: (left, left, left, left),
-    [#strong[Internal retained]], [#strong[Exoshedding]], [#strong[Reflected return]], [#strong[Pending return]],
-    [recurring core], [crosses $partial R$], [returns through shell], [remains over $omega$],
-    [scalar burden], [shell crossing], [next emission], [duration overlap],
-  )
-}
- \
-
-
-$Phi^D_(partial R) (t;B bar.v_t ) = sum_(e in partial R(t)) phi.alt_e (B bar.v_t )$ \
-
-$J^D_(partial R) ( omega ;B) = sum_(t in omega) Phi^D_(partial R) (t;B bar.v_t )$
-
-]
+#include "../lib/figures/main/duon_current_boundary_accounting.typ"
   ],
   caption: [Duon-current boundary accounting.],
 ) <fig:v39-duon-current-boundary-accounting>
@@ -544,36 +493,7 @@ and
 
 #figure(
   kind: image, [
-#aod-panel(width: 91%)[
-
-#strong[Component scopes.]
-$bold(upright(A))_(F_1) (B_1 )$ and $bold(upright(A))_(F_2) (B_2 )$ retain their own
-boundary/window and wave participants.
-
-
-
-#v(0.8em)
-
-#strong[Enclosing scope.]
-$bold(upright(A))_(F_1 parallel F_2) (cal(B)_(12) )$ is evaluated on its declared
-enclosing boundary after recurrent membership is resolved.
-
-
-
-#v(0.8em)
-
-#strong[Committed attention and later motion.]
-
-#math.equation(block: true, numbering: none, $ bold(upright(A))_(F,k) (B) = sum_(e in F(B)) C_(3,e) rho^D_(omega ,e) (B) Delta chi^(upright("lag"))_(e,k) (B)i_(e,k) (B), $)
-
-
-#math.equation(block: true, numbering: none, $ S^W_(F,k + 1) = cal(U)_B^(SADAR) (S^W_(lt.eq k) ,S^(times)_(lt.eq k) ,bold(upright(A))_(F, lt.eq k) ). $)
-
-The realized transition is motion. Unresolved excess follows a declared
-sheddic path. Component projections are taken from the already declared
-attention vector; they do not create a separate motion law.
-
-]
+#include "../lib/figures/main/sadar_boundary_relative_balance.typ"
   ],
   caption: [SADAR boundary-relative balance. Component fields carry local SADAR attention vectors on their own declared boundaries. An enclosing boundary binds them as a super-field with its own SADAR attention vector. Phase bias shifts the boundary/window-specific SADAR balance; unresolved excess follows a sheddic path.],
 ) <fig:sadar-boundary-relative-balance>
@@ -1175,30 +1095,7 @@ on the declared moving or nested cell boundary.
 
 #figure(
   kind: image, [
-#aod-panel(width: 94%)[
-
-
-
-#strong[Fractal-calculus spine] \
-
-
-#{
-  set text(size: 8.5pt)
-  set par(justify: false)
-  table(
-    columns: (auto, auto, 1fr),
-    align: (center, center, left),
-    [Declared distinction], [$arrow.b$], [$x succ x = x" with retained hinge/trace"$],
-    [Declared scope], [$arrow.b$], [$B = ( partial_T F, omega )$],
-    [Certified closure/recurrence], [$arrow.b$], [$C_f [ Sigma ]_(AO)$],
-    [$sans("AO")_(mu) (C)$], [$arrow.b$], [$sans("AO")_(mu) (C) = chevron.l Pi_(alpha) ,H_(mu) , Pi_(Omega) chevron.r$],
-    [SADAR value], [$arrow.b$], [$SADARop_B (C) = p^D A$],
-    [Boundary accumulation], [$arrow.b$], [$Phi^D_(partial_T R) = sum_(e in partial_T R) SADARop_B (C_e )$],
-  )
-}
-
-
-]
+#include "../lib/figures/main/fractal_calculus_spine.typ"
   ],
   caption: [Fractal-cycle calculus spine.],
 ) <fig:fractal-calculus-spine>
@@ -1227,27 +1124,7 @@ This presentation is part of the admitted recurring lineage: $A scripts(arrow.l.
 
 #figure(
   kind: image, [
-#aod-panel(width: 88%)[
-
-
-#strong[SADAR value trace of admitted recurrence] \
-
-
-#{
-  set text(size: 9.5pt)
-  set par(justify: false)
-  table(
-    columns: (auto,),
-    align: (center,),
-    [$C_t$ = retained branch/hinge/branch package on the committed cut],
-    [$A scripts(arrow.l.r)_(mu) Omega arrow.r Omega scripts(arrow.l.r)_(mu) A arrow.r A scripts(arrow.l.r)_(mu) Omega$ = chiral hinge return presentation],
-    [$arrow.b$ temporal SADAR presentation on $omega$],
-    [$v_B (W) = brace.l (t, SADARop_(B bar.v t) (C_t )):t in omega brace.r$],
-  )
-}
-
-
-]
+#include "../lib/figures/main/cycle_wave_identity.typ"
   ],
   caption: [An admitted recurring lineage has a chiral hinge-return presentation and a downstream SADAR value trace.],
 ) <fig:cycle-wave-identity>
