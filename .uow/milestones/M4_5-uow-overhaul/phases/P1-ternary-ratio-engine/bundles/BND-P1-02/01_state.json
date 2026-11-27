@@ -1,11 +1,11 @@
 {
   "bundle_id": "BND-P1-02",
-  "status": "STAGED",
+  "status": "PLANNED",
   "worktree_path": "/home/antigravity/rpoyau/wt-BND-P1-02",
   "branch": "uow/BND-P1-02",
   "base_commit": "64c0a0d2b443b79cf8c33d4db7faf18ae61ceb86",
-  "head_commit": "64c0a0d2b443b79cf8c33d4db7faf18ae61ceb86",
+  "head_commit": "7484fd930bb43854125fa6897d05249330e8a250",
   "retries_used": 0,
   "max_retries": 2,
-  "updated_at": "2026-11-27T10:35:00Z"
+  "updated_at": "2026-11-27T10:44:48Z"
 }
