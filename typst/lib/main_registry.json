@@ -478,25 +478,25 @@
       "display": "(102)",
       "kind": "equation",
       "number": "102",
-      "page": 27
+      "page": 28
     },
     "eq:admitted-kernel": {
       "display": "(71)",
       "kind": "equation",
       "number": "71",
-      "page": 21
+      "page": 22
     },
     "eq:afc-flux-ao-resolution": {
       "display": "(80)",
       "kind": "equation",
       "number": "80",
-      "page": 23
+      "page": 24
     },
     "eq:afc-stokes-used": {
       "display": "(79)",
       "kind": "equation",
       "number": "79",
-      "page": 23
+      "page": 24
     },
     "eq:ao-chiral-cycle-presentation": {
       "display": "(138)",
@@ -568,13 +568,13 @@
       "display": "(84)",
       "kind": "equation",
       "number": "84",
-      "page": 23
+      "page": 24
     },
     "eq:b-scoped-channel-pressure": {
       "display": "(83)",
       "kind": "equation",
       "number": "83",
-      "page": 23
+      "page": 24
     },
     "eq:b-scoped-divergence": {
       "display": "(78)",
@@ -586,7 +586,7 @@
       "display": "(85)",
       "kind": "equation",
       "number": "85",
-      "page": 23
+      "page": 24
     },
     "eq:b-scoped-flux-antisymmetry": {
       "display": "(87)",
@@ -604,7 +604,7 @@
       "display": "(88)",
       "kind": "equation",
       "number": "88",
-      "page": 24
+      "page": 25
     },
     "eq:beat-count": {
       "display": "(140)",
@@ -634,7 +634,7 @@
       "display": "(110)",
       "kind": "equation",
       "number": "110",
-      "page": 28
+      "page": 29
     },
     "eq:cadence-ratio": {
       "display": "(65)",
@@ -688,7 +688,7 @@
       "display": "(112)",
       "kind": "equation",
       "number": "112",
-      "page": 30
+      "page": 31
     },
     "eq:closure-trace": {
       "display": "(12)",
@@ -712,7 +712,7 @@
       "display": "(70)",
       "kind": "equation",
       "number": "70",
-      "page": 21
+      "page": 22
     },
     "eq:count-comparator-realization": {
       "display": "(67)",
@@ -790,19 +790,19 @@
       "display": "(97)",
       "kind": "equation",
       "number": "97",
-      "page": 26
+      "page": 27
     },
     "eq:duration-overhang": {
       "display": "(109)",
       "kind": "equation",
       "number": "109",
-      "page": 28
+      "page": 29
     },
     "eq:entropic-duon-current": {
       "display": "(118)",
       "kind": "equation",
       "number": "118",
-      "page": 31
+      "page": 32
     },
     "eq:equal-leg-factorization": {
       "display": "(29)",
@@ -814,7 +814,7 @@
       "display": "(126)",
       "kind": "equation",
       "number": "126",
-      "page": 34
+      "page": 35
     },
     "eq:expose-inner-lineage": {
       "display": "(43)",
@@ -826,13 +826,13 @@
       "display": "(95)",
       "kind": "equation",
       "number": "95",
-      "page": 25
+      "page": 26
     },
     "eq:field-count-term": {
       "display": "(96)",
       "kind": "equation",
       "number": "96",
-      "page": 26
+      "page": 27
     },
     "eq:field-organization": {
       "display": "(39)",
@@ -850,7 +850,7 @@
       "display": "(77)",
       "kind": "equation",
       "number": "77",
-      "page": 22
+      "page": 23
     },
     "eq:fold-outer-closure": {
       "display": "(42)",
@@ -952,31 +952,31 @@
       "display": "(135)",
       "kind": "equation",
       "number": "135",
-      "page": 35
+      "page": 36
     },
     "eq:frg-admission-order": {
       "display": "(136)",
       "kind": "equation",
       "number": "136",
-      "page": 35
+      "page": 36
     },
     "eq:frg-cross-return-contribution": {
       "display": "(RG4)",
       "kind": "rg-equation",
       "number": "RG4",
-      "page": 36
+      "page": 37
     },
     "eq:frg-cross-return-two-gate": {
       "display": "(RG5)",
       "kind": "rg-equation",
       "number": "RG5",
-      "page": 36
+      "page": 37
     },
     "eq:frg-distinctions": {
       "display": "(132)",
       "kind": "equation",
       "number": "132",
-      "page": 35
+      "page": 36
     },
     "eq:frg-gate-contribution": {
       "display": "(RG1)",
@@ -988,13 +988,13 @@
       "display": "(RG8)",
       "kind": "rg-equation",
       "number": "RG8",
-      "page": 36
+      "page": 37
     },
     "eq:frg-identity-two-gate": {
       "display": "(RG9)",
       "kind": "rg-equation",
       "number": "RG9",
-      "page": 36
+      "page": 37
     },
     "eq:frg-independent-gate-sum": {
       "display": "(RG2)",
@@ -1012,25 +1012,25 @@
       "display": "(RG6)",
       "kind": "rg-equation",
       "number": "RG6",
-      "page": 36
+      "page": 37
     },
     "eq:frg-recurrent-two-gate": {
       "display": "(RG7)",
       "kind": "rg-equation",
       "number": "RG7",
-      "page": 36
+      "page": 37
     },
     "eq:frg-return-relation": {
       "display": "(134)",
       "kind": "equation",
       "number": "134",
-      "page": 35
+      "page": 36
     },
     "eq:frg-ring-adjacency": {
       "display": "(133)",
       "kind": "equation",
       "number": "133",
-      "page": 35
+      "page": 36
     },
     "eq:frg-scope": {
       "display": "(131)",
@@ -1042,19 +1042,19 @@
       "display": "(RG12)",
       "kind": "rg-equation",
       "number": "RG12",
-      "page": 36
+      "page": 37
     },
     "eq:frg-value-package": {
       "display": "(RG11)",
       "kind": "rg-equation",
       "number": "RG11",
-      "page": 36
+      "page": 37
     },
     "eq:fusion-branch-hinge-duration": {
       "display": "(122)",
       "kind": "equation",
       "number": "122",
-      "page": 34
+      "page": 35
     },
     "eq:fusion-closure": {
       "display": "(121)",
@@ -1066,31 +1066,31 @@
       "display": "(123)",
       "kind": "equation",
       "number": "123",
-      "page": 34
+      "page": 35
     },
     "eq:fusion-rung-residual": {
       "display": "(124)",
       "kind": "equation",
       "number": "124",
-      "page": 34
+      "page": 35
     },
     "eq:fusion-rung-shedding-surplus": {
       "display": "(125)",
       "kind": "equation",
       "number": "125",
-      "page": 34
+      "page": 35
     },
     "eq:higher-scope-fusion": {
       "display": "(128)",
       "kind": "equation",
       "number": "128",
-      "page": 34
+      "page": 35
     },
     "eq:hinge-admissible-family": {
       "display": "(72)",
       "kind": "equation",
       "number": "72",
-      "page": 21
+      "page": 22
     },
     "eq:hinge-chirality-flip": {
       "display": "(48)",
@@ -1132,7 +1132,7 @@
       "display": "(76)",
       "kind": "equation",
       "number": "76",
-      "page": 22
+      "page": 23
     },
     "eq:hinge-saturation-weighted": {
       "display": "(75)",
@@ -1150,7 +1150,7 @@
       "display": "(107)",
       "kind": "equation",
       "number": "107",
-      "page": 28
+      "page": 29
     },
     "eq:key-proposed-admitted-trace": {
       "display": "(38)",
@@ -1162,13 +1162,13 @@
       "display": "(127)",
       "kind": "equation",
       "number": "127",
-      "page": 34
+      "page": 35
     },
     "eq:link-closure-ladder": {
       "display": "(129)",
       "kind": "equation",
       "number": "129",
-      "page": 34
+      "page": 35
     },
     "eq:link-closure-residual": {
       "display": "(130)",
@@ -1240,7 +1240,7 @@
       "display": "(108)",
       "kind": "equation",
       "number": "108",
-      "page": 28
+      "page": 29
     },
     "eq:minimal-phase-quantum-bound": {
       "display": "(28)",
@@ -1270,7 +1270,7 @@
       "display": "(94)",
       "kind": "equation",
       "number": "94",
-      "page": 25
+      "page": 26
     },
     "eq:native-comparator": {
       "display": "(66)",
@@ -1330,13 +1330,13 @@
       "display": "(82)",
       "kind": "equation",
       "number": "82",
-      "page": 23
+      "page": 24
     },
     "eq:path-history-pressure": {
       "display": "(81)",
       "kind": "equation",
       "number": "81",
-      "page": 23
+      "page": 24
     },
     "eq:phase-unit-embedding": {
       "display": "(26)",
@@ -1360,7 +1360,7 @@
       "display": "(91)",
       "kind": "equation",
       "number": "91",
-      "page": 24
+      "page": 25
     },
     "eq:rcd-additive-realization": {
       "display": "(62)",
@@ -1426,25 +1426,25 @@
       "display": "(104)",
       "kind": "equation",
       "number": "104",
-      "page": 27
+      "page": 28
     },
     "eq:sadar-attention-vector-expanded": {
       "display": "(105)",
       "kind": "equation",
       "number": "105",
-      "page": 27
+      "page": 28
     },
     "eq:sadar-field": {
       "display": "(103)",
       "kind": "equation",
       "number": "103",
-      "page": 27
+      "page": 28
     },
     "eq:sadar-operator-beat-coupling": {
       "display": "(100)",
       "kind": "equation",
       "number": "100",
-      "page": 27
+      "page": 28
     },
     "eq:sadar-operator-cycle": {
       "display": "(98)",
@@ -1462,31 +1462,31 @@
       "display": "(101)",
       "kind": "equation",
       "number": "101",
-      "page": 27
+      "page": 28
     },
     "eq:shed-continuation-witness": {
       "display": "(116)",
       "kind": "equation",
       "number": "116",
-      "page": 30
+      "page": 31
     },
     "eq:sheddic-path": {
       "display": "(114)",
       "kind": "equation",
       "number": "114",
-      "page": 30
+      "page": 31
     },
     "eq:shedding-excess": {
       "display": "(113)",
       "kind": "equation",
       "number": "113",
-      "page": 30
+      "page": 31
     },
     "eq:shedding-route-partition": {
       "display": "(115)",
       "kind": "equation",
       "number": "115",
-      "page": 30
+      "page": 31
     },
     "eq:single-hinge-symmetric-fixture": {
       "display": "(51)",
@@ -1498,7 +1498,7 @@
       "display": "(89)",
       "kind": "equation",
       "number": "89",
-      "page": 24
+      "page": 25
     },
     "eq:stokes-audit-internal": {
       "display": "(157)",
@@ -1528,7 +1528,7 @@
       "display": "(119)",
       "kind": "equation",
       "number": "119",
-      "page": 32
+      "page": 33
     },
     "eq:support-enclosure-retention": {
       "display": "(120)",
@@ -1612,7 +1612,7 @@
       "display": "(90)",
       "kind": "equation",
       "number": "90",
-      "page": 24
+      "page": 25
     },
     "fig:closure-ladder": {
       "display": "4",
@@ -1660,19 +1660,19 @@
       "display": "6",
       "kind": "figure",
       "number": "6",
-      "page": 24
+      "page": 25
     },
     "fig:sadar-boundary-relative-balance": {
       "display": "8",
       "kind": "figure",
       "number": "8",
-      "page": 29
+      "page": 30
     },
     "fig:support-enclosure-retention": {
       "display": "10",
       "kind": "figure",
       "number": "10",
-      "page": 33
+      "page": 34
     },
     "fig:v39-cycle-disturbance-shedding": {
       "display": "9",
@@ -1684,7 +1684,7 @@
       "display": "7",
       "kind": "figure",
       "number": "7",
-      "page": 25
+      "page": 26
     },
     "fig:v39-fractal-tesseract-q4-witness": {
       "display": "2",
@@ -1732,7 +1732,7 @@
       "display": "5",
       "kind": "section",
       "number": "5",
-      "page": 22
+      "page": 23
     },
     "sec:audit-hooks": {
       "display": "5.17",
@@ -1774,19 +1774,19 @@
       "display": "5.6",
       "kind": "subsection",
       "number": "5.6",
-      "page": 29
+      "page": 30
     },
     "sec:duonic-pressure-inertia": {
       "display": "5.3",
       "kind": "subsection",
       "number": "5.3",
-      "page": 26
+      "page": 27
     },
     "sec:entropic-duon-current": {
       "display": "5.6.7",
       "kind": "subsubsection",
       "number": "5.6.7",
-      "page": 31
+      "page": 32
     },
     "sec:field": {
       "display": "3.6",
@@ -1798,7 +1798,7 @@
       "display": "5.2",
       "kind": "subsection",
       "number": "5.2",
-      "page": 25
+      "page": 26
     },
     "sec:field-disposition": {
       "display": "3.6",
@@ -1810,13 +1810,13 @@
       "display": "5.11",
       "kind": "subsection",
       "number": "5.11",
-      "page": 36
+      "page": 37
     },
     "sec:field:sadar": {
       "display": "5.5",
       "kind": "subsection",
       "number": "5.5",
-      "page": 27
+      "page": 28
     },
     "sec:finite-harmonics": {
       "display": "5.16",
@@ -1858,13 +1858,13 @@
       "display": "5.7",
       "kind": "subsection",
       "number": "5.7",
-      "page": 32
+      "page": 33
     },
     "sec:shell-paths": {
       "display": "5.8",
       "kind": "subsection",
       "number": "5.8",
-      "page": 33
+      "page": 34
     },
     "sec:specific-distinction": {
       "display": "1",
@@ -1876,7 +1876,7 @@
       "display": "5",
       "kind": "section",
       "number": "5",
-      "page": 22
+      "page": 23
     },
     "sec:wave-state-relational-time": {
       "display": "4",
@@ -1894,7 +1894,7 @@
       "display": "5.5.1",
       "kind": "subsubsection",
       "number": "5.5.1",
-      "page": 27
+      "page": 28
     },
     "subsec:afc-boundary-accounting": {
       "display": "1.5",
@@ -1924,7 +1924,7 @@
       "display": "5",
       "kind": "section",
       "number": "5",
-      "page": 22
+      "page": 23
     },
     "subsec:ao-kernel": {
       "display": "3.9",
@@ -1954,7 +1954,7 @@
       "display": "5.1.2",
       "kind": "subsubsection",
       "number": "5.1.2",
-      "page": 23
+      "page": 24
     },
     "subsec:boundary-audit": {
       "display": "5.17.1",
@@ -1996,13 +1996,13 @@
       "display": "5.5.8",
       "kind": "subsubsection",
       "number": "5.5.8",
-      "page": 29
+      "page": 30
     },
     "subsec:coord-zero-support-enclosure-grouping": {
       "display": "5.7.7",
       "kind": "subsubsection",
       "number": "5.7.7",
-      "page": 33
+      "page": 34
     },
     "subsec:crown": {
       "display": "2.2",
@@ -2074,7 +2074,7 @@
       "display": "5.7.4",
       "kind": "subsubsection",
       "number": "5.7.4",
-      "page": 32
+      "page": 33
     },
     "subsec:dion": {
       "display": "3.2",
@@ -2116,37 +2116,37 @@
       "display": "5.3.1",
       "kind": "subsubsection",
       "number": "5.3.1",
-      "page": 26
+      "page": 27
     },
     "subsec:duonic-pressure-weighting": {
       "display": "5.3.2",
       "kind": "subsubsection",
       "number": "5.3.2",
-      "page": 26
+      "page": 27
     },
     "subsec:e2-duad": {
       "display": "5.7.3",
       "kind": "subsubsection",
       "number": "5.7.3",
-      "page": 32
+      "page": 33
     },
     "subsec:e2-duon": {
       "display": "5.7.2",
       "kind": "subsubsection",
       "number": "5.7.2",
-      "page": 32
+      "page": 33
     },
     "subsec:e4-tetron": {
       "display": "5.7.4",
       "kind": "subsubsection",
       "number": "5.7.4",
-      "page": 32
+      "page": 33
     },
     "subsec:exoshedding-lift": {
       "display": "5.9.2",
       "kind": "subsubsection",
       "number": "5.9.2",
-      "page": 34
+      "page": 35
     },
     "subsec:external-comparison-quarantine": {
       "display": "5.16.4",
@@ -2170,19 +2170,19 @@
       "display": "5.2.1",
       "kind": "subsubsection",
       "number": "5.2.1",
-      "page": 25
+      "page": 26
     },
     "subsec:field-count-term": {
       "display": "5.2.4",
       "kind": "subsubsection",
       "number": "5.2.4",
-      "page": 26
+      "page": 27
     },
     "subsec:field-fluid-regime": {
       "display": "5.11.1",
       "kind": "subsubsection",
       "number": "5.11.1",
-      "page": 36
+      "page": 37
     },
     "subsec:field-memorum": {
       "display": "3.6",
@@ -2200,7 +2200,7 @@
       "display": "5.7.4",
       "kind": "subsubsection",
       "number": "5.7.4",
-      "page": 32
+      "page": 33
     },
     "subsec:finite-q4-witness": {
       "display": "3.3.1",
@@ -2248,7 +2248,7 @@
       "display": "4.5.1",
       "kind": "subsubsection",
       "number": "4.5.1",
-      "page": 21
+      "page": 22
     },
     "subsec:fractal-recursive-support": {
       "display": "1.4",
@@ -2278,19 +2278,19 @@
       "display": "5.10.1",
       "kind": "subsubsection",
       "number": "5.10.1",
-      "page": 35
+      "page": 36
     },
     "subsec:frg-gate-contribution": {
       "display": "5.10.3",
       "kind": "subsubsection",
       "number": "5.10.3",
-      "page": 35
+      "page": 36
     },
     "subsec:frg-identity": {
       "display": "5.10.7",
       "kind": "subsubsection",
       "number": "5.10.7",
-      "page": 36
+      "page": 37
     },
     "subsec:frg-independent-gate-sum": {
       "display": "5.10.4",
@@ -2302,25 +2302,25 @@
       "display": "5.11.6",
       "kind": "subsubsection",
       "number": "5.11.6",
-      "page": 38
+      "page": 39
     },
     "subsec:frg-recurrent-ring-value": {
       "display": "5.10.6",
       "kind": "subsubsection",
       "number": "5.10.6",
-      "page": 36
+      "page": 37
     },
     "subsec:frg-relations": {
       "display": "5.10.2",
       "kind": "subsubsection",
       "number": "5.10.2",
-      "page": 35
+      "page": 36
     },
     "subsec:frg-value-package": {
       "display": "5.10.8",
       "kind": "subsubsection",
       "number": "5.10.8",
-      "page": 36
+      "page": 37
     },
     "subsec:fusion-closure": {
       "display": "5.9.1",
@@ -2338,19 +2338,19 @@
       "display": "5.7.4",
       "kind": "subsubsection",
       "number": "5.7.4",
-      "page": 32
+      "page": 33
     },
     "subsec:higher-even-enclosures": {
       "display": "5.7.4",
       "kind": "subsubsection",
       "number": "5.7.4",
-      "page": 32
+      "page": 33
     },
     "subsec:hinge-slide": {
       "display": "4.5",
       "kind": "subsection",
       "number": "4.5",
-      "page": 21
+      "page": 22
     },
     "subsec:hinge-triad": {
       "display": "1.3",
@@ -2362,13 +2362,13 @@
       "display": "5.3.3",
       "kind": "subsubsection",
       "number": "5.3.3",
-      "page": 26
+      "page": 27
     },
     "subsec:interlayer-sadar-coupling": {
       "display": "5.11.4",
       "kind": "subsubsection",
       "number": "5.11.4",
-      "page": 37
+      "page": 38
     },
     "subsec:intro-aim-stance": {
       "display": "1.1",
@@ -2398,7 +2398,7 @@
       "display": "5.9.3",
       "kind": "subsubsection",
       "number": "5.9.3",
-      "page": 34
+      "page": 35
     },
     "subsec:local-cut-running-form": {
       "display": "1.3",
@@ -2422,7 +2422,7 @@
       "display": "5.11.3",
       "kind": "subsubsection",
       "number": "5.11.3",
-      "page": 37
+      "page": 38
     },
     "subsec:monon-beat": {
       "display": "2.1",
@@ -2440,7 +2440,7 @@
       "display": "5.1.5",
       "kind": "subsubsection",
       "number": "5.1.5",
-      "page": 25
+      "page": 26
     },
     "subsec:naming-audit": {
       "display": "5.17.2",
@@ -2470,7 +2470,7 @@
       "display": "5.7.4",
       "kind": "subsubsection",
       "number": "5.7.4",
-      "page": 32
+      "page": 33
     },
     "subsec:operative-self": {
       "display": "6.3",
@@ -2482,13 +2482,13 @@
       "display": "5.7.4",
       "kind": "subsubsection",
       "number": "5.7.4",
-      "page": 32
+      "page": 33
     },
     "subsec:phase-bias-motion": {
       "display": "5.5.4",
       "kind": "subsubsection",
       "number": "5.5.4",
-      "page": 27
+      "page": 28
     },
     "subsec:pin-curl": {
       "display": "3.1.3",
@@ -2518,7 +2518,7 @@
       "display": "4.5",
       "kind": "subsection",
       "number": "4.5",
-      "page": 21
+      "page": 22
     },
     "subsec:radical-free-arithmetic-policy": {
       "display": "1.5",
@@ -2542,13 +2542,13 @@
       "display": "5.1.6",
       "kind": "subsubsection",
       "number": "5.1.6",
-      "page": 25
+      "page": 26
     },
     "subsec:retained-field-family": {
       "display": "5.2.2",
       "kind": "subsubsection",
       "number": "5.2.2",
-      "page": 25
+      "page": 26
     },
     "subsec:returned-current-channels": {
       "display": "5.2.3",
@@ -2566,13 +2566,13 @@
       "display": "5.5",
       "kind": "subsection",
       "number": "5.5",
-      "page": 27
+      "page": 28
     },
     "subsec:sadar-attention-vector": {
       "display": "5.5.3",
       "kind": "subsubsection",
       "number": "5.5.3",
-      "page": 27
+      "page": 28
     },
     "subsec:sadar-audit": {
       "display": "5.17.1",
@@ -2584,7 +2584,7 @@
       "display": "5.5.2",
       "kind": "subsubsection",
       "number": "5.5.2",
-      "page": 27
+      "page": 28
     },
     "subsec:sadar-operator": {
       "display": "5.4",
@@ -2596,19 +2596,19 @@
       "display": "5.5.7",
       "kind": "subsubsection",
       "number": "5.5.7",
-      "page": 29
+      "page": 30
     },
     "subsec:self-cross-return": {
       "display": "5.5.5",
       "kind": "subsubsection",
       "number": "5.5.5",
-      "page": 28
+      "page": 29
     },
     "subsec:sheddic-path": {
       "display": "5.6.5",
       "kind": "subsubsection",
       "number": "5.6.5",
-      "page": 30
+      "page": 31
     },
     "subsec:sheddic-path-audit": {
       "display": "5.17.1",
@@ -2620,19 +2620,19 @@
       "display": "5.6.4",
       "kind": "subsubsection",
       "number": "5.6.4",
-      "page": 30
+      "page": 31
     },
     "subsec:shell-path-closure-references": {
       "display": "5.8.1",
       "kind": "subsubsection",
       "number": "5.8.1",
-      "page": 33
+      "page": 34
     },
     "subsec:slice-flux": {
       "display": "5.1.3",
       "kind": "subsubsection",
       "number": "5.1.3",
-      "page": 24
+      "page": 25
     },
     "subsec:spine-audit": {
       "display": "5.17.1",
@@ -2650,7 +2650,7 @@
       "display": "5.7.1",
       "kind": "subsubsection",
       "number": "5.7.1",
-      "page": 32
+      "page": 33
     },
     "subsec:support-enclosure-retention-condition": {
       "display": "5.7.6",
@@ -2662,7 +2662,7 @@
       "display": "5.7.5",
       "kind": "subsubsection",
       "number": "5.7.5",
-      "page": 32
+      "page": 33
     },
     "subsec:symbol-audit": {
       "display": "5.17.1",
@@ -2674,7 +2674,7 @@
       "display": "5.6.1",
       "kind": "subsubsection",
       "number": "5.6.1",
-      "page": 29
+      "page": 30
     },
     "subsec:temporal-sadar-burden": {
       "display": "5.6.3",
@@ -2704,13 +2704,13 @@
       "display": "5.1.4",
       "kind": "subsubsection",
       "number": "5.1.4",
-      "page": 24
+      "page": 25
     },
     "subsec:yro-odd-window-route-status": {
       "display": "5.6.6",
       "kind": "subsubsection",
       "number": "5.6.6",
-      "page": 31
+      "page": 32
     },
     "tab:cc-active-naming-index": {
       "display": "3",
@@ -2734,6 +2734,6 @@
   "entry_count": 455,
   "main_input_count": 37,
   "main_pdf_filename": "main.pdf",
-  "main_sources_sha256": "abfe83955799b16e785ef8f5e28d3cef4f8354f310f34b14593c9267663fe8d1",
+  "main_sources_sha256": "7164e2a2d14c7f1492a2fca8fc0fc5ca0b30a630c5fc3eaf0e52f30d4524a185",
   "schema": "aod.typst.main-registry.v1"
 }
