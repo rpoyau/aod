@@ -212,36 +212,41 @@ The 3D coordinate phase-cycle fixture uses integer phase-cycle ratios. It uses $
 
 Declare the five-boundary three-dimensional trajectory diagnostic stack
 
-#math.equation(block: true, numbering: none, $ B_(upright("lattice")) arrow.r B_(Delta x) arrow.r B_(Q mod 4) arrow.r B_(delta_3) arrow.r B_(upright("ext")). $)
+#math.equation(block: true, numbering: none, $ B_(upright("lattice")) arrow.r B_(Delta x) arrow.r B_(Q mod 5) arrow.r B_(delta_3) arrow.r B_(upright("ext")). $)
 
-Vector #raw("RC-044") (#raw("manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) evaluates all eight lag-$1$ lattice steps from $(0, 0, 0)$ to $(6, 5, 5)$: four steps realize squared step norm $Q = 2$ ($theta = Q mod 4 = 2$) and four steps realize $Q = 3$ ($theta = 3$), octants $(0, 1, 2)$ tally $(6, 1, 1)$, and the endpoint chord squared norm is $6^2 + 5^2 + 5^2 = 86$.
+Vector #raw("RC-044") (#raw("manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv"), verified in pure #raw("TritWord")/#raw("TritRatio") arithmetic by #raw("python3 -B -m manual.engine") #box[#raw("--sector")] #raw("boundary_sadar") and #raw("aod-core") #box[#raw("--verify-vectors")] #box[#raw("--check-zero-float")]) evaluates all eight lag-$1$ lattice steps from $(0, 0, 0)$ to $(6, 5, 5)$ at canonical phase modulus $beta_a = 5$ and default octant bit order #raw("msb_x"), matching Brownian canonical vector #raw("RC-012") (#raw("manual/data/brownian/octant_delta3.csv")) identically. The eight squared lag norms are $Q = (2, 2, 2, 3, 3, 3, 2, 3)$ with $sum Q = 20$, giving exact integer ratios $R_Q = 5 slash 2$, $R_x = 2 slash 5$, $R_y = 7 slash 20$, and $R_z = 1 slash 4$ ($R_x + R_y + R_z = 1$), alongside endpoint chord squared norm $6^2 + 5^2 + 5^2 = 86$. Phase residues $theta = Q mod 5$ realize four counts at $theta = 2$ and four at $theta = 3$, giving $O_theta = (0, 0, 4, 4, 0)$, integer-balanced comparator residuals $Delta_theta^(bb(Z)) = (2, 2, -2, -3, 1)$ (conserving $sum Delta_theta^(bb(Z)) = 0$), and $M_(delta_3 , theta) = 10$. Explicitly contrasting octant bit-order conventions: under canonical Brownian MSB-$x$ ordering $4(a < 0) + 2(b < 0) + (c < 0)$ (#raw("RC-012") and default #raw("RC-044")), step $4$ with $Delta z = (-1, 1, 1)$ maps to octant $4$, producing $O_(upright("oct")) = (6, 0, 1, 0, 1, 0, 0, 0)$, $Delta_(upright("oct"))^(bb(Z)) = (-5, 1, 0, 1, 0, 1, 1, 1)$, and $M_(delta_3 , upright("oct")) = 10$; under explicit run-tumble LSB-$x$ ordering $(a < 0) + 2(b < 0) + 4(c < 0)$ (#raw("RC-013") and #raw("octant_bit_order") $=$ #raw("lsb_x")), step $4$ maps to octant $1$ while step $6$ with $Delta z = (1, -1, 1)$ remains at octant $2$, giving $O_(upright("oct")) = (6, 1, 1, 0, 0, 0, 0, 0)$ and $Delta_(upright("oct"))^(bb(Z)) = (-5, 0, 0, 1, 1, 1, 1, 1)$ with transported $M_(delta_3 , upright("oct")) = 10$.
 
 
 #figure(
   kind: table, [
 #{
-  set text(size: 8.5pt)
-  set par(justify: false)
+  let rows = csv("/manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv", row-type: dictionary)
+  let fmt-vec(s) = s.replace(",", ", ").replace("-", "\u{2212}")
+  set text(size: 8.0pt)
+  set par(justify: false, leading: 0.44em)
   table(
-    columns: (auto, auto, auto, auto, auto, auto, auto),
-    align: (right, left, left, left, right, right, right),
+    columns: (7fr, 14fr, 14fr, 14fr, 9fr, 14fr, 14fr, 14fr),
+    align: (center, left, left, left, right, right, right, right),
+    inset: (x: 3.4pt, y: 3.2pt),
     table.header(
       toprule,
-      [Step $i$], [From $(x, y, z)$], [To $(x', y', z')$], [$Delta (x, y, z)$], [$Q_(upright("lag") 1)$], [$theta = Q mod 4$], [Octant $q$],
+      [Step $i$], [From $(x, y, z)$], [To $(x', y', z')$], [$Delta (x, y, z)$], [$Q_(upright("lag") 1)$], [$theta = Q mod 5$], [Octant (MSB-$x$)], [Octant (LSB-$x$)],
       midrule,
     ),
-    [1], [$(0, 0, 0)$], [$(1, 1, 0)$], [$(1, 1, 0)$], [2], [2], [0],
-    [2], [$(1, 1, 0)$], [$(2, 1, 1)$], [$(1, 0, 1)$], [2], [2], [0],
-    [3], [$(2, 1, 1)$], [$(3, 2, 1)$], [$(1, 1, 0)$], [2], [2], [0],
-    [4], [$(3, 2, 1)$], [$(2, 3, 2)$], [$( - 1, 1, 1)$], [3], [3], [1],
-    [5], [$(2, 3, 2)$], [$(3, 4, 3)$], [$(1, 1, 1)$], [3], [3], [0],
-    [6], [$(3, 4, 3)$], [$(4, 3, 4)$], [$(1, - 1, 1)$], [3], [3], [2],
-    [7], [$(4, 3, 4)$], [$(5, 4, 4)$], [$(1, 1, 0)$], [2], [2], [0],
-    [8], [$(5, 4, 4)$], [$(6, 5, 5)$], [$(1, 1, 1)$], [3], [3], [0],
+    ..rows.map(r => (
+      [#r.step_i],
+      [#fmt-vec(r.from_xyz)],
+      [#fmt-vec(r.to_xyz)],
+      [#fmt-vec(r.delta_xyz)],
+      [#r.Q_lag1],
+      [#r.theta_mod5],
+      [#r.octant_msb_x],
+      [#r.octant_lsb_x],
+    )).flatten(),
     bottomrule,
   )
 }
   ],
-  caption: [Eight-step 3D lag-1 lattice displacement, modular residue, and octant D.E.C. ledger (#raw("RC-044")).],
+  caption: [Engine-bound eight-step 3D lag-1 lattice displacement, $Q mod 5$ phase residue, and MSB-$x$ (#raw("RC-012")/#raw("RC-044")) versus LSB-$x$ (#raw("RC-013")) octant D.E.C. ledger (live from #raw("coordinate_phase_3d_dec_walk.csv")).],
 ) <tab:manual-app-c-3d-dec-ledger>
 

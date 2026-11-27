@@ -1449,4 +1449,297 @@ fn test_rc037_relational_time_trit_ratio_and_causal_intervention() {
     );
 }
 
+#[test]
+fn test_rc044_coordinate_phase_3d_walk_trit_ratio_and_bit_order_parity() {
+    let root = repo_root();
+    let (_, rc_rows) = load_vector_file(&root, RATIONAL_CORE_REL).expect("load rc");
+
+    let rc012 = rc_rows
+        .iter()
+        .find(|r| r.get("case_id") == Some(&JsonValue::Str("RC-012".to_string())))
+        .expect("RC-012 present");
+    let rc013 = rc_rows
+        .iter()
+        .find(|r| r.get("case_id") == Some(&JsonValue::Str("RC-013".to_string())))
+        .expect("RC-013 present");
+    let rc044 = rc_rows
+        .iter()
+        .find(|r| r.get("case_id") == Some(&JsonValue::Str("RC-044".to_string())))
+        .expect("RC-044 present");
+
+    verify_single_vector_with_root(rc012, &root).expect("RC-012 must verify cleanly");
+    verify_single_vector_with_root(rc013, &root).expect("RC-013 must verify cleanly");
+    verify_single_vector_with_root(rc044, &root).expect("RC-044 must verify cleanly");
+
+    let to_i64_arr = |vals: &[i64]| -> JsonValue {
+        JsonValue::Array(
+            vals.iter()
+                .map(|&v| JsonValue::Int(BigInt::from_i64(v)))
+                .collect(),
+        )
+    };
+    let to_pair = |n: &str, d: &str| -> JsonValue {
+        JsonValue::Array(vec![
+            JsonValue::Str(n.to_string()),
+            JsonValue::Str(d.to_string()),
+        ])
+    };
+
+    // 1. Canonical 9-point track: omitted octant_bit_order == explicit "msb_x" == RC-012
+    let rc012_out = eval_operation(
+        "brownian_3d_delta3_msb_x",
+        rc012["inputs"].as_object().unwrap(),
+    )
+    .expect("eval RC-012");
+    let rc012_obj = rc012_out.as_object().unwrap();
+
+    let omitted_in = parse_json(
+        r#"{"points":[[0,0,0],[1,1,0],[2,1,1],[3,2,1],[2,3,2],[3,4,3],[4,3,4],[5,4,4],[6,5,5]],"beta_a":5}"#,
+    )
+    .expect("parse omitted_in");
+    let explicit_msb_in = parse_json(
+        r#"{"points":[[0,0,0],[1,1,0],[2,1,1],[3,2,1],[2,3,2],[3,4,3],[4,3,4],[5,4,4],[6,5,5]],"beta_a":5,"octant_bit_order":"msb_x"}"#,
+    )
+    .expect("parse explicit_msb_in");
+
+    let out_default = eval_operation(
+        "dec_coordinate_phase_3d_walk",
+        omitted_in.as_object().unwrap(),
+    )
+    .expect("eval RC-044 default");
+    let out_msb = eval_operation(
+        "dec_coordinate_phase_3d_walk",
+        explicit_msb_in.as_object().unwrap(),
+    )
+    .expect("eval RC-044 msb_x");
+    assert_eq!(out_default, out_msb);
+
+    let obj = out_msb.as_object().unwrap();
+    assert_eq!(obj.len(), 14);
+    assert_eq!(obj["step_count"], JsonValue::Int(BigInt::from_i64(8)));
+    assert_eq!(obj["Q_values"], rc012_obj["Q"]);
+    assert_eq!(obj["sum_Q"], JsonValue::Int(BigInt::from_i64(20)));
+    assert_eq!(obj["R_Q_ratio"], rc012_obj["R_Q"]);
+    assert_eq!(obj["R_x_ratio"], rc012_obj["R_x"]);
+    assert_eq!(obj["R_y_ratio"], rc012_obj["R_y"]);
+    assert_eq!(obj["R_z_ratio"], rc012_obj["R_z"]);
+    assert_eq!(obj["R_Q_ratio"], to_pair("5", "2"));
+    assert_eq!(obj["R_x_ratio"], to_pair("2", "5"));
+    assert_eq!(obj["R_y_ratio"], to_pair("7", "20"));
+    assert_eq!(obj["R_z_ratio"], to_pair("1", "4"));
+    assert_eq!(obj["phase_counts"], to_i64_arr(&[0, 0, 4, 4, 0]));
+    assert_eq!(obj["phase_DeltaZ"], rc012_obj["phase_DeltaZ"]);
+    assert_eq!(obj["phase_delta3_M"], rc012_obj["sum_phase_m"]);
+    assert_eq!(obj["phase_delta3_M"], JsonValue::Int(BigInt::from_i64(10)));
+    assert_eq!(
+        obj["octant_bit_order"],
+        JsonValue::Str("msb_x".to_string())
+    );
+    assert_eq!(obj["octant_counts"], to_i64_arr(&[6, 0, 1, 0, 1, 0, 0, 0]));
+    assert_eq!(obj["octant_DeltaZ"], rc012_obj["octant_DeltaZ"]);
+    assert_eq!(obj["octant_delta3_M"], rc012_obj["sum_octant_m"]);
+    assert_eq!(obj["octant_delta3_M"], JsonValue::Int(BigInt::from_i64(10)));
+
+    // 2. Explicit "lsb_x" contrast matching RC-013 LSB-x rule
+    let explicit_lsb_in = parse_json(
+        r#"{"points":[[0,0,0],[1,1,0],[2,1,1],[3,2,1],[2,3,2],[3,4,3],[4,3,4],[5,4,4],[6,5,5]],"beta_a":5,"octant_bit_order":"lsb_x"}"#,
+    )
+    .expect("parse explicit_lsb_in");
+    let out_lsb = eval_operation(
+        "dec_coordinate_phase_3d_walk",
+        explicit_lsb_in.as_object().unwrap(),
+    )
+    .expect("eval RC-044 lsb_x");
+    let lsb_obj = out_lsb.as_object().unwrap();
+    assert_eq!(
+        lsb_obj["octant_bit_order"],
+        JsonValue::Str("lsb_x".to_string())
+    );
+    assert_eq!(
+        lsb_obj["octant_counts"],
+        to_i64_arr(&[6, 1, 1, 0, 0, 0, 0, 0])
+    );
+    assert_eq!(
+        lsb_obj["octant_DeltaZ"],
+        to_i64_arr(&[-5, 0, 0, 1, 1, 1, 1, 1])
+    );
+    assert_eq!(
+        lsb_obj["octant_delta3_M"],
+        JsonValue::Int(BigInt::from_i64(10))
+    );
+    assert_eq!(lsb_obj["phase_counts"], obj["phase_counts"]);
+    assert_eq!(lsb_obj["phase_DeltaZ"], obj["phase_DeltaZ"]);
+    assert_eq!(lsb_obj["R_Q_ratio"], obj["R_Q_ratio"]);
+
+    // Cross-check RC-013 z_vectors [[2,2,-1],[-1,2,2],[1,-1,1],[-1,-1,-1]] as cumulative path
+    let rc013_out = eval_operation(
+        "run_tumble_3d_delta3_lsb_x",
+        rc013["inputs"].as_object().unwrap(),
+    )
+    .expect("eval RC-013");
+    let rc013_obj = rc013_out.as_object().unwrap();
+    let rc013_path_lsb = parse_json(
+        r#"{"points":[[0,0,0],[2,2,-1],[1,4,1],[2,3,2],[1,2,1]],"beta_a":5,"octant_bit_order":"lsb_x"}"#,
+    )
+    .expect("parse rc013_path_lsb");
+    let rc013_walk_lsb_val = eval_operation(
+        "dec_coordinate_phase_3d_walk",
+        rc013_path_lsb.as_object().unwrap(),
+    )
+    .expect("eval rc013 walk lsb_x");
+    let rc013_walk_lsb = rc013_walk_lsb_val.as_object().unwrap();
+    let rc013_path_msb = parse_json(
+        r#"{"points":[[0,0,0],[2,2,-1],[1,4,1],[2,3,2],[1,2,1]],"beta_a":5,"octant_bit_order":"msb_x"}"#,
+    )
+    .expect("parse rc013_path_msb");
+    let rc013_walk_msb_val = eval_operation(
+        "dec_coordinate_phase_3d_walk",
+        rc013_path_msb.as_object().unwrap(),
+    )
+    .expect("eval rc013 walk msb_x");
+    let rc013_walk_msb = rc013_walk_msb_val.as_object().unwrap();
+    assert_eq!(rc013_walk_lsb["Q_values"], rc013_obj["Q3"]);
+    assert_eq!(
+        rc013_walk_lsb["octant_counts"],
+        to_i64_arr(&[0, 1, 1, 0, 1, 0, 0, 1])
+    );
+    assert_eq!(
+        rc013_walk_msb["octant_counts"],
+        to_i64_arr(&[0, 1, 1, 0, 1, 0, 0, 1])
+    );
+    // Single-step discriminator on (-1, 1, 1): msb_x -> octant 4, lsb_x -> octant 1
+    let step4_msb = parse_json(
+        r#"{"points":[[3,2,1],[2,3,2]],"beta_a":5,"octant_bit_order":"msb_x"}"#,
+    )
+    .expect("parse step4_msb");
+    let step4_lsb = parse_json(
+        r#"{"points":[[3,2,1],[2,3,2]],"beta_a":5,"octant_bit_order":"lsb_x"}"#,
+    )
+    .expect("parse step4_lsb");
+    let step4_msb_out =
+        eval_operation("dec_coordinate_phase_3d_walk", step4_msb.as_object().unwrap()).unwrap();
+    let step4_lsb_out =
+        eval_operation("dec_coordinate_phase_3d_walk", step4_lsb.as_object().unwrap()).unwrap();
+    assert_eq!(
+        step4_msb_out.as_object().unwrap()["octant_counts"],
+        to_i64_arr(&[0, 0, 0, 0, 1, 0, 0, 0])
+    );
+    assert_eq!(
+        step4_lsb_out.as_object().unwrap()["octant_counts"],
+        to_i64_arr(&[0, 1, 0, 0, 0, 0, 0, 0])
+    );
+
+    // 3. Strict TypeError parity controls
+    for bad_type_json in [
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":5,"octant_bit_order":null}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":5,"octant_bit_order":0}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":5,"octant_bit_order":true}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":5,"octant_bit_order":["msb_x"]}"#,
+        r#"{"points":"not_a_list","beta_a":5}"#,
+        r#"{"points":null,"beta_a":5}"#,
+        r#"{"points":[[0,0,0],"bad_point"],"beta_a":5}"#,
+        r#"{"points":[[0,0,0],null],"beta_a":5}"#,
+        r#"{"points":[[0,0,0],[1,true,0]],"beta_a":5}"#,
+        r#"{"points":[[0,0,0],[1,"1",0]],"beta_a":5}"#,
+        r#"{"points":[[0,0,0],[1,null,0]],"beta_a":5}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":null}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":true}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":"5"}"#,
+    ] {
+        let j = parse_json(bad_type_json).expect("parse bad_type_json");
+        let res = eval_operation("dec_coordinate_phase_3d_walk", j.as_object().unwrap());
+        assert!(
+            matches!(res, Err(CoreError::TypeError(_))),
+            "expected TypeError for {}, got {:?}",
+            bad_type_json,
+            res
+        );
+    }
+
+    // Strict ValueError parity controls
+    for bad_val_json in [
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":5,"octant_bit_order":"unknown"}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":5,"octant_bit_order":"MSB_X"}"#,
+        r#"{"beta_a":5}"#,
+        r#"{"points":[[0,0,0],[1,1,0]]}"#,
+        r#"{"points":[],"beta_a":5}"#,
+        r#"{"points":[[0,0,0]],"beta_a":5}"#,
+        r#"{"points":[[0,0,0],[1,1]],"beta_a":5}"#,
+        r#"{"points":[[0,0,0],[1,1,0,0]],"beta_a":5}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":0}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":-5}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":10001}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":9223372036854775808}"#,
+        r#"{"points":[[0,0,0],[1,1,0]],"beta_a":9223372036854775808,"octant_bit_order":null}"#,
+        r#"{"points":[[0,0,0]],"beta_a":9223372036854775808}"#,
+        r#"{"points":[[1,2,3],[1,2,3]],"beta_a":5}"#,
+    ] {
+        let j = parse_json(bad_val_json).expect("parse bad_val_json");
+        let res = eval_operation("dec_coordinate_phase_3d_walk", j.as_object().unwrap());
+        assert!(
+            matches!(res, Err(CoreError::ValueError(_))),
+            "expected ValueError for {}, got {:?}",
+            bad_val_json,
+            res
+        );
+    }
+
+    // Confirm validation order: pts_arr.len() < 2 triggers before beta_a bounds check,
+    // and beta_a bounds check triggers before octant_bit_order type validation.
+    let short_pts_big_beta =
+        parse_json(r#"{"points":[[0,0,0]],"beta_a":9223372036854775808}"#).unwrap();
+    match eval_operation(
+        "dec_coordinate_phase_3d_walk",
+        short_pts_big_beta.as_object().unwrap(),
+    ) {
+        Err(CoreError::ValueError(msg)) => assert!(
+            msg.contains("at least 2 points"),
+            "expected pts_arr.len() < 2 error first, got: {}",
+            msg
+        ),
+        other => panic!("expected ValueError for short points + big beta_a, got {:?}", other),
+    }
+    let big_beta_null_order =
+        parse_json(r#"{"points":[[0,0,0],[1,1,0]],"beta_a":9223372036854775808,"octant_bit_order":null}"#)
+            .unwrap();
+    match eval_operation(
+        "dec_coordinate_phase_3d_walk",
+        big_beta_null_order.as_object().unwrap(),
+    ) {
+        Err(CoreError::ValueError(msg)) => assert!(
+            msg.contains("1..=10000"),
+            "expected beta_a bounds error before octant_bit_order, got: {}",
+            msg
+        ),
+        other => panic!(
+            "expected ValueError for big beta_a + null octant_bit_order, got {:?}",
+            other
+        ),
+    }
+
+    // 4. Static source-text check: pure TritWord/TritRatio and zero BigRat / pair_json in RC-044
+    let dec_src = fs::read_to_string(crate_root().join("src/manual_dec_ops.rs"))
+        .expect("read manual_dec_ops.rs");
+    let start_idx = dec_src
+        .find("fn op_dec_coordinate_phase_3d_walk")
+        .expect("op_dec_coordinate_phase_3d_walk present");
+    let rc044_src = &dec_src[start_idx..];
+    assert!(
+        rc044_src.contains("TritWord") && rc044_src.contains("TritRatio"),
+        "op_dec_coordinate_phase_3d_walk must use TritWord and TritRatio"
+    );
+    assert!(
+        rc044_src.contains("trit_pair_json"),
+        "op_dec_coordinate_phase_3d_walk must serialize ratios via trit_pair_json"
+    );
+    assert!(
+        !rc044_src.contains("BigRat"),
+        "op_dec_coordinate_phase_3d_walk must not reference BigRat"
+    );
+    assert!(
+        !rc044_src.replace("trit_pair_json", "").contains("pair_json"),
+        "op_dec_coordinate_phase_3d_walk must not call BigRat pair_json"
+    );
+}
+
 

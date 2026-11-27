@@ -2732,89 +2732,253 @@ pub fn op_dec_cycle_shedding_exact_summary(
 // RC-044: dec_coordinate_phase_3d_walk
 // ---------------------------------------------------------------------------
 
+const RC044_MAX_BETA_A: i64 = 10_000;
+
+fn octant_3d_trit(dx: &TritWord, dy: &TritWord, dz: &TritWord, bit_order: &str) -> usize {
+    if bit_order == "lsb_x" {
+        (if dx.sign() < 0 { 1 } else { 0 })
+            | (if dy.sign() < 0 { 2 } else { 0 })
+            | (if dz.sign() < 0 { 4 } else { 0 })
+    } else {
+        (if dx.sign() < 0 { 4 } else { 0 })
+            | (if dy.sign() < 0 { 2 } else { 0 })
+            | (if dz.sign() < 0 { 1 } else { 0 })
+    }
+}
+
 pub fn op_dec_coordinate_phase_3d_walk(
     inputs: &BTreeMap<String, JsonValue>,
 ) -> Result<JsonValue, CoreError> {
     let pts_arr = require_array(inputs, "points")?;
-    let beta_a = require_i64(inputs, "beta_a")?;
-    if pts_arr.len() < 2 || beta_a <= 0 {
-        return Err(CoreError::ValueError(
-            "invalid 3D coordinate walk inputs".to_string(),
-        ));
+    let beta_bi = require_json_int(get_field(inputs, "beta_a")?, "beta_a")?;
+    if pts_arr.len() < 2 {
+        return Err(CoreError::ValueError(format!(
+            "points must contain at least 2 points, got {}",
+            pts_arr.len()
+        )));
     }
-    let mut pts = Vec::with_capacity(pts_arr.len());
-    for v in pts_arr {
+    let beta_a = beta_bi
+        .to_i64()
+        .filter(|&b| (1..=RC044_MAX_BETA_A).contains(&b))
+        .ok_or_else(|| {
+            CoreError::ValueError(format!(
+                "beta_a must be in 1..={}, got {}",
+                RC044_MAX_BETA_A, beta_bi
+            ))
+        })?;
+
+    let bit_order: &str = match inputs.get("octant_bit_order") {
+        None => "msb_x",
+        Some(JsonValue::Str(s)) => match s.as_str() {
+            "msb_x" => "msb_x",
+            "lsb_x" => "lsb_x",
+            other => {
+                return Err(CoreError::ValueError(format!(
+                    "octant_bit_order must be 'msb_x' or 'lsb_x', got {:?}",
+                    other
+                )));
+            }
+        },
+        Some(other) => {
+            return Err(CoreError::TypeError(format!(
+                "octant_bit_order must be a string, got {}",
+                other.type_name()
+            )));
+        }
+    };
+
+    let mut pts: Vec<(TritWord, TritWord, TritWord)> = Vec::with_capacity(pts_arr.len());
+    for (idx, v) in pts_arr.iter().enumerate() {
         let arr = match v {
-            JsonValue::Array(a) if a.len() == 3 => a,
-            _ => {
-                return Err(CoreError::ValueError(
-                    "point must be [x, y, z]".to_string(),
-                ))
+            JsonValue::Array(a) => a,
+            other => {
+                return Err(CoreError::TypeError(format!(
+                    "points[{}] must be a JSON array, got {}",
+                    idx,
+                    other.type_name()
+                )));
             }
         };
-        pts.push((
-            parse_i64_elem(&arr[0], "x")?,
-            parse_i64_elem(&arr[1], "y")?,
-            parse_i64_elem(&arr[2], "z")?,
-        ));
+        if arr.len() != 3 {
+            return Err(CoreError::ValueError(format!(
+                "points[{}] must have 3 ints, got {}",
+                idx,
+                arr.len()
+            )));
+        }
+        let x = TritWord::from_bigint(require_json_int(&arr[0], &format!("points[{}][0]", idx))?);
+        let y = TritWord::from_bigint(require_json_int(&arr[1], &format!("points[{}][1]", idx))?);
+        let z = TritWord::from_bigint(require_json_int(&arr[2], &format!("points[{}][2]", idx))?);
+        pts.push((x, y, z));
     }
 
     let n_steps = pts.len() - 1;
     let beta_u = beta_a as usize;
-    let mut phase_counts = vec![0i64; beta_u];
-    let mut octant_counts = vec![0i64; 8];
-    let mut q_vals = Vec::with_capacity(n_steps);
-    let mut sum_q = 0i64;
+    let tw_n_steps = tw_i64(n_steps as i64);
+    let tw_beta_a = tw_i64(beta_a);
+    let tw_eight = tw_i64(8);
+    let tw_one = TritWord::one();
+
+    let mut phase_counts_tw = vec![TritWord::zero(); beta_u];
+    let mut octant_counts_tw = vec![TritWord::zero(); 8];
+    let mut q_vals_tw = Vec::with_capacity(n_steps);
+    let mut sum_dx2 = TritWord::zero();
+    let mut sum_dy2 = TritWord::zero();
+    let mut sum_dz2 = TritWord::zero();
+    let mut sum_q = TritWord::zero();
 
     for i in 0..n_steps {
-        let dx = pts[i + 1].0 - pts[i].0;
-        let dy = pts[i + 1].1 - pts[i].1;
-        let dz = pts[i + 1].2 - pts[i].2;
-        let q_i = dx * dx + dy * dy + dz * dz;
-        let th = (q_i.rem_euclid(beta_a)) as usize;
-        let oc = octant_3d(dx, dy, dz);
-        q_vals.push(q_i);
-        sum_q += q_i;
-        phase_counts[th] += 1;
-        octant_counts[oc] += 1;
+        let dx = pts[i + 1].0.sub(&pts[i].0);
+        let dy = pts[i + 1].1.sub(&pts[i].1);
+        let dz = pts[i + 1].2.sub(&pts[i].2);
+        let dx2 = dx.mul(&dx);
+        let dy2 = dy.mul(&dy);
+        let dz2 = dz.mul(&dz);
+        let q_i = dx2.add(&dy2).add(&dz2);
+        sum_dx2 = sum_dx2.add(&dx2);
+        sum_dy2 = sum_dy2.add(&dy2);
+        sum_dz2 = sum_dz2.add(&dz2);
+        sum_q = sum_q.add(&q_i);
+        let (_, th_tw) = q_i.divmod_floor(&tw_beta_a)?;
+        let th = th_tw
+            .to_bigint()
+            .to_i64()
+            .ok_or_else(|| CoreError::ValueError("phase residue exceeds i64".to_string()))?
+            as usize;
+        let oc = octant_3d_trit(&dx, &dy, &dz, bit_order);
+        q_vals_tw.push(q_i);
+        phase_counts_tw[th] = phase_counts_tw[th].add(&tw_one);
+        octant_counts_tw[oc] = octant_counts_tw[oc].add(&tw_one);
     }
 
-    let n_i64 = n_steps as i64;
-    let base_q = n_i64 / 8;
-    let rem_q = (n_i64 % 8) as usize;
-    let mut m_oct = 0i64;
+    if sum_q.sign() <= 0 {
+        return Err(CoreError::ValueError(
+            "sum_Q must be positive for axis ratios R_x, R_y, R_z".to_string(),
+        ));
+    }
+
+    let (base_oct_tw, rem_oct_tw) = tw_n_steps.divmod_floor(&tw_eight)?;
+    let rem_oct_u = rem_oct_tw
+        .to_bigint()
+        .to_i64()
+        .ok_or_else(|| CoreError::ValueError("octant remainder exceeds i64".to_string()))?
+        as usize;
+    let mut dz_oct_tw = Vec::with_capacity(8);
+    let mut sum_dz_oct = TritWord::zero();
+    let mut m_oct_tw = TritWord::zero();
     for q in 0..8usize {
-        let comp = base_q + if q < rem_q { 1 } else { 0 };
-        m_oct += (comp - octant_counts[q]).abs();
+        let comp_q = if q < rem_oct_u {
+            base_oct_tw.add(&tw_one)
+        } else {
+            base_oct_tw.clone()
+        };
+        let dz_q = comp_q.sub(&octant_counts_tw[q]);
+        sum_dz_oct = sum_dz_oct.add(&dz_q);
+        m_oct_tw = m_oct_tw.add(&dz_q.abs_word());
+        dz_oct_tw.push(dz_q);
+    }
+    if sum_dz_oct.sign() != 0 {
+        return Err(CoreError::ValueError(
+            "octant delta_3 comparator failed count conservation".to_string(),
+        ));
     }
 
-    let base_th = n_i64 / beta_a;
-    let rem_th = (n_i64 % beta_a) as usize;
-    let mut m_th = 0i64;
+    let (base_th_tw, rem_th_tw) = tw_n_steps.divmod_floor(&tw_beta_a)?;
+    let rem_th_u = rem_th_tw
+        .to_bigint()
+        .to_i64()
+        .ok_or_else(|| CoreError::ValueError("phase remainder exceeds i64".to_string()))?
+        as usize;
+    let mut dz_th_tw = Vec::with_capacity(beta_u);
+    let mut sum_dz_th = TritWord::zero();
+    let mut m_th_tw = TritWord::zero();
     for th in 0..beta_u {
-        let comp = base_th + if th < rem_th { 1 } else { 0 };
-        m_th += (comp - phase_counts[th]).abs();
+        let comp_th = if th < rem_th_u {
+            base_th_tw.add(&tw_one)
+        } else {
+            base_th_tw.clone()
+        };
+        let dz_t = comp_th.sub(&phase_counts_tw[th]);
+        sum_dz_th = sum_dz_th.add(&dz_t);
+        m_th_tw = m_th_tw.add(&dz_t.abs_word());
+        dz_th_tw.push(dz_t);
+    }
+    if sum_dz_th.sign() != 0 {
+        return Err(CoreError::ValueError(
+            "phase delta_3 comparator failed count conservation".to_string(),
+        ));
     }
 
-    let rq = BigRat::from_i64_pair(sum_q, n_i64)?;
+    let r_q = TritRatio::new(sum_q.clone(), tw_n_steps)?;
+    let r_x = TritRatio::new(sum_dx2, sum_q.clone())?;
+    let r_y = TritRatio::new(sum_dy2, sum_q.clone())?;
+    let r_z = TritRatio::new(sum_dz2, sum_q.clone())?;
+    if r_x.add(&r_y).add(&r_z) != TritRatio::one() {
+        return Err(CoreError::ValueError(
+            "axis ratios R_x + R_y + R_z must sum to 1".to_string(),
+        ));
+    }
 
     let mut out = BTreeMap::new();
-    out.insert("step_count".to_string(), int_json(n_i64));
+    out.insert("step_count".to_string(), int_json(n_steps as i64));
     out.insert(
         "Q_values".to_string(),
-        JsonValue::Array(q_vals.iter().map(|&v| int_json(v)).collect()),
+        JsonValue::Array(
+            q_vals_tw
+                .iter()
+                .map(|v| JsonValue::Int(v.to_bigint()))
+                .collect(),
+        ),
     );
-    out.insert("sum_Q".to_string(), int_json(sum_q));
-    out.insert("R_Q_ratio".to_string(), pair_json(&rq));
+    out.insert("sum_Q".to_string(), JsonValue::Int(sum_q.to_bigint()));
+    out.insert("R_Q_ratio".to_string(), trit_pair_json(&r_q));
+    out.insert("R_x_ratio".to_string(), trit_pair_json(&r_x));
+    out.insert("R_y_ratio".to_string(), trit_pair_json(&r_y));
+    out.insert("R_z_ratio".to_string(), trit_pair_json(&r_z));
     out.insert(
         "phase_counts".to_string(),
-        JsonValue::Array(phase_counts.iter().map(|&v| int_json(v)).collect()),
+        JsonValue::Array(
+            phase_counts_tw
+                .iter()
+                .map(|v| JsonValue::Int(v.to_bigint()))
+                .collect(),
+        ),
     );
-    out.insert("phase_delta3_M".to_string(), int_json(m_th));
+    out.insert(
+        "phase_DeltaZ".to_string(),
+        JsonValue::Array(
+            dz_th_tw
+                .iter()
+                .map(|v| JsonValue::Int(v.to_bigint()))
+                .collect(),
+        ),
+    );
+    out.insert(
+        "phase_delta3_M".to_string(),
+        JsonValue::Int(m_th_tw.to_bigint()),
+    );
+    out.insert("octant_bit_order".to_string(), str_json(bit_order));
     out.insert(
         "octant_counts".to_string(),
-        JsonValue::Array(octant_counts.iter().map(|&v| int_json(v)).collect()),
+        JsonValue::Array(
+            octant_counts_tw
+                .iter()
+                .map(|v| JsonValue::Int(v.to_bigint()))
+                .collect(),
+        ),
     );
-    out.insert("octant_delta3_M".to_string(), int_json(m_oct));
+    out.insert(
+        "octant_DeltaZ".to_string(),
+        JsonValue::Array(
+            dz_oct_tw
+                .iter()
+                .map(|v| JsonValue::Int(v.to_bigint()))
+                .collect(),
+        ),
+    );
+    out.insert(
+        "octant_delta3_M".to_string(),
+        JsonValue::Int(m_oct_tw.to_bigint()),
+    );
     Ok(JsonValue::Object(out))
 }

@@ -113,30 +113,38 @@ Declare the four-tick cycle-disturbance shedding stack
 
 #math.equation(block: true, numbering: none, $ B_(upright("span")) arrow.r B_(upright("clip")) arrow.r B_(upright("shed")) arrow.r B_(upright("split")) arrow.r B_(upright("ext")). $)
 
-Whereas the immutable summary table above displays rounded six-decimal coordinates, vector #raw("RC-043") (#raw("manual/data/boundary_sadar/cycle_shedding_exact_rational_summary.csv"), verified by #raw("python3 -B -m manual.engine") #raw("--sector") #raw("boundary_sadar") and #raw("aod-core") #raw("--verify-vectors") #raw("--check-zero-float")) evaluates every tick in exact rational arithmetic: $P_t = min (B_t , C_t )$, shedding surplus $X_t = max (0, B_t - C_t )$, outward fraction $O_t = (31 slash 50) X_t$, and local retention $R_t = (19 slash 50) X_t$, satisfying $O_t + R_t = X_t$ identically at every tick.
+Whereas the retained ninety-tick CSV and immutable summary table above display rounded decimal coordinates (six-decimal CSV entries summarized at three decimal places), the exact rational oracles #raw("RC-014") (single-step algebraic recurrence check from $P_(t - 1) = 1 slash 2$, lead $4 slash 5$, lag $1 slash 5$, and $C_t = 11 slash 20$, yielding span $3 slash 5$, pre-clip $B_t = 37 slash 50$, clipped $P_t = 11 slash 20$, shed $X_t = 19 slash 100$, outward $O_t = 589 slash 5000$, and local $R_t = 361 slash 5000$ with $589 slash 5000 + 361 slash 5000 = 19 slash 100$) and #raw("RC-043") (four-tick chained exact rational summary in #raw("manual/data/boundary_sadar/cycle_shedding_exact_rational_summary.csv"), verified by #raw("python3 -B -m manual.engine") #box[#raw("--sector")] #raw("boundary_sadar") and #raw("aod-core") #box[#raw("--verify-vectors")] #box[#raw("--check-zero-float")]) evaluate every step without floating-point rounding: $P_t = min (B_t , C_t )$, shedding surplus $X_t = max (0, B_t - C_t )$, outward fraction $O_t = (31 slash 50) X_t$, and local retention $R_t = (19 slash 50) X_t$, satisfying $O_t + R_t = X_t$ identically at every tick. Across the four ticks of #raw("RC-043"), cumulative exact totals are $sum_t X_t = 6447 slash 15625$, outward $sum_t O_t = 199857 slash 781250$ (exact shed share $sum_t O_t slash sum_t X_t = 31 slash 50$), and local retention $sum_t R_t = 122493 slash 781250$ (exact shed share $sum_t R_t slash sum_t X_t = 19 slash 50$).
 
 
 #figure(
   kind: table, [
 #{
-  set text(size: 8.5pt)
-  set par(justify: false)
+  let rows = csv("/manual/data/boundary_sadar/cycle_shedding_exact_rational_summary.csv", row-type: dictionary)
+  set text(size: 8.0pt)
+  set par(justify: false, leading: 0.44em)
   table(
-    columns: (auto, auto, auto, auto, auto, auto, auto, auto),
+    columns: (6fr, 10fr, 15fr, 9fr, 12fr, 14fr, 17fr, 17fr),
     align: (right, right, right, right, right, right, right, right),
+    inset: (x: 2.8pt, y: 3.3pt),
     table.header(
       toprule,
-      [Tick], [Span], [Before clip $B_t$], [$C_t$], [Clipped $P_t$], [Shed $X_t$], [Outward $O_t$], [Local $R_t$],
+      [Tick], [Span], [Pre-clip $B_t$], [$C_t$], [Clipped $P_t$], [Shed $X_t$], [Outward $O_t$], [Local $R_t$],
       midrule,
     ),
-    [0], [$1 slash 125$], [$11 slash 2500$], [$14 slash 25$], [$11 slash 2500$], [0], [0], [0],
-    [1], [$29 slash 50$], [$20163 slash 62500$], [$1 slash 4$], [$1 slash 4$], [$2269 slash 31250$], [$70339 slash 1562500$], [$43111 slash 1562500$],
-    [2], [$7 slash 10$], [$59 slash 100$], [$1 slash 4$], [$1 slash 4$], [$17 slash 50$], [$527 slash 2500$], [$323 slash 2500$],
-    [3], [$1 slash 20$], [$93 slash 400$], [$3 slash 10$], [$93 slash 400$], [0], [0], [0],
+    ..rows.map(r => (
+      [#r.tick],
+      [#r.span_exact],
+      [#r.before_clip_exact],
+      [#r.C_compat_exact],
+      [#r.padar_P_exact],
+      [#r.shed_X_exact],
+      [#r.outward_O_exact],
+      [#r.local_R_exact],
+    )).flatten(),
     bottomrule,
   )
 }
   ],
-  caption: [Exact rational four-tick cycle-disturbance clipping and $31 slash 50$ versus $19 slash 50$ shedding split D.E.C. ledger (#raw("RC-043")).],
+  caption: [Engine-bound exact rational four-tick cycle-disturbance clipping and $31 slash 50$ versus $19 slash 50$ shedding split D.E.C. ledger (#raw("RC-014"), #raw("RC-043")\; live from #raw("cycle_shedding_exact_rational_summary.csv")).],
 ) <tab:manual-app-a-exact-shedding-dec>
 

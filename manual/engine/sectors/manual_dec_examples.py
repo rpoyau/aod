@@ -2737,63 +2737,158 @@ def build_cycle_shedding_exact_csv_rows() -> list[dict[str, str]]:
 # RC-044: Manual App. C — 9-Point Z^3 Lag-1 Coordinate Phase-Cycle & Octant Walk
 # =============================================================================
 
+_RC044_MAX_BETA_A: int = 10_000
+
+
+def _octant_3d_trit(dx: TritWord, dy: TritWord, dz: TritWord, bit_order: str) -> int:
+    """Classify 3D lag displacement sign pattern under declared octant bit order."""
+    if bit_order == "msb_x":
+        return (
+            (4 if dx.sign() < 0 else 0)
+            | (2 if dy.sign() < 0 else 0)
+            | (1 if dz.sign() < 0 else 0)
+        )
+    if bit_order == "lsb_x":
+        return (
+            (1 if dx.sign() < 0 else 0)
+            | (2 if dy.sign() < 0 else 0)
+            | (4 if dz.sign() < 0 else 0)
+        )
+    raise ValueError(f"octant_bit_order must be 'msb_x' or 'lsb_x', got {bit_order!r}")
+
 
 def eval_dec_coordinate_phase_3d_walk(inputs: dict[str, object]) -> dict[str, object]:
     """Step 9-point Z^3 trajectory lag-1 displacements, phase residues & octant delta_3 (RC-044)."""
-    pts_raw = inputs.get("points")
-    beta_a = require_exact_int(inputs.get("beta_a"), name="beta_a")
-    require(isinstance(pts_raw, list) and len(pts_raw) >= 2 and beta_a > 0, "invalid 3D track inputs")
+    require_type(
+        isinstance(inputs, dict),
+        f"inputs must be a dict, got {type(inputs).__name__}",
+    )
+    require("points" in inputs, "missing required input field 'points'")
+    pts_raw = inputs["points"]
+    require_type(
+        isinstance(pts_raw, list),
+        f"points must be a list, got {type(pts_raw).__name__}",
+    )
+    require("beta_a" in inputs, "missing required input field 'beta_a'")
+    beta_a = require_exact_int(inputs["beta_a"], name="beta_a")
+    require(len(pts_raw) >= 2, f"points must contain at least 2 points, got {len(pts_raw)}")
+    require(
+        1 <= beta_a <= _RC044_MAX_BETA_A,
+        f"beta_a must be in 1..={_RC044_MAX_BETA_A}, got {beta_a}",
+    )
 
-    pts: list[tuple[int, int, int]] = []
+    bit_order_raw = inputs.get("octant_bit_order", _MISSING_OPT)
+    if bit_order_raw is _MISSING_OPT:
+        bit_order = "msb_x"
+    else:
+        require_type(
+            isinstance(bit_order_raw, str),
+            f"octant_bit_order must be a str, got {type(bit_order_raw).__name__}",
+        )
+        require(
+            bit_order_raw in ("msb_x", "lsb_x"),
+            f"octant_bit_order must be 'msb_x' or 'lsb_x', got {bit_order_raw!r}",
+        )
+        bit_order = bit_order_raw
+
+    pts: list[tuple[TritWord, TritWord, TritWord]] = []
     for idx, p in enumerate(pts_raw):
-        require(isinstance(p, list) and len(p) == 3, f"points[{idx}] must have 3 ints")
+        require_type(
+            isinstance(p, list),
+            f"points[{idx}] must be a list, got {type(p).__name__}",
+        )
+        require(len(p) == 3, f"points[{idx}] must have 3 ints, got {len(p)}")
         pts.append(
             (
-                require_exact_int(p[0], name="x"),
-                require_exact_int(p[1], name="y"),
-                require_exact_int(p[2], name="z"),
+                TritWord.from_int(require_exact_int(p[0], name=f"points[{idx}][0]")),
+                TritWord.from_int(require_exact_int(p[1], name=f"points[{idx}][1]")),
+                TritWord.from_int(require_exact_int(p[2], name=f"points[{idx}][2]")),
             )
         )
 
     n_steps = len(pts) - 1
-    phase_counts = [0 for _ in range(beta_a)]
-    octant_counts = [0 for _ in range(8)]
-    q_vals: list[int] = []
+    tw_n_steps = TritWord.from_int(n_steps)
+    tw_beta_a = TritWord.from_int(beta_a)
+    tw_eight = TritWord.from_int(8)
+
+    phase_counts_tw: list[TritWord] = [TritWord.ZERO for _ in range(beta_a)]
+    octant_counts_tw: list[TritWord] = [TritWord.ZERO for _ in range(8)]
+    q_vals_tw: list[TritWord] = []
+    sum_dx2 = TritWord.ZERO
+    sum_dy2 = TritWord.ZERO
+    sum_dz2 = TritWord.ZERO
+    sum_q = TritWord.ZERO
+
     for i in range(n_steps):
         dx = pts[i + 1][0] - pts[i][0]
         dy = pts[i + 1][1] - pts[i][1]
         dz = pts[i + 1][2] - pts[i][2]
-        q_i = dx * dx + dy * dy + dz * dz
-        th = q_i % beta_a
-        oc = _octant_3d(dx, dy, dz)
-        q_vals.append(q_i)
-        phase_counts[th] += 1
-        octant_counts[oc] += 1
+        dx2 = dx * dx
+        dy2 = dy * dy
+        dz2 = dz * dz
+        q_i = dx2 + dy2 + dz2
+        sum_dx2 = sum_dx2 + dx2
+        sum_dy2 = sum_dy2 + dy2
+        sum_dz2 = sum_dz2 + dz2
+        sum_q = sum_q + q_i
+        _q_div, th_tw = q_i.divmod_floor(tw_beta_a)
+        th = th_tw.to_int()
+        oc = _octant_3d_trit(dx, dy, dz, bit_order)
+        q_vals_tw.append(q_i)
+        phase_counts_tw[th] = phase_counts_tw[th] + TritWord.ONE
+        octant_counts_tw[oc] = octant_counts_tw[oc] + TritWord.ONE
+
+    require(sum_q.sign() > 0, "sum_Q must be positive for axis ratios R_x, R_y, R_z")
 
     # Integer-balanced octant comparator IntBalance(N, 8)
-    base_q = n_steps // 8
-    rem_q = n_steps % 8
-    comp_oct = [base_q + (1 if q < rem_q else 0) for q in range(8)]
-    dz_oct = [comp_oct[q] - octant_counts[q] for q in range(8)]
-    require(sum(dz_oct) == 0, "octant delta_3 comparator failed count conservation")
-    m_oct = sum(abs(x) for x in dz_oct)
+    base_oct_tw, rem_oct_tw = tw_n_steps.divmod_floor(tw_eight)
+    rem_oct_i = rem_oct_tw.to_int()
+    dz_oct_tw: list[TritWord] = []
+    sum_dz_oct = TritWord.ZERO
+    m_oct_tw = TritWord.ZERO
+    for q in range(8):
+        comp_q = base_oct_tw + TritWord.ONE if q < rem_oct_i else base_oct_tw
+        dz_q = comp_q - octant_counts_tw[q]
+        dz_oct_tw.append(dz_q)
+        sum_dz_oct = sum_dz_oct + dz_q
+        m_oct_tw = m_oct_tw + dz_q.abs_word()
+    require(sum_dz_oct.sign() == 0, "octant delta_3 comparator failed count conservation")
 
-    base_th = n_steps // beta_a
-    rem_th = n_steps % beta_a
-    comp_th = [base_th + (1 if th < rem_th else 0) for th in range(beta_a)]
-    dz_th = [comp_th[th] - phase_counts[th] for th in range(beta_a)]
-    require(sum(dz_th) == 0, "phase delta_3 comparator failed count conservation")
-    m_th = sum(abs(x) for x in dz_th)
+    # Integer-balanced phase comparator IntBalance(N, beta_a)
+    base_th_tw, rem_th_tw = tw_n_steps.divmod_floor(tw_beta_a)
+    rem_th_i = rem_th_tw.to_int()
+    dz_th_tw: list[TritWord] = []
+    sum_dz_th = TritWord.ZERO
+    m_th_tw = TritWord.ZERO
+    for th in range(beta_a):
+        comp_th = base_th_tw + TritWord.ONE if th < rem_th_i else base_th_tw
+        dz_t = comp_th - phase_counts_tw[th]
+        dz_th_tw.append(dz_t)
+        sum_dz_th = sum_dz_th + dz_t
+        m_th_tw = m_th_tw + dz_t.abs_word()
+    require(sum_dz_th.sign() == 0, "phase delta_3 comparator failed count conservation")
+
+    r_q = TritRatio(sum_q, tw_n_steps)
+    r_x = TritRatio(sum_dx2, sum_q)
+    r_y = TritRatio(sum_dy2, sum_q)
+    r_z = TritRatio(sum_dz2, sum_q)
+    require(r_x.add(r_y).add(r_z) == TritRatio.ONE, "axis ratios R_x + R_y + R_z must sum to 1")
 
     out: dict[str, object] = {
         "step_count": n_steps,
-        "Q_values": q_vals,
-        "sum_Q": sum(q_vals),
-        "R_Q_ratio": _pair(Fraction(sum(q_vals), n_steps)),
-        "phase_counts": phase_counts,
-        "phase_delta3_M": m_th,
-        "octant_counts": octant_counts,
-        "octant_delta3_M": m_oct,
+        "Q_values": [qv.to_int() for qv in q_vals_tw],
+        "sum_Q": sum_q.to_int(),
+        "R_Q_ratio": _trit_pair(r_q),
+        "R_x_ratio": _trit_pair(r_x),
+        "R_y_ratio": _trit_pair(r_y),
+        "R_z_ratio": _trit_pair(r_z),
+        "phase_counts": [c.to_int() for c in phase_counts_tw],
+        "phase_DeltaZ": [d.to_int() for d in dz_th_tw],
+        "phase_delta3_M": m_th_tw.to_int(),
+        "octant_bit_order": bit_order,
+        "octant_counts": [c.to_int() for c in octant_counts_tw],
+        "octant_DeltaZ": [d.to_int() for d in dz_oct_tw],
+        "octant_delta3_M": m_oct_tw.to_int(),
     }
     require_no_floats(out)
     return out
@@ -2801,36 +2896,78 @@ def eval_dec_coordinate_phase_3d_walk(inputs: dict[str, object]) -> dict[str, ob
 
 def build_coordinate_phase_3d_csv_rows() -> list[dict[str, str]]:
     """Build deterministic 8-step Z^3 lag-1 D.E.C. displacement CSV for Manual App. C."""
-    pts = [
-        (0, 0, 0),
-        (1, 1, 0),
-        (2, 1, 1),
-        (3, 2, 1),
-        (2, 3, 2),
-        (3, 4, 3),
-        (4, 3, 4),
-        (5, 4, 4),
-        (6, 5, 5),
+    pts_list: list[list[int]] = [
+        [0, 0, 0],
+        [1, 1, 0],
+        [2, 1, 1],
+        [3, 2, 1],
+        [2, 3, 2],
+        [3, 4, 3],
+        [4, 3, 4],
+        [5, 4, 4],
+        [6, 5, 5],
     ]
+    res_msb = eval_dec_coordinate_phase_3d_walk(
+        {"points": pts_list, "beta_a": 5, "octant_bit_order": "msb_x"}
+    )
+    res_lsb = eval_dec_coordinate_phase_3d_walk(
+        {"points": pts_list, "beta_a": 5, "octant_bit_order": "lsb_x"}
+    )
+    require(res_msb["sum_Q"] == 20 and res_lsb["sum_Q"] == 20, "unexpected sum_Q for App. C track")
+    require(
+        res_msb["phase_delta3_M"] == 10 and res_lsb["phase_delta3_M"] == 10,
+        "unexpected phase_delta3_M for App. C track",
+    )
+    require(
+        res_msb["octant_delta3_M"] == 10 and res_lsb["octant_delta3_M"] == 10,
+        "unexpected octant_delta3_M for App. C track",
+    )
+    require(
+        res_msb["R_Q_ratio"] == ["5", "2"]
+        and res_msb["R_x_ratio"] == ["2", "5"]
+        and res_msb["R_y_ratio"] == ["7", "20"]
+        and res_msb["R_z_ratio"] == ["1", "4"],
+        "unexpected exact ratios for App. C track",
+    )
+    q_vals = res_msb["Q_values"]
+    require(isinstance(q_vals, list) and q_vals == res_lsb["Q_values"], "Q_values mismatch")
+
+    tw_five = TritWord.from_int(5)
+    phase_check = [0, 0, 0, 0, 0]
+    msb_check = [0, 0, 0, 0, 0, 0, 0, 0]
+    lsb_check = [0, 0, 0, 0, 0, 0, 0, 0]
     rows: list[dict[str, str]] = []
-    for i in range(len(pts) - 1):
-        dx = pts[i + 1][0] - pts[i][0]
-        dy = pts[i + 1][1] - pts[i][1]
-        dz = pts[i + 1][2] - pts[i][2]
-        q_i = dx * dx + dy * dy + dz * dz
-        th = q_i % 4
-        oc = _octant_3d(dx, dy, dz)
+    for i in range(len(pts_list) - 1):
+        p0 = pts_list[i]
+        p1 = pts_list[i + 1]
+        dx_tw = TritWord.from_int(p1[0]) - TritWord.from_int(p0[0])
+        dy_tw = TritWord.from_int(p1[1]) - TritWord.from_int(p0[1])
+        dz_tw = TritWord.from_int(p1[2]) - TritWord.from_int(p0[2])
+        q_tw = dx_tw * dx_tw + dy_tw * dy_tw + dz_tw * dz_tw
+        q_i = q_tw.to_int()
+        require(q_i == q_vals[i], f"step {i + 1} Q mismatch vs eval_dec_coordinate_phase_3d_walk")
+        _q_div, th_tw = q_tw.divmod_floor(tw_five)
+        th = th_tw.to_int()
+        oc_msb = _octant_3d_trit(dx_tw, dy_tw, dz_tw, "msb_x")
+        oc_lsb = _octant_3d_trit(dx_tw, dy_tw, dz_tw, "lsb_x")
+        phase_check[th] += 1
+        msb_check[oc_msb] += 1
+        lsb_check[oc_lsb] += 1
         rows.append(
             {
                 "step_i": str(i + 1),
-                "from_xyz": f"({pts[i][0]},{pts[i][1]},{pts[i][2]})",
-                "to_xyz": f"({pts[i + 1][0]},{pts[i + 1][1]},{pts[i + 1][2]})",
-                "delta_xyz": f"({dx},{dy},{dz})",
+                "from_xyz": f"({p0[0]},{p0[1]},{p0[2]})",
+                "to_xyz": f"({p1[0]},{p1[1]},{p1[2]})",
+                "delta_xyz": f"({dx_tw.to_int()},{dy_tw.to_int()},{dz_tw.to_int()})",
                 "Q_lag1": str(q_i),
-                "theta_mod4": str(th),
-                "octant_q": str(oc),
+                "theta_mod5": str(th),
+                "octant_msb_x": str(oc_msb),
+                "octant_lsb_x": str(oc_lsb),
             }
         )
+    require(phase_check == res_msb["phase_counts"], "CSV phase_counts mismatch")
+    require(msb_check == res_msb["octant_counts"], "CSV octant_msb_x mismatch")
+    require(lsb_check == res_lsb["octant_counts"], "CSV octant_lsb_x mismatch")
     return rows
 
 
