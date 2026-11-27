@@ -1,0 +1,79 @@
+bundle_id = "BND-P5-03"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P5-geometric-figures-and-seal"
+parent_bundle = "BND-P5-02"
+base_commit = "6cd1b8264bb88a1ff6022dfb3a4091f6a15665b4"
+
+[objective]
+summary = "Add trusted declarative #aod-csv-table and #aod-raw-wrap helpers in typst/lib/aod_schema.typ, migrate all 17 Manual sections/appendices to 100% Gate A2 content-policy compliance while preserving live CSV single-source-of-truth bindings, update Phase 3/4 QA live-CSV substring checks if needed, and extend scripts/typ2tex.py + scripts/verify_typst_parity.py so typ2tex.py cleanly converts the entire Typst repository (including live CSV tables) into deterministic LaTeX."
+deliverables = [
+  "Add trusted declarative #aod-csv-table(...) and #aod-raw-wrap(...) helpers to typst/lib/aod_schema.typ so live CSV tables read csv(\"/manual/data/boundary_sadar/...\", row-type: dictionary) inside the SHA-256-pinned template library without any #let, #show, #for, .. spread, box(), or csv() calls inside content files",
+  "Migrate all 12 live-CSV tables and all non-allowlisted raw-wrap/box/table-size constructs across the 17 affected Manual .typ units (14 sections + 3 appendices) to pure declarative #aod-csv-table(...) / #aod-raw-wrap(...) / reviewed table sizes (7.0pt, 7.5pt, 8.0pt, 8.5pt) while preserving ALL 281 Manual labels, ALL 172 Manual mainref_uses, ALL OWNERSHIP_AND_FIXTURES anchors, and ALL scientific prose/equations verbatim",
+  "Update scripts/verify_typst_parity.py: fix _typ_balanced to skip $...$ math spans (resolving half-open (0, 30] false-positive), allow declarative aod-csv-table (strictly validated to literal /manual/data/boundary_sadar/*.csv paths), aod-raw-wrap, figref, reviewed table sizes (7.0pt, 7.5pt, 8.0pt, 8.5pt, 9.5pt, 10pt, 12pt, 14pt, 17pt), and table inset without weakening any negative control in test_typst_parity.py",
+  "Extend scripts/typ2tex.py to deterministically expand #aod-csv-table(...) directly from the live CSV files on disk into clean LaTeX tabular/tabularx environments, support #aod-raw-wrap(...), #figref(...), reviewed table font sizes (7.0pt, 7.5pt, 8.0pt), and optional table inset:, and verify clean end-to-end typ2tex.py dry-run generation into _build/latex_check/ with zero Typ2TexError",
+  "Update live-CSV check helpers in tests/qa_phase3_relational_time.py and tests/qa_phase4_manual_sadar.py if necessary to accept #aod-csv-table(\"/manual/data/boundary_sadar/...\", ...) alongside csv(...) while preserving every single scientific/data assertion",
+  "Verify zero Gate A2 _content_policy_violations across ALL 48 Main + Manual content units (modulo manifest include list sealed in BND-P5-04), clean Typst publication build (--check-registry), and clean 144 ppi visual check on representative migrated CSV tables in _build/pub/manual.pdf",
+]
+
+[scope]
+read_only = [
+  "typst/lib/aod_plots.typ",
+  "contracts/scientific/OWNERSHIP_AND_FIXTURES.json",
+  "manual/data/boundary_sadar/native_closure_wave_dec_walk.csv",
+  "manual/data/boundary_sadar/awareness_operativity_dec_walk.csv",
+  "manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
+  "manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv",
+  "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+  "manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv",
+  "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
+  "manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv",
+  "manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv",
+  "manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv",
+  "manual/data/boundary_sadar/cycle_shedding_exact_rational_summary.csv",
+  "manual/data/boundary_sadar/coordinate_phase_3d_dec_walk.csv",
+]
+write_set = [
+  "typst/lib/aod_schema.typ",
+  "scripts/typ2tex.py",
+  "scripts/verify_typst_parity.py",
+  "typst/manual/sections/00_scope.typ",
+  "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+  "typst/manual/sections/00_awareness_fixtures.typ",
+  "typst/manual/sections/01_cell_measures.typ",
+  "typst/manual/sections/02_mapping_error.typ",
+  "typst/manual/sections/03_temporal_observation.typ",
+  "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
+  "typst/manual/sections/01_rest_energy_prediction.typ",
+  "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
+  "typst/manual/sections/04_boundary_current_applications.typ",
+  "typst/manual/sections/05_solar_system_field_tests.typ",
+  "typst/manual/sections/06_field_dynamics_applications.typ",
+  "typst/manual/sections/07_galactic_lensing_plan.typ",
+  "typst/manual/sections/09_prediction_test_fixture_registry.typ",
+  "typst/manual/appendices/A_simulation_fixtures_and_tau_prediction_context.typ",
+  "typst/manual/appendices/B_quarantined_external_comparison.typ",
+  "typst/manual/appendices/C_3d_coordinate_phase_cycle_delta3_fixture.typ",
+  "tests/qa_phase3_relational_time.py",
+  "tests/qa_phase4_manual_sadar.py",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "Zero Gate A2 _content_policy_violations across ALL 48 Main + Manual .typ units (given the complete include allowlist including the 9 P5-01 figures)",
+  "ALL 12 Manual D.E.C. tables remain 100% live CSV-backed (via #aod-csv-table reading /manual/data/boundary_sadar/*.csv inside aod_schema.typ; zero hardcoded row copies in Typst sources)",
+  "scripts/typ2tex.py cleanly generates the entire LaTeX compatibility tree into _build/latex_check/ with exit 0 and zero Typ2TexError, expanding all 12 #aod-csv-table calls deterministically from live CSVs",
+  "Zero weakened negative controls in verify_typst_parity.py (every rejected probe in test_typst_parity.py:84-114 still fails closed, plus arbitrary non-/manual/data/boundary_sadar/*.csv paths in #aod-csv-table are rejected)",
+  "Preserve ALL 455 Main labels, ALL 281 Manual labels, ALL 172 Manual mainref_uses, ALL 26 OWNERSHIP_AND_FIXTURES owned anchors, and pass qa_phase3_relational_time.py & qa_phase4_manual_sadar.py under both normal and -O Python",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/typ2tex.py --root . --outdir _build/latex_check",
+  "python3 -B -c 'import json; from pathlib import Path; import scripts.verify_typst_parity as vtp; root = Path(\".\"); m = json.loads((root / \"typst/manifest.json\").read_text()); allowed = {e[\"typst_target\"] for e in m[\"active_source_map\"]} | set(m.get(\"diagram_components\", {})) | set(m.get(\"vector_figure_components\", {})) | {p.relative_to(root).as_posix() for p in (root / \"typst/lib/figures\").rglob(\"*.typ\")}; bad = {}; [bad.__setitem__(p.relative_to(root).as_posix(), v) for p in sorted(list((root / \"typst/sections\").glob(\"*.typ\")) + list((root / \"typst/appendices\").glob(\"*.typ\")) + list((root / \"typst/manual/sections\").glob(\"*.typ\")) + list((root / \"typst/manual/appendices\").glob(\"*.typ\")) + list((root / \"typst/manual/tables\").glob(\"*.typ\"))) for v in [vtp._content_policy_violations(p.relative_to(root).as_posix(), p.read_text(encoding=\"utf-8\"), allowed)[0]] if v]; assert not bad, bad; print(\"GATE_A2_ALL_CONTENT_CLEAN\")'",
+  "python3 -B -m pytest -q -o python_files=\"test_*.py qa_*.py\" tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py tests/test_main_manual_references.py tests/test_main_manual_concept_ownership.py tests/qa_phase3_relational_time.py tests/qa_phase4_manual_sadar.py",
+  "python3 -B -O -m pytest -q -o python_files=\"qa_*.py\" tests/qa_phase3_relational_time.py tests/qa_phase4_manual_sadar.py",
+]
+max_retries = 2
