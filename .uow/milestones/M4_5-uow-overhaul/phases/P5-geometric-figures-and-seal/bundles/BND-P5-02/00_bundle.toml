@@ -1,0 +1,63 @@
+bundle_id = "BND-P5-02"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P5-geometric-figures-and-seal"
+parent_bundle = "BND-P5-01"
+base_commit = "2c4ae98123060f7318cbd1bd65a3af5fd4bf3272"
+
+[objective]
+summary = "Eliminate all 17 Manual title-on-subtitle collisions and tight box/border overflows using #aod-figure-header, fix every stale vector ID and numeric claim inside Manual figures (tau raw 28, field_dynamics 26.57055342%/230-228-digit/SD-008, wire RC-032, registry 53 vectors RC-045, spine 53/53, qext SD-007/SD-004-005/RC-027..029, short_window RC-030/RC-038), enforce Gate A2 + Gate C compliance, and verify all 17 figures at 144 ppi PNG."
+deliverables = [
+  "Migrate all 17 colliding y=0.54/y=0.94 Manual figures under typst/lib/figures/manual/ onto collision-proof #aod-figure-header (bumping fig-height-cm and shifting diagram body y-offsets cleanly where needed so zero wrapped titles overlap subtitles and zero boxes/text touch borders)",
+  "Fix all stale vector citations and numeric claims across Manual figures: five_boundary_calculation_spine.typ (53/53 RC-001..RC-045 + SD-001..SD-008, TritWord/TritRatio SWAR), tau_five_boundary_sadar_setup.typ (raw 28 = 11 + 17, RC-027 50-microslot rotor), short_window_boundary_feynman.typ (RC-030 C_6 double-slit + RC-038), wire_moving_boundary_feynman.typ (RC-032, zero RC-030/RC-031), field_dynamics_boundary_feynman.typ (230/228-digit, 26.57055342 % live from CSV, SD-008 & RC-041, zero 64.70291920/840-digit/RC-032), registry_engine_coverage_atlas.typ (53 total = 45 RC-001..RC-045 + 8 SD-001..SD-008, Manual 33..45 bar = 13), and qext_quarantine_firewall.typ (SD-007, SD-004/SD-005 & RC-027..RC-029, zero RC-025, clean box (b) e^- right-border breathing room)",
+  "Enforce Gate A2 policy (zero #set rules, zero @preview/@local, zero bare enum '1. ' artifacts) and Gate C print-legibility (1 page, 0 rasters, 0 non-black/invisible text paints, min_font >= 4.0pt) across all 17 upgraded figures",
+  "Render and visually inspect all 17 upgraded figures (both standalone PDF exports and embedded _build/pub/manual.pdf pages) at 144 ppi PNG via pdftoppm and view_file confirming zero title-on-subtitle overlaps, zero clipping, zero text touching borders, and zero margin overflows",
+]
+
+[scope]
+read_only = [
+  "typst/lib/aod_plots.typ",
+  "scripts/export_typst_figures.py",
+  "scripts/verify_typst_parity.py",
+  "manual/engine/vectors/rational_core.jsonl",
+  "manual/engine/vectors/symbolic_and_display.jsonl",
+  "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
+  "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
+  "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
+]
+write_set = [
+  "typst/lib/figures/manual/five_boundary_calculation_spine.typ",
+  "typst/lib/figures/manual/native_closure_q4_dec_walk.typ",
+  "typst/lib/figures/manual/awareness_matched_operativity_feynman.typ",
+  "typst/lib/figures/manual/dec_hinge_slide_chiral_vertex.typ",
+  "typst/lib/figures/manual/chiral_flip_boundary_stokes.typ",
+  "typst/lib/figures/manual/typed_map_variance_feynman.typ",
+  "typst/lib/figures/manual/temporal_si_bridge_feynman.typ",
+  "typst/lib/figures/manual/short_window_boundary_feynman.typ",
+  "typst/lib/figures/manual/tau_five_boundary_sadar_setup.typ",
+  "typst/lib/figures/manual/collision_shedding_debris_feynman.typ",
+  "typst/lib/figures/manual/hydrogen_shell_wavelet_atlas.typ",
+  "typst/lib/figures/manual/wire_moving_boundary_feynman.typ",
+  "typst/lib/figures/manual/solar_boundary_scopes_feynman.typ",
+  "typst/lib/figures/manual/field_dynamics_boundary_feynman.typ",
+  "typst/lib/figures/manual/lensing_ray_boundary_feynman.typ",
+  "typst/lib/figures/manual/registry_engine_coverage_atlas.typ",
+  "typst/lib/figures/manual/qext_quarantine_firewall.typ",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "Zero Gate A2 _vector_figure_policy_violations across all 17 modified figures (strictly ZERO #set rules, zero @preview/@local, literal fig-width-cm/fig-height-cm + single #aod-canvas)",
+  "Zero stale text across all typst/lib/figures/manual/*.typ: zero '64.70291920', zero '840-digit', zero 'raw 26', zero 'RC-001..RC-044', zero '52 ' vector count, zero 'RC-030 & RC-031' in wire_moving_boundary_feynman, zero 'RC-032 & RC-041' in field_dynamics_boundary_feynman, zero 'RC-025' in qext_quarantine_firewall",
+  "Preserve ALL 455 Main labels, ALL 281 Manual labels, ALL 172 Manual mainref_uses, and exact DATA_BACKED_VERIFIED csv() data bindings in all data-backed figures",
+  "Gate C PDF compliance across all 17 exported PDFs (1 page, 0 rasters, 0 non-black/invisible text paints, min_font >= 4.0pt) and 144 ppi visual verification confirming zero overlaps, zero border-touching, and zero clipping",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+  "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/export_typst_figures.py --root . --surface manual --outdir _build/fig_check/manual",
+  "python3 -B -c 'from pathlib import Path; import scripts.verify_typst_parity as vtp; root = Path(\".\"); bad = {str(p): vtp._vector_figure_policy_violations(p) for p in sorted((root / \"typst/lib/figures/manual\").glob(\"*.typ\")) if vtp._vector_figure_policy_violations(p)}; assert not bad, bad; print(\"GATE_A2_MANUAL_FIGURES_CLEAN\")'",
+]
+max_retries = 2
