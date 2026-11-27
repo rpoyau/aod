@@ -1,11 +1,11 @@
 {
   "bundle_id": "BND-P4-04",
-  "status": "STAGED",
+  "status": "PLANNED",
   "worktree_path": "/home/antigravity/rpoyau/wt-BND-P4-04",
   "branch": "uow/BND-P4-04",
   "base_commit": "3f12bf47cfa388f7914926916005f98d191e7705",
-  "head_commit": "3f12bf47cfa388f7914926916005f98d191e7705",
+  "head_commit": "c616836417b58e21411d5c8f4f724d8d2549ebbb",
   "retries_used": 0,
   "max_retries": 2,
-  "updated_at": "2026-11-27T18:33:32Z"
+  "updated_at": "2026-11-27T18:47:28Z"
 }
