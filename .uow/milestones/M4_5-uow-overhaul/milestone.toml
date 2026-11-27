@@ -1,0 +1,18 @@
+milestone_id = "M4_5-uow-overhaul"
+title = "AOD Clean-Room Overhaul: Ternary-on-Binary Core, 4D Tesseract-to-Pi, Relational Time, In-Place Manual Refactor & Geometric Figures"
+global_invariants = [
+  "Zero floating-point types, float literals, or implicit float coercions across manual/engine/ and crates/aod-core/",
+  "Zero bare assert statements in manual/engine/ and engine tests; normal and -O Python execute identical checks and byte-identical reports",
+  "crates/aod-core/ remains 100% std-only, #![forbid(unsafe_code)], zero external dependencies, and debug == release byte-identical",
+  "Never emit forbidden experimental namespace tokens anywhere in manual/engine/ or crates/aod-core/",
+  "2-bit ternary lane encoding preserves 11 (0_H structural hinge / saturation / carry-barrier) alongside 00 (0_D dwell), 01 (+1 alpha), and 10 (-1 omega), with O(1) SWAR lane negation preserving 00 and 11",
+  "Preserve AOD ontology discipline: Dion != Dimonon, Duon != Duad, clock-free relational time, strict Main/Manual separation, and zero silent approximations",
+  "All verification harnesses pass offline with deterministic exit codes and zero uncommitted build or render artifacts",
+]
+phases = [
+  "P1-ternary-ratio-engine",
+  "P2-tesseract-volume-pi",
+  "P3-relational-time",
+  "P4-manual-sadar-examples",
+  "P5-geometric-figures-and-seal",
+]

@@ -1,0 +1,48 @@
+bundle_id = "BND-P1-01"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P1-ternary-ratio-engine"
+parent_bundle = "m4-boundary-sadar-completion"
+base_commit = "8dffdb831d72faa7da99e28f0bab35e133ef2c6b"
+
+[objective]
+summary = "Implement canonical 2-bit and 4-bit Trit-on-Binary (11 structural hinge preserved) SWAR word arithmetic and 2-trit exact TritRatio in manual/engine/ternary.py."
+deliverables = [
+  "2-bit lane constants TRIT_DWELL=0b00 (0_D), TRIT_ALPHA=0b01 (+1), TRIT_OMEGA=0b10 (-1), TRIT_HINGE=0b11 (0_H structural hinge / saturation / carry-barrier preserved, never rejected)",
+  "4-bit chiral-hinge lane container ChiralPair4 (lo_lane, hi_lane, raw4, chiral_flip, net_charge, has_hinge, is_saturated, to_bits/from_bits)",
+  "Immutable arbitrary-width packed 2-bit word TritWord supporting O(1) SWAR lane-swap negation (preserving 00->00 and 11->11), O(1) SWAR masks (dwell_mask, alpha_mask, omega_mask, polar_mask, hinge_mask), live dwell compaction burn_contiguous_dwell (xxxxx->x retaining 0_H hinges and polar traces), balanced base-3 integer encode/decode (from_int/to_int), sign, abs_word, exact arithmetic (add, sub, neg, mul, divmod_floor, //, %, gcd, cmp), and canonical lane/packed serialization",
+  "2-trit micro-ratio Trit2MicroRatio (numerator 2-bit lane, denominator 2-bit lane, preserving 11 hinge/saturation metadata) and full exact TritRatio = (TritWord_num, TritWord_den) with coprime positive denominator canonicalization, from_ints/from_fraction/to_fraction/canonical_pair, add/sub/mul/div/neg/abs_ratio/cmp, plus hinge/barrier metadata preservation",
+  "Re-export canonical ternary symbols from manual/engine/__init__.py",
+  "Exhaustive zero-bare-assert unit test suite in tests/test_ternary_engine.py verified identically under normal and -O Python",
+]
+
+[scope]
+read_only = [
+  "manual/engine/numeric.py",
+  "manual/engine/policy.py",
+  "manual/engine/schema.py",
+]
+write_set = [
+  "manual/engine/ternary.py",
+  "manual/engine/__init__.py",
+  "tests/test_ternary_engine.py",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+  "All manual/engine/ternary.py code must pass manual/engine/policy.py audit_source_tree with 0 violations (zero floats, zero bare assert, zero forbidden imports/calls/tokens)",
+  "O(1) SWAR negation on packed 2-bit word MUST use bitwise lane-swap ((w & mask_01) << 1) | ((w >> 1) & mask_01) preserving 00->00 and 11->11",
+  "O(1) SWAR hinge extraction MUST use (w & (w >> 1)) & mask_01 (and doubled mask for 2-bit lanes) without per-lane division",
+  "TritWord balanced ternary arithmetic MUST perform exact balanced base-3 operations (with carry-barrier / hinge awareness) and agree with Python exact int on all inputs including negative values, zero, and >128-bit magnitudes",
+  "TritRatio MUST store numerator and denominator as TritWord registers (never wrapping Fraction as its backing store) and maintain exact reduced canonical form with positive denominator",
+  "tests/test_ternary_engine.py MUST use non-strippable _check(...) helper (zero bare assert)",
+]
+
+[validation]
+commands = [
+  "python3 -B scripts/audit_scientific_sources.py .",
+  "mkdir -p _build/s2 && python3 -B -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/b1_norm.json && python3 -B -O -m manual.engine --sector boundary_sadar --check-zero-float --verify-vectors --report _build/s2/b1_opt.json && cmp _build/s2/b1_norm.json _build/s2/b1_opt.json",
+  "python3 -B -m pytest -q tests/test_ternary_engine.py tests/test_s2_reference_engine.py",
+  "python3 -B -O -m pytest -q tests/test_ternary_engine.py",
+]
+max_retries = 2
