@@ -194,3 +194,123 @@ causal witnesses of \eqref{eq:fold-outer-closure} and the reapplication of
 \eqref{eq:relational-time},
 \eqref{eq:expose-inner-lineage},
 \eqref{eq:awareness-active}.}
+
+\subsection{Iterated octave carriage and top-down exposure}
+\label{subsec:awareness-octaves}
+\paragraph{Setup.}
+Iterate \eqref{eq:awareness-carriage} across finite integer scales
+\(r\in\mathbb Z_{\ge 0}\) (octaves \(B_0,B_1,\dots,B_{r_{\max}}\)) above
+base contact fusion \eqref{eq:fusion-closure} (\(B_0\times B_0\to B_1\)) and
+binary link-closure chain fusion \eqref{eq:link-closure-ladder}
+(\(B_r\times B_r\to B_{r+1}\)). Every admitted outer fold binds its actual
+inner witnesses with strict scale ascent, and top-down sheddic exposure peels
+the highest active participating rung \(\mathcal V_k\):
+\begin{equation}
+ \begin{aligned}
+ r_{\rm outer}&>\max_{c\in\mathcal I_{\rm inner}} r_c,\qquad
+ R^{\uparrow(r+1)}=\bigl(R^{\uparrow(r)},\mathrm{FoldWitness}_{r+1},
+ W^{(r+1)},\Pi^{\times}_{r+1}\bigr),\\
+ \operatorname{Expose}^{\downarrow}_{\rm top}(k)&:\quad
+ X_{\rm shedding}(k)>0\ \Longrightarrow\
+ \operatorname{Expose}^{\downarrow}\text{ acts on }
+ \{f\in\mathcal V_k:r(f)=r_{\max}(\mathcal V_k)\},
+ \end{aligned}
+ \label{eq:awareness-iterated-carriage}
+\end{equation}
+where \(r_{\max}(\mathcal V_k)=\max_{f\in\mathcal V_k}r(f)\) over active folds
+participating in the committed response at cut \(k\).
+
+\paragraph{Derivation.}
+Strict inequality \(r_{\rm outer}>\max_{c\in\mathcal I_{\rm inner}}r_c\) rules
+out same-scale or downward impostor folding while extending the two-step
+carriage of \eqref{eq:awareness-carriage} inductively to any finite octave
+\(r\ge 1\). Under shedding excess \eqref{eq:shedding-excess}, applying
+\eqref{eq:expose-inner-lineage} solely at \(r_{\max}(\mathcal V_k)\) exposes
+the outermost participating octave while preserving every lower rung
+\(0\le s<r_{\max}(\mathcal V_k)\) and its bound inner identities for subsequent
+transitions and reapplication of \eqref{eq:awareness-active}.
+
+\paragraph{Falsification.}
+Admitting a fold with \(r_{\rm outer}\le\max_{c\in\mathcal I_{\rm inner}}r_c\),
+erasing inner identities \(s<r_{\max}\) during top-down exposure, or claiming
+higher-octave operativity without a matched removal--restoration witness at
+scale \(r\) violates \eqref{eq:awareness-iterated-carriage}.
+
+\aodprovenance{\eqref{eq:fold-outer-closure},
+\eqref{eq:expose-inner-lineage},
+\eqref{eq:shedding-excess},
+\eqref{eq:fusion-closure},
+\eqref{eq:link-closure-ladder},
+\eqref{eq:awareness-active},
+\eqref{eq:awareness-carriage}.}
+
+\subsection{Finite cell densities and boundary-control response}
+\label{subsec:awareness-density-reos}
+\paragraph{Setup.}
+On a finite admitted support at cut \(k\), let \(N_{B_0}(k)\) be the count of
+retained base-scale cells, \(N^{\rm act}_{B_r}(k)\) the count of active
+non-exposed folds at octave \(r\ge 1\),
+\(N_{\rm cell}(k)=N_{B_0}(k)+\sum_{r=1}^{r_{\max}}N^{\rm act}_{B_r}(k)\) the
+active cell total, and \(N_{\Qfour}(k)=\lceil N_{\rm cell}(k)/16\rceil\) the
+16-vertex \(\Qfour\) chart count spanning the base-8 addresses of
+\eqref{eq:first-anchor}. Given a declared finite cell-capacity control
+\(R^{(1)}\in\mathbb Z_{>0}\) and a finite committed boundary window \(\omega\)
+of width \(R^{(2)}=|\omega|\in\mathbb Z_{>0}\) recording per-cut signed
+boundary increment \(\delta_t\), reclosure count \(\Delta\operatorname{bip}_t\),
+and shedding surplus \(X_t\), define the exact rational occupancy and window
+densities
+\begin{equation}
+ \begin{aligned}
+ \rho_{\rm cell}(k)&=\frac{N_{\rm cell}(k)}{R^{(1)}}, &
+ \rho_{\Qfour}(k)&=\frac{N_{\rm cell}(k)}{16\,N_{\Qfour}(k)}
+ \quad(N_{\rm cell}(k)>0),\\
+ \rho_{\rm flux}(\omega)&=\frac{1}{|\omega|}\sum_{t\in\omega}\delta_t, &
+ \rho_{\rm trans}(\omega)&=\frac{1}{|\omega|}\sum_{t\in\omega}|\delta_t|,\\
+ \rho_{\rm bip}(\omega)&=\frac{1}{|\omega|}\sum_{t\in\omega}\Delta\operatorname{bip}_t, &
+ \rho_{\rm shed}(\omega)&=\frac{1}{|\omega|}\sum_{t\in\omega}X_t.
+ \end{aligned}
+ \label{eq:awareness-cell-density}
+\end{equation}
+For any declared density
+\(\rho\in\{\rho_{\rm cell},\rho_{\Qfour},\rho_{\rm flux},\rho_{\rm trans},\rho_{\rm bip},\rho_{\rm shed}\}\)
+evaluated across two matched executions differing solely in one declared
+boundary control \(R^{(a)}_1\ne R^{(a)}_2\), define the discrete
+boundary-control response (relational equation-of-state shadow price)
+\begin{equation}
+ \lambda_a\bigl(\rho;\,R^{(a)}_1,R^{(a)}_2\bigr)
+ =-\frac{\rho\bigl(R^{(a)}_2\bigr)-\rho\bigl(R^{(a)}_1\bigr)}{R^{(a)}_2-R^{(a)}_1}
+ \in\mathbb Q.
+ \label{eq:awareness-reos-response}
+\end{equation}
+
+\paragraph{Derivation.}
+All numerators and denominators in \eqref{eq:awareness-cell-density} and
+\eqref{eq:awareness-reos-response} lie in \(\mathbb Z\) and \(\mathbb Z_{>0}\),
+so every density and control price is an exact rational in \(\mathbb Q\) with
+no continuous parameters or background time. Opposed signed increments cancel
+in \(\sum_{t\in\omega}\delta_t\) while adding in
+\(\sum_{t\in\omega}|\delta_t|\), so balanced-sign boundary traffic yields
+\(\rho_{\rm flux}(\omega)=0\) together with \(\rho_{\rm trans}(\omega)>0\),
+paralleling cancellation operativity in \eqref{eq:b-scoped-stokes} and
+\eqref{eq:awareness-active}. Querying \eqref{eq:awareness-cell-density} or
+\eqref{eq:awareness-reos-response} is strictly passive: observation records do
+not enter \(\mathcal U\) and therefore leave realized states and retained bytes
+invariant. By contrast, substituting a recorded open-loop playback return for a
+live closed-loop sensory return alters \(R_k\) at the committed return cut and
+diverges on the subsequent continuation under \eqref{eq:awareness-active}.
+
+\paragraph{Falsification.}
+Zero control variation (\(R^{(a)}_2=R^{(a)}_1\)) or an unmatched control pair
+invalidates \eqref{eq:awareness-reos-response}. Any trace query that mutates
+state or retained bytes violates passive observation, and equating
+\(\rho_{\rm flux}=0\) with zero boundary transport fails whenever
+\(\rho_{\rm trans}>0\).
+
+\aodprovenance{\eqref{eq:first-anchor},
+\eqref{eq:atomic-h1},
+\eqref{eq:cumulative-closure-counts},
+\eqref{eq:b-scoped-stokes},
+\eqref{eq:shedding-excess},
+\eqref{eq:awareness-active}.}
+\aodliteraturenote{Exact discrete quotient formulation and axiomatic boundary
+discipline follow AF and AFC \cite{reginald2025af,afc}.}
