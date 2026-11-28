@@ -4,12 +4,15 @@
 \section{Solar Observable-Map Fixtures}\label{manual:solar-system-field-tests}
 
 \paragraph{Calculation card.}
-The Sun/body/window declarations and carried O0 values below give residual
-arithmetic, not a replayed native solar evaluator. The $42.98$ perihelion
-and $1.75$ bending references are theory benchmarks. The redshift record
-separately identifies a reference prediction and a measured estimate with
-uncertainty. This application must supply its native construction, observable
-map, source certificates and uncertainty before physical prediction; see
+The Sun/body/window declarations and carried O0 values below supply exact
+rational residual arithmetic---verified by vector \texttt{RC-040}
+(\texttt{dec\_solar\_o0\_boundary\_audit}, \texttt{solar\_o0\_boundary\_dec\_audit.csv})
+under the explicit gate \texttt{HOLD\_MISSING\_NATIVE\_SOLAR\_PRODUCER}---and do not
+constitute a replayed native solar evaluator. The $42.98$ perihelion and $1.75$
+bending references are theory benchmarks. The redshift record separately
+identifies a reference prediction and a measured estimate with uncertainty.
+This application must supply its native construction, observable map, source
+certificates, and uncertainty before physical prediction; see
 \secref{manual:calculation-spine}.
 
 \aodnoteblock{Scope}{This section carries solar-system observable-map comparison fixtures. Each record declares its solar-system scope, names the observable map, carries a comparison value, attaches an external reference target, and records residual, percent error, source citation, and audit.}
@@ -210,33 +213,34 @@ v_z^{\mathrm{meas}}=638\pm6\,\mathrm{m/s}.
 
 \subsection{Five-boundary solar O0 scope separation and producer-gate ledger}\label{manual:solar:dec-o0-boundary-audit}
 
+\paragraph{Setup and producer-gate verification (\texttt{RC-040}).}
 Declare the five-boundary solar observable-map stack separating the three distinct trajectory scopes from the unsupplied native producer gate and the quarantined external target comparison:
 
 \[
 B_{\mathrm{Sun}}\to(B_{\mathrm{Hg}},B_{\mathrm{bend}},B_{\mathrm{red}})\to B_{\mathrm{gate}}\to B_{\mathrm{O0}}\to B_{\mathrm{ext}}.
 \]
 
-Vector \texttt{RC-040} (\texttt{manual/data/boundary\_sadar/solar\_o0\_boundary\_dec\_audit.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) audits the exact rational observable-map residuals across $B_{\mathrm{Hg}}$ (closed orbital return shell), $B_{\mathrm{bend}}$ (open grazing ray chord), and $B_{\mathrm{red}}$ (radial potential climb window) while locking every row behind \texttt{HOLD\_MISSING\_NATIVE\_SOLAR\_PRODUCER} so O0 observable-map consistency is never misrepresented as a native solar derivation.
+Vector \texttt{RC-040} (\texttt{dec\_solar\_o0\_boundary\_audit})---archived in \texttt{manual/data/boundary\_sadar/solar\_o0\_boundary\_dec\_audit.csv} and verified by \texttt{python3 -B -m manual.engine --sector boundary\_sadar} and \texttt{aod-core --verify-vectors --check-zero-float}---audits the exact rational observable-map residuals across $B_{\mathrm{Hg}}$ (closed orbital return shell), $B_{\mathrm{bend}}$ (open grazing ray chord), and $B_{\mathrm{red}}$ (radial potential climb window) while certifying \texttt{native\_sadar\_evaluated = 0} and locking every row behind \texttt{HOLD\_MISSING\_NATIVE\_SOLAR\_PRODUCER} so O0 observable-map arithmetic is never misrepresented as a native solar derivation.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/solar-boundary-scopes-feynman.pdf}
-\caption{Typed solar boundary scopes ($B_{\mathrm{Hg}},B_{\mathrm{bend}},B_{\mathrm{red}}$), explicit \texttt{HOLD\_MISSING\_NATIVE\_SOLAR\_PRODUCER} gate, and exact rational O0 comparison ledger (\texttt{solar\_o0\_boundary\_dec\_audit.csv}).}
+\caption{Typed solar boundary scopes ($B_{\mathrm{Hg}},B_{\mathrm{bend}},B_{\mathrm{red}}$), explicit \texttt{HOLD\_MISSING\_NATIVE\_SOLAR\_PRODUCER} gate, and exact rational O0 comparison ledger (\texttt{RC-040}, \texttt{solar\_o0\_boundary\_dec\_audit.csv}).}
 \label{fig:manual-solar-boundary-scopes-feynman}
 \end{figure}
 
 \begin{table}[H]
 \centering
-\caption{Exact rational solar O0 observable-map residual and missing-producer gate ledger (\texttt{RC-040}).}
+\caption{Engine-bound exact rational solar O0 observable-map residual and missing-producer gate ledger (\texttt{RC-040}, live from \texttt{solar\_o0\_boundary\_dec\_audit.csv}).}
 \label{tab:manual-solar-dec-boundary-audit}
-{\footnotesize
-\begin{tabular}{llrrrl}
+{\scriptsize
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.120\linewidth}>{\raggedright\arraybackslash}p{0.120\linewidth}>{\raggedleft\arraybackslash}p{0.128\linewidth}>{\raggedleft\arraybackslash}p{0.096\linewidth}>{\raggedleft\arraybackslash}p{0.112\linewidth}>{\raggedleft\arraybackslash}p{0.064\linewidth}>{\raggedright\arraybackslash}p{0.160\linewidth}}
 \toprule
-Record & Typed scope & Mapped exact & Target exact & Exact residual & Producer gate \\
+Record & Typed scope & Mapped exact & Target exact & Exact residual & Abs. \% (exact / 7dp) & Producer gate \\
 \midrule
-\texttt{mercury\_perihelion} & $B_{\mathrm{Hg}}$ & $429799/10000$ & $2149/50$ & $-1/10000$ & \texttt{HOLD\_MISSING\_NATIVE\_SOLAR\_PRODUCER} \\
-\texttt{solar\_light\_bending} & $B_{\mathrm{bend}}$ & $175001/100000$ & $7/4$ & $+1/100000$ & \texttt{HOLD\_MISSING\_NATIVE\_SOLAR\_PRODUCER} \\
-\texttt{solar\_redshift} & $B_{\mathrm{red}}$ & $52999/25000000000$ & $53/25000000$ & $-1/25000000000$ & \texttt{HOLD\_MISSING\_NATIVE\_SOLAR\_PRODUCER} \\
+\texttt{mercury\_\allowbreak{}perihelion} & \texttt{B\_\allowbreak{}Hg(\allowbreak{}orbital\_\allowbreak{}return\_\allowbreak{}shell)} & 429799/\allowbreak{}10000 & 2149/\allowbreak{}50 & $-$1/\allowbreak{}10000 & 1/4298\par 0.0002327 & \texttt{HOLD\_\allowbreak{}MISSING\_\allowbreak{}NATIVE\_\allowbreak{}SOLAR\_\allowbreak{}PRODUCER} \\
+\texttt{solar\_\allowbreak{}light\_\allowbreak{}bending} & \texttt{B\_\allowbreak{}bend(\allowbreak{}grazing\_\allowbreak{}ray\_\allowbreak{}chord)} & 175001/\allowbreak{}100000 & 7/\allowbreak{}4 & 1/\allowbreak{}100000 & 1/1750\par 0.0005714 & \texttt{HOLD\_\allowbreak{}MISSING\_\allowbreak{}NATIVE\_\allowbreak{}SOLAR\_\allowbreak{}PRODUCER} \\
+\texttt{solar\_\allowbreak{}redshift} & \texttt{B\_\allowbreak{}red(\allowbreak{}radial\_\allowbreak{}climb\_\allowbreak{}window)} & 52999/\allowbreak{}25000000000 & 53/\allowbreak{}25000000 & $-$1/\allowbreak{}25000000000 & 1/530\par 0.0018868 & \texttt{HOLD\_\allowbreak{}MISSING\_\allowbreak{}NATIVE\_\allowbreak{}SOLAR\_\allowbreak{}PRODUCER} \\
 \bottomrule
 \end{tabular}
 }

@@ -7,13 +7,15 @@
   "counts": {
     "total_baseline_protected": 211,
     "archived_editorial_tex": 41,
-    "preserved_in_place": 170,
+    "archived_baseline_data": 1,
+    "preserved_in_place": 169,
     "by_role": {
+      "archived_baseline_data": 1,
       "archived_editorial_tex": 41,
       "preserved_historical_tex_snapshot": 5,
       "preserved_immutable_data_table_tex": 7,
       "preserved_shared_bib": 2,
-      "preserved_shared_data": 106,
+      "preserved_shared_data": 105,
       "preserved_shared_raster": 49,
       "preserved_unincluded_historical_tex": 1
     }
@@ -421,8 +423,8 @@
     },
     {
       "original_path": "manual/data/cell_measures/cells_geometry.json",
-      "retained_location": "manual/data/cell_measures/cells_geometry.json",
-      "role": "preserved_shared_data",
+      "retained_location": "archive/latex_baseline_98ddfa0/manual/data/cell_measures/cells_geometry.json",
+      "role": "archived_baseline_data",
       "sha256": "f941856c7bc86356bdb461e44ecaa34ae399597e7abb76ed61178b20b8232ef0",
       "bytes": 58548,
       "mode": "0o100644",

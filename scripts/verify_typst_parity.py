@@ -2613,6 +2613,11 @@ def _unique_ledger_map(records: list, key_field: str, section_name: str) -> dict
     return out
 
 
+M4_5_SCIENTIFIC_CONTRACT_EXTENSIONS = frozenset({
+    "contracts/scientific/CELL_MEASURE_SPEC.json",
+})
+
+
 def verify_baseline_immutability(
     root: Path, manifest: dict, baseline_root: Path | None = None
 ) -> dict:
@@ -2636,6 +2641,8 @@ def verify_baseline_immutability(
 
     snap_manifest_path = root / "archive/latex_baseline_98ddfa0/BASELINE_MANIFEST.json"
     archived_rel_map: dict[str, str] = {}
+    archived_editorial_count = 0
+    archived_data_count = 0
     inplace_paths: list[str] = []
     if snap_manifest_path.is_file():
         mat = load_module(root, "aod_materialize_latex_baseline", "scripts/materialize_latex_baseline.py")
@@ -2652,8 +2659,12 @@ def verify_baseline_immutability(
                 entry["sha256"] == expected_sha,
                 f"Baseline digest mismatch between manifest and archive for {orig}",
             )
-            if entry["role"] == "archived_editorial_tex":
+            if entry["role"] in ("archived_editorial_tex", "archived_baseline_data"):
                 archived_rel_map[orig] = entry["retained_location"]
+                if entry["role"] == "archived_editorial_tex":
+                    archived_editorial_count += 1
+                else:
+                    archived_data_count += 1
             else:
                 inplace_paths.append(orig)
         if baseline_root is not None:
@@ -2829,8 +2840,16 @@ def verify_baseline_immutability(
     )
     for c_path, rec in sorted(contract_amendments.items()):
         require(c_path in p1_contracts, f"Contract amendment references unknown Phase 1 contract: {c_path}")
-        require(rec.get("scientific_substance_changed") is False,
-                f"Contract amendment must declare scientific_substance_changed=false: {c_path}")
+        if c_path in M4_5_SCIENTIFIC_CONTRACT_EXTENSIONS:
+            require(
+                rec.get("scientific_substance_changed") is True
+                and rec.get("scope") == "m4_5_g6_tesseract_extension",
+                f"M4.5 scientific contract extension must declare scientific_substance_changed=true "
+                f"and scope='m4_5_g6_tesseract_extension': {c_path}",
+            )
+        else:
+            require(rec.get("scientific_substance_changed") is False,
+                    f"Contract amendment must declare scientific_substance_changed=false: {c_path}")
         require(
             rec.get("old_sha256") == p1_contracts[c_path],
             f"Contract amendment old_sha256 for {c_path} disagrees with accepted Phase 1 ({PHASE1_ACCEPTED_COMMIT}): "
@@ -2963,7 +2982,8 @@ def verify_baseline_immutability(
 
     return {
         "protected_baseline_files": len(protected),
-        "archived_editorial_tex_files": len(archived_rel_map),
+        "archived_editorial_tex_files": archived_editorial_count,
+        "archived_baseline_data_files": archived_data_count,
         "preserved_in_place_files": len(inplace_paths),
         "tex_files_unchanged": tex_count,
         "bib_files_unchanged": bib_count,
@@ -2990,19 +3010,12 @@ def verify_baseline_immutability(
 # semantics are pinned byte-for-byte by this verifier.
 # =============================================================================
 
+def _math_ast_sha256(mtk: tuple) -> str:
+    return hashlib.sha256(repr(mtk).encode("utf-8")).hexdigest()
+
+
 POST_BASELINE_MANUAL_EXTENSION_UNITS = frozenset({
     "typst/manual/sections/00_scope.typ",
-    "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
-    "typst/manual/sections/00_awareness_fixtures.typ",
-    "typst/manual/sections/00_dec_ledger.typ",
-    "typst/manual/sections/01_cell_measures.typ",
-    "typst/manual/sections/01_rest_energy_prediction.typ",
-    "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
-    "typst/manual/sections/02_mapping_error.typ",
-    "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
-    "typst/manual/sections/03_temporal_observation.typ",
-    "typst/manual/sections/04_boundary_current_applications.typ",
-    "typst/manual/sections/05_solar_system_field_tests.typ",
     "typst/manual/sections/06_field_dynamics_applications.typ",
     "typst/manual/sections/07_galactic_lensing_plan.typ",
     "typst/manual/sections/09_prediction_test_fixture_registry.typ",
@@ -3012,25 +3025,467 @@ POST_BASELINE_MANUAL_EXTENSION_UNITS = frozenset({
 })
 
 POST_BASELINE_COMPACTED_MAIN_UNITS = frozenset({
-    "typst/sections/06_field.typ",
+    'typst/sections/05_curl_closure_duon_current.typ',
+    'typst/sections/06_wave_state_relational_time.typ',
+    'typst/sections/06_field.typ',
 })
 
 POST_BASELINE_COMPACTED_MAIN_INLINE_MATH: dict[str, frozenset] = {
-    "typst/sections/06_field.typ": frozenset({
+    'typst/sections/05_curl_closure_duon_current.typ': frozenset(),
+    'typst/sections/06_wave_state_relational_time.typ': frozenset({
+        ('MATH', ('group', '(', ('seq', (('subsup', ('accent', 'tilde', ('sym', 'S')), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'W')), ('op', ','), ('subsup', ('accent', 'tilde', ('sym', 'S')), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'times')))))),
+        ('MATH', ('group', '(', ('seq', (('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'W')), ('op', ','), ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'times')))))),
+        ('MATH', ('group', '(', ('seq', (('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'))), ('sym', 'W')), ('op', ','), ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('sym', 'k'))), ('sym', 'times')))))),
+        ('MATH', ('seq', (('op', '<='), ('sym', 'k'), ('op', '-'), ('num', '1')))),
+        ('MATH', ('seq', (('sub', ('sym', 'K'), ('seq', (('sym', 'k'), ('op', '+'), ('num', '1')))), ('op', ':='), ('group', '(', ('seq', (('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'), ('op', '+'), ('num', '1'))), ('sym', 'W')), ('op', ','), ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('sym', 'k'), ('op', '+'), ('num', '1'))), ('sym', 'times')))))))),
+        ('MATH', ('seq', (('sub', ('sym', 'K'), ('sym', 'k')), ('op', ':='), ('group', '(', ('seq', (('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'))), ('sym', 'W')), ('op', ','), ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('sym', 'k'))), ('sym', 'times')))))))),
+        ('MATH', ('seq', (('sub', ('sym', 'K'), ('sym', 'k')), ('op', ':='), ('group', '(', ('seq', (('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'))), ('sym', 'W')), ('op', ','), ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('sym', 'k'))), ('sym', 'times'))))), ('op', ','), ('sub', ('sym', 'X'), ('sym', 'k')), ('op', '='), ('sub', ('sym', 'E'), ('sym', 'B')), ('group', '(', ('sub', ('sym', 'K'), ('sym', 'k'))), ('op', ','), ('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'), ('op', '+'), ('num', '1'))), ('sym', 'W')), ('op', '='), ('sub', ('font', 'cal', ('sym', 'U')), ('sym', 'B')), ('group', '(', ('seq', (('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'W')), ('op', ','), ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'times')), ('op', ','), ('group', '(', ('seq', (('sub', ('sym', 'Y'), ('sym', 'k')), ('op', ','), ('sub', ('sym', 'beta'), ('sym', 'k')), ('op', ','), ('sub', ('sym', 'Delta'), ('seq', (('text', 'lead/lag'), ('op', ','), ('op', '<='), ('sym', 'k')))))))))), ('op', ','), ('sub', ('sym', 'K'), ('seq', (('sym', 'k'), ('op', '+'), ('num', '1')))), ('op', ':='), ('group', '(', ('seq', (('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'), ('op', '+'), ('num', '1'))), ('sym', 'W')), ('op', ','), ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('sym', 'k'), ('op', '+'), ('num', '1'))), ('sym', 'times'))))), ('op', ','), ('sub', ('sym', 'X'), ('seq', (('sym', 'k'), ('op', '+'), ('num', '1')))), ('op', '='), ('sub', ('sym', 'E'), ('sym', 'B')), ('group', '(', ('sub', ('sym', 'K'), ('seq', (('sym', 'k'), ('op', '+'), ('num', '1'))))), ('op', '.')))),
+        ('MATH', ('seq', (('sub', ('sym', 'Pi'), ('text', 'cut')), ('group', '(', ('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'))), ('sym', 'W')))))),
+        ('MATH', ('seq', (('sub', ('sym', 'Pi'), ('text', 'cut')), ('group', '(', ('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'))), ('sym', 'W'))), ('op', '='), ('sub', ('sym', 'Pi'), ('text', 'cut')), ('group', '(', ('subsup', ('accent', 'tilde', ('sym', 'S')), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'))), ('sym', 'W'))), ('text', 'and'), ('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'), ('op', '+'), ('num', '1'))), ('sym', 'W')), ('op', '!='), ('subsup', ('accent', 'tilde', ('sym', 'S')), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'), ('op', '+'), ('num', '1'))), ('sym', 'W')), ('text', 'with'), ('group', '(', ('seq', (('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'W')), ('op', ','), ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'times'))))), ('op', '!='), ('group', '(', ('seq', (('subsup', ('accent', 'tilde', ('sym', 'S')), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'W')), ('op', ','), ('subsup', ('accent', 'tilde', ('sym', 'S')), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'times'))))), ('op', '.')))),
+        ('MATH', ('seq', (('sub', ('sym', 'X'), ('sym', 'k')), ('op', '='), ('sub', ('sym', 'E'), ('sym', 'B')), ('group', '(', ('sub', ('sym', 'K'), ('sym', 'k')))))),
+        ('MATH', ('seq', (('sub', ('sym', 'k'), ('sym', 's')), ('op', '<='), ('sym', 'k')))),
+        ('MATH', ('seq', (('sub', ('sym', 'k'), ('sym', 's')), ('op', '>'), ('sym', 'k')))),
+        ('MATH', ('seq', (('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'), ('op', '+'), ('num', '1'))), ('sym', 'W')), ('op', '='), ('subsup', ('font', 'cal', ('sym', 'U')), ('sym', 'B'), ('text', 'M')), ('group', '(', ('seq', (('sub', ('sym', 'Pi'), ('text', 'cut')), ('group', '(', ('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'))), ('sym', 'W'))), ('op', ','), ('sub', ('text', 'input'), ('sym', 'k'))))), ('op', '.')))),
+        ('MATH', ('seq', (('sym', 'k'), ('op', '->'), ('sym', 'k'), ('op', '+'), ('num', '1')))),
+        ('MATH', ('seq', (('sym', 'k'), ('sym', 'in'), ('font', 'bb', ('sym', 'Z'))))),
+        ('MATH', ('sub', ('font', 'cal', ('sym', 'U')), ('sym', 'B'))),
+        ('MATH', ('sub', ('sym', 'Delta'), ('seq', (('text', 'lead/lag'), ('op', ','), ('op', '<='), ('sym', 'k'))))),
+        ('MATH', ('sub', ('sym', 'E'), ('sym', 'B'))),
+        ('MATH', ('sub', ('sym', 'X'), ('seq', (('sym', 'k'), ('op', '+'), ('num', '1'))))),
+        ('MATH', ('sub', ('sym', 'Y'), ('sym', 'k'))),
+        ('MATH', ('sub', ('sym', 'beta'), ('sym', 'k'))),
+        ('MATH', ('sub', ('text', 'input'), ('sym', 'k'))),
+        ('MATH', ('subsup', ('font', 'cal', ('sym', 'U')), ('sym', 'B'), ('text', 'M'))),
+        ('MATH', ('subsup', ('sym', 'S'), ('seq', (('sym', 'B'), ('op', ','), ('sym', 'i'), ('op', ','), ('sym', 'k'), ('op', '+'), ('num', '1'))), ('sym', 'W'))),
+        ('MATH', ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('op', '<='), ('sym', 'k'))), ('sym', 'times'))),
+        ('MATH', ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('sym', 'k'))), ('sym', 'times'))),
+        ('MATH', ('subsup', ('sym', 'S'), ('seq', (('sym', 'I'), ('op', ','), ('sym', 'B'), ('op', ','), ('sym', 'k'), ('op', '+'), ('num', '1'))), ('sym', 'times'))),
+        ('MATH', ('subsup', ('sym', 'e'), ('sym', 's'), ('sym', 'times'))),
+        ('MATH', ('subsup', ('sym', 'psi'), ('sym', 'k'), ('text', 'bias'))),
+        ('MATH', ('sup', ('sym', 'Gamma'), ('sym', 'times'))),
+        ('MATH', ('sym', 'k')),
+    }),
+    'typst/sections/06_field.typ': frozenset({
+        ('MATH', ('seq', (('op', '|'), ('sym', 'G'), ('op', '|'), ('op', '='), ('sym', 'N')))),
+        ('MATH', ('seq', (('sub', ('font', 'cal', ('sym', 'C')), ('sym', 'f')), ('group', '[', ('seq', (('sym', 'p'), ('op', ':'), ('sym', 'q'))))))),
         ('MATH', ('seq', (('sub', ('sym', 'E'), ('num', '4')), ('op', '='), ('text', 'tetron')))),
-        ('MATH', ('seq', (('sub', ('text', 'C'), ('seq', (('num', '2'), ('sym', 'm')))), ('op', '='), ('text', 'support enclosure of order'), ('num', '2'), ('sym', 'm'), ('op', ','), ('sym', 'm'), ('op', '>='), ('num', '3'), ('op', ',')))),
+        ('MATH', ('seq', (('sub', ('sym', 'Z'), ('sym', 'f')), ('op', '='), ('group', '(', ('seq', (('sub', ('font', 'frak', ('sym', 'c')), ('sym', 'f')), ('op', ','), ('subsup', ('sym', 'I'), ('sym', 'f'), ('sym', 'c')), ('op', ','), ('subsup', ('sym', 'B'), ('sym', 'f'), ('sym', 'e'))))), ('op', '->'), ('sub', ('sym', 'Z'), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1')))), ('op', '='), ('group', '(', ('seq', (('sub', ('font', 'frak', ('sym', 'c')), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1')))), ('op', ','), ('subsup', ('sym', 'I'), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1'))), ('sym', 'c')), ('op', ','), ('subsup', ('sym', 'B'), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1'))), ('sym', 'e')))))))),
+        ('MATH', ('seq', (('sub', ('text', 'C'), ('num', '10')), ('op', '='), ('text', 'decon')))),
         ('MATH', ('seq', (('sub', ('text', 'C'), ('num', '6')), ('op', '='), ('text', 'hexon')))),
         ('MATH', ('seq', (('sub', ('text', 'C'), ('num', '8')), ('op', '='), ('text', 'octon')))),
-        ('MATH', ('seq', (('sub', ('text', 'C'), ('num', '10')), ('op', '='), ('text', 'decon')))),
-        ('MATH', ('seq', (('sym', 'n'), ('op', '>'), ('num', '5')))),
+        ('MATH', ('seq', (('sub', ('text', 'C'), ('seq', (('num', '2'), ('sym', 'm')))), ('op', '='), ('text', 'support enclosure of order'), ('num', '2'), ('sym', 'm'), ('op', ','), ('sym', 'm'), ('op', '>='), ('num', '3'), ('op', ',')))),
+        ('MATH', ('seq', (('sym', 'R'), ('sym', 'D'), ('group', '(', ('seq', (('sub', ('font', 'cal', ('sym', 'C')), ('sym', 'f')), ('group', '[', ('seq', (('sym', 'p'), ('op', ':'), ('sym', 'q')))))))))),
+        ('MATH', ('seq', (('sym', 'S'), ('op', '='), ('sub', ('sym', 'sum'), ('sym', 'g')), ('sym', 'eta'), ('group', '(', ('sym', 'g')), ('op', '='), ('sym', 'eta'), ('group', '(', ('sym', 'a')), ('sym', 'S'), ('op', '='), ('num', '0')))),
         ('MATH', ('seq', (('sym', 'm'), ('op', ':'), ('sym', 'm'), ('op', ':'), ('num', '0'), ('op', ':'), ('op', ':'), ('num', '2'), ('sym', 'm')))),
         ('MATH', ('seq', (('sym', 'm'), ('op', '>='), ('num', '3')))),
-        ('MATH', ('seq', (('op', '|'), ('sym', 'G'), ('op', '|'), ('op', '='), ('sym', 'N')))),
-        ('MATH', ('seq', (('sym', 'S'), ('op', '='), ('sub', ('sym', 'sum'), ('sym', 'g')), ('sym', 'eta'), ('group', '(', ('sym', 'g')), ('op', '='), ('sym', 'eta'), ('group', '(', ('sym', 'a')), ('sym', 'S'), ('op', '='), ('num', '0')))),
-        ('MATH', ('seq', (('sub', ('font', 'cal', ('sym', 'C')), ('sym', 'f')), ('group', '[', ('seq', (('sym', 'p'), ('op', ':'), ('sym', 'q'))))))),
-        ('MATH', ('seq', (('sym', 'R'), ('sym', 'D'), ('group', '(', ('seq', (('sub', ('font', 'cal', ('sym', 'C')), ('sym', 'f')), ('group', '[', ('seq', (('sym', 'p'), ('op', ':'), ('sym', 'q')))))))))),
-        ('MATH', ('seq', (('sub', ('sym', 'Z'), ('sym', 'f')), ('op', '='), ('group', '(', ('seq', (('sub', ('font', 'frak', ('sym', 'c')), ('sym', 'f')), ('op', ','), ('subsup', ('sym', 'I'), ('sym', 'f'), ('sym', 'c')), ('op', ','), ('subsup', ('sym', 'B'), ('sym', 'f'), ('sym', 'e'))))), ('op', '->'), ('sub', ('sym', 'Z'), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1')))), ('op', '='), ('group', '(', ('seq', (('sub', ('font', 'frak', ('sym', 'c')), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1')))), ('op', ','), ('subsup', ('sym', 'I'), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1'))), ('sym', 'c')), ('op', ','), ('subsup', ('sym', 'B'), ('seq', (('sym', 'f'), ('op', '+'), ('num', '1'))), ('sym', 'e')))))))),
+        ('MATH', ('seq', (('sym', 'n'), ('op', '>'), ('num', '5')))),
     }),
+}
+
+POST_BASELINE_COMPACTED_MANUAL_UNITS = frozenset({
+    'typst/manual/sections/00_awareness_fixtures.typ',
+    'typst/manual/sections/00_dec_ledger.typ',
+    'typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ',
+    'typst/manual/sections/01_cell_measures.typ',
+    'typst/manual/sections/01_rest_energy_prediction.typ',
+    'typst/manual/sections/02_hydrogen_facing_shell_tests.typ',
+    'typst/manual/sections/02_mapping_error.typ',
+    'typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ',
+    'typst/manual/sections/03_temporal_observation.typ',
+    'typst/manual/sections/04_boundary_current_applications.typ',
+    'typst/manual/sections/05_solar_system_field_tests.typ',
+})
+
+POST_BASELINE_COMPACTED_MANUAL_INLINE_MATH: dict[str, frozenset[str]] = {
+    'typst/manual/sections/00_awareness_fixtures.typ': frozenset({
+        '02c15eb75da31d728474a51bf21046f730a182ca9ecd0fa7377c581c5c2bf8f9', '05d795c8215cf2e51b2c47327feb6bb9358a823ef30614cdf16f5b7856cf66dc',
+        '0d9bbcd1431e560339c41d69dbf136afd03d6d47e94368d3be03d73df9ce4da2', '1d7cb604bf0197513615eaac0c798c9fbe7fd868cf337ccbc978c46f94377ac1',
+        '217c401ad6814365f8234ffca5ba19a85b37e6c48be8d9c49e8155861a43610d', '294f57f3604fc832623b611b2a16b7b9cf9608d41d9ebdb425a128a8246bcfc9',
+        '33f5ad116539d52d2422ecabb43a347dd8d149bb0f56c30383630b43d0e5b1ee', '350847076ba28eee4ce821553dec5bbfd66c866c0c66ec159df94258059c339a',
+        '3e4177875633200099918bfac5fd1a29bebcfecf8b32f6c6fa73a7c63bde5643', '433e98c29f332169c143c579a5a7e2a2f45919b4b057d05e04a26a0496fe5f63',
+        '4cff5fb3141cf8cd834d837b7f0bf0e1c23bb89763d67c0918de2986a9dadbca', '5cd9b4b58d1614de6c4948c009e840d6bdb82560fb11d98b30c0fe8012b0c66d',
+        '5d99428870aeacffae98c07e6bfda90a7ff6a51c936897651878825095c3d3b0', '5ed8e6f59469db11e90d0755b8749360fec2dbfb01390390ed556546b146120b',
+        '65b2c3513c4d65104ff87be22036c91fb7ab7e7975875c4037d7735acfd3f7e3', '7a872ca9e2cbe83043b8f210aafbf93cc853ab37bc6c1cce9c6d5bc824ba057b',
+        '8610d58fc11f34097c21bb7462f517f2a92eda4afb102731cd6871a3b4e5b182', '94948dd4a1746c42f65e7d5ef8fddd797a29b96c6ca8a541e5c4ef7494affda5',
+        '9a676c7101c0f8140f82fa9454929f930c16fdc2aad9ed16c3ae4c68f3149c4b', 'a5be827dc485dc0505defd76f82f6f29969fbb0b9497663a77c062a5af525901',
+        'a6099fe81e2ef2ca1288cb240c8dc8ae5c4874f1dfe0a176bfd40e3ed8f533d0', 'c171e9240d8fb0afea4324b0fcc0f72051d7b369dcd6873bd7fc864eca8edd1c',
+        'c656f67f523d031aa9598a0d94d951358dfe39699e2b3519165d6e2e64fba366', 'd555f66e08c4284391d6c681dfc85b7849e1c5e8ec191cfd952a3e9a25777e48',
+        'e9cd25c86b67f7c12073fee722f1d9fb092c98f558bd3a9555ffbca5e6905d94', 'eca5e163ae522b5676d0711e3765f14ab02f96bb42ce4c08b10f0cd1bed5e22d',
+        'ed8819fc63fb863c07fdbfbd69beb2e9ac84318dc2f57b633a620ed48a159f74', 'ee39fe655841c9d2e9f70fd33ac508b564bca48461e7d2934b9e3db03863b0be',
+        'eee5031080f85fc8d7ed109399d2bc8f8c276fecca5f3bac43bdc09ccdd4ab7c', 'efc46756c2f86ae8eadbd8efcab47b3025c3a64a8f55cc0cb45297b39b58d456',
+        'f50d128cdaa67d6907391c56f3e167547422f5e167acafd3c1b894b8d2ad3dc0',
+    }),
+    'typst/manual/sections/00_dec_ledger.typ': frozenset({
+        '017627aee6eefd3b485324f41c11e7833ef6f8858543718bc9de9688281ce766', '040cb1b8a19b3bd8bfcb129bc20216bef1532f5cbca953135b27437afd8644b0',
+        '04936eead3086f56a6713a1312fe564b6af9572e72a9388409d61be5dcac539a', '04ca342432ece0d0133d78220f33f28b4a704f08172624a82a2c3d211a6fed6f',
+        '072b116ab090f77e74b3bce0ede252cacfa9fb0e10996332bca6c3f80bb28180', '074f5db7faa407dd9137450dfe3481a0e5012c823a8504c057b8e1e71820c544',
+        '14864bca73e4115f7af0a5a2229aac0e8997fed3b80b0fd911cc3c0664bd2a7b', '187ba12e478c9aed1ae0ddbb9743577ab288af2bb4be477657a81bdc5e8c005c',
+        '1bb9936e26f69d1eae667d296f8b54bffe3607a813bea51f14a68ad6cd48af62', '1d90f23a7adb65a0b078d1db650807fc3d417e43bbca263df564372cd3ebba5a',
+        '1daaee068f943888594f0b465a589ae8db8438894c6ab6c6afbab98cdab25d4e', '1fdac62f6319bdc6ae85ed8c5989d4139ed9ae9613b706356d8e87fea4749983',
+        '21a653480c7c3e08ba93d7d7f87a67aaa5479d5addee754877812a26a302b3e6', '2a5349cfa49c0804a4ccac9984f8a7446ec3f1bb841fa3a561fa119c8642a0f8',
+        '35f6ffe577c718be9d73dce2c5d0b790081d38574db2d831a65144cb5f645902', '363a58f2c226f316862cf47062d1e516df22018a38399ebc573fc8b4b439ca47',
+        '36cf5bfeef0ce3483456a1059f8d09d9a5c738521fa8843107b98e1ef7428803', '3979ddfd4eb10c55ec47eefbb659a37236a2572671b411661aa7b7fc42d42912',
+        '40955a9b98c072d8e7a67934d5f9bd2c236c984c6569343b77c3127b7871ad4f', '443eb4291c452dbc6822bf101fb78777f94afc979ba861e9868779a00b71b992',
+        '447407aef84e9cddd883511e876c9ac6a6962132ac01764d69df28db367fa7a2', '4cd528f4c4c81bb49cfb36a214bd5c8d1a51c0b52fac07e27fdca945bf70e384',
+        '51678d8ab013a588644952f7f62e79c1d856f64dec5fa365f4c528d305b48174', '57788e7162edcbc441a8a3e846c4bd570e515698bab962637d27fa4ce7aaaf6e',
+        '5916223fc69cd35ec2c4e6e56bd905da8df8fd9b36df80542d9d2b7441920f89', '59257cba7c41af156331c322aa4f97d644656158a3263769a325c60c64830b51',
+        '592841ee2f7726067e31daa10926a92220867470cfe9ff914918b7ceaa0cb1ee', '5a590b1dee53874c9745e0b78005970c08908b34ebd824d8fe427c7b185d3677',
+        '5ca49d499bfe4328fe61407055f8dd40080ffa56d2f89e944a1ab20e817fe252', '5fa179814c451ee3cd787f0f81443990c29d99a00722d64b0b0ea6b0e97aed25',
+        '5fbccc30cbc3da292bb92bc8e483274879cc8100c683b8840beeb8dc5cbf3348', '6006c17d9170fff7e1dbe6fee18d9b46f4e752715ae45d7268564872ad6e66a7',
+        '64559747df43dcf396d679a35f533c446d99f85a2e1ed085c837891b566daa03', '666531bc39d30797620515ab02c7ad68f113415a50ed97e365fd763a26030ca7',
+        '693e97d8214f4fd911a14626b0cb2f210e67f2fec7d5466b47f66a7b32006959', '6aebac3cb81d60da2442a8a159d3d2211911daf3e8d1691ad7e1820bcc5d8ec5',
+        '6b5ee5031d31f88f32ba1a99019ee3305cee8ba986fa3e271f29d4d52c1a31be', '6f597a20dd5871a3fb38f8ed94e9a1f7ea337498e20cf2cf1e958b9629a73e71',
+        '6f9c00f1b48e762bd47731379ebdf3f7f9946652ae12f3f5c140dca800f5dbad', '749f6acccd591c1a91bde1a7b52aa9906a2c900bb56b8feb3e0be787be48bec0',
+        '8652a549b7f15a7edce0de26965b251e0d4b0a637eacca09da84e5ac94d75ceb', '88733fae8ec2cc9bb1e5120f6073b289707d623626f7eafae00eb4b894a2f0c8',
+        '8d919be3c654f199a734da63dd46f8f1e5f13e9a0545bc634faf0f718364506c', '91b0d673f75ba94e5e594abd4a0a55cad7d39bc0d5d8ceceb574219f92a6cfe8',
+        '9326b80225af71b04a5843657c51a5bfc706f9add467169f14367c5a989dcc8f', '9379da999737169a864159f444e1b1658e18e71199ca0892cdd7d6e0d95134b5',
+        '948d59fbf9e0cf396177c3936e1b43938bbba01449a31d77aeb202fbc68d9b56', '9543b0cd51476fd373469293ff054a983d3cf85435415ab5c9ec65b653b5acfa',
+        '9680f074063b729007fbb86b9bc4bd7d166e3943d9a76d7370ab160e655aba8a', '971ccf57afd16655bb459555078ca9024a9aeb74790a3ae43586b35d2b029f45',
+        '97d35ef25493c123267e21163cb6fed4cfe63430faa929a101001d41f6aaa3e6', '9e09194b51707d9712aa55fd5e3f6cb351cb47fb48b3583b811a8ec5ee399679',
+        '9ef2cddaaf2b93ff20538cba727536c2aa3c72a3a78c48171d0134ce0c04aaab', 'a1e342291cb1ebd2181b5fe3a6f2aecd096e24cc8834f3e6516ff741728f8685',
+        'aa0025ea06b76036a16a5114047b92cf4d4275d1ef84b6f9f7019bd2e0955edf', 'ac38678d51f1ef87d8ebc74a2105f4afb4c62f0fa3ba0fd5fa7c492c4362c006',
+        'adacfa4cc9deb6a54b4a1fb6774946ef9a71b798cc79969a546d2570cb97bc2f', 'b232dd6ab5455b19ac2fb18e9147a0c09dc155d9cb7740e09e86536559920e5a',
+        'b30bb14c338ffb019a2e4827234d29f242d1bb74ae27bed6323f00e678b62191', 'b37be070a2ea14a5842e7cf46e943c7d71f12bfb691d01d9a76a37621dc37275',
+        'bfd2d398a87c472e06442fa8940214e14809db1fa305471412a3aece6fea423b', 'c927d4886c8d6f053c26bdf38ca6d5ab3db0afae20c6f0fdee8e5eeaa3cdbc5f',
+        'cd988b79bb8c7e2a9029a99219a54c0e3ce274cd1f07c9dd0d67fba120341d47', 'cec6b40fb560b0f5de2530c007d7b58f5606a30ba2400638a1470f6b8708181c',
+        'e1d33e02e26094cf592c11fa5bcdd4050c587077b6052afe29ac0e3af18fa435', 'eb9066d4664b38d795b1299e3fa581ad90c79497073ca471f3ff6c1ddaf7085c',
+        'ed2f8eeb80bc01dc23ca34373afaf7ddcd4b943025310ac1f17b3fc9de28eb42', 'efdc8c266af561d8a157856ab0b5a0e673174ead13bcbfb72f13d574ac29d961',
+        'f2ba7d550b8b9d9ca8d48419d2616ed2077ae8fb842b9e2a6f6e1353e71b7d71', 'fb6bf0e1d86fd8075d1356c97d1883f11ec030a4e09526e2ae4295aec381c821',
+    }),
+    'typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ': frozenset({
+        '074abb31c59379b07f9873f7bcf06aa89bb04cef20b1984592a0acd5aaca404f', '1061adf0ca706820a5271b92185c4e02a5af9fb60fa1b5bb025cbe1af5745f37',
+        '1b9f83c566e0b1855a84cd3d177e88c657cb6471430c2200db355bd313ec8399', '217c401ad6814365f8234ffca5ba19a85b37e6c48be8d9c49e8155861a43610d',
+        '32f4809f11d7eea47a39085ead05d7b5191dcc965683720484930d7117ae5044', '38c31884e1c8f5ccb9ddbd3295439c1a6e4bd0a195f25922cd0892bae88435c2',
+        '43abea9ecc84ba14a9b675862d664e2be4f279181f06fa6e022e92756d15e6e1', '4de6067cdfb004ebf997de5d2f3ad87b5081d04c43b718dd0bc3f9068235ad97',
+        '51cf04dbe67addb0c8e4194fefffb1ea058b2ae2437e6d0b906aa39c19259555', '5d2c73b49d42dafe5fdb4563caf6c148cf8754db7fba0aa3f5c6a213cdb7474a',
+        '60224bceec46c4987a7d025f9906916e232867ca265dc904e1ee73596249895d', '73d33db66a21d6a3785271c07b11501969831b8b9ca846618d028a54b2e48b71',
+        '80b376167d4ecca3c168371f45592e4649c318e134464c257c8dd96f69ddb6da', '88f0c89d9a583b67d40736a4ba9ffb4ee2f97d4f2eecf55b059c5548dd28916c',
+        '98df88e59379d71c71de289567d736a45be5a7fa0f421cb11b3c29303c484041', '9acdee0a3f6f3cf769b698dd46d1b1a06a0e7c398d4cdb3e7329379c5b3f3300',
+        '9b9013ee9c30786a50de9c026d59f77bf4d74da395f463a32b4513f2df80af63', 'a2ebfbfd35110015f913eece5d10f6c86c4501d91fb0b7663f104ddcf2aaf9d7',
+        'a6da7ed622e73a9213187a480eff4b440253d23176a4c7abd9f3087fb72d2eaf', 'b5b76650b0d1a79b1910c7a75353d7105cd054381b34244a15b7135507ea89af',
+        'b934337bef3522a1dcd27ea65af9cf8211ea1cb6909f906e05b0053f678c3c8d', 'bde30a664c0003078d3016da7e9bab6f237dd0ce51bf92fb86c85f9cbf593b75',
+        'c171e9240d8fb0afea4324b0fcc0f72051d7b369dcd6873bd7fc864eca8edd1c', 'c1a6466b4a7ed820a6b77ed560727b6b1f53825244afbb02755cdf032efeffa7',
+        'c656f67f523d031aa9598a0d94d951358dfe39699e2b3519165d6e2e64fba366', 'c78144ef6c6b0982bc449648a6561207a6a4c43c1634560f4e315c1621b78ca4',
+        'cde6478243e5299af3f442edc527b9576df17e43d7b50bcbc5cc1e233d0ab81c', 'ce961579dfb3e3bc5de06db2ac8723eb8013fb1f26e290ca53f67cb6b997d23b',
+        'd198fb69f16ee88ca01d5f49ec28d9f7dc7631c771c60a4811370a9ed4551fda', 'e62eda7016797a3c372a88c4bc506b994200e763db3ed0ca48ec54180e9c68f1',
+        'eb068726bd7862fbc80b6d01cb34350d8e44813101c2f08d3c7d10573dbeb3af', 'ec482a615ee87c9a25887ca70ad38cd8f542b97b430d7fd191818d163e5fd0a8',
+        'f12594d9a4765875721e9128e1beedac2853cb709668f50e0ba65f24698de584',
+    }),
+    'typst/manual/sections/01_cell_measures.typ': frozenset({
+        '033cf16bf2a7be1b82748edfc8dffa50c1b828ccb7907c5487ddd172f802a50d', '033d409b43d7d7ba80cf79f6944b3a85ce648c8bb3c57ad1652a122d40310656',
+        '05d11baa212dc0188ca3488497780d1c615a1f5b2213abca8a20590b1681ef67', '062a868013c36cd6f7a85204e2461988c3587923cbe623e0458e771362d59031',
+        '072ad9851e980ddccae1f3fe6cc5fb3e43f6bd07e044e5ba0e6927a52d9865f4', '081586b3157da9cf57681ed9206871c5d208dd8b35b423201abf853feb5ac125',
+        '0ab07050472c6f406082aaaf33c1fe42f462d2541de04f224747d875f2bc7c1e', '0b2233a4c0261d3fd1c72c43ebe0b8981fdce5a123d3bd72ce6bd6a6b4fdbc5a',
+        '0bec195676b39ca316508e52436dedff407d3186db69d9010473194090f6c83e', '0cb1b9456f2172221fe840fc59260d0492add2d2db82def2d54b63f4e7224912',
+        '0f71846067a05dac415749339dbf1ff10757d5e94a5e32c79e096eda1d910119', '0f99288b7f84db64cd66cf28db77f321cf92652e7d2ffe86cf9e3e4422b8f7bc',
+        '12bd5883794447b73a36a9e633ae19234a69a340c4cdbb526dc793b288602be1', '15bc2e6f918f68e1fb333ae56eba5a8acb26f5e806c1bbd7a7759c5144f4a6f1',
+        '16f16186a62e24e968ea06e1ee04b7a000c68b88a6c1aebfe6fcc29f2276627c', '17e453ffe1e964a6c255a9146e6bbdc763952098b7ce9a75f9560515f9205cb6',
+        '18d956047196aa10ef7ac5a222cfb1c2e5996eea9128e7315ab251d64e1f9318', '19a557d1c1be583303cd930c97095422b592adf7083b0e3005c63d5e404b1499',
+        '1a70c96e26ae1eb551aae0978555b996c9f5d7ba937c0490a9679440d298a42c', '1ba3a22380e4508f3df5fcf2d31e061e2fec9ee7fb07c874f5ebd98f03622ea0',
+        '1e8da9d48118ba93875057da5c57ac3c471c1365c45aa2d23a857a0c091244a9', '1ed3fefbcb1c92281353bf476ef4ffcd79a0b305d28a7d3acc78bf396952201e',
+        '1f1259b01ad1d67c999df7481a9fcb118088de8751510e1f85e90a6fdbdd5b1b', '1fd5ced64cf7307ded439f65233a895a2ca276fa3bdffc37b0a447c078cfe2d4',
+        '212a2ef20df8249d8b4e01a44f6f751d5a7a067083f7e6690900aa59047d638d', '236198f2760360314ec3932b49bce1c7da3cb5df857c2ed343423c91be4d65bf',
+        '23ebcd2247b6a066952403058523d997d6b44599d54a50f9d1d9ab00f2b424c8', '2537d867376ab04f41870e67f3520019ec21c14f2c4cfe123eb2228c7ec72495',
+        '28c4e9330eecb4213123f56e0476a9c5b9b6e4be90de28afe2d7a24489b1fe12', '297db2b2c72ceff922ec6a1e33bbcc9d1b97b75fa5fd473029faa6f5d5962c00',
+        '29de844a43983b0750080b06d463888729bec70e067613831f004ca4b1b4192e', '2ab74d5856349d0857ee937bcc434b25bf4dffb873aa8904e1c78b67d4a45cf2',
+        '2d784a3eb9a247fb383fbcd27eb38750831b8072ed6aa3503bc8d6a3de1e89cc', '2d96a10e3e4f14c24feaf40946beb69e8e81bd0c0d7418e7dcc098855b8fb1a7',
+        '2e6e571cab070d3c8fc4b972ee00701537cfaac7b676ac2b89fd1ce4adf37f34', '301768dcd0caa09fbb44154f104f93fc144c39c8abaa3461840cb2e20d7f45fa',
+        '302adab9aedad1cceb6840e30797ad335541966780ac936af98a35843b030db9', '373a0ae5882fa76f689380f27521b3780bc949a9da2ac61819f16e8fed54795c',
+        '3784d130a699932602ae609baa466cf2c362c5ab11b024f343b0e86cd34618c2', '3d4f619a480605324addf8d9d9179d83d32b57caf8d2a508a2b8f24145672279',
+        '3d889d2986ae5c953719b030b8ec655a454d624838341b572f36accfb8923311', '3e3a51552ea430fb42071d227c7eeaaf81055155e230af00cc3cb7b0f5d31110',
+        '414e38e113c6a876ccc2622e3a5677bf9a050d26bc8371bc5c2a152aecd47ab7', '45a0976795c3bcde3ff782d46b53899798b62d6aecc1da68b0187bd6f6e1cbb8',
+        '45bccb1caafe809ce21e6f1f428dd736f1f542936e6c48bb45b5a3b27059b43d', '48144dae5be82248e4e0840e1563eebf534800b826ff0e72db299a669d7b4b5d',
+        '4a6c451c5e1d637d61bbf00c7b18c965333f3b9608c0a29b6110be7cdc58a37c', '4bb2ab986b2acb8fd22c4bd07ae0973b139604c0f54518bd184c5eac3644c223',
+        '4c9e91a1b9d782b95a6d4572374e221e61bc7ab9ae60c2eea431d7a17c6471d9', '4d75fc1f8a84f1d2e2e7ae92af90e4b503fa37ab212d4fc45de3433e4873e031',
+        '55eacfd46063a01675775380950befdc2ca817cbb6fa0306757310d672c66cd3', '56a714fc440d6d90823c78b7490e5ce91741dd798579203b00ad5051db3e5741',
+        '5756c40254e016102516383ddc82506afcccd613381f6669de7c2e73dd6e061f', '58e51005fc9330c7dd0720a5ee22cf06008b1838a31ce12a4b0bb72d9ab8fa7a',
+        '59c37f235320b1a6dc0e70033c900f4853637ac6d411e9246ebf8a19b6ca270c', '5a02058ecceed9036210e58aa79b73ce915c23e11da4058695a24901c7515e97',
+        '5a591516cf0d26eb671286998611b93f6c18786802cebf92da8a20cd289c00b1', '60224bceec46c4987a7d025f9906916e232867ca265dc904e1ee73596249895d',
+        '617ece5ca57c2cd7dde9df96c7a98af834b3bb480a5a26edb7bf1a030b5a0d32', '61e2229bfe46b4df41d73f3ed052d3f9f75010e179670bc6eda2271f9204573d',
+        '6232458e32fcf690acb62cba603ee58563585ca5be50025818b675c688d6f010', '627f3d0c53a1bece47317aa33874ef5ec1a72426ca39dfa8cd8c316263331b40',
+        '645c81ade87a974632ecec5c5f5fed323d3e294bd103e5f2ee4fcd48a9dbaf3a', '64f902624fcc45f4eaeb2428fc31b4c5be8601318e5a19ddc0e05c4a09d18ea7',
+        '669db885273165def348f1d294ce5aab97c8dc5e0c9581a226123d93fe4d942d', '679982268b6d6e5a4f16d4adef684716863d35b1c552a4e4f63c4908542bbfb0',
+        '6a52ed0113c69ee88b0d6404bcd8d0aae121c4427687163fc93b4679737129fd', '6bf1a82212bc5a0c25c787f565d09099f90e17624871471d00828e00694f1e6b',
+        '6e8bbf03e012cf4f895a13bb2897b1871747433478ef85654ab0ce390c86018f', '6eb01f74d70ea66a32150c2ce6a7f89f18c6af98c17357e73712c9ad30e59874',
+        '6f86238f34183a54f9b32201d0acbdb97bcabb0b26321d38c5d2475d10fc2436', '703a00997a0deacbfee70e16ed3f078421f545a2316182456e79676d19ffb19a',
+        '7051e4e43010f75f166a5761b5a8475c8a9bd722a52a7e71b30df091cd07ff93', '76511c494012c8f11ebe434896ffd688a6ad169e6af85337702f46e5c2947bce',
+        '78c87a59ddb277347e5afbe852aeef3352ded7c647b687c470f509c04f9a6e4d', '79a0bee0bf3f26866930071a86d9f1d784727850e71a1dda2986a667a557c04a',
+        '7c00c988a00fa34fb71e72f4209b6e6f6aa0813094d51143a200cc25a1793788', '7d094ccc56446914e3ffe35649b8c9554139cac9189138e96b7c41f1c3134a54',
+        '80e3fda8781a39c9965cb791184af82bb7828bd36653ed544f38ed88007b9ffe', '816586a3ea4ab1c17a20421ce9303903af9a1cfb9075c215abbed79fa541a7dd',
+        '83643b3d1db3c8cd4786201209da7156923fdf974e01322658101a8740837270', '83e80ae7027a0e1ead2381580c00e9bed812405306e7c5e30a359a1d9299c085',
+        '85e902bb75b52d1c1a5e091f8e176420a2768e3e374c3295408a68101334dd72', '86cec3d90103a111b5097fa1575cc3694bf50e837bd39af70de811f585414a85',
+        '87ff7d3c89836e488e6b6754c7fe8d12cb58ded989be039b8d109aa80b313d2d', '8a10b5526224820d873a770b652f0ed1f02c1273a176f96906d33ddc472072e4',
+        '8b9e1103db62b28893464b39aa94930e20d321ff4d0796421e5d406806238185', '8bd2a1768556f11757d473724c05d4ab96851707ba03fd1a8b2b1d07cb856d41',
+        '8c1637c96cb97b7c94cd11734011604e8045ded907b71491ae342efb3e7a476f', '8d34045d0622ad65709561420681f9f072d083df85acf002d39e728dc5f2f775',
+        '8d55a9ed146d331d0de8cd3c8299961302d787a009b384c1dcb990c73dc823e4', '8f9890966ef03e169add619710ca9f1179762c2800e066c59bba04cea105f18d',
+        '900a8ec0b11eb2e7d5f33e0dcb7c43b299c38d82cb705aada0992342c06f0656', '941b0f0d94daf26f5c0d08e6fa8bf80bd93bd9575e4d8fe978748261b0accfc8',
+        '949972ac7d71a4e854d4224081d569ee245b1f5cd209ec2131facc6c122420be', '9830f06ba34ff045bc7a8d2ff900b1480b9eed299fa67e5b92920a57095dda71',
+        '9a7facd8611fae62cba254647e5949eb7a445c728b701a3dcfeb7d9729c1418e', '9f186e10368421531990b42fe53d14f91dd3125c8e3f1636eebf1604a1b1fb6b',
+        '9f9303f23de412de2b603532acda6d056c94f0264ecc8f3cfcbda2044515b394', 'a2cedc6855870f460b14f0e7accc327de657bd0aec3670c74831880931e35984',
+        'a579b3ec0e8147ec96a8f1508527b9e7fcb0e871ded7aab1cc8d060a1a871932', 'a64e68936220ce87580a0f37da538339f0f98a8d3935e3535f58f44ae95192b1',
+        'a68d3b3ba19d9bb1e331da98b8be344e4e01a7406f4a45446ad7a52b5c43eba4', 'a7431ba95d85b9a04edeef3f6eb186cca5581e971af8c1d325368538fd9880a0',
+        'ab6feae4a14706a6ce3fb9f365bf1e44f2735dc508d3abbde1989cd2a1b82078', 'ae972cfd1ab5002d94e6d1212fa599e2e970103f95df949f6615b87ce1efd885',
+        'affcb2040da6de1bceb8d0de266b2d26655e26e7cda862deb9d2b7e4dd7b701b', 'b4e9d58bbb9bd8a2263a0cce349ba124c3ef0c4fb097f177cf00f1439b97d7c2',
+        'b73305485fe8d0ff96f7397aab1648a3dac54c1009ceb2e499b85c356955fd5f', 'b99ff5d8c5b4c518d0cd7ca8a1d342966dfc01b2b564629428afe3fe776b3e68',
+        'bb8d0fbb3f4b782139c36f109425127a07c96566be53b1b778d071302504c42f', 'bdc6f63c115957f6bce9acffd97ced88bb84a93feaae90c46ae5dc8ebc035475',
+        'bf18dcbc540f7eb79d1498060bf4f2695f95fa4938b1cc04d9e74e8e1cd254f9', 'c19b1d611103d3289931d14120fa7eff3f0b0dd1cdc5b5108a51d2e8990b8da0',
+        'c3bc53b14826f84acfd4e6cda3a00965cfb3dafd099b15f061e3050d1ab5a921', 'c3c5897b200b39a0fa373a5414710f62f9df2507d877eb298ffc9332a4ad0d57',
+        'c733bcb320ce7e679674b2fc008c903da69e4bb5c3f37d7d0e7cd992733beb6c', 'c7d8609f229a7ec64d72ff51d1fe35777621dadddde630969da4bda4b3df11d8',
+        'c81e23e7845dab84cfbc0fda0f2add955896a3c9ceef96a5fbee42d707dad8d5', 'c8941409c4dfb77273a0b470ddcc541ad2ac24bbd1dfb8eba63bbe460e800c6b',
+        'c8b8970a615681bb7004483256be70bc76d42e1f2c1507e210ddbca621e74035', 'ccb3271fcf4b106fecd28960a77bb8bab99750988e116cfdd8ca5e4dad47e156',
+        'cedabe145fb3e72969f4903aa5a9f6f683004d06a9995763ab5753a6e360c9b5', 'd1e5099c97852ff8ddc3007b781ae6193abb52da4fbe1491f9a568499300c9a7',
+        'd363231dde8dac6cc58c4faa959f261f6d8bdf7fa2c8865764cb5ad6ac05355b', 'd974bedd62bc2bb9ebcdb19678e232dfb1ad0e160c7a072c383e627b2e440562',
+        'db1e11fcb7c40486b2745d5a178c695b94c38540d096ad8ff94ccd82ac2c2444', 'e08d08162a9bb9975f67bd38b5f531bccd2c087661f7e45ab987d659c6345952',
+        'e1a23decd922f59acb635adda6a714b679ec836b7d208930c58f904e0010bb4a', 'e328847823fac7e82586b7af70f6395c77b21d8da7dfd140188fb67a39e8cae9',
+        'e3aa1711f28a18bd5292a973ccbdeafcd8a984a89ddf46258ee9ae592e5ece0a', 'e609d48fbbdd19eeffcd122e4fe96130906529010352a3f5b942a9d71a48eb5a',
+        'e90b216f7d238f3e1e6b9f666a71aa83ed688b00d4644805a67fbbb9445dabfd', 'e94c68428f877d9ab6fe280c9a661a4bfc5047ba373702f4e48a30af76702d25',
+        'ec1eb329d13280a48e5cbf23fd26cbddc32099260180684757931890d07a8c8d', 'eeb298717eb785382e715ec0ccfd8ed064a19d135de75728bf1afd73190c0b44',
+        'f1cc9ce76985a2ec9db1a9c10178c2f4dbe7b58763fbce5dd99466cd953132aa', 'f2b8aa41c181230809b7cc87d9d0c8e53cd6deb109a84d4fb2c89ebad0cfcec5',
+        'f3d00766db97e26c417f56afd0dfa36b96bdef22105d9130e08b249505e560f2', 'f5ae7404fde3690d93d8bd08e2d24779b45a5e9be5e5190e53ca11f90ebeca36',
+        'f938f8758373467c25928d6c87bcbf2c2c60eae12a4a0c158e6aee3d0e696b4a', 'fb17487b47dc74314cec0d69e6f1428ff9752cb6f5b0cdbc9f28d1d30bef49f0',
+        'fc8e0e51e049b75ae9ed0cfabd617039a0365a1e497d30b8bc7b7b667e076a08', 'fe3430bf97fedd6b93581583f04473690c4415d2009945641efff10a91bb5ecf',
+        'ff6f74acb779792245879e089349281201ce34d05c8d4b6fc4ad6c89d9c44989',
+    }),
+    'typst/manual/sections/01_rest_energy_prediction.typ': frozenset({
+        '00136d5303261619a81c5a5621bb8b95fad181d7d19bb81b934452d2c909b3be', '00867b770bede8cbbfc2a5648bc7678cb84a482fdd18b7534730faafed85bb02',
+        '02e1cc49f5fb1c65b69e350e53425986cb43f4e7abd6a8013b15c225a36a0823', '02e566c905dc8f88e273076acbe5c661baec373d78b18c67709ca58ecb9c34de',
+        '045d91d4b6fdb258fc1927832c8b96717602f4b6f4ae4ef40b980afcc0bf133b', '05d6440307c641eb3c865730450cb5226d0aedbe8aa5b01dff2dfc7a4b295c43',
+        '060383c48471e7f768b8cb58f4c59fe44adb6d48426dd57c0f4b11d653255472', '06d2c39c070a6b43985bbcf458f7a2cb5b1bfd92921df2b074e30050081a2c12',
+        '074f5db7faa407dd9137450dfe3481a0e5012c823a8504c057b8e1e71820c544', '081685e90944e5755e8eb5db4188a1f20cdc5e226797c489b26e20de736e7f01',
+        '09f4867254f27c26b921c2c1dda79cb932fd63ec5207f03beb7f886068313d5b', '0bec195676b39ca316508e52436dedff407d3186db69d9010473194090f6c83e',
+        '0bf9daf6113cda030822efa5c5230bc848bb036efdf5cfc0f5971b120866d8ac', '0cfb01f657033ae3ab31fd2faa75402bb671f0135dca85efc93ea9e2c76f28ff',
+        '0d704e8eae99aee8c63ac9953f1d9323e19babf21b881666396dda7a3c145c5b', '0dc9a53ef70caeee4ec5a2b32044064f96cef427c1a3938c79b36a146b222d11',
+        '0f130662b69d6ef364287b8e0d5fd403a86a9b1485cc8668fa87f2128760f1f8', '0f49df6c5c24a1c007c934e43560cdab67776391229ada30822a7fef2c5453eb',
+        '14787f2243d31f91a58daa2e85428017356d544b5261709cd95f613e37efa302', '15c777b19c16db05b19f9bf53db7a3984b53f2a795505ff1797b3af08a709e6f',
+        '1689fc04d416162adc62f71eff95cd97d3a630c0191ce4fbf7d77f193c4a2ef4', '17775e1de92b0086db0fe524a1ddfbbdce6efec900eebc68a29e3df564d40896',
+        '17c251d09dc694782c8a3cfc0e577a080f8b2548f75cca45ebf09324059591f4', '186709a33d70a802eeee78f346a7826782ab75d06c3939883adaef0fc2350622',
+        '190241b6648999026ac9b2b0009944db853c937e4f94483002cde887602dae14', '1952c00ff333e55f8b20851acf53ae371caa2f4b3f2bafb1ce4c0bd5150e39e7',
+        '19c0ef5c6a71a5767effd314c0d37beee1b3843a608b77572d227c5d53ccf982', '1afa40fb84aa788c63f5e10db491a70cfec0eac6112dfb982a6b8bc914f080fd',
+        '1c576d71f3eb79b1ea96ae9b6e37986a5782362e97beee9bb76fa1a7e7dfb40f', '1dd0f0735cfc15fe42d4b5a138e4c9a4eb6f10d16f52d1b783efc757c88feb50',
+        '1fea6361ef68c3b3eedf9779a7c3a363096e66cbc0dd5647bca428d8eccb8190', '20eea654ac9bef3fca6b15e06c7e6f5605ff1bfbc91c33e7feaf25053808c1ee',
+        '20f68af669c24fa9e6cc8cf7302b22a0abee4ab63ce8784650005c66b724b616', '25383bcb5fb4d385bd5ff53126e5f33e7497a4860dcc66bf1decc4221ca6f1fa',
+        '28148b2f34c50ec7e18f8bccf45b5be20ae3bd900658c76b82dce3e7ffd9eefd', '299bd24bbb648e9b818c9f2bec8ca3402e1fe504ae51da37729a27134c988387',
+        '2d7ac589a92dbb930e0dfc087b99dd5e7a275e2d0b2d1655d42f2123fb41ad92', '2dbaef4103a075c374a815b79347a8d263cd7b4f15020d98b82a554e08a5ab93',
+        '2ec51e4cfa7c6812935bc6c66fa99f15628379bf001ebb3ca7d2401418bb96be', '2fdcec75a8998667177954460a37ba8c39f47d0f5545a71255dfb6a5362ec37d',
+        '31ce523db13b5dadec46c97344c80f1c521540a91f6d6c373853c563f969ab47', '32e6b35f186c0750e8497748d209c91a5f89383474cc72cc891b570ce712df43',
+        '33caba911af661640436e6288024649912a80f2a796ea2f121082abf7d76a4cf', '340197056ac6ea743aed93e0fff90b15c0b61c48672e7cd5962ba9152eb862fe',
+        '348c455618fb3006d844bf236a839b8c97fa86d0c123336b72559e826be3f343', '35b7daf77f93666d8c04884bd45bbc475149a4e9d2c02dab3c65f96c6a5ab5a3',
+        '374080ed76ed2362e2b55678649a525eec4da5fb3c88a400a47dc033fe732aec', '390935fd387c65e922be0750e4275583eeaff54282e50763a2a9fb486b537b5a',
+        '39f7b1c0cb4818895784addb167ed4ca91faa590c0daa0698d832b9303861f9d', '3c411ce8ee69e03a74ac644c38451e6a4b4745f27bfebb3b021cb65a1bc656ef',
+        '4108f01bb5d2293605091989ea7b93a4a8890c2879065f80242d17c80aea5516', '418c4a6b119c1423468a58a0d0fcd5c841be2bc8ce2bb3effae0138959d12817',
+        '45dad5ffa31ee281544d414064c976470680c1394d346778ff4b1c974dab0f55', '47e9273c475af980082d3914cfe77c2a728a9e8f16e6659155070fe2f2b4690a',
+        '48a354e4854dd8524543d769dc893336a505a2e6af2e44fbb5c254403ddd577a', '491d62089b2df21ea5f288f513516c4f7fce0aba97de06ceba15ae1ac73e0d15',
+        '491e2cc95e2928f520e492bbd7b55f8283957fa46c85d944d1e029ddd26c2b5d', '4a72d53f9101510c658afc7ab476812558df652e41d2f62123ad13f8fb9fa647',
+        '4ad01685038523f0304041d809bf2c09e98747381074007ec48893a7962be295', '4af8f2f3205ae0dfa93cf51cf4f4b79b862a20b1038a880516c219dd0a91139a',
+        '4c569e60d5bd74d3782547898f5b9cebcdb1f748f8cab5fb670846ff1d3de5c9', '4cd528f4c4c81bb49cfb36a214bd5c8d1a51c0b52fac07e27fdca945bf70e384',
+        '4d1de5f71f3eaddda64a386b855bedd595cb0d2cd95eafcbeb5049bc8e12e7a4', '4d4c3e71d05f7bab12b95086959285bf3a9a63c094eb4b61b1a11e8ca28bafc8',
+        '4d7dec2435d769fc8fe83489b7157ea96894e49d26408e8b57cf312e9637e4c6', '4e2d3671f3631180e1fa4e62810b60d4200b9fd21d265e624044514ccd54f031',
+        '4e3f1c6f8c9f3eab92c3b52910c8a18ee677bb60b842e431ab7241b3d12f4fe4', '51d6f79663cb670ef20915c1ec976388680cbfffff3bafa968aa7f9c7e8dae6e',
+        '520873372c9af2aa89ee5adb9c1259758ceea751604941953ed1d317d61bcad4', '5325f87c180a654d8d83bd1a157eebff8ce203ab6bff51f57e5ee7c856e0d0e9',
+        '56a2d5bcb7d4aee390dd63c0783fadbfab358d5c42e1784d542101bf115c4e96', '5737d9129f76fe9ad9108503c744211df9202854b14ca0093909dd8e0ba7c343',
+        '5bd929f89ca2fde3db531d3f6414fd447a0cbe99e334d64e5d7de5a180dbae06', '5d139d2909325f5c42558593f3c8d5b9407434e3c2adc2cbba5a7786b151899b',
+        '5d457ceb4382cd3e29dfd3d255c0847eeb8cbcab67f97152bc20cb13e9bc88f6', '5e731a98848a6525b08224c1bef33394a7beaa88cd41c7f9c32abd2ea4aecf5a',
+        '5f0e1c29b0575b7177d47ec7d08550adb6771dbda694add9bc7a4455bf115979', '61b07a3fb1c9c1a21da0de5df7a067668fdf8d1c60643073ec1c21c4a804428b',
+        '626d7cfaaf306b38590dc56d734384be6774bc0ab94dd9e0b2ecbf489910daf1', '649bffb644fe5c016a813c95d86524502cb9e55a0884f1e31c75d263717e0cb7',
+        '683d123f615b7759d6e1f25ee57bc27d1196fa06576d479b3eaf60a976a087c0', '68e1d3455300b8d1e50dfbd1bb6e219d4e4af698e09ef46897c13b8a3f0ea9f1',
+        '68fc1435aeab75b706237cba416971131461e97e4ffd5ae6b45afa796240f00b', '6be4ac57425a98779146035740e46b085a8f8569fa841917a6ca6a192003d0f6',
+        '6bf1a82212bc5a0c25c787f565d09099f90e17624871471d00828e00694f1e6b', '6d258dcea538c3d94fbc5a6defe253bc69b9c52591eabc6c23fdf7f7c0f2d3d2',
+        '6d67bfd9fbd1d084fd613235a981a94da90204a697d900e9e1fa8425a134b1f8', '6d8b562d4bb52d03303a640eaf8b6c9d3103933150d207ba21ad5ed68c0f8e96',
+        '6db49309be667dd9c315dd6a13fb5fcbded93ad46e01f69ba6578e810cee4a2b', '6ea24a49662449294694b32434ade3dab00de46b72e179fd6b15b4e2c2e40f7c',
+        '6eacfcce080bbbe946fdb27c354160f1ef1f7a2e9efd9203eca093ecda29e871', '6ee8e24e07dfe48e9bbaa7e3c3a6e3260e1dca82239d85f6437d55b02d018af2',
+        '72b6c3054b1e6aa1bfee4a36958f68e0c4057c201379558ff02e059ebc48899f', '790ad7e9d5ea6484030bd8f19bd2c1002824a1b96b987f538ff70ea3e00b516f',
+        '79a1f3535643f6c85a93ee435024d93a3f4b7b71b4f022cf9430e6b893ada618', '7a7b7f4edb299968d599ed700ce193c9929c0b582348cc2b7f954a46349b4e03',
+        '7afbe7be62461592e2d21122abc609fc29161a415dc698f03d3985d75603fe97', '7bfd2f6f9f18bb6c6ea668d27a4a7f850797eac19bf09a9d0bb4e3c969a765a0',
+        '81bf2197bb3c7d4c7ea838cec5444aa69a4174f81ec86b568d31da84219a6130', '8359734699e2e3a72ce36c3c0a0df3f222f5501281e949d29ddafa3212ca5489',
+        '8447b8b51e22675329741dd10aec16a1ded917503ac5a65302beddbfd99c338c', '87fd90829c5286541a73931ae89d9a419eb65033c0e2672af8ba87a8b1007c61',
+        '8ba30dc0d2d31234db5dfb4d4ad1ad479f5482c7a9e27cb5ab703556892039b2', '8dadedd242a2d55a76951a507528df2497de8ca5a5e88a18ed0d6ef13bd5adc7',
+        '91024fbf17159b4204b63d06835ab59a6015a806fea9cf492c531518fd8b2c3f', '91b0d673f75ba94e5e594abd4a0a55cad7d39bc0d5d8ceceb574219f92a6cfe8',
+        '94401a8f8c915feaa4ff3c43996e2befb7c07980ff32cad25b3eac7759ebfe10', '9c2a94235b4482521f49dbe5c0b1ed4f393d35727232a5027d3495980530e5b0',
+        '9ca7d54afd78d625c06fbfb91acbc1c0f8595d100c2ef5786896fc60a007b385', '9dcba283d2d3e8f0660324565b576806b6a338f862f85c15b13e509081f1d532',
+        '9ed1f210f726438a918159f411bec9673d0248220c2d839f0e5061331569814d', 'a0ef91da4c84db8578b42ef8e9cfa1cdc61ecf3cf84cdf74dd1ebb01a5a76c1c',
+        'a3ff4a2f6a7ca8ac57aaa7504c56254c2c5e28fcbf43841d4096da1a2959af7c', 'a6a1d91fa5c0c21188725cbcb74edf97d0c86830e1330a1befc4c12d04b0c565',
+        'a935abfcfc53df41f37093aed7cae39e37341851761efb6867a135721ed358b0', 'a95d3cc31335f64c538202af686f51844b3a8406a6bc7eaa002082359f8fbbcd',
+        'aa552f6a4f3a56a3029eb582d85b707965d6f96bc13a0e2c8b215b3997b5a415', 'aaeb836e73a2ce8351a647c9a2b7a548ca13c62b259a3a6b6116f42afeedefcc',
+        'ac654ea674763e17fc00c81849e8db04873c6c25df59dc14e27c97c0323854f2', 'af327bab9b618dd13e0d7a9989abde6fdcc1235319e55d5727fc7916892d9cae',
+        'b2c3b84827fd89c1a13d252c1d5e0246966e2577d595623a5a30baefde0816d5', 'b48bba83d1ca60bf50f85c7cd7a25044a43d357e4a2c1df56c0d5c8a54d4707f',
+        'b4b4f23d29c894e1c944ac667cb15f6016a5ea3c02556b7527d25f5efb380028', 'b61531f9ff3c6cdee23c8ec649229ca9532b52564e67271900d936bbda088f69',
+        'b63afd75ea35bb03dcdcb2de7382b76fbac8e26a02a018d60e1a1dd977aaacbf', 'b7f048a5f87a3a5c3ecad492d2758c83a2ef256ba1af175f1167fb89a7ab4bbf',
+        'b809980489bc808543271ea68c2b6abe93e884bf2119ace4c7adb43a675b2272', 'b98764370fe35648d242258f04ed1176ea8823245ef312339c324d3b11dfa88e',
+        'b9a33570c7b1b4bd3510c6b7e125a384de1d4534e261bf3c643095e75e07702f', 'bf58a548347dddf80bce05b77c82f074de2e2d2750b4c907e347d3ab2d94e4d8',
+        'bf7cdb3ce5f53152f8346441a7475ba7c63c6d93c30367b35bfa90b9c7302453', 'c05d2b70cf48abed61dfbc18d9501fd4a3b09f24f96f67fadc5d81dc5e823149',
+        'c0fb3a52aa9273f49820740c6b7238bc3c31aa7e41e202bebf7e74636ab136b2', 'c2e89d1b21abc089a439702e6689a054fe3239d257deae6c51f922c59714ed6a',
+        'c3fa55011f73e2c2e00841b93c2eab1d1658b55995fdb33deaba7562c2fa2f0e', 'c4c0a8b533fba9480d674f8e71dc9d0155b25301ae9b4ee41e05fd161c307c08',
+        'c75c9fee3197967906352911f3be4c0b4fa72ba791d67f44dcba3637be12dd32', 'cba0f6502664da32f7df620a91f247847996c42497d3d78110eeb2f3011351af',
+        'ce31ccd34bef2c6845eba5b253c29915c3d7b78e43258601714a0f1489dc0fa4', 'd782371467a5dc49145652cc9d3e71face92b3e19402db4e656646a3fbb81992',
+        'd901a591709cf59f2966607a4a273fd795d1c451810daff678989b2cfc878827', 'dbff0da43511d9b1982b67506d13ee89f7965d778ef4291f15fc7cf35d968e2e',
+        'ddc42e2c47607cf829094869ce85fe1649ed5988fe0dc77059352dab0f924abd', 'de1f810acc84b401fa538d990d6934111c3344016767a06cea570e44772fe459',
+        'de8376985cb0baa4735f3e65d8977c17e6af506b05b045ef93fd2c6f9b803555', 'df773f84558953511628163307b06163c080224795609a02dc82037a234b54f4',
+        'dfc1d5744c7ec00ee4b53a771eb2c514129e81464b747ebcf359a258d2d9a300', 'e0f926a1983e63cec1418a4a56027af8cf5c447238346519985dc78f1ce5ad7f',
+        'e3608f5ecbd660106589a6be381b6d71f6ee597c14ea540360721c7bef39eec4', 'e39039a89c2bb488dea86afa5e98b57b5190f3dc4f1a885c4c1321a43a7f9dbc',
+        'e5dffd73dbae3caa37656ef0c494c5ecc5bb753be2441c314f2734b49bd47c66', 'e6af47ead79b3ca31fd272b3e622ae0e6d8c863984e6927012579ced645b6557',
+        'e778f2e3b2b2674bde07be71ee99ce341977e16aef29b743b9275bab04439e2b', 'ea1afc1319c035cd0ad2c537ebea05313c738c40776a6e4fcdaa91e3b244e0d5',
+        'ed0a53a09740140fa23b3e625989dea42fc457051675dbd8bd7a098b4ce54930', 'ed4065eab9e6f95d5ecf072626482850aa24c8496789ce1bf4932d46de67a71a',
+        'ed5a154538564cf9d4ead26a2ec88276d9d13bb323e45790574961b52c867025', 'ee9d0e66be4309a1820e0e41ad32e95172761d07e9477ecce1198c9e4fe23928',
+        'eee670fa5bd1a9fd952e52d42bba7e7a98b2f2953b731de8c6e04fe3e8cf2145', 'f2c634a0973ab12f85f46d0ce78118518262a80a5022b443982421674b29e8fe',
+        'f4b6cbf0fcf6c745c400cfddb8aaeba733c21fca5998bf2774b31e21940a42eb', 'f4ff7fc0814f01166e3f931b5acae8c7dd6969e2a1bbf9beaa7358546d033964',
+        'f6dd758962073414c54b6111380da3b2ebe034194a5e916680aa2e2830e64a1e', 'f92b5a9d5cd277997f368a98eff5f8101cfd4fc9101a753d7b94f66a03dcd010',
+        'fb0f77121310e450b2e3c390abcdaed10899e093984031d999a8e8d1bb3ec3bd', 'fcd42e8e506ffbe36de773d56e17ecd450c32ad7637c0e9bfe68aa699f935135',
+        'fd21210ed979e0165f26a7b068a702e8285bd53671f47163b5e643d54edf4b2b', 'ff8e14bdd30f747eed1e4a55f693bd398c0ee9d0b7d3d6ab8fea238de2a1cae2',
+    }),
+    'typst/manual/sections/02_hydrogen_facing_shell_tests.typ': frozenset({
+        '00af502046ebe5de02e3b452b05998042d2932649f0c6920ddea1307aa3e0724', '02c15eb75da31d728474a51bf21046f730a182ca9ecd0fa7377c581c5c2bf8f9',
+        '12c8d66b3d938761ce9622e74f5dc45bb56e4f0a8f3aa22ce1a53196ce1f4f2b', '1a64187bae06bc02c183d10a80fc95256eb206397370fd73d8cc90dfcf7f47ee',
+        '26a7eaf5bed1d3aea800760e68d949deb401fdae53a1218f1ec8ab737684abdd', '36465a3ed966188a56ed820cdef3a90398ce7614dc01f93c560c066c7bf98eef',
+        '3a8e244a1d7ff9598e2130c9fa51b1586ca60e59cf8a981ae197975726af9ba0', '6bf1a82212bc5a0c25c787f565d09099f90e17624871471d00828e00694f1e6b',
+        '6ef161d404f5638321cb69bd374342d1c3451797885ceb469f050cc8cf4b1de7', '714de1c125e742f7588864b85d4ed28013aa4a6c6d2302175caea351064c193d',
+        '73d33db66a21d6a3785271c07b11501969831b8b9ca846618d028a54b2e48b71', '761187a1d70229e07c4b96e5ab06aaffdd7150c2b46eb6c7e6edc9ccdc828f7a',
+        '785d78db0e1e58dbf70733e5c3eff71cd5cae318855ca964257c2150fad54420', '8b3adcfc39bf25470110b86de9400f3d621d1105bf39fd40ffd42e40e780ef58',
+        '9319552229cc6383d90d8e9dd7fc5182ef040d9c707dd7ea7a409a8398192e50', 'a0ab45f79b4a2160890efa5c3d683a6ec9f712c12120e7d82b079d05c4ef5e5d',
+        'a6a1d91fa5c0c21188725cbcb74edf97d0c86830e1330a1befc4c12d04b0c565', 'aa552f6a4f3a56a3029eb582d85b707965d6f96bc13a0e2c8b215b3997b5a415',
+        'b866ac4d2f4db05ecd2b72ff3c32a8babe6eb54d20d307477547844758792656', 'c3fa55011f73e2c2e00841b93c2eab1d1658b55995fdb33deaba7562c2fa2f0e',
+        'da46f28801147d04cef0565ded2253444d795971d59774c26f34f0d44c5773d6', 'e37894fbd1016a4c4ac74f4aee7b9b18e6b2cbde695c3bba49dfb2999dda5c38',
+        'e94c25dd010fdce01605991184483ec5f2efcb20d4667fd420dd06b7b182ded8', 'ee2260796da8b7a560e0d92b78024e129caa4a7991a49bf87a1bd9a63575c1d9',
+        'f285dae9437297349135f2808074ea134ae96959f4e43f2d07831d3d1c8cf652', 'f475d03adb4a698c2f8bef1d266b0248ef3d07ad8b6af1313a2db714fa51766b',
+        'fd86bfd136f1604ea522c92b3fdbb9642650c41a2f11ec0c5c12907f1e080c0e',
+    }),
+    'typst/manual/sections/02_mapping_error.typ': frozenset({
+        '02c15eb75da31d728474a51bf21046f730a182ca9ecd0fa7377c581c5c2bf8f9', '04dd3f652d45a2d6f5c16db365e44cc7809c788716d9fb89038ba9e1aec72b3e',
+        '06ed58fe710d24a66556f95582c23d3468f767f73de7678de42660570c84cd42', '078bc702966c9a25d6724fac584e6a25c91918872da62afb5cf957083f1230ad',
+        '0d1916944fa0b5df7374eb574aad81a10c09b5d42a36c08da4c79ec724712166', '198d7f73d0a5983ec581dcf3d4d0f897bad4cc2d2b0cfb3a445d0fe7e5373891',
+        '1a196bb918bc8a2006ea6c6cae85cb4748234a2a785ae9e6b56a01b0ec7d62b3', '1bf57c1415558f6d28ad0aea288bed6b5e6c2fd481f99b312248aaced948263a',
+        '207ffeda8ee579b76e71ab609f110c02b242ea7dbaf9bec5df93d1779ddaf347', '270fb5b9993af9e6e63b08417fd0f5830096c34a23fbbf2dfa3d8cf0bdeb6a49',
+        '274e799252da667d1a4395463569656ab3dceb5f6bc2560a8d2167acd068a0bf', '32ae4f716d5451ee909174339bb4abb7b609267b5779f126442ab36c435ba1cc',
+        '4cd528f4c4c81bb49cfb36a214bd5c8d1a51c0b52fac07e27fdca945bf70e384', '4de55e1f19424998b8b8773909b4aa31abab2ac9d7e5a6180b670542e647f201',
+        '72a6ef3f2abdaadd6a88d53a27aaa9c2da55149db8b0327a5ba81733e560e550', '78eef3ae3cf7d5db5a209f80c4e9f1e017c9da1917741fd10fe2d37172f63659',
+        '889e3b44d70f831be9d245d741e2194f9e60fe7a6ce3a291e5e76e0f4fa7eefe', '8aabf68b2f031b811bf8d027e1b61f01fef1a178779edfb383a552959772bb14',
+        '8ac759d5d37af3e26274ee050571479a802da0303d9b6b53a0dab5a169e44aa6', '8c9148e6a2f9322f36a6b3ad796b119e219aa0d50a907e309da73679cf7a8c15',
+        '954547455b85d3003332f5b7b7ec51ae33693a3a33fddb6f27c59e7a34a596f1', '959a218692a301af2f4099d53cba3fe1b5d3e4397ecef33a2d93db11d2491201',
+        '9c2a94235b4482521f49dbe5c0b1ed4f393d35727232a5027d3495980530e5b0', 'a2974856c6759e84016f076d61b53e473b46ff0c7311212a8c3b053de272400e',
+        'a557fe98c039b8be16ace0734378b7fe19da196dfbb2d97b03cb662ebfe8dd9d', 'cbf93a71ebd11346f4d1a3e8ae6170187aad770fbd07288316f64ac6105e98d2',
+        'd425ea238deecd7fa217fd4b3723c4495dd78a06ffb453d5fa20c3a0454ec5bf', 'd753c68a74d9e6b8dc3ff2995c8de3a3a2d6c04693789e20fd89547714f0b585',
+        'de50c93dba94d220a3db10497bc6e20a2321c2f74489da98b510bcb0a536522e', 'e86a89756f12d95116156c839e8964cfcf0e82742097bbeb9d97fefee00f6dc8',
+        'ebddfc88dcec3fae3fff73bef86e51d952b62a207e095ee9bb318399dc5141b4', 'fcf8e8b04fbd79a45b2c2fe7270bd2a82ec310569d585551cd5a23fe9eb562b1',
+    }),
+    'typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ': frozenset({
+        '074f5db7faa407dd9137450dfe3481a0e5012c823a8504c057b8e1e71820c544', '0dfe928ea827be46ec406e3735eca8de0ce0ecf2d38129bb9b358beeb70df130',
+        '0f41d1f6a3b485e7cb0d8c1ceab5f875cef2dba77153160a147206ebb7a62cbe', '14694f97a5c19197d222f42551a187c48b8e1d5e64be47ef7fa9a8816b0e5728',
+        '14b6143c4e18bc0dddbc6e08eb377f7616aa407459e65324eef146d21b99f995', '218ba31dd17c99271e1a81e6e6bbd9c481e1bc1f1f818a1832589899ee4d3a02',
+        '246668d9285ecff6cc300074b8f9e1372d91347239a98cc0a0eaf96c612ef812', '28029b152c9f4f27df47be82e9f8cb5b1f6207035f3fb6ec44dba7490155b33c',
+        '2a2b0b1b051972593711789a5a3b81edb1dde5417aeec0540edc7cbd14362870', '2c14e41105e4e703e3c4d8e8723e4adaf63ba3e8fadc62e8cb2e8828fe3355e0',
+        '2c5459dd1beef0c36ffc3b39a9f030f5d0d56591ade121a1470b4afed486c2e6', '2d7ac589a92dbb930e0dfc087b99dd5e7a275e2d0b2d1655d42f2123fb41ad92',
+        '316875780b6e660a2803496bdfa6b5167986bb9ea9e3c374a7486afc284d0ba3', '3787047d3e517984a03fe3c26f0644e3a3c042979f18fd1afd596c50fd8fb310',
+        '3c543c26fd3ff756e39352de0839878b1e229b248451e902d24ca8af3283776c', '40955a9b98c072d8e7a67934d5f9bd2c236c984c6569343b77c3127b7871ad4f',
+        '426c7520a8c3752a96471b157046d04cb66a9d35aaeacb90d8a64c32e8cd98bf', '476e8c4cbfc49f13d529f0b22570cc72fbf26dc18869f34befb02002bfff2f58',
+        '4b44d8535ade1ecd20b9b9a9f439634924c3eee8ac5fa2ebf665ae5dedbafdb5', '4b77e58652399cdf314349fce2f1a409894bf1a28b6a050f64545fbc05efec71',
+        '4d4e0969ab17c5077f30bc5c8fd1a9c784562537d80f786d47492aa7264a6943', '575bb15abb52eaa4ab7640d7a9cfdb9464c055a48fe8d942e06f392b322b396d',
+        '5a590b1dee53874c9745e0b78005970c08908b34ebd824d8fe427c7b185d3677', '5bd929f89ca2fde3db531d3f6414fd447a0cbe99e334d64e5d7de5a180dbae06',
+        '5beb0c399481e18a90fa20740c6991855419de52f5aa1ef6ed5477306461c243', '5bf57c9e8515640edf4ae947e82a40b16173d718f184681299d12a19a43561d8',
+        '5c0a00a9b620194cb1e8e50db35b7c7e47cc1a7650ed28b3b67f7d3e1351e9fe', '5f31edb94a1cfb49d9125c703cad17bce37b877d53b04019f48cec18e8f42268',
+        '65fd33e59ce6126e7de8e9ad81c9887fc0fbc60b4e0f9ce3a0aa1b1a996c7af1', '66a06a68a4867170b63dcdef5b0aa1e4faec0fd49827b18664db335a750bca5c',
+        '7fd04a3f0023c373023ddb99dcae67f6065a8a32f8c27479035c4fdc7cdcb282', '80a216e5a5bcc7cc13d963dbd235338742334389ca9fc4fbb8f1bfc9f4292bc8',
+        '8a2815385173a57d94aae52c7f3bfe5a85e09dd27681848f0c07fa58a868b2c4', '8ba30dc0d2d31234db5dfb4d4ad1ad479f5482c7a9e27cb5ab703556892039b2',
+        '907ac973b9c5f04cd962105e04b27ac8a668e1adb05dcf0044723b0846e3ee32', '91b0d673f75ba94e5e594abd4a0a55cad7d39bc0d5d8ceceb574219f92a6cfe8',
+        '968d3e2717f3c0f41ac0086c6cec5caf14e0cc7731f69a3c2e98d621049b49f1', 'a1d0fd223de3023752521b0bf237ca0f317c52f6681a8ebcb25cbfeeba37e33d',
+        'a7d8a6a9df8631e1dfa34ab7779b80d77e3dfa5a12afaa5a4b95a10b2f571860', 'af6ae3f0f8e994fc3bf716e2cda7a2c22d957052bdca9fbcd89bb361f04dd655',
+        'b61531f9ff3c6cdee23c8ec649229ca9532b52564e67271900d936bbda088f69', 'bc023e67814a76f63afe596310ab36587d292e60833d777f1c225cb5faa5f6f3',
+        'bc0c1f7d10f4b6717c2e3b0ae8521933c3a15d569049466c3b6e17841cf1b956', 'bf9d450e769a65f4955627c5d8544e614834b3ec768bdc210f3e75960f87b0f7',
+        'ca6b294a5003e661ee14c4c24e866f6d37c5a4df59f6dd39acb30a9da6704411', 'd29d4127302afe9403f44878b997f22004b028de1724ad0944464b2c90c3fb9c',
+        'd5f35eab1f5c1181fd87d69df84a76e9db3d7505b1b026299f5144c96ccc2b26', 'daa86b6c5f3c1f4ecc07c37faa4f7699d2031c958154b4b4169878b7a205cefd',
+        'dbff0da43511d9b1982b67506d13ee89f7965d778ef4291f15fc7cf35d968e2e', 'de167f40c1bc4184938a46fda5d38173b17f69a2dcbf4557dddd04e520e70043',
+        'e115d67913ebe4e6734d3905e5593af67e2c6848ad74b7f383106479afe0d9ea', 'e26b3ef1ff1c0b84bfe8c438b3665fd387172ac99aa4f35da37721a4874a8bad',
+        'ecfd0f6b3d4c77d0f75fb9ceeade496d6d638aeb5a579d1c19aa2fa9d973ecc2', 'f1cf91ffa85f6951bd37f5becdb28c3b6b1952d231fc8d712a39cd34052b09e0',
+        'f3bdf7d3741f2eba50cedf9b8e08ae0d1b63809ca80d3ac5e8eb7000aa3886d9', 'f4ff7fc0814f01166e3f931b5acae8c7dd6969e2a1bbf9beaa7358546d033964',
+        'faf770ef4fc082518f3753e4933a604f94028f033e0f6528d6731e9a1ac2e89d',
+    }),
+    'typst/manual/sections/03_temporal_observation.typ': frozenset({
+        '00f969d962fccefd30e6ee48ae30ecd5fb22f7eee4da6513cdae2062c62266fc', '1807ac3b82953013cc294c56f2572db1d7c755e76a71b4ab6cb274a999061210',
+        '22c6e9e35d03969de2cb4679f615f8335904612325759fe95dc6ae550e709726', '28da2a291b7225a88f894bc4790c0dda2f9f395ddfd36af391c29a1d6ea662e0',
+        '2cd5178c5fc2caf62c17b6ea1279a5e6b8b073ed0c8bf17bea79df5df40b3f80', '2eb62cc74a4b8b571469ceec59e59b2ee5c1ebb4003feb84507ef092fb9ddce3',
+        '3d1ecb948b5c7ae81b9725e000fd5c30d510f36dd497b81f0afd7ec6498c0a89', '45a02ef920b35fe31033076af8397c921c3e4d91a5947a17e38ad725501ea6ff',
+        '4c7d3decc818e8da3e4a8473a3dfd8a2ba79c5014cf5ec1e79b6ffc0bea95ed2', '4d07224806656389130710b8f556334628f0f5a7d47fa248b3a42eee6c535105',
+        '5014322e7c88f9b19da61fed340d29b8f78255ef5141e847e4a97eb485a3a544', '556fe53690b01f0aa519e303aa240e623d0128384f20135959eaacf0404c4182',
+        '5f1ed2948a3375b590c8179f2aa890243b7217c9bf9fa2f982fcdfe78469c465', '6145b9f2764c4dd69ead3cc21ec3886ac36d7799a8ccb1ef2e3d8f5bcff55010',
+        '61f17719b2ef6de3ced4a843bc04f62260181145f85ac9d83e65ec5cae511b87', '66b8393ab303fea6b6a99d55c40e0fc769dd1149f77399e6fb5e95a1ccfd52e5',
+        '685d0991ab2b5a1c8c6b4f99ec83672f4bac0e34c5d1bb5080695331b0ab5c24', '686114c8056965611ac3c2bd4336e9a9ec26c48fff18f651eb6e1e711ad74ca3',
+        '6ae91edf511295252ded459ce53bd6f696f2529924cdb61d05da36e98e73337d', '6c304782d17d56cec163146d2d3f6d4ddaa85b7e575666f03af569d326804811',
+        '750cbbe86a906eecf6558ad27aedbbcbc053656ef7c8fb732ac99a63a62bb580', '7a8554deaa3032aeab234583b9044f75ce0cf4151e03432f9f82cf24903123a4',
+        '7d83a3e643980831d8dc718f7620da8c9bfc529c428bf1c65cd50109947cb902', '82c149eddf8284eb61e6df222507cd1a3e9c7dd28ab19b927e23c5010acdcf8a',
+        '84991b9aa24c9d5ec09601c10fcd456cf0e02bee035a86105b107ecbdb36bc5e', '86c53028db2f26625134ec9b99a0b74fda9f6d1bc76ea30256306e2ec613d310',
+        '8d41ef861cfea3f55abba7fe5af2f4d27e75d06aa8176761b7e1ad636e183057', '953c3f2ea6c07d77bd91cba30ede80a52ae8335ef378745724b060d000ac49c7',
+        '95b25adbb2a8a4471031238a434d45c21ce5e42c67b3950242a69aecc40dad40', '97b2ca36d4637b2728bf6a0497c2822a45db46d245bb546a6a4f128bcee96655',
+        '9a4534be273d59f4c90359de530652bdeaa437b58d6785241389116701cf5ecd', '9d0d7662916c92c03e185417bc1e19a7b956c60d0d90d6cabc27ba14cf07488c',
+        '9def5914cfc29e727607a2910e43fb2ad4ef3e7d042f1f53f5c751d7ea3f2abd', '9f0c34e14f79f2aded6b5af2429998938e999faa4559031eea5a09a20419cb7f',
+        'a1a89f53a910e77f28d7d2931cff46cd3de139b1cd50834811b0dc3f51bc2254', 'a8ddea3a3601e268acfbebbe34da0fd5a6c89732a09bfbd3c04f7b7024fc2c3a',
+        'b0eb9717b94f0ecac7e3d1aef3fdcbf8b6087fcadfdfaa4b7c35368cc3c5cb17', 'b58409539908be4e27e028c3a2bc59768516ee66316ae0d69baaca7da97f98ab',
+        'be095b6bff247d23f0d5b3048e56d879444f30325f1d4f434877e3b9f629e458', 'c70fa42dc99994ff5cdd9636e949d0e674e8b43055542c9af892668d48af0ca5',
+        'd79d569e6d7cf9cb73706949d4f0b273c81cfea6a4f28599f9c1c756bfc5cbb7', 'de26790e5b5b5d4aaabd145188e5456dc1dab324e34c3c710641baf98ffe7e55',
+        'df4e8e01cbbe1861f30e02de436a8cf61000e5fdd6df54f9e5a33741ffae6fbe', 'e9314695956d142c4356480be52e8270ee8c3b302dbe74a1bbcb01e78bbb9560',
+        'ed4e69a2265314b72a5461ef4a01f96c1d4e71b73322224cf6675d1cdfb97426', 'f0ffea7c49843cff9e9fcf7af31a3bc6a9c237bac88dd10991f1293b12ebfa74',
+        'f84bb138d67eee95888ed8f8b2999779d237517b9e92576375190bbc16050a5b', 'f8c6bc66225787d6509488bb8ee6c5c336924f102defdb5397756f2de690ed9d',
+        'f98d5d1bf62ba612e6b9ea4d5f9f3080f8f7b08cb2536dfbc30592c8f4b5d508',
+    }),
+    'typst/manual/sections/04_boundary_current_applications.typ': frozenset({
+        '05fd7d6b094b759d16643e1f27c5957c00ad108ce565218cc5fb27294192a249', '1f772be451b09b475295178aadc4e587a2ec50bbc1325ba9be4ef78909a563d9',
+        '217c401ad6814365f8234ffca5ba19a85b37e6c48be8d9c49e8155861a43610d', '2224034f2f2af537067e10316cd921a3e3b1753ddb1e9352015d9fa19020225c',
+        '2252751f9d51c017f50778ab195bc5c6fa13a594602addae82bee121029ad42f', '2cdfe4bee88fdf2b0e5b65f87fd6135ea3707f51b52aed689fa3a95cef8835bd',
+        '3454f2a12a7c6bc870be407c6f07fedb9a8f8d58874b1bb4351fcbd6875dd99c', '3d68708e85e25a011fea3021158580435b5bbbd9b2053c0bb1c2427f7cb8487b',
+        '4849abfd4a01f8edf5f58542f4c1e22ba7bc3e05b2f5c3760b5d8ff8389d8de6', '6567d186d438135736a232293f0cb03f05cc24182f639b06a34ab8b61e189389',
+        '6bf1a82212bc5a0c25c787f565d09099f90e17624871471d00828e00694f1e6b', '72111cb31e19d70b9a073952ed7fdf44cfe5085481308efce38cebb6ff6dcad1',
+        '7681af130c993adcce822c2cc718b4e7af078377f25e9887fb62115cc4e6dd6d', '78f9f7bea7ec8c28aea287ec3ffd210fb343db14d9294d7c7bc838503434e1e2',
+        '8fb06aa6a31528928f8e223b80055c67d98a57b93d25c0e79f167c13efad18d9', '9bd4458344f3983d95c5cd81e6dd902888e7b34676f8a4a5c92cc51651bc8836',
+        '9c2a94235b4482521f49dbe5c0b1ed4f393d35727232a5027d3495980530e5b0', 'a2d0d3ca6555f8bddf11bffdf923a90f473544fd4fb67735fdabf2c59dec4062',
+        'afb24d0f947e3375cacbb3d9bfba1065728cac275093c1bcafa7f2e1b66b1dcc', 'b25568a5524fbe9c53dce7c9235f1d850c35358054c26cf790959399d2007f02',
+        'c6c0a63df737abab8624c30e0b32de359bbb316fd45bbadd8eb3167c8e4d6ef9', 'd7aa53732bb70ac9050db14030178e879343ee40381f644497724a28f71df557',
+        'e2510fe1f3b544bac96439438dec9f2d021760576f7ac061a47702cc289183fd', 'e45a38a3d57597a1a477883e674d263d90e441fbeaef248963a137ff1a42df79',
+        'ee405f714719681ad8005834d887ac73e067ac872c0b7bd55bf23a3f8a3b316d', 'fe431b23865c6cf281b1dc1e0235439ceb07c10c111c746a6b259090798288a6',
+    }),
+    'typst/manual/sections/05_solar_system_field_tests.typ': frozenset({
+        '12465265cbc502ec924baadc1da660420450a6ffccdf9758b7e3b89eb7eface3', '30b1209bbd5da8d8a5e001ed35246f6f688c900e9824ef4667c1bf334d635e8e',
+        '8817e5611a386e6b6a136f8ddf708f59d7d64d51e6218881b517d40fadd473cd', '97313f66bd58e97942d756e029a159fc0ce2b3944b2e58e2b7e9b1b3dd2c744b',
+        'a4fff3785995fa1b2354ca7efb018813a34f8b01b751cb0b76de03c68dfcef1a', 'e2510fe1f3b544bac96439438dec9f2d021760576f7ac061a47702cc289183fd',
+    }),
+}
+
+POST_BASELINE_COMPACTED_MANUAL_MATH_SEQ_SHA256: dict[str, str] = {
+    'typst/manual/sections/00_awareness_fixtures.typ': '3c56f1f2a66500903a074bbe6772f76b96987a6173c3ceb779edd2b9e58bf7b0',
+    'typst/manual/sections/00_dec_ledger.typ': '160a978761d77f4830e7ba95c59a8371fa0198cdb5e2a8de30955b041aec2e0d',
+    'typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ': '2dc942343bf167e93fa846e55602a5fa3ab68a091d8cefc94cfd2c5bdeda348a',
+    'typst/manual/sections/01_cell_measures.typ': '08bae6a1591135a6bfc957014142135d3fabdf000ed0123b114044263fac4da7',
+    'typst/manual/sections/01_rest_energy_prediction.typ': '82ce38fdf710b5b75c739ea08d36d4ab4e6bcf5d12934b59d090517aa2bee3a1',
+    'typst/manual/sections/02_hydrogen_facing_shell_tests.typ': '52e91d9a215862574e2cff9b4fe9a345d8b21942651b24bd3658edbdc23e55f8',
+    'typst/manual/sections/02_mapping_error.typ': 'db75d49b2bab7b2302ed2982044d8fcf227e7a5be394d285c6eac434ec21b881',
+    'typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ': '2b12182d16ebf673dae50b4f233221d867343f542396b051b6c3cdc86c9b017b',
+    'typst/manual/sections/03_temporal_observation.typ': 'fc6f68c789a4b82e217b1e7896884ce188405320f82d5a2e2d03fbc4fe54e31b',
+    'typst/manual/sections/04_boundary_current_applications.typ': '3f99844724e715fc5f60aaba087678b612853c8ec72c12a8dd33673e82bf5fcd',
+    'typst/manual/sections/05_solar_system_field_tests.typ': 'ea432df98537189f44c66b92262d4af4f885d6c22cf07d464538f820b6a22eb3',
+}
+
+POST_BASELINE_COMPACTED_MANUAL_CLI_TOKENS: dict[str, tuple[str, ...]] = {
+    'typst/manual/sections/00_awareness_fixtures.typ': ('python3 manual/scripts/aod_awareness.py --check-data', 'python3 -B -m manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float'),
+    'typst/manual/sections/00_dec_ledger.typ': ('python3 -B -m manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float'),
+    'typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ': ('python3 manual/scripts/aod_native_closure_wave.py --check-data', 'python3 manual/scripts/aod_manual_wavelet_si_alignment.py --check', 'python3 -B -m manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float'),
+    'typst/manual/sections/01_cell_measures.typ': ('--check-data', '--sector', '--verify-vectors', '--check-zero-float'),
+    'typst/manual/sections/01_rest_energy_prediction.typ': ('python3 -B -m manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float'),
+    'typst/manual/sections/02_hydrogen_facing_shell_tests.typ': ('python3 -B -m manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float'),
+    'typst/manual/sections/02_mapping_error.typ': ('--check', 'python3 manual/scripts/aod_mapping_error.py --check', '--sector', '--verify-vectors', '--check-zero-float'),
+    'typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ': ('python3 -B -m manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float', 'python3 -B -m manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float'),
+    'typst/manual/sections/03_temporal_observation.typ': ('manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float', '--consumer-root', 'manual/scripts/aod_temporal_observation.py --check', '--consumer-root', 'aod_temporal_anchor.py --check-data', 'aod_manual_wavelet_si_alignment.py --check', 'manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float'),
+    'typst/manual/sections/04_boundary_current_applications.typ': ('python3 -B -m manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float'),
+    'typst/manual/sections/05_solar_system_field_tests.typ': ('python3 -B -m manual.engine --sector boundary_sadar', 'aod-core --verify-vectors --check-zero-float'),
+}
+
+POST_BASELINE_COMPACTED_MANUAL_QUALIFIER_COUNTS: dict[str, dict[str, int]] = {
+    'typst/manual/sections/00_awareness_fixtures.typ': {'no': 11, 'not': 10, 'never': 4, 'only': 5, 'without': 11, 'unless': 1, 'none': 0, 'cannot': 7, 'neither': 4, 'nor': 2, 'conditional': 1, 'scoped': 0, 'quarantined': 1, 'declared': 11, 'unresolved': 0, 'absent': 1, 'distinct': 5, 'independent': 2, 'external': 0, 'immutable': 3, 'falsification': 6, 'necessary': 0, 'sufficient': 0},
+    'typst/manual/sections/00_dec_ledger.typ': {'no': 2, 'not': 2, 'never': 0, 'only': 5, 'without': 3, 'unless': 0, 'none': 0, 'cannot': 0, 'neither': 0, 'nor': 0, 'conditional': 3, 'scoped': 0, 'quarantined': 0, 'declared': 18, 'unresolved': 0, 'absent': 0, 'distinct': 2, 'independent': 0, 'external': 1, 'immutable': 0, 'falsification': 3, 'necessary': 0, 'sufficient': 0},
+    'typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ': {'no': 2, 'not': 0, 'never': 2, 'only': 6, 'without': 6, 'unless': 0, 'none': 1, 'cannot': 1, 'neither': 2, 'nor': 1, 'conditional': 0, 'scoped': 0, 'quarantined': 0, 'declared': 8, 'unresolved': 0, 'absent': 1, 'distinct': 4, 'independent': 1, 'external': 1, 'immutable': 3, 'falsification': 2, 'necessary': 0, 'sufficient': 1},
+    'typst/manual/sections/01_cell_measures.typ': {'no': 3, 'not': 2, 'never': 0, 'only': 2, 'without': 5, 'unless': 0, 'none': 0, 'cannot': 2, 'neither': 1, 'nor': 1, 'conditional': 1, 'scoped': 0, 'quarantined': 1, 'declared': 5, 'unresolved': 0, 'absent': 1, 'distinct': 3, 'independent': 4, 'external': 0, 'immutable': 0, 'falsification': 1, 'necessary': 0, 'sufficient': 0},
+    'typst/manual/sections/01_rest_energy_prediction.typ': {'no': 1, 'not': 2, 'never': 0, 'only': 9, 'without': 3, 'unless': 1, 'none': 0, 'cannot': 1, 'neither': 0, 'nor': 0, 'conditional': 2, 'scoped': 2, 'quarantined': 7, 'declared': 11, 'unresolved': 1, 'absent': 1, 'distinct': 2, 'independent': 2, 'external': 17, 'immutable': 0, 'falsification': 3, 'necessary': 0, 'sufficient': 0},
+    'typst/manual/sections/02_hydrogen_facing_shell_tests.typ': {'no': 0, 'not': 2, 'never': 0, 'only': 2, 'without': 1, 'unless': 0, 'none': 0, 'cannot': 0, 'neither': 0, 'nor': 0, 'conditional': 0, 'scoped': 0, 'quarantined': 9, 'declared': 6, 'unresolved': 1, 'absent': 0, 'distinct': 0, 'independent': 0, 'external': 9, 'immutable': 0, 'falsification': 1, 'necessary': 0, 'sufficient': 0},
+    'typst/manual/sections/02_mapping_error.typ': {'no': 6, 'not': 3, 'never': 1, 'only': 2, 'without': 5, 'unless': 0, 'none': 0, 'cannot': 2, 'neither': 1, 'nor': 1, 'conditional': 1, 'scoped': 0, 'quarantined': 0, 'declared': 8, 'unresolved': 3, 'absent': 1, 'distinct': 3, 'independent': 3, 'external': 1, 'immutable': 0, 'falsification': 1, 'necessary': 0, 'sufficient': 0},
+    'typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ': {'no': 2, 'not': 1, 'never': 3, 'only': 3, 'without': 2, 'unless': 1, 'none': 1, 'cannot': 0, 'neither': 1, 'nor': 1, 'conditional': 2, 'scoped': 0, 'quarantined': 0, 'declared': 10, 'unresolved': 0, 'absent': 0, 'distinct': 4, 'independent': 5, 'external': 3, 'immutable': 0, 'falsification': 1, 'necessary': 0, 'sufficient': 0},
+    'typst/manual/sections/03_temporal_observation.typ': {'no': 5, 'not': 7, 'never': 5, 'only': 3, 'without': 9, 'unless': 0, 'none': 0, 'cannot': 2, 'neither': 4, 'nor': 3, 'conditional': 9, 'scoped': 1, 'quarantined': 0, 'declared': 3, 'unresolved': 3, 'absent': 0, 'distinct': 5, 'independent': 4, 'external': 0, 'immutable': 0, 'falsification': 3, 'necessary': 0, 'sufficient': 0},
+    'typst/manual/sections/04_boundary_current_applications.typ': {'no': 0, 'not': 2, 'never': 0, 'only': 1, 'without': 0, 'unless': 0, 'none': 1, 'cannot': 0, 'neither': 0, 'nor': 0, 'conditional': 1, 'scoped': 8, 'quarantined': 2, 'declared': 10, 'unresolved': 0, 'absent': 0, 'distinct': 1, 'independent': 0, 'external': 3, 'immutable': 0, 'falsification': 0, 'necessary': 0, 'sufficient': 0},
+    'typst/manual/sections/05_solar_system_field_tests.typ': {'no': 0, 'not': 3, 'never': 1, 'only': 1, 'without': 0, 'unless': 0, 'none': 0, 'cannot': 0, 'neither': 0, 'nor': 0, 'conditional': 0, 'scoped': 0, 'quarantined': 1, 'declared': 5, 'unresolved': 0, 'absent': 0, 'distinct': 1, 'independent': 0, 'external': 4, 'immutable': 0, 'falsification': 0, 'necessary': 0, 'sufficient': 0},
 }
 
 POST_BASELINE_MANUAL_LABELS = frozenset({
@@ -3092,7 +3547,7 @@ POST_BASELINE_MANUAL_LABELS = frozenset({
 
 TRUSTED_TEMPLATE_SHA256 = {
     "typst/lib/aod_schema.typ": "6fa865ba193f1f2e1dce27fe126dd799f1dd6726ada2c4ff43531696685460b4",
-    "typst/lib/aod_plots.typ": "346944079a9840a005555ea16b7026cbf1075f26bfde08011740326a06070f4e",
+    "typst/lib/aod_plots.typ": "bf0aff2c8a71f5c7d707e4c007b41d2ab308c3193ebcad87533e142fc8504d33",
     "typst/preamble.typ": "7a9c255c2411bc4bd3487be0196f10ac453eefa240f6c16095d426f210b4f112",
     "typst/manual/preamble.typ": "2b7deae2f0fa3d7011edabd8d7299b835290fb60e47990c7fe861e55bd914196",
     "typst/main.typ": "fc8d4cb59c86b59f0a6ee6fe1b0ea968edcf00f2e84d05e2cfcfb25abf57db70",
@@ -4220,7 +4675,7 @@ def _verify_source_and_content_parity_impl(
                 )
         elif typ_rel in POST_BASELINE_COMPACTED_MAIN_UNITS:
             base_imgs = [tk for tk in t_toks if tk[0] == "IMG"]
-            cand_imgs = [tk for tk in y_toks if tk[0] == "IMG"]
+            cand_imgs = [tk for tk in y_toks if tk[0] == "IMG" and tk[1] not in authored_pdf_rels]
             require(
                 base_imgs == cand_imgs,
                 f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
@@ -4236,6 +4691,74 @@ def _verify_source_and_content_parity_impl(
                         f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
                         f"unverified math AST in compacted Main unit: {mtk!r}"
                     )
+        elif typ_rel in POST_BASELINE_COMPACTED_MANUAL_UNITS:
+            base_imgs = [tk for tk in t_toks if tk[0] == "IMG"]
+            cand_imgs = [tk for tk in y_toks if tk[0] == "IMG" and tk[1] not in authored_pdf_rels]
+            require(
+                base_imgs == cand_imgs,
+                f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
+                f"figure sequence changed base={base_imgs} vs typ={cand_imgs}",
+            )
+            base_fcs = [tk for tk in t_toks if tk[0] == "FLOWCHART"]
+            cand_fcs = [tk for tk in y_toks if tk[0] == "FLOWCHART"]
+            require(
+                base_fcs == cand_fcs,
+                f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
+                f"FLOWCHART AST changed ('FLOWCHART') base={base_fcs} vs typ={cand_fcs}",
+            )
+            base_math_set = {tk for tk in t_toks if tk[0] == "MATH"}
+            pinned_extra_math = POST_BASELINE_COMPACTED_MANUAL_INLINE_MATH.get(typ_rel, frozenset())
+            actual_extra_math: set[str] = set()
+            y_math_seq: list[str] = []
+            for mtk in y_toks:
+                if mtk[0] == "MATH":
+                    mdig = _math_ast_sha256(mtk)
+                    y_math_seq.append(mdig)
+                    if mtk not in base_math_set:
+                        if mdig not in pinned_extra_math:
+                            raise ValueError(
+                                f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
+                                f"unverified math AST in compacted Manual unit: {mtk!r}"
+                            )
+                        actual_extra_math.add(mdig)
+            require(
+                actual_extra_math == pinned_extra_math,
+                f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
+                f"pinned compacted Manual inline math AST missing "
+                f"({len(pinned_extra_math - actual_extra_math)} missing)",
+            )
+            actual_math_seq_sha = hashlib.sha256("\n".join(y_math_seq).encode("utf-8")).hexdigest()
+            require(
+                actual_math_seq_sha == POST_BASELINE_COMPACTED_MANUAL_MATH_SEQ_SHA256[typ_rel],
+                f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
+                f"math AST sequence digest changed in compacted Manual unit",
+            )
+            base_cli = [tk[1] for tk in t_toks if tk[0] == "CODE" and "--" in tk[1]]
+            cand_cli = tuple(tk[1] for tk in y_toks if tk[0] == "CODE" and "--" in tk[1])
+            for cli_tok in base_cli:
+                require(
+                    any(cli_tok in cand for cand in cand_cli),
+                    f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
+                    f"verbatim CLI flag/command token altered or missing: {cli_tok!r}",
+                )
+            require(
+                cand_cli == POST_BASELINE_COMPACTED_MANUAL_CLI_TOKENS[typ_rel],
+                f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
+                f"CLI code token sequence changed expected={POST_BASELINE_COMPACTED_MANUAL_CLI_TOKENS[typ_rel]!r} "
+                f"vs actual={cand_cli!r}",
+            )
+            cand_qual_counts = {q: 0 for q in SCIENTIFIC_QUALIFIERS}
+            for tk in y_toks:
+                if tk[0] == "W":
+                    lw = tk[1].lower()
+                    if lw in cand_qual_counts:
+                        cand_qual_counts[lw] += 1
+            expected_qual_counts = POST_BASELINE_COMPACTED_MANUAL_QUALIFIER_COUNTS[typ_rel]
+            require(
+                cand_qual_counts == expected_qual_counts,
+                f"Ordered content/math parity mismatch in {tex_rel} vs {typ_rel}: "
+                f"scientific qualifier count mismatch expected={expected_qual_counts} vs actual={cand_qual_counts}",
+            )
         elif t_toks != y_toks:
             sm = difflib.SequenceMatcher(None, t_toks, y_toks)
             first_diff = next((op for op in sm.get_opcodes() if op[0] != "equal"), None)
@@ -4278,7 +4801,11 @@ def _verify_source_and_content_parity_impl(
                 cli_commands_by_surface[surf].append(tk[1])
 
         if tex_rel not in IMMUTABLE_MANUAL_TABLES:
-            if typ_rel in POST_BASELINE_MANUAL_EXTENSION_UNITS or typ_rel in POST_BASELINE_COMPACTED_MAIN_UNITS:
+            if typ_rel in (
+                POST_BASELINE_MANUAL_EXTENSION_UNITS
+                | POST_BASELINE_COMPACTED_MANUAL_UNITS
+                | POST_BASELINE_COMPACTED_MAIN_UNITS
+            ):
                 gen_p = root / "latex" / tex_rel
                 if gen_p.is_file():
                     b_toks, _ = extract_tex_ordered(gen_p.read_text(encoding="utf-8"), tex_rel, emit_boundaries=True)
@@ -4371,7 +4898,11 @@ def _verify_source_and_content_parity_impl(
         # Direct 1:1 ordered token + Math AST parity between canonical typst/ and generated latex/ on post-baseline units
         for tex_rel, entry in sorted(src_map.items()):
             typ_rel = entry["typst_target"]
-            if typ_rel not in (POST_BASELINE_MANUAL_EXTENSION_UNITS | POST_BASELINE_COMPACTED_MAIN_UNITS):
+            if typ_rel not in (
+                POST_BASELINE_MANUAL_EXTENSION_UNITS
+                | POST_BASELINE_COMPACTED_MANUAL_UNITS
+                | POST_BASELINE_COMPACTED_MAIN_UNITS
+            ):
                 continue
             b_tex_toks, _ = extract_tex_ordered((b_root / tex_rel).read_text(encoding="utf-8"), tex_rel)
             b_tex_math_set = {tk for tk in b_tex_toks if tk[0] == "MATH"}
@@ -4401,8 +4932,8 @@ def _verify_source_and_content_parity_impl(
         total_exported_figures = 0
         exported_by_comp: dict[str, dict] = {}
         for surf_name, fig_rel_dir, expected_count in (
-            ("main", "figures/generated", 6),
-            ("manual", "manual/figures/generated", 51),
+            ("main", "figures/generated", 13),
+            ("manual", "manual/figures/generated", 53),
         ):
             fig_dir = latex_root / fig_rel_dir
             fig_manifest_p = fig_dir / "FIGURE_MANIFEST.json"
@@ -4443,9 +4974,9 @@ def _verify_source_and_content_parity_impl(
                 exported_by_comp[d["diagram_component"]] = d
                 total_exported_figures += 1
 
-        # Verify typst/figure_inventory.json binds all 53 vector figures (34 converted historical rasters + 19 authored native vectors).
+        # Verify typst/figure_inventory.json binds all 62 vector figures (34 converted historical rasters + 28 authored native vectors).
         inv_map = _load_figure_inventory_map(root)
-        require(len(inv_map) == 53, f"Expected 53 audited figures in typst/figure_inventory.json, got {len(inv_map)}")
+        require(len(inv_map) == 62, f"Expected 62 audited figures in typst/figure_inventory.json, got {len(inv_map)}")
         converted_cnt = authored_cnt = 0
         for comp_rel, item in sorted(inv_map.items()):
             cstatus = item.get("conversion_status")
@@ -4477,7 +5008,7 @@ def _verify_source_and_content_parity_impl(
                 f"Figure inventory exported PDF hash mismatch: {comp_rel}",
             )
         require(
-            converted_cnt == 34 and authored_cnt == 19,
+            converted_cnt == 34 and authored_cnt == 28,
             f"Unexpected converted/authored figure split: converted={converted_cnt}, authored={authored_cnt}",
         )
 
@@ -5317,7 +5848,9 @@ RENDERED_OOV_EXCESS_ALLOWLIST: dict[str, dict[str, int]] = {
         "bend": 1, "neuro": 4, "peri": 1, "spike": 2,
     },
 }
-MIN_RENDERED_TEXT_SIZE = 4.0
+# OpenType Latin Modern Math scriptScriptPercentScaleDown = 50%: allowlisted 7.0pt/7.5pt tables
+# legitimately emit nested math script-scripts at 3.5pt/3.75pt, while microscopic attacks stay < 3.5pt.
+MIN_RENDERED_TEXT_SIZE = 3.5
 
 
 def _source_prose_vocab(gate_b_info: dict) -> set[str]:
@@ -5797,11 +6330,15 @@ def _verify_evaluated_and_rendered_impl(
             require(forbidden not in txt, f"Leaked raw syntax or unresolved marker {forbidden!r} in {name}")
 
     cli_checked = 0
-    for surf, raw_txt in (("main", typ_main_raw), ("manual", typ_manual_raw)):
+    for surf, raw_txt, stream_txt in (
+        ("main", typ_main_raw, typ_main_stream),
+        ("manual", typ_manual_raw, typ_manual_stream),
+    ):
         flat_raw = re.sub(r"\s+", " ", raw_txt.replace("/\n", "/"))
+        flat_stream = re.sub(r"\s+", " ", stream_txt.replace("/\n", "/").replace("-\n", "-"))
         for cmd in sorted(set(gate_b_info["_cli_commands"][surf])):
             require(
-                cmd in flat_raw,
+                cmd in flat_raw or cmd in flat_stream,
                 f"Literal CLI command corrupted or missing in rendered {surf}.pdf: {cmd!r}",
             )
             cli_checked += 1
@@ -6385,7 +6922,7 @@ CONTROL_EXPECTED_DIAGNOSTICS = {
     "6_removed_short_negation": "Ordered content/math parity mismatch in manual/sections/02_mapping_error.tex",
     "7_changed_inline_integer": "Ordered content/math parity mismatch in manual/sections/02_mapping_error.tex",
     "8_changed_equation_grouping": "Equation structure mismatch for eq:manual-m3-original-interval",
-    "9_show_rule_rendered_mutation": "No physical uncertainty model is instantiated",
+    "9_show_rule_rendered_mutation": "with no physical uncertainty model",
     "10_wrong_peer_pdf_filename": "Main companion filename mismatch",
 }
 
@@ -6596,9 +7133,9 @@ def _run_negative_controls_impl(
         sb = make_sandbox(Path(td))
         p = sb / "typst/manual/sections/02_mapping_error.typ"
         orig = p.read_text(encoding="utf-8")
-        require("This example has no physical discrepancy model" in orig, "Control 6 preimage missing")
-        p.write_text(orig.replace("This example has no physical discrepancy model",
-                                  "This example has a physical discrepancy model", 1), encoding="utf-8")
+        require("because these examples supply no physical\ndiscrepancy model" in orig, "Control 6 preimage missing")
+        p.write_text(orig.replace("because these examples supply no physical\ndiscrepancy model",
+                                  "because these examples supply a physical\ndiscrepancy model", 1), encoding="utf-8")
         expect_rejection("6_removed_short_negation", lambda: source_check(sb))
 
     # 7. Review Counterexample #2: Changed inline integer (f(x)=2x -> f(x)=3x)
@@ -6629,7 +7166,7 @@ def _run_negative_controls_impl(
         drv.write_text(
             orig.replace(
                 "#show: aod-manual-doc\n",
-                '#show: aod-manual-doc\n#show "No physical uncertainty model": "A physical uncertainty model"\n',
+                '#show: aod-manual-doc\n#show "no physical uncertainty model": "a physical uncertainty model"\n',
                 1,
             ),
             encoding="utf-8",
@@ -6677,7 +7214,7 @@ def _run_negative_controls_impl(
                          "Trusted Typst template/driver changed")
         if has_baselines:
             expect_rejection("11b_R1c_rendered_insertion", lambda: rendered(sb, Path(td) / "o", gate_b_clean),
-                             "'fifth(+34)'")
+                             "'fifth(+")
         else:
             needs_baselines("11b_R1c_rendered_insertion")
 
@@ -6718,30 +7255,30 @@ def _run_negative_controls_impl(
     # 15. R5: negation painted white (content-file policy; driver variant via PDF paint scan).
     with tempfile.TemporaryDirectory() as td:
         sb = make_sandbox(Path(td))
-        mutate(sb, fixtures, "No physical uncertainty model is instantiated.",
-               "#text(fill: white)[No] physical uncertainty model is instantiated.")
+        mutate(sb, fixtures, "with no physical uncertainty model.",
+               "with #text(fill: white)[no] physical uncertainty model.")
         expect_rejection("15a_R5_white_text_policy",
                          lambda: verify_typst_evaluation_policy(sb, repin(sb, fixtures)),
                          "forbidden styling argument(s) ['fill']")
     with tempfile.TemporaryDirectory() as td:
         sb = make_sandbox(Path(td), include_figures=True)
         mutate(sb, man_drv, "#show: aod-manual-doc\n",
-               '#show: aod-manual-doc\n#show "No physical uncertainty model": it => text(fill: white, it)\n')
+               '#show: aod-manual-doc\n#show "no physical uncertainty model": it => text(fill: white, it)\n')
         expect_rejection("15b_R5_white_text_paint_scan", lambda: rendered(sb, Path(td) / "o", gate_b_clean),
                          "is not opaque black/visible")
 
     # 16. R6: show rule negates a clause (content-file policy; driver variant via rendered clauses).
     with tempfile.TemporaryDirectory() as td:
         sb = make_sandbox(Path(td))
-        mutate(sb, fixtures, "No physical uncertainty model is instantiated.",
-               '#show "invalidates a retention": "validates a retention"\n'
-               "No physical uncertainty model is instantiated.")
+        mutate(sb, fixtures, "with no physical uncertainty model.",
+               '#show "no physical uncertainty model": "a physical uncertainty model"\n'
+               "with no physical uncertainty model.")
         expect_rejection("16a_R6_content_show_policy",
                          lambda: verify_typst_evaluation_policy(sb, repin(sb, fixtures)), "forbidden `show`")
     with tempfile.TemporaryDirectory() as td:
         sb = make_sandbox(Path(td), include_figures=True)
         mutate(sb, man_drv, "#show: aod-manual-doc\n",
-               '#show: aod-manual-doc\n#show "invalidates a retention": "validates a retention"\n')
+               '#show: aod-manual-doc\n#show "invalidates replay": "validates replay"\n')
         if has_baselines:
             expect_rejection("16b_R6_rendered_clause", lambda: rendered(sb, Path(td) / "o", gate_b_clean),
                              "Rendered prose mismatch")
@@ -6821,8 +7358,8 @@ def _run_negative_controls_impl(
         sb = make_sandbox(Path(td))
         mutate(
             sb, fixtures,
-            "No physical uncertainty model is instantiated.",
-            "#block(..(clip: true, height: 0pt))[No] physical uncertainty model is instantiated.",
+            "with no physical uncertainty model.",
+            "with #block(..(clip: true, height: 0pt))[no] physical uncertainty model.",
         )
         expect_rejection(
             "21a_spread_hidden_block_policy",
@@ -6834,7 +7371,7 @@ def _run_negative_controls_impl(
         mutate(
             sb, man_drv,
             "#show: aod-manual-doc\n",
-            '#show: aod-manual-doc\n#show "No physical uncertainty model": it => text(fill: luma(0, 0%), it)\n',
+            '#show: aod-manual-doc\n#show "no physical uncertainty model": it => text(fill: luma(0, 0%), it)\n',
         )
         expect_rejection(
             "21b_transparent_luma_paint_scan",
@@ -6911,7 +7448,7 @@ def _run_negative_controls_impl(
     # 22d. R1: undeclared transition of an untouched scientific contract
     with tempfile.TemporaryDirectory() as td:
         sb = make_gate_a_sandbox(Path(td))
-        cp = sb / "contracts/scientific/CELL_MEASURE_SPEC.json"
+        cp = sb / "contracts/scientific/ERROR_BUDGET.json"
         cp.write_text(cp.read_text(encoding="utf-8") + "\n", encoding="utf-8")
         expect_rejection(
             "22d_R1_undeclared_contract_transition",

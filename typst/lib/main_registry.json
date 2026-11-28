@@ -2734,6 +2734,6 @@
   "entry_count": 455,
   "main_input_count": 44,
   "main_pdf_filename": "main.pdf",
-  "main_sources_sha256": "2ac9af5024983afcd6a6a4d800d6c4ad5d97deb4cf19850400e4116228b6100e",
+  "main_sources_sha256": "0114cdd0790a4728c7be197008239b43ff9bfcf11216cbbe06f99f0378129cdc",
   "schema": "aod.typst.main-registry.v1"
 }

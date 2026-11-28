@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASELINE_REL = Path("archive/latex_baseline_98ddfa0")
 MANIFEST_REL = BASELINE_REL / "BASELINE_MANIFEST.json"
 EXPECTED_SCHEMA = "aod.latex-baseline-snapshot.v1"
+ARCHIVED_ROLES = frozenset({"archived_editorial_tex", "archived_baseline_data"})
 
 
 def _require(condition: bool, message: str) -> None:
@@ -74,8 +75,18 @@ def load_and_verify_baseline(root: Path) -> dict:
         _require(actual_bytes == entry["bytes"], f"Byte count mismatch for {retained}: {actual_bytes} != {entry['bytes']}")
         actual_sha = sha256_file(src)
         _require(actual_sha == entry["sha256"], f"SHA-256 mismatch for {retained}")
-        if entry["role"] == "archived_editorial_tex":
+        if entry["role"] in ARCHIVED_ROLES:
+            expected_retained = f"{BASELINE_REL.as_posix()}/{orig}"
+            _require(
+                retained == expected_retained,
+                f"Archived baseline entry retained_location mismatch for {orig}: {retained!r} != {expected_retained!r}",
+            )
             archived_expected.add(retained)
+        else:
+            _require(
+                retained == orig,
+                f"Preserved-in-place baseline entry retained_location mismatch for {orig}: {retained!r} != {orig!r}",
+            )
 
     # Confirm no undeclared extra files exist inside archive/latex_baseline_98ddfa0/
     snap_dir = root / BASELINE_REL

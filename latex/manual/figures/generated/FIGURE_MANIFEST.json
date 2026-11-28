@@ -15,10 +15,10 @@
     ]
   },
   "schema_path": "typst/lib/aod_schema.typ",
-  "schema_sha256": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
+  "schema_sha256": "6fa865ba193f1f2e1dce27fe126dd799f1dd6726ada2c4ff43531696685460b4",
   "plots_lib_path": "typst/lib/aod_plots.typ",
-  "plots_lib_sha256": "346944079a9840a005555ea16b7026cbf1075f26bfde08011740326a06070f4e",
-  "figure_count": 51,
+  "plots_lib_sha256": "bf0aff2c8a71f5c7d707e4c007b41d2ab308c3193ebcad87533e142fc8504d33",
+  "figure_count": 53,
   "figures": [
     {
       "surface": "manual",
@@ -68,7 +68,7 @@
       "label": "fig:manual-qext-quarantine-firewall",
       "typst_section": "typst/manual/appendices/B_quarantined_external_comparison.typ",
       "diagram_component": "typst/lib/figures/manual/qext_quarantine_firewall.typ",
-      "diagram_sha256": "e1818bdabcd3b99667fa5a08d6c6bdf5ec2999ab5a5aff54653437c63f8fafbe",
+      "diagram_sha256": "945b2da27032bacb244886dfa393411505c0c9e92e1d23bd8d60174846a33635",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
@@ -76,7 +76,7 @@
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.4,
+      "height_cm": 9.6,
       "background": "white",
       "font_families": {
         "text": [
@@ -90,12 +90,12 @@
       },
       "format": "pdf",
       "output_filename": "qext-quarantine-firewall.pdf",
-      "output_sha256": "abe814e073c0d371cd8944aa4339e4099512bd584b627c109e0813c288e63a1d",
-      "output_bytes": 44652,
+      "output_sha256": "e44b89699189905563601493cd039e6d560f8ec1acbbfebba0651a95f3cc8cc7",
+      "output_bytes": 44380,
       "page_count": 1,
       "page_points": [
         425.197,
-        238.11
+        272.126
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -158,7 +158,7 @@
       "label": "fig:manual-awareness-matched-feynman",
       "typst_section": "typst/manual/sections/00_awareness_fixtures.typ",
       "diagram_component": "typst/lib/figures/manual/awareness_matched_operativity_feynman.typ",
-      "diagram_sha256": "2bedb6697e8c01b871ef5edf04a33d40514638a104fcdc94b92ce42b97a2e14a",
+      "diagram_sha256": "cc575e93be18f2fcceace4d2ee5f9622c8180429b14d1a2022df0d221e2e9929",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/awareness_operativity_dec_walk.csv",
@@ -166,7 +166,7 @@
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.4,
+      "height_cm": 8.9,
       "background": "white",
       "font_families": {
         "text": [
@@ -180,12 +180,12 @@
       },
       "format": "pdf",
       "output_filename": "awareness-matched-operativity-feynman.pdf",
-      "output_sha256": "1df6400bbb4d8635a9a223387a5f14044cd2760f6dedc3b492018fee4bb9b622",
-      "output_bytes": 43880,
+      "output_sha256": "2ffdb7cb5f66ecebed1024777ed3a1944df27db0e1207d7ced5ac7486451c004",
+      "output_bytes": 41991,
       "page_count": 1,
       "page_points": [
         425.197,
-        238.11
+        252.283
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -199,7 +199,7 @@
       "label": "fig:manual-dec-chiral-flip-walk",
       "typst_section": "typst/manual/sections/00_dec_ledger.typ",
       "diagram_component": "typst/lib/figures/manual/dec_hinge_slide_chiral_vertex.typ",
-      "diagram_sha256": "c914fce469fdc39b87ab7291cccc2e345f232a4e90d0cf40e6519a9e31997a0c",
+      "diagram_sha256": "f35a395bdab826eac2cc5f1be1f2f62414ad6207e8d3cb7fa944978f00f234ec",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/dec_chiral_flip_continuous_walk.csv",
@@ -207,7 +207,7 @@
         }
       ],
       "width_cm": 14.8,
-      "height_cm": 8.6,
+      "height_cm": 9.5,
       "background": "white",
       "font_families": {
         "text": [
@@ -221,12 +221,12 @@
       },
       "format": "pdf",
       "output_filename": "dec-hinge-slide-chiral-vertex.pdf",
-      "output_sha256": "530ae262ae85d80fa371ef4b481dba78cfab742a0db913eb8645e07983ea853c",
-      "output_bytes": 42133,
+      "output_sha256": "c0c854a63047d6d8736a1d40e387da3fad812eb53f87a9c651074871b3bda692",
+      "output_bytes": 41783,
       "page_count": 1,
       "page_points": [
         419.528,
-        243.78
+        269.291
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -240,127 +240,9 @@
       "label": "fig:manual-chiral-stokes-feynman",
       "typst_section": "typst/manual/sections/00_dec_ledger.typ",
       "diagram_component": "typst/lib/figures/manual/chiral_flip_boundary_stokes.typ",
-      "diagram_sha256": "517250ac840e986ce207ca9c349fe830e8b97e61c86134b6282b52c87ab7999a",
+      "diagram_sha256": "67010f7711cf7f3758c35793f44dc2d39b59b193a5a5d78246d3836905d34963",
       "data_inputs": [],
       "width_cm": 14.8,
-      "height_cm": 7.8,
-      "background": "white",
-      "font_families": {
-        "text": [
-          "Latin Modern Roman",
-          "DejaVu Serif"
-        ],
-        "math": [
-          "Latin Modern Math",
-          "New Computer Modern Math"
-        ]
-      },
-      "format": "pdf",
-      "output_filename": "chiral-flip-boundary-stokes.pdf",
-      "output_sha256": "ec031fc62c45db252421165ce06951c2eda26416a753b6e99eaba909f2512a4f",
-      "output_bytes": 39778,
-      "page_count": 1,
-      "page_points": [
-        419.528,
-        221.102
-      ],
-      "raster_image_xobjects": 0,
-      "inline_raster_images": 0,
-      "total_raster_images": 0,
-      "has_extractable_text": true
-    },
-    {
-      "surface": "manual",
-      "component_kind": "vector_figure",
-      "slug": "native-closure-q4-dec-walk",
-      "label": "fig:manual-native-closure-q4-walk",
-      "typst_section": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
-      "diagram_component": "typst/lib/figures/manual/native_closure_q4_dec_walk.typ",
-      "diagram_sha256": "68552adf0b133febd9b708f7dc2798e61366e74583e4ea6e02437bbcf2c44b07",
-      "data_inputs": [
-        {
-          "path": "manual/data/boundary_sadar/native_closure_wave_dec_walk.csv",
-          "sha256": "5cdff18ece2ca0ad66d2a4d12ee09eb3c76db10316a2583c031df00653ee2969"
-        }
-      ],
-      "width_cm": 15.0,
-      "height_cm": 8.4,
-      "background": "white",
-      "font_families": {
-        "text": [
-          "Latin Modern Roman",
-          "DejaVu Serif"
-        ],
-        "math": [
-          "Latin Modern Math",
-          "New Computer Modern Math"
-        ]
-      },
-      "format": "pdf",
-      "output_filename": "native-closure-q4-dec-walk.pdf",
-      "output_sha256": "7750416895c4138e8ac2d8032b5a551dd98ff60454b962bb8e8982a63dbfced4",
-      "output_bytes": 41345,
-      "page_count": 1,
-      "page_points": [
-        425.197,
-        238.11
-      ],
-      "raster_image_xobjects": 0,
-      "inline_raster_images": 0,
-      "total_raster_images": 0,
-      "has_extractable_text": true
-    },
-    {
-      "surface": "manual",
-      "component_kind": "vector_figure",
-      "slug": "five-boundary-calculation-spine",
-      "label": "fig:manual-five-boundary-calculation-spine",
-      "typst_section": "typst/manual/sections/00_scope.typ",
-      "diagram_component": "typst/lib/figures/manual/five_boundary_calculation_spine.typ",
-      "diagram_sha256": "62df27c20116f16433cd0e87ce586f9943d044e5663a5eb8fabd188251f9d00a",
-      "data_inputs": [],
-      "width_cm": 15.0,
-      "height_cm": 8.4,
-      "background": "white",
-      "font_families": {
-        "text": [
-          "Latin Modern Roman",
-          "DejaVu Serif"
-        ],
-        "math": [
-          "Latin Modern Math",
-          "New Computer Modern Math"
-        ]
-      },
-      "format": "pdf",
-      "output_filename": "five-boundary-calculation-spine.pdf",
-      "output_sha256": "61b1512a719bf14a8be729ccbbaf91225283f9b72fc8d4886387dfa892c84a78",
-      "output_bytes": 44962,
-      "page_count": 1,
-      "page_points": [
-        425.197,
-        238.11
-      ],
-      "raster_image_xobjects": 0,
-      "inline_raster_images": 0,
-      "total_raster_images": 0,
-      "has_extractable_text": true
-    },
-    {
-      "surface": "manual",
-      "component_kind": "vector_figure",
-      "slug": "cell-staircase-fold-boundary",
-      "label": "fig:manual-cell-staircase-fold",
-      "typst_section": "typst/manual/sections/01_cell_measures.typ",
-      "diagram_component": "typst/lib/figures/manual/cell_staircase_fold_boundary.typ",
-      "diagram_sha256": "314083c0d7bb3e798cd7e207801c972008c03acf05cd4a2e1548f7fd2b0bd2a3",
-      "data_inputs": [
-        {
-          "path": "manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv",
-          "sha256": "62957f1160205cbcf77cb092f6554bced95ab9460038dd48a03104b8957074b5"
-        }
-      ],
-      "width_cm": 15.0,
       "height_cm": 8.5,
       "background": "white",
       "font_families": {
@@ -374,13 +256,203 @@
         ]
       },
       "format": "pdf",
-      "output_filename": "cell-staircase-fold-boundary.pdf",
-      "output_sha256": "3375afc7e49fd1fc8ddbb22f15ebfcf37dc4cae5f4be56a0d891503807592e8b",
-      "output_bytes": 40088,
+      "output_filename": "chiral-flip-boundary-stokes.pdf",
+      "output_sha256": "45b6bbd6c66039a96cd558da3973842001c9379786705697ed8e0b5726f8b533",
+      "output_bytes": 37474,
+      "page_count": 1,
+      "page_points": [
+        419.528,
+        240.945
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "manual",
+      "component_kind": "vector_figure",
+      "slug": "field-count-scope",
+      "label": "fig:field-count",
+      "typst_section": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+      "diagram_component": "typst/lib/figures/manual/field_count_scope.typ",
+      "diagram_sha256": "6525f6b86def2573d5fbe5048fe84639078469a000ae77ce53633c41d0460c94",
+      "data_inputs": [],
+      "width_cm": 14.8,
+      "height_cm": 9.2,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "field-count-scope.pdf",
+      "output_sha256": "ae96be47ec126d7006fa5206276793963018d418d152305cce2f9c5cb4eea5e9",
+      "output_bytes": 36135,
+      "page_count": 1,
+      "page_points": [
+        419.528,
+        260.787
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "manual",
+      "component_kind": "vector_figure",
+      "slug": "fractal-tesseract-beat-family",
+      "label": "fig:fractal-tesseract-beat-family",
+      "typst_section": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+      "diagram_component": "typst/lib/figures/manual/fractal_tesseract_beat_family.typ",
+      "diagram_sha256": "e3b655c317de44d75ba7410ac14fb84e1bb8f8b3bea8602b316d578350390e94",
+      "data_inputs": [],
+      "width_cm": 15.0,
+      "height_cm": 9.95,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "fractal-tesseract-beat-family.pdf",
+      "output_sha256": "79a5b6209fb18dcb61711bbdf724e33709937a3086da10588bd87e57b89d6392",
+      "output_bytes": 37387,
       "page_count": 1,
       "page_points": [
         425.197,
-        240.945
+        282.047
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "manual",
+      "component_kind": "vector_figure",
+      "slug": "native-closure-q4-dec-walk",
+      "label": "fig:manual-native-closure-q4-walk",
+      "typst_section": "typst/manual/sections/00_native_closure_wave_temporal_fixtures.typ",
+      "diagram_component": "typst/lib/figures/manual/native_closure_q4_dec_walk.typ",
+      "diagram_sha256": "6b5af5448e23cbf0cf449115fa2fca935e45f30abd739b7f96f7c672c997964f",
+      "data_inputs": [
+        {
+          "path": "manual/data/boundary_sadar/native_closure_wave_dec_walk.csv",
+          "sha256": "5cdff18ece2ca0ad66d2a4d12ee09eb3c76db10316a2583c031df00653ee2969"
+        }
+      ],
+      "width_cm": 15.0,
+      "height_cm": 8.8,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "native-closure-q4-dec-walk.pdf",
+      "output_sha256": "d7de09683452394402d8301e39472d7b33723e5b452e3e8039905aeb903d89ba",
+      "output_bytes": 40079,
+      "page_count": 1,
+      "page_points": [
+        425.197,
+        249.449
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "manual",
+      "component_kind": "vector_figure",
+      "slug": "five-boundary-calculation-spine",
+      "label": "fig:manual-five-boundary-calculation-spine",
+      "typst_section": "typst/manual/sections/00_scope.typ",
+      "diagram_component": "typst/lib/figures/manual/five_boundary_calculation_spine.typ",
+      "diagram_sha256": "704258c337c8569c217f38ca46ee7230e5e870705086280b7f1687e435759bd8",
+      "data_inputs": [],
+      "width_cm": 15.0,
+      "height_cm": 8.8,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "five-boundary-calculation-spine.pdf",
+      "output_sha256": "c485fce4f8a665774d94f8f4e19877277fa8f883a9e0c7548d3ee1400b6f50eb",
+      "output_bytes": 45296,
+      "page_count": 1,
+      "page_points": [
+        425.197,
+        249.449
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "manual",
+      "component_kind": "vector_figure",
+      "slug": "cell-staircase-fold-boundary",
+      "label": "fig:manual-cell-staircase-fold",
+      "typst_section": "typst/manual/sections/01_cell_measures.typ",
+      "diagram_component": "typst/lib/figures/manual/cell_staircase_fold_boundary.typ",
+      "diagram_sha256": "a74b294eef1e99b0f3dc73520e8e845e4838a794b359f258f74f1150ddb267b2",
+      "data_inputs": [
+        {
+          "path": "manual/data/boundary_sadar/cell_measures_staircase_fold_dec.csv",
+          "sha256": "30769ace39f4f024479ec558b06fb6cf6d13c7ed763cd35d5310cedf94a34b33"
+        }
+      ],
+      "width_cm": 15.0,
+      "height_cm": 9.2,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "cell-staircase-fold-boundary.pdf",
+      "output_sha256": "0561476591629e6fd89bee418e99b8053fd3729d84402036babc6b65e50ef947",
+      "output_bytes": 57881,
+      "page_count": 1,
+      "page_points": [
+        425.197,
+        260.787
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -435,7 +507,7 @@
       "label": "fig:manual-tau-five-boundary-sadar",
       "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
       "diagram_component": "typst/lib/figures/manual/tau_five_boundary_sadar_setup.typ",
-      "diagram_sha256": "356a3d38d64b183d712682daeba6cd12191394957d166f254c3405c5e6cea223",
+      "diagram_sha256": "1cb8169020ce683e63fe563b7439b2e105a55802516c89caf2005823b357c99f",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/tau_five_boundary_sadar_trace.csv",
@@ -443,7 +515,7 @@
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 9.2,
+      "height_cm": 10.1,
       "background": "white",
       "font_families": {
         "text": [
@@ -457,12 +529,12 @@
       },
       "format": "pdf",
       "output_filename": "tau-five-boundary-sadar-setup.pdf",
-      "output_sha256": "799b13878a5ab011590f91011032580ba7c76edb4b5b6b750378d85bb21f16e8",
-      "output_bytes": 52520,
+      "output_sha256": "4a7666582dc1745110510549cae0d5e609025aa037b75043a884e7d371ef4072",
+      "output_bytes": 52560,
       "page_count": 1,
       "page_points": [
         425.197,
-        260.787
+        286.299
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -476,10 +548,10 @@
       "label": "fig:manual-collision-debris-feynman",
       "typst_section": "typst/manual/sections/01_rest_energy_prediction.typ",
       "diagram_component": "typst/lib/figures/manual/collision_shedding_debris_feynman.typ",
-      "diagram_sha256": "63a5b6a399e6930a8717337217096b766e9c3e8aabb4d7f67a1b725e219ef21d",
+      "diagram_sha256": "5614c38870cdf25826c31a573c00dcc5681615e24c89e063e681d24fed21bf2f",
       "data_inputs": [],
       "width_cm": 15.0,
-      "height_cm": 9.3,
+      "height_cm": 9.8,
       "background": "white",
       "font_families": {
         "text": [
@@ -493,12 +565,12 @@
       },
       "format": "pdf",
       "output_filename": "collision-shedding-debris-feynman.pdf",
-      "output_sha256": "4696eb2db333dec6e51c32483c1d084bbb56d35bfb441b5e568a3d0229fb1bfb",
-      "output_bytes": 51420,
+      "output_sha256": "7c8c8da8fee915747f1ce5fb96beadbe88324d50d4b0a5b456439f489ff3bba7",
+      "output_bytes": 48599,
       "page_count": 1,
       "page_points": [
         425.197,
-        263.622
+        277.795
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -675,7 +747,7 @@
       "label": "fig:manual-hydrogen-shell-wavelet-atlas",
       "typst_section": "typst/manual/sections/02_hydrogen_facing_shell_tests.typ",
       "diagram_component": "typst/lib/figures/manual/hydrogen_shell_wavelet_atlas.typ",
-      "diagram_sha256": "6ac403975685c3c0a8eeed359880b0aa368b64a8b967e834017034e2092c44ca",
+      "diagram_sha256": "73926922819436b45215bf5ea69cf223d93d67f107f21be4ddf36d3b0c32fe69",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/hydrogen_shell_dec_transitions.csv",
@@ -683,7 +755,7 @@
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.5,
+      "height_cm": 9.3,
       "background": "white",
       "font_families": {
         "text": [
@@ -697,12 +769,12 @@
       },
       "format": "pdf",
       "output_filename": "hydrogen-shell-wavelet-atlas.pdf",
-      "output_sha256": "e2f40acc4a9db4c624385d405c8e12720c411fbe8c5d5da4d5891d4b9b856ff2",
-      "output_bytes": 34382,
+      "output_sha256": "a2875dded6a836b8ab607b0c264450979a5891290d9ba1c56cf2575148029e51",
+      "output_bytes": 34223,
       "page_count": 1,
       "page_points": [
         425.197,
-        240.945
+        263.622
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -716,7 +788,7 @@
       "label": "fig:manual-typed-map-variance-feynman",
       "typst_section": "typst/manual/sections/02_mapping_error.typ",
       "diagram_component": "typst/lib/figures/manual/typed_map_variance_feynman.typ",
-      "diagram_sha256": "78be40b225fd764c925971f7122118eaf01520cf7b1c916be2d4c003b04a2a75",
+      "diagram_sha256": "168a3beff8f1edcf2a1e4454680a25e586b62a7f03b68e0e0dfdd48bb9b8b28d",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/typed_map_joint_law_ledger.csv",
@@ -724,7 +796,7 @@
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.5,
+      "height_cm": 9.1,
       "background": "white",
       "font_families": {
         "text": [
@@ -738,12 +810,12 @@
       },
       "format": "pdf",
       "output_filename": "typed-map-variance-feynman.pdf",
-      "output_sha256": "647481cca71457d6bff1732962e48ea731453c075f05c9a8827ab94bd61dba1a",
-      "output_bytes": 37053,
+      "output_sha256": "2b11519055269cd03368761245599eecd793b79426abf8fef719b30f76bf5ce8",
+      "output_bytes": 36246,
       "page_count": 1,
       "page_points": [
         425.197,
-        240.945
+        257.953
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -865,7 +937,7 @@
       "label": "fig:manual-short-window-boundary-feynman",
       "typst_section": "typst/manual/sections/03_short_window_rcd_shedding_fixtures.typ",
       "diagram_component": "typst/lib/figures/manual/short_window_boundary_feynman.typ",
-      "diagram_sha256": "02971e8d122fbecdeb52c4e3daff3b98512a8e1458d8b9c929cef660f4a0792b",
+      "diagram_sha256": "4a8bcd3e6289c326d345236f41c36281f4b5e3c41ff2878f02384633f2e546d8",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/short_window_rcd_dec_ledger.csv",
@@ -873,7 +945,7 @@
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.5,
+      "height_cm": 9.4,
       "background": "white",
       "font_families": {
         "text": [
@@ -887,12 +959,12 @@
       },
       "format": "pdf",
       "output_filename": "short-window-boundary-feynman.pdf",
-      "output_sha256": "74be8b4d126dbf2be6e3661358e4a3f58b87eb60ecdf793caa9f8d3b7633cd3a",
-      "output_bytes": 39938,
+      "output_sha256": "519fb85ccf1097ea8f15358039019d5217dbb4f4659d68db025ec374aec1f0e6",
+      "output_bytes": 41193,
       "page_count": 1,
       "page_points": [
         425.197,
-        240.945
+        266.457
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -906,15 +978,15 @@
       "label": "fig:manual-temporal-si-bridge-feynman",
       "typst_section": "typst/manual/sections/03_temporal_observation.typ",
       "diagram_component": "typst/lib/figures/manual/temporal_si_bridge_feynman.typ",
-      "diagram_sha256": "7470fe5334106402d90d394567550175a393f4e376d9728782e783e6eb9e14fa",
+      "diagram_sha256": "c996bd528a3ccf18b0bb96592a4cdbec8d680a548d98f418f721d13c9fc2a52b",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/temporal_si_bridge_dec_ledger.csv",
-          "sha256": "e5f26a98713353c219d88a7f1956f0fd3505bb252dffe9d8d02e9f08325d5774"
+          "sha256": "9b38a547aa93394113e5c2ed0c2d841b2b9a8e0e22ea8f73cf0c9c5ff0305a5b"
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.6,
+      "height_cm": 10.1,
       "background": "white",
       "font_families": {
         "text": [
@@ -928,12 +1000,12 @@
       },
       "format": "pdf",
       "output_filename": "temporal-si-bridge-feynman.pdf",
-      "output_sha256": "fbda4e908c3dbe381fe7736fc75ee155971b5f4549f06ad8e9fa93d92607e51d",
-      "output_bytes": 43331,
+      "output_sha256": "3a16fc865bcc997a503f85fe652643b0c39aba2a12f526f7f57790af65e92850",
+      "output_bytes": 53934,
       "page_count": 1,
       "page_points": [
         425.197,
-        243.78
+        286.299
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -983,7 +1055,7 @@
       "label": "fig:manual-wire-moving-boundary-feynman",
       "typst_section": "typst/manual/sections/04_boundary_current_applications.typ",
       "diagram_component": "typst/lib/figures/manual/wire_moving_boundary_feynman.typ",
-      "diagram_sha256": "61dc4e6a266d81b53a9b1af9dd109aca76c7730eb46729ce5594eb6782df141b",
+      "diagram_sha256": "6f6b3e3041a30cc2cb4768f748aa6ad2931c9b5ce3edb1703527160470fe3bda",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/scoped_wire_and_moving_boundary_walk.csv",
@@ -991,7 +1063,7 @@
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.5,
+      "height_cm": 9.1,
       "background": "white",
       "font_families": {
         "text": [
@@ -1005,12 +1077,12 @@
       },
       "format": "pdf",
       "output_filename": "wire-moving-boundary-feynman.pdf",
-      "output_sha256": "ef3f7ce816554099c2a538fc13451883d948cecc70ec03e4861d727181ee6a6d",
-      "output_bytes": 35619,
+      "output_sha256": "ca539adc8d39d984ce97ab0aea00699c14a95d600df3529af7f331a9153338a9",
+      "output_bytes": 35338,
       "page_count": 1,
       "page_points": [
         425.197,
-        240.945
+        257.953
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -1132,7 +1204,7 @@
       "label": "fig:manual-solar-boundary-scopes-feynman",
       "typst_section": "typst/manual/sections/05_solar_system_field_tests.typ",
       "diagram_component": "typst/lib/figures/manual/solar_boundary_scopes_feynman.typ",
-      "diagram_sha256": "a1b1641002f2db5e4a7b790404ca5a940e309fb5c5ad59d2aaad700873cfd775",
+      "diagram_sha256": "6de24320fa92ab6a981972d586c94e2a7acc6f1845b68cbb11c7a7871f634c24",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/solar_o0_boundary_dec_audit.csv",
@@ -1140,7 +1212,7 @@
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.5,
+      "height_cm": 9.3,
       "background": "white",
       "font_families": {
         "text": [
@@ -1154,12 +1226,12 @@
       },
       "format": "pdf",
       "output_filename": "solar-boundary-scopes-feynman.pdf",
-      "output_sha256": "c006257e4ddec79b54642e49fe8e7f3f9133d6d0098746ef795b082170aab603",
-      "output_bytes": 37508,
+      "output_sha256": "a8344a218a4372b94082ce88104fcba4ffde86d254834bb475682e3c08fdd1aa",
+      "output_bytes": 37143,
       "page_count": 1,
       "page_points": [
         425.197,
-        240.945
+        263.622
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -1554,7 +1626,7 @@
       "label": "fig:manual-field-dynamics-boundary-feynman",
       "typst_section": "typst/manual/sections/06_field_dynamics_applications.typ",
       "diagram_component": "typst/lib/figures/manual/field_dynamics_boundary_feynman.typ",
-      "diagram_sha256": "085e771b51b3ce0dae50833e6d91e36bd6db6df6c99547f19005524cb494cdea",
+      "diagram_sha256": "0d34320ae5daffdc79bf3b9b6ac895bb3b7106801112b501fc77958fc9d8fc31",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/run_tumble_q4_dec_walk.csv",
@@ -1562,11 +1634,11 @@
         },
         {
           "path": "manual/data/boundary_sadar/sparc_pooled_primary_exact.csv",
-          "sha256": "e1b6ac7ff62116c3db479643c98a5ec90dad7e58ef001fea93f0b4b723732483"
+          "sha256": "7d1b0714de03b3cb842085b8157c2c9f1eaf4e60860023a81ded1ed39e8a47ae"
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.6,
+      "height_cm": 9.4,
       "background": "white",
       "font_families": {
         "text": [
@@ -1580,12 +1652,12 @@
       },
       "format": "pdf",
       "output_filename": "field-dynamics-boundary-feynman.pdf",
-      "output_sha256": "d91cdd9fa877605a9e73627d5921887f8037003a0af9a022db203eb39ccd58b2",
-      "output_bytes": 38677,
+      "output_sha256": "a4a65d6ae831c84c58e5c69feac45d7ab14aac587af06ad449dd57d1764b30f2",
+      "output_bytes": 39508,
       "page_count": 1,
       "page_points": [
         425.197,
-        243.78
+        266.457
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -1989,7 +2061,7 @@
       "label": "fig:manual-lensing-ray-boundary-feynman",
       "typst_section": "typst/manual/sections/07_galactic_lensing_plan.typ",
       "diagram_component": "typst/lib/figures/manual/lensing_ray_boundary_feynman.typ",
-      "diagram_sha256": "5c652098ccc4353cb365866291166e61f81a3b8ecfb55c8da968731046c4514e",
+      "diagram_sha256": "c5d00e968f537f5502a567075a375fb8daca779095c440ea7eaa2ec7e9ec6c71",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/lensing_ray_chiral_dec_walk.csv",
@@ -1997,7 +2069,7 @@
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.5,
+      "height_cm": 9.3,
       "background": "white",
       "font_families": {
         "text": [
@@ -2011,12 +2083,12 @@
       },
       "format": "pdf",
       "output_filename": "lensing-ray-boundary-feynman.pdf",
-      "output_sha256": "f7e685f259ebabbcbd6eaceb535f4e4a8d7bb4de55c344ab64c69318c9be6f72",
-      "output_bytes": 38486,
+      "output_sha256": "7ab153f03363d0d29093f62abf3c805796a74bc1a5379136a669a493c8508b02",
+      "output_bytes": 38231,
       "page_count": 1,
       "page_points": [
         425.197,
-        240.945
+        263.622
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -2030,7 +2102,7 @@
       "label": "fig:manual-registry-engine-coverage",
       "typst_section": "typst/manual/sections/09_prediction_test_fixture_registry.typ",
       "diagram_component": "typst/lib/figures/manual/registry_engine_coverage_atlas.typ",
-      "diagram_sha256": "9536c3ec26377f2bda5da4e6b42372c424eea6e9936f7d8fa46c7577952b1ebf",
+      "diagram_sha256": "3adf52d26019db6e361dece3620af89e2a392399147cae30e2db4e07af8fe5d7",
       "data_inputs": [
         {
           "path": "manual/data/boundary_sadar/rest_energy_sadar_debris_atlas.csv",
@@ -2042,7 +2114,7 @@
         }
       ],
       "width_cm": 15.0,
-      "height_cm": 8.4,
+      "height_cm": 9.2,
       "background": "white",
       "font_families": {
         "text": [
@@ -2056,12 +2128,12 @@
       },
       "format": "pdf",
       "output_filename": "registry-engine-coverage-atlas.pdf",
-      "output_sha256": "45052bcc7c7b4693ea30e60d0b2c734b1140208d55011980717e5a58b42165d1",
-      "output_bytes": 31581,
+      "output_sha256": "341784517be2644a1fd504415f4e948751e355971bfd4b57525b0beefeb06fe0",
+      "output_bytes": 31697,
       "page_count": 1,
       "page_points": [
         425.197,
-        238.11
+        260.787
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,

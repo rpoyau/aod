@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EXCLUDE_DIR_NAMES = {
     ".git", ".pytest_cache", "__pycache__", ".mypy_cache", ".ruff_cache",
     ".DS_Store", ".venv", ".tox", "node_modules", "dist", "build", "release",
-    "_build", "_render", "_renders", "target"
+    "_build", "_render", "_renders", "target", ".uow"
 }
 
 EXCLUDE_SUFFIXES = {
@@ -172,7 +172,10 @@ def build_source_tree(stage_root: Path) -> Path:
             raise ValueError("Git checkout has no tracked source files")
         for raw in tracked.stdout.split(b"\0"):
             if raw:
-                copy_source_file(Path(os.fsdecode(raw)), source_root)
+                rel = Path(os.fsdecode(raw))
+                if rel.parts and rel.parts[0] == ".uow":
+                    continue
+                copy_source_file(rel, source_root)
     else:
         for name in INCLUDE_TOP_LEVEL:
             src = ROOT / name

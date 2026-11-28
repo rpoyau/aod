@@ -73,7 +73,7 @@
     {
       "contract": "contracts/scientific/CANONICAL_BINDINGS.json",
       "old_sha256": "10ee953f5005054e639993d97d1b1b20bbc4b8b1e0c079d22d9156fd07efbc24",
-      "new_sha256": "a23c896f43e29c67ce7eaa19fc6193cb566696e4335e9341b4786aca68a6b5b3",
+      "new_sha256": "024ce50e583bd5a405aedcfc1d7f74c6260a631526f85f4863b7b803b5e557ef",
       "scope": "representation_path_and_frozen_ledger_only",
       "fields_amended": [
         "ownership[*].path (44 entries; concepts, anchors, depends_on unchanged)",
@@ -84,6 +84,17 @@
         "frozen_sha256: 6 relocated to archive/latex_baseline_98ddfa0/, 6 canonical typst/ counterparts + 20 boundary_sadar CSVs added, 18 representation/tooling/test digests updated"
       ],
       "scientific_substance_changed": false
+    },
+    {
+      "contract": "contracts/scientific/CELL_MEASURE_SPEC.json",
+      "old_sha256": "75fc35552c419d831d8fcd5dfe1ee1b46dffa4e862535d4b74029f3c2018c9ea",
+      "new_sha256": "3c3e495357606a73a9bb2a142ec08dd102472eaf455a74e4626960e464ca61c2",
+      "scope": "m4_5_g6_tesseract_extension",
+      "fields_amended": [
+        "tesseract_4d_ball (opened G6 4D tesseract-to-pi declared verification model)",
+        "scope_limits (explicitly scoped G6 verification-model boundary)"
+      ],
+      "scientific_substance_changed": true
     }
   ],
   "frozen_sha256_relocations": [
@@ -278,8 +289,8 @@
     {
       "path": "scripts/build_release_bundle.py",
       "old_sha256": "b263140c7e04fc05d2eb2a1787aed9474d8b14603f6f3cd038c25706eaa11092",
-      "new_sha256": "0b8c08f3fcc007cb410271924e80c453ae15a0590edcd8cbab5c848993dfcd88",
-      "reason": "Release archive stages archive/, latex/, and manifest-declared exported vector diagram/figure PDFs after retiring root editorial TeX and converting 34 active figures (S1b)"
+      "new_sha256": "3fad802a2bd8ff9bb04d2371aeae6ddf5ce0142d662214df7c46118bd5df393e",
+      "reason": "Release archive stages archive/, latex/, and manifest-declared exported vector diagram/figure PDFs while excluding .uow/ workspace records after retiring root editorial TeX and converting 34 active figures (S1b)"
     },
     {
       "path": "tests/test_active_scientific_sources.py",
@@ -367,8 +378,8 @@
     }
   ],
   "summary": {
-    "contracts_amended": 7,
-    "contracts_untouched": 10,
+    "contracts_amended": 8,
+    "contracts_untouched": 9,
     "frozen_relocations": 6,
     "frozen_additions": 26,
     "frozen_amendments": 18,

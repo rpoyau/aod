@@ -964,7 +964,7 @@
     "manual/scripts/generate_k4_input_gate_figure.py": "3f4f514d7f424919ac1c68b13782b8a511ecb30d73589ad2895773ed818f66cc",
     "manual/scripts/score_sparc_field_dynamics.py": "568804a535858031a0a6886748e6ef4da357bfb86ffd8d045ef1b1c4ac6f5b89",
     "refs.bib": "39b6167100ce5c31c544ec65fdb6901f6abe44628fb44ad12eb448c396d7d8e9",
-    "scripts/build_release_bundle.py": "0b8c08f3fcc007cb410271924e80c453ae15a0590edcd8cbab5c848993dfcd88",
+    "scripts/build_release_bundle.py": "3fad802a2bd8ff9bb04d2371aeae6ddf5ce0142d662214df7c46118bd5df393e",
     "scripts/generate_curl_support_figures.py": "185801d68d6fe2e18430670927451edccbd80dd03080f2addf249f86e67e017f",
     "scripts/generate_curling_curl_layers.py": "8f1abfa1af255124ea13b5221a99e628e05b28dd9d04b646c9bbacbaeac69d0e",
     "scripts/generate_field_count_sadar_scope.py": "110a6f425e824f409a71a6e3328c04f8f89242250f144e80db3e07d7bcb0523c",

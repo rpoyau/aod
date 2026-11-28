@@ -3,18 +3,23 @@
 
 \section{Field Rest-Energy Records}\label{manual:rest-energy-prediction}
 
-\paragraph{Calculation card.}
-Exact support/window choices produce the accessor table; measured masses
-are external targets with the quoted uncertainties. A general rest-energy
-prediction still requires this application's shared-history producer,
-history-to-rate map, relational reference clock and calibrated energy map.
-The Higgs table evaluates a separate declared candidate/map diagnostic;
-its target-only pulls do not include model uncertainty. Common comparison
-and source roles are in \secref{manual:calculation-spine}.
+\paragraph{Setup and calculation card.}
+Exact support/window declarations and zero-float \texttt{TritWord}/\texttt{TritRatio}
+SADAR evaluations (vectors \texttt{RC-027}, \texttt{RC-028}, \texttt{RC-029}, and
+\texttt{RC-011}) produce the A$\Omega$ accessor, collision-shedding debris, and internal
+Higgs-selection records; measured masses remain quarantined external targets at
+$B_{\mathrm{ext}}=\mathsf{Q}_{\mathrm{ext}}$ (\texttt{SD-007}, \texttt{SD-004},
+\texttt{SD-005}) with the quoted uncertainties. A general rest-energy prediction still
+requires this application's shared-history producer, history-to-rate map, relational
+reference clock, and calibrated energy map. The Higgs table evaluates a separate
+declared candidate/map diagnostic; its target-only pulls exclude model uncertainty.
+Common comparison and source roles follow \secref{manual:calculation-spine}.
 
 \subsection{0\texorpdfstring{$|-$}{|-} scope}\label{manual:rest:scope}
 
-Rest-energy records are split into two tables. The A$\Omega$ field-map table records support, carried cycle, and A$\Omega$ accessor values. The measured-data comparison table records declared measured-sector target rows.
+\paragraph{Setup.}
+Rest-energy records separate exact internal A$\Omega$ field-map records (support,
+carried cycle, and accessor values) from quarantined measured-sector target rows:
 
 \[
 \mathbf{a}\vdash(F,R,\partial_TR,\omega),\qquad B=(\partial_TF,\omega).
@@ -26,7 +31,7 @@ The calculation spine is
 C_f[M]_{\AO}\longrightarrow\mathsf{AO}_{\mu}(C)\longrightarrow\SADARop_B(C)\longrightarrow\nu_{x,\AO}\longrightarrow E_{x,\mathrm{ext}}.
 \]
 
-\aodnoteblock{Data-support class}{Rest-energy records are exact internal A$\Omega$ field records or O0 external-map comparisons, depending on the declared measured-sector target rows. Target uncertainties are supplied; input, reduction and value-map contributions remain unresolved where no justified model is supplied.}
+\aodnoteblock{Data-support class}{Rest-energy records are D0 exact internal A$\Omega$ field records or O0 external-map comparisons, depending on the declared measured-sector target rows. Target uncertainties are supplied; input, reduction, and value-map contributions remain unresolved where no justified model is supplied.}
 
 \aodprovenance{\mainappendix{main:app:ao-field-fractal-properties}.}
 
@@ -181,21 +186,36 @@ For $3:4$, the single-hinge reduction of
 \Pi(3:4)=4^3+4=68,\qquad RD(3:4)=2\cdot68+1=137.
 \end{equation}
 
-The added $4$ is retained edge-shell support. The cycle object remains
-distinct from this scalar accessor.
+The added $4$ is retained edge-shell support; the cycle object remains distinct from
+this scalar accessor.
 
-In \tabref{tab:ao-field-fractal-properties}, the support-multiplicity pressure uses $C_{\mathrm{sup}}(p:q)=p+q\in\{3,5,6,7\}$ so $P^D_{\mathrm{sup}}=(p+q)\rho^D_{\omega}$ and $Q^D_{\mathrm{sup}}=(p+q)\max(0,RD-|\omega|)$, whereas single-channel collision-pocket audits use the scoped ternary continuation capacity $C_3=3$ ($P^D_{\mathrm{chan}}=3\rho^D_{\omega}$). Across the eight non-null recurring support periods $2\Pi\in\{2,4,6,8,20,60,136\}$ (with $1:1$ doubled to $8$), the common four-phase bit-window span is
+\paragraph{Derivation: support-multiplicity atlas and common span (\texttt{RC-029}).}
+In \tabref{tab:ao-field-fractal-properties}, support-multiplicity pressure uses
+$C_{\mathrm{sup}}(p:q)=p+q\in\{3,5,6,7\}$, giving
+$P^D_{\mathrm{sup}}=(p+q)\rho^D_{\omega}$ and
+$Q^D_{\mathrm{sup}}=(p+q)\max(0,RD-|\omega|)$, whereas
+single-channel collision-pocket audits use scoped ternary continuation capacity
+$C_3=3$ ($P^D_{\mathrm{chan}}=3\rho^D_{\omega}$). Verified in exact zero-float
+arithmetic by vector \texttt{RC-029} (\texttt{sadar\_rest\_energy\_atlas},
+\texttt{rest\_energy\_sadar\_debris\_atlas.csv}), the eight non-null recurring support
+half-cycle step periods $2\Pi\in\{2,4,6,8,20,60,136\}$ (with $1:1$
+doubled to $8$) fix the common four-phase bit-window span
 
 \[
 L_{\mathrm{common}}=4\cdot\operatorname{lcm}(2,4,6,8,20,60,136)=8160,
 \]
 
-which is strictly distinct from the summed closure tally $0+60+136+408+1020+1360+2040+4080=9104$ over that common span.
+strictly distinct from the summed eight-lineage closure tally
+$0+60+136+408+1020+1360+2040+4080=9104$ over that common span, while
+preserving exact native reflection-duration ratios
+$RD(3:3)/RD(1:2)=61/9$,
+$RD(3:4)/RD(3:3)=137/61$, and
+$RD(3:2)/RD(1:2)=21/9=7/3$.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/rest-energy-stability-debris-atlas.pdf}
-\caption{Exact support window pressure $P^D_{\mathrm{sup}}$, pending overhang $Q^D_{\mathrm{sup}}$, and closure counts per $8160$ common bit-window span across all ten rest-energy and collision-shedding debris carriers (\texttt{rest\_energy\_sadar\_debris\_atlas.csv}).}
+\caption{Exact support window pressure $P^D_{\mathrm{sup}}$, pending overhang $Q^D_{\mathrm{sup}}$, and closure counts per $8160$ common bit-window span across all ten rest-energy and collision-shedding debris carriers (\texttt{RC-029}, \texttt{rest\_energy\_sadar\_debris\_atlas.csv}).}
 \label{fig:manual-rest-energy-debris-atlas}
 \end{figure}
 
@@ -231,52 +251,72 @@ $n^0$ & Tetratriohexon map & $3:4:6$ & $C_f[3:4]_{\AO}$ & $\nu_{n,\AO}$ \\
 
 \aodremark{The manual declares measured-sector maps such as $e^-\mapsto00|-$ Dimonhexon. These maps are carried by manual comparison records; \tabref{tab:ao-field-fractal-properties} lists the A$\Omega$ field-property calculations.}
 
-The displayed $B^{\pm}$ and $B^0$ map has the same retained support.
-A mass map using only that support cannot distinguish their two targets.
-The rest-energy application must supply additional state with a matched
-nondegeneracy test, or declare that limited resolution. A target is held out
-only when its exclusion from construction, selection and calibration is bound.
+\paragraph{Falsification: support degeneracy and held-out discipline.}
+The displayed $B^{\pm}$ and $B^0$ rows share the same retained support $3:2:6$.
+Any mass map using support scalar $RD=21$ alone cannot distinguish those two targets;
+a rest-energy application must bind additional shell-seat state with a matched
+nondegeneracy witness (supplied below via \texttt{RC-028}) or declare limited resolution.
+A target is held out only when its exclusion from construction, selection, and
+calibration is explicitly bound.
 
 \subsection{Boundary-full SADAR rest-energy closures and collision-shedding debris}\label{manual:rest:boundary-sadar-debris}
 
-All ten rest-energy and collision-shedding debris carriers in \tabref{tab:manual-ao-field-value-table} and \secref{manual:tritrioseptyro-higgs-support-fixture} are evaluated without floating-point arithmetic or hardcoded winners by the \texttt{boundary\_sadar} sector (\texttt{python3 -B -m manual.engine --sector boundary\_sadar} and \texttt{aod-core --verify-vectors --check-zero-float}, vectors \texttt{RC-025}, \texttt{RC-026}, \texttt{RC-027}, and \texttt{SD-007}). Their topological regimes partition into four boundary classes (Figure~\ref{fig:manual-collision-debris-feynman}):
+\paragraph{Setup and engine verification.}
+All ten rest-energy and collision-shedding debris carriers in
+\tabref{tab:manual-ao-field-value-table} and
+\secref{manual:tritrioseptyro-higgs-support-fixture} execute in pure zero-float
+\texttt{TritWord}/\texttt{TritRatio} arithmetic without hardcoded winners or asserted
+slot literals via the \texttt{boundary\_sadar} sector
+(\texttt{python3 -B -m manual.engine --sector boundary\_sadar} and
+\texttt{aod-core --verify-vectors --check-zero-float}) across vectors \texttt{RC-027}
+(\texttt{sadar\_pp\_tau\_five\_boundary}), \texttt{RC-028}
+(\texttt{sadar\_hadron\_debris\_and\_higgs\_saddle}), \texttt{RC-029}
+(\texttt{sadar\_rest\_energy\_atlas}), and quarantined external target-rate verification
+\texttt{SD-007} (\texttt{sadar\_rest\_energy\_qext}). Their topological regimes partition
+into four boundary classes (Figure~\ref{fig:manual-collision-debris-feynman}):
 
-1. \textbf{Seated inner even closures ($X_{\mathrm{shedding}}=0$):} On even support enclosures $\mathsf{C}_6$ and $\mathsf{C}_8$, Dimonhexon ($e^-$, $1:2:6$, $RD=9$), Dimonocton ($\mu^-$, $1:2:8$, $RD=9$), Tritriohexon ($p^+$, $3:3:6$, $RD=61$), and Tetratriohexon ($n^0$, $3:4:6$, $RD=137$) close internally without shedding surplus, preserving exact native reflection-duration ratios $RD(3:3)/RD(1:2)=61/9$ and $RD(3:4)/RD(3:3)=137/61$.
+1. \textbf{Seated inner even closures ($X_{\mathrm{shedding}}=0$, \texttt{RC-029}):} On even support enclosures $\mathsf{C}_6$ and $\mathsf{C}_8$, Dimonhexon ($e^-$, $1:2:6$, $RD=9$), Dimonocton ($\mu^-$, $1:2:8$, $RD=9$), Tritriohexon ($p^+$, $3:3:6$, $RD=61$), and Tetratriohexon ($n^0$, $3:4:6$, $RD=137$) close internally without shedding surplus, preserving exact native reflection-duration ratios $RD(3:3)/RD(1:2)=61/9$ and $RD(3:4)/RD(3:3)=137/61$.
 
-2. \textbf{Five-boundary SADAR collision-shedding stack for Tau ($1:2:9_{\mathrm{yro}}$ Dimonnanyro):} Declare the ordered boundary stack $B_{\mathrm{hard}}\to B_{\tau}\to B_{\mathrm{shed}}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}$ (Figure~\ref{fig:manual-tau-five-boundary-sadar}, \tabref{tab:manual-tau-five-boundary-trace}). At $B_{\mathrm{hard}}$, opposing \texttt{pp} $3:3:6+3:3:6$ baryon streams interact across \texttt{BETWEEN} $E_2$ duon chiral flips (early coupling at cut $1$, raw count $26$, symmetry quotient $11$); removing \texttt{BETWEEN} duon coupling (\texttt{duons = 0}) leaves the cavity sterile through cut $58$ with $X_{\mathrm{shedding}}=0$. Inside $B_{\tau}$, the $1:2:L$ lepton family ($RD=9$, $C_3=3$) is evaluated across $L\in\{2,6,7,8,9,10\}$: even windows $1:2:2$, $1:2:6$, and $1:2:8$ close internally ($X_{\mathrm{shedding}}=0$); short odd window $1:2:7$ retains incomplete overhang $Q^D=6$ with $\mathsf{C}_8$ deficit $\Delta^{\mathrm{close}}=-3$; window $1:2:10$ clips at $\rho^D_{\omega}=\min(9,10)=9$ and closes on $\mathsf{C}_{10}=27$ ($X_{\mathrm{shedding}}=0$); and $1:2:9_{\mathrm{yro}}$ uniquely exhausts the full Dimonon reflection duration ($Q^D=0$) while exceeding $\mathsf{C}_8=24$ with positive shedding surplus $X_{\mathrm{shedding}}=27-24=3$. At $B_{\mathrm{shed}}$, exact $2500$-slot cavity conservation splits $650/2500=13/50$ into inner endoshedding and $1850/2500=37/50$ into outward exoshedding (\texttt{\_Exo}). At the passive \texttt{ReadOnly} $3:4:6$ sensor wall $B_{\mathrm{sensor}}$ (zero sensor back-reaction onto the cavity), $703/2500$ seats visibly and $1147/2500$ traverses unseated, yielding conditional \texttt{\_Exo} fractions $(703/1850,1147/1850)=(19/50,31/50)$ with exact missing burden $\operatorname{miss}_{\tau}=31/50$ along the witness-ordered recipient lattice \texttt{emitted -> delivered -> accepted -> seated -> closed\_origin} ($\Delta\operatorname{bip}=0$) \texttt{-> reclosed} ($\Delta\operatorname{bip}=+1$). Quarantined target comparison enters only at $B_{\mathrm{ext}}$.
+2. \textbf{Five-boundary SADAR collision-shedding stack for Tau ($1:2:9_{\mathrm{yro}}$ Dimonnanyro, \texttt{RC-027}):} Declare the ordered boundary stack $B_{\mathrm{hard}}\to B_{\tau}\to B_{\mathrm{shed}}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}$ (Figure~\ref{fig:manual-tau-five-boundary-sadar}, \tabref{tab:manual-tau-five-boundary-trace}).
+\begin{itemize}
+\item \textbf{Hard cavity ($B_{\mathrm{hard}}$):} Opposing \texttt{pp} $3:3:6+3:3:6$ baryon streams couple across \texttt{BETWEEN} $E_2$ duon chiral flips (\texttt{window\_duons = 3}, \texttt{lead\_lag = 8}), achieving early coupling at cut $1$ with exact raw cut accounting \texttt{raw\_cuts = 28 = 11 + 17}: live \texttt{TritWord.burn\_contiguous\_dwell(keep\_single\_dwell=False)} burns $17$ optional $0_D$ (\texttt{00}) dwell lanes while preserving structural $0_H$ (\texttt{11}) hinges, leaving $11$ symmetry-quotient cuts ($17$ chiral flips, total attention $24/5$, and moving-boundary Stokes tally $18-22+3=-1$). Removing \texttt{BETWEEN} duon coupling (\texttt{duons = 0}) yields the sterile negative control, remaining uncoupled through cut $58$ ($48$ H1 moves, $16$ structural $0_H$ hinges, zero chiral flips, $X_{\mathrm{shedding}}=0$).
+   - \textbf{Lepton pocket competition ($B_{\tau}$):} Evaluating the full $1:2:L$ family ($RD=9$, $C_3=3$) across $L\in\{2,6,7,8,9,10\}$, even windows $1:2:2$, $1:2:6$, and $1:2:8$ close internally ($X_{\mathrm{shedding}}=0$); short odd window $1:2:7$ retains incomplete overhang $Q^D=6$ with $\mathsf{C}_8$ deficit $\Delta^{\mathrm{close}}=-3$; window $1:2:10$ clips at $\rho^D_{\omega}=\min(9,10)=9$ and closes on $\mathsf{C}_{10}=27$ ($X_{\mathrm{shedding}}=0$); and $1:2:9_{\mathrm{yro}}$ uniquely exhausts full Dimonon duration ($Q^D=0$) while exceeding $\mathsf{C}_8=24$ with positive shedding surplus $X_{\mathrm{shedding}}=27-24=3$.
+   - \textbf{Derived $50$-microslot $Q_4\times\mu$ impedance rotor ($B_{\mathrm{shed}}\to B_{\mathrm{sensor}}$):} Instead of asserting slot literals, the deterministic $50$-microslot $Q_4\times\mu$ impedance rotor (4D capacity $4\times50=200$) steps across the native reflection-duration ladder $RD=9\to61\to137$. Stage 1 at $B_{\mathrm{shed}}$ ($1:2\to3:3$, $\Delta RD=61-9=52$) dynamically produces exact $(13/50,37/50)$ for inner endoshedding versus outward exoshedding (\texttt{\_Exo}). Stage 2 at the passive \texttt{ReadOnly} $3:4:6$ sensor wall $B_{\mathrm{sensor}}$ ($3:3\to3:4$, $\Delta RD=137-61=76$, zero observer back-reaction onto the cavity) dynamically produces conditional \texttt{\_Exo} fractions $(19/50,31/50)$ for visible seating versus unseated traversal (exact missing burden $\operatorname{miss}_{\tau}=31/50$). Their two-stage product gives exact $2500$-slot conservation $(650/2500,1850/2500)$ for endoshedding versus \texttt{\_Exo} and $(703/2500,1147/2500)$ for visible versus unseated traversal ($650+703+1147=2500$, conditional \texttt{\_Exo} ratios $703/1850=19/50$ and $1147/1850=31/50$) along the witness-ordered recipient lattice \texttt{emitted -> delivered -> accepted -> seated -> closed\_origin} ($\Delta\operatorname{bip}=0$) \texttt{-> reclosed} ($\Delta\operatorname{bip}=+1$). Quarantined target comparison enters only at $B_{\mathrm{ext}}=\mathsf{Q}_{\mathrm{ext}}$ (\texttt{SD-007}).
+\end{itemize}
+3. \textbf{Core-starvation $3:3\to3:2$ Ditrion collision-shedding debris ($RD=21$, \texttt{RC-028} and \texttt{RC-029}):} When a hard baryon collision pocket sheds one inner branch role from $3:3$ ($\Pi=30$, $RD=61$) into $3:2$ Ditrion support ($\Pi=2^3+2=10$, $RD=21$), the debris enters even enclosures as transient meson remnants (\texttt{rest\_energy\_sadar\_debris\_atlas.csv}, vectors \texttt{RC-028} and \texttt{RC-029}). On $3:2:6$, support scalar $RD=21$ alone is degenerate between $B^{\pm}$ and $B^0$; shell-dressing chirality in \texttt{ChiralPair4} resolves $B^{\pm}$ as seated duad $E_2^{\pm}$ ($\chi_{\mathrm{shell}}=\pm1$, structural $0_H$ present) and $B^0$ as open-seat duon $E_2^0$ ($\chi_{\mathrm{shell}}=0$, structural $0_H$ absent). Under higher collision-pocket pressure, exoshedding lifts the $3:2$ Ditrion core across adjacent even enclosures $3:2:6\to3:2:8$ ($B_s^0$, $P^D_{\mathrm{sup}}=40$, $Q^D_{\mathrm{sup}}=65$) $\to3:2:10$ ($B_c^{\pm}$, $P^D_{\mathrm{sup}}=50$, $Q^D_{\mathrm{sup}}=55$).
 
-3. \textbf{Core-starvation $3:3\to3:2$ Ditrion collision-shedding debris ($RD=21$):} When a hard baryon collision pocket sheds one inner branch role from $3:3$ ($\Pi=30$, $RD=61$) into $3:2$ Ditrion support ($\Pi=2^3+2=10$, $RD=21$), the debris enters even enclosures as transient meson remnants (\texttt{rest\_energy\_sadar\_debris\_atlas.csv}, vector \texttt{RC-027}). On $3:2:6$, support scalar $RD=21$ alone is degenerate between $B^{\pm}$ and $B^0$; shell-dressing chirality resolves $B^{\pm}$ as seated duad $E_2^{\pm}$ ($\chi_{\mathrm{shell}}=\pm1$) and $B^0$ as open-seat duon $E_2^0$ ($\chi_{\mathrm{shell}}=0$). Under higher collision pocket pressure, exoshedding lifts the $3:2$ Ditrion core across adjacent even enclosures $3:2:6\to3:2:8$ ($B_s^0$, $P^D_{\mathrm{sup}}=40$, $Q^D_{\mathrm{sup}}=65$) $\to3:2:10$ ($B_c^{\pm}$, $P^D_{\mathrm{sup}}=50$, $Q^D_{\mathrm{sup}}=55$).
+4. \textbf{Symmetric $\mathsf{C}_6/\mathsf{C}_8$ baryon-overlap saddle ($3:3:7_{\mathrm{yro}}$, \texttt{RC-028}):} Two-baryon $3:3+3:3$ overlap midpoint selection is audited in the Tritrioseptyro Higgs-support diagnostic below.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/tau-five-boundary-sadar-setup.pdf}
-\caption{Five-boundary A$\Omega$D SADAR stack $B_{\mathrm{hard}}\to B_{\tau}\to B_{\mathrm{shed}}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}$ for $1:2:9_{\mathrm{yro}}$ Dimonnanyro (\texttt{tau\_five\_boundary\_sadar\_trace.csv}).}
+\caption{Five-boundary A$\Omega$D SADAR stack $B_{\mathrm{hard}}\to B_{\tau}\to B_{\mathrm{shed}}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}$ for $1:2:9_{\mathrm{yro}}$ Dimonnanyro (\texttt{RC-027}, \texttt{tau\_five\_boundary\_sadar\_trace.csv}).}
 \label{fig:manual-tau-five-boundary-sadar}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/collision-shedding-debris-feynman.pdf}
-\caption{Boundary-Feynman branching of inner even closures, $3:3:7_{\mathrm{yro}}$ overlap-saddle selection, $3:2$ Ditrion core-starvation debris, and $1:2:9_{\mathrm{yro}}$ odd-window lepton shedding into the witness-ordered recipient event lattice.}
+\caption{Boundary-Feynman branching of inner even closures (\texttt{RC-029}), $3:3:7_{\mathrm{yro}}$ overlap-saddle selection and $3:2$ Ditrion core-starvation debris (\texttt{RC-028}), and $1:2:9_{\mathrm{yro}}$ odd-window lepton shedding (\texttt{RC-027}) into the witness-ordered recipient event lattice.}
 \label{fig:manual-collision-debris-feynman}
 \end{figure}
 
 \begin{table}[H]
 \centering
-\caption{Reference-engine five-boundary SADAR competition table (\texttt{manual/data/boundary\_sadar/tau\_five\_boundary\_sadar\_trace.csv}, vector \texttt{RC-025}).}
+\caption{Engine-bound five-boundary SADAR competition table (\texttt{RC-027}, live from \texttt{manual/data/boundary\_sadar/tau\_five\_boundary\_sadar\_trace.csv}).}
 \label{tab:manual-tau-five-boundary-trace}
-{\footnotesize
-\begin{tabular}{lrrrrrrl}
+{\scriptsize
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.088\linewidth}>{\raggedleft\arraybackslash}p{0.050\linewidth}>{\raggedleft\arraybackslash}p{0.050\linewidth}>{\raggedleft\arraybackslash}p{0.050\linewidth}>{\raggedleft\arraybackslash}p{0.050\linewidth}>{\raggedleft\arraybackslash}p{0.050\linewidth}>{\raggedleft\arraybackslash}p{0.050\linewidth}>{\raggedleft\arraybackslash}p{0.092\linewidth}>{\raggedleft\arraybackslash}p{0.114\linewidth}>{\raggedright\arraybackslash}p{0.280\linewidth}}
 \toprule
-Candidate / control & $L$ & $\rho^D_{\omega}$ & $P^D$ & $Q^D$ & $C_{\mathrm{close}}$ & $X_{\mathrm{shedding}}$ & Boundary verdict at $B_{\mathrm{sensor}}$ \\
+Candidate & $L$ & $\rho^D_{\omega}$ & $P^D$ & $Q^D$ & $C_{\mathrm{close}}$ & $X_{\mathrm{shed}}$ & Endo / Exo & Vis / Miss $|_{\mathrm{Exo}}$ & Boundary stack \& SADAR verdict \\
 \midrule
-\texttt{3:3:6+3:3:6} (\texttt{duons=0}) & 58 & 0 & 0 & 0 & 0 & 0 & sterile cavity control; zero shedding \\
-$1:2:2$ & 2 & 2 & 6 & 21 & 6 & 0 & closed inner dyad; unseen at sensor wall \\
-$1:2:6$ & 6 & 6 & 18 & 9 & 18 & 0 & closed on $\mathsf{C}_6$; retained inner carrier \\
-$1:2:7$ & 7 & 7 & 21 & 6 & 24 & 0 & incomplete $RD$ ($Q^D=6$); $\mathsf{C}_8$ deficit $-3$ \\
-$1:2:8$ & 8 & 8 & 24 & 3 & 24 & 0 & closed on $\mathsf{C}_8$; retained inner carrier \\
-$1:2:9_{\mathrm{yro}}$ & 9 & 9 & 27 & 0 & 24 & 3 & unique $Q^D=0$ shedder; $(19/50,31/50)$ on \texttt{\_Exo} \\
-$1:2:10$ & 10 & 9 & 27 & 0 & 27 & 0 & clips at $RD=9$; closed on $\mathsf{C}_{10}=27$ \\
+\texttt{3:3:6+\allowbreak{}3:3:6\_\allowbreak{}duons0} & 58 & 0 & 0 & 0 & 0 & 0 & 0/1\par 0/1 & 0/1\par 0/1 & \texttt{B\_\allowbreak{}hard\_\allowbreak{}sterile\_\allowbreak{}control}\par \texttt{sterile\_\allowbreak{}cut58\_\allowbreak{}no\_\allowbreak{}BETWEEN\_\allowbreak{}coupling} \\
+\texttt{1:2:2} & 2 & 2 & 6 & 21 & 6 & 0 & 1/1\par 0/1 & 0/1\par 0/1 & \texttt{B\_\allowbreak{}hard->\allowbreak{}B\_\allowbreak{}cand\_\allowbreak{}inner\_\allowbreak{}retained}\par \texttt{closed\_\allowbreak{}or\_\allowbreak{}clipped\_\allowbreak{}unseen\_\allowbreak{}at\_\allowbreak{}sensor\_\allowbreak{}wall} \\
+\texttt{1:2:6} & 6 & 6 & 18 & 9 & 18 & 0 & 1/1\par 0/1 & 0/1\par 0/1 & \texttt{B\_\allowbreak{}hard->\allowbreak{}B\_\allowbreak{}cand\_\allowbreak{}inner\_\allowbreak{}retained}\par \texttt{closed\_\allowbreak{}or\_\allowbreak{}clipped\_\allowbreak{}unseen\_\allowbreak{}at\_\allowbreak{}sensor\_\allowbreak{}wall} \\
+\texttt{1:2:7} & 7 & 7 & 21 & 6 & 24 & 0 & 1/1\par 0/1 & 0/1\par 0/1 & \texttt{B\_\allowbreak{}hard->\allowbreak{}B\_\allowbreak{}cand\_\allowbreak{}open\_\allowbreak{}deficit}\par \texttt{incomplete\_\allowbreak{}RD\_\allowbreak{}QD6\_\allowbreak{}c8\_\allowbreak{}deficit} \\
+\texttt{1:2:8} & 8 & 8 & 24 & 3 & 24 & 0 & 1/1\par 0/1 & 0/1\par 0/1 & \texttt{B\_\allowbreak{}hard->\allowbreak{}B\_\allowbreak{}cand\_\allowbreak{}inner\_\allowbreak{}retained}\par \texttt{closed\_\allowbreak{}or\_\allowbreak{}clipped\_\allowbreak{}unseen\_\allowbreak{}at\_\allowbreak{}sensor\_\allowbreak{}wall} \\
+\texttt{1:2:9} & 9 & 9 & 27 & 0 & 24 & 3 & 650/2500\par 1850/2500 & 19/50\par 31/50 & \texttt{B\_\allowbreak{}hard->\allowbreak{}B\_\allowbreak{}tau->\allowbreak{}B\_\allowbreak{}shed->\allowbreak{}B\_\allowbreak{}sensor->\allowbreak{}B\_\allowbreak{}ext}\par \texttt{unique\_\allowbreak{}QD0\_\allowbreak{}shedder\_\allowbreak{}Dimonnanyro\_\allowbreak{}winner} \\
+\texttt{1:2:10} & 10 & 9 & 27 & 0 & 27 & 0 & 1/1\par 0/1 & 0/1\par 0/1 & \texttt{B\_\allowbreak{}hard->\allowbreak{}B\_\allowbreak{}cand\_\allowbreak{}inner\_\allowbreak{}retained}\par \texttt{closed\_\allowbreak{}or\_\allowbreak{}clipped\_\allowbreak{}unseen\_\allowbreak{}at\_\allowbreak{}sensor\_\allowbreak{}wall} \\
 \bottomrule
 \end{tabular}
 }
@@ -284,6 +324,7 @@ $1:2:10$ & 10 & 9 & 27 & 0 & 27 & 0 & clips at $RD=9$; closed on $\mathsf{C}_{10
 
 \subsection{Electron external map}\label{manual:rest:electron-external-map}
 
+\paragraph{Specialization.}
 The electron comparison record is a manual map from the measured-sector electron to the A$\Omega$ Dimonhexon support:
 
 \[
@@ -296,7 +337,7 @@ The charge-orientation tag is
 q_{\mathrm{ext}}(e^-)=-1,\qquad Q_{\mathrm{ext}}(e^-)=-e.
 \]
 
-The rest-energy comparison target remains quarantined:
+The rest-energy comparison target remains quarantined at $B_{\mathrm{ext}}=\mathsf{Q}_{\mathrm{ext}}$ (\texttt{SD-007}):
 
 \[
 E^{\mathrm{tar}}_e=0.51099895069\,\mathrm{MeV},\qquad\sigma_{E,e}=1.6\times10^{-10}\,\mathrm{MeV}.
@@ -308,7 +349,9 @@ E^{\mathrm{tar}}_e=0.51099895069\,\mathrm{MeV},\qquad\sigma_{E,e}=1.6\times10^{-
 
 \subsection{Measured rest-energy target records}\label{manual:rest:measured-comparison-analysis}
 
-External comparison is quarantined. For records with declared targets,
+\paragraph{Quarantined external comparison (\texttt{SD-007}).}
+External comparison enters strictly at $B_{\mathrm{ext}}=\mathsf{Q}_{\mathrm{ext}}$.
+For records with declared targets,
 
 \[
 E_{x,\mathrm{ext}}=K_{\mathrm{ext}}\nu_{x,\AO},\qquad\Delta E_x=E_{x,\mathrm{ext}}-E_x^{\mathrm{tar}},
@@ -318,24 +361,29 @@ E_{x,\mathrm{ext}}=K_{\mathrm{ext}}\nu_{x,\AO},\qquad\Delta E_x=E_{x,\mathrm{ext
 \epsilon_x^{\mathrm{sgn}}=100\frac{\Delta E_x}{E_x^{\mathrm{tar}}},\qquad|\epsilon_x|=|\epsilon_x^{\mathrm{sgn}}|,\qquad z_{x,\mathrm{target}}=\frac{\Delta E_x}{\sigma_{E,x}}.
 \]
 
+Vector \texttt{SD-007} (\texttt{sadar\_rest\_energy\_qext}) verifies exact BIPM 2019 SI
+rational $K_{\mathrm{ext}}$ target-rate inversion and zero round-trip
+$\eta_{\mathrm{ext}}$ residual across all nine measured target rows below (tabulated
+alongside native invariants in \texttt{rest\_energy\_sadar\_debris\_atlas.csv}).
+
 \begin{table}[H]
 \centering
-\caption{Measured rest-energy target records.}
+\caption{Measured rest-energy target records (quarantined $B_{\mathrm{ext}}$ audit in \texttt{SD-007}).}
 \label{tab:manual-measured-comparison-analysis}
 {\footnotesize
 \begin{tabular}{lrrll}
 \toprule
 Record & Target [MeV] & $\sigma_E$ [MeV] & Unit & Source \\
 \midrule
-$e$ & 0.51099895069 & $1.6\times10^{-10}$ & MeV & NIST CODATA \\
-$\mu$ & 105.6583755 & $2.3\times10^{-6}$ & MeV & NIST CODATA \\
-$\tau$ & 1776.86 & 0.12 & MeV & NIST / PDG target record \\
-$B^{\pm}$ & 5279.41 & 0.07 & MeV & PDG 2025 \\
-$B^0$ & 5279.72 & 0.08 & MeV & PDG 2025 \\
-$B_s^0$ & 5366.93 & 0.10 & MeV & PDG 2025 \\
-$B_c^{\pm}$ & 6274.47 & 0.32 & MeV & PDG 2025 \\
-$p$ & 938.27208943 & $2.9\times10^{-7}$ & MeV & NIST CODATA \\
-$n$ & 939.56542194 & $4.8\times10^{-7}$ & MeV & NIST CODATA \\
+$e$ & $0.51099895069$ & $1.6\times10^{-10}$ & MeV & NIST CODATA \\
+$\mu$ & $105.6583755$ & $2.3\times10^{-6}$ & MeV & NIST CODATA \\
+$\tau$ & $1776.86$ & $0.12$ & MeV & NIST / PDG target record \\
+$B^{\pm}$ & $5279.41$ & $0.07$ & MeV & PDG 2025 \\
+$B^0$ & $5279.72$ & $0.08$ & MeV & PDG 2025 \\
+$B_s^0$ & $5366.93$ & $0.10$ & MeV & PDG 2025 \\
+$B_c^{\pm}$ & $6274.47$ & $0.32$ & MeV & PDG 2025 \\
+$p$ & $938.27208943$ & $2.9\times10^{-7}$ & MeV & NIST CODATA \\
+$n$ & $939.56542194$ & $4.8\times10^{-7}$ & MeV & NIST CODATA \\
 \bottomrule
 \end{tabular}
 }
@@ -348,22 +396,28 @@ $n$ & 939.56542194 & $4.8\times10^{-7}$ & MeV & NIST CODATA \\
 
 \subsection{Tritrioseptyro Higgs-support diagnostic fixture}\label{manual:tritrioseptyro-higgs-support-fixture}
 
-The supplied candidate rows and scoring formula reproduce the ranking. They
-do not supply the originating history producer, detector thresholds or the
-exposure history of the scale/exponent choice. Recovering those artifacts is
-this application's next step before an independent prediction claim. The
-freeze below is the declared evaluation order; it does not establish a
-historical pre-exposure freeze.
+\paragraph{Setup and falsification boundary.}
+The supplied candidate rows and scoring formula reproduce the internal ranking; they do
+not supply the originating history producer, detector thresholds, or exposure history of
+the scale/exponent choice. Recovering those artifacts remains this application's next
+step before an independent prediction claim, and the freeze order below states the
+declared evaluation order rather than a historical pre-exposure freeze.
 
-Tritrioseptyro is the $3:3:7_{\mathrm{yro}}$ Higgs-support prediction candidate selected by the internal AFC trace. The AFC run produces the trace rows; A$\Omega$ detectors read the trace and name the retained route status. The selected candidate is joined to the frozen external mass map $E_H=RD\,2^{L+4}$ MeV. Production-channel and decay-channel residual tables carry the next comparison layer.
+Tritrioseptyro is the $3:3:7_{\mathrm{yro}}$ Higgs-support prediction candidate
+selected by the internal AFC trace. The AFC run produces the read-only trace rows;
+A$\Omega$ detectors read the trace and name the retained route status before joining to
+the frozen external mass map $E_H=RD\,2^{L+4}$ MeV. Production-channel and
+decay-channel residual tables carry the next comparison layer.
 
 \[
 \text{AFC run}\longrightarrow\text{read-only trace}\longrightarrow\text{A}\Omega\text{ route-status naming}.
 \]
 
-The trace is read-only for this record. Feedback experiments use separately declared write-back maps.
+The trace is read-only for this record; feedback experiments require separately declared
+write-back maps.
 
-The candidate set is
+\paragraph{Derivation.}
+Declare the odd-window trion candidate set
 
 \[
 \mathcal{K}_H=\{3:1:7,3:1:9,3:2:7,3:2:9,3:3:7,3:3:9,3:4:7,3:4:9\}.
@@ -372,21 +426,22 @@ The candidate set is
 For each candidate $K=(p,q,L)$, compute
 
 \[
-\Pi=q^p+q,\qquad RD=2\Pi+1,\qquad\rho^D_{\omega}=\min(RD,L).
+\Pi=q^p+q,\qquad RD=2\Pi+1,\qquad\rho^D_{\omega}=\min(RD,L),
 \]
 
-The scoped collision capacity is
+with scoped collision capacity
 
 \[
-C_{3,H}=3.
+C_{3,H}=3,
 \]
 
-With this scoped collision capacity,
+giving active window pressure and pending overhang
 
 \begin{align*}
 P^D_H & =C_{3,H}\rho^D_{\omega},\\Q^D_H & =C_{3,H}\max(0,RD-L).
 \end{align*}
 
+\paragraph{Specialization (\texttt{RC-011} and \texttt{RC-028}).}
 The retained candidate is
 
 \[
@@ -396,10 +451,10 @@ K_H^{\star}=3:3:7_{\mathrm{yro}}=\mathrm{Tritrioseptyro}.
 For Tritrioseptyro,
 
 \[
-\Pi=30,\qquad RD=61,\qquad\rho^D_{\omega}=7,\qquad P^D_H=21,\qquad Q^D_H=162.
+\Pi=30,\qquad RD=61,\qquad\rho^D_{\omega}=7,\qquad P^D_H=21,\qquad Q^D_H=162,
 \]
 
-Against adjacent even support-enclosure closures,
+with symmetric residuals against adjacent even support-enclosure closures:
 
 \[
 P^D_H-C_6=+3,\qquad P^D_H-C_8=-3.
@@ -409,41 +464,46 @@ The trace places Tritrioseptyro on the $C_6/C_8$ saddle with pressure residuals 
 
 \begin{table}[H]
 \centering
-\caption{Higgs-support candidate ranking. This table carries the active trace coordinates used by the internal selection rule.}
+\caption{Higgs-support candidate ranking. This table carries the active trace coordinates used by the internal selection rule (\texttt{RC-011}).}
 \label{tab:manual-higgs-internal-candidates}
 {\footnotesize
 \begin{tabular}{lrrrrr}
 \toprule
 Candidate & $RD$ & $P^D_H$ & saddle & $Q^D_H$ & score \\
 \midrule
-$3:3:7_{\mathrm{yro}}$ & 61 & 21 & $+3/-3$ & 162 & 0.00 \\
-$3:2:7_{\mathrm{yro}}$ & 21 & 21 & $+3/-3$ & 42 & 1.58 \\
-$3:3:9_{\mathrm{yro}}$ & 61 & 27 & $+3/0$ & 156 & 2.25 \\
-$3:4:7_{\mathrm{yro}}$ & 137 & 21 & $+3/-3$ & 390 & 2.40 \\
-$3:2:9_{\mathrm{yro}}$ & 21 & 27 & $+3/0$ & 36 & 2.89 \\
-$3:1:7_{\mathrm{yro}}$ & 5 & 15 & $-3/-9$ & 0 & 3.00 \\
-$3:4:9_{\mathrm{yro}}$ & 137 & 27 & $+3/0$ & 384 & 3.59 \\
-$3:1:9_{\mathrm{yro}}$ & 5 & 15 & $-9/-12$ & 0 & 4.75 \\
+$3:3:7_{\mathrm{yro}}$ & $61$ & $21$ & $+3/-3$ & $162$ & $0.00$ \\
+$3:2:7_{\mathrm{yro}}$ & $21$ & $21$ & $+3/-3$ & $42$ & $1.58$ \\
+$3:3:9_{\mathrm{yro}}$ & $61$ & $27$ & $+3/0$ & $156$ & $2.25$ \\
+$3:4:7_{\mathrm{yro}}$ & $137$ & $21$ & $+3/-3$ & $390$ & $2.40$ \\
+$3:2:9_{\mathrm{yro}}$ & $21$ & $27$ & $+3/0$ & $36$ & $2.89$ \\
+$3:1:7_{\mathrm{yro}}$ & $5$ & $15$ & $-3/-9$ & $0$ & $3.00$ \\
+$3:4:9_{\mathrm{yro}}$ & $137$ & $27$ & $+3/0$ & $384$ & $3.59$ \\
+$3:1:9_{\mathrm{yro}}$ & $5$ & $15$ & $-9/-12$ & $0$ & $4.75$ \\
 \bottomrule
 \end{tabular}
 }
 \end{table}
 
-The trace score is reproducible under the internal selection rule:
+The trace score is verified in exact zero-float rational arithmetic by vector
+\texttt{RC-011} (\texttt{higgs\_trace\_score\_and\_freeze}, yielding $S_H(3:3:7)=0$
+versus runner-up $S_H(3:2:7)=79/50=1.58$) under the internal selection rule:
 
 \[
-S_H(K)=\frac{d_{\mathrm{saddle}}}{12}+\frac{d_Q}{100}+\frac{d_L}{2}+d_{\mathrm{route}}.
-\]
-
-The scoring gate requires
-
-\[
-\arg\min_{K\in\mathcal{K}_H}S_H(K)=3:3:7_{\mathrm{yro}}.
+S_H(K)=\frac{d_{\mathrm{saddle}}}{12}+\frac{d_Q}{100}+\frac{d_L}{2}+d_{\mathrm{route}},\qquad\arg\min_{K\in\mathcal{K}_H}S_H(K)=3:3:7_{\mathrm{yro}}.
 \]
 
 \aodnoteblock{Source artifacts}{The score-component definitions and candidate rows are supplied under \texttt{manual/data/higgs} as \texttt{higgs\_trace\_score\_formula.md} and \texttt{higgs\_trace\_internal\_candidates\_selection.csv}, respectively.}
 
-Alongside the legacy ranking formula $S_H(K)$, the reference engine (\texttt{manual/data/boundary\_sadar/higgs\_baryon\_overlap\_saddle\_scan.csv}, vector \texttt{RC-026}) evaluates the full $20$-candidate trion grid $3:q:L$ ($q\in\{1,2,3,4\}$, $L\in\{6,7,8,9,10\}$) without empirical overhang-band thresholds: exact symmetric $\mathsf{C}_6/\mathsf{C}_8$ midpoint balance $(P^D_H-\mathsf{C}_6)+(P^D_H-\mathsf{C}_8)=0$ ($P^D_H=21$) holds only on $\{3:2:7,3:3:7,3:4:7\}$, and two-baryon $3:3+3:3$ parent lineage conservation ($q=3$) isolates $3:3:7_{\mathrm{yro}}$ uniquely prior to external map freeze.
+Alongside the legacy ranking formula $S_H(K)$, vector \texttt{RC-028}
+(\texttt{sadar\_hadron\_debris\_and\_higgs\_saddle},
+\texttt{manual/data/boundary\_sadar/higgs\_baryon\_overlap\_saddle\_scan.csv}) evaluates the
+full $20$-candidate trion grid $3:q:L$ ($q\in\{1,2,3,4\}$,
+$L\in\{6,7,8,9,10\}$) without empirical overhang-band thresholds: exact
+symmetric $\mathsf{C}_6/\mathsf{C}_8$ midpoint balance
+$(P^D_H-\mathsf{C}_6)+(P^D_H-\mathsf{C}_8)=0$ ($P^D_H=21$) holds only on
+$\{3:2:7,3:3:7,3:4:7\}$, and two-baryon $3:3+3:3$ parent
+lineage conservation ($q=3$) isolates $3:3:7_{\mathrm{yro}}$ uniquely prior to
+external map freeze.
 
 \begin{figure}[H]
 \centering
@@ -461,19 +521,28 @@ Alongside the legacy ranking formula $S_H(K)$, the reference engine (\texttt{man
 
 \subsubsection{External mass map after candidate freeze}\label{manual:higgs-external-map-after-freeze}
 
-The external mass map is frozen after the internal candidate is selected:
+\paragraph{Specialization (\texttt{RC-011}, \texttt{SD-004}, \texttt{SD-005}).}
+The external mass map is frozen strictly after the internal candidate is selected:
 
 \[
 E_H^{(0)}[\mathrm{MeV}]=RD_H\,2^{L+4}.
 \]
 
-For Tritrioseptyro,
+For Tritrioseptyro (verified in exact rational arithmetic by \texttt{RC-011} as
+$15616/125\,\mathrm{GeV}$),
 
 \[
 E_H^{(0)}=61\cdot2^{11}\,\mathrm{MeV}=124928\,\mathrm{MeV}=124.928\,\mathrm{GeV}.
 \]
 
-The frozen $RD\,2^{L+4}$ map sends Tritrioseptyro to $124.928\,\mathrm{GeV}$. Declared Higgs mass targets enter after the candidate and external map are frozen. The comparison table reports $\Delta E$, absolute percent error, and the target-only pull $z_{\mathrm{target}}=\Delta E/\sigma_{\mathrm{target}}$ for each target record.
+Declared LHC Higgs mass targets enter strictly after candidate and map freeze. Each
+comparison row reports $\Delta E$, absolute percent error $|\epsilon|$, and
+target-only pull $z_{\mathrm{target}}=\Delta E/\sigma_{\mathrm{target}}$,
+with exact rational half-even $6$-decimal display rounding audited by \texttt{SD-004}
+(CMS $H\to4\ell$: $\Delta E=-14/125\,\mathrm{GeV}$,
+$z=-14/15\approx-0.933333$) and \texttt{SD-005} (ATLAS
+$H\to\gamma\gamma$: $\Delta E=-73/250\,\mathrm{GeV}$,
+$z=-73/35\approx-2.085714$).
 
 \begin{table}[H]
 \centering
@@ -485,9 +554,9 @@ The frozen $RD\,2^{L+4}$ map sends Tritrioseptyro to $124.928\,\mathrm{GeV}$. De
 Quantity & Value & Record \\
 \midrule
 $K_H^{\star}$ & $3:3:7_{\mathrm{yro}}$ & frozen internal candidate \\
-$RD_H$ & 61 & frozen internal accessor \\
-$L$ & 7 & declared odd window \\
-$E_H^{(0)}$ & $61\cdot2^{11}\,\mathrm{MeV}=124.928\,\mathrm{GeV}$ & external map after freeze \\
+$RD_H$ & $61$ & frozen internal accessor \\
+$L$ & $7$ & declared odd window \\
+$E_H^{(0)}$ & $61\cdot2^{11}\,\mathrm{MeV}=124.928\,\mathrm{GeV}$ & external map after freeze (\texttt{RC-011}) \\
 \bottomrule
 \end{tabular}
 }
@@ -495,17 +564,17 @@ $E_H^{(0)}$ & $61\cdot2^{11}\,\mathrm{MeV}=124.928\,\mathrm{GeV}$ & external map
 
 \begin{table}[H]
 \centering
-\caption{LHC mass comparison after frozen external map.}
+\caption{LHC mass comparison after frozen external map (rounded display verified by \texttt{SD-004} and \texttt{SD-005}).}
 \label{tab:manual-higgs-lhc-comparison}
 {\footnotesize
 \begin{tabular}{lrrrrr}
 \toprule
 Target & Mass [GeV] & $\sigma$ [GeV] & $\Delta E$ [GeV] & $|\epsilon|$ [\%] & $z_{\mathrm{target}}$ \\
 \midrule
-ATLAS+CMS Run-1 combined & 125.09 & 0.24 & -0.162 & 0.1295 & -0.675 \\
-CMS $H\to4\ell$ & 125.04 & 0.12 & -0.112 & 0.0896 & -0.933 \\
-ATLAS Run-1+2 combined & 125.11 & 0.11 & -0.182 & 0.1455 & -1.655 \\
-ATLAS $H\to\gamma\gamma$ & 125.22 & 0.14 & -0.292 & 0.2332 & -2.086 \\
+ATLAS+CMS Run-1 combined & $125.09$ & $0.24$ & $-0.162$ & $0.1295$ & $-0.675$ \\
+CMS $H\to4\ell$ & $125.04$ & $0.12$ & $-0.112$ & $0.0896$ & $-0.933$ \\
+ATLAS Run-1+2 combined & $125.11$ & $0.11$ & $-0.182$ & $0.1455$ & $-1.655$ \\
+ATLAS $H\to\gamma\gamma$ & $125.22$ & $0.14$ & $-0.292$ & $0.2332$ & $-2.086$ \\
 \bottomrule
 \end{tabular}
 }
@@ -518,19 +587,17 @@ ATLAS $H\to\gamma\gamma$ & 125.22 & 0.14 & -0.292 & 0.2332 & -2.086 \\
 \label{fig:manual-higgs-mass-comparison}
 \end{figure}
 
-These target records overlap in experiment, run or channel; their four
-pulls are not four independent tests. A joint comparison needs their shared
-covariance and the model/map uncertainty. The quoted values remain
-target-only diagnostics.
-
-\paragraph{External data-comparison record.}
-The internal trace selects $K^{\star}_H=3:3:7_{\mathrm{yro}}$. The frozen external map gives
+\paragraph{Falsification and external data-comparison record.}
+The four target rows overlap in experiment, run, or channel, so their pulls are not four
+independent tests; a joint test requires shared covariance and explicit model/map
+uncertainty. The internal trace selects $K^{\star}_H=3:3:7_{\mathrm{yro}}$ with
+frozen map
 
 \[
 E_H^{(0)}=RD_H2^{L+4}=61\cdot2^{11}\,\mathrm{MeV}=124.928\,\mathrm{GeV}.
 \]
 
-Table~\ref{tab:manual-higgs-lhc-comparison} records the declared Higgs mass-input rows, their quoted uncertainties, and the resulting $\Delta E$, $|\epsilon|$, and $z_{\mathrm{target}}$ coordinates. The mapped value $124.928\,\mathrm{GeV}$ lies within $1\sigma$ of the ATLAS+CMS Run-1 combined mass record and the CMS Run-2 $H\to4\ell$ mass record. Production-channel and decay-channel residual tables carry the next comparison layer.
+Table~\ref{tab:manual-higgs-lhc-comparison} records the declared Higgs mass-input rows, their quoted uncertainties, and the resulting $\Delta E$, $|\epsilon|$, and $z_{\mathrm{target}}$ coordinates. The mapped value $124.928\,\mathrm{GeV}$ lies within $1\sigma$ of the ATLAS+CMS Run-1 combined mass record and the CMS Run-2 $H\to4\ell$ mass record while remaining a target-only diagnostic. Production-channel and decay-channel residual tables carry the next comparison layer.
 
 \aodprovenance{\mainsection{main:subsec:yro-odd-window-route-status}; \mainappendix{main:app:ao-field-fractal-properties}; \tabref{tab:manual-higgs-internal-candidates}; \tabref{tab:manual-higgs-external-map}.}
 

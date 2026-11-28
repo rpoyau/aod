@@ -88,20 +88,20 @@ def test_s1b_figure_inventory_complete_and_historical_rasters_retained():
     assert summary["total_active_rasters"] == 34
     assert summary["main_rasters"] == 6
     assert summary["manual_rasters"] == 28
-    assert summary["authored_native_vector"] == 19
-    assert summary["total_vector_figures"] == 53
+    assert summary["authored_native_vector"] == 28
+    assert summary["total_vector_figures"] == 62
     assert summary["DATA_BACKED_VERIFIED"] == 39
-    assert summary["CONCEPTUAL_SCHEMATIC"] == 14
+    assert summary["CONCEPTUAL_SCHEMATIC"] == 23
     assert summary["UNRESOLVED_RETAINED"] == 0
     assert summary["converted_vector"] == 34
     assert summary["retained_raster"] == 0
 
     figs = inv["figures"]
-    assert len(figs) == 53
-    assert sum(1 for f in figs if f["surface"] == "main") == 6
-    assert sum(1 for f in figs if f["surface"] == "manual") == 47
+    assert len(figs) == 62
+    assert sum(1 for f in figs if f["surface"] == "main") == 13
+    assert sum(1 for f in figs if f["surface"] == "manual") == 49
     assert sum(1 for f in figs if f["provenance_class"] == "DATA_BACKED_VERIFIED") == 39
-    assert sum(1 for f in figs if f["provenance_class"] == "CONCEPTUAL_SCHEMATIC") == 14
+    assert sum(1 for f in figs if f["provenance_class"] == "CONCEPTUAL_SCHEMATIC") == 23
 
     seen_slugs = set()
     seen_labels = set()
@@ -139,7 +139,7 @@ def test_s1b_figure_inventory_complete_and_historical_rasters_retained():
         sec_text = (ROOT / f["typst_section"]).read_text(encoding="utf-8")
         assert f"<{f['label']}>" in sec_text
         assert Path(f["target_typst_component"]).name in sec_text
-    assert converted_count == 34 and authored_count == 19
+    assert converted_count == 34 and authored_count == 28
 
     # Zero #image(...) calls remain anywhere in typst/
     for typ_p in sorted((ROOT / "typst").rglob("*.typ")):
@@ -149,7 +149,7 @@ def test_s1b_figure_inventory_complete_and_historical_rasters_retained():
 def test_s1b_conceptual_schematics_invent_zero_datasets():
     inv = json.loads((ROOT / "typst/figure_inventory.json").read_text(encoding="utf-8"))
     schematics = [f for f in inv["figures"] if f["provenance_class"] == "CONCEPTUAL_SCHEMATIC"]
-    assert len(schematics) == 14
+    assert len(schematics) == 23
     for f in schematics:
         assert f["data_sources"] == []
         assert f["data_check_verified"] is False
@@ -165,8 +165,8 @@ def test_s1b_all_38_exported_vector_pdfs_invariants():
     assert not [o for o in gen_manifest["outputs"] if o["kind"] == "staged_raster"]
 
     expected = [
-        ("main", ROOT / "latex/figures/generated", "figures/generated", 6),
-        ("manual", ROOT / "latex/manual/figures/generated", "manual/figures/generated", 51),
+        ("main", ROOT / "latex/figures/generated", "figures/generated", 13),
+        ("manual", ROOT / "latex/manual/figures/generated", "manual/figures/generated", 53),
     ]
     total_pdfs = 0
     for surf, fig_dir, rel_dir, exp_count in expected:
@@ -199,7 +199,7 @@ def test_s1b_all_38_exported_vector_pdfs_invariants():
             assert "@preview/" not in comp_src and "@local/" not in comp_src
             total_pdfs += 1
 
-    assert total_pdfs == 57
+    assert total_pdfs == 66
 
 
 def _parse_typ_num_tuple(src: str, var_name: str) -> list[float]:
@@ -492,12 +492,12 @@ def test_s1b_all_23_data_backed_figures_match_frozen_sources():
         ("temporal-si-bridge-feynman.pdf", ("RC-037", "9,192,631,770", "5/29", "49/151")),
         ("short-window-boundary-feynman.pdf", ("RC-038", "393", "27", "183")),
         ("hydrogen-shell-wavelet-atlas.pdf", ("RC-039", "27/20", "32/27", "256/175")),
-        ("wire-moving-boundary-feynman.pdf", ("RC-030", "RC-031", "13")),
+        ("wire-moving-boundary-feynman.pdf", ("RC-032", "13")),
         ("solar-boundary-scopes-feynman.pdf", ("RC-040", "429799/10000", "HOLD")),
-        ("field-dynamics-boundary-feynman.pdf", ("RC-032", "RC-041", "64.70291920", "209")),
+        ("field-dynamics-boundary-feynman.pdf", ("SD-008", "RC-041", "26.57055342", "209")),
         ("lensing-ray-boundary-feynman.pdf", ("RC-042", "33", "SWELLS")),
-        ("registry-engine-coverage-atlas.pdf", ("RC-044", "52", "209")),
-        ("qext-quarantine-firewall.pdf", ("SD-007", "RC-025", "0.51099895069", "1776.86")),
+        ("registry-engine-coverage-atlas.pdf", ("RC-045", "53", "209")),
+        ("qext-quarantine-firewall.pdf", ("SD-007", "SD-004", "0.51099895069", "1776.86")),
     ]
     for pdf_name, toks in new_dec_pdf_checks:
         p_txt = _extract_pdf_text(ROOT / "latex/manual/figures/generated" / pdf_name)

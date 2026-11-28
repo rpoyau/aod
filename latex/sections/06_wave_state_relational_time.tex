@@ -259,19 +259,91 @@ ancestry loses part of the relation even when its current sums to zero.
 
 \subsubsection{Tick/click}\label{subsec:duon-tick-click}
 
-Specialize \eqref{eq:wave-update-trace} with complete state $K_t$,
-emission $E$, received returned Duon $Y_t$, bias $\beta_t$ and committed
-lead--lag history:
+\paragraph{Setup.}
+Index the tick/click alternation strictly by the integer cut index $k\in\mathbb{Z}$
+of \eqref{eq:wave-update-trace}, without introducing any external or
+continuous background clock parameter. Pair the complete wave state
+\eqref{eq:complete-wave-state} and companion coupling state
+\eqref{eq:complete-coupling-state} at cut $k$ into the complete cut state
+$K_k:=(S^W_{B,i,k},S^{\times}_{I,B,k})$, with scope-$B$ emission map $E_B$,
+received returned Duon $Y_k$, coupling bias $\beta_k$ (carried by
+$\psi^{\mathrm{bias}}_k$ in $S^{\times}_{I,B,k}$), and committed lead--lag trace
+$\Delta_{\mathrm{lead/lag},\le k}$ assembled from $S^{\times}_{I,B,\le k}$
+and committed pair-event records $e_s^{\times}$ ($k_s\le k$) of
+\eqref{eq:coupling-trace}.
 
-\[
-X_t=E(K_t),\qquad K_{t+1}=U(K_t,Y_t,\beta_t,\Delta_{\mathrm{lead/lag},\le t}),\qquad X_{t+1}=E(K_{t+1}).
-\]
+\paragraph{Derivation.}
+Specializing the declared update law \eqref{eq:wave-update-trace} on integer
+cut transitions $k\to k+1$ with the cut-$k$ input slot carrying the
+received returned Duon $Y_k$, bias $\beta_k$, and committed lead--lag trace
+$\Delta_{\mathrm{lead/lag},\le k}$ yields the cut-indexed tick/click
+recurrence:
 
-A tick emits; a click receives the bound return before the next tick.
+\begin{gather*}
+K_k:=(S^W_{B,i,k},S^{\times}_{I,B,k}),\qquad X_k=E_B(K_k),\\S^W_{B,i,k+1}=\mathcal{U}_B(S^W_{B,i,\le k},S^{\times}_{I,B,\le k},(Y_k,\beta_k,\Delta_{\mathrm{lead/lag},\le k})),\\K_{k+1}:=(S^W_{B,i,k+1},S^{\times}_{I,B,k+1}),\qquad X_{k+1}=E_B(K_{k+1}).
+\end{gather*}
+
+A tick at cut $k$ emits the Duon event $X_k=E_B(K_k)$; the click receives
+the bound returned Duon $Y_k$ and updates the wave state through $\mathcal{U}_B$ to
+$S^W_{B,i,k+1}$, pairing it with the post-click committed coupling state
+$S^{\times}_{I,B,k+1}$ to form
+$K_{k+1}:=(S^W_{B,i,k+1},S^{\times}_{I,B,k+1})$ before the next tick
+$X_{k+1}$.
+
+\paragraph{Falsification.}
+Any update requiring an external clock coordinate not determined by the integer
+cut index $k$, committed prefixes $(S^W_{B,i,\le k},S^{\times}_{I,B,\le k})$,
+and committed pair records $\Gamma^{\times}$ with $k_s\le k$ violates
+\eqref{eq:wave-update-trace}. Likewise, emitting $X_{k+1}$ before receiving
+the bound click return $Y_k$, or reading an uncommitted future record
+($k_s>k$) or absent precondition in $S^{\times}_{I,B,k}$ as committed,
+falsifies the declared tick/click ordering.
 
 \subsubsection{Markovian and retained-history continuity}\label{subsec:duon-continuity}
 
-A Markovian continuity continues by present cycle state. A retained-history continuity carries prior return, lead--lag burden, jitter, shell residue, duration, or SADAR channel memory. Both forms carry wave continuity when distinction-information persists through recurring duon cycle form.
+\paragraph{Setup.}
+At integer cut $k\in\mathbb{Z}$, let $\Pi_{\mathrm{cut}}(S^W_{B,i,k})$ denote the
+present-cut projection of \eqref{eq:complete-wave-state} onto its present-cut
+cycle coordinates (excluding closure memory, retained context, prior prefix cuts
+$\le k-1$, and companion coupling records). Contrast this projection with
+the full retained-history state $(S^W_{B,i,k},S^{\times}_{I,B,k})$ of
+\eqref{eq:complete-wave-state} and \eqref{eq:complete-coupling-state} and
+its committed prefix $(S^W_{B,i,\le k},S^{\times}_{I,B,\le k})$ in
+\eqref{eq:wave-update-trace} and \eqref{eq:coupling-trace}, which retain
+prior return records, lead--lag burden, jitter, shell residue, duration, or SADAR
+channel memory.
+
+\paragraph{Derivation.}
+A realization exhibits Markovian continuity when next-cut transitions under
+$\mathcal{U}_B$ factor entirely through the present-cut projection and present-cut
+input via a reduced map $\mathcal{U}_B^{\mathrm{M}}$:
+
+\[
+S^W_{B,i,k+1}=\mathcal{U}_B^{\mathrm{M}}(\Pi_{\mathrm{cut}}(S^W_{B,i,k}),\mathrm{input}_k).
+\]
+
+When prior return records, coupling burden, or retained memory/context enter
+$\mathcal{U}_B$ nontrivially, continuation is retained-history over
+$(S^W_{B,i,k},S^{\times}_{I,B,k})$ and its committed prefix. Both regimes carry
+wave continuity whenever distinction-information persists across integer cuts
+through recurring Duon cycle form.
+
+\paragraph{Falsification.}
+Markovian closure at cut $k$ is falsified whenever two admissible committed
+histories $(S^W_{B,i,\le k},S^{\times}_{I,B,\le k})$ and
+$(\tilde{S}^W_{B,i,\le k},\tilde{S}^{\times}_{I,B,\le k})$ share equal
+present-cut state and identical cut-$k$ input $\mathrm{input}_k$, differ in
+retained burden or prior return, and yield distinct next-cut states:
+
+\begin{gather*}
+\Pi_{\mathrm{cut}}(S^W_{B,i,k})=\Pi_{\mathrm{cut}}(\tilde{S}^W_{B,i,k})\quad\text{and}\quad S^W_{B,i,k+1}\ne\tilde{S}^W_{B,i,k+1}\\\text{with}\quad(S^W_{B,i,\le k},S^{\times}_{I,B,\le k})\ne(\tilde{S}^W_{B,i,\le k},\tilde{S}^{\times}_{I,B,\le k}).
+\end{gather*}
+
+Any witnessed pair satisfying these conditions refutes Markovian closure and
+requires retained-history continuation over $(S^W_{B,i,k},S^{\times}_{I,B,k})$.
+Conversely, failure of recurring Duon cycle form to preserve
+distinction-information across cuts falsifies wave continuity under either
+regime.
 
 \subsection{Downstream continuation model}\label{subsec:q4-hamming-ternary-kernel}
 \label{subsec:hinge-slide}

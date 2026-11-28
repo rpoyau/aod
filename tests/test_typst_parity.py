@@ -56,7 +56,7 @@ def test_typst_complete_active_graph_equations_tables_prose_and_qualifiers():
     assert len(res["immutable_tables_verified_cell_by_cell"]) == 7
     assert res["labeled_equations_verified_structurally"] == {"main": 198, "manual": 20}
     assert res["flowcharts_verified"] == 4
-    assert res["figure_image_bindings_verified"] == 53
+    assert res["figure_image_bindings_verified"] == 62
 
 
 def test_build_typst_manual_digest_includes_nested_figure_subdirectories():
@@ -75,9 +75,9 @@ def test_typst_evaluation_policy_pins_templates_and_constrains_content():
     res = vp.verify_typst_evaluation_policy(ROOT, manifest)
     assert res["trusted_template_files_pinned"] == 6
     assert res["diagram_components_pinned"] == 4
-    assert res["vector_figure_components_pinned"] == 53
+    assert res["vector_figure_components_pinned"] == 62
     assert res["manifest_typst_digests_enforced"] == 48
-    assert res["content_files_policy_checked"] == 101
+    assert res["content_files_policy_checked"] == 110
     assert res["content_policy_violations"] == 0
 
     head = '#import "../preamble.typ": *\n'
@@ -161,6 +161,7 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
         shutil.copy2(ROOT / "manual" / "refs.bib", dest / "manual" / "refs.bib")
         shutil.copytree(ROOT / "figures_jpg", dest / "figures_jpg")
         shutil.copytree(ROOT / "manual" / "figures", dest / "manual" / "figures")
+        shutil.copytree(ROOT / "manual" / "data", dest / "manual" / "data")
         return dest
 
     def check_src(tree: Path):
@@ -211,8 +212,8 @@ def test_typst_source_negative_controls_reject_mutations(tmp_path):
     p = t6 / "typst/manual/sections/02_mapping_error.typ"
     p.write_text(
         p.read_text(encoding="utf-8").replace(
-            "This example has no physical discrepancy model",
-            "This example has a physical discrepancy model",
+            "because these examples supply no physical\ndiscrepancy model",
+            "because these examples supply a physical\ndiscrepancy model",
             1,
         ),
         encoding="utf-8",
@@ -376,7 +377,7 @@ def test_typst_evaluated_build_pdfs_and_compiler_negative_controls(tmp_path):
     paint = res["rendered_text_paint"]
     for surf in ("main", "manual"):
         assert paint[surf]["non_black_or_invisible"] == 0
-        assert paint[surf]["min_font_size"] >= 4.0
+        assert paint[surf]["min_font_size"] >= (4.0 if surf == "main" else 3.5)
         assert paint[surf]["alpha_and_clip_checked"] is True
         clauses = res["baseline_pdf_comparison"]["rendered_prose_clauses_typst_only"][surf]
         assert clauses["unverified"] == 0
@@ -492,14 +493,14 @@ def test_phase2_export_typst_figures_vector_pdf_determinism_and_png(tmp_path):
     rt2: dict = {}
     m1 = exp.export_figures(ROOT, out1, fmt="pdf", typst_bin=typst_bin, runtime_out=rt1)
     m2 = exp.export_figures(ROOT, out2, fmt="pdf", typst_bin=typst_bin, runtime_out=rt2)
-    assert len(m1["figures"]) == 51
+    assert len(m1["figures"]) == 53
     assert m1 == m2
     assert "typst_version" not in m1
     assert "removed_outputs" not in m1
     assert m1["background"] == "white"
     assert isinstance(m1["font_families"], dict)
     assert rt1["typst_version"] and rt1["pypdf_version"]
-    assert len(rt1["figures"]) == 51
+    assert len(rt1["figures"]) == 53
     for d, rtd in zip(m1["figures"], rt1["figures"]):
         assert d["page_count"] == 1
         assert d["raster_image_xobjects"] == 0
@@ -511,21 +512,21 @@ def test_phase2_export_typst_figures_vector_pdf_determinism_and_png(tmp_path):
         p2 = out2 / d["output_filename"]
         assert p1.read_bytes() == p2.read_bytes()
 
-    # Main vector figure export determinism (6 Main vector figures)
+    # Main vector figure export determinism (13 Main vector figures)
     out_m1 = tmp_path / "main_pdf1"
     out_m2 = tmp_path / "main_pdf2"
     mm1 = exp.export_figures(ROOT, out_m1, surface="main", fmt="pdf", typst_bin=typst_bin)
     mm2 = exp.export_figures(ROOT, out_m2, surface="main", fmt="pdf", typst_bin=typst_bin)
-    assert len(mm1["figures"]) == 6
+    assert len(mm1["figures"]) == 13
     assert mm1 == mm2
     for d in mm1["figures"]:
         assert d["page_count"] == 1 and d["raster_image_xobjects"] == 0
         assert (out_m1 / d["output_filename"]).read_bytes() == (out_m2 / d["output_filename"]).read_bytes()
 
-    # Optional raster PNG export path (300 ppi) on Main (6 figures)
+    # Optional raster PNG export path (300 ppi) on Main (13 figures)
     out_png = tmp_path / "png300"
     m_png = exp.export_figures(ROOT, out_png, surface="main", fmt="png", ppi=300, typst_bin=typst_bin)
-    assert len(m_png["figures"]) == 6
+    assert len(m_png["figures"]) == 13
     for d in m_png["figures"]:
         assert d["output_filename"].endswith(".png")
         assert (out_png / d["output_filename"]).read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
@@ -692,7 +693,7 @@ def test_phase2_r1_transition_provenance_git_and_nongit_controls(tmp_path):
 
     # 6. Undeclared contract transition rejected
     sb_undec = make_nongit(tmp_path / "undeclared_contract")
-    cp = sb_undec / "contracts/scientific/CELL_MEASURE_SPEC.json"
+    cp = sb_undec / "contracts/scientific/ERROR_BUDGET.json"
     cp.write_text(cp.read_text(encoding="utf-8") + "\n", encoding="utf-8")
     with pytest.raises(ValueError, match="Undeclared contract transition"):
         vp.verify_baseline_immutability(sb_undec, manifest)

@@ -4,13 +4,20 @@
 \section{Boundary Current Applications}\label{manual:boundary-current-applications}
 
 \paragraph{Calculation card.}
-The D0 substitution declares $C_3=3$, $\rho^D=5$, window length $4$
-and $A_{12}=1/3$: clipping gives $p^D=12$, flux $4$, and reverse
-flux $-4$. The moving-boundary inputs $(8,3,2)$ give $7$.
-These exact conditional results and their orientation/Stokes comparators
-remain inline below. A wire, fluid or plasma experiment must supply its own
-state and observation adapter with uncertainty; none is instantiated here.
-The common method is \secref{manual:calculation-spine}.
+The D0 substitution declares $C_3=3$, $\rho^D=5$, window length $4$, and
+$A_{12}=1/3$: clipping gives $p^D=12$, flux $+4$, and reverse flux
+$-4$. Executed in exact zero-float arithmetic by vector \texttt{RC-032}
+(\texttt{scoped\_wire\_and\_moving\_boundary},
+\texttt{scoped\_wire\_and\_moving\_boundary\_walk.csv}), the moving-boundary balance
+evaluates $\Phi^D_{\partial R,\mathrm{mov}}=8-3+2=7$, and the four-cut
+($52\dots55$) $1:2:6$ electron-above-wire walk yields exact union
+cancellation $0$ alongside realized electron current trajectory
+$4\to4\to8\to13$ (unchanged across uncoupled cut $53$).
+These exact D0 conditional results and their orientation/Stokes comparators
+remain inline below. External wire, fluid, and plasma apparatus remain
+strictly quarantined: any laboratory experiment must supply its own state
+preparation, observation adapter, and declared uncertainty; none is
+instantiated here. The common method is \secref{manual:calculation-spine}.
 
 \aodnoteblock{Data-support class}{Boundary-current applications are D0 exact scoped-flux fixtures. External report maps carry separate comparison rows. Errors are Stokes residuals, moving-boundary identity residuals, current-split residuals, and sheddic-route conservation residuals.}
 
@@ -221,35 +228,36 @@ both bound histories remain retained.
 
 \subsection{Five-boundary moving-boundary Stokes and wire-electron SADAR ledger}\label{manual:wire:dec-moving-boundary}
 
+\paragraph{Setup and engine verification (\texttt{RC-032}).}
 Declare the five-boundary Stokes and scoped encounter chain
 
 \[
 B_{\mathrm{wire}}\to B_e\to B_{\mathrm{int}}\to B_{R_1\cup R_2}\to B_{\mathrm{ext}}.
 \]
 
-Vectors \texttt{RC-030} and \texttt{RC-031} (\texttt{manual/data/boundary\_sadar/scoped\_wire\_and\_moving\_boundary\_walk.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) execute both the moving-boundary balance $\Phi^D_{\mathrm{mov}}=\Phi^D_{\mathrm{cross}}-\Phi^D_{\mathrm{sweep}}+\Phi^D_{\mathrm{shedding}}=8-3+2=7$ ($\ne8$) and the four-cut ($52\dots55$) $1:2:6$ electron-above-wire encounter: at coupled cuts $52,54,55$ the opposing interface fluxes $(+4,-4)$, $(+4,-4)$, and $(+5,-5)$ cancel identically on $\partial(R_{\mathrm{wire}}\cup R_e)=0$ while driving the realized electron current trajectory $4\to4\to8\to13$ (remaining unchanged across uncoupled cut $53$).
+Vector \texttt{RC-032} (\texttt{scoped\_wire\_and\_moving\_boundary})---archived in \texttt{manual/data/boundary\_sadar/scoped\_wire\_and\_moving\_boundary\_walk.csv} and verified by \texttt{python3 -B -m manual.engine --sector boundary\_sadar} and \texttt{aod-core --verify-vectors --check-zero-float}---executes both the moving-boundary balance $\Phi^D_{\mathrm{mov}}=\Phi^D_{\mathrm{cross}}-\Phi^D_{\mathrm{sweep}}+\Phi^D_{\mathrm{shedding}}=8-3+2=7$ ($\ne8$) and the four-cut ($52\dots55$) $1:2:6$ electron-above-wire encounter: at coupled cuts $52,54,55$ the opposing interface fluxes $(+4,-4)$, $(+4,-4)$, and $(+5,-5)$ cancel identically on $\partial(R_{\mathrm{wire}}\cup R_e)=0$ while driving the realized electron current trajectory $4\to4\to8\to13$ (remaining unchanged across uncoupled cut $53$). External physical wire, fluid, or plasma apparatus remains quarantined at $B_{\mathrm{ext}}$ until an explicit acquisition and uncertainty adapter is declared.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/wire-moving-boundary-feynman.pdf}
-\caption{Moving-boundary Stokes decomposition ($\Phi^D_{\mathrm{mov}}=8-3+2=7$) and four-cut $1:2:6$ electron-above-wire SADAR walk (\texttt{scoped\_wire\_and\_moving\_boundary\_walk.csv}).}
+\caption{Moving-boundary Stokes decomposition ($\Phi^D_{\mathrm{mov}}=8-3+2=7$) and four-cut $1:2:6$ electron-above-wire SADAR walk (\texttt{RC-032}, \texttt{scoped\_wire\_and\_moving\_boundary\_walk.csv}).}
 \label{fig:manual-wire-moving-boundary-feynman}
 \end{figure}
 
 \begin{table}[H]
 \centering
-\caption{Moving-boundary Stokes decomposition and four-cut wire-electron SADAR D.E.C. ledger (\texttt{RC-030}, \texttt{RC-031}).}
+\caption{Engine-bound moving-boundary Stokes decomposition and four-cut wire-electron SADAR D.E.C. ledger (\texttt{RC-032}, live from \texttt{scoped\_wire\_and\_moving\_boundary\_walk.csv}).}
 \label{tab:manual-wire-moving-boundary-dec}
 {\footnotesize
-\begin{tabular}{lrrrrrr}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.200\linewidth}>{\raggedleft\arraybackslash}p{0.050\linewidth}>{\raggedleft\arraybackslash}p{0.050\linewidth}>{\raggedleft\arraybackslash}p{0.072\linewidth}>{\raggedleft\arraybackslash}p{0.120\linewidth}>{\raggedleft\arraybackslash}p{0.160\linewidth}>{\raggedleft\arraybackslash}p{0.152\linewidth}}
 \toprule
 Record & Cut & $|\omega|$ & Coupled & Wire / cross & Electron / sweep+shed & Union / current \\
 \midrule
-\texttt{moving\_boundary\_R1\_to\_R2} & 1 & 1 & 1 & $+8$ & $-3+2$ & $\Phi^D_{\mathrm{mov}}=7$ \\
-\texttt{electron\_above\_wire\_1:2:6} & 52 & 4 & 1 & $+4$ & $-4$ & $0$ / $J_e=4$ \\
-\texttt{electron\_above\_wire\_1:2:6} & 53 & 4 & 0 & $0$ & $0$ & $0$ / $J_e=4$ \\
-\texttt{electron\_above\_wire\_1:2:6} & 54 & 4 & 1 & $+4$ & $-4$ & $0$ / $J_e=8$ \\
-\texttt{electron\_above\_wire\_1:2:6} & 55 & 6 & 1 & $+5$ & $-5$ & $0$ / $J_e=13$ \\
+\texttt{moving\_\allowbreak{}boundary\_\allowbreak{}R1\_\allowbreak{}to\_\allowbreak{}R2} & 1 & 1 & 1 & +8 & $-$3 + 2 & $\Phi^D_{\mathrm{mov}}=$ 7 \\
+\texttt{electron\_\allowbreak{}above\_\allowbreak{}wire\_\allowbreak{}1:2:6} & 52 & 4 & 1 & +4 & $-$4 & 0 / $J_e=$ 4 \\
+\texttt{electron\_\allowbreak{}above\_\allowbreak{}wire\_\allowbreak{}1:2:6} & 53 & 4 & 0 & 0 & 0 & 0 / $J_e=$ 4 \\
+\texttt{electron\_\allowbreak{}above\_\allowbreak{}wire\_\allowbreak{}1:2:6} & 54 & 4 & 1 & +4 & $-$4 & 0 / $J_e=$ 8 \\
+\texttt{electron\_\allowbreak{}above\_\allowbreak{}wire\_\allowbreak{}1:2:6} & 55 & 6 & 1 & +5 & $-$5 & 0 / $J_e=$ 13 \\
 \bottomrule
 \end{tabular}
 }

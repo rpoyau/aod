@@ -259,7 +259,7 @@ Every worked example across this manual instantiates one uniform five-boundary e
 B_{\mathrm{in}}\to B_{\mathrm{core}}\to B_{\mathrm{shed}/\mathrm{slide}}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}=\mathsf{Q}_{\mathrm{ext}}.
 \]
 
-Zero-float evaluations execute in both the Python reference engine (\texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar}) and the Rust exact core (\texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) across golden vectors \texttt{RC-001} through \texttt{RC-044} and \texttt{SD-001} through \texttt{SD-008}. No floating-point value, background continuum clock, or external SI constant enters $B_{\mathrm{in}}\to B_{\mathrm{sensor}}$.
+Zero-float evaluations execute in both the Python reference engine (\texttt{python3 -B -m manual.engine --sector boundary\_sadar}) and the Rust exact core (\texttt{aod-core --verify-vectors --check-zero-float}) across all fifty-three locked golden vectors---\texttt{RC-001} through \texttt{RC-045} ($45$ \texttt{rational\_core}) and \texttt{SD-001} through \texttt{SD-008} ($8$ \texttt{symbolic\_and\_display}). No floating-point value, background continuum clock, or external SI constant enters $B_{\mathrm{in}}\to B_{\mathrm{sensor}}$.
 
 \begin{figure}[H]
 \centering
@@ -272,25 +272,27 @@ Zero-float evaluations execute in both the Python reference engine (\texttt{pyth
 \centering
 \caption{Uniform five-boundary D.E.C. calculation index across Manual sections and appendices.}
 \label{tab:manual-chapter-dec-boundary-index}
-{\footnotesize
-\begin{tabular}{llll}
+{\scriptsize
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.138\linewidth}>{\raggedright\arraybackslash}p{0.294\linewidth}>{\raggedright\arraybackslash}p{0.184\linewidth}>{\raggedright\arraybackslash}p{0.304\linewidth}}
 \toprule
-Unit & Declared 5-boundary stack & Engine vectors & Frozen D.E.C. / SADAR CSV \\
+Unit & Declared 5-boundary stack & Engine vectors & Frozen D.E.C. / SADAR artifact \\
 \midrule
-\S2 Closure \& wave & $B_{\mathrm{monon}}\to B_{\mathrm{asym}}\to B_{\mathrm{wave}}\to B_{\mathrm{fold}}\to B_{\mathrm{harm}}$ & \texttt{RC-033} & \texttt{native\_closure\_wave\_dec\_walk.csv} \\
-\S3 Operativity & $B_{\mathrm{shared}}\to B_{S^+}\to B_{S^{-e}}\to B_{\mathrm{sensor}}\to B_{\mathrm{hold}}$ & \texttt{RC-034} & \texttt{awareness\_operativity\_dec\_walk.csv} \\
-\S4 D.E.C. ledger & $B_{\mathrm{in}}\to B_{\mathrm{flip}}\to B_{\mathrm{slide}}\to B_{\mathrm{disoma}}\to B_{\mathrm{ext}}$ & \texttt{RC-028}, \texttt{RC-029} & \texttt{dec\_chiral\_flip\_continuous\_walk.csv} \\
-\S5 Cell measures & $B_{\mathrm{cell}}\to B_{\mathrm{stair}}\to B_{\mathrm{fold}}\to B_{\mathrm{audit}}\to B_{\mathrm{ext}}$ & \texttt{RC-035} & \texttt{cell\_measures\_staircase\_fold\_dec.csv} \\
-\S6 Typed maps & $B_{\mathrm{src}}\to B_{\mathrm{map}}\to B_{\mathrm{joint}}\to B_{\mathrm{role}}\to B_{\mathrm{ext}}$ & \texttt{RC-036} & \texttt{typed\_map\_joint\_law\_ledger.csv} \\
-\S7 Temporal \& SI & $B_{\mathrm{pair}}\to B_{\mathrm{lag}}\to B_{\mathrm{bridge}}\to B_{\mathrm{val}}\to B_{\mathrm{ext}}$ & \texttt{RC-037} & \texttt{temporal\_si\_bridge\_dec\_ledger.csv} \\
-\S8 Short-window & $B_{\mathrm{core}}\to B_{\omega}\to B_{\mathrm{close}}\to B_{\mathrm{shed}}\to B_{\mathrm{ext}}$ & \texttt{RC-029}, \texttt{RC-038} & \texttt{short\_window\_rcd\_dec\_ledger.csv} \\
-\S9 Rest energy & $B_{\mathrm{hard}}\to B_{\tau}\to B_{\mathrm{shed}}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}$ & \texttt{RC-025}--\texttt{RC-027} & \texttt{tau\_five\_boundary\_sadar\_trace.csv} \\
-\S10 Hydrogen & $B_{\mathrm{core}}\to B_{S_n}\to B_{S_m}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}$ & \texttt{RC-039} & \texttt{hydrogen\_shell\_dec\_transitions.csv} \\
-\S11 Wire \& Stokes & $B_{\mathrm{wire}}\to B_e\to B_{\mathrm{int}}\to B_{R_1\cup R_2}\to B_{\mathrm{ext}}$ & \texttt{RC-030}, \texttt{RC-031} & \texttt{scoped\_wire\_and\_moving\_boundary\_walk.csv} \\
-\S12 Solar O0 & $B_{\mathrm{Sun}}\to B_{\mathrm{Hg}/\mathrm{bend}/\mathrm{red}}\to B_{\mathrm{gate}}\to B_{\mathrm{O0}}\to B_{\mathrm{ext}}$ & \texttt{RC-040} & \texttt{solar\_o0\_boundary\_dec\_audit.csv} \\
-\S13 Field dynamics & $B_{Q_4}\to B_{\mathrm{hinge}}\to B_{\mathrm{ring}}\to B_{\mathrm{pool}}\to B_{\mathrm{ext}}$ & \texttt{RC-032}, \texttt{RC-041} & \texttt{run\_tumble\_q4\_dec\_walk.csv} \\
-\S14 Lensing plan & $B_{\mathrm{src}}\to B_{\mathrm{shell},k}\to B_{\mathrm{FRG}}\to B_{\delta_3}\to B_{\mathrm{SWELLS}}$ & \texttt{RC-042} & \texttt{lensing\_ray\_chiral\_dec\_walk.csv} \\
-App. A--C & $B_{\mathrm{span}}\to B_{\mathrm{clip}}\to B_{\mathrm{shed}}\to B_{\delta_3}\to\mathsf{Q}_{\mathrm{ext}}$ & \texttt{RC-043}, \texttt{RC-044}, \texttt{SD-007} & \texttt{cycle\_shedding\_exact\_rational\_summary.csv} \\
+\S2 Closure \& wave & $B_{\mathrm{monon}}\to B_{\mathrm{asym}}\to B_{\mathrm{wave}}\to B_{\mathrm{fold}}\to B_{\mathrm{harm}}$ & \texttt{RC-033} & \texttt{native\_\allowbreak{}closure\_\allowbreak{}wave\_\allowbreak{}dec\_\allowbreak{}walk.csv} \\
+\S3 Operativity & $B_{\mathrm{shared}}\to B_{S^+}\to B_{S^{-e}}\to B_{\mathrm{sensor}}\to B_{\mathrm{hold}}$ & \texttt{RC-034} & \texttt{awareness\_\allowbreak{}operativity\_\allowbreak{}dec\_\allowbreak{}walk.csv} \\
+\S4 D.E.C. ledger & $B_{\mathrm{in}}\to B_{\mathrm{flip}}\to B_{\mathrm{slide}}\to B_{\mathrm{disoma}}\to B_{\mathrm{ext}}$ & \texttt{RC-025}, \texttt{RC-026}, \texttt{RC-045} & \texttt{dec\_\allowbreak{}chiral\_\allowbreak{}flip\_\allowbreak{}continuous\_\allowbreak{}walk.csv}, \texttt{ternary\_\allowbreak{}swar\_\allowbreak{}and\_\allowbreak{}trit\_\allowbreak{}ratio} \\
+\S5 Cell measures & $B_{\mathrm{cell}}\to B_{\mathrm{stair}}\to B_{\mathrm{fold}}\to B_{\mathrm{audit}}\to B_{\mathrm{ext}}$ & \texttt{RC-035} & \texttt{cell\_\allowbreak{}measures\_\allowbreak{}staircase\_\allowbreak{}fold\_\allowbreak{}dec.csv} \\
+\S6 Typed maps & $B_{\mathrm{src}}\to B_{\mathrm{map}}\to B_{\mathrm{joint}}\to B_{\mathrm{role}}\to B_{\mathrm{ext}}$ & \texttt{RC-036} & \texttt{typed\_\allowbreak{}map\_\allowbreak{}joint\_\allowbreak{}law\_\allowbreak{}ledger.csv} \\
+\S7 Temporal \& SI & $B_{\mathrm{pair}}\to B_{\mathrm{lag}}\to B_{\mathrm{bridge}}\to B_{\mathrm{val}}\to B_{\mathrm{ext}}$ & \texttt{RC-037} & \texttt{temporal\_\allowbreak{}si\_\allowbreak{}bridge\_\allowbreak{}dec\_\allowbreak{}ledger.csv} \\
+\S8 Short-window & $B_{\mathrm{core}}\to B_{\omega}\to B_{\mathrm{close}}\to B_{\mathrm{shed}}\to B_{\mathrm{ext}}$ & \texttt{RC-030}, \texttt{RC-038} & \texttt{dimonhexon\_\allowbreak{}double\_\allowbreak{}slit\_\allowbreak{}ring\_\allowbreak{}paths.csv}, \texttt{short\_\allowbreak{}window\_\allowbreak{}rcd\_\allowbreak{}dec\_\allowbreak{}ledger.csv} \\
+\S9 Rest energy & $B_{\mathrm{hard}}\to B_{\tau}\to B_{\mathrm{shed}}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}$ & \texttt{RC-027}--\texttt{RC-029}, \texttt{SD-007} & \texttt{tau\_\allowbreak{}five\_\allowbreak{}boundary\_\allowbreak{}sadar\_\allowbreak{}trace.csv}, \texttt{higgs\_\allowbreak{}baryon\_\allowbreak{}overlap\_\allowbreak{}saddle\_\allowbreak{}scan.csv}, \texttt{rest\_\allowbreak{}energy\_\allowbreak{}sadar\_\allowbreak{}debris\_\allowbreak{}atlas.csv} \\
+\S10 Hydrogen & $B_{\mathrm{core}}\to B_{S_n}\to B_{S_m}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}$ & \texttt{RC-031}, \texttt{RC-039} & \texttt{hydrogen\_\allowbreak{}shell\_\allowbreak{}exact\_\allowbreak{}series.csv}, \texttt{hydrogen\_\allowbreak{}shell\_\allowbreak{}dec\_\allowbreak{}transitions.csv} \\
+\S11 Wire \& Stokes & $B_{\mathrm{wire}}\to B_e\to B_{\mathrm{int}}\to B_{R_1\cup R_2}\to B_{\mathrm{ext}}$ & \texttt{RC-032} & \texttt{scoped\_\allowbreak{}wire\_\allowbreak{}and\_\allowbreak{}moving\_\allowbreak{}boundary\_\allowbreak{}walk.csv} \\
+\S12 Solar O0 & $B_{\mathrm{Sun}}\to B_{\mathrm{Hg/bend/red}}\to B_{\mathrm{gate}}\to B_{\mathrm{O0}}\to B_{\mathrm{ext}}$ & \texttt{RC-040} & \texttt{solar\_\allowbreak{}o0\_\allowbreak{}boundary\_\allowbreak{}dec\_\allowbreak{}audit.csv} \\
+\S13 Field dynamics & $B_{Q_4}\to B_{\mathrm{hinge}}\to B_{\mathrm{ring}}\to B_{\mathrm{pool}}\to B_{\mathrm{ext}}$ & \texttt{RC-041}, \texttt{SD-008} & \texttt{run\_\allowbreak{}tumble\_\allowbreak{}q4\_\allowbreak{}dec\_\allowbreak{}walk.csv}, \texttt{sparc\_\allowbreak{}pooled\_\allowbreak{}primary\_\allowbreak{}exact.csv} \\
+\S14 Lensing plan & $B_{\mathrm{src}}\to B_{\mathrm{shell},k}\to B_{\mathrm{FRG}}\to B_{\delta_3}\to B_{\mathrm{SWELLS}}$ & \texttt{RC-020}, \texttt{RC-042} & \texttt{lensing\_\allowbreak{}ray\_\allowbreak{}chiral\_\allowbreak{}dec\_\allowbreak{}walk.csv} \\
+App. A Shedding & $B_{\mathrm{span}}\to B_{\mathrm{clip}}\to B_{\mathrm{shed}}\to B_{\mathrm{reclose}}\to B_{\mathrm{ext}}$ & \texttt{RC-014}, \texttt{RC-043} & \texttt{cycle\_\allowbreak{}shedding\_\allowbreak{}exact\_\allowbreak{}rational\_\allowbreak{}summary.csv} \\
+App. B Quarantine & $B_{\mathrm{core}}\to B_{\mathrm{sensor}}\to B_{\mathrm{map}}\to B_{\mathrm{tar}}\to\mathsf{Q}_{\mathrm{ext}}$ & \texttt{SD-007} & \texttt{rest\_\allowbreak{}energy\_\allowbreak{}sadar\_\allowbreak{}debris\_\allowbreak{}atlas.csv} \\
+App. C 3D phase & $B_{\mathbb{Z}^3}\to B_{\mathrm{lag}}\to B_{\mathrm{phase}}\to B_{\mathrm{oct}}\to B_{\delta_3}$ & \texttt{RC-044} & \texttt{coordinate\_\allowbreak{}phase\_\allowbreak{}3d\_\allowbreak{}dec\_\allowbreak{}walk.csv} \\
 \bottomrule
 \end{tabular}
 }

@@ -148,23 +148,7 @@ Specializing \eqref{eq:afc-stokes-used} to this flux gives
 
 \begin{figure}[H]
 \centering
-\fbox{\begin{minipage}{0.94\linewidth}\centering
-\textbf{SADAR as $B$-scoped A$\Omega$D flux} 
-
-{\footnotesize
-\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{0.280\linewidth}>{\raggedright\arraybackslash}p{0.050\linewidth}>{\raggedright\arraybackslash}X}
-Scope & $\to$ & $B=(\partial F,\omega)$ \\
-RCD & $\to$ & $\operatorname{RCD}_{ij}(B)=RD_B(C_{ij})\bowtie_BR^{\mathrm{asym}}_{ij}(B)$ \\
-Scalar duration & $\to$ & $\rho^D_{ij}(B)=\operatorname{dur}(\operatorname{RCD}_{ij}(B))$ \\
-Window clip & $\to$ & $\rho^D_{\omega,ij}(B)=\min(\rho^D_{ij}(B),|\omega|_{ij})$ \\
-Magnitude & $\to$ & $p^D_{ij}(B)=C_{3,ij}\rho^D_{\omega,ij}(B)$ \\
-Direction & $\to$ & $A_{ij}(B)=\Delta\chi^{\mathrm{lag}}_{ij}(B)i_{ij}(B)$ \\
-Flux & $\to$ & $\varphi_{ij}(B)=p^D_{ij}(B)A_{ij}(B)$ \\
-Attention & $\to$ & $\mathbf{A}_F(B)=\sum_{(i,j)\in F(B)}\varphi_{ij}(B)$ \\
-Motion & $\to$ & $(S^W_k,S^W_{k+1})\text{ under }\mathcal{U}_B$ \\
-\end{tabularx}
-}
-\end{minipage}}
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/sadar-b-scoped-afc-flux.pdf}
 \caption{SADAR as $B$-scoped A$\Omega$D flux.}
 \label{fig:sadar-b-scoped-afc-flux}
 \end{figure}
@@ -235,21 +219,7 @@ The same boundary/current form applies across familiar region choices. Declare a
 
 \begin{figure}[H]
 \centering
-\fbox{\begin{minipage}{0.94\linewidth}\centering
-\textbf{Duon-current boundary accounting} 
-
-{\footnotesize
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.230\linewidth}>{\raggedright\arraybackslash}p{0.230\linewidth}>{\raggedright\arraybackslash}p{0.230\linewidth}>{\raggedright\arraybackslash}p{0.230\linewidth}}
-\textbf{Internal retained} & \textbf{Exoshedding} & \textbf{Reflected return} & \textbf{Pending return} \\
-recurring core & crosses $\partial R$ & returns through shell & remains over $\omega$ \\
-scalar burden & shell crossing & next emission & duration overlap \\
-\end{tabular}
-}
-
-$\Phi^D_{\partial R}(t;B|_t)=\sum_{e\in\partial R(t)}\varphi_e(B|_t)$ 
-
-$J^D_{\partial R}(\omega;B)=\sum_{t\in\omega}\Phi^D_{\partial R}(t;B|_t)$
-\end{minipage}}
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/duon-current-boundary-accounting.pdf}
 \caption{Duon-current boundary accounting.}
 \label{fig:v39-duon-current-boundary-accounting}
 \end{figure}
@@ -552,33 +522,7 @@ and
 
 \begin{figure}[H]
 \centering
-\fbox{\begin{minipage}{0.91\linewidth}\centering
-\textbf{Component scopes.}
-$\mathbf{A}_{F_1}(B_1)$ and $\mathbf{A}_{F_2}(B_2)$ retain their own
-boundary/window and wave participants.
-
-\par\vspace{0.8em}\par
-
-\textbf{Enclosing scope.}
-$\mathbf{A}_{F_1\parallel F_2}(\mathcal{B}_{12})$ is evaluated on its declared
-enclosing boundary after recurrent membership is resolved.
-
-\par\vspace{0.8em}\par
-
-\textbf{Committed attention and later motion.}
-
-\[
-\mathbf{A}_{F,k}(B)=\sum_{e\in F(B)}C_{3,e}\rho^D_{\omega,e}(B)\Delta\chi^{\mathrm{lag}}_{e,k}(B)i_{e,k}(B),
-\]
-
-\[
-S^W_{F,k+1}=\mathcal{U}_B^{\SADAR}(S^W_{\le k},S^{\times}_{\le k},\mathbf{A}_{F,\le k}).
-\]
-
-The realized transition is motion. Unresolved excess follows a declared
-sheddic path. Component projections are taken from the already declared
-attention vector; they do not create a separate motion law.
-\end{minipage}}
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/sadar-boundary-relative-balance.pdf}
 \caption{SADAR boundary-relative balance. Component fields carry local SADAR attention vectors on their own declared boundaries. An enclosing boundary binds them as a super-field with its own SADAR attention vector. Phase bias shifts the boundary/window-specific SADAR balance; unresolved excess follows a sheddic path.}
 \label{fig:sadar-boundary-relative-balance}
 \end{figure}
@@ -1209,20 +1153,7 @@ on the declared moving or nested cell boundary.
 
 \begin{figure}[H]
 \centering
-\fbox{\begin{minipage}{0.94\linewidth}\centering
-\textbf{Fractal-calculus spine} 
-
-{\footnotesize
-\begin{tabularx}{\linewidth}{cc>{\raggedright\arraybackslash}X}
-Declared distinction & $\downarrow$ & $x\succ x=x\text{ with retained hinge/trace}$ \\
-Declared scope & $\downarrow$ & $B=(\partial_TF,\omega)$ \\
-Certified closure/recurrence & $\downarrow$ & $C_f[\Sigma]_{\AO}$ \\
-$\mathsf{AO}_{\mu}(C)$ & $\downarrow$ & $\mathsf{AO}_{\mu}(C)=\langle\Pi_{\alpha},H_{\mu},\Pi_{\Omega}\rangle$ \\
-SADAR value & $\downarrow$ & $\SADARop_B(C)=p^DA$ \\
-Boundary accumulation & $\downarrow$ & $\Phi^D_{\partial_TR}=\sum_{e\in\partial_TR}\SADARop_B(C_e)$ \\
-\end{tabularx}
-}
-\end{minipage}}
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/fractal-calculus-spine.pdf}
 \caption{Fractal-cycle calculus spine.}
 \label{fig:fractal-calculus-spine}
 \end{figure}
@@ -1251,18 +1182,7 @@ This presentation is part of the admitted recurring lineage: $A{\leftrightarrow}
 
 \begin{figure}[H]
 \centering
-\fbox{\begin{minipage}{0.88\linewidth}\centering
-\textbf{SADAR value trace of admitted recurrence} 
-
-{\small
-\begin{tabular}{c}
-$C_t$ = retained branch/hinge/branch package on the committed cut \\
-$A{\leftrightarrow}_{\mu}\Omega\to\Omega{\leftrightarrow}_{\mu}A\to A{\leftrightarrow}_{\mu}\Omega$ = chiral hinge return presentation \\
-$\downarrow$ temporal SADAR presentation on $\omega$ \\
-$v_B(W)=\{(t,\SADARop_{B|t}(C_t)):t\in\omega\}$ \\
-\end{tabular}
-}
-\end{minipage}}
+\includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/cycle-wave-identity.pdf}
 \caption{An admitted recurring lineage has a chiral hinge-return presentation and a downstream SADAR value trace.}
 \label{fig:cycle-wave-identity}
 \end{figure}

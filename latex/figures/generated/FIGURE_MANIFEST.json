@@ -15,10 +15,10 @@
     ]
   },
   "schema_path": "typst/lib/aod_schema.typ",
-  "schema_sha256": "4e6861360657c906ab18499afd1c114b87c8521ead1df471ddc28ab8e9c44d46",
+  "schema_sha256": "6fa865ba193f1f2e1dce27fe126dd799f1dd6726ada2c4ff43531696685460b4",
   "plots_lib_path": "typst/lib/aod_plots.typ",
-  "plots_lib_sha256": "346944079a9840a005555ea16b7026cbf1075f26bfde08011740326a06070f4e",
-  "figure_count": 6,
+  "plots_lib_sha256": "bf0aff2c8a71f5c7d707e4c007b41d2ab308c3193ebcad87533e142fc8504d33",
+  "figure_count": 13,
   "figures": [
     {
       "surface": "main",
@@ -95,6 +95,78 @@
     {
       "surface": "main",
       "component_kind": "vector_figure",
+      "slug": "curl-to-duon-current-support",
+      "label": "fig:curl-to-duon-current-support",
+      "typst_section": "typst/sections/05_curl_closure_duon_current.typ",
+      "diagram_component": "typst/lib/figures/main/curl_to_duon_current_support.typ",
+      "diagram_sha256": "03df4c9a46b0a338ebbe21aedcd146bcda9477bc4503f34ba6b23e1e0edacdc9",
+      "data_inputs": [],
+      "width_cm": 14.8,
+      "height_cm": 9.15,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "curl-to-duon-current-support.pdf",
+      "output_sha256": "fee15de343cafbc08b7ae3a522faa65a850e58f6502b0083a8cb82d82df51535",
+      "output_bytes": 40121,
+      "page_count": 1,
+      "page_points": [
+        419.528,
+        259.37
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "closure-ladder",
+      "label": "fig:closure-ladder",
+      "typst_section": "typst/sections/05_curl_closure_duon_current.typ",
+      "diagram_component": "typst/lib/figures/main/closure_ladder.typ",
+      "diagram_sha256": "801895002a70e64b373712019cb33e920cc4fb652a4cc21190f22ef7a0abcc15",
+      "data_inputs": [],
+      "width_cm": 14.8,
+      "height_cm": 12.1,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "closure-ladder.pdf",
+      "output_sha256": "8b22b7919a770849da9725e0accd470730eb47ce9eb14cae58fd619c47e521e0",
+      "output_bytes": 40187,
+      "page_count": 1,
+      "page_points": [
+        419.528,
+        342.992
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
       "slug": "curling-curl-layers",
       "label": "fig:curling-curl-shell-families",
       "typst_section": "typst/sections/05_curl_closure_duon_current.typ",
@@ -122,6 +194,114 @@
       "page_points": [
         413.858,
         249.449
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "sadar-b-scoped-afc-flux",
+      "label": "fig:sadar-b-scoped-afc-flux",
+      "typst_section": "typst/sections/06_field.typ",
+      "diagram_component": "typst/lib/figures/main/sadar_b_scoped_afc_flux.typ",
+      "diagram_sha256": "e96b402226947976a8820c5a2ea84c36e1bd0c89544b57f554a76624d8351912",
+      "data_inputs": [],
+      "width_cm": 15.0,
+      "height_cm": 11.55,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "sadar-b-scoped-afc-flux.pdf",
+      "output_sha256": "b4738b47cd0e7b079eb4a8c43206a270777a810409a58929a4e8edbc2553c318",
+      "output_bytes": 46704,
+      "page_count": 1,
+      "page_points": [
+        425.197,
+        327.402
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "duon-current-boundary-accounting",
+      "label": "fig:v39-duon-current-boundary-accounting",
+      "typst_section": "typst/sections/06_field.typ",
+      "diagram_component": "typst/lib/figures/main/duon_current_boundary_accounting.typ",
+      "diagram_sha256": "7468ab9519f8148aaecda22c70443e39284a59017d8589c628fb1a5a0bcd7a28",
+      "data_inputs": [],
+      "width_cm": 15.0,
+      "height_cm": 9.95,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "duon-current-boundary-accounting.pdf",
+      "output_sha256": "63110453b24a60f72c59828ffb8a6a46e475b241c90b5552e3b0cdf311e0bb44",
+      "output_bytes": 37009,
+      "page_count": 1,
+      "page_points": [
+        425.197,
+        282.047
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "sadar-boundary-relative-balance",
+      "label": "fig:sadar-boundary-relative-balance",
+      "typst_section": "typst/sections/06_field.typ",
+      "diagram_component": "typst/lib/figures/main/sadar_boundary_relative_balance.typ",
+      "diagram_sha256": "afbe5a574a4595076f6b0720fe2007a06b31f804b9b245de002ca229feea965b",
+      "data_inputs": [],
+      "width_cm": 15.0,
+      "height_cm": 9.7,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "sadar-boundary-relative-balance.pdf",
+      "output_sha256": "4d595884baba695ea38556f905233671a73271eabe9b01801d03a0b9b9308179",
+      "output_bytes": 39130,
+      "page_count": 1,
+      "page_points": [
+        425.197,
+        274.961
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,
@@ -230,6 +410,78 @@
       "page_points": [
         391.181,
         430.866
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "fractal-calculus-spine",
+      "label": "fig:fractal-calculus-spine",
+      "typst_section": "typst/sections/06_field.typ",
+      "diagram_component": "typst/lib/figures/main/fractal_calculus_spine.typ",
+      "diagram_sha256": "f855e87dfffe91b0144cdcdb1c2bc0f353fa79acca6cf631a672ffc57ee0b628",
+      "data_inputs": [],
+      "width_cm": 15.0,
+      "height_cm": 9.95,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "fractal-calculus-spine.pdf",
+      "output_sha256": "a795b1ec14ee6289033ffe5a9c3b18e14c43da962fbf14fa86b1abbadd4a1929",
+      "output_bytes": 38239,
+      "page_count": 1,
+      "page_points": [
+        425.197,
+        282.047
+      ],
+      "raster_image_xobjects": 0,
+      "inline_raster_images": 0,
+      "total_raster_images": 0,
+      "has_extractable_text": true
+    },
+    {
+      "surface": "main",
+      "component_kind": "vector_figure",
+      "slug": "cycle-wave-identity",
+      "label": "fig:cycle-wave-identity",
+      "typst_section": "typst/sections/06_field.typ",
+      "diagram_component": "typst/lib/figures/main/cycle_wave_identity.typ",
+      "diagram_sha256": "e49cc0e907f430168330c899b760eb5c757bc2c8b7e1c88a1bbde904010cd3d7",
+      "data_inputs": [],
+      "width_cm": 14.8,
+      "height_cm": 9.55,
+      "background": "white",
+      "font_families": {
+        "text": [
+          "Latin Modern Roman",
+          "DejaVu Serif"
+        ],
+        "math": [
+          "Latin Modern Math",
+          "New Computer Modern Math"
+        ]
+      },
+      "format": "pdf",
+      "output_filename": "cycle-wave-identity.pdf",
+      "output_sha256": "adec62dbe7ee9e215acd1b4f880f8f87e068df9bc65b24f06e27e8f354feda5e",
+      "output_bytes": 35930,
+      "page_count": 1,
+      "page_points": [
+        419.528,
+        270.709
       ],
       "raster_image_xobjects": 0,
       "inline_raster_images": 0,

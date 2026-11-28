@@ -253,28 +253,28 @@ The 3D coordinate phase-cycle fixture uses integer phase-cycle ratios. It uses $
 Declare the five-boundary three-dimensional trajectory diagnostic stack
 
 \[
-B_{\mathrm{lattice}}\to B_{\Delta x}\to B_{Q\bmod4}\to B_{\delta_3}\to B_{\mathrm{ext}}.
+B_{\mathrm{lattice}}\to B_{\Delta x}\to B_{Q\bmod5}\to B_{\delta_3}\to B_{\mathrm{ext}}.
 \]
 
-Vector \texttt{RC-044} (\texttt{manual/data/boundary\_sadar/coordinate\_phase\_3d\_dec\_walk.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) evaluates all eight lag-$1$ lattice steps from $(0,0,0)$ to $(6,5,5)$: four steps realize squared step norm $Q=2$ ($\theta=Q\bmod4=2$) and four steps realize $Q=3$ ($\theta=3$), octants $(0,1,2)$ tally $(6,1,1)$, and the endpoint chord squared norm is $6^2+5^2+5^2=86$.
+Vector \texttt{RC-044} (\texttt{manual/data/boundary\_sadar/coordinate\_phase\_3d\_dec\_walk.csv}, verified in pure \texttt{TritWord}/\texttt{TritRatio} arithmetic by \texttt{python3 -B -m manual.engine} \mbox{\texttt{--sector}} \texttt{boundary\_sadar} and \texttt{aod-core} \mbox{\texttt{--verify-vectors}} \mbox{\texttt{--check-zero-float}}) evaluates all eight lag-$1$ lattice steps from $(0,0,0)$ to $(6,5,5)$ at canonical phase modulus $\beta_a=5$ and default octant bit order \texttt{msb\_x}, matching Brownian canonical vector \texttt{RC-012} (\texttt{manual/data/brownian/octant\_delta3.csv}) identically. The eight squared lag norms are $Q=(2,2,2,3,3,3,2,3)$ with $\sum Q=20$, giving exact integer ratios $R_Q=5/2$, $R_x=2/5$, $R_y=7/20$, and $R_z=1/4$ ($R_x+R_y+R_z=1$), alongside endpoint chord squared norm $6^2+5^2+5^2=86$. Phase residues $\theta=Q\bmod5$ realize four counts at $\theta=2$ and four at $\theta=3$, giving $O_{\theta}=(0,0,4,4,0)$, integer-balanced comparator residuals $\Delta_{\theta}^{\mathbb{Z}}=(2,2,-2,-3,1)$ (conserving $\sum\Delta_{\theta}^{\mathbb{Z}}=0$), and $M_{\delta_3,\theta}=10$. Explicitly contrasting octant bit-order conventions: under canonical Brownian MSB-$x$ ordering $4(a<0)+2(b<0)+(c<0)$ (\texttt{RC-012} and default \texttt{RC-044}), step $4$ with $\Delta z=(-1,1,1)$ maps to octant $4$, producing $O_{\mathrm{oct}}=(6,0,1,0,1,0,0,0)$, $\Delta_{\mathrm{oct}}^{\mathbb{Z}}=(-5,1,0,1,0,1,1,1)$, and $M_{\delta_3,\mathrm{oct}}=10$; under explicit run-tumble LSB-$x$ ordering $(a<0)+2(b<0)+4(c<0)$ (\texttt{RC-013} and \texttt{octant\_bit\_order} $=$ \texttt{lsb\_x}), step $4$ maps to octant $1$ while step $6$ with $\Delta z=(1,-1,1)$ remains at octant $2$, giving $O_{\mathrm{oct}}=(6,1,1,0,0,0,0,0)$ and $\Delta_{\mathrm{oct}}^{\mathbb{Z}}=(-5,0,0,1,1,1,1,1)$ with transported $M_{\delta_3,\mathrm{oct}}=10$.
 
 \begin{table}[H]
 \centering
-\caption{Eight-step 3D lag-1 lattice displacement, modular residue, and octant D.E.C. ledger (\texttt{RC-044}).}
+\caption{Engine-bound eight-step 3D lag-1 lattice displacement, $Q\bmod5$ phase residue, and MSB-$x$ (\texttt{RC-012}/\texttt{RC-044}) versus LSB-$x$ (\texttt{RC-013}) octant D.E.C. ledger (live from \texttt{coordinate\_phase\_3d\_dec\_walk.csv}).}
 \label{tab:manual-app-c-3d-dec-ledger}
 {\footnotesize
-\begin{tabular}{rlllrrr}
+\begin{tabular}{>{\centering\arraybackslash}p{0.056\linewidth}>{\raggedright\arraybackslash}p{0.112\linewidth}>{\raggedright\arraybackslash}p{0.112\linewidth}>{\raggedright\arraybackslash}p{0.112\linewidth}>{\raggedleft\arraybackslash}p{0.072\linewidth}>{\raggedleft\arraybackslash}p{0.112\linewidth}>{\raggedleft\arraybackslash}p{0.112\linewidth}>{\raggedleft\arraybackslash}p{0.112\linewidth}}
 \toprule
-Step $i$ & From $(x,y,z)$ & To $(x',y',z')$ & $\Delta(x,y,z)$ & $Q_{\mathrm{lag}1}$ & $\theta=Q\bmod4$ & Octant $q$ \\
+Step $i$ & From $(x,y,z)$ & To $(x',y',z')$ & $\Delta(x,y,z)$ & $Q_{\mathrm{lag}1}$ & $\theta=Q\bmod5$ & Octant (MSB-$x$) & Octant (LSB-$x$) \\
 \midrule
-1 & $(0,0,0)$ & $(1,1,0)$ & $(1,1,0)$ & 2 & 2 & 0 \\
-2 & $(1,1,0)$ & $(2,1,1)$ & $(1,0,1)$ & 2 & 2 & 0 \\
-3 & $(2,1,1)$ & $(3,2,1)$ & $(1,1,0)$ & 2 & 2 & 0 \\
-4 & $(3,2,1)$ & $(2,3,2)$ & $(-1,1,1)$ & 3 & 3 & 1 \\
-5 & $(2,3,2)$ & $(3,4,3)$ & $(1,1,1)$ & 3 & 3 & 0 \\
-6 & $(3,4,3)$ & $(4,3,4)$ & $(1,-1,1)$ & 3 & 3 & 2 \\
-7 & $(4,3,4)$ & $(5,4,4)$ & $(1,1,0)$ & 2 & 2 & 0 \\
-8 & $(5,4,4)$ & $(6,5,5)$ & $(1,1,1)$ & 3 & 3 & 0 \\
+1 & (0, 0, 0) & (1, 1, 0) & (1, 1, 0) & 2 & 2 & 0 & 0 \\
+2 & (1, 1, 0) & (2, 1, 1) & (1, 0, 1) & 2 & 2 & 0 & 0 \\
+3 & (2, 1, 1) & (3, 2, 1) & (1, 1, 0) & 2 & 2 & 0 & 0 \\
+4 & (3, 2, 1) & (2, 3, 2) & ($-$1, 1, 1) & 3 & 3 & 4 & 1 \\
+5 & (2, 3, 2) & (3, 4, 3) & (1, 1, 1) & 3 & 3 & 0 & 0 \\
+6 & (3, 4, 3) & (4, 3, 4) & (1, $-$1, 1) & 3 & 3 & 2 & 2 \\
+7 & (4, 3, 4) & (5, 4, 4) & (1, 1, 0) & 2 & 2 & 0 & 0 \\
+8 & (5, 4, 4) & (6, 5, 5) & (1, 1, 1) & 3 & 3 & 0 & 0 \\
 \bottomrule
 \end{tabular}
 }

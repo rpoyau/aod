@@ -3,48 +3,46 @@
 
 \section{Hydrogen-facing Shell Tests}\label{manual:hydrogen-shell-tests}
 
-\paragraph{Calculation card.}
-The declared signed shell ladder gives exact transition differences and
-ratios. The wavelength rows are carried external comparisons, sharing each
-series baseline; their display precision is not a measurement uncertainty.
-This application's source adapter still needs exact source rows, observed
-versus Ritz and line/component conventions, uncertainty semantics and
-covariance. The common method is \secref{manual:calculation-spine}; the
-existing ratio audit checks the stated arithmetic only.
+\paragraph{Setup and calculation card.}
+The declared signed shell ladder generates exact zero-float D0 rational transition
+differences and within-series ratios verified independently by reference-engine vectors
+\texttt{RC-031} (\texttt{hydrogen\_shell\_exact\_series.csv}) and \texttt{RC-039}
+(\texttt{hydrogen\_shell\_dec\_transitions.csv}) across the Lyman, Balmer, and Paschen
+series before any external constant or scale enters. Carried wavelength, frequency, and
+energy targets remain quarantined external O0 comparisons at
+$B_{\mathrm{ext}}=\mathsf{Q}_{\mathrm{ext}}$ sharing each series baseline; their
+display precision is not a measurement uncertainty. Full experimental comparison still
+requires a source adapter binding exact NIST-ASD / Hydrogen Handbook rows,
+observed-versus-Ritz and air-versus-vacuum conventions, uncertainty semantics, and
+shared-denominator covariance under \secref{manual:calculation-spine}.
 
 \subsection{Shared hydrogen-facing shell declaration}\label{manual:hydrogen:scope}
 
-\aodnoteblock{Scope}{This section declares a signed shell comparison ladder,
-computes its exact transition differences, and then records
-wavelength/frequency/energy comparisons.}
+\aodnoteblock{Scope}{This section declares a signed shell comparison ladder, derives its exact rational transition differences and series ratios in D0 arithmetic (\texttt{RC-031}, \texttt{RC-039}), and quarantines downstream NIST wavelength, frequency, and energy comparisons at $B_{\mathrm{ext}}=\mathsf{Q}_{\mathrm{ext}}$.}
 
-\aodnoteblock{Data-support class}{Hydrogen shell tests instantiate D0 exact shell-ratio fixtures and O0 shell observable-map comparisons. Error quantities are shell-ratio or spectral-map residuals.}
+\aodnoteblock{Data-support class}{Hydrogen shell tests separate D0 exact rational shell-ratio fixtures (\texttt{RC-031}, \texttt{RC-039}) from O0 quarantined spectral observable-map comparisons. Error quantities are shell-ratio or spectral-map residuals.}
 
-The shared declaration is
-
-\[
-\mathbf{a}_H\vdash(F_H,R_H,\partial R_H,\omega_H),\qquad B_H=(\partial F_H,\omega_H).
-\]
-
-The shell family is indexed by an integer shell number
+\paragraph{Setup.}
+Declare the hydrogen-facing shell scope and integer shell family:
 
 \[
-S_n,\qquad n\in\mathbb{Z}_{\ge1}.
+\mathbf{a}_H\vdash(F_H,R_H,\partial R_H,\omega_H),\qquad B_H=(\partial F_H,\omega_H),\qquad S_n,\;n\in\mathbb{Z}_{\ge1}.
 \]
 
-For the hydrogen-facing comparison records, the normalized shell-pressure ladder is declared by
+For the hydrogen-facing comparison records, declare the normalized signed shell-pressure ladder
 
 \[
 \hat{P}^D_{S_n}:=-\frac{1}{n^2}.
 \]
 
-For a downward transition $n\to m$, with $n>m$, declare the released normalized pressure magnitude
+\paragraph{Derivation.}
+For any downward transition $n\to m$ with $n>m$, the released normalized pressure magnitude is
 
 \[
-\Delta\hat{P}^D(n\to m):=\hat{P}^D_{S_n}-\hat{P}^D_{S_m}=\frac{1}{m^2}-\frac{1}{n^2}>0.
+\Delta\hat{P}^D(n\to m):=\hat{P}^D_{S_n}-\hat{P}^D_{S_m}=\frac{1}{m^2}-\frac{1}{n^2}>0,
 \]
 
-The signed state change is $\hat{P}^D_{S_m}-\hat{P}^D_{S_n}=-\Delta\hat{P}^D(n\to m)$.
+with signed state change $\hat{P}^D_{S_m}-\hat{P}^D_{S_n}=-\Delta\hat{P}^D(n\to m)$.
 
 \[
 \boxed{\text{Hydrogen shell tests use a declared signed comparison ladder.}}
@@ -52,7 +50,7 @@ The signed state change is $\hat{P}^D_{S_m}-\hat{P}^D_{S_n}=-\Delta\hat{P}^D(n\t
 
 \aodnoteblock{Remark}{The normalized ladder is a manual comparison choice. The main-note pressure definition remains $p^D=C_3\rho^D_{\omega}$.}
 
-\aodnoteblock{Presentation policy}{The A$\Omega$ ratios in the spectral tables are exact rational values. Decimal target ratios, wavelengths, frequencies, and percent errors are external presentation values. A $z$-score is recorded when the record carries an explicit uncertainty.}
+\aodnoteblock{Presentation policy}{All A$\Omega$ shell ratios in the spectral tables are exact rational D0 values (\texttt{RC-031}, \texttt{RC-039}). Decimal target ratios, wavelengths, frequencies, and percent errors are quarantined external presentation coordinates; a $z$-score is recorded only when a row carries an explicit uncertainty.}
 
 \begin{figure}[H]
 \centering
@@ -63,13 +61,12 @@ The signed state change is $\hat{P}^D_{S_m}-\hat{P}^D_{S_n}=-\Delta\hat{P}^D(n\t
 
 \subsection{Shell-radius comparison}\label{manual:hydrogen:radii}
 
-The radius-ratio check records the standard shell scaling
+\paragraph{Specialization.}
+The shell-radius geometry comparison records the standard quadratic shell scaling
 
 \[
 \frac{r_n}{r_1}=n^2.
 \]
-
-The radius-ratio record is carried as a geometry comparison record.
 
 \begin{table}[H]
 \centering
@@ -80,10 +77,10 @@ The radius-ratio record is carried as a geometry comparison record.
 \toprule
 Shell & A$\Omega$ shell & Ratio target & Status \\
 \midrule
-1 & $S_1$ & $1$ & baseline \\
-2 & $S_2$ & $4$ & comparison record \\
-3 & $S_3$ & $9$ & comparison record \\
-4 & $S_4$ & $16$ & comparison record \\
+$1$ & $S_1$ & $1$ & baseline \\
+$2$ & $S_2$ & $4$ & comparison record \\
+$3$ & $S_3$ & $9$ & comparison record \\
+$4$ & $S_4$ & $16$ & comparison record \\
 \bottomrule
 \end{tabular}
 }
@@ -91,16 +88,13 @@ Shell & A$\Omega$ shell & Ratio target & Status \\
 
 \subsection{Shell-pressure table}\label{manual:hydrogen:pressure-table}
 
-The Balmer comparison records use downward transitions into $S_2$. The normalized released-pressure magnitudes are
+\paragraph{Specialization (\texttt{RC-031}).}
+Balmer comparison records fix destination shell $S_2$ ($m=2$). The exact D0 released-pressure
+magnitudes and baseline ratios against $3\to2$ (verified in zero-float rational
+arithmetic by \texttt{RC-031}, \texttt{hydrogen\_shell\_exact\_series.csv}) are
 
 \[
-\Delta\hat{P}^D(n\to2)=\frac{1}{2^2}-\frac{1}{n^2}.
-\]
-
-The ratio to the $3\to2$ record is
-
-\[
-\mathcal{R}_{n\to2}=\frac{\Delta\hat{P}^D(n\to2)}{\Delta\hat{P}^D(3\to2)}.
+\Delta\hat{P}^D(n\to2)=\frac{1}{2^2}-\frac{1}{n^2},\qquad\mathcal{R}_{n\to2}=\frac{\Delta\hat{P}^D(n\to2)}{\Delta\hat{P}^D(3\to2)}.
 \]
 
 \begin{table}[H]
@@ -123,13 +117,13 @@ H$\delta$ & $6\to2$ & $2/9$ & $8/5$ & $1.59999025$ & $0.000609$ \\
 
 \subsection{Shell-energy transitions}\label{manual:hydrogen:energy-transitions}
 
-The measured comparison is downstream. Given a cited vacuum wavelength $\lambda$, the comparison sequence is
+\paragraph{Quarantined external map.}
+Measured frequency and energy coordinates enter strictly downstream under the quarantine
+of \appref{manual:external-comparison}. Given a cited vacuum wavelength $\lambda$,
 
 \[
 f=\frac{c}{\lambda},\qquad E=h_{\mathrm{ext}}f.
 \]
-
-This sequence uses the quarantine of \appref{manual:external-comparison}.
 
 \begin{table}[H]
 \centering
@@ -151,21 +145,34 @@ H$\delta$ & $6\to2$ & $410.29$ & $7.30684292\times10^{14}$ & $3.02186742$ \\
 
 \subsection{Hydrogen spectral-series extension}\label{manual:hydrogen:spectral-extension}
 
-\aodnoteblock{Choice}{The Lyman and Paschen records use the same normalized shell-pressure ladder as the Balmer records. The destination shell $S_m$ is declared before each transition table. Ratio comparison is performed before wavelength, frequency, or energy export.}
+\aodnoteblock{Choice}{The Lyman and Paschen records use the same normalized shell-pressure ladder as the Balmer records. The destination shell $S_m$ is declared before each transition table; exact D0 ratio evaluation precedes any quarantined wavelength, frequency, or energy export.}
 
-For a fixed destination shell $S_m$ and a transition $n\to m$, with $n>m$, define the A$\Omega$-internal series ratio
+\paragraph{Derivation.}
+For a fixed destination shell $S_m$ and downward transition $n\to m$ ($n>m$),
+define the exact D0 A$\Omega$-internal series ratio $R_{\mathrm{series}}(n\to m)=\mathcal{R}_{n\to m,\AO}\ge1$
+and its reciprocal baseline-wavelength ratio $\lambda_n/\lambda_{m+1}=1/R_{\mathrm{series}}\le1$:
 
 \[
-\mathcal{R}_{n\to m,\AO}=\frac{\Delta\hat{P}^D(n\to m)}{\Delta\hat{P}^D((m+1)\to m)}.
+R_{\mathrm{series}}(n\to m)=\mathcal{R}_{n\to m,\AO}=\frac{\Delta\hat{P}^D(n\to m)}{\Delta\hat{P}^D((m+1)\to m)}\ge1,\qquad\frac{\lambda_n}{\lambda_{m+1}}=\frac{1}{R_{\mathrm{series}}(n\to m)}\le1.
 \]
 
-For wavelength comparison, use the inverse-wavelength relation
+Against quarantined wavelength targets at $B_{\mathrm{ext}}=\mathsf{Q}_{\mathrm{ext}}$,
+the inverse-wavelength target ratio is
 
 \[
 \mathcal{R}^{\lambda,\mathrm{tar}}_{n\to m}=\frac{\lambda_{(m+1)\to m}}{\lambda_{n\to m}}.
 \]
 
-Thus the A$\Omega$-internal pressure ratio is compared against the measured inverse-wavelength ratio. external frequency coordinate and energy export remain downstream. The reference engine (\texttt{manual/data/boundary\_sadar/hydrogen\_shell\_exact\_series.csv}, vector \texttt{RC-031}) evaluates all Lyman ($m=1$), Balmer ($m=2$), and Paschen ($m=3$) transitions in reduced exact rational arithmetic before wavelength comparison.
+Thus the A$\Omega$-internal pressure ratio $R_{\mathrm{series}}=\mathcal{R}_{n\to m,\AO}\ge1$
+compares directly against the measured inverse-wavelength ratio
+$\mathcal{R}^{\lambda,\mathrm{tar}}_{n\to m}$, while its reciprocal
+$\lambda_n/\lambda_{m+1}=1/R_{\mathrm{series}}\le1$ records the
+dimensionless wavelength contraction across the wavelet D.E.C. ledger below.
+External frequency-coordinate and energy export remain downstream. The reference engine
+(\texttt{manual/data/boundary\_sadar/hydrogen\_shell\_exact\_series.csv}, vector
+\texttt{RC-031}) evaluates all Lyman ($m=1$), Balmer ($m=2$), and Paschen ($m=3$)
+transitions in reduced exact rational arithmetic prior to quarantined NIST-ASD
+wavelength comparison.
 
 \subsubsection{Lyman series}\label{manual:hydrogen:lyman}
 
@@ -225,19 +232,21 @@ Limit & $\infty\to3$ & $1/9$ & $16/7$ & series limit & $16/7$ & audit record \\
 
 \subsubsection{Series-ratio audit}\label{manual:hydrogen:series-audit}
 
-Retain one source identity for the shared denominator when propagating the
+\paragraph{Falsification.}
+Retain one source identity for the shared denominator when propagating within-series
 ratios. Air wavelengths require source-bound vacuum conversion or a declared
-model-to-air observation map, including refractive-index applicability and
-uncertainty; $c/\lambda_{\mathrm{air}}$ is not a vacuum frequency. Until
-those bindings are supplied, the current inverse-wavelength ratios remain
-carried-coordinate diagnostics, with physical uncertainty unresolved.
+model-to-air observation map with refractive-index applicability and uncertainty;
+$c/\lambda_{\mathrm{air}}$ is not a vacuum frequency. Until those bindings are
+supplied, the inverse-wavelength comparisons remain quarantined O0 carried-coordinate
+diagnostics with physical uncertainty unresolved, strictly separated from the D0 exact
+rational ratios of \texttt{RC-031} and \texttt{RC-039}.
 
-\aodnoteblock{Audit}{A spectral-series record carries the destination shell $S_m$, the computed $\Delta\hat{P}^D(n\to m)$, and the inverse-wavelength ratio $\lambda_{(m+1)\to m}/\lambda_{n\to m}$.}
+\aodnoteblock{Audit}{A spectral-series record carries the destination shell $S_m$, the exact D0 quantity $\Delta\hat{P}^D(n\to m)$, and---inside $B_{\mathrm{ext}}$---the inverse-wavelength ratio $\lambda_{(m+1)\to m}/\lambda_{n\to m}$.}
 
 \aodprovenance{\secref{subsec:shared-shell-path-declaration};
 \appref{manual:external-comparison}.}
 
-\aodliteraturenote{Hydrogen spectral-line targets: NIST Atomic Spectra Database~\cite{nist-asd}; Paschen Pa$\alpha$, Pa$\beta$, Pa$\epsilon$ air rows: NIST Hydrogen Handbook~\cite{nist-hydrogen-handbook}.}
+\aodliteraturenote{Hydrogen spectral-line targets: NIST Atomic Spectra Database~\cite{nist-asd}; Paschen \mbox{Pa$\alpha$}, \mbox{Pa$\beta$}, \mbox{Pa$\epsilon$} air rows: NIST Hydrogen Handbook~\cite{nist-hydrogen-handbook}.}
 
 \subsection{Error audit}\label{manual:hydrogen:error-audit}
 
@@ -261,39 +270,53 @@ The ratio audits in \tabref{tab:manual-hydrogen-pressure-ratios}, \tabref{tab:ma
 
 \subsection{Five-boundary concentric shell transition and wavelet D.E.C. ledger}\label{manual:hydrogen:dec-wavelet-transitions}
 
-Declare the concentric shell-hierarchy boundary stack separating native rational shell ratios from quarantined NIST wavelength targets:
+\paragraph{Setup and engine verification (\texttt{RC-039}).}
+Declare the concentric shell-hierarchy boundary stack separating D0 exact rational shell
+ratios from quarantined NIST-ASD wavelength targets:
 
 \[
 B_{\mathrm{core}}\to B_{S_n}\to B_{S_m}\to B_{\mathrm{sensor}}\to B_{\mathrm{ext}}=\mathsf{Q}_{\mathrm{ext}}.
 \]
 
-Vector \texttt{RC-039} (\texttt{manual/data/boundary\_sadar/hydrogen\_shell\_dec\_transitions.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) evaluates exact dimensionless shell-step pressure differences $\Delta\hat{P}_{n\to m}=1/m^2-1/n^2$, baseline-normalized series ratios $R_{\mathrm{series}}(n\to m)=\Delta\hat{P}_{n\to m}/\Delta\hat{P}_{m+1\to m}$, and exact inverse wavelength ratios $\lambda_n/\lambda_{m+1}=1/R_{\mathrm{series}}$ across Balmer ($m=2$), Lyman ($m=1$), and Paschen ($m=3$) transitions without importing an external Rydberg constant into $B_{\mathrm{core}}\to B_{\mathrm{sensor}}$.
+Vector \texttt{RC-039} (\texttt{dec\_hydrogen\_shell\_wavelet\_step}) is verified alongside
+\texttt{RC-031} by \texttt{python3 -B -m manual.engine --sector boundary\_sadar} and
+\texttt{aod-core --verify-vectors --check-zero-float} against
+\texttt{manual/data/boundary\_sadar/hydrogen\_shell\_dec\_transitions.csv}. It evaluates exact
+dimensionless shell-step pressure differences $\Delta\hat{P}_{n\to m}=1/m^2-1/n^2$,
+baseline-normalized series ratios
+$R_{\mathrm{series}}(n\to m)=\mathcal{R}_{n\to m,\AO}=\Delta\hat{P}_{n\to m}/\Delta\hat{P}_{m+1\to m}\ge1$
+(with $6$-decimal display coordinates kept separate from exact rationals), and exact
+reciprocal wavelength ratios
+$\lambda_n/\lambda_{m+1}=1/R_{\mathrm{series}}\le1$ across Balmer
+($m=2$), Lyman ($m=1$), and Paschen ($m=3$) transitions strictly inside
+$B_{\mathrm{core}}\to B_{\mathrm{sensor}}$ without importing an external
+Rydberg constant.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/hydrogen-shell-wavelet-atlas.pdf}
-\caption{Concentric hydrogen shell boundaries $S_1\dots S_6$, outgoing Lyman/Balmer/Paschen wavelet packets across $B_{\mathrm{sensor}}$, and exact within-series rational ratios (\texttt{hydrogen\_shell\_dec\_transitions.csv}).}
+\caption{Concentric hydrogen shell boundaries $S_1\dots S_6$, outgoing Lyman/Balmer/Paschen wavelet packets across $B_{\mathrm{sensor}}$, and exact within-series rational ratios (\texttt{RC-039}, \texttt{hydrogen\_shell\_dec\_transitions.csv}).}
 \label{fig:manual-hydrogen-shell-wavelet-atlas}
 \end{figure}
 
 \begin{table}[H]
 \centering
-\caption{Exact rational hydrogen shell-transition and wavelet series D.E.C. ledger (\texttt{RC-039}).}
+\caption{Engine-bound exact rational hydrogen shell-transition and wavelet series D.E.C. ledger (\texttt{RC-039}, live from \texttt{hydrogen\_shell\_dec\_transitions.csv}).}
 \label{tab:manual-hydrogen-dec-transitions}
 {\footnotesize
-\begin{tabular}{llrrrr}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.112\linewidth}>{\centering\arraybackslash}p{0.092\linewidth}>{\raggedleft\arraybackslash}p{0.116\linewidth}>{\raggedleft\arraybackslash}p{0.116\linewidth}>{\raggedleft\arraybackslash}p{0.116\linewidth}>{\raggedleft\arraybackslash}p{0.124\linewidth}>{\raggedleft\arraybackslash}p{0.124\linewidth}}
 \toprule
-Series & $n\to m$ & $r_n/r_1=n^2$ & $\Delta\hat{P}_{n\to m}$ & $R_{\mathrm{series}}$ & $\lambda_n/\lambda_{m+1}$ \\
+Series & $n\to m$ & $r_n/r_1=n^2$ & $\Delta\hat{P}_{n\to m}$ & $R_{\mathrm{series}}$ (exact) & $R_{\mathrm{series}}$ (6dp) & $\lambda_n/\lambda_{m+1}$ \\
 \midrule
-Balmer & $3\to2$ & 9 & $5/36$ & $1$ & $1$ \\
-Balmer & $4\to2$ & 16 & $3/16$ & $27/20$ & $20/27$ \\
-Balmer & $5\to2$ & 25 & $21/100$ & $189/125$ & $125/189$ \\
-Balmer & $6\to2$ & 36 & $2/9$ & $8/5$ & $5/8$ \\
-Lyman & $2\to1$ & 4 & $3/4$ & $1$ & $1$ \\
-Lyman & $3\to1$ & 9 & $8/9$ & $32/27$ & $27/32$ \\
-Lyman & $4\to1$ & 16 & $15/16$ & $5/4$ & $4/5$ \\
-Paschen & $4\to3$ & 16 & $7/144$ & $1$ & $1$ \\
-Paschen & $5\to3$ & 25 & $16/225$ & $256/175$ & $175/256$ \\
+Balmer & 3 $\to$ 2 & 9 & 5/36 & 1 & 1.000000 & 1 \\
+Balmer & 4 $\to$ 2 & 16 & 3/16 & 27/20 & 1.350000 & 20/27 \\
+Balmer & 5 $\to$ 2 & 25 & 21/100 & 189/125 & 1.512000 & 125/189 \\
+Balmer & 6 $\to$ 2 & 36 & 2/9 & 8/5 & 1.600000 & 5/8 \\
+Lyman & 2 $\to$ 1 & 4 & 3/4 & 1 & 1.000000 & 1 \\
+Lyman & 3 $\to$ 1 & 9 & 8/9 & 32/27 & 1.185185 & 27/32 \\
+Lyman & 4 $\to$ 1 & 16 & 15/16 & 5/4 & 1.250000 & 4/5 \\
+Paschen & 4 $\to$ 3 & 16 & 7/144 & 1 & 1.000000 & 1 \\
+Paschen & 5 $\to$ 3 & 25 & 16/225 & 256/175 & 1.462857 & 175/256 \\
 \bottomrule
 \end{tabular}
 }

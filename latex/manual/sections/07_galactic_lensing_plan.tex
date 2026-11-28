@@ -142,6 +142,19 @@ influenced its selection. K2 and K3 remain audit diagnostics. Independent
 evaluation requires the full selection/exposure history and a locked recipe
 before a new cohort is joined; it cannot reselect on that cohort's targets.
 
+\paragraph{SWELLS K1 $\delta_3$ audit (\texttt{RC-020}).}
+Vector \texttt{RC-020} (\texttt{lensing\_swells\_delta3\_and\_tau\_discrepancy}) binds
+\texttt{manual/data/lensing/swells\_k1\_thetaE\_delta3\_scores.csv} and
+\texttt{manual/data/derived/tau\_ring\_diagnostic.csv} in exact zero-float
+arithmetic. It audits the retained SWELLS K1 three-bin $\theta_E$ tally
+$(2,12,1)$ against observed $(2,8,5)$, certifying exact signed integer
+residual $\Delta^{\mathbb{Z}}=(0,4,-4)$, ternary signs
+$s^{(3)}=(0,+1,-1)$, zero net shift $\sum\Delta^{\mathbb{Z}}=0$, and
+total absolute discrepancy $\sum m=8$. Simultaneously, \texttt{RC-020} certifies
+exact non-conflation of distinct carried $1:2:10$ Tau records
+($23/50-9/20=1/100\ne0$), keeping
+provenance-quarantined comparison records explicitly separated.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/lensing-05-swells-k-comparison-delta3.pdf}
@@ -205,34 +218,35 @@ A completed L3 lensing record carries declared medium fields, declared radiation
 
 \subsection{Five-boundary concentric lens-shell chiral ray D.E.C. walk}\label{manual:lensing:dec-chiral-ray-walk}
 
+\paragraph{Setup and engine verification (\texttt{RC-042}, \texttt{RC-020}).}
 Declare the five-boundary lensing stack separating internal FRG cross-shell totals and chiral flips from quarantined SWELLS target acquisition:
 
 \[
 B_{\mathrm{src}}\to B_{\mathrm{shell},k}\to B_{\mathrm{FRG}}\to B_{\delta_3}\to B_{\mathrm{SWELLS}}.
 \]
 
-Vector \texttt{RC-042} (\texttt{manual/data/boundary\_sadar/lensing\_ray\_chiral\_dec\_walk.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) executes the four-shell grazing ray walk ($k=1\dots4$): every shell satisfies the exact Fractal Field Ring Gate identity $T_k^{\times}-T_k^0=C_k^{\times}$ ($7-4=3$, $11-6=5$, $3-5=-2$, $12-8=4$; $\sum_kT_k^{\times}=33$), three active hinge encounters ($k=1,2,4$) flip ray chirality $+1\to-1\to+1\to-1$ while shell $k=3$ preserves $+1$, comparator $O_k=(7,10,3,11)$ yields $\Delta_Z=(0,1,0,1)$, and $L3/K4$ 3D+time-flow inputs remain held at $B_{\mathrm{SWELLS}}$ until bound.
+Vector \texttt{RC-042} (\texttt{dec\_lensing\_ray\_chiral\_delta3})---archived in \texttt{manual/data/boundary\_sadar/lensing\_ray\_chiral\_dec\_walk.csv} and verified alongside \texttt{RC-020} by \texttt{python3 -B -m manual.engine --sector boundary\_sadar} and \texttt{aod-core --verify-vectors --check-zero-float}---executes the four-shell grazing ray walk ($k=1\dots4$): every shell satisfies the exact Fractal Field Ring Gate identity $T_k^{\times}-T_k^0=C_k^{\times}$ ($7-4=3$, $11-6=5$, $3-5=-2$, $12-8=4$; $\sum_kT_k^{\times}=33$), three active hinge encounters ($k=1,2,4$) flip ray chirality $+1\to-1\to+1\to-1$ while shell $k=3$ preserves $+1$, comparator $O_k=(7,10,3,11)$ yields $\Delta_Z=(0,1,0,1)$ ($\sum m=2$), and $L3/K4$ 3D+time-flow inputs remain explicitly held at $B_{\mathrm{SWELLS}}$ (\texttt{target\_quarantined\_before\_freeze = 1}) until bound.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/lensing-ray-boundary-feynman.pdf}
-\caption{Grazing ray walk across concentric lens shells $k=1\dots4$, active chiral-flip vertices $0_H$, exact FRG totals $T_k^0,T_k^{\times}$ versus comparator $O_k$, and pre-SWELLS target quarantine (\texttt{lensing\_ray\_chiral\_dec\_walk.csv}).}
+\caption{Grazing ray walk across concentric lens shells $k=1\dots4$, active chiral-flip vertices $0_H$, exact FRG totals $T_k^0,T_k^{\times}$ versus comparator $O_k$, and pre-SWELLS target quarantine (\texttt{RC-042}, \texttt{lensing\_ray\_chiral\_dec\_walk.csv}).}
 \label{fig:manual-lensing-ray-boundary-feynman}
 \end{figure}
 
 \begin{table}[H]
 \centering
-\caption{Four-shell galactic lensing FRG cross-return and chiral-flip D.E.C. ledger (\texttt{RC-042}).}
+\caption{Engine-bound four-shell galactic lensing FRG cross-return and chiral-flip D.E.C. ledger (\texttt{RC-042}, live from \texttt{lensing\_ray\_chiral\_dec\_walk.csv}).}
 \label{tab:manual-lensing-dec-ray-walk}
 {\footnotesize
-\begin{tabular}{rrrrrrrrc}
+\begin{tabular}{>{\raggedleft\arraybackslash}p{0.088\linewidth}>{\raggedleft\arraybackslash}p{0.072\linewidth}>{\raggedleft\arraybackslash}p{0.080\linewidth}>{\raggedleft\arraybackslash}p{0.080\linewidth}>{\raggedleft\arraybackslash}p{0.072\linewidth}>{\raggedleft\arraybackslash}p{0.088\linewidth}>{\raggedleft\arraybackslash}p{0.072\linewidth}>{\raggedleft\arraybackslash}p{0.080\linewidth}>{\centering\arraybackslash}p{0.168\linewidth}}
 \toprule
 Shell $k$ & $T_k^0$ & $C_k^{\times}$ & $T_k^{\times}$ & Flip & Post $\chi$ & $O_k$ & $\Delta_Z$ & $\delta_3(T_k^{\times},O_k)$ \\
 \midrule
-1 & 4 & 3 & 7 & 1 & $-1$ & 7 & 0 & $(0,0)$ \\
-2 & 6 & 5 & 11 & 1 & $+1$ & 10 & 1 & $(1,1)$ \\
-3 & 5 & $-2$ & 3 & 0 & $+1$ & 3 & 0 & $(0,0)$ \\
-4 & 8 & 4 & 12 & 1 & $-1$ & 11 & 1 & $(1,1)$ \\
+1 & 4 & 3 & 7 & 1 & $-$1 & 7 & 0 & (0, 0) \\
+2 & 6 & 5 & 11 & 1 & +1 & 10 & 1 & (1, 1) \\
+3 & 5 & $-$2 & 3 & 0 & +1 & 3 & 0 & (0, 0) \\
+4 & 8 & 4 & 12 & 1 & $-$1 & 11 & 1 & (1, 1) \\
 \bottomrule
 \end{tabular}
 }

@@ -407,7 +407,7 @@ Data files, scored outputs, and the regeneration script are included in the sour
  & \mathtt{manual/data/sparc},\\ & \mathtt{manual/data/derived/sparc\_five\_galaxy\_per\_bin.csv},\\ & \mathtt{manual/data/derived/sparc\_five\_galaxy\_per\_galaxy.csv},\\ & \mathtt{manual/scripts/score\_sparc\_field\_dynamics.py}.
 \end{align*}
 
-\aodremark{The SPARC five-galaxy scored records are generated from the included rotation-curve files and the frozen declaration constants listed in this section.}
+\aodremark{The SPARC five-galaxy scored records are generated from the included rotation-curve files and the frozen declaration constants listed in this section in pure zero-float \texttt{TritWord}/\texttt{TritRatio} arithmetic---verified per bin by \texttt{RC-015} and \texttt{RC-016} and pooled across all $209$ positive-$U^{\mathrm{obs}}$ bins by \texttt{SD-008}---with zero free dark-matter halo fitting.}
 
 \[
 \Delta U_{g,j}=U_{g,j,\AO}-U^{\mathrm{obs}}_{g,j},\qquad z^U_{g,j}=\frac{\Delta U_{g,j}}{\sigma_{U,g,j}}.
@@ -421,7 +421,7 @@ Data files, scored outputs, and the regeneration script are included in the sour
 MAPE_{U,g}=\frac{100}{N_g}\sum_j|\frac{\Delta U_{g,j}}{U^{\mathrm{obs}}_{g,j}}|,\qquad U^{\mathrm{obs}}_{g,j}>0.
 \]
 
-Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor. Across all $209$ positive-$U^{\mathrm{obs}}$ radial bins of the five-galaxy sample, the reference engine (\texttt{manual/data/boundary\_sadar/sparc\_pooled\_primary\_exact.csv}, vector \texttt{SD-008}) evaluates the exact rational pooled primary score $MAPE_U=64.70291920\%$ ($1523$-digit numerator over $1521$-digit denominator), distinct from the carried control $66.1613\%$ in \texttt{sparc\_declaration\_controls.csv}.
+Bins are excluded only by a predeclared data-quality rule or by a predeclared denominator floor. Across all $209$ positive-$U^{\mathrm{obs}}$ radial bins of the five-galaxy sample (verified per bin by \texttt{RC-015} and \texttt{RC-016}), the zero-float reference engine (\texttt{manual/data/boundary\_sadar/sparc\_pooled\_primary\_exact.csv}, vector \texttt{SD-008}) evaluates the declared G0 pooled primary score in exact \texttt{TritWord}/\texttt{TritRatio} arithmetic with zero free halo fitting: $MAPE_U=26.57055342\%$ ($230$-digit exact numerator over $228$-digit exact denominator). The four carried declaration-control rows in \texttt{sparc\_declaration\_controls.csv} remain strictly separate legacy comparison records whose variant recipes and aggregation rule are not supplied.
 
 \input{data/derived/sparc_summary_table.tex}
 
@@ -485,7 +485,7 @@ The missing-burden diagnostic records the exact ratio
 
 \aodnoteblock{Precision note}{Support identities and candidate declarations are exact. Plotted scores are presentation decimals carried by the frozen diagnostic CSV.}
 
-\aodnoteblock{Source artifacts}{The depth-3 rows in \texttt{manual/data/tau/aod\_tau\_fractal\_ring\_summary.csv} preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied. The zero-float five-boundary SADAR cavity competition and $2500$-slot sensor split producing $(19/50,31/50)$ on \texttt{\_Exo} are executed directly in \secref{manual:rest:boundary-sadar-debris} (\texttt{tau\_five\_boundary\_sadar\_trace.csv}, vector \texttt{RC-025}).}
+\aodnoteblock{Source artifacts}{The depth-3 rows in \texttt{manual/data/tau/aod\_tau\_fractal\_ring\_summary.csv} preserve this winner. The originating calculation recipe is not supplied. Compact missing fractions and depth-indexed source fractions remain separate records; their adapter is not supplied. The zero-float five-boundary SADAR cavity competition and derived $50$-microslot $Q_4\times\mu$ impedance rotor ($50\times50=2500$ joint microslots yielding $(650,703,1147)/2500\to(19/50,31/50)$ on $X_{\mathrm{exo}}$ / \texttt{\_Exo}) are executed directly in \secref{manual:rest:boundary-sadar-debris} (\texttt{tau\_five\_boundary\_sadar\_trace.csv}, vector \texttt{RC-027}).}
 
 \begin{figure}[H]
 \centering
@@ -619,38 +619,39 @@ declaration-control recipes remain carried records.
 
 \subsection{Five-boundary hinge-saturation stepper and SPARC pooled D.E.C. ledger}\label{manual:field-dynamics:dec-run-tumble-stepper}
 
+\paragraph{Setup and engine verification (\texttt{RC-041}, \texttt{SD-008}).}
 Declare the field-dynamics five-boundary stack
 
 \[
 B_{Q_4}\to B_{\mathrm{hinge}}\to B_{\mathrm{ring}}\to B_{\mathrm{pool}}\to B_{\mathrm{ext}}.
 \]
 
-Vectors \texttt{RC-041} and \texttt{RC-032} (\texttt{manual/data/boundary\_sadar/run\_tumble\_q4\_dec\_walk.csv} and \texttt{manual/data/boundary\_sadar/sparc\_pooled\_primary\_exact.csv}, verified by \texttt{python3 -B -m manual.engine} \texttt{--sector} \texttt{boundary\_sadar} and \texttt{aod-core} \texttt{--verify-vectors} \texttt{--check-zero-float}) reproduce all $21$ ticks of the $Q_4\to\mathbb{Z}^3$ run-tumble trace directly from the two-step hinge-saturation slide law ($\operatorname{adm}=0$ after two consecutive same-axis steps forces a tumble onto the next axis, closing back to $0000$ at $t=16$ with $Q_4-Q_3=h_4^2\ge0$) alongside the exact $209$-bin rational SPARC $U=V^2$ pooled score ($64.70291920$ \% display, zero free halo fitting).
+Vectors \texttt{RC-041} (\texttt{dec\_run\_tumble\_q4\_stepper}, \texttt{manual/data/boundary\_sadar/run\_tumble\_q4\_dec\_walk.csv}) and \texttt{SD-008} (\texttt{sparc\_pooled\_primary\_exact}, \texttt{manual/data/boundary\_sadar/sparc\_pooled\_primary\_exact.csv}, backed per bin by \texttt{RC-015} and \texttt{RC-016}), verified by \texttt{python3 -B -m manual.engine --sector boundary\_sadar} and \texttt{aod-core --verify-vectors --check-zero-float}, reproduce all $21$ ticks of the $Q_4\to\mathbb{Z}^3$ run-tumble trace directly from the two-step hinge-saturation slide law ($\operatorname{adm}=0$ after two consecutive same-axis steps forces a tumble onto the next axis, closing back to $0000$ at $t=16$ with $Q_4-Q_3=h_4^2\ge0$) alongside the declared G0 exact rational $209$-bin SPARC $U=V^2$ pooled primary score in \texttt{TritWord}/\texttt{TritRatio} arithmetic ($MAPE_U=26.57055342\%$ from a $230$-digit numerator over a $228$-digit denominator, zero free halo fitting).
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth,height=0.78\textheight,keepaspectratio]{figures/generated/field-dynamics-boundary-feynman.pdf}
-\caption{Two-step hinge-saturation $Q_4\to\mathbb{Z}^3$ run-tumble D.E.C. trajectory ($Q_4$ versus projected $Q_3$) and concentric galactic radial-ring SPARC pooled audit (\texttt{run\_tumble\_q4\_dec\_walk.csv}, \texttt{sparc\_pooled\_primary\_exact.csv}).}
+\caption{Two-step hinge-saturation $Q_4\to\mathbb{Z}^3$ run-tumble D.E.C. trajectory ($Q_4$ versus projected $Q_3$) and concentric galactic radial-ring SPARC pooled audit (\texttt{RC-041}, \texttt{SD-008}, \texttt{run\_tumble\_q4\_dec\_walk.csv}, \texttt{sparc\_pooled\_primary\_exact.csv}).}
 \label{fig:manual-field-dynamics-boundary-feynman}
 \end{figure}
 
 \begin{table}[H]
 \centering
-\caption{Two-step hinge-saturation $Q_4\to\mathbb{Z}^3$ run-tumble D.E.C. stepper checkpoints (\texttt{RC-041}; full $21$-tick trace in \texttt{run\_tumble\_q4\_dec\_walk.csv}).}
+\caption{Engine-bound two-step hinge-saturation $Q_4\to\mathbb{Z}^3$ run-tumble D.E.C. stepper checkpoints (\texttt{RC-041}; live-filtered from the full $21$-tick \texttt{run\_tumble\_q4\_dec\_walk.csv}).}
 \label{tab:manual-field-dynamics-dec-spine}
 {\footnotesize
-\begin{tabular}{rllrlrrr}
+\begin{tabular}{>{\raggedleft\arraybackslash}p{0.050\linewidth}>{\raggedright\arraybackslash}p{0.096\linewidth}>{\raggedright\arraybackslash}p{0.112\linewidth}>{\centering\arraybackslash}p{0.088\linewidth}>{\raggedright\arraybackslash}p{0.184\linewidth}>{\raggedleft\arraybackslash}p{0.064\linewidth}>{\raggedleft\arraybackslash}p{0.064\linewidth}>{\raggedleft\arraybackslash}p{0.072\linewidth}>{\raggedleft\arraybackslash}p{0.072\linewidth}}
 \toprule
-$t$ & Mode & Slot $(e,\sigma)$ & Dwell adm & $(h_1,h_2,h_3,h_4)$ & $Q_3$ & $Q_4$ & Octant \\
+$t$ & Mode & Slot $(e,\sigma)$ & Dwell adm & $(h_1,h_2,h_3,h_4)$ & $Q_3$ & $Q_4$ & $\theta$ & Octant \\
 \midrule
-0 & \texttt{init} & $-$ & 1 & $(0,0,0,0)$ & 0 & 0 & 0 \\
-2 & \texttt{run} & $(e_1,+1)$ & 1 & $(2,0,0,0)$ & 4 & 4 & 0 \\
-3 & \texttt{tumble} & $(e_2,+1)$ & 0 & $(2,1,0,0)$ & 5 & 5 & 0 \\
-5 & \texttt{tumble} & $(e_3,-1)$ & 0 & $(2,2,-1,0)$ & 9 & 9 & 4 \\
-7 & \texttt{tumble} & $(e_4,+1)$ & 0 & $(2,2,-2,1)$ & 12 & 13 & 4 \\
-8 & \texttt{run} & $(e_4,+1)$ & 1 & $(2,2,-2,2)$ & 12 & 16 & 4 \\
-16 & \texttt{run} & $(e_4,-1)$ & 1 & $(0,0,0,0)$ & 0 & 0 & 0 \\
-20 & \texttt{run} & $(e_2,+1)$ & 1 & $(2,2,0,0)$ & 8 & 8 & 0 \\
+0 & \texttt{init} & $-$ & 1 & (0, 0, 0, 0) & 0 & 0 & 0 & 0 \\
+2 & \texttt{run} & (e1, +1) & 1 & (2, 0, 0, 0) & 4 & 4 & 4 & 0 \\
+3 & \texttt{tumble} & (e2, +1) & 0 & (2, 1, 0, 0) & 5 & 5 & 0 & 0 \\
+5 & \texttt{tumble} & (e3, $-$1) & 0 & (2, 2, $-$1, 0) & 9 & 9 & 4 & 4 \\
+7 & \texttt{tumble} & (e4, +1) & 0 & (2, 2, $-$2, 1) & 12 & 13 & 2 & 4 \\
+8 & \texttt{run} & (e4, +1) & 1 & (2, 2, $-$2, 2) & 12 & 16 & 2 & 4 \\
+16 & \texttt{run} & (e4, $-$1) & 1 & (0, 0, 0, 0) & 0 & 0 & 0 & 0 \\
+20 & \texttt{run} & (e2, +1) & 1 & (2, 2, 0, 0) & 8 & 8 & 3 & 0 \\
 \bottomrule
 \end{tabular}
 }
