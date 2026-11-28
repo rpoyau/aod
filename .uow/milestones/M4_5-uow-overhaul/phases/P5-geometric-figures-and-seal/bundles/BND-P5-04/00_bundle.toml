@@ -1,0 +1,80 @@
+bundle_id = "BND-P5-04"
+milestone_id = "M4_5-uow-overhaul"
+phase_id = "P5-geometric-figures-and-seal"
+parent_bundle = "BND-P5-03"
+base_commit = "7de61946c3b30474c6938dc83ede61dafcfc5ae5"
+
+[objective]
+summary = "Final contract seal for M4.5: preserve exact 98ddfa0 cells_geometry.json in archive/latex_baseline_98ddfa0, exclude .uow/ in scripts/build_release_bundle.py + sync acyclic SHA-256 contract chain, honestly record the M4.5 G6 CELL_MEASURE_SPEC.json contract extension in representation_change_ledger.json, regenerate the full 66-figure latex/ compatibility tree via scripts/typ2tex.py, seal typst/figure_inventory.json (62 vector figures), typst/manifest.json, scripts/verify_typst_parity.py, tests/test_s1b_vector_figures.py, and tests/test_typst_parity.py, and achieve 100% zero-filter pytest + release bundler pass."
+deliverables = [
+    "Historical 98ddfa0 baseline preservation (211/211 exact byte-for-byte materialization): extract exact historical 98ddfa0ebb38293adfa99c8c11da5a15cdd9eea3:manual/data/cell_measures/cells_geometry.json (58548 bytes, SHA-256 f941856c7bc86356bdb461e44ecaa34ae399597e7abb76ed61178b20b8232ef0) into archive/latex_baseline_98ddfa0/manual/data/cell_measures/cells_geometry.json; update ONLY retained_location on that 1 entry in archive/latex_baseline_98ddfa0/BASELINE_MANIFEST.json (preserving original_path, sha256, bytes, mode byte-identically); update scripts/materialize_latex_baseline.py line 77 and scripts/verify_typst_parity.py line 2655 to classify archived entries by retained_location.startswith('archive/latex_baseline_98ddfa0/') instead of entry['role'] == 'archived_editorial_tex'. Verify scripts/materialize_latex_baseline.py --verify-only passes all 211 entries.",
+    "Release bundler .uow/ exclusion + acyclic SHA-256 contract chain: in scripts/build_release_bundle.py, add '.uow' to EXCLUDE_DIR_NAMES and skip tracked paths where rel.parts and rel.parts[0] == '.uow' in build_source_tree (leaving INCLUDE_TOP_LEVEL and all scientific/release packaging checks unchanged so tests/test_ci_release_builder.py passes unmodified). Sync frozen_sha256['scripts/build_release_bundle.py'] in contracts/scientific/CANONICAL_BINDINGS.json, CONTRACT_SHA256['CANONICAL_BINDINGS.json'] in scripts/audit_ontology_compaction.py, and typst/representation_change_ledger.json (preserving exact Phase 1 old_sha256!).",
+    "Honest M4.5 G6 contract extension record: in typst/representation_change_ledger.json, record contracts/scientific/CELL_MEASURE_SPEC.json in contract_amendments with exact Phase 1 old_sha256, current disk new_sha256, scope='m4_5_g6_tesseract_extension', and scientific_substance_changed=true (update summary contracts_amended=8, contracts_untouched=9). In scripts/verify_typst_parity.py, keep scientific_substance_changed is False strictly enforced for all non-M4.5 representation-only contracts while explicitly allowing M4_5_SCIENTIFIC_CONTRACT_EXTENSIONS = frozenset({'contracts/scientific/CELL_MEASURE_SPEC.json'}) with scope=='m4_5_g6_tesseract_extension' and scientific_substance_changed is True. Switch the untouched-contract negative control in scripts/verify_typst_parity.py (22d_R1_undeclared_contract_transition) and tests/test_typst_parity.py (line 695) from CELL_MEASURE_SPEC.json to contracts/scientific/ERROR_BUDGET.json.",
+    "Deterministic 66-figure latex/ tree regeneration: run PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/typ2tex.py --root . --outdir latex to regenerate all generated .tex files, all 13 Main + 53 Manual = 66 exported vector PDFs, both FIGURE_MANIFEST.json files, and latex/GENERATION_MANIFEST.json; confirm scripts/typ2tex.py --root . --outdir latex --check passes with zero drift.",
+    "Seal typst/figure_inventory.json for all 62 vector figures (34 CONVERTED_VECTOR + 28 AUTHORED_NATIVE_VECTOR; 13 Main + 49 Manual; 39 DATA_BACKED_VERIFIED + 23 CONCEPTUAL_SCHEMATIC): preserve all 34 historical raster_path/raster_sha256/raster_bytes/raster_dimensions_px byte-identically; append the 9 newly authored native vector figures from BND-P5-01 (7 Main: curl_to_duon_current_support, closure_ladder, sadar_b_scoped_afc_flux, duon_current_boundary_accounting, sadar_boundary_relative_balance, fractal_calculus_spine, cycle_wave_identity; 2 Manual: field_count_scope, fractal_tesseract_beat_family) with conversion_status='AUTHORED_NATIVE_VECTOR', provenance_class='CONCEPTUAL_SCHEMATIC', raster_path=null, raster_sha256=null, raster_bytes=null, raster_dimensions_px=null, data_sources=[], data_check_verified=false, visual_comparison_recorded=true, raster_image_xobjects=0; refresh typst_component_sha256, exported_pdf_sha256, exported_pdf_bytes, exported_page_points, caption_sha256, caption_excerpt, and data_sources[*].sha256 across all 62 entries (and update stale provenance_notes on registry-engine-coverage-atlas and qext-quarantine-firewall so no '52-vector' or 'RC-025' remains).",
+    "Seal typst/manifest.json: refresh active_source_map[*].typst_sha256 for all 48 units, vector_figure_components for all 62 vector figures, shared_library_files (sorted, including all 62 vector figure components), figure_inventory_sha256, and plots_library_sha256. Keep baseline_protected_sha256 (211 entries) and tex_sha256 untouched.",
+    "Seal scripts/verify_typst_parity.py: update TRUSTED_TEMPLATE_SHA256['typst/lib/aod_plots.typ'] to current SHA-256; update exported figure counts (Main 6 -> 13, Manual 51 -> 53) and figure_inventory counts (53 -> 62, authored_cnt 19 -> 28); add typst/sections/05_curl_closure_duon_current.typ and typst/sections/06_wave_state_relational_time.typ to POST_BASELINE_COMPACTED_MAIN_UNITS and record exact removed/moved inline math tokens in POST_BASELINE_COMPACTED_MAIN_INLINE_MATH (plus update Control 6 short-negation preimage on 02_mapping_error.typ to an actual current short-negation sentence in 02_mapping_error.typ or another active unit so Control 6 strictly catches short-negation removal!). Verify both scripts/verify_typst_parity.py CLI (normal and -O) and all negative controls pass.",
+    "Seal tests/test_s1b_vector_figures.py and tests/test_typst_parity.py: update figure inventory/export/policy counts (53 -> 62, 19 -> 28, 14 -> 23, Main 6 -> 13, Manual 47 -> 49, Manual exports 51 -> 53, total_pdfs 57 -> 66, content_files_policy_checked 101 -> 110); update new_dec_pdf_checks tokens in tests/test_s1b_vector_figures.py to match the upgraded P2/P3/P5-02 vector PDFs (removing retired RC-030/RC-031 on wire, RC-032/64.70291920 on field-dynamics, RC-044/52 on registry, RC-025 on qext, and syncing cell-staircase/temporal-si-bridge exact tokens); update Control 6 preimage and untouched contract Control 22d (ERROR_BUDGET.json) in tests/test_typst_parity.py.",
+    "Verify zero-filter full pytest pass across all contract, parity, vector figure, release builder, S2/S4 engine, and QA Phase 1..4 suites, PLUS end-to-end python3 -B scripts/build_release_bundle.py smoke test into _build/release_smoke (cleaned before commit).",
+]
+
+[scope]
+read_only = [
+    "typst/lib/aod_schema.typ",
+    "typst/lib/aod_plots.typ",
+    "typst/lib/main_registry.json",
+    "typst/lib/figures/**",
+    "typst/lib/diagrams/**",
+    "typst/sections/**",
+    "typst/manual/**",
+    "typst/main.typ",
+    "typst/preamble.typ",
+    "scripts/typ2tex.py",
+    "scripts/export_typst_figures.py",
+    "scripts/build_publication.py",
+    "scripts/build_typst.py",
+    "scripts/audit_scientific_sources.py",
+    "contracts/scientific/CELL_MEASURE_SPEC.json",
+    "archive/phase1_e6f2097/PHASE1_ORIGIN_INVENTORY.json",
+    "manual/data/**",
+    "tests/test_ci_release_builder.py",
+    "tests/qa_phase2_tesseract_pi.py",
+]
+write_set = [
+    "archive/latex_baseline_98ddfa0/manual/data/cell_measures/cells_geometry.json",
+    "archive/latex_baseline_98ddfa0/BASELINE_MANIFEST.json",
+    "scripts/materialize_latex_baseline.py",
+    "scripts/build_release_bundle.py",
+    "contracts/scientific/CANONICAL_BINDINGS.json",
+    "scripts/audit_ontology_compaction.py",
+    "typst/representation_change_ledger.json",
+    "typst/figure_inventory.json",
+    "typst/manifest.json",
+    "scripts/verify_typst_parity.py",
+    "latex/**",
+    "tests/test_s1b_vector_figures.py",
+    "tests/test_typst_parity.py",
+]
+
+[invariants]
+inherited = true
+bundle_rules = [
+    "All 211 historical 98ddfa0 baseline entries verify byte-for-byte via scripts/materialize_latex_baseline.py --verify-only without altering any live manual/data/ file",
+    "scripts/build_release_bundle.py excludes .uow/ cleanly while passing tests/test_ci_release_builder.py unmodified",
+    "typst/representation_change_ledger.json preserves exact Phase 1 old_sha256 for every amended contract and frozen entry, honestly marks CELL_MEASURE_SPEC.json scientific_substance_changed=true under scope='m4_5_g6_tesseract_extension', and keeps scientific_substance_changed=false enforced for all other contracts",
+    "Zero weakened parity gates or negative controls in scripts/verify_typst_parity.py or tests/test_typst_parity.py",
+    "All 62 vector figures + 4 diagrams = 66 exported PDFs match latex/GENERATION_MANIFEST.json and scripts/typ2tex.py --check passes with zero drift",
+    "Zero Typst content files, figures, engine code, crates, or manual/data files modified; zero _build/ or temporary artifacts left in worktree",
+]
+
+[validation]
+commands = [
+    "python3 -B scripts/audit_scientific_sources.py .",
+    "python3 -B scripts/materialize_latex_baseline.py --verify-only",
+    "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/typ2tex.py --root . --outdir latex --check",
+    "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/build_publication.py --outdir _build/pub --check-registry",
+    "PATH=\"$HOME/.local/bin:$PATH\" python3 -B scripts/verify_typst_parity.py --root . --outdir _build/parity_norm && PATH=\"$HOME/.local/bin:$PATH\" python3 -B -O scripts/verify_typst_parity.py --root . --outdir _build/parity_opt",
+    "printf \"smoke\\n\" > _build/pub/tests_smoke.txt && python3 -B scripts/build_release_bundle.py --outdir _build/release_smoke --main _build/pub/main.pdf --manual _build/pub/manual.pdf --tests _build/pub/tests_smoke.txt && ls -la _build/release_smoke",
+    "python3 -B -m pytest -q -o python_files=\"test_*.py *_test.py qa_*.py\" tests/test_active_scientific_sources.py tests/test_mathematical_bindings.py tests/test_m3_wavelet_compaction.py tests/test_main_manual_references.py tests/test_main_manual_concept_ownership.py tests/test_s1b_vector_figures.py tests/test_typst_parity.py tests/test_ci_release_builder.py tests/test_s2_reference_engine.py tests/test_s4_rust_exact_core.py tests/qa_phase1_ternary_engine.py tests/qa_phase2_tesseract_pi.py tests/qa_phase3_relational_time.py tests/qa_phase4_manual_sadar.py",
+]
+max_retries = 2
