@@ -390,6 +390,83 @@ The separate nineteen-row historical source roster remains
 from a basename or a former runtime, and these new executions do not satisfy
 historical rerun rows.
 
+\subsection{Iterated octave carriage, rational densities and discrete REOS fixtures}
+\label{sec:m2-octaves-reos}
+\paragraph{Setup.}
+To preserve the forty-seven frozen R04 witness rows byte-for-byte, the companion
+exact-rational runner \texttt{manual/scripts/aod\_awareness\_octaves\_reos.py}
+imports \texttt{aod\_awareness.py} and \texttt{aod\_native\_closure\_wave.py}
+directly and executes seven additive witness and hostile-control rows
+(\texttt{M2-OCT-001} through \texttt{M2-OCT-007}) stored in
+\texttt{manual/data/m2/awareness\_octave\_reos\_cases.jsonl}:
+\begin{quote}\small\ttfamily
+python3 manual/scripts/aod\_awareness\_octaves\_reos.py --check-data
+\end{quote}
+These D0 exact internal fixtures instantiate
+\mainequation{main:eq:awareness-iterated-carriage},
+\mainequation{main:eq:awareness-cell-density} and
+\mainequation{main:eq:awareness-reos-response} strictly in \(\mathbb Z\) and
+\(\mathbb Q\).
+
+\paragraph{Derivation.}
+\begin{itemize}
+ \item \emph{Four-octave chain carriage and top-down exposure}
+ (\texttt{M2-OCT-001}--\texttt{M2-OCT-003}): Extending the \(B_0\to B_1\to B_2\)
+ carriage of \secref{sec:m2-crescendo} by one further binary chain fusion yields
+ a certified \(B_3\) outer fold spanning four occupied octaves
+ (\(B_0:2,\,B_1:2,\,B_2:2,\,B_3:1\); \(N_{\rm cell}=7\), \(N_{\Qfour}=1\),
+ octal address span \(\mathtt{00}_8\to\mathtt{06}_8\)) with independent
+ removal--restoration operativity at both \(B_1\) and \(B_2\). Offering a
+ hostile same-scale fold at \(B_2\) over scale-\(2\) inner waves is rejected
+ (\texttt{M2-OCT-002}). Under positive shedding surplus (\(X=1\), route
+ \texttt{exoshedding}), top-down exposure on \(B_3\) peels the outermost octave
+ back to active scale \(2\) while preserving all \(B_2\), \(B_1\) and \(B_0\)
+ inner identities and reproducing the shedding digest on exact restoration
+ (\texttt{M2-OCT-003}).
+ \item \emph{Exact rational field densities, REOS shadow prices and passive
+ observation} (\texttt{M2-OCT-004}, \texttt{M2-OCT-006}, \texttt{M2-OCT-007}):
+ Across twenty committed transitions alternating opposed operative channels
+ \((+1,-1)\), passive boundary tracing leaves state and event bytes identical
+ (\texttt{trace\_equal=true}), net signed flux cancels
+ (\(\rho_{\rm flux}=0\)) while absolute transport remains strictly positive
+ (\(\rho_{\rm trans}=1\)), and exact rational window densities yield
+ \(\rho_{\rm bip}(10)=2/5\), \(\rho_{\rm bip}(20)=3/10\),
+ \(\rho_{\rm shed}(10)=1/5\) and \(\rho_{\rm shed}(20)=1/10\). For
+ \(N_{\rm cell}=17\) (\(N_{\Qfour}=2\), \(\rho_{\Qfour}=17/32\)) across cell
+ capacities \(R^{(1)}\in\{32,64\}\), \mainequation{main:eq:awareness-reos-response}
+ gives exact shadow prices \(\lambda_{R^{(1)}}=17/2048\),
+ \(\lambda_{|\omega|}(\rho_{\rm bip};10,20)=1/100\) and
+ \(\lambda_{|\omega|}(\rho_{\rm shed};10,20)=1/100\). Zero control variation
+ (\(R^{(2)}_1=R^{(2)}_2=20\), \texttt{M2-OCT-006}) and unmatched pressure
+ variation (\(p=1\) versus \(p=2\), \texttt{M2-OCT-007}) are rejected.
+ \item \emph{Closed-loop live return versus open-loop recorded playback}
+ (\texttt{M2-OCT-005}): On the same issued command \(u=2\), a certified live
+ four-traversal return (\(y_{\rm live}=4\), \(r_{\rm live}=2\)) yields next
+ current \(J=2\) and H1 continuation \((0,1)\), whereas substituting a recorded
+ two-traversal playback return (\(y_{\rm play}=2\), \(r_{\rm play}=0\)) yields
+ \(J=0\) and H1 continuation \((0,2)\).
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule Fixture & Kind & Scope / Control & Exact measured outcome\\\midrule
+\texttt{M2-OCT-001} & positive & \(B_0\to B_1\to B_2\to B_3\) & \(N_{\rm cell}=7\), \(\mathtt{00}_8\to\mathtt{06}_8\), \(B_3\) admitted\\
+\texttt{M2-OCT-002} & hostile & Same-scale \(B_2\) fold & \texttt{REJECT} (\(r_{\rm outer}\le r_{\rm inner}\))\\
+\texttt{M2-OCT-003} & positive & Top-down \(\operatorname{Expose}^\downarrow\) on \(B_3\) & \(X=1\), \(B_2/B_1/B_0\) preserved, digest exact\\
+\texttt{M2-OCT-004} & positive & Densities, REOS \& trace & \(\rho_{\rm flux}=0\), \(\rho_{\rm trans}=1\), \(\lambda_{R^{(1)}}=17/2048\), trace exact\\
+\texttt{M2-OCT-005} & positive & Live vs.\ playback (\(u=2\)) & Live \((0,1)\) vs.\ playback \((0,2)\) diverge\\
+\texttt{M2-OCT-006} & hostile & \(R^{(2)}_1=R^{(2)}_2=20\) & \texttt{REJECT} (zero control variation)\\
+\texttt{M2-OCT-007} & hostile & Unmatched \(p=1\) vs.\ \(p=2\) & \texttt{REJECT} (unmatched intervention)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Falsification.}
+Any non-rational approximation, trace-induced byte drift, acceptance of a
+same-scale fold or zero-variation REOS quotient, or loss of inner lineage under
+top-down exposure fails \texttt{--check-data} and
+\texttt{tests/test\_awareness\_octaves\_reos.py}.
+
 \aodprovenance{\mainequation{main:eq:awareness-state-factorization};
 \mainequation{main:eq:retained-rebalancing}; \mainequation{main:eq:awareness-active};
 \mainequation{main:eq:awareness-operative-set};
@@ -398,5 +475,8 @@ historical rerun rows.
 \eqref{eq:awareness-shedding-bridge};
 \eqref{eq:awareness-conditioned-shedding};
 \mainequation{main:eq:awareness-carriage}; \eqref{eq:mindfulness-stability};
+\mainequation{main:eq:awareness-iterated-carriage};
+\mainequation{main:eq:awareness-cell-density};
+\mainequation{main:eq:awareness-reos-response};
 \mainequation{main:eq:closure-phase}; \mainequation{main:eq:wave-identity}; \mainequation{main:eq:relational-time};
 \mainequation{main:eq:fold-outer-closure}; \mainequation{main:eq:expose-inner-lineage}.}
